@@ -1,0 +1,70 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 2.2.0
+# NOMBRE DE VERSIÓN: Ejecuciones inmutables y caché M01-M03 precisa
+# FECHA: 2026-09-11
+# ESTADO: candidato
+# QUÉ HACE: ejecuta el procedimiento en GitHub, reutiliza preparación territorial por huella selectiva y publica solo la ejecución actual.
+# POR QUÉ CAMBIA: cambiar M04-M08 ya no invalida M01-M03 y cada run queda aislado por run_id.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.1.0.yml
+name: Procedimiento DDD — Aragón
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: Modo de ejecución
+        type: choice
+        required: true
+        default: iterativo
+        options: [iterativo, completo]
+permissions: {contents: read}
+jobs:
+  ejecutar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      DDD_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Obtener código y entradas LFS
+        uses: actions/checkout@v6
+        with: {lfs: true, fetch-depth: 1}
+      - name: Preparar cálculo de identidad territorial
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Calcular clave de preparación M01-M03
+        id: prep-key
+        shell: bash
+        run: echo "key=$(python herramientas/calcular_clave_preparacion.py --params configuracion/aragon_2025.yaml)" >> "$GITHUB_OUTPUT"
+      - name: Restaurar preparación territorial
+        id: cache-base
+        uses: actions/cache@v4
+        with:
+          path: .cache/ddd/preparacion
+          key: ddd-aragon-preparacion-${{ steps.prep-key.outputs.key }}
+      - name: Verificar entrada electoral
+        run: test -f inputs/rtve_aragon_2026_secciones.json || { echo 'Falta input electoral'; exit 20; }
+      - name: Verificar fuentes territoriales cuando sean necesarias
+        if: ${{ inputs.modo == 'completo' || steps.cache-base.outputs.cache-hit != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in inputs/seccionado_2025.zip inputs/65034.csv.zip; do test -f "$f" || { echo "Falta $f"; exit 20; }; done
+          sha256sum -c inputs/MANIFEST.sha256
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd:${{ github.sha }} .
+      - name: Ejecutar procedimiento
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "ejecuciones/$DDD_RUN_ID" .cache/ddd/preparacion
+          docker run --rm \
+            -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" \
+            -e DDD_MODO="${{ inputs.modo }}" -e DDD_PARAMS="configuracion/aragon_2025.yaml" \
+            -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" \
+            ddd:${GITHUB_SHA}
+      - name: Guardar ejecución y trazabilidad
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddd-aragon-${{ env.DDD_RUN_ID }}-${{ github.sha }}
+          path: ejecuciones/${{ env.DDD_RUN_ID }}/**
+          if-no-files-found: warn
+          retention-days: 90
