@@ -1,76 +1,73 @@
 # Bitácora de progreso
 
-## 2026-09-11 — v7.0.0 Profesionalización reproducible
+**Versión:** 2.0.0  
+**Fecha:** 2026-09-11  
+**Anterior:** `legacy/2026-09-11_bitacora_v1/BITACORA.md`
 
-**Estado:** candidato.
+## R001 — Recuperación y profesionalización
 
-- Se adopta “procedimiento de distritación” y “módulo”.
-- Se archivan íntegramente las versiones v6 conocidas en `legacy/recuperado_2026-09-11_v6/`.
-- Se crean ocho módulos v7 con responsabilidad única, versión y descripción interna.
-- Módulo 01: lectura incremental de población y corrección del CUSEC cuando la fuente oficial incluye texto descriptivo.
-- Módulo 08: corrección del cableado de configuración heredado.
+- Se adopta “Procedimiento de Distritación DDD” y “módulo”.
+- Se archivan las versiones recuperadas y se crean ocho módulos con responsabilidad única.
 - Se crea contrato único `configuracion/aragon_2025.yaml`.
 - Se crea `procedimiento.sh` con modos completo e iterativo.
-- Se introduce caché de la base preparada producida por 01-03.
+- Se introduce caché de la base preparada M01-M03.
 - Se añade manifiesto de ejecución y puerta de calidad independiente.
-- Se renombra el workflow a “Procedimiento DDD — Aragón”.
 - GitHub Actions se establece como entorno arbitral de validación.
 
-### Referencia recuperada
+### Baseline recuperado
 
-La ejecución del baseline recuperado produjo 1.463 secciones y 67 distritos, con 67/67 distritos contiguos sobre el grafo. La restricción poblacional falló: 30 distritos bajo 0,80×target y 7 sobre 1,75×target. Este valor es referencia, no objetivo aceptable.
+Ejecución completa: 1.463 secciones, 67 distritos y 67/67 contiguos sobre el grafo. Balance poblacional: FAIL.
 
-### Regla de progreso
+Referencia inicial: 30 distritos bajo 0,80×target y 7 sobre 1,75×target.
 
-Una nueva versión solo se califica como mejora si mantiene o mejora todos los criterios duros y mejora métricas respecto a la última versión validada. Si no, queda registrada como experimento o regresión y no sustituye la referencia.
+### Correcciones realizadas dentro de R001
 
-## 2026-09-11 — Módulo 01 v7.0.1
+- M01: lectura incremental de población, CUSEC robusto y filtrado territorial temprano.
+- M08: corrección del cableado heredado de configuración.
+- Herramientas de registro/validación: portabilidad del `sys.path`.
+- M04/M05: orden determinista de conjuntos antes de decisiones aleatorias.
+- Versiones salientes preservadas bajo `legacy/`.
 
-**Estado:** candidato.
+### Reproducibilidad local
 
-- La primera ejecución de v7.0.0 falló en ingestión por uso incorrecto de `Series.isin(..., na=False)`.
-- Se conserva v7.0.0 en `legacy/2026-09-11_modulo01_v7.0.0/`.
-- v7.0.1 reemplaza esa expresión por `isin(...) & notna()` sin cambiar la lógica funcional.
-- Motivo: compatibilidad real con pandas 2.3.2 y eliminación de un fallo de arranque reproducible.
+Dos ejecuciones consecutivas con seed=12345 y la misma base preparada produjeron exactamente el mismo resumen distrital:
 
-## 2026-09-11 — Correcciones de portabilidad y Módulo 08
+- 67 distritos.
+- 0 desconectados.
+- 29 bajo suelo 0,80×target.
+- 0 sobre techo 1,75×target.
+- `best_max_rel_dev`: 0,5046.
+- SHA-256 del resumen: `d2d914d9f18bb7ae31db078fda046b71f75b233d1f4b79a836b214c8d92e641f`.
 
-**Estado:** candidato.
+Conclusión: infraestructura/determinismo local PASS; balance poblacional FAIL.
 
-- `validar_ejecucion.py` v1.1.1: añade el raíz del proyecto a `sys.path`; anterior preservada en legacy.
-- `registrar_ejecucion.py` v1.0.1: misma corrección de portabilidad; anterior preservada en legacy.
-- Módulo 08 v7.0.1: deja de usar la ruta fallback de v6 y toma entradas/salida de su contrato modular v7; v7.0.0 preservada en legacy.
+## R002 — Preparación de la ejecución arbitral en GitHub
 
-## 2026-09-11 — Determinismo Módulos 04/05 v7.0.1
+**Estado:** en curso.
 
-**Estado:** candidato.
+### Cambios
 
-- Dos ejecuciones con seed=12345 producían resultados distintos; por tanto el baseline no era reproducible.
-- Módulo 04 v7.0.1 ordena iteraciones sobre conjuntos y sustituye el fallback que podía asignar una sección no adyacente por una expansión desde una frontera real.
-- Módulo 05 v7.0.1 ordena conjuntos antes de cualquier selección aleatoria o recorrido de conectividad.
-- Las versiones v7.0.0 se conservan en `legacy/2026-09-11_modulo04_v7.0.0/` y `legacy/2026-09-11_modulo05_v7.0.0/`.
-- Este cambio se clasifica como corrección de reproducibilidad/contigüidad, no como mejora del objetivo poblacional.
+1. Workflow `procedimiento-ddd.yml` elevado a v2.1.0.
+2. La versión v2.0.1 se conserva en `legacy/2026-09-11_workflow_v2.0.1/` antes de modificarla.
+3. `actions/checkout` materializa ahora Git LFS (`lfs: true`).
+4. La clave de caché de la base M01-M03 depende de hashes de entradas, módulos territoriales, configuración y cargador de configuración.
+5. El modo `iterativo` reutiliza M01-M03; el modo `completo` fuerza su reconstrucción.
+6. Cada ejecución publica `output/**` como artefacto identificado por `github.run_id` y `github.sha`.
 
-## 2026-09-11 — Verificación de reproducibilidad local v7.0.1
+### Decisión sobre entradas pesadas
 
-**Estado:** candidato a GitHub.
+Para la primera reproducción exacta no se sustituirán silenciosamente las fuentes nacionales por derivados regionales. Los binarios originales `seccionado_2025.zip` y `65034.csv.zip` se conservarán mediante Git LFS y se comprobarán contra `inputs/MANIFEST.sha256`. Una vez construida M01-M03, las iteraciones posteriores no vuelven a procesarlos mientras la clave de caché sea válida.
 
-Se ejecutó dos veces consecutivas el modo iterativo sobre la misma base preparada y los mismos parámetros.
+Se ha comprobado además que es posible producir derivados Aragón mucho menores (1.463 geometrías y 1.468 registros poblacionales brutos), pero no se adoptan todavía como entrada canónica porque eso constituiría un cambio del contrato de entrada y debe evaluarse/versionarse como ronda independiente.
 
-- Distritos: 67 en ambas ejecuciones.
-- Distritos desconectados: 0 en ambas.
-- Bajo suelo 0,80×target: 29 en ambas.
-- Sobre techo 1,75×target: 0 en ambas.
-- `best_max_rel_dev`: 0,5046 en ambas.
-- SHA-256 del resumen distrital en ambas ejecuciones: `d2d914d9f18bb7ae31db078fda046b71f75b233d1f4b79a836b214c8d92e641f`.
+### Bloqueo actual para el primer run de GitHub
 
-Conclusión: la fuente de no determinismo detectada en Módulos 04/05 queda corregida para el producto distrital resumido. El equilibrio poblacional sigue en FAIL y constituye el siguiente problema algorítmico, no un problema de infraestructura.
+El código ya está preparado para materializar LFS, pero los tres ficheros de entrada todavía no existen físicamente en el repositorio remoto. La API conectada permite editar código Git, pero no transferir directamente estos binarios locales al almacenamiento LFS. Es una operación de bootstrap única; después GitHub será autosuficiente para ejecuciones repetidas.
 
-## 2026-09-11 — Módulo 01 v7.0.2
+### Criterio de cierre de R002
 
-**Estado:** candidato.
+R002 solo se cierra cuando un commit de GitHub ejecutado por Actions reproduce 67 distritos, 0 desconectados y el mismo SHA-256 del resumen que la referencia local determinista, o cuando cualquier diferencia quede explicada y versionada.
 
-- Preserva v7.0.1 en `legacy/2026-09-11_modulo01_v7.0.1/`.
-- Filtra la cartografía nacional con `pyogrio`/OGR por `CPRO` antes de cargar geometrías.
-- Verificación directa sobre `seccionado_2025.zip`: el filtro 22/44/50 devuelve 1.463 secciones.
-- Corrige además la expresión regular del CUSEC exacto de 10 dígitos.
+## Regla permanente de progreso
+
+Una versión nueva solo sustituye a la referencia si mantiene todos los criterios duros ya satisfechos y mejora una capacidad o métrica explícita. Toda regresión se registra y conserva, pero no se promociona como versión de referencia.
