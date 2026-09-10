@@ -1,9 +1,11 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.0.1
-# NOMBRE DE VERSIÓN: Ejecución modular con caché separada
+# VERSIÓN: 2.1.0
+# NOMBRE DE VERSIÓN: Ejecución reproducible con entradas LFS
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# ANTERIOR: legacy/2026-09-11_github_pre_modulos/.github/workflows/run-ddd.yml
+# QUÉ HACE: ejecuta el Procedimiento DDD en GitHub, restaura la base M01-M03 y publica cada ejecución como artefacto.
+# POR QUÉ CAMBIA: checkout debe materializar los inputs binarios grandes gestionados por Git LFS; añade identidad explícita de ejecución.
+# ANTERIOR: legacy/2026-09-11_workflow_v2.0.1/procedimiento-ddd.yml
 name: Procedimiento DDD — Aragón
 
 on:
@@ -24,10 +26,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
-      - name: Obtener código
+      - name: Obtener código y entradas LFS
         uses: actions/checkout@v6
+        with:
+          lfs: true
+          fetch-depth: 1
 
-      - name: Restaurar base preparada
+      - name: Restaurar base preparada M01-M03
         id: cache-base
         uses: actions/cache@v4
         with:
@@ -40,7 +45,7 @@ jobs:
           set -euo pipefail
           test -f inputs/rtve_aragon_2026_secciones.json || { echo "Falta inputs/rtve_aragon_2026_secciones.json"; exit 20; }
 
-      - name: Verificar fuentes de base cuando sean necesarias
+      - name: Verificar fuentes territoriales cuando sean necesarias
         if: ${{ inputs.modo == 'completo' || steps.cache-base.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
@@ -48,7 +53,7 @@ jobs:
           for f in inputs/seccionado_2025.zip inputs/65034.csv.zip; do
             test -f "$f" || { echo "Falta $f"; exit 20; }
           done
-          test ! -f inputs/MANIFEST.sha256 || sha256sum -c inputs/MANIFEST.sha256
+          sha256sum -c inputs/MANIFEST.sha256
 
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd:${{ github.sha }} .
@@ -56,6 +61,7 @@ jobs:
       - name: Ejecutar procedimiento
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p output .cache/ddd/base
           docker run --rm \
             -e GITHUB_SHA="${GITHUB_SHA}" \
