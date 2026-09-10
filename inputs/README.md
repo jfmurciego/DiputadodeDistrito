@@ -1,9 +1,9 @@
-# Inputs de ejecución
+# Entradas
 
-El pipeline Aragón usa fuentes oficiales versionadas. Los ficheros grandes no se guardan como binarios corrientes en Git: se obtienen de su fuente oficial o mediante Git LFS y se validan antes de ejecutar.
+**Versión del documento:** 2.0.0 — 2026-09-11
 
-Identidades de los ficheros de referencia ya comprobados:
+Las entradas oficiales deben identificarse por nombre, origen, fecha y SHA-256 en `MANIFEST.sha256`.
 
-- `seccionado_2025.zip`: `55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4`
-- `65034.csv.zip`: `91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3`
-- `rtve_aragon_2026_secciones.json`: `bd091a2a878afd3aa0e9bf2af52f2484e24d967020c56cee5b1e320c339aa94c`
+La fuente INE 65034 dispone de descarga oficial estable. La cartografía censal se controla igualmente por versión y hash. Las fuentes no deben actualizarse silenciosamente durante una ejecución.
+
+Los módulos 01-03 generan una base preparada cacheable. La caché se invalida si cambia una fuente, la configuración o cualquiera de esos tres módulos.

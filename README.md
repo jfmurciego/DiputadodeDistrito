@@ -1,28 +1,17 @@
 # Diputado de Distrito
 
-Repositorio de referencia para el pipeline reproducible de distritación DDD.
+**Versión del documento:** 2.0.0 — Procedimiento modular reproducible  
+**Fecha:** 2026-09-11
 
-## Principio operativo
+Procedimiento reproducible y auditable para construir distritos uninominales a partir de unidades censales oficiales.
 
-GitHub es el entorno de referencia: una versión solo se considera válida si el mismo commit puede ejecutarse de extremo a extremo en GitHub Actions y superar las validaciones duras.
+## Ejecución de referencia
 
-## Pipeline Aragón
+En GitHub: **Actions → Procedimiento DDD — Aragón → Run workflow**.  
+Modos: `completo` reconstruye la base desde las fuentes; `iterativo` reutiliza los módulos 01-03 si la caché es válida.
 
-El baseline recuperado ejecuta Steps 1→8:
+## Organización
 
-1. Construcción de secciones + población
-2. Extracción de adyacencias
-3. Construcción del grafo
-4. Semillado de distritos
-5. Optimización por swaps
-6. Exportación final
-7. Agregación de resultados electorales
-8. Unión de resultados a distritos
+El procedimiento consta de ocho **módulos** documentados en `docs/MODULOS.md`. Cada cambio conserva su versión anterior en `legacy/`, incrementa versión interna y se registra en `docs/BITACORA.md`.
 
-La infraestructura de reproducibilidad (contenedor, dependencias fijadas, manifiestos, checksums y validaciones) se mantiene separada de las modificaciones algorítmicas.
-
-## Ejecución
-
-La ejecución normal se realizará desde **Actions → DDD Aragón Pipeline → Run workflow**.
-
-Los resultados, logs, informes y manifiestos de cada ejecución se publicarán como artifacts del workflow.
+Una versión solo se considera validada cuando el mismo commit ejecuta de extremo a extremo en GitHub Actions y supera `herramientas/validar_ejecucion.py`.

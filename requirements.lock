@@ -1,3 +1,8 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.1.0 — Entorno geoespacial fijado
+# FECHA: 2026-09-11
+# ESTADO: candidato
+# ANTERIOR: legacy/2026-09-11_github_pre_modulos/requirements.lock
 pandas==2.3.2
 PyYAML==6.0.2
 geopandas==1.1.1
