@@ -1,8 +1,8 @@
 # Estado maestro del proyecto — Diputado de Distrito
 
-**Versión:** 1.1.0  
+**Versión:** 1.2.0  
 **Fecha de corte:** 2026-09-11  
-**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.0.0.md`
+**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.1.0.md`
 
 ## 1. Regla de arranque
 Leer primero este documento; después `docs/BITACORA.md`, `docs/ARQUITECTURA_DEL_PROCEDIMIENTO.md`, `docs/POLITICA_DE_VERSIONES.md`, `configuracion/aragon_2025.yaml`, última ronda, última ejecución y workflow si aplica.
@@ -30,44 +30,49 @@ M01 secciones+población; M02 adyacencias; M03 grafo; M04 solución inicial; M05
 Zaragoza capital: granularización por CUDIS y fallback a CUSEC si una unidad sigue sobredimensionada. V2 tuvo defectos graves de contigüidad y nombres urbanos basados en «eje»; la evolución debe mantener contigüidad dura y nombres apoyados en barrios/unidades urbanas reales.
 
 ## 6. Historia algorítmica
-Versiones antiguas quedaron atascadas cerca de H=61 con ejecuciones de ~11 minutos. Baseline recuperado: población 1.364.621, target 20.367,48, suelo 16.293,98, techo 35.643,09, 30 bajo suelo, 7 sobre techo, min 3.451, max 37.042, best_max_rel_dev ≈0,83056, 0 desconectados. Referencia local posterior: 67 distritos, 0 desconectados, 29 bajo suelo, 0 sobre techo, best_max_rel_dev 0,5046; SHA-256 `d2d914d9f18bb7ae31db078fda046b71f75b233d1f4b79a836b214c8d92e641f`.
+Versiones antiguas quedaron atascadas cerca de H=61 con ejecuciones de ~11 minutos. Baseline recuperado: población 1.364.621, target 20.367,48, suelo 16.293,98, techo 35.643,09, 30 bajo suelo, 7 sobre techo, min 3.451, max 37.042, best_max_rel_dev ≈0,83056, 0 desconectados. Referencia local posterior y GitHub Run #3 con M05 v7.0.1: **67 distritos, 29 bajo suelo, 0 sobre techo, best_max_rel_dev 0,5046**.
 
-## 7. Diferencias históricas a vigilar
-Una fase registró 1.358.812 habitantes frente a 1.364.621 con INE 65034; diferencia 5.809 que no debe ocultarse. El grafo tuvo referencias aproximadas de 4.302 y 4.293 aristas; cualquier cambio debe investigarse.
+## 7. Base territorial demostrada en GitHub
+GitHub Run #3 (`34580841510`, commit `2835938ed40a272c0e34f609c7b9966c7b5225ca`) prueba la ruta R008 completa:
+- fragmentos y ZIP canónicos verificados;
+- M01: 1.463 secciones, 0 población ausente;
+- M02: 4.293 aristas;
+- M03: 1.463 nodos, 4.293 aristas, 0 aislados;
+- caché M01-M03 guardada;
+- M04-M08 ejecutados correctamente;
+- puerta final FAIL únicamente por 29 distritos bajo 0,80×target.
 
-## 8. Defectos ya resueltos
-Step7b inexistente; clave YAML duplicada; raíz relativa no portable; M08 leyendo config M07; OOM M01; normalización CUSEC; falsos positivos MultiPolygon; Run #1 con YAML inválido y error Python ocultado.
+Esto reclasifica el bloqueo activo como **algorítmico M05**, no infraestructura.
 
-## 9. Estrategia de fuentes vigente — R008
-Durante **desarrollo** no se depende del tiempo de respuesta del INE. Los inputs grandes se almacenan partidos en `inputs/partes/` y se reconstruyen automáticamente antes de M01 cuando hace falta una preparación nueva.
+## 8. Estrategia de fuentes
+Durante desarrollo se usan los ZIP congelados reconstruidos desde `inputs/partes/`, con hashes canónicos:
+- seccionado `55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4`;
+- población `91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3`.
+La adquisición INE de R006 se conserva para validación/certificación final.
 
-ZIP canónicos reconstruidos:
-- `inputs/seccionado_2025.zip` → SHA-256 `55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4`;
-- `inputs/65034.csv.zip` → SHA-256 `91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3`.
+## 9. Concurrencia vigente
+Workflow **2.5.1** serializa exclusivamente `preparar-territorio` mediante grupo `ddd-preparacion-aragon-2025`, `cancel-in-progress: false`. No pueden reconstruirse simultáneamente dos bases M01-M03. Los jobs M04-M08 de ejecuciones distintas siguen siendo concurrentes.
 
-`inputs/partes/reconstruir_fuentes.sh` valida primero los fragmentos mediante `MANIFEST_PARTES.sha256`, reconstruye los dos ZIP y vuelve a verificar sus hashes canónicos. La configuración 7.3.0 consume esos ZIP.
+## 10. M05 vigente — R009
+M05 **v7.1.0** corrige la causa conceptual del Run #3. La función objetivo anterior miraba únicamente máximo desvío relativo y podía mejorar sin eliminar distritos ilegales. La nueva función prioriza, en este orden:
+1. número de distritos que violan suelo/techo;
+2. magnitud total de esas violaciones;
+3. máximo desvío respecto del target;
+4. error cuadrático global.
 
-La adquisición directa INE de R006 **se conserva**, no se elimina: `herramientas/adquirir_fuentes_ine.py` queda para validación/certificación final y para demostrar independencia respecto de los inputs congelados. Durante desarrollo no debe introducir latencia en cada ejecución.
+Incluye una fase dirigida de reparación y solo permite transferencias que preserven conectividad del distrito donante y entren por adyacencia al receptor. Después realiza pulido local sin empeorar la tupla anterior.
 
-El input electoral `inputs/rtve_aragon_2026_secciones.json` está en GitHub y mantiene hash canónico `bd091a2a878afd3aa0e9bf2af52f2484e24d967020c56cee5b1e320c339aa94c`.
+## 11. Diferencias históricas a vigilar
+Una fase registró 1.358.812 habitantes frente a 1.364.621 con INE 65034; diferencia 5.809 que no debe ocultarse. El grafo tuvo referencia aproximada de 4.302 aristas y ahora la ejecución reproducible R008 confirma 4.293; la diferencia histórica queda abierta para arqueología, no bloquea R009 mientras la fuente/hash sea estable.
 
-## 10. Ejecución GitHub
-Workflow vigente tras R008: 2.5.0. Configuración: 7.3.0. `completo` reconstruye fuentes congeladas y recalcula M01-M03. `iterativo` debe reutilizar la preparación territorial si la clave coincide, para que cambios de M04/M05 no repitan GIS ni fuentes pesadas.
+## 12. Auditoría y versionado
+Todo cambio funcional conserva versión previa en `legacy/`, incrementa versión, registra ronda, bitácora, estado maestro y expediente de ejecución. Una ejecución solo es referencia si el usuario puede reproducirla desde GitHub.
 
-GitHub Run #1 (`34575702377`) falló antes de M01 y está documentado. R006 intentó adquisición directa INE pero resultó demasiado lenta para el ciclo de desarrollo; R008 sustituye esa ruta operativa de desarrollo por fuentes congeladas verificadas.
-
-## 11. Auditoría y versionado
-Todo cambio funcional conserva versión previa en `legacy/`, incrementa versión, registra ronda, bitácora, estado maestro y, cuando sea ejecutable, expediente de ejecución. Una ejecución solo es referencia si el usuario puede reproducirla desde GitHub.
-
-## 12. Generalización futura
+## 13. Generalización futura
 Castilla y León, Extremadura y nacional deben entrar por configuración/datos/estrategias genéricas, no mediante forks territoriales del motor.
 
-## 13. Siguiente acción exacta
-1. Ejecutar una vez el workflow vigente en modo **`completo`** para construir la caché M01-M03 a partir de los ZIP reconstruidos.
-2. Inspeccionar directamente el run y registrar resultado.
-3. Si M01-M03 pasan, verificar 1.463 secciones, población total, aristas y conectividad contra referencias.
-4. Después cambiar a **`iterativo`** para las rondas algorítmicas M04/M05.
-5. Objetivo inmediato de M05: **67 exactos + 0 desconectados + 0 bajo suelo + 0 sobre techo**; después optimizar desviación y calidad territorial.
+## 14. Siguiente acción exacta
+Ejecutar ahora el workflow en modo **`iterativo`**. La caché territorial del Run #3 debe restaurarse; no deben repetirse reconstrucción de ZIP ni M01-M03. La validación debe medir el efecto de M05 v7.1.0 sobre los 29 distritos bajo suelo. Si quedan violaciones, inspeccionar el nuevo reporte M05 (`under_district_ids`, movimientos de reparación y `objective_final`) y evolucionar la estrategia, sin tocar M01-M03.
 
-## 14. Condición de autosuficiencia
+## 15. Condición de autosuficiencia
 Si cambia objetivo, restricción, baseline, fuente, arquitectura, estado de ejecución o siguiente acción, actualizar este documento en la misma ronda.
