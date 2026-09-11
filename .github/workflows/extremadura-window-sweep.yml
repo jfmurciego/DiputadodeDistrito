@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE: EXT-09 — Barrido fino de ventana M04 c017–c024
+# VERSIÓN: 1.0.1
+# NOMBRE: EXT-09 — Barrido fino de ventana M04 c017–c024 — fix entorno Docker
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico; no modifica motores.
 # QUÉ HACE: barre chunk_ratio 0.17–0.24. Para cada valor construye macro-unidades internas, ejecuta M04 y,
 # solo si M04 llega a hard=0, ejecuta M05 v7.5.2 con swap-polish. Publica métricas comparables.
-# MOTIVO: c015 falla, c020 pasa y c025 vuelve a fallar. EXT-07/08 demostraron que ampliar la combinatoria
-# local de M05 no resuelve los dos outliers residuales de c020. Debe localizarse la mejor discretización M04
-# dentro de la ventana de factibilidad antes de añadir operadores más complejos.
-# ANTERIOR: ninguno — workflow nuevo.
+# CAMBIO: pasa explícitamente LABEL y CFG al contenedor Docker que genera la configuración matricial.
+# MOTIVO DEL CAMBIO: Run 34646065593 construyó correctamente las macro-unidades pero todos los jobs se
+# detuvieron antes de M04 con KeyError: LABEL; era un defecto de orquestación, no territorial.
+# ANTERIOR: legacy/workflows/extremadura-window-sweep_v1.0.0.yml
 name: EXT-09 — Ventana M04 017-024
 
 on:
@@ -78,7 +78,7 @@ jobs:
 
       - name: Generar configuración
         run: |
-          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext09:${GITHUB_SHA} -c '
+          docker run --rm -e LABEL="$LABEL" -e CFG="$CFG" -v "$PWD:/app" --entrypoint python ddd-ext09:${GITHUB_SHA} -c '
           import copy,pathlib,yaml,os
           root=pathlib.Path("/app");label=os.environ["LABEL"];cfg=yaml.safe_load((root/"territorios/extremadura/config/extremadura_2025.yaml").read_text());c=copy.deepcopy(cfg)
           base=f"territorios/extremadura/.cache/ddd/preparacion/{{run_name}}/ext09/{label}"
