@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.6.0
-# NOMBRE DE VERSIÓN: Resultados visibles por módulo
+# VERSIÓN: 2.7.0
+# NOMBRE DE VERSIÓN: Productos completos y auditables por módulo
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: mantiene preparación territorial serializada y ejecución iterativa, y publica en el repositorio un índice ligero navegable de outputs por módulo para cada ejecución.
-# CAMBIOS VS 2.5.2: añade publicación de informes/CSV/logs ligeros en `resultados/ejecuciones/{run_id}/M01..M08`, manifiesto, validación y enlace al artefacto pesado; mantiene GeoJSON pesados fuera del historial Git.
-# MOTIVO: dar visibilidad directa al usuario sin inflar el repositorio ~20 MB por ejecución.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.2.yml
+# QUÉ HACE: cada módulo conserva su producto real; genera tablas auditables completas, publica una carpeta navegable por ejecución y crea artefactos separados M01-M08 con las geometrías pesadas.
+# CAMBIOS VS 2.6.0: deja de reducir M01-M05 a informes; materializa secciones, adyacencias, grafo y asignaciones completas; M06 publica catálogo territorial rico y composición; M08 publica tabla final; artefactos separados por módulo.
+# MOTIVO: garantizar visibilidad, completud y auditabilidad de todos los estados intermedios sin convertir el historial Git en almacenamiento binario masivo.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.6.0.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -52,7 +52,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f inputs/partes/reconstruir_fuentes.sh || { echo 'Falta inputs/partes/reconstruir_fuentes.sh'; exit 30; }
           bash inputs/partes/reconstruir_fuentes.sh
           test -s inputs/seccionado_2025.zip
           test -s inputs/65034.csv.zip
@@ -67,13 +66,12 @@ jobs:
           set -euo pipefail
           rm -rf .cache/ddd/preparacion/aragon_2025
           mkdir -p .cache/ddd/preparacion
-          docker run --rm --entrypoint bash \
-            -e DDD_PARAMS="configuracion/aragon_2025.yaml" \
-            -v "$PWD/inputs:/app/inputs:ro" \
-            -v "$PWD/.cache/ddd:/app/.cache/ddd" \
-            ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
+          docker run --rm --entrypoint bash -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
       - name: Comprobar preparación disponible
-        run: test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json
+        run: |
+          test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip
+          test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl
+          test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json
 
   ejecutar-distritacion:
     needs: preparar-territorio
@@ -97,7 +95,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f inputs/rtve_aragon_2026_secciones.json || { echo 'Falta inputs/rtve_aragon_2026_secciones.json'; exit 20; }
+          test -f inputs/rtve_aragon_2026_secciones.json
           grep 'rtve_aragon_2026_secciones.json' inputs/MANIFEST.sha256 | sha256sum -c -
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd:${{ github.sha }} .
@@ -106,73 +104,121 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "ejecuciones/$DDD_RUN_ID" .cache/ddd/preparacion
-          docker run --rm \
-            -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" \
-            -e DDD_MODO="iterativo" -e DDD_PARAMS="configuracion/aragon_2025.yaml" \
-            -v "$PWD/inputs:/app/inputs:ro" \
-            -v "$PWD/ejecuciones:/app/ejecuciones" \
-            -v "$PWD/.cache/ddd:/app/.cache/ddd" \
-            ddd:${GITHUB_SHA}
-      - name: Guardar ejecución y trazabilidad
-        id: artefacto
+          docker run --rm -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" -e DDD_MODO="iterativo" -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd:${GITHUB_SHA}
+      - name: Materializar outputs auditables M01-M08
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "ejecuciones/$DDD_RUN_ID/aragon_2025_m08_distritos_resultados.geojson.zip" || exit 0
+          docker run --rm --entrypoint python -e DDD_RUN_ID="$DDD_RUN_ID" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd:ro" ddd:${GITHUB_SHA} herramientas/generar_outputs_auditables.py --params configuracion/aragon_2025.yaml --run-id "$DDD_RUN_ID"
+      - name: Artefacto M01 — secciones censales
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: ddd-aragon-${{ env.DDD_RUN_ID }}-${{ github.sha }}
-          path: ejecuciones/${{ env.DDD_RUN_ID }}/**
-          if-no-files-found: warn
+          name: ${{ env.DDD_RUN_ID }}-M01-secciones
+          path: |
+            .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip
+            .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_informe.json
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M01/**
           retention-days: 90
-      - name: Publicar outputs ligeros por módulo en GitHub
+      - name: Artefacto M02 — adyacencias
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M02-adyacencias
+          path: |
+            .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M02/**
+          retention-days: 90
+      - name: Artefacto M03 — grafo territorial
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M03-grafo
+          path: |
+            .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json
+            .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_informe.json
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M03/**
+          retention-days: 90
+      - name: Artefacto M04 — solución inicial
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M04-semillas
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m04_*
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M04/**
+            ejecuciones/${{ env.DDD_RUN_ID }}/logs/modulo_04.log
+          retention-days: 90
+      - name: Artefacto M05 — optimización
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M05-optimizacion
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m05_*
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M05/**
+            ejecuciones/${{ env.DDD_RUN_ID }}/logs/modulo_05.log
+          retention-days: 90
+      - name: Artefacto M06 — distritos consolidados
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M06-distritos
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_*
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M06/**
+            ejecuciones/${{ env.DDD_RUN_ID }}/logs/modulo_06.log
+          retention-days: 90
+      - name: Artefacto M07 — resultados electorales
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M07-electoral
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m07_*
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M07/**
+            ejecuciones/${{ env.DDD_RUN_ID }}/logs/modulo_07.log
+          retention-days: 90
+      - name: Artefacto M08 — producto final
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ env.DDD_RUN_ID }}-M08-final
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m08_*
+            ejecuciones/${{ env.DDD_RUN_ID }}/auditoria/M08/**
+            ejecuciones/${{ env.DDD_RUN_ID }}/VALIDACION.json
+            ejecuciones/${{ env.DDD_RUN_ID }}/MANIFIESTO_EJECUCION.json
+            ejecuciones/${{ env.DDD_RUN_ID }}/logs/modulo_08.log
+          retention-days: 90
+      - name: Publicar outputs navegables completos en GitHub
         if: always()
         shell: bash
-        env:
-          ARTIFACT_URL: ${{ steps.artefacto.outputs.artifact-url }}
-          ARTIFACT_DIGEST: ${{ steps.artefacto.outputs.artifact-digest }}
         run: |
           set -euo pipefail
           src="ejecuciones/$DDD_RUN_ID"
+          test -d "$src/auditoria" || exit 0
           dst="resultados/ejecuciones/$DDD_RUN_ID"
-          mkdir -p "$dst"/{M01,M02,M03,M04,M05,M06,M07,M08}
-
-          cp .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_informe.json "$dst/M01/" 2>/dev/null || true
-          if [[ -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl ]]; then
-            printf 'edges=%s\n' "$(wc -l < .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl | tr -d ' ')" > "$dst/M02/resumen.txt"
-          fi
-          cp .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_informe.json "$dst/M03/" 2>/dev/null || true
-
-          cp "$src/aragon_2025_m04_informe.json" "$dst/M04/" 2>/dev/null || true
-          cp "$src/logs/modulo_04.log" "$dst/M04/" 2>/dev/null || true
-          cp "$src/aragon_2025_m05_informe.json" "$dst/M05/" 2>/dev/null || true
-          cp "$src/logs/modulo_05.log" "$dst/M05/" 2>/dev/null || true
-          cp "$src/aragon_2025_m06_resumen_distritos.csv" "$dst/M06/" 2>/dev/null || true
-          cp "$src/logs/modulo_06.log" "$dst/M06/" 2>/dev/null || true
-          cp "$src/aragon_2025_m07_resultados_partido.csv" "$dst/M07/" 2>/dev/null || true
-          cp "$src/aragon_2025_m07_resumen_electoral.csv" "$dst/M07/" 2>/dev/null || true
-          cp "$src/logs/modulo_07.log" "$dst/M07/" 2>/dev/null || true
-          cp "$src/logs/modulo_08.log" "$dst/M08/" 2>/dev/null || true
+          mkdir -p "$dst"
+          cp -R "$src/auditoria/"* "$dst/"
           cp "$src/VALIDACION.json" "$dst/" 2>/dev/null || true
           cp "$src/MANIFIESTO_EJECUCION.json" "$dst/" 2>/dev/null || true
-
+          for n in 04 05 06 07 08; do cp "$src/logs/modulo_${n}.log" "$dst/M${n}/" 2>/dev/null || true; done
           cat > "$dst/README.md" <<EOF
-          # Ejecución $DDD_RUN_ID
+          # Ejecución $DDD_RUN_ID — outputs auditables
 
-          - GitHub run: $GITHUB_RUN_ID
-          - Commit ejecutado: $GITHUB_SHA
-          - Artefacto pesado: $ARTIFACT_URL
-          - SHA-256 artefacto: $ARTIFACT_DIGEST
+          Cada carpeta M01-M08 contiene el estado materializado del módulo, no solo un informe. Las tablas completas y JSON/JSONL se conservan aquí en Git. Las geometrías GeoJSON ZIP, por su tamaño, se conservan en los artefactos M01-M08 de esta misma ejecución de GitHub Actions y quedan identificadas por ruta, tamaño y SHA-256 en cada `PRODUCTOS.json`.
 
-          Los directorios M01-M08 contienen únicamente outputs ligeros navegables. Los GeoJSON ZIP completos permanecen en el artefacto de GitHub Actions para evitar inflar el historial Git.
+          GitHub run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          Commit ejecutado: ${GITHUB_SHA}
+          Preparación M01-M03: clave ${{ needs.preparar-territorio.outputs.clave }}
           EOF
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$dst"
           git diff --cached --quiet && exit 0
-          git commit -m "results: publish $DDD_RUN_ID module outputs"
-          for intento in 1 2 3; do
-            git pull --rebase origin main
-            if git push origin HEAD:main; then exit 0; fi
-            sleep $((intento * 2))
-          done
-          echo "No se pudo publicar el índice ligero tras 3 intentos" >&2
+          git commit -m "results: publish complete $DDD_RUN_ID outputs"
+          for intento in 1 2 3; do git pull --rebase origin main; if git push origin HEAD:main; then exit 0; fi; sleep $((intento*2)); done
           exit 41
