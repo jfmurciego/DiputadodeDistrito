@@ -1,87 +1,76 @@
-# Diputado de Distrito — Procedimiento de Distritación DDD
+# Diputado de Distrito — motor multi-territorio
 
-**README v3.5.0** · 11-09-2026 · Estado: **R014 validado + R015 cerrada + R016 validado**
-**Anterior:** `legacy/docs/README_v3.4.0.md`
-**Cambio:** promociona Run #9 como nuevo baseline territorial y registra la limpieza de ramas; no cambia lógica ni parámetros.
+**README v4.0.0** · 11-09-2026 · Estado: **R018 arquitectura multi-territorio**
+**Anterior:** `legacy/docs/README_v3.5.0.md`
 
-Sistema modular para construir, validar y auditar distritos uninominales a partir de unidades censales oficiales. El producto es un procedimiento repetible: mismo código + mismos inputs + misma configuración ⇒ mismo resultado reproducible. Aragón es la primera implantación; otros territorios deben entrar por datos y configuración, no mediante forks del motor.
+## Qué es
 
-## Estado territorial vigente
+DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales a partir de unidades censales oficiales. El motor común vive en `ddd_core/`, `modulos/` y `herramientas/`. Cada territorio aporta sus datos, configuración, reglas y pruebas dentro de `territorios/<territorio>/`.
 
-La referencia territorial aceptada es **GitHub Run #9 `34599224954`**, ejecutado sobre `f9ca44ff005043f630fce39334d34726d8bf55c5`, modo iterativo, y publicado como `gh-34599224954-1`.
+La regla arquitectónica es: **un solo repositorio, una sola rama permanente (`main`), un solo motor; muchos territorios como paquetes de configuración/datos.** No se crean repositorios ni ramas permanentes por comunidad autónoma.
 
-Resultado: 67 distritos; Huesca 11 / Teruel 7 / Zaragoza 49; 1.463 secciones; 1.364.621 habitantes; provincia PASS; disciplina municipal PASS; contigüidad PASS; suelo/techo PASS; **0 distritos fuera de ±12 %**; máximo desvío relativo **9,930 %**.
+## Baseline territorial vigente
 
-Frente a Run #8, R016 reduce el máximo desvío de **11,943 % a 9,930 %** —2,013 puntos porcentuales, un 16,9 % menos— y reduce el error cuadrático global de `0.182704485064` a `0.161271162560` —11,7 % menos— sin relajar ninguna restricción.
+Aragón es la primera implantación de referencia. GitHub Run #9 `34599224954` / R016 es el baseline aceptado: 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49, provincia PASS, contigüidad PASS, disciplina municipal PASS, suelo/techo PASS y `fuera_12=0`. Máximo desvío relativo: **9,930 %**.
 
-## R015 — pruebas y gobernanza verificable
+M05 v7.4.0 alcanzó la primera solución factible en la iteración 9.038 y continuó hasta 20.000, reduciendo el máximo desvío desde 11,943 % y el error cuadrático global desde 0,182704485064 a 0,161271162560.
 
-La suite `tests/test_r015_invariantes.py` y el workflow `.github/workflows/pruebas-ddd.yml` protegen las invariantes territoriales, el determinismo y la trazabilidad hacia `legacy/`. El workflow de pruebas sigue siendo una puerta obligatoria para cualquier cambio posterior.
+## Estructura
 
-## R016 — refinamiento canónico post-factibilidad — VALIDADO
+```text
+DiputadodeDistrito/
+├── ddd_core/                    # núcleo común
+├── modulos/                     # M01–M08 comunes
+├── herramientas/                # utilidades comunes
+├── territorios/
+│   ├── aragon/
+│   │   ├── config/
+│   │   ├── inputs/
+│   │   ├── docs/
+│   │   └── resultados/
+│   └── castilla_y_leon/
+│       ├── config/
+│       ├── inputs/
+│       ├── docs/
+│       └── tests/
+├── resultados/                  # compatibilidad histórica y baselines publicados
+├── tests/                       # regresión común
+├── docs/                        # arquitectura/gobernanza global
+└── legacy/                      # versiones retiradas y arqueología
+```
 
-M05 **v7.4.0** corrige la parada prematura de v7.3.x. Run #9 demuestra el efecto: alcanza exactamente la primera solución factible de Run #8 en la iteración **9.038**, pero continúa **10.962 iteraciones** más hasta completar las 20.000 y encuentra una solución mejor.
+Durante R018 se mantienen temporalmente `configuracion/`, `inputs/` y `resultados/ejecuciones/` como rutas de compatibilidad con el workflow de Aragón ya validado. La estructura canónica nueva es `territorios/`. No se duplican blobs grandes: Aragón referencia los mismos objetos Git versionados.
 
-`objective_first_feasible = [0, 0.0, 0, 0.119431695687, 0.182704485064]`
-
-`objective_final = [0, 0.0, 0, 0.099299365905, 0.161271162560]`
-
-Solo cambian 12 distritos respecto de Run #8 y todos están en Zaragoza. El peor distrito de Zaragoza pasa de 11,943 % a 9,140 %. Huesca y Teruel quedan sin cambios; el máximo global final es el distrito 0 de Huesca, con -9,930 %.
-
-La cabecera del ejecutable v7.4.0 conserva el estado de publicación como candidato. No se reescribe el código ya probado únicamente para cambiar esa etiqueta: la promoción canónica se registra en este README, Estado Maestro y el expediente de Run #9.
-
-## Arquitectura
+## Arquitectura del procedimiento
 
 M01 base territorial+población → M02 adyacencias → M03 grafo → M04 construcción inicial → M05 optimización → M06 consolidación → M07 agregación electoral → M08 producto final.
 
-M01–M03 son preparación territorial cacheable. M04–M06 forman el núcleo territorial. M07–M08 son capa electoral posterior. Los resultados electorales nunca condicionan la geometría.
+M01–M03 preparan territorio; M04–M06 son el núcleo territorial; M07–M08 añaden resultados electorales después. Los resultados electorales nunca condicionan la geometría.
 
-## Reglas territoriales Aragón
+## Territorios
 
-1. 67 distritos exactos.
-2. Provincia infranqueable: Huesca 11, Teruel 7, Zaragoza 49.
-3. Contigüidad estricta sobre M03.
-4. Conservación exacta de secciones y población.
-5. Suelo duro = 0,80×target; techo = 1,75×target.
-6. Objetivo fino = ±12 %.
-7. Municipio que cabe bajo techo: indivisible.
-8. Municipio sobredimensionado: partición interna conexa; distritos completos exclusivamente municipales y solo residual mezclable.
-9. CUSEC único/no nulo y determinismo.
-10. La elección analizada nunca condiciona el mapa.
+- `territorios/aragon/`: implantación validada; Run #9 es baseline. R017 de calidad territorial queda pendiente para retomarse en este hilo.
+- `territorios/castilla_y_leon/`: siguiente implantación. Su objetivo no es clonar Aragón sino descubrir y extraer cualquier supuesto aragonés oculto en el motor.
+- futuros: Extremadura y restantes comunidades; después España completa y adaptación internacional.
 
-## Outputs y aceptación
+La medida de madurez del motor será cuánto código común hay que cambiar al incorporar un territorio nuevo. El objetivo final es **datos + configuración + reglas + pruebas, con cero cambios del motor**.
 
-Cada ejecución publica productos auditables M01–M08 en `resultados/ejecuciones/<RUN_ID>/`; las geometrías pesadas quedan en artefactos GitHub Actions y sus `PRODUCTOS.json` registran ruta, tamaño y SHA-256.
+## Contrato de territorio
 
-La aceptación territorial exige ejecución reproducible del procedimiento y puerta de validación. Las pruebas automáticas son una puerta de regresión adicional; no sustituyen un run territorial cuando cambia la lógica funcional.
+Leer `docs/CONTRATO_TERRITORIO.md`. Todo paquete debe declarar identidad, fuentes, claves geográficas, población, niveles administrativos, número/reparto de distritos, límites poblacionales, reglas de atomicidad, criterios de contigüidad, inputs electorales opcionales y pruebas propias.
 
-## Trazabilidad y gobernanza
+## Ejecución
 
-- Estado canónico: este README + `docs/ESTADO_MAESTRO_PROYECTO.md`.
-- Continuidad: `docs/CONTINUIDAD_NUEVO_CHAT.md`.
-- Progreso: `docs/BITACORA.md`.
-- Cambios: `docs/REGISTRO_DE_CAMBIOS.md`.
-- Política: `docs/POLITICA_DE_VERSIONES.md`.
-- Rondas: `docs/RONDAS/`.
-- Ejecuciones: `docs/EJECUCIONES/`.
+`procedimiento.sh` v2.2.0 acepta cualquier YAML compatible mediante `DDD_PARAMS` y deriva `run_name` desde el propio YAML. El workflow GitHub actual de Aragón se conserva por compatibilidad; su generalización para seleccionar territorio será una de las primeras tareas al iniciar Castilla y León.
+
+## Gobernanza
+
+- Estado canónico: `README.md` + `docs/ESTADO_MAESTRO_PROYECTO.md`.
+- Continuidad general: `docs/CONTINUIDAD_NUEVO_CHAT.md`.
+- Continuidad Castilla y León: `docs/CONTINUIDAD_CASTILLA_Y_LEON.md`.
+- Arquitectura multi-territorio: `docs/ARQUITECTURA_MULTI_TERRITORIO.md`.
+- Contrato: `docs/CONTRATO_TERRITORIO.md`.
 - Versiones retiradas: `legacy/`.
-- Deuda histórica no recuperada: `docs/DEUDA_HISTORICA_LEGACY.md`.
+- Rama permanente: únicamente `main`.
 
-Los antiguos `docs/MEMORIA_DEL_PROYECTO.md` y `docs/MEMORIA_PROYECTO.md` están retirados y no son fuentes de estado. **`main` es la única rama permanente y actualmente la única rama existente.**
-
-## Orden de lectura para continuar
-
-1. `README.md`.
-2. `docs/ESTADO_MAESTRO_PROYECTO.md`.
-3. `docs/CONTINUIDAD_NUEVO_CHAT.md`.
-4. `docs/ARQUITECTURA_DEL_PROCEDIMIENTO.md`.
-5. `docs/MODULOS/README.md` y contrato del módulo en curso.
-6. `docs/BITACORA.md`.
-7. Última ronda y última ejecución.
-8. Configuración, workflows, tests y código afectado.
-
-## Próximo frente
-
-R014, R015 y R016 están cerrados. Cualquier R017 debe partir de un objetivo territorial explícito y demostrar mejora sobre Run #9 sin perder ninguna de sus invariantes.
-
-**Principio rector:** un resultado que solo existe en memoria, en un log o en una sesión de IA no es un producto del procedimiento.
+**Principio rector:** un resultado que solo existe en memoria, un chat o un log no forma parte del procedimiento hasta quedar materializado, versionado y validado en GitHub.
