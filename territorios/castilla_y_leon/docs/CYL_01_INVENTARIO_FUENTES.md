@@ -1,22 +1,16 @@
 # CYL-01 — Inventario de fuentes para Castilla y León
 
 **Fecha:** 2026-09-11
-**Estado:** evidencia inicial confirmada; unión población↔geometría pendiente de auditoría
+**Estado:** fuentes base y correspondencia CUSEC validadas en diagnóstico; pendiente de aceptación reproducible en GitHub
 
 ## Objetivo
-Confirmar si las fuentes nacionales ya disponibles en el proyecto permiten construir M01 para Castilla y León sin incorporar todavía nuevas fuentes externas.
+Confirmar si las fuentes nacionales ya disponibles permiten construir M01 para Castilla y León sin incorporar nuevas fuentes externas.
 
 ## Fuente geométrica
 
-Fuente disponible: `inputs/seccionado_2025.zip`.
+`inputs/seccionado_2025.zip` contiene el shapefile nacional `SECC_CE_20250101`, CRS **EPSG:25830**, con `CUSEC`, `CUMUN`, `CPRO`, `NMUN` y demás campos territoriales requeridos.
 
-Contenido inspeccionado: shapefile nacional `SECC_CE_20250101` con campos `CUSEC`, `CUMUN`, `CSEC`, `CDIS`, `CMUN`, `CPRO`, `CCA`, `CUDIS`, `NPRO`, `NCA`, `NMUN` y geometría.
-
-CRS observado: **EPSG:25830**.
-
-Castilla y León aparece completa bajo los códigos provinciales INE:
-
-| CPRO | Provincia | Secciones geométricas |
+| CPRO | Provincia | Secciones |
 |---|---|---:|
 | 05 | Ávila | 308 |
 | 09 | Burgos | 577 |
@@ -29,51 +23,57 @@ Castilla y León aparece completa bajo los códigos provinciales INE:
 | 49 | Zamora | 315 |
 | **Total** | **Castilla y León** | **3.506** |
 
+Los 3.506 CUSEC geométricos son únicos y no nulos.
+
 ## Fuente de población
 
-Fuente disponible: `inputs/65034.csv.zip`, fichero `65034.csv` nacional tabulado.
-
-Campos observados: `Total Nacional`, `Provincias`, `Municipios`, `Secciones`, `Sexo`, `Edad`, `Periodo`, `Total`.
-
-Filtro equivalente al utilizado en Aragón para el universo de población:
+`inputs/65034.csv.zip` contiene `65034.csv`, fuente nacional tabulada. Filtro aplicado, idéntico en semántica al de Aragón:
 - `Periodo = 2025`;
 - `Sexo = Total`;
 - `Edad = Todas las edades`;
-- sección no nula.
+- sección no nula;
+- provincias 05, 09, 24, 34, 37, 40, 42, 47 y 49.
 
-Filas observadas para las nueve provincias:
+Tras leer correctamente el fichero como tabulado y normalizar `Secciones` a CUSEC de diez dígitos, el resultado es **3.506 CUSEC únicos**, exactamente los mismos que en la geometría.
 
-| CPRO | Filas de sección en población | Población agregada de esas filas |
-|---|---:|---:|
-| 05 | 312 | 160.738 |
-| 09 | 591 | 362.663 |
-| 24 | 451 | 448.030 |
-| 34 | 279 | 158.702 |
-| 37 | 535 | 328.446 |
-| 40 | 278 | 158.251 |
-| 42 | 218 | 90.183 |
-| 47 | 572 | 528.644 |
-| 49 | 319 | 165.564 |
+No existen:
+- `geometry_only`: 0;
+- `population_only`: 0;
+- duplicados CUSEC: 0;
+- población ausente tras el join: 0.
 
-## Hallazgo crítico antes de M01
+## Población 2025 reconciliada
 
-La fuente geométrica contiene **3.506 secciones**, mientras que la extracción de población devuelve **3.555 filas de sección** para el mismo año/filtro.
+| Provincia | Población |
+|---|---:|
+| Ávila | 160.738 |
+| Burgos | 362.663 |
+| León | 448.030 |
+| Palencia | 158.702 |
+| Salamanca | 328.446 |
+| Segovia | 158.251 |
+| Soria | 90.183 |
+| Valladolid | 528.644 |
+| Zamora | 165.564 |
+| **Castilla y León** | **2.401.221** |
 
-La diferencia bruta es de **49 filas adicionales en población** respecto del número de geometrías. Esto no debe resolverse descartando filas silenciosamente ni asumiendo que son duplicados válidos. Antes de aceptar M01 hay que clasificar la diferencia:
+## Resolución de la aparente discrepancia inicial
 
-1. extraer el CUSEC de diez dígitos de `Secciones`;
-2. comprobar unicidad del identificador en la tabla filtrada;
-3. comparar conjuntos `CUSEC_geometría` y `CUSEC_población`;
-4. identificar `population_only`, `geometry_only` y duplicados;
-5. documentar la causa: cambios de seccionado, códigos históricos, duplicidad estadística u otra causa;
-6. solo después decidir una regla de unión explícita.
+El conteo previo de 3.555 no representaba CUSEC reconciliados y no debe conservarse como anomalía territorial. Al aplicar la misma lógica de lectura y normalización que M01, población y geometría forman una correspondencia **1:1 de 3.506 secciones**.
 
-## Conclusión CYL-01 parcial
+Por tanto, no se necesita una excepción Castilla y León ni una regla de descarte.
 
-**No hace falta buscar nuevas fuentes base para arrancar Castilla y León.** Las dos fuentes principales ya son nacionales y contienen las nueve provincias.
+## Decisión CYL-01
 
-El siguiente bloqueo real no es la disponibilidad de datos, sino reconciliar de forma auditable los identificadores de sección entre geometría y población.
+Las fuentes base nacionales actuales son suficientes para M01. La configuración territorial v0.3.0 usa las fuentes compartidas del repositorio y escribe sus productos dentro de `territorios/castilla_y_leon/`.
 
-## Próximo paso
+## Criterio de aceptación M01 en GitHub
 
-Crear una auditoría reutilizable de correspondencia de secciones que pueda ejecutarse para cualquier territorio antes de M01. Debe producir conteos y listados de diferencias, y fallar si existe una pérdida no explicada.
+La ejecución reproducible debe demostrar simultáneamente:
+- `rows_out = 3506`;
+- `missing_population_rows = 0`;
+- población total = `2.401.221`;
+- nueve provincias exactas;
+- CUSEC único y no nulo.
+
+Solo entonces CYL-01/M01 se promociona y se abre M02/M03.
