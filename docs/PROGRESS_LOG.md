@@ -1,6 +1,6 @@
 # Progress Log — Diputado de Distrito
 
-**Versión:** 1.0.0  
+**Versión:** 1.1.0  
 **Fecha de inicio:** 2026-09-11  
 **Objeto:** registro persistente de hitos, decisiones y bloqueos. Los logs completos y artefactos pesados permanecen en GitHub Actions; este fichero conserva los resultados que cambian el baseline o la arquitectura.
 
@@ -23,13 +23,15 @@
 - Contrato topológico final: dos `administrative_bridge` internos de Don Benito: `0604405005↔0604405003` y `0604405006↔0604405004`.
 - Cierre EXT-02: 2.607 aristas = 2.605 geométricas + 2 administrativas; M03 con 0 aislados, 0 provincias y 0 municipios desconectados.
 
-### Extremadura — EXT-03 / M04
+### Extremadura — EXT-03 / M04-M05
 - K institucional documentado: 65. Hamilton DDD poblacional: Badajoz 41 / Cáceres 24.
 - Barrido legacy tight/reference/wide: tres fallos distintos; referencia aislaba La Albuera y wide aislaba Aliseda después de prepartir capitales.
 - Auditoría causal: La Albuera depende de dos puertas del municipio de Badajoz; Aliseda depende de una puerta del municipio de Cáceres. M03 es correcto; el aislamiento nace en M04.
 - M04 v7.5.0 (`preserve_all_external_gateways`): descartado como política; sobreprotege capitales y evita extraer núcleos.
 - M04 v7.5.1 (`preserve_component_gateways`): preserva una puerta por componente exterior, pero Badajoz sigue sin admitir un único residuo municipal conexo con cuatro puertas necesarias. R015 legacy permanece verde.
-- Hipótesis activa: el supuesto erróneo es exigir un único residuo abierto por municipio sobredimensionado. Se lanza A/B `granular-open` para probar municipios grandes como unidades abiertas a nivel sección manteniendo municipios pequeños atómicos.
+- Prueba `granular-open` Run 34624914889: el motor base genera K=65 y `hard=0` en los tres escenarios cuando los siete municipios sobredimensionados se granularizan por sección manteniendo CUMUN original para auditoría. Tight: outside=2, min=15.031, max=22.168, max dev 36,79%; reference: outside=2, min=15.264, max=25.597; wide: outside=1, min=15.297, max=24.945.
+- El postproceso 7.5.1 falló después de generar la solución por pérdida de serialización de `ddd_unit_id`; no invalida la semilla base. La causa es mezclar identidad municipal real con identidad sintética de partición.
+- Hipótesis activa: M04 necesita separar `municipality_field` real de una `partition_unit_field`/granularidad de trabajo para municipios sobredimensionados. Antes de formalizarlo se ejecuta una prueba causal M04→M05 que reconstruye `ddd_unit_id` como texto y mide la disciplina municipal resultante.
 
 ### Andalucía — AND-01 / AND-02
 - AND-01: 6.029 secciones, 8.676.713 habitantes, 0 faltantes.
@@ -38,7 +40,7 @@
 - AND-02 inicial: ocho provincias conexas; solo dos discontinuidades municipales reales.
 - Contrato topológico: Cortegana `2102502002↔2102502001`; Vélez-Málaga `2909401015↔2909403005`.
 - Cierre AND-02: 16.671 aristas = 16.669 geométricas + 2 administrativas; M03 con 0 aislados, 0 provincias y 0 municipios desconectados.
-- AND-03 se mantiene detrás de la generalización M04 de EXT-03 para no multiplicar ejecuciones sobre un supuesto ya cuestionado.
+- AND-03 queda preparado detrás de la decisión arquitectónica EXT-03: no se ejecutará M04 masivo sobre 6.029 secciones con un modelo municipal que ya sabemos cuestionado.
 
 ### Arquitectura / herramientas
 - M06 v7.1.0 pasa a baseline multi-territorio.
