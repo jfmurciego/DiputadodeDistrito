@@ -1,15 +1,10 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.3.1
-# NOMBRE DE VERSIÓN: Fallo explícito en identidad territorial
+# VERSIÓN: 2.4.0
+# NOMBRE DE VERSIÓN: Adquisición automática de fuentes oficiales
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: separa la preparación M01-M03 de M04-M08 y aborta si no puede calcularse una clave territorial válida.
-# INPUTS: código en main, configuracion/aragon_2025.yaml, manifest de inputs y fuentes declaradas.
-# OUTPUTS: caché territorial identificada por SHA y ejecución inmutable M04-M08.
-# POR QUÉ EXISTE: evita recalcular M01-M03 en iteraciones algorítmicas y mantiene trazabilidad reproducible.
-# CAMBIOS VS 2.3.0: el cálculo de la clave ya no se ejecuta dentro de echo; captura el SHA, valida que tenga 64 hexadecimales y solo entonces lo publica en GITHUB_OUTPUT.
-# MOTIVO DEL CAMBIO: GitHub Actions run 34575702377 mostró que un ParserError de configuración produjo una clave vacía sin detener ese step.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.3.0.yml
+# CAMBIOS VS 2.3.1: elimina Git LFS para fuentes territoriales; en preparación descarga INE 65034 y Secciones_2025 mediante herramienta versionada y conserva procedencia como artefacto.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.3.1.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -28,7 +23,7 @@ jobs:
     outputs:
       clave: ${{ steps.prep-key.outputs.key }}
     steps:
-      - name: Obtener código sin descargar LFS pesado
+      - name: Obtener código
         uses: actions/checkout@v6
         with: {lfs: false, fetch-depth: 1}
       - name: Preparar cálculo de identidad territorial
@@ -47,13 +42,15 @@ jobs:
         with:
           path: .cache/ddd/preparacion
           key: ddd-aragon-preparacion-${{ steps.prep-key.outputs.key }}
-      - name: Materializar fuentes nacionales solo si hay que preparar
+      - name: Adquirir fuentes oficiales INE
         if: ${{ inputs.modo == 'completo' || steps.cache-base.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
           set -euo pipefail
-          git lfs pull --include="inputs/seccionado_2025.zip,inputs/65034.csv.zip" --exclude=""
-          grep -E 'seccionado_2025.zip|65034.csv.zip' inputs/MANIFEST.sha256 | sha256sum -c -
+          python herramientas/adquirir_fuentes_ine.py --out-dir inputs
+          test -s inputs/65034.csv
+          test -s inputs/seccionado_2025_aragon.geojson
+          test -s inputs/FUENTES_ADQUIRIDAS.json
       - name: Construir entorno para preparación
         if: ${{ inputs.modo == 'completo' || steps.cache-base.outputs.cache-hit != 'true' }}
         run: docker build --pull -t ddd-prep:${{ github.sha }} .
@@ -64,12 +61,17 @@ jobs:
           set -euo pipefail
           rm -rf .cache/ddd/preparacion/aragon_2025
           mkdir -p .cache/ddd/preparacion
-          docker run --rm --entrypoint bash \
-            -e DDD_PARAMS="configuracion/aragon_2025.yaml" \
-            -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/.cache/ddd:/app/.cache/ddd" \
-            ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
+          docker run --rm --entrypoint bash -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
       - name: Comprobar preparación disponible
         run: test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json
+      - name: Guardar procedencia de fuentes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fuentes-ine-${{ github.run_id }}-${{ github.run_attempt }}
+          path: inputs/FUENTES_ADQUIRIDAS.json
+          if-no-files-found: ignore
+          retention-days: 90
 
   ejecutar-distritacion:
     needs: preparar-territorio
@@ -78,7 +80,7 @@ jobs:
     env:
       DDD_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - name: Obtener código sin descargar LFS pesado
+      - name: Obtener código
         uses: actions/checkout@v6
         with: {lfs: false, fetch-depth: 1}
       - name: Restaurar preparación M01-M03
@@ -100,11 +102,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "ejecuciones/$DDD_RUN_ID" .cache/ddd/preparacion
-          docker run --rm \
-            -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" \
-            -e DDD_MODO="iterativo" -e DDD_PARAMS="configuracion/aragon_2025.yaml" \
-            -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" \
-            ddd:${GITHUB_SHA}
+          docker run --rm -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" -e DDD_MODO="iterativo" -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd:${GITHUB_SHA}
       - name: Guardar ejecución y trazabilidad
         if: always()
         uses: actions/upload-artifact@v4
