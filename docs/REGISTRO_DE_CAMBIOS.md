@@ -30,3 +30,19 @@ Registro cronológico acumulativo. No se reescriben entradas antiguas.
 **Causa:** el shell interpretaba los backticks como sustitución de comandos y emitía `PRODUCTOS.json: command not found` durante la publicación de resultados.
 
 **Impacto:** exclusivamente operativo/documental. No cambian M01-M08, configuración, fuentes, restricciones territoriales, función objetivo, outputs de los módulos ni reglas R012.
+
+## 2026-09-11 — R014 — M05 v7.3.0, escape de mínimo local
+
+**Problema:** Run #7 dejó un único distrito fuera de ±12 %: distrito 56 de Zaragoza con 31.563 habitantes. M05 v7.2.0 aceptó 0 movimientos.
+
+**Auditoría:** la reproducción sobre artefactos exactos M03/M04 demuestra 642 relaciones dirigidas únicas candidatas en el estado inicial. El bloqueo no está en `candidates()`: los movimientos que descargan el distrito 56 manteniendo contigüidad crean temporalmente un segundo distrito fuera de ±12 %, mientras que movimientos pequeños que mejorarían inmediatamente la población rompen contigüidad. La estrategia greedy estrictamente monótona queda atrapada en un mínimo local.
+
+**Cambio funcional:** se conserva `modulos/05_optimizar_distritos.py` v7.2.0 en `legacy/modulo05/05_optimizar_distritos_v7.2.0.py` y se publica **M05 v7.3.0 — Escape determinista de mínimos locales**. La búsqueda pasa a tener una fase greedy determinista y una fase de recocido simulado reproducible que solo se activa si queda desequilibrio fino y solo opera en las provincias afectadas.
+
+**Invariantes:** el recocido no puede violar suelo/techo, provincia, contigüidad, unidad `ddd_unit_id` ni cierre `ddd_closed_urban`. La función objetivo canónica no se rebaja: la salida siempre restaura la mejor solución encontrada según la comparación lexicográfica original.
+
+**Configuración:** `configuracion/aragon_2025.yaml` pasa de v7.4.0 a **v7.5.0**, preservando la anterior en `legacy/configuracion/aragon_2025_v7.4.0.yaml`. Se parametrizan límites de greedy/recocido, semilla, pesos de energía, penalización de churn y temperaturas.
+
+**Prueba diagnóstica:** contra los artefactos exactos del Run #7 se obtiene 67 distritos, 1.463 secciones, 1.364.621 habitantes, cuotas 11/7/49, `hard=0`, `fuera_12=0`, máximo desvío ≈11,943 %, min=18.345, max=22.800, 0 desconectados, 0 cruces provinciales y 0 violaciones municipales.
+
+**Estado:** candidato. La prueba local no constituye aceptación. R014 solo se promociona tras una nueva ejecución GitHub Actions desde `main` que confirme todos los PASS y los outputs M01–M08.
