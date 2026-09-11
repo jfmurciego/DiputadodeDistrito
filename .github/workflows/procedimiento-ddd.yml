@@ -1,11 +1,15 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.3.0
-# NOMBRE DE VERSIÓN: Preparación territorial independiente de la distritación
+# VERSIÓN: 2.3.1
+# NOMBRE DE VERSIÓN: Fallo explícito en identidad territorial
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: separa la preparación M01-M03, que debe poder cachearse con éxito, de la ejecución M04-M08 y su validación.
-# POR QUÉ CAMBIA: un FAIL esperado en M05 no debe impedir conservar una preparación territorial válida ni forzar nuevas descargas LFS.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.2.0.yml
+# QUÉ HACE: separa la preparación M01-M03 de M04-M08 y aborta si no puede calcularse una clave territorial válida.
+# INPUTS: código en main, configuracion/aragon_2025.yaml, manifest de inputs y fuentes declaradas.
+# OUTPUTS: caché territorial identificada por SHA y ejecución inmutable M04-M08.
+# POR QUÉ EXISTE: evita recalcular M01-M03 en iteraciones algorítmicas y mantiene trazabilidad reproducible.
+# CAMBIOS VS 2.3.0: el cálculo de la clave ya no se ejecuta dentro de echo; captura el SHA, valida que tenga 64 hexadecimales y solo entonces lo publica en GITHUB_OUTPUT.
+# MOTIVO DEL CAMBIO: GitHub Actions run 34575702377 mostró que un ParserError de configuración produjo una clave vacía sin detener ese step.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.3.0.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -32,7 +36,11 @@ jobs:
       - name: Calcular clave de preparación M01-M03
         id: prep-key
         shell: bash
-        run: echo "key=$(python herramientas/calcular_clave_preparacion.py --params configuracion/aragon_2025.yaml)" >> "$GITHUB_OUTPUT"
+        run: |
+          set -euo pipefail
+          key="$(python herramientas/calcular_clave_preparacion.py --params configuracion/aragon_2025.yaml)"
+          [[ "$key" =~ ^[0-9a-f]{64}$ ]] || { echo "Clave de preparación inválida: '$key'" >&2; exit 21; }
+          echo "key=$key" >> "$GITHUB_OUTPUT"
       - name: Restaurar preparación territorial
         id: cache-base
         uses: actions/cache@v4
