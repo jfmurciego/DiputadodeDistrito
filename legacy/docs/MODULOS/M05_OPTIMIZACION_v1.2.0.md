@@ -1,14 +1,12 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.2.1
-**Nombre de versión:** R016 validado — contrato compatible con regresión histórica
+**Versión documental:** 1.2.0
+**Nombre de versión:** R016 validado — refinamiento canónico post-factibilidad
 **Fecha:** 2026-09-11
-**Código activo:** M05 v7.4.0
 **Código ejecutado y validado:** M05 v7.4.0 — GitHub Run #9 `34599224954`
-**Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.2.0.md`
-**Cambio:** conserva explícitamente la referencia al baseline Run #8 y la etiqueta `Código activo` requerida por la regresión de gobernanza; no cambia el contrato funcional.
-**Motivo:** permitir que la CI verifique simultáneamente la versión activa y la transición histórica Run #8 → Run #9 sin confundir promoción con reescritura del ejecutable.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.1.0.md`
+**Cambio:** promociona la estrategia v7.4.0 tras demostrar mejora real sobre Run #8 sin regresiones territoriales.
+**Motivo:** Run #9 confirma que continuar después de la primera factibilidad reduce el máximo desvío y el error cuadrático manteniendo todas las restricciones.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
@@ -34,6 +32,7 @@ Comparación lexicográfica: violaciones duras → magnitud dura → número fue
 El reporte registra `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`, permitiendo demostrar cuánto trabajo se realiza después de alcanzar por primera vez ±12 %.
 
 ## Evidencia Run #9
+
 Primera factibilidad, iteración 9.038:
 
 `[0, 0.0, 0, 0.119431695687, 0.182704485064]`
