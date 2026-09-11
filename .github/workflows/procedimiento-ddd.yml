@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.5.2
-# NOMBRE DE VERSIÓN: Actions nativas Node 24
+# VERSIÓN: 2.6.0
+# NOMBRE DE VERSIÓN: Resultados visibles por módulo
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: mantiene la preparación territorial serializada y el modo iterativo, usando versiones de GitHub Actions nativas de Node.js 24.
-# CAMBIOS VS 2.5.1: `actions/cache@v4` -> `actions/cache@v6`; `actions/cache/restore@v4` -> `actions/cache/restore@v6`; `actions/upload-artifact@v4` -> `actions/upload-artifact@v6`.
-# MOTIVO: eliminar las advertencias de deprecación de Node.js 20 y las advertencias asociadas a dependencias antiguas de las actions.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.1.yml
+# QUÉ HACE: mantiene preparación territorial serializada y ejecución iterativa, y publica en el repositorio un índice ligero navegable de outputs por módulo para cada ejecución.
+# CAMBIOS VS 2.5.2: añade publicación de informes/CSV/logs ligeros en `resultados/ejecuciones/{run_id}/M01..M08`, manifiesto, validación y enlace al artefacto pesado; mantiene GeoJSON pesados fuera del historial Git.
+# MOTIVO: dar visibilidad directa al usuario sin inflar el repositorio ~20 MB por ejecución.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.2.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -79,6 +79,8 @@ jobs:
     needs: preparar-territorio
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    permissions:
+      contents: write
     env:
       DDD_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
@@ -112,6 +114,7 @@ jobs:
             -v "$PWD/.cache/ddd:/app/.cache/ddd" \
             ddd:${GITHUB_SHA}
       - name: Guardar ejecución y trazabilidad
+        id: artefacto
         if: always()
         uses: actions/upload-artifact@v6
         with:
@@ -119,3 +122,57 @@ jobs:
           path: ejecuciones/${{ env.DDD_RUN_ID }}/**
           if-no-files-found: warn
           retention-days: 90
+      - name: Publicar outputs ligeros por módulo en GitHub
+        if: always()
+        shell: bash
+        env:
+          ARTIFACT_URL: ${{ steps.artefacto.outputs.artifact-url }}
+          ARTIFACT_DIGEST: ${{ steps.artefacto.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          src="ejecuciones/$DDD_RUN_ID"
+          dst="resultados/ejecuciones/$DDD_RUN_ID"
+          mkdir -p "$dst"/{M01,M02,M03,M04,M05,M06,M07,M08}
+
+          cp .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_informe.json "$dst/M01/" 2>/dev/null || true
+          if [[ -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl ]]; then
+            printf 'edges=%s\n' "$(wc -l < .cache/ddd/preparacion/aragon_2025/aragon_2025_m02_adyacencias.jsonl | tr -d ' ')" > "$dst/M02/resumen.txt"
+          fi
+          cp .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_informe.json "$dst/M03/" 2>/dev/null || true
+
+          cp "$src/aragon_2025_m04_informe.json" "$dst/M04/" 2>/dev/null || true
+          cp "$src/logs/modulo_04.log" "$dst/M04/" 2>/dev/null || true
+          cp "$src/aragon_2025_m05_informe.json" "$dst/M05/" 2>/dev/null || true
+          cp "$src/logs/modulo_05.log" "$dst/M05/" 2>/dev/null || true
+          cp "$src/aragon_2025_m06_resumen_distritos.csv" "$dst/M06/" 2>/dev/null || true
+          cp "$src/logs/modulo_06.log" "$dst/M06/" 2>/dev/null || true
+          cp "$src/aragon_2025_m07_resultados_partido.csv" "$dst/M07/" 2>/dev/null || true
+          cp "$src/aragon_2025_m07_resumen_electoral.csv" "$dst/M07/" 2>/dev/null || true
+          cp "$src/logs/modulo_07.log" "$dst/M07/" 2>/dev/null || true
+          cp "$src/logs/modulo_08.log" "$dst/M08/" 2>/dev/null || true
+          cp "$src/VALIDACION.json" "$dst/" 2>/dev/null || true
+          cp "$src/MANIFIESTO_EJECUCION.json" "$dst/" 2>/dev/null || true
+
+          cat > "$dst/README.md" <<EOF
+          # Ejecución $DDD_RUN_ID
+
+          - GitHub run: $GITHUB_RUN_ID
+          - Commit ejecutado: $GITHUB_SHA
+          - Artefacto pesado: $ARTIFACT_URL
+          - SHA-256 artefacto: $ARTIFACT_DIGEST
+
+          Los directorios M01-M08 contienen únicamente outputs ligeros navegables. Los GeoJSON ZIP completos permanecen en el artefacto de GitHub Actions para evitar inflar el historial Git.
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$dst"
+          git diff --cached --quiet && exit 0
+          git commit -m "results: publish $DDD_RUN_ID module outputs"
+          for intento in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep $((intento * 2))
+          done
+          echo "No se pudo publicar el índice ligero tras 3 intentos" >&2
+          exit 41
