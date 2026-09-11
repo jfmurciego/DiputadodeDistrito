@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Andalucía
-# VERSIÓN: 0.2.0
-# NOMBRE DE VERSIÓN: Auditoría topológica AND-02
+# VERSIÓN: 0.3.0
+# NOMBRE DE VERSIÓN: Contrato topológico auditado — Cortegana y Vélez-Málaga
 # FECHA: 2026-09-11
-# ESTADO: diagnóstico M02-M03 — no habilita distritación
-# QUÉ HACE: conserva el baseline AND-01 y añade construcción de adyacencias y grafo para las ocho provincias andaluzas, sin declarar ninguna pasarela territorial a priori.
-# CAMBIOS: fija 6.029 secciones y 8.676.713 habitantes como baseline observado; activa el predicado general `contact` de M02 v7.2.0 para tolerar micro-solapes cartográficos sin buffers globales.
-# MOTIVO: descubrir primero componentes provinciales y municipales reales antes de abrir M04 o introducir excepciones territoriales.
-# ANTERIOR: legacy/configuracion/andalucia_2025_v0.1.0.yaml
+# ESTADO: AND-02 cierre candidato — conectividad completa M03
+# QUÉ HACE: conserva el baseline AND-01 y el predicado robusto `contact`, añadiendo exclusivamente dos pasarelas administrativas intramunicipales justificadas por AND-02.
+# CAMBIOS: conecta 2102502002↔2102502001 en Cortegana y 2909401015↔2909403005 en Vélez-Málaga; ambas aristas se etiquetan como administrative_bridge y quedan separadas de la adyacencia geométrica.
+# MOTIVO: AND-02 certificó las ocho provincias como conexas pero detectó exactamente dos componentes censales unitarias físicamente separadas dentro de sus municipios. Se elige el nodo del mismo municipio más próximo auditado, sin buffers ni heurísticas globales.
+# ANTERIOR: legacy/configuracion/andalucia_2025_v0.2.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: andalucia_2025
   year: 2025
   scope: provincial
-  schema_version: 0.2.0
-  status: topology_audit_m03
+  schema_version: 0.3.0
+  status: topology_contract_m03_candidate
 
 io:
   project_root: {path: ../../..}
@@ -46,12 +46,14 @@ territory_contract:
   province_codes: ['04','11','14','18','21','23','29','41']
   k_institutional_reference: 109
   population_hamilton_reference: {'04': 9, '11': 16, '14': 10, '18': 12, '21': 7, '23': 8, '29': 22, '41': 25}
-  status: topology_audit_only
+  status: topology_contract_candidate
   notes:
     - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
     - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada 945.797; Huelva 538.789; Jaén 618.143; Málaga 1.791.183; Sevilla 1.977.664.
-    - K=109 y Hamilton 9/16/10/12/7/8/22/25 se registran únicamente como referencia estructural; AND-02 no ejecuta distritación.
-    - No se declara ninguna pasarela a priori. Toda excepción deberá surgir del diagnóstico geométrico reproducible.
+    - AND-02 sin pasarelas dejó las ocho provincias conectadas y únicamente dos discontinuidades municipales reales.
+    - Cortegana: 2102502002 (558 hab.) queda a ~3.064 m de 2102502001, el nodo del mismo municipio más próximo auditado.
+    - Vélez-Málaga: 2909401015 (886 hab.) queda a ~1.658 m de 2909403005, el nodo del mismo municipio más próximo auditado.
+    - K=109 y Hamilton 9/16/10/12/7/8/22/25 siguen siendo referencia estructural; esta versión todavía no abre M04.
     - No se heredan tolerancias, suelo, techo ni atomicidad de otros territorios.
 
 modulos:
@@ -72,7 +74,17 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+      - u: '2102502002'
+        v: '2102502001'
+        edge_type: administrative_bridge
+        reason: 'Componente censal físicamente separada de Cortegana; enlace al nodo del mismo municipio más próximo auditado (~3064 m).'
+        source: 'AND-02 auditoría geométrica reproducible'
+      - u: '2909401015'
+        v: '2909403005'
+        edge_type: administrative_bridge
+        reason: 'Componente censal físicamente separada de Vélez-Málaga; enlace al nodo del mismo municipio más próximo auditado (~1658 m).'
+        source: 'AND-02 auditoría geométrica reproducible'
   modulo_03_construir_grafo:
     in_geojson: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
