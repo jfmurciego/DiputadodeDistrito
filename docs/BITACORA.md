@@ -1,35 +1,38 @@
 # Bitácora de progreso
 
-**Versión:** 2.6.0  
+**Versión:** 2.7.0  
 **Fecha:** 2026-09-11  
-**Anterior:** `legacy/bitacora/BITACORA_v2.5.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.6.0.md`
 
-## R001 — Recuperación y profesionalización
-Se adopta “Procedimiento de Distritación DDD” y “módulo”; se recuperan y versionan los ocho módulos, configuración única, reproducibilidad, manifiesto y puerta de calidad. Referencia local previa: **67 distritos, 0 desconectados, 29 bajo 0,80×target, 0 sobre 1,75×target, best_max_rel_dev 0,5046**.
-
-## R002-R005 — Infraestructura, caché y auditoría
-Se separan preparación y motor iterativo, se formalizan ejecuciones inmutables, validación y fail-fast.
-
-## R006 — Adquisición automática INE
-Se conserva como mecanismo de validación/final.
-
-## R007 — Continuidad autosuficiente
-Se crea `docs/ESTADO_MAESTRO_PROYECTO.md`.
-
-## R008 — Fuentes congeladas para desarrollo rápido
-Workflow 2.5.0 reconstruye desde `inputs/partes/` los ZIP canónicos y permite preparar M01-M03 sin latencia del INE. Configuración 7.3.0 consume `inputs/seccionado_2025.zip` y `inputs/65034.csv.zip`.
+## R001–R008 — Base profesional y ejecución reproducible
+Se recupera el procedimiento, se formalizan M01-M08, configuración única, caché territorial, fuentes congeladas para desarrollo y adquisición INE para certificación.
 
 ## GitHub Run #3 — 34580841510
-**Resultado:** infraestructura PASS; M01-M08 PASS técnico; puerta de calidad FAIL algorítmico. M01=1.463 secciones/0 población ausente; M02=4.293 aristas; M03=1.463 nodos/4.293 aristas/0 aislados; M04 K=67; M05 `best_max_rel_dev=0.5046`; M06-M08 PASS; validación final: **29 distritos bajo 0,80×target**. Expediente: `docs/EJECUCIONES/GITHUB_RUN_0003_2026-09-11.md`.
+Infraestructura completa PASS; algoritmo antiguo deja 29 distritos bajo suelo.
 
-## R009 — Reparación de restricciones poblacionales y concurrencia
-M05 pasa a **v7.1.0**. La función objetivo deja de ser únicamente `max_rel_dev` y pasa a priorizar lexicográficamente: número de violaciones de suelo/techo, magnitud total de violación, máximo desvío y error cuadrático. Añade fase dirigida de reparación preservando la conectividad del donante. Workflow pasa a **2.5.1** y serializa únicamente `preparar-territorio`; M04-M08 mantienen capacidad de concurrencia entre ejecuciones. Documento: `docs/RONDAS/R009_2026-09-11_reparacion_restricciones_y_concurrencia.md`.
+## R009 — Restricciones poblacionales y concurrencia
+M05 v7.1.0 prioriza restricciones duras; workflow serializa únicamente preparación M01-M03.
+
+## GitHub Run #4 — 34581760340
+**Nueva referencia algorítmica:** 67 distritos, contigüidad PASS, 0 bajo suelo, 0 sobre techo, `best_max_rel_dev≈0,3382`. M01-M03 se reutilizan correctamente desde caché.
+
+## R010 — Primera visibilidad de resultados
+Se publica `resultados/ejecuciones/<run_id>/`, pero la revisión del usuario detecta una carencia de calidad: M01-M05 estaban representados en Git principalmente por informes/logs y M06 por un resumen poblacional demasiado pobre.
+
+## R011 — Completud y auditabilidad de cada módulo
+Se establece la regla: **todo módulo debe exponer el estado que produce, no solo métricas sobre ese estado**. Se crea `herramientas/generar_outputs_auditables.py` y workflow 2.7.0. Desde la siguiente ejecución:
+- M01 publica las 1.463 secciones completas en tabla y su GeoJSON;
+- M02 publica las 4.293 adyacencias reales;
+- M03 publica el grafo completo;
+- M04 publica asignación inicial sección→distrito completa;
+- M05 publica asignación optimizada completa;
+- M06 publica catálogo rico de 67 distritos y composición sección a sección;
+- M07 publica detalle por partido y resumen electoral;
+- M08 publica tabla final y GeoJSON final.
+Las tablas/JSON/JSONL auditables quedan en Git por ejecución; las geometrías pesadas se guardan en artefactos separados M01-M08, con ruta/tamaño/SHA-256 registrados en `PRODUCTOS.json`. Se crean ocho documentos en `docs/MODULOS/` explicando propósito, contrato, entradas, salidas, validaciones y razón arquitectónica.
 
 ## Regla permanente de auditoría
-Cada ronda preserva versiones sustituidas en `legacy/`. Cada ejecución de referencia conserva run ID, rama, commit, modo, versiones, fases alcanzadas, fallo/métricas, acción correctiva y resultado.
-
-## Regla permanente de continuidad
-Toda ronda que cambie objetivo, restricciones, baseline, fuentes, arquitectura, estado de ejecución o siguiente acción debe actualizar `docs/ESTADO_MAESTRO_PROYECTO.md`.
+Un contador, log o informe nunca sustituye al producto de un módulo. Cada ejecución debe permitir inspeccionar las entidades producidas y rastrear los productos pesados por hash.
 
 ## Regla permanente de progreso
-Una versión nueva solo sustituye a la referencia si mantiene todos los criterios duros ya satisfechos y mejora una capacidad o métrica explícita. Toda regresión se conserva y documenta, pero no se promociona.
+Una versión nueva solo sustituye a la referencia si mantiene todos los criterios duros ya satisfechos y mejora una capacidad o métrica explícita.
