@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.7.0
-# NOMBRE DE VERSIÓN: Productos completos y auditables por módulo
+# VERSIÓN: 2.7.1
+# NOMBRE DE VERSIÓN: Publicación segura del README de ejecución
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: cada módulo conserva su producto real; genera tablas auditables completas, publica una carpeta navegable por ejecución y crea artefactos separados M01-M08 con las geometrías pesadas.
-# CAMBIOS VS 2.6.0: deja de reducir M01-M05 a informes; materializa secciones, adyacencias, grafo y asignaciones completas; M06 publica catálogo territorial rico y composición; M08 publica tabla final; artefactos separados por módulo.
-# MOTIVO: garantizar visibilidad, completud y auditabilidad de todos los estados intermedios sin convertir el historial Git en almacenamiento binario masivo.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.6.0.yml
+# QUÉ HACE: mantiene la publicación completa y auditable de M01-M08 y corrige la generación del README de resultados para que el shell no interprete texto Markdown como sustitución de comandos.
+# CAMBIOS VS 2.7.0: elimina los backticks alrededor de PRODUCTOS.json dentro del heredoc no protegido usado para generar resultados/ejecuciones/<RUN_ID>/README.md. No cambia módulos, parámetros, entradas, outputs ni criterios territoriales.
+# MOTIVO: Run #7 mostró "PRODUCTOS.json: command not found" porque el shell interpretó los backticks del Markdown durante la expansión del heredoc. La corrección debe ser operativa y separada de cualquier cambio algorítmico en M05.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.7.0.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -209,7 +209,7 @@ jobs:
           cat > "$dst/README.md" <<EOF
           # Ejecución $DDD_RUN_ID — outputs auditables
 
-          Cada carpeta M01-M08 contiene el estado materializado del módulo, no solo un informe. Las tablas completas y JSON/JSONL se conservan aquí en Git. Las geometrías GeoJSON ZIP, por su tamaño, se conservan en los artefactos M01-M08 de esta misma ejecución de GitHub Actions y quedan identificadas por ruta, tamaño y SHA-256 en cada `PRODUCTOS.json`.
+          Cada carpeta M01-M08 contiene el estado materializado del módulo, no solo un informe. Las tablas completas y JSON/JSONL se conservan aquí en Git. Las geometrías GeoJSON ZIP, por su tamaño, se conservan en los artefactos M01-M08 de esta misma ejecución de GitHub Actions y quedan identificadas por ruta, tamaño y SHA-256 en cada PRODUCTOS.json.
 
           GitHub run: https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
           Commit ejecutado: ${GITHUB_SHA}
