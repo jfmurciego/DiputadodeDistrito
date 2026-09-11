@@ -1,16 +1,25 @@
 # Territorios DDD
 
-Cada subdirectorio representa una implantación del motor común. No contiene forks del motor.
+**Versión:** 2.0.0  
+**Fecha:** 2026-09-11  
+**Anterior:** `legacy/memoria/TERRITORIOS_README_v1.0.0.md`
+
+Cada subdirectorio representa una implantación del motor común. Ningún territorio contiene un fork de `ddd_core/` ni de `modulos/`.
 
 ## Activos
 
-- `aragon/` — implantación de referencia validada; baseline Run #9 / R016.
-- `castilla_y_leon/` — siguiente implantación; estado preparación R018.
+- `aragon/` — implantación de referencia protegida. Baseline territorial Run #9 / R016. R020 adopta M06 v7.1.0 con catálogo de 67 distritos y composición de 1.463 secciones sin alterar la distritación.
+- `castilla_y_leon/` — segunda implantación validada. CYL-04 cerró M05 con 82 distritos, hard=0 y fuera_12=0; CYL-05 cerró M06 con catálogo de 82 distritos y composición de 3.506 secciones. M07 está bloqueado solo por ausencia de una fuente electoral territorial validada.
+- `extremadura/` — tercera prueba de portabilidad. EXT-01 validó M01 con 964 secciones, 1.053.345 habitantes y 0 faltantes. EXT-02 audita M02/M03 y singularidades topológicas antes de declarar K o coeficientes de distritación.
 
-## Próximos
+## Madurez de la arquitectura
 
-Extremadura será el siguiente caso después de Castilla y León. El objetivo arquitectónico es que cada incorporación requiera progresivamente menos cambios en `ddd_core/` y `modulos/`.
+El motor ya ha superado optimización y consolidación en dos territorios. Extremadura se utiliza para medir el coste marginal de incorporación y para detectar supuestos que aún deban generalizarse.
+
+La meta no es que todos los territorios usen idénticos parámetros, sino que las diferencias sean **datos y contrato declarativo** siempre que sea posible.
 
 ## Regla
 
-Un territorio aporta configuración, inputs, documentación y tests. Cualquier necesidad de modificar el motor debe justificarse como generalización reusable para todos los territorios, nunca como parche local escondido.
+Un territorio aporta configuración, inputs, documentación, pruebas y excepciones topológicas explícitamente auditadas. Cualquier necesidad de modificar el motor debe justificarse como generalización reusable, nunca como parche local oculto.
+
+Los bloqueos se corrigen en el módulo que crea la restricción: M02 para adyacencia, M04 para granularidad/factibilidad estructural, M05 para optimización y M06 para materialización/auditoría.
