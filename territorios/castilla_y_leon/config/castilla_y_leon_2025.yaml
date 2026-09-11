@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.1.0
-# NOMBRE DE VERSIÓN: Plantilla de contrato territorial
+# VERSIÓN: 0.2.0
+# NOMBRE DE VERSIÓN: M01 con fuentes nacionales verificadas
 # FECHA: 2026-09-11
-# ESTADO: preparación — NO EJECUTAR como baseline
-# QUÉ HACE: define la estructura mínima de configuración para iniciar la segunda implantación DDD.
-# CAMBIOS: primera plantilla multi-territorio.
-# MOTIVO: separar parámetros territoriales del motor común y evitar copiar Aragón.
-# ORIGEN: R018
+# ESTADO: preparación ejecutable para M01 — NO es baseline territorial
+# QUÉ HACE: configura exclusivamente la preparación base de Castilla y León sobre seccionado y población nacionales 2025 ya disponibles.
+# CAMBIOS: fija nueve códigos provinciales, fuentes reales y outputs M01; mantiene sin definir K y reglas de distritación.
+# MOTIVO: permitir validar M01 sin contaminar el contrato territorial con supuestos copiados de Aragón.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.1.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,18 +16,19 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.1.0
-  status: preparation
+  schema_version: 0.2.0
+  status: preparation_m01
 
 io:
+  # La raíz del paquete territorial permite reutilizar el motor común y escribir outputs propios.
   project_root: {path: ..}
   input:
     seccionado:
-      path: inputs/SECCIONADO_PENDIENTE
+      path: ../../inputs/seccionado_2025.zip
       layer: ''
       section_key_col: CUSEC
     population_cip:
-      paths: [inputs/POBLACION_PENDIENTE]
+      paths: [../../inputs/65034.csv.zip]
       sep: auto
       section_key_col: Secciones
       pop_col: Total
@@ -44,24 +45,34 @@ io:
   cache: {dir: ".cache/ddd/preparacion/{run_name}"}
   runs: {dir: "resultados/ejecuciones/{run_id}"}
 
-# IMPORTANTE: los valores siguientes son marcadores y deben decidirse con evidencia.
 territory_contract:
   unit_id_role: census_section
   admin_level_1_role: province
   admin_level_2_role: municipality
-  province_codes: []          # TODO: nueve provincias
-  k_districts: null           # TODO
-  district_apportionment: hamilton  # TODO confirmar
-  population_floor_ratio: null      # TODO
-  population_cap_ratio: null        # TODO
-  target_tolerance_ratio: null      # TODO
+  province_codes: ['05','09','24','34','37','40','42','47','49']
+  k_districts: null
+  district_apportionment: null
+  population_floor_ratio: null
+  population_cap_ratio: null
+  target_tolerance_ratio: null
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: TODO
   notes:
-    - No copiar 0.80/1.75/0.12 de Aragón sin decisión explícita.
-    - Auditar enclaves, continuidad provincial y ciudades sobredimensionadas antes de M04.
+    - No copiar K, Hamilton, 0.80/1.75/0.12 ni reglas municipales de Aragón sin decisión explícita.
+    - M01 se valida antes de definir reglas de M04-M06.
+    - El inventario inicial detecta 3.506 geometrías y 3.555 filas de población antes de normalización/agrupación; la reconciliación de CUSEC es obligatoria.
 
-modulos: {}
-validation: {}
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: ['05','09','24','34','37','40','42','47','49']
+    drop_missing_population: false
+    out_geojson: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    out_report: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+
+validation:
+  expected_province_codes: ['05','09','24','34','37','40','42','47','49']
+  expected_sections_geometry: 3506
+  require_unique_section_id: true
+  require_non_null_population: true
