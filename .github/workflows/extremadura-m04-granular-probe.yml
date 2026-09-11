@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Prueba causal M04 — municipios sobredimensionados granulares y abiertos
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: Prueba causal M04 granular-open — fix permisos runner
 # FECHA: 2026-09-11
 # ESTADO: EXT-03 diagnóstico arquitectónico; no promovible.
 # QUÉ HACE: ejecuta M01-M03 estable y, para cada escenario, añade un campo de trabajo M04_MUN donde solo los municipios que superan el umbral de atomicidad se descomponen en secciones abiertas. El municipio original CUMUN permanece intacto.
-# MOTIVO: aislar si los fallos EXT-03 nacen de la prepartición en núcleos urbanos cerrados. No modifica el motor ni el contrato territorial estable.
+# CAMBIOS: corrige propiedad/permisos de `.cache/ddd` después de los pasos Docker para que el runner pueda escribir el TSV y continuar hasta M04.
+# MOTIVO: v1.0.0 falló antes de M04 por ownership root del directorio creado desde Docker; no fue un resultado algorítmico.
+# ANTERIOR: legacy/workflows/extremadura-m04-granular-probe_v1.0.0.yml
 name: EXT-03 — Prueba granular-open M04
 
 on:
@@ -78,6 +80,7 @@ jobs:
           pathlib.Path("/app/territorios/extremadura/.cache/ddd/probes/ext03_granular_manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
           print(json.dumps(manifest,ensure_ascii=False))
           '
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
       - name: Ejecutar M04 granular-open
         run: |
           set -euo pipefail
@@ -89,6 +92,7 @@ jobs:
             set -e
             printf '%s\t%s\n' "$s" "$rc" | tee -a territorios/extremadura/.cache/ddd/probes/ext03_granular_exit.tsv
           done
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
       - name: Auditar resultados contra municipios originales
         run: |
           set -euo pipefail
@@ -108,6 +112,7 @@ jobs:
               out[s]=rec
           (probe/"ext03_granular_results.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False))
           '
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
       - name: Publicar prueba granular
         if: always()
         uses: actions/upload-artifact@v6
