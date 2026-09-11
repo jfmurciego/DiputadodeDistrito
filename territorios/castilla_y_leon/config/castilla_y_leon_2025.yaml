@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.3.0
-# NOMBRE DE VERSIÓN: M01 reproducible con fuentes nacionales compartidas
+# VERSIÓN: 0.4.0
+# NOMBRE DE VERSIÓN: Preparación territorial M01-M03
 # FECHA: 2026-09-11
-# ESTADO: preparación M01 validada en diagnóstico; pendiente de aceptación GitHub
-# QUÉ HACE: ejecuta M01 sobre las nueve provincias usando las fuentes nacionales compartidas y escribe productos dentro del paquete territorial.
-# CAMBIOS: fija el repositorio raíz como project_root, elimina la falsa discrepancia 3.555/3.506 y añade población total esperada de control.
-# MOTIVO: convertir el diagnóstico local en una ejecución reproducible multi-territorio sin duplicar fuentes.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.2.0.yaml
+# ESTADO: M01 aceptado; M02-M03 candidatos
+# QUÉ HACE: prepara base, adyacencias y grafo de Castilla y León sobre las nueve provincias sin definir todavía distritos.
+# CAMBIOS: añade M02/M03, elimina límite artificial de candidatos de adyacencia y mantiene K/reglas electorales sin definir.
+# MOTIVO: auditar conectividad real, enclaves y topología antes de abrir M04.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.3.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.3.0
-  status: preparation_m01
+  schema_version: 0.4.0
+  status: preparation_m03
 
 io:
   project_root: {path: ../../..}
@@ -60,8 +60,8 @@ territory_contract:
   oversized_municipality_rule: TODO
   notes:
     - No copiar K, Hamilton, 0.80/1.75/0.12 ni reglas municipales de Aragón sin decisión explícita.
-    - M01 se valida antes de definir reglas de M04-M06.
-    - Diagnóstico M01: 3.506 CUSEC geométricos = 3.506 CUSEC de población; 0 faltantes y 0 extras.
+    - M01 aceptado: 3.506 secciones, 2.401.221 habitantes, 0 población ausente.
+    - M02/M03 deben auditar componentes por provincia; Burgos contiene el enclave de Treviño y no se presume conectividad provincial única.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -69,6 +69,23 @@ modulos:
     drop_missing_population: false
     out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+  modulo_02_construir_adyacencias:
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    out_edges_jsonl: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    predicate: touches
+    min_shared_border_m: 0.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+  modulo_03_construir_grafo:
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_edges_jsonl: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    out_graph_json: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
 
 validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
@@ -76,3 +93,5 @@ validation:
   expected_population_total_2025: 2401221
   require_unique_section_id: true
   require_non_null_population: true
+  require_graph_contiguity: true
+  graph_audit_mode: components_per_province
