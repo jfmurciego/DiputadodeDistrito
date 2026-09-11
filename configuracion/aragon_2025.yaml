@@ -1,19 +1,19 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 7.4.0
-# NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal
+# VERSIÓN: 7.5.0
+# NOMBRE DE VERSIÓN: Escape controlado de mínimos locales en M05
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: define fuentes, parámetros, productos territoriales y nuevas restricciones territoriales duras R012.
-# CAMBIOS VS 7.3.0: añade integridad provincial, cardinalidad provincial 11/7/49 y disciplina municipal para limitar fragmentación y distritos mixtos.
-# MOTIVO: Run #5 reveló cruces provinciales y fragmentación urbana incompatibles con las reglas del procedimiento.
-# ANTERIOR: legacy/configuracion/aragon_2025_v7.3.0_R012.yaml
+# QUÉ HACE: conserva las reglas territoriales R012 y parametriza la búsqueda M05 para atravesar mínimos locales sin relajar provincia, contigüidad, unidades municipales ni suelo/techo.
+# CAMBIOS VS 7.4.0: sustituye el único contador genérico de iteraciones M05 por límites explícitos para greedy y recocido; añade pesos de exploración, penalización de churn, temperaturas y semilla determinista del escape.
+# MOTIVO: Run #7 demostró que la aceptación lexicográfica estrictamente monótona de movimientos individuales puede bloquearse aunque exista una redistribución final válida dentro de ±12%.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.4.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
   territory: Aragón
   year: 2025
   scope: provincial
-  schema_version: 7.4.0
+  schema_version: 7.5.0
 io:
   project_root: {path: ..}
   input:
@@ -74,8 +74,15 @@ modulos:
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
-    iters: 20000
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
     seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
     out_geojson: "ejecuciones/{run_id}/{run_name}_m05_distritos_optimizados.geojson.zip"
     out_report: "ejecuciones/{run_id}/{run_name}_m05_informe.json"
   modulo_06_consolidar_distritos:
