@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.5.0
-# NOMBRE DE VERSIÓN: Fuentes congeladas reconstruidas en desarrollo
+# VERSIÓN: 2.5.1
+# NOMBRE DE VERSIÓN: Preparación territorial serializada
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: reutiliza M01-M03 por caché y, cuando hay que reconstruir, recompone los ZIP canónicos desde fragmentos GitHub, verifica hashes y ejecuta M01-M03 sin depender del INE.
-# CAMBIOS VS 2.4.0: sustituye adquisición INE en la ruta de desarrollo por reconstrucción local de `inputs/partes/`; conserva `herramientas/adquirir_fuentes_ine.py` para validación/final futura.
-# MOTIVO: eliminar la latencia del servicio INE durante iteraciones de desarrollo manteniendo exactamente los bytes canónicos.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.4.0.yml
+# QUÉ HACE: reutiliza M01-M03 por caché; recompone fuentes congeladas cuando hace falta; serializa únicamente el job de preparación territorial para evitar dos reconstrucciones simultáneas.
+# CAMBIOS VS 2.5.0: añade `concurrency` al job `preparar-territorio` con cancel-in-progress=false. M04-M08 siguen pudiendo ejecutarse concurrentemente en runs distintos.
+# MOTIVO: impedir trabajo duplicado y carreras de publicación sobre la misma caché M01-M03 sin sacrificar concurrencia del motor algorítmico.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.0.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -22,6 +22,9 @@ jobs:
   preparar-territorio:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
+    concurrency:
+      group: ddd-preparacion-aragon-2025
+      cancel-in-progress: false
     outputs:
       clave: ${{ steps.prep-key.outputs.key }}
     steps:
