@@ -1,14 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE: EXT-04 — Barrido de macro-unidades internas M04
+# VERSIÓN: 1.1.0
+# NOMBRE: EXT-04 — Barrido fino de macro-unidades internas M04
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico arquitectónico.
-# QUÉ HACE: compara tres granularidades conectas para municipios sobredimensionados (0,25 / 0,40 / 0,60 del target),
+# QUÉ HACE: compara tres granularidades conectas más finas para municipios sobredimensionados (0,10 / 0,15 / 0,20 del target),
 # manteniendo CUMUN real, y ejecuta el mismo pipeline M04→M05 para medir población, splits y articulaciones.
-# MOTIVO: EXT-03 probó que la granularidad por sección desbloquea M04 pero genera fragmentación excesiva y mínimos
-# topológicos que ni movimientos simples ni 63 swaps 1x1 resuelven. Antes de complejizar M05 se prueba una unidad
-# intermedia generalizable entre municipio y sección.
-# ANTERIOR: ninguno — workflow nuevo.
+# CAMBIOS: sustituye el barrido 0,25/0,40/0,60 por 0,10/0,15/0,20 tras demostrar v1.0.0 que M04 deja respectivamente 1/4/5 distritos fuera de suelo/techo; cuanto más fina la unidad, mejor la factibilidad inicial.
+# MOTIVO: encontrar el punto más grueso que ya produzca hard=0 sin volver a la granularidad indiscriminada por sección y sin relajar la puerta dura de M04.
+# ANTERIOR: legacy/workflows/extremadura-internal-unit-sweep_v1.0.0.yml
 name: EXT-04 — Sweep unidades internas M04
 
 on:
@@ -29,12 +28,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - label: c025
-            ratio: '0.25'
-          - label: c040
-            ratio: '0.40'
-          - label: c060
-            ratio: '0.60'
+          - label: c010
+            ratio: '0.10'
+          - label: c015
+            ratio: '0.15'
+          - label: c020
+            ratio: '0.20'
     env:
       PARAMS: territorios/extremadura/config/extremadura_2025.yaml
       BASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025
