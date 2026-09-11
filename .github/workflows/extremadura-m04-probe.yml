@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Barrido diagnóstico M04 — puertas externas preservadas
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Barrido diagnóstico M04 — puerta mínima por componente
 # FECHA: 2026-09-11
 # ESTADO: EXT-03 experimental
-# QUÉ HACE: reconstruye M01-M03 con el contrato topológico cerrado y ejecuta M04 v7.5.0 en tres escenarios activando `preserve_all_external_gateways`.
-# CAMBIOS: mantiene tight/reference/wide, pero ahora ninguna sección que conecte un municipio sobredimensionado con el exterior puede quedar absorbida por un núcleo urbano cerrado.
-# MOTIVO: la auditoría causal demostró que La Albuera y Aliseda se aislaban únicamente porque M04 cerraba las puertas de Badajoz y Cáceres que las conectaban al territorio abierto.
-# ANTERIOR: workflow v1.0.0 — mismo barrido con semántica legacy de gateways.
+# QUÉ HACE: reconstruye M01-M03 con el contrato topológico cerrado y ejecuta M04 v7.5.1 en tres escenarios activando `preserve_component_gateways`.
+# CAMBIOS: sustituye la protección de todas las puertas externas por una puerta determinista por cada componente provincial que depende del municipio sobredimensionado.
+# MOTIVO: v1.1.0 evitaba aislamientos pero sobreprotegía Badajoz e impedía formar cualquier núcleo urbano. La condición mínima correcta se formula por componentes del grafo provincial.
+# ANTERIOR: workflow v1.1.0 — `preserve_all_external_gateways`.
 name: EXT-03 — Barrido M04 Extremadura
 
 on:
@@ -20,6 +20,7 @@ on:
       - 'ddd_core/m04_seed_engine_v745.py'
       - 'ddd_core/m04_seed_engine_v747.py'
       - 'ddd_core/m04_seed_engine_v750.py'
+      - 'ddd_core/m04_seed_engine_v751.py'
 
 permissions:
   contents: read
@@ -79,8 +80,8 @@ jobs:
           }
           for name,s in scenarios.items():
               c=copy.deepcopy(base)
-              c["meta"]["schema_version"]="0.4.0-probe-gateway-"+name
-              c["meta"]["status"]="m04_probe_gateway_"+name
+              c["meta"]["schema_version"]="0.4.0-probe-component-gateway-"+name
+              c["meta"]["status"]="m04_probe_component_gateway_"+name
               c.setdefault("territory_contract",{})["k_districts"]=65
               c["territory_contract"]["district_apportionment"]="hamilton"
               c["modulos"]["modulo_04_generar_semillas"]={
@@ -90,7 +91,7 @@ jobs:
                   "municipality_field":"CUMUN","municipality_name_field":"NMUN",
                   "district_apportionment":"hamilton","k_districts":65,
                   "municipality_atomicity_limit_ratio":s["atomic"],
-                  "gateway_policy":"preserve_all_external_gateways",
+                  "gateway_policy":"preserve_component_gateways",
                   "preserve_province_residual_feasibility":True,"seed":12345,
                   "out_geojson":f"territorios/extremadura/.cache/ddd/preparacion/{{run_name}}/{{run_name}}_m04_{name}.geojson.zip",
                   "out_report":f"territorios/extremadura/.cache/ddd/preparacion/{{run_name}}/{{run_name}}_m04_{name}_informe.json",
@@ -137,7 +138,7 @@ jobs:
           codes={}
           for line in pathlib.Path("/app/territorios/extremadura/.cache/ddd/probes/ext03_exit_codes.tsv").read_text().splitlines():
               n,rc=line.split("\t"); codes[n]=int(rc)
-          out={"K":65,"province_districts":{"06":41,"10":24},"gateway_policy":"preserve_all_external_gateways","scenarios":{}}
+          out={"K":65,"province_districts":{"06":41,"10":24},"gateway_policy":"preserve_component_gateways","scenarios":{}}
           for s in ("tight","reference","wide"):
               p=base/f"extremadura_2025_m04_{s}_informe.json"
               rec={"exit_code":codes.get(s)}
