@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Aplicación única R016
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: Aplicación única R016 con whitespace normalizado
 # FECHA: 2026-09-11
 # ESTADO: temporal de un solo uso
-# QUÉ HACE: ejecuta el migrador R016 y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
-# CAMBIOS: primera versión.
-# MOTIVO: aplicar de forma reproducible un parche textual controlado sin reescribir manualmente el cuerpo de M05.
-# ORIGEN: R016
+# QUÉ HACE: ejecuta el migrador R016, normaliza whitespace solo en ficheros activos y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
+# CAMBIOS: elimina espacios finales de los ficheros activos generados antes de ejecutar git diff --check; legacy queda intacto.
+# MOTIVO: el primer intento fue bloqueado por hard-breaks Markdown de dos espacios, no por un defecto funcional del parche.
+# ANTERIOR: legacy/workflows/r016-aplicar_v1.0.0.yml
 name: R016 — Aplicar candidato M05
 on:
   push:
@@ -27,6 +27,28 @@ jobs:
           fetch-depth: 0
       - name: Aplicar R016
         run: python herramientas/r016_patch_m05.py
+      - name: Normalizar whitespace activo
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          for rel in subprocess.check_output(['git','diff','--name-only'], text=True).splitlines():
+              if rel.startswith('legacy/'):
+                  continue
+              p = Path(rel)
+              if not p.is_file():
+                  continue
+              try:
+                  text = p.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              cleaned = '\n'.join(line.rstrip(' \t') for line in text.splitlines())
+              if text.endswith('\n'):
+                  cleaned += '\n'
+              p.write_text(cleaned, encoding='utf-8')
+          PY
       - name: Validar diff y publicar candidato
         run: |
           set -euo pipefail
