@@ -3,12 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: reparar_propiedad_geojson_zip.py
-VERSIÓN: 1.0.0
-NOMBRE: Reparación de propiedad GeoJSON sin OGR
+VERSIÓN: 1.0.1
+NOMBRE: Reparación de propiedad GeoJSON sin OGR — compatibilidad M05 robusta
 FECHA: 2026-09-11
 FUNCIÓN: abrir un GeoJSON comprimido, recalcular una propiedad feature a feature como string escalar y volver a empaquetar sin pasar por GeoPandas/OGR.
-MOTIVO: determinados esquemas OGR conservan un campo como StringList aunque sus valores se sustituyan; M05 necesita ddd_unit_id como string escalar.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS: sin cambio funcional; documenta que M05 v7.4.1 dispone además de fallback interno a IDs enteros cuando OGR sigue descartando la propiedad reparada.
+MOTIVO: EXT-03 confirmó que algunos esquemas siguen llegando a OGR como StringList incluso tras reescritura JSON; esta herramienta sigue siendo útil para diagnóstico y el wrapper M05 absorbe el caso residual.
+ANTERIOR: legacy/herramientas/reparar_propiedad_geojson_zip_v1.0.0.py
 """
 from __future__ import annotations
 import argparse, json, pathlib, zipfile
