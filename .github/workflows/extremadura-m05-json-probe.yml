@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.2.0
-# NOMBRE: EXT-03 — Prueba M04→M05 + diagnóstico de bloqueos y swaps 1×1
+# VERSIÓN: 1.3.0
+# NOMBRE: EXT-03 — Prueba M04→M05 + diagnóstico estructural topológico
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico.
-# QUÉ HACE: reproduce tight granular, ejecuta M05 robusto, explica los outliers restantes y busca swaps 1×1 válidos que permitan escapar del mínimo local sin modificar aún el optimizador.
-# CAMBIOS: añade `auditar_swaps_m05.py`, publica su JSON y escucha cambios de la herramienta; preserva v1.1.0 en legacy.
-# MOTIVO: Run 34628521996 confirmó que los distritos 32 (+36,79 %) y 59 (+12,22 %) no tienen ningún movimiento unitario válido que mejore el objetivo; el siguiente operador mínimo que debe probarse es un intercambio 1×1.
-# ANTERIOR: legacy/workflows/extremadura-m05-json-probe_v1.1.0.yml
+# QUÉ HACE: reproduce tight granular, ejecuta M05 robusto, explica outliers, prueba swaps 1×1 y analiza unidades articuladoras/lóbulos movibles para determinar el paquete conexo mínimo antes de modificar M05 o rediseñar M04.
+# CAMBIOS: añade `auditar_articulaciones_m05.py`, publica su JSON y escucha cambios de la herramienta; preserva v1.2.0 en legacy.
+# MOTIVO: Run 34630752921 probó 63 swaps 1×1 y obtuvo 0 mejoras válidas. Los dos outliers están bloqueados por conectividad; hace falta medir la estructura de articulación y los bundles conexos mínimos.
+# ANTERIOR: legacy/workflows/extremadura-m05-json-probe_v1.2.0.yml
 name: EXT-03 — M05 granular JSON
 
 on:
@@ -18,6 +18,7 @@ on:
       - 'herramientas/reparar_propiedad_geojson_zip.py'
       - 'herramientas/auditar_bloqueos_m05.py'
       - 'herramientas/auditar_swaps_m05.py'
+      - 'herramientas/auditar_articulaciones_m05.py'
       - 'modulos/05_optimizar_distritos.py'
 
 permissions: {contents: read}
@@ -60,7 +61,7 @@ jobs:
           python herramientas/reparar_propiedad_geojson_zip.py --zip territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_probe.geojson.zip --property ddd_unit_id --province-field CPRO --unit-field M04_MUN --suffix G
       - name: M05
         run: docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params territorios/extremadura/config/.generated_ext03_json.yaml
-      - name: Auditar resultado, bloqueos y swaps 1x1
+      - name: Auditar resultado y topología del mínimo local
         run: |
           set -euo pipefail
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} -c '
@@ -71,6 +72,7 @@ jobs:
           target=g.POP_2025.sum()/65;pops=g.groupby("district_id").POP_2025.sum();splits=g.groupby("CUMUN").district_id.nunique();rep=json.loads((base/"extremadura_2025_m05_probe_informe.json").read_text());out={"districts":int(g.district_id.nunique()),"outside_10":int(((pops-target).abs()>target*.10).sum()),"max_abs_deviation":float(((pops-target).abs()/target).max()),"min_pop":int(pops.min()),"max_pop":int(pops.max()),"split_municipalities":{str(k):int(v) for k,v in splits[splits>1].items()},"m05_report":rep};(probe/"ext03_json_results.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False));assert out["districts"]==65'
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} herramientas/auditar_bloqueos_m05.py --params territorios/extremadura/config/.generated_ext03_json.yaml --geojson territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe.geojson.zip --out territorios/extremadura/.cache/ddd/probes/ext03_m05_blockages.json
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} herramientas/auditar_swaps_m05.py --params territorios/extremadura/config/.generated_ext03_json.yaml --geojson territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe.geojson.zip --out territorios/extremadura/.cache/ddd/probes/ext03_m05_swaps.json --top 100
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} herramientas/auditar_articulaciones_m05.py --params territorios/extremadura/config/.generated_ext03_json.yaml --geojson territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe.geojson.zip --out territorios/extremadura/.cache/ddd/probes/ext03_m05_articulations.json
       - name: Publicar
         if: always()
         uses: actions/upload-artifact@v6
@@ -81,5 +83,6 @@ jobs:
             territorios/extremadura/.cache/ddd/probes/ext03_json_results.json
             territorios/extremadura/.cache/ddd/probes/ext03_m05_blockages.json
             territorios/extremadura/.cache/ddd/probes/ext03_m05_swaps.json
+            territorios/extremadura/.cache/ddd/probes/ext03_m05_articulations.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_probe_informe.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe_informe.json
