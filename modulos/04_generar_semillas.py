@@ -3,17 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.6
-NOMBRE DE VERSIÓN: Factibilidad provincial tras cierres urbanos
+VERSIÓN: 7.4.7
+NOMBRE DE VERSIÓN: Ajuste mínimo dirigido de factibilidad provincial
 FECHA: 2026-09-11
-FUNCIÓN: ejecutar el motor M04 v7.4.5 y reajustar únicamente fronteras internas núcleo-residuo de municipios partidos cuando un núcleo urbano cerrado haría imposible que los distritos abiertos restantes de su provincia entren en la banda objetivo.
-ENTRADAS: grafo M03, salida territorial M04 v7.4.5 y configuración territorial.
-SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04 actualizado.
-REGLAS DURAS: no cruza provincias; no crea ni elimina distritos; solo mueve secciones entre un núcleo U* y el residuo R del mismo municipio; conserva conectividad de ambos distritos, pasarelas topológicas y salida territorial del residuo; el núcleo cerrado permanece dentro de ±tolerancia.
+FUNCIÓN: ejecutar M04 v7.4.5 y corregir exclusivamente cierres urbanos que hagan matemáticamente imposible repartir la población abierta restante de una provincia dentro de ±tolerancia.
+ENTRADAS: grafo M03, salida M04 v7.4.5 y configuración territorial.
+SALIDAS: GeoJSON M04 e informe recalculado desde el estado final.
+REGLAS DURAS: provincia única; K y cuotas invariantes; movimientos solo entre U* y R del mismo municipio; conectividad de núcleo, residuo y distritos; pasarelas topológicas preservadas; núcleo cerrado dentro de ±tolerancia; suelo/techo final recalculado y obligatorio.
 ESTADO: candidato CYL-03.
-CAMBIOS: añade una invariante de factibilidad provincial para cierres irreversibles. Los núcleos cerrados se aproximan al promedio poblacional exigido por la cuota provincial cuando ello puede hacerse moviendo secciones contiguas del mismo municipio; se rechaza cualquier cierre que deje a los distritos abiertos con una masa total imposible de repartir dentro de ±12 %.
-MOTIVO: M04 v7.4.5 cerraba Segovia-U1 con 26.220 habitantes, cifra individualmente válida, pero dejaba 132.031 habitantes para cuatro distritos abiertos cuyo máximo conjunto era 131.188,66. M05 no podía resolver matemáticamente esa semilla. La factibilidad del subproblema restante debe ser una condición del cierre, no una responsabilidad posterior de M05.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.5.py
+CAMBIOS: elimina el reequilibrado opcional hacia la media provincial de v7.4.6. Solo actúa cuando open_pop queda fuera de N_abiertos×[target−tol,target+tol], selecciona el movimiento fronterizo mínimo que repara el déficit y se detiene inmediatamente al recuperar factibilidad. Recalcula hard/outside/min/max en vez de heredar métricas del motor base.
+MOTIVO: v7.4.6 demostró la invariante pero realizó 1.021 movimientos innecesarios, empeoró outside_tol 4→9 y produjo min=22.275 mientras el informe heredado seguía declarando hard=0. La corrección debe ser mínima, dirigida y autoauditada.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.6.py
 """
 from __future__ import annotations
 
@@ -36,16 +36,16 @@ from ddd_core.config import load_params_yaml, module_cfg, require
 BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v745.py"
 
 
-def _load_base_engine():
+def load_base():
     spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v745", BASE_ENGINE)
     if spec is None or spec.loader is None:
-        raise SystemExit(f"M04: no se puede cargar motor base {BASE_ENGINE}")
+        raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
 
 
-def _load_geo(path):
+def load_geo(path):
     p = Path(path)
     if p.suffix.lower() == ".zip":
         with zipfile.ZipFile(p) as z:
@@ -54,7 +54,7 @@ def _load_geo(path):
     return gpd.read_file(p)
 
 
-def _write_geo(gdf, path):
+def write_geo(gdf, path):
     out = Path(path)
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.parent / (out.stem.replace(".geojson", "") + ".geojson")
@@ -64,7 +64,7 @@ def _write_geo(gdf, path):
     tmp.unlink(missing_ok=True)
 
 
-def _connected(nodes, adj):
+def connected(nodes, adj):
     nodes = set(nodes)
     if not nodes:
         return False
@@ -79,14 +79,7 @@ def _connected(nodes, adj):
     return len(seen) == len(nodes)
 
 
-def _main_args():
-    ap = argparse.ArgumentParser(add_help=False)
-    ap.add_argument("--params", required=True)
-    args, _ = ap.parse_known_args()
-    return args
-
-
-def _adjust_province_feasibility(params_path):
+def postprocess(params_path):
     cfg = load_params_yaml(params_path)
     s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
     s2 = module_cfg(cfg, "modulo_02_construir_adyacencias", "step2_export_edges")
@@ -109,7 +102,7 @@ def _adjust_province_feasibility(params_path):
             adj[u].add(v)
             adj[v].add(u)
 
-    g = _load_geo(out)
+    g = load_geo(out)
     g[idf] = g[idf].astype(str)
     g[provf] = g[provf].astype(str).str.zfill(2)
     g[munf] = g[munf].astype(str)
@@ -119,6 +112,8 @@ def _adjust_province_feasibility(params_path):
     K = int(g[did].nunique())
     total = sum(pop.values())
     target = total / K
+    floor = target * float(val.get("population_floor_ratio", 0.80))
+    cap = target * float(val.get("population_cap_ratio", 1.75))
     tol = target * float(val.get("target_tolerance_ratio", 0.12))
     lo, hi = target - tol, target + tol
     quota = {str(k).zfill(2): int(v) for k, v in (val.get("province_districts") or {}).items()}
@@ -129,126 +124,83 @@ def _adjust_province_feasibility(params_path):
             if x is not None:
                 bridge_nodes.add(str(x))
 
-    adjustments = []
-
-    def district_nodes(d):
+    def dnodes(d):
         return set(g.loc[g[did] == d, idf].astype(str))
 
-    def district_pop(d):
+    def dpop(d):
         return int(g.loc[g[did] == d, "district_pop_section"].sum())
 
-    def residual_has_external_gateway(res_nodes, municipality_nodes):
-        return any(any(nb not in municipality_nodes for nb in adj.get(n, set())) for n in res_nodes)
+    def residual_gateway_ok(nodes, municipality_nodes):
+        return any(any(nb not in municipality_nodes for nb in adj.get(n, set())) for n in nodes)
 
-    def move_candidate(prov, direction, required_delta, province_average):
-        candidates = []
-        prov_rows = g[g[provf] == prov]
-        for mun, mx in prov_rows.groupby(munf):
-            unit_ids = set(mx["ddd_unit_id"].astype(str))
-            residual_ids = sorted(u for u in unit_ids if u.endswith(":R"))
-            core_ids = sorted(u for u in unit_ids if ":U" in u)
-            if not residual_ids or not core_ids:
-                continue
+    def candidates(prov, direction, required):
+        result = []
+        for mun, mx in g[g[provf] == prov].groupby(munf):
             municipality_nodes = set(mx[idf].astype(str))
-            for rid in residual_ids:
+            unit_ids = set(mx["ddd_unit_id"].astype(str))
+            residuals = sorted(u for u in unit_ids if u.endswith(":R"))
+            cores = sorted(u for u in unit_ids if ":U" in u)
+            for rid in residuals:
                 rnodes = set(g.loc[g["ddd_unit_id"] == rid, idf].astype(str))
-                if not rnodes:
+                rds = set(g.loc[g["ddd_unit_id"] == rid, did].astype(int))
+                if not rnodes or len(rds) != 1:
                     continue
-                rdists = set(g.loc[g["ddd_unit_id"] == rid, did].astype(int))
-                if len(rdists) != 1:
-                    continue
-                rd = next(iter(rdists))
-                for cid in core_ids:
+                rd = next(iter(rds))
+                for cid in cores:
                     cnodes = set(g.loc[g["ddd_unit_id"] == cid, idf].astype(str))
-                    if not cnodes:
+                    cds = set(g.loc[g["ddd_unit_id"] == cid, did].astype(int))
+                    if not cnodes or len(cds) != 1:
                         continue
-                    cdists = set(g.loc[g["ddd_unit_id"] == cid, did].astype(int))
-                    if len(cdists) != 1:
-                        continue
-                    cd = next(iter(cdists))
+                    cd = next(iter(cds))
                     cpop = sum(pop[n] for n in cnodes)
-                    if direction == "open_to_closed":
-                        source, recv = rnodes, cnodes
-                        movable = rnodes - bridge_nodes
-                    else:
-                        source, recv = cnodes, rnodes
-                        movable = cnodes - bridge_nodes
-                    for n in movable:
+                    source, recv = (rnodes, cnodes) if direction == "open_to_closed" else (cnodes, rnodes)
+                    source_d, recv_d = (rd, cd) if direction == "open_to_closed" else (cd, rd)
+                    for n in sorted(source - bridge_nodes):
                         if not any(nb in recv for nb in adj.get(n, set())):
                             continue
                         new_source = source - {n}
                         new_recv = recv | {n}
-                        if not new_source or not _connected(new_source, adj) or not _connected(new_recv, adj):
+                        if not new_source or not connected(new_source, adj) or not connected(new_recv, adj):
                             continue
-                        if direction == "open_to_closed":
-                            if not residual_has_external_gateway(new_source, municipality_nodes):
-                                continue
-                            new_core_pop = cpop + pop[n]
-                        else:
-                            if not residual_has_external_gateway(new_recv, municipality_nodes):
-                                continue
-                            new_core_pop = cpop - pop[n]
+                        new_core_pop = cpop + pop[n] if direction == "open_to_closed" else cpop - pop[n]
                         if not (lo <= new_core_pop <= hi):
                             continue
-                        new_source_dnodes = district_nodes(rd if direction == "open_to_closed" else cd) - {n}
-                        new_recv_dnodes = district_nodes(cd if direction == "open_to_closed" else rd) | {n}
-                        if not _connected(new_source_dnodes, adj) or not _connected(new_recv_dnodes, adj):
+                        new_residual = new_source if direction == "open_to_closed" else new_recv
+                        if not residual_gateway_ok(new_residual, municipality_nodes):
                             continue
-                        # Prefer reaching the provincial equilibrium with the smallest boundary change.
-                        after_gap = abs(new_core_pop - province_average)
-                        enough = pop[n] >= required_delta
-                        score = (0 if enough else 1, after_gap, abs(pop[n] - required_delta), pop[n], n, cid, rid)
-                        candidates.append((score, n, cid, rid, cd, rd, direction, pop[n]))
-        return min(candidates, key=lambda x: x[0]) if candidates else None
+                        if not connected(dnodes(source_d) - {n}, adj):
+                            continue
+                        if not connected(dnodes(recv_d) | {n}, adj):
+                            continue
+                        # Exact repair first; otherwise smallest legal step toward feasibility.
+                        enough = pop[n] >= required
+                        overshoot = max(0.0, pop[n] - required)
+                        score = (0 if enough else 1, overshoot if enough else -pop[n], pop[n], n, cid, rid)
+                        result.append((score, n, cid, rid, cd, rd, int(pop[n])))
+        return sorted(result, key=lambda x: x[0])
 
+    adjustments = []
     for prov in sorted(quota):
-        q = quota[prov]
-        prov_mask = g[provf] == prov
-        province_pop = int(g.loc[prov_mask, "district_pop_section"].sum())
-        province_average = province_pop / q
-
-        for _ in range(200):
-            district_ids = sorted(g.loc[prov_mask, did].unique())
-            closed_ids = [d for d in district_ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
-            open_ids = [d for d in district_ids if d not in closed_ids]
-            open_pop = sum(district_pop(d) for d in open_ids)
-            open_min = len(open_ids) * lo
-            open_max = len(open_ids) * hi
-
-            # Also move closed cores toward the unavoidable provincial equilibrium when possible.
-            closed_gap = 0.0
-            direction = None
-            if open_pop > open_max + 1e-9:
-                direction = "open_to_closed"
-                closed_gap = open_pop - open_max
-            elif open_pop < open_min - 1e-9:
-                direction = "closed_to_open"
-                closed_gap = open_min - open_pop
+        for _ in range(50):
+            ids = sorted(g.loc[g[provf] == prov, did].unique())
+            closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
+            open_ids = [d for d in ids if d not in closed]
+            open_pop = sum(dpop(d) for d in open_ids)
+            open_min, open_max = len(open_ids) * lo, len(open_ids) * hi
+            if open_min - 1e-9 <= open_pop <= open_max + 1e-9:
+                break
+            if open_pop > open_max:
+                direction, required = "open_to_closed", open_pop - open_max
             else:
-                # Feasible already: reduce avoidable imbalance of irreversible cores toward province average.
-                core_pops = [(d, district_pop(d)) for d in closed_ids]
-                low_core = min(core_pops, key=lambda x: x[1], default=None)
-                high_core = max(core_pops, key=lambda x: x[1], default=None)
-                if low_core and low_core[1] < province_average - 250:
-                    direction = "open_to_closed"
-                    closed_gap = province_average - low_core[1]
-                elif high_core and high_core[1] > province_average + 250:
-                    direction = "closed_to_open"
-                    closed_gap = high_core[1] - province_average
-                else:
-                    break
+                direction, required = "closed_to_open", open_min - open_pop
 
-            cand = move_candidate(prov, direction, closed_gap, province_average)
-            if cand is None:
-                # If aggregate feasibility is already satisfied, inability to improve local equilibrium is not fatal.
-                if open_min - 1e-9 <= open_pop <= open_max + 1e-9:
-                    break
+            cs = candidates(prov, direction, required)
+            if not cs:
                 raise SystemExit(
-                    f"M04 v7.4.6: cierre urbano hace imposible provincia {prov}; "
-                    f"open_pop={open_pop} rango=[{open_min:.2f},{open_max:.2f}] sin ajuste núcleo-residuo válido"
+                    f"M04 v7.4.7: provincia {prov} agregadamente imposible y sin ajuste núcleo-residuo válido; "
+                    f"open_pop={open_pop} rango=[{open_min:.2f},{open_max:.2f}] delta={required:.2f}"
                 )
-
-            _, n, cid, rid, cd, rd, direction, p = cand
+            _, n, cid, rid, cd, rd, p = cs[0]
             old_unit = str(g.loc[g[idf] == n, "ddd_unit_id"].iloc[0])
             old_d = int(g.loc[g[idf] == n, did].iloc[0])
             if direction == "open_to_closed":
@@ -261,54 +213,80 @@ def _adjust_province_feasibility(params_path):
             adjustments.append({
                 "province": prov,
                 "section": n,
-                "population": int(p),
+                "population": p,
                 "direction": direction,
+                "required_before_move": required,
                 "from_unit": old_unit,
                 "to_unit": new_unit,
                 "from_district": old_d,
                 "to_district": new_d,
-                "province_average": province_average,
             })
+        else:
+            raise SystemExit(f"M04 v7.4.7: demasiados ajustes en provincia {prov}")
 
-        # Hard postcondition: every irreversible closure leaves the residual provincial problem feasible.
-        district_ids = sorted(g.loc[prov_mask, did].unique())
-        closed_ids = [d for d in district_ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
-        open_ids = [d for d in district_ids if d not in closed_ids]
-        open_pop = sum(district_pop(d) for d in open_ids)
-        if not (len(open_ids) * lo - 1e-9 <= open_pop <= len(open_ids) * hi + 1e-9):
-            raise SystemExit(f"M04 v7.4.6: factibilidad provincial residual incumplida en {prov}")
-
-    # Revalidate district connectivity and update reports.
     pops = g.groupby(did)["district_pop_section"].sum()
+    hard = int(((pops < floor) | (pops > cap)).sum())
+    outside = int((abs(pops - target) > tol).sum())
+
+    if g[did].nunique() != K:
+        raise SystemExit(f"M04 v7.4.7: K alterado {g[did].nunique()} != {K}")
+    counts = {str(x[provf].iloc[0]).zfill(2): 0 for _, x in g.groupby(did)}
+    for _, x in g.groupby(did):
+        counts[str(x[provf].iloc[0]).zfill(2)] += 1
+    if counts != quota:
+        raise SystemExit(f"M04 v7.4.7: cuotas provinciales alteradas {counts} != {quota}")
+
     for d, x in g.groupby(did):
         ns = set(x[idf].astype(str))
-        if not _connected(ns, adj):
-            raise SystemExit(f"M04 v7.4.6: distrito {d} desconectado tras balance de núcleos")
-        if x[provf].nunique() != 1:
-            raise SystemExit(f"M04 v7.4.6: distrito {d} cruza provincia")
+        if not connected(ns, adj):
+            raise SystemExit(f"M04 v7.4.7: distrito {d} desconectado")
+        if x[provf].astype(str).str.zfill(2).nunique() != 1:
+            raise SystemExit(f"M04 v7.4.7: distrito {d} cruza provincia")
+        if bool(x["ddd_closed_urban"].all()):
+            p = int(x["district_pop_section"].sum())
+            if not (lo <= p <= hi):
+                raise SystemExit(f"M04 v7.4.7: núcleo cerrado {d} fuera de tolerancia: {p}")
 
-    _write_geo(g, out)
+    # Final aggregate feasibility after all irreversible closures.
+    for prov in sorted(quota):
+        ids = sorted(g.loc[g[provf] == prov, did].unique())
+        closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
+        open_ids = [d for d in ids if d not in closed]
+        open_pop = sum(dpop(d) for d in open_ids)
+        if not (len(open_ids) * lo - 1e-9 <= open_pop <= len(open_ids) * hi + 1e-9):
+            raise SystemExit(f"M04 v7.4.7: factibilidad residual incumplida en {prov}")
+
+    if hard:
+        raise SystemExit(f"M04 v7.4.7: {hard} violaciones duras tras ajuste")
+
+    write_geo(g, out)
     rep = json.loads(Path(report_path).read_text(encoding="utf-8")) if report_path and Path(report_path).exists() else {}
-    rep["version"] = "7.4.6"
-    rep["min_pop"] = int(pops.min())
-    rep["max_pop"] = int(pops.max())
-    rep["outside_target_tolerance"] = int((abs(pops - target) > tol).sum())
-    rep["province_feasibility_adjustments"] = adjustments
+    rep.update({
+        "version": "7.4.7",
+        "min_pop": int(pops.min()),
+        "max_pop": int(pops.max()),
+        "outside_target_tolerance": outside,
+        "hard_population_violations": hard,
+        "province_counts": counts,
+        "province_feasibility_adjustments": adjustments,
+    })
     rep.setdefault("rules", {})["closed_cores_preserve_province_residual_feasibility"] = True
-    rep["rules"]["closed_cores_bias_toward_province_quota_average"] = True
+    rep["rules"]["province_feasibility_adjustment_is_minimal_and_conditional"] = True
+    rep["rules"]["final_population_metrics_recomputed_after_postprocess"] = True
     if report_path:
         Path(report_path).write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
     print(
-        f"[Módulo 4] OK v7.4.6 K={K} ajustes_factibilidad={len(adjustments)} "
-        f"outside_tol={rep.get('outside_target_tolerance')} min={int(pops.min())} max={int(pops.max())} out={out}"
+        f"[Módulo 4] OK v7.4.7 K={K} ajustes_factibilidad={len(adjustments)} "
+        f"hard={hard} outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}"
     )
 
 
 def main():
-    args = _main_args()
-    base = _load_base_engine()
-    base.main()
-    _adjust_province_feasibility(args.params)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--params", required=True)
+    args = ap.parse_args()
+    load_base().main()
+    postprocess(args.params)
 
 
 if __name__ == "__main__":
