@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.7.1
-# NOMBRE DE VERSIÓN: Contrato M03 de conectividad administrativa
+# VERSIÓN: 0.8.0
+# NOMBRE DE VERSIÓN: Contrato CYL-04 — optimización M05
 # FECHA: 2026-09-11
-# ESTADO: candidato CYL-03
-# QUÉ HACE: mantiene el contrato M04 validado y exige que M03 certifique conectividad provincial e intramunicipal antes de abrir la distritación.
-# CAMBIOS: activa require_connected_municipalities; declara province_field explícitamente; conserva las siete pasarelas topológicas, K=82, Hamilton y los umbrales poblacionales de CYL-03.
-# MOTIVO: el exclave de Herrera de Duero demostró que comprobar solo la conectividad provincial era insuficiente. Las unidades administrativas que M04 trata como atómicas deben llegar ya certificadas por M03.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.7.0.yaml
+# ESTADO: candidato CYL-04
+# QUÉ HACE: conserva la preparación territorial validada M01-M04 y conecta M05 para eliminar los cuatro distritos aún fuera de ±12% sin relajar provincia, contigüidad, atomicidad municipal ni suelo/techo.
+# CAMBIOS: añade modulo_05_optimizar_distritos con el baseline de búsqueda reproducible usado en Aragón; declara como criterio de aceptación CYL-04 cero distritos fuera de tolerancia tras M05.
+# MOTIVO: M04 v7.4.5 ya produce una solución territorialmente válida con hard=0 y solo cuatro outliers; la siguiente responsabilidad debe quedar aislada en M05 como optimización post-factibilidad.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.7.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.7.1
-  status: candidate_m04
+  schema_version: 0.8.0
+  status: candidate_m05
 
 io:
   project_root: {path: ../../..}
@@ -62,12 +62,12 @@ territory_contract:
   notes:
     - K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León, no su reparto provincial vigente.
     - Hamilton aplica igualdad poblacional sobre las nueve provincias: Ávila 6, Burgos 12, León 15, Palencia 6, Salamanca 11, Segovia 5, Soria 3, Valladolid 18, Zamora 6.
-    - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica; no se consideran generalizados hasta superar CYL-03/CYL-04.
+    - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica; no se consideran generalizados hasta superar CYL-04.
     - Un municipio completo deja de ser atómico cuando supera 1.12× target porque, si permaneciera indivisible, haría imposible alcanzar la tolerancia objetivo.
     - Los municipios sobredimensionados producen núcleos urbanos cerrados dentro de target±12% y, como máximo, un residuo municipal abierto que puede combinarse con unidades vecinas.
-    - Las siete pasarelas topológicas son excepciones explícitas de conectividad; seis resuelven enclaves/huecos provinciales detectados en CYL-02 y una resuelve el exclave intramunicipal de Herrera de Duero dentro de Tudela de Duero.
-    - Una pasarela administrativa no modifica geometrías ni fronteras: hace explícita en el grafo una continuidad jurídica/territorial que la geometría de secciones no puede representar como contacto físico.
+    - Las siete pasarelas topológicas son excepciones explícitas de conectividad; seis resuelven enclaves/huecos provinciales y una resuelve el exclave intramunicipal de Herrera de Duero dentro de Tudela de Duero.
     - M03 debe certificar cero provincias y cero municipios desconectados antes de que M04 pueda ejecutarse.
+    - Los parámetros de M05 se importan inicialmente como baseline de portabilidad desde Aragón; CYL-04 decidirá si son suficientes, sin convertirlos todavía en constantes universales del método.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -88,7 +88,7 @@ modulos:
     topology_bridges:
       - {u: '0910901001', v: '0921904001', edge_type: administrative_enclave, reason: 'Enclave de Treviño enlazado al cuerpo principal de Burgos por la sección burgalesa más próxima (Miranda de Ebro).', source: 'CYL-02 audit'}
       - {u: '0922301001', v: '0941401001', edge_type: cartographic_gap, reason: 'Monasterio de la Sierra: hueco de 758 m en el seccionado hasta Valle de Valdelaguna.', source: 'CYL-02 geometry audit'}
-      - {u: '0915401001', v: '0933001001', edge_type: cartographic_gap, reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.', source: 'CYL-02 geometry audit'}
+      - {u: '0915401001', v: '0933001001', edge_type: cartographic_gap, reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.', source: 'CYL-02 audit'}
       - {u: '3403201001', v: '3413501001', edge_type: administrative_exclave, reason: 'Berzosilla: exclave palentino; enlace mínimo al cuerpo principal de Palencia (Pomar de Valdivia).', source: 'CYL-02 audit'}
       - {u: '3424201001', v: '3412101001', edge_type: administrative_exclave, reason: 'Villodrigo: exclave palentino dentro de Burgos; enlace mínimo a Palenzuela.', source: 'CYL-02 audit'}
       - {u: '4713401001', v: '4718301001', edge_type: administrative_exclave, reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace mínimo a Valdunquillo.', source: 'CYL-02 audit'}
@@ -114,6 +114,25 @@ modulos:
     seed: 12345
     out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
     out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json"
+  modulo_05_optimizar_distritos:
+    in_graph_json: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
 
 validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
@@ -138,3 +157,4 @@ validation:
   municipality_name_field: NMUN
   municipality_atomicity_limit_ratio: 1.12
   max_mixed_districts_per_split_municipality: 1
+  require_zero_outside_tolerance_after_m05: true
