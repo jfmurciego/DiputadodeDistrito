@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.8.1
-# NOMBRE DE VERSIÓN: Contrato CYL-04 con factibilidad provincial previa
+# VERSIÓN: 0.9.0
+# NOMBRE DE VERSIÓN: Contrato CYL-05 — consolidación territorial auditable
 # FECHA: 2026-09-11
-# ESTADO: candidato CYL-04
-# QUÉ HACE: conserva K, Hamilton y los parámetros CYL-04, y añade como precondición de M05 que todo núcleo urbano cerrado por M04 deje una masa poblacional provincial todavía repartible dentro de la banda ±12%.
-# CAMBIOS: documenta la invariante introducida por M04 v7.4.6: los cierres urbanos irreversibles deben preservar la factibilidad del subproblema provincial restante y aproximarse, cuando la geometría lo permite, al promedio poblacional inducido por la cuota de la provincia.
-# MOTIVO: Segovia-U1=26.220 era individualmente válido pero dejaba 132.031 habitantes para cuatro distritos abiertos cuyo máximo conjunto era 131.188,66; M05 no podía resolver una semilla matemáticamente imposible.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.8.0.yaml
+# ESTADO: candidato CYL-05
+# QUÉ HACE: conserva el contrato territorial M01-M05 ya validado y añade M06 como capa de materialización, descripción y auditoría de los 82 distritos sin modificar su asignación.
+# CAMBIOS: incorpora catálogo distrital, composición exacta por sección, geometrías disueltas, métricas poblacionales/administrativas/geométricas y CRS métrico configurable.
+# MOTIVO: CYL-04 ya certifica una solución poblacional y territorial válida; el siguiente módulo debe convertirla en entidades distritales auditables antes de añadir resultados electorales.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.8.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.8.1
-  status: candidate_m05
+  schema_version: 0.9.0
+  status: candidate_m06
 
 io:
   project_root: {path: ../../..}
@@ -60,17 +60,18 @@ territory_contract:
   oversized_municipality_rule: closed_target_cores_plus_open_residual
   municipality_atomicity_limit_ratio: 1.12
   require_closed_core_province_residual_feasibility: true
+  require_auditable_district_catalogue: true
   notes:
     - K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León, no su reparto provincial vigente.
     - Hamilton aplica igualdad poblacional sobre las nueve provincias: Ávila 6, Burgos 12, León 15, Palencia 6, Salamanca 11, Segovia 5, Soria 3, Valladolid 18, Zamora 6.
-    - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica; no se consideran generalizados hasta superar CYL-04.
+    - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica y ya han superado CYL-04 en Castilla y León.
     - Un municipio completo deja de ser atómico cuando supera 1.12× target porque, si permaneciera indivisible, haría imposible alcanzar la tolerancia objetivo.
-    - Los municipios sobredimensionados producen núcleos urbanos cerrados dentro de target±12% y, como máximo, un residuo municipal abierto que puede combinarse con unidades vecinas.
+    - Los municipios sobredimensionados producen núcleos urbanos cerrados y residuos abiertos; M04 puede exponer micro-unidades residuales fronterizas cuando la atomicidad residual bloquearía la factibilidad provincial.
     - Un núcleo urbano cerrado no se valida solo por su propia población: después de cerrarlo, la población restante de la provincia debe caber en N_abiertos × [target−12%, target+12%].
-    - Cuando varias soluciones internas son válidas, el núcleo irreversible se aproxima al promedio poblacional de la provincia inducido por su cuota Hamilton, porque ninguna optimización posterior puede trasladar población entre provincias.
     - Las siete pasarelas topológicas son excepciones explícitas de conectividad; seis resuelven enclaves/huecos provinciales y una resuelve el exclave intramunicipal de Herrera de Duero dentro de Tudela de Duero.
-    - M03 debe certificar cero provincias y cero municipios desconectados antes de que M04 pueda ejecutarse.
-    - Los parámetros de M05 se importan inicialmente como baseline de portabilidad desde Aragón; CYL-04 decidirá si son suficientes, sin convertirlos todavía en constantes universales del método.
+    - M03 certifica cero provincias y cero municipios desconectados antes de M04.
+    - CYL-04 certificó M05 con fuera_12=0, hard=0, K=82 y contigüidad 82/82.
+    - M06 no puede cambiar district_id; solo materializa, mide, describe y audita la solución de M05.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -137,6 +138,24 @@ modulos:
     anneal_temp_end: 0.0005
     out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
     out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
+  modulo_06_consolidar_distritos:
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: "POP_{year}"
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 82
+    strict_expected_k: true
+    out_summary_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv"
+    out_catalog_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv"
+    out_composition_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv"
+    out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
+    out_district_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
 
 validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
@@ -163,3 +182,5 @@ validation:
   require_closed_core_province_residual_feasibility: true
   max_mixed_districts_per_split_municipality: 1
   require_zero_outside_tolerance_after_m05: true
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
