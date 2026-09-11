@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""R015 one-shot migration: archive active components and normalize version headers."""
+"""
+PROYECTO: Diputado de Distrito
+COMPONENTE: migración temporal R015
+VERSIÓN: 1.0.1
+NOMBRE DE VERSIÓN: Migración sin privilegios de workflows
+FECHA: 2026-09-11
+ESTADO: temporal de un solo uso
+QUÉ HACE: archiva y normaliza módulos, core, herramientas, configuración y procedimiento.sh.
+CAMBIOS: excluye workflows y no se autoelimina; esas operaciones se harán con la conexión GitHub autorizada.
+MOTIVO: GitHub Actions rechazó el push de v1.0.0 por carecer de permiso workflows.
+ANTERIOR: legacy/herramientas/r015_patch_components_v1.0.0.py
+"""
 from __future__ import annotations
 import re
 import shutil
@@ -183,14 +194,9 @@ def main() -> None:
         versions[rel] = normalize_python(rel)
     versions["configuracion/aragon_2025.yaml"] = normalize_config()
     versions["procedimiento.sh"] = normalize_comments("procedimiento.sh", "legacy/procedimiento/procedimiento_v{old}.sh")
-    versions[".github/workflows/procedimiento-ddd.yml"] = normalize_comments(".github/workflows/procedimiento-ddd.yml", "legacy/workflows/procedimiento-ddd_v{old}.yml")
     report = ROOT / "docs" / "R015_COMPONENTES_NORMALIZADOS.tsv"
     report.write_text("archivo\tanterior\tnueva\n" + "\n".join(f"{p}\t{o}\t{n}" for p,(o,n) in sorted(versions.items())) + "\n", encoding="utf-8")
-    for rel in ("herramientas/r015_patch_components.py", ".github/workflows/r015-migracion.yml"):
-        p = ROOT / rel
-        if p.exists():
-            p.unlink()
-    print(f"R015 normalizó {len(versions)} componentes")
+    print(f"R015 normalizó {len(versions)} componentes no-workflow")
 
 if __name__ == "__main__":
     main()
