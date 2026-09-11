@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.3.0
-# NOMBRE DE VERSIÓN: Contacto topológico robusto sin pasarelas
+# VERSIÓN: 0.4.0
+# NOMBRE DE VERSIÓN: Contrato topológico auditado — Don Benito
 # FECHA: 2026-09-11
-# ESTADO: diagnóstico EXT-02 — no habilita distritación
-# QUÉ HACE: repite M02/M03 con el predicado general `contact` de M02 v7.2.0, manteniendo cero pasarelas, para separar errores de precisión geométrica de discontinuidades administrativas reales.
-# CAMBIOS: usa EPSG:3035, borde compartido mínimo de 1 m y micro-solape máximo de 1 m²; conserva 964 secciones y 1.053.345 habitantes.
-# MOTIVO: Monesterio presenta >1,5 km de borde compartido pero `touches` inestable por un solape de solo 0,003 m². Don Benito, en cambio, muestra componentes separadas por 0,87–2,07 km y debe seguir apareciendo como discontinuidad municipal.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.2.0.yaml
+# ESTADO: EXT-02 cierre candidato — conectividad completa M03
+# QUÉ HACE: mantiene el contacto geométrico robusto de M02 v7.2.0 y añade únicamente dos pasarelas administrativas explícitas para las dos secciones físicamente separadas de Don Benito detectadas por auditoría.
+# CAMBIOS: incorpora 0604405005↔0604405003 y 0604405006↔0604405004 como topology_bridge; no añade ninguna excepción para Monesterio porque `contact` resolvió su falsa desconexión geométrica.
+# MOTIVO: separar estrictamente precisión cartográfica de discontinuidad administrativa real y cerrar M03 sin buffers globales, heurísticas territoriales ocultas ni parches de código.
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.3.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.3.0
-  status: robust_contact_audit_m03
+  schema_version: 0.4.0
+  status: topology_contract_m03_candidate
 
 io:
   project_root: {path: ../../..}
@@ -44,12 +44,13 @@ territory_contract:
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['06','10']
-  status: topology_audit_only
+  status: topology_contract_candidate
   notes:
     - EXT-01 certificó 964 secciones y 1.053.345 habitantes sin faltantes de población.
-    - EXT-02 v0.2.0 con `touches` produjo una falsa desconexión provincial en Monesterio por micro-solape cartográfico.
-    - EXT-02 v0.3.0 prueba una regla general de contacto geométrico robusto sin introducir pasarelas.
-    - Don Benito mantiene dos componentes municipales físicamente separadas y se auditará aparte si Monesterio queda resuelto.
+    - Monesterio quedó resuelto por el predicado general `contact`; no requiere pasarela territorial.
+    - La auditoría geométrica certificó dos componentes unitarias reales dentro de Don Benito: 0604405005 y 0604405006.
+    - Cada componente se conecta al nodo de su mismo municipio más próximo auditado: 5005→5003 (~2,074 km) y 5006→5004 (~0,869 km).
+    - Estas aristas son administrativas explícitas, quedan marcadas como topology_bridge y no se confunden con adyacencia geométrica.
     - Todavía no se declara K ni se adoptan coeficientes de otros territorios.
 
 modulos:
@@ -70,7 +71,17 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges: []
+    topology_bridges:
+      - u: '0604405005'
+        v: '0604405003'
+        edge_type: administrative_bridge
+        reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).'
+        source: 'EXT-02 auditoría geométrica reproducible'
+      - u: '0604405006'
+        v: '0604405004'
+        edge_type: administrative_bridge
+        reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).'
+        source: 'EXT-02 auditoría geométrica reproducible'
   modulo_03_construir_grafo:
     in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
