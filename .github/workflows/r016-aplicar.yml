@@ -1,0 +1,40 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Aplicación única R016
+# FECHA: 2026-09-11
+# ESTADO: temporal de un solo uso
+# QUÉ HACE: ejecuta el migrador R016 y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
+# CAMBIOS: primera versión.
+# MOTIVO: aplicar de forma reproducible un parche textual controlado sin reescribir manualmente el cuerpo de M05.
+# ORIGEN: R016
+name: R016 — Aplicar candidato M05
+on:
+  push:
+    branches: [main]
+    paths:
+      - herramientas/r016_patch_m05.py
+      - .github/workflows/r016-aplicar.yml
+permissions:
+  contents: write
+jobs:
+  aplicar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Aplicar R016
+        run: python herramientas/r016_patch_m05.py
+      - name: Validar diff y publicar candidato
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check -- . ':(exclude)legacy/**'
+          git diff --cached --quiet && { echo "R016 no produjo cambios"; exit 1; }
+          git commit -m "R016: M05 v7.4.0 canonical post-feasibility refinement"
+          git pull --rebase origin main
+          git push origin HEAD:main
