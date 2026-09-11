@@ -1,0 +1,156 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Puerta territorial M05
+# FECHA: 2026-09-11
+# ESTADO: candidato CYL-04
+# QUÉ HACE: reconstruye la cadena M01-M05 de Castilla y León y certifica que M05 elimina los outliers poblacionales sin romper provincias, contigüidad, unidades territoriales ni distritos urbanos cerrados por M04.
+# CAMBIOS: workflow nuevo; separa la aceptación de optimización de la preparación M01-M04 y publica los artefactos M04/M05 para auditoría.
+# MOTIVO: M04 ya entrega factibilidad territorial; M05 tiene una responsabilidad distinta — refinamiento poblacional — y debe disponer de una puerta propia, repetible y auditable.
+# ANTERIOR: ninguno — workflow nuevo.
+name: Optimización DDD — territorio
+
+on:
+  workflow_dispatch:
+    inputs:
+      params:
+        description: Ruta al YAML territorial
+        required: true
+        default: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+        type: string
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/optimizar-territorio.yml'
+      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
+      - 'modulos/03_construir_grafo.py'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
+
+permissions:
+  contents: read
+
+jobs:
+  optimizacion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: ${{ inputs.params || 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml' }}
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir y verificar fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-optimizacion:${GITHUB_SHA} .
+
+      - name: Ejecutar M01-M05
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint bash \
+            ddd-optimizacion:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              python modulos/04_generar_semillas.py --params "$PARAMS"
+              python modulos/05_optimizar_distritos.py --params "$PARAMS"
+            '
+
+      - name: Validar CYL-04
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint python \
+            ddd-optimizacion:${GITHUB_SHA} -c '
+          import io, json, pathlib, zipfile
+          import geopandas as gpd
+
+          base=pathlib.Path("/app/territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025")
+          r3=json.loads((base/"castilla_y_leon_2025_m03_informe.json").read_text())
+          r4=json.loads((base/"castilla_y_leon_2025_m04_informe.json").read_text())
+          r5=json.loads((base/"castilla_y_leon_2025_m05_informe.json").read_text())
+          graph=json.loads((base/"castilla_y_leon_2025_m03_grafo.json").read_text())
+
+          assert r3["nodes"]==3506 and r3["total_pop"]==2401221 and r3["isolated"]==0, r3
+          assert r3["province_component_audit"]["disconnected"]==0, r3
+          assert r3["municipality_component_audit"]["disconnected"]==0, r3
+          expected={"05":6,"09":12,"24":15,"34":6,"37":11,"40":5,"42":3,"47":18,"49":6}
+          assert r4["K"]==82 and r4["hard_population_violations"]==0, r4
+          assert r4["province_counts"]==expected, r4["province_counts"]
+          assert r4["outside_target_tolerance"]==4, r4
+          assert r5["K"]==82 and r5["objective_final"][0]==0, r5
+          assert r5["districts_below_floor"]==0 and r5["districts_above_cap"]==0, r5
+          assert r5["districts_outside_tolerance"]==0, r5
+          assert not r5["province_violations"], r5
+
+          adj={str(n["id"]):set() for n in graph["nodes"]}
+          for e in graph["edges"]:
+              u,v=str(e["u"]),str(e["v"]); adj[u].add(v); adj[v].add(u)
+
+          def load_zip(path):
+              with zipfile.ZipFile(path) as z:
+                  n=next(n for n in z.namelist() if n.endswith(".geojson"))
+                  return gpd.read_file(io.BytesIO(z.read(n)))
+
+          g4=load_zip(base/"castilla_y_leon_2025_m04_semillas.geojson.zip")
+          g5=load_zip(base/"castilla_y_leon_2025_m05_distritos_optimizados.geojson.zip")
+          for g in (g4,g5):
+              g["CUSEC_KEY"]=g["CUSEC_KEY"].astype(str)
+              g["CPRO"]=g["CPRO"].astype(str).str.zfill(2)
+          assert len(g5)==3506 and g5["district_id"].nunique()==82
+
+          # Cada unidad M04 sigue íntegra en un único distrito M05.
+          assert g5.groupby("ddd_unit_id")["district_id"].nunique().max()==1
+
+          # Los distritos urbanos completamente cerrados por M04 son inmutables.
+          closed_ids=[]
+          for d,x in g4.groupby("district_id"):
+              if bool(x["ddd_closed_urban"].all()): closed_ids.append(int(d))
+          m4=dict(zip(g4["CUSEC_KEY"],g4["district_id"].astype(int)))
+          m5=dict(zip(g5["CUSEC_KEY"],g5["district_id"].astype(int)))
+          for d in closed_ids:
+              secs=set(g4.loc[g4["district_id"]==d,"CUSEC_KEY"])
+              assert all(m5[s]==d for s in secs), (d, sorted(secs)[:10])
+
+          # K, cuota provincial y contigüidad final permanecen intactos.
+          counts={}
+          for d,x in g5.groupby("district_id"):
+              ps=set(x["CPRO"]); assert len(ps)==1, (d,ps)
+              p=next(iter(ps)); counts[p]=counts.get(p,0)+1
+              ns=set(x["CUSEC_KEY"]); seen={next(iter(ns))}; stack=list(seen)
+              while stack:
+                  u=stack.pop()
+                  for v in adj[u]:
+                      if v in ns and v not in seen: seen.add(v); stack.append(v)
+              assert seen==ns, (d,len(ns),len(seen))
+          assert counts==expected, counts
+          print("CYL-04 PASS: M05 fuera_12=0, hard=0, K=82, contigüidad=82/82, unidades y núcleos cerrados preservados")
+          '
+
+      - name: Publicar productos CYL-04
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: castilla-y-leon-CYL04-${{ github.run_id }}
+          path: |
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m03_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m04_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m04_semillas.geojson.zip
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m05_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m05_distritos_optimizados.geojson.zip
