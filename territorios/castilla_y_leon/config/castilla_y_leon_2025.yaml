@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.5.0
-# NOMBRE DE VERSIÓN: Grafo provincial continuo con puentes topológicos explícitos
+# VERSIÓN: 0.6.0
+# NOMBRE DE VERSIÓN: Contrato M04 — 82 distritos y atomicidad municipal por tolerancia
 # FECHA: 2026-09-11
-# ESTADO: candidato CYL-02
-# QUÉ HACE: prepara M01-M03 y declara la mínima reparación topológica necesaria para que cada provincia sea conectable sin cruzar barreras provinciales.
-# CAMBIOS: añade seis puentes auditables: cuatro componentes administrativos/exclaves y dos huecos cartográficos de Burgos.
-# MOTIVO: hacer compatibles contigüidad y provincia infranqueable sin buffers globales ni excepciones hardcodeadas en el motor.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.4.0.yaml
+# ESTADO: candidato CYL-03
+# QUÉ HACE: amplía la preparación M01-M03 con el contrato de construcción M04 para 82 distritos uninominales, reparto Hamilton por población y regla explícita de municipios sobredimensionados.
+# CAMBIOS: fija K=82; cuotas DDD 6/12/15/6/11/5/3/18/6; declara 0.80/1.75/0.12 como umbrales candidatos; fija atomicidad municipal hasta 1.12× target; añade M04 y sus outputs.
+# MOTIVO: probar en una segunda comunidad qué reglas de Aragón son generalizables y separar atomicidad municipal de techo duro poblacional.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.5.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.5.0
-  status: preparation_m03
+  schema_version: 0.6.0
+  status: candidate_m04
 
 io:
   project_root: {path: ../../..}
@@ -49,19 +49,23 @@ territory_contract:
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['05','09','24','34','37','40','42','47','49']
-  k_districts: null
-  district_apportionment: null
-  population_floor_ratio: null
-  population_cap_ratio: null
-  target_tolerance_ratio: null
+  k_districts: 82
+  district_apportionment: hamilton
+  population_floor_ratio: 0.80
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
-  oversized_municipality_rule: TODO
+  oversized_municipality_rule: closed_target_cores_plus_open_residual
+  municipality_atomicity_limit_ratio: 1.12
   notes:
-    - No copiar K, Hamilton, 0.80/1.75/0.12 ni reglas municipales de Aragón sin decisión explícita.
-    - M01 aceptado: 3.506 secciones, 2.401.221 habitantes, 0 población ausente.
-    - Los puentes topológicos son excepciones explícitas del contrato de conectividad; no alteran geometrías ni fronteras provinciales.
+    - K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León, no su reparto provincial vigente.
+    - Hamilton aplica igualdad poblacional sobre las nueve provincias: Ávila 6, Burgos 12, León 15, Palencia 6, Salamanca 11, Segovia 5, Soria 3, Valladolid 18, Zamora 6.
+    - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica; no se consideran generalizados hasta superar CYL-03/CYL-04.
+    - Un municipio completo deja de ser atómico cuando supera 1.12× target porque, si permaneciera indivisible, haría imposible alcanzar la tolerancia objetivo.
+    - Los municipios sobredimensionados producen núcleos urbanos cerrados dentro de target±12% y, como máximo, un residuo municipal abierto que puede combinarse con unidades vecinas.
+    - Los seis puentes topológicos siguen siendo excepciones explícitas de conectividad y no alteran geometrías ni fronteras provinciales.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -93,13 +97,39 @@ modulos:
     pop_field: "POP_{year}"
     out_graph_json: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
     out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+  modulo_04_generar_semillas:
+    in_graph_json: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 82
+    municipality_atomicity_limit_ratio: 1.12
+    seed: 12345
+    out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json"
 
 validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
   expected_sections_geometry: 3506
   expected_population_total_2025: 2401221
   expected_topology_bridges: 6
+  expected_districts: 82
+  population_floor_ratio: 0.80
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
+  province_districts: {'05': 6, '09': 12, '24': 15, '34': 6, '37': 11, '40': 5, '42': 3, '47': 18, '49': 6}
   require_unique_section_id: true
   require_non_null_population: true
   require_graph_contiguity: true
   require_one_graph_component_per_province: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  municipality_atomicity_limit_ratio: 1.12
+  max_mixed_districts_per_split_municipality: 1
