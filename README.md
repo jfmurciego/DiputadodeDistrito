@@ -1,93 +1,96 @@
 # Diputado de Distrito — Procedimiento de Distritación DDD
 
-**README v3.0.0** · 11-09-2026 · Estado: desarrollo reproducible y auditable
+**README v3.1.0** · 11-09-2026 · Estado: R012 validado estructuralmente; optimización fina pendiente
 
-Sistema modular para construir, validar y auditar distritos uninominales a partir de unidades censales oficiales. El objetivo no es producir un mapa aislado, sino un **procedimiento repetible**: mismo código + mismos inputs + misma configuración ⇒ mismo resultado verificable por terceros.
-
-Aragón es la primera implantación. El motor debe generalizarse después a Castilla y León, Extremadura y otros ámbitos sin bifurcar el código territorial.
+Sistema modular para construir, validar y auditar distritos uninominales a partir de unidades censales oficiales. El objetivo no es producir un mapa aislado, sino un **procedimiento repetible**: mismo código + mismos inputs + misma configuración ⇒ mismo resultado verificable por terceros. Aragón es la primera implantación; el motor debe generalizarse a otros ámbitos por configuración y datos, sin forks territoriales.
 
 ## Estado actual
 
-El procedimiento tiene ocho módulos M01–M08, ejecución reproducible en GitHub Actions, caché de preparación territorial, outputs intermedios auditables, manifiestos, hashes, validación automática y conservación de versiones anteriores.
+El procedimiento tiene ocho módulos M01–M08, ejecución reproducible en GitHub Actions, preparación territorial cacheable, outputs intermedios completos, manifiestos, hashes, validación automática y conservación de versiones.
 
-La ronda vigente es **R012: provincia dura y disciplina municipal**. Para Aragón se exigen 67 distritos con reparto provincial **Huesca 11 / Teruel 7 / Zaragoza 49**. Ningún distrito puede cruzar provincia. Un municipio que cabe dentro del techo de un distrito se conserva íntegro; los municipios sobredimensionados se particionan internamente en bloques contiguos, llenando primero los distritos urbanos y permitiendo que solo el residual se complete con municipios menores adyacentes de la misma provincia.
+La regla territorial vigente es **R012: provincia dura y disciplina municipal**. Aragón tiene 67 distritos con reparto **Huesca 11 / Teruel 7 / Zaragoza 49**. Ningún distrito cruza provincia. Un municipio que cabe bajo el techo de un distrito se conserva íntegro; los municipios sobredimensionados se particionan internamente en bloques contiguos, llenando primero los distritos exclusivamente municipales y permitiendo que solo el residual se complete con municipios menores adyacentes de la misma provincia.
 
-El Run #6 (`34587157452`) detectó correctamente una regresión de M04: el distrito 52 nacía con 15 componentes. Esa versión no es referencia. **M04 v7.3.0** corrige el particionado municipal y añade autovalidación antes de entregar datos a M05. Sobre los datos reales del Run #6, la comprobación previa a GitHub produjo 67 distritos, cuotas 11/7/49, cero cruces provinciales, cero desconectados, cero distritos bajo suelo o sobre techo y un único distrito fuera de ±12%. La siguiente ejecución GitHub es la puerta de aceptación de esta versión.
+### Última ejecución territorial: Run #7
+GitHub Run #7 `34588834266`, commit `98a2e68907273fcd382a241687e645e8615bb47a`, terminó **SUCCESS** en modo iterativo.
 
-## Reglas territoriales vigentes en Aragón
+M04 v7.3.0 produjo 67 distritos, cuotas 11/7/49, cero violaciones duras, mínimo 18.345 y máximo 31.563. M05 v7.2.0 mantuvo todas las reglas duras pero dejó **1 distrito fuera de ±12%** y aceptó 0 movimientos. La validación final confirmó: **provincias PASS, disciplina municipal PASS, contigüidad PASS y población dentro del suelo/techo PASS**. M06–M08 y los outputs auditables M01–M08 se publicaron correctamente.
+
+Por tanto, Run #7 es la primera evidencia GitHub de R012 estructuralmente válida. **No es todavía la solución final**: el siguiente problema es M05 y el único distrito de 31.563 habitantes fuera de ±12%.
+
+## Reglas territoriales Aragón
 
 1. **67 distritos exactos.**
 2. **Provincia = frontera dura:** Huesca 11, Teruel 7, Zaragoza 49.
-3. **Contigüidad estricta** sobre el grafo territorial M03.
-4. Conservación exacta de las **1.463 secciones** y **1.364.621 habitantes** de la preparación vigente.
-5. Target poblacional = población total / 67.
+3. **Contigüidad estricta** sobre M03.
+4. Conservación de **1.463 secciones** y **1.364.621 habitantes**.
+5. Target = población total / 67.
 6. Suelo duro = `0,80 × target`; techo duro = `1,75 × target`.
-7. Objetivo de equilibrio fino: **±12%**.
-8. Municipio que cabe bajo el techo: **indivisible**.
-9. Municipio sobredimensionado: partición interna conexa; los distritos urbanos completos permanecen exclusivamente municipales y solo el residual puede mezclarse con municipios menores.
-10. La geometría se calcula **sin resultados electorales**. M07/M08 son una capa posterior de análisis.
-11. CUSEC único y no nulo, determinismo, inputs/configuración versionados y productos identificados por hash.
+7. Objetivo fino = **±12%**.
+8. Municipio que cabe bajo techo = **indivisible**.
+9. Municipio sobredimensionado = partición interna conexa; distritos completos exclusivamente municipales y solo residual mezclable.
+10. Resultados electorales nunca condicionan la geometría.
+11. CUSEC único/no nulo, determinismo, configuración e inputs versionados y productos identificados por hash.
 
-## Los ocho módulos
+## Módulos y productos
 
-| Módulo | Responsabilidad | Producto auditable principal |
+| Módulo | Responsabilidad | Producto auditable |
 |---|---|---|
-| **M01** | Base territorial + población | 1.463 secciones, CUSEC, atributos y geometría |
-| **M02** | Adyacencias | lista canónica de aristas entre secciones |
-| **M03** | Grafo territorial | nodos + población + aristas; base de contigüidad |
-| **M04** | Construcción inicial | CUSEC→distrito respetando provincia/municipio/contigüidad |
-| **M05** | Optimización | asignación optimizada sin romper restricciones duras |
+| **M01** | Base territorial + población | secciones completas con CUSEC, atributos y geometría |
+| **M02** | Adyacencias | lista canónica de aristas |
+| **M03** | Grafo territorial | nodos, población y aristas |
+| **M04** | Construcción inicial | asignación CUSEC→distrito válida estructuralmente |
+| **M05** | Optimización | asignación optimizada sin romper reglas duras |
 | **M06** | Consolidación | catálogo de 67 distritos + composición sección a sección + geometrías |
-| **M07** | Agregación electoral | resultados por partido y distrito |
+| **M07** | Agregación electoral | resultados por partido/distrito |
 | **M08** | Producto final | geometría distrital enriquecida con resultados |
 
-Cada módulo tiene su contrato detallado en `docs/MODULOS/`. Un informe explica cómo se ejecutó un módulo; **nunca sustituye al producto que el módulo produjo**.
+Los contratos detallados están en `docs/MODULOS/`. **Un informe explica cómo fue un módulo; nunca sustituye al producto que produjo.**
 
-## Ejecución y reutilización
+## Ejecución
 
-El workflow es `.github/workflows/procedimiento-ddd.yml` y se lanza manualmente desde **Actions → Procedimiento DDD — Aragón**.
+Workflow: `.github/workflows/procedimiento-ddd.yml`, desde **Actions → Procedimiento DDD — Aragón**.
 
-- `completo`: reconstruye M01–M03 desde las fuentes congeladas y continúa hasta M08.
-- `iterativo`: reutiliza la preparación M01–M03 cuando su clave de caché es compatible y recalcula M04–M08.
+- `completo`: reconstruye M01–M03 desde fuentes congeladas y continúa hasta M08.
+- `iterativo`: reutiliza M01–M03 si la preparación es compatible y recalcula M04–M08.
 
-M01–M03 son preparación territorial reutilizable. M04–M06 constituyen el núcleo de distritación. M07–M08 son posteriores y no intervienen en la construcción de los distritos.
+M01–M03 = preparación reutilizable. M04–M06 = núcleo territorial. M07–M08 = capa electoral posterior.
 
 ## Outputs y auditabilidad
 
-Cada ejecución publica `resultados/ejecuciones/<RUN_ID>/M01...M08/`. Los CSV/JSON/JSONL navegables permanecen en Git. Las geometrías pesadas se conservan como artefactos separados de GitHub Actions para no inflar el historial. Cada módulo publica `PRODUCTOS.json` con ruta, tamaño y SHA-256 del producto pesado.
+Cada ejecución publica `resultados/ejecuciones/<RUN_ID>/M01...M08/`. CSV/JSON/JSONL completos permanecen navegables en Git. Las geometrías pesadas se conservan como artefactos M01–M08 de GitHub Actions. `PRODUCTOS.json` identifica los productos pesados por ruta, tamaño y SHA-256.
 
-M06 no es un resumen de dos columnas: publica `catalogo_distritos.csv` y `composicion_distritos.csv`, además de los GeoJSON completos. Debe permitir reconstruir qué territorio y qué secciones forman cada distrito.
+M06 publica `catalogo_distritos.csv` y `composicion_distritos.csv`, además de GeoJSON de secciones y distritos. Debe permitir reconstruir qué territorio forma cada distrito y seguirá enriqueciéndose como ficha territorial.
 
-## Validación y criterio de aceptación
+## Validación y aceptación
 
-`herramientas/validar_ejecucion.py` es la puerta final, pero los módulos críticos también deben validar sus invariantes antes de exportar. Un `PASS` solo es aceptable si las reglas que pretende certificar están realmente implementadas; el Run #5 demostró por qué un PASS con una puerta incompleta no constituye una referencia territorial.
+`herramientas/validar_ejecucion.py` es la puerta final y los módulos críticos validan también sus invariantes antes de exportar. Un PASS solo vale si las reglas certificadas están realmente implementadas. Run #5 demostró el peligro de una puerta incompleta; Run #6 demostró que M05 debe rechazar una mala salida de M04; Run #7 demuestra las reglas R012 completas.
 
-Una versión nueva no sustituye a la anterior porque “termine”: debe mantener todas las restricciones duras y mejorar una capacidad o métrica explícita. Las regresiones se documentan y no se promocionan.
+Una versión nueva solo sustituye a la anterior si mantiene todas las restricciones ya aceptadas y mejora una capacidad o métrica explícita.
 
-## Trazabilidad y versionado
+## Trazabilidad
 
-- Código, configuración y documentación tienen versión explícita.
-- Antes de sustituir un archivo relevante se conserva la versión anterior en `legacy/`.
-- Cada desarrollo significativo es una **ronda** (`docs/RONDAS/`).
-- Cada ejecución relevante tiene expediente (`docs/EJECUCIONES/`).
-- `docs/BITACORA.md` registra la evolución cronológica.
-- `docs/ESTADO_MAESTRO_PROYECTO.md` es la **fuente canónica del estado vigente**.
-- `docs/CONTINUIDAD_NUEVO_CHAT.md` contiene el protocolo para retomar el proyecto sin depender del contexto de una conversación anterior.
+- Versiones explícitas y anteriores preservadas en `legacy/`.
+- Rondas en `docs/RONDAS/`.
+- Expedientes de ejecución en `docs/EJECUCIONES/`.
+- Evolución en `docs/BITACORA.md`.
+- Estado canónico en `docs/ESTADO_MAESTRO_PROYECTO.md`.
+- Handoff entre conversaciones en `docs/CONTINUIDAD_NUEVO_CHAT.md`.
 
-## Documentación: orden de lectura
+Los antiguos `docs/MEMORIA_DEL_PROYECTO.md` y `docs/MEMORIA_PROYECTO.md` están retirados como fuentes vigentes porque contenían estados históricos que podían inducir regresiones.
 
-Para incorporarse al proyecto o continuar en un nuevo chat, leer en este orden:
+## Orden de lectura para continuar
 
-1. `README.md` — propósito, reglas y mapa general.
-2. `docs/ESTADO_MAESTRO_PROYECTO.md` — estado técnico vigente y siguiente acción.
-3. `docs/CONTINUIDAD_NUEVO_CHAT.md` — protocolo de continuidad y hechos que no deben perderse.
-4. `docs/ARQUITECTURA_DEL_PROCEDIMIENTO.md` — arquitectura M01–M08.
-5. `docs/MODULOS/README.md` y el contrato del módulo que se vaya a modificar.
-6. `docs/BITACORA.md` — evolución y decisiones.
-7. Última ronda de `docs/RONDAS/` y última ejecución de `docs/EJECUCIONES/`.
-8. `configuracion/aragon_2025.yaml`, workflow y código del módulo afectado.
+1. `README.md`.
+2. `docs/ESTADO_MAESTRO_PROYECTO.md`.
+3. `docs/CONTINUIDAD_NUEVO_CHAT.md`.
+4. `docs/ARQUITECTURA_DEL_PROCEDIMIENTO.md`.
+5. `docs/MODULOS/README.md` + contrato del módulo en curso.
+6. `docs/BITACORA.md`.
+7. Última ronda y última ejecución.
+8. Configuración, workflow y código afectado.
 
-Los documentos históricos `docs/MEMORIA_DEL_PROYECTO.md` y `docs/MEMORIA_PROYECTO.md` no deben utilizarse como estado vigente; se mantienen únicamente por trazabilidad histórica y remiten al Estado Maestro.
+## Incidencia operativa menor vigente
+Run #7 mostró `PRODUCTOS.json: command not found` durante la generación del README de resultados por un heredoc de shell que interpreta backticks. No afectó al resultado ni a la publicación; debe corregirse separadamente del algoritmo.
 
 ## Principio rector
 
