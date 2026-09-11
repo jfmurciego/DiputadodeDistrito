@@ -1,0 +1,10 @@
+{
+  "module": "03",
+  "nodes": 1463,
+  "edges": 4293,
+  "isolated": 0,
+  "total_pop": 1364621,
+  "id_field": "CUSEC_KEY",
+  "pop_field": "POP_2025",
+  "out_graph_json": "/app/.cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json"
+}

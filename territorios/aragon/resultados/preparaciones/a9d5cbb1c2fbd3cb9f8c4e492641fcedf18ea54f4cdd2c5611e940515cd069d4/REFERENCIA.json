@@ -1,0 +1,11 @@
+{
+  "preparation_key": "a9d5cbb1c2fbd3cb9f8c4e492641fcedf18ea54f4cdd2c5611e940515cd069d4",
+  "producer_run_id": 34580841510,
+  "producer_run_number": 3,
+  "producer_commit": "2835938ed40a272c0e34f609c7b9966c7b5225ca",
+  "status": "success_M01_M03",
+  "M01": {"sections": 1463, "missing_population": 0},
+  "M02": {"edges": 4293},
+  "M03": {"nodes": 1463, "edges": 4293, "isolated": 0, "total_population": 1364621},
+  "note": "Esta preparación territorial fue producida por Run #3 y reutilizada por Run #4. Las ejecuciones iterativas con esta misma clave deben referenciar este expediente en lugar de fingir que M01-M03 se recalcularon."
+}

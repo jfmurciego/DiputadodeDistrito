@@ -1,72 +1,63 @@
 # Política de versiones y conservación
 
-**Versión:** 1.2.2 — Promoción sin mutar el artefacto probado  
-**Fecha:** 2026-09-11  
-**Anterior:** `legacy/docs/POLITICA_DE_VERSIONES_v1.2.1.md`
+**Versión:** 1.3.0 — Multi-territorio y compatibilidad controlada
+**Fecha:** 2026-09-11
+**Anterior:** `legacy/docs/POLITICA_DE_VERSIONES_v1.2.2.md`
 
 ## Regla inviolable
 
-Ningún fichero funcional/versionado existente se sustituye sin conservar previamente su contenido anterior en `legacy/`. Git conserva historial; `legacy/` es la capa explícita de arqueología inspeccionable sin reconstruir commits.
-
-La copia archivada representa evidencia y debe conservar el contenido anterior **literalmente**. Un linter o formatter no debe modificar retrospectivamente esa copia para eliminar whitespace u otros defectos cosméticos. Los huecos heredados se documentan como deuda histórica; nunca se rellenan con contenido inventado.
+Ningún fichero funcional/versionado existente se sustituye sin conservar previamente su contenido anterior en `legacy/`. Las copias históricas son evidencia y no se reescriben para satisfacer reglas posteriores.
 
 ## Versionado
 
-Se usa `MAJOR.MINOR.PATCH`:
-- **MAJOR:** cambia contrato, algoritmo fundamental o compatibilidad de entradas/salidas.
-- **MINOR:** mejora funcional compatible o modificación sustancial de comportamiento.
-- **PATCH:** corrección compatible, metadatos o trazabilidad sin cambio de contrato.
-
-El fichero activo mantiene nombre estable. La versión retirada se conserva en `legacy/<familia>/..._vA.B.C.*`.
+SemVer:
+- MAJOR: cambia contrato o arquitectura incompatible;
+- MINOR: mejora funcional compatible;
+- PATCH: corrección compatible, metadatos o trazabilidad.
 
 ## Cabecera obligatoria
 
-Código ejecutable, configuración y workflows versionados deben declarar, cuando el formato lo permita: proyecto/componente, versión, nombre de versión, fecha, función/alcance, estado, cambios, motivo y predecesor.
+Código, configuración, workflows y documentos versionados deben declarar versión, nombre, fecha, alcance, estado, cambios, motivo y predecesor/origen cuando el formato lo permita. Una ruta `Anterior` debe existir; si no existe, declarar explícitamente predecesor histórico no recuperado.
 
-Si existe predecesor materializado, `ANTERIOR` debe apuntar a su ruta real. Si no fue recuperado debe declararse `PREDECESOR HISTÓRICO NO RECUPERADO` u `ORIGEN: baseline recuperado`. Queda prohibido fingir una ruta `legacy/` inexistente.
+## Promoción
 
-Los documentos canónicos con versión explícita también deben conservar su predecesor inmediato y, cuando declaren `Anterior`, esa ruta debe existir físicamente. Los documentos acumulativos sin versión propia, como `REGISTRO_DE_CAMBIOS.md`, deben conservar una instantánea previa cuando sean reescritos.
+Un artefacto ya probado no se reescribe solo para cambiar `candidato` por `vigente`. La promoción se registra en documentación canónica y expediente de run.
 
-Outputs generados, fuentes congeladas y formatos sin cabecera textual resuelven trazabilidad mediante manifiestos, hashes y documentación asociada.
+## Arquitectura multi-territorio
 
-## Promoción de una versión ya probada
+El repositorio contiene un único motor y múltiples paquetes `territorios/<id>/`. Queda prohibido usar repositorios o ramas permanentes como mecanismo de separación por territorio.
 
-La promoción no debe modificar innecesariamente el artefacto que acaba de superar las pruebas. Si una versión fue publicada como candidata y un GitHub Run posterior valida exactamente ese blob, **no se reescribe el ejecutable únicamente para cambiar la palabra `candidato` por `vigente`**. Hacerlo produciría un blob distinto del que fue realmente probado.
+Un paquete territorial puede contener configuración, inputs, docs, tests y referencias de resultados. No puede contener una copia de `ddd_core/` o `modulos/`.
 
-En ese caso, el estado vigente se registra en `README.md`, Estado Maestro, Bitácora, Registro de Cambios y expediente de ejecución. La cabecera del ejecutable conserva el estado con el que fue publicada. Cualquier modificación posterior del fichero sí exige nueva versión y `legacy/`.
+Si una nueva implantación descubre una diferencia, primero debe intentarse expresar como:
+1. parámetro;
+2. rol genérico del contrato territorial;
+3. estrategia reusable del motor.
+Solo después puede considerarse una extensión específica, siempre documentada y sin romper otros territorios.
 
-## Estado canónico
+## Compatibilidad temporal
 
-Los documentos vigentes son `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, `docs/CONTINUIDAD_NUEVO_CHAT.md`, `docs/BITACORA.md` y `docs/REGISTRO_DE_CAMBIOS.md`. Los antiguos `docs/MEMORIA*` están retirados y no deben actualizarse.
+Rutas históricas pueden mantenerse temporalmente si son necesarias para reproducir un baseline validado. Deben marcarse como compatibilidad, no como arquitectura canónica. Su retirada exige demostrar que la nueva ruta/workflow reproduce el baseline protegido.
 
 ## Procedimiento de cambio
 
 Todo cambio funcional exige:
-1. conservar **antes** la versión anterior en `legacy/`;
+1. preservar predecesor;
 2. incrementar versión;
-3. actualizar cabecera/metadatos;
-4. registrar el cambio;
-5. actualizar documentos canónicos si cambia el estado que comunican;
-6. usar commit identificable;
-7. ejecutar la puerta automática de regresión aplicable;
-8. registrar una nueva ejecución territorial cuando cambie comportamiento del procedimiento.
-
-Los cambios documentales versionados conservan también su predecesor. Las copias `legacy/` de documentos o código no se corrigen retroactivamente para satisfacer reglas introducidas después.
-
-## Puerta automática
-
-`.github/workflows/pruebas-ddd.yml` ejecuta la suite automática. Como mínimo debe permanecer verde para cualquier cambio que afecte componentes auditados, configuración, workflows, M04/M05 o documentación de gobernanza.
-
-La suite verifica cabeceras, predecesores reales, invariantes territoriales históricas, determinismo y las regresiones específicas de las rondas promovidas. La suite no sustituye al procedimiento territorial cuando cambia lógica funcional.
-
-## Aceptación
-
-Una ejecución local, simulación o sesión de IA es diagnóstico. La evidencia de aceptación procede de GitHub Actions reproducible, validaciones integradas y puerta de regresión automática. La referencia territorial vigente es **Run #9 `34599224954` / R016** hasta que una ronda funcional posterior produzca una referencia aceptada mejor.
+3. actualizar metadatos;
+4. registrar cambio;
+5. ejecutar CI;
+6. si afecta comportamiento territorial, ejecutar nuevo run reproducible;
+7. comprobar regresiones de todos los territorios validados, no solo del territorio nuevo.
 
 ## Ramas
 
-**`main` es la única rama permanente.** Actualmente es también la única rama existente. Si una operación técnica necesita una rama temporal, debe tener propósito acotado, integrarse y eliminarse inmediatamente después. Las versiones históricas se conservan en `legacy/`, no mediante acumulación de ramas.
+`main` es la única rama permanente. Cualquier rama técnica temporal debe integrarse y eliminarse. Las versiones históricas viven en `legacy/`.
 
 ## Resultados
 
-Cada ejecución usa `run_id` inmutable. El manifiesto identifica commit, versiones, parámetros, hashes de entradas, semilla, entorno, métricas, validaciones y hashes/rutas de salidas. Ningún resultado anterior se sobrescribe.
+Cada run usa identidad inmutable y manifiesto. Los resultados por territorio deben poder asociarse inequívocamente a `territory_id`, configuración, commit y hashes de inputs.
+
+## Estado canónico
+
+Documentos vigentes: `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, `docs/CONTINUIDAD_NUEVO_CHAT.md`, `docs/BITACORA.md`, `docs/REGISTRO_DE_CAMBIOS.md`, `docs/ARQUITECTURA_MULTI_TERRITORIO.md` y `docs/CONTRATO_TERRITORIO.md`. Los antiguos `MEMORIA*` no son fuentes activas.
