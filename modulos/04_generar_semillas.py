@@ -3,16 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.4
-NOMBRE DE VERSIÓN: Residuo municipal con salida territorial
+VERSIÓN: 7.4.5
+NOMBRE DE VERSIÓN: Búsqueda residual primero
 FECHA: 2026-09-11
 FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con el contrato territorial y dividiendo municipios sobredimensionados sin aislar el residuo municipal abierto.
 ENTRADAS: grafo M03, geometría M01, configuración territorial y topology_bridges declarados en M02.
 SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04.
 ESTADO: candidato CYL-03.
-CAMBIOS: además de proteger topology_bridges, identifica las secciones de borde real de cada municipio dividido y exige que el residuo abierto conserve al menos una de ellas; la partición global solo elige como residuo una pieza con contacto exterior real y la extracción secuencial rechaza núcleos que consuman todas las puertas municipales.
-MOTIVO: CYL-03 v7.4.3 dejó aislado el residuo 09:09018:R de Aranda de Duero (4.464 habitantes): era conexo internamente, pero el núcleo cerrado había absorbido todas las secciones que enlazaban el municipio con sus vecinos. Un residuo abierto debe conservar salida al grafo provincial.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.3.py
+CAMBIOS: mantiene la búsqueda de núcleo cerrado, pero cuando ésta no puede conservar una salida territorial busca directamente un residuo conexo desde las secciones-puerta y acepta su complemento como núcleo si ambos lados son conexos y el núcleo cae en ±12 %. Registra el modo residual_first_complement.
+MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.4.py
 """
 from __future__ import annotations
 import argparse, collections, io, json, math, sys, zipfile
@@ -150,19 +150,38 @@ def find_closed_core(rem,desired,lo,hi,adj,w,left_after,protected=None,residual_
                 if v in rem and v not in seen and v not in protected:seen.add(v);q.append(v)
     return best[1] if best else None
 
+def find_residual_complement(rem,desired,lo,hi,adj,w,protected=None,residual_gateways=None):
+    rem=set(rem);protected=set(protected or ());residual_gateways=set(residual_gateways or ());rp=sum(w[n] for n in rem)
+    starts=sorted(residual_gateways or protected or rem,key=str);best=None
+    for s in starts:
+        residual=set();seen={s};q=collections.deque([s]);rpop=0
+        while q:
+            u=q.popleft();residual.add(u);rpop+=w[u];core=rem-residual;cpop=rp-rpop
+            if core and lo<=cpop<=hi and protected.issubset(residual) and ((not residual_gateways) or bool(residual&residual_gateways)) and connected(core,adj):
+                score=(abs(cpop-desired),rpop,len(residual),str(s));
+                if best is None or score<best[0]:best=(score,set(core),set(residual))
+            if cpop<lo:break
+            nbrs=sorted({v for x in residual for v in adj.get(x,set()) if v in rem and v not in seen},key=lambda n:(w[n],str(n)))
+            for v in nbrs:seen.add(v);q.append(v)
+    return (best[1],best[2]) if best else (None,None)
+
 def split_sequential(nodes,target,tol,adj,w,label='',protected=None,residual_gateways=None):
-    rem=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ());mp=sum(w[n] for n in rem);lo=target-tol;hi=target+tol;n_closed=max(1,int(math.ceil(max(0.0,mp-hi)/hi)));closed=[]
+    rem=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ());mp=sum(w[n] for n in rem);lo=target-tol;hi=target+tol;n_closed=max(1,int(math.ceil(max(0.0,mp-hi)/hi)));closed=[];mode='sequential_core_residual'
     for idx in range(n_closed):
         left_after=n_closed-idx-1;rp=sum(w[n] for n in rem);need_remove=max(0.0,rp-hi);core_min=max(lo,need_remove-left_after*hi);core_max=min(hi,rp-left_after*lo)
         if core_min>core_max+1e-9:raise SystemExit(f'M04: rango municipal imposible {label}: rem={rp} core_min={core_min:.2f} core_max={core_max:.2f}')
         desired=min(max(target,core_min),core_max);core=find_closed_core(rem,desired,core_min,core_max,adj,w,left_after,protected,residual_gateways)
+        if core is None and left_after==0:
+            core,residual=find_residual_complement(rem,desired,core_min,core_max,adj,w,protected,residual_gateways)
+            if core is not None:
+                closed.append(core);rem=residual;mode='residual_first_complement';break
         if core is None:raise SystemExit(f'M04: no se puede extraer núcleo municipal factible {label}; pop_rem={rp} protected={sorted(protected)} gateways={sorted(residual_gateways)} rango=[{core_min:.2f},{core_max:.2f}]')
         closed.append(core);rem-=core
         if rem and not connected(rem,adj):raise SystemExit(f'M04: residuo municipal desconectado {label}')
     if not protected.issubset(rem):raise SystemExit(f'M04: pasarela topológica cerrada indebidamente {label}')
     if residual_gateways and not(rem&residual_gateways):raise SystemExit(f'M04: residuo municipal sin salida territorial {label}')
     if sum(w[n] for n in rem)>hi+1e-9:raise SystemExit(f'M04: residuo municipal excede tolerancia superior {label}')
-    return closed,rem,'sequential_core_residual'
+    return closed,rem,mode
 
 def partition_oversized_municipality(nodes,target,tol,adj,w,label='',protected=None):
     nodes=set(nodes);protected=set(protected or ());residual_gateways={n for n in nodes if any(nb not in nodes for nb in adj.get(n,set()))};mp=sum(w[n] for n in nodes);lo=target-tol;hi=target+tol;q=max(2,int(round(mp/target)));avg=mp/q
@@ -249,7 +268,7 @@ def main():
     for _,x in g.groupby('district_id'):prov_counts[str(x[provf].iloc[0]).zfill(2)]+=1
     if prov_counts!=quota:raise SystemExit(f'M04: cardinalidad provincial {prov_counts}, esperada {quota}')
     if hard:raise SystemExit(f'M04: solución inicial mantiene {hard} distritos fuera de suelo/techo')
-    write_geo(g,out);rep={'module':'04','version':'7.4.4','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True}}
+    write_geo(g,out);rep={'module':'04','version':'7.4.5','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'residual_first_complement_fallback':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True}}
     if report_path:Path(report_path).write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding='utf-8')
-    print(f'[Módulo 4] OK v7.4.4 K={K} provincias={prov_counts} hard=0 outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
+    print(f'[Módulo 4] OK v7.4.5 K={K} provincias={prov_counts} hard=0 outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
 if __name__=='__main__':main()
