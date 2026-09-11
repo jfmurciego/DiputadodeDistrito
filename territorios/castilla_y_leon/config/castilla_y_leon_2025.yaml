@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.7.0
-# NOMBRE DE VERSIÓN: Contrato M04 con continuidad intramunicipal explícita
+# VERSIÓN: 0.7.1
+# NOMBRE DE VERSIÓN: Contrato M03 de conectividad administrativa
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-03
-# QUÉ HACE: mantiene el contrato de 82 distritos y añade al grafo territorial la continuidad administrativa necesaria para municipios con exclaves reales.
-# CAMBIOS: incorpora una séptima pasarela topológica entre 4717501004 (exclave de Herrera de Duero) y 4717501003 (cuerpo principal de Tudela de Duero), la sección del mismo municipio más próxima; expected_topology_bridges pasa de 6 a 7.
-# MOTIVO: M04 v7.4.5 superó Aranda de Duero y reveló que Tudela de Duero es administrativamente único pero geométricamente discontinuo. Relajar la contigüidad en M04 o colapsar componentes fabricaría conectividad; la continuidad administrativa debe declararse de forma explícita y auditable en M02.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.6.0.yaml
+# QUÉ HACE: mantiene el contrato M04 validado y exige que M03 certifique conectividad provincial e intramunicipal antes de abrir la distritación.
+# CAMBIOS: activa require_connected_municipalities; declara province_field explícitamente; conserva las siete pasarelas topológicas, K=82, Hamilton y los umbrales poblacionales de CYL-03.
+# MOTIVO: el exclave de Herrera de Duero demostró que comprobar solo la conectividad provincial era insuficiente. Las unidades administrativas que M04 trata como atómicas deben llegar ya certificadas por M03.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.7.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,7 +16,7 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.7.0
+  schema_version: 0.7.1
   status: candidate_m04
 
 io:
@@ -67,6 +67,7 @@ territory_contract:
     - Los municipios sobredimensionados producen núcleos urbanos cerrados dentro de target±12% y, como máximo, un residuo municipal abierto que puede combinarse con unidades vecinas.
     - Las siete pasarelas topológicas son excepciones explícitas de conectividad; seis resuelven enclaves/huecos provinciales detectados en CYL-02 y una resuelve el exclave intramunicipal de Herrera de Duero dentro de Tudela de Duero.
     - Una pasarela administrativa no modifica geometrías ni fronteras: hace explícita en el grafo una continuidad jurídica/territorial que la geometría de secciones no puede representar como contacto físico.
+    - M03 debe certificar cero provincias y cero municipios desconectados antes de que M04 pueda ejecutarse.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -129,6 +130,8 @@ validation:
   require_non_null_population: true
   require_graph_contiguity: true
   require_one_graph_component_per_province: true
+  require_connected_municipalities: true
+  province_field: CPRO
   require_single_province_per_district: true
   require_municipality_discipline: true
   municipality_field: CUMUN
