@@ -3,9 +3,10 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.5.0
-NOMBRE DE VERSIÓN: Pulido determinista por swaps 1×1
+VERSIÓN: 7.5.1
+NOMBRE DE VERSIÓN: Pulido determinista por swaps 1×1 — contrato gobernado
 FECHA: 2026-09-11
+ESTADO: candidato multi-territorio; swap-polish opt-in en validación EXT-06.
 FUNCIÓN: ejecutar el motor validado M05 v7.4.0, conservar la normalización robusta de `ddd_unit_id` de
 v7.4.2 y, opcionalmente, aplicar una fase final determinista de swaps 1×1 que mejora estrictamente la misma
 función objetivo canónica sin romper provincia, suelo/techo, `ddd_closed_urban` ni contigüidad.
@@ -14,10 +15,11 @@ SALIDAS: GeoJSON optimizado e informe M05 con `swap_polish` cuando está activad
 REGLAS DURAS: el motor base no cambia. El nuevo operador solo se activa con `swap_polish_max > 0`; por
 defecto vale 0 para mantener idénticos los baselines ya validados. Cada swap debe mejorar lexicográficamente
 la función objetivo canónica y preservar todas las restricciones duras.
-CAMBIOS: integra `ddd_core/m05_swap_polish.py` como fase C opt-in posterior al greedy y al annealing.
-MOTIVO: EXT-05 Run 34641298906 encontró 8 swaps 1×1 válidos sobre c020 que reducen el número de outliers,
-mientras M05 v7.4.0 solo explora movimientos unitarios. No se justifican operadores más complejos.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.4.2.py
+CAMBIOS: restaura el campo obligatorio `ESTADO:` y encadena correctamente el predecesor 7.5.0. No cambia
+ninguna regla, operador ni cálculo respecto de 7.5.0.
+MOTIVO: R015 Runs 34641586690/34641628626/34641891985 bloquearon correctamente 7.5.0 por incumplimiento
+del contrato documental y de cabeceras, antes de ejecutar la regresión territorial.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.5.0.py
 """
 from __future__ import annotations
 
@@ -47,7 +49,7 @@ BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v740.py"
 def _load_base():
     spec = importlib.util.spec_from_file_location("ddd_m05_opt_engine_v740", BASE_ENGINE)
     if spec is None or spec.loader is None:
-        raise SystemExit(f"M05 v7.5.0: no se puede cargar {BASE_ENGINE}")
+        raise SystemExit(f"M05 v7.5.1: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -79,10 +81,10 @@ def _raw_geojson(path: Path):
 def _normalise_label(v):
     if isinstance(v, list):
         if len(v) != 1:
-            raise SystemExit(f"M05 v7.5.0: ddd_unit_id multivaluado no normalizable: {v!r}")
+            raise SystemExit(f"M05 v7.5.1: ddd_unit_id multivaluado no normalizable: {v!r}")
         v = v[0]
     if v is None:
-        raise SystemExit("M05 v7.5.0: ddd_unit_id nulo en GeoJSON crudo")
+        raise SystemExit("M05 v7.5.1: ddd_unit_id nulo en GeoJSON crudo")
     return str(v)
 
 
@@ -109,13 +111,13 @@ def _write_zip_json(data: dict, path: Path, inner_name: str):
 def _apply_swap_polish(cfg: dict, s5: dict, out_path: Path, report_path: Path | None):
     max_swaps = int(s5.get("swap_polish_max", 0) or 0)
     if max_swaps < 0:
-        raise SystemExit("M05 v7.5.0: swap_polish_max no puede ser negativo")
+        raise SystemExit("M05 v7.5.1: swap_polish_max no puede ser negativo")
     if max_swaps == 0:
         meta = {"enabled": False, "max_swaps": 0, "accepted_swaps": 0}
     else:
         graph_path = Path(str(s5.get("in_graph_json", "")))
         if not str(graph_path):
-            raise SystemExit("M05 v7.5.0: falta in_graph_json para swap-polish")
+            raise SystemExit("M05 v7.5.1: falta in_graph_json para swap-polish")
         meta = swap_polish(
             cfg=cfg,
             graph_path=graph_path,
@@ -128,7 +130,7 @@ def _apply_swap_polish(cfg: dict, s5: dict, out_path: Path, report_path: Path | 
 
     if report_path and report_path.exists():
         rep = json.loads(report_path.read_text(encoding="utf-8"))
-        rep["version"] = "7.5.0"
+        rep["version"] = "7.5.1"
         rep["swap_polish"] = meta
         report_path.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
     return meta
@@ -143,15 +145,14 @@ def main():
     s5 = _module_cfg(cfg)
     in_path = Path(str(s5.get("in_geojson", "")))
     if not str(in_path):
-        raise SystemExit("M05 v7.5.0: falta in_geojson")
+        raise SystemExit("M05 v7.5.1: falta in_geojson")
 
-    # Camino normal: motor base intacto; fase C opt-in únicamente después de producir la salida.
     if _ogr_can_read_unit(in_path):
         _run_base(str(params))
         out_path = Path(str(s5.get("out_geojson", "")))
         report_path = Path(str(s5.get("out_report", ""))) if s5.get("out_report") else None
         meta = _apply_swap_polish(cfg, s5, out_path, report_path)
-        print(f"[Módulo 5 wrapper] OK v7.5.0 swap_polish={meta.get('accepted_swaps', 0)} out={out_path}")
+        print(f"[Módulo 5 wrapper] OK v7.5.1 swap_polish={meta.get('accepted_swaps', 0)} out={out_path}")
         return
 
     data, inner = _raw_geojson(in_path)
@@ -162,7 +163,7 @@ def main():
     for f, label in zip(data.get("features", []), labels):
         f.setdefault("properties", {})["ddd_unit_id"] = int(label_to_code[label])
 
-    with tempfile.TemporaryDirectory(prefix="ddd_m05_750_") as td_raw:
+    with tempfile.TemporaryDirectory(prefix="ddd_m05_751_") as td_raw:
         td = Path(td_raw)
         tmp_input = td / "m05_input.geojson.zip"
         tmp_output = td / "m05_output.geojson.zip"
@@ -187,7 +188,7 @@ def main():
         final_out.write_bytes(tmp_output.read_bytes())
 
         rep = json.loads(tmp_report.read_text(encoding="utf-8")) if tmp_report.exists() else {}
-        rep["version"] = "7.5.0"
+        rep["version"] = "7.5.1"
         rep["swap_polish"] = meta
         rep["unit_id_normalization"] = {
             "applied": True,
@@ -199,7 +200,7 @@ def main():
             final_report.parent.mkdir(parents=True, exist_ok=True)
             final_report.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
         print(
-            f"[Módulo 5 wrapper] OK v7.5.0 normalized_units={len(unique)} "
+            f"[Módulo 5 wrapper] OK v7.5.1 normalized_units={len(unique)} "
             f"swap_polish={meta.get('accepted_swaps', 0)} out={final_out}"
         )
 
