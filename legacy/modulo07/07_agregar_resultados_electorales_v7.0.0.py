@@ -3,15 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.0.1
-NOMBRE DE VERSIÓN: Agregación electoral desacoplada — Gobernanza R015
+VERSIÓN: 7.0.0
+NOMBRE DE VERSIÓN: Agregación electoral desacoplada
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: agrega resultados electorales de sección a distrito y calcula ganador y bloque por distrito.
 POR QUÉ ES SEPARADO: la elección analizada nunca debe condicionar la geometría de los distritos; puede sustituirse la elección sin redistritar.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.0.0.py
+VERSIÓN ANTERIOR: legacy/recuperado_2026-09-11_v6/scripts/ddd_step7_aggregate_election_results_v6_1_params.py
 """
 from __future__ import annotations
 import argparse,io,json,re,sys,zipfile

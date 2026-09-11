@@ -3,15 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.0.1
-NOMBRE DE VERSIÓN: Profesionalización reproducible — Gobernanza R015
+VERSIÓN: 7.0.0
+NOMBRE DE VERSIÓN: Profesionalización reproducible
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: calcula relaciones de vecindad entre secciones.
 POR QUÉ ES SEPARADO: la adyacencia depende de la cartografía, no del algoritmo de reparto; puede auditarse y reutilizarse.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.0.0.py
+VERSIÓN ANTERIOR: legacy/2026-09-11_github_pre_modulos/scripts/ddd_step2_export_edges_v6_params.py
 """
 from __future__ import annotations
 import sys,argparse,io,json,zipfile

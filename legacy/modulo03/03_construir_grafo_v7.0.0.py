@@ -3,15 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 03 — Construir grafo territorial
-VERSIÓN: 7.0.1
-NOMBRE DE VERSIÓN: Profesionalización reproducible — Gobernanza R015
+VERSIÓN: 7.0.0
+NOMBRE DE VERSIÓN: Profesionalización reproducible
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: construye el grafo de secciones, población y adyacencias.
 POR QUÉ ES SEPARADO: desacopla GIS y optimización y constituye el contrato territorial del algoritmo.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo03/03_construir_grafo_v7.0.0.py
+VERSIÓN ANTERIOR: legacy/2026-09-11_github_pre_modulos/scripts/ddd_step3_build_graph_v6_params.py
 """
 from __future__ import annotations
 import sys,argparse,io,json,zipfile

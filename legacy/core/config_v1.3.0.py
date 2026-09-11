@@ -3,14 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 NÚCLEO: Configuración
-VERSIÓN: 1.3.1
-NOMBRE DE VERSIÓN: Ejecuciones inmutables y run_id — Gobernanza R015
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Ejecuciones inmutables y run_id
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: carga el contrato territorial, resuelve rutas y añade la identidad de ejecución a las plantillas.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/core/config_v1.3.0.py
+POR QUÉ CAMBIA: separa productos territoriales reutilizables de resultados experimentales y evita que una ejecución pise otra.
+VERSIÓN ANTERIOR: legacy/core/config_v1.2.0.py
 """
 from __future__ import annotations
 import os

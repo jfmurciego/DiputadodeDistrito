@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.3.1
-NOMBRE DE VERSIÓN: Escape determinista de mínimos locales — Gobernanza R015
+VERSIÓN: 7.3.0
+NOMBRE DE VERSIÓN: Escape determinista de mínimos locales
 FECHA: 2026-09-11
+ESTADO: candidato
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
 ENTRADAS: grafo M03 y solución M04 v7.3.0 con ddd_unit_id y ddd_closed_urban.
 SALIDAS: asignación optimizada y reporte.
 REGLAS DURAS: provincia única por distrito; movimientos de unidad completa; distritos urbanos cerrados no reciben ni ceden unidades; contigüidad estricta; suelo/techo poblacional.
 OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distritos fuera de ±12%; después máximo desvío y error cuadrático.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.3.0.py
+CAMBIOS VS 7.2.0: añade una fase greedy determinista de mejor movimiento y, si queda bloqueo, un recocido simulado reproducible limitado a las provincias con desequilibrio. El recocido puede atravesar estados intermedios peores en ±12%, pero nunca viola reglas duras; la salida siempre restaura la mejor solución encontrada según el objetivo canónico. Añade penalización de churn para evitar movimientos territoriales innecesarios.
+MOTIVO: Run #7 dejó el distrito 56 en 31.563 habitantes y M05 aceptó 0 movimientos. La auditoría demostró que los únicos movimientos directos territorialmente válidos crean temporalmente un segundo distrito fuera de ±12%, por lo que el greedy lexicográfico queda atrapado en un mínimo local.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.2.0.py
 """
 from __future__ import annotations
 
@@ -379,7 +379,7 @@ def main():
     final_changed_units = sum(unit_dist[u] != baseline_unit_dist[u] for u in unit_dist)
     rep = {
         "module": "05",
-        "version": "7.3.1",
+        "version": "7.3.0",
         "K": K,
         "total_pop": int(total),
         "target": target,

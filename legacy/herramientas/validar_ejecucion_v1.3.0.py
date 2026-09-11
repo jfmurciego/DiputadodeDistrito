@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Validación de ejecución
-VERSIÓN: 1.3.1
-NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal — Gobernanza R015
+VERSIÓN: 1.3.0
+NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: valida cardinalidad, unicidad, población, contigüidad, integridad provincial y disciplina de división municipal.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/validar_ejecucion_v1.3.0.py
+CAMBIOS VS 1.2.0: añade provincia como frontera dura, cardinalidad provincial esperada y control de fragmentación municipal/multiplicidad de distritos mixtos.
+MOTIVO: el Run #5 era técnicamente verde pero contenía distritos interprovinciales y municipios fragmentados de forma incompatible con las reglas DDD.
+VERSIÓN ANTERIOR: legacy/herramientas/validar_ejecucion_v1.2.0.py
 """
 from __future__ import annotations
 import argparse,json,math,os,sys

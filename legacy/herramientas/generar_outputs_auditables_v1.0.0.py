@@ -2,18 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 PROYECTO: Diputado de Distrito
-NOMBRE DE VERSIÓN: Gobernanza R015
 HERRAMIENTA: Generar outputs auditables por módulo
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.0
 FECHA: 2026-09-11
 FUNCIÓN: materializar, para una ejecución, tablas completas y manifiestos por módulo a partir de los productos canónicos M01-M08.
 ENTRADAS: caché territorial M01-M03, outputs M04-M08 y configuración.
 SALIDAS: ejecuciones/<run_id>/auditoria/M01..M08 con CSV/JSON/JSONL completos y referencias SHA-256 a los GeoJSON pesados.
 RAZÓN DE EXISTENCIA: ningún módulo debe quedar representado solo por un contador o un log; cada estado intermedio debe ser inspeccionable y trazable sin inflar el historial Git con geometrías pesadas.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/generar_outputs_auditables_v1.0.0.py
+ORIGEN: R011 — completud y auditabilidad de productos intermedios.
 """
 from __future__ import annotations
 import argparse, hashlib, io, json, shutil, sys, zipfile

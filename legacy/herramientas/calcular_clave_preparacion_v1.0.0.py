@@ -3,15 +3,12 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Clave de preparación territorial
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Caché selectiva M01-M03 — Gobernanza R015
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Caché selectiva M01-M03
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: calcula una huella SHA-256 solo de fuentes, configuración y código que pueden cambiar M01-M03.
 POR QUÉ EXISTE: cambiar M04/M05 o parámetros electorales no debe invalidar una preparación territorial costosa e idéntica.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/calcular_clave_preparacion_v1.0.0.py
 """
 import argparse,hashlib,json
 from pathlib import Path

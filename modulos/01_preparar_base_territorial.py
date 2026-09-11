@@ -3,14 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 01 — Preparar base territorial
-VERSIÓN: 7.0.3
-NOMBRE DE VERSIÓN: Ingesta territorial filtrada robusta
+VERSIÓN: 7.0.4
+NOMBRE DE VERSIÓN: Ingesta territorial filtrada robusta — Gobernanza R015
 FECHA: 2026-09-11
-ESTADO: candidato
 QUÉ HACE: integra cartografía de secciones y población oficial en una base territorial canónica.
 POR QUÉ ES SEPARADO: es la base estable, costosa y cacheable de todos los módulos posteriores.
-CAMBIOS: lectura poblacional por bloques, CUSEC robusto y filtro CPRO antes de cargar la geometría nacional.
-VERSIÓN ANTERIOR: legacy/2026-09-11_modulo01_v7.0.2/01_preparar_base_territorial.py
+ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
+CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
+MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
+ANTERIOR: legacy/modulo01/01_preparar_base_territorial_v7.0.3.py
 """
 from __future__ import annotations
 import sys,argparse,atexit,io,json,re,shutil,tempfile,zipfile

@@ -3,14 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Registro de ejecución
-VERSIÓN: 1.1.1
-NOMBRE DE VERSIÓN: Manifiesto inmutable por ejecución — Gobernanza R015
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Manifiesto inmutable por ejecución
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: registra commit, configuración, módulos, entradas y salidas dentro de ejecuciones/<run_id>/MANIFIESTO_EJECUCION.json.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/registrar_ejecucion_v1.1.0.py
+POR QUÉ CAMBIA: el manifiesto deja de ser global y no puede ser sobrescrito por la corrida siguiente.
+VERSIÓN ANTERIOR: legacy/herramientas/registrar_ejecucion_v1.0.1.py
 """
 from __future__ import annotations
 import argparse,datetime as dt,hashlib,json,os,platform,subprocess,sys

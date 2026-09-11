@@ -3,15 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 08 — Integrar resultados en el mapa final
-VERSIÓN: 7.0.2
-NOMBRE DE VERSIÓN: Cableado modular corregido — Gobernanza R015
+VERSIÓN: 7.0.1
+NOMBRE DE VERSIÓN: Cableado modular corregido
 FECHA: 2026-09-11
+ESTADO: candidato
 QUÉ HACE: une resultados agregados con la geometría distrital.
 POR QUÉ ES SEPARADO: es la unión final de dos productos ya generados y permite cambiar datos electorales sin redistritar.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo08/08_integrar_resultados_v7.0.1.py
+CAMBIOS: usa su propia configuración de entradas y salida; mantiene fallback v6 solo para reproducibilidad.
+VERSIÓN ANTERIOR: legacy/2026-09-11_modulo08_v7.0.0/08_integrar_resultados.py
 """
 from __future__ import annotations
 import sys,argparse,io,zipfile

@@ -3,13 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar distritos
-VERSIÓN: 7.0.0
-NOMBRE DE VERSIÓN: Profesionalización reproducible
+VERSIÓN: 7.0.1
+NOMBRE DE VERSIÓN: Profesionalización reproducible — Gobernanza R015
 FECHA: 2026-09-11
-ESTADO: candidato
 QUÉ HACE: genera resúmenes poblacionales y geometrías finales.
 POR QUÉ ES SEPARADO: la optimización no debe controlar el formato de publicación ni sus validaciones.
-VERSIÓN ANTERIOR: legacy/recuperado_2026-09-11_v6/
+ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
+CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
+MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
+ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.0.0.py
 """
 from __future__ import annotations
 import sys,argparse,io,zipfile

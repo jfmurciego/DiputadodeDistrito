@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.1.1
-# NOMBRE DE VERSIÓN: Ejecución inmutable con preparación reutilizable — Gobernanza R015
+# VERSIÓN: 2.1.0
+# NOMBRE DE VERSIÓN: Ejecución inmutable con preparación reutilizable
 # FECHA: 2026-09-11
+# ESTADO: candidato
 # QUÉ HACE: ejecuta M01-M08, reutiliza M01-M03 y guarda M04-M08, logs, manifiesto y validación por run_id.
-# ESTADO: vigente — R015 de gobernanza; comportamiento heredado sin cambios.
-# CAMBIOS: normaliza metadatos y predecesor legacy; no cambia comportamiento.
-# MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.1.0.sh
+# POR QUÉ CAMBIA: elimina output compartido y las copias cache→output; ninguna ejecución puede pisar otra.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.0.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-configuracion/aragon_2025.yaml}"

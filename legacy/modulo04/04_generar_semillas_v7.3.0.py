@@ -3,16 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.3.1
-NOMBRE DE VERSIÓN: Partición balanceada conexa por provincia — Gobernanza R015
+VERSIÓN: 7.3.0
+NOMBRE DE VERSIÓN: Partición balanceada conexa por provincia
 FECHA: 2026-09-11
+ESTADO: candidato
 FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos salvo cuando exceden el techo duro y garantizando contigüidad antes de exportar.
 ENTRADAS: grafo M03, geometría M01 y configuración R012.
 SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.3.0.py
+CAMBIOS VS 7.2.1: sustituye el crecimiento multisemilla que podía encerrar semillas pequeñas por una partición conexa híbrida (peeling + crecimiento) seguida de reparación local; aplica el mismo principio al ensamblaje provincial de unidades; añade autovalidación de provincia, cardinalidad y contigüidad antes de exportar.
+MOTIVO: Run #6 reveló que M04 v7.2.0 entregaba el distrito 52 con 15 componentes. La prueba sobre los mismos artefactos del Run #6 demuestra 67 distritos, reparto 11/7/49, cero cruces, cero desconectados y cero violaciones de suelo/techo antes de M05.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.2.1.py
 """
 from __future__ import annotations
 import argparse, collections, io, json, math, sys, zipfile
@@ -183,7 +183,7 @@ def main():
     for _,x in g.groupby('district_id'):prov_counts[str(x[provf].iloc[0]).zfill(2)]+=1
     if prov_counts!=quota:raise SystemExit(f'M04: cardinalidad provincial {prov_counts}, esperada {quota}')
     if hard:raise SystemExit(f'M04: solución inicial mantiene {hard} distritos fuera de suelo/techo')
-    write_geo(g,out);rep={'module':'04','version':'7.3.1','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'min_pop':int(pops.min()),'max_pop':int(pops.max()),'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_cap':True,'municipal_partition_connected':True,'closed_urban_blocks':True,'district_contiguity_preexport':True}}
+    write_geo(g,out);rep={'module':'04','version':'7.3.0','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'min_pop':int(pops.min()),'max_pop':int(pops.max()),'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_cap':True,'municipal_partition_connected':True,'closed_urban_blocks':True,'district_contiguity_preexport':True}}
     if report_path:Path(report_path).write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding='utf-8')
     print(f'[Módulo 4] OK v7.3.0 K={K} provincias={prov_counts} hard=0 min={int(pops.min())} max={int(pops.max())} out={out}')
 if __name__=='__main__':main()

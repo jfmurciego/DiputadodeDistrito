@@ -1,0 +1,17 @@
+archivo	anterior	nueva
+configuracion/aragon_2025.yaml	7.5.0	7.5.1
+ddd_core/config.py	1.3.0	1.3.1
+herramientas/adquirir_fuentes_ine.py	1.0.0	1.0.1
+herramientas/calcular_clave_preparacion.py	1.0.0	1.0.1
+herramientas/generar_outputs_auditables.py	1.0.0	1.0.1
+herramientas/registrar_ejecucion.py	1.1.0	1.1.1
+herramientas/validar_ejecucion.py	1.3.0	1.3.1
+modulos/01_preparar_base_territorial.py	7.0.3	7.0.4
+modulos/02_construir_adyacencias.py	7.0.0	7.0.1
+modulos/03_construir_grafo.py	7.0.0	7.0.1
+modulos/04_generar_semillas.py	7.3.0	7.3.1
+modulos/05_optimizar_distritos.py	7.3.0	7.3.1
+modulos/06_consolidar_distritos.py	7.0.0	7.0.1
+modulos/07_agregar_resultados_electorales.py	7.0.0	7.0.1
+modulos/08_integrar_resultados.py	7.0.1	7.0.2
+procedimiento.sh	2.1.0	2.1.1

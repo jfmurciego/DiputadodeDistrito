@@ -3,17 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Adquisición de fuentes oficiales INE
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Materialización oficial Aragón 2025 — Gobernanza R015
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Materialización oficial Aragón 2025
 FECHA: 2026-09-11
 QUÉ HACE: descarga población 65034 y cartografía Secciones_2025 directamente del INE; materializa solo secciones de Aragón y registra procedencia y SHA-256.
 POR QUÉ EXISTE: evita almacenar o trocear grandes fuentes públicas en GitHub y hace reproducible su adquisición.
 INPUTS REMOTOS: INE JAXI tabla 65034; INE OGC API Features Secciones_2025.
 OUTPUTS: inputs/65034.csv, inputs/seccionado_2025_aragon.geojson, inputs/FUENTES_ADQUIRIDAS.json.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_ine_v1.0.0.py
 """
 from __future__ import annotations
 import argparse,hashlib,json,time
