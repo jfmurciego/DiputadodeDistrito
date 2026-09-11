@@ -1,8 +1,8 @@
 # Continuidad del proyecto en un nuevo chat
 
-**Versión:** 1.1.0  
+**Versión:** 1.2.0  
 **Fecha de corte:** 2026-09-11  
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.0.0.md`
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.1.0.md`
 
 ## Fuente de verdad y lectura obligatoria
 El repositorio `jfmurciego/DiputadodeDistrito` manda sobre cualquier recuerdo del chat. Al abrir una conversación nueva: leer `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, este documento, `docs/BITACORA.md`, arquitectura, contratos M01–M08, última ronda/ejecución, configuración, workflow y código afectado. Los dos `docs/MEMORIA*` están retirados y no son estado vigente.
@@ -33,34 +33,41 @@ Toda versión relevante preserva anterior en `legacy/`, incrementa versión y ac
 
 **M04 v7.3.0:** corrige la causa mediante partición balanceada/conexa, ensamblaje rural conexo, sin fallback no adyacente y autovalidación antes de exportar.
 
-## Estado vigente: Run #7
+## Última referencia GitHub: Run #7
 GitHub Run #7 **`34588834266` terminó SUCCESS** sobre commit `98a2e68907273fcd382a241687e645e8615bb47a`, modo iterativo.
 
 - M01–M03: caché restaurada.
 - M04 v7.3.0: K=67, cuotas 11/7/49, `hard=0`, min=18.345, max=31.563.
-- M05 v7.2.0: `hard=0`, `fuera_12=1`, `max_rel_dev=0.5497`, **0 movimientos de unidad**.
+- M05 v7.2.0: `hard=0`, `fuera_12=1`, `max_rel_dev=0.5497`, 0 movimientos.
 - M06–M08: completados.
-- Validación: **provincias PASS; disciplina municipal PASS; contigüidad PASS; población PASS**.
-- Outputs M01–M08: materializados y publicados.
+- Validación: provincias PASS; disciplina municipal PASS; contigüidad PASS; población dura PASS.
 
-Run #7 es la primera evidencia GitHub de que R012 funciona estructuralmente. No es todavía solución final porque queda un distrito fuera de ±12%.
+Run #7 es la primera evidencia GitHub de que R012 funciona estructuralmente. No es todavía solución final de equilibrio porque queda un distrito fuera de ±12 %.
 
-## Defecto operativo detectado en Run #7
-El workflow muestra `PRODUCTOS.json: command not found` durante la generación del README de resultados. No invalida el run ni impide publicar los archivos. Causa: backticks interpretados por shell dentro de heredoc no protegido. Debe corregirse como mantenimiento del workflow, separado del algoritmo.
+## Mantenimiento operativo ya cerrado
+El error `PRODUCTOS.json: command not found` del Run #7 fue corregido en workflow **v2.7.1**. La v2.7.0 está preservada en `legacy/workflows/`. No queda pendiente ninguna acción sobre ese defecto salvo verificar que no reaparece en el próximo run.
 
-## Problema técnico inmediato
-M04 ya entrega una solución estructuralmente válida. M05 no realiza ningún movimiento y deja el distrito de 31.563 habitantes fuera de ±12%. Hay que inspeccionar qué distrito es, sus `ddd_unit_id`, vecinos y restricciones que bloquean `candidates()`. Puede ser necesario permitir transferencias internas entre bloques del mismo municipio sobredimensionado sin abrir su frontera exterior; no debe relajarse provincia, contigüidad ni disciplina municipal.
+## R014 — problema técnico resuelto en candidato
+Auditoría formal: `docs/AUDITORIAS/AUDITORIA_M05_RUN7_2026-09-11.md`. Diseño: `docs/RONDAS/R014_2026-09-11_escape_minimo_local_m05.md`.
+
+El outlier es el distrito **56 de Zaragoza, 31.563 habitantes**. M05 v7.2.0 no estaba sin candidatos: la reconstrucción exacta arroja 642 relaciones dirigidas únicas. El problema es un mínimo local del greedy lexicográfico. Los movimientos que permiten descargar el distrito preservando contigüidad empeoran temporalmente el número de distritos fuera de ±12 %, y por eso eran rechazados; otros movimientos pequeños romperían contigüidad y deben seguir rechazándose.
+
+Se ha publicado **M05 v7.3.0 — Escape determinista de mínimos locales** y **configuración Aragón v7.5.0**. M05 mantiene el objetivo canónico para seleccionar el producto, pero puede explorar temporalmente estados peores mediante recocido simulado reproducible dentro de la provincia afectada. Ninguna transición puede romper suelo/techo, provincia, contigüidad, unidad `ddd_unit_id` ni cierre urbano. La salida siempre recupera la mejor solución canónica encontrada.
+
+Prueba diagnóstica sobre artefactos exactos Run #7: `hard=0`, `fuera_12=0`, `max_rel_dev≈0,11943`, min=18.345, max=22.800, cuotas 11/7/49, 0 desconectados, 0 cruces provinciales y 0 infracciones municipales. **No es todavía referencia oficial:** falta ratificación GitHub.
+
+La clave de preparación M01–M03 es selectiva y no depende de M04/M05, por lo que el próximo run iterativo debe reutilizar la caché territorial.
 
 ## Outputs obligatorios
 M01 secciones completas; M02 todas las aristas; M03 grafo completo; M04 asignación inicial completa; M05 asignación optimizada completa; M06 catálogo + composición + geometrías; M07 resultados por partido/distrito + resumen; M08 producto final. M06 debe seguir enriqueciéndose como ficha territorial: población/desviación, secciones, municipios/composición, provincia, superficie, perímetro, compacidad y atributos territoriales fiables.
 
 ## Orden exacto para continuar
-1. Verificar si existe un run posterior al #7 antes de asumir que #7 sigue siendo el último.
-2. Crear/leer expediente formal del Run #7.
-3. Corregir el heredoc del workflow sin mezclar esa corrección con M05.
-4. Auditar M05 del Run #7 y explicar por qué aceptó cero movimientos.
-5. Diseñar R014/M05 siguiente manteniendo todos los PASS R012 y buscando `fuera_12=0`.
-6. Tras el siguiente run, actualizar expediente, bitácora, Estado Maestro y este documento si cambia el estado.
+1. Verificar que no haya aparecido un run posterior al #7.
+2. Lanzar desde GitHub Actions `Procedimiento DDD — Aragón` en modo `iterativo` sobre el `main` actual.
+3. Verificar reutilización de caché M01–M03.
+4. Auditar M05 v7.3.0 y exigir `hard=0`, `fuera_12=0`.
+5. Exigir provincia PASS, disciplina municipal PASS, contigüidad PASS, conservación exacta y outputs M01–M08.
+6. Si SUCCESS, crear expediente del nuevo run y promocionar R014 actualizando README, bitácora, Estado Maestro y continuidad. Si FAIL, diagnosticar el primer módulo que viole contrato sin relajar R012.
 
 ## Regla de interacción
 No repetir recaps innecesarios ni detenerse cuando existe una acción clara. El asistente debe inspeccionar GitHub/logs/artefactos directamente, no pedir al usuario que copie errores disponibles en el repo. **Cada respuesta sustantiva termina con “Siguiente paso” concreto.**
