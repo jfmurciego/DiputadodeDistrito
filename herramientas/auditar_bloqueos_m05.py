@@ -3,20 +3,25 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: auditar_bloqueos_m05.py
-VERSIÓN: 1.0.0
-NOMBRE: Diagnóstico de bloqueos M05
+VERSIÓN: 1.0.1
+NOMBRE: Diagnóstico de bloqueos M05 — ejecución directa
 FECHA: 2026-09-11
 FUNCIÓN: explicar por qué los distritos fuera de tolerancia no pueden mejorar mediante movimientos unitarios M05.
 ENTRADAS: grafo M03, GeoJSON M05, configuración territorial.
 SALIDAS: JSON con outliers, unidades, municipios, candidatos fronterizos y motivos de rechazo.
-MOTIVO: EXT-03 tight granular llega a K=65/hard=0 pero M05 mantiene 2 outliers; necesitamos evidencia causal antes de cambiar M04/M05.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS: añade el raíz del repositorio a `sys.path` antes de importar `ddd_core`; sin cambio de lógica diagnóstica.
+MOTIVO: v1.0.0 falló al ejecutarse directamente desde `herramientas/` dentro del contenedor por `ModuleNotFoundError: ddd_core`.
+ANTERIOR: legacy/herramientas/auditar_bloqueos_m05_v1.0.0.py
 """
 from __future__ import annotations
-import argparse, io, json, zipfile
+import argparse, io, json, sys, zipfile
 from pathlib import Path
-from collections import defaultdict, deque
+from collections import deque
 import geopandas as gpd
+
+ROOT=Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0,str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg
 
 
@@ -27,7 +32,6 @@ def load_geo(path):
             n=next(n for n in z.namelist() if n.lower().endswith(('.geojson','.json')) and not n.endswith('/'))
             return gpd.read_file(io.BytesIO(z.read(n)))
     return gpd.read_file(p)
-
 def connected(nodes,adj):
     nodes=set(nodes)
     if not nodes:return False
@@ -37,14 +41,12 @@ def connected(nodes,adj):
         for v in adj.get(u,set()):
             if v in nodes and v not in seen:seen.add(v);q.append(v)
     return len(seen)==len(nodes)
-
 def objective(vals,target,floor,cap,tol):
     vs=list(vals.values());hard=sum(p<floor or p>cap for p in vs);hardmag=sum(max(0,floor-p,p-cap) for p in vs);outside=sum(abs(p-target)>tol for p in vs);mx=max(abs(p-target)/target for p in vs);sq=sum(((p-target)/target)**2 for p in vs)
     return (hard,round(hardmag/target,12),outside,round(mx,12),round(sq,12))
-
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--params',required=True);ap.add_argument('--geojson',required=True);ap.add_argument('--out',required=True);a=ap.parse_args()
-    cfg=load_params_yaml(a.params);s5=module_cfg(cfg,'modulo_05_optimizar_distritos','step5_optimize_swaps');val=cfg.get('validation',{}) or {};s4=module_cfg(cfg,'modulo_04_generar_semillas','step4_seed_districts') if (cfg.get('modulos',{}) or {}).get('modulo_04_generar_semillas') else {}
+    cfg=load_params_yaml(a.params);s5=module_cfg(cfg,'modulo_05_optimizar_distritos','step5_optimize_swaps');val=cfg.get('validation',{}) or {}
     graph=json.loads(Path(s5['in_graph_json']).read_text());pop={str(n['id']):int(n.get('pop',0)) for n in graph['nodes']};adj={n:set() for n in pop}
     for e in graph['edges']:
         u,v=str(e['u']),str(e['v']);adj.setdefault(u,set()).add(v);adj.setdefault(v,set()).add(u)
@@ -62,12 +64,10 @@ def main():
     outliers=[d for d,p in d_pop.items() if abs(p-target)>tol]
     diagnostics=[]
     for d in sorted(outliers):
-        cand=[]
-        boundary_units=[]
+        cand=[];boundary_units=[]
         for u in sorted(d_units[d]):
             neigh_ds=sorted({unit_dist[v] for v in uadj.get(u,set()) if unit_dist[v]!=d})
             if neigh_ds: boundary_units.append({'unit':u,'population':unit_pop[u],'municipalities':unit_muns[u],'neighbor_districts':neigh_ds})
-        # incoming and outgoing single-unit moves touching d
         possible_units=set()
         for u,d0 in unit_dist.items():
             for v in uadj.get(u,set()):
