@@ -1,8 +1,8 @@
 # Política de versiones y conservación
 
-**Versión:** 1.2.2 — Promoción sin mutar el artefacto probado  
+**Versión:** 1.2.1 — Gobernanza documental verificable  
 **Fecha:** 2026-09-11  
-**Anterior:** `legacy/docs/POLITICA_DE_VERSIONES_v1.2.1.md`
+**Anterior:** `legacy/docs/POLITICA_DE_VERSIONES_v1.2.0.md`
 
 ## Regla inviolable
 
@@ -29,12 +29,6 @@ Los documentos canónicos con versión explícita también deben conservar su pr
 
 Outputs generados, fuentes congeladas y formatos sin cabecera textual resuelven trazabilidad mediante manifiestos, hashes y documentación asociada.
 
-## Promoción de una versión ya probada
-
-La promoción no debe modificar innecesariamente el artefacto que acaba de superar las pruebas. Si una versión fue publicada como candidata y un GitHub Run posterior valida exactamente ese blob, **no se reescribe el ejecutable únicamente para cambiar la palabra `candidato` por `vigente`**. Hacerlo produciría un blob distinto del que fue realmente probado.
-
-En ese caso, el estado vigente se registra en `README.md`, Estado Maestro, Bitácora, Registro de Cambios y expediente de ejecución. La cabecera del ejecutable conserva el estado con el que fue publicada. Cualquier modificación posterior del fichero sí exige nueva versión y `legacy/`.
-
 ## Estado canónico
 
 Los documentos vigentes son `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, `docs/CONTINUIDAD_NUEVO_CHAT.md`, `docs/BITACORA.md` y `docs/REGISTRO_DE_CAMBIOS.md`. Los antiguos `docs/MEMORIA*` están retirados y no deben actualizarse.
@@ -53,19 +47,21 @@ Todo cambio funcional exige:
 
 Los cambios documentales versionados conservan también su predecesor. Las copias `legacy/` de documentos o código no se corrigen retroactivamente para satisfacer reglas introducidas después.
 
-## Puerta automática
+## Puerta automática R015
 
-`.github/workflows/pruebas-ddd.yml` ejecuta la suite automática. Como mínimo debe permanecer verde para cualquier cambio que afecte componentes auditados, configuración, workflows, M04/M05 o documentación de gobernanza.
+`.github/workflows/pruebas-ddd.yml` ejecuta la suite `tests/test_r015_invariantes.py`. Como mínimo debe permanecer verde para cualquier cambio que afecte componentes auditados, configuración, workflows, M04/M05 o documentación de gobernanza.
 
-La suite verifica cabeceras, predecesores reales, invariantes territoriales históricas, determinismo y las regresiones específicas de las rondas promovidas. La suite no sustituye al procedimiento territorial cuando cambia lógica funcional.
+La suite verifica dos niveles de trazabilidad: (1) cabeceras y predecesores reales de los componentes funcionales auditados; (2) referencias `Anterior` de los documentos canónicos versionados. Una referencia activa a un `legacy/` inexistente debe hacer fallar la CI.
+
+La suite no sustituye al procedimiento territorial. Si cambia lógica funcional, una CI verde demuestra ausencia de las regresiones cubiertas, pero la promoción exige además un nuevo run completo/iterativo del procedimiento y su expediente.
 
 ## Aceptación
 
-Una ejecución local, simulación o sesión de IA es diagnóstico. La evidencia de aceptación procede de GitHub Actions reproducible, validaciones integradas y puerta de regresión automática. La referencia territorial vigente es **Run #9 `34599224954` / R016** hasta que una ronda funcional posterior produzca una referencia aceptada mejor.
+Una ejecución local, simulación o sesión de IA es diagnóstico. La evidencia de aceptación procede de GitHub Actions reproducible, validaciones integradas y, desde R015, puerta de regresión automática. La referencia territorial vigente sigue siendo Run #8 hasta que una ronda funcional posterior produzca una nueva referencia aceptada.
 
 ## Ramas
 
-**`main` es la única rama permanente.** Actualmente es también la única rama existente. Si una operación técnica necesita una rama temporal, debe tener propósito acotado, integrarse y eliminarse inmediatamente después. Las versiones históricas se conservan en `legacy/`, no mediante acumulación de ramas.
+`main` es la rama canónica activa. `infra/fuentes-reproducibles*` son ramas históricas/no activas salvo decisión documentada. No se eliminan ramas históricas sin aprobación explícita.
 
 ## Resultados
 

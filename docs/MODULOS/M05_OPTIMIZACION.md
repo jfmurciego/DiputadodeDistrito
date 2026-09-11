@@ -1,18 +1,17 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.1.0
-**Nombre de versión:** Candidato R016 — refinamiento canónico post-factibilidad
+**Versión documental:** 1.2.0
+**Nombre de versión:** R016 validado — refinamiento canónico post-factibilidad
 **Fecha:** 2026-09-11
-**Código activo:** M05 v7.4.0 — candidato
-**Última lógica territorial validada:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.0.0.md`
-**Cambio:** elimina la parada al primer `fuera_12=0` y permite continuar optimizando los siguientes términos de la función canónica.
-**Motivo:** v7.3.x declaraba una función lexicográfica completa pero interrumpía la búsqueda en cuanto satisfacía el tercer término.
+**Código ejecutado y validado:** M05 v7.4.0 — GitHub Run #9 `34599224954`
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.1.0.md`
+**Cambio:** promociona la estrategia v7.4.0 tras demostrar mejora real sobre Run #8 sin regresiones territoriales.
+**Motivo:** Run #9 confirma que continuar después de la primera factibilidad reduce el máximo desvío y el error cuadrático manteniendo todas las restricciones.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
-## Restricciones duras R012
+## Restricciones duras
 1. 67 distritos;
 2. Huesca 11 / Teruel 7 / Zaragoza 49;
 3. provincia infranqueable;
@@ -25,26 +24,38 @@ M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional s
 ## Objetivo canónico
 Comparación lexicográfica: violaciones duras → magnitud dura → número fuera de ±12 % → máximo desvío → error cuadrático global.
 
-## Estrategia candidata v7.4.0
-**Fase A — greedy determinista:** sigue aceptando únicamente movimientos individuales que mantienen restricciones duras y mejoran estrictamente el objetivo. Ya no se detiene por el mero hecho de llegar a `fuera_12=0`; continúa mientras exista una mejora canónica individual.
+## Estrategia validada v7.4.0
+**Fase A — greedy determinista:** acepta únicamente movimientos individuales que mantienen restricciones duras y mejoran estrictamente el objetivo. No se detiene por el mero hecho de llegar a `fuera_12=0`.
 
-**Fase B — recocido reproducible + refinamiento:** el ámbito se fija a las provincias que tenían distritos fuera de ±12 % al inicio de M05. El recocido puede atravesar estados peores en el objetivo fino, nunca restricciones duras, conserva continuamente la mejor solución canónica y ya no se detiene en la primera solución factible. Agota el presupuesto configurado para intentar reducir después el máximo desvío y el error cuadrático.
+**Fase B — recocido reproducible + refinamiento:** el ámbito se fija a las provincias que tenían distritos fuera de ±12 % al inicio de M05. El recocido puede atravesar estados peores en el objetivo fino, nunca restricciones duras, conserva continuamente la mejor solución canónica y agota el presupuesto configurado para intentar reducir el máximo desvío y el error cuadrático.
 
-El reporte añade `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`, de modo que se pueda demostrar cuánto trabajo se realizó después de alcanzar por primera vez ±12 %.
+El reporte registra `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`, permitiendo demostrar cuánto trabajo se realiza después de alcanzar por primera vez ±12 %.
 
-## Principio de prudencia
-R016 **no reduce el umbral ±12 %**, no modifica suelo/techo, no cambia provincia, atomicidad municipal ni contigüidad, y no introduce compactness como objetivo. El candidato solo corrige la incoherencia entre función objetivo declarada y criterio de parada.
+## Evidencia Run #9
+
+Primera factibilidad, iteración 9.038:
+
+`[0, 0.0, 0, 0.119431695687, 0.182704485064]`
+
+Resultado final tras 20.000 iteraciones:
+
+`[0, 0.0, 0, 0.099299365905, 0.161271162560]`
+
+Mejora:
+- máximo desvío: 11,943 % → **9,930 %**;
+- error cuadrático: 0,182704485064 → **0,161271162560**;
+- `fuera_12=0` se conserva;
+- todas las restricciones duras permanecen PASS.
+
+Solo cambian 12 distritos respecto de Run #8, todos en Zaragoza. El peor Zaragoza termina en +9,140 %. El máximo global pasa a Huesca (-9,930 %), provincia que R016 no modifica.
+
+## Estado de la cabecera del ejecutable
+El fichero `modulos/05_optimizar_distritos.py` conserva la etiqueta de publicación `candidato R016`. No se reescribe después de haber sido probado únicamente para cambiar esa palabra, porque eso alteraría el blob validado. El estado canónico vigente de v7.4.0 es **VALIDADO / PROMOCIONADO por Run #9**.
 
 ## Productos auditables
 - GeoJSON ZIP de asignación completa optimizada.
 - `M05/asignacion_optimizada.csv` con las 1.463 secciones.
 - `aragon_2025_m05_informe.json` con objetivos, métricas, movimientos, primera factibilidad, unidades finales cambiadas, provincia activa, semilla y parámetros.
 
-## Aceptación R016
-1. `Pruebas DDD — R015` debe permanecer verde.
-2. La prueba específica R016 debe demostrar búsqueda posterior a primera factibilidad y determinismo.
-3. Un nuevo run territorial debe conservar todos los PASS del Run #8.
-4. `fuera_12` debe seguir en 0.
-5. `objective_final` debe ser lexicográficamente igual o mejor que `objective_first_feasible`; para justificar promoción se espera mejora real en `max_rel_dev` o error cuadrático sin regresión territorial.
-
-Hasta ese run, **Run #8 sigue siendo la referencia territorial** y M05 v7.4.0 es candidato, no baseline.
+## Baseline vigente
+**Run #9 `34599224954` / `gh-34599224954-1`.** Toda evolución de M05 debe demostrar que mantiene sus PASS y mejora un objetivo territorial explícitamente definido.

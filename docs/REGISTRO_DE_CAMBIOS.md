@@ -34,28 +34,36 @@ Se alinean documentos canónicos con R014, se retiran `MEMORIA*` como fuentes vi
 
 **Pruebas:** se añade `tests/test_r015_invariantes.py` y `.github/workflows/pruebas-ddd.yml`. La regresión comprueba las invariantes R012/R014 contra Run #8 y un fixture sintético ejecuta M05 dos veces con la misma semilla para exigir determinismo y atomicidad de unidad.
 
-**Normalización:** se archivan predecesores inmediatos reales y se incrementan como PATCH de gobernanza configuración 7.5.0→7.5.1, core 1.3.0→1.3.1, herramientas activas, M01–M08, `procedimiento.sh` 2.1.0→2.1.1 y workflow territorial 2.7.1→2.7.2. La lógica funcional no cambia. Inventario: `docs/R015_COMPONENTES_NORMALIZADOS.tsv`.
+**Normalización:** se archivan predecesores inmediatos reales y se incrementan como PATCH de gobernanza configuración, core, herramientas activas, M01–M08, `procedimiento.sh` y workflow territorial. La lógica funcional no cambia.
 
 **Deuda histórica:** `docs/DEUDA_HISTORICA_LEGACY.md` conserva el inventario de antecedentes pre-R015 no recuperados. No se reconstruyen ficticiamente.
 
-**Incidencias de migración:** un primer lint detectó whitespace existente dentro de una copia histórica; se decidió conservar el antecedente byte a byte y excluir `legacy/**` del lint. GitHub Actions tampoco podía modificar workflows por su permiso restringido; se separó esa operación y se realizó por el canal autorizado. Los migradores temporales quedaron archivados y fueron retirados del árbol activo.
-
-**Aceptación inicial:** `Pruebas DDD — R015`, Run `34594827070`, termina SUCCESS después de retirar la migración temporal. La auditoría de cabeceras/legacy y la regresión territorial/determinismo pasan. Ejecuciones posteriores, incluida `34595195694`, permanecen verdes.
-
-## 2026-09-11 — R015 — cierre final de trazabilidad documental
-
-Se detecta que Estado Maestro, Continuidad, Bitácora y Política declaraban predecesores `legacy/` que todavía no estaban materializados. Se recuperan las versiones exactas desde el commit anterior y se escriben en las rutas declaradas, sin reeditarlas. También se preservan el README v3.2.0 y las instantáneas anteriores de los documentos que se modifican en este cierre.
-
-La suite R015 se amplía para que la CI valide también las referencias `Anterior` de los documentos canónicos versionados. De este modo, una ruta documental activa hacia un `legacy/` inexistente pasa a ser un fallo automático.
-
-`docs/MODULOS/M05_OPTIMIZACION.md` se formaliza como contrato documental versionado y distingue el ejecutable activo M05 v7.3.1, cuyo cambio R015 es solo de gobernanza, de la lógica funcional v7.3.0 validada territorialmente por Run #8. No se modifica código algorítmico, configuración territorial ni solución de distritos.
-
-El cierre se considera completo únicamente si el nuevo HEAD consolidado vuelve a superar `Pruebas DDD — R015`.
+**Aceptación:** la puerta `Pruebas DDD — R015` queda verde tras normalizar cabeceras, `legacy`, regresión territorial y determinismo.
 
 ## 2026-09-11 — R016 — M05 v7.4.0, refinamiento post-factibilidad
 
 Se abre una ronda funcional limitada a M05. La auditoría del código v7.3.x muestra que la búsqueda se interrumpe al primer `fuera_12=0` aunque el objetivo canónico sigue ordenando por máximo desvío y error cuadrático.
 
-Se preserva M05 v7.3.1 en `legacy/modulo05/05_optimizar_distritos_v7.3.1.py` y se publica v7.4.0 como **candidato**. Greedy continúa mientras existan mejoras estrictas; el recocido conserva las provincias problemáticas iniciales y agota el presupuesto configurado, manteniendo siempre la mejor solución canónica. El reporte añade primera factibilidad y número de iteraciones posteriores.
+Se preserva M05 v7.3.1 en `legacy/modulo05/05_optimizar_distritos_v7.3.1.py` y se publica v7.4.0 como candidato. Greedy continúa mientras existan mejoras estrictas; el recocido conserva las provincias problemáticas iniciales y agota el presupuesto configurado, manteniendo siempre la mejor solución canónica. El reporte añade primera factibilidad y número de iteraciones posteriores.
 
-Se añade `tests/test_r016_refinamiento.py`. La promoción exige CI R015 verde y un nuevo run territorial con todos los PASS de Run #8; hasta entonces Run #8 sigue siendo baseline.
+Se añade `tests/test_r016_refinamiento.py`. La promoción exige CI verde y un nuevo run territorial con todos los PASS del baseline anterior.
+
+## 2026-09-11 — Run #9 — Promoción de R016
+
+GitHub Run `34599224954` termina **SUCCESS** sobre `f9ca44ff005043f630fce39334d34726d8bf55c5` y publica `gh-34599224954-1`.
+
+M05 v7.4.0 alcanza la misma primera solución factible que Run #8 en la iteración 9.038:
+
+`objective_first_feasible = [0, 0.0, 0, 0.119431695687, 0.182704485064]`.
+
+Continúa 10.962 iteraciones adicionales y termina en:
+
+`objective_final = [0, 0.0, 0, 0.099299365905, 0.161271162560]`.
+
+El máximo desvío baja de 11,943 % a **9,930 %** y el error cuadrático global cae un 11,7 %. Se mantienen 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49, `fuera_12=0`, contigüidad, provincia, disciplina municipal y límites duros.
+
+Solo cambian 12 distritos respecto de Run #8, todos en Zaragoza. El peor Zaragoza baja a +9,140 %; Huesca y Teruel quedan sin cambios. **R016 queda promocionado y Run #9 pasa a ser el nuevo baseline territorial.**
+
+## 2026-09-11 — Simplificación de ramas
+
+Se eliminan las cuatro ramas históricas `infra/fuentes-reproducibles*` y la rama temporal `r016/cleanup-temporal` después de comprobar que no contienen estado vigente exclusivo. El repositorio queda con una sola rama: **`main`**. Desde este punto, cualquier rama técnica temporal debe eliminarse tras su integración; la historia de versiones vive en `legacy/`, no en ramas acumuladas.

@@ -1,8 +1,8 @@
 # Continuidad del proyecto en un nuevo chat
 
-**Versión:** 1.5.0
+**Versión:** 1.6.0
 **Fecha de corte:** 2026-09-11
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.4.0.md`
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.5.0.md`
 
 ## Fuente de verdad
 
@@ -14,44 +14,36 @@ M01 base territorial+población → M02 adyacencias → M03 grafo → M04 constr
 
 Aragón: 67 distritos; 1.463 secciones; 1.364.621 habitantes; provincia 11/7/49; contigüidad estricta; suelo 0,80×target; techo 1,75×target; objetivo ±12 %; municipio pequeño indivisible; municipio sobredimensionado particionado de forma conexa con solo residual mezclable; resultados electorales fuera del algoritmo geométrico.
 
-## Referencia territorial — Run #8 / R014
+## Referencia territorial — Run #9 / R016
 
-GitHub Run #8 **`34592470470` — SUCCESS** sobre `d57dc9cd77af4fa09780794401381d9727d1c71b`.
+GitHub Run #9 **`34599224954` — SUCCESS** sobre `f9ca44ff005043f630fce39334d34726d8bf55c5`.
 
-M05 v7.3.0 cerró el mínimo local de Run #7: `hard=0`, `fuera_12=0`, `max_rel_dev=0.119431695687`. La validación final confirmó provincia, disciplina municipal, contigüidad, límites poblacionales y conservación exacta. R014 está cerrado.
+M05 v7.4.0 parte del mismo estado que Run #8 y alcanza la misma primera solución factible en la iteración 9.038, con `max_rel_dev=0.119431695687`. En vez de detenerse, continúa 10.962 iteraciones más y termina con `max_rel_dev=0.099299365905` y error cuadrático `0.161271162560`.
 
-## R015 — ingeniería cerrada
+Validación final: 67 distritos, 1.463 secciones, 1.364.621 habitantes, Huesca 11 / Teruel 7 / Zaragoza 49, 0 desconectados, 0 cruces provinciales, 0 violaciones municipales, 0 bajo suelo, 0 sobre techo y **0 fuera de ±12 %**.
 
-R015 no cambia lógica territorial. Normaliza cabeceras y predecesores inmediatos, preserva copias reales en `legacy/`, inventaría los huecos históricos no recuperados y añade `tests/test_r015_invariantes.py` + `.github/workflows/pruebas-ddd.yml`.
+R016 queda **CERRADO Y PROMOCIONADO**. Run #9 sustituye a Run #8 como baseline territorial.
 
-**Run de aceptación de pruebas R015: `34594827070` — SUCCESS.** Pasaron la auditoría de cabeceras/legacy y la regresión territorial/determinismo después de retirar el migrador temporal.
+## Qué cambió respecto de Run #8
 
-Versiones activas relevantes tras R015: configuración v7.5.1; M04 v7.3.1; M05 v7.3.1; validador v1.3.1; procedimiento v2.1.1; workflow territorial v2.7.2. Son PATCH de gobernanza respecto de la lógica validada en Run #8.
-
-## R016 — ronda activa, candidato M05 v7.4.0
-
-Objetivo: alinear la ejecución de M05 con su objetivo canónico. v7.3.x detenía el recocido al primer `fuera_12=0`; v7.4.0 continúa dentro de la provincia inicialmente problemática para intentar reducir después `max_rel_dev` y error cuadrático, sin relajar restricciones.
-
-El reporte registra `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`. La prueba R016 exige que exista refinamiento posterior y que el objetivo final no sea peor que el primer estado factible.
-
-**Estado:** candidato; Run #8 sigue siendo la referencia territorial hasta un nuevo run completo/iterativo aceptado.
+Solo cambian 12 distritos y todos están en Zaragoza. El peor distrito de Zaragoza baja de 11,943 % a 9,140 %. Huesca y Teruel permanecen exactamente iguales. El máximo global final pasa a ser el distrito 0 de Huesca, con -9,930 %.
 
 ## Ingeniería y auditoría
 
+R015 sigue siendo la puerta general de regresión, gobernanza y determinismo. R016 añade pruebas específicas de refinamiento y una regresión del baseline Run #9.
+
 Toda sustitución versionada conserva primero el predecesor inmediato en `legacy/`. La copia histórica se conserva literalmente, incluso si tiene whitespace o defectos cosméticos. Si una versión anterior no fue recuperada, se registra en `docs/DEUDA_HISTORICA_LEGACY.md`; nunca se fabrica.
 
-La política vigente es `docs/POLITICA_DE_VERSIONES.md` v1.2.0. Los cambios funcionales posteriores deben superar la suite R015 y, además, un nuevo run territorial antes de promoción.
+La promoción de un ejecutable ya probado no obliga a reescribirlo solo para cambiar una etiqueta de estado: eso alteraría el blob probado. El estado de promoción se registra en Estado Maestro y en el expediente del run.
 
-Un resultado local/IA es diagnóstico. Los outputs ligeros completos viven en `resultados/ejecuciones/<RUN_ID>/Mxx/`; geometrías pesadas, en artefactos Actions con `PRODUCTOS.json`.
-
-`main` es la rama canónica. `infra/fuentes-reproducibles*` son ramas históricas/no activas.
+`main` es la única rama permanente y actualmente la única rama existente. Si se crea una rama técnica temporal, debe eliminarse tras su integración.
 
 ## Orden para continuar
 
-1. Confirmar HEAD de `main` y último run de `Pruebas DDD — R015`.
-2. Leer la ronda activa y el contrato del módulo que se pretenda cambiar.
-3. Si el cambio es funcional, preservar predecesor, incrementar versión y mantener todas las invariantes de Run #8.
-4. Exigir CI R015 verde.
-5. Ejecutar el procedimiento territorial y solo entonces promocionar un nuevo baseline.
+1. Confirmar HEAD de `main` y último run de pruebas.
+2. Leer esta continuidad, Estado Maestro y el último expediente de ejecución.
+3. Definir un objetivo funcional concreto para la siguiente ronda.
+4. Conservar predecesores y versionar cualquier fichero que se cambie.
+5. Exigir CI verde y nuevo run territorial cuando cambie comportamiento.
 
-**Siguiente paso:** validar M05 v7.4.0 con `Pruebas DDD — R015`; si queda verde, ejecutar `Procedimiento DDD — Aragón` en modo iterativo y comparar el objetivo final con Run #8.
+**Siguiente paso:** decidir el objetivo de R017. El cuello poblacional ya no está en Zaragoza: el máximo global es Huesca (-9,930 %), seguido de Teruel (-9,822 %) y Zaragoza (+9,140 %). No se debe seguir optimizando por inercia sin decidir antes qué calidad territorial se quiere mejorar.

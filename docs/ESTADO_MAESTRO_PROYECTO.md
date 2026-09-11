@@ -1,16 +1,16 @@
 # Estado maestro del proyecto — Diputado de Distrito
 
-**Versión:** 1.12.0
+**Versión:** 1.13.0
 **Fecha de corte:** 2026-09-11
-**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.11.0.md`
+**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.12.0.md`
 
 ## 1. Estado arbitral
 
-La referencia territorial vigente es **GitHub Run #8 `34592470470`**, ejecutado sobre `d57dc9cd77af4fa09780794401381d9727d1c71b`, modo iterativo. Terminó SUCCESS y publicó `gh-34592470470-1`.
+La referencia territorial vigente es **GitHub Run #9 `34599224954`**, ejecutado sobre `f9ca44ff005043f630fce39334d34726d8bf55c5`, modo iterativo, y publicado como `gh-34599224954-1`.
 
-R014 está validado: 67 distritos; 1.463 secciones; 1.364.621 habitantes; Huesca 11 / Teruel 7 / Zaragoza 49; 0 cruces provinciales; 0 desconectados; 0 infracciones municipales; 0 bajo suelo; 0 sobre techo; **0 fuera de ±12 %**; máximo desvío relativo **0,119431695687**.
+R016 queda validado y promocionado: 67 distritos; 1.463 secciones; 1.364.621 habitantes; Huesca 11 / Teruel 7 / Zaragoza 49; 0 cruces provinciales; 0 desconectados; 0 infracciones municipales; 0 bajo suelo; 0 sobre techo; **0 fuera de ±12 %**; máximo desvío relativo **0,099299365905**.
 
-R015 está cerrado como ronda de ingeniería. **Pruebas DDD — R015, Run `34594827070`, SUCCESS** sobre el estado posterior a retirar la migración temporal: auditoría de cabeceras/legacy PASS y regresión territorial + determinismo PASS.
+Frente a Run #8, el máximo desvío baja de `0.119431695687` a `0.099299365905` y el error cuadrático global de `0.182704485064` a `0.161271162560`. La mejora se obtiene sin cambiar restricciones, semilla ni configuración.
 
 ## 2. Implementación vigente
 
@@ -19,18 +19,29 @@ R015 está cerrado como ronda de ingeniería. **Pruebas DDD — R015, Run `34594
 - Workflow de pruebas: `.github/workflows/pruebas-ddd.yml` **v1.0.0**.
 - Procedimiento: `procedimiento.sh` **v2.1.1**.
 - M04: **v7.3.1**.
-- M05: **v7.4.0 candidato R016**; última lógica territorial validada: v7.3.0 / Run #8.
+- M05: **v7.4.0**, lógica territorial validada por Run #9.
 - Validación: `herramientas/validar_ejecucion.py` **v1.3.1**.
 
-Los incrementos PATCH de R015 normalizan metadatos y predecesores `legacy/`; **no modifican la lógica funcional heredada de R014**. Por ello Run #8 sigue siendo la referencia territorial aceptada.
+La cabecera de M05 v7.4.0 conserva el estado con el que fue publicada como candidata. No se modifica el ejecutable después de la validación solo para cambiar esa etiqueta; el estado canónico de promoción se mantiene en documentación y expediente de ejecución.
 
-## 2.1. R016 — candidato funcional
+## 3. Resultado R016
 
-Se abre R016 para corregir la parada prematura de M05 después de alcanzar por primera vez `fuera_12=0`. El candidato v7.4.0 mantiene intactas todas las restricciones duras, el umbral ±12 %, la semilla y la configuración vigente; cambia únicamente el criterio de parada para seguir optimizando los términos posteriores del objetivo canónico.
+Run #9 reproduce exactamente la primera factibilidad de Run #8 en la iteración **9.038**:
 
-Estado: **pendiente de CI R015 y de nuevo run territorial**. Run #8 no queda reemplazado hasta promoción expresa.
+`objective_first_feasible = [0, 0.0, 0, 0.119431695687, 0.182704485064]`
 
-## 3. Reglas duras Aragón
+Después continúa **10.962 iteraciones** más, hasta completar 20.000:
+
+`objective_final = [0, 0.0, 0, 0.099299365905, 0.161271162560]`
+
+Solo cambian 12 distritos frente a Run #8, todos en Zaragoza. El peor desvío provincial queda en:
+- Huesca: distrito 0, -9,930 %;
+- Teruel: distrito 11, -9,822 %;
+- Zaragoza: distrito 63, +9,140 %.
+
+Esto significa que R016 reduce el cuello de botella de Zaragoza por debajo de los ya existentes en Huesca y Teruel, sin modificar esas provincias.
+
+## 4. Reglas duras Aragón
 
 1. 67 distritos exactos.
 2. Provincia infranqueable: 11/7/49.
@@ -43,32 +54,33 @@ Estado: **pendiente de CI R015 y de nuevo run territorial**. Run #8 no queda ree
 9. Resultados electorales nunca condicionan geometría.
 10. Determinismo, CUSEC único/no nulo y configuración canónica.
 
-## 4. Regresión automática R015
+## 5. Regresión automática
 
-`tests/test_r015_invariantes.py` protege el baseline Run #8 y comprueba cardinalidad, conservación, provincia, contigüidad, suelo/techo, disciplina municipal, objetivo ±12 %, máximo desvío R014, consistencia M04→M05 y validación publicada. Un fixture sintético ejecuta M05 dos veces con la misma semilla y exige informe/asignación idénticos y atomicidad de `ddd_unit_id`.
+`tests/test_r015_invariantes.py` protege las invariantes históricas R012/R014 y el determinismo. R016 añade pruebas específicas de refinamiento post-factibilidad y una regresión del nuevo baseline Run #9.
 
-La CI verifica también que los componentes activos auditados tengan versión, nombre, fecha, estado, cambios, motivo y `ANTERIOR`, y que ese predecesor exista físicamente en `legacy/`.
+La CI verifica además que los componentes activos auditados tengan metadatos completos y que sus predecesores declarados existan físicamente en `legacy/`.
 
-## 5. Evolución relevante
+## 6. Evolución relevante
 
-- Run #5 `34584775443`: outputs auditables, pero territorialmente inválido bajo R012.
+- Run #5 `34584775443`: outputs auditables, territorialmente inválido bajo R012.
 - Run #6 `34587157452`: FAIL por distrito desconectado originado en M04.
 - Run #7 `34588834266`: estructura R012 PASS; M05 v7.2.0 quedó en `fuera_12=1`.
-- Run #8 `34592470470`: R014 PASS completo, `fuera_12=0`.
+- Run #8 `34592470470`: R014 PASS, `fuera_12=0`, máximo desvío 11,943 %.
 - R015: primera puerta automática de regresión y normalización verificable de `legacy/`.
+- Run #9 `34599224954`: R016 PASS, máximo desvío 9,930 %, nuevo baseline.
 
-## 6. Gobernanza
+## 7. Gobernanza
 
-Política vigente: `docs/POLITICA_DE_VERSIONES.md` **v1.2.0**. Los antiguos `docs/MEMORIA*` están retirados. La deuda histórica pre-R015 no materializada se mantiene explícita en `docs/DEUDA_HISTORICA_LEGACY.md`; no se inventan antecedentes.
+Política vigente: `docs/POLITICA_DE_VERSIONES.md`. Los antiguos `docs/MEMORIA*` están retirados. La deuda histórica no materializada se mantiene explícita en `docs/DEUDA_HISTORICA_LEGACY.md`; no se inventan antecedentes.
 
-`legacy/` conserva literalmente los predecesores inmediatos de las versiones activas normalizadas en R015. Defectos cosméticos heredados dentro de una copia histórica no deben corregirse retroactivamente: la copia es evidencia.
+`legacy/` conserva literalmente los predecesores inmediatos. Defectos cosméticos heredados dentro de una copia histórica no deben corregirse retroactivamente: la copia es evidencia.
 
-`main` es canónica. Las ramas `infra/fuentes-reproducibles*` siguen históricas/no activas.
+**`main` es la única rama permanente y actualmente la única rama existente.** Si una operación técnica obliga a crear una rama temporal, debe eliminarse al terminar su integración.
 
-## 7. Productos
+## 8. Productos
 
 Cada módulo M01–M08 expone su producto auditable. Outputs ligeros: `resultados/ejecuciones/<RUN_ID>/Mxx/`. Geometrías pesadas: artefactos Actions identificados en `PRODUCTOS.json`.
 
-## 8. Regla para continuar
+## 9. Regla para continuar
 
-R016 es la ronda funcional activa y afecta únicamente a M05 v7.4.0 candidato. Debe conservar los PASS de Run #8, superar la suite R015 y obtener un nuevo run territorial reproducible antes de promoción.
+Run #9 es el baseline protegido. Toda nueva ronda funcional debe mantener sus PASS y demostrar una mejora explícita y medible antes de promoción.
