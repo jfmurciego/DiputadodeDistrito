@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.10.0  
+**Versión:** 2.11.0  
 **Fecha:** 2026-09-11  
-**Anterior:** `legacy/bitacora/BITACORA_v2.9.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.10.0.md`
 
 ## R001–R011 — Base reproducible, algoritmo poblacional y outputs auditables
 Se recupera y profesionaliza el procedimiento, se formalizan M01-M08, caché territorial, validación, fuentes congeladas, reparación poblacional M05, concurrencia y publicación completa de outputs por módulo.
@@ -11,30 +11,43 @@ Se recupera y profesionaliza el procedimiento, se formalizan M01-M08, caché ter
 R011 PASS técnico: 67 distritos, 1.463 secciones, población 1.364.621, 0 bajo suelo, 0 sobre techo, 0 desconectados. La auditoría posterior revela que esa puerta era territorialmente incompleta: 13 distritos cruzaban provincias y 30 municipios aparecían fragmentados.
 
 ## R012 — Provincia dura y disciplina municipal
-Documento: `docs/RONDAS/R012_2026-09-11_provincia_y_disciplina_municipal.md`.
+Reglas estructurales vigentes:
+- ningún distrito cruza provincia;
+- reparto provincial exacto 11 Huesca / 7 Teruel / 49 Zaragoza;
+- municipio que cabe bajo el techo duro permanece íntegro;
+- municipio sobredimensionado se divide internamente en bloques conexos;
+- todos los bloques urbanos salvo como máximo el residual permanecen exclusivamente municipales;
+- solo el residual puede completarse con municipios menores adyacentes de la misma provincia.
 
-Reglas estructurales:
-- ningún distrito puede cruzar una provincia;
-- reparto provincial de los 67 distritos: Huesca 11, Teruel 7, Zaragoza 49;
-- un municipio que cabe en un distrito no se fragmenta;
-- un municipio grande se divide internamente en bloques contiguos; los bloques urbanos completos quedan cerrados y solo el residual puede completarse con municipios menores adyacentes de la misma provincia.
+Configuración: v7.4.0. Validación: v1.3.0. M05 vigente: v7.2.0.
 
-Configuración **7.4.0** y validación **1.3.0** convierten cruces provinciales o fragmentación municipal inválida en FAIL.
+## GitHub Run #6 — 34587157452
+**FAIL en M05**, mensaje: `M05 produjo distrito desconectado 52`.
 
-### Implementación R012
-- M04 pasa de **v7.0.1** a **v7.2.0** (`Provincia primero y disciplina municipal`).
-- M04 construye por provincia y materializa `ddd_unit_id` y `ddd_closed_urban`.
-- Los municipios no sobredimensionados son unidades atómicas.
-- Los municipios grandes generan bloques urbanos contiguos; los bloques completos se asignan a distritos cerrados.
-- M05 pasa de **v7.1.0** a **v7.2.0** (`Optimización por unidades territoriales protegidas`).
-- M05 deja de mover secciones individuales: mueve unidades completas.
-- M05 rechaza cruces provinciales y no permite entradas/salidas en distritos urbanos cerrados.
-- La función objetivo prioriza restricciones duras, después número de distritos fuera de ±12%, máximo desvío y error cuadrático.
+Auditoría posterior del producto real M04 frente al grafo M03: el distrito 52 ya salía de M04 con 15 componentes. M05 detectó correctamente la inconsistencia; no fue el origen.
 
-M04 v7.0.1 y M05 v7.1.0 quedan preservados en `legacy/modulo04/` y `legacy/modulo05/`.
+Causa raíz: M04 v7.2.0/v7.2.1 construía bloques urbanos conexos individualmente, pero no garantizaba que el residuo municipal conservara conectividad. Zaragoza quedó fragmentada internamente.
 
-## Estatus de Run #5
-Run #5 deja de ser referencia territorial aceptable. Se conserva como PASS técnico bajo una validación incompleta y como evidencia de R011. La siguiente referencia debe superar también las puertas R012.
+Expediente: `docs/EJECUCIONES/GITHUB_RUN_0006_2026-09-11.md`.
+
+## M04 v7.3.0 — Partición balanceada conexa por provincia
+Se preserva v7.2.1 en `legacy/modulo04/04_generar_semillas_v7.2.1.py`.
+
+Cambios:
+- partición híbrida conexa de municipios grandes;
+- reparación local de población preservando conectividad;
+- municipio no se divide mientras quepa bajo el techo duro;
+- ensamblaje de unidades rurales mediante particiones conexas y reparación local;
+- se elimina todo fallback no adyacente;
+- M04 valida por sí mismo 67 distritos, cuotas 11/7/49, provincia única, contigüidad y suelo/techo antes de exportar.
+
+Prueba local con los artefactos reales del Run #6:
+- 67 distritos;
+- 11/7/49;
+- 0 cruces provinciales;
+- 0 distritos desconectados;
+- 0 bajo suelo / 0 sobre techo;
+- un único distrito rural de Zaragoza queda fuera de ±12% (31.563 habitantes), por lo que la optimización fina pasa legítimamente a M05.
 
 ## Regla permanente de auditoría
 Un contador, log o informe nunca sustituye al producto de un módulo. Cada ejecución debe permitir inspeccionar las entidades producidas y rastrear los productos pesados por hash.
