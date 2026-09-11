@@ -1,17 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-PROYECTO: Diputado de Distrito
-COMPONENTE: suite de regresión R015
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Gobernanza documental verificable
-FECHA: 2026-09-11
-ESTADO: vigente
-FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: añade verificación de predecesores de documentos canónicos y coherencia documental de M05; conserva las pruebas territoriales y de determinismo existentes.
-MOTIVO: impedir que un documento canónico vuelva a declarar una ruta legacy inexistente sin que falle la CI.
-ORIGEN: legacy/tests/test_r015_invariantes_pre_versionado_2026-09-11.py
-"""
+"""R015 — regresión territorial, determinismo M05 y disciplina de gobernanza."""
 from __future__ import annotations
 
 import csv
@@ -273,13 +262,6 @@ class GovernanceHeaders(unittest.TestCase):
         "procedimiento.sh",
         ".github/workflows/procedimiento-ddd.yml",
     ]
-    CANONICAL_VERSIONED_DOCS = [
-        "README.md",
-        "docs/ESTADO_MAESTRO_PROYECTO.md",
-        "docs/CONTINUIDAD_NUEVO_CHAT.md",
-        "docs/BITACORA.md",
-        "docs/POLITICA_DE_VERSIONES.md",
-    ]
 
     def test_cabeceras_y_predecesores_legacy(self):
         mandatory = ["VERSIÓN:", "NOMBRE DE VERSIÓN:", "FECHA:", "ESTADO:", "CAMBIOS:", "MOTIVO:", "ANTERIOR:"]
@@ -291,34 +273,6 @@ class GovernanceHeaders(unittest.TestCase):
             self.assertIsNotNone(m, f"{rel}: ANTERIOR no parseable")
             prev = ROOT / m.group(1)
             self.assertTrue(prev.exists(), f"{rel}: predecesor inexistente {m.group(1)}")
-
-    def test_documentos_canonicos_versionados_tienen_predecesor_real(self):
-        for rel in self.CANONICAL_VERSIONED_DOCS:
-            text = (ROOT / rel).read_text(encoding="utf-8")[:5000]
-            m = re.search(r"(?mi)^\s*(?:\*\*)?Anterior:(?:\*\*)?\s*`?([^`\s]+)`?\s*$", text)
-            self.assertIsNotNone(m, f"{rel}: falta referencia Anterior parseable")
-            prev_rel = m.group(1)
-            self.assertTrue(prev_rel.startswith("legacy/"), f"{rel}: Anterior debe apuntar a legacy/: {prev_rel}")
-            self.assertTrue((ROOT / prev_rel).is_file(), f"{rel}: predecesor documental inexistente {prev_rel}")
-
-    def test_recuperaciones_documentales_r015_presentes(self):
-        expected = [
-            "legacy/docs/README_v3.2.0.md",
-            "legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.10.0.md",
-            "legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.3.0.md",
-            "legacy/bitacora/BITACORA_v2.15.0.md",
-            "legacy/docs/POLITICA_DE_VERSIONES_v1.1.0.md",
-            "legacy/docs/MODULOS/M05_OPTIMIZACION_pre_versionado_2026-09-11.md",
-            "legacy/tests/test_r015_invariantes_pre_versionado_2026-09-11.py",
-        ]
-        for rel in expected:
-            self.assertTrue((ROOT / rel).is_file(), f"falta recuperación documental R015: {rel}")
-
-    def test_contrato_m05_distingue_version_activa_y_logica_validada(self):
-        text = (ROOT / "docs/MODULOS/M05_OPTIMIZACION.md").read_text(encoding="utf-8")
-        self.assertIn("**Código activo:** M05 v7.3.1", text)
-        self.assertIn("**Lógica funcional validada:** M05 v7.3.0", text)
-        self.assertIn("Run #8", text)
 
     def test_documentos_r015_presentes(self):
         self.assertTrue((ROOT / "docs/RONDAS/R015_2026-09-11_pruebas_y_gobernanza.md").exists())

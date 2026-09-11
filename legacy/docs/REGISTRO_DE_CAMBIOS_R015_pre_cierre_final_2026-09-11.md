@@ -40,14 +40,4 @@ Se alinean documentos canónicos con R014, se retiran `MEMORIA*` como fuentes vi
 
 **Incidencias de migración:** un primer lint detectó whitespace existente dentro de una copia histórica; se decidió conservar el antecedente byte a byte y excluir `legacy/**` del lint. GitHub Actions tampoco podía modificar workflows por su permiso restringido; se separó esa operación y se realizó por el canal autorizado. Los migradores temporales quedaron archivados y fueron retirados del árbol activo.
 
-**Aceptación inicial:** `Pruebas DDD — R015`, Run `34594827070`, termina SUCCESS después de retirar la migración temporal. La auditoría de cabeceras/legacy y la regresión territorial/determinismo pasan. Ejecuciones posteriores, incluida `34595195694`, permanecen verdes.
-
-## 2026-09-11 — R015 — cierre final de trazabilidad documental
-
-Se detecta que Estado Maestro, Continuidad, Bitácora y Política declaraban predecesores `legacy/` que todavía no estaban materializados. Se recuperan las versiones exactas desde el commit anterior y se escriben en las rutas declaradas, sin reeditarlas. También se preservan el README v3.2.0 y las instantáneas anteriores de los documentos que se modifican en este cierre.
-
-La suite R015 se amplía para que la CI valide también las referencias `Anterior` de los documentos canónicos versionados. De este modo, una ruta documental activa hacia un `legacy/` inexistente pasa a ser un fallo automático.
-
-`docs/MODULOS/M05_OPTIMIZACION.md` se formaliza como contrato documental versionado y distingue el ejecutable activo M05 v7.3.1, cuyo cambio R015 es solo de gobernanza, de la lógica funcional v7.3.0 validada territorialmente por Run #8. No se modifica código algorítmico, configuración territorial ni solución de distritos.
-
-El cierre se considera completo únicamente si el nuevo HEAD consolidado vuelve a superar `Pruebas DDD — R015`.
+**Aceptación:** `Pruebas DDD — R015`, Run `34594827070`, termina SUCCESS después de retirar la migración temporal. La auditoría de cabeceras/legacy y la regresión territorial/determinismo pasan. R015 queda cerrada y su CI se convierte en puerta obligatoria de regresión.

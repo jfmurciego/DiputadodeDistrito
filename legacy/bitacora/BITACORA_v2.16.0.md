@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.16.1  
+**Versión:** 2.16.0  
 **Fecha:** 2026-09-11  
-**Anterior:** `legacy/bitacora/BITACORA_v2.16.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.15.0.md`
 
 ## R001–R013
 Se recuperó y profesionalizó el procedimiento; se formalizaron M01–M08, fuentes congeladas, caché territorial, validación, outputs completos, manifiestos, versionado y continuidad documental. Run #5 reveló defectos de validación territorial; Run #6 aisló una desconexión originada en M04; M04 v7.3.0 corrigió la construcción conexa. Run #7 consiguió los PASS estructurales R012, pero dejó un distrito fuera de ±12 %.
@@ -25,15 +25,10 @@ La migración de cabeceras normaliza 16 componentes no-workflow y el workflow te
 
 Durante la migración se detectaron dos incidencias de infraestructura, ambas documentadas y resueltas sin rebajar controles: `git diff --check` rechazó whitespace preexistente en una copia histórica y GitHub Actions rechazó modificar un workflow por falta de permiso `workflows`. La primera se resolvió excluyendo `legacy/**` del lint para conservar antecedentes literalmente; la segunda, separando la migración de workflows y realizándola por el canal GitHub autorizado.
 
-### Aceptación inicial R015 — Pruebas DDD Run 34594827070
-SUCCESS sobre el estado posterior a retirar el migrador temporal. `Auditar cabeceras y legacy en checkout`: PASS. `Ejecutar regresión territorial y determinismo`: PASS. Ejecuciones posteriores, incluida `34595195694`, también terminaron SUCCESS.
+### Aceptación R015 — Pruebas DDD Run 34594827070
+SUCCESS sobre el estado posterior a retirar el migrador temporal. `Auditar cabeceras y legacy en checkout`: PASS. `Ejecutar regresión territorial y determinismo`: PASS.
 
-### Cierre de trazabilidad documental R015
-Una comprobación posterior detectó que varios documentos canónicos activos declaraban predecesores `legacy/` que no se habían materializado físicamente durante la reconciliación documental. Se recuperan desde Git, sin alterar su contenido, README v3.2.0, Estado Maestro v1.10.0, Continuidad v1.3.0, Bitácora v2.15.0 y Política v1.1.0; además se preservan las versiones inmediatamente anteriores de los documentos modificados en este cierre.
-
-La suite R015 se refuerza para comprobar también los `Anterior` de los documentos canónicos versionados, no solo las cabeceras de código/configuración. El contrato de M05 se normaliza documentalmente para distinguir con precisión el **código activo v7.3.1** de la **lógica funcional v7.3.0 validada por Run #8**. No se modifica el algoritmo territorial.
-
-R015 queda **CERRADA** cuando este estado consolidado supera de nuevo `Pruebas DDD — R015`. Run #8 continúa como referencia territorial; la CI R015 es la puerta de regresión obligatoria para cambios posteriores.
+R015 queda **CERRADA**. Run #8 continúa como referencia territorial; la CI R015 pasa a ser puerta de regresión obligatoria para cambios posteriores.
 
 ## Reglas permanentes
-Un informe nunca sustituye al producto. Una ejecución local/IA no sustituye a GitHub reproducible. Corregir el primer módulo que rompe contrato. Toda versión nueva preserva `legacy/` antes de sustituir el activo. Una copia histórica no se reescribe para satisfacer lint. Una referencia documental `Anterior` activa debe resolver a un fichero real. No relajar R012 ni ±12 % para obtener un PASS.
+Un informe nunca sustituye al producto. Una ejecución local/IA no sustituye a GitHub reproducible. Corregir el primer módulo que rompe contrato. Toda versión nueva preserva `legacy/` antes de sustituir el activo. Una copia histórica no se reescribe para satisfacer lint. No relajar R012 ni ±12 % para obtener un PASS.

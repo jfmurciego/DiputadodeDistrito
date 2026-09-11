@@ -1,8 +1,6 @@
 # Diputado de Distrito — Procedimiento de Distritación DDD
 
-**README v3.3.1** · 11-09-2026 · Estado: **R014 territorial validado + R015 ingeniería cerrada**  
-**Anterior:** `legacy/docs/README_v3.3.0.md`  
-**Cambio:** cierre de trazabilidad documental de R015; no cambia algoritmo, parámetros ni mapa.
+**README v3.3.0** · 11-09-2026 · Estado: **R014 territorial validado + R015 ingeniería cerrada**
 
 Sistema modular para construir, validar y auditar distritos uninominales a partir de unidades censales oficiales. El producto es un procedimiento repetible: mismo código + mismos inputs + misma configuración ⇒ mismo resultado reproducible. Aragón es la primera implantación; otros territorios deben entrar por datos y configuración, no mediante forks del motor.
 
@@ -16,11 +14,9 @@ R015 no modifica ese algoritmo ni promociona un nuevo mapa. Las versiones activa
 
 ## R015 — pruebas y gobernanza verificable
 
-La suite `tests/test_r015_invariantes.py` y el workflow `.github/workflows/pruebas-ddd.yml` convierten en controles automáticos las invariantes principales de R012/R014. GitHub Run `34594827070` terminó SUCCESS después de retirar el migrador temporal: pasaron la auditoría de cabeceras/`legacy`, la regresión sobre Run #8 y la prueba de determinismo de M05. Ejecuciones posteriores de la misma puerta, incluida `34595195694`, también terminaron SUCCESS antes de este cierre documental.
+La suite `tests/test_r015_invariantes.py` y el workflow `.github/workflows/pruebas-ddd.yml` convierten en controles automáticos las invariantes principales de R012/R014. **GitHub Run `34594827070` terminó SUCCESS** después de retirar el migrador temporal: pasaron la auditoría de cabeceras/`legacy`, la regresión sobre Run #8 y la prueba de determinismo de M05.
 
 La regresión comprueba, entre otros puntos: universo exacto de secciones y población; K=67; reparto provincial 11/7/49; provincia única; contigüidad por M03; suelo/techo; disciplina municipal; M04 con su outlier histórico; M05 con `fuera_12=0`; máximo desvío R014; atomicidad de `ddd_unit_id`; y dos ejecuciones sintéticas de M05 con misma semilla y salida idéntica.
-
-La gobernanza automática comprueba además que los componentes funcionales auditados y los documentos canónicos versionados que declaran un predecesor apunten a un fichero que exista realmente en `legacy/`.
 
 ## Arquitectura
 
