@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.5.1
-# NOMBRE DE VERSIÓN: Preparación territorial serializada
+# VERSIÓN: 2.5.2
+# NOMBRE DE VERSIÓN: Actions nativas Node 24
 # FECHA: 2026-09-11
 # ESTADO: candidato
-# QUÉ HACE: reutiliza M01-M03 por caché; recompone fuentes congeladas cuando hace falta; serializa únicamente el job de preparación territorial para evitar dos reconstrucciones simultáneas.
-# CAMBIOS VS 2.5.0: añade `concurrency` al job `preparar-territorio` con cancel-in-progress=false. M04-M08 siguen pudiendo ejecutarse concurrentemente en runs distintos.
-# MOTIVO: impedir trabajo duplicado y carreras de publicación sobre la misma caché M01-M03 sin sacrificar concurrencia del motor algorítmico.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.0.yml
+# QUÉ HACE: mantiene la preparación territorial serializada y el modo iterativo, usando versiones de GitHub Actions nativas de Node.js 24.
+# CAMBIOS VS 2.5.1: `actions/cache@v4` -> `actions/cache@v6`; `actions/cache/restore@v4` -> `actions/cache/restore@v6`; `actions/upload-artifact@v4` -> `actions/upload-artifact@v6`.
+# MOTIVO: eliminar las advertencias de deprecación de Node.js 20 y las advertencias asociadas a dependencias antiguas de las actions.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.5.1.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -43,7 +43,7 @@ jobs:
           echo "key=$key" >> "$GITHUB_OUTPUT"
       - name: Restaurar preparación territorial
         id: cache-base
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/ddd/preparacion
           key: ddd-aragon-preparacion-${{ steps.prep-key.outputs.key }}
@@ -86,7 +86,7 @@ jobs:
         uses: actions/checkout@v6
         with: {lfs: false, fetch-depth: 1}
       - name: Restaurar preparación M01-M03
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache/ddd/preparacion
           key: ddd-aragon-preparacion-${{ needs.preparar-territorio.outputs.clave }}
@@ -113,7 +113,7 @@ jobs:
             ddd:${GITHUB_SHA}
       - name: Guardar ejecución y trazabilidad
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ddd-aragon-${{ env.DDD_RUN_ID }}-${{ github.sha }}
           path: ejecuciones/${{ env.DDD_RUN_ID }}/**
