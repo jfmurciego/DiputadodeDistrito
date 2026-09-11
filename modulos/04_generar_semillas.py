@@ -3,17 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.8
-NOMBRE DE VERSIÓN: Residuo municipal realmente flexible
+VERSIÓN: 7.5.0
+NOMBRE DE VERSIÓN: Puertas externas preservables + residuo flexible
 FECHA: 2026-09-11
-FUNCIÓN: ejecutar M04 v7.4.7 y, cuando un residuo municipal abierto sea una única unidad que bloquee matemáticamente la tolerancia del resto de la provincia, exponer la mínima pieza fronteriza transferible como micro-unidad flexible sin cambiar todavía su distrito.
-ENTRADAS: grafo M03, salida M04 v7.4.7 y configuración territorial.
-SALIDAS: mismo K y misma asignación M04, con ddd_unit_id adicional :F<n> solo donde sea imprescindible para que M05 pueda optimizar el residuo.
-REGLAS DURAS: no mueve secciones entre distritos; provincia, K, cuotas, población y contigüidad quedan invariantes; la extracción virtual de la micro-unidad debe dejar conexo el residual y su traslado potencial debe conectar con un distrito receptor; se preservan nodos de topology_bridges.
-ESTADO: candidato CYL-04.
-CAMBIOS: distingue residuo abierto de residuo efectivamente móvil. Detecta distritos formados por una única unidad :R cuya inmovilidad deja al resto de distritos provinciales por debajo de la masa mínima necesaria para ±12%; crea la micro-unidad fronteriza mínima que cubre ese déficit y que podría moverse legalmente en M05.
-MOTIVO: en Ávila, el residual 05:05019:R ocupaba solo el distrito 2. Congelarlo dejaba 101.258 habitantes para cuatro distritos rurales, por debajo de los 103.076,80 necesarios. La sección 0501906013 (2.413 habitantes) puede separarse manteniendo ambos lados conexos y permitiría 27.109/26.301 habitantes. El problema era atomicidad residual, no falta de iteraciones en M05.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.7.py
+FUNCIÓN: ejecutar el motor M04 v7.5.0, que conserva semántica legacy por defecto y permite activar `gateway_policy: preserve_all_external_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
+ENTRADAS: grafo M03, geometría M01 y configuración territorial.
+SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
+REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política nueva solo restringe qué secciones-puerta pueden cerrarse dentro de municipios sobredimensionados; la micro-unidad :F no cambia asignación M04.
+COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, reproduciendo v7.4.8 para Aragón/CYL. La nueva política se activa inicialmente solo en pruebas EXT-03.
+CAMBIOS: sustituye el motor base v7.4.7 por v7.5.0; conserva íntegra la lógica de micro-unidad flexible de v7.4.8.
+MOTIVO: EXT-03 demostró que M04 podía aislar La Albuera/Aliseda cerrando las únicas secciones-puerta de Badajoz/Cáceres pese a que M03 era conexo.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.8.py
 """
 from __future__ import annotations
 
@@ -32,11 +32,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg, require
 
-BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v747.py"
+BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v750.py"
 
 
 def load_base():
-    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v747", BASE_ENGINE)
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v750", BASE_ENGINE)
     if spec is None or spec.loader is None:
         raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
@@ -134,7 +134,7 @@ def expose_flexible_residual_units(params_path):
             donor_slack = donor_pop - lo
             if donor_slack + 1e-9 < deficit:
                 raise SystemExit(
-                    f"M04 v7.4.8: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
+                    f"M04 v7.5.0: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
                     f"deficit={deficit:.2f} slack={donor_slack:.2f}"
                 )
             donor_nodes = dnodes(d)
@@ -152,12 +152,11 @@ def expose_flexible_residual_units(params_path):
                         continue
                     if dpop(q) + pn > hi + 1e-9:
                         continue
-                    # Adyacencia directa garantiza conectividad del receptor tras el movimiento potencial.
                     score = (pn - deficit, pn, str(n), int(q))
                     candidates.append((score, n, q, pn))
             if not candidates:
                 raise SystemExit(
-                    f"M04 v7.4.8: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
+                    f"M04 v7.5.0: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
                     f"pero no existe sección fronteriza individual transferible"
                 )
             _, n, q, pn = min(candidates, key=lambda z: z[0])
@@ -176,20 +175,20 @@ def expose_flexible_residual_units(params_path):
                 "receiver_population_if_moved": int(dpop(q) + pn)
             })
 
-    # No district assignment may have changed here.
     for d, x in g.groupby(did):
         if not connected(set(x[idf]), adj):
-            raise SystemExit(f"M04 v7.4.8: distrito {d} desconectado")
+            raise SystemExit(f"M04 v7.5.0: distrito {d} desconectado")
 
     write_geo(g, out)
     rep = json.loads(Path(report_path).read_text(encoding="utf-8")) if report_path and Path(report_path).exists() else {}
-    rep["version"] = "7.4.8"
+    rep["version"] = "7.5.0"
+    rep["gateway_policy"] = str(s4.get("gateway_policy", "legacy"))
     rep["flexible_residual_units"] = created
     rep.setdefault("rules", {})["monolithic_residuals_may_expose_minimal_transferable_frontier_unit"] = True
     rep["rules"]["flex_units_do_not_change_m04_district_assignment"] = True
     if report_path:
         Path(report_path).write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[Módulo 4] OK v7.4.8 flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
+    print(f"[Módulo 4] OK v7.5.0 gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
 
 
 def main():
