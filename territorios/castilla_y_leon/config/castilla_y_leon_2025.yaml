@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.6.0
-# NOMBRE DE VERSIÓN: Contrato M04 — 82 distritos y atomicidad municipal por tolerancia
+# VERSIÓN: 0.7.0
+# NOMBRE DE VERSIÓN: Contrato M04 con continuidad intramunicipal explícita
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-03
-# QUÉ HACE: amplía la preparación M01-M03 con el contrato de construcción M04 para 82 distritos uninominales, reparto Hamilton por población y regla explícita de municipios sobredimensionados.
-# CAMBIOS: fija K=82; cuotas DDD 6/12/15/6/11/5/3/18/6; declara 0.80/1.75/0.12 como umbrales candidatos; fija atomicidad municipal hasta 1.12× target; añade M04 y sus outputs.
-# MOTIVO: probar en una segunda comunidad qué reglas de Aragón son generalizables y separar atomicidad municipal de techo duro poblacional.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.5.0.yaml
+# QUÉ HACE: mantiene el contrato de 82 distritos y añade al grafo territorial la continuidad administrativa necesaria para municipios con exclaves reales.
+# CAMBIOS: incorpora una séptima pasarela topológica entre 4717501004 (exclave de Herrera de Duero) y 4717501003 (cuerpo principal de Tudela de Duero), la sección del mismo municipio más próxima; expected_topology_bridges pasa de 6 a 7.
+# MOTIVO: M04 v7.4.5 superó Aranda de Duero y reveló que Tudela de Duero es administrativamente único pero geométricamente discontinuo. Relajar la contigüidad en M04 o colapsar componentes fabricaría conectividad; la continuidad administrativa debe declararse de forma explícita y auditable en M02.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.6.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,7 +16,7 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.6.0
+  schema_version: 0.7.0
   status: candidate_m04
 
 io:
@@ -65,7 +65,8 @@ territory_contract:
     - 0.80/1.75/0.12 se prueban como contrato candidato por continuidad metodológica; no se consideran generalizados hasta superar CYL-03/CYL-04.
     - Un municipio completo deja de ser atómico cuando supera 1.12× target porque, si permaneciera indivisible, haría imposible alcanzar la tolerancia objetivo.
     - Los municipios sobredimensionados producen núcleos urbanos cerrados dentro de target±12% y, como máximo, un residuo municipal abierto que puede combinarse con unidades vecinas.
-    - Los seis puentes topológicos siguen siendo excepciones explícitas de conectividad y no alteran geometrías ni fronteras provinciales.
+    - Las siete pasarelas topológicas son excepciones explícitas de conectividad; seis resuelven enclaves/huecos provinciales detectados en CYL-02 y una resuelve el exclave intramunicipal de Herrera de Duero dentro de Tudela de Duero.
+    - Una pasarela administrativa no modifica geometrías ni fronteras: hace explícita en el grafo una continuidad jurídica/territorial que la geometría de secciones no puede representar como contacto físico.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -90,6 +91,7 @@ modulos:
       - {u: '3403201001', v: '3413501001', edge_type: administrative_exclave, reason: 'Berzosilla: exclave palentino; enlace mínimo al cuerpo principal de Palencia (Pomar de Valdivia).', source: 'CYL-02 audit'}
       - {u: '3424201001', v: '3412101001', edge_type: administrative_exclave, reason: 'Villodrigo: exclave palentino dentro de Burgos; enlace mínimo a Palenzuela.', source: 'CYL-02 audit'}
       - {u: '4713401001', v: '4718301001', edge_type: administrative_exclave, reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace mínimo a Valdunquillo.', source: 'CYL-02 audit'}
+      - {u: '4717501004', v: '4717501003', edge_type: municipal_exclave, reason: 'Herrera de Duero es un exclave del municipio de Tudela de Duero; se enlaza la sección del exclave con la sección del cuerpo principal del mismo municipio más próxima (~1,92 km).', source: 'CYL-03 municipal connectivity audit'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
@@ -116,7 +118,7 @@ validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
   expected_sections_geometry: 3506
   expected_population_total_2025: 2401221
-  expected_topology_bridges: 6
+  expected_topology_bridges: 7
   expected_districts: 82
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
