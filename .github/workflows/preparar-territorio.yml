@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Preparación territorial M01-M03 parametrizable
+# VERSIÓN: 1.1.1
+# NOMBRE DE VERSIÓN: Preparación M01-M03 con parámetros propagados
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-02
 # QUÉ HACE: reconstruye fuentes, ejecuta M01-M03 para un YAML territorial y audita universo, adyacencias y componentes provinciales.
-# CAMBIOS: extiende la puerta M01 aceptada a M02/M03 y publica auditoría de componentes por provincia.
-# MOTIVO: detectar enclaves y discontinuidades antes de generar semillas/distritos.
-# ANTERIOR: legacy/workflows/preparar-territorio_v1.0.0.yml
+# CAMBIOS: pasa PARAMS explícitamente al contenedor y corrige la impresión del auditor; no cambia lógica territorial.
+# MOTIVO: v1.1.0 falló antes de M01 porque la variable del runner no entró al contenedor.
+# ANTERIOR: legacy/workflows/preparar-territorio_v1.1.0.yml
 name: Preparación DDD — territorio
 on:
   workflow_dispatch:
@@ -48,6 +48,7 @@ jobs:
           set -euo pipefail
           mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion
           docker run --rm \
+            -e PARAMS="$PARAMS" \
             -v "$PWD/inputs:/app/inputs:ro" \
             -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
             --entrypoint bash \
@@ -65,7 +66,7 @@ jobs:
             -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
             --entrypoint python \
             ddd-preparacion:${GITHUB_SHA} -c '
-          import json, pathlib, collections
+          import json, pathlib
           base=pathlib.Path("/app/territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025")
           r1=json.loads((base/"castilla_y_leon_2025_m01_informe.json").read_text())
           r3=json.loads((base/"castilla_y_leon_2025_m03_informe.json").read_text())
@@ -97,7 +98,7 @@ jobs:
           out=base/"castilla_y_leon_2025_m03_componentes_provincia.json"
           out.write_text(json.dumps(audit,ensure_ascii=False,indent=2))
           print(json.dumps(audit,ensure_ascii=False,indent=2))
-          print(f"CYL M01-M03 PASS básico: nodes={r3['nodes']} edges={r3['edges']} isolated={r3['isolated']} pop={r3['total_pop']}")
+          print("CYL M01-M03 PASS básico: nodes={} edges={} isolated={} pop={}".format(r3["nodes"],r3["edges"],r3["isolated"],r3["total_pop"]))
           '
       - name: Publicar productos de preparación
         if: always()
