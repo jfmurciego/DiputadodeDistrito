@@ -3,16 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.3.1
-NOMBRE DE VERSIÓN: Partición balanceada conexa por provincia — Gobernanza R015
+VERSIÓN: 7.4.0
+NOMBRE DE VERSIÓN: Atomicidad municipal independiente del techo duro
 FECHA: 2026-09-11
-FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos salvo cuando exceden el techo duro y garantizando contigüidad antes de exportar.
-ENTRADAS: grafo M03, geometría M01 y configuración R012.
+FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservando municipios completos mientras sean compatibles con la tolerancia objetivo y extrayendo núcleos distritales completos de municipios sobredimensionados.
+ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.3.0.py
+ESTADO: candidato CYL-03.
+CAMBIOS: separa municipality_atomicity_limit_ratio de population_cap_ratio; sustituye el criterio antiguo "partir solo por encima del cap" por "partir cuando el municipio no cabe en la banda objetivo"; genera núcleos urbanos cerrados cercanos al target y deja un único residuo municipal abierto.
+MOTIVO: la segunda implantación (Castilla y León) demuestra que municipios entre +12% y +75% del target pueden hacer matemáticamente imposible la tolerancia final sin violar el techo duro; atomicidad municipal y factibilidad extrema son restricciones distintas.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.3.1.py
 """
 from __future__ import annotations
 import argparse, collections, io, json, math, sys, zipfile
@@ -62,6 +62,43 @@ def find_peel(rem,desired,adj,w,max_starts=120):
                 if v in rem and v not in seen:seen.add(v);q.append(v)
     return best[1] if best else None
 
+def find_closed_core(rem,target,tol,adj,w,max_starts=400):
+    """Extrae un núcleo conexo dentro de target±tol dejando residuo conexo."""
+    rem=set(rem);lo=target-tol;hi=target+tol
+    starts=sorted(rem,key=lambda n:(sum(v in rem for v in adj[n]),w[n],str(n)))[:max_starts]
+    best=None
+    for s in starts:
+        order=[];seen={s};q=collections.deque([s]);cum=0
+        while q:
+            u=q.popleft();order.append(u);cum+=w[u]
+            if cum>=lo:
+                ch=set(order);rest=rem-ch
+                rest_ok=(not rest) or connected(rest,adj)
+                if cum<=hi and connected(ch,adj) and rest_ok:
+                    score=(abs(cum-target),-len(rest),cum,len(ch),str(s))
+                    if best is None or score<best[0]:best=(score,ch)
+                if cum>hi:break
+            for v in sorted(adj[u],key=str):
+                if v in rem and v not in seen:seen.add(v);q.append(v)
+    return best[1] if best else None
+
+def split_oversized_municipality(nodes,target,tol,adj,w):
+    """Devuelve (closed_cores,residual). Cada core es distrito completo; residual queda abierto."""
+    rem=set(nodes);mp=sum(w[n] for n in rem)
+    n_closed=max(1,int(math.floor(mp/target)))
+    closed=[]
+    for _ in range(n_closed):
+        # Si todo el remanente ya cabe exactamente en tolerancia, puede cerrarse completo.
+        rp=sum(w[n] for n in rem)
+        if target-tol <= rp <= target+tol:
+            closed.append(set(rem));rem=set();break
+        core=find_closed_core(rem,target,tol,adj,w)
+        if core is None:
+            raise SystemExit(f'M04: no se puede extraer núcleo municipal conexo dentro de tolerancia; pop_rem={rp} target={target:.2f}')
+        closed.append(core);rem-=core
+        if rem and not connected(rem,adj):raise SystemExit('M04: residuo municipal desconectado tras extraer núcleo')
+    return closed,rem
+
 def grow_partition(nodes,k,adj,w):
     nodes=set(nodes)
     if k==1:return [nodes]
@@ -102,19 +139,19 @@ def hybrid_partition(nodes,k,adj,w):
         parts.append(ch);rem-=ch
     parts.append(rem);return parts
 
-def objective(vals,target,floor,cap):
-    hard=sum(x<floor or x>cap for x in vals);mag=sum(max(0,floor-x,x-cap) for x in vals);outside=sum(abs(x-target)>target*.12 for x in vals);mx=max(abs(x-target)/target for x in vals);sq=sum(((x-target)/target)**2 for x in vals)
+def objective(vals,target,floor,cap,tol):
+    hard=sum(x<floor or x>cap for x in vals);mag=sum(max(0,floor-x,x-cap) for x in vals);outside=sum(abs(x-target)>tol for x in vals);mx=max(abs(x-target)/target for x in vals);sq=sum(((x-target)/target)**2 for x in vals)
     return (hard,mag,outside,mx,sq)
 
-def rebalance(parts,adj,w,target,floor,cap,iters=30000):
-    parts=[set(p) for p in parts];owner={n:i for i,p in enumerate(parts) for n in p};pw=[sum(w[n] for n in p) for p in parts];cur=objective(pw,target,floor,cap)
+def rebalance(parts,adj,w,target,floor,cap,tol,iters=30000):
+    parts=[set(p) for p in parts];owner={n:i for i,p in enumerate(parts) for n in p};pw=[sum(w[n] for n in p) for p in parts];cur=objective(pw,target,floor,cap,tol)
     for _ in range(iters):
         best=None
         for n,a in list(owner.items()):
             neigh={owner[v] for v in adj[n] if v in owner and owner[v]!=a}
             if not neigh or len(parts[a])<=1 or not connected(parts[a]-{n},adj):continue
             for b in neigh:
-                vals=pw.copy();vals[a]-=w[n];vals[b]+=w[n];obj=objective(vals,target,floor,cap)
+                vals=pw.copy();vals[a]-=w[n];vals[b]+=w[n];obj=objective(vals,target,floor,cap,tol)
                 if obj<cur:
                     cand=(obj,str(n),a,b,n)
                     if best is None or cand<best:best=cand
@@ -133,35 +170,41 @@ def main():
     for c in (provf,munf):
         if c not in g.columns:raise SystemExit(f'M04: falta columna {c}')
     g[provf]=g[provf].astype(str).str.zfill(2);g[munf]=g[munf].astype(str)
-    total=sum(pop.values());target=total/K;floor=target*float(val.get('population_floor_ratio',.8));cap=target*float(val.get('population_cap_ratio',1.75));quota={str(k).zfill(2):int(v) for k,v in (val.get('province_districts') or {}).items()}
+    total=sum(pop.values());target=total/K
+    floor_ratio=float(val.get('population_floor_ratio',.8));cap_ratio=float(val.get('population_cap_ratio',1.75));tol_ratio=float(val.get('target_tolerance_ratio',.12))
+    floor=target*floor_ratio;cap=target*cap_ratio;tol=target*tol_ratio
+    atomic_ratio=float(s4.get('municipality_atomicity_limit_ratio',1.0+tol_ratio));atomic_limit=target*atomic_ratio
+    quota={str(k).zfill(2):int(v) for k,v in (val.get('province_districts') or {}).items()}
     if sum(quota.values())!=K:raise SystemExit(f'M04: cuotas provinciales suman {sum(quota.values())}, esperado {K}')
     meta=g.set_index(idf)[[provf,munf]+([munname] if munname in g.columns else [])].to_dict('index');assign={};unit_id={};closed={};district_counter=0;prov_report={}
     for prov in sorted(quota):
         prov_nodes=[n for n in pop if n in meta and str(meta[n][provf]).zfill(2)==prov];mun_nodes=collections.defaultdict(set)
         for n in prov_nodes:mun_nodes[str(meta[n][munf])].add(n)
-        units=[]
+        units=[];oversized_report=[]
         for mun,nodes in sorted(mun_nodes.items()):
             if not connected(nodes,adj):raise SystemExit(f'M04: municipio {prov}/{mun} no conexo en M03')
             mp=sum(pop[n] for n in nodes)
-            if mp<=cap:
+            if mp<=atomic_limit:
                 units.append((f'{prov}:{mun}:M',set(nodes),False,mun));continue
-            k=max(2,int(math.ceil(mp/target)));parts=hybrid_partition(nodes,k,adj,pop);parts,pvals,_=rebalance(parts,adj,pop,target,floor,cap,5000)
-            ext=[]
-            for i,p in enumerate(parts):
-                contacts=sum(1 for n in p for nb in adj[n] if nb not in nodes and nb in meta and str(meta[nb][provf]).zfill(2)==prov)
-                ext.append((contacts,-abs(pvals[i]-target),-i,i))
-            residual=max(ext)[-1]
-            for i,p in enumerate(parts):units.append((f'{prov}:{mun}:{"R" if i==residual else "U"+str(i+1)}',set(p),i!=residual,mun))
+            cores,residual=split_oversized_municipality(nodes,target,tol,adj,pop)
+            for i,p in enumerate(cores,1):
+                pp=sum(pop[n] for n in p)
+                if not (target-tol <= pp <= target+tol):raise SystemExit(f'M04: núcleo {prov}/{mun}/U{i} fuera de tolerancia: {pp}')
+                units.append((f'{prov}:{mun}:U{i}',set(p),True,mun))
+            if residual:
+                units.append((f'{prov}:{mun}:R',set(residual),False,mun))
+            oversized_report.append({'municipality':mun,'population':mp,'closed_cores':len(cores),'residual_population':sum(pop[n] for n in residual),'atomic_limit':atomic_limit})
         node_to_u={n:i for i,(_,ns,_,_) in enumerate(units) for n in ns};uadj={i:set() for i in range(len(units))};upop={i:sum(pop[n] for n in units[i][1]) for i in range(len(units))}
         for n in prov_nodes:
             i=node_to_u[n]
             for nb in adj[n]:
                 if nb in node_to_u and node_to_u[nb]!=i:uadj[i].add(node_to_u[nb])
         locked=[i for i,u in enumerate(units) if u[2]];open_units=set(range(len(units)))-set(locked);need=quota[prov]-len(locked)
-        if need<=0 and open_units:raise SystemExit(f'M04: provincia {prov}: no quedan distritos abiertos')
+        if need<0:raise SystemExit(f'M04: provincia {prov}: núcleos cerrados={len(locked)} > cuota={quota[prov]}')
+        if need==0 and open_units:raise SystemExit(f'M04: provincia {prov}: no quedan distritos abiertos para {len(open_units)} unidades')
         if need>len(open_units):raise SystemExit(f'M04: provincia {prov}: need={need} > unidades abiertas={len(open_units)}')
         open_parts=hybrid_partition(open_units,need,uadj,upop) if need else []
-        open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,floor,cap,30000) if open_parts else ([],[],())
+        open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,floor,cap,tol,30000) if open_parts else ([],[],())
         local_ids=[];dist_nodes={};dist_closed={}
         for i in locked:
             d=district_counter;district_counter+=1;local_ids.append(d);dist_nodes[d]=set(units[i][1]);dist_closed[d]=True
@@ -174,16 +217,15 @@ def main():
             if not connected(dist_nodes[d],adj):raise SystemExit(f'M04: distrito {d} desconectado antes de exportar')
             ps={str(meta[n][provf]).zfill(2) for n in dist_nodes[d]}
             if ps!={prov}:raise SystemExit(f'M04: distrito {d} cruza provincia: {sorted(ps)}')
-        prov_report[prov]={'quota':quota[prov],'district_ids':local_ids,'closed_urban_districts':len(locked),'units':len(units),'population':sum(pop[n] for n in prov_nodes),'open_partition_objective':list(open_obj) if open_obj else []}
+        prov_report[prov]={'quota':quota[prov],'district_ids':local_ids,'closed_urban_districts':len(locked),'units':len(units),'population':sum(pop[n] for n in prov_nodes),'oversized_municipalities':oversized_report,'open_partition_objective':list(open_obj) if open_obj else []}
     if district_counter!=K:raise SystemExit(f'M04: generados {district_counter} distritos, esperado {K}')
     if len(assign)!=len(pop):raise SystemExit(f'M04: asignadas {len(assign)} secciones de {len(pop)}')
     g['district_id']=g[idf].map(assign).astype('int64');g['ddd_unit_id']=g[idf].map(unit_id);g['ddd_closed_urban']=g[idf].map(closed).fillna(False).astype(bool);g['district_pop_section']=g[idf].map(pop).fillna(0).astype('int64')
-    # Puerta interna M04: cardinalidad provincial, contigüidad y límites duros antes de exportar.
-    pops=g.groupby('district_id')['district_pop_section'].sum();hard=int(((pops<floor)|(pops>cap)).sum());prov_counts={str(x[provf].iloc[0]).zfill(2):0 for _,x in g.groupby('district_id')}
+    pops=g.groupby('district_id')['district_pop_section'].sum();hard=int(((pops<floor)|(pops>cap)).sum());outside=int((abs(pops-target)>tol).sum());prov_counts={str(x[provf].iloc[0]).zfill(2):0 for _,x in g.groupby('district_id')}
     for _,x in g.groupby('district_id'):prov_counts[str(x[provf].iloc[0]).zfill(2)]+=1
     if prov_counts!=quota:raise SystemExit(f'M04: cardinalidad provincial {prov_counts}, esperada {quota}')
     if hard:raise SystemExit(f'M04: solución inicial mantiene {hard} distritos fuera de suelo/techo')
-    write_geo(g,out);rep={'module':'04','version':'7.3.1','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'min_pop':int(pops.min()),'max_pop':int(pops.max()),'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_cap':True,'municipal_partition_connected':True,'closed_urban_blocks':True,'district_contiguity_preexport':True}}
+    write_geo(g,out);rep={'module':'04','version':'7.4.0','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_target_band':True,'oversized_municipality_closed_cores_plus_open_residual':True,'municipal_partition_connected':True,'closed_urban_blocks':True,'district_contiguity_preexport':True}}
     if report_path:Path(report_path).write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding='utf-8')
-    print(f'[Módulo 4] OK v7.3.0 K={K} provincias={prov_counts} hard=0 min={int(pops.min())} max={int(pops.max())} out={out}')
+    print(f'[Módulo 4] OK v7.4.0 K={K} provincias={prov_counts} hard=0 outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
 if __name__=='__main__':main()
