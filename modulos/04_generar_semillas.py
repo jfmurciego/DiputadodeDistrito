@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.0
-NOMBRE DE VERSIÓN: Puertas externas preservables + residuo flexible
+VERSIÓN: 7.5.1
+NOMBRE DE VERSIÓN: Puerta mínima por componente + residuo flexible
 FECHA: 2026-09-11
 ESTADO: experimental EXT-03; compatible en modo legacy y pendiente de regresión completa Aragón/Castilla y León antes de promoción.
-FUNCIÓN: ejecutar el motor M04 v7.5.0, que conserva semántica legacy por defecto y permite activar `gateway_policy: preserve_all_external_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
+FUNCIÓN: ejecutar el motor M04 v7.5.1, que permite `gateway_policy: preserve_component_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
-REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política nueva solo restringe qué secciones-puerta pueden cerrarse dentro de municipios sobredimensionados; la micro-unidad :F no cambia asignación M04.
-COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, reproduciendo v7.4.8 para Aragón/CYL. La nueva política se activa inicialmente solo en pruebas EXT-03.
-CAMBIOS: sustituye el motor base v7.4.7 por v7.5.0; conserva íntegra la lógica de micro-unidad flexible de v7.4.8.
-MOTIVO: EXT-03 demostró que M04 podía aislar La Albuera/Aliseda cerrando las únicas secciones-puerta de Badajoz/Cáceres pese a que M03 era conexo.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.8.py
+REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
+COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
+CAMBIOS: sustituye v7.5.0, que protegía todas las puertas y bloqueaba Badajoz, por v7.5.1, que protege una puerta determinista por componente territorial dependiente.
+MOTIVO: EXT-03 mostró que ni preservar solo alguna puerta ni preservar todas es correcto; la condición topológica mínima debe formularse por componentes del grafo provincial al retirar el municipio sobredimensionado.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.0.py
 """
 from __future__ import annotations
 
@@ -33,11 +33,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg, require
 
-BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v750.py"
+BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v751.py"
 
 
 def load_base():
-    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v750", BASE_ENGINE)
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v751", BASE_ENGINE)
     if spec is None or spec.loader is None:
         raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
@@ -135,7 +135,7 @@ def expose_flexible_residual_units(params_path):
             donor_slack = donor_pop - lo
             if donor_slack + 1e-9 < deficit:
                 raise SystemExit(
-                    f"M04 v7.5.0: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
+                    f"M04 v7.5.1: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
                     f"deficit={deficit:.2f} slack={donor_slack:.2f}"
                 )
             donor_nodes = dnodes(d)
@@ -157,7 +157,7 @@ def expose_flexible_residual_units(params_path):
                     candidates.append((score, n, q, pn))
             if not candidates:
                 raise SystemExit(
-                    f"M04 v7.5.0: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
+                    f"M04 v7.5.1: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
                     f"pero no existe sección fronteriza individual transferible"
                 )
             _, n, q, pn = min(candidates, key=lambda z: z[0])
@@ -178,18 +178,19 @@ def expose_flexible_residual_units(params_path):
 
     for d, x in g.groupby(did):
         if not connected(set(x[idf]), adj):
-            raise SystemExit(f"M04 v7.5.0: distrito {d} desconectado")
+            raise SystemExit(f"M04 v7.5.1: distrito {d} desconectado")
 
     write_geo(g, out)
     rep = json.loads(Path(report_path).read_text(encoding="utf-8")) if report_path and Path(report_path).exists() else {}
-    rep["version"] = "7.5.0"
+    rep["version"] = "7.5.1"
     rep["gateway_policy"] = str(s4.get("gateway_policy", "legacy"))
     rep["flexible_residual_units"] = created
     rep.setdefault("rules", {})["monolithic_residuals_may_expose_minimal_transferable_frontier_unit"] = True
     rep["rules"]["flex_units_do_not_change_m04_district_assignment"] = True
+    rep["rules"]["component_gateway_policy_is_opt_in"] = True
     if report_path:
         Path(report_path).write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[Módulo 4] OK v7.5.0 gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
+    print(f"[Módulo 4] OK v7.5.1 gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
 
 
 def main():
