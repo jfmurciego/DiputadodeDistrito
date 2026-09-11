@@ -3,17 +3,19 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: auditar_swaps_1x2_m05.py
-VERSIÓN: 1.0.0
-NOMBRE: Diagnóstico de intercambios 1↔2 / 2↔1 M05
+VERSIÓN: 1.0.1
+NOMBRE: Diagnóstico 1↔2 con paquete conexo y ancla de frontera
 FECHA: 2026-09-11
 ESTADO: diagnóstico; no modifica soluciones.
 FUNCIÓN: buscar intercambios compuestos mínimos entre distritos vecinos después de agotar movimientos
-unitarios y swaps 1×1. Prueba exactamente una unidad de un distrito por dos unidades del vecino y el caso
-simétrico, preservando provincia, suelo/techo, cierre urbano y contigüidad estricta.
-MOTIVO: EXT-06 Run 34642635707 deja únicamente los distritos 14 (-13,30 %) y 25 (-12,30 %), sin mejora
-simple ni 1×1. Ambos tienen piezas frontera pequeñas cuya transferencia aislada hunde o desconecta al donante;
-un intercambio 1↔2 es el siguiente operador compuesto mínimo justificable.
-ANTERIOR: ninguno — herramienta nueva.
+unitarios y swaps 1×1. Prueba una unidad por dos unidades conectas del vecino y el caso simétrico, exigiendo
+que al menos una unidad del paquete doble toque la frontera opuesta; valida después contigüidad completa,
+provincia, suelo/techo y cierre urbano.
+CAMBIOS: v1.0.0 exigía por error que las dos unidades del paquete doble tocaran directamente el distrito
+contrario. v1.0.1 permite una unidad-ancla de frontera más una vecina interna del mismo distrito.
+MOTIVO: el operador debe poder sustituir piezas de articulación; precisamente esos casos pueden requerir una
+unidad fronteriza y otra interior conectada.
+ANTERIOR: legacy/herramientas/auditar_swaps_1x2_m05_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -90,11 +92,12 @@ def main():
     unit_nodes={u:set(x[idf].astype(str)) for u,x in g.groupby("ddd_unit_id")}
     unit_pop={u:sum(pop[n] for n in ns) for u,ns in unit_nodes.items()}
     unit_dist={u:int(x[did].iloc[0]) for u,x in g.groupby("ddd_unit_id")}
-    unit_mun={u:sorted(set(x.get("CUMUN",[]).astype(str))) if "CUMUN" in x else [] for u,x in g.groupby("ddd_unit_id")}
+    unit_mun={u:sorted(set(x["CUMUN"].astype(str))) if "CUMUN" in x.columns else [] for u,x in g.groupby("ddd_unit_id")}
     d_nodes={d:set(x[idf].astype(str)) for d,x in g.groupby(did)}
     d_pop={d:sum(pop[n] for n in ns) for d,ns in d_nodes.items()}
     d_prov={d:str(g[g[did]==d][provf].iloc[0]) for d in d_nodes}
     d_closed={int(d):bool(x["ddd_closed_urban"].all()) for d,x in g.groupby(did)} if "ddd_closed_urban" in g.columns else {d:False for d in d_nodes}
+    d_units={d:set(x["ddd_unit_id"].astype(str)) for d,x in g.groupby(did)}
 
     total=sum(pop.values()); K=len(d_pop); target=total/K
     floor=target*float(val.get("population_floor_ratio",.8)); cap=target*float(val.get("population_cap_ratio",1.75)); tol=target*float(val.get("target_tolerance_ratio",.12))
@@ -105,31 +108,38 @@ def main():
         for nb in adj.get(n,set()):
             v=section_unit.get(nb)
             if v and v!=u:uadj[u].add(v)
-    boundary={d:set() for d in d_pop}
-    for u,d in unit_dist.items():
-        if not d_closed.get(d,False) and any(unit_dist.get(v)!=d for v in uadj.get(u,set())): boundary[d].add(u)
+
+    def touches_district(u, district):
+        return any(unit_dist.get(v)==district for v in uadj.get(u,set()))
+
+    def packages(d,e,size):
+        units=sorted(d_units[d],key=str)
+        if size==1:
+            return [(u,) for u in units if touches_district(u,e)]
+        out=[]
+        for u,v in itertools.combinations(units,2):
+            if v not in uadj.get(u,set()):
+                continue
+            if touches_district(u,e) or touches_district(v,e):
+                out.append((u,v))
+        return out
 
     district_pairs=set()
     for d in outliers:
         if d_closed.get(d,False): continue
-        for u in boundary[d]:
+        for u in d_units[d]:
             for v in uadj.get(u,set()):
                 e=unit_dist[v]
                 if e!=d and not d_closed.get(e,False) and d_prov[e]==d_prov[d]: district_pairs.add((d,e))
 
     results=[]; seen=set()
     for d,e in sorted(district_pairs):
-        bd=sorted(boundary[d],key=str); be=sorted(boundary[e],key=str)
-        # Solo paquetes que realmente se relacionan con la frontera d/e.
-        bd=[u for u in bd if any(unit_dist.get(v)==e for v in uadj.get(u,set()))]
-        be=[u for u in be if any(unit_dist.get(v)==d for v in uadj.get(u,set()))]
         for left_size,right_size in ((1,2),(2,1)):
-            for left in itertools.combinations(bd,left_size):
-                for right in itertools.combinations(be,right_size):
+            for left in packages(d,e,left_size):
+                for right in packages(e,d,right_size):
                     key=(d,e,left,right)
                     if key in seen: continue
                     seen.add(key)
-                    # Al menos una adyacencia cruzada entre paquetes; la conectividad final se valida después.
                     if not any(v in uadj.get(u,set()) for u in left for v in right): continue
                     left_nodes=set().union(*(unit_nodes[u] for u in left)); right_nodes=set().union(*(unit_nodes[v] for v in right))
                     nd=(d_nodes[d]-left_nodes)|right_nodes; ne=(d_nodes[e]-right_nodes)|left_nodes
@@ -138,10 +148,10 @@ def main():
                     if nd and not connected(nd,adj): reasons.append("district_d_disconnect")
                     if ne and not connected(ne,adj): reasons.append("district_e_disconnect")
                     lp=sum(unit_pop[u] for u in left); rp=sum(unit_pop[v] for v in right)
-                    pd=d_pop[d]-lp+rp; pe=d_pop[e]-rp+lp
-                    if not(floor<=pd<=cap): reasons.append("district_d_floor_cap")
-                    if not(floor<=pe<=cap): reasons.append("district_e_floor_cap")
-                    trial=dict(d_pop); trial[d]=pd; trial[e]=pe; obj=objective(trial,target,floor,cap,tol)
+                    pop_d=d_pop[d]-lp+rp; pop_e=d_pop[e]-rp+lp
+                    if not(floor<=pop_d<=cap): reasons.append("district_d_floor_cap")
+                    if not(floor<=pop_e<=cap): reasons.append("district_e_floor_cap")
+                    trial=dict(d_pop); trial[d]=pop_d; trial[e]=pop_e; obj=objective(trial,target,floor,cap,tol)
                     if obj>=cur: reasons.append("objective_non_improvement")
                     results.append({
                         "districts":[d,e],"shape":f"{left_size}x{right_size}",
@@ -149,7 +159,7 @@ def main():
                         "population_d_package":lp,"population_e_package":rp,
                         "municipalities_d":sorted({m for u in left for m in unit_mun[u]}),
                         "municipalities_e":sorted({m for u in right for m in unit_mun[u]}),
-                        "new_pops":[pd,pe],"objective":list(obj),"reasons":reasons,
+                        "new_pops":[pop_d,pop_e],"objective":list(obj),"reasons":reasons,
                         "valid_improvement":not reasons,
                     })
     results.sort(key=lambda x:(tuple(x["objective"]),x["shape"],tuple(x["units_d"]),tuple(x["units_e"])))
