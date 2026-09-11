@@ -3,16 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: auditar_fragilidad_topologica.py
-VERSIÓN: 1.0.0
-NOMBRE: Auditor global de fragilidad topológica distrital
+VERSIÓN: 1.0.1
+NOMBRE: Auditor global de fragilidad topológica — fallback GeoJSON crudo
 FECHA: 2026-09-11
 ESTADO: diagnóstico; no modifica asignaciones.
 FUNCIÓN: medir, para todos los distritos de una solución M04/M05, puntos de articulación a nivel de unidad
 DDD y la población de los lóbulos que dependen de cada articulación. Produce una firma topológica comparable.
-MOTIVO: EXT-07/08 demostraron que el mínimo residual de Extremadura es topológico. EXT-10 demostró que el
-`seed` configurado en M04 v7.4.5 no se consume. Antes de introducir variantes se necesita una función de
-medida explícita de robustez topológica que permita comparación A/B reproducible.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS: si OGR descarta `ddd_unit_id` por su representación GeoJSON, recupera la propiedad desde el JSON
+crudo y la vuelve a asociar de forma determinista por `id_field` antes del análisis.
+MOTIVO DEL CAMBIO: EXT-11 Run 34647064888 construyó M04 correctamente pero OGR omitió `ddd_unit_id`
+(`unsupported OGR type: 10`), bloqueando el auditor. Es el mismo fenómeno ya tratado por M05 wrapper 7.5.2.
+ANTERIOR: legacy/herramientas/auditar_fragilidad_topologica_v1.0.0.py
 """
 from __future__ import annotations
 import argparse, io, json, sys, zipfile
@@ -23,13 +24,32 @@ ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg
 
-def load_geo(path):
+def read_raw(path):
     p=Path(path)
     if p.suffix.lower()=='.zip':
         with zipfile.ZipFile(p) as z:
             n=next(n for n in z.namelist() if n.lower().endswith(('.geojson','.json')) and not n.endswith('/'))
-            return gpd.read_file(io.BytesIO(z.read(n)))
-    return gpd.read_file(p)
+            raw=z.read(n); return json.loads(raw.decode('utf-8')), raw
+    raw=p.read_bytes(); return json.loads(raw.decode('utf-8')), raw
+
+def load_geo_with_unit(path,idf):
+    data,raw=read_raw(path)
+    g=gpd.read_file(io.BytesIO(raw))
+    if 'ddd_unit_id' in g.columns:
+        g['ddd_unit_id']=g['ddd_unit_id'].astype(str); return g
+    mapping={}
+    for f in data.get('features',[]):
+        pr=f.get('properties') or {}; k=pr.get(idf); v=pr.get('ddd_unit_id')
+        if k is None or v is None: continue
+        if isinstance(v,list):
+            if len(v)!=1: raise SystemExit(f'ddd_unit_id multivaluado no normalizable para {k}: {v!r}')
+            v=v[0]
+        mapping[str(k)]=str(v)
+    if not mapping: raise SystemExit('Se requiere ddd_unit_id y no pudo recuperarse del GeoJSON crudo')
+    g[idf]=g[idf].astype(str); g['ddd_unit_id']=g[idf].map(mapping)
+    if g['ddd_unit_id'].isna().any():
+        missing=g.loc[g['ddd_unit_id'].isna(),idf].astype(str).head(10).tolist(); raise SystemExit(f'ddd_unit_id no recuperable para {missing}')
+    return g
 
 def comps(nodes,adj):
     rem=set(nodes); out=[]
@@ -52,10 +72,8 @@ def main():
     pop={str(n['id']):int(n.get('pop',0)) for n in G['nodes']}; sadj={n:set() for n in pop}
     for e in G['edges']:
         u,v=str(e['u']),str(e['v']); sadj[u].add(v); sadj[v].add(u)
-    g=load_geo(a.geojson); idf=s5.get('id_field') or s4.get('id_field','CUSEC_KEY'); did=s5.get('district_field','district_id'); munf=s5.get('municipality_field','CUMUN')
-    g[idf]=g[idf].astype(str); g[did]=g[did].astype(int)
-    if 'ddd_unit_id' not in g.columns: raise SystemExit('Se requiere ddd_unit_id')
-    g['ddd_unit_id']=g['ddd_unit_id'].astype(str)
+    idf=s5.get('id_field') or s4.get('id_field','CUSEC_KEY'); did=s5.get('district_field','district_id'); munf=s5.get('municipality_field','CUMUN')
+    g=load_geo_with_unit(a.geojson,idf); g[idf]=g[idf].astype(str); g[did]=g[did].astype(int); g['ddd_unit_id']=g['ddd_unit_id'].astype(str)
     sec_unit=dict(zip(g[idf],g.ddd_unit_id)); unit_nodes={u:set(x[idf].astype(str)) for u,x in g.groupby('ddd_unit_id')}; unit_pop={u:sum(pop[n] for n in ns) for u,ns in unit_nodes.items()}; unit_mun={u:sorted(set(x[munf].astype(str))) if munf in x.columns else [] for u,x in g.groupby('ddd_unit_id')}; unit_dist={u:int(x[did].iloc[0]) for u,x in g.groupby('ddd_unit_id')}
     uadj={u:set() for u in unit_nodes}
     for n,u in sec_unit.items():
