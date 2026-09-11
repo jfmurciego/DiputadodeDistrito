@@ -18,20 +18,26 @@ Se preserva workflow v2.7.0 en `legacy/workflows/` y se publica v2.7.1. Se elimi
 
 Run #7 dejó el distrito 56 de Zaragoza con 31.563 habitantes y M05 v7.2.0 aceptó 0 movimientos. La auditoría sobre artefactos exactos probó 642 relaciones candidatas dirigidas únicas: el bloqueo era un mínimo local del greedy, no ausencia de adyacencias.
 
-Se preserva M05 v7.2.0 y se publica M05 v7.3.0. Se añade greedy determinista + recocido reproducible limitado a provincias afectadas, manteniendo en cada transición suelo/techo, provincia, contigüidad, `ddd_unit_id` y cierres urbanos. La salida restaura siempre la mejor solución canónica encontrada. Configuración Aragón pasa a v7.5.0, preservando v7.4.0.
-
-La prueba diagnóstica local alcanzó `fuera_12=0`; quedó pendiente de GitHub.
+Se preserva M05 v7.2.0 y se publica M05 v7.3.0. Se añade greedy determinista + recocido reproducible limitado a provincias afectadas, manteniendo en cada transición suelo/techo, provincia, contigüidad, `ddd_unit_id` y cierres urbanos. Configuración Aragón pasa a v7.5.0.
 
 ## 2026-09-11 — Run #8 — Promoción de R014
 
-GitHub Run `34592470470`, ejecutado sobre `d57dc9cd77af4fa09780794401381d9727d1c71b`, termina **SUCCESS**.
-
-M05 v7.3.0 pasa de `fuera_12=1`, `max_rel_dev=0.549676430306` a **`fuera_12=0`, `max_rel_dev=0.119431695687`**. La validación final confirma 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49, sin cruces provinciales, sin desconexiones, sin infracciones municipales y sin violaciones de suelo/techo. R014 queda promocionado.
-
-Run #8 también confirma workflow v2.7.1: publicación completa M01–M08 sin `PRODUCTOS.json: command not found`.
+GitHub Run `34592470470` termina SUCCESS. M05 pasa de `fuera_12=1`, `max_rel_dev=0.549676430306` a **`fuera_12=0`, `max_rel_dev=0.119431695687`**. Validación final: 67 distritos, 1.463 secciones, 1.364.621 habitantes, 11/7/49, sin cruces provinciales, desconexiones, infracciones municipales ni violaciones de suelo/techo. R014 queda promocionado.
 
 ## 2026-09-11 — Reconciliación de gobernanza post-auditoría
 
-Se preservan y actualizan README, Estado Maestro, Continuidad, Bitácora, Registro, política y contrato M05. `POLITICA_DE_VERSIONES.md` v1.1.0 sustituye la obligación obsoleta de actualizar `MEMORIA_DEL_PROYECTO.md` por los documentos canónicos actuales; prohíbe rutas `legacy` ficticias; distingue predecesor recuperado de deuda histórica; fija `main` como rama canónica y documenta ramas `infra/*` como históricas/no activas.
+Se alinean documentos canónicos con R014, se retiran `MEMORIA*` como fuentes vigentes, se fija `main` como rama canónica y se documenta la deuda histórica de `legacy/` sin inventar antecedentes.
 
-Se crea `docs/AUDITORIAS/DEUDA_HISTORICA_LEGACY_2026-09-11.md` para registrar las referencias heredadas no materializadas. Se reconoce explícitamente la ausencia de suite unitaria completa como deuda de ingeniería, manteniendo workflow + validaciones integradas como evidencia arbitral actual.
+## 2026-09-11 — R015 — Pruebas automáticas y gobernanza verificable
+
+**Objetivo:** cerrar la deuda de pruebas y de trazabilidad sin cambiar el algoritmo territorial aceptado.
+
+**Pruebas:** se añade `tests/test_r015_invariantes.py` y `.github/workflows/pruebas-ddd.yml`. La regresión comprueba las invariantes R012/R014 contra Run #8 y un fixture sintético ejecuta M05 dos veces con la misma semilla para exigir determinismo y atomicidad de unidad.
+
+**Normalización:** se archivan predecesores inmediatos reales y se incrementan como PATCH de gobernanza configuración 7.5.0→7.5.1, core 1.3.0→1.3.1, herramientas activas, M01–M08, `procedimiento.sh` 2.1.0→2.1.1 y workflow territorial 2.7.1→2.7.2. La lógica funcional no cambia. Inventario: `docs/R015_COMPONENTES_NORMALIZADOS.tsv`.
+
+**Deuda histórica:** `docs/DEUDA_HISTORICA_LEGACY.md` conserva el inventario de antecedentes pre-R015 no recuperados. No se reconstruyen ficticiamente.
+
+**Incidencias de migración:** un primer lint detectó whitespace existente dentro de una copia histórica; se decidió conservar el antecedente byte a byte y excluir `legacy/**` del lint. GitHub Actions tampoco podía modificar workflows por su permiso restringido; se separó esa operación y se realizó por el canal autorizado. Los migradores temporales quedaron archivados y fueron retirados del árbol activo.
+
+**Aceptación:** `Pruebas DDD — R015`, Run `34594827070`, termina SUCCESS después de retirar la migración temporal. La auditoría de cabeceras/legacy y la regresión territorial/determinismo pasan. R015 queda cerrada y su CI se convierte en puerta obligatoria de regresión.
