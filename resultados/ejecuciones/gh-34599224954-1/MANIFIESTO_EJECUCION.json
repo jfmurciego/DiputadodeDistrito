@@ -1,0 +1,124 @@
+{
+  "run_id": "gh-34599224954-1",
+  "git_commit": "f9ca44ff005043f630fce39334d34726d8bf55c5",
+  "python": "3.11.13 (main, Sep 30 2025, 00:39:50) [GCC 12.2.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.36",
+  "configuracion": "configuracion/aragon_2025.yaml",
+  "configuracion_sha256": "16772941a932ce416f597d494f00e04feca6ed667b35036762c74aa9122769c0",
+  "started_at_utc": "2026-09-11T12:33:26.557950+00:00",
+  "inputs": {
+    "inputs/MANIFEST.sha256": {
+      "bytes": 285,
+      "sha256": "5d1f8f68c5d558941f1365e1cbc3d1c27f1383ad150de97f8851cfbde6aa78cc"
+    },
+    "inputs/rtve_aragon_2026_secciones.json": {
+      "bytes": 716660,
+      "sha256": "bd091a2a878afd3aa0e9bf2af52f2484e24d967020c56cee5b1e320c339aa94c"
+    }
+  },
+  "modulos": {
+    "modulos/01_preparar_base_territorial.py": {
+      "bytes": 7556,
+      "sha256": "7999d992d3b1e60724ae499526dbacc47e3f05fbd8acf47714fadc0971cf9a6a"
+    },
+    "modulos/02_construir_adyacencias.py": {
+      "bytes": 4843,
+      "sha256": "eb35845edd8d9fc244d1d0304e170dfd6e8ff5f2a1b9bec4b54cef3b2c2b10f5"
+    },
+    "modulos/03_construir_grafo.py": {
+      "bytes": 4533,
+      "sha256": "b4370cc2f92f267622fbb27eb7dbdb9dfbf9d436c5af1699bf9001bb1d4605ea"
+    },
+    "modulos/04_generar_semillas.py": {
+      "bytes": 12426,
+      "sha256": "a10a3477fd70c412987ee850b5977b5afd27981657fca8e3479f45df78a571a9"
+    },
+    "modulos/05_optimizar_distritos.py": {
+      "bytes": 17641,
+      "sha256": "211b4b69b6542917ce3f4a324224357499bf99ed7936d7fddfdf971b0a32516d"
+    },
+    "modulos/06_consolidar_distritos.py": {
+      "bytes": 3971,
+      "sha256": "473304ba2da2f1732ffe5cee6906d488276aacef6c336ca3f3e0cc02a9276300"
+    },
+    "modulos/07_agregar_resultados_electorales.py": {
+      "bytes": 6624,
+      "sha256": "52abbddb6e63fbd6471b08fa6aeeff5367091c2a3c9b34545a558c43834739f9"
+    },
+    "modulos/08_integrar_resultados.py": {
+      "bytes": 2972,
+      "sha256": "ed6bf497860099547afb6eff772e9a63637655e8a168559f70726b8fc2ea8462"
+    }
+  },
+  "finished_at_utc": "2026-09-11T12:35:27.318320+00:00",
+  "outputs": {
+    "VALIDACION.json": {
+      "bytes": 506,
+      "sha256": "f8c23390efc3e4a57f76b85019c251ad25402f5d5aca704bce93443afecbf2f2"
+    },
+    "aragon_2025_m04_informe.json": {
+      "bytes": 2227,
+      "sha256": "05544f98c4c98ebea4e38efd79d9741fc79d17ea7db0e6876cf30fe3b16444e6"
+    },
+    "aragon_2025_m04_semillas.geojson.zip": {
+      "bytes": 4148404,
+      "sha256": "0d3b4ffbdeb970467dd4247084572afc6607e3d384599fdd6f9853f121fa2e26"
+    },
+    "aragon_2025_m05_distritos_optimizados.geojson.zip": {
+      "bytes": 4148438,
+      "sha256": "da3b7a335b39a880b5234c753f741adba49e6fbdaa0a94cffe472cab9622f6b2"
+    },
+    "aragon_2025_m05_informe.json": {
+      "bytes": 1509,
+      "sha256": "4835149d591342ccf021551c66d5c048840306dca33260f69f636b6c70e97bbd"
+    },
+    "aragon_2025_m06_distritos.geojson.zip": {
+      "bytes": 1596446,
+      "sha256": "480c0dc54a64b91a6e000219021a31c0cc72b9b2dc15790d8fb4b60ceebaf45d"
+    },
+    "aragon_2025_m06_resumen_distritos.csv": {
+      "bytes": 618,
+      "sha256": "b4c8fbbf9f28ab36a5fef61f4b630a3b6fd7584a03e9fa155e0381ffdfa74d6f"
+    },
+    "aragon_2025_m06_secciones.geojson.zip": {
+      "bytes": 4148403,
+      "sha256": "a47201956f587df6b5f4178b834e3c24eac4aafbefc142bc3974153dd9887ca2"
+    },
+    "aragon_2025_m07_resultados_partido.csv": {
+      "bytes": 20014,
+      "sha256": "1a959d382cff399524db0bd2259b4b21e901941ef6a8e316e04c03e66145a543"
+    },
+    "aragon_2025_m07_resumen_electoral.csv": {
+      "bytes": 2998,
+      "sha256": "9f1828b86584a773d5f3bf500f0a3a0a936192819c50e3460879249aa0675a50"
+    },
+    "aragon_2025_m07_secciones_resultados.geojson.zip": {
+      "bytes": 4173405,
+      "sha256": "040e7b6af3a390750b3f5f88a35b0474f7ccc53433632627b219ea527a3ab6d4"
+    },
+    "aragon_2025_m08_distritos_resultados.geojson.zip": {
+      "bytes": 1601021,
+      "sha256": "6e813adc6e38e4c496c9037eceb18a280265b5d5ae279eabff0531f56b621e68"
+    },
+    "logs/modulo_04.log": {
+      "bytes": 170,
+      "sha256": "8b2d9bf2708fc704cb246577211c902285e7b9b8af2e51dd63d2e1500ffe3b9f"
+    },
+    "logs/modulo_05.log": {
+      "bytes": 185,
+      "sha256": "59899383e529955766c80e9f7374a38c2779aa79551721eb13046098100fc100"
+    },
+    "logs/modulo_06.log": {
+      "bytes": 115,
+      "sha256": "14b37484d372e79cb07c708fd3668042bc4404432b010164a10dc0da0d1ae70c"
+    },
+    "logs/modulo_07.log": {
+      "bytes": 112,
+      "sha256": "290ac781c565f648d2407d5fbd7f6695177b18ac82118c73ba81bbe624d93b96"
+    },
+    "logs/modulo_08.log": {
+      "bytes": 102,
+      "sha256": "4af7fe95ee3a2bf0363a17c98b47112a2d6a0e9a57f0d15cf0fea5414dfc62f8"
+    }
+  }
+}
