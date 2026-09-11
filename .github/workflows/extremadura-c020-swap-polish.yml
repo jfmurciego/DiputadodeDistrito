@@ -1,13 +1,15 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE: EXT-06 — Validación c020 + M05 swap-polish
+# VERSIÓN: 1.1.0
+# NOMBRE: EXT-06 — Validación c020 + M05 swap-polish + diagnóstico residual
 # FECHA: 2026-09-11
-# ESTADO: validación experimental.
-# QUÉ HACE: reproduce exactamente el candidato c020 de EXT-05 y activa únicamente `swap_polish_max: 200`
-# en M05 v7.5.0. Mide la mejora atribuible a la fase C determinista.
-# MOTIVO: EXT-05 Run 34641298906 encontró 8 swaps 1×1 válidos que mejoran la función objetivo. Debe
-# demostrarse si aplicarlos iterativamente cierra los cuatro outliers sin alterar restricciones duras.
-# ANTERIOR: ninguno — workflow nuevo.
+# ESTADO: validación experimental con diagnóstico post-polish.
+# QUÉ HACE: reproduce exactamente el candidato c020, activa `swap_polish_max: 200` en M05 y, después del
+# pulido, audita movimientos simples, swaps 1×1 y articulaciones de los outliers que permanezcan.
+# CAMBIOS: añade diagnóstico post-polish y actualiza la referencia al wrapper activo 7.5.2; preserva v1.0.0.
+# MOTIVO: EXT-06 Run 34642098588 probó que dos swaps reducen los outliers de 4 a 2 sin violaciones duras,
+# pero el máximo desvío sigue en 13,30 %. Antes de introducir 1↔2, bundles o cadenas hay que probar qué
+# operador mínimo falta en el nuevo mínimo local.
+# ANTERIOR: legacy/workflows/extremadura-c020-swap-polish_v1.0.0.yml
 name: EXT-06 — C020 swap-polish
 
 on:
@@ -19,6 +21,9 @@ on:
       - 'ddd_core/m05_swap_polish.py'
       - 'modulos/05_optimizar_distritos.py'
       - 'herramientas/construir_unidades_internas_m04.py'
+      - 'herramientas/auditar_bloqueos_m05.py'
+      - 'herramientas/auditar_swaps_m05.py'
+      - 'herramientas/auditar_articulaciones_m05.py'
 
 permissions: {contents: read}
 
@@ -70,21 +75,25 @@ jobs:
           c["validation"].update({"expected_districts":65,"population_floor_ratio":.85,"population_cap_ratio":1.50,"target_tolerance_ratio":.10,"province_districts":{"06":41,"10":24}})
           (root/"territorios/extremadura/config/.generated_ext06_c020.yaml").write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True))'
 
-      - name: M04→M05 v7.5.0
+      - name: M04→M05 v7.5.2
         run: |
           set -euo pipefail
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$CFG"
           python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/extremadura_2025_ext06_c020_m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$CFG"
 
-      - name: Validar y resumir
+      - name: Validar, resumir y diagnosticar residuo
         run: |
           set -euo pipefail
+          mkdir -p "$BASE/ext06"
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} -c '
           import io,json,pathlib,zipfile,geopandas as gpd
           b=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025")
           with zipfile.ZipFile(b/"extremadura_2025_ext06_c020_m05.geojson.zip") as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));g=gpd.read_file(io.BytesIO(z.read(n)))
-          target=g.POP_2025.sum()/65;p=g.groupby("district_id").POP_2025.sum();spl=g.groupby("CUMUN").district_id.nunique();rep=json.loads((b/"extremadura_2025_ext06_c020_m05_report.json").read_text());o={"districts":int(g.district_id.nunique()),"outside_10":int(((p-target).abs()>target*.10).sum()),"max_abs_deviation":float(((p-target).abs()/target).max()),"min_pop":int(p.min()),"max_pop":int(p.max()),"split_municipalities":{str(k):int(v) for k,v in spl[spl>1].items()},"swap_polish":rep.get("swap_polish")};(b/"extremadura_2025_ext06_summary.json").write_text(json.dumps(o,ensure_ascii=False,indent=2));print(json.dumps(o,ensure_ascii=False));assert o["districts"]==65'
+          target=g.POP_2025.sum()/65;p=g.groupby("district_id").POP_2025.sum();spl=g.groupby("CUMUN").district_id.nunique();rep=json.loads((b/"extremadura_2025_ext06_c020_m05_report.json").read_text());outliers=[{"district":int(d),"population":int(pop),"rel_dev":float((pop-target)/target)} for d,pop in p.items() if abs(pop-target)>target*.10];o={"districts":int(g.district_id.nunique()),"outside_10":len(outliers),"outliers":outliers,"max_abs_deviation":float(((p-target).abs()/target).max()),"min_pop":int(p.min()),"max_pop":int(p.max()),"split_municipalities":{str(k):int(v) for k,v in spl[spl>1].items()},"engine_version":rep.get("version"),"wrapper_version":rep.get("wrapper_version"),"swap_polish":rep.get("swap_polish")};(b/"extremadura_2025_ext06_summary.json").write_text(json.dumps(o,ensure_ascii=False,indent=2));print(json.dumps(o,ensure_ascii=False));assert o["districts"]==65'
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} herramientas/auditar_bloqueos_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext06_c020_m05.geojson.zip" --out "$BASE/ext06/post_polish_blockages.json"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} herramientas/auditar_swaps_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext06_c020_m05.geojson.zip" --out "$BASE/ext06/post_polish_swaps.json" --top 200
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext06:${GITHUB_SHA} herramientas/auditar_articulaciones_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext06_c020_m05.geojson.zip" --out "$BASE/ext06/post_polish_articulations.json"
 
       - name: Publicar
         if: always()
@@ -96,3 +105,4 @@ jobs:
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext06_c020_m04_report.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext06_c020_m05_report.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext06_summary.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/ext06/*.json
