@@ -3,27 +3,29 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: construir_unidades_internas_m04.py
-VERSIÓN: 1.0.0
-NOMBRE: Macro-unidades internas conexas para municipios sobredimensionados
+VERSIÓN: 1.0.1
+NOMBRE: Macro-unidades internas conexas con entrada M01 ZIP
 FECHA: 2026-09-11
 FUNCIÓN: construir una identidad de partición distinta del municipio administrativo real. Los municipios
 pequeños permanecen atómicos; los sobredimensionados se dividen determinísticamente en macro-unidades
 internas conexas de tamaño controlado respecto del target distrital.
-ENTRADAS: GeoJSON M01, grafo M03, K, campos de sección/municipio/población y ratios de atomicidad/chunk.
+ENTRADAS: GeoJSON o GeoJSON.zip M01, grafo M03, K, campos de sección/municipio/población y ratios de atomicidad/chunk.
 SALIDAS: GeoJSON con `partition_unit_field` y JSON de auditoría.
 REGLAS: no modifica CUMUN; no cambia población ni geometría; cada macro-unidad es conexa en M03; la
 partición solo se abre para municipios por encima de `atomicity_ratio × target`.
-MOTIVO: EXT-03 demostró que granularizar por sección desbloquea M04 pero crea fragmentación excesiva y
-semillas con cadenas de articulación. La unidad de trabajo debe estar entre municipio completo y sección.
-ANTERIOR: ninguno — herramienta nueva.
+CAMBIOS: añade lectura explícita del GeoJSON comprimido producido por M01; la lógica de partición 1.0.0 no cambia.
+MOTIVO: el contrato real M01→M04 usa `.geojson.zip`; la herramienta debe consumir directamente esa salida sin pasos manuales.
+ANTERIOR: legacy/herramientas/construir_unidades_internas_m04_v1.0.0.py
 """
 from __future__ import annotations
 
 import argparse
 import importlib.util
+import io
 import json
 import math
 import sys
+import zipfile
 from pathlib import Path
 
 import geopandas as gpd
@@ -42,6 +44,18 @@ def load_engine():
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
+
+
+def load_geo(path):
+    p = Path(path)
+    if p.suffix.lower() == ".zip":
+        with zipfile.ZipFile(p) as z:
+            n = next(
+                n for n in z.namelist()
+                if n.lower().endswith((".geojson", ".json")) and not n.endswith("/")
+            )
+            return gpd.read_file(io.BytesIO(z.read(n)))
+    return gpd.read_file(p)
 
 
 def main():
@@ -63,7 +77,7 @@ def main():
         raise SystemExit("Parámetros inválidos")
 
     eng = load_engine()
-    g = gpd.read_file(a.geojson)
+    g = load_geo(a.geojson)
     g[a.id_field] = g[a.id_field].astype(str)
     g[a.municipality_field] = g[a.municipality_field].astype(str)
     g[a.population_field] = g[a.population_field].astype(int)
@@ -94,14 +108,11 @@ def main():
         if not eng.connected(nodes, adj):
             raise SystemExit(f"Municipio {mun} no conexo antes de particionar")
 
-        # ceil garantiza que la media de la macro-unidad no supere el tamaño de diseño.
         q = max(2, int(math.ceil(mp / desired_chunk)))
         q = min(q, len(nodes))
         avg = mp / q
 
         parts = eng.hybrid_partition(nodes, q, adj, pop, label=f"unidad interna {mun}")
-        # Rebalanceo local respecto de la media real resultante. El rango 0.55–1.45 evita
-        # imponer a estas macro-unidades la tolerancia del distrito final: son ladrillos, no distritos.
         parts, pvals, pobj = eng.rebalance(
             parts,
             adj,
@@ -148,7 +159,6 @@ def main():
             "chunks": chunks,
         })
 
-    # Auditoría de unicidad y cobertura.
     if g[a.partition_unit_field].isna().any():
         raise SystemExit("Hay secciones sin unidad de partición")
     for uid, x in g.groupby(a.partition_unit_field):
@@ -168,7 +178,7 @@ def main():
         if x[a.partition_unit_field].nunique() > 1
     }
     result = {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "K": a.k,
         "total_population": total,
         "target": target,
