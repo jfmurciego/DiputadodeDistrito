@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: Aplicación única R016 con whitespace normalizado
+# VERSIÓN: 1.0.2
+# NOMBRE DE VERSIÓN: Aplicación única R016 con normalización completa
 # FECHA: 2026-09-11
 # ESTADO: temporal de un solo uso
-# QUÉ HACE: ejecuta el migrador R016, normaliza whitespace solo en ficheros activos y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
-# CAMBIOS: elimina espacios finales de los ficheros activos generados antes de ejecutar git diff --check; legacy queda intacto.
-# MOTIVO: el primer intento fue bloqueado por hard-breaks Markdown de dos espacios, no por un defecto funcional del parche.
-# ANTERIOR: legacy/workflows/r016-aplicar_v1.0.0.yml
+# QUÉ HACE: ejecuta el migrador R016, normaliza whitespace en ficheros activos modificados o nuevos y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
+# CAMBIOS: incluye también ficheros untracked en la normalización previa a git diff --check; legacy queda intacto.
+# MOTIVO: v1.0.1 no veía el nuevo documento de ronda antes de git add y dejó pasar sus hard-breaks Markdown.
+# ANTERIOR: legacy/workflows/r016-aplicar_v1.0.1.yml
 name: R016 — Aplicar candidato M05
 on:
   push:
@@ -34,7 +34,9 @@ jobs:
           python - <<'PY'
           import subprocess
           from pathlib import Path
-          for rel in subprocess.check_output(['git','diff','--name-only'], text=True).splitlines():
+          files = set(subprocess.check_output(['git','diff','--name-only'], text=True).splitlines())
+          files.update(subprocess.check_output(['git','ls-files','--others','--exclude-standard'], text=True).splitlines())
+          for rel in sorted(files):
               if rel.startswith('legacy/'):
                   continue
               p = Path(rel)
