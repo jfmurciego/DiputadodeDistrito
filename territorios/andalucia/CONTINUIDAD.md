@@ -1,68 +1,51 @@
 # Continuidad — Andalucía
 
 **Proyecto:** Diputado de Distrito  
-**Versión:** 1.1.0  
+**Versión:** 1.2.0  
 **Fecha:** 2026-09-11  
-**Estado:** AND-01 y AND-02 cerrados; AND-03 pendiente de generalización M04
+**Estado:** AND-01/AND-02 cerrados; AND-03 readiness cerrado; M04 espera política multi-identidad validada en EXT-03.
+**Anterior:** `legacy/territorios/andalucia/CONTINUIDAD_v1.1.0.md`
 
-## Baseline AND-01 certificado
-
-- Secciones: **6.029**.
-- Población total 2025: **8.676.713**.
-- Faltantes de población: **0**.
-
-Por provincia:
-
-- Almería (04): 469 secciones / 770.554 habitantes.
-- Cádiz (11): 923 / 1.261.420.
-- Córdoba (14): 622 / 773.163.
-- Granada (18): 674 / 945.797.
-- Huelva (21): 374 / 538.789.
-- Jaén (23): 498 / 618.143.
-- Málaga (29): 1.092 / 1.791.183.
-- Sevilla (41): 1.377 / 1.977.664.
-
-K institucional de referencia: **109**.
-
-Hamilton DDD puramente poblacional de referencia: **9 / 16 / 10 / 12 / 7 / 8 / 22 / 25** para 04/11/14/18/21/23/29/41 respectivamente.
-
-La regla electoral vigente y su reparto de 2026 están conservados por separado en `fuentes/normativa/andalucia_sistema_electoral_2026.md`; no se usan como cuotas DDD.
-
-## AND-02 — cerrado
-
-Configuración: `config/andalucia_2025.yaml` v0.3.0.
-
-Primera pasada sin pasarelas:
-
-- M02: 16.669 aristas geométricas, predicado robusto `contact`.
-- 8 provincias: todas conexas.
-- nodos aislados: 0.
-- únicamente dos municipios multipartes/discontinuos:
-  - Cortegana: `2102502002`, 558 habitantes, ~3.064 m hasta `2102502001`.
-  - Vélez-Málaga: `2909401015`, 886 habitantes, ~1.658 m hasta `2909403005`.
-
-Contrato v0.3.0 añade exclusivamente:
-
-- `2102502002 ↔ 2102502001` como `administrative_bridge`.
-- `2909401015 ↔ 2909403005` como `administrative_bridge`.
-
-Ejecución de cierre AND-02:
-
-- M01: **6.029 nodos**, población completa.
-- M02: **16.671 aristas = 16.669 geométricas + 2 administrativas**.
-- M03: **0 aislados, 0 provincias desconectadas, 0 municipios desconectados**.
-- Auditoría geométrica posterior: **0 componentes provinciales y 0 componentes municipales pendientes**.
-
-## Siguiente módulo
-
-AND-03 será la entrada a M04 y no se abrirá copiando parámetros de Extremadura/CYL. Primero se fijarán solo los datos estructurales demostrados:
-
+## Baseline AND-01
+- 6.029 secciones.
+- 8.676.713 habitantes.
+- 0 faltantes.
+- Provincias: 04=770.554; 11=1.261.420; 14=773.163; 18=945.797; 21=538.789; 23=618.143; 29=1.791.183; 41=1.977.664.
 - K=109.
-- Hamilton DDD 9/16/10/12/7/8/22/25.
-- topología AND-02 cerrada.
+- Hamilton DDD: **9/16/10/12/7/8/22/25**.
 
-Tolerancia, suelo, techo y atomicidad municipal se someterán a un barrido diagnóstico comparable al EXT-03 **después** de resolver y validar la generalización M04 que está descubriendo Extremadura. Esto evita lanzar decenas de ejecuciones andaluzas sobre una condición de conectividad que ya sabemos sospechosa.
+## AND-02 — topología cerrada
+- M02: 16.671 aristas = 16.669 geométricas + 2 administrativas.
+- Puentes: Cortegana `2102502002↔2102502001`; Vélez-Málaga `2909401015↔2909403005`.
+- M03: 0 aislados, 0 provincias y 0 municipios desconectados.
 
-## Regla de dependencia
+## AND-03 readiness — escala municipal
+Run `34626804248` SUCCESS. Target con K=109: **79.602,87 habitantes**.
 
-Andalucía reutilizará el motor común. No se hará un fork andaluz de M04. Si EXT-03 demuestra una deficiencia general del modelo de unidades abiertas, se corregirá una sola vez en el motor y se validará después sobre Aragón, Castilla y León, Extremadura y Andalucía.
+Municipios que superan múltiplos del target:
+- >1,05×: 20
+- >1,10×: 19
+- >1,12×: 18
+- >1,20×: 13
+- >1,50×: 10
+- >1,75×: 9
+
+Mayores ratios observados:
+- Sevilla: 688.714 = **8,652× target**.
+- Málaga: 597.173 = **7,502×**.
+- Córdoba: 324.159 = **4,072×**.
+- Granada: 235.294 = **2,956×**.
+- Jerez: 215.025 = **2,701×**.
+- Almería: 204.772 = **2,572×**.
+- Marbella: 160.478 = **2,016×**.
+- Huelva: 143.774 = **1,806×**.
+- Dos Hermanas: 142.463 = **1,790×**.
+- Algeciras: 126.500 = **1,589×**.
+
+## Implicación de arquitectura
+Andalucía demuestra que la cuestión de municipios sobredimensionados no es una excepción extremeña: el motor debe soportar ciudades equivalentes a 8–9 distritos internos sin perder identidad municipal ni crear fragmentación arbitraria.
+
+El diseño candidato está en `docs/DISENO_M04_MUNICIPIOS_SOBREDIMENSIONADOS.md`: separar `municipality_field` real de una identidad/unidad de partición interna de M04. No se ejecutará el M04 masivo andaluz hasta que EXT-03 determine si esa granularidad debe ser por sección, por piezas conectas mayores o acompañada de operadores compuestos M05.
+
+## Dependencia activa
+EXT-03 ha demostrado que granularizar por sección desbloquea M04, pero el primer M05 mantiene 2 outliers y puede fragmentar demasiado los grandes municipios. La herramienta `auditar_bloqueos_m05.py` debe explicar esos dos bloqueos. Solo después se promoverá una política M04 común y se lanzará AND-03 M04.
