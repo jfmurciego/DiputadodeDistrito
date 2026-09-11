@@ -1,0 +1,88 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Inventario M01 — Andalucía
+# FECHA: 2026-09-11
+# ESTADO: AND-01
+# QUÉ HACE: reconstruye las fuentes nacionales y ejecuta exclusivamente M01 para las ocho provincias andaluzas, publicando recuentos y población sin iniciar distritación.
+# CAMBIOS: primer workflow de Andalucía.
+# MOTIVO: medir volumen, cobertura poblacional y portabilidad antes de abrir M02-M03 o fijar parámetros electorales/territoriales.
+# ANTERIOR: ninguno — workflow nuevo.
+name: Inventario M01 — Andalucía
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/inventario-andalucia.yml'
+      - 'territorios/andalucia/config/andalucia_2025.yaml'
+      - 'modulos/01_preparar_base_territorial.py'
+
+permissions:
+  contents: read
+
+jobs:
+  inventario:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PARAMS: territorios/andalucia/config/andalucia_2025.yaml
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-and-inventory:${GITHUB_SHA} .
+
+      - name: Ejecutar M01 Andalucía
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/andalucia/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/andalucia:/app/territorios/andalucia" \
+            --entrypoint python ddd-and-inventory:${GITHUB_SHA} \
+            modulos/01_preparar_base_territorial.py --params "$PARAMS"
+
+      - name: Auditar AND-01
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/andalucia:/app/territorios/andalucia" \
+            --entrypoint python ddd-and-inventory:${GITHUB_SHA} -c '
+          import io,json,pathlib,zipfile
+          import geopandas as gpd
+          base=pathlib.Path("/app/territorios/andalucia/.cache/ddd/preparacion/andalucia_2025")
+          rep=json.loads((base/"andalucia_2025_m01_informe.json").read_text())
+          with zipfile.ZipFile(base/"andalucia_2025_m01_secciones_poblacion.geojson.zip") as z:
+              n=next(n for n in z.namelist() if n.endswith(".geojson"))
+              g=gpd.read_file(io.BytesIO(z.read(n)))
+          g["CPRO"]=g["CPRO"].astype(str).str.zfill(2)
+          expected={"04","11","14","18","21","23","29","41"}
+          assert set(g["CPRO"])==expected, sorted(set(g["CPRO"]))
+          assert not g["CUSEC_KEY"].astype(str).duplicated().any()
+          assert rep["missing_population_rows"]==0, rep
+          byp=g.groupby("CPRO")["POP_2025"].agg(["count","sum"]).to_dict("index")
+          print(f"AND-01 PASS rows={len(g)} pop={int(g.POP_2025.sum())} provinces={byp}")
+          '
+
+      - name: Publicar inventario AND-01
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: andalucia-AND01-${{ github.run_id }}
+          path: |
+            territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/andalucia_2025_m01_informe.json
+            territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/andalucia_2025_m01_secciones_poblacion.geojson.zip
