@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.12.0  
+**Versión:** 2.13.0  
 **Fecha:** 2026-09-11  
-**Anterior:** `legacy/bitacora/BITACORA_v2.11.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.12.0.md`
 
 ## R001–R011 — Base reproducible y outputs auditables
 Se recupera y profesionaliza el procedimiento; se formalizan M01–M08, caché territorial, fuentes congeladas, validación, manifiestos, ejecución GitHub y publicación completa de outputs por módulo.
@@ -29,6 +29,9 @@ Se revisa la documentación para impedir pérdida de contexto entre conversacion
 - se crea `docs/CONTINUIDAD_NUEVO_CHAT.md` como protocolo canónico de handoff;
 - los antiguos `docs/MEMORIA_DEL_PROYECTO.md` y `docs/MEMORIA_PROYECTO.md`, que contenían estados R001/R005 ya falsos, se retiran como fuentes canónicas y sus contenidos se preservan en `legacy/memoria/`;
 - se establece como fuente vigente `docs/ESTADO_MAESTRO_PROYECTO.md` + bitácora + continuidad + última ronda/ejecución.
+
+## Mantenimiento workflow v2.7.1
+Run #7 reveló un defecto de presentación: el heredoc que construía el README de la ejecución contenía backticks alrededor de `PRODUCTOS.json`, y el shell intentaba ejecutarlo como sustitución de comando. Se conserva workflow v2.7.0 en `legacy/workflows/` y se publica v2.7.1 eliminando ese riesgo. No cambia el algoritmo territorial ni ningún contrato M01-M08.
 
 ## Reglas permanentes
 Un informe nunca sustituye al producto. Una ejecución de IA no sustituye a GitHub reproducible. Corregir el primer módulo que rompe el contrato, no parchear módulos posteriores. Toda versión nueva preserva legacy, documenta el cambio y solo se promociona si mantiene las restricciones ya aceptadas.
