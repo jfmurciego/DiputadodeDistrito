@@ -3,17 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.7
-NOMBRE DE VERSIÓN: Ajuste mínimo dirigido de factibilidad provincial
+VERSIÓN: 7.4.8
+NOMBRE DE VERSIÓN: Residuo municipal realmente flexible
 FECHA: 2026-09-11
-FUNCIÓN: ejecutar M04 v7.4.5 y corregir exclusivamente cierres urbanos que hagan matemáticamente imposible repartir la población abierta restante de una provincia dentro de ±tolerancia.
-ENTRADAS: grafo M03, salida M04 v7.4.5 y configuración territorial.
-SALIDAS: GeoJSON M04 e informe recalculado desde el estado final.
-REGLAS DURAS: provincia única; K y cuotas invariantes; movimientos solo entre U* y R del mismo municipio; conectividad de núcleo, residuo y distritos; pasarelas topológicas preservadas; núcleo cerrado dentro de ±tolerancia; suelo/techo final recalculado y obligatorio.
-ESTADO: candidato CYL-03.
-CAMBIOS: elimina el reequilibrado opcional hacia la media provincial de v7.4.6. Solo actúa cuando open_pop queda fuera de N_abiertos×[target−tol,target+tol], selecciona el movimiento fronterizo mínimo que repara el déficit y se detiene inmediatamente al recuperar factibilidad. Recalcula hard/outside/min/max en vez de heredar métricas del motor base.
-MOTIVO: v7.4.6 demostró la invariante pero realizó 1.021 movimientos innecesarios, empeoró outside_tol 4→9 y produjo min=22.275 mientras el informe heredado seguía declarando hard=0. La corrección debe ser mínima, dirigida y autoauditada.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.6.py
+FUNCIÓN: ejecutar M04 v7.4.7 y, cuando un residuo municipal abierto sea una única unidad que bloquee matemáticamente la tolerancia del resto de la provincia, exponer la mínima pieza fronteriza transferible como micro-unidad flexible sin cambiar todavía su distrito.
+ENTRADAS: grafo M03, salida M04 v7.4.7 y configuración territorial.
+SALIDAS: mismo K y misma asignación M04, con ddd_unit_id adicional :F<n> solo donde sea imprescindible para que M05 pueda optimizar el residuo.
+REGLAS DURAS: no mueve secciones entre distritos; provincia, K, cuotas, población y contigüidad quedan invariantes; la extracción virtual de la micro-unidad debe dejar conexo el residual y su traslado potencial debe conectar con un distrito receptor; se preservan nodos de topology_bridges.
+ESTADO: candidato CYL-04.
+CAMBIOS: distingue residuo abierto de residuo efectivamente móvil. Detecta distritos formados por una única unidad :R cuya inmovilidad deja al resto de distritos provinciales por debajo de la masa mínima necesaria para ±12%; crea la micro-unidad fronteriza mínima que cubre ese déficit y que podría moverse legalmente en M05.
+MOTIVO: en Ávila, el residual 05:05019:R ocupaba solo el distrito 2. Congelarlo dejaba 101.258 habitantes para cuatro distritos rurales, por debajo de los 103.076,80 necesarios. La sección 0501906013 (2.413 habitantes) puede separarse manteniendo ambos lados conexos y permitiría 27.109/26.301 habitantes. El problema era atomicidad residual, no falta de iteraciones en M05.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.7.py
 """
 from __future__ import annotations
 
@@ -30,14 +30,13 @@ import geopandas as gpd
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-
 from ddd_core.config import load_params_yaml, module_cfg, require
 
-BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v745.py"
+BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v747.py"
 
 
 def load_base():
-    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v745", BASE_ENGINE)
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v747", BASE_ENGINE)
     if spec is None or spec.loader is None:
         raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
@@ -56,7 +55,6 @@ def load_geo(path):
 
 def write_geo(gdf, path):
     out = Path(path)
-    out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.parent / (out.stem.replace(".geojson", "") + ".geojson")
     gdf.to_file(tmp, driver="GeoJSON")
     with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as z:
@@ -74,211 +72,124 @@ def connected(nodes, adj):
         u = stack.pop()
         for v in adj.get(u, set()):
             if v in nodes and v not in seen:
-                seen.add(v)
-                stack.append(v)
+                seen.add(v); stack.append(v)
     return len(seen) == len(nodes)
 
 
-def postprocess(params_path):
+def expose_flexible_residual_units(params_path):
     cfg = load_params_yaml(params_path)
     s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
     s2 = module_cfg(cfg, "modulo_02_construir_adyacencias", "step2_export_edges")
     val = cfg.get("validation", {}) or {}
-
     ing = require(s4.get("in_graph_json"), "Falta M04 grafo")
     out = require(s4.get("out_geojson"), "Falta salida M04")
     report_path = s4.get("out_report", "")
-    idf = require(s4.get("id_field"), "Falta id M04")
+    idf = require(s4.get("id_field"), "Falta id")
     provf = s4.get("province_field", "CPRO")
-    munf = s4.get("municipality_field", "CUMUN")
     did = "district_id"
 
-    graph = json.loads(Path(ing).read_text(encoding="utf-8"))
-    pop = {str(n["id"]): int(n.get("pop", 0)) for n in graph["nodes"]}
+    G = json.loads(Path(ing).read_text(encoding="utf-8"))
+    pop = {str(n["id"]): int(n.get("pop", 0)) for n in G["nodes"]}
     adj = {n: set() for n in pop}
-    for e in graph["edges"]:
+    for e in G["edges"]:
         u, v = str(e["u"]), str(e["v"])
         if u in adj and v in adj:
-            adj[u].add(v)
-            adj[v].add(u)
+            adj[u].add(v); adj[v].add(u)
+
+    bridge_nodes = set()
+    for b in s2.get("topology_bridges", []) or []:
+        bridge_nodes |= {str(x) for x in (b.get("u"), b.get("v")) if x is not None}
 
     g = load_geo(out)
     g[idf] = g[idf].astype(str)
     g[provf] = g[provf].astype(str).str.zfill(2)
-    g[munf] = g[munf].astype(str)
     g[did] = g[did].astype(int)
     g["ddd_unit_id"] = g["ddd_unit_id"].astype(str)
+    total = sum(pop.values()); K = int(g[did].nunique()); target = total / K
+    tol = target * float(val.get("target_tolerance_ratio", 0.12)); lo, hi = target - tol, target + tol
 
-    K = int(g[did].nunique())
-    total = sum(pop.values())
-    target = total / K
-    floor = target * float(val.get("population_floor_ratio", 0.80))
-    cap = target * float(val.get("population_cap_ratio", 1.75))
-    tol = target * float(val.get("target_tolerance_ratio", 0.12))
-    lo, hi = target - tol, target + tol
-    quota = {str(k).zfill(2): int(v) for k, v in (val.get("province_districts") or {}).items()}
+    def dnodes(d): return set(g.loc[g[did] == d, idf])
+    def dpop(d): return int(g.loc[g[did] == d, "district_pop_section"].sum())
 
-    bridge_nodes = set()
-    for b in s2.get("topology_bridges", []) or []:
-        for x in (b.get("u"), b.get("v")):
-            if x is not None:
-                bridge_nodes.add(str(x))
-
-    def dnodes(d):
-        return set(g.loc[g[did] == d, idf].astype(str))
-
-    def dpop(d):
-        return int(g.loc[g[did] == d, "district_pop_section"].sum())
-
-    def residual_gateway_ok(nodes, municipality_nodes):
-        return any(any(nb not in municipality_nodes for nb in adj.get(n, set())) for n in nodes)
-
-    def candidates(prov, direction, required):
-        result = []
-        for mun, mx in g[g[provf] == prov].groupby(munf):
-            municipality_nodes = set(mx[idf].astype(str))
-            unit_ids = set(mx["ddd_unit_id"].astype(str))
-            residuals = sorted(u for u in unit_ids if u.endswith(":R"))
-            cores = sorted(u for u in unit_ids if ":U" in u)
-            for rid in residuals:
-                rnodes = set(g.loc[g["ddd_unit_id"] == rid, idf].astype(str))
-                rds = set(g.loc[g["ddd_unit_id"] == rid, did].astype(int))
-                if not rnodes or len(rds) != 1:
-                    continue
-                rd = next(iter(rds))
-                for cid in cores:
-                    cnodes = set(g.loc[g["ddd_unit_id"] == cid, idf].astype(str))
-                    cds = set(g.loc[g["ddd_unit_id"] == cid, did].astype(int))
-                    if not cnodes or len(cds) != 1:
-                        continue
-                    cd = next(iter(cds))
-                    cpop = sum(pop[n] for n in cnodes)
-                    source, recv = (rnodes, cnodes) if direction == "open_to_closed" else (cnodes, rnodes)
-                    source_d, recv_d = (rd, cd) if direction == "open_to_closed" else (cd, rd)
-                    for n in sorted(source - bridge_nodes):
-                        if not any(nb in recv for nb in adj.get(n, set())):
-                            continue
-                        new_source = source - {n}
-                        new_recv = recv | {n}
-                        if not new_source or not connected(new_source, adj) or not connected(new_recv, adj):
-                            continue
-                        new_core_pop = cpop + pop[n] if direction == "open_to_closed" else cpop - pop[n]
-                        if not (lo <= new_core_pop <= hi):
-                            continue
-                        new_residual = new_source if direction == "open_to_closed" else new_recv
-                        if not residual_gateway_ok(new_residual, municipality_nodes):
-                            continue
-                        if not connected(dnodes(source_d) - {n}, adj):
-                            continue
-                        if not connected(dnodes(recv_d) | {n}, adj):
-                            continue
-                        # Exact repair first; otherwise smallest legal step toward feasibility.
-                        enough = pop[n] >= required
-                        overshoot = max(0.0, pop[n] - required)
-                        score = (0 if enough else 1, overshoot if enough else -pop[n], pop[n], n, cid, rid)
-                        result.append((score, n, cid, rid, cd, rd, int(pop[n])))
-        return sorted(result, key=lambda x: x[0])
-
-    adjustments = []
-    for prov in sorted(quota):
-        for _ in range(50):
-            ids = sorted(g.loc[g[provf] == prov, did].unique())
-            closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
-            open_ids = [d for d in ids if d not in closed]
-            open_pop = sum(dpop(d) for d in open_ids)
-            open_min, open_max = len(open_ids) * lo, len(open_ids) * hi
-            if open_min - 1e-9 <= open_pop <= open_max + 1e-9:
-                break
-            if open_pop > open_max:
-                direction, required = "open_to_closed", open_pop - open_max
-            else:
-                direction, required = "closed_to_open", open_min - open_pop
-
-            cs = candidates(prov, direction, required)
-            if not cs:
+    created = []
+    for prov in sorted(g[provf].unique()):
+        pids = sorted(g.loc[g[provf] == prov, did].unique())
+        closed = {d for d in pids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())}
+        for d in pids:
+            if d in closed:
+                continue
+            x = g[g[did] == d]
+            units = sorted(set(x["ddd_unit_id"]))
+            if len(units) != 1 or not units[0].endswith(":R"):
+                continue
+            rid = units[0]
+            other = [q for q in pids if q not in closed and q != d]
+            if not other:
+                continue
+            other_pop = sum(dpop(q) for q in other)
+            deficit = len(other) * lo - other_pop
+            if deficit <= 1e-9:
+                continue
+            donor_pop = dpop(d)
+            donor_slack = donor_pop - lo
+            if donor_slack + 1e-9 < deficit:
                 raise SystemExit(
-                    f"M04 v7.4.7: provincia {prov} agregadamente imposible y sin ajuste núcleo-residuo válido; "
-                    f"open_pop={open_pop} rango=[{open_min:.2f},{open_max:.2f}] delta={required:.2f}"
+                    f"M04 v7.4.8: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
+                    f"deficit={deficit:.2f} slack={donor_slack:.2f}"
                 )
-            _, n, cid, rid, cd, rd, p = cs[0]
-            old_unit = str(g.loc[g[idf] == n, "ddd_unit_id"].iloc[0])
-            old_d = int(g.loc[g[idf] == n, did].iloc[0])
-            if direction == "open_to_closed":
-                new_unit, new_d, new_closed = cid, cd, True
-            else:
-                new_unit, new_d, new_closed = rid, rd, False
-            g.loc[g[idf] == n, "ddd_unit_id"] = new_unit
-            g.loc[g[idf] == n, did] = new_d
-            g.loc[g[idf] == n, "ddd_closed_urban"] = new_closed
-            adjustments.append({
-                "province": prov,
-                "section": n,
-                "population": p,
-                "direction": direction,
-                "required_before_move": required,
-                "from_unit": old_unit,
-                "to_unit": new_unit,
-                "from_district": old_d,
-                "to_district": new_d,
+            donor_nodes = dnodes(d)
+            candidates = []
+            for n in sorted(donor_nodes - bridge_nodes):
+                pn = pop[n]
+                if pn < deficit - 1e-9 or pn > donor_slack + 1e-9:
+                    continue
+                new_donor = donor_nodes - {n}
+                if not connected(new_donor, adj):
+                    continue
+                for q in other:
+                    recv_nodes = dnodes(q)
+                    if not any(nb in recv_nodes for nb in adj.get(n, set())):
+                        continue
+                    if dpop(q) + pn > hi + 1e-9:
+                        continue
+                    # Adyacencia directa garantiza conectividad del receptor tras el movimiento potencial.
+                    score = (pn - deficit, pn, str(n), int(q))
+                    candidates.append((score, n, q, pn))
+            if not candidates:
+                raise SystemExit(
+                    f"M04 v7.4.8: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
+                    f"pero no existe sección fronteriza individual transferible"
+                )
+            _, n, q, pn = min(candidates, key=lambda z: z[0])
+            base = rid[:-2] if rid.endswith(":R") else rid
+            seq = 1
+            fid = f"{base}:F{seq}"
+            existing = set(g["ddd_unit_id"])
+            while fid in existing:
+                seq += 1; fid = f"{base}:F{seq}"
+            g.loc[g[idf] == n, "ddd_unit_id"] = fid
+            created.append({
+                "province": prov, "source_district": int(d), "candidate_receiver": int(q),
+                "residual_unit": rid, "flex_unit": fid, "sections": [str(n)],
+                "population": int(pn), "locked_remainder_deficit": float(deficit),
+                "donor_population_if_moved": int(donor_pop - pn),
+                "receiver_population_if_moved": int(dpop(q) + pn)
             })
-        else:
-            raise SystemExit(f"M04 v7.4.7: demasiados ajustes en provincia {prov}")
 
-    pops = g.groupby(did)["district_pop_section"].sum()
-    hard = int(((pops < floor) | (pops > cap)).sum())
-    outside = int((abs(pops - target) > tol).sum())
-
-    if g[did].nunique() != K:
-        raise SystemExit(f"M04 v7.4.7: K alterado {g[did].nunique()} != {K}")
-    counts = {str(x[provf].iloc[0]).zfill(2): 0 for _, x in g.groupby(did)}
-    for _, x in g.groupby(did):
-        counts[str(x[provf].iloc[0]).zfill(2)] += 1
-    if counts != quota:
-        raise SystemExit(f"M04 v7.4.7: cuotas provinciales alteradas {counts} != {quota}")
-
+    # No district assignment may have changed here.
     for d, x in g.groupby(did):
-        ns = set(x[idf].astype(str))
-        if not connected(ns, adj):
-            raise SystemExit(f"M04 v7.4.7: distrito {d} desconectado")
-        if x[provf].astype(str).str.zfill(2).nunique() != 1:
-            raise SystemExit(f"M04 v7.4.7: distrito {d} cruza provincia")
-        if bool(x["ddd_closed_urban"].all()):
-            p = int(x["district_pop_section"].sum())
-            if not (lo <= p <= hi):
-                raise SystemExit(f"M04 v7.4.7: núcleo cerrado {d} fuera de tolerancia: {p}")
-
-    # Final aggregate feasibility after all irreversible closures.
-    for prov in sorted(quota):
-        ids = sorted(g.loc[g[provf] == prov, did].unique())
-        closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
-        open_ids = [d for d in ids if d not in closed]
-        open_pop = sum(dpop(d) for d in open_ids)
-        if not (len(open_ids) * lo - 1e-9 <= open_pop <= len(open_ids) * hi + 1e-9):
-            raise SystemExit(f"M04 v7.4.7: factibilidad residual incumplida en {prov}")
-
-    if hard:
-        raise SystemExit(f"M04 v7.4.7: {hard} violaciones duras tras ajuste")
+        if not connected(set(x[idf]), adj):
+            raise SystemExit(f"M04 v7.4.8: distrito {d} desconectado")
 
     write_geo(g, out)
     rep = json.loads(Path(report_path).read_text(encoding="utf-8")) if report_path and Path(report_path).exists() else {}
-    rep.update({
-        "version": "7.4.7",
-        "min_pop": int(pops.min()),
-        "max_pop": int(pops.max()),
-        "outside_target_tolerance": outside,
-        "hard_population_violations": hard,
-        "province_counts": counts,
-        "province_feasibility_adjustments": adjustments,
-    })
-    rep.setdefault("rules", {})["closed_cores_preserve_province_residual_feasibility"] = True
-    rep["rules"]["province_feasibility_adjustment_is_minimal_and_conditional"] = True
-    rep["rules"]["final_population_metrics_recomputed_after_postprocess"] = True
+    rep["version"] = "7.4.8"
+    rep["flexible_residual_units"] = created
+    rep.setdefault("rules", {})["monolithic_residuals_may_expose_minimal_transferable_frontier_unit"] = True
+    rep["rules"]["flex_units_do_not_change_m04_district_assignment"] = True
     if report_path:
         Path(report_path).write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(
-        f"[Módulo 4] OK v7.4.7 K={K} ajustes_factibilidad={len(adjustments)} "
-        f"hard={hard} outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}"
-    )
+    print(f"[Módulo 4] OK v7.4.8 flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
 
 
 def main():
@@ -286,7 +197,7 @@ def main():
     ap.add_argument("--params", required=True)
     args = ap.parse_args()
     load_base().main()
-    postprocess(args.params)
+    expose_flexible_residual_units(args.params)
 
 
 if __name__ == "__main__":
