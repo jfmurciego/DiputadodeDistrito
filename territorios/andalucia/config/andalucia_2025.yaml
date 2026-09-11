@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Andalucía
-# VERSIÓN: 0.1.0
-# NOMBRE DE VERSIÓN: Inventario territorial AND-01
+# VERSIÓN: 0.2.0
+# NOMBRE DE VERSIÓN: Auditoría topológica AND-02
 # FECHA: 2026-09-11
-# ESTADO: preparación M01 — no habilita distritación
-# QUÉ HACE: filtra las ocho provincias andaluzas desde las fuentes nacionales versionadas y prepara secciones censales con población 2025.
-# CAMBIOS: primera configuración de Andalucía; deliberadamente no define M02+, K operativo ni coeficientes de distritación.
-# MOTIVO: medir primero la portabilidad y el volumen real del mayor territorio poblacional del programa antes de introducir decisiones algorítmicas.
-# ANTERIOR: ninguno — primera versión del territorio.
+# ESTADO: diagnóstico M02-M03 — no habilita distritación
+# QUÉ HACE: conserva el baseline AND-01 y añade construcción de adyacencias y grafo para las ocho provincias andaluzas, sin declarar ninguna pasarela territorial a priori.
+# CAMBIOS: fija 6.029 secciones y 8.676.713 habitantes como baseline observado; activa el predicado general `contact` de M02 v7.2.0 para tolerar micro-solapes cartográficos sin buffers globales.
+# MOTIVO: descubrir primero componentes provinciales y municipales reales antes de abrir M04 o introducir excepciones territoriales.
+# ANTERIOR: legacy/configuracion/andalucia_2025_v0.1.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: andalucia_2025
   year: 2025
   scope: provincial
-  schema_version: 0.1.0
-  status: inventory_m01
+  schema_version: 0.2.0
+  status: topology_audit_m03
 
 io:
   project_root: {path: ../../..}
@@ -44,12 +44,15 @@ territory_contract:
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['04','11','14','18','21','23','29','41']
-  status: inventory_only
+  k_institutional_reference: 109
+  population_hamilton_reference: {'04': 9, '11': 16, '14': 10, '18': 12, '21': 7, '23': 8, '29': 22, '41': 25}
+  status: topology_audit_only
   notes:
-    - AND-01 usa exclusivamente las fuentes nacionales ya reconstruibles desde GitHub.
-    - La fuente normativa verificada registra K institucional 109, pero esta primera ejecución no lo usa para distritar.
-    - No se heredan tolerancias, suelo, techo, atomicidad ni pasarelas de Aragón, Castilla y León o Extremadura.
-    - El resultado de M01 fijará recuentos y población observados antes de abrir la auditoría topológica.
+    - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
+    - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada 945.797; Huelva 538.789; Jaén 618.143; Málaga 1.791.183; Sevilla 1.977.664.
+    - K=109 y Hamilton 9/16/10/12/7/8/22/25 se registran únicamente como referencia estructural; AND-02 no ejecuta distritación.
+    - No se declara ninguna pasarela a priori. Toda excepción deberá surgir del diagnóstico geométrico reproducible.
+    - No se heredan tolerancias, suelo, techo ni atomicidad de otros territorios.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -57,11 +60,35 @@ modulos:
     drop_missing_population: false
     out_geojson: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     out_report: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+  modulo_02_construir_adyacencias:
+    in_geojson: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    out_edges_jsonl: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_edges_jsonl: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    out_graph_json: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    out_report: "territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
 
 validation:
   expected_province_codes: ['04','11','14','18','21','23','29','41']
+  expected_sections_geometry: 6029
+  expected_population_total_2025: 8676713
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
   municipality_field: CUMUN
   municipality_name_field: NMUN
+  require_one_graph_component_per_province: true
+  require_connected_municipalities: true
