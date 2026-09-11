@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.7.1
-# NOMBRE DE VERSIÓN: Publicación segura del README de ejecución
+# VERSIÓN: 2.7.2
+# NOMBRE DE VERSIÓN: Publicación segura del README de ejecución — Gobernanza R015
 # FECHA: 2026-09-11
-# ESTADO: candidato
-# QUÉ HACE: mantiene la publicación completa y auditable de M01-M08 y corrige la generación del README de resultados para que el shell no interprete texto Markdown como sustitución de comandos.
-# CAMBIOS VS 2.7.0: elimina los backticks alrededor de PRODUCTOS.json dentro del heredoc no protegido usado para generar resultados/ejecuciones/<RUN_ID>/README.md. No cambia módulos, parámetros, entradas, outputs ni criterios territoriales.
-# MOTIVO: Run #7 mostró "PRODUCTOS.json: command not found" porque el shell interpretó los backticks del Markdown durante la expansión del heredoc. La corrección debe ser operativa y separada de cualquier cambio algorítmico en M05.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.7.0.yml
+# ESTADO: vigente — R015 de gobernanza; comportamiento heredado de v2.7.1 sin cambios
+# QUÉ HACE: mantiene la publicación completa y auditable de M01-M08 y la generación segura del README de resultados.
+# CAMBIOS: normaliza metadatos, estado y predecesor legacy; no modifica jobs, pasos, parámetros, entradas, outputs ni criterios territoriales.
+# MOTIVO: cerrar la deuda de auditoría después de que Run #8 validara el comportamiento funcional de v2.7.1.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.7.1.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
