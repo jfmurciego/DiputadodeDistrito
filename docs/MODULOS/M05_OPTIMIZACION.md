@@ -1,26 +1,33 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.0
-**Nombre de versión:** Wrapper 7.5.1 con fase C determinista opt-in
+**Versión documental:** 1.4.1
+**Nombre de versión:** Contrato de informe con motor y wrapper separados
 **Fecha:** 2026-09-11
-**Código activo:** M05 v7.5.1
+**Código activo:** M05 v7.5.2
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.3.1.md`
-**Cambio:** el wrapper activo incorpora una fase C opcional de swaps 1×1 deterministas después del motor v7.4.0, conservando el fallback robusto de identidad de v7.4.2. El operador permanece desactivado por defecto mediante `swap_polish_max: 0`.
-**Motivo:** EXT-05 Run `34641298906` demostró que el candidato c020 de Extremadura queda en un mínimo local de movimientos simples pero dispone de 8 swaps 1×1 válidos que mejoran estrictamente el objetivo. R015 exige que esta evolución se documente sin confundir código activo con lógica ya promocionada.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.0.md`
+**Cambio:** mantiene la fase C opt-in de v7.5.1, pero formaliza la semántica del informe: `version` identifica el motor optimizador que produjo el informe y `wrapper_version` identifica la interfaz/orquestador activo.
+**Motivo:** R015 Run `34642133611` confirmó que la regresión territorial y el determinismo pasan, pero detectó que v7.5.1 sobrescribía `version=7.4.0` con la versión del wrapper. El test R016 usa correctamente ese campo para identificar la lógica optimizadora validada.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
 ## Separación wrapper / motor
-- `modulos/05_optimizar_distritos.py` v7.5.1 es la interfaz activa.
+- `modulos/05_optimizar_distritos.py` v7.5.2 es la interfaz activa.
 - `ddd_core/m05_opt_engine_v740.py` sigue siendo la copia exacta del optimizador v7.4.0 validado.
-- `ddd_core/m05_swap_polish.py` añade exclusivamente la fase C determinista y está desacoplado del motor base.
+- `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.
 - Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.0 sin transformar la entrada.
 - Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta exactamente el motor v7.4.0.
 - La configuración se resuelve siempre con `ddd_core.config.load_params_yaml`.
-- El informe registra `unit_id_normalization` cuando se activa el fallback y `swap_polish` cuando la fase C está configurada.
+
+## Semántica del informe
+- `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual permanece `7.4.0`.
+- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.5.2`.
+- `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.
+- `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.
+
+Esta separación evita presentar una evolución de orquestación como si fuera una nueva versión de la lógica base validada y mantiene estable el contrato consumido por R016.
 
 ## Restricciones duras
 1. K y cuotas definidos por el territorio;
@@ -53,17 +60,19 @@ Máximo desvío: 11,943 % → **9,930 %**; `fuera_12=0`; restricciones duras PAS
 ## Evidencia experimental — Extremadura
 EXT-04 estableció `chunk_ratio=0.20` como primer tamaño de macro-unidad interna probado que permite a M04 construir K=65 con cuotas 41/24 y `hard=0`. Después de M05 sin fase C, el máximo desvío baja de 36,79 % del enfoque por sección a aproximadamente 13,30 %, con cuatro outliers leves y menor churn.
 
-EXT-05 Run `34641298906` encontró 8 swaps 1×1 estrictamente mejores sobre ese estado, varios de ellos internos al municipio real de Plasencia (`10148`). Esa evidencia justifica probar una fase C, pero no constituye todavía promoción multi-territorio.
+EXT-05 Run `34641298906` encontró 8 swaps 1×1 estrictamente mejores sobre ese estado.
+
+EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 swaps, reduce los outliers de 4 a 2 y el error cuadrático de `0.137478882166` a `0.131455334058`, sin modificar el máximo desvío de 13,30 %, sin violaciones duras y sin aumentar splits municipales. Por tanto, la fase C es útil pero todavía no resuelve por sí sola el contrato ±10 % de Extremadura.
 
 ## Estado de validación
 - La lógica base v7.4.0 permanece validada/promocionada por Run #9.
-- El wrapper v7.5.1 es **candidato**. Con `swap_polish_max: 0` debe reproducir los baselines anteriores.
-- La fase C permanece **opt-in y experimental** hasta que EXT-06 cierre correctamente y R015 vuelva a PASS completo.
-- No se promueve el swap-polish por defecto mientras esas dos condiciones no se cumplan.
+- El wrapper v7.5.2 es **candidato**. Con `swap_polish_max: 0` debe reproducir los baselines anteriores.
+- La fase C está **validada operativamente en EXT-06 pero sigue opt-in** porque quedan dos outliers en Extremadura.
+- La promoción general exige R015 PASS completo y diagnóstico/resolución explícita de los dos outliers restantes; no se ocultan mediante relajación de tolerancias.
 
 ## Productos auditables
 - GeoJSON ZIP de asignación completa optimizada.
-- Informe M05 con objetivos, movimientos, primera factibilidad, parámetros, mapeo de normalización cuando proceda y metadatos de swaps cuando la fase C esté activa.
+- Informe M05 con objetivos, movimientos, primera factibilidad, parámetros, versión del motor, versión del wrapper, mapeo de normalización cuando proceda y metadatos de swaps cuando la fase C esté activa.
 
 ## Baseline vigente
 **Aragón Run #9 `34599224954` / `gh-34599224954-1`.** Toda evolución debe mantener sus PASS. Castilla y León añade una segunda regresión territorial válida. M05 v7.3.0 y Run #8 permanecen registrados como baseline histórico previo.
