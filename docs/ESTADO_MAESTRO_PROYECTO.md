@@ -1,8 +1,8 @@
 # Estado maestro del proyecto — Diputado de Distrito
 
-**Versión:** 1.5.0  
+**Versión:** 1.6.0  
 **Fecha de corte:** 2026-09-11  
-**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.4.0.md`
+**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.5.0.md`
 
 ## 1. Regla de arranque
 Leer este documento; `docs/BITACORA.md`; arquitectura; contratos `docs/MODULOS/`; configuración; última ronda; última ejecución; workflow.
@@ -18,65 +18,54 @@ M01 secciones+población; M02 adyacencias; M03 grafo; M04 construcción inicial;
 2. Contigüidad estricta por grafo.
 3. Conservación exacta de secciones y población.
 4. Suelo 0,80×target y techo 1,75×target.
-5. **Provincia como frontera dura:** ningún distrito puede cruzar provincia.
-6. Reparto provincial por Hamilton sobre población 2025: **Huesca 11, Teruel 7, Zaragoza 49**.
-7. **Disciplina municipal:** un municipio que cabe en un distrito no se fragmenta.
-8. Municipio grande: mínimo `ceil(P/cap)` y máximo `ceil(P/target)` distritos; como máximo uno de ellos puede ser mixto con otros municipios.
-9. Para municipios divididos, se forman primero distritos internos al municipio; únicamente el residual puede completarse con municipios menores adyacentes de la misma provincia.
+5. Provincia como frontera dura: ningún distrito puede cruzar provincia.
+6. Reparto provincial: Huesca 11, Teruel 7, Zaragoza 49.
+7. Municipio que cabe en un distrito: indivisible.
+8. Municipio grande: se divide internamente en bloques contiguos; todos salvo como máximo el residual deben permanecer exclusivamente municipales.
+9. Solo el residual urbano puede completarse con municipios menores adyacentes de la misma provincia.
 10. CUSEC único/no nulo; determinismo; resultados electorales no condicionan geometría.
 
-## 5. Población provincial 2025
-- Huesca: 230.087.
-- Teruel: 136.091.
-- Zaragoza: 998.443.
-- Aragón: 1.364.621.
-- Target global: 20.367,48.
+## 5. Estatus de Run #5
+Run #5 `34584775443` sigue siendo evidencia válida de R011 y de publicación completa de outputs, pero no es referencia territorial R012. La auditoría detectó cruces provinciales y fragmentaciones municipales que ahora son invalidantes.
 
-## 6. Estatus del Run #5
-GitHub Run #5 `34584775443` continúa siendo evidencia válida de R011 —outputs completos y reproducibles— y demuestra 67 distritos, 0 bajo suelo, 0 sobre techo y 0 desconectados bajo la puerta antigua.
+## 6. Implementación vigente R012
+Configuración: `configuracion/aragon_2025.yaml` v7.4.0. Validación: `herramientas/validar_ejecucion.py` v1.3.0.
 
-**No es una referencia territorial aceptable bajo R012.** La auditoría encontró 13 distritos interprovinciales y fragmentación municipal incompatible con la nueva regla. Se reclasifica como PASS técnico bajo validación territorial incompleta.
+### M04 v7.2.0 — Provincia primero y disciplina municipal
+- Construye cada provincia de forma independiente.
+- Respeta las cuotas 11/7/49 desde el nacimiento de la solución.
+- Agrupa secciones en `ddd_unit_id`.
+- Municipios no sobredimensionados: una unidad atómica municipal.
+- Municipios grandes: bloques internos contiguos y residual.
+- Los bloques urbanos completos se etiquetan mediante `ddd_closed_urban` y forman distritos cerrados.
+- Solo distritos no cerrados pueden absorber unidades de municipios menores.
 
-## 7. R012
-Documento canónico: `docs/RONDAS/R012_2026-09-11_provincia_y_disciplina_municipal.md`.
+### M05 v7.2.0 — Optimización por unidades territoriales protegidas
+- Ya no mueve secciones individuales.
+- Mueve únicamente `ddd_unit_id` completos.
+- No permite cambios entre provincias.
+- No abre ni modifica distritos urbanos cerrados.
+- Comprueba contigüidad de donante y receptor después de cada movimiento.
+- Prioridad: restricciones duras; después número de distritos fuera de ±12%; máximo desvío y error cuadrático.
 
-Configuración vigente: `configuracion/aragon_2025.yaml` v7.4.0.
-Validación vigente: `herramientas/validar_ejecucion.py` v1.3.0.
+Versiones anteriores preservadas en `legacy/modulo04/04_generar_semillas_v7.0.1.py` y `legacy/modulo05/05_optimizar_distritos_v7.1.0.py`.
 
-La puerta de calidad ahora falla por:
-- cualquier distrito interprovincial;
-- cardinalidad provincial distinta de 11/7/49;
-- municipio repartido entre más distritos de los permitidos;
-- más de un distrito mixto para un municipio dividido;
-además de las puertas ya existentes de contigüidad, cardinalidad y población.
+## 7. Puerta de aceptación siguiente
+La siguiente ejecución debe demostrar simultáneamente:
+- 67 distritos;
+- cuotas provinciales exactas 11/7/49;
+- cero cruces provinciales;
+- cero fragmentaciones indebidas de municipios pequeños/medios;
+- como máximo un distrito mixto por municipio grande dividido;
+- contigüidad estricta;
+- conservación de las 1.463 secciones y 1.364.621 habitantes;
+- suelo/techo poblacional;
+- medir cuántos distritos quedan fuera de ±12%.
 
-## 8. Rediseño M04
-M04 deja de ser un semillado global libre sobre las 1.463 secciones.
+No se considerará regresión si una primera ejecución R012 falla población pero elimina cruces/fragmentaciones: esa ejecución servirá para localizar el siguiente defecto algorítmico. No se promocionará como referencia hasta cumplir todas las puertas duras.
 
-Secuencia objetivo:
-1. separar el territorio por provincia;
-2. calcular las unidades municipales/urbanas atómicas;
-3. mantener íntegro todo municipio que cabe en un distrito;
-4. para municipios grandes, construir unidades internas conectadas; los distritos urbanos se llenan primero dentro del municipio;
-5. solo el residual urbano puede absorber municipios menores adyacentes;
-6. ensamblar 11/7/49 distritos contiguos dentro de las tres provincias.
+## 8. Outputs y auditoría
+R011 permanece vigente: cada módulo debe exponer el producto completo. M04/M05 deben permitir auditar `ddd_unit_id`, `ddd_closed_urban`, provincia, municipio, población y distrito antes/después.
 
-M05 no debe reparar errores estructurales creados por M04: M04 debe entregar ya una solución válida territorialmente.
-
-## 9. Rediseño M05 multiobjetivo
-Los movimientos incompatibles con provincia, contigüidad o disciplina municipal son inválidos y no entran en la función objetivo.
-
-Dentro del espacio válido, prioridad lexicográfica:
-1. número de distritos fuera de ±12%;
-2. magnitud total que excede ±12%;
-3. fragmentación municipal evitable;
-4. distritos mixtos asociados a municipios divididos;
-5. máximo desvío poblacional;
-6. error cuadrático global;
-7. posteriormente compacidad, superficie y coherencia comarcal con fuentes formalizadas.
-
-## 10. Outputs y auditoría
-R011 sigue vigente: cada módulo debe exponer el producto completo que produce. Tablas/JSON auditables se guardan en Git; geometrías pesadas en artefactos M01-M08 con SHA-256 registrado.
-
-## 11. Siguiente acción exacta
-Implementar una nueva versión de M04 que construya por provincia y sobre unidades municipales/urbanas atómicas; después adaptar M05 para mover unidades completas y nunca secciones que rompan la disciplina municipal. No lanzar una nueva ejecución de aceptación hasta que ambos módulos implementen R012, porque la nueva validación correctamente convertiría la solución antigua en FAIL.
+## 9. Siguiente acción exacta
+Ejecutar el workflow en modo `iterativo` con M04/M05 v7.2.0. M01-M03 deben restaurarse desde caché. Después auditar inmediatamente M04 y M05 para comprobar primero estructura provincial/municipal y después equilibrio poblacional. Si falla, corregir únicamente el módulo responsable, preservando esta baseline R012.
