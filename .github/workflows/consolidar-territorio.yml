@@ -1,0 +1,126 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Puerta territorial M06
+# FECHA: 2026-09-11
+# ESTADO: candidato CYL-05
+# QUÉ HACE: reconstruye M01-M06 de Castilla y León y certifica que la consolidación materializa exactamente la solución M05, conserva población/K/provincia y genera catálogo, composición y geometrías auditables.
+# CAMBIOS: workflow nuevo para M06 con ejecución pesada delegada en GitHub Actions y publicación de todos los productos de consolidación.
+# MOTIVO: separar la aceptación de consolidación de la optimización; M06 no debe poder cambiar la solución territorial.
+# ANTERIOR: ninguno — workflow nuevo.
+name: Consolidación DDD — territorio
+
+on:
+  workflow_dispatch:
+    inputs:
+      params:
+        description: Ruta al YAML territorial
+        required: true
+        default: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+        type: string
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/consolidar-territorio.yml'
+      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
+      - 'modulos/06_consolidar_distritos.py'
+
+permissions:
+  contents: read
+
+jobs:
+  consolidacion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: ${{ inputs.params || 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml' }}
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir y verificar fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-consolidacion:${GITHUB_SHA} .
+
+      - name: Ejecutar M01-M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint bash \
+            ddd-consolidacion:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              python modulos/04_generar_semillas.py --params "$PARAMS"
+              python modulos/05_optimizar_distritos.py --params "$PARAMS"
+              python modulos/06_consolidar_distritos.py --params "$PARAMS"
+            '
+
+      - name: Validar CYL-05
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint python \
+            ddd-consolidacion:${GITHUB_SHA} -c '
+          import io, pathlib, zipfile
+          import geopandas as gpd
+          import pandas as pd
+          base=pathlib.Path("/app/territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025")
+          def load_zip(path):
+              with zipfile.ZipFile(path) as z:
+                  n=next(n for n in z.namelist() if n.endswith(".geojson"))
+                  return gpd.read_file(io.BytesIO(z.read(n)))
+          g5=load_zip(base/"castilla_y_leon_2025_m05_distritos_optimizados.geojson.zip")
+          g6=load_zip(base/"castilla_y_leon_2025_m06_secciones.geojson.zip")
+          d6=load_zip(base/"castilla_y_leon_2025_m06_distritos.geojson.zip")
+          summary=pd.read_csv(base/"castilla_y_leon_2025_m06_resumen_distritos.csv")
+          catalog=pd.read_csv(base/"castilla_y_leon_2025_m06_catalogo_distritos.csv")
+          comp=pd.read_csv(base/"castilla_y_leon_2025_m06_composicion_distritos.csv", dtype={"CUSEC_KEY":str})
+          assert len(g5)==len(g6)==len(comp)==3506
+          assert g6["district_id"].nunique()==len(d6)==len(summary)==len(catalog)==82
+          m5=dict(zip(g5["CUSEC_KEY"].astype(str),g5["district_id"].astype(int)))
+          m6=dict(zip(g6["CUSEC_KEY"].astype(str),g6["district_id"].astype(int)))
+          assert m5==m6, "M06 alteró asignaciones M05"
+          assert int(summary["district_pop"].sum())==2401221
+          assert int(catalog["district_pop"].sum())==2401221
+          assert int(comp["section_pop"].sum())==2401221
+          assert bool(summary["within_hard_bounds"].all())
+          assert bool(summary["within_target_tolerance"].all())
+          assert int(catalog["province_count"].max())==1
+          assert catalog["section_count"].sum()==3506
+          assert catalog["area_km2"].gt(0).all()
+          assert catalog["perimeter_km"].gt(0).all()
+          assert catalog["polsby_popper"].between(0,1, inclusive="both").all()
+          assert catalog["centroid_x"].notna().all() and catalog["centroid_y"].notna().all()
+          print("CYL-05 PASS: M06 identidad=M05, K=82, pop=2401221, fuera_12=0, catálogo=82, composición=3506")
+          '
+
+      - name: Publicar productos CYL-05
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: castilla-y-leon-CYL05-${{ github.run_id }}
+          path: |
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m05_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_resumen_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_catalogo_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_composicion_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_secciones.geojson.zip
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_distritos.geojson.zip
