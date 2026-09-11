@@ -1,10 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE: EXT-03 — Prueba M04→M05 con reparación GeoJSON pura
+# VERSIÓN: 1.1.0
+# NOMBRE: EXT-03 — Prueba M04→M05 + diagnóstico de bloqueo
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico.
-# QUÉ HACE: reproduce tight granular, usa M04 base, repara ddd_unit_id sin OGR y ejecuta M05.
-# MOTIVO: aislar definitivamente arquitectura M04/M05 de problemas de serialización OGR.
+# QUÉ HACE: reproduce tight granular, ejecuta M05 robusto y explica los outliers restantes mediante `auditar_bloqueos_m05.py`.
+# CAMBIOS: añade diagnóstico causal post-M05 y escucha cambios de M05/herramienta; mantiene intacta la prueba 1.0.0 preservada en legacy.
+# MOTIVO: Run 34627885668 confirmó K=65/hard=0 pero mantuvo 2 outliers; antes de cambiar algoritmo necesitamos saber qué movimientos se bloquean y por qué.
+# ANTERIOR: legacy/workflows/extremadura-m05-json-probe_v1.0.0.yml
 name: EXT-03 — M05 granular JSON
 
 on:
@@ -14,6 +16,8 @@ on:
     paths:
       - '.github/workflows/extremadura-m05-json-probe.yml'
       - 'herramientas/reparar_propiedad_geojson_zip.py'
+      - 'herramientas/auditar_bloqueos_m05.py'
+      - 'modulos/05_optimizar_distritos.py'
 
 permissions: {contents: read}
 
@@ -55,14 +59,16 @@ jobs:
           python herramientas/reparar_propiedad_geojson_zip.py --zip territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_probe.geojson.zip --property ddd_unit_id --province-field CPRO --unit-field M04_MUN --suffix G
       - name: M05
         run: docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params territorios/extremadura/config/.generated_ext03_json.yaml
-      - name: Auditar resultado
+      - name: Auditar resultado y bloqueos
         run: |
+          set -euo pipefail
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} -c '
           import io,json,pathlib,zipfile
           import geopandas as gpd
           base=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025");probe=pathlib.Path("/app/territorios/extremadura/.cache/ddd/probes")
           with zipfile.ZipFile(base/"extremadura_2025_m05_probe.geojson.zip") as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));g=gpd.read_file(io.BytesIO(z.read(n)))
           target=g.POP_2025.sum()/65;pops=g.groupby("district_id").POP_2025.sum();splits=g.groupby("CUMUN").district_id.nunique();rep=json.loads((base/"extremadura_2025_m05_probe_informe.json").read_text());out={"districts":int(g.district_id.nunique()),"outside_10":int(((pops-target).abs()>target*.10).sum()),"max_abs_deviation":float(((pops-target).abs()/target).max()),"min_pop":int(pops.min()),"max_pop":int(pops.max()),"split_municipalities":{str(k):int(v) for k,v in splits[splits>1].items()},"m05_report":rep};(probe/"ext03_json_results.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False));assert out["districts"]==65'
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext-json:${GITHUB_SHA} herramientas/auditar_bloqueos_m05.py --params territorios/extremadura/config/.generated_ext03_json.yaml --geojson territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe.geojson.zip --out territorios/extremadura/.cache/ddd/probes/ext03_m05_blockages.json
       - name: Publicar
         if: always()
         uses: actions/upload-artifact@v6
@@ -71,5 +77,6 @@ jobs:
           path: |
             territorios/extremadura/.cache/ddd/probes/ext03_json_manifest.json
             territorios/extremadura/.cache/ddd/probes/ext03_json_results.json
+            territorios/extremadura/.cache/ddd/probes/ext03_m05_blockages.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_probe_informe.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m05_probe_informe.json
