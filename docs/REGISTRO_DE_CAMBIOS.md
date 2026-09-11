@@ -20,3 +20,13 @@ Registro cronológico acumulativo. No se reescriben entradas antiguas.
 **Ejecución de recuperación observada:** 1.463 secciones; 67 distritos; población 1.364.621; 67/67 distritos conectados en grafo. Restricción poblacional: FAIL, con 30 distritos bajo 0,80×target y 7 sobre 1,75×target; mínimo 3.451; máximo 37.042; target 20.367,48.
 
 **Estado de la ronda:** infraestructura en construcción; baseline territorial recuperado y diagnosticado; optimizador todavía no aceptable.
+
+## 2026-09-11 — Mantenimiento operativo — Workflow v2.7.1
+
+**Objetivo:** eliminar el error de presentación observado en el Run #7 sin mezclarlo con cambios del algoritmo territorial.
+
+**Cambio:** se conserva `.github/workflows/procedimiento-ddd.yml` v2.7.0 en `legacy/workflows/procedimiento-ddd_v2.7.0.yml` y se publica v2.7.1. El texto Markdown del README generado deja de envolver `PRODUCTOS.json` con backticks dentro de un heredoc no protegido.
+
+**Causa:** el shell interpretaba los backticks como sustitución de comandos y emitía `PRODUCTOS.json: command not found` durante la publicación de resultados.
+
+**Impacto:** exclusivamente operativo/documental. No cambian M01-M08, configuración, fuentes, restricciones territoriales, función objetivo, outputs de los módulos ni reglas R012.
