@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.17.0
-**Fecha:** 2026-09-11
-**Anterior:** `legacy/bitacora/BITACORA_v2.16.1.md`
+**Versión:** 2.16.1  
+**Fecha:** 2026-09-11  
+**Anterior:** `legacy/bitacora/BITACORA_v2.16.0.md`
 
 ## R001–R013
 Se recuperó y profesionalizó el procedimiento; se formalizaron M01–M08, fuentes congeladas, caché territorial, validación, outputs completos, manifiestos, versionado y continuidad documental. Run #5 reveló defectos de validación territorial; Run #6 aisló una desconexión originada en M04; M04 v7.3.0 corrigió la construcción conexa. Run #7 consiguió los PASS estructurales R012, pero dejó un distrito fuera de ±12 %.
@@ -34,14 +34,6 @@ Una comprobación posterior detectó que varios documentos canónicos activos de
 La suite R015 se refuerza para comprobar también los `Anterior` de los documentos canónicos versionados, no solo las cabeceras de código/configuración. El contrato de M05 se normaliza documentalmente para distinguir con precisión el **código activo v7.3.1** de la **lógica funcional v7.3.0 validada por Run #8**. No se modifica el algoritmo territorial.
 
 R015 queda **CERRADA** cuando este estado consolidado supera de nuevo `Pruebas DDD — R015`. Run #8 continúa como referencia territorial; la CI R015 es la puerta de regresión obligatoria para cambios posteriores.
-
-## R016 — Refinamiento canónico post-factibilidad — ABIERTO
-
-Se detecta una incoherencia funcional en M05 v7.3.x: la función objetivo es lexicográfica y, después de `fuera_12`, compara `max_rel_dev` y error cuadrático, pero tanto greedy como recocido podían detenerse inmediatamente al llegar a `fuera_12=0`.
-
-M05 v7.4.0 candidato elimina esa parada. El ámbito del recocido queda fijado a las provincias problemáticas al inicio, de modo que si se alcanza ±12 % durante M05 se puede continuar refinando sin abrir provincias que ya eran correctas. Se añaden métricas de primera factibilidad y una prueba R016 específica.
-
-No cambian suelo, techo, ±12 %, provincia, atomicidad municipal, contigüidad, semilla ni configuración Aragón. Run #8 continúa como referencia hasta validación GitHub del candidato.
 
 ## Reglas permanentes
 Un informe nunca sustituye al producto. Una ejecución local/IA no sustituye a GitHub reproducible. Corregir el primer módulo que rompe contrato. Toda versión nueva preserva `legacy/` antes de sustituir el activo. Una copia histórica no se reescribe para satisfacer lint. Una referencia documental `Anterior` activa debe resolver a un fichero real. No relajar R012 ni ±12 % para obtener un PASS.

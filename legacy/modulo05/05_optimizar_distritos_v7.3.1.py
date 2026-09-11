@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.4.0
-NOMBRE DE VERSIÓN: Refinamiento canónico post-factibilidad
+VERSIÓN: 7.3.1
+NOMBRE DE VERSIÓN: Escape determinista de mínimos locales — Gobernanza R015
 FECHA: 2026-09-11
 FUNCIÓN: optimizar población sin cruzar provincias ni romper las unidades municipales/urbanas construidas por M04.
-ENTRADAS: grafo M03 y solución M04 v7.3.1 con ddd_unit_id y ddd_closed_urban.
+ENTRADAS: grafo M03 y solución M04 v7.3.0 con ddd_unit_id y ddd_closed_urban.
 SALIDAS: asignación optimizada y reporte.
 REGLAS DURAS: provincia única por distrito; movimientos de unidad completa; distritos urbanos cerrados no reciben ni ceden unidades; contigüidad estricta; suelo/techo poblacional.
 OBJETIVO CANÓNICO: primero eliminar violaciones duras; después minimizar distritos fuera de ±12%; después máximo desvío y error cuadrático.
-ESTADO: candidato R016 — pendiente de ejecución territorial GitHub.
-CAMBIOS: continúa la búsqueda después de la primera solución con fuera_12=0; conserva como ámbito las provincias que eran problemáticas al inicio y registra primera factibilidad frente al óptimo final encontrado.
-MOTIVO: el código v7.3.x interrumpía el recocido al primer fuera_12=0 aunque el objetivo canónico todavía ordena minimizar máximo desvío y error cuadrático.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.3.1.py
+ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
+CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
+MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.3.0.py
 """
 from __future__ import annotations
 
@@ -201,9 +201,6 @@ def main():
     baseline_unit_dist = dict(unit_dist)
     start = obj(d_pop)
     initial_candidate_relations = len(unique_candidates())
-    initial_outlier_provinces = sorted(
-        {d_prov[d] for d, p in d_pop.items() if abs(p - target) > tol}
-    )
 
     # Fase A: mejor movimiento individual, determinista y estrictamente monótono.
     greedy_accepted = 0
@@ -240,14 +237,16 @@ def main():
         d_pop = trial
         unit_dist[u] = d1
         greedy_accepted += 1
+        if obj(d_pop)[0] == 0 and obj(d_pop)[2] == 0:
+            break
 
     greedy_final = obj(d_pop)
 
-    # Fase B: escape determinista del mínimo local y refinamiento posterior.
-    # Se limita a las provincias que eran problemáticas al inicio de M05.
-    # Aunque greedy alcance ±12 %, esas provincias siguen activas para poder
-    # mejorar max_rel_dev y error cuadrático según el objetivo canónico.
-    active_provinces = list(initial_outlier_provinces)
+    # Fase B: escape determinista del mínimo local.
+    # Se limita a las provincias que todavía contienen distritos fuera de ±12%.
+    active_provinces = sorted(
+        {d_prov[d] for d, p in d_pop.items() if abs(p - target) > tol}
+    )
     active_province_set = set(active_provinces)
     active_districts = sorted(d for d in d_pop if d_prov[d] in active_province_set)
     active_units = sorted(u for u in unit_nodes if unit_prov[u] in active_province_set)
@@ -280,10 +279,8 @@ def main():
     anneal_start_obj = obj(d_pop)
     anneal_start_energy = None
     anneal_best_energy = None
-    first_feasible_iteration = 0 if best_obj[0] == 0 and best_obj[2] == 0 else None
-    objective_first_feasible = list(best_obj) if first_feasible_iteration == 0 else None
 
-    if active_units and anneal_iters > 0:
+    if active_units and anneal_iters > 0 and best_obj[2] > 0:
         rng = random.Random(seed + anneal_seed_offset)
         changed_count = changed_active_count(unit_dist)
         energy = search_energy(d_pop, changed_count)
@@ -351,9 +348,8 @@ def main():
                 best_d_units = {d: set(us) for d, us in d_units.items()}
                 best_d_nodes = {d: set(ns) for d, ns in d_nodes.items()}
                 best_d_pop = dict(d_pop)
-                if first_feasible_iteration is None and best_obj[0] == 0 and best_obj[2] == 0:
-                    first_feasible_iteration = i + 1
-                    objective_first_feasible = list(best_obj)
+                if best_obj[0] == 0 and best_obj[2] == 0:
+                    break
 
         # La exploración puede terminar en un estado peor. Se restaura siempre
         # la mejor solución según la función canónica, no el último estado SA.
@@ -383,7 +379,7 @@ def main():
     final_changed_units = sum(unit_dist[u] != baseline_unit_dist[u] for u in unit_dist)
     rep = {
         "module": "05",
-        "version": "7.4.0",
+        "version": "7.3.1",
         "K": K,
         "total_pop": int(total),
         "target": target,
@@ -405,13 +401,6 @@ def main():
         "initial_candidate_relations": initial_candidate_relations,
         "active_provinces": active_provinces,
         "anneal_iterations_executed": anneal_iterations_executed,
-        "first_feasible_iteration": first_feasible_iteration,
-        "objective_first_feasible": objective_first_feasible,
-        "post_feasible_iterations": (
-            max(0, anneal_iterations_executed - first_feasible_iteration)
-            if first_feasible_iteration is not None
-            else 0
-        ),
         "anneal_start_objective": list(anneal_start_obj),
         "anneal_start_energy": anneal_start_energy,
         "anneal_best_energy": anneal_best_energy,
@@ -432,7 +421,7 @@ def main():
             json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8"
         )
     print(
-        f"[Módulo 5] OK v7.4.0 hard={final[0]} fuera_12={final[2]} "
+        f"[Módulo 5] OK v7.3.0 hard={final[0]} fuera_12={final[2]} "
         f"max_rel_dev={final[3]:.4f} greedy={greedy_accepted} "
         f"anneal={anneal_accepted} changed_units={final_changed_units} out={out}"
     )

@@ -51,11 +51,3 @@ La suite R015 se amplía para que la CI valide también las referencias `Anterio
 `docs/MODULOS/M05_OPTIMIZACION.md` se formaliza como contrato documental versionado y distingue el ejecutable activo M05 v7.3.1, cuyo cambio R015 es solo de gobernanza, de la lógica funcional v7.3.0 validada territorialmente por Run #8. No se modifica código algorítmico, configuración territorial ni solución de distritos.
 
 El cierre se considera completo únicamente si el nuevo HEAD consolidado vuelve a superar `Pruebas DDD — R015`.
-
-## 2026-09-11 — R016 — M05 v7.4.0, refinamiento post-factibilidad
-
-Se abre una ronda funcional limitada a M05. La auditoría del código v7.3.x muestra que la búsqueda se interrumpe al primer `fuera_12=0` aunque el objetivo canónico sigue ordenando por máximo desvío y error cuadrático.
-
-Se preserva M05 v7.3.1 en `legacy/modulo05/05_optimizar_distritos_v7.3.1.py` y se publica v7.4.0 como **candidato**. Greedy continúa mientras existan mejoras estrictas; el recocido conserva las provincias problemáticas iniciales y agota el presupuesto configurado, manteniendo siempre la mejor solución canónica. El reporte añade primera factibilidad y número de iteraciones posteriores.
-
-Se añade `tests/test_r016_refinamiento.py`. La promoción exige CI R015 verde y un nuevo run territorial con todos los PASS de Run #8; hasta entonces Run #8 sigue siendo baseline.

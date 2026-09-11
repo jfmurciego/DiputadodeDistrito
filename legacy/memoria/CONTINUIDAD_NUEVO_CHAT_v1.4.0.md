@@ -1,8 +1,8 @@
 # Continuidad del proyecto en un nuevo chat
 
-**Versión:** 1.5.0
-**Fecha de corte:** 2026-09-11
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.4.0.md`
+**Versión:** 1.4.0  
+**Fecha de corte:** 2026-09-11  
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.3.0.md`
 
 ## Fuente de verdad
 
@@ -28,14 +28,6 @@ R015 no cambia lógica territorial. Normaliza cabeceras y predecesores inmediato
 
 Versiones activas relevantes tras R015: configuración v7.5.1; M04 v7.3.1; M05 v7.3.1; validador v1.3.1; procedimiento v2.1.1; workflow territorial v2.7.2. Son PATCH de gobernanza respecto de la lógica validada en Run #8.
 
-## R016 — ronda activa, candidato M05 v7.4.0
-
-Objetivo: alinear la ejecución de M05 con su objetivo canónico. v7.3.x detenía el recocido al primer `fuera_12=0`; v7.4.0 continúa dentro de la provincia inicialmente problemática para intentar reducir después `max_rel_dev` y error cuadrático, sin relajar restricciones.
-
-El reporte registra `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`. La prueba R016 exige que exista refinamiento posterior y que el objetivo final no sea peor que el primer estado factible.
-
-**Estado:** candidato; Run #8 sigue siendo la referencia territorial hasta un nuevo run completo/iterativo aceptado.
-
 ## Ingeniería y auditoría
 
 Toda sustitución versionada conserva primero el predecesor inmediato en `legacy/`. La copia histórica se conserva literalmente, incluso si tiene whitespace o defectos cosméticos. Si una versión anterior no fue recuperada, se registra en `docs/DEUDA_HISTORICA_LEGACY.md`; nunca se fabrica.
@@ -54,4 +46,4 @@ Un resultado local/IA es diagnóstico. Los outputs ligeros completos viven en `r
 4. Exigir CI R015 verde.
 5. Ejecutar el procedimiento territorial y solo entonces promocionar un nuevo baseline.
 
-**Siguiente paso:** validar M05 v7.4.0 con `Pruebas DDD — R015`; si queda verde, ejecutar `Procedimiento DDD — Aragón` en modo iterativo y comparar el objetivo final con Run #8.
+**Siguiente paso:** abrir una nueva ronda solo cuando exista un objetivo funcional concreto; R014 y R015 están cerrados.

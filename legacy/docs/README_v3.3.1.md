@@ -1,8 +1,8 @@
 # Diputado de Distrito — Procedimiento de Distritación DDD
 
-**README v3.4.0** · 11-09-2026 · Estado: **R014 territorial validado + R015 cerrada + R016 candidato**
-**Anterior:** `legacy/docs/README_v3.3.1.md`
-**Cambio:** abre R016 con M05 v7.4.0 candidato para completar el objetivo canónico después de la primera solución dentro de ±12 %.
+**README v3.3.1** · 11-09-2026 · Estado: **R014 territorial validado + R015 ingeniería cerrada**  
+**Anterior:** `legacy/docs/README_v3.3.0.md`  
+**Cambio:** cierre de trazabilidad documental de R015; no cambia algoritmo, parámetros ni mapa.
 
 Sistema modular para construir, validar y auditar distritos uninominales a partir de unidades censales oficiales. El producto es un procedimiento repetible: mismo código + mismos inputs + misma configuración ⇒ mismo resultado reproducible. Aragón es la primera implantación; otros territorios deben entrar por datos y configuración, no mediante forks del motor.
 
@@ -21,12 +21,6 @@ La suite `tests/test_r015_invariantes.py` y el workflow `.github/workflows/prueb
 La regresión comprueba, entre otros puntos: universo exacto de secciones y población; K=67; reparto provincial 11/7/49; provincia única; contigüidad por M03; suelo/techo; disciplina municipal; M04 con su outlier histórico; M05 con `fuera_12=0`; máximo desvío R014; atomicidad de `ddd_unit_id`; y dos ejecuciones sintéticas de M05 con misma semilla y salida idéntica.
 
 La gobernanza automática comprueba además que los componentes funcionales auditados y los documentos canónicos versionados que declaran un predecesor apunten a un fichero que exista realmente en `legacy/`.
-
-## R016 — refinamiento canónico post-factibilidad — CANDIDATO
-
-M05 **v7.4.0** corrige una incoherencia de v7.3.x: el objetivo canónico ordena minimizar, tras `fuera_12`, el máximo desvío y el error cuadrático, pero el recocido se detenía al primer `fuera_12=0`. R016 conserva todos los límites y restricciones duras y continúa la búsqueda hasta agotar el presupuesto configurado, manteniendo siempre la mejor solución canónica encontrada.
-
-El candidato registra la primera iteración factible y el objetivo de ese instante para compararlo con el resultado final. **No está promocionado**: Run #8 sigue siendo la referencia territorial hasta que un nuevo run de GitHub confirme todos los PASS y una mejora real del objetivo.
 
 ## Arquitectura
 
@@ -80,6 +74,6 @@ Los antiguos `docs/MEMORIA_DEL_PROYECTO.md` y `docs/MEMORIA_PROYECTO.md` están 
 
 ## Próximo frente
 
-R014 y R015 quedan cerrados. R016 está abierto como candidato funcional de M05. Debe superar la puerta R015 y un nuevo run territorial antes de cualquier promoción; Run #8 continúa como baseline mientras tanto.
+R014 y R015 quedan cerrados. Cualquier cambio algorítmico posterior debe abrir una nueva ronda, preservar los PASS de Run #8 y superar la puerta R015 antes de ser promocionado.
 
 **Principio rector:** un resultado que solo existe en memoria, en un log o en una sesión de IA no es un producto del procedimiento.

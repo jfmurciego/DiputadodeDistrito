@@ -1,8 +1,8 @@
 # Estado maestro del proyecto — Diputado de Distrito
 
-**Versión:** 1.12.0
-**Fecha de corte:** 2026-09-11
-**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.11.0.md`
+**Versión:** 1.11.0  
+**Fecha de corte:** 2026-09-11  
+**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.10.0.md`
 
 ## 1. Estado arbitral
 
@@ -19,16 +19,10 @@ R015 está cerrado como ronda de ingeniería. **Pruebas DDD — R015, Run `34594
 - Workflow de pruebas: `.github/workflows/pruebas-ddd.yml` **v1.0.0**.
 - Procedimiento: `procedimiento.sh` **v2.1.1**.
 - M04: **v7.3.1**.
-- M05: **v7.4.0 candidato R016**; última lógica territorial validada: v7.3.0 / Run #8.
+- M05: **v7.3.1**.
 - Validación: `herramientas/validar_ejecucion.py` **v1.3.1**.
 
 Los incrementos PATCH de R015 normalizan metadatos y predecesores `legacy/`; **no modifican la lógica funcional heredada de R014**. Por ello Run #8 sigue siendo la referencia territorial aceptada.
-
-## 2.1. R016 — candidato funcional
-
-Se abre R016 para corregir la parada prematura de M05 después de alcanzar por primera vez `fuera_12=0`. El candidato v7.4.0 mantiene intactas todas las restricciones duras, el umbral ±12 %, la semilla y la configuración vigente; cambia únicamente el criterio de parada para seguir optimizando los términos posteriores del objetivo canónico.
-
-Estado: **pendiente de CI R015 y de nuevo run territorial**. Run #8 no queda reemplazado hasta promoción expresa.
 
 ## 3. Reglas duras Aragón
 
@@ -71,4 +65,4 @@ Cada módulo M01–M08 expone su producto auditable. Outputs ligeros: `resultado
 
 ## 8. Regla para continuar
 
-R016 es la ronda funcional activa y afecta únicamente a M05 v7.4.0 candidato. Debe conservar los PASS de Run #8, superar la suite R015 y obtener un nuevo run territorial reproducible antes de promoción.
+No modificar M04/M05 ni sus criterios sin abrir una nueva ronda. Todo cambio funcional posterior debe conservar los PASS de Run #8, superar la suite R015 y obtener un nuevo run territorial reproducible antes de promoción.

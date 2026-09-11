@@ -1,13 +1,13 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.0.0  
-**Nombre de versión:** Contrato R014/R015 reconciliado  
-**Fecha:** 2026-09-11  
-**Código activo:** M05 v7.3.1  
-**Lógica funcional validada:** M05 v7.3.0 — GitHub Run #8 `34592470470`  
-**Origen:** `legacy/docs/MODULOS/M05_OPTIMIZACION_pre_versionado_2026-09-11.md`  
-**Cambio:** formaliza la versión documental y distingue el PATCH de gobernanza v7.3.1 de la lógica v7.3.0 validada.  
-**Motivo:** evitar interpretar un cambio exclusivo de cabecera/trazabilidad como una nueva versión algorítmica.
+**Versión documental:** 1.1.0
+**Nombre de versión:** Candidato R016 — refinamiento canónico post-factibilidad
+**Fecha:** 2026-09-11
+**Código activo:** M05 v7.4.0 — candidato
+**Última lógica territorial validada:** M05 v7.3.0 — GitHub Run #8 `34592470470`
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.0.0.md`
+**Cambio:** elimina la parada al primer `fuera_12=0` y permite continuar optimizando los siguientes términos de la función canónica.
+**Motivo:** v7.3.x declaraba una función lexicográfica completa pero interrumpía la búsqueda en cuanto satisfacía el tercer término.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
@@ -25,35 +25,26 @@ M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional s
 ## Objetivo canónico
 Comparación lexicográfica: violaciones duras → magnitud dura → número fuera de ±12 % → máximo desvío → error cuadrático global.
 
-## Estrategia funcional v7.3.0 — heredada sin cambios por el código activo v7.3.1
-**Fase A — greedy determinista:** solo movimientos individuales que mantienen restricciones y mejoran estrictamente el objetivo.
+## Estrategia candidata v7.4.0
+**Fase A — greedy determinista:** sigue aceptando únicamente movimientos individuales que mantienen restricciones duras y mejoran estrictamente el objetivo. Ya no se detiene por el mero hecho de llegar a `fuera_12=0`; continúa mientras exista una mejora canónica individual.
 
-**Fase B — escape de mínimo local:** si queda desequilibrio ±12 %, recocido simulado reproducible limitado a la provincia afectada. Puede atravesar estados temporalmente peores en el objetivo fino, pero jamás una restricción dura. Conserva continuamente la mejor solución canónica y exporta esa mejor solución, no el último estado explorado.
+**Fase B — recocido reproducible + refinamiento:** el ámbito se fija a las provincias que tenían distritos fuera de ±12 % al inicio de M05. El recocido puede atravesar estados peores en el objetivo fino, nunca restricciones duras, conserva continuamente la mejor solución canónica y ya no se detiene en la primera solución factible. Agota el presupuesto configurado para intentar reducir después el máximo desvío y el error cuadrático.
 
-La energía de exploración y el churn son mecanismos de búsqueda, no sustituyen el objetivo canónico ni las validaciones.
+El reporte añade `first_feasible_iteration`, `objective_first_feasible` y `post_feasible_iterations`, de modo que se pueda demostrar cuánto trabajo se realizó después de alcanzar por primera vez ±12 %.
 
-M05 v7.3.1 no introduce cambios en estas reglas ni en esta estrategia. Su incremento PATCH pertenece a R015 y normaliza exclusivamente metadatos y trazabilidad, preservando `legacy/modulo05/05_optimizar_distritos_v7.3.0.py`.
+## Principio de prudencia
+R016 **no reduce el umbral ±12 %**, no modifica suelo/techo, no cambia provincia, atomicidad municipal ni contigüidad, y no introduce compactness como objetivo. El candidato solo corrige la incoherencia entre función objetivo declarada y criterio de parada.
 
 ## Productos auditables
 - GeoJSON ZIP de asignación completa optimizada.
 - `M05/asignacion_optimizada.csv` con las 1.463 secciones.
-- `aragon_2025_m05_informe.json` con objetivos, métricas, movimientos, unidades finales cambiadas, provincia activa, semilla y parámetros.
+- `aragon_2025_m05_informe.json` con objetivos, métricas, movimientos, primera factibilidad, unidades finales cambiadas, provincia activa, semilla y parámetros.
 
-## Aceptación
-Toda transición preserva restricciones duras; el producto final debe superar la puerta global. Una ejecución local es diagnóstico. La aceptación territorial corresponde a GitHub Actions reproducible.
+## Aceptación R016
+1. `Pruebas DDD — R015` debe permanecer verde.
+2. La prueba específica R016 debe demostrar búsqueda posterior a primera factibilidad y determinismo.
+3. Un nuevo run territorial debe conservar todos los PASS del Run #8.
+4. `fuera_12` debe seguir en 0.
+5. `objective_final` debe ser lexicográficamente igual o mejor que `objective_first_feasible`; para justificar promoción se espera mejora real en `max_rel_dev` o error cuadrático sin regresión territorial.
 
-Desde R015, cualquier cambio posterior debe superar además `Pruebas DDD — R015`, que protege las invariantes del Run #8 y el determinismo de M05. Una CI verde no sustituye un nuevo run territorial si cambia la lógica funcional.
-
-## Estado validado
-**Run #8 `34592470470` valida la lógica M05 v7.3.0 / R014. El código activo v7.3.1 hereda esa lógica sin cambios funcionales.**
-
-Partiendo del mismo estado problemático de Run #7:
-- objetivo inicial: `fuera_12=1`, `max_rel_dev=0.549676430306`;
-- objetivo final: **`fuera_12=0`, `max_rel_dev=0.119431695687`**;
-- `hard=0`;
-- 1.030 movimientos de recocido aceptados;
-- 75 unidades finalmente modificadas;
-- 9.038 iteraciones ejecutadas;
-- 0 cruces provinciales, 0 desconectados y 0 violaciones municipales en validación final.
-
-R014 queda cerrado. R015 no cambia el mapa ni el algoritmo. Cualquier modificación funcional posterior de M05 abre una nueva versión/ronda y debe mantener como regresión obligatoria todos los PASS de Run #8.
+Hasta ese run, **Run #8 sigue siendo la referencia territorial** y M05 v7.4.0 es candidato, no baseline.
