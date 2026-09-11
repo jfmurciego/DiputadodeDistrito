@@ -6,6 +6,7 @@ Módulo 04 — Generar distritos iniciales
 VERSIÓN: 7.5.0
 NOMBRE DE VERSIÓN: Puertas externas preservables + residuo flexible
 FECHA: 2026-09-11
+ESTADO: experimental EXT-03; compatible en modo legacy y pendiente de regresión completa Aragón/Castilla y León antes de promoción.
 FUNCIÓN: ejecutar el motor M04 v7.5.0, que conserva semántica legacy por defecto y permite activar `gateway_policy: preserve_all_external_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
