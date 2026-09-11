@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.2.0
-# NOMBRE DE VERSIÓN: Auditoría topológica sin correcciones
+# VERSIÓN: 0.3.0
+# NOMBRE DE VERSIÓN: Contacto topológico robusto sin pasarelas
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico EXT-02 — no habilita distritación
-# QUÉ HACE: conserva el M01 validado y añade M02/M03 sin pasarelas topológicas para medir la conectividad geométrica real de Badajoz, Cáceres y sus municipios.
-# CAMBIOS: incorpora adyacencias `touches`, grafo territorial y auditorías de componentes provinciales/municipales; fija como observados los 964 registros y 1.053.345 habitantes de EXT-01.
-# MOTIVO: antes de definir cualquier pasarela, K o regla de distritación hay que distinguir continuidad geométrica, exclaves administrativos y huecos cartográficos a partir del grafo real.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.1.0.yaml
+# QUÉ HACE: repite M02/M03 con el predicado general `contact` de M02 v7.2.0, manteniendo cero pasarelas, para separar errores de precisión geométrica de discontinuidades administrativas reales.
+# CAMBIOS: usa EPSG:3035, borde compartido mínimo de 1 m y micro-solape máximo de 1 m²; conserva 964 secciones y 1.053.345 habitantes.
+# MOTIVO: Monesterio presenta >1,5 km de borde compartido pero `touches` inestable por un solape de solo 0,003 m². Don Benito, en cambio, muestra componentes separadas por 0,87–2,07 km y debe seguir apareciendo como discontinuidad municipal.
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.2.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.2.0
-  status: topology_audit_m03
+  schema_version: 0.3.0
+  status: robust_contact_audit_m03
 
 io:
   project_root: {path: ../../..}
@@ -47,8 +47,10 @@ territory_contract:
   status: topology_audit_only
   notes:
     - EXT-01 certificó 964 secciones y 1.053.345 habitantes sin faltantes de población.
-    - EXT-02 no declara pasarelas a priori; cualquier excepción topológica debe surgir del informe M03 y ser auditada individualmente.
-    - EXT-02 no adopta K ni coeficientes territoriales de Aragón o Castilla y León.
+    - EXT-02 v0.2.0 con `touches` produjo una falsa desconexión provincial en Monesterio por micro-solape cartográfico.
+    - EXT-02 v0.3.0 prueba una regla general de contacto geométrico robusto sin introducir pasarelas.
+    - Don Benito mantiene dos componentes municipales físicamente separadas y se auditará aparte si Monesterio queda resuelto.
+    - Todavía no se declara K ni se adoptan coeficientes de otros territorios.
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -60,8 +62,10 @@ modulos:
     in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     id_field: CUSEC_KEY
     out_edges_jsonl: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
-    predicate: touches
-    min_shared_border_m: 0.0
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
     buffer_m: 0.0
     simplify_m: 0.0
     max_candidates: 0
