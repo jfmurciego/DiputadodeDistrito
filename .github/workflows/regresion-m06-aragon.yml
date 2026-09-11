@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Regresión M06 — Aragón
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Regresión M06 — adopción completa Aragón
 # FECHA: 2026-09-11
-# ESTADO: candidato baseline multi-territorio
-# QUÉ HACE: ejecuta M01-M06 con la configuración Aragón 2025 existente y certifica que M06 v7.1.0 mantiene compatibilidad hacia atrás sin exigir los nuevos outputs opcionales.
-# CAMBIOS: workflow nuevo, separado de la ejecución electoral completa M01-M08.
-# MOTIVO: M06 v7.1.0 solo puede generalizarse tras demostrar que no degrada la implantación territorial de referencia.
-# ANTERIOR: ninguno — workflow nuevo.
+# ESTADO: candidato R020
+# QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
+# CAMBIOS: vigila también cambios del YAML Aragón y exige catálogo de 67 distritos, composición de 1.463 secciones y conservación exacta de población/asignación.
+# MOTIVO: v1.0.0 probó compatibilidad hacia atrás; tras adoptar config Aragón 7.6.0 debe certificarse el contrato ampliado, no solo la compatibilidad antigua.
+# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.0.0.yml
 name: Regresión M06 — Aragón
 
 on:
@@ -16,6 +16,7 @@ on:
     paths:
       - '.github/workflows/regresion-m06-aragon.yml'
       - 'modulos/06_consolidar_distritos.py'
+      - 'configuracion/aragon_2025.yaml'
 
 permissions:
   contents: read
@@ -43,7 +44,7 @@ jobs:
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-reg-m06:${GITHUB_SHA} .
 
-      - name: Ejecutar Aragón M01-M06 con YAML histórico vigente
+      - name: Ejecutar Aragón M01-M06
         shell: bash
         run: |
           set -euo pipefail
@@ -63,7 +64,7 @@ jobs:
               python modulos/06_consolidar_distritos.py --params "$PARAMS"
             '
 
-      - name: Validar compatibilidad Aragón M06
+      - name: Validar Aragón R020 M06
         shell: bash
         run: |
           set -euo pipefail
@@ -84,14 +85,23 @@ jobs:
           g6=load_zip(base/"aragon_2025_m06_secciones.geojson.zip")
           d6=load_zip(base/"aragon_2025_m06_distritos.geojson.zip")
           summary=pd.read_csv(base/"aragon_2025_m06_resumen_distritos.csv")
-          assert len(g5)==len(g6)==1463
-          assert g5["district_id"].nunique()==g6["district_id"].nunique()==len(d6)==len(summary)==67
+          catalog=pd.read_csv(base/"aragon_2025_m06_catalogo_distritos.csv")
+          comp=pd.read_csv(base/"aragon_2025_m06_composicion_distritos.csv",dtype={"CUSEC_KEY":str})
+          assert len(g5)==len(g6)==len(comp)==1463
+          assert g5["district_id"].nunique()==g6["district_id"].nunique()==len(d6)==len(summary)==len(catalog)==67
           m5=dict(zip(g5["CUSEC_KEY"].astype(str),g5["district_id"].astype(int)))
           m6=dict(zip(g6["CUSEC_KEY"].astype(str),g6["district_id"].astype(int)))
           assert m5==m6, "M06 alteró asignaciones del baseline Aragón"
           assert int(summary["district_pop"].sum())==1364621
+          assert int(catalog["district_pop"].sum())==1364621
+          assert int(comp["section_pop"].sum())==1364621
           assert bool(summary["within_hard_bounds"].all())
           assert bool(summary["within_target_tolerance"].all())
+          assert int(catalog["province_count"].max())==1
+          assert int(catalog["section_count"].sum())==1463
+          assert catalog["area_km2"].gt(0).all()
+          assert catalog["perimeter_km"].gt(0).all()
+          assert catalog["polsby_popper"].between(0,1,inclusive="both").all()
           counts={}
           for d,x in g6.groupby("district_id"):
               ps=set(x["CPRO"].astype(str).str.zfill(2)); assert len(ps)==1,(d,ps)
@@ -99,7 +109,7 @@ jobs:
           assert counts=={"22":11,"44":7,"50":49}, counts
           maxdev=float(summary["relative_deviation"].abs().max())
           assert maxdev <= 0.12 + 1e-12, maxdev
-          print(f"ARAGON M06 REGRESSION PASS: K=67 rows=1463 pop=1364621 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
+          print(f"ARAGON R020 M06 PASS: K=67 rows=1463 pop=1364621 catalog=67 composition=1463 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
           '
 
       - name: Publicar regresión Aragón M06
@@ -110,5 +120,7 @@ jobs:
           path: |
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m05_informe.json
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_resumen_distritos.csv
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_catalogo_distritos.csv
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_composicion_distritos.csv
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_secciones.geojson.zip
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_distritos.geojson.zip
