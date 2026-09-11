@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: suite de regresión R015
-VERSIÓN: 1.0.0
-NOMBRE DE VERSIÓN: Gobernanza documental verificable
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Gobernanza M05 sensible a la versión activa
 FECHA: 2026-09-11
 ESTADO: vigente
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: añade verificación de predecesores de documentos canónicos y coherencia documental de M05; conserva las pruebas territoriales y de determinismo existentes.
-MOTIVO: impedir que un documento canónico vuelva a declarar una ruta legacy inexistente sin que falle la CI.
-ORIGEN: legacy/tests/test_r015_invariantes_pre_versionado_2026-09-11.py
+CAMBIOS: sustituye la aserción fija M05 v7.3.1 por una comprobación dinámica entre la versión del ejecutable activo y el contrato documental; conserva Run #8/v7.3.0 como baseline territorial validado.
+MOTIVO: permitir rondas funcionales posteriores sin debilitar la coherencia entre código, contrato y último baseline validado.
+ANTERIOR: legacy/tests/test_r015_invariantes_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -315,10 +315,13 @@ class GovernanceHeaders(unittest.TestCase):
             self.assertTrue((ROOT / rel).is_file(), f"falta recuperación documental R015: {rel}")
 
     def test_contrato_m05_distingue_version_activa_y_logica_validada(self):
-        text = (ROOT / "docs/MODULOS/M05_OPTIMIZACION.md").read_text(encoding="utf-8")
-        self.assertIn("**Código activo:** M05 v7.3.1", text)
-        self.assertIn("**Lógica funcional validada:** M05 v7.3.0", text)
-        self.assertIn("Run #8", text)
+        contract = (ROOT / "docs/MODULOS/M05_OPTIMIZACION.md").read_text(encoding="utf-8")
+        executable = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")[:3000]
+        m = re.search(r"(?m)^VERSIÓN:\s*(\d+\.\d+\.\d+)\s*$", executable)
+        self.assertIsNotNone(m, "M05 activo no declara VERSIÓN SemVer")
+        self.assertIn(f"**Código activo:** M05 v{m.group(1)}", contract)
+        self.assertIn("M05 v7.3.0", contract)
+        self.assertIn("Run #8", contract)
 
     def test_documentos_r015_presentes(self):
         self.assertTrue((ROOT / "docs/RONDAS/R015_2026-09-11_pruebas_y_gobernanza.md").exists())
