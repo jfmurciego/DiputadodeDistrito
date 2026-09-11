@@ -1,68 +1,62 @@
 # Estado maestro del proyecto — Diputado de Distrito
 
-**Versión:** 1.7.0  
+**Versión:** 1.8.0  
 **Fecha de corte:** 2026-09-11  
-**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.6.0.md`
+**Anterior:** `legacy/memoria/ESTADO_MAESTRO_PROYECTO_v1.7.0.md`
 
-## 1. Regla de arranque
-Leer este documento; `docs/BITACORA.md`; arquitectura; contratos `docs/MODULOS/`; configuración; última ronda; última ejecución; workflow.
+## 1. Fuente de verdad y arranque
+Leer `README.md`, este documento, `docs/CONTINUIDAD_NUEVO_CHAT.md`, `docs/BITACORA.md`, arquitectura, contratos M01–M08, última ronda/ejecución, configuración, workflow y código afectado. Los dos archivos antiguos `MEMORIA*` están retirados y no son fuentes de estado.
 
 ## 2. Reglas duras Aragón — R012
 1. 67 distritos exactos.
-2. Contigüidad estricta por grafo.
-3. Conservación de 1.463 secciones y población.
-4. Suelo 0,80×target y techo 1,75×target.
-5. Provincia como frontera dura.
-6. Reparto provincial exacto: Huesca 11, Teruel 7, Zaragoza 49.
-7. Municipio que cabe bajo el techo duro: indivisible.
-8. Municipio sobredimensionado: partición interna en bloques conexos.
-9. Todos sus distritos salvo como máximo el residual deben ser exclusivamente municipales.
-10. Solo el residual urbano puede completarse con municipios menores adyacentes de la misma provincia.
-11. Resultados electorales nunca condicionan la geometría.
+2. Provincia como frontera dura: Huesca 11 / Teruel 7 / Zaragoza 49.
+3. Contigüidad estricta por grafo M03.
+4. Conservación de 1.463 secciones y 1.364.621 habitantes.
+5. Suelo 0,80×target; techo 1,75×target.
+6. Objetivo fino ±12%.
+7. Municipio que cabe bajo techo: indivisible.
+8. Municipio sobredimensionado: partición interna conexa; distritos completos exclusivamente municipales y solo residual mezclable con municipios menores adyacentes de la misma provincia.
+9. Resultados electorales nunca condicionan geometría.
+10. Determinismo, CUSEC único/no nulo y una configuración canónica.
 
-## 3. Estatus de ejecuciones
-Run #5 `34584775443`: referencia de auditabilidad R011, no referencia territorial R012.
-
-Run #6 `34587157452`: FAILURE. M04 terminó, M05 rechazó el distrito 52 por desconexión. La auditoría del artefacto M04 demostró que el distrito 52 ya contenía 15 componentes. Expediente: `docs/EJECUCIONES/GITHUB_RUN_0006_2026-09-11.md`.
-
-## 4. Causa raíz Run #6
-El algoritmo M04 extraía bloques urbanos conexos, pero no obligaba al residuo del municipio a permanecer conexo. En Zaragoza se generó un residuo fragmentado que posteriormente fue tratado como una sola unidad territorial. M05 actuó correctamente como guardia.
-
-## 5. Implementación vigente
+## 3. Implementación vigente
 Configuración `configuracion/aragon_2025.yaml` v7.4.0. Validación `herramientas/validar_ejecucion.py` v1.3.0.
 
-### M04 v7.3.0 — Partición balanceada conexa por provincia
-- construye cada provincia de forma independiente;
-- municipio íntegro mientras su población sea <= techo duro;
-- municipio sobredimensionado: partición híbrida conexa + reparación local poblacional;
-- el residual urbano se elige por contacto exterior; los demás bloques son cerrados;
-- unidades rurales se agrupan mediante partición conexa y reparación local;
-- no existe fallback que asigne una unidad a un distrito no adyacente;
-- antes de exportar, M04 comprueba cardinalidad 67, cuotas 11/7/49, provincia única, contigüidad y suelo/techo.
+M04 **v7.3.0**: construcción provincia-first, partición municipal balanceada/conexa, ensamblaje rural conexo, sin fallback no adyacente y autovalidación de cardinalidad, cuotas, provincia, contigüidad y suelo/techo.
 
-Versión anterior preservada en `legacy/modulo04/04_generar_semillas_v7.2.1.py`.
+M05 **v7.2.0**: optimización por unidades territoriales protegidas, sin cruces provinciales y preservando conectividad. Actualmente no logra mover ninguna unidad en la solución de M04 v7.3.0.
 
-### M05 v7.2.0
-- optimiza únicamente dentro del espacio territorial protegido por M04;
-- mueve unidades completas;
-- no cruza provincias;
-- preserva contigüidad de donante y receptor;
-- prioriza hard constraints, luego ±12%, máximo desvío y error cuadrático.
+## 4. Ejecuciones relevantes
+Run #5 `34584775443`: R011 demuestra outputs auditables, pero no es referencia territorial por cruces provinciales y fragmentación municipal detectados después.
 
-## 6. Verificación previa a nueva ejecución
-M04 v7.3.0 fue reproducido sobre los artefactos reales M01/M03 del Run #6. Resultado local:
-- 67 distritos;
-- Huesca 11, Teruel 7, Zaragoza 49;
-- cero cruces provinciales;
-- cero distritos desconectados;
-- cero distritos bajo suelo o sobre techo;
-- los municipios no sobredimensionados permanecen atómicos;
-- un único distrito rural de Zaragoza queda fuera de ±12%, con 31.563 habitantes.
+Run #6 `34587157452`: FAIL. M04 produjo distrito 52 con 15 componentes; M05 lo detectó. Causa corregida en M04 v7.3.0.
 
-Esto convierte el próximo run en prueba de aceptación real del nuevo M04 y, si M04 pasa, en prueba de capacidad de M05 para resolver el último desajuste fino sin romper las reglas duras.
+### Run #7 — `34588834266` — SUCCESS
+Commit ejecutado: `98a2e68907273fcd382a241687e645e8615bb47a`. Modo `iterativo`; M01–M03 restaurados desde caché.
 
-## 7. Outputs
-R011 permanece vigente: M01-M08 deben exponer productos completos. M04/M05 deben seguir publicando asignaciones auditables con provincia, municipio, `ddd_unit_id`, `ddd_closed_urban`, población y distrito.
+Resultados:
+- M04 v7.3.0: `hard=0`, K=67, cuotas 11/7/49, min=18.345, max=31.563.
+- M05 v7.2.0: `hard=0`, `fuera_12=1`, `max_rel_dev=0.5497`, `movimientos_unidad=0`.
+- M06–M08 completados.
+- Validación final: **67 distritos; provincias PASS; disciplina municipal PASS; contigüidad PASS; población dentro de [16.294,0, 35.643,1]**.
+- Outputs M01–M08 materializados y publicados.
+
+Run #7 es la primera ejecución GitHub que demuestra simultáneamente las reglas duras R012. Todavía **no es solución final de equilibrio** porque queda 1 distrito fuera de ±12%.
+
+## 5. Hallazgo operativo adicional Run #7
+Durante la publicación aparece `/...sh: line 10: PRODUCTOS.json: command not found`. La ejecución no falla y los `PRODUCTOS.json` sí se publican; la causa es el uso de backticks dentro de un heredoc no protegido en el README de resultados. Es un defecto del workflow de presentación que debe corregirse en la próxima ronda de mantenimiento, sin mezclarlo con el algoritmo territorial.
+
+## 6. Outputs y auditabilidad
+R011 sigue siendo obligatoria: cada módulo expone su producto completo. Los ligeros se publican en `resultados/ejecuciones/<RUN_ID>/Mxx/`; los GeoJSON pesados quedan en artefactos Actions y `PRODUCTOS.json` los identifica por hash/tamaño/ruta.
+
+M06 debe seguir evolucionando como ficha territorial completa del distrito, no como mero resumen poblacional.
+
+## 7. Próximo problema algorítmico
+M04 ya entrega una estructura dura válida. El cuello de botella pasa a M05: debe resolver el único distrito fuera de ±12% sin abrir provincia, romper municipio, perder contigüidad ni degradar los otros 66. Antes de cambiar M04 debe existir evidencia de defecto propio.
 
 ## 8. Siguiente acción exacta
-Ejecutar workflow en modo `iterativo`. No se acepta un PASS si la validación detecta cualquier cruce provincial, desconexión o fragmentación municipal inválida. Si el run supera M04 pero falla después, auditar M05 exclusivamente; no volver a alterar M04 sin evidencia de un defecto propio.
+1. Registrar expediente formal del Run #7.
+2. Corregir separadamente el heredoc del workflow que interpreta `PRODUCTOS.json` como comando.
+3. Auditar M05 Run #7: identificar el distrito de 31.563 habitantes, sus unidades vecinas y por qué `candidates()` produce cero movimientos aceptados.
+4. Diseñar una optimización que permita transferencias válidas —incluidas, si son necesarias, transferencias internas entre bloques del mismo municipio sobredimensionado— sin violar R012.
+5. Ejecutar nuevamente y buscar `fuera_12=0` manteniendo todos los PASS duros.
