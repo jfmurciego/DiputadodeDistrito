@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Auditoría topológica M02-M03 — Extremadura
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Auditoría topológica con diagnóstico geométrico
 # FECHA: 2026-09-11
 # ESTADO: diagnóstico EXT-02
-# QUÉ HACE: ejecuta M01-M03 sin pasarelas topológicas y conserva el informe aunque M03 detecte componentes administrativos desconectados.
-# CAMBIOS: workflow diagnóstico nuevo; no corrige ni oculta singularidades.
-# MOTIVO: descubrir primero exclaves, huecos cartográficos o municipios multipartes antes de declarar excepciones y antes de abrir M04.
-# ANTERIOR: ninguno — workflow nuevo.
+# QUÉ HACE: ejecuta M01-M03 sin pasarelas topológicas, conserva el informe aunque M03 rechace el grafo y diagnostica cada componente aislada con municipio, población, coordenadas y secciones vecinas más próximas.
+# CAMBIOS: corrige el resumen v1.0.0, añade un JSON persistente de diagnóstico geométrico y calcula vecinos próximos en EPSG:3035 sin introducir ninguna pasarela.
+# MOTIVO: EXT-02 detectó la sección aislada 0608501001 en Badajoz. Antes de decidir si es exclave administrativo, hueco cartográfico o error geométrico necesitamos evidencia reproducible generada sobre las fuentes versionadas.
+# ANTERIOR: legacy/workflows/auditar-topologia-extremadura_v1.0.0.yml
 name: Auditoría M02-M03 — Extremadura
 
 on:
@@ -65,24 +65,75 @@ jobs:
               exit 0
             '
 
-      - name: Resumir diagnóstico EXT-02
+      - name: Diagnosticar componentes EXT-02
         shell: bash
         run: |
           set -euo pipefail
           docker run --rm \
             -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
             --entrypoint python ddd-ext-topology:${GITHUB_SHA} -c '
-          import json,pathlib
+          import io,json,pathlib,zipfile
+          import geopandas as gpd
           base=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025")
           rep=json.loads((base/"extremadura_2025_m03_informe.json").read_text())
           rc=int((base/"extremadura_2025_m03_exit_code.txt").read_text().strip())
+          with zipfile.ZipFile(base/"extremadura_2025_m01_secciones_poblacion.geojson.zip") as z:
+              n=next(n for n in z.namelist() if n.endswith(".geojson"))
+              g=gpd.read_file(io.BytesIO(z.read(n)))
+          g["CUSEC_KEY"]=g["CUSEC_KEY"].astype(str)
+          g["CPRO"]=g["CPRO"].astype(str).str.zfill(2)
+          gp=g.to_crs("EPSG:3035")
           pa=rep["province_component_audit"]
           ma=rep["municipality_component_audit"]
-          print(f"EXT-02 DIAGNOSTIC nodes={rep['nodes']} edges={rep['edges']} isolated={rep['isolated']} province_bad={pa['disconnected']} municipality_bad={ma['disconnected']} m03_rc={rc}")
-          if pa["disconnected"]:
-              print("PROVINCE_VIOLATIONS="+json.dumps([v for v in pa.get("details",{}).items() if v[1].get("components",1)>1],ensure_ascii=False))
-          if ma["disconnected"]:
-              print("MUNICIPALITY_VIOLATIONS="+json.dumps(ma.get("violations",[]),ensure_ascii=False))
+          isolated=[]
+          for prov,rec in pa.get("details",{}).items():
+              samples=rec.get("component_samples",[])
+              sizes=rec.get("component_sizes",[])
+              for size,sample in zip(sizes,samples):
+                  if size!=1 or not sample: continue
+                  sid=str(sample[0])
+                  row=g.loc[g["CUSEC_KEY"]==sid].iloc[0]
+                  prow=gp.loc[gp["CUSEC_KEY"]==sid].iloc[0]
+                  others=gp[(gp["CPRO"]==prov)&(gp["CUSEC_KEY"]!=sid)].copy()
+                  others["distance_m"]=others.geometry.distance(prow.geometry)
+                  near=others.nsmallest(8,"distance_m")
+                  neighbours=[]
+                  for _,r in near.iterrows():
+                      neighbours.append({
+                          "section":str(r["CUSEC_KEY"]),
+                          "distance_m":round(float(r["distance_m"]),2),
+                          "municipality":str(r.get("CUMUN","")),
+                          "municipality_name":str(r.get("NMUN","")),
+                          "population":int(r.get("POP_2025",0)),
+                      })
+                  isolated.append({
+                      "section":sid,
+                      "province":prov,
+                      "municipality":str(row.get("CUMUN","")),
+                      "municipality_name":str(row.get("NMUN","")),
+                      "population":int(row.get("POP_2025",0)),
+                      "geometry_type":str(row.geometry.geom_type),
+                      "area_m2":round(float(prow.geometry.area),2),
+                      "centroid_x":round(float(prow.geometry.centroid.x),2),
+                      "centroid_y":round(float(prow.geometry.centroid.y),2),
+                      "nearest":neighbours,
+                  })
+          diag={
+              "m03_exit_code":rc,
+              "nodes":rep["nodes"],
+              "edges":rep["edges"],
+              "isolated_graph_nodes":rep["isolated"],
+              "province_disconnected":pa["disconnected"],
+              "municipality_disconnected":ma["disconnected"],
+              "province_violations":[{"province":k,**v} for k,v in pa.get("details",{}).items() if v.get("components",1)>1],
+              "municipality_violations":ma.get("violations",[]),
+              "isolated_component_diagnostics":isolated,
+          }
+          out=base/"extremadura_2025_m03_diagnostico_topologico.json"
+          out.write_text(json.dumps(diag,ensure_ascii=False,indent=2))
+          print("EXT-02 DIAGNOSTIC "+json.dumps({k:diag[k] for k in ("nodes","edges","isolated_graph_nodes","province_disconnected","municipality_disconnected","m03_exit_code")},ensure_ascii=False))
+          print("ISOLATED_COMPONENTS="+json.dumps(isolated,ensure_ascii=False))
+          print("MUNICIPALITY_VIOLATIONS="+json.dumps(diag["municipality_violations"],ensure_ascii=False))
           '
 
       - name: Publicar diagnóstico EXT-02
@@ -96,3 +147,4 @@ jobs:
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_grafo.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_informe.json
             territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_exit_code.txt
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_diagnostico_topologico.json
