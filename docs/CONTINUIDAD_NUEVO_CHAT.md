@@ -1,12 +1,12 @@
 # Continuidad del proyecto en un nuevo chat
 
-**Versión:** 1.3.0  
+**Versión:** 1.4.0  
 **Fecha de corte:** 2026-09-11  
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.2.0.md`
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.3.0.md`
 
 ## Fuente de verdad
 
-El repositorio `jfmurciego/DiputadodeDistrito` manda sobre cualquier recuerdo del chat. Leer en este orden: `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, este documento, `docs/BITACORA.md`, arquitectura, contratos M01–M08, última ronda/ejecución, configuración, workflow y código afectado. Los antiguos `docs/MEMORIA*` están retirados.
+El repositorio `jfmurciego/DiputadodeDistrito` manda sobre cualquier recuerdo del chat. Leer: `README.md`, `docs/ESTADO_MAESTRO_PROYECTO.md`, este documento, `docs/BITACORA.md`, arquitectura, contratos M01–M08, última ronda/ejecución, configuración, workflows, tests y código afectado. Los antiguos `docs/MEMORIA*` están retirados.
 
 ## Arquitectura y reglas
 
@@ -14,32 +14,36 @@ M01 base territorial+población → M02 adyacencias → M03 grafo → M04 constr
 
 Aragón: 67 distritos; 1.463 secciones; 1.364.621 habitantes; provincia 11/7/49; contigüidad estricta; suelo 0,80×target; techo 1,75×target; objetivo ±12 %; municipio pequeño indivisible; municipio sobredimensionado particionado de forma conexa con solo residual mezclable; resultados electorales fuera del algoritmo geométrico.
 
-## Última referencia aceptada — Run #8
+## Referencia territorial — Run #8 / R014
 
-**GitHub Run #8 `34592470470` — SUCCESS**, commit ejecutado `d57dc9cd77af4fa09780794401381d9727d1c71b`, modo iterativo.
+GitHub Run #8 **`34592470470` — SUCCESS** sobre `d57dc9cd77af4fa09780794401381d9727d1c71b`.
 
-- M01–M03: caché reutilizada.
-- M04 v7.3.0: 67 distritos, 11/7/49, `hard=0`.
-- M05 v7.3.0: `hard=0`, **`fuera_12=0`**, `max_rel_dev=0.119431695687`.
-- M05: greedy=0, anneal=1.030, unidades finalmente cambiadas=75, iteraciones de recocido=9.038.
-- Validación final: provincia PASS, disciplina municipal PASS, contigüidad PASS, población PASS, conservación exacta.
-- M01–M08 y artefactos publicados.
-- Workflow v2.7.1 verificado: no reaparece `PRODUCTOS.json: command not found`.
+M05 v7.3.0 cerró el mínimo local de Run #7: `hard=0`, `fuera_12=0`, `max_rel_dev=0.119431695687`. La validación final confirmó provincia, disciplina municipal, contigüidad, límites poblacionales y conservación exacta. R014 está cerrado.
 
-R014 queda **promocionado/validado**. Run #7 permanece como antecedente causal, no como referencia vigente.
+## R015 — ingeniería cerrada
+
+R015 no cambia lógica territorial. Normaliza cabeceras y predecesores inmediatos, preserva copias reales en `legacy/`, inventaría los huecos históricos no recuperados y añade `tests/test_r015_invariantes.py` + `.github/workflows/pruebas-ddd.yml`.
+
+**Run de aceptación de pruebas R015: `34594827070` — SUCCESS.** Pasaron la auditoría de cabeceras/legacy y la regresión territorial/determinismo después de retirar el migrador temporal.
+
+Versiones activas relevantes tras R015: configuración v7.5.1; M04 v7.3.1; M05 v7.3.1; validador v1.3.1; procedimiento v2.1.1; workflow territorial v2.7.2. Son PATCH de gobernanza respecto de la lógica validada en Run #8.
 
 ## Ingeniería y auditoría
 
-Toda versión nueva preserva predecesor en `legacy/` cuando éste existe materialmente y documenta versión, cambio y motivo. Si una versión histórica de la recuperación no está disponible, se registra como `PREDECESOR HISTÓRICO NO RECUPERADO`; nunca se inventa una ruta.
+Toda sustitución versionada conserva primero el predecesor inmediato en `legacy/`. La copia histórica se conserva literalmente, incluso si tiene whitespace o defectos cosméticos. Si una versión anterior no fue recuperada, se registra en `docs/DEUDA_HISTORICA_LEGACY.md`; nunca se fabrica.
 
-La política vigente es `docs/POLITICA_DE_VERSIONES.md` v1.1.0. Los huecos heredados están en `docs/AUDITORIAS/DEUDA_HISTORICA_LEGACY_2026-09-11.md`.
+La política vigente es `docs/POLITICA_DE_VERSIONES.md` v1.2.0. Los cambios funcionales posteriores deben superar la suite R015 y, además, un nuevo run territorial antes de promoción.
 
-Un resultado local/IA es diagnóstico. La aceptación exige GitHub Actions reproducible y validaciones. Los outputs ligeros completos viven en `resultados/ejecuciones/<RUN_ID>/Mxx/`; geometrías pesadas, en artefactos Actions con `PRODUCTOS.json`.
+Un resultado local/IA es diagnóstico. Los outputs ligeros completos viven en `resultados/ejecuciones/<RUN_ID>/Mxx/`; geometrías pesadas, en artefactos Actions con `PRODUCTOS.json`.
 
-`main` es la rama canónica. Las ramas `infra/fuentes-reproducibles*` son históricas/no activas mientras no se reactiven expresamente.
+`main` es la rama canónica. `infra/fuentes-reproducibles*` son ramas históricas/no activas.
 
-## Siguiente trabajo seguro
+## Orden para continuar
 
-No modificar M04/M05 sin abrir una nueva ronda y preservar los PASS de Run #8. Prioridad de ingeniería: introducir pruebas unitarias de invariantes/función objetivo, normalizar cabeceras auxiliares y resolver cuando sea posible las referencias legacy históricas verificables.
+1. Confirmar HEAD de `main` y último run de `Pruebas DDD — R015`.
+2. Leer la ronda activa y el contrato del módulo que se pretenda cambiar.
+3. Si el cambio es funcional, preservar predecesor, incrementar versión y mantener todas las invariantes de Run #8.
+4. Exigir CI R015 verde.
+5. Ejecutar el procedimiento territorial y solo entonces promocionar un nuevo baseline.
 
-**Siguiente paso:** auditar y diseñar la primera suite de pruebas automáticas sin cambiar el comportamiento territorial aceptado.
+**Siguiente paso:** abrir una nueva ronda solo cuando exista un objetivo funcional concreto; R014 y R015 están cerrados.
