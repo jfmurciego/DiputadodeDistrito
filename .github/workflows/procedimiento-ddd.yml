@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 2.7.2
-# NOMBRE DE VERSIÓN: Publicación segura del README de ejecución — Gobernanza R015
+# VERSIÓN: 2.8.0
+# NOMBRE DE VERSIÓN: Configuración canónica única de Aragón
 # FECHA: 2026-09-11
-# ESTADO: vigente — R015 de gobernanza; comportamiento heredado de v2.7.1 sin cambios
-# QUÉ HACE: mantiene la publicación completa y auditable de M01-M08 y la generación segura del README de resultados.
-# CAMBIOS: normaliza metadatos, estado y predecesor legacy; no modifica jobs, pasos, parámetros, entradas, outputs ni criterios territoriales.
-# MOTIVO: cerrar la deuda de auditoría después de que Run #8 validara el comportamiento funcional de v2.7.1.
-# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.7.1.yml
+# ESTADO: candidato F1.3
+# QUÉ HACE: ejecuta el procedimiento completo usando exclusivamente el contrato canónico territorial de Aragón.
+# CAMBIOS: sustituye el YAML raíz duplicado por territorios/aragon/config/aragon_2025.yaml; no cambia parámetros.
+# MOTIVO: cerrar F1.3 con un único consumidor contractual.
+# ANTERIOR: legacy/workflows/procedimiento-ddd_v2.7.2.yml
 name: Procedimiento DDD — Aragón
 on:
   workflow_dispatch:
@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          key="$(python herramientas/calcular_clave_preparacion.py --params configuracion/aragon_2025.yaml)"
+          key="$(python herramientas/calcular_clave_preparacion.py --params territorios/aragon/config/aragon_2025.yaml)"
           [[ "$key" =~ ^[0-9a-f]{64}$ ]] || { echo "Clave de preparación inválida: '$key'" >&2; exit 21; }
           echo "key=$key" >> "$GITHUB_OUTPUT"
       - name: Restaurar preparación territorial
@@ -67,7 +67,7 @@ jobs:
           set -euo pipefail
           rm -rf .cache/ddd/preparacion/aragon_2025
           mkdir -p .cache/ddd/preparacion
-          docker run --rm --entrypoint bash -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
+          docker run --rm --entrypoint bash -e DDD_PARAMS="territorios/aragon/config/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd-prep:${GITHUB_SHA} -lc 'python modulos/01_preparar_base_territorial.py --params "$DDD_PARAMS" && python modulos/02_construir_adyacencias.py --params "$DDD_PARAMS" && python modulos/03_construir_grafo.py --params "$DDD_PARAMS"'
       - name: Comprobar preparación disponible
         run: |
           test -f .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip
@@ -105,14 +105,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "ejecuciones/$DDD_RUN_ID" .cache/ddd/preparacion
-          docker run --rm -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" -e DDD_MODO="iterativo" -e DDD_PARAMS="configuracion/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd:${GITHUB_SHA}
+          docker run --rm -e GITHUB_SHA="$GITHUB_SHA" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e DDD_RUN_ID="$DDD_RUN_ID" -e DDD_MODO="iterativo" -e DDD_PARAMS="territorios/aragon/config/aragon_2025.yaml" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd" ddd:${GITHUB_SHA}
       - name: Materializar outputs auditables M01-M08
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           test -f "ejecuciones/$DDD_RUN_ID/aragon_2025_m08_distritos_resultados.geojson.zip" || exit 0
-          docker run --rm --entrypoint python -e DDD_RUN_ID="$DDD_RUN_ID" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd:ro" ddd:${GITHUB_SHA} herramientas/generar_outputs_auditables.py --params configuracion/aragon_2025.yaml --run-id "$DDD_RUN_ID"
+          docker run --rm --entrypoint python -e DDD_RUN_ID="$DDD_RUN_ID" -v "$PWD/ejecuciones:/app/ejecuciones" -v "$PWD/.cache/ddd:/app/.cache/ddd:ro" ddd:${GITHUB_SHA} herramientas/generar_outputs_auditables.py --params territorios/aragon/config/aragon_2025.yaml --run-id "$DDD_RUN_ID"
       - name: Artefacto M01 — secciones censales
         if: always()
         uses: actions/upload-artifact@v6

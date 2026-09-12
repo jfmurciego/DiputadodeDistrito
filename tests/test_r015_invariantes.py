@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: suite de regresión R015
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Gobernanza M05 sensible a la versión activa
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Evidencia estática y contrato canónico territorial
 FECHA: 2026-09-11
 ESTADO: vigente
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: sustituye la aserción fija M05 v7.3.1 por una comprobación dinámica entre la versión del ejecutable activo y el contrato documental; conserva Run #8/v7.3.0 como baseline territorial validado.
-MOTIVO: permitir rondas funcionales posteriores sin debilitar la coherencia entre código, contrato y último baseline validado.
-ANTERIOR: legacy/tests/test_r015_invariantes_v1.0.0.py
+CAMBIOS: actualiza la ruta de gobernanza al único YAML canónico de Aragón; no cambia invariantes.
+MOTIVO: impedir la reaparición del YAML raíz retirado.
+ANTERIOR: legacy/tests/test_r015_invariantes_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -270,7 +270,7 @@ class GovernanceHeaders(unittest.TestCase):
         "herramientas/generar_outputs_auditables.py",
         "herramientas/registrar_ejecucion.py",
         "herramientas/validar_ejecucion.py",
-        "configuracion/aragon_2025.yaml",
+        "territorios/aragon/config/aragon_2025.yaml",
         "procedimiento.sh",
         ".github/workflows/procedimiento-ddd.yml",
     ]
