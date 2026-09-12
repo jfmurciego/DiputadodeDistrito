@@ -85,3 +85,7 @@ El lanzador territorial pasa a aceptar un intervalo semántico y registra `REENG
 ## 2026-09-12 — R026.1 — Límites robustos en ejecución parcial
 
 Se corrige el caso de tramos terminados antes de M04: el lanzador no intenta iterar un rango vacío. Se conserva v2.3.0 en `legacy/`; no hay alteración de algoritmo territorial.
+
+## 2026-09-12 — R027 — Materialización verificable de checkpoints
+
+Se incorpora el componente G10 que resuelve dependencias runtime, verifica bytes/SHA-256 y materializa únicamente evidencia autorizada. M05 exige M03+M04; Extremadura bloqueada se rechaza. Los informes se etiquetan `REUSED_MATERIALIZED`, sin promoción territorial.
