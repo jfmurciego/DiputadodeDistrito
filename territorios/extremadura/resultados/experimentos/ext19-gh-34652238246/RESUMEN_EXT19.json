@@ -1,0 +1,26 @@
+{
+  "status": "DIAGNOSTIC_ONLY",
+  "promotion": false,
+  "applied_to_canonical_solution": false,
+  "source_run": 34652238246,
+  "source_commit": "5b5eb9f2e6089d665c5150b56ee22561e2b6eb26",
+  "artifact_id": 10284581106,
+  "artifact_name": "extremadura-EXT19-d25-2x2-34652238246",
+  "artifact_digest": "sha256:203faad8b281de09009db17e78f2888656463dcb26bc08fdeb7b475561f09f1c",
+  "reconstructed_after_run": true,
+  "base_population_objective": [0, 2, 0.1330001091760059, 0.12314447994013232],
+  "valid_relays": 1,
+  "best_relay": {
+    "D": 25,
+    "A": 38,
+    "B": 35,
+    "A_to_D_units": ["192", "58"],
+    "B_to_A_units": ["169", "9"],
+    "A_to_D_population": 3360,
+    "B_to_A_population": 1487,
+    "outside_10_after": 1,
+    "all_three_within_tolerance": true
+  },
+  "decision": "discard_as_promotion",
+  "reason": "El relevo fue una búsqueda dirigida a distritos concretos, no fue aplicado y todavía deja un outlier; se conserva como evidencia diagnóstica, no como excepción canónica."
+}
