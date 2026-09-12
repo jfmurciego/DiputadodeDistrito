@@ -1,0 +1,40 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: R025 promoción continental M01-M03
+# FECHA: 2026-09-12
+# ESTADO: candidato de promoción.
+# QUÉ HACE: valida en paralelo doce territorios con contratos persistentes; cinco sin pasarelas y siete con pasarelas R023.
+# CAMBIOS: primera versión.
+# MOTIVO: convertir la observación nacional en implantaciones M01-M03 reproducibles antes de fijar K.
+# ANTERIOR: ninguno — workflow nuevo.
+name: R025 — Promoción continental M01-M03
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/r025-promocion-continental.yml'
+      - '.github/workflows/_reutilizable-promocion-m01-m03.yml'
+      - 'territorios/*/config/*_2025.yaml'
+jobs:
+  promocion:
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        territory:
+          - madrid
+          - principado_de_asturias
+          - la_rioja
+          - ceuta
+          - melilla
+          - cantabria
+          - castilla_la_mancha
+          - comunidad_foral_de_navarra
+          - comunidad_valenciana
+          - galicia
+          - pais_vasco
+          - region_de_murcia
+    uses: ./.github/workflows/_reutilizable-promocion-m01-m03.yml
+    with:
+      territory_id: ${{ matrix.territory }}
