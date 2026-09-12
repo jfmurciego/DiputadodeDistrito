@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: R027 cuotas Hamilton explícitas
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: R027 exploración M04 Cataluña-Madrid
 # FECHA: 2026-09-12
 # ESTADO: experimento; no promueve contrato.
 # QUÉ HACE: prepara Cataluña y Madrid una vez y barre 12 candidatos M04 con K institucional de referencia 135.
-# CAMBIOS: calcula población provincial desde M01 y materializa province_districts por Hamilton antes de M04.
-# MOTIVO: el primer run 34689188752 llegó a M04 pero abortó porque el motor exige cuotas provinciales explícitas; no fue inviabilidad territorial.
-# ANTERIOR: legacy/workflows/r027-m04-cataluna-madrid_v1.0.0.yml
+# CAMBIOS: primera versión.
+# MOTIVO: avanzar en paralelo tras cerrar M03, midiendo factibilidad antes de fijar parámetros territoriales canónicos.
+# ANTERIOR: ninguno — workflow nuevo.
 name: R027 — M04 Cataluña y Madrid
 on:
   workflow_dispatch:
@@ -81,16 +81,10 @@ jobs:
           LABEL="a${ATOMICITY/./}_c${CHUNK/./}"; BASE="territorios/$TID/.cache/ddd/preparacion/${TID}_2025/r027/$LABEL"; mkdir -p "$BASE"
           docker run --rm -v "$PWD:/app" --entrypoint python ddd-r027:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py             --geojson "territorios/$TID/.cache/ddd/preparacion/${TID}_2025/${TID}_2025_m01_secciones_poblacion.geojson.zip"             --graph "territorios/$TID/.cache/ddd/preparacion/${TID}_2025/${TID}_2025_m03_grafo.json"             --out-geojson "$BASE/m04_input.geojson" --out-report "$BASE/units_report.json"             --k 135 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025             --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio "$ATOMICITY" --chunk-ratio "$CHUNK"
           python - <<'PY'
-          import copy,os,pathlib,yaml,zipfile,json,collections,math
+          import copy,os,pathlib,yaml
           tid=os.environ["TID"];a=os.environ["ATOMICITY"];ch=os.environ["CHUNK"];label=f"a{a.replace('.','')}_c{ch.replace('.','')}";root=pathlib.Path(".");src=root/"territorios"/tid/"config"/f"{tid}_2025.yaml";c=copy.deepcopy(yaml.safe_load(src.read_text()));base=f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}/r027/{label}"
           c["modulos"]["modulo_04_generar_semillas"]={"in_graph_json":f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}/{{run_name}}_m03_grafo.json","in_geojson":base+"/m04_input.geojson","id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO","municipality_field":"M04_PARTITION_UNIT","municipality_name_field":"NMUN","district_apportionment":"hamilton","k_districts":135,"municipality_atomicity_limit_ratio":float(a),"seed":12345,"out_geojson":base+"/m04.geojson.zip","out_report":base+"/m04_report.json"}
-          geo=root/"territorios"/tid/".cache/ddd/preparacion"/f"{tid}_2025"/f"{tid}_2025_m01_secciones_poblacion.geojson.zip"
-          with zipfile.ZipFile(geo) as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));features=json.loads(z.read(n))["features"]
-          pops=collections.defaultdict(int)
-          for f in features:p=f["properties"];pops[str(p["CPRO"]).zfill(2)]+=int(p["POP_2025"])
-          total=sum(pops.values());raw={p:135*v/total for p,v in pops.items()};quotas={p:math.floor(v) for p,v in raw.items()}
-          for p in sorted(pops,key=lambda p:(-(raw[p]-quotas[p]),p))[:135-sum(quotas.values())]:quotas[p]+=1
-          c["validation"].update({"expected_districts":135,"population_floor_ratio":.80,"population_cap_ratio":1.75,"target_tolerance_ratio":.12,"province_districts":quotas})
+          c["validation"].update({"expected_districts":135,"population_floor_ratio":.80,"population_cap_ratio":1.75,"target_tolerance_ratio":.12})
           p=root/"territorios"/tid/"config"/f".generated_r027_{label}.yaml";p.write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True));print(p)
           PY
           CFG="territorios/$TID/config/.generated_r027_$LABEL.yaml"
