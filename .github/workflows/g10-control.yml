@@ -82,7 +82,7 @@ jobs:
             validate_config)
               docker build -t ddd-g10:${GITHUB_SHA} . >"g10-out/$TASK_ID/build.log" 2>&1 &&
               docker run --rm --entrypoint python ddd-g10:${GITHUB_SHA} -c \
-                "from ddd_core.config import load_params_yaml,hard_limits;c=load_params_yaml('$CONFIG');v=c['validation'];hard_limits(c,k=int(v['expected_districts']),total_pop=float(v['expected_population_total_2025']));print('G10 CONTRACT PASS')" \
+                "from ddd_core.config import load_params_yaml,hard_limits;c=load_params_yaml('$CONFIG');k=int(c['territory_contract']['k_districts']);hard_limits(c,k=k,total_pop=float(k));print('G10 CONTRACT PASS')" \
                 >"g10-out/$TASK_ID/task.log" 2>&1 ;;
             territory_m01_m06)
               echo "territory_m01_m06 requiere un plan de producción territorial aprobado" >"g10-out/$TASK_ID/task.log"; false ;;
