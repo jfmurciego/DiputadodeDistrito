@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.2
-NOMBRE DE VERSIÓN: Puerta mínima y propiedad OGR-safe
+VERSIÓN: 7.5.1
+NOMBRE DE VERSIÓN: Puerta mínima por componente + residuo flexible
 FECHA: 2026-09-11
 ESTADO: experimental EXT-03; compatible en modo legacy y pendiente de regresión completa Aragón/Castilla y León antes de promoción.
 FUNCIÓN: ejecutar el motor M04 v7.5.1, que permite `gateway_policy: preserve_component_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
@@ -12,9 +12,9 @@ ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
 COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
-CAMBIOS: normaliza ddd_unit_id cuando GeoJSON lo serializa como lista unitaria antes del postproceso; no cambia asignaciones ni restricciones.
-MOTIVO: el smoke F1.5 reprodujo una pérdida OGR de ddd_unit_id en un caso mínimo; el wrapper debe leer de forma robusta su propia salida.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.1.py
+CAMBIOS: sustituye v7.5.0, que protegía todas las puertas y bloqueaba Badajoz, por v7.5.1, que protege una puerta determinista por componente territorial dependiente.
+MOTIVO: EXT-03 mostró que ni preservar solo alguna puerta ni preservar todas es correcto; la condición topológica mínima debe formularse por componentes del grafo provincial al retirar el municipio sobredimensionado.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.0.py
 """
 from __future__ import annotations
 
@@ -193,39 +193,11 @@ def expose_flexible_residual_units(params_path):
     print(f"[Módulo 4] OK v7.5.1 gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
 
 
-def normalize_unit_property_for_ogr(path):
-    """Convierte listas unitarias ddd_unit_id en escalares sin pasar por OGR."""
-    p = Path(path)
-    if p.suffix.lower() != ".zip":
-        return 0
-    with zipfile.ZipFile(p) as z:
-        name = next(n for n in z.namelist() if n.lower().endswith((".geojson", ".json")) and not n.endswith("/"))
-        data = json.loads(z.read(name).decode("utf-8"))
-    changed = 0
-    for feature in data.get("features", []):
-        props = feature.setdefault("properties", {})
-        value = props.get("ddd_unit_id")
-        if isinstance(value, list):
-            if len(value) != 1:
-                raise SystemExit(f"M04 v7.5.2: ddd_unit_id multivaluado no normalizable: {value!r}")
-            props["ddd_unit_id"] = str(value[0])
-            changed += 1
-    if changed:
-        with zipfile.ZipFile(p, "w", compression=zipfile.ZIP_DEFLATED) as z:
-            z.writestr(name, json.dumps(data, ensure_ascii=False, separators=(",", ":")))
-    return changed
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
     args = ap.parse_args()
     load_base().main()
-    cfg = load_params_yaml(args.params)
-    s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
-    changed = normalize_unit_property_for_ogr(require(s4.get("out_geojson"), "Falta salida M04"))
-    if changed:
-        print(f"[Módulo 4] normalizados ddd_unit_id OGR-safe={changed}")
     expose_flexible_residual_units(args.params)
 
 
