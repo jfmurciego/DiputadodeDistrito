@@ -1,0 +1,82 @@
+{
+  "module": "05",
+  "version": "7.4.0",
+  "K": 82,
+  "total_pop": 2401221,
+  "target": 29283.182926829268,
+  "population_floor": 23426.546341463414,
+  "population_cap": 51245.57012195122,
+  "tolerance_absolute": 3513.981951219512,
+  "objective_start": [
+    0,
+    0.0,
+    4,
+    0.18424168371,
+    0.344188899532
+  ],
+  "objective_after_greedy": [
+    0,
+    0.0,
+    0,
+    0.119836116709,
+    0.309820254692
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    0,
+    0.119836116709,
+    0.309820254692
+  ],
+  "districts_below_floor": 0,
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 0,
+  "best_max_rel_dev": 0.119836116709,
+  "accepted_unit_moves": 1714,
+  "accepted_greedy_moves": 48,
+  "accepted_annealing_moves": 1666,
+  "final_changed_units": 46,
+  "atomic_units": 2279,
+  "initial_candidate_relations": 1443,
+  "active_provinces": [
+    "05",
+    "34",
+    "40"
+  ],
+  "anneal_iterations_executed": 20000,
+  "first_feasible_iteration": 0,
+  "objective_first_feasible": [
+    0,
+    0.0,
+    0,
+    0.119836116709,
+    0.309820254692
+  ],
+  "post_feasible_iterations": 20000,
+  "anneal_start_objective": [
+    0,
+    0.0,
+    0,
+    0.119836116709,
+    0.309820254692
+  ],
+  "anneal_start_energy": 0.26411741678856937,
+  "anneal_best_energy": 0.26411741678856937,
+  "anneal_parameters": {
+    "outside_penalty": 0.01,
+    "maxdev_weight": 0.05,
+    "churn_weight": 0.0016,
+    "temp_start": 0.02,
+    "temp_end": 0.0005,
+    "seed": 12345,
+    "iters": 20000
+  },
+  "province_violations": [],
+  "seed": 12345,
+  "wrapper_version": "7.5.2",
+  "swap_polish": {
+    "enabled": false,
+    "max_swaps": 0,
+    "accepted_swaps": 0
+  }
+}

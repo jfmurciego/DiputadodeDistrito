@@ -1,0 +1,41 @@
+{
+  "territory_id": "castilla_y_leon",
+  "run_id": "gh-34701897922-1",
+  "source_workflow_run": 34701897922,
+  "source_commit": "1563f209dbf302dfbbbf23d6cd43796f6ee6e3e9",
+  "artifact_id": 10300835012,
+  "artifact_digest": "sha256:d1e26827ffe240c382f81d4539b63c240ed7162bcdf33cd0c784d7267d2b7edc",
+  "reconstructed_after_run": true,
+  "products": [
+    {
+      "path": "M03/grafo.json",
+      "bytes": 841447,
+      "sha256": "b833d4709d8ac2d4a7db10e22126fe3c1130bc6871523e83e095b86592f3a3ac"
+    },
+    {
+      "path": "M05/informe.json",
+      "bytes": 1651,
+      "sha256": "6a25c5fc85d9e0666e6cdc43346966f62b0ed6ec5c8b4d0a0a5c442bb04c01ad"
+    },
+    {
+      "path": "M06/catalogo_distritos.csv",
+      "bytes": 87125,
+      "sha256": "98429c65e0ae7a46ee5069cbf5b67d7e234c66ea4a30dc86219e45fc61fff3bf"
+    },
+    {
+      "path": "M06/composicion_distritos.csv",
+      "bytes": 260096,
+      "sha256": "2de8bcef9cbf8da696fe53f5f5b3d59c3c3cf75a966110681b902193d883fa92"
+    },
+    {
+      "path": "M06/resumen_distritos.csv",
+      "bytes": 12683,
+      "sha256": "a52b99d49d52c293dd17594b2b35e376171a20d75056e911bd6cfcbec0349053"
+    },
+    {
+      "path": "VALIDACION.json",
+      "bytes": 507,
+      "sha256": "1550df1ec5b0e52c364caa590fdd911d69faf2a85098cf495fc1e8f20ccf7680"
+    }
+  ]
+}
