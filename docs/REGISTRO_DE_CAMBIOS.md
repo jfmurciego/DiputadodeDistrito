@@ -58,3 +58,10 @@ M03 v7.2.0 separa auditoría de enforcement. CAT-02 certifica Llívia; CAT-03 ci
 
 ## 2026-09-12 — R023 — Diagnóstico continental
 Se lanza auditoría geométrica paralela para los siete territorios continentales con discontinuidades observadas. No se añaden pasarelas automáticas.
+
+
+## 2026-09-12 — R024 — G10 semántico y evidencia durable
+
+Se introduce el catálogo semántico v2: las tareas G10 se expresan por capa y fase legible; M01–M08 se conservan como identidad histórica compatible. Se añade admisión por huella y el índice durable `orchestracion/estado_tareas.json`.
+
+El lote inicial `fase1-cierre-evidencia-v1` verifica evidencia ya existente de Aragón, Castilla y León y Extremadura sin recalcular M01–M08. Extremadura sigue experimental bloqueada. Un producto histórico sólo se convierte en `REUSED` después de una verificación y una huella materializada; la mera presencia de un archivo no autoriza reutilización.
