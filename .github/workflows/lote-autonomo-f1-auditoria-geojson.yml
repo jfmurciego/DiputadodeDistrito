@@ -1,14 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.3.0
 # NOMBRE: Lote autónomo F1 — auditoría y GeoJSON
-# ESTADO: preparado; sólo ejecución manual
+# ESTADO: ejecución autónoma de cierre F1 solicitada
 # QUÉ HACE: ejecuta en paralelo regeneraciones M01–M06 de Aragón y Castilla y León, produce GeoJSON visibles y audita la deuda F1.
 # REGLA: cada rama captura su error; el cierre se ejecuta siempre y marca el estado después de recoger todos los resultados.
-# CAMBIO: auditoría tolerante a esquemas históricos de catálogo; conserva resultados de todas las ramas.\n# ANTERIOR: legacy/workflows/lote-autonomo-f1-auditoria-geojson_v1.1.0.yml
+# CAMBIO: auditoría tolerante a esquemas históricos de catálogo; conserva resultados de todas las ramas.
+# DISPARO DE CIERRE: el commit de esta versión inicia una única ejecución; posteriores usos son manuales.
+# ANTERIOR: legacy/workflows/lote-autonomo-f1-auditoria-geojson_v1.1.1.yml
 name: Lote autónomo F1 — auditoría y GeoJSON
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/lote-autonomo-f1-auditoria-geojson.yml'
 permissions:
   contents: write
   actions: read
