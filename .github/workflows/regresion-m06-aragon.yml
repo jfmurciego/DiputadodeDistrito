@@ -1,5 +1,5 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Regresión M06 — adopción completa Aragón
 # FECHA: 2026-09-11
 # ESTADO: candidato R020
@@ -15,7 +15,13 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/regresion-m06-aragon.yml'
+      - 'modulos/01_preparar_base_territorial.py'
+      - 'modulos/02_construir_adyacencias.py'
+      - 'modulos/03_construir_grafo.py'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
       - 'modulos/06_consolidar_distritos.py'
+      - 'ddd_core/**'
       - 'configuracion/aragon_2025.yaml'
 
 permissions:
@@ -109,6 +115,9 @@ jobs:
           assert counts=={"22":11,"44":7,"50":49}, counts
           maxdev=float(summary["relative_deviation"].abs().max())
           assert maxdev <= 0.12 + 1e-12, maxdev
+          # Trinquete R016: el baseline canonico logra 0.099299365905.
+          # Aceptar hasta 0.12 permitiria degradar un 20% sin que salte la regresion.
+          assert maxdev <= 0.099299365905 + 1e-9, f"regresion vs baseline R016: {maxdev}"
           print(f"ARAGON R020 M06 PASS: K=67 rows=1463 pop=1364621 catalog=67 composition=1463 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
           '
 
