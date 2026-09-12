@@ -93,3 +93,7 @@ Se incorpora el componente G10 que resuelve dependencias runtime, verifica bytes
 ## 2026-09-12 — R028 — Workflow de tramo certificado
 
 Se añade un workflow manual único que materializa checkpoints antes de ejecutar. Su modo por defecto `verify_only` no calcula; `execute` requiere una decisión explícita y corre solo el intervalo semántico seleccionado en contenedor. Al finalizar deja artefacto y notificación compacta en la incidencia G10.
+
+## 2026-09-12 — R028.1 — Compatibilidad del workflow de tramo
+
+Se sustituye la sintaxis compacta rechazada por GitHub Actions por YAML expandido compatible. El workflow fallido se conserva en `legacy/`; no llegó a iniciar ningún job ni alteró datos territoriales.
