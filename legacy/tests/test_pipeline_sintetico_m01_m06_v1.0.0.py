@@ -3,11 +3,11 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: smoke sintético M01-M06
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.0
 FECHA: 2026-09-12
 FUNCIÓN: ejecutar los seis módulos sobre cuatro secciones artificiales contiguas y verificar conservación, K, cuotas, contigüidad y tolerancia.
 ESTADO: vigente F1.5
-CAMBIOS: corrige la composición del Path del ejecutable; no cambia el caso sintético.\nANTERIOR: legacy/tests/test_pipeline_sintetico_m01_m06_v1.0.0.py
+ANTERIOR: ninguno — prueba nueva.
 """
 from __future__ import annotations
 import csv, json, os, subprocess, sys, tempfile, unittest, zipfile
@@ -52,7 +52,7 @@ class PipelineSinteticoM01M06(unittest.TestCase):
             params=root/"params.yaml";params.write_text(yaml.safe_dump(cfg,sort_keys=False),encoding="utf-8")
             env=dict(os.environ);env["PYTHONHASHSEED"]="0"
             for n in range(1,7):
-                script=ROOT/"modulos"/(f"{n:02d}_"+["preparar_base_territorial","construir_adyacencias","construir_grafo","generar_semillas","optimizar_distritos","consolidar_distritos"][n-1]+".py")
+                script=ROOT/"modulos"/f"{n:02d}_"+["preparar_base_territorial","construir_adyacencias","construir_grafo","generar_semillas","optimizar_distritos","consolidar_distritos"][n-1]+".py"
                 p=subprocess.run([sys.executable,str(script),"--params",str(params)],cwd=ROOT,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
                 self.assertEqual(p.returncode,0,f"M{n:02d}\n{p.stdout}")
             with (out/"m06_summary.csv").open(encoding="utf-8",newline="") as f:summary=list(csv.DictReader(f))
