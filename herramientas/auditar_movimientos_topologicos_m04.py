@@ -22,7 +22,7 @@ from pathlib import Path
 import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml, module_cfg
+from ddd_core.config import load_params_yaml, module_cfg, hard_limits
 
 def read_raw(path):
     p=Path(path)
@@ -98,7 +98,7 @@ def main():
             v=sec_unit.get(nb)
             if v is not None and v!=u:uadj[u].add(v)
     d_units={d:set(x.ddd_unit_id.astype(str)) for d,x in g.groupby(did)};dpop={d:sum(unit_pop[u] for u in us) for d,us in d_units.items()};dprov={d:str(g[g[did]==d][provf].iloc[0]) for d in d_units}
-    total=sum(pop.values());K=len(d_units);target=total/K;floor=target*float(val.get('population_floor_ratio',.8));cap=target*float(val.get('population_cap_ratio',1.75));tol=target*float(val.get('target_tolerance_ratio',.12));cur_pop=pop_objective(dpop,target,floor,cap,tol);cur_frag=articulation_signature(d_units,uadj,unit_pop,target);cands=[]
+    total=sum(pop.values());K=len(d_units);target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total);cur_pop=pop_objective(dpop,target,floor,cap,tol);cur_frag=articulation_signature(d_units,uadj,unit_pop,target);cands=[]
     for u,a0 in sorted(unit_dist.items(),key=lambda x:str(x[0])):
         if len(d_units[a0])<=1:continue
         neigh=sorted({unit_dist[v] for v in uadj.get(u,set()) if unit_dist[v]!=a0 and dprov.get(unit_dist[v])==dprov[a0]})

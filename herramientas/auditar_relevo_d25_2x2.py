@@ -23,7 +23,7 @@ from pathlib import Path
 import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml,module_cfg
+from ddd_core.config import load_params_yaml,module_cfg, hard_limits
 
 D,A=25,38
 OUT={'192','58'}
@@ -68,7 +68,7 @@ def main():
    if v is not None and v!=u:uadj[u].add(v)
  d_units={d:set(x.ddd_unit_id) for d,x in g.groupby(did)};dpop={d:sum(unit_pop[u] for u in us) for d,us in d_units.items()};dprov={d:str(g[g[did]==d][provf].iloc[0]) for d in d_units}
  if not OUT.issubset(d_units[A]):raise SystemExit(f'Las unidades {sorted(OUT)} ya no pertenecen al distrito {A}')
- total=sum(pop.values());K=len(d_units);target=total/K;floor=target*float(val.get('population_floor_ratio',.8));cap=target*float(val.get('population_cap_ratio',1.75));tol=target*float(val.get('target_tolerance_ratio',.12));lower=target-tol;base=objective(dpop,target,floor,cap,tol)
+ total=sum(pop.values());K=len(d_units);target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total);lower=target-tol;base=objective(dpop,target,floor,cap,tol)
  Df=d_units[D]|OUT;A_base=d_units[A]-OUT
  if not connected(Df,uadj):raise SystemExit('El tramo fijo 38→25 desconecta el receptor')
  p_out=sum(unit_pop[u] for u in OUT);Bs=sorted({unit_dist[v] for u in A_base for v in uadj[u] if unit_dist[v] not in (A,D) and dprov.get(unit_dist[v])==dprov[A]});cand=[]

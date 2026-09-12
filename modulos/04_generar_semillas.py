@@ -31,7 +31,7 @@ import geopandas as gpd
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from ddd_core.config import load_params_yaml, module_cfg, require
+from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 
 BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v751.py"
 
@@ -107,7 +107,7 @@ def expose_flexible_residual_units(params_path):
     g[did] = g[did].astype(int)
     g["ddd_unit_id"] = g["ddd_unit_id"].astype(str)
     total = sum(pop.values()); K = int(g[did].nunique()); target = total / K
-    tol = target * float(val.get("target_tolerance_ratio", 0.12)); lo, hi = target - tol, target + tol
+    _, _, _, tol = hard_limits(cfg, k=K, total_pop=total); lo, hi = target - tol, target + tol
 
     def dnodes(d): return set(g.loc[g[did] == d, idf])
     def dpop(d): return int(g.loc[g[did] == d, "district_pop_section"].sum())

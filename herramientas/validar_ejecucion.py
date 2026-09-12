@@ -20,7 +20,7 @@ ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
 import geopandas as gpd
 import pandas as pd
-from ddd_core.config import load_params_yaml,module_cfg
+from ddd_core.config import load_params_yaml,module_cfg, hard_limits
 
 def read_geo(path:Path):
     return gpd.read_file(f"zip://{path}" if path.suffix==".zip" else path)
@@ -79,8 +79,7 @@ def main():
         if n!=1:disconnected.append({'district_id':str(district_id),'components':n})
     if disconnected:fails.append(f'distritos desconectados en grafo={len(disconnected)}')
 
-    target=section_pop/expected
-    fr=float(val.get('population_floor_ratio',.8));cr=float(val.get('population_cap_ratio',1.75));floor=target*fr;cap=target*cr
+    target,floor,cap,_=hard_limits(cfg,k=expected,total_pop=section_pop)
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
     below=summ.loc[pops<floor,['district_id',pop_col]].to_dict('records') if pop_col else []
     above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []

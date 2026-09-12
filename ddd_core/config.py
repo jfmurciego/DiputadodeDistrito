@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 NÚCLEO: Configuración
-VERSIÓN: 1.3.1
-NOMBRE DE VERSIÓN: Ejecuciones inmutables y run_id — Gobernanza R015
-FECHA: 2026-09-11
-QUÉ HACE: carga el contrato territorial, resuelve rutas y añade la identidad de ejecución a las plantillas.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
+VERSIÓN: 1.4.0
+NOMBRE DE VERSIÓN: Contrato territorial estricto
+FECHA: 2026-09-12
+QUÉ HACE: carga el contrato territorial, resuelve rutas y centraliza sus límites poblacionales obligatorios.
+ESTADO: candidato F1.3
+CAMBIOS: añade hard_limits() con fallo explícito cuando falta cualquier coeficiente territorial.
+MOTIVO: impedir la herencia silenciosa de parámetros de Aragón.
 ANTERIOR: legacy/core/config_v1.3.0.py
 """
 from __future__ import annotations
@@ -54,3 +54,21 @@ def module_cfg(cfg:Dict[str,Any],module_key:str,legacy_step_key:str|None=None)->
 def require(value:Any,msg:str):
     if value is None or (isinstance(value,str) and not value.strip()) or (isinstance(value,list) and not value):raise SystemExit(msg)
     return value
+
+def hard_limits(cfg:Dict[str,Any],*,k:int,total_pop:float)->tuple[float,float,float,float]:
+    """Devuelve (target, floor, cap, tol); falla si el territorio no los declara."""
+    val=cfg.get("validation",{}) or {}
+    required=("population_floor_ratio","population_cap_ratio","target_tolerance_ratio")
+    missing=[key for key in required if key not in val]
+    if missing:
+        raise SystemExit(
+            f"El territorio no declara {missing}. CONTRATO_TERRITORIO.md §5 prohíbe "
+            "heredar silenciosamente valores de otro territorio."
+        )
+    target=float(total_pop)/int(k)
+    return (
+        target,
+        target*float(val["population_floor_ratio"]),
+        target*float(val["population_cap_ratio"]),
+        target*float(val["target_tolerance_ratio"]),
+    )

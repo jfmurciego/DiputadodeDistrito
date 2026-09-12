@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from ddd_core.config import load_params_yaml, module_cfg, require
+from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 
 
 def load_geo(path):
@@ -138,10 +138,7 @@ def main():
 
     K = int(g[did].nunique())
     total = sum(pop.values())
-    target = total / K
-    floor = target * float(val.get("population_floor_ratio", 0.8))
-    cap = target * float(val.get("population_cap_ratio", 1.75))
-    tol = target * float(val.get("target_tolerance_ratio", 0.12))
+    target, floor, cap, tol = hard_limits(cfg, k=K, total_pop=total)
 
     d_units = {d: set() for d in sorted(g[did].unique())}
     d_nodes = {d: set() for d in d_units}

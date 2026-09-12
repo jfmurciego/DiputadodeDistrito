@@ -125,10 +125,7 @@ def polish(*, cfg, graph_path, geojson_path, out_geojson_path=None, max_swaps=20
 
     total = sum(pop.values())
     K = len(d_pop)
-    target = total / K
-    floor = target * float(val.get("population_floor_ratio", 0.8))
-    cap = target * float(val.get("population_cap_ratio", 1.75))
-    tol = target * float(val.get("target_tolerance_ratio", 0.12))
+    target, floor, cap, tol = hard_limits(cfg, k=K, total_pop=total)
 
     uadj = {u: set() for u in unit_nodes}
     for n, u in section_to_unit.items():
