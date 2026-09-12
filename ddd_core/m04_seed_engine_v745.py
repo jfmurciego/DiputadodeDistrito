@@ -20,7 +20,7 @@ from pathlib import Path
 import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml,module_cfg,require
+from ddd_core.config import load_params_yaml,module_cfg,require, hard_limits
 
 def load_geo(path):
     p=Path(path)
@@ -215,7 +215,7 @@ def main():
     for c in (provf,munf):
         if c not in g.columns:raise SystemExit(f'M04: falta columna {c}')
     g[provf]=g[provf].astype(str).str.zfill(2);g[munf]=g[munf].astype(str)
-    total=sum(pop.values());target=total/K;floor_ratio=float(val.get('population_floor_ratio',.8));cap_ratio=float(val.get('population_cap_ratio',1.75));tol_ratio=float(val.get('target_tolerance_ratio',.12));floor=target*floor_ratio;cap=target*cap_ratio;tol=target*tol_ratio;atomic_ratio=float(s4.get('municipality_atomicity_limit_ratio',cap_ratio));atomic_limit=target*atomic_ratio
+    total=sum(pop.values());target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total);cap_ratio=cap/target;atomic_ratio=float(s4.get('municipality_atomicity_limit_ratio',cap_ratio));atomic_limit=target*atomic_ratio
     quota={str(k).zfill(2):int(v) for k,v in (val.get('province_districts') or {}).items()}
     if sum(quota.values())!=K:raise SystemExit(f'M04: cuotas provinciales suman {sum(quota.values())}, esperado {K}')
     meta=g.set_index(idf)[[provf,munf]+([munname] if munname in g.columns else [])].to_dict('index');assign={};unit_id={};closed={};district_counter=0;prov_report={}

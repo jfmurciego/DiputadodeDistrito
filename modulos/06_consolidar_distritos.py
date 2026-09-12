@@ -29,7 +29,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from ddd_core.config import load_params_yaml, module_cfg, require
+from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 
 
 def _gpd_read_file(path_or_buf, layer=None):
@@ -138,13 +138,7 @@ def main():
     if expected_k and strict_k and k != expected_k:
         raise SystemExit(f"[Módulo 6] ERROR: distritos={k} esperados={expected_k}")
 
-    target = total_pop / k
-    floor_ratio = float(val.get("population_floor_ratio", 0.80))
-    cap_ratio = float(val.get("population_cap_ratio", 1.75))
-    tol_ratio = float(val.get("target_tolerance_ratio", 0.12))
-    floor = target * floor_ratio
-    cap = target * cap_ratio
-    tol = target * tol_ratio
+    target, floor, cap, tol = hard_limits(cfg, k=k, total_pop=total_pop)
 
     summary["target"] = target
     summary["difference"] = summary["district_pop"] - target

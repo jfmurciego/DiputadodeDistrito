@@ -22,7 +22,7 @@ import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml, module_cfg
+from ddd_core.config import load_params_yaml, module_cfg, hard_limits
 
 
 def load_geo(path):
@@ -55,7 +55,7 @@ def main():
     g['ddd_unit_id']=g['ddd_unit_id'].astype(str)
     section_to_unit=dict(zip(g[idf],g.ddd_unit_id));unit_nodes={u:set(x[idf]) for u,x in g.groupby('ddd_unit_id')};unit_pop={u:sum(pop[n] for n in ns) for u,ns in unit_nodes.items()};unit_dist={u:int(x[did].iloc[0]) for u,x in g.groupby('ddd_unit_id')};unit_prov={u:str(x[provf].iloc[0]) for u,x in g.groupby('ddd_unit_id')};unit_muns={u:sorted(set(x[munf].astype(str))) for u,x in g.groupby('ddd_unit_id')}
     d_nodes={d:set(x[idf]) for d,x in g.groupby(did)};d_pop={d:sum(pop[n] for n in ns) for d,ns in d_nodes.items()};d_prov={d:str(g[g[did]==d][provf].iloc[0]) for d in d_nodes};d_units={d:set(g[g[did]==d].ddd_unit_id) for d in d_nodes}
-    total=sum(pop.values());K=len(d_nodes);target=total/K;floor=target*float(val.get('population_floor_ratio',.8));cap=target*float(val.get('population_cap_ratio',1.75));tol=target*float(val.get('target_tolerance_ratio',.12));cur_obj=objective(d_pop,target,floor,cap,tol)
+    total=sum(pop.values());K=len(d_nodes);target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total);cur_obj=objective(d_pop,target,floor,cap,tol)
     uadj={u:set() for u in unit_nodes}
     for n,u in section_to_unit.items():
         for nb in adj.get(n,set()):

@@ -22,7 +22,7 @@ import geopandas as gpd
 import pandas as pd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml,module_cfg
+from ddd_core.config import load_params_yaml,module_cfg, hard_limits
 
 def sha256(p:Path):
     h=hashlib.sha256()
@@ -64,7 +64,7 @@ def main():
         if rp.exists(): shutil.copy2(rp,d/rp.name);items.append(ref(rp,'informe'))
         write_ref(d,items)
     # M06: catálogo rico de distritos + composición sección a sección.
-    d=audit/'M06';d.mkdir(exist_ok=True);sec=read_geo(Path(s6['out_geojson']));dist=read_geo(Path(s6['out_district_geojson']));did=s6.get('district_field','district_id');sid=s6.get('id_field','CUSEC_KEY');pop=s6.get('pop_field','POP_2025');K=int(s6.get('expected_districts',sec[did].nunique()));total=float(pd.to_numeric(sec[pop],errors='coerce').fillna(0).sum());target=total/K;val=cfg.get('validation',{});floor=target*float(val.get('population_floor_ratio',.8));cap=target*float(val.get('population_cap_ratio',1.75))
+    d=audit/'M06';d.mkdir(exist_ok=True);sec=read_geo(Path(s6['out_geojson']));dist=read_geo(Path(s6['out_district_geojson']));did=s6.get('district_field','district_id');sid=s6.get('id_field','CUSEC_KEY');pop=s6.get('pop_field','POP_2025');K=int(s6.get('expected_districts',sec[did].nunique()));total=float(pd.to_numeric(sec[pop],errors='coerce').fillna(0).sum());target,floor,cap,_=hard_limits(cfg,k=K,total_pop=total);val=cfg.get('validation',{})
     rows=[]
     for district_id,x in sec.groupby(did):
         geom=dist.loc[dist['district_id'].astype(str)==str(district_id),'geometry'].iloc[0];pp=int(pd.to_numeric(x[pop],errors='coerce').fillna(0).sum());area=float(geom.area);per=float(geom.length);cent=geom.centroid;b=geom.bounds;mun_names=sorted(set(x['NMUN'].dropna().astype(str))) if 'NMUN' in x else [];provs=sorted(set(x['NPRO'].dropna().astype(str))) if 'NPRO' in x else [];compact=(4*3.141592653589793*area/(per*per)) if per else None

@@ -33,7 +33,7 @@ import geopandas as gpd
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from ddd_core.config import load_params_yaml, module_cfg
+from ddd_core.config import load_params_yaml, module_cfg, hard_limits
 
 
 def load_geo(path):
@@ -99,8 +99,7 @@ def main():
     d_closed={int(d):bool(x["ddd_closed_urban"].all()) for d,x in g.groupby(did)} if "ddd_closed_urban" in g.columns else {d:False for d in d_nodes}
     d_units={d:set(x["ddd_unit_id"].astype(str)) for d,x in g.groupby(did)}
 
-    total=sum(pop.values()); K=len(d_pop); target=total/K
-    floor=target*float(val.get("population_floor_ratio",.8)); cap=target*float(val.get("population_cap_ratio",1.75)); tol=target*float(val.get("target_tolerance_ratio",.12))
+    total=sum(pop.values()); K=len(d_pop); target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total)
     cur=objective(d_pop,target,floor,cap,tol); outliers={d for d,p in d_pop.items() if abs(p-target)>tol}
 
     uadj={u:set() for u in unit_nodes}
