@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Regresión M06 — Castilla y León
 # FECHA: 2026-09-11
-# ESTADO: verificación cruzada F1.3
+# ESTADO: candidato F1.2
 # QUÉ HACE: reejecuta M01-M06 de Castilla y León ante cualquier cambio común y certifica sus invariantes territoriales.
-# CAMBIOS: sin cambio funcional; relanza el trinquete tras consolidar el contrato canónico de Aragón.
-# MOTIVO: cerrar F1.3 verificando ambos baselines después de la consolidación de configuración.
-# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.1.0.yml
+# CAMBIOS: workflow nuevo de regresión automática con cobertura M01-M06, ddd_core y configuración territorial.
+# MOTIVO: Castilla y León es la segunda regresión obligatoria del motor común.
+# ANTERIOR: ninguno — workflow nuevo.
 name: Regresión M06 — Castilla y León
 
 on:
