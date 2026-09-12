@@ -77,3 +77,7 @@ Se incorpora un adaptador de reenganche que selecciona exclusivamente el último
 ## 2026-09-12 — R025.1 — Validación del índice de checkpoints
 
 Se corrige el validador inicial para admitir el índice multi-territorio y se preserva la primera versión en `legacy/g10/`. La validación distingue cobertura certificada de evidencia experimental bloqueada.
+
+## 2026-09-12 — R026 — Procedimiento por tramo certificado
+
+El lanzador territorial pasa a aceptar un intervalo semántico y registra `REENGANCHE.json`. Un reenganche posterior a M01 exige manifiesto de productos y grafo M03 materializado dentro del runner; sin ambos aborta antes de cálculo. Las ejecuciones parciales no se presentan como productos públicos validados.
