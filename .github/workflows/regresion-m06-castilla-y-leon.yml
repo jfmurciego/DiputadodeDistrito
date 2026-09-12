@@ -1,5 +1,5 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Regresión M06 — Castilla y León
 # FECHA: 2026-09-11
 # ESTADO: candidato F1.2
@@ -125,6 +125,8 @@ jobs:
           assert counts==expected, counts
           maxdev=float(summary["relative_deviation"].abs().max())
           assert maxdev <= 0.12 + 1e-12, maxdev
+          # Trinquete fijado por el primer run SUCCESS de la regresion CyL.
+          assert maxdev <= 0.119836116709 + 1e-9, f"regresion vs baseline CyL: {maxdev}"
           print(f"CYL M06 PASS: K=82 rows=3506 pop=2401221 maxdev={maxdev:.12f} cuotas={counts}")
           '
 
