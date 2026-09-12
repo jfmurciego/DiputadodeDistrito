@@ -2,7 +2,7 @@
 """Pruebas de reenganche G10: los checkpoints no inventan evidencia."""
 from __future__ import annotations
 import unittest
-from g10.checkpoints import select_resume_checkpoint
+from g10.checkpoints import select_resume_checkpoint,validate_checkpoint_index
 class G10Checkpoints(unittest.TestCase):
  def items(self):
   return [
@@ -18,4 +18,8 @@ class G10Checkpoints(unittest.TestCase):
  def test_bloqueado_no_reanuda(self):
   items=[{"stage_id":"DISTRICT_FORMATION","status":"EXPERIMENTAL_BLOCKED","products_manifest":"M04/PRODUCTOS.json"}]
   self.assertIsNone(select_resume_checkpoint(items,changed_stage_id="DISTRICT_BALANCING",target_stage_id="TERRITORIAL_CERTIFICATION").resume_stage_id)
+ def test_indice_acepta_evidencia_y_bloqueo(self):
+  validate_checkpoint_index({"schema_version":"1.0","territories":[
+   {"territory":"aragon","source_run":"r","checkpoints":[self.items()[0]]},
+   {"territory":"extremadura","source_run":"r","checkpoints":[{"stage_id":"TERRITORY_GRAPH","status":"EXPERIMENTAL_BLOCKED","products_manifest":"M03/PRODUCTOS.json"}]}]})
 if __name__=="__main__": unittest.main()

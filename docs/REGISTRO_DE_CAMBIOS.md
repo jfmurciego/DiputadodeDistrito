@@ -73,3 +73,7 @@ El primer lote G10 detectó que la matriz entregaba la lista de artefactos como 
 ## 2026-09-12 — R025 — Checkpoints semánticos G10
 
 Se incorpora un adaptador de reenganche que selecciona exclusivamente el último checkpoint canónico anterior a una modificación. El inventario declara la cobertura real de Aragón, Castilla y León y Extremadura: no rellena huecos ni promueve evidencia experimental. Esta capa no recalcula resultados territoriales; prepara la integración posterior del procedimiento para ejecutar solo el tramo invalidado.
+
+## 2026-09-12 — R025.1 — Validación del índice de checkpoints
+
+Se corrige el validador inicial para admitir el índice multi-territorio y se preserva la primera versión en `legacy/g10/`. La validación distingue cobertura certificada de evidencia experimental bloqueada.
