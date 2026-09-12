@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: AND-06 barrido fino M04
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: AND-05 barrido M04 propio
 # FECHA: 2026-09-12
 # ESTADO: experimento reproducible.
-# QUÉ HACE: afina la zona c014–c017 con 12 combinaciones tras localizar el mínimo de un hard outlier en c016.
-# CAMBIOS: sustituye la rejilla amplia AND-05 por atomicidad 1.00/1.05/1.10 y chunk 0.14/0.15/0.16/0.17.
-# MOTIVO: AND-05 run 34689048962 dejó todos los candidatos inviables, pero c016 quedó a un solo hard outlier; se explora su entorno inmediato.
-# ANTERIOR: legacy/workflows/andalucia-and05-m04-sweep_v1.0.0.yml
-name: AND-06 — Barrido fino M04 Andalucía
+# QUÉ HACE: prepara Andalucía una vez y barre 15 combinaciones territoriales de atomicidad/chunk; M05 solo se ejecuta si M04 cumple hard.
+# CAMBIOS: primera versión.
+# MOTIVO: AND-04 demostró que c020 de Extremadura no es transferible; Andalucía necesita su propia ventana de factibilidad.
+# ANTERIOR: ninguno — workflow nuevo.
+name: AND-05 — Barrido M04 Andalucía
 on:
   workflow_dispatch:
   push:
@@ -50,8 +50,8 @@ jobs:
       fail-fast: false
       max-parallel: 6
       matrix:
-        atomicity: ['1.00','1.05','1.10']
-        chunk: ['0.14','0.15','0.16','0.17']
+        atomicity: ['1.05','1.10','1.20']
+        chunk: ['0.16','0.18','0.20','0.22','0.24']
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env:
