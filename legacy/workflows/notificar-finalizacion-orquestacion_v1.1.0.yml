@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.1.0
 # NOMBRE: Notificación de finalización de lote DDD
 # ESTADO: activo
 # QUÉ HACE: publica en issue #5 el cierre de cada lote registrado y menciona a @jfmurciego.
@@ -9,7 +9,7 @@
 name: Notificar finalización de lote DDD
 on:
   workflow_run:
-    workflows: ["Pruebas DDD — R015", "Regresión M06 — Aragón", "Regresión M06 — Castilla y León", "Lote autónomo F1 — auditoría y GeoJSON", "Auditoría integral F1 — 40 controles"]
+    workflows: ["Pruebas DDD — R015", "Regresión M06 — Aragón", "Regresión M06 — Castilla y León", "Lote autónomo F1 — auditoría y GeoJSON"]
     types: [completed]
 permissions:
   contents: read
