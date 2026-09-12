@@ -1,6 +1,6 @@
 # Diputado de Distrito — motor multi-territorio
 
-**README v4.1.0** · 12-09-2026 · Estado: **R023 expansión nacional**  
+**README v4.2.0** · 12-09-2026 · Estado: **R023 expansión nacional + G10 operativo inicial**  
 **Anterior:** `legacy/docs/README_v4.0.0.md`
 
 DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
@@ -26,3 +26,7 @@ R023 audita geométricamente los siete territorios continentales con discontinui
 ## Gobernanza
 
 Leer primero `docs/SALIDAS_CHATGPT/SALIDA_MAESTRA.md`, después `docs/ESTADO_MAESTRO_PROYECTO.md`. Toda sustitución conserva el predecesor en `legacy/`. El cálculo pesado, los logs y las geometrías viven en GitHub Actions; las salidas ligeras verificadas se materializan en el repositorio.
+
+## Orquestación G10
+
+El controlador G10 ya valida planes, crea matrices independientes, clasifica resultados y agrega artefactos sin cancelar el lote por un fallo parcial. La guía de bajo nivel distingue las capacidades activas de las piezas todavía pendientes de conectar: [`docs/G10_GUIA_BAJO_NIVEL.md`](docs/G10_GUIA_BAJO_NIVEL.md).
