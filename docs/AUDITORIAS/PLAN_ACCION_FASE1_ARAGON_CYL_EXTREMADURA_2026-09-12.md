@@ -6,6 +6,12 @@
 **Alcance cerrado:** Aragón → Castilla y León → Extremadura. No avanzar a otros territorios hasta superar todas las puertas de esta fase.  
 **Fuentes cruzadas:** estado y continuidad del repositorio; auditoría, valoración, tareas y parche aportados por Claude.
 
+## Estado de ejecución
+
+- **F1.1 cerrada:** regresión Aragón SUCCESS, run [34699524889](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34699524889), commit `63d3aee`.
+- **F1.2 regresión cerrada:** Castilla y León SUCCESS con `maxdev=0.119836116709`, run de confirmación [34699884884](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34699884884), trinquete en `acf220e`.
+- **Siguiente:** materializar evidencia durable de Castilla y León antes de modificar el contrato común.
+
 ## Veredicto de estado
 
 El motor tiene dos resultados territorialmente válidos (Aragón y Castilla y León) y una tercera implantación todavía experimental (Extremadura). El riesgo inmediato no es el algoritmo de Aragón, cuyo baseline fue recomputado externamente, sino la falta de garantías automáticas y de evidencia durable.
