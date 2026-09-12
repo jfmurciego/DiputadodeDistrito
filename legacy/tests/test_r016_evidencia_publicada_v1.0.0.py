@@ -3,15 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: integridad de evidencia publicada R016
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.0
 NOMBRE DE VERSIÓN: Baseline Run #9
 FECHA: 2026-09-11
 ESTADO: vigente
 FUNCIÓN: proteger la evidencia publicada R016 comparando Run #9 con Run #8.
-CAMBIOS: migra las comparaciones R016 a la evidencia territorial canónica única.
+CAMBIOS: primera versión.
 MOTIVO: convertir la mejora de R016 en una regresión automática y evitar volver al máximo desvío de Run #8.
 ORIGEN: R016 / GitHub Run #9 34599224954
-ANTERIOR: legacy/tests/test_r016_evidencia_publicada_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -20,8 +19,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN8 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34592470470-1"
-RUN9 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34599224954-1"
+RUN8 = ROOT / "resultados" / "ejecuciones" / "gh-34592470470-1"
+RUN9 = ROOT / "resultados" / "ejecuciones" / "gh-34599224954-1"
 
 
 class R016EvidenciaPublicada(unittest.TestCase):

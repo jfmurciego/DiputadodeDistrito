@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: suite de regresión R015
-VERSIÓN: 1.2.1
-NOMBRE DE VERSIÓN: Evidencia territorial canónica única
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Evidencia estática y contrato canónico territorial
 FECHA: 2026-09-11
 ESTADO: vigente
 FUNCIÓN: proteger las invariantes territoriales R012/R014, el determinismo de M05 y la trazabilidad activa hacia legacy.
-CAMBIOS: migra referencias de evidencia raíz duplicada a la ubicación territorial canónica; no cambia invariantes.
+CAMBIOS: actualiza la ruta de gobernanza al único YAML canónico de Aragón; no cambia invariantes.
 MOTIVO: impedir la reaparición del YAML raíz retirado.
-ANTERIOR: legacy/tests/test_r015_invariantes_v1.2.0.py
+ANTERIOR: legacy/tests/test_r015_invariantes_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ from collections import defaultdict, deque
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN8 = ROOT / "territorios" / "aragon" / "resultados" / "ejecuciones" / "gh-34592470470-1"
+RUN8 = ROOT / "resultados" / "ejecuciones" / "gh-34592470470-1"
 M04_CSV = RUN8 / "M04" / "asignacion_inicial.csv"
 M05_CSV = RUN8 / "M05" / "asignacion_optimizada.csv"
 GRAPH_JSON = RUN8 / "M03" / "grafo.json"
