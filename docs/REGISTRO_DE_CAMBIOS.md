@@ -81,3 +81,7 @@ Se corrige el validador inicial para admitir el índice multi-territorio y se pr
 ## 2026-09-12 — R026 — Procedimiento por tramo certificado
 
 El lanzador territorial pasa a aceptar un intervalo semántico y registra `REENGANCHE.json`. Un reenganche posterior a M01 exige manifiesto de productos y grafo M03 materializado dentro del runner; sin ambos aborta antes de cálculo. Las ejecuciones parciales no se presentan como productos públicos validados.
+
+## 2026-09-12 — R026.1 — Límites robustos en ejecución parcial
+
+Se corrige el caso de tramos terminados antes de M04: el lanzador no intenta iterar un rango vacío. Se conserva v2.3.0 en `legacy/`; no hay alteración de algoritmo territorial.

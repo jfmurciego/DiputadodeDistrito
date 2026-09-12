@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.3.1
-# NOMBRE DE VERSIÓN: Lanzador semántico por tramo certificado — límites robustos
+# VERSIÓN: 2.3.0
+# NOMBRE DE VERSIÓN: Lanzador semántico por tramo certificado
 # FECHA: 2026-09-12
 # QUÉ HACE: ejecuta un intervalo explícito M01-M08, registra la decisión de reenganche y exige evidencia materializada antes de reutilizar etapas anteriores.
 # ESTADO: vigente — G10 R025.
 # CAMBIOS: sustituye el flujo implícito todo-o-nada por DDD_FROM_STAGE/DDD_TO_STAGE; una ejecución parcial requiere manifiesto y caché de checkpoint.
 # MOTIVO: ahorrar cómputo sin declarar reutilizable una salida que no está presente en el runner.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.3.0.sh
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.2.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -73,7 +73,7 @@ if (( FROM <= 3 )); then
     for n in $(seq "$FROM" "$(( TO < 3 ? TO : 3 ))"); do ejecutar "$n" "${SCRIPTS[$n]}"; done
   fi
 fi
-if (( TO >= 4 )); then\n  for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do ejecutar "$n" "${SCRIPTS[$n]}"; done\nfi
+for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do ejecutar "$n" "${SCRIPTS[$n]}"; done
 if (( TO < 8 )); then
   echo "[PARCIAL] Tramo $FROM_STAGE → $TO_STAGE terminado; validación pública diferida hasta M08."
   python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase finish --run-id "$RUN_ID"
