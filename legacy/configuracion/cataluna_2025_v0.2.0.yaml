@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Cataluña
-# VERSIÓN: 0.3.0
-# NOMBRE DE VERSIÓN: Contrato topológico Llívia CAT-03
+# VERSIÓN: 0.2.0
+# NOMBRE DE VERSIÓN: Diagnóstico topológico estricto CAT-02
 # FECHA: 2026-09-12
-# ESTADO: CAT-03 candidato; conectividad M03 estricta.
-# QUÉ HACE: declara una única pasarela administrativa explícita para Llívia y exige conectividad provincial y municipal completa.
-# CAMBIOS: añade 1709401001↔1714101003, certificada por CAT-02 a 1.636,011 m en EPSG:3035; expected_topology_bridges pasa a 1.
-# MOTIVO: CAT-02 run 34688104014 certificó Llívia como único componente aislado y Puigcerdà como sección española más próxima.
-# ANTERIOR: legacy/configuracion/cataluna_2025_v0.2.0.yaml
+# ESTADO: CAT-02 diagnóstico; no añade pasarelas.
+# QUÉ HACE: congela cardinalidad y población CAT-01 y exige auditoría provincial/municipal para certificar el enclave aislado antes de modificar M02.
+# CAMBIOS: expected 5.143 secciones y 8.124.126 habitantes; auditorías activas y enforcement estricto; topology_bridges permanece vacío.
+# MOTIVO: CAT-01 observó un aislado sin identificarlo en el contrato; CAT-02 debe diagnosticarlo reproduciblemente antes de CAT-03.
+# ANTERIOR: legacy/configuracion/cataluna_2025_v0.1.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   territory_id: cataluna
@@ -15,8 +15,8 @@ meta:
   run_name: cataluna_2025
   year: 2025
   scope: provincial
-  schema_version: 0.3.0
-  status: topology_contract_cat03
+  schema_version: 0.2.0
+  status: topology_audit_cat02
 io:
   project_root: {path: ../../..}
   input:
@@ -35,10 +35,8 @@ territory_contract:
   province_codes: ['08','17','25','43']
   status: topology_audit_cat02
   notes:
-    - CAT-02 run 34688104014 certificó 1709401001, Llívia, como único aislado.
-    - La sección española más próxima es 1714101003, Puigcerdà, a 1.636,011 m en EPSG:3035.
-    - La pasarela es administrativa, explícita y auditable; no representa contacto geométrico.
-    - Todavía no se fija K ni se abre M04.
+    - CAT-01 cerró 5.143 secciones, 8.124.126 habitantes y 14.375 aristas.
+    - CAT-02 diagnostica el aislado; no fija K ni añade pasarelas.
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: ['08','17','25','43']
@@ -57,8 +55,7 @@ modulos:
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
-    topology_bridges:
-      - {u: '1709401001', v: '1714101003', edge_type: administrative_enclave, reason: 'Llívia es un enclave español separado del cuerpo principal de Girona; enlace a la sección española más próxima en Puigcerdà (~1636 m).', source: 'CAT-02 run 34688104014'}
+    topology_bridges: []
   modulo_03_construir_grafo:
     in_geojson: "territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
@@ -70,7 +67,7 @@ validation:
   expected_province_codes: ['08','17','25','43']
   expected_sections_geometry: 5143
   expected_population_total_2025: 8124126
-  expected_topology_bridges: 1
+  expected_topology_bridges: 0
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
