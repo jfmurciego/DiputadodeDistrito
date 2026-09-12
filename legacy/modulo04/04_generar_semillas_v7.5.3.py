@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.4
+VERSIÓN: 7.5.3
 NOMBRE DE VERSIÓN: Puerta mínima y propiedad OGR-safe
 FECHA: 2026-09-11
-ESTADO: candidato F1.5; pendiente de smoke M01–M06 y regresiones territoriales.
+ESTADO: candidato F1.5; pendiente de regresión completa Aragón/Castilla y León y smoke M01–M06.
 FUNCIÓN: ejecutar el motor M04 v7.5.1, que permite `gateway_policy: preserve_component_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
 COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
-CAMBIOS: usa motor v7.5.3 y postproceso con lectura GeoJSON nativa; conserva comprobación idempotente.
-MOTIVO: OGR puede omitir StringList; el postproceso debe cargar las propiedades desde JSON nativo.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.3.py
+CAMBIOS: delega la normalización OGR-safe al motor v7.5.2 antes de su postproceso; conserva una segunda comprobación idempotente.
+MOTIVO: la normalización debe ejecutarse dentro del motor, antes de que su postproceso abra la salida mediante OGR.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.2.py
 """
 from __future__ import annotations
 
@@ -33,11 +33,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 
-BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v753.py"
+BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v752.py"
 
 
 def load_base():
-    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v753", BASE_ENGINE)
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v752", BASE_ENGINE)
     if spec is None or spec.loader is None:
         raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
     mod = importlib.util.module_from_spec(spec)
