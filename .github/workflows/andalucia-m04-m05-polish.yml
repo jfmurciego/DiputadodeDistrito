@@ -1,0 +1,88 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE: AND-04 — M04/M05 con pulido topológico controlado
+# FECHA: 2026-09-12
+# ESTADO: experimento reproducible; no modifica motores activos.
+# QUÉ HACE: ejecuta Andalucía desde M01 hasta M05 usando la política de unidades internas validada en Extremadura,
+# aplica pulido topológico entre M04 y M05 y publica métricas de población y fragilidad.
+# MOTIVO: EXT-13 demostró que el pulido previo reduce fragilidad y mejora el error poblacional final sin romper hard constraints.
+# ANTERIOR: ninguno — workflow nuevo.
+name: AND-04 — Andalucía M04-M05 topology polish
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/andalucia-m04-m05-polish.yml'
+
+permissions: {contents: read}
+
+jobs:
+  andalucia:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      PARAMS: territorios/andalucia/config/andalucia_2025.yaml
+      ROOTBASE: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025
+      BASE: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/and04
+      CFG: territorios/andalucia/config/.generated_and04.yaml
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - name: Fuentes y entorno
+        run: |
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-and04:${GITHUB_SHA} .
+      - name: M01-M03
+        run: |
+          set -euo pipefail
+          mkdir -p "$BASE"
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/territorios/andalucia:/app/territorios/andalucia" --entrypoint bash ddd-and04:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+      - name: Construir unidades internas M04
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py \
+            --geojson "$ROOTBASE/andalucia_2025_m01_secciones_poblacion.geojson.zip" \
+            --graph "$ROOTBASE/andalucia_2025_m03_grafo.json" \
+            --out-geojson "$BASE/m04_input.geojson" --out-report "$BASE/units_report.json" \
+            --k 109 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025 \
+            --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio 1.10 --chunk-ratio 0.20
+          sudo chown -R "$(id -u):$(id -g)" territorios/andalucia/.cache/ddd
+      - name: Generar configuración experimental
+        run: |
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} -c '
+          import copy,pathlib,yaml
+          root=pathlib.Path("/app");cfg=yaml.safe_load((root/"territorios/andalucia/config/andalucia_2025.yaml").read_text());c=copy.deepcopy(cfg);base="territorios/andalucia/.cache/ddd/preparacion/{run_name}/and04"
+          c["modulos"]["modulo_04_generar_semillas"]={"in_graph_json":"territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04_input.geojson","id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO","municipality_field":"M04_PARTITION_UNIT","municipality_name_field":"NMUN","k_districts":109,"municipality_atomicity_limit_ratio":1.10,"seed":12345,"out_geojson":base+"/m04.geojson.zip","out_report":base+"/m04_report.json"}
+          c["modulos"]["modulo_05_optimizar_distritos"]={"in_graph_json":"territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04_polished.geojson.zip","id_field":"CUSEC_KEY","pop_field":"POP_{year}","district_field":"district_id","province_field":"CPRO","municipality_field":"CUMUN","greedy_moves_limit":2500,"anneal_iters":60000,"swap_polish_max":400,"seed":12345,"out_geojson":base+"/m05.geojson.zip","out_report":base+"/m05_report.json"}
+          c.setdefault("validation",{}).update({"expected_districts":109,"population_floor_ratio":.85,"population_cap_ratio":1.50,"target_tolerance_ratio":.10,"province_districts":{"04":9,"11":16,"14":10,"18":12,"21":7,"23":8,"29":22,"41":25}})
+          (root/"territorios/andalucia/config/.generated_and04.yaml").write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True))'
+      - name: M04 y pulido topológico
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$CFG"
+          python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} herramientas/pulir_topologia_m04.py \
+            --params "$CFG" --geojson "$BASE/m04.geojson.zip" \
+            --out-geojson "$BASE/m04_polished.geojson.zip" --out-report "$BASE/topology_polish_report.json" --max-moves 120
+      - name: M05 y resumen
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$CFG"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} herramientas/auditar_fragilidad_topologica.py --params "$CFG" --geojson "$BASE/m05.geojson.zip" --out "$BASE/fragility_m05.json"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and04:${GITHUB_SHA} -c '
+          import io,json,pathlib,zipfile,geopandas as gpd
+          b=pathlib.Path("/app/territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/and04")
+          with zipfile.ZipFile(b/"m05.geojson.zip") as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));g=gpd.read_file(io.BytesIO(z.read(n)))
+          target=g.POP_2025.sum()/109;p=g.groupby("district_id").POP_2025.sum();frag=json.loads((b/"fragility_m05.json").read_text());pol=json.loads((b/"topology_polish_report.json").read_text());rep=json.loads((b/"m05_report.json").read_text())
+          out={"districts":int(g.district_id.nunique()),"target":float(target),"outside_10":int(((p-target).abs()>target*.10).sum()),"max_abs_deviation":float(((p-target).abs()/target).max()),"sq_error":float((((p-target)/target)**2).sum()),"min_pop":int(p.min()),"max_pop":int(p.max()),"topology_polish_moves":pol.get("accepted_moves"),"m04_fragility_after_polish":pol.get("after_fragility_signature"),"m05_fragility":frag.get("fragility_signature"),"accepted_swaps":int((rep.get("swap_polish") or {}).get("accepted_swaps",0))};(b/"summary.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False))'
+      - name: Publicar
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: andalucia-AND04-${{ github.run_id }}
+          path: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/and04/
