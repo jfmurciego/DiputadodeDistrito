@@ -48,13 +48,3 @@ Se eliminan cuatro ramas históricas `infra/*` y la rama temporal R016. Queda ú
 **Limpieza:** documentos retirados/redundantes salen del árbol activo y se preservan en `legacy/docs/retirados_r018/` cuando aportan arqueología. No se elimina código histórico.
 
 **Próximos frentes:** Aragón conserva R017 pendiente de calidad territorial. Castilla y León debe comenzar por fuentes → contrato → workflow genérico → M01 → M02/M03. No abrir M04 antes de aceptar el grafo base.
-
-
-## 2026-09-12 — R021 — Auditoría y sincronización
-Se audita el estado real multi-territorio y se crea `docs/SALIDAS_CHATGPT/` como continuidad ligera.
-
-## 2026-09-12 — R022 — Observabilidad y expansión nacional
-M03 v7.2.0 separa auditoría de enforcement. CAT-02 certifica Llívia; CAT-03 cierra Cataluña hasta M03. Run `34688010656` ejecuta Madrid y otros 13 territorios con un workflow reutilizable y matriz paralela.
-
-## 2026-09-12 — R023 — Diagnóstico continental
-Se lanza auditoría geométrica paralela para los siete territorios continentales con discontinuidades observadas. No se añaden pasarelas automáticas.

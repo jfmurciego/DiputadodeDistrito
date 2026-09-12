@@ -1,76 +1,28 @@
 # Diputado de Distrito — motor multi-territorio
 
-**README v4.0.0** · 11-09-2026 · Estado: **R018 arquitectura multi-territorio**
-**Anterior:** `legacy/docs/README_v3.5.0.md`
+**README v4.1.0** · 12-09-2026 · Estado: **R023 expansión nacional**  
+**Anterior:** `legacy/docs/README_v4.0.0.md`
 
-## Qué es
+DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
 
-DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales a partir de unidades censales oficiales. El motor común vive en `ddd_core/`, `modulos/` y `herramientas/`. Cada territorio aporta sus datos, configuración, reglas y pruebas dentro de `territorios/<territorio>/`.
+## Arquitectura
 
-La regla arquitectónica es: **un solo repositorio, una sola rama permanente (`main`), un solo motor; muchos territorios como paquetes de configuración/datos.** No se crean repositorios ni ramas permanentes por comunidad autónoma.
+Un repositorio, una rama permanente (`main`), un motor común (`ddd_core/`, `modulos/`, `herramientas/`) y territorios definidos por datos, configuración y contratos. M01–M03 preparan y auditan topología; M04–M06 construyen y consolidan; M07–M08 agregan resultados electorales después de fijar la geometría.
 
-## Baseline territorial vigente
+## Baselines
 
-Aragón es la primera implantación de referencia. GitHub Run #9 `34599224954` / R016 es el baseline aceptado: 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49, provincia PASS, contigüidad PASS, disciplina municipal PASS, suelo/techo PASS y `fuera_12=0`. Máximo desvío relativo: **9,930 %**.
+- Aragón: referencia principal, Run `34599224954`; 67 distritos, `fuera_12=0`, máximo desvío 9,930 %, todas las restricciones PASS.
+- Castilla y León: segunda implantación validada hasta M06; 82 distritos, 3.506 secciones, `fuera_12=0`.
+- Extremadura: M01–M03 cerrados; M04/M05 experimental; EXT-19 no promovido.
+- Andalucía: M01–M03 cerrados; AND-04 reveló 4 distritos fuera de suelo/techo en M04.
+- Cataluña: CAT-03 Run `34688242964` validó M01–M03 con 5.143 secciones y una pasarela administrativa auditada para Llívia.
 
-M05 v7.4.0 alcanzó la primera solución factible en la iteración 9.038 y continuó hasta 20.000, reduciendo el máximo desvío desde 11,943 % y el error cuadrático global desde 0,182704485064 a 0,161271162560.
+## Expansión nacional
 
-## Estructura
+R022 Run `34688010656` ejecutó Madrid y otros 13 territorios pendientes. Todos completaron M01–M03 observable. Resultado ligero: `resultados/bootstrap/gh-34688010656/RESUMEN_NACIONAL.json`.
 
-```text
-DiputadodeDistrito/
-├── ddd_core/                    # núcleo común
-├── modulos/                     # M01–M08 comunes
-├── herramientas/                # utilidades comunes
-├── territorios/
-│   ├── aragon/
-│   │   ├── config/
-│   │   ├── inputs/
-│   │   ├── docs/
-│   │   └── resultados/
-│   └── castilla_y_leon/
-│       ├── config/
-│       ├── inputs/
-│       ├── docs/
-│       └── tests/
-├── resultados/                  # compatibilidad histórica y baselines publicados
-├── tests/                       # regresión común
-├── docs/                        # arquitectura/gobernanza global
-└── legacy/                      # versiones retiradas y arqueología
-```
-
-Durante R018 se mantienen temporalmente `configuracion/`, `inputs/` y `resultados/ejecuciones/` como rutas de compatibilidad con el workflow de Aragón ya validado. La estructura canónica nueva es `territorios/`. No se duplican blobs grandes: Aragón referencia los mismos objetos Git versionados.
-
-## Arquitectura del procedimiento
-
-M01 base territorial+población → M02 adyacencias → M03 grafo → M04 construcción inicial → M05 optimización → M06 consolidación → M07 agregación electoral → M08 producto final.
-
-M01–M03 preparan territorio; M04–M06 son el núcleo territorial; M07–M08 añaden resultados electorales después. Los resultados electorales nunca condicionan la geometría.
-
-## Territorios
-
-- `territorios/aragon/`: implantación validada; Run #9 es baseline. R017 de calidad territorial queda pendiente para retomarse en este hilo.
-- `territorios/castilla_y_leon/`: siguiente implantación. Su objetivo no es clonar Aragón sino descubrir y extraer cualquier supuesto aragonés oculto en el motor.
-- futuros: Extremadura y restantes comunidades; después España completa y adaptación internacional.
-
-La medida de madurez del motor será cuánto código común hay que cambiar al incorporar un territorio nuevo. El objetivo final es **datos + configuración + reglas + pruebas, con cero cambios del motor**.
-
-## Contrato de territorio
-
-Leer `docs/CONTRATO_TERRITORIO.md`. Todo paquete debe declarar identidad, fuentes, claves geográficas, población, niveles administrativos, número/reparto de distritos, límites poblacionales, reglas de atomicidad, criterios de contigüidad, inputs electorales opcionales y pruebas propias.
-
-## Ejecución
-
-`procedimiento.sh` v2.2.0 acepta cualquier YAML compatible mediante `DDD_PARAMS` y deriva `run_name` desde el propio YAML. El workflow GitHub actual de Aragón se conserva por compatibilidad; su generalización para seleccionar territorio será una de las primeras tareas al iniciar Castilla y León.
+R023 audita geométricamente los siete territorios continentales con discontinuidades observadas. Los archipiélagos se tratan mediante contrato propio; ninguna pasarela se añade automáticamente.
 
 ## Gobernanza
 
-- Estado canónico: `README.md` + `docs/ESTADO_MAESTRO_PROYECTO.md`.
-- Continuidad general: `docs/CONTINUIDAD_NUEVO_CHAT.md`.
-- Continuidad Castilla y León: `docs/CONTINUIDAD_CASTILLA_Y_LEON.md`.
-- Arquitectura multi-territorio: `docs/ARQUITECTURA_MULTI_TERRITORIO.md`.
-- Contrato: `docs/CONTRATO_TERRITORIO.md`.
-- Versiones retiradas: `legacy/`.
-- Rama permanente: únicamente `main`.
-
-**Principio rector:** un resultado que solo existe en memoria, un chat o un log no forma parte del procedimiento hasta quedar materializado, versionado y validado en GitHub.
+Leer primero `docs/SALIDAS_CHATGPT/SALIDA_MAESTRA.md`, después `docs/ESTADO_MAESTRO_PROYECTO.md`. Toda sustitución conserva el predecesor en `legacy/`. El cálculo pesado, los logs y las geometrías viven en GitHub Actions; las salidas ligeras verificadas se materializan en el repositorio.

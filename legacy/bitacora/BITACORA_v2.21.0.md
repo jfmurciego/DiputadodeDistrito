@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.22.0
+**Versión:** 2.21.0
 **Fecha:** 2026-09-11
-**Anterior:** `legacy/bitacora/BITACORA_v2.21.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.20.0.md`
 
 ## R001–R013 — recuperación y profesionalización
 Se recuperó el procedimiento Aragón y se formalizaron M01–M08, fuentes congeladas, caché territorial, validación, outputs auditables, manifiestos, versionado, continuidad y reglas de contigüidad/municipio/provincia. Run #7 consiguió estructura R012 PASS pero dejó un distrito fuera de ±12 %.
@@ -180,13 +180,3 @@ Conclusión provisional: el preacondicionamiento topológico de M04 no elimina a
 
 ## Reglas permanentes
 Un informe no sustituye al producto. GitHub reproducible manda sobre memoria/chat. Toda versión nueva preserva su predecesor. Los resultados electorales nunca condicionan geometría. Un nuevo territorio no justifica un fork: cualquier cambio del motor debe ser una generalización reusable.
-
-
-## R021 — Auditoría y continuidad persistente
-La auditoría de 2026-09-12 fijó el estado real y creó `docs/SALIDAS_CHATGPT/`.
-
-## R022 — M03 observable, Cataluña y España
-M03 v7.2.0 desacopla diagnóstico de bloqueo. CAT-02 Run `34688104014` certificó Llívia; CAT-03 Run `34688242964` cerró M03. Run nacional `34688010656` completó Madrid y otros 13 territorios, con resúmenes ligeros y artefactos pesados separados.
-
-## R023 — diagnóstico topológico continental
-Se abre una matriz de siete territorios para explicar discontinuidades antes de declarar pasarelas. Baleares y Canarias quedan separados como archipiélagos.

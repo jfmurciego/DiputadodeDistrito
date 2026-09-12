@@ -1,52 +1,20 @@
 # Continuidad general del proyecto — abrir un nuevo chat
 
-**Versión:** 2.0.0
-**Fecha de corte:** 2026-09-11
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v1.6.0.md`
+**Versión:** 2.1.0  
+**Fecha de corte:** 2026-09-12  
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v2.0.0.md`
 
-## Fuente de verdad
+## Inicio obligatorio
 
-El repositorio privado `jfmurciego/DiputadodeDistrito`, rama `main`, manda sobre la memoria del chat. No reconstruir decisiones desde recuerdos si GitHub contiene evidencia.
+1. Leer `docs/SALIDAS_CHATGPT/SALIDA_MAESTRA.md`.
+2. Leer únicamente el último hito que enlaza.
+3. Comprobar HEAD y runs posteriores.
+4. Usar GitHub como plano de ejecución y fuente de verdad.
 
-## Punto exacto
+## Estado
 
-R014, R015 y R016 están cerrados. Aragón Run #9 `34599224954` es el baseline territorial vigente: 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49, `fuera_12=0`, contigüidad/provincia/municipios/suelo/techo PASS, máximo desvío 9,930 %. M05 v7.4.0 es la lógica validada.
+Aragón y Castilla y León son las regresiones validadas. Extremadura y Andalucía siguen generalizando M04/M05. Cataluña cerró M01–M03 en CAT-03 Run `34688242964`. R022 Run `34688010656` completó el bootstrap observable de Madrid y otros 13 territorios. R023 diagnostica las discontinuidades continentales.
 
-R018 reorganiza el repositorio para multi-territorio sin cambiar el mapa. El motor común queda en `ddd_core/`, `modulos/` y `herramientas/`; los territorios viven en `territorios/`.
+## Regla
 
-## Regla estructural
-
-Un repositorio. Una rama permanente (`main`). Un motor. Cada territorio es un paquete con `config/`, `inputs/`, `docs/`, `tests/` y referencia de resultados. No crear repositorios o ramas permanentes por comunidad.
-
-## Implantaciones
-
-### Aragón
-`territorios/aragon/` es la implantación de referencia. Run #9 sigue protegido. R017 de auditoría de calidad territorial fina queda pendiente para retomarse en el hilo de Aragón.
-
-### Castilla y León
-`territorios/castilla_y_leon/` es la siguiente implantación. Abrir un chat nuevo usando **`docs/CONTINUIDAD_CASTILLA_Y_LEON.md`** como prompt/brief principal. Su misión es probar la generalidad del motor, no copiar Aragón.
-
-## Compatibilidad R018
-
-Las rutas raíz `configuracion/`, `inputs/` y `resultados/ejecuciones/` se conservan temporalmente porque el workflow GitHub de Aragón validado todavía las usa. Son compatibilidad transitoria. El desarrollo nuevo debe dirigirse a `territorios/`.
-
-`procedimiento.sh` v2.2.0 ya es multi-territorio a nivel de lanzador: recibe `DDD_PARAMS` y deriva `run_name` del YAML, sin nombre de Aragón codificado en caché.
-
-## Documentos a leer
-
-1. `README.md`.
-2. `docs/ESTADO_MAESTRO_PROYECTO.md`.
-3. `docs/ARQUITECTURA_MULTI_TERRITORIO.md`.
-4. `docs/CONTRATO_TERRITORIO.md`.
-5. `docs/POLITICA_DE_VERSIONES.md`.
-6. Contratos M01–M08 en `docs/MODULOS/`.
-7. Si se trabaja Aragón: `territorios/aragon/README.md` + Run #9.
-8. Si se trabaja Castilla y León: `docs/CONTINUIDAD_CASTILLA_Y_LEON.md` + `territorios/castilla_y_leon/README.md`.
-
-## Gobernanza
-
-Toda sustitución versionada conserva primero el predecesor inmediato en `legacy/`. No fabricar versiones históricas. No reescribir un artefacto ya validado solo para cambiar una etiqueta. CI automática obligatoria; cambio funcional territorial requiere además nuevo run reproducible.
-
-## Criterio de madurez
-
-La pregunta clave ya no es cuánto se puede perfeccionar Aragón, sino **cuánto código común hay que cambiar para añadir Castilla y León y después Extremadura**. El objetivo final es cero cambios del motor para un nuevo territorio normal: solo datos, configuración, reglas y tests.
+No añadir pasarelas automáticamente, no fijar K antes de cerrar M01–M03, no heredar tolerancias territoriales y no modificar M07/M08 para influir en la geometría. Todo cambio conserva legacy, versión, motivo, evidencia y salida ChatGPT.
