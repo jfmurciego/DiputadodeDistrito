@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Puerta CI F1.5 con smoke M01-M06
-# FECHA: 2026-09-12
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Puerta CI R015
+# FECHA: 2026-09-11
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: la suite discover incorpora una ejecución sintética real de M01-M06.
-# MOTIVO: detectar roturas de integración común sin lanzar primero una regresión territorial pesada.
-# ANTERIOR: legacy/workflows/pruebas-ddd_v1.0.0.yml
+# CAMBIOS: primera versión.
+# MOTIVO: convertir las invariantes R012/R014 y la política legacy en controles automáticos independientes del workflow territorial.
+# ORIGEN: R015
 name: Pruebas DDD — R015
 on:
   push:

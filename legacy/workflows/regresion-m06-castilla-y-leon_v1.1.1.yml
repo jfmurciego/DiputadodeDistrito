@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.1.1
 # NOMBRE DE VERSIÓN: Regresión M06 — Castilla y León
 # FECHA: 2026-09-11
-# ESTADO: regresión pesada F1.5
+# ESTADO: verificación cruzada F1.3
 # QUÉ HACE: reejecuta M01-M06 de Castilla y León ante cualquier cambio común y certifica sus invariantes territoriales.
-# CAMBIOS: añade el smoke sintético M01-M06 a los disparadores comunes; no cambia parámetros territoriales.
-# MOTIVO: cierre F1.5 y protección de cambios en la prueba de integración común.
-# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.1.1.yml
+# CAMBIOS: sin cambio funcional; relanza el trinquete tras consolidar el contrato canónico de Aragón.
+# MOTIVO: cerrar F1.3 verificando ambos baselines después de la consolidación de configuración.
+# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.1.0.yml
 name: Regresión M06 — Castilla y León
 
 on:
@@ -23,7 +23,6 @@ on:
       - 'modulos/05_optimizar_distritos.py'
       - 'modulos/06_consolidar_distritos.py'
       - 'ddd_core/**'
-      - 'tests/test_pipeline_sintetico_m01_m06.py'
       - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
 
 permissions:

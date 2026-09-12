@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.3.0
 # NOMBRE DE VERSIÓN: Regresión M06 — contrato canónico único Aragón
 # FECHA: 2026-09-11
-# ESTADO: regresión pesada F1.5
+# ESTADO: puerta F1.3
 # QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
 # CAMBIOS: consume y vigila exclusivamente territorios/aragon/config/aragon_2025.yaml; mantiene invariantes y trinquete.
-# MOTIVO: cierre F1.5 y protección de cambios en la prueba de integración común.
-# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.3.0.yml
+# MOTIVO: verificar que la consolidación del YAML no altera el baseline.
+# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.2.0.yml
 name: Regresión M06 — Aragón
 
 on:
@@ -23,7 +23,6 @@ on:
       - 'modulos/05_optimizar_distritos.py'
       - 'modulos/06_consolidar_distritos.py'
       - 'ddd_core/**'
-      - 'tests/test_pipeline_sintetico_m01_m06.py'
       - 'territorios/aragon/config/aragon_2025.yaml'
 
 permissions:
