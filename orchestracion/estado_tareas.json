@@ -1,6 +1,32 @@
 {
+  "records": [
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:2fe8a82a845bab9ad6d4d2025e275edc6ab3852e7511b6ff3589d6eb41a60627",
+      "legacy_module": null,
+      "run_id": "34722000211",
+      "stage_id": "G10_CONTROL",
+      "status": "SUCCESS",
+      "task_id": "catalogo-semantico",
+      "territory": "sintetico"
+    },
+    {
+      "artifacts": [
+        "task.log",
+        "evidence.json"
+      ],
+      "fingerprint": "sha256:2c849c3bdf74f13511ac75a79ca46aaa0962bb7e25036e48ad0f8c09b1bbf4e5",
+      "legacy_module": null,
+      "run_id": "34722000211",
+      "stage_id": "G10_CONTROL",
+      "status": "SUCCESS",
+      "task_id": "control-g10",
+      "territory": "sintetico"
+    }
+  ],
   "schema_version": "1.0",
-  "stage_catalog_version": "2.0.0",
-  "description": "Índice durable de tareas G10. Los registros históricos sin huella completa se etiquetan CANONICAL_VERIFIED_LEGACY y no se consideran REUSED.",
-  "records": []
+  "stage_catalog_version": "2.0.0"
 }
