@@ -21,7 +21,7 @@
       "task_id": "validar-config-aragon",
       "territory": "aragon",
       "stage": "CONTRACT",
-      "depends_on": ["g10-selftest"],
+      "depends_on": [],
       "priority": "blocking",
       "max_attempts": 1,
       "timeout_minutes": 10,

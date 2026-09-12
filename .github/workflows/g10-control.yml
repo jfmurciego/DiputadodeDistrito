@@ -9,6 +9,23 @@
 name: G10 — Control de lote
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/g10-control.yml'
+      - 'g10/**'
+      - 'herramientas/g10_orquestar.py'
+      - 'orchestracion/**'
+      - 'schemas/g10-*.schema.json'
+      - 'tests/test_g10_orquestacion.py'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/g10-control.yml'
+      - 'g10/**'
+      - 'herramientas/g10_orquestar.py'
+      - 'orchestracion/**'
+      - 'schemas/g10-*.schema.json'
+      - 'tests/test_g10_orquestacion.py'
   workflow_dispatch:
     inputs:
       plan_path:
@@ -20,6 +37,9 @@ on:
 permissions:
   contents: read
 
+env:
+  PLAN_PATH: ${{ inputs.plan_path || 'orchestracion/plan_lote_g10_smoke.json' }}
+
 jobs:
   planificar:
     runs-on: ubuntu-24.04
@@ -28,13 +48,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Validar plan
-        run: python herramientas/g10_orquestar.py validate-plan --plan "${{ inputs.plan_path }}"
+        run: python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
       - name: Construir matriz
         id: matrix
         shell: bash
         run: |
           set -euo pipefail
-          matrix="$(python herramientas/g10_orquestar.py matrix --plan "${{ inputs.plan_path }}")"
+          matrix="$(python herramientas/g10_orquestar.py matrix --plan "$PLAN_PATH")"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   ejecutar:
