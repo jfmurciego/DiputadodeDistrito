@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.6
+VERSIÓN: 7.5.5
 NOMBRE DE VERSIÓN: Puerta mínima y propiedad OGR-safe
 FECHA: 2026-09-11
 ESTADO: candidato F1.5; pendiente de smoke M01–M06 y regresiones territoriales.
@@ -12,9 +12,9 @@ ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
 COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
-CAMBIOS: el wrapper carga GeoJSON comprimido desde JSON nativo y vuelve a normalizar tras su propia exportación.
-MOTIVO: OGR sigue omitiendo ddd_unit_id cuando la salida intermedia queda tipada StringList.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.5.py
+CAMBIOS: usa motor v7.5.4, que normaliza listas, tuplas y arrays unitarios antes de exportar.
+MOTIVO: GeoDataFrame puede materializar propiedades JSON como arrays; deben convertirse explícitamente en escalares.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.4.py
 """
 from __future__ import annotations
 
@@ -50,19 +50,7 @@ def load_geo(path):
     if p.suffix.lower() == ".zip":
         with zipfile.ZipFile(p) as z:
             name = next(n for n in z.namelist() if n.lower().endswith((".geojson", ".json")) and not n.endswith("/"))
-            data = json.loads(z.read(name).decode("utf-8"))
-            gdf = gpd.GeoDataFrame.from_features(data.get("features", []), crs=(data.get("crs") or {}).get("properties", {}).get("name"))
-            if "ddd_unit_id" in gdf.columns:
-                def scalar_unit(value):
-                    if isinstance(value, str):
-                        return value
-                    if hasattr(value, "tolist"):
-                        value = value.tolist()
-                    if isinstance(value, (list, tuple)) and len(value) == 1:
-                        return str(value[0])
-                    raise SystemExit(f"M04 v7.5.6: ddd_unit_id no escalar: {value!r}")
-                gdf["ddd_unit_id"] = gdf["ddd_unit_id"].map(scalar_unit).astype(str)
-            return gdf
+            return gpd.read_file(io.BytesIO(z.read(name)))
     return gpd.read_file(p)
 
 
@@ -239,9 +227,6 @@ def main():
     if changed:
         print(f"[Módulo 4] normalizados ddd_unit_id OGR-safe={changed}")
     expose_flexible_residual_units(args.params)
-    changed_after = normalize_unit_property_for_ogr(require(s4.get("out_geojson"), "Falta salida M04"))
-    if changed_after:
-        print(f"[Módulo 4] normalización final OGR-safe={changed_after}")
 
 
 if __name__ == "__main__":
