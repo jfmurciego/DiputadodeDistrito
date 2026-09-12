@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: AND-06 barrido fino M04
 # FECHA: 2026-09-12
@@ -10,10 +11,6 @@
 name: AND-06 — Barrido fino M04 Andalucía
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/andalucia-and05-m04-sweep.yml'
 permissions: {contents: read}
 jobs:
   preparar:

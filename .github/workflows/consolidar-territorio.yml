@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: activo
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Puerta territorial M06
 # FECHA: 2026-09-11
@@ -17,14 +18,6 @@ on:
         required: true
         default: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
         type: string
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/consolidar-territorio.yml'
-      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
-      - 'modulos/04_generar_semillas.py'
-      - 'modulos/05_optimizar_distritos.py'
-      - 'modulos/06_consolidar_distritos.py'
 
 permissions:
   contents: read

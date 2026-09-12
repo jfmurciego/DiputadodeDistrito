@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: activo
 # VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Preparación territorial M01-M04
 # FECHA: 2026-09-11
@@ -16,13 +17,6 @@ on:
         required: true
         default: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
         type: string
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/preparar-territorio.yml'
-      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
-      - 'modulos/04_generar_semillas.py'
-      - 'configuracion/aragon_2025.yaml'
 permissions:
   contents: read
 jobs:

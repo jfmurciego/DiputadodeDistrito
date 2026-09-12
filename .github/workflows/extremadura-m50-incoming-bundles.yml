@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-16 — Paquetes entrantes hacia outliers m50
 # FECHA: 2026-09-11
@@ -12,11 +13,6 @@ name: EXT-16 — M50 incoming bundle probe
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'herramientas/auditar_inyecciones_outliers_m05.py'
-      - '.github/workflows/extremadura-m50-incoming-bundles.yml'
 
 permissions: {contents: read}
 

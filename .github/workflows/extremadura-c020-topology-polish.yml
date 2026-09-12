@@ -1,11 +1,8 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: experimental
 name: EXT-13 — C020 topology polish
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'herramientas/pulir_topologia_m04.py'
-      - '.github/workflows/extremadura-c020-topology-polish.yml'
   workflow_dispatch:
 
 permissions:

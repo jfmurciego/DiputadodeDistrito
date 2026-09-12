@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-13 — A/B de un movimiento topológico M04 antes de M05
 # FECHA: 2026-09-11
@@ -12,13 +13,6 @@ name: EXT-13 — C020 topology A-B
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-c020-topology-ab.yml'
-      - 'herramientas/aplicar_mejor_movimiento_topologico_m04.py'
-      - 'herramientas/auditar_movimientos_topologicos_m04.py'
-      - 'herramientas/auditar_fragilidad_topologica.py'
 
 permissions: {contents: read}
 

@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 3.0.0
 # NOMBRE DE VERSIÓN: CAT-03 — cierre topológico de Llívia
 # FECHA: 2026-09-12
@@ -10,13 +11,6 @@
 name: CAT-03 — Cataluña cierre topológico
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/cataluna-baseline-topologia.yml'
-      - 'territorios/cataluna/config/cataluna_2025.yaml'
-      - 'modulos/02_construir_adyacencias.py'
-      - 'modulos/03_construir_grafo.py'
 permissions: {contents: read}
 jobs:
   cat03:

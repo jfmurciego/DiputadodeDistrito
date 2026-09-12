@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.0
 # NOMBRE: AND-04 — M04/M05 con pulido topológico controlado
 # FECHA: 2026-09-12
@@ -11,10 +12,6 @@ name: AND-04 — Andalucía M04-M05 topology polish
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/andalucia-m04-m05-polish.yml'
 
 permissions: {contents: read}
 

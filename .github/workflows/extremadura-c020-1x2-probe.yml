@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-07 — Probe 1↔2 / 2↔1 sobre mínimo post-polish c020
 # FECHA: 2026-09-11
@@ -12,14 +13,6 @@ name: EXT-07 — C020 1x2 probe
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-c020-1x2-probe.yml'
-      - 'herramientas/auditar_swaps_1x2_m05.py'
-      - 'ddd_core/m05_swap_polish.py'
-      - 'modulos/05_optimizar_distritos.py'
-      - 'herramientas/construir_unidades_internas_m04.py'
 
 permissions: {contents: read}
 

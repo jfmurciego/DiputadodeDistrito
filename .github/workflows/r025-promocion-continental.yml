@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: R025 promoción continental M01-M03
 # FECHA: 2026-09-12
@@ -10,12 +11,6 @@
 name: R025 — Promoción continental M01-M03
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/r025-promocion-continental.yml'
-      - '.github/workflows/_reutilizable-promocion-m01-m03.yml'
-      - 'territorios/*/config/*_2025.yaml'
 jobs:
   promocion:
     strategy:

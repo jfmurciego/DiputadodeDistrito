@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Prueba causal M04 granular-open — fix permisos runner
 # FECHA: 2026-09-11
@@ -11,12 +12,6 @@ name: EXT-03 — Prueba granular-open M04
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-m04-granular-probe.yml'
-      - 'territorios/extremadura/config/extremadura_2025.yaml'
-      - 'modulos/04_generar_semillas.py'
 
 permissions:
   contents: read

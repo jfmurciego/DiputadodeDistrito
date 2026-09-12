@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.1
 # NOMBRE: EXT-09 — Barrido fino de ventana M04 c017–c024 — fix entorno Docker
 # FECHA: 2026-09-11
@@ -13,14 +14,6 @@ name: EXT-09 — Ventana M04 017-024
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-window-sweep.yml'
-      - 'herramientas/construir_unidades_internas_m04.py'
-      - 'ddd_core/m04_seed_engine_v745.py'
-      - 'ddd_core/m05_swap_polish.py'
-      - 'modulos/05_optimizar_distritos.py'
 
 permissions: {contents: read}
 
