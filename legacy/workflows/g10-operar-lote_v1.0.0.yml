@@ -1,10 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.0
 # NOMBRE: Operar lote G10 con admisión durable
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado.
-# CAMBIO: transmite listas de artefactos como argumentos separados; corrige el primer lote sin recalcular territorio.
-# ANTERIOR: legacy/workflows/g10-operar-lote_v1.0.0.yml
 # MOTIVO: evitar recalcular productos territoriales ya validados.
 name: G10 — Operar lote durable
 on:
@@ -62,7 +60,7 @@ jobs:
           STAGE_ID: ${{ matrix.stage_id }}
           STAGE_NAME: ${{ matrix.stage_name }}
           LEGACY_MODULE: ${{ matrix.legacy_module }}
-          ARTIFACT_PATHS: ${{ join(matrix.artifact_paths, ' ') }}
+          ARTIFACT_PATHS: ${{ join(matrix.artifact_paths, '\n') }}
           out: g10-out/${{ matrix.task_id }}
         run: |
           set +e
