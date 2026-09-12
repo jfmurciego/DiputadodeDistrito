@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.5.1
+# VERSIÓN: 0.5.0
 # NOMBRE DE VERSIÓN: Contrato reproducible c020 F1.4
 # FECHA: 2026-09-12
-# ESTADO: experimental bloqueado — evidencia canónica F1.4
+# ESTADO: candidato F1.4 — M01-M06 experimental
 # QUÉ HACE: conserva M01-M03 y declara explícitamente K=65, reparto 41/24, c020, atomicidad 1.10 y ratios 0.85/1.50/0.10 para reproducir M04-M06.
-# CAMBIOS: fija el resultado del run 34703213474: M01-M06 reproducible, hard y contigüidad PASS, 2 outliers de tolerancia; no promueve.
-# MOTIVO: cerrar F1.4 formalmente con el mejor resultado reproducible y su bloqueo explícito.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.5.0.yaml
+# CAMBIOS: eleva al YAML el contrato experimental antes inyectado por workflows; añade M04-M06 y rutas de evidencia sin promover la solución.
+# MOTIVO: cerrar la deuda de reproducibilidad de Extremadura y decidir su promoción mediante una ejecución canónica.
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.4.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,8 +16,8 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.5.1
-  status: experimental_blocked
+  schema_version: 0.5.0
+  status: experimental_m01_m06_candidate
 
 io:
   project_root: {path: ../../..}
@@ -57,7 +57,7 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.10
   internal_partition_chunk_ratio: 0.20
   require_auditable_district_catalogue: true
-  promotion_status: experimental_blocked
+  promotion_status: experimental
   notes:
     - K=65 y el reparto Hamilton 41 Badajoz / 24 Cáceres son el contrato territorial evaluado.
     - Los ratios 0.85/1.50/0.10 son los del candidato tight que hizo factible M04; son más estrictos que Aragón y Castilla y León y no se heredan de ellos.
