@@ -1,0 +1,12 @@
+===== MÓDULO 01: modulos/01_preparar_base_territorial.py =====
+Traceback (most recent call last):
+  File "/app/modulos/01_preparar_base_territorial.py", line 92, in <module>
+    if __name__=="__main__":main()
+                            ^^^^^^
+  File "/app/modulos/01_preparar_base_territorial.py", line 89, in main
+    ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);meta=cfg.get("meta",{});year=int(meta.get("year",2025));io_in=cfg["io"]["input"];secc=io_in["seccionado"];cip_cfg=io_in["population_cip"];s1=module_cfg(cfg,"modulo_01_preparar_base_territorial",legacy_step_key="step1_build_sections");prov=[str(x).zfill(2) for x in s1.get("province_codes",[])];gdf=load_seccionado(secc["path"],secc.get("layer","") or "",prov);gdf["CUSEC_KEY"]=gdf[secc.get("section_key_col","CUSEC")].map(normalize_section_key);gdf=gdf.dropna(subset=["CUSEC_KEY"]);gdf=gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy();filters={"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":year};filters.update(cip_cfg.get("filters",{}));cip=load_cip(cip_cfg["paths"],cip_cfg.get("section_key_col","Secciones"),cip_cfg.get("pop_col","Total"),year,cip_cfg.get("sep","auto"),filters,prov);pop_field=f"POP_{year}";gdf=gdf.merge(cip.rename(columns={"POP":pop_field}),on="CUSEC_KEY",how="left");missing=int(gdf[pop_field].isna().sum());out_geo=require(s1.get("out_geojson"),"Falta M01 salida");write_geojson(gdf,out_geo);out_report=s1.get("out_report","")
+                                                                                                                                                                                                                                                                                                                                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/modulos/01_preparar_base_territorial.py", line 49, in load_seccionado
+    if not p.exists():raise FileNotFoundError(f"Seccionado no encontrado: {p}")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: Seccionado no encontrado: /app/inputs/seccionado_2025.zip
