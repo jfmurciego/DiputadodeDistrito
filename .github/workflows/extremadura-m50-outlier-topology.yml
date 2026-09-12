@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-15 — Auditoría de topología residual m50
 # FECHA: 2026-09-11
@@ -12,10 +13,6 @@ name: EXT-15 — M50 residual outlier topology
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-m50-outlier-topology.yml'
 
 permissions: {contents: read}
 

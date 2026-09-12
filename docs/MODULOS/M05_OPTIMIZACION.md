@@ -8,7 +8,7 @@
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
 **Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.0.md`
 **Cambio:** mantiene la fase C opt-in de v7.5.1, pero formaliza la semántica del informe: `version` identifica el motor optimizador que produjo el informe y `wrapper_version` identifica la interfaz/orquestador activo.
-**Motivo:** R015 Run `34642133611` confirmó que la regresión territorial y el determinismo pasan, pero detectó que v7.5.1 sobrescribía `version=7.4.0` con la versión del wrapper. El test R016 usa correctamente ese campo para identificar la lógica optimizadora validada.
+**Motivo:** R015 Run `34642133611` confirmó que la integridad de la evidencia publicada y el determinismo pasan, pero detectó que v7.5.1 sobrescribía `version=7.4.0` con la versión del wrapper. El test R016 usa correctamente ese campo para identificar la lógica optimizadora validada.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
@@ -75,4 +75,4 @@ EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 s
 - Informe M05 con objetivos, movimientos, primera factibilidad, parámetros, versión del motor, versión del wrapper, mapeo de normalización cuando proceda y metadatos de swaps cuando la fase C esté activa.
 
 ## Baseline vigente
-**Aragón Run #9 `34599224954` / `gh-34599224954-1`.** Toda evolución debe mantener sus PASS. Castilla y León añade una segunda regresión territorial válida. M05 v7.3.0 y Run #8 permanecen registrados como baseline histórico previo.
+**Aragón Run #9 `34599224954` / `gh-34599224954-1`.** Toda evolución debe mantener sus PASS. Las regresiones reales reejecutan M01–M06 en GitHub Actions para Aragón y Castilla y León. M05 v7.3.0 y Run #8 permanecen registrados como baseline histórico previo.

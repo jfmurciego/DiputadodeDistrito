@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: R027 cuotas Hamilton explícitas
 # FECHA: 2026-09-12
@@ -10,10 +11,6 @@
 name: R027 — M04 Cataluña y Madrid
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/r027-m04-cataluna-madrid.yml'
 permissions: {contents: read}
 jobs:
   preparar:

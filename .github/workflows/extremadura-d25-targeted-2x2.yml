@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-19 — Relevo dirigido 2→2 para d25
 # FECHA: 2026-09-11
@@ -10,11 +11,6 @@ name: EXT-19 — D25 targeted 2x2 relay
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'herramientas/auditar_relevo_d25_2x2.py'
-      - '.github/workflows/extremadura-d25-targeted-2x2.yml'
 
 permissions: {contents: read}
 

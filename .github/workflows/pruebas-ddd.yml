@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: activo
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Puerta CI R015
 # FECHA: 2026-09-11
@@ -26,5 +27,5 @@ jobs:
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
-      - name: Ejecutar regresión territorial y determinismo
+      - name: Verificar evidencia publicada y determinismo sintético
         run: docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v

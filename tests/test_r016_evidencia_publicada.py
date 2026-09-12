@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 PROYECTO: Diputado de Distrito
-COMPONENTE: regresión territorial R016
+COMPONENTE: integridad de evidencia publicada R016
 VERSIÓN: 1.0.0
 NOMBRE DE VERSIÓN: Baseline Run #9
 FECHA: 2026-09-11
 ESTADO: vigente
-FUNCIÓN: proteger la promoción R016 comparando Run #9 con Run #8 y exigiendo todos los PASS territoriales del nuevo baseline.
+FUNCIÓN: proteger la evidencia publicada R016 comparando Run #9 con Run #8.
 CAMBIOS: primera versión.
 MOTIVO: convertir la mejora de R016 en una regresión automática y evitar volver al máximo desvío de Run #8.
 ORIGEN: R016 / GitHub Run #9 34599224954
@@ -23,7 +23,8 @@ RUN8 = ROOT / "resultados" / "ejecuciones" / "gh-34592470470-1"
 RUN9 = ROOT / "resultados" / "ejecuciones" / "gh-34599224954-1"
 
 
-class R016Baseline(unittest.TestCase):
+class R016EvidenciaPublicada(unittest.TestCase):
+    """No reejecuta el pipeline. La regresión real vive en GitHub Actions."""
     @classmethod
     def setUpClass(cls):
         cls.r8 = json.loads((RUN8 / "M05" / "aragon_2025_m05_informe.json").read_text(encoding="utf-8"))

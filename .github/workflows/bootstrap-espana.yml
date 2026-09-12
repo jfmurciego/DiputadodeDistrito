@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Expansión España tras Madrid
 # FECHA: 2026-09-12
@@ -10,14 +11,6 @@
 name: R022 — Bootstrap España M01-M03
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/bootstrap-espana.yml'
-      - '.github/workflows/_reutilizable-bootstrap-territorio.yml'
-      - 'configuracion/catalogo_territorios_espana_2025.yaml'
-      - 'herramientas/generar_config_bootstrap.py'
-      - 'modulos/03_construir_grafo.py'
 jobs:
   madrid:
     uses: ./.github/workflows/_reutilizable-bootstrap-territorio.yml

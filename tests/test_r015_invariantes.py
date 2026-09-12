@@ -81,7 +81,8 @@ def district_data(rows: list[dict[str, str]]):
     return drows, pops
 
 
-class TerritorialRegression(unittest.TestCase):
+class EvidenciaTerritorialPublicada(unittest.TestCase):
+    """No reejecuta el pipeline. La regresión real vive en GitHub Actions."""
     @classmethod
     def setUpClass(cls):
         for p in (M04_CSV, M05_CSV, GRAPH_JSON, VALIDATION_JSON):

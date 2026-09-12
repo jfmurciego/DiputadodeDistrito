@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-18 — Relevos asimétricos 1↔2 sobre m50
 # FECHA: 2026-09-11
@@ -10,11 +11,6 @@ name: EXT-18 — M50 asymmetric relay bundles
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'herramientas/auditar_relevos_bundles_outliers_m05.py'
-      - '.github/workflows/extremadura-m50-relay-bundles.yml'
 
 permissions: {contents: read}
 

@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-05 — Diagnóstico de pulido local M05 sobre candidato c020
 # FECHA: 2026-09-11
@@ -13,15 +14,6 @@ name: EXT-05 — C020 M05 polish probe
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-c020-m05-polish-probe.yml'
-      - 'herramientas/construir_unidades_internas_m04.py'
-      - 'herramientas/auditar_bloqueos_m05.py'
-      - 'herramientas/auditar_swaps_m05.py'
-      - 'herramientas/auditar_articulaciones_m05.py'
-      - 'modulos/05_optimizar_distritos.py'
 
 permissions: {contents: read}
 

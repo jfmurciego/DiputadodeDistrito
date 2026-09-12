@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Barrido diagnóstico M04 — puerta mínima por componente
 # FECHA: 2026-09-11
@@ -11,16 +12,6 @@ name: EXT-03 — Barrido M04 Extremadura
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-m04-probe.yml'
-      - 'territorios/extremadura/config/extremadura_2025.yaml'
-      - 'modulos/04_generar_semillas.py'
-      - 'ddd_core/m04_seed_engine_v745.py'
-      - 'ddd_core/m04_seed_engine_v747.py'
-      - 'ddd_core/m04_seed_engine_v750.py'
-      - 'ddd_core/m04_seed_engine_v751.py'
 
 permissions:
   contents: read

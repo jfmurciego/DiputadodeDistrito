@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: activo
 # VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Auditoría topológica con relaciones geométricas exactas
 # FECHA: 2026-09-11
@@ -11,14 +12,6 @@ name: Auditoría M02-M03 — Extremadura
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/auditar-topologia-extremadura.yml'
-      - 'territorios/extremadura/config/extremadura_2025.yaml'
-      - 'modulos/02_construir_adyacencias.py'
-      - 'modulos/03_construir_grafo.py'
-      - 'herramientas/auditar_geometria_componentes.py'
 
 permissions:
   contents: read

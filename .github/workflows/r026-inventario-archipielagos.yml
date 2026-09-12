@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: R026 inventario archipelágico
 # FECHA: 2026-09-12
@@ -10,11 +11,6 @@
 name: R026 — Inventario archipelágico
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/r026-inventario-archipielagos.yml'
-      - 'herramientas/auditar_componentes_archipielago.py'
 jobs:
   islas:
     strategy:

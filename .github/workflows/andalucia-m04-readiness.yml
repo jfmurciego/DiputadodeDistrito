@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: congelado
 # VERSIÓN: 1.0.0
 # NOMBRE: AND-03 — Inventario de preparación M04
 # FECHA: 2026-09-11
@@ -9,11 +10,6 @@ name: AND-03 — Preparación M04 Andalucía
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/andalucia-m04-readiness.yml'
-      - 'territorios/andalucia/config/andalucia_2025.yaml'
 
 permissions: {contents: read}
 

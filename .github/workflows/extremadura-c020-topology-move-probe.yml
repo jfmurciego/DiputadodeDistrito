@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE: EXT-12 — Probe de movimientos topológicos M04 sobre c020
 # FECHA: 2026-09-11
@@ -12,11 +13,6 @@ name: EXT-12 — C020 topology move probe
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-c020-topology-move-probe.yml'
-      - 'herramientas/auditar_movimientos_topologicos_m04.py'
 
 permissions: {contents: read}
 

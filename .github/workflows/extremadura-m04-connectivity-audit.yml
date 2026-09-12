@@ -1,4 +1,5 @@
 # PROYECTO: Diputado de Distrito
+# CLASE: experimental
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Auditoría de conectividad pre-M04 — Extremadura
 # FECHA: 2026-09-11
@@ -9,12 +10,6 @@ name: EXT-03 — Auditoría conectividad M04
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/extremadura-m04-connectivity-audit.yml'
-      - 'herramientas/auditar_conectividad_m04.py'
-      - 'territorios/extremadura/config/extremadura_2025.yaml'
 
 permissions:
   contents: read
