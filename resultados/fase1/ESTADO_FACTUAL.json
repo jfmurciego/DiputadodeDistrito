@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-09-12",
+  "phase": "Fase 1",
+  "status": "CLOSED_WITH_EXTREMADURA_EXPERIMENTAL_BLOCKED",
+  "audited_head": "aebce6ebb68b7b84cd2fa579efc276e9316ab837",
+  "territories": {
+    "aragon": {
+      "status": "PASS",
+      "evidence": "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/VALIDACION.json",
+      "sections": 1463,
+      "population": 1364621,
+      "districts": 67,
+      "province_districts": {
+        "22": 11,
+        "44": 7,
+        "50": 49
+      },
+      "hard_outliers": 0,
+      "contiguous_districts": 67,
+      "max_relative_deviation": 0.099299365905,
+      "latest_regression_run": 34704363023
+    },
+    "castilla_y_leon": {
+      "status": "PASS",
+      "evidence": "territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/VALIDACION.json",
+      "sections": 3506,
+      "population": 2401221,
+      "districts": 82,
+      "province_districts": {
+        "24": 15,
+        "34": 6,
+        "37": 11,
+        "40": 5,
+        "42": 3,
+        "47": 18,
+        "49": 6,
+        "05": 6,
+        "09": 12
+      },
+      "hard_outliers": 0,
+      "contiguous_districts": 82,
+      "max_relative_deviation": 0.11983611670895764,
+      "latest_regression_run": 34704362932
+    },
+    "extremadura": {
+      "status": "EXPERIMENTAL_BLOCKED",
+      "promotion": false,
+      "evidence": "territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/VALIDACION.json",
+      "sections": 964,
+      "population": 1053345,
+      "districts": 65,
+      "province_districts": {
+        "10": 24,
+        "06": 41
+      },
+      "hard_outliers": 0,
+      "outside_target_tolerance": 2,
+      "target_tolerance_ratio": 0.1,
+      "contiguous_districts": 65,
+      "max_relative_deviation": 0.1330001091760059,
+      "source_run": 34703213474
+    }
+  },
+  "verification": {
+    "synthetic_m01_m06": {
+      "status": "SUCCESS",
+      "run": 34704363018
+    },
+    "aragon_regression": {
+      "status": "SUCCESS",
+      "run": 34704363023
+    },
+    "castilla_y_leon_regression": {
+      "status": "SUCCESS",
+      "run": 34704362932
+    }
+  },
+  "workflows": {
+    "active_count": 13,
+    "archived_in_f105": 36,
+    "later_territory_active_work": false
+  },
+  "expansion": {
+    "frozen": true,
+    "reason": "instrucción expresa del usuario; no consumir crédito en otras comunidades"
+  }
+}

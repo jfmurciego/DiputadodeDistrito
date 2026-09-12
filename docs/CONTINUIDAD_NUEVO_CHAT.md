@@ -1,20 +1,20 @@
 # Continuidad general del proyecto — abrir un nuevo chat
 
-**Versión:** 2.1.0  
+**Versión:** 3.0.0  
 **Fecha de corte:** 2026-09-12  
-**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v2.0.0.md`
+**Anterior:** `legacy/memoria/CONTINUIDAD_NUEVO_CHAT_v2.1.0.md`
 
-## Inicio obligatorio
+## Inicio
 
 1. Leer `docs/SALIDAS_CHATGPT/SALIDA_MAESTRA.md`.
-2. Leer únicamente el último hito que enlaza.
-3. Comprobar HEAD y runs posteriores.
-4. Usar GitHub como plano de ejecución y fuente de verdad.
+2. Leer `docs/SALIDAS_CHATGPT/HITOS/2026-09-12_F105_CERRADA.md`.
+3. Leer `resultados/fase1/ESTADO_FACTUAL.json`.
+4. Comprobar únicamente runs y commits posteriores al HEAD allí registrado.
 
 ## Estado
 
-Aragón y Castilla y León son las regresiones validadas. Extremadura y Andalucía siguen generalizando M04/M05. Cataluña cerró M01–M03 en CAT-03 Run `34688242964`. R022 Run `34688010656` completó el bootstrap observable de Madrid y otros 13 territorios. R023 diagnostica las discontinuidades continentales.
+Fase 1 cerrada: Aragón PASS, Castilla y León PASS y Extremadura cerrada formalmente como `EXPERIMENTAL_BLOCKED`, sin promoción.
 
-## Regla
+## Regla vigente
 
-No añadir pasarelas automáticamente, no fijar K antes de cerrar M01–M03, no heredar tolerancias territoriales y no modificar M07/M08 para influir en la geometría. Todo cambio conserva legacy, versión, motivo, evidencia y salida ChatGPT.
+No lanzar ni ampliar otras comunidades. Esperar instrucción expresa del usuario. Mantener cálculo pesado en GitHub Actions y detalle de continuidad en GitHub.
