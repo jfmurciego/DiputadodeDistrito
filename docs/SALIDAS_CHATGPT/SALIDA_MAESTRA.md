@@ -1,25 +1,24 @@
 # Salida maestra de ChatGPT
 
-**Versión:** 2.3.0  
+**Versión:** 2.4.0  
 **Fecha de corte:** 2026-09-12  
-**Estado:** ejecución activa  
-**Anterior:** `legacy/salidas_chatgpt/SALIDA_MAESTRA_v2.2.0.md`  
-**HEAD técnico auditado:** `e736c0fa30ded5dd88609975d603c259c0ea2ae5`
+**Estado:** Fase 1 activa; expansión congelada  
+**Anterior:** `legacy/salidas_chatgpt/SALIDA_MAESTRA_v2.3.0.md`  
+**HEAD técnico auditado:** `777e809675ebbffd5c84b503623f78a937ba1710`
 
 ## Último hito
-`HITOS/2026-09-12_H018_AND06_CERRADO.md`
+`HITOS/2026-09-12_F103_CERRADO.md`
 
 ## Estado operativo
-- Aragón: baseline principal validado.
-- Castilla y León: validada hasta M06.
-- Extremadura: M04/M05 experimental; EXT-19 no promovido.
-- Andalucía: AND-06 cerrado sin factibilidad; mínimo 1 outlier en chunk 0.16. Requiere diagnóstico dirigido del residual.
-- Cataluña/Madrid: R027 v1.0.1 en ejecución con cuotas Hamilton explícitas ([run 34689470696](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34689470696)).
-- España continental: 12 territorios con M01-M03 estricto promovido; Cataluña M03 validado.
-- Archipiélagos: inventario cerrado; pendiente política insular antes de M04.
+- F1.1 Aragón: cerrada; regresión vigente.
+- F1.2 Castilla y León: cerrada; regresión y evidencia durable PASS.
+- F1.3 contrato común: cerrada; límites explícitos, YAML único Aragón, CI y dos regresiones verdes.
+- F1.4 Extremadura: siguiente y único frente territorial.
+- Andalucía y territorios posteriores: congelados; sin nuevas ejecuciones.
 
-## Evidencia nueva
-- `resultados/experimentos/andalucia/gh-34689358863/RESUMEN_AND06.json`
+## Evidencia
+- `territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/`
+- `docs/AUDITORIAS/PLAN_ACCION_FASE1_ARAGON_CYL_EXTREMADURA_2026-09-12.md`
 
 ## Regla
-Todo cálculo pesado se ejecuta en GitHub Actions. Esta salida solo resume decisiones verificadas y enlaza evidencias.
+No avanzar fuera de Aragón, Castilla y León y Extremadura hasta cerrar la Fase 1. El cálculo pesado se ejecuta en GitHub Actions.

@@ -2,15 +2,16 @@
 
 **Fecha de corte:** 2026-09-12  
 **Repositorio:** `jfmurciego/DiputadodeDistrito`  
-**Rama / HEAD:** `main` / `fde28250ae532836e548c5ff2f8855542fea3709`  
+**Rama / HEAD:** `main` / `777e809675ebbffd5c84b503623f78a937ba1710`  
 **Alcance cerrado:** Aragón → Castilla y León → Extremadura. No avanzar a otros territorios hasta superar todas las puertas de esta fase.  
 **Fuentes cruzadas:** estado y continuidad del repositorio; auditoría, valoración, tareas y parche aportados por Claude.
 
 ## Estado de ejecución
 
 - **F1.1 cerrada:** regresión Aragón SUCCESS, run [34699524889](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34699524889), commit `63d3aee`.
-- **F1.2 regresión cerrada:** Castilla y León SUCCESS con `maxdev=0.119836116709`, run de confirmación [34699884884](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34699884884), trinquete en `acf220e`.
-- **Siguiente:** materializar evidencia durable de Castilla y León antes de modificar el contrato común.
+- **F1.2 cerrada:** Castilla y León SUCCESS; evidencia durable y recomputación independiente en `territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/`, run de persistencia [34702489471](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34702489471).
+- **F1.3 cerrada:** límites explícitos, workflows clasificados, YAML único de Aragón y regresiones verdes: Aragón [34702658348](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34702658348), Castilla y León [34702764537](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34702764537), CI [34702764535](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34702764535).
+- **Siguiente:** F1.4, consolidar o descartar formalmente Extremadura.
 
 ## Veredicto de estado
 
