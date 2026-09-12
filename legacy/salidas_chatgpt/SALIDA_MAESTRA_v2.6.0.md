@@ -1,9 +1,9 @@
 # Salida maestra de ChatGPT
 
-**Versión:** 2.7.0  
+**Versión:** 2.6.0  
 **Fecha de corte:** 2026-09-12  
 **Estado:** Fase 1 cerrada; expansión congelada  
-**Anterior:** `legacy/salidas_chatgpt/SALIDA_MAESTRA_v2.6.0.md`  
+**Anterior:** `legacy/salidas_chatgpt/SALIDA_MAESTRA_v2.5.0.md`  
 **HEAD técnico verificado:** `aebce6ebb68b7b84cd2fa579efc276e9316ab837`
 
 ## Último hito
@@ -21,12 +21,6 @@
 ## Fuente factual
 
 `resultados/fase1/ESTADO_FACTUAL.json`
-
-## Orquestación asíncrona
-
-- Protocolo: `docs/ORQUESTACION/PROTOCOLO_EJECUCION_ASINCRONA.md`.
-- Notificación: issue #5 `DDD — Orquestación asíncrona`.
-- Reenganche: `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`.
 
 ## Reanudación
 
