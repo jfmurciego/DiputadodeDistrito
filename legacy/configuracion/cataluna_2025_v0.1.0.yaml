@@ -1,13 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Cataluña
-# VERSIÓN: 0.2.0
-# NOMBRE DE VERSIÓN: Diagnóstico topológico estricto CAT-02
+# VERSIÓN: 0.1.0
+# NOMBRE DE VERSIÓN: Baseline territorial CAT-01
 # FECHA: 2026-09-12
-# ESTADO: CAT-02 diagnóstico; no añade pasarelas.
-# QUÉ HACE: congela cardinalidad y población CAT-01 y exige auditoría provincial/municipal para certificar el enclave aislado antes de modificar M02.
-# CAMBIOS: expected 5.143 secciones y 8.124.126 habitantes; auditorías activas y enforcement estricto; topology_bridges permanece vacío.
-# MOTIVO: CAT-01 observó un aislado sin identificarlo en el contrato; CAT-02 debe diagnosticarlo reproduciblemente antes de CAT-03.
-# ANTERIOR: legacy/configuracion/cataluna_2025_v0.1.0.yaml
+# ESTADO: baseline inicial; pendiente de congelar cardinalidades y topología tras primera ejecución.
+# QUÉ HACE: define Cataluña sobre las fuentes nacionales 2025 y ejecuta M01-M03 para Barcelona, Girona, Lleida y Tarragona.
+# CAMBIOS: territorio nuevo; no deriva tolerancias, puentes ni reglas M04 de otras comunidades.
+# MOTIVO: iniciar Cataluña con el mismo contrato reproducible usado en Aragón, Extremadura y Andalucía.
+# ANTERIOR: ninguno — territorio nuevo.
+
 meta:
   procedure_name: Diputado de Distrito
   territory_id: cataluna
@@ -15,28 +16,40 @@ meta:
   run_name: cataluna_2025
   year: 2025
   scope: provincial
-  schema_version: 0.2.0
-  status: topology_audit_cat02
+  schema_version: 0.1.0
+  status: baseline_m01_m03
+
 io:
   project_root: {path: ../../..}
   input:
-    seccionado: {path: inputs/seccionado_2025.zip, layer: '', section_key_col: CUSEC}
+    seccionado:
+      path: inputs/seccionado_2025.zip
+      layer: ''
+      section_key_col: CUSEC
     population_cip:
       paths: [inputs/65034.csv.zip]
       sep: auto
       section_key_col: Secciones
       pop_col: Total
-      filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values: [Total]
+        edad_total_values: [Todas las edades]
   cache: {dir: "territorios/cataluna/.cache/ddd/preparacion/{run_name}"}
+
 territory_contract:
   unit_id_role: census_section
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['08','17','25','43']
-  status: topology_audit_cat02
+  status: baseline_candidate
   notes:
-    - CAT-01 cerró 5.143 secciones, 8.124.126 habitantes y 14.375 aristas.
-    - CAT-02 diagnostica el aislado; no fija K ni añade pasarelas.
+    - CAT-01 debe medir, no presuponer, secciones, población y conectividad.
+    - No se fijan aún K, Hamilton, puentes administrativos ni política M04.
+    - Cualquier discontinuidad topológica se auditará antes de introducir puentes.
+
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: ['08','17','25','43']
@@ -63,18 +76,13 @@ modulos:
     pop_field: "POP_{year}"
     out_graph_json: "territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
     out_report: "territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+
 validation:
   expected_province_codes: ['08','17','25','43']
-  expected_sections_geometry: 5143
-  expected_population_total_2025: 8124126
-  expected_topology_bridges: 0
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
   municipality_field: CUMUN
   municipality_name_field: NMUN
-  audit_graph_components: true
-  audit_admin_level_1_components: true
-  audit_admin_level_2_components: true
-  require_one_graph_component_per_province: true
-  require_connected_municipalities: true
+  require_one_graph_component_per_province: false
+  require_connected_municipalities: false

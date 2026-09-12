@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 03 — Construir grafo territorial
-VERSIÓN: 7.2.0
-NOMBRE DE VERSIÓN: Observabilidad separada del bloqueo
-FECHA: 2026-09-12
-QUÉ HACE: construye el grafo canónico y calcula siempre que se solicite la conectividad global, provincial y municipal, separando la observación diagnóstica de las reglas que hacen fallar el contrato.
+VERSIÓN: 7.1.0
+NOMBRE DE VERSIÓN: Contrato de conectividad administrativa
+FECHA: 2026-09-11
+QUÉ HACE: construye el grafo canónico de secciones y certifica, cuando el territorio lo exige, la conectividad de provincias y municipios antes de abrir la distritación.
 POR QUÉ ES SEPARADO: M03 es la frontera entre GIS y optimización; una discontinuidad administrativa debe detectarse aquí, no durante M04/M05, para impedir que el algoritmo trabaje sobre unidades atómicas topológicamente inválidas.
-ESTADO: vigente — R022 / expansión nacional.
-CAMBIOS: añade audit_graph_components, audit_admin_level_1_components y audit_admin_level_2_components; los flags audit_* calculan métricas sin bloquear y los require_* conservan el fail-fast.
-MOTIVO: CAT-01 terminó SUCCESS con un aislado porque las auditorías estaban desactivadas. El bootstrap nacional necesita medir discontinuidades antes de convertirlas en restricciones duras.
-ANTERIOR: legacy/modulo03/03_construir_grafo_v7.1.0.py
+ESTADO: candidato R016 / CYL-03.
+CAMBIOS: añade auditoría de componentes inducidas por provincia y municipio; incorpora resultados al informe M03; soporta require_one_graph_component_per_province y require_connected_municipalities; aborta con diagnóstico preciso si el contrato no se cumple.
+MOTIVO: CYL-03 reveló el exclave de Herrera de Duero (Tudela de Duero) solo al llegar a M04. Tras declarar la pasarela intramunicipal en M02, M03 debe garantizar sistemáticamente que ninguna unidad administrativa atómica llegue desconectada a los módulos de distritación.
+ANTERIOR: legacy/modulo03/03_construir_grafo_v7.0.1.py
 """
 from __future__ import annotations
 import sys,argparse,io,json,zipfile,collections
@@ -97,25 +97,20 @@ def main():
         adj[e["u"]].add(e["v"]);adj[e["v"]].add(e["u"])
     isolated=sum(1 for n in pop_map if not adj[n]);total_pop=int(sum(pop_map.values()))
     province_field=str(val.get("province_field","CPRO"));municipality_field=str(val.get("municipality_field","CUMUN"));municipality_name_field=str(val.get("municipality_name_field","NMUN"))
-    audit_global=bool(val.get("audit_graph_components",True))
-    audit_province=bool(val.get("audit_admin_level_1_components",val.get("require_one_graph_component_per_province",False)))
-    audit_municipality=bool(val.get("audit_admin_level_2_components",val.get("require_connected_municipalities",False)))
-    global_components=component_sets(set(pop_map),adj) if audit_global else []
-    global_audit={"enabled":audit_global,"components":len(global_components),"component_sizes":[len(c) for c in global_components],"component_samples":[sorted(c)[:12] for c in global_components]}
     province_audit={};province_bad=[];municipality_audit={};municipality_bad=[]
-    if audit_province:
+    if bool(val.get("require_one_graph_component_per_province",False)):
         if province_field not in gdf.columns:raise SystemExit(f"M03: falta province_field '{province_field}' requerido por validación")
         gx=gdf.copy();gx[province_field]=gx[province_field].astype(str).str.zfill(2)
         province_audit,province_bad=audit_group_components(gx,id_field,[province_field],adj)
-    if audit_municipality:
+    if bool(val.get("require_connected_municipalities",False)):
         for c in (province_field,municipality_field):
             if c not in gdf.columns:raise SystemExit(f"M03: falta campo administrativo '{c}' requerido por validación municipal")
         gx=gdf.copy();gx[province_field]=gx[province_field].astype(str).str.zfill(2);gx[municipality_field]=gx[municipality_field].astype(str).str.zfill(5)
         municipality_audit,municipality_bad=audit_group_components(gx,id_field,[province_field,municipality_field],adj,municipality_name_field)
-    report={"module":"03","version":"7.2.0","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"out_graph_json":out_graph,"global_component_audit":global_audit,"province_component_audit":{"enabled":audit_province,"enforced":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"details":province_audit,"violations":province_bad},"municipality_component_audit":{"enabled":audit_municipality,"enforced":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"details":municipality_audit,"violations":municipality_bad}}
+    report={"module":"03","version":"7.1.0","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"out_graph_json":out_graph,"province_component_audit":{"enabled":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"details":province_audit},"municipality_component_audit":{"enabled":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"violations":municipality_bad}}
     write_json({"nodes":nodes,"edges":edges_f},out_graph)
     if out_report:write_json(report,out_report)
-    if province_bad and bool(val.get("require_one_graph_component_per_province",False)):raise SystemExit(f"M03: provincias desconectadas tras M02: {province_bad}")
-    if municipality_bad and bool(val.get("require_connected_municipalities",False)):raise SystemExit(f"M03: municipios desconectados tras M02: {municipality_bad}")
-    print(f"[Módulo 3] OK v7.2.0 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} municipios_bad={len(municipality_bad)} out={out_graph}")
+    if province_bad:raise SystemExit(f"M03: provincias desconectadas tras M02: {province_bad}")
+    if municipality_bad:raise SystemExit(f"M03: municipios desconectados tras M02: {municipality_bad}")
+    print(f"[Módulo 3] OK v7.1.0 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} municipios_bad={len(municipality_bad)} out={out_graph}")
 if __name__=="__main__":main()
