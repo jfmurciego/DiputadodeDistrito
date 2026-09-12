@@ -1,42 +1,26 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.1.0
+# NOMBRE: Notificación de finalización de lote DDD
+# ESTADO: activo
+# QUÉ HACE: publica en issue #5 el cierre de cada lote registrado y menciona a @jfmurciego.
+# CAMBIO: incorpora el lote autónomo F1 de auditoría y GeoJSON.
+# ANTERIOR: legacy/workflows/notificar-finalizacion-orquestacion_v1.0.0.yml
 name: Notificar finalización de lote DDD
-
 on:
   workflow_run:
-    workflows:
-      - "Pruebas DDD — R015"
-      - "Regresión M06 — Aragón"
-      - "Regresión M06 — Castilla y León"
+    workflows: ["Pruebas DDD — R015", "Regresión M06 — Aragón", "Regresión M06 — Castilla y León", "Lote autónomo F1 — auditoría y GeoJSON"]
     types: [completed]
-
 permissions:
   contents: read
   issues: write
-
 jobs:
   avisar:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: Publicar resultado y reenganche
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
           script: |
             const run = context.payload.workflow_run;
-            const conclusion = run.conclusion || "unknown";
-            const symbol = conclusion === "success" ? "✅" : "⚠️";
-            const body = [
-              "<!-- ddd-orquestacion-run-" + run.id + " -->",
-              symbol + " @jfmurciego: lote terminado.",
-              "",
-              "- Workflow: **" + run.name + "**",
-              "- Resultado: **" + conclusion.toUpperCase() + "**",
-              "- Run: " + run.html_url,
-              "- Reenganche: docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md",
-              "",
-              "No requiere espera activa en ChatGPT."
-            ].join("\n");
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: 5,
-              body
-            });
+            const body = "✅ @jfmurciego: lote terminado.\n\n- Workflow: **" + run.name + "**\n- Resultado: **" + (run.conclusion || "unknown").toUpperCase() + "**\n- Run: " + run.html_url + "\n- Reenganche: docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md";
+            await github.rest.issues.createComment({owner: context.repo.owner, repo: context.repo.repo, issue_number: 5, body});

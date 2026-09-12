@@ -1,22 +1,18 @@
 # Punto de reenganche DDD
 
-**Versión:** 1.0.0  
+**Versión:** 1.1.0  
 **Fecha:** 2026-09-12  
-**Estado:** ESPERANDO PRÓXIMO LOTE — no hay cálculo territorial en curso.
+**Estado:** LISTO PARA LANZAR — ningún cálculo en curso.  
+**Anterior:** `legacy/salidas_chatgpt/PUNTO_REENGANCHE_v1.0.0.md`
 
-## Contexto cerrado
+## Próximo lote manual
 
-- Fase 1: cerrada.
-- Aragón y Castilla y León: PASS.
-- Extremadura: `EXPERIMENTAL_BLOCKED`, no promovida.
-- Comunidades posteriores: congeladas por instrucción del usuario.
+**Nombre en GitHub Actions:** `Lote autónomo F1 — auditoría y GeoJSON`
 
-## Mecanismo operativo
+Incluye en paralelo Aragón M01–M06 y sus GeoJSON, Castilla y León M01–M06 y sus GeoJSON, y la auditoría de evidencia duplicada, contratos, margen al techo y compacidad.
 
-- Notificación de finalización: issue #5, `DDD — Orquestación asíncrona`.
-- Protocolo: `docs/ORQUESTACION/PROTOCOLO_EJECUCION_ASINCRONA.md`.
-- Al lanzar el siguiente lote, sustituir este fichero por: objetivo, enlace al run, criterios de aceptación y acción condicionada al resultado.
+Los artefactos y el resumen se persisten incluso si una rama falla. El estado global sólo se marca después de recoger todas las ramas.
 
-## Instrucción para el siguiente chat
+## Después del correo
 
-> Continúa DDD desde `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`. Consulta el último resultado del issue #5. No lances otras comunidades sin mi autorización.
+> Revisa el resultado de `Lote autónomo F1 — auditoría y GeoJSON` desde issue #5. No lances otros territorios.
