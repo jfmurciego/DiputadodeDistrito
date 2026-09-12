@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: F1.4 — Ejecución canónica c020 Extremadura
 # FECHA: 2026-09-12
 # ESTADO: puerta de promoción o descarte experimental
 # QUÉ HACE: ejecuta M01-M06 desde el contrato 0.5.0, recomputa invariantes, publica artefacto y persiste evidencia ligera.
-# CAMBIOS: vigila el swap-polish común corregido y relanza la ejecución canónica.
-# MOTIVO: el run 34703067070 llegó a M05 y reveló una importación omitida de hard_limits.
-# ANTERIOR: legacy/workflows/f104-extremadura-canonica_v1.0.0.yml
+# CAMBIOS: primera versión.
+# MOTIVO: resolver F1.4 con operadores generales y sin inyecciones territoriales ocultas.
+# ANTERIOR: ninguno — workflow nuevo.
 name: F1.4 — Extremadura M01-M06 canónico
 
 on:
@@ -17,7 +17,6 @@ on:
     paths:
       - '.github/workflows/f104-extremadura-canonica.yml'
       - 'territorios/extremadura/config/extremadura_2025.yaml'
-      - 'ddd_core/m05_swap_polish.py'
 
 permissions:
   contents: write

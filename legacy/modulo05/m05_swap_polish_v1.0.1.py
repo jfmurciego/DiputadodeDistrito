@@ -3,16 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: M05 — Pulido determinista por swaps 1×1
-VERSIÓN: 1.0.2
-NOMBRE: Swap-polish canónico — límites territoriales estrictos
-FECHA: 2026-09-12
+VERSIÓN: 1.0.1
+NOMBRE: Swap-polish canónico — corrección de alias
+FECHA: 2026-09-11
 FUNCIÓN: aplicar iterativamente el mejor intercambio 1×1 de unidades territoriales frontera después del
 optimizador M05, preservando provincia, suelo/techo, distritos urbanos cerrados y contigüidad estricta.
 CRITERIO: acepta únicamente swaps que mejoren lexicográficamente la función objetivo canónica de M05:
 violaciones duras, magnitud dura, distritos fuera de tolerancia, máximo desvío y error cuadrático.
-CAMBIOS: importa hard_limits desde el cargador común; no cambia el algoritmo ni la función objetivo.
-MOTIVO: F1.4 Run 34703067070 detectó NameError al activar el contrato estricto en este consumidor.
-ANTERIOR: legacy/modulo05/m05_swap_polish_v1.0.1.py
+CAMBIOS: renombra las variables locales de población `pd`/`pe` a `pop_d`/`pop_e` para no eclipsar el alias
+`pandas as pd`. No cambia el algoritmo, la función objetivo ni ninguna restricción territorial.
+MOTIVO: EXT-06 Run 34641628564 llegó correctamente al swap-polish pero falló antes de evaluarlo con
+`UnboundLocalError` por sombreado léxico del alias pandas.
+ANTERIOR: legacy/modulo05/m05_swap_polish_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -24,8 +26,6 @@ from pathlib import Path
 
 import geopandas as gpd
 import pandas as pd
-
-from ddd_core.config import hard_limits
 
 
 def load_geo(path):
