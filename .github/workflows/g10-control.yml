@@ -1,0 +1,123 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Controlador Marco G10
+# FECHA: 2026-09-12
+# ESTADO: candidato
+# QUÉ HACE: valida un plan, crea una matriz fail-fast false, ejecuta tareas permitidas de forma aislada y publica siempre un resumen por tarea y lote.
+# MOTIVO: desacoplar el cómputo persistente de GitHub de las ventanas del agente y evitar repeticiones sin control.
+name: G10 — Control de lote
+
+on:
+  workflow_dispatch:
+    inputs:
+      plan_path:
+        description: Plan G10 versionado en el repositorio
+        required: true
+        default: orchestracion/plan_lote_g10_smoke.json
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  planificar:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validar plan
+        run: python herramientas/g10_orquestar.py validate-plan --plan "${{ inputs.plan_path }}"
+      - name: Construir matriz
+        id: matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          matrix="$(python herramientas/g10_orquestar.py matrix --plan "${{ inputs.plan_path }}")"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  ejecutar:
+    needs: planificar
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.planificar.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Ejecutar acción permitida
+        id: task
+        shell: bash
+        env:
+          ACTION: ${{ matrix.action }}
+          CONFIG: ${{ matrix.config }}
+          TASK_ID: ${{ matrix.task_id }}
+        run: |
+          set +e
+          mkdir -p "g10-out/$TASK_ID"
+          case "$ACTION" in
+            g10_selftest)
+              python -m unittest tests.test_g10_orquestacion -v >"g10-out/$TASK_ID/task.log" 2>&1 ;;
+            validate_config)
+              docker build -t ddd-g10:${GITHUB_SHA} . >"g10-out/$TASK_ID/build.log" 2>&1 &&
+              docker run --rm --entrypoint python ddd-g10:${GITHUB_SHA} -c \
+                "from ddd_core.config import load_params_yaml,hard_limits;c=load_params_yaml('$CONFIG');v=c['validation'];hard_limits(c,k=int(v['expected_districts']),total_pop=float(v['expected_population_total_2025']));print('G10 CONTRACT PASS')" \
+                >"g10-out/$TASK_ID/task.log" 2>&1 ;;
+            territory_m01_m06)
+              echo "territory_m01_m06 requiere un plan de producción territorial aprobado" >"g10-out/$TASK_ID/task.log"; false ;;
+            *)
+              echo "Acción no permitida: $ACTION" >"g10-out/$TASK_ID/task.log"; false ;;
+          esac
+          code=$?
+          echo "$code" >"g10-out/$TASK_ID/exit_code"
+          exit "$code"
+      - name: Generar resumen aunque falle
+        if: always()
+        shell: bash
+        env:
+          TASK_ID: ${{ matrix.task_id }}
+          TERRITORY: ${{ matrix.territory }}
+          STAGE: CONTROL
+        run: |
+          set -euo pipefail
+          out="g10-out/$TASK_ID"; code="$(cat "$out/exit_code" 2>/dev/null || echo 99)"
+          failure="$(python herramientas/g10_orquestar.py classify --exit-code "$code" --log "$out/task.log" --stage "$STAGE")"
+          python - "$out/resumen.json" "$TASK_ID" "$TERRITORY" "$code" "$failure" <<'PY'
+          import json,sys
+          path,task,territory,code,failure=sys.argv[1:]
+          ok=int(code)==0
+          json.dump({"schema_version":"1.0","task_id":task,"territory":territory,
+            "fingerprint":"sha256:"+"0"*64,"attempt":1,"status":"SUCCESS" if ok else "REQUIRES_AGENT",
+            "failure_class":None if ok else failure,"failed_stage":None if ok else "CONTROL",
+            "last_valid_checkpoint":None,"metrics":{},"artifacts":["task.log"],
+            "recommended_action":"CLOSE" if ok else "REVIEW","agent_required":not ok},open(path,"w"),indent=2)
+          PY
+      - name: Publicar resumen individual
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: g10-${{ matrix.task_id }}
+          path: g10-out/${{ matrix.task_id }}/
+
+  resumir:
+    if: always()
+    needs: [planificar, ejecutar]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: g10-*
+          path: g10-results
+      - name: Agregar lote
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find g10-results -name resumen.json -type f | sort)
+          test "${#files[@]}" -gt 0
+          python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json "${files[@]}"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: g10-resumen-lote-${{ github.run_id }}
+          path: RESUMEN_LOTE_G10.json
