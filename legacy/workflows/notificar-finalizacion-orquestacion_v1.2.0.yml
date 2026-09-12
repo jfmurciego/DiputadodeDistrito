@@ -1,15 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.2.0
 # NOMBRE: Notificación de finalización de lote DDD
 # ESTADO: activo
-# QUÉ HACE: avisa una sola vez por los workflows durables G10 y enlaza el reenganche.
-# CAMBIO: elimina avisos duplicados de regresiones y concentra la notificación operativa.
-# ANTERIOR: legacy/workflows/notificar-finalizacion-orquestacion_v1.2.0.yml
+# QUÉ HACE: publica en issue #5 el cierre de cada lote registrado y menciona a @jfmurciego.
+# CAMBIO: incorpora el lote autónomo F1 de auditoría y GeoJSON.
+# ANTERIOR: legacy/workflows/notificar-finalizacion-orquestacion_v1.0.0.yml
 name: Notificar finalización de lote DDD
 on:
   workflow_run:
-    workflows: ["G10 Ejecutar tramo certificado", "G10 — Operar lote durable"]
+    workflows: ["Pruebas DDD — R015", "Regresión M06 — Aragón", "Regresión M06 — Castilla y León", "Lote autónomo F1 — auditoría y GeoJSON", "Auditoría integral F1 — 40 controles"]
     types: [completed]
 permissions:
   contents: read

@@ -97,3 +97,7 @@ Se añade un workflow manual único que materializa checkpoints antes de ejecuta
 ## 2026-09-12 — R028.1 — Compatibilidad del workflow de tramo
 
 Se sustituye la sintaxis compacta rechazada por GitHub Actions por YAML expandido compatible. El workflow fallido se conserva en `legacy/`; no llegó a iniciar ningún job ni alteró datos territoriales.
+
+## 2026-09-12 — R029 — Cierre factual F1 y operación G10
+
+Se elimina la duplicación exacta de los cinco árboles históricos de Aragón bajo `resultados/ejecuciones/`, conservando su evidencia territorial canónica. `ESTADO_FACTUAL.json` v1.1 registra contratos territoriales, margen de tolerancia, línea base de compacidad y el bloqueo de Extremadura. El workflow G10 valida modo y la notificación se centraliza para evitar correo/issue duplicado.
