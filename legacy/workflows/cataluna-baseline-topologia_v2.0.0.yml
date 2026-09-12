@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 2.0.1
-# NOMBRE DE VERSIÓN: CAT-02 — entorno de diagnóstico corregido
+# VERSIÓN: 2.0.0
+# NOMBRE DE VERSIÓN: CAT-02 — diagnóstico reproducible de Llívia
 # FECHA: 2026-09-12
 # ESTADO: diagnóstico; no añade pasarelas.
 # QUÉ HACE: reproduce M01-M03, captura el fallo estricto y certifica geométricamente el componente aislado antes de CAT-03.
-# CAMBIOS: pasa BASE explícitamente al contenedor; conserva sin cambios el contrato diagnóstico y los artefactos separados.
-# MOTIVO: el primer run CAT-02 34688010519 no encontró los ficheros porque BASE no estaba exportada dentro del contenedor.
-# ANTERIOR: legacy/workflows/cataluna-baseline-topologia_v2.0.0.yml
+# CAMBIOS: sustituye baseline permisivo por auditoría estricta, resumen ligero, step summary y artefactos separados.
+# MOTIVO: CAT-01 terminó SUCCESS con un aislado y auditorías administrativas desactivadas.
+# ANTERIOR: legacy/workflows/cataluna-baseline-topologia_v1.0.0.yml
 name: CAT-02 — Cataluña auditoría topológica
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
       - name: M01-M03 y diagnóstico geométrico
         run: |
           set -euo pipefail
-          docker run --rm -e PARAMS="$PARAMS" -e BASE="$BASE" -v "$PWD:/app" --entrypoint bash ddd-cat02:${GITHUB_SHA} -lc '
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD:/app" --entrypoint bash ddd-cat02:${GITHUB_SHA} -lc '
             python modulos/01_preparar_base_territorial.py --params "$PARAMS"
             python modulos/02_construir_adyacencias.py --params "$PARAMS"
             set +e
