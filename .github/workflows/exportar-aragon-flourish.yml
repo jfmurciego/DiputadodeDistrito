@@ -24,7 +24,7 @@ jobs:
       - name: Reproyectar a WGS84
         run: |
           docker build --pull -t ddd-flourish:$GITHUB_SHA .
-          docker run --rm -v "$PWD:/work" -w /work --entrypoint python ddd-flourish:$GITHUB_SHA - <<'PY'
+          docker run --rm -i -v "$PWD:/work" -w /work --entrypoint python ddd-flourish:$GITHUB_SHA - <<'PY'
           import json
           from pathlib import Path
           from pyproj import Transformer
