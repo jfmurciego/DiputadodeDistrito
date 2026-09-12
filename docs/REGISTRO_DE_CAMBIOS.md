@@ -89,3 +89,7 @@ Se corrige el caso de tramos terminados antes de M04: el lanzador no intenta ite
 ## 2026-09-12 — R027 — Materialización verificable de checkpoints
 
 Se incorpora el componente G10 que resuelve dependencias runtime, verifica bytes/SHA-256 y materializa únicamente evidencia autorizada. M05 exige M03+M04; Extremadura bloqueada se rechaza. Los informes se etiquetan `REUSED_MATERIALIZED`, sin promoción territorial.
+
+## 2026-09-12 — R028 — Workflow de tramo certificado
+
+Se añade un workflow manual único que materializa checkpoints antes de ejecutar. Su modo por defecto `verify_only` no calcula; `execute` requiere una decisión explícita y corre solo el intervalo semántico seleccionado en contenedor. Al finalizar deja artefacto y notificación compacta en la incidencia G10.

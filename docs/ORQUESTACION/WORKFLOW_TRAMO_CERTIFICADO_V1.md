@@ -1,0 +1,1 @@
+# Workflow G10 - Ejecutar tramo certificado\n\nverify_only materializa y verifica checkpoints, sin ejecutar módulos. execute construye el contenedor y corre exclusivamente el intervalo elegido. Siempre sube el informe y deja una notificación compacta en la incidencia G10.\n
