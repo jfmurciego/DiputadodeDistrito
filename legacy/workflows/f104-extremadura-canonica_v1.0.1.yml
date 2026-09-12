@@ -1,17 +1,23 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: F1.4 — Ejecución canónica c020 Extremadura
 # FECHA: 2026-09-12
 # ESTADO: puerta de promoción o descarte experimental
 # QUÉ HACE: ejecuta M01-M06 desde el contrato 0.5.0, recomputa invariantes, publica artefacto y persiste evidencia ligera.
-# CAMBIOS: corrige la entrada estándar del recomputador y deja el workflow en ejecución manual; la evidencia del run ya calculado se persiste por F1.4b.
-# MOTIVO: el run 34703213474 completó M01-M06; solo falló la persistencia porque docker no recibió stdin.
-# ANTERIOR: legacy/workflows/f104-extremadura-canonica_v1.0.1.yml
+# CAMBIOS: vigila el swap-polish común corregido y relanza la ejecución canónica.
+# MOTIVO: el run 34703067070 llegó a M05 y reveló una importación omitida de hard_limits.
+# ANTERIOR: legacy/workflows/f104-extremadura-canonica_v1.0.0.yml
 name: F1.4 — Extremadura M01-M06 canónico
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/f104-extremadura-canonica.yml'
+      - 'territorios/extremadura/config/extremadura_2025.yaml'
+      - 'ddd_core/m05_swap_polish.py'
 
 permissions:
   contents: write
@@ -72,7 +78,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          docker run --rm -i -e BASE="/app/$BASE" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e GITHUB_SHA="$GITHUB_SHA" -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} - <<'PY'
+          docker run --rm -e BASE="/app/$BASE" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e GITHUB_SHA="$GITHUB_SHA" -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} - <<'PY'
           import hashlib, io, json, os, pathlib, zipfile
           from collections import defaultdict, deque
           import geopandas as gpd
