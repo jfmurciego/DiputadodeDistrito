@@ -53,8 +53,7 @@ jobs:
           pathlib.Path("salida/auditoria/RESULTADO.json").write_text(json.dumps({"checks":checks,"compactness":compactness,"aragon_duplicate_files":len(common),"aragon_byte_equal":exact},ensure_ascii=False,indent=2))
           PY
           rc=$?
-          printf '{"component":"auditoria_ampliada","exit_code":%s}
-' "$rc" > salida/auditoria/estado.json
+          printf '{"component":"auditoria_ampliada","exit_code":%s}\\n' "$rc" > salida/auditoria/estado.json
           exit 0
       - if: always()
         uses: actions/upload-artifact@v6
@@ -73,8 +72,7 @@ jobs:
           docker build --pull -t ddd-f106:$GITHUB_SHA .
           docker run --rm ddd-f106:$GITHUB_SHA python -m unittest tests.test_pipeline_sintetico_m01_m06 > salida/salud/smoke.log 2>&1
           rc=$?
-          printf '{"component":"salud_tecnica","exit_code":%s}
-' "$rc" > salida/salud/estado.json
+          printf '{"component":"salud_tecnica","exit_code":%s}\\n' "$rc" > salida/salud/estado.json
           exit 0
       - if: always()
         uses: actions/upload-artifact@v6
@@ -101,8 +99,7 @@ jobs:
           pathlib.Path("salida/extremadura/DIAGNOSTICO.json").write_text(json.dumps({"status":"EXPERIMENTAL_BLOCKED","outside_target_tolerance":out,"validation":val},ensure_ascii=False,indent=2))
           PY
           rc=$?
-          printf '{"component":"extremadura_diagnostico","exit_code":%s}
-' "$rc" > salida/extremadura/estado.json
+          printf '{"component":"extremadura_diagnostico","exit_code":%s}\\n' "$rc" > salida/extremadura/estado.json
           exit 0
       - if: always()
         uses: actions/upload-artifact@v6
@@ -128,8 +125,7 @@ jobs:
           pathlib.Path("salida/visualizacion/MANIFIESTO.json").write_text(json.dumps(o,ensure_ascii=False,indent=2))
           PY
           rc=$?
-          printf '{"component":"visualizacion","exit_code":%s}
-' "$rc" > salida/visualizacion/estado.json
+          printf '{"component":"visualizacion","exit_code":%s}\\n' "$rc" > salida/visualizacion/estado.json
           exit 0
       - if: always()
         uses: actions/upload-artifact@v6
@@ -147,7 +143,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p cierre
-          find recibido -name estado.json -exec cat {} ; | tee cierre/ESTADOS.txt
+          find recibido -name estado.json -exec cat {} \\; | tee cierre/ESTADOS.txt
           python3 - <<'PY'
           import json,os,pathlib
           s=[json.loads(p.read_text()) for p in pathlib.Path("recibido").rglob("estado.json")]
