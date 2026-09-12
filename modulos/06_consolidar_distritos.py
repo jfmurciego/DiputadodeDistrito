@@ -139,6 +139,7 @@ def main():
         raise SystemExit(f"[Módulo 6] ERROR: distritos={k} esperados={expected_k}")
 
     target, floor, cap, tol = hard_limits(cfg, k=k, total_pop=total_pop)
+    tol_ratio = tol / target
 
     summary["target"] = target
     summary["difference"] = summary["district_pop"] - target
