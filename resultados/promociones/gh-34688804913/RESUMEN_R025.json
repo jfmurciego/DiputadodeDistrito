@@ -1,0 +1,140 @@
+{
+  "version": "1.0.0",
+  "status": "R025_SUCCESS",
+  "run_id": 34688804913,
+  "head_sha": "2afc8cdeaff3b2517071cf29be6d0a3f6f5de44a",
+  "territories": [
+    {
+      "territory_id": "cantabria",
+      "status": "M03_PROMOTABLE",
+      "sections": 458,
+      "population": 593623,
+      "edges": 1233,
+      "topology_bridges": 1,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "status": "M03_PROMOTABLE",
+      "sections": 1961,
+      "population": 2126378,
+      "edges": 5549,
+      "topology_bridges": 1,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "ceuta",
+      "status": "M03_PROMOTABLE",
+      "sections": 56,
+      "population": 83567,
+      "edges": 135,
+      "topology_bridges": 0,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "status": "M03_PROMOTABLE",
+      "sections": 582,
+      "population": 683854,
+      "edges": 1541,
+      "topology_bridges": 2,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "status": "M03_PROMOTABLE",
+      "sections": 3515,
+      "population": 5425182,
+      "edges": 9724,
+      "topology_bridges": 2,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "galicia",
+      "status": "M03_PROMOTABLE",
+      "sections": 2134,
+      "population": 2714741,
+      "edges": 5768,
+      "topology_bridges": 2,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "la_rioja",
+      "status": "M03_PROMOTABLE",
+      "sections": 343,
+      "population": 326803,
+      "edges": 924,
+      "topology_bridges": 0,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "madrid",
+      "status": "M03_PROMOTABLE",
+      "sections": 4518,
+      "population": 7113886,
+      "edges": 12410,
+      "topology_bridges": 0,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "melilla",
+      "status": "M03_PROMOTABLE",
+      "sections": 44,
+      "population": 87067,
+      "edges": 105,
+      "topology_bridges": 0,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "pais_vasco",
+      "status": "M03_PROMOTABLE",
+      "sections": 1707,
+      "population": 2242343,
+      "edges": 4667,
+      "topology_bridges": 2,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "status": "M03_PROMOTABLE",
+      "sections": 826,
+      "population": 1015128,
+      "edges": 2282,
+      "topology_bridges": 0,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "status": "M03_PROMOTABLE",
+      "sections": 1224,
+      "population": 1586989,
+      "edges": 3423,
+      "topology_bridges": 2,
+      "isolated": 0,
+      "province_disconnected": 0,
+      "municipality_disconnected": 0
+    }
+  ]
+}
