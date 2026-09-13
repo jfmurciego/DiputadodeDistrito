@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.27.0
+Versión: 1.26.0
 Fecha: 2026-09-13
-Estado: C-08 implementado; pendiente de certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.26.0.md
+Estado: bloqueo operativo de C-08 retirado; regresiones territoriales solo manuales.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.25.0.md
 
 ## Fuente operativa
 
@@ -32,8 +32,9 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-08 fija `ddd_core/m04_seed_engine.py` como único motor vigente y publica su
-contrato de máquina. El pipeline y la herramienta auxiliar lo importan de forma
-estática; ya no seleccionan snapshots por ruta. La prueba contractual no ejecuta
-el motor ni recalcula productos. Tras certificar CI, continuar por C-13 y después
-C-12. No tocar C-01. R038–R040 y la expansión siguen suspendidos.
+C-08.0 elimina los disparadores automáticos de las dos regresiones territoriales:
+M01–M06 solo pueden reejecutarse mediante orden manual expresa. Los workflows
+anteriores quedan preservados en `legacy/` y una prueba bloquea la reintroducción
+de `push` o `schedule`. Continuar C-08 determinando un único motor M04 activo y
+trazable. No tocar C-01. La limpieza R038 restante, R039–R040 y la expansión
+siguen suspendidas.

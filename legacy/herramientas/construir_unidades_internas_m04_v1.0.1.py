@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: construir_unidades_internas_m04.py
-VERSIÓN: 1.0.2
-NOMBRE: Macro-unidades internas con motor M04 canónico
-FECHA: 2026-09-13
+VERSIÓN: 1.0.1
+NOMBRE: Macro-unidades internas conexas con entrada M01 ZIP
+FECHA: 2026-09-11
 FUNCIÓN: construir una identidad de partición distinta del municipio administrativo real. Los municipios
 pequeños permanecen atómicos; los sobredimensionados se dividen determinísticamente en macro-unidades
 internas conexas de tamaño controlado respecto del target distrital.
@@ -13,13 +13,14 @@ ENTRADAS: GeoJSON o GeoJSON.zip M01, grafo M03, K, campos de sección/municipio/
 SALIDAS: GeoJSON con `partition_unit_field` y JSON de auditoría.
 REGLAS: no modifica CUMUN; no cambia población ni geometría; cada macro-unidad es conexa en M03; la
 partición solo se abre para municipios por encima de `atomicity_ratio × target`.
-CAMBIOS: sustituye la carga dinámica del snapshot v7.4.5 por el motor canónico.
-MOTIVO: impedir que una herramienta operativa seleccione implícitamente otro motor M04.
-ANTERIOR: legacy/herramientas/construir_unidades_internas_m04_v1.0.1.py
+CAMBIOS: añade lectura explícita del GeoJSON comprimido producido por M01; la lógica de partición 1.0.0 no cambia.
+MOTIVO: el contrato real M01→M04 usa `.geojson.zip`; la herramienta debe consumir directamente esa salida sin pasos manuales.
+ANTERIOR: legacy/herramientas/construir_unidades_internas_m04_v1.0.0.py
 """
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import io
 import json
 import math
@@ -32,7 +33,17 @@ import geopandas as gpd
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from ddd_core import m04_seed_engine
+
+ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v745.py"
+
+
+def load_engine():
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v745_for_units", ENGINE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"No se puede cargar {ENGINE}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def load_geo(path):
@@ -65,7 +76,7 @@ def main():
     if a.k <= 0 or a.atomicity_ratio <= 0 or not (0 < a.chunk_ratio <= 1.0):
         raise SystemExit("Parámetros inválidos")
 
-    eng = m04_seed_engine
+    eng = load_engine()
     g = load_geo(a.geojson)
     g[a.id_field] = g[a.id_field].astype(str)
     g[a.municipality_field] = g[a.municipality_field].astype(str)

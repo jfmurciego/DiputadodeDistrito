@@ -230,3 +230,11 @@ El commit `9dde785` supera la suite general `34784297475`. No se activan regresi
 ## 2026-09-13 — C-08.0 — Autorización expresa de regresiones territoriales
 
 Las regresiones M06 de Aragón y Castilla y León dejan de responder a cambios en `ddd_core/**` o M04 y quedan disponibles exclusivamente mediante `workflow_dispatch`. Sus definiciones automáticas anteriores se preservan en `legacy/workflows/`. Una prueba de contrato impide reintroducir disparadores `push` o `schedule`. Es una corrección mínima de seguridad operacional necesaria para trabajar C-08 sin incumplir la prohibición de recalcular M01–M06; no constituye la limpieza completa R038 y no ejecuta ningún módulo territorial.
+
+### C-08.0.1 — Certificación CI
+
+El commit `4e3849c` supera la suite general `34785826965`. Es el único workflow activado: las regresiones territoriales no se ejecutan. El trinquete operativo queda certificado.
+
+## 2026-09-13 — C-08 — Motor M04 único y trazable
+
+Se declara `ddd_core/m04_seed_engine.py` como único motor M04 vigente mediante un contrato de máquina. El ejecutable del pipeline y la herramienta de unidades internas pasan de cargar snapshots por ruta a imports estáticos del motor canónico. Una prueba AST bloquea la carga dinámica y la selección versionada en la ruta operativa. La composición algorítmica certificada no cambia y ningún producto territorial se ejecuta o recalcula. Los snapshots no operativos se declaran históricos; su traslado físico corresponde a R038, todavía suspendido.

@@ -3,22 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.7
-NOMBRE DE VERSIÓN: Punto de entrada M04 canónico
-FECHA: 2026-09-13
-ESTADO: activo; composición territorial sin cambios, pendiente de certificación CI de C-08.
+VERSIÓN: 7.5.6
+NOMBRE DE VERSIÓN: Puerta mínima y propiedad OGR-safe
+FECHA: 2026-09-11
+ESTADO: candidato F1.5; pendiente de smoke M01–M06 y regresiones territoriales.
 FUNCIÓN: ejecutar el motor M04 v7.5.1, que permite `gateway_policy: preserve_component_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
 COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
-CAMBIOS: importa estáticamente el único motor declarado y elimina la carga por ruta.
-MOTIVO: hacer inequívoca y auditable la implementación M04 vigente.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.6.py
+CAMBIOS: el wrapper carga GeoJSON comprimido desde JSON nativo y vuelve a normalizar tras su propia exportación.
+MOTIVO: OGR sigue omitiendo ddd_unit_id cuando la salida intermedia queda tipada StringList.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.5.py
 """
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import io
 import json
 import sys
@@ -31,7 +32,17 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
-from ddd_core import m04_seed_engine
+
+BASE_ENGINE = ROOT / "ddd_core" / "m04_seed_engine_v754.py"
+
+
+def load_base():
+    spec = importlib.util.spec_from_file_location("ddd_m04_seed_engine_v754", BASE_ENGINE)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"M04: no se puede cargar {BASE_ENGINE}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 
 def load_geo(path):
@@ -221,7 +232,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
     args = ap.parse_args()
-    m04_seed_engine.main()
+    load_base().main()
     cfg = load_params_yaml(args.params)
     s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
     changed = normalize_unit_property_for_ogr(require(s4.get("out_geojson"), "Falta salida M04"))
