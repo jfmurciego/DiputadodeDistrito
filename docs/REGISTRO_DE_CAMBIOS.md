@@ -101,3 +101,7 @@ Se sustituye la sintaxis compacta rechazada por GitHub Actions por YAML expandid
 ## 2026-09-12 — R029 — Cierre factual F1 y operación G10
 
 Se elimina la duplicación exacta de los cinco árboles históricos de Aragón bajo `resultados/ejecuciones/`, conservando su evidencia territorial canónica. `ESTADO_FACTUAL.json` v1.1 registra contratos territoriales, margen de tolerancia, línea base de compacidad y el bloqueo de Extremadura. El workflow G10 valida modo y la notificación se centraliza para evitar correo/issue duplicado.
+
+## 2026-09-13 — R030 — Visor público y reenganche sin recálculo
+
+Se incorpora el visor estático MapLibre y el despliegue GitHub Pages para Aragón y Castilla y León. Consume únicamente GeoJSON finales canónicos, transforma coordenadas para dibujo en el cliente y valida 67/82 entidades antes de publicar. El punto de reenganche deja de recomendar el lote autónomo que repetía M01–M06 y limita G10 a cambios con huella nueva.
