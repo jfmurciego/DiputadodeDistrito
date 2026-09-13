@@ -137,3 +137,7 @@ El manifiesto público valida ahora cada distrito: identidad única, geometría 
 ## 2026-09-13 — R034 — Puerta de admisión territorial de producción
 
 El contrato territorial pasa de guía documental a control ejecutable. La puerta verifica identidad, fuentes con checksum, seis módulos completos, continuidad de artefactos, coherencia de K/códigos/campos/restricciones y confinamiento de outputs antes de admitir M01–M06. Aragón y Castilla y León generan certificado `ADMITTED`; cinco pruebas negativas demuestran el rechazo anticipado de contratos incompletos. G10 sustituye su comprobación parcial por esta puerta. No se ejecuta ni recalcula ningún territorio.
+
+### R034.1 — Procedencia disponible dentro del contenedor
+
+La CI general y G10 revelaron que la imagen excluía correctamente los datasets, pero también su manifiesto ligero. `.dockerignore` conserva ahora `inputs/MANIFEST.sha256` sin empaquetar los datos; la puerta puede comprobar procedencia dentro y fuera del contenedor.

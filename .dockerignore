@@ -1,8 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
+# NOMBRE: Imagen sin datos con manifiesto de procedencia
+# FECHA: 2026-09-13
+# QUÉ HACE: excluye datasets y resultados, pero incorpora el pequeño manifiesto SHA-256 requerido por la puerta de contratos.
+# ANTERIOR: legacy/dockerignore_v1.0.0
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
-inputs
+inputs/*
+!inputs/MANIFEST.sha256
 .cache
 ejecuciones
 legacy

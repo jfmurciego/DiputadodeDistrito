@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.1
-# NOMBRE DE VERSIÓN: Controlador G10 con procedencia en contenedor
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Controlador G10 con admisión territorial estricta
 # FECHA: 2026-09-13
 # ESTADO: vigente — R034
 # QUÉ HACE: valida planes y obliga a que validate_config atraviese la puerta completa de producción M01-M06 sin ejecutar cálculo territorial.
-# CAMBIOS: incorpora el manifiesto SHA-256 en la imagen sin incluir datasets y vuelve a disparar el control cuando cambia esa política.
+# CAMBIOS: sustituye la comprobación parcial de ratios por el contrato ejecutable de identidad, fuentes, módulos, rutas y restricciones cruzadas.
 # MOTIVO: impedir que G10 admita un territorio incompleto antes de consumir cálculo GIS.
-# ANTERIOR: legacy/workflows/g10-control_v1.1.0.yml
+# ANTERIOR: legacy/workflows/g10-control_v1.0.0.yml
 name: G10 — Control de lote
 
 on:
@@ -18,7 +18,6 @@ on:
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'ddd_core/territory_contract.py'
-      - '.dockerignore'
       - 'orchestracion/**'
       - 'schemas/g10-*.schema.json'
       - 'tests/test_g10_orquestacion.py'
@@ -30,7 +29,6 @@ on:
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'ddd_core/territory_contract.py'
-      - '.dockerignore'
       - 'orchestracion/**'
       - 'schemas/g10-*.schema.json'
       - 'tests/test_g10_orquestacion.py'
