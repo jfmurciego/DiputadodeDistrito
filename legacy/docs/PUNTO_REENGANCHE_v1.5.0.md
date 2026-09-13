@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.6.0
+Versión: 1.5.0
 Fecha: 2026-09-13
-Estado: línea común por contrato implementada; pendiente de certificación CI R035.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.5.0.md
+Estado: ingeniería de admisión territorial en curso; R034 completada.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.4.0.md
 
 ## Fuente operativa
 
@@ -13,8 +13,6 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.5.0.md
 - Control independiente de publicación: .github/workflows/validar-productos-publicos.yml
 - Puerta de admisión: herramientas/validar_contrato_territorial.py
 - CI de contratos: .github/workflows/validar-contratos-territoriales.yml
-- Lista de cierre: docs/CIERRE_INGENIERIA_PRODUCCION.md
-- Línea única: .github/workflows/producir-territorio-por-contrato.yml
 
 ## Regla de ejecución
 
@@ -30,4 +28,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R035 elimina la selección territorial codificada: la nueva línea recibe un YAML, lo admite o rechaza y sólo puede ejecutar con autorización explícita. No lanzar `execute` durante la congelación. Tras CI verde, completar el paquete de auditoría y marcar el cierre en la lista persistente.
+R034 convierte el contrato en una puerta ejecutable y certifica Aragón/Castilla y León sin recalcular. Siguiente hueco de producción: unificar el workflow completo M01–M06 por `territory_id`, eliminando las selecciones codificadas por territorio y haciendo obligatoria esta admisión antes del primer módulo. Mantener congelada toda ejecución territorial mientras no exista orden explícita.

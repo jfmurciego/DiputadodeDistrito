@@ -141,3 +141,7 @@ El contrato territorial pasa de guía documental a control ejecutable. La puerta
 ### R034.1 — Procedencia disponible dentro del contenedor
 
 La CI general y G10 revelaron que la imagen excluía correctamente los datasets, pero también su manifiesto ligero. `.dockerignore` conserva ahora `inputs/MANIFEST.sha256` sin empaquetar los datos; la puerta puede comprobar procedencia dentro y fuera del contenedor.
+
+## 2026-09-13 — R035 — Interfaz única de producción territorial
+
+La ejecución deja de seleccionar Aragón o Castilla y León mediante condicionales de workflow. Un resolutor toma el YAML admitido y deriva de él territorio, nombre de run y rutas. La nueva línea manual admite, verifica o ejecuta M01–M06; `execute` exige el literal de autorización explícita. Las pruebas demuestran dos contratos admitidos, rechazos tempranos y que los modos de control no ejecutan cálculo. No se ha lanzado ningún territorio.
