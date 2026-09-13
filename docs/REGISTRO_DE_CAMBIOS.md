@@ -129,3 +129,7 @@ El visor MapLibre pasa de territorios codificados a un registro declarativo. El 
 ## 2026-09-13 — R032.1 — Reenganche alineado con producto público
 
 El punto de reenganche pasa a señalar el estado operativo G10 y el registro declarativo de productos. Se elimina cualquier ambigüedad que pudiera provocar una repetición de M01–M06.
+
+## 2026-09-13 — R033 — Contrato exhaustivo y verificación independiente de producto público
+
+El manifiesto público valida ahora cada distrito: identidad única, geometría poligonal no vacía y campos declarados presentes. Se añade un workflow de verificación y empaquetado que genera el mismo sitio estático como artefacto, sin requerir GitHub Pages ni ejecutar M01–M06. Pages conserva únicamente la responsabilidad de despliegue.

@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.0.2
 # NOMBRE: Desplegar visor público MapLibre
 # ESTADO: activo
 # QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
-# CAMBIO: el manifiesto verifica identidad, geometría y campos de cada distrito, no sólo la primera entidad.
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.0.2.yml
+# CAMBIO: genera manifiesto público declarativo durante el empaquetado.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.0.1.yml
 # MOTIVO: hacer verificables visualmente los resultados certificados sin activar el motor territorial.
 name: Desplegar visor público
 
@@ -43,7 +43,16 @@ jobs:
         run: |
           set -euo pipefail
           node --check visor/app.js
-          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output /tmp/public-products.json
+          python - <<'PY'
+          import json
+          for path, expected in [
+              ("resultados/finales/aragon/distritos.geojson", 67),
+              ("resultados/finales/castilla_y_leon/distritos.geojson", 82),
+          ]:
+              data=json.load(open(path,encoding="utf-8"))
+              assert data["type"]=="FeatureCollection"
+              assert len(data["features"])==expected, (path,len(data["features"]),expected)
+          PY
       - name: Empaquetar lectura pública
         shell: bash
         run: |
