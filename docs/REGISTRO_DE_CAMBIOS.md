@@ -109,3 +109,7 @@ Se incorpora el visor estático MapLibre y el despliegue GitHub Pages para Arag�
 ## 2026-09-13 — R030.1 — Habilitación autónoma de GitHub Pages
 
 El primer despliegue del visor validó y empaquetó correctamente, pero GitHub Pages no estaba habilitado. El workflow activa explícitamente Pages en el primer uso y conserva su predecesor; no modifica datos territoriales.
+
+## 2026-09-13 — R031 — Estado operativo durable G10
+
+Se añade un generador Python de informe operacional, su contrato de prueba y la primera salida canónica JSON/Markdown. El informe expresa territorios, estado y reenganche sin autorizar nuevo cálculo territorial.
