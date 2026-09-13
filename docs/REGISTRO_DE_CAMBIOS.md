@@ -226,3 +226,7 @@ Se añade un verificador de biblioteca estándar que no importa el productor, `d
 ### C-06.1 — Certificación CI
 
 El commit `9dde785` supera la suite general `34784297475`. No se activan regresiones territoriales. C-06 queda cerrado y el reenganche avanza a C-08.
+
+## 2026-09-13 — C-08.0 — Autorización expresa de regresiones territoriales
+
+Las regresiones M06 de Aragón y Castilla y León dejan de responder a cambios en `ddd_core/**` o M04 y quedan disponibles exclusivamente mediante `workflow_dispatch`. Sus definiciones automáticas anteriores se preservan en `legacy/workflows/`. Una prueba de contrato impide reintroducir disparadores `push` o `schedule`. Es una corrección mínima de seguridad operacional necesaria para trabajar C-08 sin incumplir la prohibición de recalcular M01–M06; no constituye la limpieza completa R038 y no ejecuta ningún módulo territorial.

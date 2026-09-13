@@ -1,17 +1,30 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.0
-# NOMBRE DE VERSIÓN: Regresión territorial bajo autorización manual
+# VERSIÓN: 1.4.0
+# NOMBRE DE VERSIÓN: Regresión M06 — contrato canónico único Aragón
 # FECHA: 2026-09-11
 # ESTADO: regresión pesada F1.5
 # QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
-# CAMBIOS: elimina el disparador push; una regresión pesada solo se ejecuta por orden manual expresa.
-# MOTIVO: impedir que cambios de código o documentación recalculen M01-M06 de forma incidental.
-# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.4.0.yml
+# CAMBIOS: consume y vigila exclusivamente territorios/aragon/config/aragon_2025.yaml; mantiene invariantes y trinquete.
+# MOTIVO: cierre F1.5 y protección de cambios en la prueba de integración común.
+# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.3.0.yml
 name: Regresión M06 — Aragón
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/regresion-m06-aragon.yml'
+      - 'modulos/01_preparar_base_territorial.py'
+      - 'modulos/02_construir_adyacencias.py'
+      - 'modulos/03_construir_grafo.py'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
+      - 'modulos/06_consolidar_distritos.py'
+      - 'ddd_core/**'
+      - 'tests/test_pipeline_sintetico_m01_m06.py'
+      - 'territorios/aragon/config/aragon_2025.yaml'
 
 permissions:
   contents: read

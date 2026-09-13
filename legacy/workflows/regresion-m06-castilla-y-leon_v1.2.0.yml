@@ -1,17 +1,30 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
-# NOMBRE DE VERSIÓN: Regresión territorial bajo autorización manual
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Regresión M06 — Castilla y León
 # FECHA: 2026-09-11
 # ESTADO: regresión pesada F1.5
 # QUÉ HACE: reejecuta M01-M06 de Castilla y León ante cualquier cambio común y certifica sus invariantes territoriales.
-# CAMBIOS: elimina el disparador push; una regresión pesada solo se ejecuta por orden manual expresa.
-# MOTIVO: impedir que cambios de código o documentación recalculen M01-M06 de forma incidental.
-# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.2.0.yml
+# CAMBIOS: añade el smoke sintético M01-M06 a los disparadores comunes; no cambia parámetros territoriales.
+# MOTIVO: cierre F1.5 y protección de cambios en la prueba de integración común.
+# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.1.1.yml
 name: Regresión M06 — Castilla y León
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/regresion-m06-castilla-y-leon.yml'
+      - 'modulos/01_preparar_base_territorial.py'
+      - 'modulos/02_construir_adyacencias.py'
+      - 'modulos/03_construir_grafo.py'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
+      - 'modulos/06_consolidar_distritos.py'
+      - 'ddd_core/**'
+      - 'tests/test_pipeline_sintetico_m01_m06.py'
+      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
 
 permissions:
   contents: read

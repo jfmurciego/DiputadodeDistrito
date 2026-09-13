@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.26.0
+Versión: 1.25.0
 Fecha: 2026-09-13
-Estado: bloqueo operativo de C-08 retirado; regresiones territoriales solo manuales.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.25.0.md
+Estado: C-06 cerrado y certificado; C-08 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.24.0.md
 
 ## Fuente operativa
 
@@ -32,9 +32,8 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-08.0 elimina los disparadores automáticos de las dos regresiones territoriales:
-M01–M06 solo pueden reejecutarse mediante orden manual expresa. Los workflows
-anteriores quedan preservados en `legacy/` y una prueba bloquea la reintroducción
-de `push` o `schedule`. Continuar C-08 determinando un único motor M04 activo y
-trazable. No tocar C-01. La limpieza R038 restante, R039–R040 y la expansión
-siguen suspendidas.
+C-06 recomputa desde cero y sin importar código del productor: Aragón y Castilla
+y León pasan; Extremadura añade cinco infracciones municipales a su bloqueo.
+No se modifica ningún resultado. El commit `9dde785` supera la suite general
+`34784297475`; no se activan regresiones territoriales. Continuar por C-08,
+motor M04 único y trazable. No tocar C-01. R038–R040 y la expansión siguen suspendidos.
