@@ -145,3 +145,7 @@ La CI general y G10 revelaron que la imagen excluía correctamente los datasets,
 ## 2026-09-13 — R035 — Interfaz única de producción territorial
 
 La ejecución deja de seleccionar Aragón o Castilla y León mediante condicionales de workflow. Un resolutor toma el YAML admitido y deriva de él territorio, nombre de run y rutas. La nueva línea manual admite, verifica o ejecuta M01–M06; `execute` exige el literal de autorización explícita. Las pruebas demuestran dos contratos admitidos, rechazos tempranos y que los modos de control no ejecutan cálculo. No se ha lanzado ningún territorio.
+
+### R035.1 — Certificación y cierre de la interfaz
+
+CI `34747763671` completa correctamente. El checklist de cierre, el paquete de auditoría y el reenganche pasan a estado cerrado: el trabajo futuro es incorporar contratos territoriales autorizados, no seguir modificando la línea base.

@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.7.0
+Versión: 1.6.0
 Fecha: 2026-09-13
-Estado: línea base de producción cerrada y certificada; preparada para auditoría.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.6.0.md
+Estado: línea común por contrato implementada; pendiente de certificación CI R035.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.5.0.md
 
 ## Fuente operativa
 
@@ -30,4 +30,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R035 está certificado en CI: [run 34747763671](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34747763671). No quedan tareas de ingeniería base. Mantener congelada la ejecución territorial. El siguiente trabajo exige una instrucción expresa para incorporar un territorio mediante `Producción territorial por contrato` y su YAML/fuentes.
+R035 elimina la selección territorial codificada: la nueva línea recibe un YAML, lo admite o rechaza y sólo puede ejecutar con autorización explícita. No lanzar `execute` durante la congelación. Tras CI verde, completar el paquete de auditoría y marcar el cierre en la lista persistente.

@@ -1,9 +1,8 @@
 # Cierre de ingeniería de producción DDD
 
-**Versión:** 1.1.0  
+**Versión:** 1.0.0  
 **Inicio:** 2026-09-13  
-**Estado:** CERRADO — línea base lista para auditoría  
-**Anterior:** `legacy/docs/CIERRE_INGENIERIA_PRODUCCION_v1.0.0.md`  
+**Estado:** en ejecución  
 **Propósito:** completar la línea reutilizable sin ejecutar ni abrir territorios durante la congelación.
 
 ## Criterio de salida
@@ -16,8 +15,8 @@ Un territorio podrá entrar mediante un contrato completo, ser rechazado antes d
 - [x] R035.1 — Resolver universal: eliminar las selecciones Aragón/Castilla y León codificadas de la ejecución G10.
 - [x] R035.2 — Línea única: workflow por contrato con modos de admitir, verificar y ejecutar bajo autorización explícita.
 - [x] R035.3 — Prueba de fábrica: demostrar contrato válido, rechazos tempranos y ausencia de cálculo en los modos de control.
-- [x] R035.4 — Paquete de auditoría: evidencia de CI, trazabilidad, versión, legacy y punto de reenganche.
-- [x] R035.5 — Cierre: congelar la interfaz de producción y declarar el trabajo restante como incorporación de territorios, no ingeniería base.
+- [ ] R035.4 — Paquete de auditoría: evidencia de CI, trazabilidad, versión, legacy y punto de reenganche.
+- [ ] R035.5 — Cierre: congelar la interfaz de producción y declarar el trabajo restante como incorporación de territorios, no ingeniería base.
 
 ## Límites inviolables
 
@@ -28,4 +27,4 @@ Un territorio podrá entrar mediante un contrato completo, ser rechazado antes d
 
 ## Reenganche
 
-No quedan casillas de ingeniería base. Si esta sesión se interrumpe, el siguiente trabajo será una incorporación territorial concreta: contrato, fuentes, decisión explícita de ejecución y evidencia del run.
+Continuar siempre por la primera casilla sin marcar. Si esta sesión se interrumpe, este documento y `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md` son la fuente de reanudación.

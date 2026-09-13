@@ -1,9 +1,8 @@
 # R035 — Paquete de auditoría de producción
 
-**Versión:** 1.1.0  
+**Versión:** 1.0.0  
 **Fecha:** 2026-09-13  
-**Estado:** CERTIFICADO  
-**Anterior:** `legacy/docs/R035_PAQUETE_AUDITORIA_PRODUCCION_v1.0.0.md`  
+**Estado:** pendiente de certificación CI  
 **Alcance:** interfaz de producción; sin ejecución territorial.
 
 ## Decisión verificable
@@ -27,12 +26,6 @@ La línea de producción recibe una ruta de contrato, no un nombre de territorio
 - Cinco contratos defectuosos: rechazados antes de cálculo.
 - No se inicia M01–M06 por `push` ni por los modos de control.
 
-## Resultado certificado
-
-- CI: [Pruebas DDD — R015 #34747763671](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34747763671) — `SUCCESS`.
-- Pruebas de interfaz: dos contratos admitidos, cinco rechazos tempranos y guardas de no cálculo — `PASS`.
-- Ejecución territorial iniciada por R035: ninguna.
-
 ## Cierre operativo
 
-R035.4 y R035.5 están cerradas. Una nueva comunidad será trabajo de incorporación contractual y no una modificación de la línea base.
+Cuando CI quede verde, marcar R035.4 y R035.5 en `docs/CIERRE_INGENIERIA_PRODUCCION.md`. Desde ese momento, una nueva comunidad será trabajo de incorporación contractual y no una modificación de la línea base.
