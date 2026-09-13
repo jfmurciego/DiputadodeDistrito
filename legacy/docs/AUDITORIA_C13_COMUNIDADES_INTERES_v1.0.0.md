@@ -1,9 +1,8 @@
 # C-13 — Alcance de comunidades de interés
 
-Versión: 1.0.1  
+Versión: 1.0.0  
 Fecha: 2026-09-13  
-Estado: cerrado y certificado en CI 34786528440.  
-Anterior: `legacy/docs/AUDITORIA_C13_COMUNIDADES_INTERES_v1.0.0.md`.
+Estado: alcance formal implementado; pendiente de certificación CI.
 
 ## Decisión
 
@@ -39,6 +38,3 @@ P07, estado que bloquea publicación igual que un fallo.
 No se infieren comarcas desde nombres o geometría, no se cambian límites y no se
 ejecuta M01–M06. Reincorporar una fuente concreta será una decisión territorial
 posterior y requerirá orden expresa.
-
-El commit `5a4a884` supera la suite general `34786528440`, único workflow
-activado. No se ejecutó ninguna regresión territorial.

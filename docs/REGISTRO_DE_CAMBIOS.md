@@ -246,3 +246,7 @@ El commit `5645a23` supera la suite general `34786162160`. Es el único workflow
 ## 2026-09-13 — C-13 — Comunidades de interés
 
 P07 pasa de mención inerte a contrato formal supra-municipal. Se fijan fuente admisible, neutralidad ex ante, cobertura, cuatro métricas y precompromiso obligatorio de umbrales. Aragón y Castilla y León conservan sus rutas comarcales desactivadas; Extremadura no tiene fuente declarada. Los tres quedan `NOT_EVALUABLE`, estado que bloquea publicación. Se declara alcance sin inventar datos, modificar límites ni ejecutar M01–M06. Reincorporar una fuente territorial concreta requerirá orden expresa.
+
+### C-13.1 — Certificación CI
+
+El commit `5a4a884` supera la suite general `34786528440`, único workflow activado. No se ejecuta ninguna regresión territorial. C-13 queda cerrado y el backlog avanza a C-12.
