@@ -210,3 +210,7 @@ Se fija `polsby_popper` como nombre canónico y se publica el esquema único del
 ### C-10.1 — Certificación CI
 
 El commit `188c980` supera la suite general `34782359264`. Los patrones históricos de workflow activan incidentalmente las regresiones M06 de Aragón (`34782359206`) y Castilla y León (`34782359236`), ambas SUCCESS y sin persistir cambios de producto en `main`. La activación se registra como riesgo operativo; C-10 queda cerrado y el reenganche avanza a C-07.
+
+## 2026-09-13 — C-07 — Prueba sintética adversarial
+
+Se añade un pipeline sintético con población desigual 60/40/30/70, K=2 y solución contigua óptima única 100/100. La prueba exige la asignación exacta de secciones y contiene una mutación plausible que el oráculo debe rechazar. Deja de confundirse un smoke permisivo con capacidad de detección real. Solo se ejecutan datos temporales sintéticos; no se leen ni recalculan territorios certificados. C-01 permanece intacto.
