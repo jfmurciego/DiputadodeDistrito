@@ -1,10 +1,10 @@
 # Continuidad de la auditoría de plataforma DDD
 
-**Versión:** 1.4.0
+**Versión:** 1.3.0
 **Fecha de corte:** 2026-09-13
 **Estado:** VIGENTE — fuente de migración al nuevo hilo
 **Commit de partida:** `4b8af76` (`R036.0: registrar migración de auditoría`)
-**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.3.0.md`
+**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.2.0.md`
 **Propósito:** permitir que otra sesión continúe la auditoría y la ingeniería sin depender del chat anterior ni repetir resultados territoriales.
 
 ## 1. Veredicto que debe conservarse
@@ -25,7 +25,6 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 - [x] El visor y los productos públicos de Aragón/Castilla y León se validan y empaquetan sin depender de Pages.
 - [x] CI de R035: run `34747763671`, `SUCCESS`; no ejecutó M01–M06.
 - [x] R036 certificado en commit `3d1337c`: cinco workflows SUCCESS; gobierno de K, perfil general `0.80/1.75/0.12`, excepciones y esquema `bootstrap`/`production`.
-- [x] R037 certificado en commit `8376276`, CI `34757140425` SUCCESS; no ejecutó ni disparó regresiones territoriales.
 
 ### Abierto
 
@@ -45,7 +44,8 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 
 1. Leer este documento, `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`, `docs/CIERRE_INGENIERIA_PRODUCCION.md`, el estado G10 y la auditoría externa completa aportada por el usuario.
 2. Verificar `main`, CI, workflows activos e issue #5 antes de cambiar nada.
-3. Ejecutar R038: limpieza/versionado de workflows, auditores y documentación.
+3. Certificar R037 en CI sin abrir comunidades.
+4. Ejecutar R038: limpieza/versionado de workflows, auditores y documentación.
 5. Ejecutar R039: contrato y línea electoral común, con pruebas sintéticas o fixtures; no alterar productos canónicos.
 6. Mantener R040 bloqueada hasta autorización expresa. La prueba debe ser falsable y no permitir código específico del territorio.
 7. Incorporar los demás hallazgos de Claude a esta lista conforme se aporten; no limitar la revisión al informe reproducido en el chat anterior.

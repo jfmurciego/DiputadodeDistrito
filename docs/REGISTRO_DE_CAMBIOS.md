@@ -165,3 +165,7 @@ Commit `3d1337c` supera cinco workflows: puerta contractual, suite general, G10 
 ## 2026-09-13 — R037 — Gobierno topológico
 
 Los siete diagnósticos continentales R023 pasan a un registro ejecutable de bloqueo/reparación/admisión. Se prohíben puentes por proximidad automática y se exige expediente completo para cada arista lógica. En archipiélagos, la contigüidad se aplica dentro de cada componente, se prohíben aristas marítimas y distritos entre componentes, y el reparto de K debe preceder a M04. No se abre ni ejecuta ningún territorio.
+
+### R037.1 — Certificación CI
+
+Commit `8376276` supera la suite general en CI `34757140425`. El cambio no dispara regresiones territoriales ni ejecuta M01–M06. R037 queda cerrado y el reenganche avanza a R038.

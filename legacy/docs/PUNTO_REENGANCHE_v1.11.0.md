@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.12.0
+Versión: 1.11.0
 Fecha: 2026-09-13
-Estado: R034–R037 certificados; auditoría residual continúa por R038.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.11.0.md
+Estado: R034–R036 certificados; R037 implementado y pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.10.0.md
 
 ## Fuente operativa
 
@@ -32,4 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R037 está certificado en commit `8376276`, CI `34757140425` SUCCESS. Continuar por R038: archivar workflows territoriales sustituidos, clasificar auditores experimentales y corregir documentación aspiracional. R040 y cualquier M01–M06 siguen bloqueados hasta orden expresa.
+R037 está implementado sin cálculo territorial: siete diagnósticos quedan bloqueados hasta reparación declarada y los archipiélagos operan por componentes sin enlaces marítimos. Certificar CI y continuar por R038. R040 y cualquier M01–M06 siguen bloqueados hasta orden expresa.
