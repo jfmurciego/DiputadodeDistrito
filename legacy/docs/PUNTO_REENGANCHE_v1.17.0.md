@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.18.0
+Versión: 1.17.0
 Fecha: 2026-09-13
-Estado: C-04 cerrado; C-01 permanece fuera de este bloque y C-10 es el siguiente hito.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.17.0.md
+Estado: C-01 en ejecución; protocolo de 50 semillas M05 fijado sin datos partidistas.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.16.0.md
 
 ## Fuente operativa
 
@@ -32,9 +32,9 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-04 queda cerrado con una métrica reproducible del sesgo poblacional previo a
-M04: Aragón alcanza 4,546 % absoluto y Castilla y León 9,674 %. La evidencia se
-obtiene exclusivamente de resultados certificados; Extremadura permanece
-`EXPERIMENTAL_BLOCKED`. Continuar por C-10, contrato único de esquema y
-métricas. No tocar C-01. C-11 queda fuera de cálculo partidista por decisión
-expresa de dirección. R038–R040 y toda expansión territorial siguen suspendidos.
+C-01 reutiliza M03/M04 certificados del run `34599224954` y ejecuta solo M05
+con 50 semillas. El protocolo y los umbrales se fijaron antes de observar el
+resultado. Esperar la evidencia del workflow `C-01 — Robustez frente a semilla
+Aragón`; no ejecutar otro barrido en paralelo. C-11 queda fuera de cálculo
+partidista por decisión expresa de dirección. R038–R040 y toda expansión
+territorial continúan suspendidos.
