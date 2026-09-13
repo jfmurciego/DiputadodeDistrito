@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.7.0
+Versión: 1.8.0
 Fecha: 2026-09-13
-Estado: línea base de producción cerrada y certificada; preparada para auditoría.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.6.0.md
+Estado: R034–R035 certificados; auditoría de plataforma abierta con brechas estructurales pendientes.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.7.0.md
 
 ## Fuente operativa
 
@@ -15,6 +15,8 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.6.0.md
 - CI de contratos: .github/workflows/validar-contratos-territoriales.yml
 - Lista de cierre: docs/CIERRE_INGENIERIA_PRODUCCION.md
 - Línea única: .github/workflows/producir-territorio-por-contrato.yml
+- Migración al nuevo hilo: docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md
+- Prompt breve: docs/SALIDAS_CHATGPT/PROMPT_CORTO_AUDITORIA_PLATAFORMA.md
 
 ## Regla de ejecución
 
@@ -30,4 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R035 está certificado en CI: [run 34747763671](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34747763671). No quedan tareas de ingeniería base. Mantener congelada la ejecución territorial. El siguiente trabajo exige una instrucción expresa para incorporar un territorio mediante `Producción territorial por contrato` y su YAML/fuentes.
+R035 está certificado en CI, pero sólo cierra la interfaz. Retomar la lista R036–R040 de `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md`: primero gobierno de K/límites y topología; después limpieza y capa electoral. No ejecutar la prueba ciega ni M01–M06 sin orden expresa.
