@@ -1,10 +1,10 @@
 # Política de publicabilidad de mapas distritales DDD
 
-**Versión:** 1.1.0
-**Nombre de versión:** Alcance medible de comunidades de interés
+**Versión:** 1.0.0
+**Nombre de versión:** Nueve criterios y garantías de publicación
 **Fecha:** 2026-09-13
-**Estado:** vigente — C-13
-**Anterior:** `legacy/docs/POLITICA_PUBLICABILIDAD_v1.0.0.md`
+**Estado:** vigente — Paquete B, C-02/C-03/C-14
+**Anterior:** ninguno — documento nuevo
 
 ## 1. Decisión
 
@@ -27,13 +27,6 @@ Un mapa solo puede recibir `PUBLICABLE` cuando los nueve criterios sustantivos y
 | P09 | Base jurídica | Norma o naturaleza propositiva citada, tolerancia justificada y límites de validez expresos. |
 
 P05 es una puerta interna provisional, no una afirmación de que Polsby–Popper sea una norma legal ni una medida completa de calidad. El umbral 0,15 procede de la referencia histórica del propio proyecto. El suelo 0,05 evita formas extremas y el límite sistémico del 30 % impide aprobar un territorio cuya mala forma sea general, sin penalizar automáticamente fronteras naturales o administrativas concretas.
-
-P07 se aplica a una comunidad supra-municipal: comarca o equivalente funcional
-declarado. P04 ya cubre municipios y no puede duplicarse como P07. La fuente debe
-ser pública, versionada, no partidista y cubrir todos los municipios. Deben
-publicarse comunidades partidas, comunidades por distrito, peso de la comunidad
-dominante y retención poblacional. Los umbrales se fijan antes de ejecutar; sin
-fuente o sin umbral, P07 es `NOT_EVALUABLE` y bloquea la publicación.
 
 ## 3. Garantías transversales
 

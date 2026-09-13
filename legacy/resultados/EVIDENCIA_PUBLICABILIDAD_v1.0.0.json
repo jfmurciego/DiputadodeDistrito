@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.1.0",
+  "schema_version": "1.0.0",
   "generated_at": "2026-09-13",
   "method": "descriptive_analysis_of_existing_m06_catalogues",
   "recalculated_modules": [],
-  "audit_findings": ["C-02", "C-03", "C-13", "C-14"],
+  "audit_findings": ["C-02", "C-03", "C-14"],
   "policy": "docs/POLITICA_PUBLICABILIDAD.md",
   "shape_gate": {
     "metric": "polsby_popper",
@@ -11,11 +11,6 @@
     "reference_threshold": 0.15,
     "maximum_share_below_reference": 0.30,
     "nature": "provisional_internal_publication_gate_not_legal_standard"
-  },
-  "communities_of_interest": {
-    "criterion": "P07",
-    "contract": "configuracion/comunidades_interes.json",
-    "decision": "FORMAL_SCOPE_DECLARED_NO_TERRITORY_EVALUABLE"
   },
   "criteria": [
     "P01_population_balance",
@@ -35,7 +30,6 @@
       "polsby_popper": {"min": 0.052728804944, "p10": 0.084911826213, "p25": 0.149375054378, "median": 0.211614994952, "p75": 0.327771812940, "p90": 0.407871698990, "max": 0.544739246924, "below_0_10": 9, "below_0_15": 17, "share_below_0_15": 0.253731343284, "below_0_20": 31},
       "pearson_abs_population_deviation_vs_shape": -0.175147047397,
       "shape_gate": "PASS_PROVISIONAL",
-      "communities_of_interest_gate": "NOT_EVALUABLE",
       "technical_status": "PASS",
       "publication_status": "BLOCKED"
     },
@@ -53,7 +47,6 @@
       ],
       "c03_causal_claim": "NOT_SUPPORTED_BY_OBSERVED_CORRELATION",
       "shape_gate": "FAIL",
-      "communities_of_interest_gate": "NOT_EVALUABLE",
       "technical_status": "PASS",
       "publication_status": "BLOCKED"
     },
@@ -63,7 +56,6 @@
       "polsby_popper": {"min": 0.115150736575, "p10": 0.152438628660, "p25": 0.190978972711, "median": 0.223624261140, "p75": 0.312597448556, "p90": 0.391810432467, "max": 0.489386237018, "below_0_10": 0, "below_0_15": 7, "share_below_0_15": 0.107692307692, "below_0_20": 23},
       "pearson_abs_population_deviation_vs_shape": -0.067646476148,
       "shape_gate": "PASS_PROVISIONAL",
-      "communities_of_interest_gate": "NOT_EVALUABLE",
       "technical_status": "EXPERIMENTAL_BLOCKED",
       "publication_status": "BLOCKED"
     }

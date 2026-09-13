@@ -242,3 +242,7 @@ Se declara `ddd_core/m04_seed_engine.py` como único motor M04 vigente mediante 
 ### C-08.1 — Certificación CI
 
 El commit `5645a23` supera la suite general `34786162160`. Es el único workflow activado y no se ejecuta ninguna regresión territorial. C-08 queda cerrado; el backlog rector avanza a C-13 y después C-12.
+
+## 2026-09-13 — C-13 — Comunidades de interés
+
+P07 pasa de mención inerte a contrato formal supra-municipal. Se fijan fuente admisible, neutralidad ex ante, cobertura, cuatro métricas y precompromiso obligatorio de umbrales. Aragón y Castilla y León conservan sus rutas comarcales desactivadas; Extremadura no tiene fuente declarada. Los tres quedan `NOT_EVALUABLE`, estado que bloquea publicación. Se declara alcance sin inventar datos, modificar límites ni ejecutar M01–M06. Reincorporar una fuente territorial concreta requerirá orden expresa.

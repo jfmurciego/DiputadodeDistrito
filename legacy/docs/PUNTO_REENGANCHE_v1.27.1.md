@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.28.0
+Versión: 1.27.1
 Fecha: 2026-09-13
-Estado: C-13 implementado; pendiente de certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.27.1.md
+Estado: C-08 cerrado y certificado; C-13 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.27.0.md
 
 ## Fuente operativa
 
@@ -32,8 +32,9 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-13 convierte P07 en un alcance supra-municipal medible y neutral ex ante. Las
-rutas comarcales existentes están desactivadas y Extremadura no declara fuente:
-los tres territorios quedan `NOT_EVALUABLE`, por tanto bloqueados para publicación.
-No se modifican límites ni se ejecuta M01–M06. Tras certificar CI, continuar por
-C-12. No tocar C-01. R038–R040 y la expansión siguen suspendidos.
+C-08 fija `ddd_core/m04_seed_engine.py` como único motor vigente y publica su
+contrato de máquina. El pipeline y la herramienta auxiliar lo importan de forma
+estática; ya no seleccionan snapshots por ruta. El commit `5645a23` supera la
+suite general `34786162160`, único workflow activado; no se ejecuta M01–M06.
+Continuar por C-13 y después C-12. No tocar C-01. R038–R040 y la expansión
+siguen suspendidos.
