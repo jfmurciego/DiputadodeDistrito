@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.2
+# VERSIÓN: 1.0.1
 # NOMBRE: Operar lote G10 con admisión durable
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado.
-# CAMBIO: genera y persiste informe operativo JSON/Markdown con cada lote.
-# ANTERIOR: legacy/workflows/g10-operar-lote_v1.0.1.yml
+# CAMBIO: transmite listas de artefactos como argumentos separados; corrige el primer lote sin recalcular territorio.
+# ANTERIOR: legacy/workflows/g10-operar-lote_v1.0.0.yml
 # MOTIVO: evitar recalcular productos territoriales ya validados.
 name: G10 — Operar lote durable
 on:
@@ -103,21 +103,16 @@ jobs:
           test -s summaries.list
           python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json $(cat summaries.list)
           python herramientas/g10_orquestar.py merge-state --state "$STATE_PATH" --output ESTADO_TAREAS_ACTUALIZADO.json --run-id "$GITHUB_RUN_ID" $(cat summaries.list)
-          python herramientas/g10_informe_operativo.py --state ESTADO_TAREAS_ACTUALIZADO.json --factual resultados/fase1/ESTADO_FACTUAL.json --output-json ESTADO_OPERATIVO_G10.json --output-md ESTADO_OPERATIVO_G10.md
       - name: Persistir estado durable
         shell: bash
         run: |
           set -euo pipefail
-          changed=0
-          for item in "$STATE_PATH:ESTADO_TAREAS_ACTUALIZADO.json" "orchestracion/estado_operativo_g10.json:ESTADO_OPERATIVO_G10.json" "docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md:ESTADO_OPERATIVO_G10.md"; do
-            target="${item%%:*}"; source="${item#*:}"
-            if ! cmp -s "$target" "$source"; then cp "$source" "$target"; changed=1; fi
-          done
-          if [ "$changed" -eq 0 ]; then exit 0; fi
+          if cmp -s "$STATE_PATH" ESTADO_TAREAS_ACTUALIZADO.json; then exit 0; fi
+          cp ESTADO_TAREAS_ACTUALIZADO.json "$STATE_PATH"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$STATE_PATH" orchestracion/estado_operativo_g10.json docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
-          git commit -m "g10: registrar estado e informe $GITHUB_RUN_ID"
+          git add "$STATE_PATH"
+          git commit -m "g10: registrar estado $GITHUB_RUN_ID"
           git pull --rebase origin main
           git push origin HEAD:main
       - uses: actions/upload-artifact@v6

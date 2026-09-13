@@ -113,3 +113,7 @@ El primer despliegue del visor validó y empaquetó correctamente, pero GitHub P
 ## 2026-09-13 — R031 — Estado operativo durable G10
 
 Se añade un generador Python de informe operacional, su contrato de prueba y la primera salida canónica JSON/Markdown. El informe expresa territorios, estado y reenganche sin autorizar nuevo cálculo territorial.
+
+## 2026-09-13 — R031.1 — Cierre de lote con informe G10
+
+El workflow durable genera el informe operativo antes de persistir y lo versiona junto al estado de tareas. Los artefactos del lote incluyen ambas salidas de reenganche.
