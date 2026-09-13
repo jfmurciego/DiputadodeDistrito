@@ -222,3 +222,7 @@ El commit `a359910` supera la suite general `34783919125`, incluida la ejecució
 ## 2026-09-13 — C-06 — Verificación independiente
 
 Se añade un verificador de biblioteca estándar que no importa el productor, `ddd_core` ni el validador existente. Recalcula desde M03 y M06 universo, población, K, provincia, contigüidad, límites y disciplina municipal. Aragón y Castilla y León pasan. Extremadura queda reforzada como `BLOCKED_INDEPENDENT_VALIDATION`: además de dos distritos fuera de tolerancia, presenta cinco municipios con más de un distrito mixto. No se recalcula ni modifica ningún territorio; C-01 permanece intacto.
+
+### C-06.1 — Certificación CI
+
+El commit `9dde785` supera la suite general `34784297475`. No se activan regresiones territoriales. C-06 queda cerrado y el reenganche avanza a C-08.
