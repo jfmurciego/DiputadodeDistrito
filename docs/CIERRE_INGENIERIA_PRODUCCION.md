@@ -1,10 +1,10 @@
 # Cierre de ingeniería de producción DDD
 
-**Versión:** 1.1.0  
-**Inicio:** 2026-09-13  
-**Estado:** CERRADO — línea base lista para auditoría  
-**Anterior:** `legacy/docs/CIERRE_INGENIERIA_PRODUCCION_v1.0.0.md`  
-**Propósito:** completar la línea reutilizable sin ejecutar ni abrir territorios durante la congelación.
+**Versión:** 1.2.0
+**Inicio:** 2026-09-13
+**Estado:** INTERFAZ CERRADA; PLATAFORMA NACIONAL EN AUDITORÍA
+**Anterior:** `legacy/docs/CIERRE_INGENIERIA_PRODUCCION_v1.1.0.md`
+**Propósito:** separar el cierre certificado de la interfaz R034–R035 del trabajo aún necesario para afirmar que la plataforma procesa cualquier territorio.
 
 ## Criterio de salida
 
@@ -17,7 +17,12 @@ Un territorio podrá entrar mediante un contrato completo, ser rechazado antes d
 - [x] R035.2 — Línea única: workflow por contrato con modos de admitir, verificar y ejecutar bajo autorización explícita.
 - [x] R035.3 — Prueba de fábrica: demostrar contrato válido, rechazos tempranos y ausencia de cálculo en los modos de control.
 - [x] R035.4 — Paquete de auditoría: evidencia de CI, trazabilidad, versión, legacy y punto de reenganche.
-- [x] R035.5 — Cierre: congelar la interfaz de producción y declarar el trabajo restante como incorporación de territorios, no ingeniería base.
+- [x] R035.5 — Cierre de la interfaz común: contrato, resolución y workflow neutral.
+- [ ] R036 — Gobierno del problema: política auditable de K, contrato general de límites y justificación obligatoria de excepciones.
+- [ ] R037 — Topología nacional: políticas declarativas para secciones aisladas, provincias desconectadas y archipiélagos.
+- [ ] R038 — Operación limpia: archivar workflows territoriales obsoletos y separar auditores experimentales del procedimiento vigente.
+- [ ] R039 — Producto electoral: contrato, adquisición/entrada y normalización común M07–M08.
+- [ ] R040 — Prueba ciega: producir un territorio no implantado sin modificar workflows, módulos ni `ddd_core`.
 
 ## Límites inviolables
 
@@ -28,4 +33,4 @@ Un territorio podrá entrar mediante un contrato completo, ser rechazado antes d
 
 ## Reenganche
 
-No quedan casillas de ingeniería base. Si esta sesión se interrumpe, el siguiente trabajo será una incorporación territorial concreta: contrato, fuentes, decisión explícita de ejecución y evidencia del run.
+Continuar por `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md`. R035 no demuestra todavía la producción de un territorio nuevo: demuestra que ya existe una interfaz común y protegida. La prueba territorial permanece congelada hasta orden expresa.
