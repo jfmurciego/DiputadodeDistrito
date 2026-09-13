@@ -182,6 +182,15 @@ El commit `113c04c` supera la suite general `34760389448` y la puerta contractua
 
 Se separa formalmente `TECHNICAL_PASS` de `PUBLICABLE` mediante nueve criterios sustantivos y cuatro garantías. C-02 queda confirmado: Castilla y León incumple la puerta provisional de forma con 40/82 distritos bajo 0,15 y mínimo 0,02809. C-03 queda corregido: la correlación −0,3293 es real, pero no demuestra que apretar población empeore la forma; el cuartil con peor balance es también el de peor forma. C-14 queda resuelto con definición, umbrales y regla de promoción. Ningún mapa se declara hoy publicable como propuesta política. No se ejecuta M01–M06.
 
+## 2026-09-13 — C-01.0 — Protocolo de robustez frente a semilla
+
+Se fija antes de observar resultados una prueba de 50 semillas para Aragón. El
+workflow reutiliza por hash M03/M04 del run certificado `34599224954`, ejecuta
+solo M05, calcula distribución poblacional y de forma y elimina cada geometría
+intermedia. No ejecuta M01–M04 ni M06–M08 y no lee resultados partidistas. La
+semilla publicada `12345` debe ser técnicamente válida y no atípica entre los
+percentiles 5 y 95; se exige al menos 95 % de ejecuciones satisfactorias.
+
 ### Paquete B.1 — Certificación CI
 
 El commit `ccaa62a` supera la suite general `34773094091`, la validación de productos `34773094067` y G10 en modo control `34773094049`; ningún workflow territorial se activa. El despliegue `34773094057` alcanza correctamente el empaquetado y falla exclusivamente en `configure-pages`, por la habilitación externa pendiente de GitHub Pages ya documentada.

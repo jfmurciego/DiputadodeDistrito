@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.17.0
+Versión: 1.16.0
 Fecha: 2026-09-13
-Estado: C-01 en ejecución; protocolo de 50 semillas M05 fijado sin datos partidistas.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.16.0.md
+Estado: Paquete B certificado; C-02 confirmado, C-03 corregido y C-14 cerrado.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.15.0.md
 
 ## Fuente operativa
 
@@ -32,9 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-01 reutiliza M03/M04 certificados del run `34599224954` y ejecuta solo M05
-con 50 semillas. El protocolo y los umbrales se fijaron antes de observar el
-resultado. Esperar la evidencia del workflow `C-01 — Robustez frente a semilla
-Aragón`; no ejecutar otro barrido en paralelo. C-11 queda fuera de cálculo
-partidista por decisión expresa de dirección. R038–R040 y toda expansión
-territorial continúan suspendidos.
+Paquete B está certificado en `ccaa62a`: ningún mapa es todavía publicable como propuesta política; Aragón y Castilla y León son vistas técnicas y Castilla y León queda además bloqueada por forma. Continuar solo por el siguiente paquete de C-01–C-14 que se autorice. R038–R040 y toda expansión territorial continúan suspendidos.
