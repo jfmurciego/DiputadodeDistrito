@@ -161,3 +161,7 @@ El catálogo registra la procedencia y justificación de K para los tres contrat
 ### R036.1 — Certificación CI
 
 Commit `3d1337c` supera cinco workflows: puerta contractual, suite general, G10 y regresiones de evidencia de Aragón y Castilla y León. R036 queda cerrado sin ejecutar ni recalcular M01–M06.
+
+## 2026-09-13 — R037 — Gobierno topológico
+
+Los siete diagnósticos continentales R023 pasan a un registro ejecutable de bloqueo/reparación/admisión. Se prohíben puentes por proximidad automática y se exige expediente completo para cada arista lógica. En archipiélagos, la contigüidad se aplica dentro de cada componente, se prohíben aristas marítimas y distritos entre componentes, y el reparto de K debe preceder a M04. No se abre ni ejecuta ningún territorio.

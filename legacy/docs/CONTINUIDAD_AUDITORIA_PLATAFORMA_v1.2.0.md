@@ -1,10 +1,10 @@
 # Continuidad de la auditoría de plataforma DDD
 
-**Versión:** 1.3.0
+**Versión:** 1.2.0
 **Fecha de corte:** 2026-09-13
 **Estado:** VIGENTE — fuente de migración al nuevo hilo
 **Commit de partida:** `4b8af76` (`R036.0: registrar migración de auditoría`)
-**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.2.0.md`
+**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.1.0.md`
 **Propósito:** permitir que otra sesión continúe la auditoría y la ingeniería sin depender del chat anterior ni repetir resultados territoriales.
 
 ## 1. Veredicto que debe conservarse
@@ -31,8 +31,8 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 - [x] **R036 — Política de K.** El catálogo gobierna procedencia/justificación y el contrato conserva el valor ejecutable; la puerta exige coherencia.
 - [x] **R036 — Contrato general de límites.** Perfil general `0.80/1.75/0.12`; toda excepción exige motivo, evidencia y fecha previos.
 - [x] **R036 — Esquema único.** Familia `ddd-territory`, versión de contrato y niveles `bootstrap_m01_m03` / `production_m01_m06` formalizados.
-- [x] **R037 — Aislados y desconexiones.** R023 se convierte en bloqueo explícito; toda reparación futura exige pasarela tipada, motivada y con fuente.
-- [x] **R037 — Archipiélagos.** Contigüidad interna por componente, sin aristas marítimas ni distritos entre islas; K se reparte antes de M04.
+- [ ] **R037 — Aislados y desconexiones.** Convertir los diagnósticos existentes en políticas explícitas de admisión/reparación/bloqueo.
+- [ ] **R037 — Archipiélagos.** Decidir y documentar qué significa contigüidad entre islas antes de crear carpetas o ejecutar Baleares/Canarias.
 - [ ] **R038 — Workflows.** Archivar los territoriales de Extremadura y los falsos genéricos que hayan quedado sustituidos por la línea común; dejar claro cuál es operativo y cuál es histórico.
 - [ ] **R038 — Herramientas experimentales.** Clasificar los auditores de un uso: destilar estrategias reutilizables o moverlos a `legacy/`; no borrarlos sin conservar historia.
 - [ ] **R038 — Documentación.** Corregir afirmaciones aspiracionales sobre CUSEC/provincias y extender la prohibición de acoplamiento territorial a workflows y validadores.
@@ -44,11 +44,11 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 
 1. Leer este documento, `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`, `docs/CIERRE_INGENIERIA_PRODUCCION.md`, el estado G10 y la auditoría externa completa aportada por el usuario.
 2. Verificar `main`, CI, workflows activos e issue #5 antes de cambiar nada.
-3. Certificar R037 en CI sin abrir comunidades.
-4. Ejecutar R038: limpieza/versionado de workflows, auditores y documentación.
-5. Ejecutar R039: contrato y línea electoral común, con pruebas sintéticas o fixtures; no alterar productos canónicos.
-6. Mantener R040 bloqueada hasta autorización expresa. La prueba debe ser falsable y no permitir código específico del territorio.
-7. Incorporar los demás hallazgos de Claude a esta lista conforme se aporten; no limitar la revisión al informe reproducido en el chat anterior.
+3. Ejecutar R037 sin abrir comunidades: contratos de topología para aislados, desconexiones y archipiélagos.
+5. Ejecutar R038: limpieza/versionado de workflows, auditores y documentación.
+6. Ejecutar R039: contrato y línea electoral común, con pruebas sintéticas o fixtures; no alterar productos canónicos.
+7. Mantener R040 bloqueada hasta autorización expresa. La prueba debe ser falsable y no permitir código específico del territorio.
+8. Incorporar los demás hallazgos de Claude a esta lista conforme se aporten; no limitar la revisión al informe reproducido en el chat anterior.
 
 ## 4. Reglas inviolables
 
