@@ -3,64 +3,220 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.0.1
-NOMBRE DE VERSIÓN: Agregación electoral desacoplada — Gobernanza R015
-FECHA: 2026-09-11
-QUÉ HACE: agrega resultados electorales de sección a distrito y calcula ganador y bloque por distrito.
-POR QUÉ ES SEPARADO: la elección analizada nunca debe condicionar la geometría de los distritos; puede sustituirse la elección sin redistritar.
-ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
-CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
-MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
-ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.0.0.py
+VERSIÓN: 7.1.0
+NOMBRE DE VERSIÓN: Reconciliación íntegra y código auditable
+FECHA: 2026-09-13
+QUÉ HACE: agrega votos a distritos y publica toda discrepancia entre resultados y mapa.
+POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
+ESTADO: vigente — Paquete A, C-05/C-09
+CAMBIOS: sustituye el inner join silencioso por left join reconciliado e informe obligatorio.
+MOTIVO: impedir la pérdida silenciosa de votos y hacer revisable el módulo electoral.
+ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.0.1.py
 """
 from __future__ import annotations
-import argparse,io,json,re,sys,zipfile
+
+import argparse
+import io
+import json
+import re
+import sys
+import zipfile
 from pathlib import Path
+
 import geopandas as gpd
 import pandas as pd
-ROOT=Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
-from ddd_core.config import load_params_yaml,module_cfg,require
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from ddd_core.config import load_params_yaml, module_cfg, require
+from ddd_core.electoral_reconciliation import reconcile_sections
+
+
 def load_geo(path):
-    p=Path(path)
-    if p.suffix.lower()=='.zip':
-        with zipfile.ZipFile(p) as z:
-            member=next(n for n in z.namelist() if n.lower().endswith(('.geojson','.json')) and not n.endswith('/'));data=z.read(member)
-        return gpd.read_file(io.BytesIO(data))
-    return gpd.read_file(p)
-def write_geo(gdf,path):
-    out=Path(path);out.parent.mkdir(parents=True,exist_ok=True);tmp=out.parent/(out.stem.replace('.geojson','')+'.geojson');gdf.to_file(tmp,driver='GeoJSON')
-    with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_DEFLATED) as z:z.write(tmp,arcname=tmp.name)
-    tmp.unlink(missing_ok=True)
-def dotted(obj,path):
-    cur=obj
-    for part in path.split('.'):
-        if not isinstance(cur,dict):return None
-        cur=cur.get(part)
-    return cur
-def norm_party(x):return re.sub(r'\s+',' ',str(x or '').strip())
-def read_results(path,s7,section_col):
-    p=Path(path);txt=p.read_text(encoding='utf-8',errors='replace').lstrip()
-    if txt.startswith(('{','[')):
-        obj=json.loads(txt);zonas=dotted(obj,s7.get('json_rtve_zonas_path','mapa.zonas')) if isinstance(obj,dict) else None;rows=[]
-        if isinstance(zonas,list):
-            sf=s7.get('json_rtve_section_field','cod');lf=s7.get('json_rtve_party_list_field','lp');pf=s7.get('json_rtve_party_field','s');vf=s7.get('json_rtve_votes_field','v')
-            for z in zonas:
-                sec=z.get(sf)
-                for item in z.get(lf,[]) or []:
-                    try:v=int(float(item.get(vf,0)))
-                    except Exception:continue
-                    party=norm_party(item.get(pf))
-                    if sec is not None and party:rows.append({section_col:str(sec),'party':party,'votes':v})
-        if not rows:raise ValueError(f'No se pudieron extraer votos del JSON: {p}')
-        return pd.DataFrame(rows)
-    first=txt.splitlines()[0] if txt else '';sep=';' if first.count(';')>first.count(',') else ',';df=pd.read_csv(io.StringIO(txt),sep=sep,dtype=str);party_col=s7.get('party_col','PARTIDO');votes_col=s7.get('votes_col','VOTOS');sec_candidates=[section_col,'CUSEC_KEY','CUSEC','CESUC','SECCION'];sec_src=next((c for c in sec_candidates if c in df.columns),None)
-    if not sec_src or party_col not in df.columns or votes_col not in df.columns:raise ValueError('CSV electoral no cumple contrato long section/party/votes')
-    out=df[[sec_src,party_col,votes_col]].rename(columns={sec_src:section_col,party_col:'party',votes_col:'votes'});out[section_col]=out[section_col].astype(str);out['party']=out['party'].map(norm_party);out['votes']=pd.to_numeric(out['votes'],errors='coerce').fillna(0).astype('int64');return out
+    source = Path(path)
+    if source.suffix.lower() == ".zip":
+        with zipfile.ZipFile(source) as archive:
+            member = next(
+                name for name in archive.namelist()
+                if name.lower().endswith((".geojson", ".json")) and not name.endswith("/")
+            )
+            return gpd.read_file(io.BytesIO(archive.read(member)))
+    return gpd.read_file(source)
+
+
+def write_geo(gdf, path):
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output.parent / (output.stem.replace(".geojson", "") + ".geojson")
+    gdf.to_file(temporary, driver="GeoJSON")
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.write(temporary, arcname=temporary.name)
+    temporary.unlink(missing_ok=True)
+
+
+def dotted(obj, path):
+    current = obj
+    for part in path.split("."):
+        if not isinstance(current, dict):
+            return None
+        current = current.get(part)
+    return current
+
+
+def norm_party(value):
+    return re.sub(r"\s+", " ", str(value or "").strip())
+
+
+def read_results(path, config, section_field):
+    source = Path(path)
+    text = source.read_text(encoding="utf-8", errors="replace").lstrip()
+    if text.startswith(("{", "[")):
+        obj = json.loads(text)
+        zones = dotted(obj, config.get("json_rtve_zonas_path", "mapa.zonas"))
+        rows = []
+        section_ids = set()
+        section_key = config.get("json_rtve_section_field", "cod")
+        party_list = config.get("json_rtve_party_list_field", "lp")
+        party_key = config.get("json_rtve_party_field", "s")
+        votes_key = config.get("json_rtve_votes_field", "v")
+        for zone in zones or []:
+            section_id = zone.get(section_key)
+            if section_id is not None:
+                section_ids.add(str(section_id))
+            for item in zone.get(party_list, []) or []:
+                try:
+                    votes = int(float(item.get(votes_key, 0)))
+                except (TypeError, ValueError):
+                    continue
+                party = norm_party(item.get(party_key))
+                if section_id is not None and party:
+                    rows.append({section_field: str(section_id), "party": party, "votes": votes})
+        if not rows:
+            raise ValueError(f"No se pudieron extraer votos del JSON: {source}")
+        return pd.DataFrame(rows), section_ids
+
+    first = text.splitlines()[0] if text else ""
+    separator = ";" if first.count(";") > first.count(",") else ","
+    frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+    party_col = config.get("party_col", "PARTIDO")
+    votes_col = config.get("votes_col", "VOTOS")
+    candidates = [section_field, "CUSEC_KEY", "CUSEC", "CESUC", "SECCION"]
+    section_source = next((column for column in candidates if column in frame.columns), None)
+    if not section_source or party_col not in frame.columns or votes_col not in frame.columns:
+        raise ValueError("CSV electoral no cumple contrato long section/party/votes")
+    result = frame[[section_source, party_col, votes_col]].rename(
+        columns={section_source: section_field, party_col: "party", votes_col: "votes"}
+    )
+    result[section_field] = result[section_field].astype(str)
+    section_ids = set(result[section_field])
+    result["party"] = result["party"].map(norm_party)
+    result["votes"] = pd.to_numeric(result["votes"], errors="coerce").fillna(0).astype("int64")
+    result = result.loc[result["party"] != ""].copy()
+    return result, section_ids
+
+
+def electoral_outputs(assigned, district_field, blocs):
+    by_party = assigned.groupby([district_field, "party"], as_index=False)["votes"].sum()
+    by_party = by_party.rename(columns={district_field: "district_id"})
+    by_party["bloc"] = by_party["party"].map(lambda party: blocs.get(party, ""))
+    totals = by_party.groupby("district_id", as_index=False)["votes"].sum()
+    totals = totals.rename(columns={"votes": "total_votes"})
+    ranked = by_party.merge(totals, on="district_id")
+    ranked["vote_share"] = ranked["votes"] / ranked["total_votes"].replace({0: pd.NA})
+    winners = ranked.loc[ranked.groupby("district_id")["votes"].idxmax()]
+    winners = winners[["district_id", "party", "votes", "vote_share", "bloc"]].rename(
+        columns={
+            "party": "winner_party",
+            "votes": "winner_votes",
+            "vote_share": "winner_share",
+            "bloc": "winner_bloc",
+        }
+    )
+    return by_party, totals.merge(winners, on="district_id").sort_values("district_id")
+
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--params',required=True);a=ap.parse_args();cfg=load_params_yaml(a.params);s7=module_cfg(cfg,'modulo_07_agregar_resultados_electorales','step7_elections');in_geo=require(s7.get('in_geojson'),'Falta M07 geometría');section=require(s7.get('section_id_field'),'Falta M07 section_id');district=require(s7.get('district_field'),'Falta M07 district_id');files=require(s7.get('results_files'),'Falta M07 resultados');out_party=require(s7.get('out_district_party_csv'),'Falta M07 salida partido');out_summary=require(s7.get('out_district_summary_csv'),'Falta M07 salida resumen');gdf=load_geo(in_geo);mapping=gdf[[section,district]].copy();mapping[section]=mapping[section].astype(str);mapping[district]=pd.to_numeric(mapping[district],errors='coerce').fillna(-1).astype('int64');frames=[read_results(f,s7,section) for f in files];res=pd.concat(frames,ignore_index=True);res[section]=res[section].astype(str);res['party']=res['party'].map(norm_party);res['votes']=pd.to_numeric(res['votes'],errors='coerce').fillna(0).astype('int64');sec_party=res.groupby([section,'party'],as_index=False)['votes'].sum();merged=sec_party.merge(mapping,on=section,how='inner');merged=merged[merged[district]>=0];dist_party=merged.groupby([district,'party'],as_index=False)['votes'].sum().rename(columns={district:'district_id'});blocs=s7.get('blocs',{}) or {};dist_party['bloc']=dist_party['party'].map(lambda p:blocs.get(p,''));totals=dist_party.groupby('district_id',as_index=False)['votes'].sum().rename(columns={'votes':'total_votes'});dp=dist_party.merge(totals,on='district_id');dp['vote_share']=dp['votes']/dp['total_votes'].replace({0:pd.NA});idx=dp.groupby('district_id')['votes'].idxmax();winners=dp.loc[idx,['district_id','party','votes','vote_share','bloc']].rename(columns={'party':'winner_party','votes':'winner_votes','vote_share':'winner_share','bloc':'winner_bloc'});summary=totals.merge(winners,on='district_id').sort_values('district_id');Path(out_party).parent.mkdir(parents=True,exist_ok=True);dist_party.sort_values(['district_id','votes'],ascending=[True,False]).to_csv(out_party,index=False);summary.to_csv(out_summary,index=False)
-    out_enriched=s7.get('out_sections_enriched_geojson','')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--params", required=True)
+    args = parser.parse_args()
+    config = load_params_yaml(args.params)
+    m07 = module_cfg(config, "modulo_07_agregar_resultados_electorales", "step7_elections")
+    input_geo = require(m07.get("in_geojson"), "Falta M07 geometría")
+    section_field = require(m07.get("section_id_field"), "Falta M07 section_id")
+    district_field = require(m07.get("district_field"), "Falta M07 district_id")
+    files = require(m07.get("results_files"), "Falta M07 resultados")
+    report_path = require(
+        m07.get("out_reconciliation_report"),
+        "Falta M07 informe de reconciliación",
+    )
+
+    gdf = load_geo(input_geo)
+    mapping = gdf[[section_field, district_field]].copy()
+    result_batches = [read_results(path, m07, section_field) for path in files]
+    results = pd.concat([batch[0] for batch in result_batches], ignore_index=True)
+    result_section_ids = set().union(*(batch[1] for batch in result_batches))
+    results["party"] = results["party"].map(norm_party)
+    section_party = results.groupby([section_field, "party"], as_index=False)["votes"].sum()
+    assigned, report = reconcile_sections(
+        mapping,
+        section_party,
+        section_field=section_field,
+        district_field=district_field,
+        policy=m07.get("reconciliation") or {},
+        result_section_ids=result_section_ids,
+    )
+    report_file = Path(report_path)
+    report_file.parent.mkdir(parents=True, exist_ok=True)
+    report_file.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    if report["status"] == "FAIL":
+        raise SystemExit(
+            "M07 bloqueado por reconciliación electoral: " + "; ".join(report["errors"])
+        )
+
+    by_party, summary = electoral_outputs(
+        assigned,
+        district_field,
+        m07.get("blocs", {}) or {},
+    )
+    out_party = Path(require(m07.get("out_district_party_csv"), "Falta M07 salida partido"))
+    out_summary = Path(require(m07.get("out_district_summary_csv"), "Falta M07 salida resumen"))
+    out_party.parent.mkdir(parents=True, exist_ok=True)
+    by_party.sort_values(
+        ["district_id", "votes"],
+        ascending=[True, False],
+    ).to_csv(out_party, index=False)
+    summary.to_csv(out_summary, index=False)
+
+    out_enriched = m07.get("out_sections_enriched_geojson", "")
     if out_enriched:
-        sec_tot=sec_party.groupby(section,as_index=False)['votes'].sum().rename(columns={'votes':'section_total_votes'});sidx=sec_party.groupby(section)['votes'].idxmax();sec_win=sec_party.loc[sidx,[section,'party','votes']].rename(columns={'party':'section_winner_party','votes':'section_winner_votes'});gg=gdf.copy();gg[section]=gg[section].astype(str);write_geo(gg.merge(sec_tot,on=section,how='left').merge(sec_win,on=section,how='left'),out_enriched)
-    print(f'[Módulo 7] OK districts={len(summary)} out_summary={out_summary}')
-if __name__=='__main__':main()
+        section_totals = section_party.groupby(section_field, as_index=False)["votes"].sum()
+        section_totals = section_totals.rename(columns={"votes": "section_total_votes"})
+        indexes = section_party.groupby(section_field)["votes"].idxmax()
+        section_winners = section_party.loc[
+            indexes,
+            [section_field, "party", "votes"],
+        ].rename(
+            columns={
+                "party": "section_winner_party",
+                "votes": "section_winner_votes",
+            }
+        )
+        enriched = gdf.copy()
+        enriched[section_field] = enriched[section_field].astype(str)
+        enriched = enriched.merge(section_totals, on=section_field, how="left")
+        enriched = enriched.merge(section_winners, on=section_field, how="left")
+        write_geo(enriched, out_enriched)
+
+    print(
+        f"[Módulo 7] OK status={report['status']} "
+        f"districts={len(summary)} unassigned_votes={report['unassigned_votes']}"
+    )
+
+
+if __name__ == "__main__":
+    main()

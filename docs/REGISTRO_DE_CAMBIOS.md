@@ -169,3 +169,7 @@ Los siete diagnósticos continentales R023 pasan a un registro ejecutable de blo
 ### R037.1 — Certificación CI
 
 Commit `8376276` supera la suite general en CI `34757140425`. El cambio no dispara regresiones territoriales ni ejecuta M01–M06. R037 queda cerrado y el reenganche avanza a R038.
+
+## 2026-09-13 — Paquete A — C-05/C-09 Integridad electoral
+
+M07 deja de descartar votos mediante un `inner join` silencioso. El nuevo cruce izquierdo produce un informe que conserva la identidad votos de entrada = asignados + no asignables y bloquea cualquier descuadre no declarado. Aragón registra expresamente la sección electoral `5002501003` y sus 608 votos no asignables, además de la sección censal `2221301003` sin resultados. La comprobación sobre evidencia certificada arroja 648.799 = 648.191 + 608 votos y 1.463 secciones en cada universo. M07 se reescribe en formato revisable. No se ejecuta M01–M06.
