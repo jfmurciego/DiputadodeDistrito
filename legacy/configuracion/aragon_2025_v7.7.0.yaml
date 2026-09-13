@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Aragón
-# VERSIÓN: 7.8.0
-# NOMBRE DE VERSIÓN: Contrato gobernado R036
+# VERSIÓN: 7.7.0
+# NOMBRE DE VERSIÓN: Contrato canónico único F1.3
 # FECHA: 2026-09-12
 # QUÉ HACE: consolida la configuración activa de Aragón bajo territorios/aragon/config y explicita el contrato territorial completo.
 # ESTADO: candidato F1.3 sujeto a regresión M01-M06
-# CAMBIOS: declara familia/nivel de esquema, procedencia honesta de K y perfil estándar de límites; no cambia ningún parámetro funcional.
-# MOTIVO: someter el baseline certificado al gobierno auditable R036 sin reconstruir una justificación histórica inexistente.
-# ANTERIOR: legacy/configuracion/aragon_2025_v7.7.0.yaml
+# CAMBIOS: incorpora territory_id, territory_contract y justificación de atomicidad 1.75; conserva sin cambio todos los parámetros funcionales de v7.6.0.
+# MOTIVO: eliminar dos YAML activos desincronizados y hacer explícito el contrato sin variar el baseline.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.6.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
@@ -15,10 +15,7 @@ meta:
   territory: Aragón
   year: 2025
   scope: provincial
-  schema_version: 7.8.0
-  schema_family: ddd-territory
-  contract_level: production_m01_m06
-  contract_schema_version: 1.0.0
+  schema_version: 7.7.0
   status: canonical_fase1
 io:
   project_root: {path: ../../..}
@@ -42,13 +39,10 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: ['22','44','50']
   k_districts: 67
-  k_source: historico_no_registrado
-  k_rationale: "K=67 es el baseline canónico certificado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true

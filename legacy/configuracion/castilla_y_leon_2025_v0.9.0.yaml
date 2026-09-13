@@ -1,15 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.10.0
-# NOMBRE DE VERSIÓN: Contrato CYL gobernado R036
+# VERSIÓN: 0.9.0
+# NOMBRE DE VERSIÓN: Contrato CYL-05 — consolidación territorial auditable
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-05
 # QUÉ HACE: conserva el contrato territorial M01-M05 ya validado y añade M06 como capa de materialización, descripción y auditoría de los 82 distritos sin modificar su asignación.
 # CAMBIOS: incorpora catálogo distrital, composición exacta por sección, geometrías disueltas, métricas poblacionales/administrativas/geométricas y CRS métrico configurable.
 # MOTIVO: CYL-04 ya certifica una solución poblacional y territorial válida; el siguiente módulo debe convertirla en entidades distritales auditables antes de añadir resultados electorales.
-# CAMBIOS: declara esquema común, origen normativo de K y perfil estándar de límites; no altera parámetros ni productos certificados.
-# MOTIVO: hacer auditable la definición del problema antes de cualquier futura ejecución.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.9.0.yaml
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.8.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -18,10 +16,7 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.10.0
-  schema_family: ddd-territory
-  contract_level: production_m01_m06
-  contract_schema_version: 1.0.0
+  schema_version: 0.9.0
   status: candidate_m06
 
 io:
@@ -55,13 +50,10 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: ['05','09','24','34','37','40','42','47','49']
   k_districts: 82
-  k_source: norma
-  k_rationale: "K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León; Hamilton sustituye el reparto provincial vigente."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true

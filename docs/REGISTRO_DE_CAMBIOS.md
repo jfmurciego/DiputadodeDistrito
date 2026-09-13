@@ -153,3 +153,7 @@ CI `34747763671` completa correctamente. El checklist de cierre, el paquete de a
 ## 2026-09-13 — R036.0 — Migración de auditoría y corrección de alcance
 
 Se crea `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md` como fuente de verdad para migrar la revisión externa a un nuevo hilo. Se distingue el cierre certificado de la interfaz R034–R035 del cierre todavía pendiente de la plataforma nacional. El backlog conserva política de K/límites, esquema, topología, limpieza operativa, capa electoral y prueba ciega. Se versionan el cierre y el punto de reenganche, preservando sus versiones anteriores en `legacy/`. No se ejecuta M01–M06 ni se abre ningún territorio.
+
+## 2026-09-13 — R036 — Gobierno de K, límites y esquema
+
+El catálogo registra la procedencia y justificación de K para los tres contratos M01–M06 existentes; el YAML conserva el valor ejecutable y la puerta exige coherencia con M04, M06 y validación. Se fija el perfil general `0.80/1.75/0.12`, con expediente obligatorio para excepciones. Se distinguen formalmente `bootstrap_m01_m03` y `production_m01_m06`. Aragón y Castilla y León conservan parámetros; Extremadura queda como excepción histórica bloqueada. Se añaden pruebas negativas y no se ejecuta ningún módulo territorial.

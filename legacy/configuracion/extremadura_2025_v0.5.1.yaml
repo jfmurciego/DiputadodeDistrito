@@ -1,15 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.6.0
-# NOMBRE DE VERSIÓN: Excepción histórica bloqueada R036
+# VERSIÓN: 0.5.1
+# NOMBRE DE VERSIÓN: Contrato reproducible c020 F1.4
 # FECHA: 2026-09-12
 # ESTADO: experimental bloqueado — evidencia canónica F1.4
 # QUÉ HACE: conserva M01-M03 y declara explícitamente K=65, reparto 41/24, c020, atomicidad 1.10 y ratios 0.85/1.50/0.10 para reproducir M04-M06.
 # CAMBIOS: fija el resultado del run 34703213474: M01-M06 reproducible, hard y contigüidad PASS, 2 outliers de tolerancia; no promueve.
 # MOTIVO: cerrar F1.4 formalmente con el mejor resultado reproducible y su bloqueo explícito.
-# CAMBIOS: formaliza esquema, K sin origen registrado y excepción histórica de límites; no modifica valores ni recalcula el territorio.
-# MOTIVO: conservar evidencia c020 sin presentar sus umbrales a posteriori como política general ni como autorización de promoción.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.5.1.yaml
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.5.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -18,10 +16,7 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.6.0
-  schema_family: ddd-territory
-  contract_level: production_m01_m06
-  contract_schema_version: 1.0.0
+  schema_version: 0.5.1
   status: experimental_blocked
 
 io:
@@ -51,16 +46,10 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: ['06','10']
   k_districts: 65
-  k_source: historico_no_registrado
-  k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."
   district_apportionment: hamilton
   population_floor_ratio: 0.85
   population_cap_ratio: 1.50
   target_tolerance_ratio: 0.10
-  limits_profile: exception
-  limits_exception_rationale: "Excepción histórica adoptada antes de R036 y conservada exclusivamente para reproducir la evidencia bloqueada; no es precedente para nuevos territorios."
-  limits_exception_evidence: "run 34703213474; estado experimental_blocked; la excepción no corrige los dos outliers ni autoriza promoción."
-  limits_exception_decided_at: "pre-R036; formalizada 2026-09-13"
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true

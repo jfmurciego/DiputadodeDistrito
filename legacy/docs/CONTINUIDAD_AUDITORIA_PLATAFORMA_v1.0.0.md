@@ -1,10 +1,10 @@
 # Continuidad de la auditoría de plataforma DDD
 
-**Versión:** 1.1.0
+**Versión:** 1.0.0
 **Fecha de corte:** 2026-09-13
 **Estado:** VIGENTE — fuente de migración al nuevo hilo
-**Commit de partida:** `4b8af76` (`R036.0: registrar migración de auditoría`)
-**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.0.0.md`
+**Commit de partida:** `c0c1bf5` (`R035.1: certificar y cerrar línea de producción`)
+**Anterior:** ninguno — documento nuevo
 **Propósito:** permitir que otra sesión continúe la auditoría y la ingeniería sin depender del chat anterior ni repetir resultados territoriales.
 
 ## 1. Veredicto que debe conservarse
@@ -24,13 +24,12 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 - [x] G10 dispone de huellas, estado durable y checkpoints; una publicación no debe reactivar el motor territorial.
 - [x] El visor y los productos públicos de Aragón/Castilla y León se validan y empaquetan sin depender de Pages.
 - [x] CI de R035: run `34747763671`, `SUCCESS`; no ejecutó M01–M06.
-- [x] R036 implementado localmente sin cálculo territorial: gobierno de K, perfil general `0.80/1.75/0.12`, excepciones y esquema `bootstrap`/`production`.
 
 ### Abierto
 
-- [x] **R036 — Política de K.** El catálogo gobierna procedencia/justificación y el contrato conserva el valor ejecutable; la puerta exige coherencia.
-- [x] **R036 — Contrato general de límites.** Perfil general `0.80/1.75/0.12`; toda excepción exige motivo, evidencia y fecha previos.
-- [x] **R036 — Esquema único.** Familia `ddd-territory`, versión de contrato y niveles `bootstrap_m01_m03` / `production_m01_m06` formalizados.
+- [ ] **R036 — Política de K.** Definir el origen y la justificación auditable de `k_districts`; decidir si vive en catálogo, contrato o ambos y validar coherencia.
+- [ ] **R036 — Contrato general de límites.** Fijar valores heredados por defecto y exigir motivo/versionado para toda desviación territorial; no elegir umbrales después de ver resultados.
+- [ ] **R036 — Esquema único.** Formalizar versión y campos obligatorios, además del validador ejecutable ya existente; distinguir claramente `bootstrap M01–M03` de `production M01–M06`.
 - [ ] **R037 — Aislados y desconexiones.** Convertir los diagnósticos existentes en políticas explícitas de admisión/reparación/bloqueo.
 - [ ] **R037 — Archipiélagos.** Decidir y documentar qué significa contigüidad entre islas antes de crear carpetas o ejecutar Baleares/Canarias.
 - [ ] **R038 — Workflows.** Archivar los territoriales de Extremadura y los falsos genéricos que hayan quedado sustituidos por la línea común; dejar claro cuál es operativo y cuál es histórico.
@@ -44,7 +43,7 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 
 1. Leer este documento, `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`, `docs/CIERRE_INGENIERIA_PRODUCCION.md`, el estado G10 y la auditoría externa completa aportada por el usuario.
 2. Verificar `main`, CI, workflows activos e issue #5 antes de cambiar nada.
-3. Certificar R036 en CI sin cálculo territorial.
+3. Ejecutar R036 sin cálculo territorial: política de K, límites heredados, excepciones y esquema único.
 4. Ejecutar R037 sin abrir comunidades: contratos de topología para aislados, desconexiones y archipiélagos.
 5. Ejecutar R038: limpieza/versionado de workflows, auditores y documentación.
 6. Ejecutar R039: contrato y línea electoral común, con pruebas sintéticas o fixtures; no alterar productos canónicos.

@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Gobierno auditable de K, límites y esquema
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Admisión de producción M01-M06
 FECHA: 2026-09-13
-ESTADO: vigente — R036
-QUÉ HACE: valida identidad, esquema, fuentes, gobierno de K, límites, coherencia entre catálogo/módulos y confinamiento de rutas antes de admitir M01-M06.
-MOTIVO: impedir K sin procedencia, umbrales ajustados a posteriori y contratos de producción ambiguos antes de consumir cálculo GIS.
-ANTERIOR: legacy/core/territory_contract_v1.0.0.py
+ESTADO: vigente — R034
+QUÉ HACE: valida identidad, fuentes, restricciones, coherencia entre módulos y confinamiento de rutas antes de admitir un territorio en M01-M06.
+MOTIVO: convertir el contrato territorial en una puerta ejecutable y rechazar configuraciones incompletas antes de consumir cálculo GIS.
+ANTERIOR: ninguno — componente nuevo.
 """
 from __future__ import annotations
 
@@ -37,14 +37,6 @@ CONTRACT_KEYS = (
     "require_municipality_discipline", "oversized_municipality_rule",
     "municipality_atomicity_limit_ratio", "require_auditable_district_catalogue",
 )
-SCHEMA_FAMILY = "ddd-territory"
-PRODUCTION_SCHEMA_VERSION = "1.0.0"
-STANDARD_LIMITS = {
-    "population_floor_ratio": 0.80,
-    "population_cap_ratio": 1.75,
-    "target_tolerance_ratio": 0.12,
-}
-K_SOURCES = {"norma", "formula", "decision_propia", "historico_no_registrado"}
 
 
 def _get(data: Mapping[str, Any], dotted: str, errors: list[str]) -> Any:
@@ -89,20 +81,6 @@ def _manifest_paths(root: Path) -> set[Path]:
     return result
 
 
-def _catalogue_entry(root: Path, territory_id: Any, errors: list[str]) -> Mapping[str, Any]:
-    path = root / "configuracion" / "catalogo_territorios_espana_2025.yaml"
-    if not path.is_file():
-        errors.append("falta catálogo territorial canónico")
-        return {}
-    data = load_params_yaml(str(path))
-    entries = (data.get("territories") or []) if isinstance(data, Mapping) else []
-    matches = [item for item in entries if isinstance(item, Mapping) and item.get("territory_id") == territory_id]
-    if len(matches) != 1:
-        errors.append(f"el catálogo debe contener exactamente una entrada para {territory_id!r}")
-        return {}
-    return matches[0]
-
-
 def validate_production_contract(params_path: str | Path, *, expected_territory: str | None = None) -> dict[str, Any]:
     """Return an auditable admission report; no territorial module is executed."""
     params = Path(params_path).resolve()
@@ -120,16 +98,6 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
         errors.append(f"territorio solicitado {expected_territory!r} no coincide con meta.territory_id={territory_id!r}")
     if territory_id and params.name != f"{territory_id}_{cfg.get('meta', {}).get('year')}.yaml":
         warnings.append("el nombre del YAML no sigue <territory_id>_<year>.yaml")
-    if (cfg.get("meta") or {}).get("schema_family") != SCHEMA_FAMILY:
-        errors.append(f"meta.schema_family debe ser {SCHEMA_FAMILY!r}")
-    if (cfg.get("meta") or {}).get("contract_level") != "production_m01_m06":
-        errors.append("meta.contract_level debe ser 'production_m01_m06'")
-    if (cfg.get("meta") or {}).get("contract_schema_version") != PRODUCTION_SCHEMA_VERSION:
-        errors.append(f"meta.contract_schema_version debe ser {PRODUCTION_SCHEMA_VERSION!r}")
-
-    catalogue = _catalogue_entry(root, territory_id, errors)
-    if catalogue and catalogue.get("contract_level") != "production_m01_m06":
-        errors.append("el catálogo no declara el territorio como production_m01_m06")
 
     contract = cfg.get("territory_contract") or {}
     if not isinstance(contract, Mapping):
@@ -143,15 +111,6 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
     k = contract.get("k_districts")
     if not isinstance(k, int) or isinstance(k, bool) or k < 1:
         errors.append("territory_contract.k_districts debe ser entero positivo")
-    k_source = _get(contract, "k_source", errors)
-    k_rationale = _get(contract, "k_rationale", errors)
-    if k_source not in K_SOURCES:
-        errors.append(f"territory_contract.k_source debe ser uno de {sorted(K_SOURCES)}")
-    if not isinstance(k_rationale, str) or len(k_rationale.strip()) < 12:
-        errors.append("territory_contract.k_rationale debe justificar K de forma auditable")
-    _same("K catálogo/contrato", [("catálogo", catalogue.get("k_districts")), ("contrato", k)], errors)
-    _same("origen de K", [("catálogo", catalogue.get("k_source")), ("contrato", k_source)], errors)
-    _same("justificación de K", [("catálogo", catalogue.get("k_rationale")), ("contrato", k_rationale)], errors)
     for key in ("population_floor_ratio", "target_tolerance_ratio", "municipality_atomicity_limit_ratio"):
         value = contract.get(key)
         if not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0:
@@ -162,18 +121,6 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
         errors.append("territory_contract.population_cap_ratio debe ser mayor que 1")
     if isinstance(floor, (int, float)) and isinstance(cap, (int, float)) and floor >= cap:
         errors.append("el suelo poblacional debe ser menor que el techo")
-    limits_profile = _get(contract, "limits_profile", errors)
-    deviations = {
-        key: contract.get(key) for key, standard in STANDARD_LIMITS.items()
-        if contract.get(key) != standard
-    }
-    if deviations:
-        if limits_profile != "exception":
-            errors.append("los límites distintos del estándar exigen limits_profile='exception'")
-        for key in ("limits_exception_rationale", "limits_exception_evidence", "limits_exception_decided_at"):
-            _get(contract, key, errors)
-    elif limits_profile != "standard-1.0.0":
-        errors.append("los límites comunes exigen limits_profile='standard-1.0.0'")
 
     modules = cfg.get("modulos") or {}
     if not isinstance(modules, Mapping):
@@ -263,7 +210,7 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
 
     canonical = json.dumps({k: v for k, v in cfg.items() if k != "_internal"}, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
     return {
-        "schema_version": "1.1.0",
+        "schema_version": "1.0.0",
         "contract_version": str((cfg.get("meta") or {}).get("schema_version", "")),
         "territory_id": territory_id,
         "level": "M01_M06_PRODUCTION",

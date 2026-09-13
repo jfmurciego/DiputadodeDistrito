@@ -1,9 +1,9 @@
 # Contrato estándar de territorio DDD
 
-**Versión:** 1.2.0
+**Versión:** 1.1.0
 **Fecha:** 2026-09-13
-**Estado:** vigente — R036
-**Anterior:** `legacy/docs/CONTRATO_TERRITORIO_v1.1.0.md`
+**Estado:** vigente — R034
+**Anterior:** `legacy/docs/CONTRATO_TERRITORIO_v1.0.0.md`
 
 Todo territorio debe satisfacer este contrato antes de considerarse una implantación DDD.
 
@@ -16,11 +16,6 @@ La especificación ya no es sólo documental. Antes de cualquier M01–M06, CI/G
 - año de referencia.
 - ámbito: regional, nacional u otro.
 - `run_name` único.
-- `schema_family: ddd-territory`;
-- `contract_level`: `bootstrap_m01_m03` o `production_m01_m06`;
-- `contract_schema_version: 1.0.0` para producción.
-
-Un bootstrap prueba adquisición y preparación; no declara K ni habilita M04–M06. Un contrato de producción cumple este documento completo y debe coincidir con el catálogo nacional.
 
 ## 2. Unidad territorial mínima
 
@@ -54,8 +49,6 @@ Declarar:
 - número explícito de distritos por unidad superior cuando esté fijado;
 - target de población resultante.
 
-K queda gobernado en dos capas: el catálogo registra `k_districts`, `k_source` y `k_rationale`; el YAML de producción los repite como contrato ejecutable. La puerta rechaza cualquier divergencia. Fuentes admitidas: norma, fórmula publicada, decisión propia explícita u origen histórico no registrado. Esta última conserva evidencia, pero no constituye criterio reutilizable para un territorio nuevo.
-
 ## 5. Restricciones duras
 
 El contrato debe declarar explícitamente:
@@ -68,9 +61,7 @@ El contrato debe declarar explícitamente:
 - atomicidad de las unidades movibles;
 - excepciones legales o geográficas documentadas.
 
-El perfil general para nuevas admisiones es suelo `0.80`, techo `1.75` y tolerancia `0.12`. Los valores siguen declarándose expresamente en cada YAML: no existe herencia silenciosa. Una desviación exige `limits_profile: exception`, motivo previo, evidencia y fecha de decisión. Está prohibido modificar límites después de observar el resultado para convertir un fallo en aprobación.
-
-La atomicidad municipal también es decisión de fondo. Su valor y motivo deben estar declarados antes de ejecutar; no puede utilizarse como mando de convergencia a posteriori.
+Nunca se heredan silenciosamente los valores de Aragón. Si un valor coincide, debe estar declarado igualmente.
 
 ## 6. Objetivos blandos
 

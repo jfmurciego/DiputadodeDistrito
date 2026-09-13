@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas R036 v1.1.0: gobierno de contratos sin ejecutar M01-M06."""
+"""Pruebas R034 v1.0.0: admisión de contratos sin ejecutar M01-M06."""
 from __future__ import annotations
 import tempfile
 import unittest
@@ -44,24 +44,6 @@ class ProductionContractAdmission(unittest.TestCase):
         report = self.mutated(lambda data: data["modulos"]["modulo_06_consolidar_distritos"].__setitem__("expected_districts", 68))
         self.assertEqual(report["status"], "REJECTED")
         self.assertTrue(any("incoherencia K" in error for error in report["errors"]))
-
-    def test_rechaza_k_sin_procedencia(self):
-        report = self.mutated(lambda data: data["territory_contract"].pop("k_rationale"))
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertTrue(any("k_rationale" in error for error in report["errors"]))
-
-    def test_rechaza_limites_excepcionales_sin_gobierno(self):
-        def mutate(data):
-            data["territory_contract"]["population_floor_ratio"] = 0.85
-            data["validation"]["population_floor_ratio"] = 0.85
-        report = self.mutated(mutate)
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertTrue(any("limits_profile" in error for error in report["errors"]))
-
-    def test_rechaza_esquema_ambiguo(self):
-        report = self.mutated(lambda data: data["meta"].pop("contract_level"))
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertTrue(any("contract_level" in error for error in report["errors"]))
 
     def test_rechaza_salida_fuera_del_repositorio(self):
         report = self.mutated(lambda data: data["modulos"]["modulo_06_consolidar_distritos"].__setitem__("out_catalog_csv", "/tmp/catalogo.csv"))
