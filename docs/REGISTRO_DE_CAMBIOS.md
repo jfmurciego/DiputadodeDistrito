@@ -121,3 +121,7 @@ El workflow durable genera el informe operativo antes de persistir y lo versiona
 ## 2026-09-13 — R031.2 — Entrega completa de informe G10
 
 El artefacto durable incorpora ahora los informes JSON y Markdown, y el comentario de finalización comunica la decisión de reenganche. Se corrige el contrato de prueba antes de consolidarlo como baseline.
+
+## 2026-09-13 — R032 — Contrato declarativo de producto público
+
+El visor MapLibre pasa de territorios codificados a un registro declarativo. El empaquetado de Pages genera un manifiesto verificando cardinalidad, propiedades y SHA-256 de cada GeoJSON canónico. La lista activa sigue limitada a Aragón y Castilla y León.

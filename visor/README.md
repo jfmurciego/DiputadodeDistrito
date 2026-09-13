@@ -1,13 +1,8 @@
 # Visor público MapLibre
 
-**Versión:** 1.0.0  
-**Estado:** publicación estática de resultados certificados.
+Versión: 1.1.0
+Anterior: legacy/visor/README_v1.0.0.md
 
-El visor consume exclusivamente:
+El visor consume un registro declarativo en orchestracion/productos_publicos.json. Cada producto indica fuente canónica, cardinalidad y ruta pública. El navegador transforma EPSG:25830 a WGS84 sólo para dibujar. No recalcula M01–M06 ni modifica geometrías.
 
-- `resultados/finales/aragon/distritos.geojson`
-- `resultados/finales/castilla_y_leon/distritos.geojson`
-
-La transformación EPSG:25830 → WGS84 ocurre sólo en el navegador para dibujar. No recalcula M01–M06, no modifica geometrías ni promueve Extremadura.
-
-El workflow `Desplegar visor público` publica un artefacto efímero de Pages que empaqueta el visor y una copia de lectura de dichos GeoJSON.
+Añadir un territorio certificado exige incorporarlo al registro y superar el contrato del manifiesto; no exige reescribir el visor.

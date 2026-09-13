@@ -1,11 +1,9 @@
 /* PROYECTO: Diputado de Distrito
- * VERSIÓN: 1.1.0
+ * VERSIÓN: 1.0.0
  * NOMBRE: visor público MapLibre
- * QUÉ HACE: dibuja productos canónicos declarados sin ejecutar el motor.
- * CAMBIO: carga el registro público en lugar de codificar territorios.
- * ANTERIOR: legacy/visor/app_v1.0.0.js
+ * QUÉ HACE: dibuja resultados canónicos sin ejecutar el motor.
  */
-let TERRITORIES = {
+const TERRITORIES = {
   aragon: { label: "Aragón", districts: 67, file: "data/aragon/distritos.geojson", source: "../resultados/finales/aragon/distritos.geojson" },
   castilla_y_leon: { label: "Castilla y León", districts: 82, file: "data/castilla_y_leon/distritos.geojson", source: "../resultados/finales/castilla_y_leon/distritos.geojson" }
 };
@@ -64,15 +62,4 @@ async function loadTerritory(key){
     sourceLink.href=spec.source;sourceLink.textContent=`GeoJSON canónico de ${spec.label}`;
   }catch(error){status.textContent=`No se pudo cargar ${spec.label}: ${error.message}`;console.error(error)}
 }
-async function bootstrap(){
-  const select=document.querySelector("#territory-select");
-  try {
-    const response=await fetch("data/public-products.json",{cache:"no-cache"}); if(!response.ok) throw new Error("registro HTTP "+response.status);
-    const registry=await response.json();
-    TERRITORIES=Object.fromEntries(registry.products.map(product=>[product.id,{label:product.label,districts:product.expected_districts,file:product.viewer_path,source:"../"+product.source_path}]));
-    select.replaceChildren(...Object.entries(TERRITORIES).map(([id,product])=>new Option(product.label+" · "+product.districts+" distritos",id)));
-  } catch(error) { console.warn("Registro público no disponible; se usa el catálogo incorporado.",error); }
-  const first=Object.keys(TERRITORIES)[0]; select.value=first; await loadTerritory(first);
-  select.addEventListener("change",e=>loadTerritory(e.target.value));
-}
-map.on("load",bootstrap);
+map.on("load",()=>{loadTerritory("aragon");document.querySelector("#territory-select").addEventListener("change",e=>loadTerritory(e.target.value))});
