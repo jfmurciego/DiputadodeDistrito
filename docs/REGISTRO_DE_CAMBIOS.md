@@ -238,3 +238,7 @@ El commit `4e3849c` supera la suite general `34785826965`. Es el único workflow
 ## 2026-09-13 — C-08 — Motor M04 único y trazable
 
 Se declara `ddd_core/m04_seed_engine.py` como único motor M04 vigente mediante un contrato de máquina. El ejecutable del pipeline y la herramienta de unidades internas pasan de cargar snapshots por ruta a imports estáticos del motor canónico. Una prueba AST bloquea la carga dinámica y la selección versionada en la ruta operativa. La composición algorítmica certificada no cambia y ningún producto territorial se ejecuta o recalcula. Los snapshots no operativos se declaran históricos; su traslado físico corresponde a R038, todavía suspendido.
+
+### C-08.1 — Certificación CI
+
+El commit `5645a23` supera la suite general `34786162160`. Es el único workflow activado y no se ejecuta ninguna regresión territorial. C-08 queda cerrado; el backlog rector avanza a C-13 y después C-12.

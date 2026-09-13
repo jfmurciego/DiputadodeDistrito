@@ -1,9 +1,8 @@
 # C-08 — Motor M04 único y trazable
 
-Versión: 1.0.1  
+Versión: 1.0.0  
 Fecha: 2026-09-13  
-Estado: cerrado y certificado en CI 34786162160.  
-Anterior: `legacy/docs/AUDITORIA_C08_MOTOR_M04_v1.0.0.md`.
+Estado: implementado; pendiente de certificación CI.
 
 ## Hallazgo
 
@@ -36,10 +35,6 @@ algoritmos.
 
 No se ejecuta ni recalcula M01–M06 y no se altera ningún producto territorial.
 C-01 permanece fuera de alcance.
-
-La suite general del commit `5645a23` finaliza en `SUCCESS` en la ejecución
-`34786162160`. Fue el único workflow activado; no se ejecutó ninguna regresión
-territorial.
 
 ## Riesgo residual
 

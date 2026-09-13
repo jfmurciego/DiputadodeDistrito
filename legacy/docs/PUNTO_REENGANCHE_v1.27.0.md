@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.27.1
+Versión: 1.27.0
 Fecha: 2026-09-13
-Estado: C-08 cerrado y certificado; C-13 es el siguiente hito.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.27.0.md
+Estado: C-08 implementado; pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.26.0.md
 
 ## Fuente operativa
 
@@ -34,7 +34,6 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 C-08 fija `ddd_core/m04_seed_engine.py` como único motor vigente y publica su
 contrato de máquina. El pipeline y la herramienta auxiliar lo importan de forma
-estática; ya no seleccionan snapshots por ruta. El commit `5645a23` supera la
-suite general `34786162160`, único workflow activado; no se ejecuta M01–M06.
-Continuar por C-13 y después C-12. No tocar C-01. R038–R040 y la expansión
-siguen suspendidos.
+estática; ya no seleccionan snapshots por ruta. La prueba contractual no ejecuta
+el motor ni recalcula productos. Tras certificar CI, continuar por C-13 y después
+C-12. No tocar C-01. R038–R040 y la expansión siguen suspendidos.
