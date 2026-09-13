@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Pruebas del informe operativo G10 v1.0.1."""
+"""Pruebas del informe operativo G10 v1.0.0."""
 from __future__ import annotations
 import json,tempfile,unittest
 from pathlib import Path
 from herramientas.g10_informe_operativo import build,main
-# ANTERIOR: legacy/tests/test_g10_informe_operativo_v1.0.0.py
 
 class InformeOperativoG10(unittest.TestCase):
  def factual(self): return {"phase":"Fase 1","status":"CLOSED","territories":{"aragon":{"status":"PASS","districts":67},"extremadura":{"status":"EXPERIMENTAL_BLOCKED","promotion":False,"districts":65}}}
@@ -14,7 +13,7 @@ class InformeOperativoG10(unittest.TestCase):
   report=build({"records":[{"territory":"aragon","task_id":"ok","status":"SUCCESS"},{"territory":"extremadura","task_id":"x","status":"REQUIRES_AGENT"}]},self.factual());self.assertEqual(report["next_reengagement"]["tasks"],["x"])
  def test_cli_escribe_dos_salidas(self):
   with tempfile.TemporaryDirectory() as td:
-   root=Path(td);state=root/"s.json";factual=root/"f.json";out=root/"o.json";md=root/"o.md";state.write_text("{\"records\":[]}",encoding="utf-8");factual.write_text(json.dumps(self.factual()),encoding="utf-8")
+   root=Path(td);state=root/"s.json";factual=root/"f.json";out=root/"o.json";md=root/"o.md;";state.write_text("{\"records\":[]}",encoding="utf-8");factual.write_text(json.dumps(self.factual()),encoding="utf-8")
    import sys
    old=sys.argv;sys.argv=["x","--state",str(state),"--factual",str(factual),"--output-json",str(out),"--output-md",str(md)]
    try:self.assertEqual(main(),0)

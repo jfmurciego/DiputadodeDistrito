@@ -117,3 +117,7 @@ Se añade un generador Python de informe operacional, su contrato de prueba y la
 ## 2026-09-13 — R031.1 — Cierre de lote con informe G10
 
 El workflow durable genera el informe operativo antes de persistir y lo versiona junto al estado de tareas. Los artefactos del lote incluyen ambas salidas de reenganche.
+
+## 2026-09-13 — R031.2 — Entrega completa de informe G10
+
+El artefacto durable incorpora ahora los informes JSON y Markdown, y el comentario de finalización comunica la decisión de reenganche. Se corrige el contrato de prueba antes de consolidarlo como baseline.
