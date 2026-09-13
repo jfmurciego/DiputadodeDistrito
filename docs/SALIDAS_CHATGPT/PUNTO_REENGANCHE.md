@@ -1,30 +1,24 @@
 # Punto de reenganche DDD
 
-**Versión:** 1.2.0  
-**Fecha:** 2026-09-13  
-**Estado:** VISOR PÚBLICO EN DESPLIEGUE; Fase 1 cerrada técnicamente.  
-**Anterior:** `legacy/salidas_chatgpt/PUNTO_REENGANCHE_v1.1.0.md`
+Versión: 1.3.0
+Fecha: 2026-09-13
+Estado: Fase 1 cerrada; G10 durable; visor público preparado.
+Anterior: legacy/salidas_chatgpt/PUNTO_REENGANCHE_v1.2.0.md
 
-## Estado operativo
+## Fuente operativa
 
-- Aragón y Castilla y León: productos territoriales certificados y publicados como fuentes canónicas.
-- Extremadura: bloqueada explícitamente; no se promociona.
-- Motor: no hay cálculo territorial pendiente ni autorizado.
-- G10: reutiliza evidencia por huella; sólo se lanza si cambia un contrato, una evidencia o un producto.
+- Estado de máquina: orchestracion/estado_operativo_g10.json
+- Estado legible: docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
+- Productos públicos declarados: orchestracion/productos_publicos.json
 
-## Trabajo en curso
+## Regla de ejecución
 
-**Nombre en GitHub Actions:** `Desplegar visor público`
+Aragón y Castilla y León ya son productos certificados. Extremadura permanece EXPERIMENTAL_BLOCKED. No se repite M01–M06 ni se abre otra comunidad sin cambio material y orden expresa.
 
-Publica MapLibre con Aragón (67) y Castilla y León (82). El workflow valida ambos GeoJSON y no ejecuta M01–M06.
+## Publicación pendiente
 
-## Después del correo
-
-1. Abrir la URL del job `Desplegar visor público`.
-2. Verificar selector, 67 distritos de Aragón y 82 de Castilla y León.
-3. Pulsar un distrito y comprobar su ficha.
-4. Si el desplegado falla, revisar sólo ese workflow; no lanzar el motor territorial.
+El visor MapLibre y su contrato declarativo están verificados. GitHub Pages requiere una única habilitación del propietario en Settings > Pages > GitHub Actions; después se relanza Desplegar visor público. Ese workflow no ejecuta el motor.
 
 ## Reenganche G10
 
-Usar `G10 — Operar lote durable` exclusivamente tras un cambio material que invalide una huella. Un lote sin cambio debe devolver `REUSED`, no consumir runners ni recalcular.
+Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contrato, fuente o producto, el resultado esperado es REUSED.

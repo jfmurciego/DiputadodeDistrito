@@ -125,3 +125,7 @@ El artefacto durable incorpora ahora los informes JSON y Markdown, y el comentar
 ## 2026-09-13 — R032 — Contrato declarativo de producto público
 
 El visor MapLibre pasa de territorios codificados a un registro declarativo. El empaquetado de Pages genera un manifiesto verificando cardinalidad, propiedades y SHA-256 de cada GeoJSON canónico. La lista activa sigue limitada a Aragón y Castilla y León.
+
+## 2026-09-13 — R032.1 — Reenganche alineado con producto público
+
+El punto de reenganche pasa a señalar el estado operativo G10 y el registro declarativo de productos. Se elimina cualquier ambigüedad que pudiera provocar una repetición de M01–M06.
