@@ -1,13 +1,10 @@
 # Contrato estándar de territorio DDD
 
-**Versión:** 1.1.0
-**Fecha:** 2026-09-13
-**Estado:** vigente — R034
-**Anterior:** `legacy/docs/CONTRATO_TERRITORIO_v1.0.0.md`
+**Versión:** 1.0.0
+**Fecha:** 2026-09-11
+**Estado:** vigente — R018
 
 Todo territorio debe satisfacer este contrato antes de considerarse una implantación DDD.
-
-La especificación ya no es sólo documental. Antes de cualquier M01–M06, CI/G10 debe ejecutar `herramientas/validar_contrato_territorial.py --params <yaml> --territory <id>`. Sólo `status=ADMITTED` abre la cadena; `REJECTED` consume cero cálculo territorial.
 
 ## 1. Identidad
 
@@ -104,8 +101,6 @@ Una vez exista baseline promovido, añadir regresión explícita de ese baseline
 ## 9. Criterio de promoción
 
 Un territorio pasa de `preparación` a `candidato` cuando M01–M06 cumplen el contrato local. Pasa a `validado` únicamente tras GitHub Actions reproducible, validación sin fallos, outputs completos y documentación del run.
-
-La admisión previa verifica como mínimo identidad, fuentes con checksum, presencia M01–M06, continuidad exacta entre outputs e inputs, coherencia de K/códigos/roles/restricciones, outputs únicos y confinados al repositorio. La admisión no equivale a promoción: únicamente autoriza que la ejecución pueda comenzar.
 
 ## 10. Internacionalización
 

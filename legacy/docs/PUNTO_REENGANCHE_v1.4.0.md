@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.5.0
+Versión: 1.4.0
 Fecha: 2026-09-13
-Estado: ingeniería de admisión territorial en curso; R034 completada.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.4.0.md
+Estado: Fase 1 cerrada; G10 durable; visor público preparado.
+Anterior: docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md en R032.1
 
 ## Fuente operativa
 
@@ -11,8 +11,6 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.4.0.md
 - Estado legible: docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
 - Productos públicos declarados: orchestracion/productos_publicos.json
 - Control independiente de publicación: .github/workflows/validar-productos-publicos.yml
-- Puerta de admisión: herramientas/validar_contrato_territorial.py
-- CI de contratos: .github/workflows/validar-contratos-territoriales.yml
 
 ## Regla de ejecución
 
@@ -25,7 +23,3 @@ El visor MapLibre y su contrato exhaustivo están verificados. **Validar product
 ## Reenganche G10
 
 Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contrato, fuente o producto, el resultado esperado es REUSED.
-
-## Siguiente bloque de ingeniería
-
-R034 convierte el contrato en una puerta ejecutable y certifica Aragón/Castilla y León sin recalcular. Siguiente hueco de producción: unificar el workflow completo M01–M06 por `territory_id`, eliminando las selecciones codificadas por territorio y haciendo obligatoria esta admisión antes del primer módulo. Mantener congelada toda ejecución territorial mientras no exista orden explícita.

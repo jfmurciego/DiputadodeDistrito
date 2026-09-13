@@ -1,13 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Controlador G10 con admisión territorial estricta
-# FECHA: 2026-09-13
-# ESTADO: vigente — R034
-# QUÉ HACE: valida planes y obliga a que validate_config atraviese la puerta completa de producción M01-M06 sin ejecutar cálculo territorial.
-# CAMBIOS: sustituye la comprobación parcial de ratios por el contrato ejecutable de identidad, fuentes, módulos, rutas y restricciones cruzadas.
-# MOTIVO: impedir que G10 admita un territorio incompleto antes de consumir cálculo GIS.
-# ANTERIOR: legacy/workflows/g10-control_v1.0.0.yml
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Controlador Marco G10
+# FECHA: 2026-09-12
+# ESTADO: candidato
+# QUÉ HACE: valida un plan, crea una matriz fail-fast false, ejecuta tareas permitidas de forma aislada y publica siempre un resumen por tarea y lote.
+# MOTIVO: desacoplar el cómputo persistente de GitHub de las ventanas del agente y evitar repeticiones sin control.
 name: G10 — Control de lote
 
 on:
@@ -16,8 +14,6 @@ on:
       - '.github/workflows/g10-control.yml'
       - 'g10/**'
       - 'herramientas/g10_orquestar.py'
-      - 'herramientas/validar_contrato_territorial.py'
-      - 'ddd_core/territory_contract.py'
       - 'orchestracion/**'
       - 'schemas/g10-*.schema.json'
       - 'tests/test_g10_orquestacion.py'
@@ -27,8 +23,6 @@ on:
       - '.github/workflows/g10-control.yml'
       - 'g10/**'
       - 'herramientas/g10_orquestar.py'
-      - 'herramientas/validar_contrato_territorial.py'
-      - 'ddd_core/territory_contract.py'
       - 'orchestracion/**'
       - 'schemas/g10-*.schema.json'
       - 'tests/test_g10_orquestacion.py'
@@ -87,8 +81,8 @@ jobs:
               python -m unittest tests.test_g10_orquestacion -v >"g10-out/$TASK_ID/task.log" 2>&1 ;;
             validate_config)
               docker build -t ddd-g10:${GITHUB_SHA} . >"g10-out/$TASK_ID/build.log" 2>&1 &&
-              docker run --rm --entrypoint python ddd-g10:${GITHUB_SHA} \
-                herramientas/validar_contrato_territorial.py --params "$CONFIG" \
+              docker run --rm --entrypoint python ddd-g10:${GITHUB_SHA} -c \
+                "from ddd_core.config import load_params_yaml,hard_limits;c=load_params_yaml('$CONFIG');k=int(c['territory_contract']['k_districts']);hard_limits(c,k=k,total_pop=float(k));print('G10 CONTRACT PASS')" \
                 >"g10-out/$TASK_ID/task.log" 2>&1 ;;
             territory_m01_m06)
               echo "territory_m01_m06 requiere un plan de producción territorial aprobado" >"g10-out/$TASK_ID/task.log"; false ;;
