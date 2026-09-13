@@ -172,4 +172,8 @@ Commit `8376276` supera la suite general en CI `34757140425`. El cambio no dispa
 
 ## 2026-09-13 — Paquete A — C-05/C-09 Integridad electoral
 
-M07 deja de descartar votos mediante un `inner join` silencioso. El nuevo cruce izquierdo produce un informe que conserva la identidad votos de entrada = asignados + no asignables y bloquea cualquier descuadre no declarado. Aragón registra expresamente la sección electoral `5002501003` y sus 608 votos no asignables, además de la sección censal `2221301003` sin resultados. La comprobación sobre evidencia certificada arroja 648.799 = 648.191 + 608 votos y 1.463 secciones en cada universo. M07 se reescribe en formato revisable. No se ejecuta M01–M06.
+M07 deja de descartar votos mediante un `inner join` silencioso. El nuevo cruce izquierdo produce un informe que conserva la identidad votos de entrada = asignados + no asignables y bloquea cualquier descuadre no declarado. Aragón registra expresamente la sección electoral `5002501003` y sus 608 votos no asignables, además de la sección censal `2221301003` sin resultados. La comprobación sobre evidencia certificada arroja 648.799 = 648.191 + 608 votos y 1.463 secciones en cada universo. M07 se reescribe en formato revisable. La implementación no solicita M01–M06.
+
+### Paquete A.1 — Certificación CI
+
+El commit `113c04c` supera la suite general `34760389448` y la puerta contractual `34760389449`. Por el disparador común `ddd_core/**` se ejecutaron además, de forma incidental, las regresiones M06 de Aragón y Castilla y León (`34760389453`, `34760389444`), ambas SUCCESS y sin modificación de productos en `main`. Esta activación no era necesaria para C-05/C-09 y queda registrada como riesgo de acotación de workflows.

@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.14.0
+Versión: 1.13.0
 Fecha: 2026-09-13
-Estado: Paquete A certificado; C-05 cerrado y C-09 cerrado para M07.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.13.0.md
+Estado: Paquete A C-05/C-09 implementado; pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.12.0.md
 
 ## Fuente operativa
 
@@ -32,4 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-La prioridad sigue siendo cerrar C-01–C-14. Paquete A está certificado en `113c04c`; decidir antes de ejecutar si el siguiente bloque es el Paquete B (C-14/C-02/C-03). R038–R040 y toda expansión territorial continúan suspendidos.
+La prioridad ya no es R038–R040 sino cerrar C-01–C-14. Paquete A corrige M07: reconciliación obligatoria, votos no asignables visibles y código revisable. Certificar CI sin ejecutar M01–M06; después decidir si el saldo permite el Paquete B (C-14/C-02/C-03).

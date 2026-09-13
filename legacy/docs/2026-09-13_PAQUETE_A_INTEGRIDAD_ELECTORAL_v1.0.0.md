@@ -1,9 +1,9 @@
 # Paquete A — Integridad electoral C-05/C-09
 
-**Versión:** 1.1.0
+**Versión:** 1.0.0
 **Fecha:** 2026-09-13
-**Estado:** certificado
-**Anterior:** `legacy/docs/2026-09-13_PAQUETE_A_INTEGRIDAD_ELECTORAL_v1.0.0.md`
+**Estado:** implementado; pendiente de certificación CI
+**Anterior:** ninguno — documento nuevo
 
 M07 ya no puede perder votos silenciosamente. Cada ejecución escribe `m07_reconciliacion.json` con votos de entrada, asignados y no asignables. Los descuadres deben declararse por sección; si cambian o aparece uno nuevo, M07 falla.
 
@@ -12,5 +12,3 @@ Aragón reconoce los dos casos demostrados por la auditoría: `5002501003`, con 
 La reconciliación contra la composición M06 certificada `gh-34599224954-1` y la fuente RTVE materializada da `PASS_WITH_DECLARED_EXCEPTIONS`: 648.799 votos de entrada, 648.191 asignados y 608 no asignables. Ambos universos contienen 1.463 secciones; difieren exactamente en las dos claves anteriores. La evidencia queda materializada en `EVIDENCIAS/PAQUETE_A_RECONCILIACION_ARAGON.json`.
 
 El módulo pasa de 66 líneas con una sentencia de 2.180 caracteres a 222 líneas estructuradas; su línea más larga tiene 97 caracteres. No cambia M01–M06 ni la geometría distrital.
-
-El commit `113c04c` supera la suite general `34760389448` y la puerta contractual `34760389449`. Los workflows de regresión M06 de Aragón y Castilla y León también se activaron automáticamente por la ruta común `ddd_core/**` y finalizaron SUCCESS (`34760389453`, `34760389444`); fueron ejecuciones incidentales, no una necesidad del Paquete A, y no modificaron productos en `main`.
