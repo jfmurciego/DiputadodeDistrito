@@ -198,3 +198,7 @@ El commit `ccaa62a` supera la suite general `34773094091`, la validación de pro
 ## 2026-09-13 — C-04 — Sesgo poblacional del reparto de K
 
 Se publica una métrica reproducible de carga poblacional provincial frente a la media territorial usando solo evidencia ya certificada. El máximo absoluto es 4,546 % en Aragón (Teruel) y 9,674 % en Castilla y León (Palencia). Extremadura se mide en 0,190 % sin alterar su estado `EXPERIMENTAL_BLOCKED`. La herramienta, su entrada gobernada, tres pruebas y la evidencia JSON cierran C-04 sin ejecutar M01–M06 ni abrir territorios. El reenganche avanza a C-10; C-01 queda fuera de este bloque.
+
+### C-04.1 — Certificación CI
+
+El commit `83ea22a` supera la suite general `34779361255`. No se activa ningún workflow territorial ni se ejecuta M01–M06. C-04 queda certificado y el siguiente hito rector es C-10.
