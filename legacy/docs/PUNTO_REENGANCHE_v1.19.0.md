@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.20.0
+Versión: 1.19.0
 Fecha: 2026-09-13
-Estado: C-10 implementado; pendiente certificación CI antes de avanzar a C-07.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.19.0.md
+Estado: C-04 certificado en CI; C-01 permanece fuera de este bloque y C-10 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.18.0.md
 
 ## Fuente operativa
 
@@ -32,9 +32,10 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-10 fija `polsby_popper` y el resto del catálogo M06 como contrato único. Los
-runs históricos no se reescriben: pasan por un adaptador de aliases explícito y
-auditable. La validación cubre 67/82/65 distritos sin ejecutar M01–M06. Tras CI,
-continuar por C-07, prueba sintética adversarial. No tocar C-01. C-11 queda fuera
-de cálculo partidista por decisión expresa de dirección. R038–R040 y toda
-expansión territorial siguen suspendidos.
+C-04 queda cerrado con una métrica reproducible del sesgo poblacional previo a
+M04: Aragón alcanza 4,546 % absoluto y Castilla y León 9,674 %. La evidencia se
+obtiene exclusivamente de resultados certificados; Extremadura permanece
+`EXPERIMENTAL_BLOCKED`. El commit `83ea22a` supera la suite general en el run
+`34779361255`; no se activan regresiones territoriales. Continuar por C-10, contrato único de esquema y
+métricas. No tocar C-01. C-11 queda fuera de cálculo partidista por decisión
+expresa de dirección. R038–R040 y toda expansión territorial siguen suspendidos.

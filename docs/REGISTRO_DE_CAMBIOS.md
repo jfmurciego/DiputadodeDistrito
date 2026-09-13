@@ -202,3 +202,7 @@ Se publica una métrica reproducible de carga poblacional provincial frente a la
 ### C-04.1 — Certificación CI
 
 El commit `83ea22a` supera la suite general `34779361255`. No se activa ningún workflow territorial ni se ejecuta M01–M06. C-04 queda certificado y el siguiente hito rector es C-10.
+
+## 2026-09-13 — C-10 — Contrato único del catálogo M06
+
+Se fija `polsby_popper` como nombre canónico y se publica el esquema único del catálogo distrital M06. Un adaptador cerrado hace explícita la migración de nombres históricos sin reescribir runs certificados. La prueba verifica Aragón, Castilla y León y Extremadura mediante el mismo contrato, sin condicionales por territorio; Extremadura permanece bloqueada. No se ejecuta M01–M06 y el reenganche avanza a C-07 tras certificación CI.
