@@ -1,10 +1,10 @@
 # Política de publicabilidad de mapas distritales DDD
 
-**Versión:** 1.2.0
-**Nombre de versión:** Nombres técnicos reproducibles
+**Versión:** 1.1.0
+**Nombre de versión:** Alcance medible de comunidades de interés
 **Fecha:** 2026-09-13
-**Estado:** vigente — C-12
-**Anterior:** `legacy/docs/POLITICA_PUBLICABILIDAD_v1.1.0.md`
+**Estado:** vigente — C-13
+**Anterior:** `legacy/docs/POLITICA_PUBLICABILIDAD_v1.0.0.md`
 
 ## 1. Decisión
 
@@ -34,11 +34,6 @@ ser pública, versionada, no partidista y cubrir todos los municipios. Deben
 publicarse comunidades partidas, comunidades por distrito, peso de la comunidad
 dominante y retención poblacional. Los umbrales se fijan antes de ejecutar; sin
 fuente o sin umbral, P07 es `NOT_EVALUABLE` y bloquea la publicación.
-
-P08 admite un nombre técnico cuando es único, completo, determinista,
-explicable y ajeno a votos o partidos. El contrato vigente usa provincia,
-municipio de mayor población, su peso y un ordinal estable para colisiones.
-Una denominación técnica no compensa ningún bloqueo de P01–P07 o P09.
 
 ## 3. Garantías transversales
 

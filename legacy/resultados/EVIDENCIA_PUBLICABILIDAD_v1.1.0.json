@@ -1,9 +1,9 @@
 {
-  "schema_version": "1.2.0",
+  "schema_version": "1.1.0",
   "generated_at": "2026-09-13",
   "method": "descriptive_analysis_of_existing_m06_catalogues",
   "recalculated_modules": [],
-  "audit_findings": ["C-02", "C-03", "C-12", "C-13", "C-14"],
+  "audit_findings": ["C-02", "C-03", "C-13", "C-14"],
   "policy": "docs/POLITICA_PUBLICABILIDAD.md",
   "shape_gate": {
     "metric": "polsby_popper",
@@ -16,12 +16,6 @@
     "criterion": "P07",
     "contract": "configuracion/comunidades_interes.json",
     "decision": "FORMAL_SCOPE_DECLARED_NO_TERRITORY_EVALUABLE"
-  },
-  "district_names": {
-    "criterion": "P08",
-    "contract": "configuracion/nombres_distrito.json",
-    "evidence": "resultados/fase1/NOMBRES_DISTRITO_INFORME.json",
-    "status": "PASS_TECHNICAL"
   },
   "criteria": [
     "P01_population_balance",
@@ -42,7 +36,6 @@
       "pearson_abs_population_deviation_vs_shape": -0.175147047397,
       "shape_gate": "PASS_PROVISIONAL",
       "communities_of_interest_gate": "NOT_EVALUABLE",
-      "intelligibility_gate": "PASS_TECHNICAL",
       "technical_status": "PASS",
       "publication_status": "BLOCKED"
     },
@@ -61,7 +54,6 @@
       "c03_causal_claim": "NOT_SUPPORTED_BY_OBSERVED_CORRELATION",
       "shape_gate": "FAIL",
       "communities_of_interest_gate": "NOT_EVALUABLE",
-      "intelligibility_gate": "PASS_TECHNICAL",
       "technical_status": "PASS",
       "publication_status": "BLOCKED"
     },
@@ -72,7 +64,6 @@
       "pearson_abs_population_deviation_vs_shape": -0.067646476148,
       "shape_gate": "PASS_PROVISIONAL",
       "communities_of_interest_gate": "NOT_EVALUABLE",
-      "intelligibility_gate": "PASS_TECHNICAL",
       "technical_status": "EXPERIMENTAL_BLOCKED",
       "publication_status": "BLOCKED"
     }

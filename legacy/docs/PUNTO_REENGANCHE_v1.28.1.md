@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.29.0
+Versión: 1.28.1
 Fecha: 2026-09-13
-Estado: C-12 implementado; pendiente de certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.28.1.md
+Estado: C-13 cerrado y certificado; C-12 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.28.0.md
 
 ## Fuente operativa
 
@@ -32,8 +32,9 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-12 genera 214 nombres técnicos únicos y recomputables desde composiciones M06
-certificadas, con regla, peso dominante y hashes de entrada. No modifica M06 ni
-los límites. Tras certificar CI, los pendientes críticos autorizados quedan
-agotados: C-01 sigue en su rama separada; R038–R040 y la expansión permanecen
-suspendidos salvo nueva orden.
+C-13 convierte P07 en un alcance supra-municipal medible y neutral ex ante. Las
+rutas comarcales existentes están desactivadas y Extremadura no declara fuente:
+los tres territorios quedan `NOT_EVALUABLE`, por tanto bloqueados para publicación.
+No se modifican límites ni se ejecuta M01–M06. El commit `5a4a884` supera la
+suite general `34786528440`, único workflow activado. Continuar por C-12. No
+tocar C-01. R038–R040 y la expansión siguen suspendidos.

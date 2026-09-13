@@ -250,3 +250,7 @@ P07 pasa de mención inerte a contrato formal supra-municipal. Se fijan fuente a
 ### C-13.1 — Certificación CI
 
 El commit `5a4a884` supera la suite general `34786528440`, único workflow activado. No se ejecuta ninguna regresión territorial. C-13 queda cerrado y el backlog avanza a C-12.
+
+## 2026-09-13 — C-12 — Nombres de distrito
+
+Se publica un sistema determinista y no partidista de nombres técnicos basado en provincia y municipio de mayor población, con regla explícita para distritos sin mayoría municipal y ordinal estable para colisiones. La evidencia contiene 214 nombres únicos, cobertura completa, pesos dominantes y hashes de las tres composiciones M06 certificadas. Las pruebas recomputan los nombres desde esas entradas. No se altera M06, ningún límite ni C-01.
