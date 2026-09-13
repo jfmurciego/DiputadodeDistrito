@@ -205,4 +205,8 @@ El commit `83ea22a` supera la suite general `34779361255`. No se activa ningún 
 
 ## 2026-09-13 — C-10 — Contrato único del catálogo M06
 
-Se fija `polsby_popper` como nombre canónico y se publica el esquema único del catálogo distrital M06. Un adaptador cerrado hace explícita la migración de nombres históricos sin reescribir runs certificados. La prueba verifica Aragón, Castilla y León y Extremadura mediante el mismo contrato, sin condicionales por territorio; Extremadura permanece bloqueada. No se ejecuta M01–M06 y el reenganche avanza a C-07 tras certificación CI.
+Se fija `polsby_popper` como nombre canónico y se publica el esquema único del catálogo distrital M06. Un adaptador cerrado hace explícita la migración de nombres históricos sin reescribir runs certificados. La prueba verifica Aragón, Castilla y León y Extremadura mediante el mismo contrato, sin condicionales por territorio; Extremadura permanece bloqueada. El cambio no invoca M01–M06 y el reenganche avanza a C-07 tras certificación CI.
+
+### C-10.1 — Certificación CI
+
+El commit `188c980` supera la suite general `34782359264`. Los patrones históricos de workflow activan incidentalmente las regresiones M06 de Aragón (`34782359206`) y Castilla y León (`34782359236`), ambas SUCCESS y sin persistir cambios de producto en `main`. La activación se registra como riesgo operativo; C-10 queda cerrado y el reenganche avanza a C-07.

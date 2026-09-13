@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.21.0
+Versión: 1.20.0
 Fecha: 2026-09-13
-Estado: C-10 cerrado y certificado; C-07 es el siguiente hito.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.20.0.md
+Estado: C-10 implementado; pendiente certificación CI antes de avanzar a C-07.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.19.0.md
 
 ## Fuente operativa
 
@@ -34,9 +34,7 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 C-10 fija `polsby_popper` y el resto del catálogo M06 como contrato único. Los
 runs históricos no se reescriben: pasan por un adaptador de aliases explícito y
-auditable. La suite general del commit `188c980` pasa en `34782359264`. Dos
-regresiones territoriales se activaron incidentalmente por el patrón `ddd_core/**`
-y pasaron (`34782359206`, `34782359236`); no modificaron productos en `main`.
-Continuar por C-07, prueba sintética adversarial. No tocar C-01. C-11 queda fuera
+auditable. La validación cubre 67/82/65 distritos sin ejecutar M01–M06. Tras CI,
+continuar por C-07, prueba sintética adversarial. No tocar C-01. C-11 queda fuera
 de cálculo partidista por decisión expresa de dirección. R038–R040 y toda
 expansión territorial siguen suspendidos.
