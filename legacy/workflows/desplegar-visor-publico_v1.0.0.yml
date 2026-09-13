@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.0
 # NOMBRE: Desplegar visor público MapLibre
 # ESTADO: activo
-# QUÉ HACE: habilita GitHub Pages cuando falta y publica el visor estático con GeoJSON canónicos.
-# CAMBIO: activa Pages de forma explícita en el primer despliegue.\n# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.0.0.yml\n# MOTIVO: hacer verificables visualmente los resultados certificados sin activar el motor territorial.
+# QUÉ HACE: publica el visor estático y sólo los GeoJSON finales canónicos de Aragón y Castilla y León.
+# MOTIVO: hacer verificables visualmente los resultados certificados sin activar el motor territorial.
 name: Desplegar visor público
 
 on:
@@ -58,8 +58,6 @@ jobs:
           cp resultados/finales/aragon/distritos.geojson site/data/aragon/
           cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site

@@ -105,3 +105,7 @@ Se elimina la duplicación exacta de los cinco árboles históricos de Aragón b
 ## 2026-09-13 — R030 — Visor público y reenganche sin recálculo
 
 Se incorpora el visor estático MapLibre y el despliegue GitHub Pages para Aragón y Castilla y León. Consume únicamente GeoJSON finales canónicos, transforma coordenadas para dibujo en el cliente y valida 67/82 entidades antes de publicar. El punto de reenganche deja de recomendar el lote autónomo que repetía M01–M06 y limita G10 a cambios con huella nueva.
+
+## 2026-09-13 — R030.1 — Habilitación autónoma de GitHub Pages
+
+El primer despliegue del visor validó y empaquetó correctamente, pero GitHub Pages no estaba habilitado. El workflow activa explícitamente Pages en el primer uso y conserva su predecesor; no modifica datos territoriales.
