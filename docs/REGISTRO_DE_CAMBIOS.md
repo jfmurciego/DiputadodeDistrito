@@ -177,3 +177,7 @@ M07 deja de descartar votos mediante un `inner join` silencioso. El nuevo cruce 
 ### Paquete A.1 — Certificación CI
 
 El commit `113c04c` supera la suite general `34760389448` y la puerta contractual `34760389449`. Por el disparador común `ddd_core/**` se ejecutaron además, de forma incidental, las regresiones M06 de Aragón y Castilla y León (`34760389453`, `34760389444`), ambas SUCCESS y sin modificación de productos en `main`. Esta activación no era necesaria para C-05/C-09 y queda registrada como riesgo de acotación de workflows.
+
+## 2026-09-13 — Paquete B — C-02/C-03/C-14 Publicabilidad
+
+Se separa formalmente `TECHNICAL_PASS` de `PUBLICABLE` mediante nueve criterios sustantivos y cuatro garantías. C-02 queda confirmado: Castilla y León incumple la puerta provisional de forma con 40/82 distritos bajo 0,15 y mínimo 0,02809. C-03 queda corregido: la correlación −0,3293 es real, pero no demuestra que apretar población empeore la forma; el cuartil con peor balance es también el de peor forma. C-14 queda resuelto con definición, umbrales y regla de promoción. Ningún mapa se declara hoy publicable como propuesta política. No se ejecuta M01–M06.

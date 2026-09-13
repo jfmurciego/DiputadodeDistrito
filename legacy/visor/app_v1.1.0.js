@@ -1,13 +1,13 @@
 /* PROYECTO: Diputado de Distrito
- * VERSIÓN: 1.2.0
- * NOMBRE: visor técnico con estado de publicabilidad
+ * VERSIÓN: 1.1.0
+ * NOMBRE: visor público MapLibre
  * QUÉ HACE: dibuja productos canónicos declarados sin ejecutar el motor.
- * CAMBIO: distingue certificación técnica de autorización de publicación.
- * ANTERIOR: legacy/visor/app_v1.1.0.js
+ * CAMBIO: carga el registro público en lugar de codificar territorios.
+ * ANTERIOR: legacy/visor/app_v1.0.0.js
  */
 let TERRITORIES = {
-  aragon: { label: "Aragón", districts: 67, file: "data/aragon/distritos.geojson", source: "../resultados/finales/aragon/distritos.geojson", publicationStatus: "BLOCKED" },
-  castilla_y_leon: { label: "Castilla y León", districts: 82, file: "data/castilla_y_leon/distritos.geojson", source: "../resultados/finales/castilla_y_leon/distritos.geojson", publicationStatus: "BLOCKED" }
+  aragon: { label: "Aragón", districts: 67, file: "data/aragon/distritos.geojson", source: "../resultados/finales/aragon/distritos.geojson" },
+  castilla_y_leon: { label: "Castilla y León", districts: 82, file: "data/castilla_y_leon/distritos.geojson", source: "../resultados/finales/castilla_y_leon/distritos.geojson" }
 };
 const map = new maplibregl.Map({
   container: "map", style: {version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm"}]},
@@ -60,7 +60,7 @@ async function loadTerritory(key){
     map.on("click","district-hit",e=>{const props=e.features[0].properties||{};detail.innerHTML=districtHtml(props);new maplibregl.Popup().setLngLat(e.lngLat).setHTML(districtHtml(props)).addTo(map)});
     map.on("mouseenter","district-hit",()=>map.getCanvas().style.cursor="pointer");map.on("mouseleave","district-hit",()=>map.getCanvas().style.cursor="");
     map.fitBounds(boundsFor(data),{padding:36,maxZoom:8,duration:500});
-    summary.innerHTML=`<dl><dt>Territorio</dt><dd>${spec.label}</dd><dt>Distritos</dt><dd>${data.features.length}</dd><dt>Estado técnico</dt><dd>PASS</dd><dt>Publicabilidad</dt><dd>${spec.publicationStatus}</dd></dl>`;summary.hidden=false;status.textContent=`${spec.label}: vista técnica cargada; publicación bloqueada.`;
+    summary.innerHTML=`<dl><dt>Territorio</dt><dd>${spec.label}</dd><dt>Distritos</dt><dd>${data.features.length}</dd><dt>Estado</dt><dd>Certificado</dd></dl>`;summary.hidden=false;status.textContent=`${spec.label}: resultado certificado cargado.`;
     sourceLink.href=spec.source;sourceLink.textContent=`GeoJSON canónico de ${spec.label}`;
   }catch(error){status.textContent=`No se pudo cargar ${spec.label}: ${error.message}`;console.error(error)}
 }
@@ -69,7 +69,7 @@ async function bootstrap(){
   try {
     const response=await fetch("data/public-products.json",{cache:"no-cache"}); if(!response.ok) throw new Error("registro HTTP "+response.status);
     const registry=await response.json();
-    TERRITORIES=Object.fromEntries(registry.products.map(product=>[product.id,{label:product.label,districts:product.expected_districts,file:product.viewer_path,source:"../"+product.source_path,publicationStatus:product.publication_status||"BLOCKED"}]));
+    TERRITORIES=Object.fromEntries(registry.products.map(product=>[product.id,{label:product.label,districts:product.expected_districts,file:product.viewer_path,source:"../"+product.source_path}]));
     select.replaceChildren(...Object.entries(TERRITORIES).map(([id,product])=>new Option(product.label+" · "+product.districts+" distritos",id)));
   } catch(error) { console.warn("Registro público no disponible; se usa el catálogo incorporado.",error); }
   const first=Object.keys(TERRITORIES)[0]; select.value=first; await loadTerritory(first);
