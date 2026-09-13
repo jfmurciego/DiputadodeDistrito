@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.16.0
+Versión: 1.15.0
 Fecha: 2026-09-13
-Estado: Paquete B certificado; C-02 confirmado, C-03 corregido y C-14 cerrado.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.15.0.md
+Estado: Paquete B implementado; C-02 confirmado, C-03 corregido y C-14 resuelto; pendiente CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.14.0.md
 
 ## Fuente operativa
 
@@ -32,4 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-Paquete B está certificado en `ccaa62a`: ningún mapa es todavía publicable como propuesta política; Aragón y Castilla y León son vistas técnicas y Castilla y León queda además bloqueada por forma. Continuar solo por el siguiente paquete de C-01–C-14 que se autorice. R038–R040 y toda expansión territorial continúan suspendidos.
+Paquete B fija la política de publicabilidad: ningún mapa es todavía publicable como propuesta política; Aragón y Castilla y León son vistas técnicas y Castilla y León queda además bloqueada por forma. Certificar CI y continuar solo por el siguiente paquete de C-01–C-14 que se autorice. R038–R040 y toda expansión territorial continúan suspendidos.
