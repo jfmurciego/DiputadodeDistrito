@@ -218,3 +218,7 @@ Se añade un pipeline sintético con población desigual 60/40/30/70, K=2 y solu
 ### C-07.1 — Certificación CI
 
 El commit `a359910` supera la suite general `34783919125`, incluida la ejecución adversarial completa M01–M06 sobre cuatro secciones temporales. No se activan regresiones territoriales ni se leen productos certificados. C-07 queda cerrado y el reenganche avanza a C-06.
+
+## 2026-09-13 — C-06 — Verificación independiente
+
+Se añade un verificador de biblioteca estándar que no importa el productor, `ddd_core` ni el validador existente. Recalcula desde M03 y M06 universo, población, K, provincia, contigüidad, límites y disciplina municipal. Aragón y Castilla y León pasan. Extremadura queda reforzada como `BLOCKED_INDEPENDENT_VALIDATION`: además de dos distritos fuera de tolerancia, presenta cinco municipios con más de un distrito mixto. No se recalcula ni modifica ningún territorio; C-01 permanece intacto.

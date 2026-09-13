@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.24.0
+Versión: 1.23.0
 Fecha: 2026-09-13
-Estado: C-06 implementado; pendiente certificación CI antes de C-08.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.23.0.md
+Estado: C-07 cerrado y certificado; C-06 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.22.0.md
 
 ## Fuente operativa
 
@@ -32,7 +32,10 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-06 recomputa desde cero y sin importar código del productor: Aragón y Castilla
-y León pasan; Extremadura añade cinco infracciones municipales a su bloqueo.
-No se modifica ningún resultado. Tras CI, continuar por C-08, motor M04 único y
-trazable. No tocar C-01. R038–R040 y la expansión siguen suspendidos.
+C-07 incorpora un caso sintético adversarial de cuatro secciones con población
+60/40/30/70 y solución óptima única 100/100. Ejecuta M01–M06 solo sobre datos
+temporales sintéticos, exige la asignación exacta y demuestra que el oráculo
+rechaza una partición plausible pero errónea. El commit `a359910` supera la
+suite general `34783919125`; no se activan regresiones territoriales. Continuar
+por C-06, verificador independiente. No tocar C-01. R038–R040 y la expansión siguen
+suspendidos.
