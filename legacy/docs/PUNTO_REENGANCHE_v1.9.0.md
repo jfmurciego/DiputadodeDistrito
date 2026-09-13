@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.10.0
+Versión: 1.9.0
 Fecha: 2026-09-13
-Estado: R034–R036 certificados; auditoría residual continúa por R037.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.9.0.md
+Estado: R034–R035 certificados; R036 implementado y pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.8.0.md
 
 ## Fuente operativa
 
@@ -32,4 +32,4 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R036 está certificado en commit `3d1337c`: cinco workflows SUCCESS. Continuar por R037: políticas topológicas para aislados, desconexiones y archipiélagos sin abrir comunidades. Después R038 y R039. R040 y cualquier M01–M06 siguen bloqueados hasta orden expresa.
+R036 está implementado sin cálculo territorial: K, límites y esquema ya tienen gobierno ejecutable. Certificar CI y continuar por R037: políticas topológicas para aislados, desconexiones y archipiélagos sin abrir comunidades. Después R038 y R039. R040 y cualquier M01–M06 siguen bloqueados hasta orden expresa.

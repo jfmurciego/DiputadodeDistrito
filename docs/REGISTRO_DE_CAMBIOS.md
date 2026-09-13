@@ -157,3 +157,7 @@ Se crea `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md` como fuente de verdad para mi
 ## 2026-09-13 — R036 — Gobierno de K, límites y esquema
 
 El catálogo registra la procedencia y justificación de K para los tres contratos M01–M06 existentes; el YAML conserva el valor ejecutable y la puerta exige coherencia con M04, M06 y validación. Se fija el perfil general `0.80/1.75/0.12`, con expediente obligatorio para excepciones. Se distinguen formalmente `bootstrap_m01_m03` y `production_m01_m06`. Aragón y Castilla y León conservan parámetros; Extremadura queda como excepción histórica bloqueada. Se añaden pruebas negativas y no se ejecuta ningún módulo territorial.
+
+### R036.1 — Certificación CI
+
+Commit `3d1337c` supera cinco workflows: puerta contractual, suite general, G10 y regresiones de evidencia de Aragón y Castilla y León. R036 queda cerrado sin ejecutar ni recalcular M01–M06.
