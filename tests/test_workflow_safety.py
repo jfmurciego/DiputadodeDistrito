@@ -10,8 +10,6 @@ class WorkflowSafety(unittest.TestCase):
     MANUAL_ONLY={
         "auditar-robustez-semillas-aragon.yml",
         "desplegar-visor-publico.yml",
-        "exportar-aragon-flourish.yml",
-        "publicar-sitio.yml",
         "regresion-m06-aragon.yml",
         "regresion-m06-castilla-y-leon.yml",
     }
@@ -27,5 +25,15 @@ class WorkflowSafety(unittest.TestCase):
         self.assertIn("workflow_call",production)
         self.assertNotIn("workflow_dispatch",production)
         self.assertTrue((WORKFLOWS/"picadora-territorial.yml").is_file())
+
+    def test_workflows_sustituidos_estan_archivados(self):
+        archived=ROOT/"legacy/workflows/cleanup_2026-09-14"
+        for active, historical in {
+            "_reutilizable-promocion-m01-m03.yml":"_reutilizable-promocion-m01-m03_v1.0.0.yml",
+            "exportar-aragon-flourish.yml":"exportar-aragon-flourish_v1.1.0.yml",
+            "publicar-sitio.yml":"publicar-sitio_v2.2.0.yml",
+        }.items():
+            self.assertFalse((WORKFLOWS/active).exists())
+            self.assertTrue((archived/historical).is_file())
 
 if __name__=="__main__":unittest.main()

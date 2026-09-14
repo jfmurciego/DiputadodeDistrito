@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.0.0
+# VERSIÓN: 2.1.0
 # NOMBRE: Operación territorial institucional M01–M08
 # FECHA: 2026-09-14
 # ESTADO: vigente — R038/R040
@@ -50,13 +50,26 @@ on:
           - diagnosticar_topologia
           - certificar_territorio_m01_m06
           - producir_resultado_m01_m08
+          - generar_alternativas_gerrychain
       execution_authorization:
         description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
         required: false
         type: string
+      ensemble_stage:
+        description: Fase del ensemble (no ejecuta territorio en synthetic)
+        required: false
+        default: synthetic
+        type: choice
+        options: [synthetic, aragon_10, aragon_50]
+      ensemble_promotion_authorization:
+        description: Para 50, escribir PROMOVER_ARAGON_50 tras revisar piloto y coste
+        required: false
+        type: string
 
 permissions:
-  contents: read
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   admit:
@@ -108,3 +121,12 @@ jobs:
       from_stage: TERRITORY_PREPARATION
       to_stage: PUBLIC_PRODUCT_PUBLICATION
       execution_authorization: ${{ inputs.execution_authorization }}
+
+  ensemble:
+    if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
+    uses: ./.github/workflows/generar-alternativas-territoriales.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+      stage: ${{ inputs.ensemble_stage }}
+      execution_authorization: ${{ inputs.execution_authorization }}
+      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}

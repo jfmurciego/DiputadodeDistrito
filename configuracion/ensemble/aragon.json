@@ -1,0 +1,52 @@
+{
+  "schema": "ddd.ensemble-runner/1.0",
+  "territory_id": "aragon",
+  "prepared_bundle_id": "AUTO",
+  "inputs": {
+    "m03_graph": "../../.cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json",
+    "m04_initial_geojson": "../../ejecuciones/ensemble-aragon-base/aragon_2025_m04_semillas.geojson.zip",
+    "comarca_lookup": "../../inputs/COMARCAS.csv"
+  },
+  "fields": {
+    "section": "CUSEC_KEY",
+    "district": "district_id",
+    "population": "POP_2025",
+    "municipality": "CUMUN",
+    "province": "CPRO",
+    "atomic_unit": "ddd_unit_id",
+    "closed_urban": "ddd_closed_urban",
+    "comarca": "ddd_comarca_codigo",
+    "comarca_code_candidates": ["COMARCA_CODIGO", "COMARCA_COD"],
+    "comarca_name_candidates": ["COMARCA_NOMBRE", "COMARCA_NOM"]
+  },
+  "comarca_lookup_columns": {
+    "municipality": "Municipio código",
+    "comarca_code": "Comarca código",
+    "comarca_name": "Comarca nombre"
+  },
+  "comarca": {"enabled": true},
+  "contract": {
+    "k": 67,
+    "target_tolerance_ratio": 0.12,
+    "population_floor_ratio": 0.80,
+    "population_cap_ratio": 1.75,
+    "municipality_atomicity_limit_ratio": 1.75,
+    "require_single_province": true,
+    "province_districts": {"22": 11, "44": 7, "50": 49},
+    "require_municipality_discipline": true,
+    "max_mixed_districts_per_split_municipality": 1,
+    "require_contiguity": true,
+    "preserve_closed_urban": true
+  },
+  "engine": {
+    "id": "gerrychain_recom",
+    "steps": 1000,
+    "churn_weight": 0.05
+  },
+  "ensemble": {"candidate_count": 10, "shortlist_size": 10},
+  "m04": {
+    "run_id": "ensemble-aragon-base",
+    "command": ["python", "modulos/04_generar_semillas.py", "--params", "territorios/aragon/config/aragon_2025.yaml"]
+  },
+  "output": "../../work/ensemble"
+}

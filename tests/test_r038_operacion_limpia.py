@@ -35,7 +35,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertEqual(operations, [
             "admitir_contrato", "verificar_contrato", "preparar_base_m01_m03",
             "diagnosticar_topologia", "certificar_territorio_m01_m06",
-            "producir_resultado_m01_m08",
+            "producir_resultado_m01_m08", "generar_alternativas_gerrychain",
         ])
         self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
         self.assertIn("${{ inputs.territory_id }}", text)
