@@ -1,0 +1,50 @@
+# Registro de cambios DDD
+
+Registro cronológico acumulativo. No se reescriben entradas antiguas.
+
+## 2026-09-11 — R001 — Profesionalización y recuperación
+Se convierte el código recuperado de Aragón en procedimiento reproducible y auditable: M01–M08, SemVer + `legacy/`, GitHub como evidencia, contenedor, checksums, validación dura y contigüidad por grafo.
+
+## 2026-09-11 — Workflow v2.7.1
+Se preserva v2.7.0 y se corrige el heredoc de `PRODUCTOS.json`.
+
+## 2026-09-11 — R014 — M05 v7.3.0
+La auditoría de Run #7 demuestra un mínimo local del greedy. Se añade greedy determinista + recocido reproducible sin relajar provincia, contigüidad, unidades municipales ni suelo/techo.
+
+## 2026-09-11 — Run #8 — Promoción R014
+Run `34592470470` SUCCESS: `fuera_12=0`, máximo desvío 11,943 %, todas las invariantes R012 PASS.
+
+## 2026-09-11 — R015 — Pruebas y gobernanza
+Se añade suite de regresión/determinismo, auditoría de cabeceras y predecesores `legacy/`, y se normaliza la gobernanza. La CI pasa a ser puerta obligatoria.
+
+## 2026-09-11 — R016 — M05 v7.4.0
+Se elimina la parada al primer `fuera_12=0`; M05 continúa refinando máximo desvío y error cuadrático hasta agotar el presupuesto.
+
+## 2026-09-11 — Run #9 — Promoción R016
+Run `34599224954` SUCCESS. Primera factibilidad en iteración 9.038; resultado final tras 20.000 iteraciones: máximo desvío 9,930 %, error cuadrático 0,161271162560. Se mantienen 67 distritos, 1.463 secciones, 1.364.621 habitantes, reparto 11/7/49 y todas las restricciones PASS. Run #9 pasa a baseline.
+
+## 2026-09-11 — Simplificación de ramas
+Se eliminan cuatro ramas históricas `infra/*` y la rama temporal R016. Queda únicamente `main`.
+
+## 2026-09-11 — R018 — Arquitectura multi-territorio
+
+**Objetivo:** preparar el producto DDD para 17 comunidades, España completa y posterior adaptación internacional sin forks del motor.
+
+**Decisiones arquitectónicas:**
+- un repositorio;
+- una rama permanente `main`;
+- motor común en `ddd_core/`, `modulos/`, `herramientas/`;
+- paquetes territoriales en `territorios/<id>/`;
+- Aragón pasa a implantación de referencia explícita;
+- Castilla y León se crea como segunda implantación y prueba de generalización;
+- Extremadura será la siguiente prueba de reutilización.
+
+**Procedimiento:** `procedimiento.sh` 2.1.1 → 2.2.0. Se elimina `aragon_2025` duro del directorio de caché y se deriva `run_name` del YAML. No se cambia algoritmo territorial.
+
+**Documentación nueva:** `ARQUITECTURA_MULTI_TERRITORIO.md`, `CONTRATO_TERRITORIO.md`, `CONTINUIDAD_CASTILLA_Y_LEON.md`, `territorios/README.md`, paquete Aragón y scaffold Castilla y León.
+
+**Compatibilidad:** las rutas raíz históricas de Aragón continúan temporalmente para que el workflow validado siga reproduciendo Run #9. La estructura canónica nueva es `territorios/`.
+
+**Limpieza:** documentos retirados/redundantes salen del árbol activo y se preservan en `legacy/docs/retirados_r018/` cuando aportan arqueología. No se elimina código histórico.
+
+**Próximos frentes:** Aragón conserva R017 pendiente de calidad territorial. Castilla y León debe comenzar por fuentes → contrato → workflow genérico → M01 → M02/M03. No abrir M04 antes de aceptar el grafo base.

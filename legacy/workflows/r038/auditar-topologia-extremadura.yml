@@ -1,0 +1,92 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Auditoría topológica con relaciones geométricas exactas
+# FECHA: 2026-09-11
+# ESTADO: diagnóstico EXT-02
+# QUÉ HACE: ejecuta M01-M03 sin pasarelas y utiliza la herramienta común de auditoría geométrica para explicar cada componente provincial o municipal desconectada.
+# CAMBIOS: sustituye diagnóstico inline por herramientas/auditar_geometria_componentes.py v1.0.0 y persiste distance/touches/intersects/overlaps/within/contains/DE-9IM/área de intersección/borde compartido.
+# MOTIVO: Monesterio presenta distancia 0 m sin `touches`, y Don Benito tiene dos secciones municipales desconectadas; debemos determinar si el problema es un solape de polígonos que exige generalizar M02 en lugar de declarar puentes locales.
+# ANTERIOR: legacy/workflows/auditar-topologia-extremadura_v1.1.0.yml
+name: Auditoría M02-M03 — Extremadura
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  auditoria-topologica:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-ext-topology:${GITHUB_SHA} .
+
+      - name: Ejecutar M01-M03 diagnóstico
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/extremadura/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
+            --entrypoint bash ddd-ext-topology:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              set +e
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              rc=$?
+              set -e
+              echo "$rc" > /app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_exit_code.txt
+              python herramientas/auditar_geometria_componentes.py \
+                --geojson /app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m01_secciones_poblacion.geojson.zip \
+                --graph /app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_grafo.json \
+                --out /app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_relaciones_geometricas.json \
+                --nearest 8
+            '
+
+      - name: Resumir relaciones EXT-02
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
+            --entrypoint python ddd-ext-topology:${GITHUB_SHA} -c '
+          import json,pathlib
+          p=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_relaciones_geometricas.json")
+          r=json.loads(p.read_text())
+          print("EXT-02 GEOMETRY SUMMARY", {"province_components":len(r["province_disconnected_components"]),"municipality_components":len(r["municipality_disconnected_components"])})
+          for x in r["municipality_disconnected_components"]:
+              print("EXT-02 COMPONENT", json.dumps(x,ensure_ascii=False))
+          '
+
+      - name: Publicar diagnóstico EXT-02
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-EXT02-${{ github.run_id }}
+          path: |
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m01_informe.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m02_adyacencias.jsonl
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_grafo.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_informe.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_exit_code.txt
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_relaciones_geometricas.json

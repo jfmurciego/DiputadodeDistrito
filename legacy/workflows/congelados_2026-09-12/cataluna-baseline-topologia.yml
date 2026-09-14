@@ -1,0 +1,67 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: congelado
+# VERSIÓN: 3.0.0
+# NOMBRE DE VERSIÓN: CAT-03 — cierre topológico de Llívia
+# FECHA: 2026-09-12
+# ESTADO: candidato de promoción M03.
+# QUÉ HACE: ejecuta M01-M03 con la pasarela administrativa auditada de Llívia y exige conectividad total provincial y municipal.
+# CAMBIOS: sustituye el diagnóstico CAT-02 por la puerta estricta CAT-03; publica resumen ligero y artefactos pesados separados.
+# MOTIVO: CAT-02 run 34688104014 certificó el único aislado y su sección española más próxima en EPSG:3035.
+# ANTERIOR: legacy/workflows/cataluna-baseline-topologia_v2.0.1.yml
+name: CAT-03 — Cataluña cierre topológico
+on:
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  cat03:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      PARAMS: territorios/cataluna/config/cataluna_2025.yaml
+      BASE: territorios/cataluna/.cache/ddd/preparacion/cataluna_2025
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - name: Fuentes y entorno
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-cat03:${GITHUB_SHA} .
+      - name: Ejecutar M01-M03 estricto
+        run: |
+          set -euo pipefail
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD:/app" --entrypoint bash ddd-cat03:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+          sudo chown -R "$(id -u):$(id -g)" "$BASE"
+      - name: Certificar CAT-03
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib,os
+          b=pathlib.Path(os.environ["BASE"]);m1=json.loads((b/"cataluna_2025_m01_informe.json").read_text());m3=json.loads((b/"cataluna_2025_m03_informe.json").read_text())
+          pa=m3["province_component_audit"];ma=m3["municipality_component_audit"]
+          assert m1["rows_out"]==5143 and m1["missing_population_rows"]==0
+          assert m3["nodes"]==5143 and m3["edges"]==14376 and m3["isolated"]==0 and m3["total_pop"]==8124126
+          assert m3["global_component_audit"]["components"]==1
+          assert pa["groups"]==4 and pa["disconnected"]==0 and pa["enforced"]
+          assert ma["groups"]==947 and ma["disconnected"]==0 and ma["enforced"]
+          out={"status":"CAT03_M03_PROMOTABLE","run_id":os.environ["GITHUB_RUN_ID"],"head_sha":os.environ["GITHUB_SHA"],"sections":5143,"population":8124126,"edges":14376,"isolated":0,"topology_bridge":["1709401001","1714101003"],"province_disconnected":0,"municipality_disconnected":0,"next":"fijar K y contrato M04 mediante decisión territorial explícita"}
+          (b/"cataluna_2025_cat03_summary.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False))
+          PY
+      - name: Publicar resumen ligero
+        uses: actions/upload-artifact@v6
+        with:
+          name: cataluna-CAT03-summary-${{ github.run_id }}
+          path: |
+            territorios/cataluna/.cache/ddd/preparacion/cataluna_2025/*_informe.json
+            territorios/cataluna/.cache/ddd/preparacion/cataluna_2025/*_summary.json
+      - name: Publicar artefactos pesados
+        uses: actions/upload-artifact@v6
+        with:
+          name: cataluna-CAT03-heavy-${{ github.run_id }}
+          path: |
+            territorios/cataluna/.cache/ddd/preparacion/cataluna_2025/*.geojson.zip
+            territorios/cataluna/.cache/ddd/preparacion/cataluna_2025/*_adyacencias.jsonl
+            territorios/cataluna/.cache/ddd/preparacion/cataluna_2025/*_grafo.json

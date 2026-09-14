@@ -1,0 +1,42 @@
+name: Notificar finalización de lote DDD
+
+on:
+  workflow_run:
+    workflows:
+      - "Pruebas DDD — R015"
+      - "Regresión M06 — Aragón"
+      - "Regresión M06 — Castilla y León"
+    types: [completed]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publicar resultado y reenganche
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run = context.payload.workflow_run;
+            const conclusion = run.conclusion || "unknown";
+            const symbol = conclusion === "success" ? "✅" : "⚠️";
+            const body = [
+              "<!-- ddd-orquestacion-run-" + run.id + " -->",
+              symbol + " @jfmurciego: lote terminado.",
+              "",
+              "- Workflow: **" + run.name + "**",
+              "- Resultado: **" + conclusion.toUpperCase() + "**",
+              "- Run: " + run.html_url,
+              "- Reenganche: docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md",
+              "",
+              "No requiere espera activa en ChatGPT."
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 5,
+              body
+            });

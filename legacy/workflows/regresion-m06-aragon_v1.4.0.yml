@@ -1,0 +1,137 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.4.0
+# NOMBRE DE VERSIÓN: Regresión M06 — contrato canónico único Aragón
+# FECHA: 2026-09-11
+# ESTADO: regresión pesada F1.5
+# QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
+# CAMBIOS: consume y vigila exclusivamente territorios/aragon/config/aragon_2025.yaml; mantiene invariantes y trinquete.
+# MOTIVO: cierre F1.5 y protección de cambios en la prueba de integración común.
+# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.3.0.yml
+name: Regresión M06 — Aragón
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/regresion-m06-aragon.yml'
+      - 'modulos/01_preparar_base_territorial.py'
+      - 'modulos/02_construir_adyacencias.py'
+      - 'modulos/03_construir_grafo.py'
+      - 'modulos/04_generar_semillas.py'
+      - 'modulos/05_optimizar_distritos.py'
+      - 'modulos/06_consolidar_distritos.py'
+      - 'ddd_core/**'
+      - 'tests/test_pipeline_sintetico_m01_m06.py'
+      - 'territorios/aragon/config/aragon_2025.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  regresion-m06-aragon:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: territorios/aragon/config/aragon_2025.yaml
+      DDD_RUN_ID: regresion-m06-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir y verificar fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-reg-m06:${GITHUB_SHA} .
+
+      - name: Ejecutar Aragón M01-M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .cache/ddd/preparacion ejecuciones/$DDD_RUN_ID
+          docker run --rm \
+            -e PARAMS="$PARAMS" -e DDD_RUN_ID="$DDD_RUN_ID" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/.cache/ddd:/app/.cache/ddd" \
+            -v "$PWD/ejecuciones:/app/ejecuciones" \
+            --entrypoint bash ddd-reg-m06:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              python modulos/04_generar_semillas.py --params "$PARAMS"
+              python modulos/05_optimizar_distritos.py --params "$PARAMS"
+              python modulos/06_consolidar_distritos.py --params "$PARAMS"
+            '
+
+      - name: Validar Aragón R020 M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -e DDD_RUN_ID="$DDD_RUN_ID" \
+            -v "$PWD/ejecuciones:/app/ejecuciones" \
+            --entrypoint python ddd-reg-m06:${GITHUB_SHA} -c '
+          import io, os, pathlib, zipfile
+          import geopandas as gpd
+          import pandas as pd
+          run=os.environ["DDD_RUN_ID"]
+          base=pathlib.Path("/app/ejecuciones")/run
+          def load_zip(path):
+              with zipfile.ZipFile(path) as z:
+                  n=next(n for n in z.namelist() if n.endswith(".geojson"))
+                  return gpd.read_file(io.BytesIO(z.read(n)))
+          g5=load_zip(base/"aragon_2025_m05_distritos_optimizados.geojson.zip")
+          g6=load_zip(base/"aragon_2025_m06_secciones.geojson.zip")
+          d6=load_zip(base/"aragon_2025_m06_distritos.geojson.zip")
+          summary=pd.read_csv(base/"aragon_2025_m06_resumen_distritos.csv")
+          catalog=pd.read_csv(base/"aragon_2025_m06_catalogo_distritos.csv")
+          comp=pd.read_csv(base/"aragon_2025_m06_composicion_distritos.csv",dtype={"CUSEC_KEY":str})
+          assert len(g5)==len(g6)==len(comp)==1463
+          assert g5["district_id"].nunique()==g6["district_id"].nunique()==len(d6)==len(summary)==len(catalog)==67
+          m5=dict(zip(g5["CUSEC_KEY"].astype(str),g5["district_id"].astype(int)))
+          m6=dict(zip(g6["CUSEC_KEY"].astype(str),g6["district_id"].astype(int)))
+          assert m5==m6, "M06 alteró asignaciones del baseline Aragón"
+          assert int(summary["district_pop"].sum())==1364621
+          assert int(catalog["district_pop"].sum())==1364621
+          assert int(comp["section_pop"].sum())==1364621
+          assert bool(summary["within_hard_bounds"].all())
+          assert bool(summary["within_target_tolerance"].all())
+          assert int(catalog["province_count"].max())==1
+          assert int(catalog["section_count"].sum())==1463
+          assert catalog["area_km2"].gt(0).all()
+          assert catalog["perimeter_km"].gt(0).all()
+          assert catalog["polsby_popper"].between(0,1,inclusive="both").all()
+          counts={}
+          for d,x in g6.groupby("district_id"):
+              ps=set(x["CPRO"].astype(str).str.zfill(2)); assert len(ps)==1,(d,ps)
+              p=next(iter(ps)); counts[p]=counts.get(p,0)+1
+          assert counts=={"22":11,"44":7,"50":49}, counts
+          maxdev=float(summary["relative_deviation"].abs().max())
+          assert maxdev <= 0.12 + 1e-12, maxdev
+          # Trinquete R016: el baseline canonico logra 0.099299365905.
+          # Aceptar hasta 0.12 permitiria degradar un 20% sin que salte la regresion.
+          assert maxdev <= 0.099299365905 + 1e-9, f"regresion vs baseline R016: {maxdev}"
+          print(f"ARAGON R020 M06 PASS: K=67 rows=1463 pop=1364621 catalog=67 composition=1463 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
+          '
+
+      - name: Publicar regresión Aragón M06
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: aragon-regresion-M06-${{ github.run_id }}
+          path: |
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m05_informe.json
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_resumen_distritos.csv
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_catalogo_distritos.csv
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_composicion_distritos.csv
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_secciones.geojson.zip
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_distritos.geojson.zip

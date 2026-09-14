@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "criterion": "P07_communities_of_interest",
+  "decision": "FORMAL_SCOPE_DECLARED_NO_TERRITORY_EVALUABLE",
+  "scope": {
+    "level": "supra_municipal",
+    "accepted_unit": "comarca_or_declared_functional_equivalent",
+    "municipality_alone_is_insufficient": true,
+    "partisan_or_election_data_forbidden": true,
+    "source_requirements": [
+      "public_provenance",
+      "stable_identifier_and_name",
+      "effective_date",
+      "license_or_reuse_terms",
+      "complete_municipality_coverage",
+      "one_declared_community_per_municipality_or_documented_exception"
+    ]
+  },
+  "metrics": {
+    "split_communities": "count of communities assigned to more than one district",
+    "communities_per_district": "count of communities represented in each district",
+    "dominant_population_share": "population share of the largest community in each district",
+    "population_retention": "sum of population retained in each community's modal district divided by total population"
+  },
+  "evaluation_rule": {
+    "precommitment_required": true,
+    "required_before_execution": [
+      "maximum_split_communities",
+      "minimum_population_retention",
+      "treatment_of_unavoidable_splits"
+    ],
+    "missing_source_or_threshold": "NOT_EVALUABLE",
+    "not_evaluable_blocks_publication": true
+  },
+  "territories": {
+    "aragon": {
+      "configuration": "territorios/aragon/config/aragon_2025.yaml",
+      "declared_source": "inputs/COMARCAS.csv",
+      "source_enabled": false,
+      "status": "NOT_EVALUABLE"
+    },
+    "castilla_y_leon": {
+      "configuration": "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+      "declared_source": "territorios/castilla_y_leon/inputs/COMARCAS_OPCIONAL.csv",
+      "source_enabled": false,
+      "status": "NOT_EVALUABLE"
+    },
+    "extremadura": {
+      "configuration": "territorios/extremadura/config/extremadura_2025.yaml",
+      "declared_source": null,
+      "source_enabled": false,
+      "status": "NOT_EVALUABLE"
+    }
+  }
+}

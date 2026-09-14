@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- DDD visor v1.1.0 — Paquete B: vista técnica, no propuesta publicable. -->
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diputado de Distrito · visor territorial</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><p class="eyebrow">Diputado de Distrito</p><h1>Visor territorial</h1></div>
+    <label class="selector">Territorio
+      <select id="territory-select" aria-label="Seleccionar territorio">
+        <option value="aragon">Aragón · 67 distritos</option>
+        <option value="castilla_y_leon">Castilla y León · 82 distritos</option>
+      </select>
+    </label>
+  </header>
+  <main>
+    <section id="map" aria-label="Mapa de distritos"></section>
+    <aside class="panel">
+      <p class="status" id="status">Cargando vista técnica…</p>
+      <section class="card">
+        <h2>Aviso de publicabilidad</h2>
+        <p>Estos mapas son resultados técnicos auditables. Ninguno está autorizado todavía como propuesta política o electoral publicable.</p>
+      </section>
+      <section id="summary" class="summary" hidden></section>
+      <section class="card"><h2>Distrito</h2><div id="detail">Pulsa un distrito para ver su ficha.</div></section>
+      <section class="source-note">
+        <h2>Fuente</h2>
+        <p>Resultados técnicamente certificados. El visor no ejecuta ni modifica el motor de distritación.</p>
+        <a id="source-link" target="_blank" rel="noreferrer">Abrir GeoJSON canónico</a>
+      </section>
+    </aside>
+  </main>
+  <script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

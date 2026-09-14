@@ -1,0 +1,125 @@
+{
+  "run_id": 34689358863,
+  "workflow": "AND-06 — Barrido fino M04 Andalucía",
+  "conclusion": "success",
+  "technical_status": "completed",
+  "territory_id": "andalucia",
+  "promotion": false,
+  "m05_executed": false,
+  "best_hard_outliers": 1,
+  "best_labels": [
+    "a100_c016",
+    "a105_c016",
+    "a110_c016"
+  ],
+  "candidates": [
+    {
+      "label": "a100_c014",
+      "atomicity": 1,
+      "chunk": 0.14,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 5,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a100_c015",
+      "atomicity": 1,
+      "chunk": 0.15,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 3,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a100_c016",
+      "atomicity": 1,
+      "chunk": 0.16,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 1,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a100_c017",
+      "atomicity": 1,
+      "chunk": 0.17,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 4,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a105_c014",
+      "atomicity": 1.05,
+      "chunk": 0.14,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 5,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a105_c015",
+      "atomicity": 1.05,
+      "chunk": 0.15,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 3,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a105_c016",
+      "atomicity": 1.05,
+      "chunk": 0.16,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 1,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a105_c017",
+      "atomicity": 1.05,
+      "chunk": 0.17,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 4,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a110_c014",
+      "atomicity": 1.1,
+      "chunk": 0.14,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 5,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a110_c015",
+      "atomicity": 1.1,
+      "chunk": 0.15,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 4,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a110_c016",
+      "atomicity": 1.1,
+      "chunk": 0.16,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 1,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    },
+    {
+      "label": "a110_c017",
+      "atomicity": 1.1,
+      "chunk": 0.17,
+      "m04_exit": 1,
+      "m04_hard_outliers_from_log": 4,
+      "m05_exit": 99,
+      "status": "M04_INFEASIBLE"
+    }
+  ]
+}

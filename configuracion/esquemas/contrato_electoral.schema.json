@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diputadodedistrito.example/schemas/contrato-electoral-1.0.0.json",
+  "title": "Contrato electoral DDD",
+  "type": "object",
+  "required": ["schema_family", "schema_version", "election_id", "territory_id", "title", "election_date", "input_mode", "boundary_independence", "sources", "party_dictionary", "reconciliation"],
+  "properties": {
+    "schema_family": {"const": "ddd-election"},
+    "schema_version": {"const": "1.0.0"},
+    "election_id": {"type": "string", "minLength": 1},
+    "territory_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "election_date": {"type": "string", "format": "date"},
+    "input_mode": {"const": "verifiable_file"},
+    "boundary_independence": {"const": true},
+    "sources": {"type": "array", "minItems": 1},
+    "party_dictionary": {"type": "object"},
+    "reconciliation": {"type": "object"}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,142 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE: Auditoría integral F1 — 40 controles sobre resultados existentes
+# ESTADO: preparado; manual
+# QUÉ HACE: verifica sin recalcular M01-M06 los GeoJSON ya generados, contratos, márgenes, compacidad, evidencia y trazabilidad.
+# REGLA: 40 controles independientes en cuatro ramas paralelas; todos se registran aunque alguno falle.
+name: Auditoría integral F1 — 40 controles
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  geojson_aragon:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Controles 01-10 Aragón
+        shell: bash
+        run: |
+          mkdir -p salida/aragon
+          python3 - <<'PY'
+          import json,pathlib
+          root=pathlib.Path("resultados/lotes_autonomos/gh-34707615228-1/lote-recibido/lote-aragon"); out=[]
+          def ck(n,label,fn):
+            try: out.append({"id":f"C{n:02d}","label":label,"status":"PASS" if fn() else "FAIL"})
+            except Exception as e: out.append({"id":f"C{n:02d}","label":label,"status":"FAIL","detail":str(e)})
+          d=root/"aragon_distritos.geojson";s=root/"aragon_secciones.geojson"
+          ck(1,"distritos existe",lambda:d.exists());ck(2,"secciones existe",lambda:s.exists())
+          def load(p): return json.loads(p.read_text())
+          ck(3,"distritos JSON",lambda:load(d)["type"]=="FeatureCollection");ck(4,"secciones JSON",lambda:load(s)["type"]=="FeatureCollection")
+          ck(5,"67 distritos",lambda:len(load(d)["features"])==67);ck(6,"1463 secciones",lambda:len(load(s)["features"])==1463)
+          ck(7,"geometrías distritos",lambda:all(f["geometry"] for f in load(d)["features"]));ck(8,"geometrías secciones",lambda:all(f["geometry"] for f in load(s)["features"]))
+          ck(9,"district_id secciones",lambda:len({f["properties"].get("district_id") for f in load(s)["features"]})==67)
+          ck(10,"sin id nulo",lambda:all(f["properties"].get("district_id") is not None for f in load(s)["features"]))
+          pathlib.Path("salida/aragon/CONTROLES.json").write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v6
+        with: {name: auditoria-aragon, path: salida/aragon}
+
+  geojson_cyl:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Controles 11-20 Castilla y León
+        shell: bash
+        run: |
+          mkdir -p salida/cyl
+          python3 - <<'PY'
+          import json,pathlib
+          root=pathlib.Path("resultados/lotes_autonomos/gh-34707615228-1/lote-recibido/lote-cyl"); out=[]
+          def ck(n,label,fn):
+            try: out.append({"id":f"C{n:02d}","label":label,"status":"PASS" if fn() else "FAIL"})
+            except Exception as e: out.append({"id":f"C{n:02d}","label":label,"status":"FAIL","detail":str(e)})
+          d=root/"castilla_y_leon_distritos.geojson";s=root/"castilla_y_leon_secciones.geojson"
+          ck(11,"distritos existe",lambda:d.exists());ck(12,"secciones existe",lambda:s.exists())
+          def load(p):return json.loads(p.read_text())
+          ck(13,"distritos JSON",lambda:load(d)["type"]=="FeatureCollection");ck(14,"secciones JSON",lambda:load(s)["type"]=="FeatureCollection")
+          ck(15,"82 distritos",lambda:len(load(d)["features"])==82);ck(16,"3506 secciones",lambda:len(load(s)["features"])==3506)
+          ck(17,"geometrías distritos",lambda:all(f["geometry"] for f in load(d)["features"]));ck(18,"geometrías secciones",lambda:all(f["geometry"] for f in load(s)["features"]))
+          ck(19,"district_id secciones",lambda:len({f["properties"].get("district_id") for f in load(s)["features"]})==82)
+          ck(20,"sin id nulo",lambda:all(f["properties"].get("district_id") is not None for f in load(s)["features"]))
+          pathlib.Path("salida/cyl/CONTROLES.json").write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v6
+        with: {name: auditoria-cyl, path: salida/cyl}
+
+  contratos:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Controles 21-30 contratos, margen y compacidad
+        shell: bash
+        run: |
+          mkdir -p salida/contratos
+          python3 - <<'PY'
+          import csv,json,pathlib,statistics
+          r=pathlib.Path(".");out=[]
+          def ck(n,label,fn):
+            try: out.append({"id":f"C{n:02d}","label":label,"status":"PASS" if fn() else "FAIL"})
+            except Exception as e: out.append({"id":f"C{n:02d}","label":label,"status":"FAIL","detail":str(e)})
+          configs=[r/"territorios/aragon/config/aragon_2025.yaml",r/"territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",r/"territorios/extremadura/config/extremadura_2025.yaml"]
+          for n,p in enumerate(configs,21): ck(n,f"contrato {p.parent.parent.name}",lambda p=p:p.exists() and "target_tolerance_ratio" in p.read_text())
+          cats=[r/"territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/catalogo_distritos.csv",r/"territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/catalogo_distritos.csv",r/"territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/M06/catalogo_distritos.csv"]
+          metrics={}
+          for i,p in enumerate(cats):
+            rows=list(csv.DictReader(p.open()));q=[float(x.get("polsby_popper",x.get("compactness_polsby_popper"))) for x in rows]
+            metrics[str(i)]={"median":statistics.median(q),"min":min(q),"below_015":sum(x<.15 for x in q)}
+            ck(24+i,"compacidad registrada "+str(i),lambda q=q:len(q)>0)
+          ck(27,"CyL margen al techo calculable",lambda:len(list(csv.DictReader(cats[1].open())))==82)
+          ck(28,"Extremadura bloqueo documentado",lambda:"EXPERIMENTAL_BLOCKED" in (r/"territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/VALIDACION.json").read_text())
+          ck(29,"estado factual existe",lambda:(r/"resultados/fase1/ESTADO_FACTUAL.json").exists())
+          ck(30,"contratos no silenciosos",lambda:all("population_cap_ratio" in p.read_text() for p in configs))
+          pathlib.Path("salida/contratos/CONTROLES.json").write_text(json.dumps({"checks":out,"compactness":metrics},ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v6
+        with: {name: auditoria-contratos, path: salida/contratos}
+
+  trazabilidad:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Controles 31-40 evidencia y legado
+        shell: bash
+        run: |
+          mkdir -p salida/trazabilidad
+          python3 - <<'PY'
+          import hashlib,json,pathlib
+          r=pathlib.Path(".");out=[]
+          def ck(n,label,fn):
+            try: out.append({"id":f"C{n:02d}","label":label,"status":"PASS" if fn() else "FAIL"})
+            except Exception as e: out.append({"id":f"C{n:02d}","label":label,"status":"FAIL","detail":str(e)})
+          a=r/"resultados/ejecuciones";b=r/"territorios/aragon/resultados/ejecuciones"
+          ck(31,"copia raíz detectada",lambda:a.exists());ck(32,"evidencia territorial existe",lambda:b.exists())
+          common=[p.relative_to(a) for p in a.rglob("*") if p.is_file() and (b/p.relative_to(a)).is_file()]
+          ck(33,"solapamiento cuantificado",lambda:len(common)>0);ck(34,"duplicados byte exactos",lambda:sum((a/p).read_bytes()==(b/p).read_bytes() for p in common)>0)
+          for n,p in enumerate([r/"territorios/aragon/resultados/ejecuciones/gh-34599224954-1/VALIDACION.json",r/"territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/VALIDACION.json",r/"territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/VALIDACION.json"],35):ck(n,"validación "+str(n),lambda p=p:p.exists())
+          ck(38,"36 workflows legacy",lambda:len(list((r/"legacy/workflows").glob("*.yml")))>=36)
+          ck(39,"13 workflows activos",lambda:len(list((r/".github/workflows").glob("*.yml")))>=13)
+          ck(40,"punto de reenganche",lambda:(r/"docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md").exists())
+          pathlib.Path("salida/trazabilidad/CONTROLES.json").write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v6
+        with: {name: auditoria-trazabilidad, path: salida/trazabilidad}
+
+  cierre:
+    if: always()
+    needs: [geojson_aragon,geojson_cyl,contratos,trazabilidad]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with: {pattern: auditoria-*, path: controles}
+      - name: Consolidar y persistir
+        run: |
+          dest=resultados/auditorias_integrales/gh-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT
+          mkdir -p "$dest"; cp -R controles "$dest/"
+          git config user.name github-actions[bot]; git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add "$dest"; git diff --cached --quiet || git commit -m "audit: 40 controles F1 $GITHUB_RUN_ID"; git push

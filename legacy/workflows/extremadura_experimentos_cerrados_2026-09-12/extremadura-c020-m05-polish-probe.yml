@@ -1,0 +1,97 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: experimental
+# VERSIÓN: 1.0.0
+# NOMBRE: EXT-05 — Diagnóstico de pulido local M05 sobre candidato c020
+# FECHA: 2026-09-11
+# ESTADO: diagnóstico previo a cambio de algoritmo.
+# QUÉ HACE: reproduce la semilla c020 validada por EXT-04, ejecuta M05 y audita movimientos simples,
+# swaps 1x1 y articulaciones sobre los outliers finales.
+# MOTIVO: EXT-04 Run 34641091413 demostró que c020 elimina violaciones duras y reduce la desviación máxima
+# de 36,79% a 13,30%, pero deja cuatro outliers leves con múltiples bundles pequeños movibles. Antes de
+# modificar M05 hay que identificar el operador mínimo que los cierra.
+# ANTERIOR: ninguno — workflow nuevo.
+name: EXT-05 — C020 M05 polish probe
+
+on:
+  workflow_dispatch:
+
+permissions: {contents: read}
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+      BASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025
+      CFG: territorios/extremadura/config/.generated_ext05_c020.yaml
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Fuentes y entorno
+        run: |
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-ext05:${GITHUB_SHA} .
+
+      - name: M01-M03
+        run: |
+          set -euo pipefail
+          mkdir -p "$BASE"
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/territorios/extremadura:/app/territorios/extremadura" --entrypoint bash ddd-ext05:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+
+      - name: Construir unidades internas c020
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py \
+            --geojson "$BASE/extremadura_2025_m01_secciones_poblacion.geojson.zip" \
+            --graph "$BASE/extremadura_2025_m03_grafo.json" \
+            --out-geojson "$BASE/extremadura_2025_ext05_c020_m04_input.geojson" \
+            --out-report "$BASE/extremadura_2025_ext05_c020_units_report.json" \
+            --k 65 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025 \
+            --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio 1.10 --chunk-ratio 0.20
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
+
+      - name: Generar configuración
+        run: |
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} -c '
+          import copy,pathlib,yaml
+          root=pathlib.Path("/app");cfg=yaml.safe_load((root/"territorios/extremadura/config/extremadura_2025.yaml").read_text());c=copy.deepcopy(cfg)
+          c["modulos"]["modulo_04_generar_semillas"]={"in_graph_json":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m04_input.geojson","id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO","municipality_field":"M04_PARTITION_UNIT","municipality_name_field":"NMUN","k_districts":65,"municipality_atomicity_limit_ratio":1.10,"seed":12345,"out_geojson":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m04.geojson.zip","out_report":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m04_report.json"}
+          c["modulos"]["modulo_05_optimizar_distritos"]={"in_graph_json":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m04.geojson.zip","id_field":"CUSEC_KEY","pop_field":"POP_{year}","district_field":"district_id","province_field":"CPRO","municipality_field":"CUMUN","greedy_moves_limit":1000,"anneal_iters":30000,"seed":12345,"out_geojson":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m05.geojson.zip","out_report":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_ext05_c020_m05_report.json"}
+          c["validation"].update({"expected_districts":65,"population_floor_ratio":.85,"population_cap_ratio":1.50,"target_tolerance_ratio":.10,"province_districts":{"06":41,"10":24}})
+          (root/"territorios/extremadura/config/.generated_ext05_c020.yaml").write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True))'
+
+      - name: M04→M05
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$CFG"
+          python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/extremadura_2025_ext05_c020_m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$CFG"
+
+      - name: Auditar bloqueo local
+        run: |
+          set -euo pipefail
+          mkdir -p "$BASE/ext05"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} herramientas/auditar_bloqueos_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext05_c020_m05.geojson.zip" --out "$BASE/ext05/blockages.json"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} herramientas/auditar_swaps_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext05_c020_m05.geojson.zip" --out "$BASE/ext05/swaps.json" --top 200
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} herramientas/auditar_articulaciones_m05.py --params "$CFG" --geojson "$BASE/extremadura_2025_ext05_c020_m05.geojson.zip" --out "$BASE/ext05/articulations.json"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext05:${GITHUB_SHA} -c '
+          import io,json,pathlib,zipfile,geopandas as gpd
+          b=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025");d=b/"ext05"
+          with zipfile.ZipFile(b/"extremadura_2025_ext05_c020_m05.geojson.zip") as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));g=gpd.read_file(io.BytesIO(z.read(n)))
+          target=g.POP_2025.sum()/65;p=g.groupby("district_id").POP_2025.sum();spl=g.groupby("CUMUN").district_id.nunique();o={"districts":int(g.district_id.nunique()),"outside_10":int(((p-target).abs()>target*.10).sum()),"max_abs_deviation":float(((p-target).abs()/target).max()),"min_pop":int(p.min()),"max_pop":int(p.max()),"split_municipalities":{str(k):int(v) for k,v in spl[spl>1].items()}};(d/"summary.json").write_text(json.dumps(o,ensure_ascii=False,indent=2));print(json.dumps(o,ensure_ascii=False))'
+
+      - name: Publicar
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-EXT05-c020-${{ github.run_id }}
+          path: |
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/ext05/*.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext05_c020_units_report.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext05_c020_m04_report.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_ext05_c020_m05_report.json

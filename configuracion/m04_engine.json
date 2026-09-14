@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "status": "ACTIVE",
+  "engine_id": "ddd_core.m04_seed_engine",
+  "engine_version": "7.6.0",
+  "active_entrypoint": "ddd_core/m04_seed_engine.py",
+  "cli_entrypoint": "modulos/04_generar_semillas.py",
+  "dynamic_loading_allowed": false,
+  "internal_components": [
+    "ddd_core/m04_seed_engine_v745.py",
+    "ddd_core/m04_seed_engine_v749.py"
+  ],
+  "historical_snapshots_not_entrypoints": [
+    "ddd_core/m04_seed_engine_v747.py",
+    "ddd_core/m04_seed_engine_v748.py",
+    "ddd_core/m04_seed_engine_v750.py",
+    "ddd_core/m04_seed_engine_v751.py",
+    "ddd_core/m04_seed_engine_v752.py",
+    "ddd_core/m04_seed_engine_v753.py",
+    "ddd_core/m04_seed_engine_v754.py"
+  ]
+}

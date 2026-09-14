@@ -1,0 +1,60 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: congelado
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Persistencia ligera R023
+# FECHA: 2026-09-12
+# ESTADO: vigente — R024
+# QUÉ HACE: descarga los resúmenes del run R023, los agrega y los materializa en main sin copiar geometrías pesadas.
+# CAMBIOS: primera versión.
+# MOTIVO: convertir artefactos temporales de Actions en evidencia ligera duradera y concatenable.
+# ANTERIOR: ninguno — workflow nuevo.
+name: R024 — Persistir diagnóstico R023
+on:
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: r024-persist-r023
+  cancel-in-progress: false
+jobs:
+  persistir:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN: '34688393979'
+      OUT: resultados/diagnosticos/gh-34688393979
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with: {fetch-depth: 0}
+      - name: Descargar resúmenes R023
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/r023 "$OUT"
+          gh run download "$SOURCE_RUN" --pattern 'r023-*-summary-*' --dir /tmp/r023
+      - name: Agregar evidencia ligera
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,pathlib,shutil
+          src=pathlib.Path("/tmp/r023");out=pathlib.Path(os.environ["OUT"]);out.mkdir(parents=True,exist_ok=True)
+          rows=[]
+          for p in sorted(src.rglob("RESUMEN_DIAGNOSTICO.json")):
+              d=json.loads(p.read_text());tid=d["territory_id"];target=out/f"{tid}.json"
+              target.write_text(json.dumps(d,ensure_ascii=False,indent=2)+"\n")
+              rows.append({"territory_id":tid,"sections":d["sections"],"population":d["population"],"edges":d["edges"],"isolated":d["isolated"],"province_disconnected":d["province_disconnected"],"municipality_disconnected":d["municipality_disconnected"],"detail_file":target.name})
+          assert len(rows)==7, rows
+          agg={"version":"1.0.0","status":"R023_PERSISTED","source_run":int(os.environ["SOURCE_RUN"]),"source_head":"19b9377d1cff31d1b370fb4c4eccd0580d4ccc41","territories":rows}
+          (out/"RESUMEN_R023.json").write_text(json.dumps(agg,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(agg,ensure_ascii=False))
+          PY
+      - name: Publicar en main
+        run: |
+          set -euo pipefail
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add "$OUT"
+          git commit -m "R024: persist lightweight R023 topology diagnostics"
+          git pull --rebase origin main
+          git push origin HEAD:main

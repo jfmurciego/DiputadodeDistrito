@@ -1,0 +1,72 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.2
+# NOMBRE: Desplegar visor público MapLibre
+# ESTADO: activo
+# QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
+# CAMBIO: genera manifiesto público declarativo durante el empaquetado.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.0.1.yml
+# MOTIVO: hacer verificables visualmente los resultados certificados sin activar el motor territorial.
+name: Desplegar visor público
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'visor/**'
+      - 'resultados/finales/aragon/distritos.geojson'
+      - 'resultados/finales/castilla_y_leon/distritos.geojson'
+      - 'orchestracion/productos_publicos.json'
+      - 'herramientas/g10_public_product_manifest.py'
+      - '.github/workflows/desplegar-visor-publico.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validar visor y contrato de publicación
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          python - <<'PY'
+          import json
+          for path, expected in [
+              ("resultados/finales/aragon/distritos.geojson", 67),
+              ("resultados/finales/castilla_y_leon/distritos.geojson", 82),
+          ]:
+              data=json.load(open(path,encoding="utf-8"))
+              assert data["type"]=="FeatureCollection"
+              assert len(data["features"])==expected, (path,len(data["features"]),expected)
+          PY
+      - name: Empaquetar lectura pública
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p site/data/aragon site/data/castilla_y_leon
+          cp visor/index.html visor/app.js visor/styles.css site/
+          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
+          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

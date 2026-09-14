@@ -1,0 +1,64 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.2
+# NOMBRE DE VERSIÓN: Aplicación única R016 con normalización completa
+# FECHA: 2026-09-11
+# ESTADO: temporal de un solo uso
+# QUÉ HACE: ejecuta el migrador R016, normaliza whitespace en ficheros activos modificados o nuevos y publica el candidato M05 v7.4.0 con legacy, documentación y prueba específica.
+# CAMBIOS: incluye también ficheros untracked en la normalización previa a git diff --check; legacy queda intacto.
+# MOTIVO: v1.0.1 no veía el nuevo documento de ronda antes de git add y dejó pasar sus hard-breaks Markdown.
+# ANTERIOR: legacy/workflows/r016-aplicar_v1.0.1.yml
+name: R016 — Aplicar candidato M05
+on:
+  push:
+    branches: [main]
+    paths:
+      - herramientas/r016_patch_m05.py
+      - .github/workflows/r016-aplicar.yml
+permissions:
+  contents: write
+jobs:
+  aplicar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Aplicar R016
+        run: python herramientas/r016_patch_m05.py
+      - name: Normalizar whitespace activo
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          files = set(subprocess.check_output(['git','diff','--name-only'], text=True).splitlines())
+          files.update(subprocess.check_output(['git','ls-files','--others','--exclude-standard'], text=True).splitlines())
+          for rel in sorted(files):
+              if rel.startswith('legacy/'):
+                  continue
+              p = Path(rel)
+              if not p.is_file():
+                  continue
+              try:
+                  text = p.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              cleaned = '\n'.join(line.rstrip(' \t') for line in text.splitlines())
+              if text.endswith('\n'):
+                  cleaned += '\n'
+              p.write_text(cleaned, encoding='utf-8')
+          PY
+      - name: Validar diff y publicar candidato
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check -- . ':(exclude)legacy/**'
+          git diff --cached --quiet && { echo "R016 no produjo cambios"; exit 1; }
+          git commit -m "R016: M05 v7.4.0 canonical post-feasibility refinement"
+          git pull --rebase origin main
+          git push origin HEAD:main

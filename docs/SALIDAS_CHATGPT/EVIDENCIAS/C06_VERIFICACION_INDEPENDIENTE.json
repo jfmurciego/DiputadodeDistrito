@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "tool_version": "1.0.0",
+  "audit_finding": "C-06",
+  "independence": "stdlib_only_no_imports_from_modulos_ddd_core_or_existing_validator",
+  "territories": [
+    {
+      "territory_id": "aragon",
+      "decision": "PASS",
+      "expected_decision": "PASS",
+      "sections": 1463,
+      "population": 1364621,
+      "districts": 67,
+      "disconnected": [],
+      "province_crossings": [],
+      "hard_population_violations": [],
+      "outside_target_tolerance": [],
+      "municipality_atomicity_violations": [],
+      "municipality_mixed_district_violations": [],
+      "technical_failures": [],
+      "verification_errors": []
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "decision": "PASS",
+      "expected_decision": "PASS",
+      "sections": 3506,
+      "population": 2401221,
+      "districts": 82,
+      "disconnected": [],
+      "province_crossings": [],
+      "hard_population_violations": [],
+      "outside_target_tolerance": [],
+      "municipality_atomicity_violations": [],
+      "municipality_mixed_district_violations": [],
+      "technical_failures": [],
+      "verification_errors": []
+    },
+    {
+      "territory_id": "extremadura",
+      "decision": "BLOCKED_INDEPENDENT_VALIDATION",
+      "expected_decision": "BLOCKED_INDEPENDENT_VALIDATION",
+      "sections": 964,
+      "population": 1053345,
+      "districts": 65,
+      "disconnected": [],
+      "province_crossings": [],
+      "hard_population_violations": [],
+      "outside_target_tolerance": [
+        14,
+        25
+      ],
+      "municipality_atomicity_violations": [],
+      "municipality_mixed_district_violations": [
+        "06015",
+        "06044",
+        "06153",
+        "06083",
+        "10037"
+      ],
+      "technical_failures": [
+        "municipality_mixed_district_violations"
+      ],
+      "verification_errors": []
+    }
+  ],
+  "decision": "PASS"
+}

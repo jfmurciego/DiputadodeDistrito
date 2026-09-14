@@ -1,0 +1,82 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Cantabria
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Contrato topológico R025
+# FECHA: 2026-09-12
+# ESTADO: candidato M01-M03 estricto.
+# QUÉ HACE: congela cardinalidad/población R022 y aplica exclusivamente las pasarelas explícitas justificadas por R023.
+# CAMBIOS: primera configuración territorial persistente.
+# MOTIVO: promover el bootstrap observable a contrato reproducible sin fijar K ni abrir M04.
+# ANTERIOR: ninguno — territorio nuevo.
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: cantabria
+  territory: Cantabria
+  run_name: cantabria_2025
+  year: 2025
+  scope: provincial
+  schema_version: 1.0.0
+  status: topology_contract_r025
+io:
+  project_root: {path: ../../..}
+  input:
+    seccionado: {path: inputs/seccionado_2025.zip, layer: '', section_key_col: CUSEC}
+    population_cip:
+      paths: [inputs/65034.csv.zip]
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
+  cache: {dir: "territorios/cantabria/.cache/ddd/preparacion/{run_name}"}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: ['39']
+  status: topology_contract_candidate
+  notes:
+    - R022 congeló 458 secciones y 593623 habitantes sin faltantes.
+    - R023 justificó 1 pasarelas; no se añade ninguna excepción no auditada.
+    - K y M04 permanecen pendientes.
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: ['39']
+    drop_missing_population: false
+    out_geojson: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    out_report: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+  modulo_02_construir_adyacencias:
+    in_geojson: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    out_edges_jsonl: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges:
+      - {u: '3910101001', v: '3903001001', edge_type: administrative_exclave, reason: 'Valle de Villaverde: componente cántabra separada; enlace mínimo auditado a Guriezo (~2702 m).', source: 'R023 run 34688393979'}
+  modulo_03_construir_grafo:
+    in_geojson: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_edges_jsonl: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    out_graph_json: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    out_report: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+validation:
+  expected_province_codes: ['39']
+  expected_sections_geometry: 458
+  expected_population_total_2025: 593623
+  expected_topology_bridges: 1
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: CPRO
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: true
+  require_connected_municipalities: true

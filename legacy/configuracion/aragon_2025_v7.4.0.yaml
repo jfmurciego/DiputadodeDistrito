@@ -1,0 +1,128 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 7.4.0
+# NOMBRE DE VERSIÓN: Provincia dura y disciplina municipal
+# FECHA: 2026-09-11
+# ESTADO: candidato
+# QUÉ HACE: define fuentes, parámetros, productos territoriales y nuevas restricciones territoriales duras R012.
+# CAMBIOS VS 7.3.0: añade integridad provincial, cardinalidad provincial 11/7/49 y disciplina municipal para limitar fragmentación y distritos mixtos.
+# MOTIVO: Run #5 reveló cruces provinciales y fragmentación urbana incompatibles con las reglas del procedimiento.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.3.0_R012.yaml
+meta:
+  procedure_name: Diputado de Distrito
+  run_name: aragon_2025
+  territory: Aragón
+  year: 2025
+  scope: provincial
+  schema_version: 7.4.0
+io:
+  project_root: {path: ..}
+  input:
+    seccionado: {path: inputs/seccionado_2025.zip, layer: '', section_key_col: CUSEC}
+    population_cip:
+      paths: [inputs/65034.csv.zip]
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
+    comarcas:
+      enabled: false
+      path: inputs/COMARCAS.csv
+      join: {comarcas_key_col: MUN_KEY}
+  cache: {dir: ".cache/ddd/preparacion/{run_name}"}
+  runs: {dir: "ejecuciones/{run_id}"}
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: [22, 44, 50]
+    drop_missing_population: false
+    out_geojson: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    out_report: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+  modulo_02_construir_adyacencias:
+    in_geojson: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    out_edges_jsonl: ".cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    predicate: touches
+    min_shared_border_m: 0.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 50
+    log_every: 10000
+  modulo_03_construir_grafo:
+    in_geojson: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_edges_jsonl: ".cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    out_graph_json: ".cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    out_report: ".cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+  modulo_04_generar_semillas:
+    in_graph_json: ".cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: ".cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 67
+    seed: 12345
+    out_geojson: "ejecuciones/{run_id}/{run_name}_m04_semillas.geojson.zip"
+    out_report: "ejecuciones/{run_id}/{run_name}_m04_informe.json"
+  modulo_05_optimizar_distritos:
+    in_graph_json: ".cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: "ejecuciones/{run_id}/{run_name}_m04_semillas.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    iters: 20000
+    seed: 12345
+    out_geojson: "ejecuciones/{run_id}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    out_report: "ejecuciones/{run_id}/{run_name}_m05_informe.json"
+  modulo_06_consolidar_distritos:
+    in_geojson: "ejecuciones/{run_id}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: "POP_{year}"
+    out_summary_csv: "ejecuciones/{run_id}/{run_name}_m06_resumen_distritos.csv"
+    out_geojson: "ejecuciones/{run_id}/{run_name}_m06_secciones.geojson.zip"
+    out_district_geojson: "ejecuciones/{run_id}/{run_name}_m06_distritos.geojson.zip"
+    expected_districts: 67
+    strict_expected_k: true
+  modulo_07_agregar_resultados_electorales:
+    in_geojson: "ejecuciones/{run_id}/{run_name}_m06_secciones.geojson.zip"
+    section_id_field: CUSEC_KEY
+    district_field: district_id
+    results_files: [inputs/rtve_aragon_2026_secciones.json]
+    csv_sep: auto
+    party_col: PARTIDO
+    votes_col: VOTOS
+    json_rtve_enabled: true
+    json_rtve_zonas_path: mapa.zonas
+    json_rtve_section_field: cod
+    json_rtve_party_list_field: lp
+    json_rtve_party_field: s
+    json_rtve_votes_field: v
+    blocs: {PP: derecha, VOX: derecha, SALF: derecha, PSOE: izquierda, 'IU- MOVIMIENTO SUMAR': izquierda, CHA: izquierda, PAR: centro, EXISTE: otros, 'PODEMOS -AV': izquierda}
+    out_district_party_csv: "ejecuciones/{run_id}/{run_name}_m07_resultados_partido.csv"
+    out_district_summary_csv: "ejecuciones/{run_id}/{run_name}_m07_resumen_electoral.csv"
+    out_sections_enriched_geojson: "ejecuciones/{run_id}/{run_name}_m07_secciones_resultados.geojson.zip"
+  modulo_08_integrar_resultados:
+    in_district_geojson: "ejecuciones/{run_id}/{run_name}_m06_distritos.geojson.zip"
+    in_district_summary_csv: "ejecuciones/{run_id}/{run_name}_m07_resumen_electoral.csv"
+    out_districts_with_results_geojson: "ejecuciones/{run_id}/{run_name}_m08_distritos_resultados.geojson.zip"
+validation:
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  expected_districts: 67
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  province_field: CPRO
+  province_apportionment: hamilton
+  province_districts: {'22': 11, '44': 7, '50': 49}
+  require_municipality_discipline: true
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  municipality_max_districts_rule: ceil_population_over_target
+  municipality_min_districts_rule: ceil_population_over_cap
+  max_mixed_districts_per_split_municipality: 1

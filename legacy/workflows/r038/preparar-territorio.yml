@@ -1,0 +1,120 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Preparación territorial M01-M04
+# FECHA: 2026-09-11
+# ESTADO: candidato CYL-03
+# QUÉ HACE: reconstruye fuentes, ejecuta M01-M04 para un YAML territorial y audita universo, grafo, cuotas provinciales, contigüidad y factibilidad poblacional inicial.
+# CAMBIOS: incorpora M04, valida K=82 y reparto Hamilton de Castilla y León, exige cero violaciones de suelo/techo y comprueba que los núcleos urbanos cerrados nazcan dentro de tolerancia.
+# MOTIVO: convertir CYL-03 en una puerta reproducible antes de abrir M05.
+# ANTERIOR: legacy/workflows/preparar-territorio_v1.1.1.yml
+name: Preparación DDD — territorio
+on:
+  workflow_dispatch:
+    inputs:
+      params:
+        description: Ruta al YAML territorial
+        required: true
+        default: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+        type: string
+permissions:
+  contents: read
+jobs:
+  preparacion:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      PARAMS: ${{ inputs.params || 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml' }}
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - name: Reconstruir y verificar fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-preparacion:${GITHUB_SHA} .
+      - name: Ejecutar M01-M04
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint bash \
+            ddd-preparacion:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              python modulos/04_generar_semillas.py --params "$PARAMS"
+            '
+      - name: Validar M01-M04 Castilla y León
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint python \
+            ddd-preparacion:${GITHUB_SHA} -c '
+          import json, pathlib, zipfile, io
+          import geopandas as gpd
+          base=pathlib.Path("/app/territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025")
+          r1=json.loads((base/"castilla_y_leon_2025_m01_informe.json").read_text())
+          r3=json.loads((base/"castilla_y_leon_2025_m03_informe.json").read_text())
+          r4=json.loads((base/"castilla_y_leon_2025_m04_informe.json").read_text())
+          graph=json.loads((base/"castilla_y_leon_2025_m03_grafo.json").read_text())
+          assert r1["rows_out"]==3506 and r1["missing_population_rows"]==0, r1
+          assert r3["nodes"]==3506 and r3["total_pop"]==2401221 and r3["isolated"]==0, r3
+          ids={str(n["id"]) for n in graph["nodes"]}
+          adj={u:set() for u in ids}
+          for e in graph["edges"]:
+              u,v=str(e["u"]),str(e["v"])
+              if u in adj and v in adj: adj[u].add(v); adj[v].add(u)
+          expected={"05":6,"09":12,"24":15,"34":6,"37":11,"40":5,"42":3,"47":18,"49":6}
+          assert r4["K"]==82, r4
+          assert r4["province_counts"]==expected, r4["province_counts"]
+          assert r4["hard_population_violations"]==0, r4
+          assert abs(r4["target"]-(2401221/82))<1e-9
+          assert abs(r4["municipality_atomicity_limit_ratio"]-1.12)<1e-12
+          zpath=base/"castilla_y_leon_2025_m04_semillas.geojson.zip"
+          with zipfile.ZipFile(zpath) as z:
+              name=next(n for n in z.namelist() if n.endswith(".geojson"))
+              g=gpd.read_file(io.BytesIO(z.read(name)))
+          assert g["district_id"].nunique()==82
+          assert len(g)==3506
+          for d,x in g.groupby("district_id"):
+              ns=set(x["CUSEC_KEY"].astype(str)); seen={next(iter(ns))}; stack=list(seen)
+              while stack:
+                  u=stack.pop()
+                  for v in adj[u]:
+                      if v in ns and v not in seen: seen.add(v); stack.append(v)
+              assert seen==ns, (d,len(ns),len(seen))
+              assert x["CPRO"].astype(str).str.zfill(2).nunique()==1, d
+          target=r4["target"]; tol=r4["tolerance"]
+          for d,x in g.groupby("district_id"):
+              if bool(x["ddd_closed_urban"].all()):
+                  p=int(x["district_pop_section"].sum())
+                  assert target-tol <= p <= target+tol, (d,p,target,tol)
+          print("CYL M01-M04 PASS: K=82, cuotas Hamilton correctas, hard=0, contigüidad=82/82")
+          '
+      - name: Publicar productos de preparación
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: castilla-y-leon-M01-M04-${{ github.run_id }}
+          path: |
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m01_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m01_secciones_poblacion.geojson.zip
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m02_adyacencias.jsonl
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m03_grafo.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m03_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m03_componentes_provincia.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m04_semillas.geojson.zip
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m04_informe.json

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.1.0",
+  "audit_finding": "C-01",
+  "date": "2026-09-14",
+  "source_workflow_run": 34778283915,
+  "source_artifact_id": 10324178723,
+  "source_artifact_sha256": "43ef740cf18461a70fb76c4bc13e9980a3b828ac902d4a781d2fd965a92c940b",
+  "requested_samples": 50,
+  "process_successful_samples": 50,
+  "technically_valid_samples": 15,
+  "technical_success_ratio": 0.3,
+  "required_technical_success_ratio": 0.95,
+  "unique_assignments": 49,
+  "canonical": {
+    "seed": 12345,
+    "max_rel_dev": 0.099299365905,
+    "districts_outside_tolerance": 0,
+    "max_rel_dev_percentile_cdf": 10.0,
+    "pp_min": 0.05273512508852547,
+    "pp_mean": 0.23895308585223493,
+    "pp_below_015_ratio": 0.2537313432835821,
+    "technical_pass": true
+  },
+  "original_evaluator_decision": "PASS",
+  "original_evaluator_defect": "counted process completion as technical solution",
+  "corrected_decision": "FAIL_ROBUSTNESS",
+  "publication_effect": "BLOCKED",
+  "recalculated_modules": []
+}

@@ -1,0 +1,1 @@
+M04 v7.4.0 está preservado por el commit c923ec95598a2afc91e8778f2b383275d2e0300b y blob 3c4e04977394f1735faa214657bf69a90d2c9310. CYL-03 detectó que maximizaba en exceso los núcleos urbanos cerrados; la siguiente versión debe minimizar núcleos cerrados manteniendo el residuo dentro de la banda objetivo.

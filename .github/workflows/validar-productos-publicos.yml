@@ -1,0 +1,47 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE: Validar productos públicos
+# FECHA: 2026-09-13
+# ESTADO: activo
+# QUÉ HACE: verifica y empaqueta el visor y sus GeoJSON canónicos como artefacto descargable, sin Pages ni motor territorial.
+# MOTIVO: separar el control de calidad de publicación del permiso externo de GitHub Pages.
+# ANTERIOR: ninguno — workflow nuevo.
+name: Validar productos públicos
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'visor/**'
+      - 'resultados/finales/**'
+      - 'orchestracion/productos_publicos.json'
+      - 'herramientas/g10_public_product_manifest.py'
+      - '.github/workflows/validar-productos-publicos.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar_y_empaquetar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validar contrato de publicación
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output public-products.json
+      - name: Empaquetar producto estático verificable
+        run: |
+          set -euo pipefail
+          mkdir -p site/data/aragon site/data/castilla_y_leon
+          cp visor/index.html visor/app.js visor/styles.css site/
+          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
+          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
+          mv public-products.json site/data/
+      - uses: actions/upload-artifact@v6
+        with:
+          name: visor-publico-verificado-${{ github.run_id }}
+          path: site

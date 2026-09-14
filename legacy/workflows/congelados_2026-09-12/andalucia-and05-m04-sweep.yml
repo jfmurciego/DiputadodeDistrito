@@ -1,0 +1,115 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: congelado
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: AND-06 barrido fino M04
+# FECHA: 2026-09-12
+# ESTADO: experimento reproducible.
+# QUÉ HACE: afina la zona c014–c017 con 12 combinaciones tras localizar el mínimo de un hard outlier en c016.
+# CAMBIOS: sustituye la rejilla amplia AND-05 por atomicidad 1.00/1.05/1.10 y chunk 0.14/0.15/0.16/0.17.
+# MOTIVO: AND-05 run 34689048962 dejó todos los candidatos inviables, pero c016 quedó a un solo hard outlier; se explora su entorno inmediato.
+# ANTERIOR: legacy/workflows/andalucia-and05-m04-sweep_v1.0.0.yml
+name: AND-06 — Barrido fino M04 Andalucía
+on:
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  preparar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      PARAMS: territorios/andalucia/config/andalucia_2025.yaml
+      ROOTBASE: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - name: Fuentes y entorno
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-and05:${GITHUB_SHA} .
+      - name: M01-M03
+        run: |
+          set -euo pipefail
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD:/app" --entrypoint bash ddd-and05:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+          sudo chown -R "$(id -u):$(id -g)" "$ROOTBASE"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: and05-baseline
+          path: |
+            territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/andalucia_2025_m01_secciones_poblacion.geojson.zip
+            territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/andalucia_2025_m03_grafo.json
+  barrido:
+    needs: preparar
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        atomicity: ['1.00','1.05','1.10']
+        chunk: ['0.14','0.15','0.16','0.17']
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      ATOMICITY: ${{ matrix.atomicity }}
+      CHUNK: ${{ matrix.chunk }}
+      ROOTBASE: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - uses: actions/download-artifact@v6
+        with:
+          name: and05-baseline
+          path: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025
+      - name: Entorno
+        run: docker build --pull -t ddd-and05:${GITHUB_SHA} .
+      - name: Preparar candidato
+        run: |
+          set -euo pipefail
+          LABEL="a${ATOMICITY/./}_c${CHUNK/./}"; echo "LABEL=$LABEL" >> "$GITHUB_ENV"
+          BASE="$ROOTBASE/and05/$LABEL"; mkdir -p "$BASE"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and05:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py             --geojson "$ROOTBASE/andalucia_2025_m01_secciones_poblacion.geojson.zip"             --graph "$ROOTBASE/andalucia_2025_m03_grafo.json" --out-geojson "$BASE/m04_input.geojson" --out-report "$BASE/units_report.json"             --k 109 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025             --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio "$ATOMICITY" --chunk-ratio "$CHUNK"
+          sudo chown -R "$(id -u):$(id -g)" "$ROOTBASE"
+      - name: Generar configuración
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import copy,os,pathlib,yaml
+          root=pathlib.Path(".");src=yaml.safe_load((root/"territorios/andalucia/config/andalucia_2025.yaml").read_text());c=copy.deepcopy(src);label=os.environ["LABEL"];base=f"territorios/andalucia/.cache/ddd/preparacion/{{run_name}}/and05/{label}"
+          c["modulos"]["modulo_04_generar_semillas"]={"in_graph_json":"territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04_input.geojson","id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO","municipality_field":"M04_PARTITION_UNIT","municipality_name_field":"NMUN","district_apportionment":"hamilton","k_districts":109,"municipality_atomicity_limit_ratio":float(os.environ["ATOMICITY"]),"seed":12345,"out_geojson":base+"/m04.geojson.zip","out_report":base+"/m04_report.json"}
+          c["modulos"]["modulo_05_optimizar_distritos"]={"in_graph_json":"territorios/andalucia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04.geojson.zip","id_field":"CUSEC_KEY","pop_field":"POP_{year}","district_field":"district_id","province_field":"CPRO","municipality_field":"CUMUN","greedy_moves_limit":2000,"anneal_iters":30000,"swap_polish_max":200,"seed":12345,"out_geojson":base+"/m05.geojson.zip","out_report":base+"/m05_report.json"}
+          c["validation"].update({"expected_districts":109,"population_floor_ratio":.85,"population_cap_ratio":1.50,"target_tolerance_ratio":.10,"province_districts":{"04":9,"11":16,"14":10,"18":12,"21":7,"23":8,"29":22,"41":25}})
+          p=root/f"territorios/andalucia/config/.generated_and05_{label}.yaml";p.write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True));print(p)
+          PY
+      - name: Ejecutar M04 y M05 condicional
+        run: |
+          set -uo pipefail
+          CFG="territorios/andalucia/config/.generated_and05_$LABEL.yaml";BASE="$ROOTBASE/and05/$LABEL"
+          set +e
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-and05:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$CFG" 2>&1 | tee "$BASE/m04.log"
+          rc4=${PIPESTATUS[0]}; echo "$rc4" > "$BASE/m04_exit.txt"
+          rc5=99
+          if [ "$rc4" -eq 0 ]; then
+            python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
+            docker run --rm -v "$PWD:/app" --entrypoint python ddd-and05:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$CFG" 2>&1 | tee "$BASE/m05.log"
+            rc5=${PIPESTATUS[0]}
+          fi
+          echo "$rc5" > "$BASE/m05_exit.txt"
+          exit 0
+      - name: Resumir candidato
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,pathlib,re
+          b=pathlib.Path(os.environ["ROOTBASE"])/"and05"/os.environ["LABEL"];u=json.loads((b/"units_report.json").read_text());rc4=int((b/"m04_exit.txt").read_text());rc5=int((b/"m05_exit.txt").read_text());r4=json.loads((b/"m04_report.json").read_text()) if (b/"m04_report.json").exists() else {};r5=json.loads((b/"m05_report.json").read_text()) if (b/"m05_report.json").exists() else {};log=(b/"m04.log").read_text()
+          m=re.search(r"mantiene (\d+) distritos fuera",log)
+          out={"label":os.environ["LABEL"],"atomicity":float(os.environ["ATOMICITY"]),"chunk":float(os.environ["CHUNK"]),"partition_units":u.get("partition_units"),"oversized_municipalities":u.get("oversized_municipalities"),"m04_exit":rc4,"m04_hard_outliers_from_log":int(m.group(1)) if m else None,"m04_report":r4,"m05_exit":rc5,"m05_report":r5,"status":"M05_COMPLETED" if rc5==0 else ("M04_FEASIBLE" if rc4==0 else "M04_INFEASIBLE")}
+          (b/"summary.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps({k:v for k,v in out.items() if k not in ("m04_report","m05_report")},ensure_ascii=False))
+          PY
+      - name: Publicar candidato
+        uses: actions/upload-artifact@v6
+        with:
+          name: and05-${{ env.LABEL }}-${{ github.run_id }}
+          path: territorios/andalucia/.cache/ddd/preparacion/andalucia_2025/and05/${{ env.LABEL }}/

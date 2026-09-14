@@ -1,0 +1,43 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Puerta CI con log durable
+# FECHA: 2026-09-14
+# ESTADO: vigente
+# QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
+# CAMBIOS: conserva como artefacto la salida completa de unittest incluso cuando falla.
+# MOTIVO: diagnosticar fallos exclusivos del contenedor sin repetir territorios ni operar a ciegas.
+# ANTERIOR: legacy/workflows/pruebas-ddd_v1.1.0.yml
+name: Pruebas DDD — R015
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pruebas:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+      - name: Auditar cabeceras y legacy en checkout
+        run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
+      - name: Verificar evidencia publicada y determinismo sintético
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+            ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v \
+            2>&1 | tee ci-unittest.log
+      - name: Conservar diagnóstico de la suite
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ci-unittest.log
+          if-no-files-found: error

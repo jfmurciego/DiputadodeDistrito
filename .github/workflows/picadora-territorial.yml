@@ -1,0 +1,110 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal
+# VERSIÓN: 2.0.0
+# NOMBRE: Operación territorial institucional M01–M08
+# FECHA: 2026-09-14
+# ESTADO: vigente — R038/R040
+# QUÉ HACE: ofrece el único formulario manual para admitir, verificar o ejecutar la cadena territorial M01–M08.
+# CAMBIOS: sustituye nombres internos por operaciones institucionales y amplía la ruta autorizable hasta M08.
+# MOTIVO: eliminar interfaces manuales solapadas y hacer explícito el alcance de cada operación.
+# ANTERIOR: legacy/workflows/local_first/picadora-territorial_v1.0.0.yml
+name: Operación territorial DDD — M01 a M08
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio del catálogo nacional
+        required: true
+        default: la_rioja
+        type: choice
+        options:
+          - andalucia
+          - aragon
+          - principado_de_asturias
+          - illes_balears
+          - canarias
+          - cantabria
+          - castilla_la_mancha
+          - castilla_y_leon
+          - cataluna
+          - comunidad_valenciana
+          - extremadura
+          - galicia
+          - madrid
+          - region_de_murcia
+          - comunidad_foral_de_navarra
+          - pais_vasco
+          - la_rioja
+          - ceuta
+          - melilla
+      operation:
+        description: Operación institucional
+        required: true
+        default: admitir_contrato
+        type: choice
+        options:
+          - admitir_contrato
+          - verificar_contrato
+          - preparar_base_m01_m03
+          - diagnosticar_topologia
+          - certificar_territorio_m01_m06
+          - producir_resultado_m01_m08
+      execution_authorization:
+        description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  admit:
+    if: ${{ inputs.operation == 'admitir_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: admit_only
+      from_stage: TERRITORY_PREPARATION
+      to_stage: TERRITORIAL_CERTIFICATION
+
+  verify:
+    if: ${{ inputs.operation == 'verificar_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: verify_only
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+
+  bootstrap:
+    if: ${{ inputs.operation == 'preparar_base_m01_m03' }}
+    uses: ./.github/workflows/_reutilizable-bootstrap-territorio.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+
+  diagnose:
+    if: ${{ inputs.operation == 'diagnosticar_topologia' }}
+    uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+
+  certify:
+    if: ${{ inputs.operation == 'certificar_territorio_m01_m06' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: TERRITORIAL_CERTIFICATION
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  publish:
+    if: ${{ inputs.operation == 'producir_resultado_m01_m08' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+      execution_authorization: ${{ inputs.execution_authorization }}

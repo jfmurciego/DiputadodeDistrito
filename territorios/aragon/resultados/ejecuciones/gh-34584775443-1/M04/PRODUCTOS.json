@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "role": "geometria_asignacion",
+      "path": "ejecuciones/gh-34584775443-1/aragon_2025_m04_semillas.geojson.zip",
+      "bytes": 4137454,
+      "sha256": "f4340aba3353278a4a8534a6dd0311e92aaa916a95c7f0c420fafec236327e78"
+    },
+    {
+      "role": "informe",
+      "path": "ejecuciones/gh-34584775443-1/aragon_2025_m04_informe.json",
+      "bytes": 166,
+      "sha256": "7a4eeff5d7dbfd2eaeff5a4206c3455757ddc5edd3295431516ba0f630f85b9d"
+    }
+  ]
+}

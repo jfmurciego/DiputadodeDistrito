@@ -1,0 +1,144 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.1
+# NOMBRE DE VERSIÓN: F1.4 — Ejecución canónica c020 Extremadura
+# FECHA: 2026-09-12
+# ESTADO: puerta de promoción o descarte experimental
+# QUÉ HACE: ejecuta M01-M06 desde el contrato 0.5.0, recomputa invariantes, publica artefacto y persiste evidencia ligera.
+# CAMBIOS: vigila el swap-polish común corregido y relanza la ejecución canónica.
+# MOTIVO: el run 34703067070 llegó a M05 y reveló una importación omitida de hard_limits.
+# ANTERIOR: legacy/workflows/f104-extremadura-canonica_v1.0.0.yml
+name: F1.4 — Extremadura M01-M06 canónico
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/f104-extremadura-canonica.yml'
+      - 'territorios/extremadura/config/extremadura_2025.yaml'
+      - 'ddd_core/m05_swap_polish.py'
+
+permissions:
+  contents: write
+
+jobs:
+  ejecutar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+      BASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/c020
+      ROOTBASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025
+      DDD_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+      - name: Fuentes y entorno
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-f104:${GITHUB_SHA} .
+      - name: M01-M03
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$BASE"
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/territorios/extremadura:/app/territorios/extremadura" --entrypoint bash ddd-f104:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+      - name: Partición interna c020
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py \
+            --geojson "$ROOTBASE/extremadura_2025_m01_secciones_poblacion.geojson.zip" \
+            --graph "$ROOTBASE/extremadura_2025_m03_grafo.json" \
+            --out-geojson "$BASE/m04_input.geojson" --out-report "$BASE/units_report.json" \
+            --k 65 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025 \
+            --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio 1.10 --chunk-ratio 0.20
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
+      - name: M04-M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$PARAMS"
+          python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} herramientas/pulir_topologia_m04.py \
+            --params "$PARAMS" --geojson "$BASE/m04.geojson.zip" --out-geojson "$BASE/m04_polished.geojson.zip" \
+            --out-report "$BASE/topology_polish_report.json" --max-moves 50
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$PARAMS"
+          set +e
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} modulos/06_consolidar_distritos.py --params "$PARAMS"
+          echo "$?" > "$BASE/m06_exit.txt"
+          set -e
+      - name: Recomponer invariantes
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -e BASE="/app/$BASE" -e GITHUB_RUN_ID="$GITHUB_RUN_ID" -e GITHUB_SHA="$GITHUB_SHA" -v "$PWD:/app" --entrypoint python ddd-f104:${GITHUB_SHA} - <<'PY'
+          import hashlib, io, json, os, pathlib, zipfile
+          from collections import defaultdict, deque
+          import geopandas as gpd
+          base=pathlib.Path(os.environ["BASE"])
+          def loadzip(p):
+              with zipfile.ZipFile(p) as z:
+                  n=next(n for n in z.namelist() if n.endswith(".geojson"))
+                  return gpd.read_file(io.BytesIO(z.read(n)))
+          g=loadzip(base/"m05.geojson.zip")
+          k=int(g["district_id"].nunique());pop=int(g["POP_2025"].sum());target=pop/65;lo=.9*target;hi=1.1*target
+          dp=g.groupby("district_id")["POP_2025"].sum();hard=int(((dp<.85*target)|(dp>1.5*target)).sum());outside=int(((dp<lo)|(dp>hi)).sum());maxdev=float(((dp-target).abs()/target).max())
+          quotas={str(p).zfill(2):int(x["district_id"].nunique()) for p,x in g.groupby(g["CPRO"].astype(str).str.zfill(2))}
+          graph=json.loads((pathlib.Path("/app")/"territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m03_grafo.json").read_text())
+          adj=defaultdict(set)
+          for n in graph["nodes"]:adj[str(n["id"])]
+          for e in graph["edges"]:
+              u,v=str(e["u"]),str(e["v"]);adj[u].add(v);adj[v].add(u)
+          contiguous=0
+          for _,x in g.groupby("district_id"):
+              nodes=set(x["CUSEC_KEY"].astype(str));seen={next(iter(nodes))};q=deque(seen)
+              while q:
+                  u=q.popleft()
+                  for v in adj[u]:
+                      if v in nodes and v not in seen:seen.add(v);q.append(v)
+              contiguous+=seen==nodes
+          status="PROMOTABLE" if (k,pop,quotas,hard,outside,contiguous)==(65,1053345,{"06":41,"10":24},0,0,65) else "EXPERIMENTAL_BLOCKED"
+          out={"status":status,"promotion":status=="PROMOTABLE","run_id":int(os.environ["GITHUB_RUN_ID"]),"source_commit":os.environ["GITHUB_SHA"],"contract_version":"0.5.0","candidate":"c020","sections":len(g),"population":pop,"districts":k,"province_districts":quotas,"hard_outliers":hard,"target_tolerance_ratio":0.10,"outside_target_tolerance":outside,"max_relative_deviation":maxdev,"contiguous_districts":contiguous,"m06_exit":int((base/"m06_exit.txt").read_text()),"ext19_applied":False}
+          (base/"VALIDACION.json").write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
+          print(json.dumps(out,ensure_ascii=False))
+          PY
+      - name: Publicar artefacto
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-f104-${{ github.run_id }}
+          path: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/
+          retention-days: 90
+      - name: Persistir evidencia ligera
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="territorios/extremadura/resultados/ejecuciones/$DDD_RUN_ID"
+          mkdir -p "$OUT/M03" "$OUT/M04" "$OUT/M05" "$OUT/M06"
+          cp "$ROOTBASE/extremadura_2025_m03_grafo.json" "$OUT/M03/grafo.json"
+          cp "$BASE/units_report.json" "$BASE/m04_report.json" "$BASE/topology_polish_report.json" "$OUT/M04/"
+          cp "$BASE/m05_report.json" "$OUT/M05/"
+          for f in "$BASE"/m06_*.csv; do test -e "$f" && cp "$f" "$OUT/M06/"; done
+          cp "$BASE/VALIDACION.json" "$OUT/"
+          export OUT
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          out=pathlib.Path(os.environ["OUT"]);products=[]
+          for p in sorted(out.rglob("*")):
+              if p.is_file() and p.name!="MANIFIESTO_EJECUCION.json":products.append({"path":str(p.relative_to(out)),"bytes":p.stat().st_size,"sha256":hashlib.sha256(p.read_bytes()).hexdigest()})
+          m={"territory_id":"extremadura","run_id":out.name,"source_workflow_run":int(os.environ["GITHUB_RUN_ID"]),"source_commit":os.environ["GITHUB_SHA"],"reconstructed_after_run":False,"heavy_geometry_location":"GitHub Actions artifact extremadura-f104-"+os.environ["GITHUB_RUN_ID"],"products":products}
+          (out/"MANIFIESTO_EJECUCION.json").write_text(json.dumps(m,ensure_ascii=False,indent=2)+"\n")
+          PY
+          git config user.name github-actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add "$OUT"
+          git commit -m "F1.4: persistir ejecución canónica Extremadura $DDD_RUN_ID"
+          for intento in 1 2 3; do git pull --rebase origin main; if git push; then exit 0; fi; sleep $((intento*2)); done
+          exit 41
