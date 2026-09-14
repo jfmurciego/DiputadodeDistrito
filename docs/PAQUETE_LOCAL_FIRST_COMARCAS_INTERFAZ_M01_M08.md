@@ -34,3 +34,11 @@ literal sigue siendo obligatoria para cualquier operación que ejecute módulos.
 
 Solo suite local y validaciones estáticas/sintéticas. Queda prohibido ejecutar
 Aragón, Castilla y León, Extremadura, La Rioja, Cantabria u otro territorio.
+
+## Incidencia de certificación
+
+La primera publicación no retiró materialmente del árbol remoto el workflow G10
+sustituido; la suite lo detectó. La corrección lo eliminó, pero la segunda CI
+intentó comprobar su copia legacy dentro de la imagen, donde `.dockerignore`
+excluye deliberadamente `legacy/`. La prueba se ajusta al patrón de gobierno ya
+vigente: ausencia activa dentro y predecesor legacy en el checkout exterior.

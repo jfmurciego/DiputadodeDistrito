@@ -1,6 +1,0 @@
-# PROYECTO: Diputado de Distrito — v1.0.0
-output/
-.cache/
-__pycache__/
-*.pyc
-.DS_Store

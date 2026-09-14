@@ -1,8 +1,0 @@
-{
-  "schema_version": "1.0.0",
-  "territories": [
-    {"territory_id":"aragon","graph":"territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M03/grafo.json","composition":"territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv","population_field":"POP_2025","expected_k":67,"expected_population":1364621,"floor_ratio":0.80,"cap_ratio":1.75,"tolerance_ratio":0.12,"atomicity_ratio":1.75,"expected_decision":"PASS"},
-    {"territory_id":"castilla_y_leon","graph":"territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M03/grafo.json","composition":"territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/composicion_distritos.csv","population_field":"section_pop","expected_k":82,"expected_population":2401221,"floor_ratio":0.80,"cap_ratio":1.75,"tolerance_ratio":0.12,"atomicity_ratio":1.12,"expected_decision":"PASS"},
-    {"territory_id":"extremadura","graph":"territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/M03/grafo.json","composition":"territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/M06/composicion_distritos.csv","population_field":"section_pop","expected_k":65,"expected_population":1053345,"floor_ratio":0.85,"cap_ratio":1.50,"tolerance_ratio":0.10,"atomicity_ratio":1.10,"expected_decision":"BLOCKED_INDEPENDENT_VALIDATION"}
-  ]
-}

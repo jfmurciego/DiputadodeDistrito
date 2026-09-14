@@ -1,3 +1,0 @@
-{"territorio":"aragon","exit_code":0}
-{"territorio":"castilla_y_leon","exit_code":0}
-{"component":"auditoria_f1","exit_code":0}

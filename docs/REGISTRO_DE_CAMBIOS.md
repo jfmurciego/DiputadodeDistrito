@@ -12,6 +12,11 @@ territorial DDD — M01 a M08**; la línea contractual queda solo como workflow
 reutilizable y el formulario G10 por tramo pasa a legacy. El paquete se prueba
 con datos sintéticos y no habilita fuentes ni ejecuta territorios.
 
+La primera certificación detecta que la baja del workflow G10 no se materializó
+en el árbol remoto. Tras retirarlo, la segunda detecta una comprobación legacy
+dentro del contenedor que excluye esa carpeta por diseño. Se corrige la prueba
+sin relajar la ausencia del workflow activo ni la verificación legacy exterior.
+
 ## 2026-09-14 — R039 — Contrato electoral universal
 
 M07 deja de contener el formato RTVE y de recibir tablas de partidos en el YAML
