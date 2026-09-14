@@ -1,9 +1,9 @@
 # Auditoría R039 — Contrato electoral universal
 
-Versión: 1.0.2
+Versión: 1.0.1
 Fecha: 2026-09-14
-Estado: cerrado y certificado — CI 34833051502 SUCCESS
-Anterior: `legacy/docs/AUDITORIA_R039_CONTRATO_ELECTORAL_v1.0.1.md`
+Estado: candidato, pendiente de CI
+Anterior: `legacy/docs/AUDITORIA_R039_CONTRATO_ELECTORAL_v1.0.0.md`
 
 ## Decisión
 
@@ -58,7 +58,3 @@ están materializados verifica su SHA y las quince siglas; dentro de la imagen
 verifica que contrato y manifiesto territorial declaran la misma huella, además
 del hash del diccionario. M07 no admite ningún bypass y sigue verificando los
 bytes antes de leer votos.
-
-El commit `6e8162b` supera la suite general `34833051502`. El workflow de
-contratos territoriales del candidato inicial `34832589145` también terminó
-`SUCCESS`. No se activó ningún workflow territorial. R039 queda cerrado.

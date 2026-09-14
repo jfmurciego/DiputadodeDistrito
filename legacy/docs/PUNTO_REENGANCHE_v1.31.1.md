@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.31.2
+Versión: 1.31.1
 Fecha: 2026-09-14
-Estado: R039 cerrado y certificado; R040 congelado hasta orden expresa.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.1.md
+Estado: R039 corregido tras diagnóstico exacto; pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.0.md
 
 ## Fuente operativa
 
@@ -39,6 +39,5 @@ cobertura distrital exacta. La validación usa pruebas sintéticas y el input
 electoral ya materializado; no ejecuta M01–M08. El primer CI `34832589193`
 detectó únicamente que `inputs/` no existe dentro de la imagen. La prueba ahora
 verifica bytes fuera y coherencia contrato–manifiesto dentro, sin introducir un
-bypass en M07. El commit `6e8162b` supera la suite general `34833051502`.
-R039 queda cerrado. R040 y toda ejecución territorial permanecen congelados
-hasta orden expresa.
+bypass en M07. Tras CI, certificar R039 y mantener R040 congelado hasta orden
+expresa.

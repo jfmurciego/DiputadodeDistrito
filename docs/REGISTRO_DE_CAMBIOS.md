@@ -18,6 +18,13 @@ voluminosos. La prueba conserva la comprobación de bytes cuando están presente
 y valida dentro de la imagen la igualdad de huella entre contrato y manifiesto.
 M07 mantiene la verificación obligatoria sin bypass. No se ejecuta territorio.
 
+### R039.2 — Certificación CI
+
+El commit `6e8162b` supera la suite general `34833051502`; el candidato inicial
+también superó la validación de contratos `34832589145`. No se activó ningún
+workflow territorial. R039 queda cerrado y R040 continúa bloqueado hasta orden
+expresa.
+
 ## 2026-09-14 — C-01.1 — Corrección del falso PASS de robustez
 
 El run `34778283915` completó 50 procesos, pero solo 15 produjeron mapas dentro
