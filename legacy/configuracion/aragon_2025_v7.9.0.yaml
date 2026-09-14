@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Aragón
-# VERSIÓN: 7.10.0
-# NOMBRE DE VERSIÓN: Contrato electoral externo verificable
-# FECHA: 2026-09-14
+# VERSIÓN: 7.9.0
+# NOMBRE DE VERSIÓN: Reconciliación electoral explícita
+# FECHA: 2026-09-12
 # QUÉ HACE: consolida la configuración activa de Aragón bajo territorios/aragon/config y explicita el contrato territorial completo.
 # ESTADO: candidato F1.3 sujeto a regresión M01-M06
-# CAMBIOS: M07 referencia un contrato de convocatoria, fuente y partidos común a cualquier territorio.
-# MOTIVO: retirar de la configuración territorial el adaptador y las tablas electorales artesanales.
-# ANTERIOR: legacy/configuracion/aragon_2025_v7.9.0.yaml
+# CAMBIOS: declara los dos descuadres conocidos M07, sus 608 votos no asignables y el informe obligatorio de reconciliación.
+# MOTIVO: impedir que M07 descarte votos silenciosamente al cruzar seccionados de años distintos.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.8.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
@@ -15,7 +15,7 @@ meta:
   territory: Aragón
   year: 2025
   scope: provincial
-  schema_version: 7.10.0
+  schema_version: 7.9.0
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -139,7 +139,26 @@ modulos:
     in_geojson: "ejecuciones/{run_id}/{run_name}_m06_secciones.geojson.zip"
     section_id_field: CUSEC_KEY
     district_field: district_id
-    election_contract: territorios/aragon/config/elecciones/aragon_cortes_2026.json
+    results_files: [inputs/rtve_aragon_2026_secciones.json]
+    csv_sep: auto
+    party_col: PARTIDO
+    votes_col: VOTOS
+    json_rtve_enabled: true
+    json_rtve_zonas_path: mapa.zonas
+    json_rtve_section_field: cod
+    json_rtve_party_list_field: lp
+    json_rtve_party_field: s
+    json_rtve_votes_field: v
+    reconciliation:
+      policy: fail_unless_declared
+      allowed_result_only_sections:
+        - section_id: '5002501003'
+          expected_votes: 608
+          reason: Presente en resultados RTVE 2026 y ausente del universo censal 2025; no existe asignación distrital defendible.
+      allowed_map_only_sections:
+        - section_id: '2221301003'
+          reason: Sección de Sariñena presente en el universo censal 2025 y ausente de los resultados RTVE 2026.
+    blocs: {PP: derecha, VOX: derecha, SALF: derecha, PSOE: izquierda, 'IU- MOVIMIENTO SUMAR': izquierda, CHA: izquierda, PAR: centro, EXISTE: otros, 'PODEMOS -AV': izquierda}
     out_district_party_csv: "ejecuciones/{run_id}/{run_name}_m07_resultados_partido.csv"
     out_district_summary_csv: "ejecuciones/{run_id}/{run_name}_m07_resumen_electoral.csv"
     out_reconciliation_report: "ejecuciones/{run_id}/{run_name}_m07_reconciliacion.json"

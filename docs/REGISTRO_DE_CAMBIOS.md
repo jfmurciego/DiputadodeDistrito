@@ -2,6 +2,15 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-14 — R039 — Contrato electoral universal
+
+M07 deja de contener el formato RTVE y de recibir tablas de partidos en el YAML
+territorial. Un contrato común identifica la convocatoria, verifica fuentes y
+diccionario por SHA-256, declara el adaptador de entrada y rechaza partidos no
+catalogados. M08 exige igualdad exacta de distritos y rechaza duplicados. Aragón
+se migra como implantación de referencia usando el fichero ya certificado; no
+se ejecuta ni recalcula ningún módulo territorial.
+
 ## 2026-09-14 — C-01.1 — Corrección del falso PASS de robustez
 
 El run `34778283915` completó 50 procesos, pero solo 15 produjeron mapas dentro

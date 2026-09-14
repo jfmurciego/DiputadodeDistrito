@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.31.0
+Versión: 1.30.3
 Fecha: 2026-09-14
-Estado: R039 implementado; pendiente de certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.3.md
+Estado: R038 cerrado y certificado; R039 es el siguiente hito.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.2.md
 
 ## Fuente operativa
 
@@ -32,9 +32,7 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R039 sustituye la configuración artesanal de M07 por el contrato común
-`ddd-election` 1.0.0. La fuente se verifica por SHA-256 antes de leerse, el
-adaptador y el diccionario de partidos están fuera del código y M08 exige
-cobertura distrital exacta. La validación usa pruebas sintéticas y el input
-electoral ya materializado; no ejecuta M01–M08. Tras CI, certificar R039 y
-mantener R040 congelado hasta orden expresa.
+R038 queda certificado: `7a02dba` supera la suite general `34830677071`, único
+workflow activado. La picadora es la interfaz manual única y la línea común
+conserva autorización explícita. Continuar por R039 sin ejecutar territorios.
+R040 requiere orden expresa para cualquier prueba territorial.

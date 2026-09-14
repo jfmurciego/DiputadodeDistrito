@@ -1,10 +1,10 @@
 # Continuidad de la auditoría de plataforma DDD
 
-**Versión:** 1.6.0
-**Fecha de corte:** 2026-09-14
+**Versión:** 1.5.0
+**Fecha de corte:** 2026-09-13
 **Estado:** VIGENTE — fuente de migración al nuevo hilo
 **Commit de partida:** `4b8af76` (`R036.0: registrar migración de auditoría`)
-**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.5.0.md`
+**Anterior:** `legacy/docs/CONTINUIDAD_AUDITORIA_PLATAFORMA_v1.4.0.md`
 **Propósito:** permitir que otra sesión continúe la auditoría y la ingeniería sin depender del chat anterior ni repetir resultados territoriales.
 
 ## 1. Veredicto que debe conservarse
@@ -34,8 +34,10 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 - [x] **R036 — Esquema único.** Familia `ddd-territory`, versión de contrato y niveles `bootstrap_m01_m03` / `production_m01_m06` formalizados.
 - [x] **R037 — Aislados y desconexiones.** R023 se convierte en bloqueo explícito; toda reparación futura exige pasarela tipada, motivada y con fuente.
 - [x] **R037 — Archipiélagos.** Contigüidad interna por componente, sin aristas marítimas ni distritos entre islas; K se reparte antes de M04.
-- [x] **R038 — Operación limpia.** Diez workflows sustituidos están en `legacy/workflows/r038`; la picadora manual y la línea contractual son las únicas interfaces territoriales activas. CI `34830677071` SUCCESS.
-- [x] **R039 — Capa electoral.** Contrato `ddd-election` 1.0.0, entrada con SHA-256 y procedencia, adaptadores declarativos, diccionario canónico cerrado y unión M08 exhaustiva. Aragón es la implantación de referencia; el código común no contiene tablas territoriales.
+- [ ] **R038 — Workflows.** Archivar los territoriales de Extremadura y los falsos genéricos que hayan quedado sustituidos por la línea común; dejar claro cuál es operativo y cuál es histórico.
+- [ ] **R038 — Herramientas experimentales.** Clasificar los auditores de un uso: destilar estrategias reutilizables o moverlos a `legacy/`; no borrarlos sin conservar historia.
+- [ ] **R038 — Documentación.** Corregir afirmaciones aspiracionales sobre CUSEC/provincias y extender la prohibición de acoplamiento territorial a workflows y validadores.
+- [ ] **R039 — Capa electoral.** Crear contrato común de convocatoria, adquisición o entrada verificable, diccionario de partidos y normalización; hoy M07–M08 siguen siendo Aragón.
 - [ ] **R040 — Prueba ciega.** Cuando exista autorización explícita, ejecutar La Rioja sin tocar `.github/workflows/`, `modulos/` ni `ddd_core`; después Cantabria para probar el caso degradado.
 - [ ] **Publicación.** Pages sigue dependiendo de habilitación del propietario; el artefacto descargable ya evita que ese permiso bloquee la entrega.
 
@@ -47,7 +49,7 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 2. Verificar `main`, CI, workflows activos e issue #5 antes de cambiar nada.
 3. Cerrar el Paquete A: C-05 completo y la parte M07 de C-09, sin recalcular M01–M06.
 4. Resolver por paquetes los restantes C-01–C-14, empezando por la decisión de publicabilidad C-14/C-02/C-03.
-5. Mantener R040 suspendido hasta orden expresa; R038 y R039 están cerrados sin cálculo territorial.
+5. Mantener R038–R040 suspendidos hasta que la auditoría crítica tenga respuesta expresa.
 6. Mantener R040 además bloqueada hasta autorización expresa. La prueba debe ser falsable y no permitir código específico del territorio.
 
 ## 4. Reglas inviolables
@@ -63,9 +65,7 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 
 La plataforma podrá llamarse genérica cuando un territorio peninsular nuevo se admita por catálogo/contrato, recorra la misma cadena M01–M06 y deje evidencia sin tocar código común; un caso con aislamiento tenga una política reproducible; los archipiélagos tengan contrato topológico explícito; y M07–M08 puedan producir un producto electoral sin tablas artesanales de Aragón.
 
-Tras R039, la cinta, la puerta de seguridad, las reglas de corte y la sección
-electoral común existen. La afirmación «cualquier territorio» continúa prohibida
-hasta superar R040 con autorización expresa.
+Hasta entonces, la metáfora correcta es: **la cinta transportadora y la puerta de seguridad ya existen, pero todavía faltan las reglas universales de corte y la sección electoral de la fábrica.**
 
 ## 6. Enlaces operativos
 
