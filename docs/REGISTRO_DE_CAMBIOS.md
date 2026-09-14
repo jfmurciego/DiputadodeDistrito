@@ -9,6 +9,9 @@ bajo orden manual. Una prueba impide reintroducir `push` o `schedule`. La fuente
 `COMARCAS.csv` se verifica aisladamente: 731 municipios, 33 comarcas, sin claves
 inválidas ni duplicados contradictorios. No se ejecuta M01–M08.
 
+El commit `24eb07e` supera la suite `34882876061`. Fue el único workflow
+activado; queda certificado que el blindaje evita cálculo y publicación por push.
+
 ## 2026-09-14 — Paquete local-first — Comarcas e interfaz M01–M08
 
 M01 añade una unión comarcal opcional por código municipal de cinco dígitos y

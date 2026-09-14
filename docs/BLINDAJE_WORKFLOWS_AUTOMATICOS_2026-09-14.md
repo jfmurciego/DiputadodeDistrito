@@ -2,7 +2,7 @@
 
 **Versión:** 1.0.0
 **Fecha:** 2026-09-14
-**Estado:** candidato local-first
+**Estado:** cerrado y certificado — CI 34882876061 SUCCESS
 **Anterior:** ninguno — documento nuevo
 
 ## Decisión
@@ -28,3 +28,9 @@ disparador automático queda prohibido mediante prueba de regresión.
 códigos municipales únicos, 33 comarcas, cero códigos municipales inválidos y
 cero asignaciones contradictorias. Esta verificación es tabular: no ejecuta
 M01–M08 ni habilita `comarcas.enabled`.
+
+## Certificación
+
+El commit `24eb07e` activó exclusivamente **Pruebas DDD — R015**. El run
+`34882876061` terminó SUCCESS. No se activaron C‑01, regresiones, exportaciones,
+publicaciones ni workflows territoriales.

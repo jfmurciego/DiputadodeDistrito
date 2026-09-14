@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.33.1
+Versión: 1.33.0
 Fecha: 2026-09-14
-Estado: paquete local-first y blindaje de workflows cerrados y certificados.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.33.0.md
+Estado: paquete local-first certificado; blindaje de workflows en preparación.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.32.0.md
 
 ## Fuente operativa
 
@@ -44,10 +44,6 @@ la validación de productos terminaron SUCCESS sobre `636f732`. La restauración
 del árbol activó incidentalmente C‑01, que terminó FAIL conforme al resultado
 de robustez ya conocido y sin modificar productos. El siguiente commit elimina
 todos los disparadores automáticos de cálculo pesado, exportación y publicación.
-
-El blindaje queda certificado en `24eb07e`, suite `34882876061` SUCCESS. Ese fue
-el único workflow activado: cero territorios, C‑01, regresiones, exportaciones o
-publicaciones. R040 continúa bloqueado hasta orden expresa.
 
 `COMARCAS.csv` se verificó sin GIS: 731 códigos municipales únicos, 33 comarcas,
 cero claves inválidas y cero asignaciones contradictorias. Sigue deshabilitado.
