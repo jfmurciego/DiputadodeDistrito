@@ -1,9 +1,9 @@
 # R038 — Operación limpia y picadora manual
 
-**Versión:** 1.0.3
+**Versión:** 1.0.2
 **Fecha:** 2026-09-14
-**Estado:** cerrado y certificado — CI 34830677071 SUCCESS
-**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.2.md`
+**Estado:** corrección exacta aplicada; pendiente de certificación CI
+**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.1.md`
 
 ## Decisión operativa
 
@@ -55,6 +55,3 @@ correctamente `legacy/`, pero la prueba intentaba validarlo dentro de la imagen.
 La comprobación de workflows activos se mantiene siempre; la existencia de
 predecesores se verifica en el checkout, donde CI ya ejecuta la puerta de
 gobernanza. No se relaja ninguna garantía.
-
-El commit `7a02dba` supera la suite general `34830677071`. Fue el único
-workflow activado y no se ejecutó ningún territorio. R038 queda cerrado.

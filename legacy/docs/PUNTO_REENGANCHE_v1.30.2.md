@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.30.3
+Versión: 1.30.2
 Fecha: 2026-09-14
-Estado: R038 cerrado y certificado; R039 es el siguiente hito.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.2.md
+Estado: R038 corregido con causa exacta; pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.1.md
 
 ## Fuente operativa
 
@@ -32,7 +32,8 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R038 queda certificado: `7a02dba` supera la suite general `34830677071`, único
-workflow activado. La picadora es la interfaz manual única y la línea común
-conserva autorización explícita. Continuar por R039 sin ejecutar territorios.
-R040 requiere orden expresa para cualquier prueba territorial.
+El artefacto de `34830251652` demuestra que la única caída era una prueba que
+buscaba `legacy/` dentro de la imagen pese a estar excluido por `.dockerignore`.
+La prueba queda alineada con las dos capas CI: activos dentro del contenedor y
+legacy en checkout. No ejecutar territorios. Tras certificar R038, continuar por
+R039; R040 requiere orden expresa para cualquier prueba territorial.

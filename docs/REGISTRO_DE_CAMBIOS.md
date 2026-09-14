@@ -282,3 +282,7 @@ La implementación R038 falla dos veces en la suite general `34825103970`, pese 
 ### R038.2 — Corrección exacta de la prueba en contenedor
 
 El artefacto `ci-unittest-34830251652-1` demuestra que la única caída es la búsqueda de `legacy/` dentro de una imagen que lo excluye deliberadamente. La prueba mantiene la ausencia de workflows retirados en la ruta activa y delega la existencia de predecesores a la puerta de checkout ya vigente. No se relaja ninguna garantía ni se ejecuta un territorio.
+
+### R038.3 — Certificación CI
+
+El commit `7a02dba` supera la suite general `34830677071`, único workflow activado. No se ejecuta ningún territorio. R038 queda cerrado y el siguiente hito es R039.
