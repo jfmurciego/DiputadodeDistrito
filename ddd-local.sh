@@ -7,7 +7,7 @@
 # ESTADO: candidato
 # QUÉ HACE: comprueba, construye, admite, prueba o ejecuta DDD mediante el Docker fijado del repositorio.
 # CAMBIOS: primera versión.
-# MOTIVO: permitir una operación local en macOS sin instalar ni modificar Python, Conda o Miniforge.
+# MOTIVO: permitir una operación local en macOS sin instalar ni modificar Python ni dependencias geoespaciales.
 # ANTERIOR: ninguno — componente nuevo.
 set -euo pipefail
 
