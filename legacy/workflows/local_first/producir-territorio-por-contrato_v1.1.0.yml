@@ -1,16 +1,43 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Motor reutilizable M01–M08 sin formulario paralelo
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Línea territorial única ejecutable y descargable
 # FECHA: 2026-09-14
 # ESTADO: vigente — R038
-# QUÉ HACE: admite, verifica o ejecuta M01–M08 para cualquier contrato DDD invocado desde la interfaz institucional.
-# CAMBIOS: elimina el disparador manual para impedir un segundo formulario territorial.
-# MOTIVO: concentrar toda decisión humana en Operación territorial DDD — M01 a M08.
-# ANTERIOR: legacy/workflows/local_first/producir-territorio-por-contrato_v1.1.0.yml
+# QUÉ HACE: admite, verifica o ejecuta M01–M06 para cualquier contrato DDD sin seleccionar territorios en código.
+# CAMBIOS: añade workflow_call, valida el shell, usa un run-id coherente y publica todos los productos del run.
+# MOTIVO: hacer invocable la línea desde la picadora y evitar ejecuciones correctas sin artefacto descargable.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.0.0.yml
 name: Producción territorial por contrato
 
 on:
+  workflow_dispatch:
+    inputs:
+      params:
+        description: YAML territorial versionado dentro del repositorio
+        required: true
+        default: territorios/aragon/config/aragon_2025.yaml
+        type: string
+      mode:
+        description: admit_only, verify_only o execute
+        required: true
+        default: admit_only
+        type: choice
+        options: [admit_only, verify_only, execute]
+      from_stage:
+        description: Primera fase semántica
+        required: true
+        default: TERRITORY_PREPARATION
+        type: string
+      to_stage:
+        description: Última fase semántica
+        required: true
+        default: TERRITORIAL_CERTIFICATION
+        type: string
+      execution_authorization:
+        description: "Obligatorio sólo para execute: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION"
+        required: false
+        type: string
   workflow_call:
     inputs:
       params: {required: true, type: string}
@@ -56,7 +83,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$AUTHORIZATION" = "EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION" || {
-            echo "execute requiere autorización explícita; no se inicia ningún módulo M01–M08." >&2
+            echo "execute requiere autorización explícita; no se inicia M01–M06." >&2
             exit 21
           }
       - name: Verificar que el modo no calcula

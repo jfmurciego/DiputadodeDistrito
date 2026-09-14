@@ -2,6 +2,16 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-14 — Paquete local-first — Comarcas e interfaz M01–M08
+
+M01 añade una unión comarcal opcional por código municipal de cinco dígitos y
+registra cobertura, duplicados contradictorios y faltantes. M03 conserva código
+y nombre de comarca en los nodos y M06 en catálogo y composición, sin usar la
+comarca como restricción. La interfaz manual se unifica bajo **Operación
+territorial DDD — M01 a M08**; la línea contractual queda solo como workflow
+reutilizable y el formulario G10 por tramo pasa a legacy. El paquete se prueba
+con datos sintéticos y no habilita fuentes ni ejecuta territorios.
+
 ## 2026-09-14 — R039 — Contrato electoral universal
 
 M07 deja de contener el formato RTVE y de recibir tablas de partidos en el YAML

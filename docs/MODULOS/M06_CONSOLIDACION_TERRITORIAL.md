@@ -1,7 +1,7 @@
 # M06 — Consolidar y describir distritos
 
 ## Versión vigente
-**7.1.0 — Catálogo territorial auditable**.
+**7.2.0 — Catálogo con comunidades de interés opcionales**.
 
 ## Propósito
 M06 transforma la asignación interna producida por M05 en **entidades distritales auditables**. No optimiza, no mueve secciones y no cambia `district_id`. Su responsabilidad es materializar, medir, describir y validar una solución ya cerrada antes de incorporar resultados electorales u otros atributos posteriores.
@@ -31,6 +31,7 @@ El catálogo incluye, cuando los campos existen en la fuente:
 - número de secciones;
 - número/códigos/nombres de municipios;
 - número/códigos/nombres de provincias;
+- número/códigos/nombres de comunidades de interés, cuando existen;
 - superficie en km²;
 - perímetro en km;
 - compacidad Polsby–Popper;
@@ -41,7 +42,7 @@ El catálogo incluye, cuando los campos existen en la fuente:
 El CRS para métricas es configurable. Castilla y León CYL-05 utiliza `EPSG:3035`, evitando que el módulo dependa de una zona UTM concreta y permitiendo su reutilización europea.
 
 ## Composición territorial
-El CSV de composición conserva una fila por sección y permite responder exactamente a la pregunta «¿qué secciones forman este distrito?». Incluye `CUSEC_KEY`, `district_id`, población y, cuando están disponibles, provincia, municipio, CUDIS, `ddd_unit_id` y `ddd_closed_urban`.
+El CSV de composición conserva una fila por sección y permite responder exactamente a la pregunta «¿qué secciones forman este distrito?». Incluye `CUSEC_KEY`, `district_id`, población y, cuando están disponibles, provincia, municipio, comarca, CUDIS, `ddd_unit_id` y `ddd_closed_urban`.
 
 ## Invariantes duras
 M06 debe abortar si incumple cualquiera de estas condiciones configuradas:

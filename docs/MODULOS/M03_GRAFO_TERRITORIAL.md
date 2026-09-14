@@ -10,7 +10,7 @@ Separa GIS de optimización. M04 y M05 no deberían volver a interpretar polígo
 Secciones con población de M01 y aristas de M02.
 
 ## Producto canónico
-`aragon_2025_m03_grafo.json`, con arrays completos `nodes` y `edges`. La referencia vigente contiene 1.463 nodos, 4.293 aristas, población total 1.364.621 y 0 nodos aislados. La ejecución publica el JSON completo como `M03/grafo.json`, no solo el informe.
+El grafo contiene arrays completos `nodes` y `edges`. Cada nodo conserva identificador y población y, cuando M01 los aporta, `COMARCA_CODIGO` y `COMARCA_NOMBRE`. Esos atributos no crean, eliminan ni penalizan aristas: son evidencia transportada, no una restricción del optimizador.
 
 ## Validaciones
 Todos los nodos tienen CUSEC y población; todas las aristas apuntan a nodos existentes; se contabilizan aislados; se conserva la suma de población de M01.

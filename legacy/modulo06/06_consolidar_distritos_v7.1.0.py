@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar y describir distritos
-VERSIÓN: 7.2.0
-NOMBRE DE VERSIÓN: Catálogo con comunidades de interés opcionales
-FECHA: 2026-09-14
+VERSIÓN: 7.1.0
+NOMBRE DE VERSIÓN: Catálogo territorial auditable
+FECHA: 2026-09-11
 QUÉ HACE: transforma la asignación M05 en productos territoriales finales de sección y distrito, catálogo distrital auditable y composición exacta por sección.
 POR QUÉ ES SEPARADO: M05 optimiza la partición; M06 no puede cambiarla. Su responsabilidad es materializar, medir, describir y validar la solución antes de incorporar datos electorales u otros atributos posteriores.
 ESTADO: candidato multi-territorio — CYL-05.
-CAMBIOS: propaga código y nombre de comarca a la composición y resume las comarcas presentes en cada distrito cuando existen.
-MOTIVO: hacer medible P07 sin permitir que M06 modifique la asignación heredada de M05.
-ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.1.0.py
+CAMBIOS: amplía v7.0.1 con catálogo distrital, composición por sección, métricas poblacionales, administrativas y geométricas, y validaciones de conservación de filas, población, K y provincia única.
+MOTIVO: la documentación de M06 ya exigía entidades distritales auditables, pero v7.0.1 solo producía un resumen poblacional y geometría disuelta. El código debe cumplir el contrato documental antes de portar M06 a un segundo territorio.
+ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.0.1.py
 """
 from __future__ import annotations
 
@@ -100,8 +100,6 @@ def main():
     municipality_field = s6.get("municipality_field", val.get("municipality_field", "CUMUN"))
     municipality_name_field = s6.get("municipality_name_field", val.get("municipality_name_field", "NMUN"))
     cudis_field = s6.get("cudis_field", "CUDIS")
-    community_code_field = s6.get("community_code_field", "COMARCA_CODIGO")
-    community_name_field = s6.get("community_name_field", "COMARCA_NOMBRE")
     metric_crs = s6.get("metric_crs", "EPSG:3035")
 
     gdf = load_geojson_any(in_geo)
@@ -204,11 +202,6 @@ def main():
                 raise SystemExit(f"[Módulo 6] Distrito {d} cruza provincias")
         if province_name_field in x.columns:
             row["province_names"] = joined_unique(x[province_name_field])
-        if community_code_field in x.columns:
-            row["community_count"] = int(x[community_code_field].dropna().astype(str).str.strip().replace("", pd.NA).dropna().nunique())
-            row["community_codes"] = joined_unique(x[community_code_field])
-        if community_name_field in x.columns:
-            row["community_names"] = joined_unique(x[community_name_field])
         rows.append(row)
     territorial = pd.DataFrame(rows)
 
@@ -217,7 +210,7 @@ def main():
 
     # Composición exacta y reconstruible, sin depender de GIS.
     comp_cols = [id_field, district_field, pop_field]
-    for col in (province_field, province_name_field, municipality_field, municipality_name_field, community_code_field, community_name_field, cudis_field, "ddd_unit_id", "ddd_closed_urban"):
+    for col in (province_field, province_name_field, municipality_field, municipality_name_field, cudis_field, "ddd_unit_id", "ddd_closed_urban"):
         if col in df.columns and col not in comp_cols:
             comp_cols.append(col)
     composition = df[comp_cols].copy().rename(columns={district_field: "district_id", pop_field: "section_pop"})
@@ -243,7 +236,7 @@ def main():
 
     outside = int((~summary["within_target_tolerance"]).sum())
     print(
-        f"[Módulo 6] OK v7.2.0 K={k} rows={n_rows} pop={total_pop} fuera_12={outside} "
+        f"[Módulo 6] OK v7.1.0 K={k} rows={n_rows} pop={total_pop} fuera_12={outside} "
         f"catalog={out_catalog or '-'} composition={out_composition or '-'} districts={out_district_geo or '-'}"
     )
 

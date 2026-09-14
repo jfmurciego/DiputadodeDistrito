@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.32.0
+Versión: 1.31.2
 Fecha: 2026-09-14
-Estado: paquete local-first de comarcas e interfaz institucional implementado localmente; pendiente certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.2.md
+Estado: R039 cerrado y certificado; R040 congelado hasta orden expresa.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.1.md
 
 ## Fuente operativa
 
@@ -14,8 +14,7 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.2.md
 - Puerta de admisión: herramientas/validar_contrato_territorial.py
 - CI de contratos: .github/workflows/validar-contratos-territoriales.yml
 - Lista de cierre: docs/CIERRE_INGENIERIA_PRODUCCION.md
-- Única interfaz manual: .github/workflows/picadora-territorial.yml
-- Motor reutilizable sin formulario propio: .github/workflows/producir-territorio-por-contrato.yml
+- Línea única: .github/workflows/producir-territorio-por-contrato.yml
 - Migración al nuevo hilo: docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md
 - Prompt breve: docs/SALIDAS_CHATGPT/PROMPT_CORTO_AUDITORIA_PLATAFORMA.md
 
@@ -31,14 +30,6 @@ El visor MapLibre y su contrato exhaustivo están verificados. **Validar product
 
 Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contrato, fuente o producto, el resultado esperado es REUSED.
 
-## Paquete local-first actual
-
-M01 incorpora un adaptador comarcal opcional por código municipal normalizado,
-con cobertura, duplicados y faltantes verificables. M03 y M06 conservan esos
-atributos sin convertirlos en una restricción. La única interfaz manual cubre
-M01–M08 con nomenclatura institucional. No se ha habilitado ninguna fuente
-comarcal territorial ni se ha ejecutado comunidad alguna.
-
 ## Siguiente bloque de ingeniería
 
 R039 sustituye la configuración artesanal de M07 por el contrato común
@@ -49,5 +40,5 @@ electoral ya materializado; no ejecuta M01–M08. El primer CI `34832589193`
 detectó únicamente que `inputs/` no existe dentro de la imagen. La prueba ahora
 verifica bytes fuera y coherencia contrato–manifiesto dentro, sin introducir un
 bypass en M07. El commit `6e8162b` supera la suite general `34833051502`.
-R039 queda cerrado. Tras certificar este paquete con la suite general, R040 y
-toda ejecución territorial permanecen congelados hasta orden expresa.
+R039 queda cerrado. R040 y toda ejecución territorial permanecen congelados
+hasta orden expresa.

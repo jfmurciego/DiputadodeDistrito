@@ -27,17 +27,19 @@ class R038OperacionLimpia(unittest.TestCase):
                 self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
 
 
-    def test_picadora_tiene_cinco_operaciones_y_protege_produccion(self):
+    def test_interfaz_institucional_cubre_m01_m08_y_protege_ejecucion(self):
         text = (WORKFLOWS / "picadora-territorial.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
         operations = raw_inputs["operation"]["options"]
         self.assertEqual(operations, [
-            "admit_only", "bootstrap_m01_m03", "diagnose_topology",
-            "promote_m01_m03", "produce_m01_m06",
+            "admitir_contrato", "verificar_contrato", "preparar_base_m01_m03",
+            "diagnosticar_topologia", "certificar_territorio_m01_m06",
+            "producir_resultado_m01_m08",
         ])
         self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
         self.assertIn("${{ inputs.territory_id }}", text)
+        self.assertIn("PUBLIC_PRODUCT_PUBLICATION", text)
 
 
     def test_lanzador_shell_compila(self):
@@ -53,6 +55,12 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("steps.resolve.outputs.runs_dir", text)
         self.assertIn("--run-id \"$DDD_RUN_ID\"", text)
         self.assertIn("bash -n procedimiento.sh", text)
+        self.assertIn("workflow_call", text)
+        self.assertNotIn("workflow_dispatch", text)
+
+    def test_no_queda_el_formulario_g10_sustituido(self):
+        self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())
+        self.assertTrue((ROOT / "legacy/workflows/local_first/g10-ejecutar-tramo-certificado_v1.1.0.yml").exists())
 
 
 if __name__ == "__main__":

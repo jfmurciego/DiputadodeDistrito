@@ -21,15 +21,16 @@ class FactoryProductionInterface(unittest.TestCase):
             self.assertTrue(decision["params"].startswith("territorios/"))
             self.assertNotEqual(decision["cache_dir"], decision["runs_dir"])
 
-    def test_tramo_g10_no_contiene_seleccion_territorial(self):
-        text = (ROOT / ".github/workflows/g10-ejecutar-tramo-certificado.yml").read_text(encoding="utf-8")
-        self.assertIn("resolver_ejecucion_territorial.py", text)
+    def test_interfaz_manual_unica_no_contiene_seleccion_codificada(self):
+        text = (ROOT / ".github/workflows/picadora-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("${{ inputs.territory_id }}", text)
         self.assertNotIn("aragon) params=", text)
         self.assertNotIn("castilla_y_leon) params=", text)
 
-    def test_linea_comun_es_manual_y_execute_esta_bloqueado(self):
+    def test_linea_comun_es_reutilizable_y_execute_esta_bloqueado(self):
         text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("workflow_dispatch", text)
+        self.assertNotIn("workflow_dispatch", text)
+        self.assertIn("workflow_call", text)
         self.assertNotIn("push:", text)
         self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
         self.assertIn("resolver_ejecucion_territorial.py", text)

@@ -1,17 +1,17 @@
 # R038 — Operación limpia y picadora manual
 
-**Versión:** 1.1.0
+**Versión:** 1.0.3
 **Fecha:** 2026-09-14
 **Estado:** cerrado y certificado — CI 34830677071 SUCCESS
-**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.3.md`
+**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.2.md`
 
 ## Decisión operativa
 
 La única interfaz humana para procesar territorios es
-`.github/workflows/picadora-territorial.yml`. Su nombre visible es **Operación
-territorial DDD — M01 a M08** y ofrece seis operaciones institucionales:
-admitir, verificar, preparar M01–M03, diagnosticar topología, certificar M01–M06
-o producir M01–M08.
+`.github/workflows/picadora-territorial.yml`. Desde ella el propietario elige un
+territorio del catálogo y una de cinco operaciones: admisión sin cálculo,
+bootstrap M01-M03, diagnóstico topológico, promoción estricta M01-M03 o
+producción M01-M06.
 
 La producción sigue protegida por contrato completo y por la frase literal
 `EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION`. Los contratos bootstrap no pueden
@@ -25,20 +25,11 @@ tres falsos genéricos acoplados a Castilla y León, tres líneas específicas d
 Extremadura, el procedimiento específico de Aragón y tres lotes históricos de
 Fase 1. No se borra evidencia.
 
-Permanecen activos únicamente la interfaz institucional, sus componentes reutilizables,
-la línea común M01–M08, G10 por lote, validaciones, regresiones manuales, publicación y
+Permanecen activos únicamente la picadora, sus tres componentes reutilizables,
+la línea común M01-M06, G10, validaciones, regresiones manuales, publicación y
 auditorías reproducibles. Las herramientas experimentales conservadas no son
 seleccionables por la picadora; solo los módulos canónicos y los componentes
 reutilizables forman parte de la ruta operativa.
-
-El inventario activo queda en 17 workflows: una interfaz territorial manual,
-cuatro componentes/motores reutilizables o automáticos de operación, dos
-regresiones territoriales exclusivamente manuales y diez puertas, auditorías o
-flujos de publicación. Ese recuento sustituye inventarios históricos previos.
-
-La línea contractual pierde su `workflow_dispatch` y el antiguo formulario G10
-por tramo se retira a `legacy/workflows/local_first/`. Así no quedan tres botones
-capaces de expresar el mismo recorrido territorial.
 
 ## Defectos adicionales corregidos
 

@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 1.0.0
-# NOMBRE: Picadora territorial manual
+# VERSIÓN: 2.0.0
+# NOMBRE: Operación territorial institucional M01–M08
 # FECHA: 2026-09-14
 # ESTADO: vigente — R038/R040
-# QUÉ HACE: ofrece un único botón para admitir, preparar, diagnosticar o producir un territorio del catálogo.
-# CAMBIOS: primera versión.
-# MOTIVO: permitir al propietario operar DDD desde GitHub Actions sin abrir un agente ni elegir workflows internos.
-# ANTERIOR: ninguno — interfaz nueva.
-name: Picadora territorial DDD
+# QUÉ HACE: ofrece el único formulario manual para admitir, verificar o ejecutar la cadena territorial M01–M08.
+# CAMBIOS: sustituye nombres internos por operaciones institucionales y amplía la ruta autorizable hasta M08.
+# MOTIVO: eliminar interfaces manuales solapadas y hacer explícito el alcance de cada operación.
+# ANTERIOR: legacy/workflows/local_first/picadora-territorial_v1.0.0.yml
+name: Operación territorial DDD — M01 a M08
 
 on:
   workflow_dispatch:
@@ -39,18 +39,19 @@ on:
           - ceuta
           - melilla
       operation:
-        description: Operación de la fábrica
+        description: Operación institucional
         required: true
-        default: admit_only
+        default: admitir_contrato
         type: choice
         options:
-          - admit_only
-          - bootstrap_m01_m03
-          - diagnose_topology
-          - promote_m01_m03
-          - produce_m01_m06
+          - admitir_contrato
+          - verificar_contrato
+          - preparar_base_m01_m03
+          - diagnosticar_topologia
+          - certificar_territorio_m01_m06
+          - producir_resultado_m01_m08
       execution_authorization:
-        description: Para producir, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+        description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
         required: false
         type: string
 
@@ -59,7 +60,7 @@ permissions:
 
 jobs:
   admit:
-    if: ${{ inputs.operation == 'admit_only' }}
+    if: ${{ inputs.operation == 'admitir_contrato' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
       params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
@@ -67,30 +68,43 @@ jobs:
       from_stage: TERRITORY_PREPARATION
       to_stage: TERRITORIAL_CERTIFICATION
 
+  verify:
+    if: ${{ inputs.operation == 'verificar_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: verify_only
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+
   bootstrap:
-    if: ${{ inputs.operation == 'bootstrap_m01_m03' }}
+    if: ${{ inputs.operation == 'preparar_base_m01_m03' }}
     uses: ./.github/workflows/_reutilizable-bootstrap-territorio.yml
     with:
       territory_id: ${{ inputs.territory_id }}
 
   diagnose:
-    if: ${{ inputs.operation == 'diagnose_topology' }}
+    if: ${{ inputs.operation == 'diagnosticar_topologia' }}
     uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
     with:
       territory_id: ${{ inputs.territory_id }}
 
-  promote:
-    if: ${{ inputs.operation == 'promote_m01_m03' }}
-    uses: ./.github/workflows/_reutilizable-promocion-m01-m03.yml
-    with:
-      territory_id: ${{ inputs.territory_id }}
-
-  produce:
-    if: ${{ inputs.operation == 'produce_m01_m06' }}
+  certify:
+    if: ${{ inputs.operation == 'certificar_territorio_m01_m06' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
       params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
       mode: execute
       from_stage: TERRITORY_PREPARATION
       to_stage: TERRITORIAL_CERTIFICATION
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  publish:
+    if: ${{ inputs.operation == 'producir_resultado_m01_m08' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
       execution_authorization: ${{ inputs.execution_authorization }}

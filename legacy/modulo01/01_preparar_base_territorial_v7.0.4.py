@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 01 — Preparar base territorial
-VERSIÓN: 7.1.0
-NOMBRE DE VERSIÓN: Adaptador comarcal municipal opcional
-FECHA: 2026-09-14
-QUÉ HACE: integra cartografía, población oficial y, si se habilita, una fuente comarcal enlazada por código municipal.
+VERSIÓN: 7.0.4
+NOMBRE DE VERSIÓN: Ingesta territorial filtrada robusta — Gobernanza R015
+FECHA: 2026-09-11
+QUÉ HACE: integra cartografía de secciones y población oficial en una base territorial canónica.
 POR QUÉ ES SEPARADO: es la base estable, costosa y cacheable de todos los módulos posteriores.
-ESTADO: vigente — integración local-first.
-CAMBIOS: añade unión comarcal declarativa, normalización a cinco dígitos y controles de cobertura, duplicados y faltantes.
-MOTIVO: recuperar la información comarcal histórica sin inferir por nombres ni convertirla en restricción del optimizador.
-ANTERIOR: legacy/modulo01/01_preparar_base_territorial_v7.0.4.py
+ESTADO: vigente — R015 de gobernanza; lógica funcional heredada sin cambios.
+CAMBIOS: normaliza cabecera y predecesor legacy; no modifica algoritmo ni contrato funcional.
+MOTIVO: cerrar la deuda de auditoría y hacer verificable la disciplina de versiones.
+ANTERIOR: legacy/modulo01/01_preparar_base_territorial_v7.0.3.py
 """
 from __future__ import annotations
 import sys,argparse,atexit,io,json,re,shutil,tempfile,zipfile
@@ -21,7 +21,6 @@ import geopandas as gpd
 PROJECT_ROOT=Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:sys.path.insert(0,str(PROJECT_ROOT))
 from ddd_core.config import load_params_yaml,module_cfg,require
-from ddd_core.comarcas import attach_comarcas as attach_comarcas_by_municipality
 SECTION10_RE=re.compile(r"^\d{10}$")
 def normalize_section_key(x):
     if x is None or (isinstance(x,float) and pd.isna(x)):return None
@@ -87,7 +86,7 @@ def write_geojson(gdf,out_path):
     with zipfile.ZipFile(outp,"w",compression=zipfile.ZIP_DEFLATED) as z:z.write(tmp,arcname=tmp.name)
     tmp.unlink(missing_ok=True)
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);meta=cfg.get("meta",{});year=int(meta.get("year",2025));io_in=cfg["io"]["input"];secc=io_in["seccionado"];cip_cfg=io_in["population_cip"];s1=module_cfg(cfg,"modulo_01_preparar_base_territorial",legacy_step_key="step1_build_sections");prov=[str(x).zfill(2) for x in s1.get("province_codes",[])];gdf=load_seccionado(secc["path"],secc.get("layer","") or "",prov);gdf["CUSEC_KEY"]=gdf[secc.get("section_key_col","CUSEC")].map(normalize_section_key);gdf=gdf.dropna(subset=["CUSEC_KEY"]);gdf=gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy();filters={"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":year};filters.update(cip_cfg.get("filters",{}));cip=load_cip(cip_cfg["paths"],cip_cfg.get("section_key_col","Secciones"),cip_cfg.get("pop_col","Total"),year,cip_cfg.get("sep","auto"),filters,prov);pop_field=f"POP_{year}";gdf=gdf.merge(cip.rename(columns={"POP":pop_field}),on="CUSEC_KEY",how="left");missing=int(gdf[pop_field].isna().sum());gdf,comarcas_report=attach_comarcas_by_municipality(gdf,io_in.get("comarcas",{}));out_geo=require(s1.get("out_geojson"),"Falta M01 salida");write_geojson(gdf,out_geo);out_report=s1.get("out_report","")
-    if out_report:Path(out_report).write_text(json.dumps({"module":"01","version":"7.1.0","rows_out":len(gdf),"missing_population_rows":missing,"province_codes":prov,"year":year,"comarcas":comarcas_report},ensure_ascii=False,indent=2),encoding="utf-8")
+    ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);meta=cfg.get("meta",{});year=int(meta.get("year",2025));io_in=cfg["io"]["input"];secc=io_in["seccionado"];cip_cfg=io_in["population_cip"];s1=module_cfg(cfg,"modulo_01_preparar_base_territorial",legacy_step_key="step1_build_sections");prov=[str(x).zfill(2) for x in s1.get("province_codes",[])];gdf=load_seccionado(secc["path"],secc.get("layer","") or "",prov);gdf["CUSEC_KEY"]=gdf[secc.get("section_key_col","CUSEC")].map(normalize_section_key);gdf=gdf.dropna(subset=["CUSEC_KEY"]);gdf=gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy();filters={"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":year};filters.update(cip_cfg.get("filters",{}));cip=load_cip(cip_cfg["paths"],cip_cfg.get("section_key_col","Secciones"),cip_cfg.get("pop_col","Total"),year,cip_cfg.get("sep","auto"),filters,prov);pop_field=f"POP_{year}";gdf=gdf.merge(cip.rename(columns={"POP":pop_field}),on="CUSEC_KEY",how="left");missing=int(gdf[pop_field].isna().sum());out_geo=require(s1.get("out_geojson"),"Falta M01 salida");write_geojson(gdf,out_geo);out_report=s1.get("out_report","")
+    if out_report:Path(out_report).write_text(json.dumps({"module":"01","rows_out":len(gdf),"missing_population_rows":missing,"province_codes":prov,"year":year},ensure_ascii=False,indent=2),encoding="utf-8")
     print(f"[Módulo 1] OK rows={len(gdf)} missing_population={missing} out={out_geo}")
 if __name__=="__main__":main()

@@ -1,13 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.11.0
-# NOMBRE DE VERSIÓN: Contrato comarcal opcional explícito
+# VERSIÓN: 0.10.0
+# NOMBRE DE VERSIÓN: Contrato CYL gobernado R036
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-05
 # QUÉ HACE: conserva el contrato territorial M01-M05 ya validado y añade M06 como capa de materialización, descripción y auditoría de los 82 distritos sin modificar su asignación.
-# CAMBIOS: declara columnas, cobertura y separador del adaptador comarcal, que permanece deshabilitado hasta aportar una fuente territorial válida.
-# MOTIVO: preparar la propagación auditable sin modificar límites ni activar datos inexistentes.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.10.0.yaml
+# CAMBIOS: incorpora catálogo distrital, composición exacta por sección, geometrías disueltas, métricas poblacionales/administrativas/geométricas y CRS métrico configurable.
+# MOTIVO: CYL-04 ya certifica una solución poblacional y territorial válida; el siguiente módulo debe convertirla en entidades distritales auditables antes de añadir resultados electorales.
+# CAMBIOS: declara esquema común, origen normativo de K y perfil estándar de límites; no altera parámetros ni productos certificados.
+# MOTIVO: hacer auditable la definición del problema antes de cualquier futura ejecución.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.9.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,7 +18,7 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.11.0
+  schema_version: 0.10.0
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -43,9 +45,7 @@ io:
     comarcas:
       enabled: false
       path: territorios/castilla_y_leon/inputs/COMARCAS_OPCIONAL.csv
-      sep: auto
-      require_full_coverage: true
-      join: {comarcas_key_col: "Municipio código", comarca_code_col: "Comarca código", comarca_name_col: "Comarca nombre"}
+      join: {comarcas_key_col: MUN_KEY}
   cache: {dir: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}"}
   runs: {dir: "territorios/castilla_y_leon/resultados/ejecuciones/{run_id}"}
 

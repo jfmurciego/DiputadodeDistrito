@@ -9,7 +9,7 @@
 name: Notificar finalización de lote DDD
 on:
   workflow_run:
-    workflows: ["G10 Ejecutar tramo certificado", "G10 — Operar lote durable"]
+    workflows: ["Operación territorial DDD — M01 a M08", "G10 — Operar lote durable"]
     types: [completed]
 permissions:
   contents: read
