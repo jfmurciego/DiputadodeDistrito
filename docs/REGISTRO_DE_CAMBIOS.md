@@ -278,3 +278,7 @@ Se publica un sistema determinista y no partidista de nombres técnicos basado e
 ## 2026-09-14 — R038.1 — Diagnóstico durable de CI
 
 La implementación R038 falla dos veces en la suite general `34825103970`, pese a que la misma ejecución completa pasa localmente con Python 3.11 y dependencias fijadas (71/71). La puerta CI se versiona y conserva siempre el log completo como artefacto, con propagación del código de salida mediante `pipefail`. No se modifica el motor ni se ejecuta ningún territorio.
+
+### R038.2 — Corrección exacta de la prueba en contenedor
+
+El artefacto `ci-unittest-34830251652-1` demuestra que la única caída es la búsqueda de `legacy/` dentro de una imagen que lo excluye deliberadamente. La prueba mantiene la ausencia de workflows retirados en la ruta activa y delega la existencia de predecesores a la puerta de checkout ya vigente. No se relaja ninguna garantía ni se ejecuta un territorio.

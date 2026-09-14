@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.30.2
+Versión: 1.30.1
 Fecha: 2026-09-14
-Estado: R038 corregido con causa exacta; pendiente de certificación CI.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.1.md
+Estado: R038 implementado; certificación remota en diagnóstico reproducible.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.0.md
 
 ## Fuente operativa
 
@@ -32,8 +32,8 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-El artefacto de `34830251652` demuestra que la única caída era una prueba que
-buscaba `legacy/` dentro de la imagen pese a estar excluido por `.dockerignore`.
-La prueba queda alineada con las dos capas CI: activos dentro del contenedor y
-legacy en checkout. No ejecutar territorios. Tras certificar R038, continuar por
-R039; R040 requiere orden expresa para cualquier prueba territorial.
+R038 está implementado en `26b4769`, pero la CI general `34825103970` falla en
+dos intentos mientras la réplica local exacta pasa 71/71 pruebas. El workflow
+general v1.2.0 conserva el log de unittest como artefacto para aislar el fallo
+sin operar a ciegas. No ejecutar territorios. Tras corregir y certificar R038,
+continuar por R039; R040 requiere orden expresa para cualquier prueba territorial.

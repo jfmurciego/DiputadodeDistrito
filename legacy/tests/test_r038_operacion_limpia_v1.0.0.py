@@ -1,5 +1,4 @@
-"""Trinquetes R038 v1.0.1: interfaz única dentro y fuera del contenedor."""
-import os
+"""Trinquetes de R038 para que la picadora sea la única interfaz territorial."""
 from pathlib import Path
 import subprocess
 import unittest
@@ -22,9 +21,8 @@ class R038OperacionLimpia(unittest.TestCase):
             "f106-cierre-complementario-f1.yml",
         }
         self.assertFalse(retired & {path.name for path in WORKFLOWS.glob("*.yml")})
-        if os.environ.get("DDD_SKIP_LEGACY_CHECK") != "1":
-            for name in retired:
-                self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
+        for name in retired:
+            self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
 
 
     def test_picadora_tiene_cinco_operaciones_y_protege_produccion(self):

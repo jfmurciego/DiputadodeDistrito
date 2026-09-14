@@ -1,9 +1,9 @@
 # R038 — Operación limpia y picadora manual
 
-**Versión:** 1.0.2
+**Versión:** 1.0.1
 **Fecha:** 2026-09-14
-**Estado:** corrección exacta aplicada; pendiente de certificación CI
-**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.1.md`
+**Estado:** implementado; CI reproducible localmente, diagnóstico remoto pendiente
+**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.0.md`
 
 ## Decisión operativa
 
@@ -49,9 +49,3 @@ misma suite completa pasa localmente con Python 3.11 y las dependencias fijadas:
 71/71 pruebas. El workflow general v1.2.0 conserva desde ahora su salida como
 artefacto incluso al fallar. Esta instrumentación no ejecuta territorios y evita
 modificar R038 sin conocer la excepción exacta.
-
-El artefacto del run `34830251652` identifica la causa: `.dockerignore` excluye
-correctamente `legacy/`, pero la prueba intentaba validarlo dentro de la imagen.
-La comprobación de workflows activos se mantiene siempre; la existencia de
-predecesores se verifica en el checkout, donde CI ya ejecuta la puerta de
-gobernanza. No se relaja ninguna garantía.
