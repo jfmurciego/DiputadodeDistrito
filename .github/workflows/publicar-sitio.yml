@@ -1,0 +1,177 @@
+# =============================================================================
+# VERSIÓN: 1.0.0
+# CLASE: activo
+# PROPÓSITO: construir y publicar el sitio público (mapa + datos) en GitHub Pages
+#            a partir de las salidas de M06, sin commitear artefactos generados.
+# =============================================================================
+name: Publicar sitio (GitHub Pages)
+
+on:
+  workflow_dispatch:
+    inputs:
+      territorio:
+        description: "territory_id (p.ej. aragon)"
+        required: true
+        default: aragon
+      run_id:
+        description: "Carpeta de ejecución dentro de territorios/<t>/resultados/ejecuciones/"
+        required: true
+        default: gh-34599224954-1
+  # Publica automáticamente cuando la regresión de Aragón termina en verde.
+  workflow_run:
+    workflows: ["Regresión M06 — Aragón"]
+    types: [completed]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolver parámetros
+        id: p
+        run: |
+          T="${{ inputs.territorio || 'aragon' }}"
+          R="${{ inputs.run_id || 'gh-34599224954-1' }}"
+          echo "t=$T" >> $GITHUB_OUTPUT
+          echo "r=$R" >> $GITHUB_OUTPUT
+          echo "base=territorios/$T/resultados/ejecuciones/$R" >> $GITHUB_OUTPUT
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar mapshaper
+        run: npm install -g mapshaper@0.6.109
+
+      - name: Preparar geometría (descomprimir, simplificar, TopoJSON)
+        run: |
+          set -euo pipefail
+          BASE="${{ steps.p.outputs.base }}"
+          T="${{ steps.p.outputs.t }}"
+          mkdir -p site/datos work
+
+          # Las salidas de M06 son .geojson.zip; si no están commiteadas, este paso
+          # debe sustituirse por una descarga de artefacto (ver README del sitio).
+          unzip -o "$BASE"/*_m06_distritos.geojson.zip -d work
+
+          # WGS-84 + simplificación: sin esto el fichero es demasiado pesado para
+          # el navegador y para el límite de 2 MB de mapas base de terceros.
+          mapshaper work/*.geojson \
+            -proj wgs84 \
+            -simplify 8% keep-shapes method=visvalingam \
+            -o format=topojson precision=0.00001 "site/datos/${T}_distritos.topojson"
+
+          ls -lh "site/datos/${T}_distritos.topojson"
+
+      - name: Copiar datos tabulares (también sirven de fuente Live CSV)
+        run: |
+          set -euo pipefail
+          BASE="${{ steps.p.outputs.base }}"
+          T="${{ steps.p.outputs.t }}"
+          cp "$BASE/M06/catalogo_distritos.csv"    "site/datos/${T}_catalogo.csv"
+          cp "$BASE/M06/composicion_distritos.csv" "site/datos/${T}_composicion.csv"
+          cp "$BASE/VALIDACION.json"               "site/datos/${T}_validacion.json"
+          cp resultados/fase1/ESTADO_FACTUAL.json  "site/datos/estado_factual.json" || true
+
+      - name: Generar índice
+        run: |
+          set -euo pipefail
+          T="${{ steps.p.outputs.t }}"
+          cat > site/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>Diputado de Distrito — mapa de distritos</title>
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+          <style>
+            html,body{margin:0;height:100%;font:15px/1.45 system-ui,sans-serif}
+            #mapa{position:absolute;inset:0}
+            #panel{position:absolute;top:12px;left:12px;z-index:1;background:#fff;
+                   padding:14px 16px;border-radius:8px;box-shadow:0 1px 8px #0003;max-width:320px}
+            h1{font-size:16px;margin:0 0 6px}
+            .nota{color:#555;font-size:13px}
+          </style>
+          <div id="mapa"></div>
+          <div id="panel">
+            <h1>Distritos</h1>
+            <div id="info" class="nota">Pasa el ratón por un distrito.</div>
+          </div>
+          <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+          <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+          <script src="https://unpkg.com/papaparse@5/papaparse.min.js"></script>
+          <script>
+          const TERRITORIO = window.location.hash.slice(1) || 'TERRITORIO_POR_DEFECTO';
+
+          const mapa = new maplibregl.Map({
+            container: 'mapa',
+            style: 'https://demotiles.maplibre.org/style.json',
+            center: [-0.9, 41.6], zoom: 6.5
+          });
+
+          async function cargar() {
+            const [topo, csv] = await Promise.all([
+              fetch(`datos/${TERRITORIO}_distritos.topojson`).then(r => r.json()),
+              fetch(`datos/${TERRITORIO}_catalogo.csv`).then(r => r.text())
+            ]);
+            const capa = Object.keys(topo.objects)[0];
+            const geo  = topojson.feature(topo, topo.objects[capa]);
+
+            // district_id como texto en ambos lados: el fallo clásico del cruce.
+            const filas = Papa.parse(csv, {header:true, skipEmptyLines:true}).data;
+            const porId = new Map(filas.map(f => [String(f.district_id), f]));
+            for (const f of geo.features) {
+              const d = porId.get(String(f.properties.district_id));
+              if (d) Object.assign(f.properties, d);
+              f.properties.dev = d ? Math.abs(parseFloat(d.relative_deviation || 0)) : 0;
+            }
+
+            mapa.addSource('d', {type:'geojson', data:geo});
+            mapa.addLayer({
+              id:'relleno', type:'fill', source:'d',
+              paint:{
+                'fill-color':['interpolate',['linear'],['get','dev'],
+                              0,'#f7fbff', 0.06,'#6baed6', 0.12,'#08306b'],
+                'fill-opacity':0.85
+              }
+            });
+            mapa.addLayer({id:'borde', type:'line', source:'d',
+                           paint:{'line-color':'#fff','line-width':0.6}});
+
+            mapa.on('mousemove','relleno', e => {
+              const p = e.features[0].properties;
+              document.getElementById('info').innerHTML =
+                `<b>Distrito ${p.district_id}</b><br>` +
+                `Población: ${p.district_pop ?? '—'}<br>` +
+                `Desviación: ${(100*parseFloat(p.relative_deviation||0)).toFixed(2)} %<br>` +
+                `Polsby-Popper: ${p.polsby_popper ?? p.compactness_polsby_popper ?? '—'}`;
+            });
+          }
+          mapa.on('load', cargar);
+          </script>
+          HTML
+          sed -i "s/TERRITORIO_POR_DEFECTO/${T}/" site/index.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  desplegar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - id: pages
+        uses: actions/deploy-pages@v4
