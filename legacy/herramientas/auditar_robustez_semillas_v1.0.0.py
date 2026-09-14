@@ -3,18 +3,16 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Auditoría C-01 de robustez frente a semilla
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Validez técnica separada de éxito de proceso
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Barrido M05 sobre baseline inmutable
 FECHA: 2026-09-13
-ESTADO: vigente — C-01 corregido
+ESTADO: candidato C-01
 QUÉ HACE: ejecuta M05 con 50-200 semillas sobre un M03/M04 ya certificado,
 resume equilibrio y forma, sitúa la semilla publicada y elimina geometrías
 intermedias.
 REGLAS: no ejecuta M01-M04/M06-M08; no lee resultados electorales; no cambia
 parámetros salvo la semilla efectiva y las rutas de salida M05.
-CAMBIOS: una ejecución sólo cuenta como solución técnica si cumple tolerancia y no deja distritos fuera; el éxito del proceso se informa por separado.
-MOTIVO: el run 34778283915 terminó 50 procesos, pero sólo 15 mapas cumplieron la tolerancia; confundir ambos conceptos produjo un falso PASS.
-ANTERIOR: legacy/herramientas/auditar_robustez_semillas_v1.0.0.py
+ANTERIOR: ninguno — herramienta nueva.
 """
 from __future__ import annotations
 
@@ -108,13 +106,8 @@ def decide(
     rows: list[dict], canonical: dict, expected_samples: int = 50
 ) -> tuple[str, list[str]]:
     reasons: list[str] = []
-    technically_valid = [
-        row for row in rows
-        if int(row.get("districts_outside_tolerance", 1)) == 0
-        and float(row["max_rel_dev"]) <= 0.12
-    ]
-    technical_success_ratio = len(technically_valid) / expected_samples
-    if technical_success_ratio < 0.95:
+    success_ratio = len(rows) / expected_samples
+    if success_ratio < 0.95:
         reasons.append("menos del 95 % de las semillas produjo solución técnica")
     for field in ("max_rel_dev", "pp_mean", "pp_min"):
         values = [float(row[field]) for row in rows]
@@ -215,19 +208,6 @@ def main() -> None:
         "scope": "Aragón; M05 sobre M03/M04 certificados; sin datos partidistas",
         "requested_samples": len(seeds),
         "successful_samples": len(rows),
-        "process_successful_samples": len(rows),
-        "technically_valid_samples": sum(
-            int(row["districts_outside_tolerance"]) == 0
-            and float(row["max_rel_dev"]) <= 0.12
-            for row in rows
-        ),
-        "technical_success_ratio": (
-            sum(
-                int(row["districts_outside_tolerance"]) == 0
-                and float(row["max_rel_dev"]) <= 0.12
-                for row in rows
-            ) / len(seeds)
-        ),
         "failed_samples": len(failures),
         "canonical_seed": args.canonical_seed,
         "seeds": seeds,

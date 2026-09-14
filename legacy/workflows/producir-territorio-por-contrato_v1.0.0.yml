@@ -1,13 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Línea territorial única ejecutable y descargable
-# FECHA: 2026-09-14
-# ESTADO: vigente — R038
+# VERSIÓN: 1.0.0
+# NOMBRE: Línea territorial única por contrato
+# FECHA: 2026-09-13
+# ESTADO: vigente — R035.2
 # QUÉ HACE: admite, verifica o ejecuta M01–M06 para cualquier contrato DDD sin seleccionar territorios en código.
-# CAMBIOS: añade workflow_call, valida el shell, usa un run-id coherente y publica todos los productos del run.
-# MOTIVO: hacer invocable la línea desde la picadora y evitar ejecuciones correctas sin artefacto descargable.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.0.0.yml
+# MOTIVO: convertir la incorporación futura en contrato + fuentes + autorización, no en un workflow artesanal.
+# ANTERIOR: ninguno — workflow nuevo.
 name: Producción territorial por contrato
 
 on:
@@ -38,13 +37,6 @@ on:
         description: "Obligatorio sólo para execute: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION"
         required: false
         type: string
-  workflow_call:
-    inputs:
-      params: {required: true, type: string}
-      mode: {required: true, type: string}
-      from_stage: {required: true, type: string}
-      to_stage: {required: true, type: string}
-      execution_authorization: {required: false, type: string, default: ''}
 
 permissions:
   contents: read
@@ -63,20 +55,10 @@ jobs:
       AUTHORIZATION: ${{ inputs.execution_authorization }}
       FROM_STAGE: ${{ inputs.from_stage }}
       TO_STAGE: ${{ inputs.to_stage }}
-      DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v6
       - name: Admitir contrato antes de cualquier cálculo
-        id: resolve
-        shell: bash
-        run: |
-          set -euo pipefail
-          python herramientas/resolver_ejecucion_territorial.py \
-            --params "$PARAMS" --run-id "$DDD_RUN_ID" --output decision.json
-          runs_dir="$(python -c 'import json; print(json.load(open("decision.json"))["runs_dir"])')"
-          echo "runs_dir=$runs_dir" >> "$GITHUB_OUTPUT"
-      - name: Validar lanzador común
-        run: bash -n procedimiento.sh
+        run: python herramientas/resolver_ejecucion_territorial.py --params "$PARAMS" --output decision.json
       - name: Prohibir cálculo sin autorización explícita
         if: ${{ inputs.mode == 'execute' }}
         shell: bash
@@ -104,18 +86,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          run_id="production-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           docker build --pull -t ddd-production:${GITHUB_SHA} .
           docker run --rm -v "$PWD:/app" -w /app \
             -e DDD_PARAMS="$PARAMS" \
-            -e DDD_RUN_ID="$DDD_RUN_ID" \
+            -e DDD_RUN_ID="$run_id" \
             -e DDD_FROM_STAGE="$FROM_STAGE" \
             -e DDD_TO_STAGE="$TO_STAGE" \
             --entrypoint /app/procedimiento.sh ddd-production:${GITHUB_SHA}
       - uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ddd-production-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            decision.json
-            ${{ steps.resolve.outputs.runs_dir }}
-          if-no-files-found: error
+          name: ddd-contract-decision-${{ github.run_id }}
+          path: decision.json

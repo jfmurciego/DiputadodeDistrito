@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.30.0
-Fecha: 2026-09-14
-Estado: C-12 certificado; C-01 cerrado como FAIL_ROBUSTNESS; comienza R038.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.29.0.md
+Versión: 1.29.0
+Fecha: 2026-09-13
+Estado: C-12 implementado; pendiente de certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.28.1.md
 
 ## Fuente operativa
 
@@ -32,9 +32,8 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-C-12 está certificado por CI `34786913415`. C-01 se cierra con
-`FAIL_ROBUSTNESS`: solo 15/50 semillas cumplen tolerancia, aunque la canónica
-mantiene `TECHNICAL_PASS`. La autorización del 14 de septiembre reactiva
-R038-R040. Siguiente hito: retirar workflows territoriales sustituidos y
-certificar una única interfaz manual de picadora; ninguna ejecución puede
-promocionarse si falla las puertas de publicación.
+C-12 genera 214 nombres técnicos únicos y recomputables desde composiciones M06
+certificadas, con regla, peso dominante y hashes de entrada. No modifica M06 ni
+los límites. Tras certificar CI, los pendientes críticos autorizados quedan
+agotados: C-01 sigue en su rama separada; R038–R040 y la expansión permanecen
+suspendidos salvo nueva orden.

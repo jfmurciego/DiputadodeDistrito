@@ -1,10 +1,10 @@
 # Auditoría C-01 — Robustez frente a semilla
 
-**Versión:** 1.1.0
-**Nombre de versión:** Resultado corregido de robustez poblacional
-**Fecha:** 2026-09-14
-**Estado:** CERRADO — `FAIL_ROBUSTNESS`
-**Anterior:** `legacy/docs/AUDITORIA_C01_ROBUSTEZ_SEMILLA_v1.0.0.md`
+**Versión:** 1.0.0  
+**Nombre de versión:** Protocolo previo y ejecución mínima  
+**Fecha:** 2026-09-13  
+**Estado:** candidato; pendiente del run de 50 semillas  
+**Anterior:** ninguno — documento nuevo
 
 ## Decisión previa a observar resultados
 
@@ -48,20 +48,6 @@ determinista, no un fallo.
   fallos, hashes y decisión G01.
 - Workflow: `.github/workflows/auditar-robustez-semillas-aragon.yml`.
 
-## Resultado y corrección de auditoría
-
-El run [`34778283915`](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34778283915)
-terminó correctamente las 50 ejecuciones y produjo 49 asignaciones distintas.
-El evaluador original confundió terminación del proceso con solución técnica y
-emitió un `PASS` incorrecto. Al aplicar literalmente la regla precomprometida,
-solo 15 de 50 semillas (30 %) cumplen simultáneamente `fuera_12=0` y
-`max_rel_dev <= 0,12`, muy por debajo del 95 % exigido.
-
-La semilla canónica 12345 sigue siendo técnicamente válida: desviación máxima
-9,9299 %, cero distritos fuera de tolerancia y P05 provisional superada. Sin
-embargo, se sitúa en el percentil 10 de máximo desvío: es una salida favorable
-dentro de un procedimiento inestable, no prueba de robustez general.
-
-Decisión final: `G01=FAIL_ROBUSTNESS`. Aragón conserva su `TECHNICAL_PASS`
-histórico para esa ejecución, pero continúa bloqueado para publicación. No se
-recalcularon M01-M06; la corrección reevalúa la evidencia ya producida.
+El primer push del workflow lanza una única ejecución de 50 semillas. Después
+queda disponible por `workflow_dispatch`; no se activa por cambios del motor ni
+por documentación, evitando recálculos incidentales.

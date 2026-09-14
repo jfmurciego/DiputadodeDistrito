@@ -2,7 +2,7 @@
 
 Versión: 1.0.0  
 Fecha: 2026-09-13  
-Estado: implementado; pendiente de certificación CI.
+Estado: cerrado y certificado — CI `34786913415` SUCCESS.
 
 ## Resultado
 
@@ -29,3 +29,10 @@ podrá justificar otra versión para denominaciones rurales, pero no invalida ni
 altera esta evidencia. C-12 no convierte por sí solo ningún mapa en publicable.
 
 No se ejecuta M01–M06, no se cambian límites y C-01 permanece intacto.
+
+## Certificación
+
+El commit `148d705` supera `Pruebas DDD — R015` en el run
+[`34786913415`](https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/34786913415).
+C-12 queda cerrado: 214 nombres, cobertura completa, unicidad y recomputación
+desde las composiciones M06 certificadas.

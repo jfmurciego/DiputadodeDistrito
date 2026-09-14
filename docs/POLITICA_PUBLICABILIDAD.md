@@ -75,11 +75,15 @@ Por tanto:
 
 | Territorio | Contrato técnico | P05 forma | Publicabilidad global | Motivo rector |
 |---|---|---|---|---|
-| Aragón | PASS | PASS provisional | BLOCKED | faltan neutralidad, comunidades, nombres, base jurídica y robustez multi-semilla |
+| Aragón | PASS | PASS provisional | BLOCKED | G01 falla: solo 15/50 semillas cumplen tolerancia; P07 no evaluable y P09 pendiente |
 | Castilla y León | PASS | FAIL | BLOCKED | fallo sistémico de forma, además de los criterios no evaluados |
 | Extremadura | BLOCKED | PASS provisional | BLOCKED | incumple su tolerancia poblacional y no está promocionada |
 
 La conclusión es inequívoca: **hoy no hay ningún mapa DDD publicable como propuesta política**. Sí existen dos resultados territoriales técnicamente certificados que pueden mostrarse como evidencia de ingeniería, siempre que esa naturaleza quede visible.
+
+La ausencia de datos partidistas en M01-M06 garantiza neutralidad de entrada y
+queda aceptada por dirección como respuesta metodológica a P06/C-11; no se
+calcularán métricas partidistas. Esta decisión no compensa G01 ni P07/P09.
 
 ## 7. Regla de promoción
 

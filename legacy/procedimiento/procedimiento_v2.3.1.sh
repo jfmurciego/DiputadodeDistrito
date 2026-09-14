@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.4.0
-# NOMBRE DE VERSIÓN: Lanzador semántico ejecutable y territorialmente neutro
+# VERSIÓN: 2.3.1
+# NOMBRE DE VERSIÓN: Lanzador semántico por tramo certificado — límites robustos
 # FECHA: 2026-09-12
 # QUÉ HACE: ejecuta un intervalo explícito M01-M08, registra la decisión de reenganche y exige evidencia materializada antes de reutilizar etapas anteriores.
-# ESTADO: vigente — R038/R040.
-# CAMBIOS: corrige los saltos de línea escapados que hacían inválido el script y deriva caché/runs desde el contrato territorial.
-# MOTIVO: la línea común no puede ser lanzable si el shell no compila o si fuerza rutas de Aragón.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.3.1.sh
+# ESTADO: vigente — G10 R025.
+# CAMBIOS: sustituye el flujo implícito todo-o-nada por DDD_FROM_STAGE/DDD_TO_STAGE; una ejecución parcial requiere manifiesto y caché de checkpoint.
+# MOTIVO: ahorrar cómputo sin declarar reutilizable una salida que no está presente en el runner.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.3.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -43,20 +43,8 @@ print((data.get("meta") or {}).get("run_name") or Path(sys.argv[1]).stem)
 PY
 )"
 [[ -n "$RUN_NAME" ]] || { echo "[FATAL] run_name vacío" >&2; exit 20; }
-readarray -t CONTRACT_DIRS < <(python - "$PARAMS" "$RUN_ID" <<'PY'
-import sys,yaml
-from pathlib import Path
-cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
-io=cfg.get("io") or {}
-cache=((io.get("cache") or {}).get("dir") or ".cache/ddd/preparacion/{run_name}")
-runs=((io.get("runs") or {}).get("dir") or "ejecuciones/{run_id}")
-values={"run_name":(cfg.get("meta") or {}).get("run_name", Path(sys.argv[1]).stem),"run_id":sys.argv[2],"year":(cfg.get("meta") or {}).get("year","")}
-print(str(cache).format(**values))
-print(str(runs).format(**values))
-PY
-)
-CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-${CONTRACT_DIRS[0]}}"
-RUN_DIR="${CONTRACT_DIRS[1]}"; LOG_DIR="$RUN_DIR/logs"
+RUN_DIR="ejecuciones/$RUN_ID"; LOG_DIR="$RUN_DIR/logs"
+CACHE_DIR="${DDD_CHECKPOINT_CACHE_DIR:-.cache/ddd/preparacion/$RUN_NAME}"
 mkdir -p "$RUN_DIR" "$LOG_DIR" "$CACHE_DIR"
 declare -a SCRIPTS=("" "modulos/01_preparar_base_territorial.py" "modulos/02_construir_adyacencias.py" "modulos/03_construir_grafo.py" "modulos/04_generar_semillas.py" "modulos/05_optimizar_distritos.py" "modulos/06_consolidar_distritos.py" "modulos/07_agregar_resultados_electorales.py" "modulos/08_integrar_resultados.py")
 for n in $(seq "$FROM" "$TO"); do test -f "${SCRIPTS[$n]}" || { echo "[FATAL] Falta ${SCRIPTS[$n]}" >&2; exit 20; }; done
@@ -85,11 +73,7 @@ if (( FROM <= 3 )); then
     for n in $(seq "$FROM" "$(( TO < 3 ? TO : 3 ))"); do ejecutar "$n" "${SCRIPTS[$n]}"; done
   fi
 fi
-if (( TO >= 4 )); then
-  for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do
-    ejecutar "$n" "${SCRIPTS[$n]}"
-  done
-fi
+if (( TO >= 4 )); then\n  for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do ejecutar "$n" "${SCRIPTS[$n]}"; done\nfi
 if (( TO < 8 )); then
   echo "[PARCIAL] Tramo $FROM_STAGE → $TO_STAGE terminado; validación pública diferida hasta M08."
   python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase finish --run-id "$RUN_ID"

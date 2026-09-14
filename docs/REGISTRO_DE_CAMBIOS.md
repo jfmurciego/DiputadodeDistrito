@@ -2,6 +2,27 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-14 — C-01.1 — Corrección del falso PASS de robustez
+
+El run `34778283915` completó 50 procesos, pero solo 15 produjeron mapas dentro
+de la tolerancia poblacional. Se corrige el evaluador para separar éxito de
+proceso y solución técnica; G01 queda `FAIL_ROBUSTNESS`. La semilla canónica
+continúa siendo un resultado técnico válido, pero no robusto. No se reejecuta
+ningún módulo territorial.
+
+## 2026-09-14 — C-12.1 — Certificación de nombres
+
+El commit `148d705` supera la suite `34786913415`. Se certifican 214 nombres
+técnicos únicos y recomputables. C-12 queda cerrado sin modificar límites.
+
+## 2026-09-14 — R038 — Picadora y operación limpia
+
+Se archivan diez workflows territoriales sustituidos y se crea una única
+interfaz manual con cinco operaciones. La línea común pasa a ser reutilizable,
+publica los productos del run y comparte un único identificador entre decisión
+y ejecución. Se corrige además un error de sintaxis preexistente en
+`procedimiento.sh` que impedía ejecutar M04-M08.
+
 ## 2026-09-11 — R001 — Profesionalización y recuperación
 Se convierte el código recuperado de Aragón en procedimiento reproducible y auditable: M01–M08, SemVer + `legacy/`, GitHub como evidencia, contenedor, checksums, validación dura y contigüidad por grafo.
 

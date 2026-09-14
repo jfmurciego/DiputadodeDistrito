@@ -3,20 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Resolutor universal de ejecución territorial
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Resolución ligada al identificador real de ejecución
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Interfaz única de contrato a ejecución
 FECHA: 2026-09-13
-ESTADO: vigente — R038
+ESTADO: vigente — R035.1
 QUÉ HACE: transforma un YAML admitido en una decisión de ejecución neutral: territorio, rutas, caché y contrato SHA-256.
-CAMBIOS: acepta run-id explícito y resuelve cache/runs con el mismo contexto que usará el procedimiento.
-MOTIVO: impedir que la decisión anuncie ejecuciones/local mientras GitHub ejecuta production-<run>.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_territorial_v1.0.0.py
+MOTIVO: eliminar las selecciones codificadas de territorios en workflows y hacer que la línea común reciba sólo un contrato.
+ANTERIOR: ninguno — herramienta nueva.
 """
 from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -36,9 +34,7 @@ def relative_to_root(path: str, root: Path) -> str:
         raise ValueError(f"Ruta fuera del repositorio: {resolved}") from exc
 
 
-def resolve(params_path: str, run_id: str | None = None) -> dict:
-    if run_id:
-        os.environ["DDD_RUN_ID"] = run_id
+def resolve(params_path: str) -> dict:
     params = Path(params_path).resolve()
     try:
         params_rel = params.relative_to(ROOT).as_posix()
@@ -66,11 +62,10 @@ def resolve(params_path: str, run_id: str | None = None) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Resolver contrato DDD para ejecución común")
     parser.add_argument("--params", required=True)
-    parser.add_argument("--run-id")
     parser.add_argument("--output")
     args = parser.parse_args()
     try:
-        result = resolve(args.params, args.run_id)
+        result = resolve(args.params)
     except Exception as exc:
         result = {"schema_version": "1.0.0", "decision": "REJECTED", "errors": [str(exc)]}
     text = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
@@ -84,3 +79,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
