@@ -2,6 +2,13 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-14 — Blindaje de cálculo y publicación
+
+C‑01, las regresiones M06, Flourish y los despliegues web quedan exclusivamente
+bajo orden manual. Una prueba impide reintroducir `push` o `schedule`. La fuente
+`COMARCAS.csv` se verifica aisladamente: 731 municipios, 33 comarcas, sin claves
+inválidas ni duplicados contradictorios. No se ejecuta M01–M08.
+
 ## 2026-09-14 — Paquete local-first — Comarcas e interfaz M01–M08
 
 M01 añade una unión comarcal opcional por código municipal de cinco dígitos y

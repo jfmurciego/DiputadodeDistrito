@@ -1,15 +1,24 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.1.0
 # NOMBRE: Desplegar visor público MapLibre
 # ESTADO: activo
 # QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
-# CAMBIOS: conserva el despliegue únicamente bajo orden manual; la validación automática permanece separada.
-# ANTERIOR: legacy/workflows/blindaje_automatico/desplegar-visor-publico_v1.1.0.yml
-# MOTIVO: un push de código o una restauración no debe modificar GitHub Pages.
+# CAMBIO: el manifiesto verifica identidad, geometría y campos de cada distrito, no sólo la primera entidad.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.0.2.yml
+# MOTIVO: hacer verificables visualmente los resultados certificados sin activar el motor territorial.
 name: Desplegar visor público
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'visor/**'
+      - 'resultados/finales/aragon/distritos.geojson'
+      - 'resultados/finales/castilla_y_leon/distritos.geojson'
+      - 'orchestracion/productos_publicos.json'
+      - 'herramientas/g10_public_product_manifest.py'
+      - '.github/workflows/desplegar-visor-publico.yml'
   workflow_dispatch:
 
 permissions:

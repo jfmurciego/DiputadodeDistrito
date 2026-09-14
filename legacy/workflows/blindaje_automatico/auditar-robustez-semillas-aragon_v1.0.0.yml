@@ -1,15 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: auditoría manual/reproducible
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: C-01 exclusivamente bajo orden manual
-# FECHA: 2026-09-14
-# ESTADO: auditoría pesada manual
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: C-01 — 50 semillas M05 sobre baseline certificado
+# FECHA: 2026-09-13
+# ESTADO: candidato C-01
 # QUÉ HACE: reutiliza M03/M04 del run certificado 34599224954 y ejecuta solo
 # M05 para 50-200 semillas; publica evidencia compacta de población y forma.
 # REGLAS: no ejecuta M01-M04/M06-M08 y no consume datos electorales.
-# CAMBIOS: elimina el disparador push; editar o restaurar el workflow no ejecuta 50 semillas.
-# MOTIVO: la auditoría pesada solo puede consumir cálculo por orden expresa del propietario.
-# ANTERIOR: legacy/workflows/blindaje_automatico/auditar-robustez-semillas-aragon_v1.0.0.yml
+# ANTERIOR: ninguno — workflow nuevo.
 name: C-01 — Robustez frente a semilla Aragón
 
 on:
@@ -20,6 +18,11 @@ on:
         required: true
         default: '50'
         type: string
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/auditar-robustez-semillas-aragon.yml'
+
 permissions:
   contents: read
   actions: read

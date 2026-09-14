@@ -1,18 +1,20 @@
 # =============================================================================
-# VERSIÓN: 2.2.0
+# VERSIÓN: 2.1.0
 # CLASE: activo
 # PROPÓSITO: construir y publicar el sitio público (mapa + datos) en GitHub Pages
 #            para todos los territorios con geometría en sitio/geometria/.
 # NOTA: la geometría de sitio/geometria/ es material de PUBLICACIÓN, no evidencia
 #       de ejecución. Ver sitio/geometria/README.md.
-# CAMBIOS: elimina publicación por push; GitHub Pages requiere una orden manual.
-# MOTIVO: separar validación automática y efecto externo de publicación.
-# ANTERIOR: legacy/workflows/blindaje_automatico/publicar-sitio_v2.1.0.yml
 # =============================================================================
 name: Publicar sitio (GitHub Pages)
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'sitio/**'
+      - '.github/workflows/publicar-sitio.yml'
 
 permissions:
   contents: read

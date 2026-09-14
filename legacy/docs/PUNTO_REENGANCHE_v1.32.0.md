@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.33.0
+Versión: 1.32.0
 Fecha: 2026-09-14
-Estado: paquete local-first certificado; blindaje de workflows en preparación.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.32.0.md
+Estado: paquete local-first de comarcas e interfaz institucional implementado localmente; pendiente certificación CI.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.31.2.md
 
 ## Fuente operativa
 
@@ -38,15 +38,6 @@ con cobertura, duplicados y faltantes verificables. M03 y M06 conservan esos
 atributos sin convertirlos en una restricción. La única interfaz manual cubre
 M01–M08 con nomenclatura institucional. No se ha habilitado ninguna fuente
 comarcal territorial ni se ha ejecutado comunidad alguna.
-
-La suite `34874697663`, la puerta contractual `34874697606`, el control G10 y
-la validación de productos terminaron SUCCESS sobre `636f732`. La restauración
-del árbol activó incidentalmente C‑01, que terminó FAIL conforme al resultado
-de robustez ya conocido y sin modificar productos. El siguiente commit elimina
-todos los disparadores automáticos de cálculo pesado, exportación y publicación.
-
-`COMARCAS.csv` se verificó sin GIS: 731 códigos municipales únicos, 33 comarcas,
-cero claves inválidas y cero asignaciones contradictorias. Sigue deshabilitado.
 
 ## Siguiente bloque de ingeniería
 

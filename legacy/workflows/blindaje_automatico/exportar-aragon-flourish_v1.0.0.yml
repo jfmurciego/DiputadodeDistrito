@@ -1,16 +1,16 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.0.0
 # NOMBRE: Exportar Aragón para Flourish
 # ESTADO: lanzamiento único solicitado
 # QUÉ HACE: reproyecta el GeoJSON final existente de EPSG:25830 a WGS84; no ejecuta el motor.
-# CAMBIOS: elimina el disparador push y conserva la exportación como operación manual explícita.
-# MOTIVO: impedir reexportaciones y commits automáticos al modificar o restaurar el workflow.
-# ANTERIOR: legacy/workflows/blindaje_automatico/exportar-aragon-flourish_v1.0.0.yml
 name: Exportar Aragón final para Flourish
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/exportar-aragon-flourish.yml'
 
 permissions:
   contents: write
