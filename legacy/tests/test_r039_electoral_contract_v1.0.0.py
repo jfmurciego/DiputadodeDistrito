@@ -1,12 +1,12 @@
 """
 PRUEBAS: Contrato electoral común R039
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Verificación coherente dentro y fuera del contenedor
+VERSIÓN: 1.0.0
+NOMBRE DE VERSIÓN: Convocatoria verificable y unión exhaustiva
 FECHA: 2026-09-14
 ESTADO: vigente — R039
-CAMBIOS: separa la verificación materializada de la coherencia con el manifiesto en CI.
+CAMBIOS: prueba nueva sobre datos sintéticos y verificación del contrato materializado.
 MOTIVO: demostrar que fuente, partidos y cobertura fallan de forma cerrada.
-ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.0.py
+ANTERIOR: ninguno — prueba nueva.
 """
 from __future__ import annotations
 
@@ -52,42 +52,18 @@ class R039ElectoralContract(unittest.TestCase):
                 "out_sections_enriched_geojson",
             },
         )
-        contract_path = ROOT / m07["election_contract"]
-        declared = json.loads(contract_path.read_text(encoding="utf-8"))
-        source_record = declared["sources"][0]
-        source_path = ROOT / source_record["path"]
-        if source_path.is_file():
-            contract, parties = load_election_contract(
-                contract_path,
-                project_root=ROOT,
-                expected_territory_id="aragon",
-            )
-            frames = [
-                M07.read_results(source["resolved_path"], source["adapter"], "CUSEC_KEY", parties)
-                for source in contract["sources"]
-            ]
-            observed = set(pd.concat([item[0] for item in frames])["party"])
-            self.assertEqual(len(observed), 15)
-            self.assertIn("IU_MOVIMIENTO_SUMAR", observed)
-        else:
-            # La imagen CI excluye inputs voluminosos; el checkout verifica que
-            # contrato y manifiesto territorial declaran la misma huella.
-            manifest = (ROOT / "territorios/aragon/inputs/MANIFEST.sha256").read_text(encoding="utf-8")
-            self.assertIn(
-                f"{source_record['sha256']}  {source_record['path']}",
-                manifest,
-            )
-            dictionary_record = declared["party_dictionary"]
-            dictionary_path = ROOT / dictionary_record["path"]
-            self.assertEqual(
-                hashlib.sha256(dictionary_path.read_bytes()).hexdigest(),
-                dictionary_record["sha256"],
-            )
-            dictionary_data = json.loads(dictionary_path.read_text(encoding="utf-8"))
-            PartyDictionary(dictionary_data)
-            canonical_ids = {item["canonical_id"] for item in dictionary_data["parties"]}
-            self.assertEqual(len(canonical_ids), 15)
-            self.assertIn("IU_MOVIMIENTO_SUMAR", canonical_ids)
+        contract, parties = load_election_contract(
+            ROOT / m07["election_contract"],
+            project_root=ROOT,
+            expected_territory_id="aragon",
+        )
+        frames = [
+            M07.read_results(source["resolved_path"], source["adapter"], "CUSEC_KEY", parties)
+            for source in contract["sources"]
+        ]
+        observed = set(pd.concat([item[0] for item in frames])["party"])
+        self.assertEqual(len(observed), 15)
+        self.assertIn("IU_MOVIMIENTO_SUMAR", observed)
 
     def test_checksum_alterado_bloquea_antes_de_leer_votos(self):
         with tempfile.TemporaryDirectory() as directory:

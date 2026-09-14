@@ -1,9 +1,9 @@
 # Auditoría R039 — Contrato electoral universal
 
-Versión: 1.0.1
-Fecha: 2026-09-14
-Estado: candidato, pendiente de CI
-Anterior: `legacy/docs/AUDITORIA_R039_CONTRATO_ELECTORAL_v1.0.0.md`
+Versión: 1.0.0  
+Fecha: 2026-09-14  
+Estado: candidato, pendiente de CI  
+Anterior: ninguno — documento nuevo.
 
 ## Decisión
 
@@ -48,13 +48,3 @@ checksum y cobertura del diccionario; el resto son casos sintéticos.
 - suite general CI en verde.
 
 R040 permanece fuera de alcance y requiere orden expresa.
-
-## Incidencia de certificación
-
-El primer CI (`34832589193`) valida cabeceras y contratos, pero falla porque la
-imagen excluye deliberadamente `inputs/` y la prueba buscaba dentro de ella el
-fichero electoral. La prueba queda alineada con las dos capas: cuando los bytes
-están materializados verifica su SHA y las quince siglas; dentro de la imagen
-verifica que contrato y manifiesto territorial declaran la misma huella, además
-del hash del diccionario. M07 no admite ningún bypass y sigue verificando los
-bytes antes de leer votos.

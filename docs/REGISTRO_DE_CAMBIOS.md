@@ -11,6 +11,13 @@ catalogados. M08 exige igualdad exacta de distritos y rechaza duplicados. Aragó
 se migra como implantación de referencia usando el fichero ya certificado; no
 se ejecuta ni recalcula ningún módulo territorial.
 
+### R039.1 — Prueba compatible con la imagen reproducible
+
+El CI `34832589193` falla únicamente porque `.dockerignore` excluye los inputs
+voluminosos. La prueba conserva la comprobación de bytes cuando están presentes
+y valida dentro de la imagen la igualdad de huella entre contrato y manifiesto.
+M07 mantiene la verificación obligatoria sin bypass. No se ejecuta territorio.
+
 ## 2026-09-14 — C-01.1 — Corrección del falso PASS de robustez
 
 El run `34778283915` completó 50 procesos, pero solo 15 produjeron mapas dentro
