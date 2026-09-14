@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.30.1
+Versión: 1.30.0
 Fecha: 2026-09-14
-Estado: R038 implementado; certificación remota en diagnóstico reproducible.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.30.0.md
+Estado: C-12 certificado; C-01 cerrado como FAIL_ROBUSTNESS; comienza R038.
+Anterior: legacy/docs/PUNTO_REENGANCHE_v1.29.0.md
 
 ## Fuente operativa
 
@@ -32,8 +32,9 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 ## Siguiente bloque de ingeniería
 
-R038 está implementado en `26b4769`, pero la CI general `34825103970` falla en
-dos intentos mientras la réplica local exacta pasa 71/71 pruebas. El workflow
-general v1.2.0 conserva el log de unittest como artefacto para aislar el fallo
-sin operar a ciegas. No ejecutar territorios. Tras corregir y certificar R038,
-continuar por R039; R040 requiere orden expresa para cualquier prueba territorial.
+C-12 está certificado por CI `34786913415`. C-01 se cierra con
+`FAIL_ROBUSTNESS`: solo 15/50 semillas cumplen tolerancia, aunque la canónica
+mantiene `TECHNICAL_PASS`. La autorización del 14 de septiembre reactiva
+R038-R040. Siguiente hito: retirar workflows territoriales sustituidos y
+certificar una única interfaz manual de picadora; ninguna ejecución puede
+promocionarse si falla las puertas de publicación.

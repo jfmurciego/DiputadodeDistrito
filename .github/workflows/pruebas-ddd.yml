@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Puerta CI F1.5 con smoke M01-M06
-# FECHA: 2026-09-12
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Puerta CI con log durable
+# FECHA: 2026-09-14
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: la suite discover incorpora una ejecución sintética real de M01-M06.
-# MOTIVO: detectar roturas de integración común sin lanzar primero una regresión territorial pesada.
-# ANTERIOR: legacy/workflows/pruebas-ddd_v1.0.0.yml
+# CAMBIOS: conserva como artefacto la salida completa de unittest incluso cuando falla.
+# MOTIVO: diagnosticar fallos exclusivos del contenedor sin repetir territorios ni operar a ciegas.
+# ANTERIOR: legacy/workflows/pruebas-ddd_v1.1.0.yml
 name: Pruebas DDD — R015
 on:
   push:
@@ -28,4 +28,16 @@ jobs:
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
       - name: Verificar evidencia publicada y determinismo sintético
-        run: docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+            ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v \
+            2>&1 | tee ci-unittest.log
+      - name: Conservar diagnóstico de la suite
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ci-unittest.log
+          if-no-files-found: error

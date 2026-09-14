@@ -275,3 +275,6 @@ El commit `5a4a884` supera la suite general `34786528440`, único workflow activ
 ## 2026-09-13 — C-12 — Nombres de distrito
 
 Se publica un sistema determinista y no partidista de nombres técnicos basado en provincia y municipio de mayor población, con regla explícita para distritos sin mayoría municipal y ordinal estable para colisiones. La evidencia contiene 214 nombres únicos, cobertura completa, pesos dominantes y hashes de las tres composiciones M06 certificadas. Las pruebas recomputan los nombres desde esas entradas. No se altera M06, ningún límite ni C-01.
+## 2026-09-14 — R038.1 — Diagnóstico durable de CI
+
+La implementación R038 falla dos veces en la suite general `34825103970`, pese a que la misma ejecución completa pasa localmente con Python 3.11 y dependencias fijadas (71/71). La puerta CI se versiona y conserva siempre el log completo como artefacto, con propagación del código de salida mediante `pipefail`. No se modifica el motor ni se ejecuta ningún territorio.

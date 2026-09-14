@@ -1,9 +1,9 @@
 # R038 — Operación limpia y picadora manual
 
-**Versión:** 1.0.1
+**Versión:** 1.0.0
 **Fecha:** 2026-09-14
-**Estado:** implementado; CI reproducible localmente, diagnóstico remoto pendiente
-**Anterior:** `legacy/docs/AUDITORIA_R038_OPERACION_LIMPIA_v1.0.0.md`
+**Estado:** implementado; pendiente de CI
+**Anterior:** ninguno — documento nuevo
 
 ## Decisión operativa
 
@@ -41,11 +41,3 @@ construir la imagen.
 
 R038 no demuestra todavía la prueba ciega R040: prepara y protege el botón que
 deberá ejecutarla.
-
-## Incidencia de certificación
-
-El run general `34825103970` falla dos veces en el paso de unittest, aunque la
-misma suite completa pasa localmente con Python 3.11 y las dependencias fijadas:
-71/71 pruebas. El workflow general v1.2.0 conserva desde ahora su salida como
-artefacto incluso al fallar. Esta instrumentación no ejecuta territorios y evita
-modificar R038 sin conocer la excepción exacta.
