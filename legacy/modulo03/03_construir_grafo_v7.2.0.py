@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 03 — Construir grafo territorial
-VERSIÓN: 7.3.0
-NOMBRE DE VERSIÓN: Bloqueo de grafos degenerados
-FECHA: 2026-09-14
+VERSIÓN: 7.2.0
+NOMBRE DE VERSIÓN: Observabilidad separada del bloqueo
+FECHA: 2026-09-12
 QUÉ HACE: construye el grafo canónico y calcula siempre que se solicite la conectividad global, provincial y municipal, separando la observación diagnóstica de las reglas que hacen fallar el contrato.
 POR QUÉ ES SEPARADO: M03 es la frontera entre GIS y optimización; una discontinuidad administrativa debe detectarse aquí, no durante M04/M05, para impedir que el algoritmo trabaje sobre unidades atómicas topológicamente inválidas.
-ESTADO: vigente — integración local-first.
-CAMBIOS: bloquea siempre grafos sin nodos y grafos con más de un nodo pero sin aristas; conserva las auditorías configurables por nivel administrativo.
-MOTIVO: una ejecución histórica avanzó hasta M08 con 1.463 nodos y cero aristas; esa entrada es estructuralmente inválida con independencia de la política territorial.
-ANTERIOR: legacy/modulo03/03_construir_grafo_v7.2.0.py
+ESTADO: vigente — R022 / expansión nacional.
+CAMBIOS: añade audit_graph_components, audit_admin_level_1_components y audit_admin_level_2_components; los flags audit_* calculan métricas sin bloquear y los require_* conservan el fail-fast.
+MOTIVO: CAT-01 terminó SUCCESS con un aislado porque las auditorías estaban desactivadas. El bootstrap nacional necesita medir discontinuidades antes de convertirlas en restricciones duras.
+ANTERIOR: legacy/modulo03/03_construir_grafo_v7.1.0.py
 """
 from __future__ import annotations
 import sys,argparse,io,json,zipfile,collections
@@ -53,11 +53,6 @@ def load_edges_jsonl(path_str:str)->List[Tuple[str,str]]:
             if u and v and u!=v:edges.append((u,v))
     return edges
 
-def validate_minimum_graph(nodes,edges):
-    """Impide que una preparación topológicamente vacía avance a optimización."""
-    if not nodes:raise SystemExit("M03: grafo sin nodos; no existe universo territorial")
-    if len(nodes)>1 and not edges:raise SystemExit(f"M03: grafo degenerado: {len(nodes)} nodos y cero aristas")
-
 def write_json(obj:Any,out_path:str):
     outp=Path(out_path).expanduser().resolve();outp.parent.mkdir(parents=True,exist_ok=True);outp.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
 
@@ -97,7 +92,6 @@ def main():
     if pop_field not in gdf.columns:raise SystemExit(f"M03: GeoJSON sin pop_field '{pop_field}'.")
     df=gdf[[id_field,pop_field]].copy();df[id_field]=df[id_field].astype(str);df[pop_field]=pd.to_numeric(df[pop_field],errors="coerce").fillna(0).astype("int64")
     nodes=[{"id":rid,"pop":int(pop)} for rid,pop in zip(df[id_field].tolist(),df[pop_field].tolist())];pop_map={n["id"]:n["pop"] for n in nodes};edges=load_edges_jsonl(in_edges);edges_f=[{"u":u,"v":v} for u,v in edges if u in pop_map and v in pop_map]
-    validate_minimum_graph(nodes,edges_f)
     adj={n:set() for n in pop_map}
     for e in edges_f:
         adj[e["u"]].add(e["v"]);adj[e["v"]].add(e["u"])
@@ -118,10 +112,10 @@ def main():
             if c not in gdf.columns:raise SystemExit(f"M03: falta campo administrativo '{c}' requerido por validación municipal")
         gx=gdf.copy();gx[province_field]=gx[province_field].astype(str).str.zfill(2);gx[municipality_field]=gx[municipality_field].astype(str).str.zfill(5)
         municipality_audit,municipality_bad=audit_group_components(gx,id_field,[province_field,municipality_field],adj,municipality_name_field)
-    report={"module":"03","version":"7.3.0","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"out_graph_json":out_graph,"global_component_audit":global_audit,"province_component_audit":{"enabled":audit_province,"enforced":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"details":province_audit,"violations":province_bad},"municipality_component_audit":{"enabled":audit_municipality,"enforced":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"details":municipality_audit,"violations":municipality_bad}}
+    report={"module":"03","version":"7.2.0","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"out_graph_json":out_graph,"global_component_audit":global_audit,"province_component_audit":{"enabled":audit_province,"enforced":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"details":province_audit,"violations":province_bad},"municipality_component_audit":{"enabled":audit_municipality,"enforced":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"details":municipality_audit,"violations":municipality_bad}}
     write_json({"nodes":nodes,"edges":edges_f},out_graph)
     if out_report:write_json(report,out_report)
     if province_bad and bool(val.get("require_one_graph_component_per_province",False)):raise SystemExit(f"M03: provincias desconectadas tras M02: {province_bad}")
     if municipality_bad and bool(val.get("require_connected_municipalities",False)):raise SystemExit(f"M03: municipios desconectados tras M02: {municipality_bad}")
-    print(f"[Módulo 3] OK v7.3.0 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} municipios_bad={len(municipality_bad)} out={out_graph}")
+    print(f"[Módulo 3] OK v7.2.0 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} municipios_bad={len(municipality_bad)} out={out_graph}")
 if __name__=="__main__":main()
