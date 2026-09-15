@@ -1,11 +1,14 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: interfaz institucional de GitHub Actions
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 FECHA: 2026-09-15
 OBJETIVO: exigir una única interfaz territorial general, ruta institucional,
 etiquetas públicas españolas y compatibilidad con los IDs técnicos vigentes.
-CAMBIO: integra la prueba en unittest discover, que es la puerta ejecutada por CI.
+CAMBIO: comprueba mecánicamente todos los workflow_dispatch activos para que
+solo operacion-territorial.yml pueda exponer el formulario territorial general;
+formularios manuales de diagnóstico, regresión o publicación no se confunden
+con la interfaz general.
 """
 from pathlib import Path
 import unittest
@@ -81,14 +84,24 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
     def _data(self):
         return yaml.safe_load(INTERFACE.read_text(encoding="utf-8")) or {}
 
-    def _dispatch_inputs(self):
-        data = self._data()
+    @staticmethod
+    def _workflow_dispatch_inputs(path: Path):
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         triggers = data.get(True, data.get("on", {})) or {}
-        return triggers["workflow_dispatch"]["inputs"]
+        dispatch = triggers.get("workflow_dispatch")
+        if dispatch is None:
+            return None
+        return (dispatch or {}).get("inputs", {}) or {}
+
+    def _dispatch_inputs(self):
+        inputs = self._workflow_dispatch_inputs(INTERFACE)
+        self.assertIsNotNone(inputs)
+        return inputs
 
     def test_unica_interfaz_territorial_general_y_sin_picadora_activa(self):
         self.assertTrue(INTERFACE.is_file())
         self.assertFalse((WORKFLOWS / "picadora-territorial.yml").exists())
+        self.assertFalse((WORKFLOWS / "aragon-ejecucion-integral.yml").exists())
         self.assertTrue(
             all("picadora" not in path.name.lower() for path in WORKFLOWS.glob("*.yml"))
         )
@@ -98,6 +111,23 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         )
         self.assertIn("workflow_call", production)
         self.assertNotIn("workflow_dispatch", production)
+
+        general_interfaces = []
+        for path in sorted(WORKFLOWS.glob("*.yml")):
+            inputs = self._workflow_dispatch_inputs(path)
+            if inputs is None:
+                continue
+            territory = inputs.get("territory_id", {}) or {}
+            operation = inputs.get("operation", {}) or {}
+            territory_options = territory.get("options", []) or []
+            operation_options = operation.get("options", []) or []
+            if (
+                territory_options == VISIBLE_TERRITORIES
+                and "Producir resultado M01–M08" in operation_options
+            ):
+                general_interfaces.append(path.name)
+
+        self.assertEqual(general_interfaces, ["operacion-territorial.yml"])
 
     def test_nombres_visibles_territoriales_son_espanoles_y_canonicos(self):
         inputs = self._dispatch_inputs()

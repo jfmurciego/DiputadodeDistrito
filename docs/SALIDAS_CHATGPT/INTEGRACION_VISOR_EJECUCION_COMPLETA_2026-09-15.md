@@ -81,28 +81,24 @@ Además de release borrador y posible Pages propio, un ensemble completo genera 
 
 que contiene la galería portable. El despliegue del visor puede ingerir ese artefacto/release y transformar cada candidato válido en una opción del combo de resultados. El parámetro reusable `deploy_pages` permite evitar que la galería GerryChain pise el visor general cuando se orqueste desde una ejecución superior.
 
-## Ejecución de extremo a extremo
+## Ruta específica de Aragón archivada
 
-Se añade:
+La interfaz específica creada durante esta integración:
 
 `.github/workflows/aragon-ejecucion-integral.yml`
 
-Nombre visible: **Aragón — M01 a M08 y visor**.
+con nombre visible **Aragón — M01 a M08 y visor**, queda preservada históricamente en:
 
-Su objetivo es que el director haga una única autorización y obtenga:
+`legacy/workflows/interfaz/aragon-ejecucion-integral_v1.1.0.yml`
 
-1. reconstrucción de fuentes;
-2. M01 → M08;
-3. auditoría geométrica independiente si M06 existe;
-4. artefacto completo aunque una puerta posterior bloquee;
-5. visor Pages desplegado automáticamente con M06 y M08 disponibles.
+Ya no es una interfaz activa. La producción territorial completa de Aragón debe ejecutarse desde la interfaz general `.github/workflows/operacion-territorial.yml`, seleccionando **Aragón** y **Producir resultado M01–M08**. El visor reutilizable sigue encadenado desde esa operación general.
 
-La generación de ensembles se mantiene como operación separada hasta que Aragón supere la puerta geométrica. El visor ya está preparado para incorporarlos después mediante el combo.
+La generación de ensembles se mantiene como operación separada hasta que Aragón supere las puertas aplicables. El visor ya está preparado para incorporarlos después mediante el combo.
 
 ## Orden operativo siguiente
 
-1. Desplegar ya el run `34960965537` con **Desplegar visor técnico** para inspeccionar visualmente el M06 actual y los siete bloqueos.
-2. Ejecutar **Aragón — M01 a M08 y visor** con `EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION` para comprobar toda la cadena electoral de inicio a fin y dejar M06/M08 visibles en Pages, aunque la puerta geométrica marque BLOCK.
-3. Corregir el constructor/optimizador para eliminar las siete discontinuidades geométricas sin reintroducir contactos puntuales ni relajar población, provincia o disciplina municipal.
-4. Repetir la ejecución integral hasta obtener `67/67` geométricamente conexos.
-5. Solo entonces lanzar Aragón-10 GerryChain y añadir sus alternativas al combo del visor. Aragón-50 continúa bloqueado hasta revisión del piloto.
+1. Desplegar, si hace falta para diagnóstico, un run ya existente mediante el publicador común del visor.
+2. Ejecutar Aragón desde **Operación territorial DDD — M01 a M08**, seleccionando **Aragón** y **Producir resultado M01–M08**, con la autorización explícita exigida por el formulario general.
+3. Evaluar el resultado conforme a las puertas vigentes sin relajar población, provincia, disciplina municipal ni política topológica.
+4. Solo cuando la producción cumpla la política vigente, lanzar el piloto Aragón-10 GerryChain desde la misma interfaz territorial general.
+5. Aragón-50 continúa condicionado a la revisión satisfactoria del piloto y a sus puertas estadísticas.
