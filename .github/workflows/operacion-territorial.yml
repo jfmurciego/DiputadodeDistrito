@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 3.1.1
-# NOMBRE DE VERSIÓN: Ruta única compatible con IDs semánticos
+# VERSIÓN: 3.2.0
+# NOMBRE DE VERSIÓN: Ruta única con republicación de ensemble
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: conserva las siete operaciones institucionales y delega una sola ruta reutilizable ya resuelta.
-# CAMBIOS: preserva resolver+ruta, Desde/Hasta y los siete IDs institucionales; restaura además los aliases semánticos TERRITORY_* / DISTRICT_* / PUBLIC_PRODUCT_PUBLICATION.
-# COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta y por defecto ejecuta M01–M08.
-# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.0.yml
+# CAMBIOS: añade run fuente opcional para republicar una galería de ensemble sin recalcular; mantiene Desde/Hasta y aliases semánticos.
+# COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta; ensemble normal no cambia si no se indica run fuente.
+# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.1.yml
 name: Operación territorial DDD — M01 a M08
 
 on:
@@ -82,6 +82,10 @@ on:
           - Lote Aragón — 50 alternativas
       ensemble_promotion_authorization:
         description: Para 50, escribir PROMOVER_ARAGON_50 tras revisar piloto y coste
+        required: false
+        type: string
+      ensemble_republish_source_run_id:
+        description: Run anterior que se quiere republicar sin recalcular (sólo Aragón-10; opcional)
         required: false
         type: string
 
@@ -202,6 +206,7 @@ jobs:
       execution_authorization: ${{ inputs.execution_authorization }}
       ensemble_stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
       ensemble_promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+      ensemble_republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
 
     # Contrato de publicación preservado dentro de la ruta de producción:
     # uses: ./.github/workflows/desplegar-visor-publico.yml
