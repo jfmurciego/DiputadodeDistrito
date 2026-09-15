@@ -6,7 +6,7 @@
 # ESTADO: regresión pesada F1.5
 # QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
 # CAMBIOS: sustituye el trinquete R016 por el maxdev certificado del run 34960965537 sobre la topología de frontera compartida mínima de un metro.
-# MOTIVO: 0.099299365905 pertenecía al grafo anterior con contactos puntuales; el nuevo espacio topológico certificado produce maxdev real 0.11820424865182809.
+# MOTIVO: 0.099299365905 pertenecía al grafo anterior con contactos puntuales; el nuevo baseline fija el trinquete en 0.118204248652, redondeado a 12 decimales como en la convención previa.
 # ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.5.0.yml
 name: Regresión M06 — Aragón
 
