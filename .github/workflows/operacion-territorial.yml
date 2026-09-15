@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 3.0.0
-# NOMBRE DE VERSIÓN: Operación territorial institucional por tramo M01–M08
+# VERSIÓN: 3.1.0
+# NOMBRE DE VERSIÓN: Ruta única compatible con tramos M01–M08
 # FECHA: 2026-09-15
 # ESTADO: vigente
-# QUÉ HACE: ofrece el único formulario territorial general y delega una única ruta reutilizable ya resuelta.
-# CAMBIOS: sustituye las ramas visibles mutuamente excluyentes por resolver+ruta; añade Desde/Hasta módulo y checkpoint de reenganche.
-# COMPATIBILIDAD: conserva admisión, verificación, diagnóstico y GerryChain; preparar/certificar/publicar se expresan como tramos M01–M03/M06/M08.
-# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v2.3.0.yml
+# QUÉ HACE: conserva las siete operaciones institucionales y delega una sola ruta reutilizable ya resuelta.
+# CAMBIOS: restaura nombres e IDs públicos/técnicos; mantiene resolver+ruta y añade Desde/Hasta como control compatible de la producción M01–M08.
+# COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta y por defecto ejecuta M01–M08.
+# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.0.0.yml
 name: Operación territorial DDD — M01 a M08
 
 on:
@@ -41,22 +41,24 @@ on:
       operation:
         description: Operación institucional
         required: true
-        default: Ejecutar tramo M01–M08
+        default: Admitir contrato
         type: choice
         options:
           - Admitir contrato
           - Verificar contrato
-          - Ejecutar tramo M01–M08
+          - Preparar base M01–M03
           - Diagnosticar topología
+          - Certificar territorio M01–M06
+          - Producir resultado M01–M08
           - Generar alternativas GerryChain
       from_stage:
-        description: Desde módulo (solo ejecución M01–M08)
+        description: Desde módulo (aplica a Producir resultado M01–M08)
         required: true
         default: M01
         type: choice
         options: [M01, M02, M03, M04, M05, M06, M07, M08]
       to_stage:
-        description: Hasta módulo (solo ejecución M01–M08)
+        description: Hasta módulo (aplica a Producir resultado M01–M08)
         required: true
         default: M08
         type: choice
@@ -91,7 +93,7 @@ permissions:
 
 jobs:
   resolver_interfaz:
-    name: Resolver operación territorial
+    name: Resolver etiquetas públicas a contratos técnicos
     runs-on: ubuntu-latest
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
@@ -100,7 +102,7 @@ jobs:
       to_stage: ${{ steps.resolve.outputs.to_stage }}
       ensemble_stage: ${{ steps.resolve.outputs.ensemble_stage }}
     steps:
-      - name: Resolver etiquetas públicas y validar tramo
+      - name: Resolver territorio, operación, tramo y fase
         id: resolve
         shell: bash
         env:
@@ -138,13 +140,17 @@ jobs:
           case "$UI_OPERATION" in
             "Admitir contrato"|admitir_contrato) operation=admitir_contrato ;;
             "Verificar contrato"|verificar_contrato) operation=verificar_contrato ;;
-            "Ejecutar tramo M01–M08"|ejecutar_tramo_m01_m08) operation=ejecutar_tramo_m01_m08 ;;
+            "Preparar base M01–M03"|preparar_base_m01_m03) operation=preparar_base_m01_m03 ;;
             "Diagnosticar topología"|diagnosticar_topologia) operation=diagnosticar_topologia ;;
+            "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
+            "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
             "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
-            preparar_base_m01_m03) operation=ejecutar_tramo_m01_m08; UI_FROM_STAGE=M01; UI_TO_STAGE=M03 ;;
-            certificar_territorio_m01_m06) operation=ejecutar_tramo_m01_m08; UI_FROM_STAGE=M01; UI_TO_STAGE=M06 ;;
-            producir_resultado_m01_m08) operation=ejecutar_tramo_m01_m08; UI_FROM_STAGE=M01; UI_TO_STAGE=M08 ;;
             *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
+          esac
+
+          case "$operation" in
+            preparar_base_m01_m03) UI_FROM_STAGE=M01; UI_TO_STAGE=M03 ;;
+            certificar_territorio_m01_m06) UI_FROM_STAGE=M01; UI_TO_STAGE=M06 ;;
           esac
 
           stage_number() {
@@ -156,7 +162,7 @@ jobs:
           }
           from_num="$(stage_number "$UI_FROM_STAGE")" || { echo "::error::Desde módulo inválido: $UI_FROM_STAGE"; exit 1; }
           to_num="$(stage_number "$UI_TO_STAGE")" || { echo "::error::Hasta módulo inválido: $UI_TO_STAGE"; exit 1; }
-          if [[ "$operation" == ejecutar_tramo_m01_m08 ]] && (( from_num > to_num )); then
+          if [[ "$operation" == producir_resultado_m01_m08 ]] && (( from_num > to_num )); then
             echo "::error::Desde módulo no puede ser posterior a Hasta módulo."
             exit 1
           fi
@@ -181,6 +187,7 @@ jobs:
     needs: resolver_interfaz
     uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
     with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
       territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
       operation: ${{ needs.resolver_interfaz.outputs.operation }}
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
@@ -189,3 +196,7 @@ jobs:
       execution_authorization: ${{ inputs.execution_authorization }}
       ensemble_stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
       ensemble_promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+
+    # Contrato de publicación preservado dentro de la ruta de producción:
+    # uses: ./.github/workflows/desplegar-visor-publico.yml
+    # production_run_id: ${{ github.run_id }}
