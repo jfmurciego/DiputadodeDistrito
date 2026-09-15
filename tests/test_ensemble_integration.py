@@ -1,3 +1,14 @@
+"""
+PROYECTO: Diputado de Distrito
+PRUEBA: integración ensemble / GerryChain
+VERSIÓN: 1.1.0
+FECHA: 2026-09-15
+CAMBIO: valida COMARCAS.csv directamente cuando está disponible y, dentro de la
+imagen reproducible sin datasets, exige su huella canónica en MANIFEST.sha256.
+MOTIVO: .dockerignore excluye deliberadamente inputs/* salvo el manifiesto; la
+prueba anterior confundía ausencia deliberada de datos con pérdida de gobierno.
+ANTERIOR: legacy/tests/test_ensemble_integration_pre_ci_container_fix_2026-09-15.py
+"""
 from __future__ import annotations
 
 import json
@@ -15,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MATRIX = ROOT / "herramientas" / "exportar_matriz_ensemble.py"
 RUN_KEY = ROOT / "herramientas" / "calcular_clave_ensemble.py"
 PREPARE_M04 = ROOT / "herramientas" / "preparar_m04_ensemble.py"
+EXPECTED_COMARCA_HASH = "ac750499cc180c1241465a42b089044cd3095850b078113bc900b1a33538899a"
 
 
 def write_fixture(root: Path) -> Path:
@@ -86,15 +98,17 @@ def invoke(config: Path, *extra: str) -> dict:
 class IntegratedRunnerTests(unittest.TestCase):
     def test_aragon_config_and_comarca_source_are_pinned(self):
         source = ROOT / "inputs/COMARCAS.csv"
-        self.assertEqual(
-            hashlib.sha256(source.read_bytes()).hexdigest(),
-            "ac750499cc180c1241465a42b089044cd3095850b078113bc900b1a33538899a",
-        )
-        with source.open(encoding="utf-8-sig", newline="") as handle:
-            rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 731)
-        self.assertEqual(len({row["Municipio código"] for row in rows}), 731)
-        self.assertEqual(len({row["Comarca código"] for row in rows}), 33)
+        if source.is_file():
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), EXPECTED_COMARCA_HASH)
+            with source.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(len(rows), 731)
+            self.assertEqual(len({row["Municipio código"] for row in rows}), 731)
+            self.assertEqual(len({row["Comarca código"] for row in rows}), 33)
+        else:
+            manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
+            self.assertIn(f"{EXPECTED_COMARCA_HASH}  inputs/COMARCAS.csv", manifest)
+
         config = json.loads((ROOT / "configuracion/ensemble/aragon.json").read_text(encoding="utf-8"))
         self.assertEqual(config["contract"]["province_districts"], {"22": 11, "44": 7, "50": 49})
         self.assertEqual(config["prepared_bundle_id"], "AUTO")
