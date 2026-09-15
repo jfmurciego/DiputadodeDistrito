@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.2.0
+# VERSIÓN: 2.3.0
 # NOMBRE: Operación territorial institucional M01–M08
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: ofrece el único formulario territorial general para admitir, verificar o ejecutar la cadena M01–M08.
-# CAMBIOS: renombra la ruta activa y sustituye valores técnicos visibles por etiquetas públicas en español.
+# CAMBIOS: publica el visor desde la misma operación M01–M08 mediante el componente reutilizable común.
 # COMPATIBILIDAD: traduce las etiquetas públicas a los IDs técnicos existentes antes de invocar workflows reutilizables.
 # LIMITACIÓN UI: GitHub Actions choice no separa etiqueta visible y valor técnico; el resolvedor admite además los IDs históricos.
 # ANTERIOR: interfaz territorial v2.1.0 preservada en legacy.
@@ -196,6 +196,13 @@ jobs:
       from_stage: TERRITORY_PREPARATION
       to_stage: PUBLIC_PRODUCT_PUBLICATION
       execution_authorization: ${{ inputs.execution_authorization }}
+
+  publish_viewer:
+    needs: [resolver_interfaz, publish]
+    if: ${{ always() && needs.resolver_interfaz.outputs.operation == 'producir_resultado_m01_m08' }}
+    uses: ./.github/workflows/desplegar-visor-publico.yml
+    with:
+      production_run_id: ${{ github.run_id }}
 
   ensemble:
     needs: resolver_interfaz

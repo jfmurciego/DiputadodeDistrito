@@ -60,6 +60,14 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("workflow_call", text)
         self.assertNotIn("workflow_dispatch", text)
 
+    def test_operacion_general_publica_el_visor_con_el_componente_comun(self):
+        operation = (WORKFLOWS / "operacion-territorial.yml").read_text(encoding="utf-8")
+        viewer = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", operation)
+        self.assertIn("production_run_id: ${{ github.run_id }}", operation)
+        self.assertIn("workflow_call:", viewer)
+        self.assertIn("workflow_dispatch:", viewer)
+
     def test_no_queda_el_formulario_g10_sustituido(self):
         self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())
         if os.environ.get("DDD_SKIP_LEGACY_CHECK") != "1":

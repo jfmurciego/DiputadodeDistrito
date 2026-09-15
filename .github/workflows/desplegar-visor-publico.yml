@@ -1,14 +1,22 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.4.0
 # NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
 # ESTADO: activo
 # QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
-# CAMBIOS: añade selector de resultado y descarga artefactos/release sin escribir GeoJSON grandes en main.
+# CAMBIOS: añade invocación reutilizable desde la operación territorial general y conserva el formulario manual de consulta.
 # ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
 name: Desplegar visor técnico
 
 on:
+  workflow_call:
+    inputs:
+      production_run_id:
+        required: false
+        type: string
+      ensemble_release_tag:
+        required: false
+        type: string
   workflow_dispatch:
     inputs:
       production_run_id:
@@ -54,7 +62,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/production
-          gh run download "$PRODUCTION_RUN_ID" --dir /tmp/production
+          if ! gh run download "$PRODUCTION_RUN_ID" --dir /tmp/production; then
+            echo "::warning::El run todavía no ofrece artefactos descargables; se publicará el registro estático."
+          fi
       - name: Recuperar ensemble solicitado
         if: ${{ inputs.ensemble_release_tag != '' }}
         shell: bash
@@ -73,7 +83,7 @@ jobs:
           mkdir -p site
           cp visor/index.html visor/app.js visor/styles.css site/
           args=(--site site --static-registry orchestracion/productos_publicos.json)
-          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+          if [[ -n "$PRODUCTION_RUN_ID" ]] && find /tmp/production -type f -print -quit 2>/dev/null | grep -q .; then
             args+=(--production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID")
             audit="docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_m06_contiguedad_geometrica_run_${PRODUCTION_RUN_ID}.json"
             [[ -f "$audit" ]] && args+=(--production-audit "$audit")
