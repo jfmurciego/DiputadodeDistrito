@@ -1,0 +1,69 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: router reutilizable interno
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Router único de operación territorial
+# FECHA: 2026-09-15
+# ESTADO: histórico
+# QUÉ HACE: recibe una operación ya resuelta y delega exclusivamente en los componentes reutilizables existentes.
+# CAMBIOS: primera versión; concentra el enrutado que antes estaba expuesto como ramas hermanas en la interfaz principal.
+# MOTIVO: la interfaz principal no debe declarar todas las rutas mutuamente excluyentes como jobs visibles.
+# ANTERIOR: ninguno — componente requerido por operacion-territorial v3.0.0.
+name: Reutilizable — ruta territorial resuelta
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      operation: {required: true, type: string}
+      from_stage: {required: true, type: string}
+      to_stage: {required: true, type: string}
+      checkpoint_run_id: {required: false, type: string, default: ''}
+      execution_authorization: {required: false, type: string, default: ''}
+      ensemble_stage: {required: false, type: string, default: synthetic}
+      ensemble_promotion_authorization: {required: false, type: string, default: ''}
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  contrato:
+    name: Contrato
+    if: ${{ inputs.operation == 'admitir_contrato' || inputs.operation == 'verificar_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: ${{ inputs.operation == 'admitir_contrato' && 'admit_only' || 'verify_only' }}
+      from_stage: M01
+      to_stage: M08
+
+  modulos:
+    name: M01–M08 · tramo solicitado
+    if: ${{ inputs.operation == 'ejecutar_tramo_m01_m08' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: ${{ inputs.from_stage }}
+      to_stage: ${{ inputs.to_stage }}
+      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  diagnostico:
+    name: Diagnóstico topológico
+    if: ${{ inputs.operation == 'diagnosticar_topologia' }}
+    uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+
+  ensemble:
+    name: Ensemble GerryChain
+    if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
+    uses: ./.github/workflows/generar-alternativas-territoriales.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+      stage: ${{ inputs.ensemble_stage }}
+      execution_authorization: ${{ inputs.execution_authorization }}
+      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
