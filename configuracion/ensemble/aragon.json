@@ -27,7 +27,9 @@
   "comarca": {"enabled": true},
   "topology": {
     "working_crs": "EPSG:25830",
-    "min_shared_border_m": 1.0
+    "min_shared_border_m": 1.0,
+    "preserve_atomic_multipart_sections": true,
+    "atomic_multipart_policy": "../../territorios/aragon/config/continuidad_geometrica_2025.json"
   },
   "contract": {
     "k": 67,

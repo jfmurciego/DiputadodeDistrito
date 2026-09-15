@@ -107,6 +107,7 @@ jobs:
             --district-field district_id \
             --working-crs EPSG:3035 \
             --expected-districts 67 \
+            --policy territorios/aragon/config/continuidad_geometrica_2025.json \
             --output work/ensemble/base-geometric-components-preflight.json
       - name: Crear plan determinista
         run: |

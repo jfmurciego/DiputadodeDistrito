@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.geometric-contiguity-policy/1.0",
+  "territory_id": "aragon",
+  "year": 2025,
+  "unit_rule": "Una sección censal oficial es indivisible para población y votos, incluso cuando su geometría es MultiPolygon.",
+  "allowed_disconnected_districts": [
+    {"district_id": 0, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 2, "expected_components": 3, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 4, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 7, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 9, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 51, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."},
+    {"district_id": 63, "expected_components": 2, "kind": "official_atomic_multipart_section", "reason": "La discontinuidad procede exclusivamente de piezas oficiales de una misma sección censal indivisible."}
+  ]
+}

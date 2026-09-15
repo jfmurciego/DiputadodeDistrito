@@ -75,7 +75,15 @@ def write_fixture(root: Path) -> Path:
             "population_cap_ratio": 1.75, "municipality_atomicity_limit_ratio": 1.75,
             "require_single_province": True, "require_contiguity": True,
         },
-        "engine": {"id": "gerrychain_recom", "steps": 5, "churn_weight": 0.05},
+        "engine": {"id": "gerrychain_recom", "steps": 50, "churn_weight": 0.05},
+        # Cuatro nodos solo admiten dos particiones equilibradas. Esta fixture
+        # comprueba orquestación y reanudación, no mezcla estadística; el lote
+        # territorial conserva la puerta de degeneración de producción.
+        "statistical": {"degeneracy_gate": {
+            "min_unique_state_ratio": 0.0001,
+            "max_self_loop_rate": 0.9999,
+            "require_full_length": True,
+        }},
         "ensemble": {"candidate_count": 5, "shortlist_size": 5},
         "output": "output",
     }
@@ -122,7 +130,14 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertNotIn("contiguity:0", violations)
         self.assertIn("geometric_contiguity:0", violations)
 
-        data.component_edges.append(("a#1", "b#0"))
+        data.component_edges.append(("a#0", "a#1"))
+        data.component_adjacency = {}
+        self.assertNotIn(
+            "geometric_contiguity:0",
+            hard_constraint_violations(data, data.initial_assignment, contract),
+        )
+
+        data.component_edges = [("a#0", "b#0"), ("a#1", "b#0")]
         data.component_adjacency = {}
         self.assertNotIn(
             "geometric_contiguity:0",
@@ -147,6 +162,10 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertEqual(config["prepared_bundle_id"], "AUTO")
         self.assertTrue(config["inputs"]["initial_geojson"].endswith("_m05_distritos_optimizados.geojson.zip"))
         self.assertEqual(config["topology"]["min_shared_border_m"], 1.0)
+        self.assertTrue(config["topology"]["preserve_atomic_multipart_sections"])
+        self.assertTrue(
+            (ROOT / "territorios/aragon/config/continuidad_geometrica_2025.json").is_file()
+        )
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
     def test_real_recom_fifty_candidate_lot(self):

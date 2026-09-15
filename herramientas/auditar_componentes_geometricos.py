@@ -132,6 +132,29 @@ def _sha256_geometry(geometry) -> str:
     return hashlib.sha256(geometry.wkb).hexdigest()
 
 
+def _connected_only_by_atomic_multipart_sections(group, parts: list[Polygon]) -> bool:
+    """Prueba que las piezas separadas solo se enlazan por secciones oficiales MultiPolygon."""
+    adjacency = {index: set() for index in range(len(parts))}
+    for geometry in group.geometry:
+        if not isinstance(geometry, MultiPolygon):
+            continue
+        touched = [
+            index for index, part in enumerate(parts)
+            if geometry.intersection(part).area > 1e-6
+        ]
+        for left in touched:
+            adjacency[left].update(right for right in touched if right != left)
+    reached = {0}
+    queue = [0]
+    while queue:
+        current = queue.pop()
+        for neighbor in adjacency[current]:
+            if neighbor not in reached:
+                reached.add(neighbor)
+                queue.append(neighbor)
+    return len(reached) == len(parts)
+
+
 def audit(
     sections_path: Path,
     *,
@@ -230,10 +253,15 @@ def audit(
 
         policy_entry = policy.get(district_id)
         connected = component_count == 1 and geometry_type == "Polygon"
+        atomic_multipart_proven = _connected_only_by_atomic_multipart_sections(
+            ordered, parts
+        )
         exact_policy_match = (
             geometry_type == "MultiPolygon"
             and policy_entry is not None
             and policy_entry["expected_components"] == component_count
+            and policy_entry["kind"] == "official_atomic_multipart_section"
+            and atomic_multipart_proven
         )
 
         if connected:
@@ -266,6 +294,7 @@ def audit(
                 "connected": connected,
                 "status": status,
                 "policy_applied": policy_applied,
+                "atomic_multipart_cause_proven": atomic_multipart_proven,
                 "policy": policy_entry,
                 "area_m2": total_area,
                 "components": component_rows,

@@ -166,6 +166,7 @@ def adapt_inputs(
     comarca_lookup: Mapping[str, tuple[str, str]] | None = None,
     comarca_enabled: bool = False,
     min_shared_border_m: float = 0.0,
+    preserve_atomic_multipart_sections: bool = False,
 ) -> AdaptedInputs:
     """Adapta M03/M04 usando sección como clave y ddd_unit_id como atomicidad."""
     features = _feature_index(geojson, section_field)
@@ -272,6 +273,18 @@ def adapt_inputs(
         for section, parts in geometry_components.items()
     }
     component_edges: set[tuple[str, str]] = set()
+    if preserve_atomic_multipart_sections:
+        # Una sección censal es la unidad mínima de población y voto. Cuando
+        # su geometría oficial es MultiPolygon, sus piezas no pueden recibir
+        # distritos distintos. La arista lógica solo une piezas de esa misma
+        # sección; nunca fabrica continuidad entre secciones diferentes.
+        for components in section_components.values():
+            if len(components) > 1:
+                anchor = components[0]
+                component_edges.update(
+                    tuple(sorted((anchor, component)))
+                    for component in components[1:]
+                )
     for raw in raw_edges:
         u, v = _text(raw.get("u")), _text(raw.get("v"))
         if u not in nodes or v not in nodes or u == v:

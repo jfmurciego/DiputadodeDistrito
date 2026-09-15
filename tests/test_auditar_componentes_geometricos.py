@@ -103,10 +103,15 @@ class GeometricComponentsAuditTests(unittest.TestCase):
     def test_multipolygon_passes_only_with_explicit_policy_exception(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
-            sections = self.write_sections(root, [
-                feature("a", 1, 0, 0, 1, 1),
-                feature("b", 1, 3, 0, 4, 1),
-            ])
+            multipart = {
+                "type": "Feature",
+                "properties": {"CUSEC_KEY": "a", "district_id": 1},
+                "geometry": {"type": "MultiPolygon", "coordinates": [
+                    [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]],
+                    [[[3, 0], [4, 0], [4, 1], [3, 1], [3, 0]]],
+                ]},
+            }
+            sections = self.write_sections(root, [multipart])
             without_policy = self.run_audit(sections)
             self.assertEqual(without_policy["decision"], "BLOCK")
 
@@ -116,7 +121,7 @@ class GeometricComponentsAuditTests(unittest.TestCase):
                 "allowed_disconnected_districts": [{
                     "district_id": 1,
                     "expected_components": 2,
-                    "kind": "island",
+                    "kind": "official_atomic_multipart_section",
                     "reason": "Caso sintético: discontinuidad expresamente gobernada.",
                 }],
             }), encoding="utf-8")
@@ -125,6 +130,28 @@ class GeometricComponentsAuditTests(unittest.TestCase):
             self.assertEqual(with_policy["decision"], "PASS_WITH_EXCEPTIONS")
             self.assertEqual(district["status"], "GOVERNED_EXCEPTION")
             self.assertTrue(district["policy_applied"])
+            self.assertTrue(district["atomic_multipart_cause_proven"])
+
+    def test_policy_cannot_excuse_unrelated_islands(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            sections = self.write_sections(root, [
+                feature("a", 1, 0, 0, 1, 1),
+                feature("b", 1, 3, 0, 4, 1),
+            ])
+            policy = root / "policy.json"
+            policy.write_text(json.dumps({
+                "schema": "ddd.geometric-contiguity-policy/1.0",
+                "allowed_disconnected_districts": [{
+                    "district_id": 1,
+                    "expected_components": 2,
+                    "kind": "official_atomic_multipart_section",
+                    "reason": "No basta con declararlo: debe probarse.",
+                }],
+            }), encoding="utf-8")
+            report = self.run_audit(sections, policy)
+            self.assertEqual(report["decision"], "BLOCK")
+            self.assertFalse(report["districts"][0]["atomic_multipart_cause_proven"])
 
     def test_polygon_with_hole_remains_connected_and_is_reported(self):
         with tempfile.TemporaryDirectory() as raw:

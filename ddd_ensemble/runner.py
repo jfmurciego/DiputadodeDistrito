@@ -138,6 +138,9 @@ def adapt(config: dict[str, Any], base: Path):
         comarca_lookup=comarca_lookup,
         comarca_enabled=bool(config.get("comarca", {}).get("enabled", False)),
         min_shared_border_m=float(topology.get("min_shared_border_m", 0.0)),
+        preserve_atomic_multipart_sections=bool(
+            topology.get("preserve_atomic_multipart_sections", False)
+        ),
     )
 
 
