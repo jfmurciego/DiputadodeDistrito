@@ -1,13 +1,12 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: integración ensemble / GerryChain
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 FECHA: 2026-09-15
-CAMBIO: valida COMARCAS.csv directamente cuando está disponible y, dentro de la
-imagen reproducible sin datasets, exige su huella canónica en MANIFEST.sha256.
-MOTIVO: .dockerignore excluye deliberadamente inputs/* salvo el manifiesto; la
-prueba anterior confundía ausencia deliberada de datos con pérdida de gobierno.
-ANTERIOR: legacy/tests/test_ensemble_integration_pre_ci_container_fix_2026-09-15.py
+CAMBIO: mantiene la integración existente y actualiza únicamente la referencia
+a la interfaz territorial institucional renombrada como operacion-territorial.yml.
+MOTIVO: el renombrado físico de la interfaz no modifica el contrato GerryChain.
+ANTERIOR: versión 1.1.0 en historial Git.
 """
 from __future__ import annotations
 
@@ -186,7 +185,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("DDD_TO_STAGE=M05", workflow)
         self.assertIn("--entrypoint /bin/bash", workflow)
         self.assertIn("auditar_topologia_geometrica.py", workflow)
-        interface = (ROOT / ".github/workflows/picadora-territorial.yml").read_text(encoding="utf-8")
+        interface = (ROOT / ".github/workflows/operacion-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("generar_alternativas_gerrychain", interface)
 
 
