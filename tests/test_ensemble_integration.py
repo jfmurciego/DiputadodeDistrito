@@ -170,6 +170,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("artifact-manifest.json", workflow)
         self.assertIn("needs: synthetic", workflow)
         self.assertIn("DDD_TO_STAGE=M05", workflow)
+        self.assertIn("--entrypoint /bin/bash", workflow)
         self.assertIn("auditar_topologia_geometrica.py", workflow)
         interface = (ROOT / ".github/workflows/picadora-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("generar_alternativas_gerrychain", interface)

@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # FECHA: 2026-09-15
 # QUÉ HACE: valida topología y partición inicial antes de producir ensembles reanudables sin escribir resultados en main.
 name: Ensemble territorial GerryChain
@@ -83,7 +83,7 @@ jobs:
             -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
             -e DDD_RUN_ID=ensemble-aragon-base \
             -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M05 \
-            --entrypoint /app/procedimiento.sh ddd-ensemble-base:${GITHUB_SHA}
+            --entrypoint /bin/bash ddd-ensemble-base:${GITHUB_SHA} /app/procedimiento.sh
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'

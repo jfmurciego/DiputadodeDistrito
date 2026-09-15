@@ -12,6 +12,10 @@ la forma se puntúa con Polsby–Popper geométrico, manteniendo comarca,
 población, provincia, municipio y contigüidad en el contrato. El paquete se
 valida localmente; no se ejecuta ningún territorio.
 
+El primer lanzamiento remoto confirmó la puerta sintética, pero Docker no pudo
+ejecutar el script montado desde el workspace por falta de permiso ejecutable.
+El workflow lo invoca ahora mediante `/bin/bash`; el fallo ocurrió antes de M01.
+
 ## 2026-09-14 — Blindaje de cálculo y publicación
 
 C‑01, las regresiones M06, Flourish y los despliegues web quedan exclusivamente
