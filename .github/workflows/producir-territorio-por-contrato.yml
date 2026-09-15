@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Motor reutilizable M01–M08 sin formulario paralelo
-# FECHA: 2026-09-14
-# ESTADO: vigente — R038
-# QUÉ HACE: admite, verifica o ejecuta M01–M08 para cualquier contrato DDD invocado desde la interfaz institucional.
-# CAMBIOS: elimina el disparador manual para impedir un segundo formulario territorial.
-# MOTIVO: concentrar toda decisión humana en Operación territorial DDD — M01 a M08.
-# ANTERIOR: legacy/workflows/local_first/producir-territorio-por-contrato_v1.1.0.yml
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: Motor M01–M08 con puerta geométrica independiente
+# FECHA: 2026-09-15
+# ESTADO: vigente
+# QUÉ HACE: admite, verifica o ejecuta M01–M08 y audita la geometría real cuando existe M06.
+# CAMBIOS: conserva el artefacto completo aunque falle la ejecución o la nueva puerta geométrica; la conclusión final refleja ambos estados.
+# MOTIVO: una ejecución de cabo a rabo debe producir evidencia visible sin permitir que una discontinuidad geométrica quede certificada por la sola conectividad del grafo.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.2.0.yml
 name: Producción territorial por contrato
 
 on:
@@ -73,7 +73,9 @@ jobs:
           test -s inputs/seccionado_2025.zip
           test -s inputs/65034.csv.zip
       - name: Ejecutar tramo común autorizado
+        id: execute
         if: ${{ inputs.mode == 'execute' }}
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -84,6 +86,50 @@ jobs:
             -e DDD_FROM_STAGE="$FROM_STAGE" \
             -e DDD_TO_STAGE="$TO_STAGE" \
             --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Auditar componentes geométricos de M06
+        id: geometric
+        if: ${{ always() && inputs.mode == 'execute' }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          runs_dir='${{ steps.resolve.outputs.runs_dir }}'
+          sections="$(find "$runs_dir" -maxdepth 1 -name '*_m06_secciones.geojson.zip' -print -quit)"
+          if [[ -z "$sections" ]]; then
+            echo 'No existe M06 materializado; la puerta geométrica no aplica a este tramo.'
+            exit 0
+          fi
+          expected="$(python - "$PARAMS" <<'PY'
+          import sys, yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          m06=(cfg.get('modulos') or {}).get('modulo_06_consolidar_distritos') or {}
+          print(m06.get('expected_districts') or (cfg.get('validation') or {}).get('expected_districts') or 0)
+          PY
+          )"
+          output="${sections%_secciones.geojson.zip}_contiguedad_geometrica.json"
+          docker run --rm -v "$PWD:/app" -w /app \
+            --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/auditar_componentes_geometricos.py \
+            --sections "/app/$sections" \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts "$expected" \
+            --output "/app/$output"
+      - name: Consolidar conclusión de ejecución
+        if: ${{ always() && inputs.mode == 'execute' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.execute.outcome }}' = success || {
+            echo 'La cadena solicitada produjo artefactos, pero la ejecución M01–M08 no terminó correctamente.' >&2
+            exit 31
+          }
+          test '${{ steps.geometric.outcome }}' = success || {
+            echo 'La cadena terminó, pero M06 no supera la auditoría geométrica independiente.' >&2
+            exit 32
+          }
       - uses: actions/upload-artifact@v6
         if: always()
         with:
