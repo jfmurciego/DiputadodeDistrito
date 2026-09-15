@@ -1,18 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Router único de operación territorial
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Router compatible de siete operaciones
 # FECHA: 2026-09-15
 # ESTADO: vigente
-# QUÉ HACE: recibe una operación ya resuelta y delega exclusivamente en los componentes reutilizables existentes.
-# CAMBIOS: primera versión; concentra el enrutado que antes estaba expuesto como ramas hermanas en la interfaz principal.
-# MOTIVO: la interfaz principal no debe declarar todas las rutas mutuamente excluyentes como jobs visibles.
-# ANTERIOR: ninguno — componente requerido por operacion-territorial v3.0.0.
+# QUÉ HACE: recibe una operación institucional ya resuelta y delega exclusivamente la ruta correspondiente.
+# CAMBIOS: restaura los siete IDs técnicos históricos y conecta preparar/certificar/producir con la producción modular M01–M08.
+# MOTIVO: conservar el contrato institucional sin devolver las ramas mutuamente excluyentes al workflow principal.
+# ANTERIOR: legacy/workflows/interfaz/_reutilizable-operacion-territorial_v1.0.0.yml
 name: Reutilizable — ruta territorial resuelta
 
 on:
   workflow_call:
     inputs:
+      params: {required: true, type: string}
       territory_id: {required: true, type: string}
       operation: {required: true, type: string}
       from_stage: {required: true, type: string}
@@ -34,21 +35,20 @@ jobs:
     if: ${{ inputs.operation == 'admitir_contrato' || inputs.operation == 'verificar_contrato' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
-      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      params: ${{ inputs.params }}
       mode: ${{ inputs.operation == 'admitir_contrato' && 'admit_only' || 'verify_only' }}
       from_stage: M01
       to_stage: M08
 
-  modulos:
-    name: M01–M08 · tramo solicitado
-    if: ${{ inputs.operation == 'ejecutar_tramo_m01_m08' }}
+  preparar:
+    name: Preparar base M01–M03
+    if: ${{ inputs.operation == 'preparar_base_m01_m03' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
-      params: territorios/${{ inputs.territory_id }}/config/${{ inputs.territory_id }}_2025.yaml
+      params: ${{ inputs.params }}
       mode: execute
-      from_stage: ${{ inputs.from_stage }}
-      to_stage: ${{ inputs.to_stage }}
-      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      from_stage: M01
+      to_stage: M03
       execution_authorization: ${{ inputs.execution_authorization }}
 
   diagnostico:
@@ -57,6 +57,29 @@ jobs:
     uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
     with:
       territory_id: ${{ inputs.territory_id }}
+
+  certificar:
+    name: Certificar territorio M01–M06
+    if: ${{ inputs.operation == 'certificar_territorio_m01_m06' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: ${{ inputs.params }}
+      mode: execute
+      from_stage: M01
+      to_stage: M06
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  producir:
+    name: Producir tramo M01–M08
+    if: ${{ inputs.operation == 'producir_resultado_m01_m08' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: ${{ inputs.params }}
+      mode: execute
+      from_stage: ${{ inputs.from_stage }}
+      to_stage: ${{ inputs.to_stage }}
+      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      execution_authorization: ${{ inputs.execution_authorization }}
 
   ensemble:
     name: Ensemble GerryChain
