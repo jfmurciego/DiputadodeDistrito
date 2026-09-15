@@ -1,6 +1,6 @@
 # Ensembles territoriales con GerryChain
 
-**Versión:** 1.1.0 — 2026-09-15
+**Versión:** 1.1.1 — 2026-09-15
 
 GerryChain/ReCom es un motor M05 alternativo. M01–M05 producen una partición
 inicial válida y M06–M08 siguen consumiendo el campo `district_id`. El motor
@@ -15,20 +15,23 @@ la tabla comarcal, el perfil y el ordinal.
 
 Son puertas duras: universo de secciones, K, límites de población, provincia y
 reparto provincial, atomicidad, disciplina municipal, distritos urbanos
-cerrados y contigüidad. La comarca es un objetivo ponderado y se informa con
+cerrados, contigüidad del grafo de secciones y continuidad del grafo de
+componentes poligonales. Esta última puerta impide que una sección
+`MultiPolygon` oculte piezas territoriales separadas. La comarca es un objetivo ponderado y se informa con
 fragmentación, retención de población y entropía. La forma se mide sobre la
 geometría real con Polsby–Popper; el número de aristas cortadas se conserva
 como señal secundaria, no como sustituto geométrico.
 
 Antes de crear la matriz, una puerta independiente vuelve a medir cada arista
 en `EPSG:25830`, excluye contactos exclusivamente puntuales y comprueba la
-contigüidad del territorio y de todos los distritos. Aragón exige al menos un
-metro de frontera compartida. Una base inválida bloquea el lote completo antes
-de iniciar sus cinco perfiles.
+contigüidad del territorio y de todos los distritos. Una segunda disolución
+independiente exige además una sola pieza por distrito, salvo excepción
+territorial explícita. Aragón exige al menos un metro de frontera compartida.
+Una base inválida bloquea el lote completo antes de iniciar sus cinco perfiles.
 
 ## Operación
 
-La única entrada humana es **Operación territorial DDD — M01 a M08**. La
+La entrada humana principal es **Operación territorial DDD — M01 a M08**. La
 operación **Generar alternativas GerryChain** llama al workflow reutilizable en
 tres fases:
 

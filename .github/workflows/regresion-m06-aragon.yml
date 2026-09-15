@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.6.0
-# NOMBRE DE VERSIÓN: Regresión territorial bajo autorización manual
+# VERSIÓN: 1.6.1
+# NOMBRE DE VERSIÓN: Regresión territorial con puerta geométrica independiente
 # FECHA: 2026-09-15
-# ESTADO: regresión pesada F1.5
-# QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
-# CAMBIOS: sustituye el trinquete R016 por el maxdev certificado del run 34960965537 sobre la topología de frontera compartida mínima de un metro.
-# MOTIVO: 0.099299365905 pertenecía al grafo anterior con contactos puntuales; el nuevo baseline fija el trinquete en 0.118204248652, redondeado a 12 decimales como en la convención previa.
+# ESTADO: regresión pesada bloqueante
+# QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y exige tanto las invariantes tabulares como continuidad geométrica real en los 67 distritos.
+# CAMBIOS: impide que el run 34960965537 o una reproducción equivalente obtenga PASS con distritos disconexos.
+# MOTIVO: la conectividad por grafo certificada anteriormente no detectó siete geometrías distritales multipartes.
 # ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.5.0.yml
 name: Regresión M06 — Aragón
 
@@ -110,6 +110,22 @@ jobs:
           print(f"ARAGON R020 M06 PASS: K=67 rows=1463 pop=1364621 catalog=67 composition=1463 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
           '
 
+      - name: Exigir continuidad geométrica real M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -e DDD_RUN_ID="$DDD_RUN_ID" \
+            -v "$PWD/ejecuciones:/app/ejecuciones" \
+            --entrypoint python ddd-reg-m06:${GITHUB_SHA} \
+            /app/herramientas/auditar_componentes_geometricos.py \
+            --sections "/app/ejecuciones/$DDD_RUN_ID/aragon_2025_m06_secciones.geojson.zip" \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts 67 \
+            --output "/app/ejecuciones/$DDD_RUN_ID/aragon_2025_m06_contiguedad_geometrica.json"
+
       - name: Publicar regresión Aragón M06
         if: always()
         uses: actions/upload-artifact@v6
@@ -122,3 +138,4 @@ jobs:
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_composicion_distritos.csv
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_secciones.geojson.zip
             ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_distritos.geojson.zip
+            ejecuciones/${{ env.DDD_RUN_ID }}/aragon_2025_m06_contiguedad_geometrica.json

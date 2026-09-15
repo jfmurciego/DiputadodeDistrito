@@ -2,6 +2,19 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-15 — Estado verificable y continuidad de componentes
+
+El run Aragón `34960965537` deja de figurar como baseline canónico porque la
+auditoría independiente bloquea siete de sus 67 distritos. Se conserva como
+candidato reproducible. Producción genera un manifiesto `PASS/BLOCK`; el visor
+toma territorio y K del contrato y muestra como diagnóstico todo resultado sin
+PASS verificable. La regresión Aragón y el preflight de ensembles exigen
+continuidad geométrica disuelta. GerryChain valida además un grafo de cada
+componente poligonal para impedir que una sección `MultiPolygon` oculte una
+discontinuidad. Comarca permanece como objetivo blando. No se ejecuta ningún
+territorio ni se crean nuevas copias físicas en `legacy`; el predecesor queda
+recuperable en Git.
+
 ## 2026-09-15 — Interfaz territorial en español
 
 La interfaz manual pasa a `operacion-territorial.yml`. El formulario presenta

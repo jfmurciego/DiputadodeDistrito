@@ -1,5 +1,8 @@
 """Laboratorio M05 para GerryChain/ReCom, sin dependencias del repositorio DDD.
 
+VERSIÓN DEL ADAPTADOR: 1.1.0. La continuidad se valida tanto sobre secciones
+como sobre cada componente poligonal, incluidas las secciones MultiPolygon.
+
 La frontera correcta es sección censal: el ``id`` del grafo M03 se une con
 ``CUSEC_KEY`` del GeoJSON M04. ``ddd_unit_id`` NO es la clave de unión; es la
 unidad atómica de asignación y puede repetirse en varias secciones.
@@ -62,6 +65,9 @@ class AdaptedInputs:
     section_areas: dict[str, float] = field(default_factory=dict)
     section_perimeters: dict[str, float] = field(default_factory=dict)
     shared_border_lengths: dict[tuple[str, str], float] = field(default_factory=dict)
+    section_components: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    component_edges: list[tuple[str, str]] = field(default_factory=list)
+    component_adjacency: dict[str, set[str]] = field(default_factory=dict)
 
 
 def _text(value: Any) -> str:
@@ -132,6 +138,14 @@ def _feature_index(geojson: Mapping[str, Any], section_field: str) -> dict[str, 
     return index
 
 
+def _polygon_components(geometry: Any) -> list[Any]:
+    if geometry.geom_type == "Polygon":
+        return [geometry]
+    if geometry.geom_type == "MultiPolygon":
+        return list(geometry.geoms)
+    raise InputContractError(f"Geometría no poligonal: {geometry.geom_type}")
+
+
 def adapt_inputs(
     graph_data: Mapping[str, Any],
     geojson: Mapping[str, Any],
@@ -176,6 +190,7 @@ def adapt_inputs(
     geometries: dict[str, Any] = {}
     section_areas: dict[str, float] = {}
     section_perimeters: dict[str, float] = {}
+    geometry_components: dict[str, list[Any]] = {}
     for section_id in sorted(graph_nodes):
         raw = graph_nodes[section_id]
         props = features[section_id].get("properties") or {}
@@ -233,6 +248,7 @@ def adapt_inputs(
             if geometry.is_empty or not geometry.is_valid:
                 raise InputContractError(f"Geometría inválida en {section_id}")
             geometries[section_id] = geometry
+            geometry_components[section_id] = _polygon_components(geometry)
             section_areas[section_id] = float(geometry.area)
             section_perimeters[section_id] = float(geometry.length)
 
@@ -242,10 +258,16 @@ def adapt_inputs(
         geometries.clear()
         section_areas.clear()
         section_perimeters.clear()
+        geometry_components.clear()
 
     edges: list[tuple[str, str]] = []
     seen: set[tuple[str, str]] = set()
     shared_border_lengths: dict[tuple[str, str], float] = {}
+    section_components = {
+        section: tuple(f"{section}#{index}" for index in range(len(parts)))
+        for section, parts in geometry_components.items()
+    }
+    component_edges: set[tuple[str, str]] = set()
     for raw in raw_edges:
         u, v = _text(raw.get("u")), _text(raw.get("v"))
         if u not in nodes or v not in nodes or u == v:
@@ -260,6 +282,16 @@ def adapt_inputs(
                         f"Arista sin frontera métrica suficiente: {edge}, "
                         f"shared_border_m={shared:.6f} < {min_shared_border_m:.6f}"
                     )
+                for left_index, left_part in enumerate(geometry_components[u]):
+                    for right_index, right_part in enumerate(geometry_components[v]):
+                        component_shared = float(
+                            left_part.boundary.intersection(right_part.boundary).length
+                        )
+                        if component_shared > 1e-9:
+                            component_edges.add(tuple(sorted((
+                                section_components[u][left_index],
+                                section_components[v][right_index],
+                            ))))
             seen.add(edge)
             edges.append(edge)
     return AdaptedInputs(
@@ -272,6 +304,8 @@ def adapt_inputs(
         section_areas,
         section_perimeters,
         shared_border_lengths,
+        section_components,
+        sorted(component_edges),
     )
 
 
@@ -385,6 +419,31 @@ def hard_constraint_violations(
                         queue.append(neighbor)
             if reached != wanted:
                 violations.append(f"contiguity:{district}")
+        if data.section_components:
+            if not data.component_adjacency:
+                data.component_adjacency = _adjacency(
+                    {
+                        component: {}
+                        for components in data.section_components.values()
+                        for component in components
+                    },
+                    data.component_edges,
+                )
+            component_adj = data.component_adjacency
+            district_components: dict[Any, set[str]] = defaultdict(set)
+            for section, district in assignment.items():
+                district_components[district].update(data.section_components[section])
+            for district, wanted in district_components.items():
+                start = next(iter(wanted))
+                reached, queue = {start}, deque([start])
+                while queue:
+                    current = queue.popleft()
+                    for neighbor in component_adj[current] & wanted:
+                        if neighbor not in reached:
+                            reached.add(neighbor)
+                            queue.append(neighbor)
+                if reached != wanted:
+                    violations.append(f"geometric_contiguity:{district}")
     return sorted(set(violations))
 
 
@@ -634,7 +693,7 @@ def run_gerrychain(
     selected, metrics, best_step = best[2], best[3], best[4]
     selected_violations = hard_constraint_violations(data, selected, contract)
     report = {
-        "engine": {"id": "gerrychain_recom", "library_version": "1.0.0", "adapter_version": "1.0.0"},
+        "engine": {"id": "gerrychain_recom", "library_version": "1.0.0", "adapter_version": "1.1.0"},
         "run": {"seed": seed, "steps_requested": total_steps, "states_observed": observed, "best_step": best_step},
         "telemetry": {"unique_states": len(unique_hashes), "self_loops": self_loops, "failures": failures, "selection_memory": "streaming_constant_states"},
         "hard_constraints": {
@@ -643,7 +702,7 @@ def run_gerrychain(
             "checks": [
                 "unit_universe", "k", "population", "province",
                 "province_apportionment", "atomic_unit", "municipality",
-                "closed_urban", "contiguity",
+                "closed_urban", "contiguity", "geometric_contiguity",
             ],
         },
         "initial_metrics": plan_metrics(data, data.initial_assignment, contract),

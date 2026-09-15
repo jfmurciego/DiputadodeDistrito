@@ -1,6 +1,6 @@
 # Diputado de Distrito — motor multi-territorio
 
-**README v4.4.0** · 14-09-2026 · Estado: **plataforma canónica estable; GerryChain en integración controlada**
+**README v4.4.1** · 15-09-2026 · Estado: **plataforma ejecutable; productos territoriales bloqueados para publicación**
 **Anterior:** `legacy/docs/README_v4.3.0.md`
 
 DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
@@ -11,8 +11,8 @@ Un repositorio, una rama permanente (`main`), un motor común (`ddd_core/`, `mod
 
 ## Fase 1 — estado canónico
 
-- Aragón: PASS; 67 distritos y máximo desvío 9,930 %.
-- Castilla y León: PASS; 82 distritos y máximo desvío 11,984 %.
+- Aragón: contrato ejecutable; el candidato métrico de 67 distritos está `BLOCKED_GEOMETRIC_CONTIGUITY` (60/67 conectados).
+- Castilla y León: evidencia técnica de 82 distritos; publicación bloqueada.
 - Extremadura: `EXPERIMENTAL_BLOCKED`; evidencia reproducible, sin promoción ni relajación de tolerancia.
 - El estado factual y los contratos comparables están en `resultados/fase1/ESTADO_FACTUAL.json`.
 
@@ -25,10 +25,12 @@ No hay expansión territorial activa. Ninguna comunidad posterior se ejecuta sin
 ## Motor alternativo GerryChain
 
 GerryChain/ReCom se integra como M05 alternativo, con dependencias aisladas y
-sin sustituir el motor canónico. La única entrada manual continúa siendo
-`operacion-territorial.yml`. El orden obligatorio es prueba sintética, piloto
+sin sustituir el motor determinista. La interfaz territorial principal es
+`operacion-territorial.yml`; la limpieza debe retirar cualquier formulario
+específico redundante. El orden obligatorio es prueba sintética, piloto
 Aragón de 10 alternativas y lote de 50 únicamente tras revisar coste y
-publicación. Véase `docs/ENSEMBLES_GERRYCHAIN.md`.
+publicación. El piloto no arranca si la partición inicial falla la continuidad
+de componentes poligonales. Véase `docs/ENSEMBLES_GERRYCHAIN.md`.
 
 ## Operación
 

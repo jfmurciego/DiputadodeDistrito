@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.2.1
 # FECHA: 2026-09-15
-# QUÉ HACE: valida topología y partición inicial, produce ensembles reanudables y expone su galería como artefacto reutilizable por el visor unificado.
+# QUÉ HACE: valida topología de secciones y componentes poligonales, produce ensembles reanudables y expone su galería como artefacto reutilizable por el visor unificado.
 # ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.1.1.yml
 name: Ensemble territorial GerryChain
 
@@ -94,12 +94,20 @@ jobs:
       - run: python -m pip install --requirement requirements-ensemble.lock
       - name: Bloquear topología o partición inicial no defendibles
         run: |
+          set -euo pipefail
           python herramientas/auditar_topologia_geometrica.py \
             --sections .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip \
             --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
             --assignment ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
             --output work/ensemble/base-topology-preflight.json \
             --min-shared-border-m 1 --working-crs EPSG:25830
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts 67 \
+            --output work/ensemble/base-geometric-components-preflight.json
       - name: Crear plan determinista
         run: |
           python -m ddd_ensemble.runner \

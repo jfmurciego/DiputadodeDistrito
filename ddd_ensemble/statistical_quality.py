@@ -260,7 +260,7 @@ def evaluate_state_stream(
         "engine": {
             "id": "gerrychain_recom",
             "library_version": "1.0.0",
-            "adapter_version": "ensemble-statistical-1.0.0",
+            "adapter_version": "ensemble-statistical-1.1.0",
         },
         "run": {
             "seed": int(seed),
@@ -281,7 +281,7 @@ def evaluate_state_stream(
             "checks": [
                 "unit_universe", "k", "population", "province",
                 "province_apportionment", "atomic_unit", "municipality",
-                "closed_urban", "contiguity",
+                "closed_urban", "contiguity", "geometric_contiguity",
             ],
         },
         "initial_metrics": plan_metrics(data, data.initial_assignment, contract),

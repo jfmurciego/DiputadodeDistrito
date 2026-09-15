@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
-# NOMBRE DE VERSIÓN: Motor M01–M08 con puerta geométrica independiente
+# VERSIÓN: 1.3.1
+# NOMBRE DE VERSIÓN: Motor M01–M08 con manifiesto de estado verificable
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: admite, verifica o ejecuta M01–M08 y audita la geometría real cuando existe M06.
-# CAMBIOS: conserva el artefacto completo aunque falle la ejecución o la nueva puerta geométrica; la conclusión final refleja ambos estados.
+# CAMBIOS: materializa production_status.json para que visor y auditoría no infieran PASS por la mera existencia de un artefacto.
 # MOTIVO: una ejecución de cabo a rabo debe producir evidencia visible sin permitir que una discontinuidad geométrica quede certificada por la sola conectividad del grafo.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.2.0.yml
 name: Producción territorial por contrato
@@ -130,11 +130,45 @@ jobs:
             echo 'La cadena terminó, pero M06 no supera la auditoría geométrica independiente.' >&2
             exit 32
           }
+      - name: Registrar estado verificable de producción
+        if: ${{ always() && inputs.mode == 'execute' }}
+        shell: bash
+        env:
+          EXECUTION_OUTCOME: ${{ steps.execute.outcome }}
+          GEOMETRIC_OUTCOME: ${{ steps.geometric.outcome }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          decision_path = Path("decision.json")
+          contract = json.loads(decision_path.read_text(encoding="utf-8")) if decision_path.is_file() else {}
+          execution = os.environ.get("EXECUTION_OUTCOME") or "unknown"
+          geometry = os.environ.get("GEOMETRIC_OUTCOME") or "unknown"
+          passed = execution == "success" and geometry == "success"
+          payload = {
+              "schema": "ddd.production-status/1.0",
+              "decision": "PASS" if passed else "BLOCK",
+              "territory_id": contract.get("territory_id"),
+              "params": contract.get("params", os.environ.get("PARAMS")),
+              "run_id": os.environ.get("DDD_RUN_ID"),
+              "from_stage": os.environ.get("FROM_STAGE"),
+              "to_stage": os.environ.get("TO_STAGE"),
+              "execution_outcome": execution,
+              "geometric_outcome": geometry,
+          }
+          Path("production_status.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps(payload, ensure_ascii=False))
+          PY
       - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: ddd-production-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             decision.json
+            production_status.json
             ${{ steps.resolve.outputs.runs_dir }}
           if-no-files-found: error

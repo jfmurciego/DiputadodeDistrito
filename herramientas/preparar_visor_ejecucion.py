@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Prepara el registro y los GeoJSON que consume el visor técnico DDD."""
+"""Prepara el registro verificable y los GeoJSON que consume el visor DDD.
+
+VERSIÓN: 1.1.0
+La identidad, K y estado de una ejecución proceden de su contrato y de
+``production_status.json``; nunca se infiere PASS porque exista un ZIP.
+"""
 from __future__ import annotations
 
 import argparse
@@ -7,6 +12,31 @@ import json
 import shutil
 import zipfile
 from pathlib import Path
+
+import yaml
+
+
+TERRITORY_LABELS = {
+    "andalucia": "Andalucía",
+    "aragon": "Aragón",
+    "principado_de_asturias": "Principado de Asturias",
+    "illes_balears": "Islas Baleares",
+    "canarias": "Canarias",
+    "cantabria": "Cantabria",
+    "castilla_la_mancha": "Castilla-La Mancha",
+    "castilla_y_leon": "Castilla y León",
+    "cataluna": "Cataluña",
+    "comunidad_valenciana": "Comunidad Valenciana",
+    "extremadura": "Extremadura",
+    "galicia": "Galicia",
+    "madrid": "Comunidad de Madrid",
+    "region_de_murcia": "Región de Murcia",
+    "comunidad_foral_de_navarra": "Comunidad Foral de Navarra",
+    "pais_vasco": "País Vasco",
+    "la_rioja": "La Rioja",
+    "ceuta": "Ceuta",
+    "melilla": "Melilla",
+}
 
 
 def read_geojson_zip(path: Path) -> dict:
@@ -37,6 +67,36 @@ def first(root: Path | None, pattern: str) -> Path | None:
         return None
     found = sorted(root.rglob(pattern))
     return found[0] if found else None
+
+
+def read_json(path: Path | None) -> dict:
+    return json.loads(path.read_text(encoding="utf-8")) if path and path.is_file() else {}
+
+
+def production_metadata(root: Path) -> dict:
+    decision = read_json(first(root, "decision.json"))
+    status = read_json(first(root, "production_status.json"))
+    params_value = status.get("params") or decision.get("params")
+    config = {}
+    if params_value:
+        params = Path(params_value)
+        if params.is_file():
+            config = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+    meta = config.get("meta") or {}
+    m06 = (config.get("modulos") or {}).get("modulo_06_consolidar_distritos") or {}
+    validation = config.get("validation") or {}
+    territory_id = status.get("territory_id") or decision.get("territory_id") or meta.get("territory_id")
+    if not territory_id:
+        raise ValueError("El artefacto de producción no identifica el territorio")
+    expected = m06.get("expected_districts") or validation.get("expected_districts")
+    if expected is None:
+        raise ValueError(f"El contrato de {territory_id} no declara expected_districts")
+    return {
+        "territory_id": territory_id,
+        "territory_label": meta.get("territory") or TERRITORY_LABELS.get(territory_id, territory_id),
+        "expected_districts": int(expected),
+        "production_status": status,
+    }
 
 
 def add_static(registry_path: Path | None, site: Path, results: list[dict]) -> None:
@@ -73,12 +133,15 @@ def add_production(
 ) -> None:
     if root is None or not root.exists():
         return
+    metadata = production_metadata(root)
     audit_path = first(root, "*_m06_contiguedad_geometrica.json")
     if audit_path is None and external_audit and external_audit.exists():
         audit_path = external_audit
     audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path else None
     geometric_status = (audit or {}).get("decision", "NOT_AUDITED")
     gate = (audit or {}).get("gate_statement")
+    production_status = metadata["production_status"]
+    recorded_status = production_status.get("decision")
     for stage, pattern, label, kind in [
         ("M06", "*_m06_distritos.geojson.zip", "M06 territorial", "canonical_m06"),
         ("M08", "*_m08_distritos_resultados.geojson.zip", "M08 electoral", "canonical_m08"),
@@ -89,16 +152,30 @@ def add_production(
         rid = run_id or "desconocido"
         dst = site / "data" / "results" / f"{stage.lower()}-{rid}.geojson"
         count = write_geojson_from_zip(src, dst)
+        technical_status = recorded_status or (
+            "BLOCK" if geometric_status == "BLOCK" else "UNKNOWN"
+        )
+        status_reasons = []
+        if not recorded_status:
+            status_reasons.append("MISSING_PRODUCTION_STATUS")
+        if geometric_status == "BLOCK":
+            technical_status = "BLOCK"
+            status_reasons.append("GEOMETRIC_CONTIGUITY_BLOCK")
+        if count != metadata["expected_districts"]:
+            technical_status = "BLOCK"
+            status_reasons.append("DISTRICT_COUNT_MISMATCH")
         results.append({
             "id": f"{stage.lower()}-{rid}",
-            "territory_id": "aragon",
-            "territory_label": "Aragón",
+            "territory_id": metadata["territory_id"],
+            "territory_label": metadata["territory_label"],
             "label": f"{label} · run {rid}",
             "kind": kind,
             "run_id": rid,
-            "expected_districts": count,
+            "expected_districts": metadata["expected_districts"],
+            "observed_districts": count,
             "viewer_path": str(dst.relative_to(site)).replace("\\", "/"),
-            "technical_status": "PASS",
+            "technical_status": technical_status,
+            "status_reasons": status_reasons,
             "publication_status": "BLOCKED",
             "geometric_status": geometric_status,
             "geometric_gate": gate,
@@ -113,6 +190,10 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
     if not summary_path:
         return
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    territory_id = summary.get("territory_id")
+    territory_label = summary.get("territory_label") or TERRITORY_LABELS.get(
+        territory_id, territory_id or "Territorio no identificado"
+    )
     base = summary_path.parent.parent if summary_path.parent.name == "data" else summary_path.parent
     for candidate in summary.get("candidates", []):
         asset = candidate.get("asset") or candidate.get("geojson")
@@ -130,14 +211,16 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
         shutil.copy2(src, dst)
         results.append({
             "id": f"ensemble-{candidate_id}",
-            "territory_id": summary.get("territory_id", "aragon"),
-            "territory_label": "Aragón",
+            "territory_id": territory_id,
+            "territory_label": territory_label,
             "label": f"Ensemble {candidate_id} · {candidate.get('profile', 'sin perfil')}",
             "kind": "ensemble_candidate",
             "candidate_id": candidate_id,
             "profile": candidate.get("profile"),
             "seed": candidate.get("seed"),
-            "expected_districts": 67,
+            "expected_districts": int(
+                ((candidate.get("metrics") or {}).get("population") or {}).get("district_count", 0)
+            ),
             "viewer_path": str(dst.relative_to(site)).replace("\\", "/"),
             "technical_status": "PASS",
             "publication_status": "BLOCKED",

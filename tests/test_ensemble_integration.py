@@ -18,6 +18,7 @@ import tempfile
 import unittest
 import csv
 import hashlib
+from ddd_core.m05_gerrychain_engine import AdaptedInputs, Contract, hard_constraint_violations
 from pathlib import Path
 
 
@@ -95,6 +96,39 @@ def invoke(config: Path, *extra: str) -> dict:
 
 
 class IntegratedRunnerTests(unittest.TestCase):
+    def test_component_graph_detects_multipart_discontinuity_hidden_by_section_graph(self):
+        nodes = {
+            "a": {"population": 10, "province": "P", "municipality": "A", "atomic_unit": "a", "closed_urban": False},
+            "b": {"population": 10, "province": "P", "municipality": "B", "atomic_unit": "b", "closed_urban": False},
+        }
+        data = AdaptedInputs(
+            nodes=nodes,
+            edges=[("a", "b")],
+            initial_assignment={"a": 0, "b": 0},
+            geojson={"type": "FeatureCollection", "features": []},
+            section_field="CUSEC_KEY",
+            district_field="district_id",
+            section_components={"a": ("a#0", "a#1"), "b": ("b#0",)},
+            component_edges=[("a#0", "b#0")],
+        )
+        contract = Contract(
+            k=1,
+            target_tolerance_ratio=1.0,
+            require_single_province=False,
+            require_municipality_discipline=False,
+            preserve_closed_urban=False,
+        )
+        violations = hard_constraint_violations(data, data.initial_assignment, contract)
+        self.assertNotIn("contiguity:0", violations)
+        self.assertIn("geometric_contiguity:0", violations)
+
+        data.component_edges.append(("a#1", "b#0"))
+        data.component_adjacency = {}
+        self.assertNotIn(
+            "geometric_contiguity:0",
+            hard_constraint_violations(data, data.initial_assignment, contract),
+        )
+
     def test_aragon_config_and_comarca_source_are_pinned(self):
         source = ROOT / "inputs/COMARCAS.csv"
         if source.is_file():
@@ -185,6 +219,8 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("DDD_TO_STAGE=M05", workflow)
         self.assertIn("--entrypoint /bin/bash", workflow)
         self.assertIn("auditar_topologia_geometrica.py", workflow)
+        self.assertIn("auditar_componentes_geometricos.py", workflow)
+        self.assertIn("base-geometric-components-preflight.json", workflow)
         interface = (ROOT / ".github/workflows/operacion-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("generar_alternativas_gerrychain", interface)
 

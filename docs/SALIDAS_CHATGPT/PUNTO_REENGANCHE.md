@@ -1,8 +1,8 @@
 # Punto de reenganche DDD
 
-Versión: 1.33.1
-Fecha: 2026-09-14
-Estado: paquete local-first y blindaje de workflows cerrados y certificados.
+Versión: 1.34.0
+Fecha: 2026-09-15
+Estado: corrección de certificación geométrica y estado de producción.
 Anterior: legacy/docs/PUNTO_REENGANCHE_v1.33.0.md
 
 ## Fuente operativa
@@ -14,14 +14,16 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.33.0.md
 - Puerta de admisión: herramientas/validar_contrato_territorial.py
 - CI de contratos: .github/workflows/validar-contratos-territoriales.yml
 - Lista de cierre: docs/CIERRE_INGENIERIA_PRODUCCION.md
-- Única interfaz manual: .github/workflows/operacion-territorial.yml
+- Interfaz territorial principal: .github/workflows/operacion-territorial.yml
 - Motor reutilizable sin formulario propio: .github/workflows/producir-territorio-por-contrato.yml
 - Migración al nuevo hilo: docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md
 - Prompt breve: docs/SALIDAS_CHATGPT/PROMPT_CORTO_AUDITORIA_PLATAFORMA.md
 
 ## Regla de ejecución
 
-Aragón y Castilla y León ya son productos certificados. Extremadura permanece EXPERIMENTAL_BLOCKED. No se repite M01–M06 ni se abre otra comunidad sin cambio material y orden expresa.
+Aragón conserva productos históricos y un contrato ejecutable, pero el candidato del run `34960965537` está bloqueado: 60 de 67 distritos superan la continuidad geométrica independiente. No es baseline canónico. Castilla y León conserva su evidencia técnica con publicación bloqueada; Extremadura permanece `EXPERIMENTAL_BLOCKED`.
+
+Producción escribe `production_status.json`; el visor obtiene identidad y K del contrato y no infiere `PASS` por la presencia de un ZIP. La regresión de Aragón y el preflight GerryChain exigen ahora continuidad de componentes poligonales. El motor GerryChain valida también las piezas de secciones `MultiPolygon`; comarca continúa como objetivo blando.
 
 ## Publicación pendiente
 
@@ -35,7 +37,7 @@ Usar G10 — Operar lote durable sólo tras una huella nueva. Si no cambia contr
 
 M01 incorpora un adaptador comarcal opcional por código municipal normalizado,
 con cobertura, duplicados y faltantes verificables. M03 y M06 conservan esos
-atributos sin convertirlos en una restricción. La única interfaz manual cubre
+atributos sin convertirlos en una restricción. La interfaz territorial principal cubre
 M01–M08 con nomenclatura institucional. No se ha habilitado ninguna fuente
 comarcal territorial ni se ha ejecutado comunidad alguna.
 

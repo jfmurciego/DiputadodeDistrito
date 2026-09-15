@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Aragón
-# VERSIÓN: 7.13.0
-# NOMBRE DE VERSIÓN: Baseline M01-M06 con topología métrica certificada
+# VERSIÓN: 7.13.1
+# NOMBRE DE VERSIÓN: Candidato M01-M06 bloqueado por continuidad geométrica
 # FECHA: 2026-09-15
-# QUÉ HACE: mantiene el contrato territorial de Aragón y fija el baseline certificado tras depurar la topología a frontera compartida mínima de un metro.
-# ESTADO: canónico F1.3 certificado M01-M06
-# CAMBIOS: sustituye el maxdev heredado por el valor certificado del run 34960965537 sobre 1.463 secciones y 4.063 aristas.
-# MOTIVO: el trinquete 0.099299365905 pertenecía al grafo anterior con contactos puntuales y deja de ser comparable tras cambiar el espacio topológico admisible.
+# QUÉ HACE: mantiene ejecutable el contrato territorial de Aragón, pero impide tratar como mapa canónico el resultado del run 34960965537.
+# ESTADO: candidato bloqueado; 60 de 67 distritos superan la continuidad geométrica independiente
+# CAMBIOS: corrige la promoción prematura del run 34960965537 sin borrar su configuración, resultados ni evidencia.
+# MOTIVO: la conectividad del grafo M03 no basta para certificar la continuidad de la geometría disuelta de M06.
 # ANTERIOR: legacy/configuracion/aragon_2025_v7.12.0.yaml
 meta:
   procedure_name: Diputado de Distrito
@@ -15,11 +15,11 @@ meta:
   territory: Aragón
   year: 2025
   scope: provincial
-  schema_version: 7.13.0
+  schema_version: 7.13.1
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
-  status: canonical_fase1
+  status: candidate_blocked_geometric_contiguity
 io:
   project_root: {path: ../../..}
   input:
@@ -45,7 +45,7 @@ territory_contract:
   province_codes: ['22','44','50']
   k_districts: 67
   k_source: historico_no_registrado
-  k_rationale: "K=67 es el baseline canónico certificado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."
+  k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
@@ -58,10 +58,10 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.75
   require_auditable_district_catalogue: true
   notes:
-    - K=67 y el reparto Huesca 11, Teruel 7 y Zaragoza 49 son el baseline territorial canónico.
+    - K=67 y el reparto Huesca 11, Teruel 7 y Zaragoza 49 son el baseline institucional heredado; no certifican por sí solos una asignación territorial.
     - La atomicidad 1.75 equivale al techo duro: preserva íntegro todo municipio que cabe en un distrito y solo permite dividirlo cuando mantenerlo unido haría imposible cumplir ese techo.
     - Los ratios 0.80/1.75/0.12 y la atomicidad 1.75 quedan sometidos a los trinquetes automáticos de Aragón; este traslado no altera parámetros ni asignaciones.
-    - La regresión M01-M06 exige 1.463 secciones, 1.364.621 habitantes, 67 distritos, contigüidad completa, tolerancia completa y maxdev no superior a 0.118204248652; este baseline procede del run 34960965537 con min_shared_border_m=1.0 y 4.063 aristas. El anterior 0.099299365905 correspondía al grafo con contactos puntuales y deja de ser canónico.
+    - El run 34960965537 produjo 1.463 secciones, 1.364.621 habitantes, 67 distritos, 4.063 aristas y maxdev 0.118204248652 con min_shared_border_m=1.0, pero queda bloqueado porque solo 60 de 67 distritos pasan la auditoría geométrica independiente. Este valor se conserva como referencia reproducible, no como trinquete canónico de publicación.
 
 modulos:
   modulo_01_preparar_base_territorial:
