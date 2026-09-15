@@ -1,0 +1,208 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal
+# VERSIÓN: 2.2.0
+# NOMBRE: Operación territorial institucional M01–M08
+# FECHA: 2026-09-15
+# ESTADO: vigente
+# QUÉ HACE: ofrece el único formulario territorial general para admitir, verificar o ejecutar la cadena M01–M08.
+# CAMBIOS: renombra la ruta activa y sustituye valores técnicos visibles por etiquetas públicas en español.
+# COMPATIBILIDAD: traduce las etiquetas públicas a los IDs técnicos existentes antes de invocar workflows reutilizables.
+# LIMITACIÓN UI: GitHub Actions choice no separa etiqueta visible y valor técnico; el resolvedor admite además los IDs históricos.
+# ANTERIOR: interfaz territorial v2.1.0 preservada en legacy.
+name: Operación territorial DDD — M01 a M08
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio del catálogo nacional
+        required: true
+        default: La Rioja
+        type: choice
+        options:
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
+          - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      operation:
+        description: Operación institucional
+        required: true
+        default: Admitir contrato
+        type: choice
+        options:
+          - Admitir contrato
+          - Verificar contrato
+          - Preparar base M01–M03
+          - Diagnosticar topología
+          - Certificar territorio M01–M06
+          - Producir resultado M01–M08
+          - Generar alternativas GerryChain
+      execution_authorization:
+        description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+        required: false
+        type: string
+      ensemble_stage:
+        description: Fase del ensemble GerryChain
+        required: false
+        default: Prueba sintética
+        type: choice
+        options:
+          - Prueba sintética
+          - Piloto Aragón — 10 alternativas
+          - Lote Aragón — 50 alternativas
+      ensemble_promotion_authorization:
+        description: Para 50, escribir PROMOVER_ARAGON_50 tras revisar piloto y coste
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  resolver_interfaz:
+    name: Resolver etiquetas públicas a contratos técnicos
+    runs-on: ubuntu-latest
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      operation: ${{ steps.resolve.outputs.operation }}
+      ensemble_stage: ${{ steps.resolve.outputs.ensemble_stage }}
+    steps:
+      - name: Resolver territorio, operación y fase
+        id: resolve
+        shell: bash
+        env:
+          UI_TERRITORY: ${{ inputs.territory_id }}
+          UI_OPERATION: ${{ inputs.operation }}
+          UI_ENSEMBLE_STAGE: ${{ inputs.ensemble_stage }}
+        run: |
+          set -euo pipefail
+
+          case "$UI_TERRITORY" in
+            "Andalucía"|andalucia) territory_id=andalucia ;;
+            "Aragón"|aragon) territory_id=aragon ;;
+            "Principado de Asturias"|principado_de_asturias) territory_id=principado_de_asturias ;;
+            "Islas Baleares"|illes_balears) territory_id=illes_balears ;;
+            "Canarias"|canarias) territory_id=canarias ;;
+            "Cantabria"|cantabria) territory_id=cantabria ;;
+            "Castilla-La Mancha"|castilla_la_mancha) territory_id=castilla_la_mancha ;;
+            "Castilla y León"|castilla_y_leon) territory_id=castilla_y_leon ;;
+            "Cataluña"|cataluna) territory_id=cataluna ;;
+            "Comunidad Valenciana"|comunidad_valenciana) territory_id=comunidad_valenciana ;;
+            "Extremadura"|extremadura) territory_id=extremadura ;;
+            "Galicia"|galicia) territory_id=galicia ;;
+            "Comunidad de Madrid"|madrid) territory_id=madrid ;;
+            "Región de Murcia"|region_de_murcia) territory_id=region_de_murcia ;;
+            "Comunidad Foral de Navarra"|comunidad_foral_de_navarra) territory_id=comunidad_foral_de_navarra ;;
+            "País Vasco"|pais_vasco) territory_id=pais_vasco ;;
+            "La Rioja"|la_rioja) territory_id=la_rioja ;;
+            "Ceuta"|ceuta) territory_id=ceuta ;;
+            "Melilla"|melilla) territory_id=melilla ;;
+            *) echo "::error::Territorio no reconocido: $UI_TERRITORY"; exit 1 ;;
+          esac
+
+          case "$UI_OPERATION" in
+            "Admitir contrato"|admitir_contrato) operation=admitir_contrato ;;
+            "Verificar contrato"|verificar_contrato) operation=verificar_contrato ;;
+            "Preparar base M01–M03"|preparar_base_m01_m03) operation=preparar_base_m01_m03 ;;
+            "Diagnosticar topología"|diagnosticar_topologia) operation=diagnosticar_topologia ;;
+            "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
+            "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
+            "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
+            *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
+          esac
+
+          case "$UI_ENSEMBLE_STAGE" in
+            "Prueba sintética"|synthetic) ensemble_stage=synthetic ;;
+            "Piloto Aragón — 10 alternativas"|aragon_10) ensemble_stage=aragon_10 ;;
+            "Lote Aragón — 50 alternativas"|aragon_50) ensemble_stage=aragon_50 ;;
+            *) echo "::error::Fase GerryChain no reconocida: $UI_ENSEMBLE_STAGE"; exit 1 ;;
+          esac
+
+          {
+            echo "territory_id=$territory_id"
+            echo "operation=$operation"
+            echo "ensemble_stage=$ensemble_stage"
+          } >> "$GITHUB_OUTPUT"
+
+  admit:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'admitir_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
+      mode: admit_only
+      from_stage: TERRITORY_PREPARATION
+      to_stage: TERRITORIAL_CERTIFICATION
+
+  verify:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'verificar_contrato' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
+      mode: verify_only
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+
+  bootstrap:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'preparar_base_m01_m03' }}
+    uses: ./.github/workflows/_reutilizable-bootstrap-territorio.yml
+    with:
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+
+  diagnose:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'diagnosticar_topologia' }}
+    uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
+    with:
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+
+  certify:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'certificar_territorio_m01_m06' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: TERRITORIAL_CERTIFICATION
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  publish:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'producir_resultado_m01_m08' }}
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+      execution_authorization: ${{ inputs.execution_authorization }}
+
+  ensemble:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'generar_alternativas_gerrychain' }}
+    uses: ./.github/workflows/generar-alternativas-territoriales.yml
+    with:
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+      stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
+      execution_authorization: ${{ inputs.execution_authorization }}
+      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}

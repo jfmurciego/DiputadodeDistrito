@@ -1,0 +1,54 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.2.0
+# NOMBRE: Desplegar visor público MapLibre
+# ESTADO: activo
+# QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
+# CAMBIOS: conserva el despliegue únicamente bajo orden manual; la validación automática permanece separada.
+# ANTERIOR: legacy/workflows/blindaje_automatico/desplegar-visor-publico_v1.1.0.yml
+# MOTIVO: un push de código o una restauración no debe modificar GitHub Pages.
+name: Desplegar visor público
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validar visor y contrato de publicación
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output /tmp/public-products.json
+      - name: Empaquetar lectura pública
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p site/data/aragon site/data/castilla_y_leon
+          cp visor/index.html visor/app.js visor/styles.css site/
+          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
+          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
