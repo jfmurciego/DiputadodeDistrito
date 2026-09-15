@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
-# NOMBRE: Puerta de contratos territoriales de producción
-# FECHA: 2026-09-13
-# ESTADO: vigente — R034
-# QUÉ HACE: certifica que los contratos publicados de Aragón y Castilla y León pueden entrar en la cadena común M01-M06; no ejecuta módulos territoriales.
-# MOTIVO: rechazar configuración incompleta, incoherente o fuera del repositorio antes de consumir cálculo.
-# ANTERIOR: ninguno — workflow nuevo.
+# VERSIÓN: 1.1.0
+# NOMBRE: Puerta genérica de contratos territoriales de producción
+# FECHA: 2026-09-15
+# ESTADO: vigente — R034/R040
+# QUÉ HACE: descubre y certifica todos los contratos production_m01_m06 no bloqueados experimentalmente; no ejecuta módulos territoriales.
+# MOTIVO: eliminar la lista fija Aragón/Castilla y permitir que R040 pruebe un territorio nuevo sin modificar esta puerta.
+# ANTERIOR: legacy/workflows/validar-contratos-territoriales_v1.0.0.yml
 name: Validar contratos territoriales
 
 on:
@@ -17,8 +17,8 @@ on:
       - 'ddd_core/territory_contract.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'schemas/territory-production-contract.schema.json'
-      - 'territorios/aragon/config/aragon_2025.yaml'
-      - 'territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml'
+      - 'configuracion/catalogo_territorios_espana_2025.yaml'
+      - 'territorios/**/config/*.yaml'
       - 'inputs/MANIFEST.sha256'
       - 'tests/test_territory_contract_admission.py'
       - '.github/workflows/validar-contratos-territoriales.yml'
@@ -28,6 +28,7 @@ on:
       - 'ddd_core/territory_contract.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'schemas/territory-production-contract.schema.json'
+      - 'configuracion/catalogo_territorios_espana_2025.yaml'
       - 'territorios/**/config/*.yaml'
       - 'inputs/MANIFEST.sha256'
       - 'tests/test_territory_contract_admission.py'
@@ -48,8 +49,41 @@ jobs:
         run: python -m unittest tests.test_territory_contract_admission -v
       - name: Emitir certificados sin cálculo territorial
         run: |
-          python herramientas/validar_contrato_territorial.py --territory aragon --params territorios/aragon/config/aragon_2025.yaml --output certificados/contrato-aragon.json
-          python herramientas/validar_contrato_territorial.py --territory castilla_y_leon --params territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml --output certificados/contrato-castilla-y-leon.json
+          python - <<'PY'
+          import subprocess
+          import sys
+          from pathlib import Path
+          import yaml
+
+          root = Path('.')
+          configs = []
+          for path in sorted((root / 'territorios').glob('*/config/*_2025.yaml')):
+              data = yaml.safe_load(path.read_text(encoding='utf-8')) or {}
+              meta = data.get('meta') or {}
+              if meta.get('contract_level') != 'production_m01_m06':
+                  continue
+              if meta.get('status') == 'experimental_blocked':
+                  continue
+              territory_id = meta.get('territory_id')
+              if not territory_id:
+                  raise SystemExit(f'Contrato sin territory_id: {path}')
+              configs.append((territory_id, path))
+
+          if not configs:
+              raise SystemExit('No se encontró ningún contrato production_m01_m06 admisible')
+
+          out = root / 'certificados'
+          out.mkdir(parents=True, exist_ok=True)
+          for territory_id, path in configs:
+              print(f'Validando contrato: {territory_id} -> {path}')
+              subprocess.run([
+                  sys.executable,
+                  'herramientas/validar_contrato_territorial.py',
+                  '--territory', territory_id,
+                  '--params', str(path),
+                  '--output', str(out / f'contrato-{territory_id}.json'),
+              ], check=True)
+          PY
       - uses: actions/upload-artifact@v6
         with:
           name: certificados-contratos-${{ github.run_id }}
