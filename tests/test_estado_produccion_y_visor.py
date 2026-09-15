@@ -72,7 +72,21 @@ class ProductionViewerStateTests(unittest.TestCase):
             self.assertEqual(result["expected_districts"], 2)
             self.assertEqual(result["observed_districts"], 2)
             self.assertEqual(result["technical_status"], "PASS")
+            self.assertEqual(result["certification_status"], "CERTIFIED")
             self.assertEqual(result["status_reasons"], [])
+
+    def test_governed_exceptions_are_certified_but_not_publicable(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root, site = self.fixture(raw, audit="PASS_WITH_EXCEPTIONS", status="PASS_WITH_EXCEPTIONS")
+            audit_path = root / "result_m06_contiguedad_geometrica.json"
+            audit_path.write_text(json.dumps({
+                "decision": "PASS_WITH_EXCEPTIONS", "blocked_districts": 0,
+                "policy_mismatches": 0, "contract_blockers": [],
+            }), encoding="utf-8")
+            results = []
+            add_production(root, site, "123", results)
+            self.assertEqual(results[0]["certification_status"], "CERTIFIED_WITH_GOVERNED_EXCEPTIONS")
+            self.assertEqual(results[0]["publication_status"], "BLOCKED")
 
     def test_geometry_and_count_override_a_claimed_pass(self):
         with tempfile.TemporaryDirectory() as raw:

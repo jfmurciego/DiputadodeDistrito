@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.1.1
+VERSIÓN: 1.2.0
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -92,6 +92,22 @@ def first(root: Path | None, pattern: str) -> Path | None:
 
 def read_json(path: Path | None) -> dict:
     return json.loads(path.read_text(encoding="utf-8")) if path and path.is_file() else {}
+
+
+def certification_status(technical_status: str | None, audit: dict | None) -> str:
+    """Separa certificación técnica de la autorización política de publicación."""
+    audit = audit or {}
+    if technical_status == "PASS" and audit.get("decision") == "PASS":
+        return "CERTIFIED"
+    if (
+        technical_status == "PASS_WITH_EXCEPTIONS"
+        and audit.get("decision") == "PASS_WITH_EXCEPTIONS"
+        and not audit.get("blocked_districts")
+        and not audit.get("policy_mismatches")
+        and not audit.get("contract_blockers")
+    ):
+        return "CERTIFIED_WITH_GOVERNED_EXCEPTIONS"
+    return "BLOCKED"
 
 
 def production_metadata(root: Path) -> dict:
@@ -185,6 +201,9 @@ def add_production(
         if count != metadata["expected_districts"]:
             technical_status = "BLOCK"
             status_reasons.append("DISTRICT_COUNT_MISMATCH")
+        certified = certification_status(technical_status, audit)
+        if technical_status == "BLOCK":
+            certified = "BLOCKED"
         results.append({
             "id": f"{stage.lower()}-{rid}",
             "territory_id": metadata["territory_id"],
@@ -196,6 +215,7 @@ def add_production(
             "observed_districts": count,
             "viewer_path": str(dst.relative_to(site)).replace("\\", "/"),
             "technical_status": technical_status,
+            "certification_status": certified,
             "status_reasons": status_reasons,
             "publication_status": "BLOCKED",
             "geometric_status": geometric_status,
