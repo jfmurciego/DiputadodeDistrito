@@ -1,19 +1,28 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE: Desplegar visor público MapLibre
+# VERSIÓN: 1.3.0
+# NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
 # ESTADO: activo
-# QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
-# CAMBIOS: conserva el despliegue únicamente bajo orden manual; la validación automática permanece separada.
-# ANTERIOR: legacy/workflows/blindaje_automatico/desplegar-visor-publico_v1.1.0.yml
-# MOTIVO: un push de código o una restauración no debe modificar GitHub Pages.
-name: Desplegar visor público
+# QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
+# CAMBIOS: añade selector de resultado y descarga artefactos/release sin escribir GeoJSON grandes en main.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
+name: Desplegar visor técnico
 
 on:
   workflow_dispatch:
+    inputs:
+      production_run_id:
+        description: Run de producción M06/M08 que se quiere ver (opcional)
+        required: false
+        type: string
+      ensemble_release_tag:
+        description: Tag del ensemble que se quiere añadir al combo (opcional)
+        required: false
+        type: string
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -27,23 +36,57 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PRODUCTION_RUN_ID: ${{ inputs.production_run_id }}
+      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag }}
     steps:
       - uses: actions/checkout@v6
-      - name: Validar visor y contrato de publicación
+      - name: Validar visor y preparador
         shell: bash
         run: |
           set -euo pipefail
           node --check visor/app.js
-          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output /tmp/public-products.json
-      - name: Empaquetar lectura pública
+          python -m py_compile herramientas/preparar_visor_ejecucion.py
+      - name: Recuperar run territorial solicitado
+        if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p site/data/aragon site/data/castilla_y_leon
+          mkdir -p /tmp/production
+          gh run download "$PRODUCTION_RUN_ID" --dir /tmp/production
+      - name: Recuperar ensemble solicitado
+        if: ${{ inputs.ensemble_release_tag != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ensemble/download /tmp/ensemble/unpacked
+          gh release download "$ENSEMBLE_RELEASE_TAG" --pattern "$ENSEMBLE_RELEASE_TAG.zip" --dir /tmp/ensemble/download
+          archive="$(find /tmp/ensemble/download -name '*.zip' -print -quit)"
+          test -n "$archive"
+          unzip -q "$archive" -d /tmp/ensemble/unpacked
+      - name: Empaquetar visor de ejecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site
           cp visor/index.html visor/app.js visor/styles.css site/
-          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
-          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
-          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
+          args=(--site site --static-registry orchestracion/productos_publicos.json)
+          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+            args+=(--production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID")
+            audit="docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_m06_contiguedad_geometrica_run_${PRODUCTION_RUN_ID}.json"
+            [[ -f "$audit" ]] && args+=(--production-audit "$audit")
+          fi
+          [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
+          python herramientas/preparar_visor_ejecucion.py "${args[@]}"
+          python - <<'PY'
+          import json
+          p=json.load(open('site/data/viewer-results.json',encoding='utf-8'))
+          print('[VISOR] opciones:', len(p['results']))
+          for item in p['results']:
+              print(' -', item['label'], '|', item.get('geometric_status'))
+          PY
       - uses: actions/configure-pages@v5
         with:
           enablement: true
