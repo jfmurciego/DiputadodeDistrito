@@ -41,17 +41,3 @@ jobs:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: ci-unittest.log
           if-no-files-found: error
-
-  republish_aragon10_once:
-    if: ${{ github.event_name == 'push' }}
-    permissions:
-      contents: write
-      actions: read
-      pages: write
-      id-token: write
-    uses: ./.github/workflows/generar-alternativas-territoriales.yml
-    with:
-      territory_id: aragon
-      stage: aragon_10
-      republish_source_run_id: '35010802888'
-      deploy_pages: true
