@@ -3,7 +3,7 @@
 # VERSIÓN: 1.0.0
 # NOMBRE DE VERSIÓN: Router único de operación territorial
 # FECHA: 2026-09-15
-# ESTADO: histórico
+# ESTADO: vigente
 # QUÉ HACE: recibe una operación ya resuelta y delega exclusivamente en los componentes reutilizables existentes.
 # CAMBIOS: primera versión; concentra el enrutado que antes estaba expuesto como ramas hermanas en la interfaz principal.
 # MOTIVO: la interfaz principal no debe declarar todas las rutas mutuamente excluyentes como jobs visibles.
