@@ -46,8 +46,8 @@ Se conservaron sin pérdida en `legacy/`:
 
 - `legacy/workflows/cleanup_2026-09-14/`: promoción M01–M03 sustituida,
   exportador Flourish de una sola finalidad y antiguo publicador de sitio.
-- `legacy/workflows/interfaz/picadora-territorial_v2.1.0.yml`: copia exacta de
-  la interfaz principal previa al renombrado institucional del 15-09-2026.
+- `legacy/workflows/interfaz/`: copia exacta de la interfaz principal previa
+  al renombrado institucional del 15-09-2026.
 - `legacy/publication/sitio_geometria/`: copias de publicación que duplicaban
   la fuente canónica de `resultados/finales/`.
 

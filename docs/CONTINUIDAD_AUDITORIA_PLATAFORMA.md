@@ -34,7 +34,7 @@ Eso **no demuestra aún** que la plataforma nacional esté terminada. R035 certi
 - [x] **R036 — Esquema único.** Familia `ddd-territory`, versión de contrato y niveles `bootstrap_m01_m03` / `production_m01_m06` formalizados.
 - [x] **R037 — Aislados y desconexiones.** R023 se convierte en bloqueo explícito; toda reparación futura exige pasarela tipada, motivada y con fuente.
 - [x] **R037 — Archipiélagos.** Contigüidad interna por componente, sin aristas marítimas ni distritos entre islas; K se reparte antes de M04.
-- [x] **R038 — Operación limpia.** Diez workflows sustituidos están en `legacy/workflows/r038`; la picadora manual y la línea contractual son las únicas interfaces territoriales activas. CI `34830677071` SUCCESS.
+- [x] **R038 — Operación limpia.** Diez workflows sustituidos están en `legacy/workflows/r038`; la interfaz manual y la línea contractual son las únicas interfaces territoriales activas. CI `34830677071` SUCCESS.
 - [x] **R039 — Capa electoral.** Contrato `ddd-election` 1.0.0, entrada con SHA-256 y procedencia, adaptadores declarativos, diccionario canónico cerrado y unión M08 exhaustiva. Aragón es la implantación de referencia; el código común no contiene tablas territoriales. CI `34833051502` SUCCESS.
 - [ ] **R040 — Prueba ciega.** Cuando exista autorización explícita, ejecutar La Rioja sin tocar `.github/workflows/`, `modulos/` ni `ddd_core`; después Cantabria para probar el caso degradado.
 - [ ] **Publicación.** Pages sigue dependiendo de habilitación del propietario; el artefacto descargable ya evita que ese permiso bloquee la entrega.

@@ -26,7 +26,7 @@ No hay expansión territorial activa. Ninguna comunidad posterior se ejecuta sin
 
 GerryChain/ReCom se integra como M05 alternativo, con dependencias aisladas y
 sin sustituir el motor canónico. La única entrada manual continúa siendo
-`picadora-territorial.yml`. El orden obligatorio es prueba sintética, piloto
+`operacion-territorial.yml`. El orden obligatorio es prueba sintética, piloto
 Aragón de 10 alternativas y lote de 50 únicamente tras revisar coste y
 publicación. Véase `docs/ENSEMBLES_GERRYCHAIN.md`.
 

@@ -8,7 +8,7 @@
 # CAMBIOS: renombra la ruta activa y sustituye valores técnicos visibles por etiquetas públicas en español.
 # COMPATIBILIDAD: traduce las etiquetas públicas a los IDs técnicos existentes antes de invocar workflows reutilizables.
 # LIMITACIÓN UI: GitHub Actions choice no separa etiqueta visible y valor técnico; el resolvedor admite además los IDs históricos.
-# ANTERIOR: legacy/workflows/interfaz/picadora-territorial_v2.1.0.yml
+# ANTERIOR: interfaz territorial v2.1.0 preservada en legacy.
 name: Operación territorial DDD — M01 a M08
 
 on:

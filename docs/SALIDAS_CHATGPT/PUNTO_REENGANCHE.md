@@ -14,7 +14,7 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.33.0.md
 - Puerta de admisión: herramientas/validar_contrato_territorial.py
 - CI de contratos: .github/workflows/validar-contratos-territoriales.yml
 - Lista de cierre: docs/CIERRE_INGENIERIA_PRODUCCION.md
-- Única interfaz manual: .github/workflows/picadora-territorial.yml
+- Única interfaz manual: .github/workflows/operacion-territorial.yml
 - Motor reutilizable sin formulario propio: .github/workflows/producir-territorio-por-contrato.yml
 - Migración al nuevo hilo: docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md
 - Prompt breve: docs/SALIDAS_CHATGPT/PROMPT_CORTO_AUDITORIA_PLATAFORMA.md

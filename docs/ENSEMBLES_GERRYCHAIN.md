@@ -29,7 +29,7 @@ de iniciar sus cinco perfiles.
 ## Operación
 
 La única entrada humana es **Operación territorial DDD — M01 a M08**. La
-operación `generar_alternativas_gerrychain` llama al workflow reutilizable en
+operación **Generar alternativas GerryChain** llama al workflow reutilizable en
 tres fases:
 
 1. `synthetic`: pruebas unitarias, integración real de ReCom y lote sintético.
@@ -52,9 +52,9 @@ El entorno se instala desde `requirements-ensemble.lock`, separado del
 
 En GitHub Actions, abrir **Operación territorial DDD — M01 a M08** y seleccionar:
 
-- territorio: `aragon`;
-- operación: `generar_alternativas_gerrychain`;
-- fase: `aragon_10`;
+- territorio: **Aragón**;
+- operación: **Generar alternativas GerryChain**;
+- fase: **Piloto Aragón — 10 alternativas**;
 - autorización: `EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION`.
 
 El piloto genera diez candidatos, conserva resultados reanudables en una

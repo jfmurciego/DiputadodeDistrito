@@ -2,6 +2,13 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-15 — Interfaz territorial en español
+
+La interfaz manual pasa a `operacion-territorial.yml`. El formulario presenta
+los 19 territorios y sus operaciones con nombres españoles legibles, incluido
+**Islas Baleares**, y mantiene la compatibilidad con los identificadores
+técnicos existentes. No se ejecuta ningún módulo ni resultado territorial.
+
 ## 2026-09-15 — Piloto GerryChain ejecutable y defendible
 
 El ensemble parte ahora de M05, nunca de una semilla M04 que incumpla las
@@ -77,7 +84,7 @@ ningún módulo territorial.
 El commit `148d705` supera la suite `34786913415`. Se certifican 214 nombres
 técnicos únicos y recomputables. C-12 queda cerrado sin modificar límites.
 
-## 2026-09-14 — R038 — Picadora y operación limpia
+## 2026-09-14 — R038 — Interfaz y operación limpia
 
 Se archivan diez workflows territoriales sustituidos y se crea una única
 interfaz manual con cinco operaciones. La línea común pasa a ser reutilizable,

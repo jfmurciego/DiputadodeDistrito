@@ -25,7 +25,7 @@ institucional M01–M08 y corrección del inventario operativo de workflows.
 
 ## Interfaz operativa
 
-`.github/workflows/picadora-territorial.yml` es el único formulario territorial.
+`.github/workflows/operacion-territorial.yml` es el único formulario territorial.
 La línea `producir-territorio-por-contrato.yml` solo acepta `workflow_call`.
 El antiguo `g10-ejecutar-tramo-certificado.yml` queda en legacy. La autorización
 literal sigue siendo obligatoria para cualquier operación que ejecute módulos.
