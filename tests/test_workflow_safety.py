@@ -1,4 +1,15 @@
-"""Contrato: cálculo pesado y publicación solo bajo orden manual."""
+"""
+PROYECTO: Diputado de Distrito
+PRUEBA: seguridad y gobierno de workflows
+VERSIÓN: 1.1.0
+FECHA: 2026-09-15
+CAMBIO: mantiene obligatoria la ausencia de workflows sustituidos en la ruta
+activa y comprueba su archivo histórico solo cuando legacy está materializado.
+Dentro de la imagen reproducible sin legacy, la omisión solo se admite mediante
+DDD_SKIP_LEGACY_CHECK=1, ya usado por la puerta CI tras auditar legacy en checkout.
+ANTERIOR: legacy/tests/test_workflow_safety_pre_ci_container_fix_2026-09-15.py
+"""
+import os
 from pathlib import Path
 import unittest
 import yaml
@@ -28,12 +39,22 @@ class WorkflowSafety(unittest.TestCase):
 
     def test_workflows_sustituidos_estan_archivados(self):
         archived=ROOT/"legacy/workflows/cleanup_2026-09-14"
-        for active, historical in {
+        expected={
             "_reutilizable-promocion-m01-m03.yml":"_reutilizable-promocion-m01-m03_v1.0.0.yml",
             "exportar-aragon-flourish.yml":"exportar-aragon-flourish_v1.1.0.yml",
             "publicar-sitio.yml":"publicar-sitio_v2.2.0.yml",
-        }.items():
+        }
+        for active in expected:
             self.assertFalse((WORKFLOWS/active).exists())
-            self.assertTrue((archived/historical).is_file())
+
+        if archived.is_dir():
+            for historical in expected.values():
+                self.assertTrue((archived/historical).is_file())
+        else:
+            self.assertEqual(
+                os.environ.get("DDD_SKIP_LEGACY_CHECK"),
+                "1",
+                "legacy ausente fuera del entorno reproducible autorizado",
+            )
 
 if __name__=="__main__":unittest.main()
