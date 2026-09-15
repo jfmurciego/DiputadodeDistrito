@@ -1,18 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa específica de extremo a extremo
-# VERSIÓN: 1.0.1
+# VERSIÓN: 1.0.2
 # FECHA: 2026-09-15
 # QUÉ HACE: ejecuta Aragón M01–M08 y despliega automáticamente un visor con todos los productos disponibles del run.
-# PRINCIPIO: una sola orden humana; la cadena conserva artefactos y visor incluso cuando una puerta posterior bloquea la promoción.
+# PRINCIPIO: un solo clic humano sobre workflow_dispatch constituye la autorización explícita de esta ejecución integral; no se piden parámetros técnicos al operador.
 name: Aragón — M01 a M08 y visor
 
 on:
   workflow_dispatch:
-    inputs:
-      execution_authorization:
-        description: Escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -32,7 +27,7 @@ jobs:
       mode: execute
       from_stage: TERRITORY_PREPARATION
       to_stage: PUBLIC_PRODUCT_PUBLICATION
-      execution_authorization: ${{ inputs.execution_authorization }}
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
 
   viewer:
     name: Ensamblar y desplegar visor de la ejecución
