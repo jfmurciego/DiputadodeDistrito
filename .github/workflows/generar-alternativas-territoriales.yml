@@ -1,8 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.2.0
 # FECHA: 2026-09-15
-# QUÉ HACE: valida topología y partición inicial antes de producir ensembles reanudables sin escribir resultados en main.
+# QUÉ HACE: valida topología y partición inicial, produce ensembles reanudables y expone su galería como artefacto reutilizable por el visor unificado.
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.1.1.yml
 name: Ensemble territorial GerryChain
 
 on:
@@ -12,6 +13,7 @@ on:
       stage: {required: true, type: string}
       execution_authorization: {required: false, type: string, default: ''}
       promotion_authorization: {required: false, type: string, default: ''}
+      deploy_pages: {required: false, type: boolean, default: true}
 
 permissions:
   contents: write
@@ -248,14 +250,20 @@ jobs:
             gh release create "$tag" "$asset" --draft --title "$tag" \
               --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
           fi
-      - uses: actions/configure-pages@v5
+      - uses: actions/upload-artifact@v6
         if: ${{ steps.status.outputs.complete == 'true' }}
+        with:
+          name: ensemble-site-${{ needs.base.outputs.run_key }}
+          retention-days: 14
+          path: work/ensemble/site
+      - uses: actions/configure-pages@v5
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v4
-        if: ${{ steps.status.outputs.complete == 'true' }}
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
         with:
           path: work/ensemble/site
       - id: deployment
-        if: ${{ steps.status.outputs.complete == 'true' }}
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
         uses: actions/deploy-pages@v4
