@@ -1,0 +1,208 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa principal
+# VERSIÓN: 3.1.1
+# NOMBRE DE VERSIÓN: Ruta única compatible con IDs semánticos
+# FECHA: 2026-09-15
+# ESTADO: vigente
+# QUÉ HACE: conserva las siete operaciones institucionales y delega una sola ruta reutilizable ya resuelta.
+# CAMBIOS: preserva resolver+ruta, Desde/Hasta y los siete IDs institucionales; restaura además los aliases semánticos TERRITORY_* / DISTRICT_* / PUBLIC_PRODUCT_PUBLICATION.
+# COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta y por defecto ejecuta M01–M08.
+# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.0.yml
+name: Operación territorial DDD — M01 a M08
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio del catálogo nacional
+        required: true
+        default: La Rioja
+        type: choice
+        options:
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
+          - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      operation:
+        description: Operación institucional
+        required: true
+        default: Admitir contrato
+        type: choice
+        options:
+          - Admitir contrato
+          - Verificar contrato
+          - Preparar base M01–M03
+          - Diagnosticar topología
+          - Certificar territorio M01–M06
+          - Producir resultado M01–M08
+          - Generar alternativas GerryChain
+      from_stage:
+        description: Desde módulo (aplica a Producir resultado M01–M08)
+        required: true
+        default: M01
+        type: choice
+        options: [M01, M02, M03, M04, M05, M06, M07, M08]
+      to_stage:
+        description: Hasta módulo (aplica a Producir resultado M01–M08)
+        required: true
+        default: M08
+        type: choice
+        options: [M01, M02, M03, M04, M05, M06, M07, M08]
+      checkpoint_run_id:
+        description: Run modular anterior del que reanudar cuando Desde módulo sea posterior a M01
+        required: false
+        type: string
+      execution_authorization:
+        description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+        required: false
+        type: string
+      ensemble_stage:
+        description: Fase del ensemble GerryChain
+        required: false
+        default: Prueba sintética
+        type: choice
+        options:
+          - Prueba sintética
+          - Piloto Aragón — 10 alternativas
+          - Lote Aragón — 50 alternativas
+      ensemble_promotion_authorization:
+        description: Para 50, escribir PROMOVER_ARAGON_50 tras revisar piloto y coste
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  resolver_interfaz:
+    name: Resolver etiquetas públicas a contratos técnicos
+    runs-on: ubuntu-latest
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      operation: ${{ steps.resolve.outputs.operation }}
+      from_stage: ${{ steps.resolve.outputs.from_stage }}
+      to_stage: ${{ steps.resolve.outputs.to_stage }}
+      ensemble_stage: ${{ steps.resolve.outputs.ensemble_stage }}
+    steps:
+      - name: Resolver territorio, operación, tramo y fase
+        id: resolve
+        shell: bash
+        env:
+          UI_TERRITORY: ${{ inputs.territory_id }}
+          UI_OPERATION: ${{ inputs.operation }}
+          UI_FROM_STAGE: ${{ inputs.from_stage }}
+          UI_TO_STAGE: ${{ inputs.to_stage }}
+          UI_ENSEMBLE_STAGE: ${{ inputs.ensemble_stage }}
+        run: |
+          set -euo pipefail
+
+          case "$UI_TERRITORY" in
+            "Andalucía"|andalucia) territory_id=andalucia ;;
+            "Aragón"|aragon) territory_id=aragon ;;
+            "Principado de Asturias"|principado_de_asturias) territory_id=principado_de_asturias ;;
+            "Islas Baleares"|illes_balears) territory_id=illes_balears ;;
+            "Canarias"|canarias) territory_id=canarias ;;
+            "Cantabria"|cantabria) territory_id=cantabria ;;
+            "Castilla-La Mancha"|castilla_la_mancha) territory_id=castilla_la_mancha ;;
+            "Castilla y León"|castilla_y_leon) territory_id=castilla_y_leon ;;
+            "Cataluña"|cataluna) territory_id=cataluna ;;
+            "Comunidad Valenciana"|comunidad_valenciana) territory_id=comunidad_valenciana ;;
+            "Extremadura"|extremadura) territory_id=extremadura ;;
+            "Galicia"|galicia) territory_id=galicia ;;
+            "Comunidad de Madrid"|madrid) territory_id=madrid ;;
+            "Región de Murcia"|region_de_murcia) territory_id=region_de_murcia ;;
+            "Comunidad Foral de Navarra"|comunidad_foral_de_navarra) territory_id=comunidad_foral_de_navarra ;;
+            "País Vasco"|pais_vasco) territory_id=pais_vasco ;;
+            "La Rioja"|la_rioja) territory_id=la_rioja ;;
+            "Ceuta"|ceuta) territory_id=ceuta ;;
+            "Melilla"|melilla) territory_id=melilla ;;
+            *) echo "::error::Territorio no reconocido: $UI_TERRITORY"; exit 1 ;;
+          esac
+
+          case "$UI_OPERATION" in
+            "Admitir contrato"|admitir_contrato) operation=admitir_contrato ;;
+            "Verificar contrato"|verificar_contrato) operation=verificar_contrato ;;
+            "Preparar base M01–M03"|preparar_base_m01_m03) operation=preparar_base_m01_m03 ;;
+            "Diagnosticar topología"|diagnosticar_topologia) operation=diagnosticar_topologia ;;
+            "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
+            "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
+            "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
+            *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
+          esac
+
+          case "$operation" in
+            preparar_base_m01_m03) UI_FROM_STAGE=M01; UI_TO_STAGE=M03 ;;
+            certificar_territorio_m01_m06) UI_FROM_STAGE=M01; UI_TO_STAGE=M06 ;;
+          esac
+
+          stage_number() {
+            case "$1" in
+              M01|TERRITORY_PREPARATION) echo 1 ;;
+              M02|TERRITORY_ADJACENCY) echo 2 ;;
+              M03|TERRITORY_GRAPH) echo 3 ;;
+              M04|DISTRICT_FORMATION) echo 4 ;;
+              M05|DISTRICT_BALANCING) echo 5 ;;
+              M06|TERRITORIAL_CERTIFICATION) echo 6 ;;
+              M07|ELECTORAL_ENRICHMENT) echo 7 ;;
+              M08|PUBLIC_PRODUCT_PUBLICATION) echo 8 ;;
+              *) return 1 ;;
+            esac
+          }
+          from_num="$(stage_number "$UI_FROM_STAGE")" || { echo "::error::Desde módulo inválido: $UI_FROM_STAGE"; exit 1; }
+          to_num="$(stage_number "$UI_TO_STAGE")" || { echo "::error::Hasta módulo inválido: $UI_TO_STAGE"; exit 1; }
+          if [[ "$operation" == producir_resultado_m01_m08 ]] && (( from_num > to_num )); then
+            echo "::error::Desde módulo no puede ser posterior a Hasta módulo."
+            exit 1
+          fi
+
+          case "$UI_ENSEMBLE_STAGE" in
+            "Prueba sintética"|synthetic) ensemble_stage=synthetic ;;
+            "Piloto Aragón — 10 alternativas"|aragon_10) ensemble_stage=aragon_10 ;;
+            "Lote Aragón — 50 alternativas"|aragon_50) ensemble_stage=aragon_50 ;;
+            *) echo "::error::Fase GerryChain no reconocida: $UI_ENSEMBLE_STAGE"; exit 1 ;;
+          esac
+
+          {
+            echo "territory_id=$territory_id"
+            echo "operation=$operation"
+            echo "from_stage=$UI_FROM_STAGE"
+            echo "to_stage=$UI_TO_STAGE"
+            echo "ensemble_stage=$ensemble_stage"
+          } >> "$GITHUB_OUTPUT"
+
+  ruta:
+    name: Ejecutar únicamente la ruta seleccionada
+    needs: resolver_interfaz
+    uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
+    with:
+      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+      operation: ${{ needs.resolver_interfaz.outputs.operation }}
+      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
+      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
+      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      execution_authorization: ${{ inputs.execution_authorization }}
+      ensemble_stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
+      ensemble_promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+
+    # Contrato de publicación preservado dentro de la ruta de producción:
+    # uses: ./.github/workflows/desplegar-visor-publico.yml
+    # production_run_id: ${{ github.run_id }}
