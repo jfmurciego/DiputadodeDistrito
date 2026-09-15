@@ -1,12 +1,12 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.1
+VERSIÓN: 1.1.2
 FECHA: 2026-09-15
 CAMBIO: actualiza la referencia de la interfaz territorial principal tras su
 renombrado institucional a operacion-territorial.yml, sin alterar el resto de
 controles de seguridad y gobierno.
-ANTERIOR: versión 1.1.0 en historial Git.
+ANTERIOR: versión 1.1.1 en historial Git.
 """
 import os
 from pathlib import Path
@@ -38,6 +38,13 @@ class WorkflowSafety(unittest.TestCase):
         self.assertIn("workflow_call",production)
         self.assertNotIn("workflow_dispatch",production)
         self.assertTrue((WORKFLOWS/"operacion-territorial.yml").is_file())
+
+    def test_produccion_aplica_politica_geometrica_y_preserva_excepciones(self):
+        production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn('continuidad_geometrica_{year}.json', production)
+        self.assertIn('policy_args=(--policy "/app/$policy")', production)
+        self.assertIn('GEOMETRIC_DECISION: ${{ steps.geometric.outputs.decision }}', production)
+        self.assertIn('"PASS_WITH_EXCEPTIONS"', production)
 
     def test_workflows_sustituidos_estan_archivados(self):
         archived=ROOT/"legacy/workflows/cleanup_2026-09-14"

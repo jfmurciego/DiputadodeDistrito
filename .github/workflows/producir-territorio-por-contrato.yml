@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.1
-# NOMBRE DE VERSIÓN: Motor M01–M08 con manifiesto de estado verificable
+# VERSIÓN: 1.3.2
+# NOMBRE DE VERSIÓN: Política geométrica territorial conectada al auditor
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: admite, verifica o ejecuta M01–M08 y audita la geometría real cuando existe M06.
-# CAMBIOS: materializa production_status.json para que visor y auditoría no infieran PASS por la mera existencia de un artefacto.
+# CAMBIOS: descubre la política geométrica versionada junto al contrato, la pasa al auditor y conserva PASS_WITH_EXCEPTIONS en el manifiesto.
 # MOTIVO: una ejecución de cabo a rabo debe producir evidencia visible sin permitir que una discontinuidad geométrica quede certificada por la sola conectividad del grafo.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.2.0.yml
 name: Producción territorial por contrato
@@ -107,6 +107,21 @@ jobs:
           print(m06.get('expected_districts') or (cfg.get('validation') or {}).get('expected_districts') or 0)
           PY
           )"
+          policy="$(python - "$PARAMS" <<'PY'
+          import sys, yaml
+          from pathlib import Path
+          params = Path(sys.argv[1])
+          cfg = yaml.safe_load(params.read_text(encoding='utf-8')) or {}
+          year = (cfg.get('meta') or {}).get('year')
+          candidate = params.parent / f"continuidad_geometrica_{year}.json"
+          print(candidate.as_posix() if year and candidate.is_file() else "")
+          PY
+          )"
+          policy_args=()
+          if [[ -n "$policy" ]]; then
+            policy_args=(--policy "/app/$policy")
+            echo "Aplicando política geométrica territorial: $policy"
+          fi
           output="${sections%_secciones.geojson.zip}_contiguedad_geometrica.json"
           docker run --rm -v "$PWD:/app" -w /app \
             --entrypoint python ddd-production:${GITHUB_SHA} \
@@ -116,7 +131,10 @@ jobs:
             --district-field district_id \
             --working-crs EPSG:3035 \
             --expected-districts "$expected" \
+            "${policy_args[@]}" \
             --output "/app/$output"
+          geometric_decision="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["decision"])' "$output")"
+          echo "decision=$geometric_decision" >> "$GITHUB_OUTPUT"
       - name: Consolidar conclusión de ejecución
         if: ${{ always() && inputs.mode == 'execute' }}
         shell: bash
@@ -136,6 +154,7 @@ jobs:
         env:
           EXECUTION_OUTCOME: ${{ steps.execute.outcome }}
           GEOMETRIC_OUTCOME: ${{ steps.geometric.outcome }}
+          GEOMETRIC_DECISION: ${{ steps.geometric.outputs.decision }}
         run: |
           python - <<'PY'
           import json, os
@@ -145,10 +164,16 @@ jobs:
           contract = json.loads(decision_path.read_text(encoding="utf-8")) if decision_path.is_file() else {}
           execution = os.environ.get("EXECUTION_OUTCOME") or "unknown"
           geometry = os.environ.get("GEOMETRIC_OUTCOME") or "unknown"
-          passed = execution == "success" and geometry == "success"
+          geometric_decision = os.environ.get("GEOMETRIC_DECISION") or "UNKNOWN"
+          if execution != "success" or geometry != "success":
+              decision = "BLOCK"
+          elif geometric_decision == "PASS_WITH_EXCEPTIONS":
+              decision = "PASS_WITH_EXCEPTIONS"
+          else:
+              decision = "PASS"
           payload = {
               "schema": "ddd.production-status/1.0",
-              "decision": "PASS" if passed else "BLOCK",
+              "decision": decision,
               "territory_id": contract.get("territory_id"),
               "params": contract.get("params", os.environ.get("PARAMS")),
               "run_id": os.environ.get("DDD_RUN_ID"),
@@ -156,6 +181,7 @@ jobs:
               "to_stage": os.environ.get("TO_STAGE"),
               "execution_outcome": execution,
               "geometric_outcome": geometry,
+              "geometric_decision": geometric_decision,
           }
           Path("production_status.json").write_text(
               json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
