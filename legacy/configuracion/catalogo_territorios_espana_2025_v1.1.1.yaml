@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: La Rioja preparada contractualmente para R040
-# FECHA: 2026-09-15
-# ESTADO: vigente — R036/R040 preflight
-# QUÉ HACE: conserva el catálogo nacional y promueve únicamente La Rioja de bootstrap a contrato de producción, sin ejecutar módulos.
-# CAMBIOS: La Rioja declara K=33 con origen normativo y contract_level production_m01_m06.
-# MOTIVO: preparar una prueba ciega falsable con decisión de K fijada antes de M04.
-# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.1.1.yaml
+# VERSIÓN: 1.1.1
+# NOMBRE DE VERSIÓN: Catálogo nacional con estado territorial verificable
+# FECHA: 2026-09-12
+# ESTADO: vigente — R036
+# QUÉ HACE: registra las 17 comunidades autónomas y Ceuta/Melilla, distingue bootstrap de producción y gobierna la procedencia de K.
+# CAMBIOS: refleja el bloqueo geométrico de Aragón y normaliza Islas Baleares en español sin alterar su ID técnico.
+# MOTIVO: separar inventario de territorio ejecutable e impedir que K exista únicamente disperso en YAML operativos.
+# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.0.0.yaml
 territories:
   - {territory_id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41'], batch: validated_or_active, status: m03_validated, contract_level: bootstrap_m01_m03}
   - {territory_id: aragon, name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: candidate_blocked_geometric_contiguity, contract_level: production_m01_m06, k_districts: 67, k_source: historico_no_registrado, k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."}
@@ -22,7 +22,7 @@ territories:
   - {territory_id: principado_de_asturias, name: Principado de Asturias, province_codes: ['33'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: cantabria, name: Cantabria, province_codes: ['39'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
-  - {territory_id: la_rioja, name: La Rioja, province_codes: ['26'], batch: continental, status: production_contract_candidate, contract_level: production_m01_m06, k_districts: 33, k_source: norma, k_rationale: "K=33 conserva el número legal vigente de diputados del Parlamento de La Rioja antes de generar cualquier mapa."}
+  - {territory_id: la_rioja, name: La Rioja, province_codes: ['26'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: illes_balears, name: Islas Baleares, province_codes: ['07'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: canarias, name: Canarias, province_codes: ['35','38'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: ceuta, name: Ceuta, province_codes: ['51'], batch: ciudades_autonomas, status: bootstrap, contract_level: bootstrap_m01_m03}
