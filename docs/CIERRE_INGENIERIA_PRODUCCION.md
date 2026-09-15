@@ -1,36 +1,41 @@
 # Cierre de ingeniería de producción DDD
 
-**Versión:** 1.2.0
-**Inicio:** 2026-09-13
-**Estado:** INTERFAZ CERRADA; PLATAFORMA NACIONAL EN AUDITORÍA
-**Anterior:** `legacy/docs/CIERRE_INGENIERIA_PRODUCCION_v1.1.0.md`
-**Propósito:** separar el cierre certificado de la interfaz R034–R035 del trabajo aún necesario para afirmar que la plataforma procesa cualquier territorio.
+**Versión:** 1.3.0
+**Fecha de corte:** 2026-09-15
+**Estado:** R034–R039 CERRADOS; R040 BLOQUEADO POR AUTORIZACIÓN
+**Anterior:** `legacy/docs/CIERRE_INGENIERIA_PRODUCCION_v1.2.0.md`
+**Propósito:** mantener una única lista canónica del cierre de ingeniería de producción sin reabrir hitos ya certificados.
 
 ## Criterio de salida
 
-Un territorio podrá entrar mediante un contrato completo, ser rechazado antes del cálculo si falla, recorrer una única cadena común cuando exista una autorización explícita y dejar una evidencia auditable que otro equipo pueda revisar sin depender de este chat.
+La infraestructura común previa a la prueba ciega está cerrada: admisión contractual, resolución neutral, línea única, gobierno de K y límites, topología nacional declarativa, operación limpia y producto electoral común. La plataforma no puede declararse genérica para cualquier territorio hasta superar R040.
 
 ## Lista de cierre
 
-- [x] R034 — Puerta de admisión: contrato, fuentes, restricciones y cadena M01–M06 verificables antes de cálculo.
-- [x] R035.1 — Resolver universal: eliminar las selecciones Aragón/Castilla y León codificadas de la ejecución G10.
-- [x] R035.2 — Línea única: workflow por contrato con modos de admitir, verificar y ejecutar bajo autorización explícita.
-- [x] R035.3 — Prueba de fábrica: demostrar contrato válido, rechazos tempranos y ausencia de cálculo en los modos de control.
-- [x] R035.4 — Paquete de auditoría: evidencia de CI, trazabilidad, versión, legacy y punto de reenganche.
-- [x] R035.5 — Cierre de la interfaz común: contrato, resolución y workflow neutral.
-- [ ] R036 — Gobierno del problema: política auditable de K, contrato general de límites y justificación obligatoria de excepciones.
-- [ ] R037 — Topología nacional: políticas declarativas para secciones aisladas, provincias desconectadas y archipiélagos.
-- [ ] R038 — Operación limpia: archivar workflows territoriales obsoletos y separar auditores experimentales del procedimiento vigente.
-- [ ] R039 — Producto electoral: contrato, adquisición/entrada y normalización común M07–M08.
-- [ ] R040 — Prueba ciega: producir un territorio no implantado sin modificar workflows, módulos ni `ddd_core`.
+- [x] R034 — Puerta de admisión contractual antes de cálculo.
+- [x] R035 — Resolver universal, línea única, prueba de fábrica y paquete de auditoría.
+- [x] R036 — Gobierno del problema: K, límites, excepciones y esquema contractual.
+- [x] R037 — Gobierno topológico: aislados, desconexiones y archipiélagos.
+- [x] R038 — Operación limpia: interfaces obsoletas retiradas y línea territorial única.
+- [x] R039 — Producto electoral: contrato `ddd-election` 1.0.0 y M07–M08 comunes.
+- [ ] R040 — Prueba ciega de generalización sobre territorio no implantado.
 
-## Límites inviolables
+## Auditoría crítica C-01–C-14
 
-- No se ejecuta M01–M06 ni se abre una comunidad durante este cierre.
-- Aragón y Castilla y León siguen siendo los únicos productos territoriales certificados.
-- Extremadura continúa `EXPERIMENTAL_BLOCKED`.
-- Una futura ejecución exige contrato admitido y autorización explícita; ninguna publicación, documentación o cambio de visor puede activarla.
+Los paquetes críticos anteriores a R038 están resueltos en la evidencia histórica y documental del repositorio. Entre ellos figuran la integridad electoral C-05/C-09, publicabilidad C-02/C-03/C-14, sesgo de K C-04, contrato M06 C-10, caso adversarial C-07, verificación independiente C-06, motor M04 C-08, comunidades de interés C-13 y nombres C-12. C-01 quedó registrado como `FAIL_ROBUSTNESS` para el ensayo auditado; ese resultado no autoriza a promover ni a ejecutar un lote de 50 sin orden expresa.
+
+## Único hito territorial abierto
+
+R040 debe ser una prueba falsable. Requiere autorización explícita del usuario y, cuando se autorice, debe ejecutar primero un territorio nuevo sin modificar `.github/workflows/`, `modulos/` ni `ddd_core`. Un fallo es evidencia válida; no se parchea código específico del territorio para convertirlo en PASS.
+
+Hasta esa autorización:
+
+- no se abre ninguna comunidad nueva;
+- no se recalculan M01–M06 de Aragón o Castilla y León;
+- Extremadura continúa `EXPERIMENTAL_BLOCKED`;
+- no se puede afirmar que la plataforma procesa «cualquier territorio»;
+- publicación y visor son líneas separadas y no pueden disparar cálculo territorial.
 
 ## Reenganche
 
-Continuar por `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md`. R035 no demuestra todavía la producción de un territorio nuevo: demuestra que ya existe una interfaz común y protegida. La prueba territorial permanece congelada hasta orden expresa.
+Continuar por `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md` y `docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md`. Si no existe autorización explícita para R040, el trabajo permitido es de auditoría, documentación, contratos, pruebas sintéticas o mantenimiento que no ejecute territorios.
