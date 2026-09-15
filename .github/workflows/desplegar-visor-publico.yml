@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.4.0
+# VERSIÓN: 1.4.1
 # NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
 # ESTADO: activo
 # QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
-# CAMBIOS: añade invocación reutilizable desde la operación territorial general y conserva el formulario manual de consulta.
+# CAMBIOS: limita la descarga de runs territoriales a artefactos ddd-* para excluir registros .dockerbuild ajenos al producto.
 # ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
 name: Desplegar visor técnico
 
@@ -62,8 +62,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/production
-          if ! gh run download "$PRODUCTION_RUN_ID" --dir /tmp/production; then
-            echo "::warning::El run todavía no ofrece artefactos descargables; se publicará el registro estático."
+          if ! gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production; then
+            echo "::warning::El run todavía no ofrece artefactos DDD descargables; se publicará el registro estático."
           fi
       - name: Recuperar ensemble solicitado
         if: ${{ inputs.ensemble_release_tag != '' }}
