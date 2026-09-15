@@ -1,0 +1,199 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: workflow reutilizable
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-15
+# QUÉ HACE: promueve un M06 ya calculado a resultado técnico visible, audita su geometría y despliega el visor.
+name: Publicar evidencia técnica M06
+
+on:
+  workflow_call:
+    inputs:
+      source_run_id: {required: true, type: string}
+      territory_id: {required: true, type: string}
+
+permissions:
+  actions: read
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  promover_y_publicar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      TERRITORY_ID: ${{ inputs.territory_id }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install --requirement requirements.lock
+      - name: Validar identificador del run fuente
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || { echo "Run fuente inválido: $SOURCE_RUN_ID" >&2; exit 20; }
+      - name: Descargar evidencia M06 del run fuente
+        uses: actions/download-artifact@v6
+        with:
+          pattern: ddd-production-${{ inputs.source_run_id }}-*
+          path: incoming
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.source_run_id }}
+      - name: Validar run, territorio y localizar M06
+        id: locate
+        shell: bash
+        run: |
+          set -euo pipefail
+          decision="$(find incoming -type f -name decision.json -print -quit)"
+          test -n "$decision" && test -s "$decision"
+          actual="$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["territory_id"])' "$decision")"
+          test "$actual" = "$TERRITORY_ID" || { echo "Territorio del run: $actual; solicitado: $TERRITORY_ID" >&2; exit 22; }
+          run_name="$(python -c 'import json,sys; print(json.load(open(sys.argv[1]))["run_name"])' "$decision")"
+          sections="$(find incoming -type f -name "${run_name}_m06_secciones.geojson.zip" -print -quit)"
+          districts="$(find incoming -type f -name "${run_name}_m06_distritos.geojson.zip" -print -quit)"
+          test -s "$sections" && test -s "$districts"
+          expected="$(python - "$TERRITORY_ID" <<'PY'
+          import json,sys
+          territory=sys.argv[1]
+          registry=json.load(open('orchestracion/productos_publicos.json',encoding='utf-8'))
+          product=next((p for p in registry['products'] if p['id']==territory),None)
+          if not product: raise SystemExit(f'Territorio sin producto visual declarado: {territory}')
+          print(product['expected_districts'])
+          PY
+          )"
+          head_sha="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq .head_sha)"
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          echo "run_name=$run_name" >> "$GITHUB_OUTPUT"
+          echo "sections=$sections" >> "$GITHUB_OUTPUT"
+          echo "districts=$districts" >> "$GITHUB_OUTPUT"
+          echo "expected=$expected" >> "$GITHUB_OUTPUT"
+          echo "head_sha=$head_sha" >> "$GITHUB_OUTPUT"
+      - name: Auditar componentes geométricos de forma independiente
+        id: geometry
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p work
+          set +e
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections '${{ steps.locate.outputs.sections }}' \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts '${{ steps.locate.outputs.expected }}' \
+            --output work/contiguedad_geometrica.json > work/contiguedad_geometrica.log 2>&1
+          rc=$?
+          set -e
+          test "$rc" = 0 || test "$rc" = 2
+          decision="$(python -c 'import json; print(json.load(open("work/contiguedad_geometrica.json"))["decision"])')"
+          connected="$(python -c 'import json; print(json.load(open("work/contiguedad_geometrica.json"))["connected_districts"])')"
+          total="$(python -c 'import json; print(json.load(open("work/contiguedad_geometrica.json"))["district_count"])')"
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          echo "connected=$connected" >> "$GITHUB_OUTPUT"
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "Auditoría geométrica: $decision ($connected/$total)."
+      - name: Materializar resultado técnico y metadatos
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="resultados/finales/${TERRITORY_ID}"
+          mkdir -p "$target"
+          unzip -p '${{ steps.locate.outputs.districts }}' > "$target/distritos.geojson"
+          cp work/contiguedad_geometrica.json "$target/contiguedad_geometrica.json"
+          python - "$target" <<'PY'
+          import datetime,json,os,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          audit=json.load(open(root/'contiguedad_geometrica.json',encoding='utf-8'))
+          geo=json.load(open(root/'distritos.geojson',encoding='utf-8'))
+          dev=[]
+          for feature in geo.get('features',[]):
+              props=feature.get('properties') or {}
+              value=props.get('relative_deviation')
+              if value is not None:
+                  dev.append(abs(float(value)))
+          metadata={
+            'schema':'ddd.viewer-result/1.0',
+            'territory_id':os.environ['TERRITORY_ID'],
+            'source_run_id':os.environ['SOURCE_RUN_ID'],
+            'source_commit':os.environ['SOURCE_HEAD_SHA'],
+            'technical_status':('PASS_M01_M06' if audit['decision']=='PASS' else 'PASS_M01_M06_GEOMETRY_'+audit['decision']),
+            'publication_status':'BLOCKED',
+            'district_count':audit['district_count'],
+            'max_population_deviation':max(dev) if dev else None,
+            'geometric_audit':{
+                'decision':audit['decision'],
+                'gate_statement':audit['gate_statement'],
+                'connected_districts':audit['connected_districts'],
+                'district_count':audit['district_count'],
+                'blocked_districts':audit['blocked_districts'],
+                'governed_exceptions':audit['governed_exceptions'],
+            },
+            'generated_at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          }
+          (root/'metadata.json').write_text(json.dumps(metadata,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+        env:
+          SOURCE_HEAD_SHA: ${{ steps.locate.outputs.head_sha }}
+      - name: Registrar resultado técnico en main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "resultados/finales/${TERRITORY_ID}/distritos.geojson" \
+                  "resultados/finales/${TERRITORY_ID}/metadata.json" \
+                  "resultados/finales/${TERRITORY_ID}/contiguedad_geometrica.json"
+          if ! git diff --cached --quiet; then
+            git commit -m "resultados(${TERRITORY_ID}): promover M06 desde run ${SOURCE_RUN_ID}"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Empaquetar visor técnico
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site/data
+          cp visor/index.html visor/app.js visor/styles.css site/
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          site=Path('site')
+          registry=json.load(open('orchestracion/productos_publicos.json',encoding='utf-8'))
+          for product in registry['products']:
+              src=Path(product['source_path'])
+              if not src.is_file():
+                  raise SystemExit(f'Falta producto declarado: {src}')
+              dst=site/product['viewer_path']
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(src,dst)
+              for extra in ('metadata.json','contiguedad_geometrica.json'):
+                  candidate=src.parent/extra
+                  if candidate.is_file(): shutil.copy2(candidate,dst.parent/extra)
+          PY
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
