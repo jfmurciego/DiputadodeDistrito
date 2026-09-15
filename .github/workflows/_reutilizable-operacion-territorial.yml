@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Router compatible de siete operaciones
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Router con republicación de ensemble
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: recibe una operación institucional ya resuelta y delega exclusivamente la ruta correspondiente.
-# CAMBIOS: restaura los siete IDs técnicos históricos y conecta preparar/certificar/producir con la producción modular M01–M08.
-# MOTIVO: conservar el contrato institucional sin devolver las ramas mutuamente excluyentes al workflow principal.
-# ANTERIOR: legacy/workflows/interfaz/_reutilizable-operacion-territorial_v1.0.0.yml
+# CAMBIOS: mantiene las siete operaciones y propaga opcionalmente un run fuente para republicar una galería sin recalcular GerryChain.
+# MOTIVO: corregir/publicar presentación web desde evidencia existente sin introducir workflows auxiliares.
+# ANTERIOR: legacy/workflows/interfaz/_reutilizable-operacion-territorial_v1.1.0.yml
 name: Reutilizable — ruta territorial resuelta
 
 on:
@@ -22,6 +22,7 @@ on:
       execution_authorization: {required: false, type: string, default: ''}
       ensemble_stage: {required: false, type: string, default: synthetic}
       ensemble_promotion_authorization: {required: false, type: string, default: ''}
+      ensemble_republish_source_run_id: {required: false, type: string, default: ''}
 
 permissions:
   contents: write
@@ -90,3 +91,4 @@ jobs:
       stage: ${{ inputs.ensemble_stage }}
       execution_authorization: ${{ inputs.execution_authorization }}
       promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+      republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
