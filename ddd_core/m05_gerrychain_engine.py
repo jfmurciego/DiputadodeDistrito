@@ -12,7 +12,7 @@ Este módulo separa tres responsabilidades:
 from __future__ import annotations
 
 from collections import defaultdict, deque
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 import copy
 import csv
 import hashlib
@@ -46,6 +46,7 @@ class Contract:
 class Weights:
     population: float = 1.0
     cut_edges: float = 0.20
+    geometric_shape: float = 0.55
     comarca_fragmentation: float = 0.75
     churn: float = 0.05
 
@@ -58,6 +59,9 @@ class AdaptedInputs:
     geojson: dict[str, Any]
     section_field: str
     district_field: str
+    section_areas: dict[str, float] = field(default_factory=dict)
+    section_perimeters: dict[str, float] = field(default_factory=dict)
+    shared_border_lengths: dict[tuple[str, str], float] = field(default_factory=dict)
 
 
 def _text(value: Any) -> str:
@@ -143,6 +147,7 @@ def adapt_inputs(
     comarca_name_fields: Sequence[str] = ("COMARCA_NOMBRE", "COMARCA_NOM"),
     comarca_lookup: Mapping[str, tuple[str, str]] | None = None,
     comarca_enabled: bool = False,
+    min_shared_border_m: float = 0.0,
 ) -> AdaptedInputs:
     """Adapta M03/M04 usando sección como clave y ddd_unit_id como atomicidad."""
     features = _feature_index(geojson, section_field)
@@ -168,6 +173,9 @@ def adapt_inputs(
 
     nodes: dict[str, dict[str, Any]] = {}
     initial: dict[str, Any] = {}
+    geometries: dict[str, Any] = {}
+    section_areas: dict[str, float] = {}
+    section_perimeters: dict[str, float] = {}
     for section_id in sorted(graph_nodes):
         raw = graph_nodes[section_id]
         props = features[section_id].get("properties") or {}
@@ -215,18 +223,56 @@ def adapt_inputs(
             "comarca_name": comarca_name or None,
         }
         initial[section_id] = district
+        raw_geometry = features[section_id].get("geometry")
+        if raw_geometry is not None:
+            try:
+                from shapely.geometry import shape
+            except ImportError as exc:
+                raise RuntimeError("Shapely 2.x es necesario para validar la topología") from exc
+            geometry = shape(raw_geometry)
+            if geometry.is_empty or not geometry.is_valid:
+                raise InputContractError(f"Geometría inválida en {section_id}")
+            geometries[section_id] = geometry
+            section_areas[section_id] = float(geometry.area)
+            section_perimeters[section_id] = float(geometry.length)
+
+    if geometries and len(geometries) != len(nodes):
+        if min_shared_border_m > 0:
+            raise InputContractError("Cobertura geométrica parcial")
+        geometries.clear()
+        section_areas.clear()
+        section_perimeters.clear()
 
     edges: list[tuple[str, str]] = []
     seen: set[tuple[str, str]] = set()
+    shared_border_lengths: dict[tuple[str, str], float] = {}
     for raw in raw_edges:
         u, v = _text(raw.get("u")), _text(raw.get("v"))
         if u not in nodes or v not in nodes or u == v:
             raise InputContractError(f"Arista inválida: {(u, v)}")
         edge = tuple(sorted((u, v)))
         if edge not in seen:
+            if geometries:
+                shared = float(geometries[u].boundary.intersection(geometries[v].boundary).length)
+                shared_border_lengths[edge] = shared
+                if min_shared_border_m > 0 and shared + 1e-9 < min_shared_border_m:
+                    raise InputContractError(
+                        f"Arista sin frontera métrica suficiente: {edge}, "
+                        f"shared_border_m={shared:.6f} < {min_shared_border_m:.6f}"
+                    )
             seen.add(edge)
             edges.append(edge)
-    return AdaptedInputs(nodes, sorted(edges), initial, copy.deepcopy(dict(geojson)), section_field, district_field)
+    return AdaptedInputs(
+        nodes,
+        sorted(edges),
+        initial,
+        copy.deepcopy(dict(geojson)),
+        section_field,
+        district_field,
+        section_areas,
+        section_perimeters,
+        shared_border_lengths,
+    )
 
 
 def adapt_files(graph_path: str | Path, geojson_path: str | Path, **kwargs: Any) -> AdaptedInputs:
@@ -385,6 +431,45 @@ def comarca_metrics(data: AdaptedInputs, assignment: Mapping[str, Any]) -> dict[
     }
 
 
+def geometric_shape_metrics(data: AdaptedInputs, assignment: Mapping[str, Any]) -> dict[str, Any]:
+    """Calcula Polsby–Popper en O(n+e) sin disolver geometrías en cada estado."""
+    if len(data.section_areas) != len(data.nodes) or len(data.section_perimeters) != len(data.nodes):
+        return {"available": False, "penalty": 0.0}
+    areas: dict[Any, float] = defaultdict(float)
+    perimeters: dict[Any, float] = defaultdict(float)
+    for section, district in assignment.items():
+        areas[district] += data.section_areas[section]
+        perimeters[district] += data.section_perimeters[section]
+    for edge, shared in data.shared_border_lengths.items():
+        left, right = edge
+        if assignment[left] == assignment[right]:
+            perimeters[assignment[left]] -= 2.0 * shared
+    values = {
+        district: 4.0 * math.pi * area / (perimeters[district] ** 2)
+        if area > 0 and perimeters[district] > 0 else 0.0
+        for district, area in areas.items()
+    }
+    ordered = sorted(values.values())
+    median = (
+        ordered[len(ordered) // 2]
+        if len(ordered) % 2
+        else (ordered[len(ordered) // 2 - 1] + ordered[len(ordered) // 2]) / 2.0
+    )
+    minimum = min(ordered, default=0.0)
+    # Penaliza la forma general y, con mayor fuerza, cualquier distrito por
+    # debajo del umbral histórico de publicación 0.15.
+    penalty = (1.0 - median) + max(0.0, (0.15 - minimum) / 0.15)
+    return {
+        "available": True,
+        "polsby_popper_min": minimum,
+        "polsby_popper_median": median,
+        "polsby_popper_mean": sum(ordered) / len(ordered) if ordered else 0.0,
+        "districts_below_0_15": sum(value < 0.15 for value in ordered),
+        "district_values": {str(key): value for key, value in sorted(values.items(), key=lambda item: str(item[0]))},
+        "penalty": penalty,
+    }
+
+
 def plan_metrics(data: AdaptedInputs, assignment: Mapping[str, Any], contract: Contract) -> dict[str, Any]:
     total = sum(node["population"] for node in data.nodes.values())
     target = total / contract.k
@@ -403,6 +488,7 @@ def plan_metrics(data: AdaptedInputs, assignment: Mapping[str, Any], contract: C
         "assignment_sha256": assignment_hash(assignment),
     }
     result["comarca"] = comarca_metrics(data, assignment)
+    result["shape"] = geometric_shape_metrics(data, assignment)
     return result
 
 
@@ -413,6 +499,7 @@ def score_metrics(metrics: Mapping[str, Any], *, weights: Weights = Weights(), e
     return (
         weights.population * float(metrics["population_max_abs_deviation"])
         + weights.cut_edges * float(metrics["cut_edges"]) / max(1, edge_count)
+        + weights.geometric_shape * float(metrics.get("shape", {}).get("penalty", 0.0))
         + weights.comarca_fragmentation * comarca_penalty
         + weights.churn * float(metrics["assignment_churn"])
     )
@@ -477,6 +564,11 @@ def run_gerrychain(
         raise InputContractError("total_steps debe ser positivo")
     if not 0 <= comarca_surcharge <= 1:
         raise InputContractError("comarca_surcharge debe estar entre 0 y 1")
+    initial_violations = hard_constraint_violations(data, data.initial_assignment, contract)
+    if initial_violations:
+        raise InputContractError(
+            "La partición inicial no satisface el contrato: " + ", ".join(initial_violations[:30])
+        )
     try:
         import networkx as nx
         from gerrychain import MarkovChain, Partition, updaters
@@ -512,22 +604,39 @@ def run_gerrychain(
         total_steps=total_steps,
         rng=seed,
     )
-    states: list[dict[str, Any]] = []
     failures: list[str] = []
+    observed = 0
+    unique_hashes: set[str] = set()
+    previous_hash: str | None = None
+    self_loops = 0
+    best: tuple[float, str, dict[str, Any], dict[str, Any], int] | None = None
     try:
         for partition in chain:
-            states.append(_partition_assignment_by_section(partition))
+            state = _partition_assignment_by_section(partition)
+            state_hash = assignment_hash(state)
+            if previous_hash == state_hash:
+                self_loops += 1
+            previous_hash = state_hash
+            unique_hashes.add(state_hash)
+            step = observed
+            observed += 1
+            metrics = plan_metrics(data, state, contract)
+            score = score_metrics(metrics, weights=weights, edge_count=len(data.edges))
+            rank = (score, state_hash, state, metrics, step)
+            if best is None or rank[:2] < best[:2]:
+                best = rank
     except RuntimeError as exc:
         failures.append(str(exc))
-    if not states:
+    if observed == 0:
         raise RuntimeError(f"La cadena no produjo estados: {failures}")
-    selected, metrics, best_step = select_best_state(data, states, contract, weights=weights)
-    hashes = [assignment_hash(s) for s in states]
+    if best is None:
+        raise InputContractError("Ningún estado satisface las restricciones duras")
+    selected, metrics, best_step = best[2], best[3], best[4]
     selected_violations = hard_constraint_violations(data, selected, contract)
     report = {
         "engine": {"id": "gerrychain_recom", "library_version": "1.0.0", "adapter_version": "1.0.0"},
-        "run": {"seed": seed, "steps_requested": total_steps, "states_observed": len(states), "best_step": best_step},
-        "telemetry": {"unique_states": len(set(hashes)), "self_loops": sum(a == b for a, b in zip(hashes, hashes[1:])), "failures": failures},
+        "run": {"seed": seed, "steps_requested": total_steps, "states_observed": observed, "best_step": best_step},
+        "telemetry": {"unique_states": len(unique_hashes), "self_loops": self_loops, "failures": failures, "selection_memory": "streaming_constant_states"},
         "hard_constraints": {
             "all_pass": not selected_violations,
             "violations": selected_violations,

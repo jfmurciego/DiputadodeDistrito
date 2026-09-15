@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Aragón
-# VERSIÓN: 7.12.0
-# NOMBRE DE VERSIÓN: Contigüidad por frontera métrica
-# FECHA: 2026-09-15
+# VERSIÓN: 7.11.0
+# NOMBRE DE VERSIÓN: Contrato comarcal opcional explícito
+# FECHA: 2026-09-14
 # QUÉ HACE: consolida la configuración activa de Aragón bajo territorios/aragon/config y explicita el contrato territorial completo.
 # ESTADO: candidato F1.3 sujeto a regresión M01-M06
-# CAMBIOS: excluye contactos exclusivamente puntuales mediante una frontera compartida mínima de un metro.
-# MOTIVO: impedir que el grafo certifique distritos unidos solo por una esquina y entregar a ReCom una topología físicamente defendible.
-# ANTERIOR: legacy/configuracion/aragon_2025_v7.11.0.yaml
+# CAMBIOS: declara columnas reales, cobertura y separador de la fuente comarcal, que permanece deshabilitada hasta una decisión territorial.
+# MOTIVO: permitir pruebas y activación futura sin uniones por nombres ni inferencias implícitas.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.10.0.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
@@ -15,7 +15,7 @@ meta:
   territory: Aragón
   year: 2025
   scope: provincial
-  schema_version: 7.12.0
+  schema_version: 7.11.0
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -74,7 +74,7 @@ modulos:
     id_field: CUSEC_KEY
     out_edges_jsonl: ".cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
     predicate: touches
-    min_shared_border_m: 1.0
+    min_shared_border_m: 0.0
     buffer_m: 0.0
     simplify_m: 0.0
     max_candidates: 50

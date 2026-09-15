@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 1.0.0
-# FECHA: 2026-09-14
-# QUÉ HACE: valida el adaptador GerryChain y produce ensembles reanudables sin escribir resultados en main.
+# VERSIÓN: 1.1.0
+# FECHA: 2026-09-15
+# QUÉ HACE: valida topología y partición inicial antes de producir ensembles reanudables sin escribir resultados en main.
 name: Ensemble territorial GerryChain
 
 on:
@@ -36,6 +36,7 @@ jobs:
       - run: python -m pip install --requirement requirements-ensemble.lock
       - name: Probar contratos, toolkit y ReCom real
         run: |
+          python -m unittest discover -s tests -p 'test_auditar_topologia_geometrica.py' -v
           python -m unittest discover -s tests -p 'test_m05_gerrychain_engine.py' -v
           python -m unittest discover -s tests -p 'test_ensemble_toolkit.py' -v
           python -m unittest discover -s tests -p 'test_ensemble_integration.py' -v
@@ -74,14 +75,14 @@ jobs:
           echo "candidate_count=$count" >> "$GITHUB_OUTPUT"
       - name: Reconstruir fuentes canónicas
         run: bash inputs/partes/reconstruir_fuentes.sh
-      - name: Preparar M01–M04 una sola vez con el entorno canónico
+      - name: Preparar M01–M05 una sola vez con topología métrica
         run: |
           set -euo pipefail
           docker build --pull -t ddd-ensemble-base:${GITHUB_SHA} .
           docker run --rm -v "$PWD:/app" -w /app \
             -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
             -e DDD_RUN_ID=ensemble-aragon-base \
-            -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M04 \
+            -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M05 \
             --entrypoint /app/procedimiento.sh ddd-ensemble-base:${GITHUB_SHA}
       - uses: actions/setup-python@v6
         with:
@@ -89,6 +90,14 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-ensemble.lock
       - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Bloquear topología o partición inicial no defendibles
+        run: |
+          python herramientas/auditar_topologia_geometrica.py \
+            --sections .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip \
+            --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
+            --assignment ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --output work/ensemble/base-topology-preflight.json \
+            --min-shared-border-m 1 --working-crs EPSG:25830
       - name: Crear plan determinista
         run: |
           python -m ddd_ensemble.runner \

@@ -2,6 +2,16 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-15 — Piloto GerryChain ejecutable y defendible
+
+El ensemble parte ahora de M05, nunca de una semilla M04 que incumpla las
+restricciones. Antes de repartir los cinco perfiles, una puerta geométrica
+independiente vuelve a medir las fronteras, rechaza contactos solo puntuales y
+valida la contigüidad de los 67 distritos. La selección usa memoria constante y
+la forma se puntúa con Polsby–Popper geométrico, manteniendo comarca,
+población, provincia, municipio y contigüidad en el contrato. El paquete se
+valida localmente; no se ejecuta ningún territorio.
+
 ## 2026-09-14 — Blindaje de cálculo y publicación
 
 C‑01, las regresiones M06, Flourish y los despliegues web quedan exclusivamente

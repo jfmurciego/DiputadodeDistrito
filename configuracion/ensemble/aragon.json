@@ -4,7 +4,7 @@
   "prepared_bundle_id": "AUTO",
   "inputs": {
     "m03_graph": "../../.cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json",
-    "m04_initial_geojson": "../../ejecuciones/ensemble-aragon-base/aragon_2025_m04_semillas.geojson.zip",
+    "initial_geojson": "../../ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip",
     "comarca_lookup": "../../inputs/COMARCAS.csv"
   },
   "fields": {
@@ -25,6 +25,10 @@
     "comarca_name": "Comarca nombre"
   },
   "comarca": {"enabled": true},
+  "topology": {
+    "working_crs": "EPSG:25830",
+    "min_shared_border_m": 1.0
+  },
   "contract": {
     "k": 67,
     "target_tolerance_ratio": 0.12,
@@ -41,7 +45,9 @@
   "engine": {
     "id": "gerrychain_recom",
     "steps": 1000,
-    "churn_weight": 0.05
+    "churn_weight": 0.05,
+    "cut_edges_weight": 0.20,
+    "geometric_shape_weight_scale": 1.0
   },
   "ensemble": {"candidate_count": 10, "shortlist_size": 10},
   "m04": {

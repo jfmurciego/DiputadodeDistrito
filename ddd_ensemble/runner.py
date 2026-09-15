@@ -51,6 +51,14 @@ def _path(base: Path, value: str) -> Path:
     return path if path.is_absolute() else (base / path).resolve()
 
 
+def _initial_geojson_key(inputs: dict[str, Any]) -> str:
+    if inputs.get("initial_geojson"):
+        return "initial_geojson"
+    if inputs.get("m04_initial_geojson"):
+        return "m04_initial_geojson"
+    raise ValueError("Falta inputs.initial_geojson")
+
+
 def validate_inputs(config: dict[str, Any], base: Path) -> None:
     inputs = config["inputs"]
     if inputs.get("prepared_bundle"):
@@ -59,7 +67,7 @@ def validate_inputs(config: dict[str, Any], base: Path) -> None:
         )
         if result.manifest["bundle_id"] != config["prepared_bundle_id"]:
             raise ValueError("prepared_bundle_id no coincide con el manifiesto")
-    for key in ("m03_graph", "m04_initial_geojson"):
+    for key in ("m03_graph", _initial_geojson_key(inputs)):
         if not _path(base, inputs[key]).is_file():
             raise FileNotFoundError(f"No existe {key}: {_path(base, inputs[key])}")
 
@@ -71,7 +79,7 @@ def resolve_prepared_bundle_id(config: dict[str, Any], base: Path) -> None:
     import hashlib
 
     digest = hashlib.sha256()
-    for key in ("m03_graph", "m04_initial_geojson", "comarca_lookup"):
+    for key in ("m03_graph", _initial_geojson_key(config["inputs"]), "comarca_lookup"):
         value = config["inputs"].get(key)
         if value:
             digest.update(key.encode("utf-8"))
@@ -98,6 +106,7 @@ def ensure_plan(config: dict[str, Any], output: Path, count_override: int | None
 
 def adapt(config: dict[str, Any], base: Path):
     inputs, fields = config["inputs"], config["fields"]
+    topology = config.get("topology", {})
     comarca_lookup = None
     if inputs.get("comarca_lookup"):
         columns = config.get("comarca_lookup_columns", {})
@@ -109,7 +118,7 @@ def adapt(config: dict[str, Any], base: Path):
         )
     return adapt_files(
         _path(base, inputs["m03_graph"]),
-        _path(base, inputs["m04_initial_geojson"]),
+        _path(base, inputs[_initial_geojson_key(inputs)]),
         section_field=fields["section"],
         district_field=fields["district"],
         municipality_field=fields["municipality"],
@@ -121,6 +130,7 @@ def adapt(config: dict[str, Any], base: Path):
         comarca_name_fields=tuple(fields.get("comarca_name_candidates", ["COMARCA_NOM"])),
         comarca_lookup=comarca_lookup,
         comarca_enabled=bool(config.get("comarca", {}).get("enabled", False)),
+        min_shared_border_m=float(topology.get("min_shared_border_m", 0.0)),
     )
 
 
@@ -180,7 +190,9 @@ def run_candidates(
                 comarca_surcharge=float(parameters["comarca_surcharge"]),
                 weights=Weights(
                     population=float(parameters["population"]),
-                    cut_edges=float(parameters["shape"]),
+                    cut_edges=float(config["engine"].get("cut_edges_weight", 0.20)),
+                    geometric_shape=float(parameters["shape"])
+                    * float(config["engine"].get("geometric_shape_weight_scale", 1.0)),
                     comarca_fragmentation=float(parameters["comarca"]),
                     churn=float(config["engine"].get("churn_weight", 0.05)),
                 ),

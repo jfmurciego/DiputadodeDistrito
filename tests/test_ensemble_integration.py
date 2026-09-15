@@ -98,6 +98,8 @@ class IntegratedRunnerTests(unittest.TestCase):
         config = json.loads((ROOT / "configuracion/ensemble/aragon.json").read_text(encoding="utf-8"))
         self.assertEqual(config["contract"]["province_districts"], {"22": 11, "44": 7, "50": 49})
         self.assertEqual(config["prepared_bundle_id"], "AUTO")
+        self.assertTrue(config["inputs"]["initial_geojson"].endswith("_m05_distritos_optimizados.geojson.zip"))
+        self.assertEqual(config["topology"]["min_shared_border_m"], 1.0)
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
     def test_real_recom_fifty_candidate_lot(self):
@@ -167,6 +169,8 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("PROMOVER_ARAGON_50", workflow)
         self.assertIn("artifact-manifest.json", workflow)
         self.assertIn("needs: synthetic", workflow)
+        self.assertIn("DDD_TO_STAGE=M05", workflow)
+        self.assertIn("auditar_topologia_geometrica.py", workflow)
         interface = (ROOT / ".github/workflows/picadora-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("generar_alternativas_gerrychain", interface)
 

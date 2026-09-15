@@ -7,7 +7,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ddd_core.m05_gerrychain_engine import (
     Contract, InputContractError, adapt_inputs, assignment_hash,
-    comarca_metrics, hard_constraint_violations, load_comarca_lookup,
+    comarca_metrics, geometric_shape_metrics, hard_constraint_violations, load_comarca_lookup,
     output_geojson, run_gerrychain, select_best_state,
 )
 
@@ -154,6 +154,38 @@ class AdapterAndMetricsTests(unittest.TestCase):
 
     def test_assignment_hash_independent_of_dict_order(self):
         self.assertEqual(assignment_hash({"a": 1, "b": 2}), assignment_hash({"b": 2, "a": 1}))
+
+    def test_metric_border_rejects_corner_only_graph_edge(self):
+        graph = {"nodes": [{"id": "0", "pop": 10}, {"id": "1", "pop": 10}], "edges": [{"u": "0", "v": "1"}]}
+        features = []
+        for index, (x, y) in enumerate(((0, 0), (1, 1))):
+            features.append({
+                "type": "Feature",
+                "properties": {"CUSEC_KEY": str(index), "district_id": index, "CUMUN": f"M{index}", "CPRO": "P", "POP": 10},
+                "geometry": {"type": "Polygon", "coordinates": [[[x, y], [x + 1, y], [x + 1, y + 1], [x, y + 1], [x, y]]]},
+            })
+        geo = {"type": "FeatureCollection", "features": features}
+        with self.assertRaisesRegex(InputContractError, "frontera métrica"):
+            adapt_inputs(graph, geo, population_field="POP", min_shared_border_m=0.5)
+
+    def test_initial_partition_is_checked_before_chain(self):
+        graph, geo = synthetic()
+        data = adapt_inputs(graph, geo)
+        data.initial_assignment = {"0": 0, "1": 1, "2": 1, "3": 0}
+        with self.assertRaisesRegex(InputContractError, "partición inicial"):
+            run_gerrychain(data, contract(), total_steps=2, seed=1)
+
+    def test_shape_metric_uses_real_area_and_shared_border(self):
+        graph, geo = synthetic()
+        for index, feature in enumerate(geo["features"]):
+            feature["geometry"] = {
+                "type": "Polygon",
+                "coordinates": [[[index, 0], [index + 1, 0], [index + 1, 1], [index, 1], [index, 0]]],
+            }
+        data = adapt_inputs(graph, geo)
+        metrics = geometric_shape_metrics(data, data.initial_assignment)
+        self.assertTrue(metrics["available"])
+        self.assertGreater(metrics["polsby_popper_min"], 0.6)
 
     def test_real_comarca_lookup_rejects_ambiguity(self):
         with tempfile.TemporaryDirectory() as raw:
