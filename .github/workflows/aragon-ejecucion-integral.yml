@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa específica de extremo a extremo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # FECHA: 2026-09-15
-# QUÉ HACE: ejecuta Aragón M01–M08, aplica puertas de certificación, genera opcionalmente el piloto GerryChain y despliega un visor único con todos los resultados disponibles.
+# QUÉ HACE: ejecuta Aragón M01–M08 y despliega automáticamente un visor con todos los productos disponibles del run.
 # PRINCIPIO: una sola orden humana; la cadena conserva artefactos y visor incluso cuando una puerta posterior bloquea la promoción.
-name: Aragón — ejecución integral y visor
+name: Aragón — M01 a M08 y visor
 
 on:
   workflow_dispatch:
@@ -13,26 +13,9 @@ on:
         description: Escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
         required: true
         type: string
-      run_ensemble:
-        description: Generar alternativas GerryChain si M01–M08 y la puerta geométrica pasan
-        required: true
-        default: true
-        type: boolean
-      ensemble_stage:
-        description: Tamaño del lote GerryChain
-        required: true
-        default: aragon_10
-        type: choice
-        options:
-          - aragon_10
-          - aragon_50
-      ensemble_promotion_authorization:
-        description: Solo para aragon_50: PROMOVER_ARAGON_50
-        required: false
-        type: string
 
 permissions:
-  contents: write
+  contents: read
   actions: read
   pages: write
   id-token: write
@@ -51,27 +34,14 @@ jobs:
       to_stage: PUBLIC_PRODUCT_PUBLICATION
       execution_authorization: ${{ inputs.execution_authorization }}
 
-  ensemble:
-    needs: production
-    if: ${{ needs.production.result == 'success' && inputs.run_ensemble }}
-    uses: ./.github/workflows/generar-alternativas-territoriales.yml
-    with:
-      territory_id: aragon
-      stage: ${{ inputs.ensemble_stage }}
-      execution_authorization: ${{ inputs.execution_authorization }}
-      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
-      deploy_pages: false
-
   viewer:
     name: Ensamblar y desplegar visor de la ejecución
-    needs: [production, ensemble]
+    needs: production
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    env:
-      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v6
       - name: Recuperar productos M01–M08
@@ -81,15 +51,7 @@ jobs:
           pattern: ddd-production-*
           path: /tmp/production
           merge-multiple: true
-      - name: Recuperar galería ensemble si existe
-        if: ${{ needs.ensemble.result == 'success' }}
-        uses: actions/download-artifact@v6
-        continue-on-error: true
-        with:
-          pattern: ensemble-site-*
-          path: /tmp/ensemble
-          merge-multiple: true
-      - name: Construir visor unificado
+      - name: Construir visor del run
         shell: bash
         run: |
           set -euo pipefail
@@ -101,17 +63,7 @@ jobs:
           if find /tmp/production -type f -name '*_m06_distritos.geojson.zip' -print -quit 2>/dev/null | grep -q .; then
             args+=(--production-root /tmp/production --production-run-id '${{ github.run_id }}')
           fi
-          if find /tmp/ensemble -type f -name 'summary.json' -print -quit 2>/dev/null | grep -q .; then
-            args+=(--ensemble-root /tmp/ensemble)
-          fi
           python herramientas/preparar_visor_ejecucion.py "${args[@]}"
-          python - <<'PY'
-          import json
-          data=json.load(open('site/data/viewer-results.json',encoding='utf-8'))
-          print('[VISOR] opciones disponibles:',len(data['results']))
-          for r in data['results']:
-              print(' -',r['label'],'| geom=',r.get('geometric_status'))
-          PY
       - uses: actions/configure-pages@v5
         with:
           enablement: true
