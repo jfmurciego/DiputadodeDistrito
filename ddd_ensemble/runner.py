@@ -12,13 +12,20 @@ from ddd_core.m05_gerrychain_engine import (
     Weights,
     adapt_files,
     load_comarca_lookup,
-    run_gerrychain,
 )
 from ddd_ensemble.candidate_metrics import measure_candidate
 from ddd_ensemble.ensemble_assembler import assemble
 from ddd_ensemble.ensemble_plan import PROFILES, build_plan
 from ddd_ensemble.gallery import build_gallery
 from ddd_ensemble.prepared_bundle import validate_prepared_bundle
+from ddd_ensemble.statistical_quality import (
+    ChainQualityError,
+    DegeneracyPolicy,
+    StatisticalSamplingPolicy,
+    aggregate_statistical_results,
+    run_statistical_gerrychain,
+    write_statistical_records,
+)
 
 
 SCHEMA = "ddd.ensemble-runner/1.0"
@@ -140,6 +147,20 @@ def contract(config: dict[str, Any]) -> Contract:
     return Contract(**{key: values[key] for key in allowed if key in values})
 
 
+def _degeneracy_policy(config: dict[str, Any]) -> DegeneracyPolicy:
+    values = config.get("statistical", {}).get("degeneracy_gate", {})
+    return DegeneracyPolicy(
+        min_unique_state_ratio=float(values.get("min_unique_state_ratio", 0.10)),
+        max_self_loop_rate=float(values.get("max_self_loop_rate", 0.90)),
+        require_full_length=bool(values.get("require_full_length", True)),
+    )
+
+
+def _sampling_policy(config: dict[str, Any]) -> StatisticalSamplingPolicy:
+    values = config.get("statistical", {}).get("sampling", {})
+    return StatisticalSamplingPolicy(max_samples=int(values.get("max_samples", 5000)))
+
+
 def _valid_existing(report_path: Path, candidate_id: str) -> bool:
     if not report_path.is_file():
         return False
@@ -150,11 +171,26 @@ def _valid_existing(report_path: Path, candidate_id: str) -> bool:
     geojson = Path(report.get("geojson", ""))
     if not geojson.is_absolute():
         geojson = report_path.parent / geojson
+    chain_quality = report.get("engine_run", {}).get("chain_quality", {})
+    statistical_path = report_path.parent / "statistical-states.jsonl"
     return (
         report.get("candidate_id") == candidate_id
         and report.get("hard_constraints", {}).get("all_pass") is True
+        and chain_quality.get("all_pass") is True
+        and statistical_path.is_file()
         and geojson.is_file()
     )
+
+
+def _clear_candidate_outputs(candidate_dir: Path) -> None:
+    for name in (
+        "candidate.geojson",
+        "engine-report.json",
+        "statistical-states.jsonl",
+        "report.json",
+        "failure.json",
+    ):
+        (candidate_dir / name).unlink(missing_ok=True)
 
 
 def run_candidates(
@@ -170,6 +206,8 @@ def run_candidates(
     ddd_contract = contract(config)
     fields = config["fields"]
     steps = int(config["engine"].get("steps", 1000))
+    degeneracy_policy = _degeneracy_policy(config)
+    sampling_policy = _sampling_policy(config)
     executed = skipped = failed = 0
     for candidate in plan["candidates"]:
         if profile and candidate["profile"] != profile:
@@ -180,9 +218,10 @@ def run_candidates(
             skipped += 1
             continue
         candidate_dir.mkdir(parents=True, exist_ok=True)
+        _clear_candidate_outputs(candidate_dir)
         try:
             parameters = candidate["parameters"]
-            geojson, engine_report = run_gerrychain(
+            geojson, engine_report, statistical_records = run_statistical_gerrychain(
                 data,
                 ddd_contract,
                 total_steps=steps,
@@ -196,10 +235,13 @@ def run_candidates(
                     comarca_fragmentation=float(parameters["comarca"]),
                     churn=float(config["engine"].get("churn_weight", 0.05)),
                 ),
+                degeneracy_policy=degeneracy_policy,
+                sampling_policy=sampling_policy,
             )
             geojson_path = candidate_dir / "candidate.geojson"
             _write(geojson_path, geojson)
             _write(candidate_dir / "engine-report.json", engine_report)
+            write_statistical_records(candidate_dir / "statistical-states.jsonl", statistical_records)
             measured = measure_candidate(
                 str(geojson_path),
                 candidate["candidate_id"],
@@ -219,6 +261,16 @@ def run_candidates(
             )
             _write(report_path, measured)
             executed += 1
+        except ChainQualityError as exc:
+            _write(candidate_dir / "engine-report.json", exc.report)
+            write_statistical_records(candidate_dir / "statistical-states.jsonl", exc.records)
+            _write(candidate_dir / "failure.json", {
+                "candidate_id": candidate["candidate_id"],
+                "error_type": type(exc).__name__,
+                "message": str(exc),
+                "chain_quality": exc.report.get("chain_quality", {}),
+            })
+            failed += 1
         except Exception as exc:  # El lote continúa y la reanudación apunta al fallo.
             _write(candidate_dir / "failure.json", {
                 "candidate_id": candidate["candidate_id"],
@@ -231,8 +283,24 @@ def run_candidates(
 
 def finish(output: Path, shortlist_size: int) -> dict[str, Any]:
     summary = assemble(str(plan_path(output)), str(output / "results"), shortlist_size)
+    statistical = aggregate_statistical_results(
+        output / "results",
+        candidate_count_expected=int(summary["candidate_count_expected"]),
+        candidate_gallery_count=int(summary["candidate_count_valid"]),
+    )
+    summary["statistical_ensemble"] = {
+        "schema": statistical["schema"],
+        "candidate_gallery_count": statistical["candidate_gallery_count"],
+        "statistical_chain_count": statistical["statistical_chain_count"],
+        "statistical_state_count": statistical["statistical_state_count"],
+        "states_observed_total": statistical["states_observed_total"],
+        "complete": statistical["complete"],
+        "artifact": "statistical-summary.json",
+    }
+    summary["complete"] = bool(summary["complete"] and statistical["complete"])
     analysis_dir = output / "analysis"
     _write(analysis_dir / "summary.json", summary)
+    _write(analysis_dir / "statistical-summary.json", statistical)
     _write(analysis_dir / "retry-matrix.json", summary["retry_matrix"])
     build_gallery(str(analysis_dir / "summary.json"), str(output / "site"))
     return summary
