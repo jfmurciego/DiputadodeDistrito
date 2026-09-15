@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.0.0
-# NOMBRE DE VERSIÓN: M01–M08 visibles con estado encadenado
+# VERSIÓN: 2.1.0
+# NOMBRE DE VERSIÓN: M01–M08 visibles con contratos históricos preservados
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: admite/verifica contratos o ejecuta un intervalo M01–M08 mostrando cada módulo como job real, con auditoría geométrica y visor posteriores.
-# CAMBIOS: sustituye el único job opaco por ocho jobs modulares encadenados; añade reenganche por run previo compatible sin alterar lógica territorial.
-# MOTIVO: hacer observable la arquitectura modular original y permitir FROM_STAGE/TO_STAGE desde la interfaz general.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v1.3.2.yml
+# CAMBIOS: conserva el encadenado modular v2.0.0 y restaura el manifiesto de producción, los outputs históricos y PASS_WITH_EXCEPTIONS exigidos por los trinquetes.
+# MOTIVO: hacer observable M01–M08 sin romper contratos de evidencia, visor ni seguridad ya certificados.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.0.0.yml
 name: Producción territorial modular M01–M08
 
 on:
@@ -36,11 +36,11 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       mode: ${{ steps.range.outputs.mode }}
-      params: ${{ steps.contract.outputs.params }}
-      territory_id: ${{ steps.contract.outputs.territory_id }}
-      run_id: ${{ steps.contract.outputs.run_id }}
-      cache_dir: ${{ steps.contract.outputs.cache_dir }}
-      runs_dir: ${{ steps.contract.outputs.runs_dir }}
+      params: ${{ steps.resolve.outputs.params }}
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      run_id: ${{ steps.resolve.outputs.run_id }}
+      cache_dir: ${{ steps.resolve.outputs.cache_dir }}
+      runs_dir: ${{ steps.resolve.outputs.runs_dir }}
       from_stage: ${{ steps.range.outputs.from_stage }}
       to_stage: ${{ steps.range.outputs.to_stage }}
       from_num: ${{ steps.range.outputs.from_num }}
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: Validar lanzador común
         run: bash -n procedimiento.sh
-      - id: contract
+      - id: resolve
         name: Admitir contrato antes de cualquier cálculo
         shell: bash
         run: |
@@ -301,7 +301,11 @@ jobs:
           print(candidate.as_posix() if year and candidate.is_file() else '')
           PY
           )"
-          policy_args=(); if [[ -n "$policy" ]]; then policy_args=(--policy "/app/$policy"); fi
+          policy_args=()
+          if [[ -n "$policy" ]]; then
+            policy_args=(--policy "/app/$policy")
+            echo "Aplicando política geométrica territorial: $policy"
+          fi
           output="${sections%_secciones.geojson.zip}_contiguedad_geometrica.json"
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
             /app/herramientas/auditar_componentes_geometricos.py --sections "/app/$sections" \
@@ -310,7 +314,7 @@ jobs:
           decision="$(python -c 'import json,sys; print(json.load(open(sys.argv[1],encoding="utf-8"))["decision"])' "$output")"
           echo "decision=$decision" >> "$GITHUB_OUTPUT"
           echo "audit_path=$output" >> "$GITHUB_OUTPUT"
-      - name: Registrar estado geométrico verificable
+      - name: Registrar estado verificable de producción
         if: always()
         shell: bash
         env:
@@ -323,14 +327,37 @@ jobs:
           set -euo pipefail
           mkdir -p .ddd-audit
           python - <<'PY'
-          import json,os
+          import json, os
           from pathlib import Path
-          outcome=os.environ.get('GEOMETRIC_OUTCOME') or 'unknown'; geometric=os.environ.get('GEOMETRIC_DECISION') or 'UNKNOWN'
-          decision='BLOCK' if outcome != 'success' else ('PASS_WITH_EXCEPTIONS' if geometric == 'PASS_WITH_EXCEPTIONS' else 'PASS')
-          payload={'schema':'ddd.production-status/1.0','decision':decision,'territory_id':os.environ['TERRITORY_ID'],'params':os.environ['PARAMS'],'run_id':os.environ['RUN_ID'],'from_stage':os.environ['FROM_STAGE'],'to_stage':os.environ['TO_STAGE'],'execution_outcome':'success','geometric_outcome':outcome,'geometric_decision':geometric,'scope_through_stage':'M06'}
-          Path('.ddd-audit/production_status.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          geometry = os.environ.get("GEOMETRIC_OUTCOME") or "unknown"
+          geometric_decision = os.environ.get("GEOMETRIC_DECISION") or "UNKNOWN"
+          if geometry != "success":
+              decision = "BLOCK"
+          elif geometric_decision == "PASS_WITH_EXCEPTIONS":
+              decision = "PASS_WITH_EXCEPTIONS"
+          else:
+              decision = "PASS"
+          payload = {
+              "schema": "ddd.production-status/1.0",
+              "decision": decision,
+              "territory_id": os.environ["TERRITORY_ID"],
+              "params": os.environ["PARAMS"],
+              "run_id": os.environ["RUN_ID"],
+              "from_stage": os.environ["FROM_STAGE"],
+              "to_stage": os.environ["TO_STAGE"],
+              "execution_outcome": "success",
+              "geometric_outcome": geometry,
+              "geometric_decision": geometric_decision,
+              "scope_through_stage": "M06",
+          }
+          Path(".ddd-audit/production_status.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
           PY
-          audit='${{ steps.geometric.outputs.audit_path }}'; [[ -n "$audit" && -f "$audit" ]] && cp "$audit" .ddd-audit/
+          audit='${{ steps.geometric.outputs.audit_path }}'
+          [[ -n "$audit" && -f "$audit" ]] && cp "$audit" .ddd-audit/
       - uses: actions/upload-artifact@v6
         if: always()
         with:
