@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 3.1.0
-# NOMBRE DE VERSIÓN: Ruta única compatible con tramos M01–M08
+# VERSIÓN: 3.1.1
+# NOMBRE DE VERSIÓN: Ruta única compatible con IDs semánticos
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: conserva las siete operaciones institucionales y delega una sola ruta reutilizable ya resuelta.
-# CAMBIOS: restaura nombres e IDs públicos/técnicos; mantiene resolver+ruta y añade Desde/Hasta como control compatible de la producción M01–M08.
+# CAMBIOS: preserva resolver+ruta, Desde/Hasta y los siete IDs institucionales; restaura además los aliases semánticos TERRITORY_* / DISTRICT_* / PUBLIC_PRODUCT_PUBLICATION.
 # COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta y por defecto ejecuta M01–M08.
-# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.0.0.yml
+# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.0.yml
 name: Operación territorial DDD — M01 a M08
 
 on:
@@ -155,8 +155,14 @@ jobs:
 
           stage_number() {
             case "$1" in
-              M01) echo 1 ;; M02) echo 2 ;; M03) echo 3 ;; M04) echo 4 ;;
-              M05) echo 5 ;; M06) echo 6 ;; M07) echo 7 ;; M08) echo 8 ;;
+              M01|TERRITORY_PREPARATION) echo 1 ;;
+              M02|TERRITORY_ADJACENCY) echo 2 ;;
+              M03|TERRITORY_GRAPH) echo 3 ;;
+              M04|DISTRICT_FORMATION) echo 4 ;;
+              M05|DISTRICT_BALANCING) echo 5 ;;
+              M06|TERRITORIAL_CERTIFICATION) echo 6 ;;
+              M07|ELECTORAL_ENRICHMENT) echo 7 ;;
+              M08|PUBLIC_PRODUCT_PUBLICATION) echo 8 ;;
               *) return 1 ;;
             esac
           }
