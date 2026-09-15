@@ -102,7 +102,9 @@ class WorkflowGateTests(unittest.TestCase):
         text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn('"schema": "ddd.production-status/1.0"', text)
         self.assertIn("production_status.json", text)
-        self.assertIn('"PASS" if passed else "BLOCK"', text)
+        self.assertIn('geometric_decision == "PASS_WITH_EXCEPTIONS"', text)
+        self.assertIn('decision = "PASS_WITH_EXCEPTIONS"', text)
+        self.assertIn('decision = "BLOCK"', text)
 
     def test_aragon_regression_requires_independent_geometry(self):
         text = (ROOT / ".github/workflows/regresion-m06-aragon.yml").read_text(encoding="utf-8")
