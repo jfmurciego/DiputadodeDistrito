@@ -1,12 +1,12 @@
 """
 PRUEBAS: Contrato electoral común R039
-VERSIÓN: 1.0.1
-NOMBRE DE VERSIÓN: Verificación coherente dentro y fuera del contenedor
-FECHA: 2026-09-14
+VERSIÓN: 1.0.2
+NOMBRE DE VERSIÓN: Verificación coherente y normalización de district_id
+FECHA: 2026-09-15
 ESTADO: vigente — R039
-CAMBIOS: separa la verificación materializada de la coherencia con el manifiesto en CI.
-MOTIVO: demostrar que fuente, partidos y cobertura fallan de forma cerrada.
-ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.0.py
+CAMBIOS: añade regresión para IDs de distrito leídos por pandas como float entero (1.0) frente a IDs geométricos textuales ("1").
+MOTIVO: impedir que una representación de tipo convierta una cobertura electoral completa en un falso faltante 67/67.
+ANTERIOR: legacy/tests/test_r039_electoral_contract_v1.0.1.py
 """
 from __future__ import annotations
 
@@ -70,8 +70,6 @@ class R039ElectoralContract(unittest.TestCase):
             self.assertEqual(len(observed), 15)
             self.assertIn("IU_MOVIMIENTO_SUMAR", observed)
         else:
-            # La imagen CI excluye inputs voluminosos; el checkout verifica que
-            # contrato y manifiesto territorial declaran la misma huella.
             manifest = (ROOT / "territorios/aragon/inputs/MANIFEST.sha256").read_text(encoding="utf-8")
             self.assertIn(
                 f"{source_record['sha256']}  {source_record['path']}",
@@ -147,8 +145,9 @@ class R039ElectoralContract(unittest.TestCase):
 
     def test_m08_exige_cobertura_exacta_y_sin_duplicados(self):
         geometry = pd.DataFrame({"district_id": ["1", "2"], "population": [10, 20]})
-        complete = pd.DataFrame({"district_id": [1, 2], "total_votes": [7, 15]})
+        complete = pd.DataFrame({"district_id": [1.0, 2.0], "total_votes": [7, 15]})
         merged = M08.integrate_results(geometry, complete)
+        self.assertEqual(list(merged["district_id"]), ["1", "2"])
         self.assertEqual(list(merged["total_votes"]), [7, 15])
         with self.assertRaisesRegex(ValueError, "sin_resultados"):
             M08.integrate_results(geometry, complete.iloc[:1])
