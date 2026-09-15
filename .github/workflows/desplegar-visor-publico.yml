@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.4.1
+# VERSIÓN: 1.4.2
 # NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
 # ESTADO: activo
 # QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
-# CAMBIOS: limita la descarga de runs territoriales a artefactos ddd-* para excluir registros .dockerbuild ajenos al producto.
+# CAMBIOS: instala pyproj antes de preparar las copias web WGS84; mantiene la descarga limitada a artefactos ddd-*.
 # ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
 name: Desplegar visor técnico
 
@@ -50,6 +50,11 @@ jobs:
       ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag }}
     steps:
       - uses: actions/checkout@v6
+      - name: Preparar dependencia de reproyección
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check pyproj
       - name: Validar visor y preparador
         shell: bash
         run: |
