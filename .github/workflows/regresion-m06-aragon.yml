@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.5.0
+# VERSIÓN: 1.6.0
 # NOMBRE DE VERSIÓN: Regresión territorial bajo autorización manual
-# FECHA: 2026-09-11
+# FECHA: 2026-09-15
 # ESTADO: regresión pesada F1.5
 # QUÉ HACE: ejecuta M01-M06 con Aragón 2025 y certifica simultáneamente invariantes territoriales históricas y los nuevos productos auditables de M06 v7.1.0.
-# CAMBIOS: elimina el disparador push; una regresión pesada solo se ejecuta por orden manual expresa.
-# MOTIVO: impedir que cambios de código o documentación recalculen M01-M06 de forma incidental.
-# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.4.0.yml
+# CAMBIOS: sustituye el trinquete R016 por el maxdev certificado del run 34960965537 sobre la topología de frontera compartida mínima de un metro.
+# MOTIVO: 0.099299365905 pertenecía al grafo anterior con contactos puntuales; el nuevo espacio topológico certificado produce maxdev real 0.11820424865182809.
+# ANTERIOR: legacy/workflows/regresion-m06-aragon_v1.5.0.yml
 name: Regresión M06 — Aragón
 
 on:
@@ -104,9 +104,9 @@ jobs:
           assert counts=={"22":11,"44":7,"50":49}, counts
           maxdev=float(summary["relative_deviation"].abs().max())
           assert maxdev <= 0.12 + 1e-12, maxdev
-          # Trinquete R016: el baseline canonico logra 0.099299365905.
-          # Aceptar hasta 0.12 permitiria degradar un 20% sin que salte la regresion.
-          assert maxdev <= 0.099299365905 + 1e-9, f"regresion vs baseline R016: {maxdev}"
+          # Trinquete topológico 2026-09-15: run 34960965537, min_shared_border_m=1.0,
+          # 1.463 secciones / 4.063 aristas. R016=0.099299365905 correspondía al grafo anterior.
+          assert maxdev <= 0.118204248652 + 1e-9, f"regresion vs baseline topologico 2026-09-15: {maxdev}"
           print(f"ARAGON R020 M06 PASS: K=67 rows=1463 pop=1364621 catalog=67 composition=1463 fuera_12=0 maxdev={maxdev:.12f} cuotas={counts}")
           '
 
