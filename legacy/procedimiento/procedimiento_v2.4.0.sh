@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.5.0
-# NOMBRE DE VERSIÓN: Ejecución modular encadenable M01–M08
-# FECHA: 2026-09-15
-# ESTADO: vigente
-# CAMBIOS: permite encadenar un módulo por job mediante DDD_CHAIN_STATE sin relajar las reglas de reenganche históricas; conserva FROM_STAGE/TO_STAGE y todas las reglas funcionales existentes.
-# MOTIVO: exponer M01–M08 como jobs visibles de GitHub Actions sin duplicar motores ni recalcular módulos anteriores.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.4.0.sh
+# VERSIÓN: 2.4.0
+# NOMBRE DE VERSIÓN: Lanzador semántico ejecutable y territorialmente neutro
+# FECHA: 2026-09-12
+# QUÉ HACE: ejecuta un intervalo explícito M01-M08, registra la decisión de reenganche y exige evidencia materializada antes de reutilizar etapas anteriores.
+# ESTADO: vigente — R038/R040.
+# CAMBIOS: corrige los saltos de línea escapados que hacían inválido el script y deriva caché/runs desde el contrato territorial.
+# MOTIVO: la línea común no puede ser lanzable si el shell no compila o si fuerza rutas de Aragón.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.3.1.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -16,7 +17,6 @@ RUN_ID="${DDD_RUN_ID:-${GITHUB_RUN_ID:-local-$(date -u +%Y%m%dT%H%M%SZ)}}"
 FROM_STAGE="${DDD_FROM_STAGE:-TERRITORY_PREPARATION}"
 TO_STAGE="${DDD_TO_STAGE:-PUBLIC_PRODUCT_PUBLICATION}"
 RESUME_MANIFEST="${DDD_CHECKPOINT_MANIFEST:-}"
-CHAIN_STATE="${DDD_CHAIN_STATE:-}"
 export DDD_RUN_ID="$RUN_ID"
 test -f "$PARAMS" || { echo "[FATAL] Falta $PARAMS" >&2; exit 20; }
 stage_module(){
@@ -62,31 +62,13 @@ declare -a SCRIPTS=("" "modulos/01_preparar_base_territorial.py" "modulos/02_con
 for n in $(seq "$FROM" "$TO"); do test -f "${SCRIPTS[$n]}" || { echo "[FATAL] Falta ${SCRIPTS[$n]}" >&2; exit 20; }; done
 BASE_OK="$CACHE_DIR/${RUN_NAME}_m03_grafo.json"
 if (( FROM > 1 )); then
-  if [[ -n "$CHAIN_STATE" ]]; then
-    test -f "$CHAIN_STATE" || { echo "[FATAL] Encadenamiento modular requiere DDD_CHAIN_STATE existente." >&2; exit 21; }
-    python - "$CHAIN_STATE" "$PARAMS" "$((FROM - 1))" <<'PY'
-import json,sys
-state=json.load(open(sys.argv[1],encoding="utf-8"))
-expected_params=sys.argv[2]
-required=int(sys.argv[3])
-completed=int(state.get("completed_stage",0))
-if state.get("params") != expected_params:
-    raise SystemExit(f"CHAIN_STATE pertenece a otro contrato: {state.get('params')} != {expected_params}")
-if completed < required:
-    raise SystemExit(f"CHAIN_STATE incompleto: M{completed:02d}; se requiere al menos M{required:02d}")
-PY
-    if (( FROM >= 4 )); then
-      test -f "$BASE_OK" || { echo "[FATAL] M04+ requiere checkpoint M03 materializado en $BASE_OK." >&2; exit 21; }
-    fi
-  else
-    test -n "$RESUME_MANIFEST" && test -f "$RESUME_MANIFEST" || { echo "[FATAL] Reenganche requiere DDD_CHECKPOINT_MANIFEST existente." >&2; exit 21; }
-    python - "$RESUME_MANIFEST" <<'PY'
+  test -n "$RESUME_MANIFEST" && test -f "$RESUME_MANIFEST" || { echo "[FATAL] Reenganche requiere DDD_CHECKPOINT_MANIFEST existente." >&2; exit 21; }
+  python - "$RESUME_MANIFEST" <<'PY'
 import json,sys
 data=json.load(open(sys.argv[1],encoding="utf-8"))
 if not data.get("products"): raise SystemExit("PRODUCTOS.json sin productos")
 PY
-    test -f "$BASE_OK" || { echo "[FATAL] Reenganche requiere checkpoint M03 materializado en $BASE_OK." >&2; exit 21; }
-  fi
+  test -f "$BASE_OK" || { echo "[FATAL] Reenganche requiere checkpoint M03 materializado en $BASE_OK." >&2; exit 21; }
 fi
 python - "$RUN_DIR/REENGANCHE.json" "$PARAMS" "$RUN_ID" "$FROM_STAGE" "$TO_STAGE" "$RESUME_MANIFEST" "$CACHE_DIR" <<'PY'
 import datetime,json,sys
@@ -96,17 +78,6 @@ Path(out).write_text(json.dumps({"schema_version":"1.0","run_id":run_id,"params"
 PY
 python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase start --run-id "$RUN_ID"
 ejecutar(){ local n="$1" script="$2"; echo "===== MÓDULO $n: $script ====="; python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"; }
-write_chain_state(){
-  [[ -n "$CHAIN_STATE" ]] || return 0
-  mkdir -p "$(dirname "$CHAIN_STATE")"
-  python - "$CHAIN_STATE" "$PARAMS" "$RUN_ID" "$TO" "$CACHE_DIR" <<'PY'
-import datetime,json,sys
-from pathlib import Path
-out,params,run_id,completed,cache=sys.argv[1:]
-payload={"schema":"ddd.module-chain-state/1.0","params":params,"run_id":run_id,"completed_stage":int(completed),"completed_stage_label":f"M{int(completed):02d}","cache_dir":cache,"updated_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat()}
-Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-PY
-}
 if (( FROM <= 3 )); then
   if [[ "$MODO" == "iterativo" && -f "$BASE_OK" ]]; then
     echo "[PREPARACIÓN] Reutilización local M01-M03: checkpoint materializado."
@@ -122,12 +93,10 @@ fi
 if (( TO < 8 )); then
   echo "[PARCIAL] Tramo $FROM_STAGE → $TO_STAGE terminado; validación pública diferida hasta M08."
   python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase finish --run-id "$RUN_ID"
-  write_chain_state
   exit 0
 fi
 set +e
 python herramientas/validar_ejecucion.py --params "$PARAMS" --run-id "$RUN_ID"; VALIDATION_RC=$?
 set -e
 python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase finish --run-id "$RUN_ID"
-if (( VALIDATION_RC == 0 )); then write_chain_state; fi
 exit "$VALIDATION_RC"
