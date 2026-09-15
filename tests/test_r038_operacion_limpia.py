@@ -1,4 +1,4 @@
-"""Trinquetes R038 v1.0.2: interfaz única dentro y fuera del contenedor."""
+"""Trinquetes R038 v1.0.3: interfaz única dentro y fuera del contenedor."""
 import os
 from pathlib import Path
 import subprocess
@@ -26,7 +26,6 @@ class R038OperacionLimpia(unittest.TestCase):
             for name in retired:
                 self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
 
-
     def test_interfaz_institucional_cubre_m01_m08_y_protege_ejecucion(self):
         text = (WORKFLOWS / "operacion-territorial.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
@@ -35,14 +34,16 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertEqual(operations, [
             "Admitir contrato", "Verificar contrato", "Preparar base M01–M03",
             "Diagnosticar topología", "Certificar territorio M01–M06",
-            "Producir resultado M01–M08", "Generar alternativas GerryChain",
+            "Producir resultado M01–M08", "Publicar evidencia M06 existente",
+            "Generar alternativas GerryChain",
         ])
         self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
         self.assertIn("${{ inputs.territory_id }}", text)
         self.assertIn("PUBLIC_PRODUCT_PUBLICATION", text)
         self.assertIn("admitir_contrato", text)
+        self.assertIn("publicar_evidencia_m06", text)
         self.assertIn("generar_alternativas_gerrychain", text)
-
+        self.assertIn("_reutilizable-publicar-evidencia-m06.yml", text)
 
     def test_lanzador_shell_compila(self):
         result = subprocess.run(
@@ -50,7 +51,6 @@ class R038OperacionLimpia(unittest.TestCase):
             text=True, capture_output=True, check=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-
 
     def test_linea_comun_publica_productos_del_run(self):
         text = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
