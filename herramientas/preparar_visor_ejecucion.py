@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
+Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
 """
 from __future__ import annotations
 
@@ -14,6 +15,9 @@ import zipfile
 from pathlib import Path
 
 import yaml
+from pyproj import Transformer
+
+from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
 
 
 TERRITORY_LABELS = {
@@ -50,10 +54,27 @@ def read_geojson_zip(path: Path) -> dict:
         return json.loads(archive.read(members[0]).decode("utf-8"))
 
 
+def _web_payload(payload: dict) -> dict:
+    source_epsg = _epsg_from_geojson(payload)
+    if source_epsg not in (None, 4326):
+        transformer = Transformer.from_crs(f"EPSG:{source_epsg}", "EPSG:4326", always_xy=True)
+        for feature in payload.get("features", []):
+            geometry = feature.get("geometry") or {}
+            if "coordinates" in geometry:
+                geometry["coordinates"] = _transform_coordinates(geometry["coordinates"], transformer)
+            elif geometry.get("type") == "GeometryCollection":
+                for child in geometry.get("geometries", []):
+                    if "coordinates" in child:
+                        child["coordinates"] = _transform_coordinates(child["coordinates"], transformer)
+    payload.pop("crs", None)
+    return payload
+
+
 def write_geojson_from_zip(src: Path, dst: Path) -> int:
     payload = read_geojson_zip(src)
     if payload.get("type") != "FeatureCollection":
         raise ValueError(f"{src}: no es FeatureCollection")
+    payload = _web_payload(payload)
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(
         json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
