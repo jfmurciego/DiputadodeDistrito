@@ -3,14 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Puerta de admisión de contrato territorial
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Admisión estructural y autorización separadas
-FECHA: 2026-09-15
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Gobierno auditable de K, límites y esquema
+FECHA: 2026-09-13
 ESTADO: vigente — R036
-QUÉ HACE: valida el contrato M01-M06 y comunica por separado si está autorizado, bloqueado o limitado a preflight.
-CAMBIOS: añade production_authorization coherente entre catálogo y contrato sin confundir validez estructural con permiso de ejecución.
-MOTIVO: impedir que un contrato bloqueado o experimental llegue a producción por una comparación textual incompleta.
-ANTERIOR: legacy/core/territory_contract_v1.1.0.py
+QUÉ HACE: valida identidad, esquema, fuentes, gobierno de K, límites, coherencia entre catálogo/módulos y confinamiento de rutas antes de admitir M01-M06.
+MOTIVO: impedir K sin procedencia, umbrales ajustados a posteriori y contratos de producción ambiguos antes de consumir cálculo GIS.
+ANTERIOR: legacy/core/territory_contract_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -46,7 +45,6 @@ STANDARD_LIMITS = {
     "target_tolerance_ratio": 0.12,
 }
 K_SOURCES = {"norma", "formula", "decision_propia", "historico_no_registrado"}
-PRODUCTION_AUTHORIZATIONS = {"AUTHORIZED", "BLOCKED", "PREFLIGHT"}
 
 
 def _get(data: Mapping[str, Any], dotted: str, errors: list[str]) -> Any:
@@ -129,21 +127,9 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
     if (cfg.get("meta") or {}).get("contract_schema_version") != PRODUCTION_SCHEMA_VERSION:
         errors.append(f"meta.contract_schema_version debe ser {PRODUCTION_SCHEMA_VERSION!r}")
 
-    production_authorization = (cfg.get("meta") or {}).get("production_authorization")
-    if production_authorization not in PRODUCTION_AUTHORIZATIONS:
-        errors.append(
-            "meta.production_authorization debe ser uno de "
-            f"{sorted(PRODUCTION_AUTHORIZATIONS)}"
-        )
-
     catalogue = _catalogue_entry(root, territory_id, errors)
     if catalogue and catalogue.get("contract_level") != "production_m01_m06":
         errors.append("el catálogo no declara el territorio como production_m01_m06")
-    _same(
-        "autorización de producción",
-        [("catálogo", catalogue.get("production_authorization")), ("contrato", production_authorization)],
-        errors,
-    )
 
     contract = cfg.get("territory_contract") or {}
     if not isinstance(contract, Mapping):
@@ -282,8 +268,6 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
         "territory_id": territory_id,
         "level": "M01_M06_PRODUCTION",
         "status": "ADMITTED" if not errors else "REJECTED",
-        "production_authorization": production_authorization,
-        "production_authorized": not errors and production_authorization == "AUTHORIZED",
         "errors": errors,
         "warnings": warnings,
         "contract_sha256": hashlib.sha256(canonical).hexdigest(),

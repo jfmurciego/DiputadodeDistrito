@@ -1,18 +1,18 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.3.0
-# NOMBRE DE VERSIÓN: Admisión y autorización territorial explícitas
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: La Rioja preparada contractualmente para R040
 # FECHA: 2026-09-15
 # ESTADO: vigente — R036/R040 preflight
-# QUÉ HACE: conserva los niveles contractuales y declara separadamente si cada contrato puede ejecutar producción.
-# CAMBIOS: autoriza Aragón tras PASS_WITH_EXCEPTIONS, mantiene Castilla y León, limita La Rioja a preflight y separa Extremadura como experimento bloqueado.
-# MOTIVO: no deducir autorización a partir de textos de estado ni del mero contract_level.
-# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.2.0.yaml
+# QUÉ HACE: conserva el catálogo nacional y promueve únicamente La Rioja de bootstrap a contrato de producción, sin ejecutar módulos.
+# CAMBIOS: La Rioja declara K=33 con origen normativo y contract_level production_m01_m06.
+# MOTIVO: preparar una prueba ciega falsable con decisión de K fijada antes de M04.
+# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.1.1.yaml
 territories:
   - {territory_id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41'], batch: validated_or_active, status: m03_validated, contract_level: bootstrap_m01_m03}
-  - {territory_id: aragon, name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: m08_validated_with_governed_geometric_exceptions, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 67, k_source: historico_no_registrado, k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."}
-  - {territory_id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49'], batch: validated_or_active, status: m06_validated, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 82, k_source: norma, k_rationale: "K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León; Hamilton sustituye el reparto provincial vigente."}
+  - {territory_id: aragon, name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: candidate_blocked_geometric_contiguity, contract_level: production_m01_m06, k_districts: 67, k_source: historico_no_registrado, k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."}
+  - {territory_id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49'], batch: validated_or_active, status: m06_validated, contract_level: production_m01_m06, k_districts: 82, k_source: norma, k_rationale: "K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León; Hamilton sustituye el reparto provincial vigente."}
   - {territory_id: cataluna, name: Cataluña, province_codes: ['08','17','25','43'], batch: active, status: cat02, contract_level: bootstrap_m01_m03}
-  - {territory_id: extremadura, name: Extremadura, province_codes: ['06','10'], batch: active, status: m04_m05_experimental, contract_level: experimental_m01_m06, production_authorization: BLOCKED, k_districts: 65, k_source: historico_no_registrado, k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."}
+  - {territory_id: extremadura, name: Extremadura, province_codes: ['06','10'], batch: active, status: m04_m05_experimental, contract_level: production_m01_m06, k_districts: 65, k_source: historico_no_registrado, k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."}
   - {territory_id: madrid, name: Comunidad de Madrid, province_codes: ['28'], batch: madrid, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: galicia, name: Galicia, province_codes: ['15','27','32','36'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
@@ -22,7 +22,7 @@ territories:
   - {territory_id: principado_de_asturias, name: Principado de Asturias, province_codes: ['33'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: cantabria, name: Cantabria, province_codes: ['39'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
-  - {territory_id: la_rioja, name: La Rioja, province_codes: ['26'], batch: continental, status: production_contract_candidate, contract_level: production_m01_m06, production_authorization: PREFLIGHT, k_districts: 33, k_source: norma, k_rationale: "K=33 conserva el número legal vigente de diputados del Parlamento de La Rioja antes de generar cualquier mapa."}
+  - {territory_id: la_rioja, name: La Rioja, province_codes: ['26'], batch: continental, status: production_contract_candidate, contract_level: production_m01_m06, k_districts: 33, k_source: norma, k_rationale: "K=33 conserva el número legal vigente de diputados del Parlamento de La Rioja antes de generar cualquier mapa."}
   - {territory_id: illes_balears, name: Islas Baleares, province_codes: ['07'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: canarias, name: Canarias, province_codes: ['35','38'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: ceuta, name: Ceuta, province_codes: ['51'], batch: ciudades_autonomas, status: bootstrap, contract_level: bootstrap_m01_m03}

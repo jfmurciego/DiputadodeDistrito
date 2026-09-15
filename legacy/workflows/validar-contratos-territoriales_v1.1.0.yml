@@ -1,13 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE: Validación contractual separada de autorización
+# VERSIÓN: 1.1.0
+# NOMBRE: Puerta genérica de contratos territoriales de producción
 # FECHA: 2026-09-15
 # ESTADO: vigente — R034/R040
-# QUÉ HACE: valida estructuralmente todos los contratos production_m01_m06 y registra por separado su autorización; no ejecuta módulos territoriales.
-# CAMBIOS: valida todos los contratos de producción y emite validaciones, no certificados territoriales.
-# MOTIVO: impedir que la validación estructural se confunda con autorización o certificación del producto.
-# ANTERIOR: legacy/workflows/validar-contratos-territoriales_v1.1.0.yml
+# QUÉ HACE: descubre y certifica todos los contratos production_m01_m06 no bloqueados experimentalmente; no ejecuta módulos territoriales.
+# MOTIVO: eliminar la lista fija Aragón/Castilla y permitir que R040 pruebe un territorio nuevo sin modificar esta puerta.
+# ANTERIOR: legacy/workflows/validar-contratos-territoriales_v1.0.0.yml
 name: Validar contratos territoriales
 
 on:
@@ -48,7 +47,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Probar admisión y rechazos
         run: python -m unittest tests.test_territory_contract_admission -v
-      - name: Emitir validaciones contractuales sin cálculo territorial
+      - name: Emitir certificados sin cálculo territorial
         run: |
           python - <<'PY'
           import subprocess
@@ -63,15 +62,17 @@ jobs:
               meta = data.get('meta') or {}
               if meta.get('contract_level') != 'production_m01_m06':
                   continue
+              if meta.get('status') == 'experimental_blocked':
+                  continue
               territory_id = meta.get('territory_id')
               if not territory_id:
                   raise SystemExit(f'Contrato sin territory_id: {path}')
               configs.append((territory_id, path))
 
           if not configs:
-              raise SystemExit('No se encontró ningún contrato production_m01_m06')
+              raise SystemExit('No se encontró ningún contrato production_m01_m06 admisible')
 
-          out = root / 'validaciones-contratos'
+          out = root / 'certificados'
           out.mkdir(parents=True, exist_ok=True)
           for territory_id, path in configs:
               print(f'Validando contrato: {territory_id} -> {path}')
@@ -80,10 +81,10 @@ jobs:
                   'herramientas/validar_contrato_territorial.py',
                   '--territory', territory_id,
                   '--params', str(path),
-                  '--output', str(out / f'validacion-{territory_id}.json'),
+                  '--output', str(out / f'contrato-{territory_id}.json'),
               ], check=True)
           PY
       - uses: actions/upload-artifact@v6
         with:
-          name: validaciones-contratos-${{ github.run_id }}
-          path: validaciones-contratos
+          name: certificados-contratos-${{ github.run_id }}
+          path: certificados

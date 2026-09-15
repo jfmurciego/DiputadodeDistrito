@@ -111,10 +111,15 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertIn("auditar_componentes_geometricos.py", text)
         self.assertIn("--expected-districts 67", text)
 
-    def test_aragon_contract_is_executable_but_not_canonical(self):
+    def test_aragon_contract_is_authorized_with_governed_exceptions(self):
         config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
         self.assertEqual(config["meta"]["contract_level"], "production_m01_m06")
-        self.assertEqual(config["meta"]["status"], "candidate_blocked_geometric_contiguity")
+        self.assertEqual(config["meta"]["status"], "m08_validated_with_governed_geometric_exceptions")
+        self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
+
+    def test_modular_execution_requires_contract_authorization(self):
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn('test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED', text)
 
 
 if __name__ == "__main__":

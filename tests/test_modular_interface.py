@@ -81,6 +81,14 @@ class ModularWorkflowContractTests(unittest.TestCase):
         for stage in range(1, 9):
             self.assertIn(f"M{stage:02d}) echo {stage}", text)
 
+    def test_checkpoint_audit_and_viewer_share_run_identity(self):
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}", text)
+        self.assertIn("name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}", text)
+        self.assertIn("name: ddd-audit-${{ github.run_id }}", text)
+        self.assertIn("production_run_id: ${{ github.run_id }}", text)
+        self.assertIn("cache-from: type=gha,scope=ddd-production-${{ github.sha }}", text)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.2.0
-# NOMBRE DE VERSIÓN: M01–M08 autorizados y con caché compartida
+# VERSIÓN: 2.1.0
+# NOMBRE DE VERSIÓN: M01–M08 visibles con contratos históricos preservados
 # FECHA: 2026-09-15
 # ESTADO: vigente
 # QUÉ HACE: admite/verifica contratos o ejecuta un intervalo M01–M08 mostrando cada módulo como job real, con auditoría geométrica y visor posteriores.
-# CAMBIOS: separa validez de autorización, bloquea execute salvo AUTHORIZED y reutiliza caché BuildKit entre módulos.
-# MOTIVO: impedir ejecuciones accidentales y reducir las reconstrucciones completas de Docker sin ocultar M01–M08.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.1.0.yml
+# CAMBIOS: conserva el encadenado modular v2.0.0 y restaura el manifiesto de producción, los outputs históricos y PASS_WITH_EXCEPTIONS exigidos por los trinquetes.
+# MOTIVO: hacer observable M01–M08 sin romper contratos de evidencia, visor ni seguridad ya certificados.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.0.0.yml
 name: Producción territorial modular M01–M08
 
 on:
@@ -41,7 +41,6 @@ jobs:
       run_id: ${{ steps.resolve.outputs.run_id }}
       cache_dir: ${{ steps.resolve.outputs.cache_dir }}
       runs_dir: ${{ steps.resolve.outputs.runs_dir }}
-      production_authorization: ${{ steps.resolve.outputs.production_authorization }}
       from_stage: ${{ steps.range.outputs.from_stage }}
       to_stage: ${{ steps.range.outputs.to_stage }}
       from_num: ${{ steps.range.outputs.from_num }}
@@ -66,7 +65,7 @@ jobs:
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json, os
           d=json.load(open('decision.json',encoding='utf-8'))
-          for key in ('params','territory_id','cache_dir','runs_dir','production_authorization'):
+          for key in ('params','territory_id','cache_dir','runs_dir'):
               print(f"{key}={d[key]}")
           print(f"run_id=production-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}")
           PY
@@ -76,7 +75,6 @@ jobs:
         env:
           FROM_STAGE: ${{ inputs.from_stage }}
           TO_STAGE: ${{ inputs.to_stage }}
-          PRODUCTION_AUTHORIZATION: ${{ steps.resolve.outputs.production_authorization }}
         run: |
           set -euo pipefail
           stage_num(){
@@ -94,7 +92,6 @@ jobs:
           case "$MODE" in admit_only|verify_only|execute) ;; *) echo "::error::Modo no admitido: $MODE"; exit 20;; esac
           if [[ "$MODE" == execute ]]; then
             test "$AUTHORIZATION" = EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION || { echo '::error::execute exige autorización explícita.'; exit 21; }
-            test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED || { echo "::error::Contrato válido pero no autorizado para producción: $PRODUCTION_AUTHORIZATION"; exit 21; }
             if (( from_num > 1 )); then
               [[ "$CHECKPOINT_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::FROM_STAGE > M01 exige checkpoint_run_id numérico de una ejecución modular previa.'; exit 22; }
             fi
@@ -131,16 +128,8 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
     steps: &module_steps
       - uses: actions/checkout@v6
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          pull: true
-          load: true
-          tags: ddd-production:${{ github.sha }}
-          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
-          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-production:${GITHUB_SHA} .
       - id: state
         if: ${{ env.PREVIOUS_STAGE != '' }}
         name: Resolver estado anterior
@@ -263,16 +252,8 @@ jobs:
       M06_RESULT: ${{ needs.m06.result }}
     steps:
       - uses: actions/checkout@v6
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          pull: true
-          load: true
-          tags: ddd-production:${{ github.sha }}
-          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
-          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-production:${GITHUB_SHA} .
       - id: state
         name: Resolver checkpoint M06
         shell: bash

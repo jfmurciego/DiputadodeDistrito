@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.6.1
-# NOMBRE DE VERSIÓN: Experimento histórico fuera de producción
+# VERSIÓN: 0.6.0
+# NOMBRE DE VERSIÓN: Excepción histórica bloqueada R036
 # FECHA: 2026-09-12
 # ESTADO: experimental bloqueado — evidencia canónica F1.4
 # QUÉ HACE: conserva M01-M03 y declara explícitamente K=65, reparto 41/24, c020, atomicidad 1.10 y ratios 0.85/1.50/0.10 para reproducir M04-M06.
@@ -9,7 +9,7 @@
 # MOTIVO: cerrar F1.4 formalmente con el mejor resultado reproducible y su bloqueo explícito.
 # CAMBIOS: formaliza esquema, K sin origen registrado y excepción histórica de límites; no modifica valores ni recalcula el territorio.
 # MOTIVO: conservar evidencia c020 sin presentar sus umbrales a posteriori como política general ni como autorización de promoción.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.6.0.yaml
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.5.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -18,11 +18,10 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.6.1
+  schema_version: 0.6.0
   schema_family: ddd-territory
-  contract_level: experimental_m01_m06
+  contract_level: production_m01_m06
   contract_schema_version: 1.0.0
-  production_authorization: BLOCKED
   status: experimental_blocked
 
 io:

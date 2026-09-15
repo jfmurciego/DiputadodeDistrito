@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas R036 v1.2.0: admisión y autorización sin ejecutar M01-M06.
-
-ANTERIOR: legacy/tests/test_territory_contract_admission_v1.1.0.py
-"""
+"""Pruebas R036 v1.1.0: gobierno de contratos sin ejecutar M01-M06."""
 from __future__ import annotations
 import tempfile
 import unittest
@@ -15,25 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProductionContractAdmission(unittest.TestCase):
-    def test_contratos_validos_separan_autorizacion_de_produccion(self):
-        expected = {
-            "aragon": ("AUTHORIZED", True),
-            "castilla_y_leon": ("AUTHORIZED", True),
-            "la_rioja": ("PREFLIGHT", False),
-        }
-        for territory, (authorization, authorized) in expected.items():
+    def test_baselines_certificados_son_admitidos(self):
+        for territory in ("aragon", "castilla_y_leon"):
             report = validate_production_contract(ROOT / "territorios" / territory / "config" / f"{territory}_2025.yaml", expected_territory=territory)
             self.assertEqual(report["status"], "ADMITTED", report["errors"])
-            self.assertEqual(report["production_authorization"], authorization)
-            self.assertEqual(report["production_authorized"], authorized)
             self.assertEqual(len(report["contract_sha256"]), 64)
-
-    def test_extremadura_permanece_experimento_bloqueado_no_admisible(self):
-        path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
-        report = validate_production_contract(path, expected_territory="extremadura")
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertFalse(report["production_authorized"])
-        self.assertTrue(any("contract_level" in error for error in report["errors"]))
 
     def mutated(self, mutate):
         source = ROOT / "territorios" / "aragon" / "config" / "aragon_2025.yaml"
@@ -79,16 +62,6 @@ class ProductionContractAdmission(unittest.TestCase):
         report = self.mutated(lambda data: data["meta"].pop("contract_level"))
         self.assertEqual(report["status"], "REJECTED")
         self.assertTrue(any("contract_level" in error for error in report["errors"]))
-
-    def test_rechaza_autorizacion_ausente(self):
-        report = self.mutated(lambda data: data["meta"].pop("production_authorization"))
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertTrue(any("production_authorization" in error for error in report["errors"]))
-
-    def test_rechaza_autorizacion_distinta_del_catalogo(self):
-        report = self.mutated(lambda data: data["meta"].__setitem__("production_authorization", "BLOCKED"))
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertTrue(any("autorización de producción" in error for error in report["errors"]))
 
     def test_rechaza_salida_fuera_del_repositorio(self):
         report = self.mutated(lambda data: data["modulos"]["modulo_06_consolidar_distritos"].__setitem__("out_catalog_csv", "/tmp/catalogo.csv"))

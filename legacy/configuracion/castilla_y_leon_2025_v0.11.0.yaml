@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.11.1
-# NOMBRE DE VERSIÓN: Contrato autorizado explícitamente
+# VERSIÓN: 0.11.0
+# NOMBRE DE VERSIÓN: Contrato comarcal opcional explícito
 # FECHA: 2026-09-11
 # ESTADO: candidato CYL-05
 # QUÉ HACE: conserva el contrato territorial M01-M05 ya validado y añade M06 como capa de materialización, descripción y auditoría de los 82 distritos sin modificar su asignación.
-# CAMBIOS: añade production_authorization=AUTHORIZED sin modificar parámetros territoriales.
-# MOTIVO: separar permiso operativo de validez estructural y estado descriptivo.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.11.0.yaml
+# CAMBIOS: declara columnas, cobertura y separador del adaptador comarcal, que permanece deshabilitado hasta aportar una fuente territorial válida.
+# MOTIVO: preparar la propagación auditable sin modificar límites ni activar datos inexistentes.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.10.0.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,11 +16,10 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.11.1
+  schema_version: 0.11.0
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
-  production_authorization: AUTHORIZED
   status: candidate_m06
 
 io:

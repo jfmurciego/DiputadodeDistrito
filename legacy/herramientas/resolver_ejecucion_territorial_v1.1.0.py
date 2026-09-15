@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Resolutor universal de ejecución territorial
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Resolución con autorización explícita
-FECHA: 2026-09-15
+VERSIÓN: 1.1.0
+NOMBRE DE VERSIÓN: Resolución ligada al identificador real de ejecución
+FECHA: 2026-09-13
 ESTADO: vigente — R038
-QUÉ HACE: transforma un YAML admitido en una decisión neutral e incluye su autorización independiente de producción.
-CAMBIOS: propaga production_authorization y production_authorized al workflow modular.
-MOTIVO: permitir verificar contratos bloqueados sin permitir su ejecución accidental.
-ANTERIOR: legacy/herramientas/resolver_ejecucion_territorial_v1.1.0.py
+QUÉ HACE: transforma un YAML admitido en una decisión de ejecución neutral: territorio, rutas, caché y contrato SHA-256.
+CAMBIOS: acepta run-id explícito y resuelve cache/runs con el mismo contexto que usará el procedimiento.
+MOTIVO: impedir que la decisión anuncie ejecuciones/local mientras GitHub ejecuta production-<run>.
+ANTERIOR: legacy/herramientas/resolver_ejecucion_territorial_v1.0.0.py
 """
 from __future__ import annotations
 
@@ -54,8 +54,6 @@ def resolve(params_path: str, run_id: str | None = None) -> dict:
     return {
         "schema_version": "1.0.0",
         "decision": "ADMITTED" if report["status"] == "ADMITTED" else "REJECTED",
-        "production_authorization": report.get("production_authorization"),
-        "production_authorized": bool(report.get("production_authorized")),
         "contract": report,
         "territory_id": meta["territory_id"],
         "run_name": meta["run_name"],
