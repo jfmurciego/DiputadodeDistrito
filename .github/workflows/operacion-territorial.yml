@@ -1,14 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 2.2.0
-# NOMBRE: Operación territorial institucional M01–M08
+# VERSIÓN: 2.3.0
+# NOMBRE: Operación territorial institucional M01–M08 y publicación visual
 # FECHA: 2026-09-15
 # ESTADO: vigente
-# QUÉ HACE: ofrece el único formulario territorial general para admitir, verificar o ejecutar la cadena M01–M08.
-# CAMBIOS: renombra la ruta activa y sustituye valores técnicos visibles por etiquetas públicas en español.
-# COMPATIBILIDAD: traduce las etiquetas públicas a los IDs técnicos existentes antes de invocar workflows reutilizables.
-# LIMITACIÓN UI: GitHub Actions choice no separa etiqueta visible y valor técnico; el resolvedor admite además los IDs históricos.
-# ANTERIOR: interfaz territorial v2.1.0 preservada en legacy.
+# QUÉ HACE: ofrece el único formulario territorial general para admitir, ejecutar y publicar resultados técnicos M01–M08.
+# CAMBIOS: añade promoción visual de M06 existente y publicación automática tras ejecuciones completas/certificadas.
+# COMPATIBILIDAD: traduce etiquetas públicas a IDs técnicos existentes antes de invocar workflows reutilizables.
+# ANTERIOR: legacy/workflows/operacion-territorial_v2.2.0.yml
 name: Operación territorial DDD — M01 a M08
 
 on:
@@ -51,7 +50,12 @@ on:
           - Diagnosticar topología
           - Certificar territorio M01–M06
           - Producir resultado M01–M08
+          - Publicar evidencia M06 existente
           - Generar alternativas GerryChain
+      source_run_id:
+        description: Run M01–M06/M01–M08 ya terminado que se quiere mostrar sin recalcular
+        required: false
+        type: string
       execution_authorization:
         description: Para ejecutar módulos, escribir EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
         required: false
@@ -71,6 +75,7 @@ on:
         type: string
 
 permissions:
+  actions: read
   contents: write
   pages: write
   id-token: write
@@ -124,6 +129,7 @@ jobs:
             "Diagnosticar topología"|diagnosticar_topologia) operation=diagnosticar_topologia ;;
             "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
             "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
+            "Publicar evidencia M06 existente"|publicar_evidencia_m06) operation=publicar_evidencia_m06 ;;
             "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
             *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
           esac
@@ -196,6 +202,30 @@ jobs:
       from_stage: TERRITORY_PREPARATION
       to_stage: PUBLIC_PRODUCT_PUBLICATION
       execution_authorization: ${{ inputs.execution_authorization }}
+
+  publish_existing_m06:
+    needs: resolver_interfaz
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'publicar_evidencia_m06' }}
+    uses: ./.github/workflows/_reutilizable-publicar-evidencia-m06.yml
+    with:
+      source_run_id: ${{ inputs.source_run_id }}
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+
+  publish_after_certify:
+    needs: [resolver_interfaz, certify]
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'certificar_territorio_m01_m06' && needs.certify.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-publicar-evidencia-m06.yml
+    with:
+      source_run_id: ${{ github.run_id }}
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
+
+  publish_after_full:
+    needs: [resolver_interfaz, publish]
+    if: ${{ needs.resolver_interfaz.outputs.operation == 'producir_resultado_m01_m08' && needs.publish.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-publicar-evidencia-m06.yml
+    with:
+      source_run_id: ${{ github.run_id }}
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
 
   ensemble:
     needs: resolver_interfaz
