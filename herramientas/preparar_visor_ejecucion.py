@@ -64,10 +64,18 @@ def add_static(registry_path: Path | None, site: Path, results: list[dict]) -> N
         })
 
 
-def add_production(root: Path | None, site: Path, run_id: str | None, results: list[dict]) -> None:
+def add_production(
+    root: Path | None,
+    site: Path,
+    run_id: str | None,
+    results: list[dict],
+    external_audit: Path | None = None,
+) -> None:
     if root is None or not root.exists():
         return
     audit_path = first(root, "*_m06_contiguedad_geometrica.json")
+    if audit_path is None and external_audit and external_audit.exists():
+        audit_path = external_audit
     audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path else None
     geometric_status = (audit or {}).get("decision", "NOT_AUDITED")
     gate = (audit or {}).get("gate_statement")
@@ -143,13 +151,20 @@ def main() -> None:
     parser.add_argument("--site", type=Path, required=True)
     parser.add_argument("--production-root", type=Path)
     parser.add_argument("--production-run-id")
+    parser.add_argument("--production-audit", type=Path)
     parser.add_argument("--ensemble-root", type=Path)
     parser.add_argument("--static-registry", type=Path)
     args = parser.parse_args()
 
     args.site.mkdir(parents=True, exist_ok=True)
     results: list[dict] = []
-    add_production(args.production_root, args.site, args.production_run_id, results)
+    add_production(
+        args.production_root,
+        args.site,
+        args.production_run_id,
+        results,
+        external_audit=args.production_audit,
+    )
     add_ensemble(args.ensemble_root, args.site, results)
     add_static(args.static_registry, args.site, results)
     if not results:
