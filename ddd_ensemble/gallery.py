@@ -4,6 +4,8 @@ import json
 import shutil
 from pathlib import Path
 
+from pyproj import Transformer
+
 
 HTML = """<!doctype html>
 <html lang=\"es\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">
@@ -28,6 +30,45 @@ function render(){const only=pareto.checked,p=profile.value,front=new Set(DATA.p
 profile.onchange=render;pareto.onchange=render;compareA.onchange=()=>draw('mapA',compareA.value);compareB.onchange=()=>draw('mapB',compareB.value);download.onclick=()=>{let out={schema:'ddd.selection/1.0',territory_id:DATA.territory_id,prepared_bundle_id:DATA.prepared_bundle_id,candidate_id:selected.value,reviewer:reviewer.value,justification:reason.value,status:selected.value?'SELECTED_FOR_PROMOTION':'NO_SELECTION'};let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,2)],{type:'application/json'}));a.download='selection.json';a.click();};load();"""
 
 
+def _epsg_from_geojson(data: dict) -> int | None:
+    name = str((((data.get("crs") or {}).get("properties") or {}).get("name") or ""))
+    upper = name.upper()
+    if "EPSG" not in upper:
+        return None
+    tail = upper.rsplit("EPSG", 1)[1]
+    digits = "".join(character for character in tail if character.isdigit())
+    return int(digits) if digits else None
+
+
+def _transform_coordinates(value, transformer: Transformer):
+    if isinstance(value, list) and len(value) >= 2 and all(isinstance(v, (int, float)) for v in value[:2]):
+        x, y = transformer.transform(value[0], value[1])
+        return [x, y, *value[2:]]
+    if isinstance(value, list):
+        return [_transform_coordinates(item, transformer) for item in value]
+    return value
+
+
+def _write_web_geojson(source: Path, destination: Path) -> None:
+    data = json.loads(source.read_text(encoding="utf-8"))
+    source_epsg = _epsg_from_geojson(data)
+    if source_epsg in (None, 4326):
+        shutil.copy2(source, destination)
+        return
+
+    transformer = Transformer.from_crs(f"EPSG:{source_epsg}", "EPSG:4326", always_xy=True)
+    for feature in data.get("features", []):
+        geometry = feature.get("geometry") or {}
+        if "coordinates" in geometry:
+            geometry["coordinates"] = _transform_coordinates(geometry["coordinates"], transformer)
+        elif geometry.get("type") == "GeometryCollection":
+            for child in geometry.get("geometries", []):
+                if "coordinates" in child:
+                    child["coordinates"] = _transform_coordinates(child["coordinates"], transformer)
+    data.pop("crs", None)
+    destination.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
 def build_gallery(summary_path: str, output_dir: str) -> Path:
     summary = json.loads(Path(summary_path).read_text(encoding="utf-8"))
     output = Path(output_dir)
@@ -43,7 +84,7 @@ def build_gallery(summary_path: str, output_dir: str) -> Path:
         source = candidate.get("geojson")
         if source and Path(source).is_file():
             destination = assets_dir / f"{candidate['candidate_id']}.geojson"
-            shutil.copy2(source, destination)
+            _write_web_geojson(Path(source), destination)
             item["asset"] = f"assets/{destination.name}"
         portable_candidates.append(item)
     portable["candidates"] = portable_candidates
