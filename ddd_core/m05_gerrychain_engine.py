@@ -143,7 +143,11 @@ def _polygon_components(geometry: Any) -> list[Any]:
         return [geometry]
     if geometry.geom_type == "MultiPolygon":
         return list(geometry.geoms)
-    raise InputContractError(f"Geometría no poligonal: {geometry.geom_type}")
+    # La adaptación conserva geometrías auxiliares (por ejemplo, puntos de
+    # pruebas o depuración). Se representan como un único componente aislado:
+    # no pueden fabricar aristas geométricas y, si se agrupan con otra sección,
+    # la restricción geometric_contiguity bloqueará la partición.
+    return [geometry]
 
 
 def adapt_inputs(
