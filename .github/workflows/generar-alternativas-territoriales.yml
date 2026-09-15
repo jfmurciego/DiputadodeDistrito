@@ -1,8 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.2.0
 # FECHA: 2026-09-15
-# QUÉ HACE: valida topología y partición inicial antes de producir ensembles reanudables sin escribir resultados en main.
+# QUÉ HACE: valida topología y partición inicial, produce ensembles reanudables y los integra en el visor técnico unificado.
+# CAMBIOS: Pages deja de ser una galería aislada; publica visor canónico + selector de candidatos + comparador completo.
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.1.1.yml
 name: Ensemble territorial GerryChain
 
 on:
@@ -40,6 +42,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_m05_gerrychain_engine.py' -v
           python -m unittest discover -s tests -p 'test_ensemble_toolkit.py' -v
           python -m unittest discover -s tests -p 'test_ensemble_integration.py' -v
+          python -m unittest discover -s tests -p 'test_gerrychain_statistical_quality.py' -v
 
   base:
     if: ${{ inputs.stage != 'synthetic' }}
@@ -248,6 +251,44 @@ jobs:
             gh release create "$tag" "$asset" --draft --title "$tag" \
               --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
           fi
+      - name: Empaquetar visor unificado con alternativas
+        if: ${{ steps.status.outputs.complete == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site/data site/ensemble
+          cp visor/index.html visor/app.js visor/styles.css site/
+          cp -R work/ensemble/site/. site/ensemble/
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          site=Path('site')
+          registry=json.load(open('orchestracion/productos_publicos.json',encoding='utf-8'))
+          for product in registry['products']:
+              src=Path(product['source_path'])
+              if not src.is_file():
+                  raise SystemExit(f'Falta producto declarado: {src}')
+              dst=site/product['viewer_path']
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(src,dst)
+              for extra in ('metadata.json','contiguedad_geometrica.json'):
+                  candidate=src.parent/extra
+                  if candidate.is_file():
+                      shutil.copy2(candidate,dst.parent/extra)
+          index={
+              'schema':'ddd.viewer-ensemble-index/1.0',
+              'territory_id':'aragon',
+              'run_id':os.environ['GITHUB_RUN_ID'],
+              'run_key':os.environ['RUN_KEY'],
+              'summary_path':'ensemble/data/summary.json',
+              'gallery_path':'ensemble/index.html',
+          }
+          (site/'data/ensemble-index.json').write_text(json.dumps(index,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
+        env:
+          RUN_KEY: ${{ needs.base.outputs.run_key }}
       - uses: actions/configure-pages@v5
         if: ${{ steps.status.outputs.complete == 'true' }}
         with:
@@ -255,7 +296,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v4
         if: ${{ steps.status.outputs.complete == 'true' }}
         with:
-          path: work/ensemble/site
+          path: site
       - id: deployment
         if: ${{ steps.status.outputs.complete == 'true' }}
         uses: actions/deploy-pages@v4
