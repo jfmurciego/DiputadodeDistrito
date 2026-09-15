@@ -1,12 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE: Desplegar visor público MapLibre
+# VERSIÓN: 1.3.0
+# NOMBRE: Desplegar visor técnico unificado MapLibre
 # ESTADO: activo
-# QUÉ HACE: publica productos declarativos y visor estático desde GeoJSON canónicos.
-# CAMBIOS: conserva el despliegue únicamente bajo orden manual; la validación automática permanece separada.
-# ANTERIOR: legacy/workflows/blindaje_automatico/desplegar-visor-publico_v1.1.0.yml
-# MOTIVO: un push de código o una restauración no debe modificar GitHub Pages.
+# QUÉ HACE: publica los productos declarativos vigentes y sus metadatos desde GeoJSON canónicos.
+# CAMBIOS: empaquetado guiado por registro; soporta metadatos de ejecución y deja el visor listo para catálogo de ensembles.
+# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
 name: Desplegar visor público
 
 on:
@@ -39,10 +38,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p site/data/aragon site/data/castilla_y_leon
+          rm -rf site
+          mkdir -p site/data
           cp visor/index.html visor/app.js visor/styles.css site/
-          cp resultados/finales/aragon/distritos.geojson site/data/aragon/
-          cp resultados/finales/castilla_y_leon/distritos.geojson site/data/castilla_y_leon/
+          python - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          site=Path('site')
+          registry=json.load(open('orchestracion/productos_publicos.json',encoding='utf-8'))
+          for product in registry['products']:
+              src=Path(product['source_path'])
+              if not src.is_file():
+                  raise SystemExit(f'Falta producto declarado: {src}')
+              dst=site/product['viewer_path']
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(src,dst)
+              for extra in ('metadata.json','contiguedad_geometrica.json'):
+                  candidate=src.parent/extra
+                  if candidate.is_file():
+                      shutil.copy2(candidate,dst.parent/extra)
+          PY
           python herramientas/g10_public_product_manifest.py --registry orchestracion/productos_publicos.json --output site/data/public-products.json
       - uses: actions/configure-pages@v5
         with:
