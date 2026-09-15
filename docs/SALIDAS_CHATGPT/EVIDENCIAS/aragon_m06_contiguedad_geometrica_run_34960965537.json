@@ -1,0 +1,26 @@
+{
+  "schema": "ddd.geometric-components-audit-summary/1.0",
+  "source_run": 34960965537,
+  "source_artifact": "ddd-production-34960965537-1",
+  "source_product": "aragon_2025_m06_secciones.geojson.zip",
+  "tool_semantics": "herramientas/auditar_componentes_geometricos.py v1.0.0",
+  "working_crs": "EPSG:3035",
+  "section_field": "CUSEC_KEY",
+  "district_field": "district_id",
+  "section_count": 1463,
+  "district_count": 67,
+  "decision": "BLOCK",
+  "connected_districts": 60,
+  "blocked_districts": 7,
+  "gate_statement": "67 distritos evaluados / 60 conexos / 0 excepciones explícitas / 7 distritos bloqueados / 0 bloqueos de contrato",
+  "blocked": [
+    {"district_id": 0, "component_count": 2, "area_share_minor": 0.3042430311272668},
+    {"district_id": 2, "component_count": 3, "area_share_minor_total": 0.07850067918122933},
+    {"district_id": 4, "component_count": 2, "area_share_minor": 0.03920751379213871},
+    {"district_id": 7, "component_count": 2, "area_share_minor": 0.004778332679171683},
+    {"district_id": 9, "component_count": 2, "area_share_minor": 0.35018317850317743},
+    {"district_id": 51, "component_count": 2, "area_share_minor": 0.004049400605732014},
+    {"district_id": 63, "component_count": 2, "area_share_minor": 0.020557791962148037}
+  ],
+  "interpretation": "La certificación M01-M06 de población, universo y contigüidad por grafo sigue siendo válida, pero el producto no supera la nueva puerta independiente de continuidad geométrica y no debe promocionarse como mapa territorial final hasta corregir estos siete distritos o gobernar explícitamente excepciones territoriales legítimas."
+}
