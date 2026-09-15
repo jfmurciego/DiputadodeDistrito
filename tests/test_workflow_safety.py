@@ -1,13 +1,12 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.0
+VERSIÓN: 1.1.1
 FECHA: 2026-09-15
-CAMBIO: mantiene obligatoria la ausencia de workflows sustituidos en la ruta
-activa y comprueba su archivo histórico solo cuando legacy está materializado.
-Dentro de la imagen reproducible sin legacy, la omisión solo se admite mediante
-DDD_SKIP_LEGACY_CHECK=1, ya usado por la puerta CI tras auditar legacy en checkout.
-ANTERIOR: legacy/tests/test_workflow_safety_pre_ci_container_fix_2026-09-15.py
+CAMBIO: actualiza la referencia de la interfaz territorial principal tras su
+renombrado institucional a operacion-territorial.yml, sin alterar el resto de
+controles de seguridad y gobierno.
+ANTERIOR: versión 1.1.0 en historial Git.
 """
 import os
 from pathlib import Path
@@ -35,7 +34,7 @@ class WorkflowSafety(unittest.TestCase):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_call",production)
         self.assertNotIn("workflow_dispatch",production)
-        self.assertTrue((WORKFLOWS/"picadora-territorial.yml").is_file())
+        self.assertTrue((WORKFLOWS/"operacion-territorial.yml").is_file())
 
     def test_workflows_sustituidos_estan_archivados(self):
         archived=ROOT/"legacy/workflows/cleanup_2026-09-14"
