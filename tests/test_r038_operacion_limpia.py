@@ -1,4 +1,4 @@
-"""Trinquetes R038 v1.0.1: interfaz única dentro y fuera del contenedor."""
+"""Trinquetes R038 v1.0.2: interfaz única dentro y fuera del contenedor."""
 import os
 from pathlib import Path
 import subprocess
@@ -28,18 +28,20 @@ class R038OperacionLimpia(unittest.TestCase):
 
 
     def test_interfaz_institucional_cubre_m01_m08_y_protege_ejecucion(self):
-        text = (WORKFLOWS / "picadora-territorial.yml").read_text(encoding="utf-8")
+        text = (WORKFLOWS / "operacion-territorial.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
         operations = raw_inputs["operation"]["options"]
         self.assertEqual(operations, [
-            "admitir_contrato", "verificar_contrato", "preparar_base_m01_m03",
-            "diagnosticar_topologia", "certificar_territorio_m01_m06",
-            "producir_resultado_m01_m08", "generar_alternativas_gerrychain",
+            "Admitir contrato", "Verificar contrato", "Preparar base M01–M03",
+            "Diagnosticar topología", "Certificar territorio M01–M06",
+            "Producir resultado M01–M08", "Generar alternativas GerryChain",
         ])
         self.assertIn("EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
         self.assertIn("${{ inputs.territory_id }}", text)
         self.assertIn("PUBLIC_PRODUCT_PUBLICATION", text)
+        self.assertIn("admitir_contrato", text)
+        self.assertIn("generar_alternativas_gerrychain", text)
 
 
     def test_lanzador_shell_compila(self):
