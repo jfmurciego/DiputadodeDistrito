@@ -3,20 +3,21 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 08 — Integrar resultados en el mapa final
-VERSIÓN: 7.1.0
-NOMBRE DE VERSIÓN: Unión electoral exhaustiva
-FECHA: 2026-09-14
+VERSIÓN: 7.1.1
+NOMBRE DE VERSIÓN: Unión electoral exhaustiva con identificador canónico
+FECHA: 2026-09-15
 QUÉ HACE: une resultados agregados con la geometría y exige cobertura distrital exacta.
 POR QUÉ ES SEPARADO: es la unión final de dos productos ya generados y permite cambiar datos electorales sin redistritar.
 ESTADO: vigente — R039
-CAMBIOS: hace legible M08 y bloquea duplicados, faltantes y distritos electorales ajenos.
-MOTIVO: impedir productos parciales creados por una unión silenciosa.
-ANTERIOR: legacy/modulo08/08_integrar_resultados_v7.0.2.py
+CAMBIOS: normaliza IDs numéricos equivalentes (por ejemplo 0 y 0.0) antes de comprobar cobertura y unir M06 con M07.
+MOTIVO: pandas puede inferir district_id electoral como float al leer CSV; la representación no puede convertir una cobertura 67/67 en un falso faltante total.
+ANTERIOR: legacy/modulo08/08_integrar_resultados_v7.1.0.py
 """
 from __future__ import annotations
 
 import argparse
 import io
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -29,6 +30,8 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require
+
+_INTEGER_FLOAT_ID = re.compile(r"^([+-]?\d+)\.0+$")
 
 
 def load_geojson_zip(p):
@@ -56,14 +59,25 @@ def write_geojson_zip(gdf,out_path):
     tmp.unlink(missing_ok=True)
 
 
+def canonical_district_id(value):
+    """Normaliza solo representaciones numéricas enteras equivalentes; conserva IDs alfanuméricos."""
+    if pd.isna(value):
+        raise ValueError("M08 recibió district_id nulo")
+    text = str(value).strip()
+    if not text:
+        raise ValueError("M08 recibió district_id vacío")
+    match = _INTEGER_FLOAT_ID.fullmatch(text)
+    return match.group(1) if match else text
+
+
 def integrate_results(gdf, results):
     """Une solo si geometría y resumen describen exactamente los mismos distritos."""
     if "district_id" not in gdf.columns or "district_id" not in results.columns:
         raise ValueError("Falta district_id en M08")
     geo = gdf.copy()
     electoral = results.copy()
-    geo["district_id"] = geo["district_id"].astype(str)
-    electoral["district_id"] = electoral["district_id"].astype(str)
+    geo["district_id"] = geo["district_id"].map(canonical_district_id)
+    electoral["district_id"] = electoral["district_id"].map(canonical_district_id)
     duplicated = sorted(electoral.loc[electoral["district_id"].duplicated(False), "district_id"].unique())
     if duplicated:
         raise ValueError(f"M08 recibió distritos electorales duplicados: {duplicated}")
