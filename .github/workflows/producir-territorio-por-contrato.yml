@@ -382,6 +382,7 @@ jobs:
         with:
           name: ddd-audit-${{ github.run_id }}
           path: .ddd-audit
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
       - name: Aplicar puerta geométrica
