@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Preflight topológico territorial genérico
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: separa grafo físico, componentes diagnosticadas, pasarelas declaradas y grafo operativo; emite READY, NEEDS_POLICY o BLOCKED sin ejecutar M01-M03.
@@ -76,6 +76,7 @@ def evaluate_topology_preflight(
     `units` metadata uses province, municipality and multipart.
     """
     ids = {str(x) for x in units}
+    bridge_list = [dict(x) for x in bridges]
     reasons: list[str] = []
     blocking: list[str] = []
     physical_edges: set[tuple[str, str]] = set()
@@ -105,8 +106,7 @@ def evaluate_topology_preflight(
     rejected: list[dict[str, Any]] = []
     operational_edges = set(physical_edges)
 
-    for raw in bridges:
-        b = dict(raw)
+    for b in bridge_list:
         missing = [k for k in REQUIRED_BRIDGE_KEYS if b.get(k) in (None, "")]
         if missing:
             rejected.append({**b, "rejection_reason": f"missing declarative fields: {', '.join(missing)}"})
@@ -155,17 +155,15 @@ def evaluate_topology_preflight(
     if blocking:
         decision = "BLOCKED"
         reasons.extend(sorted(set(blocking)))
-    elif len(operational_components) > 1 or unresolved_provinces or unresolved_municipalities:
+    elif unresolved_provinces or unresolved_municipalities:
         decision = "NEEDS_POLICY"
-        if len(operational_components) > 1:
-            reasons.append(f"operational graph has {len(operational_components)} components")
         if unresolved_provinces:
             reasons.append("disconnected provinces: " + ", ".join(unresolved_provinces))
         if unresolved_municipalities:
             reasons.append("disconnected municipalities: " + ", ".join(unresolved_municipalities))
     else:
         decision = "READY"
-        reasons.append("operational topology is connected under declared policy")
+        reasons.append("each administrative level-1 component is operationally connected under declared policy")
 
     return {
         "schema_version": "1.0.0",
@@ -184,7 +182,7 @@ def evaluate_topology_preflight(
         "isolated_sections": isolated,
         "multipart_sections": multipart,
         "bridges": {
-            "requested": len(list(bridges)) if not isinstance(bridges, list) else len(bridges),
+            "requested": len(bridge_list),
             "accepted": accepted,
             "rejected": rejected,
         },
