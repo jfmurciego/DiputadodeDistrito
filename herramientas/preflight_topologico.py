@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Preflight topológico territorial genérico
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: inspecciona el producto M01 existente y el contrato, mide contactos físicos, aplica la política declarada de pasarelas y emite un informe READY / NEEDS_POLICY / BLOCKED. No ejecuta M01-M03.
@@ -11,15 +11,12 @@ QUÉ HACE: inspecciona el producto M01 existente y el contrato, mide contactos f
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 from pathlib import Path
 
 from ddd_core.config import load_params_yaml, module_cfg, require
 from ddd_core.topology_preflight import evaluate_topology_preflight
-from modulos import _compat_import  # noqa: F401
-
-# Reutiliza el lector canónico de M02 sin ejecutar su main.
-import importlib.util
 
 
 def _load_m02_module(root: Path):
