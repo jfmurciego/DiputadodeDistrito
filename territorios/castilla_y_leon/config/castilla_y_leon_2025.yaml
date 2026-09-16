@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Castilla y León
-# VERSIÓN: 0.11.1
-# NOMBRE DE VERSIÓN: Contrato autorizado explícitamente
-# FECHA: 2026-09-11
-# ESTADO: candidato CYL-05
-# QUÉ HACE: conserva el contrato territorial M01-M05 ya validado y añade M06 como capa de materialización, descripción y auditoría de los 82 distritos sin modificar su asignación.
-# CAMBIOS: añade production_authorization=AUTHORIZED sin modificar parámetros territoriales.
-# MOTIVO: separar permiso operativo de validez estructural y estado descriptivo.
-# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.11.0.yaml
+# VERSIÓN: 0.12.0
+# NOMBRE DE VERSIÓN: Política topológica declarativa
+# FECHA: 2026-09-16
+# ESTADO: candidato CYL preindustrialización topológica
+# QUÉ HACE: conserva el contrato territorial M01-M06 y formaliza el umbral físico y las siete pasarelas mediante la política topológica común.
+# CAMBIOS: min_shared_border_m=1.0; topology_mode=land; cada pasarela declara ámbito administrativo, tipo, justificación y evidencia.
+# MOTIVO: impedir contactos puntuales como adyacencias físicas y hacer auditables las excepciones de conectividad sin lógica territorial.
+# ANTERIOR: versión 0.11.1 en historial Git.
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,7 +16,7 @@ meta:
   run_name: castilla_y_leon_2025
   year: 2025
   scope: provincial
-  schema_version: 0.11.1
+  schema_version: 0.12.0
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -55,6 +55,7 @@ territory_contract:
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['05','09','24','34','37','40','42','47','49']
+  topology_mode: land
   k_districts: 82
   k_source: norma
   k_rationale: "K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León; Hamilton sustituye el reparto provincial vigente."
@@ -93,19 +94,19 @@ modulos:
     id_field: CUSEC_KEY
     out_edges_jsonl: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
     predicate: touches
-    min_shared_border_m: 0.0
+    min_shared_border_m: 1.0
     buffer_m: 0.0
     simplify_m: 0.0
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '0910901001', v: '0921904001', edge_type: administrative_enclave, reason: 'Enclave de Treviño enlazado al cuerpo principal de Burgos por la sección burgalesa más próxima (Miranda de Ebro).', source: 'CYL-02 audit'}
-      - {u: '0922301001', v: '0941401001', edge_type: cartographic_gap, reason: 'Monasterio de la Sierra: hueco de 758 m en el seccionado hasta Valle de Valdelaguna.', source: 'CYL-02 geometry audit'}
-      - {u: '0915401001', v: '0933001001', edge_type: cartographic_gap, reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.', source: 'CYL-02 audit'}
-      - {u: '3403201001', v: '3413501001', edge_type: administrative_exclave, reason: 'Berzosilla: exclave palentino; enlace mínimo al cuerpo principal de Palencia (Pomar de Valdivia).', source: 'CYL-02 audit'}
-      - {u: '3424201001', v: '3412101001', edge_type: administrative_exclave, reason: 'Villodrigo: exclave palentino dentro de Burgos; enlace mínimo a Palenzuela.', source: 'CYL-02 audit'}
-      - {u: '4713401001', v: '4718301001', edge_type: administrative_exclave, reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace mínimo a Valdunquillo.', source: 'CYL-02 audit'}
-      - {u: '4717501004', v: '4717501003', edge_type: municipal_exclave, reason: 'Herrera de Duero es un exclave del municipio de Tudela de Duero; se enlaza la sección del exclave con la sección del cuerpo principal del mismo municipio más próxima (~1,92 km).', source: 'CYL-03 municipal connectivity audit'}
+      - {u: '0910901001', v: '0921904001', admin_scope: 'province:09', edge_type: administrative_enclave, reason: 'Enclave de Treviño enlazado al cuerpo principal de Burgos por la sección burgalesa más próxima (Miranda de Ebro).', source: 'CYL-02 audit'}
+      - {u: '0922301001', v: '0941401001', admin_scope: 'province:09', edge_type: cartographic_gap, reason: 'Monasterio de la Sierra: hueco de 758 m en el seccionado hasta Valle de Valdelaguna.', source: 'CYL-02 geometry audit'}
+      - {u: '0915401001', v: '0933001001', admin_scope: 'province:09', edge_type: cartographic_gap, reason: 'Hacinas: hueco de 622 m en el seccionado hasta Salas de los Infantes.', source: 'CYL-02 audit'}
+      - {u: '3403201001', v: '3413501001', admin_scope: 'province:34', edge_type: administrative_exclave, reason: 'Berzosilla: exclave palentino; enlace mínimo al cuerpo principal de Palencia (Pomar de Valdivia).', source: 'CYL-02 audit'}
+      - {u: '3424201001', v: '3412101001', admin_scope: 'province:34', edge_type: administrative_exclave, reason: 'Villodrigo: exclave palentino dentro de Burgos; enlace mínimo a Palenzuela.', source: 'CYL-02 audit'}
+      - {u: '4713401001', v: '4718301001', admin_scope: 'province:47', edge_type: administrative_exclave, reason: 'Roales de Campos + Quintanilla del Molar: exclave vallisoletano; enlace mínimo a Valdunquillo.', source: 'CYL-02 audit'}
+      - {u: '4717501004', v: '4717501003', admin_scope: 'municipality:47175', edge_type: municipal_exclave, reason: 'Herrera de Duero es un exclave del municipio de Tudela de Duero; se enlaza la sección del exclave con la sección del cuerpo principal del mismo municipio más próxima (~1,92 km).', source: 'CYL-03 municipal connectivity audit'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
