@@ -1,12 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE: Validar productos públicos
-# FECHA: 2026-09-13
+# FECHA: 2026-09-16
 # ESTADO: activo
 # QUÉ HACE: verifica y empaqueta el visor y sus GeoJSON canónicos como artefacto descargable, sin Pages ni motor territorial.
-# MOTIVO: separar el control de calidad de publicación del permiso externo de GitHub Pages.
-# ANTERIOR: ninguno — workflow nuevo.
+# CAMBIOS: retira workflow_dispatch y conserva la validación automática por push.
+# MOTIVO: separar el control de calidad automático de la única interfaz humana de ejecución.
+# ANTERIOR: versión 1.0.0 en historial Git.
 name: Validar productos públicos
 
 on:
@@ -18,7 +19,6 @@ on:
       - 'orchestracion/productos_publicos.json'
       - 'herramientas/g10_public_product_manifest.py'
       - '.github/workflows/validar-productos-publicos.yml'
-  workflow_dispatch:
 
 permissions:
   contents: read

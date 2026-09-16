@@ -1,9 +1,9 @@
 # Punto de reenganche DDD
 
-Versión: 1.35.0
-Fecha: 2026-09-15
+Versión: 1.36.0
+Fecha: 2026-09-16
 Estado: auditoría crítica y R034–R039 reconciliados; R040 es el único hito territorial abierto.
-Anterior: legacy/docs/PUNTO_REENGANCHE_v1.34.0.md
+Anterior: versión 1.35.0 en historial Git
 
 ## Fuente operativa
 
@@ -11,7 +11,8 @@ Anterior: legacy/docs/PUNTO_REENGANCHE_v1.34.0.md
 - Continuidad de auditoría: `docs/CONTINUIDAD_AUDITORIA_PLATAFORMA.md`.
 - Estado de máquina: `orchestracion/estado_operativo_g10.json`.
 - Estado legible: `docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md`.
-- Interfaz territorial principal: `.github/workflows/operacion-territorial.yml`.
+- Interfaz humana principal: `.github/workflows/ejecucion-generacion-distritos.yml`.
+- Router institucional reutilizable: `.github/workflows/_reutilizable-operacion-territorial.yml`.
 - Línea contractual reutilizable: `.github/workflows/producir-territorio-por-contrato.yml`.
 
 ## Estado de ingeniería
@@ -28,7 +29,11 @@ C-01 conserva el resultado auditado `FAIL_ROBUSTNESS`; eso no invalida los candi
 
 ## Operación actual
 
-La interfaz principal expone M01–M08 y las operaciones institucionales mediante una sola ruta resuelta. Los cambios de publicación o visor no autorizan cálculo territorial. El visor queda fuera del frente actual de trabajo.
+La interfaz principal expone M01–M08 y las operaciones institucionales mediante una sola ruta resuelta. Los inputs humanos son `choice` o `boolean`; los run IDs de reutilización se resuelven internamente. Para tramos posteriores a M01 se busca automáticamente el último checkpoint compatible y para republicación del piloto se busca automáticamente un Aragón-10 completo y vigente.
+
+El visor no expone ya un `workflow_dispatch` independiente: se invoca desde la interfaz única mediante el reusable `desplegar-visor-publico.yml`.
+
+Los cambios de publicación o visor no autorizan cálculo territorial.
 
 ## Siguiente hito
 

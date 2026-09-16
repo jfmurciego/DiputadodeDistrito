@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Router con republicación de ensemble
-# FECHA: 2026-09-15
+# VERSIÓN: 3.0.0
+# NOMBRE DE VERSIÓN: Router modular sin duplicación de M01–M08
+# FECHA: 2026-09-16
 # ESTADO: vigente
-# QUÉ HACE: recibe una operación institucional ya resuelta y delega exclusivamente la ruta correspondiente.
-# CAMBIOS: mantiene las siete operaciones y propaga opcionalmente un run fuente para republicar una galería sin recalcular GerryChain.
-# MOTIVO: corregir/publicar presentación web desde evidencia existente sin introducir workflows auxiliares.
-# ANTERIOR: legacy/workflows/interfaz/_reutilizable-operacion-territorial_v1.1.0.yml
+# QUÉ HACE: recibe una operación institucional resuelta y delega la única ruta seleccionada.
+# CAMBIOS: unifica contrato, preparación, certificación y producción en una sola llamada M01–M08.
+# MOTIVO: impedir que GitHub dibuje varias copias de los mismos módulos.
+# ANTERIOR: versión 2.1.0 en historial Git.
 name: Reutilizable — ruta territorial resuelta
 
 on:
@@ -19,76 +19,68 @@ on:
       from_stage: {required: true, type: string}
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
-      execution_authorization: {required: false, type: string, default: ''}
+      execution_confirmed: {required: false, type: boolean, default: false}
       ensemble_stage: {required: false, type: string, default: synthetic}
-      ensemble_promotion_authorization: {required: false, type: string, default: ''}
+      ensemble_promotion_confirmed: {required: false, type: boolean, default: false}
       ensemble_republish_source_run_id: {required: false, type: string, default: ''}
+      orchestration_plan_path: {required: false, type: string, default: 'orchestracion/plan_lote_g10_smoke.json'}
 
 permissions:
   contents: write
   actions: read
   pages: write
   id-token: write
+  issues: write
 
 jobs:
-  contrato:
-    name: Contrato
-    if: ${{ inputs.operation == 'admitir_contrato' || inputs.operation == 'verificar_contrato' }}
+  produccion:
+    name: M01–M08 · Cadena modular seleccionada
+    if: ${{ contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
       params: ${{ inputs.params }}
-      mode: ${{ inputs.operation == 'admitir_contrato' && 'admit_only' || 'verify_only' }}
-      from_stage: M01
-      to_stage: M08
-
-  preparar:
-    name: Preparar base M01–M03
-    if: ${{ inputs.operation == 'preparar_base_m01_m03' }}
-    uses: ./.github/workflows/producir-territorio-por-contrato.yml
-    with:
-      params: ${{ inputs.params }}
-      mode: execute
-      from_stage: M01
-      to_stage: M03
-      execution_authorization: ${{ inputs.execution_authorization }}
+      mode: ${{ inputs.operation == 'admitir_contrato' && 'admit_only' || inputs.operation == 'verificar_contrato' && 'verify_only' || 'execute' }}
+      from_stage: ${{ inputs.operation == 'producir_resultado_m01_m08' && inputs.from_stage || 'M01' }}
+      to_stage: ${{ inputs.operation == 'preparar_base_m01_m03' && 'M03' || inputs.operation == 'certificar_territorio_m01_m06' && 'M06' || inputs.operation == 'producir_resultado_m01_m08' && inputs.to_stage || 'M08' }}
+      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
 
   diagnostico:
-    name: Diagnóstico topológico
+    name: A01 · Diagnóstico topológico
     if: ${{ inputs.operation == 'diagnosticar_topologia' }}
     uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
     with:
       territory_id: ${{ inputs.territory_id }}
 
-  certificar:
-    name: Certificar territorio M01–M06
-    if: ${{ inputs.operation == 'certificar_territorio_m01_m06' }}
-    uses: ./.github/workflows/producir-territorio-por-contrato.yml
-    with:
-      params: ${{ inputs.params }}
-      mode: execute
-      from_stage: M01
-      to_stage: M06
-      execution_authorization: ${{ inputs.execution_authorization }}
-
-  producir:
-    name: Producir tramo M01–M08
-    if: ${{ inputs.operation == 'producir_resultado_m01_m08' }}
-    uses: ./.github/workflows/producir-territorio-por-contrato.yml
-    with:
-      params: ${{ inputs.params }}
-      mode: execute
-      from_stage: ${{ inputs.from_stage }}
-      to_stage: ${{ inputs.to_stage }}
-      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
-      execution_authorization: ${{ inputs.execution_authorization }}
-
   ensemble:
-    name: Ensemble GerryChain
+    name: G01–G03 · Ensemble GerryChain
     if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
     uses: ./.github/workflows/generar-alternativas-territoriales.yml
     with:
       territory_id: ${{ inputs.territory_id }}
       stage: ${{ inputs.ensemble_stage }}
-      execution_authorization: ${{ inputs.execution_authorization }}
-      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+      execution_confirmed: ${{ inputs.execution_confirmed }}
+      promotion_confirmed: ${{ inputs.ensemble_promotion_confirmed }}
       republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
+
+  visor:
+    name: V01 · Publicar visor actual
+    if: ${{ inputs.operation == 'publicar_visor_actual' }}
+    uses: ./.github/workflows/desplegar-visor-publico.yml
+    with:
+      production_run_id: ''
+      ensemble_release_tag: ''
+
+  orquestacion_control:
+    name: O01 · Controlar ejecución
+    if: ${{ inputs.operation == 'controlar_ejecucion' }}
+    uses: ./.github/workflows/orquestacion-control.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}
+
+  orquestacion_durable:
+    name: O02 · Resolver reutilización y estado durable
+    if: ${{ inputs.operation == 'resolver_reutilizacion' }}
+    uses: ./.github/workflows/orquestacion-durable.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}

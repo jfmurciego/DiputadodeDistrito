@@ -1,36 +1,55 @@
 # Inventario operativo
 
-**Versión:** 1.0.1 — 2026-09-15
+**Versión:** 1.2.0 — 2026-09-16
+**Anterior:** versión 1.1.0 en historial Git
 
 ## Interfaces y workflows vigentes
 
-- `.github/workflows/operacion-territorial.yml`: única interfaz territorial
-  general para contratos, producción y ensembles. El formulario expone nombres
-  institucionales en español y resuelve internamente a los IDs técnicos
-  existentes antes de llamar a workflows reutilizables.
-- `.github/workflows/producir-territorio-por-contrato.yml`: cadena reutilizable
-  M01–M08 con motor canónico.
+- `.github/workflows/ejecucion-generacion-distritos.yml`: única interfaz humana
+  para contratos, producción, visor, ensembles y orquestación. El formulario
+  expone nombres institucionales en español, usa únicamente entradas `choice`
+  y `boolean`, y resuelve internamente los IDs técnicos necesarios.
+- `.github/workflows/_reutilizable-operacion-territorial.yml`: router interno que
+  delega exclusivamente la ruta institucional seleccionada.
+- `.github/workflows/producir-territorio-por-contrato.yml`: única cadena
+  reutilizable M01–M08 con motor canónico para admisión, verificación,
+  preparación, certificación y producción territorial.
 - `.github/workflows/generar-alternativas-territoriales.yml`: cadena
   reutilizable GerryChain, sintética → Aragón 10 → Aragón 50.
-- `.github/workflows/_reutilizable-bootstrap-territorio.yml`: preparación
-  M01–M03 vigente.
 - `.github/workflows/_reutilizable-auditoria-topologica.yml`: diagnóstico
-  topológico vigente.
-- `.github/workflows/pruebas-ddd.yml`: integración continua.
-- `.github/workflows/desplegar-visor-publico.yml`: publicación manual del visor
-  canónico.
+  topológico reutilizable.
+- `.github/workflows/desplegar-visor-publico.yml`: publicador reutilizable del
+  visor canónico; no expone `workflow_dispatch` propio.
+- `.github/workflows/orquestacion-control.yml`: control de ejecución reutilizable.
+- `.github/workflows/orquestacion-durable.yml`: resolución durable de
+  reutilización y estado.
+- `.github/workflows/pruebas-ddd.yml`: integración continua automática.
+- `.github/workflows/validar-contratos-territoriales.yml`: puerta automática de
+  validación estructural de contratos.
+- `.github/workflows/validar-productos-publicos.yml`: puerta automática de
+  validación de productos públicos.
 
-Los workflows de regresión y auditoría territorial restantes son herramientas
-manuales de evidencia, no interfaces generales de producción.
+`_reutilizable-bootstrap-territorio.yml` ya no forma parte del árbol operativo:
+su predecesor se conserva en
+`legacy/workflows/consolidacion-interfaz/_reutilizable-bootstrap-territorio_v1.0.0.yml`.
+
+El único `workflow_dispatch` humano vigente es el de
+`.github/workflows/ejecucion-generacion-distritos.yml`. Las puertas CI conservan
+sus disparadores automáticos y los componentes reutilizables sólo aceptan
+`workflow_call` u otros eventos no interactivos según corresponda.
 
 ## Compatibilidad de la interfaz
 
 GitHub Actions no permite definir en un `choice` una etiqueta visible distinta
 del valor enviado. Por ello la interfaz principal muestra etiquetas humanas y
 las traduce dentro del propio workflow a los contratos técnicos ya existentes,
-incluido `Islas Baleares` → `illes_balears`. El resolvedor conserva además los
-IDs históricos como alias de entrada para invocaciones no interactivas que los
-admitan. No se cambian rutas territoriales, configuraciones ni motores.
+incluido `Islas Baleares` → `illes_balears`. Los run IDs necesarios para
+reutilización no son campos humanos: la interfaz resuelve automáticamente el
+último checkpoint compatible y, cuando se solicita republicación, el último
+Aragón-10 válido.
+
+No se cambian rutas territoriales, configuraciones, geometrías, umbrales ni
+motores por esta actualización documental.
 
 ## Componentes GerryChain
 
@@ -46,8 +65,10 @@ Se conservaron sin pérdida en `legacy/`:
 
 - `legacy/workflows/cleanup_2026-09-14/`: promoción M01–M03 sustituida,
   exportador Flourish de una sola finalidad y antiguo publicador de sitio.
-- `legacy/workflows/interfaz/`: copia exacta de la interfaz principal previa
-  al renombrado institucional del 15-09-2026.
+- `legacy/workflows/interfaz/`: interfaces humanas sustituidas.
+- `legacy/workflows/consolidacion-interfaz/`: reutilizables y regresiones
+  retirados del árbol operativo durante la consolidación.
+- `legacy/workflows/g10/`: workflows G10 sustituidos por la cadena actual.
 - `legacy/publication/sitio_geometria/`: copias de publicación que duplicaban
   la fuente canónica de `resultados/finales/`.
 

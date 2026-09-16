@@ -6,7 +6,7 @@ FECHA: 2026-09-15
 OBJETIVO: exigir una única interfaz territorial general, ruta institucional,
 etiquetas públicas españolas y compatibilidad con los IDs técnicos vigentes.
 CAMBIO: comprueba mecánicamente todos los workflow_dispatch activos para que
-solo operacion-territorial.yml pueda exponer el formulario territorial general;
+solo ejecucion-generacion-distritos.yml pueda exponer el formulario territorial general;
 formularios manuales de diagnóstico, regresión o publicación no se confunden
 con la interfaz general.
 """
@@ -17,7 +17,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-INTERFACE = WORKFLOWS / "operacion-territorial.yml"
+INTERFACE = WORKFLOWS / "ejecucion-generacion-distritos.yml"
 
 VISIBLE_TERRITORIES = [
     "Andalucía",
@@ -71,12 +71,22 @@ VISIBLE_OPERATIONS = [
     "Certificar territorio M01–M06",
     "Producir resultado M01–M08",
     "Generar alternativas GerryChain",
+    "Publicar visor actual",
+    "Controlar ejecución",
+    "Resolver reutilización y estado durable",
 ]
 
 VISIBLE_ENSEMBLE_STAGES = [
     "Prueba sintética",
     "Piloto Aragón — 10 alternativas",
     "Lote Aragón — 50 alternativas",
+]
+
+VISIBLE_ORCHESTRATION_PLANS = ["Prueba de orquestación", "Cierre Fase 1"]
+VISIBLE_EXECUTION_ORIGINS = ["Nueva cadena desde M01", "Último checkpoint compatible"]
+VISIBLE_ENSEMBLE_ORIGINS = [
+    "Generar nuevas alternativas",
+    "Republicar último Aragón-10 válido",
 ]
 
 
@@ -127,7 +137,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             ):
                 general_interfaces.append(path.name)
 
-        self.assertEqual(general_interfaces, ["operacion-territorial.yml"])
+        self.assertEqual(general_interfaces, ["ejecucion-generacion-distritos.yml"])
 
     def test_nombres_visibles_territoriales_son_espanoles_y_canonicos(self):
         inputs = self._dispatch_inputs()
@@ -141,7 +151,21 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["operation"]["options"], VISIBLE_OPERATIONS)
         self.assertEqual(inputs["operation"]["default"], "Admitir contrato")
         self.assertEqual(inputs["ensemble_stage"]["options"], VISIBLE_ENSEMBLE_STAGES)
+        self.assertEqual(inputs["orchestration_plan"]["options"], VISIBLE_ORCHESTRATION_PLANS)
+        self.assertEqual(inputs["execution_origin"]["options"], VISIBLE_EXECUTION_ORIGINS)
+        self.assertEqual(inputs["ensemble_origin"]["options"], VISIBLE_ENSEMBLE_ORIGINS)
+        self.assertLessEqual(len(inputs), 10)
+        self.assertFalse(
+            [name for name, definition in inputs.items() if definition.get("type") == "string"]
+        )
+        self.assertEqual(self._data()["name"], "Ejecucion de Generacion de Distritos")
         self.assertEqual(inputs["ensemble_stage"]["default"], "Prueba sintética")
+        self.assertEqual(inputs["confirmar_ejecucion"]["type"], "boolean")
+        self.assertEqual(inputs["confirmar_coste"]["type"], "boolean")
+        self.assertNotIn("execution_authorization", inputs)
+        self.assertNotIn("ensemble_promotion_authorization", inputs)
+        self.assertNotIn("checkpoint_run_id", inputs)
+        self.assertNotIn("ensemble_republish_source_run_id", inputs)
 
     def test_resolvedor_preserva_ids_tecnicos_territoriales(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -168,18 +192,39 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             "certificar_territorio_m01_m06",
             "producir_resultado_m01_m08",
             "generar_alternativas_gerrychain",
+            "publicar_visor_actual",
+            "controlar_ejecucion",
+            "resolver_reutilizacion",
         ):
             self.assertIn(
                 f"|{technical_operation}) operation={technical_operation} ;;",
                 text,
             )
-
         for technical_stage in ("synthetic", "aragon_10", "aragon_50"):
             self.assertIn(
                 f"|{technical_stage}) ensemble_stage={technical_stage} ;;",
                 text,
             )
 
+    def test_orquestacion_se_resuelve_sin_texto_y_delega_en_reutilizables(self):
+        interface = INTERFACE.read_text(encoding="utf-8")
+        router = (WORKFLOWS / "_reutilizable-operacion-territorial.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            '"Prueba de orquestación") orchestration_plan_path=orchestracion/plan_lote_g10_smoke.json',
+            interface,
+        )
+        self.assertIn(
+            '"Cierre Fase 1") orchestration_plan_path=orchestracion/plan_lote_g10_fase1_cierre.json',
+            interface,
+        )
+        self.assertIn("uses: ./.github/workflows/orquestacion-control.yml", router)
+        self.assertIn("uses: ./.github/workflows/orquestacion-durable.yml", router)
+        self.assertEqual(
+            router.count("uses: ./.github/workflows/producir-territorio-por-contrato.yml"),
+            1,
+        )
 
 if __name__ == "__main__":
     unittest.main()
