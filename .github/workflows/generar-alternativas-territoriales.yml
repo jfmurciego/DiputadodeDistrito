@@ -76,17 +76,17 @@ jobs:
               }
               certification=docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_10_certificacion_run_35035474687.json
               python - "$certification" <<'PY'
-import json
-import sys
-from pathlib import Path
-payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-assert payload["territory_id"] == "aragon"
-assert payload["ensemble"] == "aragon-10"
-assert payload["promotion"]["next_stage"] == "ARAGON_50"
-assert payload["promotion"]["authorized"] is True
-assert payload["completeness"]["candidates_valid"] == 10
-assert payload["hard_constraints"]["all_candidates_pass"] is True
-PY
+              import json
+              import sys
+              from pathlib import Path
+              payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+              assert payload["territory_id"] == "aragon"
+              assert payload["ensemble"] == "aragon-10"
+              assert payload["promotion"]["next_stage"] == "ARAGON_50"
+              assert payload["promotion"]["authorized"] is True
+              assert payload["completeness"]["candidates_valid"] == 10
+              assert payload["hard_constraints"]["all_candidates_pass"] is True
+              PY
               count=50
               ;;
             *) echo 'Fase no admitida.' >&2; exit 20 ;;
