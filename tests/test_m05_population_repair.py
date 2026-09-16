@@ -19,8 +19,11 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertEqual(len(x["repairs"]),1)
 
     def test_exchange_requires_two_moves(self):
+        # A=80, B=120. Ninguna transferencia simple alcanza tolerancia; el
+        # intercambio 30 A->B seguido de 50 B->A deja 100/100. La arista
+        # a2-b2 mantiene contiguo al donante B durante el estado intermedio.
         units={"a1":U(50),"a2":U(30),"b1":U(50),"b2":U(70)}; ass={"a1":"A","a2":"A","b1":"B","b2":"B"}
-        x=self.repair_case(ass,units,A(("a1","a2"),("a2","b1"),("a1","b1"),("b1","b2")))
+        x=self.repair_case(ass,units,A(("a1","a2"),("a2","b1"),("a1","b1"),("b1","b2"),("a2","b2")))
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertGreaterEqual(len(x["repairs"]),2)
 
     def test_three_district_chain(self):
