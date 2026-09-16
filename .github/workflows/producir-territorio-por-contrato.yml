@@ -340,13 +340,20 @@ jobs:
             echo "Aplicando política geométrica territorial: $policy"
           fi
           output="${sections%_secciones.geojson.zip}_contiguedad_geometrica.json"
+          set +e
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
             /app/herramientas/auditar_componentes_geometricos.py --sections "/app/$sections" \
             --section-field CUSEC_KEY --district-field district_id --working-crs EPSG:3035 \
             --expected-districts "$expected" "${policy_args[@]}" --output "/app/$output"
-          decision="$(python -c 'import json,sys; print(json.load(open(sys.argv[1],encoding="utf-8"))["decision"])' "$output")"
+          audit_rc=$?
+          set -e
+          decision=UNKNOWN
+          if [[ -f "$output" ]]; then
+            decision="$(python -c 'import json,sys; print(json.load(open(sys.argv[1],encoding="utf-8"))["decision"])' "$output")"
+          fi
           echo "decision=$decision" >> "$GITHUB_OUTPUT"
           echo "audit_path=$output" >> "$GITHUB_OUTPUT"
+          exit "$audit_rc"
       - name: Registrar estado verificable de producción
         if: always()
         shell: bash
