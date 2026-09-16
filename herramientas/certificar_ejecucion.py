@@ -9,10 +9,86 @@ from pathlib import Path
 
 
 PASS_STATUSES = {"PASS", "PASS_WITH_EXCEPTIONS"}
+CAUSAL_TYPES = {"ATOMIC_MULTIPART", "GOVERNED_BRIDGE"}
+GEOMETRIC_V2_SCHEMA = "ddd.geometric-components-audit/2.0"
 
 
 def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _contains_district_policy(value, *, root=True) -> bool:
+    """Detecta política por district_id, sin confundir filas factuales del informe.
+
+    En v2 district_id identifica el distrito auditado y es dato, no autorización.
+    Solo se inspeccionan campos que declaran política/configuración embebida.
+    """
+    if not isinstance(value, dict):
+        return False
+    for key in ("policy", "policies", "geometric_policy", "allowed_disconnected_districts"):
+        if key in value:
+            payload = value[key]
+            text = json.dumps(payload, sort_keys=True)
+            if "district_id" in text or key == "allowed_disconnected_districts":
+                return True
+    return False
+
+
+def _validate_geometric_v2(audit: dict) -> list[str]:
+    errors: list[str] = []
+    if _contains_district_policy(audit):
+        errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+
+    districts = audit.get("districts")
+    if not isinstance(districts, list):
+        return ["GEOMETRIC_EXCEPTION_NOT_PROVEN"]
+    exception_rows = [row for row in districts if row.get("decision") == "PASS_WITH_EXCEPTIONS"]
+    if int(audit.get("governed_exceptions", -1)) != len(exception_rows):
+        errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+
+    for row in exception_rows:
+        causes = row.get("causal_exceptions")
+        if not isinstance(causes, list) or not causes:
+            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+            continue
+        if row.get("unexplained_components") not in ([], None):
+            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+        if not row.get("geometry_sha256"):
+            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+        for cause in causes:
+            if cause.get("type") not in CAUSAL_TYPES:
+                errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+                continue
+            if not cause.get("components") or len(cause.get("components") or []) < 2:
+                errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+            if not cause.get("geometry_sha256"):
+                errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+            if cause.get("type") == "ATOMIC_MULTIPART":
+                if not cause.get("sections"):
+                    errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+            else:
+                if len(cause.get("endpoints") or []) != 2 or not cause.get("contract_sha256"):
+                    errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+                if not cause.get("source"):
+                    errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+    for row in districts:
+        if row.get("decision") == "BLOCK" or row.get("unexplained_components"):
+            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+    return errors
+
+
+def _validate_geometric_v1(audit: dict) -> list[str]:
+    """Compatibilidad explícita con el contrato M06 v1 ya certificado."""
+    errors: list[str] = []
+    governed = int(audit.get("governed_exceptions", 0))
+    if governed:
+        governed_rows = [row for row in audit.get("districts", []) if row.get("status") == "GOVERNED_EXCEPTION"]
+        if len(governed_rows) != governed or any(
+            not row.get("policy_applied") or not row.get("atomic_multipart_cause_proven")
+            for row in governed_rows
+        ):
+            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+    return errors
 
 
 def certify(
@@ -48,14 +124,14 @@ def certify(
         errors.append("GEOMETRIC_AUDIT_FAILED")
     if audit.get("blocked_districts") or audit.get("policy_mismatches") or audit.get("contract_blockers"):
         errors.append("UNGOVERNED_GEOMETRIC_BLOCK")
+
+    if audit.get("schema") == GEOMETRIC_V2_SCHEMA:
+        errors.extend(_validate_geometric_v2(audit))
+    else:
+        errors.extend(_validate_geometric_v1(audit))
+    errors = list(dict.fromkeys(errors))
     governed = int(audit.get("governed_exceptions", 0))
-    if governed:
-        governed_rows = [row for row in audit.get("districts", []) if row.get("status") == "GOVERNED_EXCEPTION"]
-        if len(governed_rows) != governed or any(
-            not row.get("policy_applied") or not row.get("atomic_multipart_cause_proven")
-            for row in governed_rows
-        ):
-            errors.append("GEOMETRIC_EXCEPTION_NOT_PROVEN")
+
     if reconciliation.get("status") not in {"PASS", "PASS_WITH_DECLARED_EXCEPTIONS"}:
         errors.append("ELECTORAL_RECONCILIATION_FAILED")
     if reconciliation.get("errors"):

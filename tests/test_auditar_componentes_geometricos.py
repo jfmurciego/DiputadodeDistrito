@@ -1,179 +1,49 @@
 from __future__ import annotations
-
 import json
 from pathlib import Path
-import sys
-import tempfile
-import unittest
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import sys,tempfile,unittest
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from herramientas.auditar_componentes_geometricos import audit
-
-
-CRS = {
-    "type": "name",
-    "properties": {"name": "urn:ogc:def:crs:EPSG::25830"},
-}
-
-
-def feature(section_id: str, district_id: int, x0: float, y0: float, x1: float, y1: float):
-    return {
-        "type": "Feature",
-        "properties": {
-            "CUSEC_KEY": section_id,
-            "district_id": district_id,
-        },
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[
-                [x0, y0],
-                [x1, y0],
-                [x1, y1],
-                [x0, y1],
-                [x0, y0],
-            ]],
-        },
-    }
-
-
-class GeometricComponentsAuditTests(unittest.TestCase):
-    def write_sections(self, root: Path, features: list[dict]) -> Path:
-        path = root / "sections.geojson"
-        path.write_text(
-            json.dumps({
-                "type": "FeatureCollection",
-                "crs": CRS,
-                "features": features,
-            }),
-            encoding="utf-8",
-        )
-        return path
-
-    def run_audit(self, sections: Path, policy: Path | None = None) -> dict:
-        return audit(
-            sections,
-            section_field="CUSEC_KEY",
-            district_field="district_id",
-            working_crs="EPSG:25830",
-            policy_path=policy,
-            expected_districts=1,
-        )
-
-    def test_shared_real_border_passes(self):
+CRS={"type":"name","properties":{"name":"urn:ogc:def:crs:EPSG::25830"}}
+def polygon(section,district,x0,x1):return {"type":"Feature","properties":{"CUSEC_KEY":section,"district_id":district},"geometry":{"type":"Polygon","coordinates":[[[x0,0],[x1,0],[x1,1],[x0,1],[x0,0]]]}}
+def multipart(section,district,spans):return {"type":"Feature","properties":{"CUSEC_KEY":section,"district_id":district},"geometry":{"type":"MultiPolygon","coordinates":[[[[a,0],[b,0],[b,1],[a,1],[a,0]]] for a,b in spans]}}
+class CausalGeometryTests(unittest.TestCase):
+    def files(self,root,features,bridges=None):
+        s=root/"synthetic_m06_secciones.geojson";s.write_text(json.dumps({"type":"FeatureCollection","crs":CRS,"features":features}),encoding="utf-8")
+        c=root/"contract.yaml";import yaml;c.write_text(yaml.safe_dump({"modulos":{"modulo_02_construir_adyacencias":{"topology_bridges":bridges or []}}}),encoding="utf-8");return s,c
+    def audit_case(self,s,c,expected=1):return audit(s,section_field="CUSEC_KEY",district_field="district_id",working_crs="EPSG:25830",contract_path=c,expected_districts=expected)
+    def test_valid_atomic_multipart(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            sections = self.write_sections(root, [
-                feature("a", 1, 0, 0, 1, 1),
-                feature("b", 1, 1, 0, 2, 1),
-            ])
-            report = self.run_audit(sections)
-            district = report["districts"][0]
-            self.assertEqual(report["decision"], "PASS")
-            self.assertEqual(district["dissolved_geometry_type"], "Polygon")
-            self.assertEqual(district["component_count"], 1)
-            self.assertTrue(district["connected"])
-
-    def test_corner_contact_fails(self):
+            s,c=self.files(Path(raw),[multipart("a",1,[(0,1),(3,4)])]);r=self.audit_case(s,c);e=r["districts"][0]["causal_exceptions"][0]
+            self.assertEqual(r["decision"],"PASS_WITH_EXCEPTIONS");self.assertEqual(e["type"],"ATOMIC_MULTIPART");self.assertEqual(e["sections"],["a"]);self.assertTrue(e["geometry_sha256"]);self.assertTrue(e["contract_sha256"])
+    def test_valid_governed_bridge(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            sections = self.write_sections(root, [
-                feature("a", 1, 0, 0, 1, 1),
-                feature("b", 1, 1, 1, 2, 2),
-            ])
-            report = self.run_audit(sections)
-            district = report["districts"][0]
-            self.assertEqual(report["decision"], "BLOCK")
-            self.assertEqual(district["dissolved_geometry_type"], "MultiPolygon")
-            self.assertEqual(district["component_count"], 2)
-            self.assertEqual(district["status"], "POTENTIAL_DISCONTINUITY")
-
-    def test_separated_polygons_fail(self):
+            s,c=self.files(Path(raw),[polygon("a",1,0,1),polygon("b",1,3,4)],[{"u":"a","v":"b","edge_type":"administrative_exclave","source":"synthetic"}]);r=self.audit_case(s,c);e=r["districts"][0]["causal_exceptions"][0]
+            self.assertEqual(r["decision"],"PASS_WITH_EXCEPTIONS");self.assertEqual(e["type"],"GOVERNED_BRIDGE");self.assertEqual(e["endpoints"],["a","b"]);self.assertIn("topology_bridges[0]",e["source"])
+    def test_combination_multipart_and_bridge(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            sections = self.write_sections(root, [
-                feature("a", 1, 0, 0, 1, 1),
-                feature("b", 1, 3, 0, 4, 1),
-            ])
-            report = self.run_audit(sections)
-            district = report["districts"][0]
-            self.assertEqual(report["decision"], "BLOCK")
-            self.assertEqual(district["component_count"], 2)
-            self.assertFalse(district["connected"])
-
-    def test_multipolygon_passes_only_with_explicit_policy_exception(self):
+            s,c=self.files(Path(raw),[multipart("a",1,[(0,1),(3,4)]),polygon("b",1,6,7)],[{"u":"a","v":"b","edge_type":"cartographic_gap"}]);r=self.audit_case(s,c);k={e["type"] for e in r["districts"][0]["causal_exceptions"]}
+            self.assertEqual(r["decision"],"PASS_WITH_EXCEPTIONS");self.assertEqual(k,{"ATOMIC_MULTIPART","GOVERNED_BRIDGE"})
+    def test_bridge_endpoints_in_different_districts_is_not_causal(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            multipart = {
-                "type": "Feature",
-                "properties": {"CUSEC_KEY": "a", "district_id": 1},
-                "geometry": {"type": "MultiPolygon", "coordinates": [
-                    [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]],
-                    [[[3, 0], [4, 0], [4, 1], [3, 1], [3, 0]]],
-                ]},
-            }
-            sections = self.write_sections(root, [multipart])
-            without_policy = self.run_audit(sections)
-            self.assertEqual(without_policy["decision"], "BLOCK")
-
-            policy = root / "policy.json"
-            policy.write_text(json.dumps({
-                "schema": "ddd.geometric-contiguity-policy/1.0",
-                "allowed_disconnected_districts": [{
-                    "district_id": 1,
-                    "expected_components": 2,
-                    "kind": "official_atomic_multipart_section",
-                    "reason": "Caso sintético: discontinuidad expresamente gobernada.",
-                }],
-            }), encoding="utf-8")
-            with_policy = self.run_audit(sections, policy)
-            district = with_policy["districts"][0]
-            self.assertEqual(with_policy["decision"], "PASS_WITH_EXCEPTIONS")
-            self.assertEqual(district["status"], "GOVERNED_EXCEPTION")
-            self.assertTrue(district["policy_applied"])
-            self.assertTrue(district["atomic_multipart_cause_proven"])
-
-    def test_policy_cannot_excuse_unrelated_islands(self):
+            s,c=self.files(Path(raw),[polygon("a",1,0,1),polygon("c",1,3,4),polygon("b",2,6,7)],[{"u":"a","v":"b","edge_type":"synthetic"}]);r=self.audit_case(s,c,2);d=next(x for x in r["districts"] if x["district_id"]=="1")
+            self.assertEqual(d["decision"],"BLOCK");self.assertEqual(d["causal_exceptions"],[])
+    def test_declared_but_unused_bridge_does_not_excuse_component(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            sections = self.write_sections(root, [
-                feature("a", 1, 0, 0, 1, 1),
-                feature("b", 1, 3, 0, 4, 1),
-            ])
-            policy = root / "policy.json"
-            policy.write_text(json.dumps({
-                "schema": "ddd.geometric-contiguity-policy/1.0",
-                "allowed_disconnected_districts": [{
-                    "district_id": 1,
-                    "expected_components": 2,
-                    "kind": "official_atomic_multipart_section",
-                    "reason": "No basta con declararlo: debe probarse.",
-                }],
-            }), encoding="utf-8")
-            report = self.run_audit(sections, policy)
-            self.assertEqual(report["decision"], "BLOCK")
-            self.assertFalse(report["districts"][0]["atomic_multipart_cause_proven"])
-
-    def test_polygon_with_hole_remains_connected_and_is_reported(self):
+            s,c=self.files(Path(raw),[polygon("a",1,0,1),polygon("b",1,1,2),polygon("c",1,5,6)],[{"u":"a","v":"b","edge_type":"synthetic"}]);r=self.audit_case(s,c)
+            self.assertEqual(r["decision"],"BLOCK");self.assertEqual(r["districts"][0]["causal_exceptions"],[])
+    def test_unexplained_component_blocks(self):
         with tempfile.TemporaryDirectory() as raw:
-            root = Path(raw)
-            donut = {
-                "type": "Feature",
-                "properties": {"CUSEC_KEY": "a", "district_id": 1},
-                "geometry": {
-                    "type": "Polygon",
-                    "coordinates": [
-                        [[0, 0], [4, 0], [4, 4], [0, 4], [0, 0]],
-                        [[1, 1], [1, 2], [2, 2], [2, 1], [1, 1]],
-                    ],
-                },
-            }
-            sections = self.write_sections(root, [donut])
-            report = self.run_audit(sections)
-            district = report["districts"][0]
-            self.assertEqual(report["decision"], "PASS")
-            self.assertEqual(district["component_count"], 1)
-            self.assertEqual(district["interior_ring_count"], 1)
-
-
-if __name__ == "__main__":
-    unittest.main()
+            s,c=self.files(Path(raw),[polygon("a",1,0,1),polygon("b",1,3,4)]);r=self.audit_case(s,c)
+            self.assertEqual(r["decision"],"BLOCK");self.assertTrue(r["districts"][0]["unexplained_components"])
+    def test_district_renumbering_does_not_change_causal_result(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root=Path(raw);bridge={"u":"a","v":"b","edge_type":"synthetic"};s,c=self.files(root,[polygon("a",1,0,1),polygon("b",1,3,4)],[bridge]);r1=self.audit_case(s,c)
+            s2=root/"renumbered.geojson";s2.write_text(json.dumps({"type":"FeatureCollection","crs":CRS,"features":[polygon("a",999,0,1),polygon("b",999,3,4)]}),encoding="utf-8");r2=self.audit_case(s2,c)
+            self.assertEqual(r1["decision"],r2["decision"]);e1=r1["districts"][0]["causal_exceptions"][0];e2=r2["districts"][0]["causal_exceptions"][0]
+            for key in ("type","endpoints","components","contract_sha256"):self.assertEqual(e1[key],e2[key])
+    def test_district_based_policy_is_rejected(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root=Path(raw);s,c=self.files(root,[polygon("a",1,0,1)]);p=root/"policy.json";p.write_text('{"district_id":1}',encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"district_id"):audit(s,section_field="CUSEC_KEY",district_field="district_id",working_crs="EPSG:25830",contract_path=c,policy_path=p)
+if __name__=="__main__":unittest.main()
