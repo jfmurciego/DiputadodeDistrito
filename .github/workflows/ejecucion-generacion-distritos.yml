@@ -247,7 +247,7 @@ jobs:
           set -euo pipefail
           checkpoint_run_id=''
           ensemble_source_run_id=''
-          api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=success&per_page=100"
+          api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
           mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs[].id')
 
           if [[ "$OPERATION" == producir_resultado_m01_m08 && "$FROM_STAGE" != M01 ]]; then
