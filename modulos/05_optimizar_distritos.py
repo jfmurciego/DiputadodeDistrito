@@ -1,6 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""M05 — wrapper del optimizador base, pulido y reparación poblacional genérica opt-in."""
+"""
+PROYECTO: Diputado de Distrito
+Módulo 05 — Optimizar distritos
+VERSIÓN: 7.6.0
+NOMBRE DE VERSIÓN: Reparación poblacional genérica escalonada
+FECHA: 2026-09-16
+ESTADO: candidato multi-territorio; reparación poblacional opt-in pendiente de validación CI completa.
+FUNCIÓN: ejecutar el motor base M05 v7.4.0, aplicar el pulido determinista existente y, de forma opt-in,
+una reparación poblacional genérica acotada que preserva las restricciones duras.
+ENTRADAS: grafo M03 y solución M04 con district_id, ddd_unit_id y provincia.
+SALIDAS: GeoJSON optimizado e informe M05 con versión de wrapper y evidencia estructurada de reparación.
+REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; la reparación solo se activa mediante
+population_repair.enabled y conserva provincia, contigüidad e indivisibilidad de las unidades.
+CAMBIOS: añade la fase genérica de reparación poblacional posterior al motor base y al swap-polish,
+con límites explícitos de búsqueda y resultados REPAIRED, IMPROVED_NOT_REPAIRED o NO_FEASIBLE_REPAIR_FOUND.
+MOTIVO: permitir reparación poblacional reusable y acotada sin alterar el motor base ni los contratos territoriales.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.5.2.py
+"""
 from __future__ import annotations
 import argparse, copy, importlib.util, io, json, sys, tempfile, zipfile
 from pathlib import Path
