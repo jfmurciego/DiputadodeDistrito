@@ -1,15 +1,15 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.3.1
 # NOMBRE: Notificación de finalización de lote DDD
 # ESTADO: activo
-# QUÉ HACE: avisa una sola vez por los workflows durables G10 y enlaza el reenganche.
-# CAMBIO: elimina avisos duplicados de regresiones y concentra la notificación operativa.
+# QUÉ HACE: avisa una sola vez cuando termina la interfaz operativa única y enlaza el reenganche.
+# CAMBIO: sustituye los nombres archivados por el nombre vigente del workflow principal.
 # ANTERIOR: legacy/workflows/notificar-finalizacion-orquestacion_v1.2.0.yml
 name: Notificar finalización de lote DDD
 on:
   workflow_run:
-    workflows: ["Operación territorial DDD — M01 a M08", "G10 — Operar lote durable"]
+    workflows: ["Ejecucion de Generacion de Distritos"]
     types: [completed]
 permissions:
   contents: read
