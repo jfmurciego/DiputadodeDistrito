@@ -83,6 +83,11 @@ VISIBLE_ENSEMBLE_STAGES = [
 ]
 
 VISIBLE_ORCHESTRATION_PLANS = ["Prueba de orquestación", "Cierre Fase 1"]
+VISIBLE_EXECUTION_ORIGINS = ["Nueva cadena desde M01", "Último checkpoint compatible"]
+VISIBLE_ENSEMBLE_ORIGINS = [
+    "Generar nuevas alternativas",
+    "Republicar último Aragón-10 válido",
+]
 
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -147,12 +152,20 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["operation"]["default"], "Admitir contrato")
         self.assertEqual(inputs["ensemble_stage"]["options"], VISIBLE_ENSEMBLE_STAGES)
         self.assertEqual(inputs["orchestration_plan"]["options"], VISIBLE_ORCHESTRATION_PLANS)
+        self.assertEqual(inputs["execution_origin"]["options"], VISIBLE_EXECUTION_ORIGINS)
+        self.assertEqual(inputs["ensemble_origin"]["options"], VISIBLE_ENSEMBLE_ORIGINS)
+        self.assertLessEqual(len(inputs), 10)
+        self.assertFalse(
+            [name for name, definition in inputs.items() if definition.get("type") == "string"]
+        )
         self.assertEqual(self._data()["name"], "Ejecucion de Generacion de Distritos")
         self.assertEqual(inputs["ensemble_stage"]["default"], "Prueba sintética")
         self.assertEqual(inputs["confirmar_ejecucion"]["type"], "boolean")
         self.assertEqual(inputs["confirmar_coste"]["type"], "boolean")
         self.assertNotIn("execution_authorization", inputs)
         self.assertNotIn("ensemble_promotion_authorization", inputs)
+        self.assertNotIn("checkpoint_run_id", inputs)
+        self.assertNotIn("ensemble_republish_source_run_id", inputs)
 
     def test_resolvedor_preserva_ids_tecnicos_territoriales(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -208,6 +221,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         )
         self.assertIn("uses: ./.github/workflows/orquestacion-control.yml", router)
         self.assertIn("uses: ./.github/workflows/orquestacion-durable.yml", router)
+        self.assertEqual(
+            router.count("uses: ./.github/workflows/producir-territorio-por-contrato.yml"),
+            1,
+        )
 
 if __name__ == "__main__":
     unittest.main()

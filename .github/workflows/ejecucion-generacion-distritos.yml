@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 4.1.0
-# NOMBRE DE VERSIÓN: Ruta única con republicación de ensemble
-# FECHA: 2026-09-15
+# VERSIÓN: 5.0.0
+# NOMBRE DE VERSIÓN: Interfaz única sin entrada de texto
+# FECHA: 2026-09-16
 # ESTADO: vigente
-# QUÉ HACE: conserva las siete operaciones institucionales y delega una sola ruta reutilizable ya resuelta.
-# CAMBIOS: añade run fuente opcional para republicar una galería de ensemble sin recalcular; mantiene Desde/Hasta y aliases semánticos.
-# COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta; ensemble normal no cambia si no se indica run fuente.
-# ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.1.yml
+# QUÉ HACE: ofrece una única interfaz de operación, producción, visor, ensemble y orquestación.
+# CAMBIOS: elimina run IDs escritos, resuelve automáticamente checkpoints y Aragón-10 previos y limita el formulario a choices/booleanos.
+# COMPATIBILIDAD: los IDs se mantienen como inputs internos entre reutilizables, nunca como campos humanos.
+# ANTERIOR: versión 4.1.0 en historial Git.
 name: Ejecucion de Generacion de Distritos
 
 on:
@@ -66,10 +66,14 @@ on:
         default: M08
         type: choice
         options: [M01, M02, M03, M04, M05, M06, M07, M08]
-      checkpoint_run_id:
-        description: Run modular anterior del que reanudar cuando Desde módulo sea posterior a M01
-        required: false
-        type: string
+      execution_origin:
+        description: Origen de la cadena modular
+        required: true
+        default: Nueva cadena desde M01
+        type: choice
+        options:
+          - Nueva cadena desde M01
+          - Último checkpoint compatible
       confirmar_ejecucion:
         description: Confirmo la ejecución de los módulos seleccionados
         required: true
@@ -89,10 +93,14 @@ on:
         required: true
         default: false
         type: boolean
-      ensemble_republish_source_run_id:
-        description: Run anterior que se quiere republicar sin recalcular (sólo Aragón-10; opcional)
-        required: false
-        type: string
+      ensemble_origin:
+        description: Origen de las alternativas
+        required: true
+        default: Generar nuevas alternativas
+        type: choice
+        options:
+          - Generar nuevas alternativas
+          - Republicar último Aragón-10 válido
       orchestration_plan:
         description: Plan de orquestación versionado
         required: true
@@ -120,6 +128,8 @@ jobs:
       to_stage: ${{ steps.resolve.outputs.to_stage }}
       ensemble_stage: ${{ steps.resolve.outputs.ensemble_stage }}
       orchestration_plan_path: ${{ steps.resolve.outputs.orchestration_plan_path }}
+      checkpoint_run_id: ${{ steps.sources.outputs.checkpoint_run_id }}
+      ensemble_source_run_id: ${{ steps.sources.outputs.ensemble_source_run_id }}
     steps:
       - name: Resolver territorio, operación, tramo y fase
         id: resolve
@@ -131,6 +141,7 @@ jobs:
           UI_TO_STAGE: ${{ inputs.to_stage }}
           UI_ENSEMBLE_STAGE: ${{ inputs.ensemble_stage }}
           UI_ORCHESTRATION_PLAN: ${{ inputs.orchestration_plan }}
+          UI_EXECUTION_ORIGIN: ${{ inputs.execution_origin }}
         run: |
           set -euo pipefail
 
@@ -175,6 +186,9 @@ jobs:
             preparar_base_m01_m03) UI_FROM_STAGE=M01; UI_TO_STAGE=M03 ;;
             certificar_territorio_m01_m06) UI_FROM_STAGE=M01; UI_TO_STAGE=M06 ;;
           esac
+          if [[ "$operation" == producir_resultado_m01_m08 && "$UI_EXECUTION_ORIGIN" == "Nueva cadena desde M01" ]]; then
+            UI_FROM_STAGE=M01
+          fi
 
           stage_number() {
             case "$1" in
@@ -218,6 +232,66 @@ jobs:
             echo "orchestration_plan_path=$orchestration_plan_path"
           } >> "$GITHUB_OUTPUT"
 
+      - id: sources
+        name: Resolver automáticamente evidencia anterior
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          OPERATION: ${{ steps.resolve.outputs.operation }}
+          FROM_STAGE: ${{ steps.resolve.outputs.from_stage }}
+          ENSEMBLE_STAGE: ${{ steps.resolve.outputs.ensemble_stage }}
+          EXECUTION_ORIGIN: ${{ inputs.execution_origin }}
+          ENSEMBLE_ORIGIN: ${{ inputs.ensemble_origin }}
+        run: |
+          set -euo pipefail
+          checkpoint_run_id=''
+          ensemble_source_run_id=''
+          api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=success&per_page=100"
+          mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs[].id')
+
+          if [[ "$OPERATION" == producir_resultado_m01_m08 && "$FROM_STAGE" != M01 ]]; then
+            test "$EXECUTION_ORIGIN" = "Último checkpoint compatible" || { echo '::error::Un tramo posterior a M01 exige elegir el último checkpoint compatible.'; exit 23; }
+            previous="M$(printf '%02d' "$((10#${FROM_STAGE#M}-1))")"
+            for run_id in "${run_ids[@]}"; do
+              artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+              jq -e --arg n "ddd-state-$run_id-$previous" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+              jq -e --arg n "ddd-decision-$run_id" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+              tmp="$(mktemp -d)"
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-decision-$run_id" --dir "$tmp" >/dev/null 2>&1; then
+                decision="$(find "$tmp" -name decision.json -type f -print -quit)"
+                if [[ -n "$decision" && "$(jq -r '.territory_id // empty' "$decision")" == "$TERRITORY_ID" ]]; then
+                  checkpoint_run_id="$run_id"; rm -rf "$tmp"; break
+                fi
+              fi
+              rm -rf "$tmp"
+            done
+            test -n "$checkpoint_run_id" || { echo "::error::No existe checkpoint $previous compatible y vigente para $TERRITORY_ID."; exit 24; }
+          fi
+
+          if [[ "$OPERATION" == generar_alternativas_gerrychain && "$ENSEMBLE_ORIGIN" == "Republicar último Aragón-10 válido" ]]; then
+            test "$TERRITORY_ID" = aragon && test "$ENSEMBLE_STAGE" = aragon_10 || { echo '::error::La republicación automática sólo admite Aragón-10.'; exit 25; }
+            for run_id in "${run_ids[@]}"; do
+              artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+              base_name="$(jq -r '[.artifacts[] | select((.expired|not) and (.name|startswith("ensemble-base-")))][0].name // empty' <<<"$artifacts")"
+              [[ -n "$base_name" ]] || continue
+              tmp="$(mktemp -d)"
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$base_name" --dir "$tmp" >/dev/null 2>&1; then
+                plan="$(find "$tmp" -path '*/work/ensemble/plan.json' -o -name plan.json | head -n1)"
+                if [[ -n "$plan" && "$(jq -r '.candidate_count // 0' "$plan")" == 10 ]]; then
+                  ensemble_source_run_id="$run_id"; rm -rf "$tmp"; break
+                fi
+              fi
+              rm -rf "$tmp"
+            done
+            test -n "$ensemble_source_run_id" || { echo '::error::No existe un Aragón-10 completo y vigente para republicar.'; exit 26; }
+          fi
+
+          {
+            echo "checkpoint_run_id=$checkpoint_run_id"
+            echo "ensemble_source_run_id=$ensemble_source_run_id"
+          } >> "$GITHUB_OUTPUT"
+
   ruta:
     name: C01 · Ejecutar ruta seleccionada
     needs: resolver_interfaz
@@ -228,11 +302,11 @@ jobs:
       operation: ${{ needs.resolver_interfaz.outputs.operation }}
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
-      checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
       ensemble_stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
       ensemble_promotion_confirmed: ${{ inputs.confirmar_coste }}
-      ensemble_republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
+      ensemble_republish_source_run_id: ${{ needs.resolver_interfaz.outputs.ensemble_source_run_id }}
       orchestration_plan_path: ${{ needs.resolver_interfaz.outputs.orchestration_plan_path }}
 
     # Contrato de publicación preservado dentro de la ruta de producción:
