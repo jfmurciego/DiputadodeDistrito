@@ -1,11 +1,12 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.2.0
+VERSIÓN: 1.2.1
 FECHA: 2026-09-16
 CAMBIO: archiva workflows manuales especializados y retira botones manuales de
-puertas CI automáticas sin alterar la interfaz territorial principal.
-ANTERIOR: versión 1.1.2 en historial Git.
+puertas CI automáticas; preserva la comprobación de legacy en checkout y permite
+su exclusión explícita dentro del contenedor reproducible.
+ANTERIOR: versión 1.2.0 en historial Git.
 """
 import os
 from pathlib import Path
@@ -29,9 +30,18 @@ class WorkflowSafety(unittest.TestCase):
 
     def test_pesados_archivados_y_ci_sin_boton_manual(self):
         archived=ROOT/"legacy/workflows/consolidacion-interfaz"
-        for active,historical in self.ARCHIVED_MANUAL.items():
+        for active in self.ARCHIVED_MANUAL:
             self.assertFalse((WORKFLOWS/active).exists(),active)
-            self.assertTrue((archived/historical).is_file(),historical)
+
+        if archived.is_dir():
+            for historical in self.ARCHIVED_MANUAL.values():
+                self.assertTrue((archived/historical).is_file(),historical)
+        else:
+            self.assertEqual(
+                os.environ.get("DDD_SKIP_LEGACY_CHECK"),
+                "1",
+                "legacy ausente fuera del entorno reproducible autorizado",
+            )
 
         for name,required in self.AUTOMATIC_ONLY.items():
             data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
