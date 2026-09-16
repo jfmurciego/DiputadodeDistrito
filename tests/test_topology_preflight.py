@@ -90,7 +90,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
             [bridge("a", "b")],
         )
         self.assertEqual("BLOCKED", r["decision"])
-        self.assertIn("cross-province", r["bridges"]["rejected"][0]["rejection_reason"])
+        self.assertIn("declared scope", r["bridges"]["rejected"][0]["rejection_reason"])
 
     def test_08_unnecessary_bridge(self):
         r = self.run_case(
@@ -109,6 +109,44 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         )
         self.assertEqual("NEEDS_POLICY", r["decision"])
         self.assertEqual(2, len(r["components"]["territorial_operational"]))
+
+    def test_10_province_bridge_ignores_path_through_other_province(self):
+        r = self.run_case(
+            {
+                "a": unit(province="01", municipality="001"),
+                "b": unit(province="01", municipality="002"),
+                "x": unit(province="02", municipality="003"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 10.0},
+                {"u": "x", "v": "b", "shared_border_m": 10.0},
+            ],
+            [bridge("a", "b", admin_scope="province:01")],
+        )
+        self.assertEqual("READY", r["decision"])
+        self.assertEqual(1, len(r["bridges"]["accepted"]))
+        self.assertEqual([], r["bridges"]["rejected"])
+
+    def test_11_province_scope_code_must_match_endpoints(self):
+        r = self.run_case(
+            {"a": unit(province="01"), "b": unit(province="01", municipality="002")},
+            [],
+            [bridge("a", "b", admin_scope="province:02")],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn("declared scope province:02", r["bridges"]["rejected"][0]["rejection_reason"])
+
+    def test_12_municipality_scope_requires_same_municipality(self):
+        r = self.run_case(
+            {
+                "a": unit(province="01", municipality="00001"),
+                "b": unit(province="01", municipality="00002"),
+            },
+            [],
+            [bridge("a", "b", admin_scope="municipality:00001")],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn("declared scope municipality:00001", r["bridges"]["rejected"][0]["rejection_reason"])
 
 
 if __name__ == "__main__":
