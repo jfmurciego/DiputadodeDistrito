@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 4.0.0
+# VERSIÓN: 4.1.0
 # NOMBRE DE VERSIÓN: Ruta única con republicación de ensemble
 # FECHA: 2026-09-15
 # ESTADO: vigente
@@ -51,6 +51,7 @@ on:
           - Certificar territorio M01–M06
           - Producir resultado M01–M08
           - Generar alternativas GerryChain
+          - Publicar visor actual
       from_stage:
         description: Desde módulo (aplica a Producir resultado M01–M08)
         required: true
@@ -151,6 +152,7 @@ jobs:
             "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
             "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
             "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
+            "Publicar visor actual"|publicar_visor_actual) operation=publicar_visor_actual ;;
             *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
           esac
 

@@ -36,6 +36,7 @@ class R038OperacionLimpia(unittest.TestCase):
             "Admitir contrato", "Verificar contrato", "Preparar base M01–M03",
             "Diagnosticar topología", "Certificar territorio M01–M06",
             "Producir resultado M01–M08", "Generar alternativas GerryChain",
+            "Publicar visor actual",
         ])
         self.assertNotIn("execution_authorization:", text)
         self.assertNotIn("ensemble_promotion_authorization:", text)
@@ -69,7 +70,8 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", operation)
         self.assertIn("production_run_id: ${{ github.run_id }}", operation)
         self.assertIn("workflow_call:", viewer)
-        self.assertIn("workflow_dispatch:", viewer)
+        self.assertNotIn("workflow_dispatch:", viewer)
+        self.assertIn("publicar_visor_actual", operation)
 
     def test_no_queda_el_formulario_g10_sustituido(self):
         self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())

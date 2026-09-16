@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.4.3
+# VERSIÓN: 2.0.0
 # NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
 # ESTADO: activo
 # QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
@@ -15,16 +15,6 @@ on:
         required: false
         type: string
       ensemble_release_tag:
-        required: false
-        type: string
-  workflow_dispatch:
-    inputs:
-      production_run_id:
-        description: Run de producción M06/M08 que se quiere ver (opcional)
-        required: false
-        type: string
-      ensemble_release_tag:
-        description: Tag del ensemble que se quiere añadir al combo (opcional)
         required: false
         type: string
 

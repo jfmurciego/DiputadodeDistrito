@@ -31,7 +31,7 @@ class WorkflowSafety(unittest.TestCase):
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
-        self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
+        self.assertEqual(set(viewer_triggers),{"workflow_call"})
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")

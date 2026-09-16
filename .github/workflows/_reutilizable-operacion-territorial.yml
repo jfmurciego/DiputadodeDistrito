@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 2.0.0
+# VERSIÓN: 2.1.0
 # NOMBRE DE VERSIÓN: Router con republicación de ensemble
 # FECHA: 2026-09-15
 # ESTADO: vigente
@@ -92,3 +92,11 @@ jobs:
       execution_confirmed: ${{ inputs.execution_confirmed }}
       promotion_confirmed: ${{ inputs.ensemble_promotion_confirmed }}
       republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
+
+  visor:
+    name: V01 · Publicar visor actual
+    if: ${{ inputs.operation == 'publicar_visor_actual' }}
+    uses: ./.github/workflows/desplegar-visor-publico.yml
+    with:
+      production_run_id: ''
+      ensemble_release_tag: ''

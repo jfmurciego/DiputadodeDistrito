@@ -71,6 +71,7 @@ VISIBLE_OPERATIONS = [
     "Certificar territorio M01–M06",
     "Producir resultado M01–M08",
     "Generar alternativas GerryChain",
+    "Publicar visor actual",
 ]
 
 VISIBLE_ENSEMBLE_STAGES = [
@@ -141,6 +142,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["operation"]["options"], VISIBLE_OPERATIONS)
         self.assertEqual(inputs["operation"]["default"], "Admitir contrato")
         self.assertEqual(inputs["ensemble_stage"]["options"], VISIBLE_ENSEMBLE_STAGES)
+        self.assertEqual(self._data()["name"], "Ejecucion de Generacion de Distritos")
         self.assertEqual(inputs["ensemble_stage"]["default"], "Prueba sintética")
         self.assertEqual(inputs["confirmar_ejecucion"]["type"], "boolean")
         self.assertEqual(inputs["confirmar_coste"]["type"], "boolean")
@@ -172,6 +174,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             "certificar_territorio_m01_m06",
             "producir_resultado_m01_m08",
             "generar_alternativas_gerrychain",
+            "publicar_visor_actual",
         ):
             self.assertIn(
                 f"|{technical_operation}) operation={technical_operation} ;;",
