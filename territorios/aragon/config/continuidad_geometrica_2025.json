@@ -1,0 +1,20 @@
+{
+  "schema": "ddd.geometric-causal-migration/1.0",
+  "territory_id": "aragon",
+  "year": 2025,
+  "status": "migration_evidence_only",
+  "rule": "La auditoría causal no consume listas de excepciones: deriva ATOMIC_MULTIPART de la geometría oficial de las secciones y GOVERNED_BRIDGE del contrato territorial.",
+  "legacy_atomic_multipart_sections": [
+    "2212503008",
+    "2200301001",
+    "2209601001",
+    "2290401001",
+    "2215101001",
+    "2290501001",
+    "2213001007",
+    "5009301001",
+    "5029704071"
+  ],
+  "validation_source": "Artefacto certificado 34960965537; comprobación local causal sin recertificación territorial.",
+  "expected_local_result": {"PASS": 60, "PASS_WITH_EXCEPTIONS": 7, "BLOCK": 0}
+}
