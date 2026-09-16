@@ -1,0 +1,119 @@
+{
+  "schema": "ddd.ensemble-pilot-certification/1.0",
+  "territory_id": "aragon",
+  "ensemble": "aragon-10",
+  "run_id": 35035474687,
+  "source_commit": "758ab344d8ca0588591ea2ebc93770760394901f",
+  "plan_sha256": "17150ee5df09bec984445e84c23861bc6170dc36a1659e943854eb68feb9f5a1",
+  "prepared_bundle_id": "sha256:96e526a419aa328967b94a3f3911e4113540c7826d30c7ccf6b36b717566cb6e",
+  "decision": "PILOT_PASS_WITH_GOVERNED_EXCEPTIONS",
+  "promotion": {
+    "next_stage": "ARAGON_50",
+    "authorized": true,
+    "does_not_authorize_canonical_map_promotion": true
+  },
+  "completeness": {
+    "profiles": 5,
+    "candidates_expected": 10,
+    "candidates_received": 10,
+    "candidates_valid": 10,
+    "candidate_assignment_hashes_unique": 10,
+    "statistical_chains": 10,
+    "states_per_chain": 1000,
+    "states_total": 10000,
+    "missing_candidates": [],
+    "invalid_candidates": []
+  },
+  "hard_constraints": {
+    "all_candidates_pass": true,
+    "checks": [
+      "unit_universe",
+      "k",
+      "population",
+      "province",
+      "province_apportionment",
+      "atomic_unit",
+      "municipality",
+      "closed_urban",
+      "contiguity",
+      "geometric_contiguity"
+    ],
+    "population_max_relative_deviation_range": [
+      0.11820424865218981,
+      0.11943169568693426
+    ]
+  },
+  "base_gates": {
+    "topology": {
+      "decision": "PASS",
+      "working_crs": "EPSG:25830",
+      "sections": 1463,
+      "districts": 67,
+      "graph_edges": 4063,
+      "point_only_edges": 0,
+      "below_threshold_edges": 0,
+      "territory_components": 1
+    },
+    "geometric_components": {
+      "decision": "PASS_WITH_EXCEPTIONS",
+      "districts": 67,
+      "connected_districts": 60,
+      "governed_atomic_multipart_exceptions": 7,
+      "blocked_districts": 0,
+      "policy_mismatches": 0,
+      "contract_blockers": []
+    }
+  },
+  "chain_sanity": {
+    "all_chains_pass_policy_floor": true,
+    "unique_state_ratio_range": [0.502, 0.633],
+    "self_loop_rate_range": [
+      0.3663663663663664,
+      0.4964964964964965
+    ],
+    "interpretation": "sanity_floor_not_mixing_proof"
+  },
+  "observed_quality": {
+    "assignment_churn_range": [
+      0.47983595352016406,
+      0.6274777853725222
+    ],
+    "polsby_popper_minimum_range": [
+      0.08468475020254712,
+      0.0950419130311424
+    ],
+    "polsby_popper_median_range": [
+      0.24202725632894384,
+      0.26219912680796
+    ],
+    "districts_below_polsby_popper_0_15_range": [7, 10],
+    "split_comarcas_range": [18, 27],
+    "comarca_population_retention_range": [
+      0.30067689123939906,
+      0.3342847574528019
+    ]
+  },
+  "selection": {
+    "status": "PENDING_FIELD_REVIEW",
+    "canonical_candidate": null
+  },
+  "limitations": [
+    "The chain checks are sanity floors and do not prove mixing, convergence, effective sample size or independence.",
+    "The pilot does not select or promote a canonical district map.",
+    "Technical ensemble certification does not change the separate political publication status."
+  ],
+  "evidence": {
+    "workflow_run": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/35035474687",
+    "artifact_ids": {
+      "base": 10422694706,
+      "shape": 10422698260,
+      "balanced": 10422799680,
+      "comarca_strong": 10422809727,
+      "comarca": 10423218275,
+      "exploratory": 10423446433,
+      "ensemble_site": 10422469038,
+      "github_pages": 10423242136
+    }
+  },
+  "certification_statement": "Aragon-10 is technically complete and passes the governed pilot gates. The evidence authorizes progression to Aragon-50. It does not establish statistical convergence and does not authorize promotion of any candidate as canonical."
+}
