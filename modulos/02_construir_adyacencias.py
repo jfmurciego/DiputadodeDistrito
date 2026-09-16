@@ -9,7 +9,8 @@ FECHA: 2026-09-16
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
 CAMBIOS: elimina el fallback silencioso de min_shared_border_m para producción continental; exige metadatos completos de pasarela; bloquea extremos inexistentes, cruces provinciales, district_id y pasarelas que no reduzcan una desconexión física/operativa diagnosticada.
-ANTERIOR: versión 7.2.0 en historial Git.
+MOTIVO: industrializar la política de conectividad física y excepcional sin lógica específica por territorio.
+ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.1.0.py
 """
 from __future__ import annotations
 
