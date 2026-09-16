@@ -302,8 +302,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sections="$(find "$RUNS_DIR" -maxdepth 1 -name '*_m06_secciones.geojson.zip' -print -quit)"
-          test -n "$sections" || { echo '::error::No existe M06 materializado.'; exit 23; }
+          sections="$(python - "$PARAMS" <<'PY'
+          import sys, yaml
+          from pathlib import Path
+
+          cfg = yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          m06 = (cfg.get('modulos') or {}).get('modulo_06_consolidar_distritos') or {}
+          path = m06.get('out_geojson') or ''
+          year = (cfg.get('meta') or {}).get('year')
+          run_name = (cfg.get('meta') or {}).get('run_name')
+          run_id = __import__('os').environ.get('RUN_ID', '')
+          path = str(path).format(year=year, run_name=run_name, run_id=run_id)
+          print(path)
+          PY
+          )"
+          test -n "$sections" || { echo '::error::M06 no declara out_geojson en el contrato territorial.'; exit 23; }
+          test -f "$sections" || { echo "::error::No existe M06 materializado en la ruta contractual: $sections"; exit 23; }
           expected="$(python - "$PARAMS" <<'PY'
           import sys,yaml
           from pathlib import Path
