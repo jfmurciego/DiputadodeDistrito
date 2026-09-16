@@ -37,6 +37,7 @@ class R038OperacionLimpia(unittest.TestCase):
             "Diagnosticar topología", "Certificar territorio M01–M06",
             "Producir resultado M01–M08", "Generar alternativas GerryChain",
             "Publicar visor actual",
+            "Controlar ejecución", "Resolver reutilización y estado durable",
         ])
         self.assertNotIn("execution_authorization:", text)
         self.assertNotIn("ensemble_promotion_authorization:", text)
@@ -46,6 +47,8 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("PUBLIC_PRODUCT_PUBLICATION", text)
         self.assertIn("admitir_contrato", text)
         self.assertIn("generar_alternativas_gerrychain", text)
+        self.assertIn("controlar_ejecucion", text)
+        self.assertIn("resolver_reutilizacion", text)
 
 
     def test_lanzador_shell_compila(self):

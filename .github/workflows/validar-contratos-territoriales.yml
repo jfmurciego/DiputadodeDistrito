@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE: Validación contractual separada de autorización
-# FECHA: 2026-09-15
+# VERSIÓN: 1.2.1
+# NOMBRE: Validación contractual automática separada de autorización
+# FECHA: 2026-09-16
 # ESTADO: vigente — R034/R040
 # QUÉ HACE: valida estructuralmente todos los contratos production_m01_m06 y registra por separado su autorización; no ejecuta módulos territoriales.
-# CAMBIOS: valida todos los contratos de producción y emite validaciones, no certificados territoriales.
-# MOTIVO: impedir que la validación estructural se confunda con autorización o certificación del producto.
-# ANTERIOR: legacy/workflows/validar-contratos-territoriales_v1.1.0.yml
+# CAMBIOS: retira workflow_dispatch y conserva push/pull_request como puerta CI automática.
+# MOTIVO: impedir que la validación estructural se confunda con una interfaz humana de ejecución.
+# ANTERIOR: versión 1.2.0 en historial Git.
 name: Validar contratos territoriales
 
 on:
@@ -34,7 +34,6 @@ on:
       - 'inputs/MANIFEST.sha256'
       - 'tests/test_territory_contract_admission.py'
       - '.github/workflows/validar-contratos-territoriales.yml'
-  workflow_dispatch:
 
 permissions:
   contents: read

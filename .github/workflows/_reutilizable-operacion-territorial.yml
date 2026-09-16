@@ -23,12 +23,14 @@ on:
       ensemble_stage: {required: false, type: string, default: synthetic}
       ensemble_promotion_confirmed: {required: false, type: boolean, default: false}
       ensemble_republish_source_run_id: {required: false, type: string, default: ''}
+      orchestration_plan_path: {required: false, type: string, default: 'orchestracion/plan_lote_g10_smoke.json'}
 
 permissions:
   contents: write
   actions: read
   pages: write
   id-token: write
+  issues: write
 
 jobs:
   contrato:
@@ -100,3 +102,17 @@ jobs:
     with:
       production_run_id: ''
       ensemble_release_tag: ''
+
+  orquestacion_control:
+    name: O01 · Controlar ejecución
+    if: ${{ inputs.operation == 'controlar_ejecucion' }}
+    uses: ./.github/workflows/orquestacion-control.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}
+
+  orquestacion_durable:
+    name: O02 · Resolver reutilización y estado durable
+    if: ${{ inputs.operation == 'resolver_reutilizacion' }}
+    uses: ./.github/workflows/orquestacion-durable.yml
+    with:
+      plan_path: ${{ inputs.orchestration_plan_path }}

@@ -72,6 +72,8 @@ VISIBLE_OPERATIONS = [
     "Producir resultado M01–M08",
     "Generar alternativas GerryChain",
     "Publicar visor actual",
+    "Controlar ejecución",
+    "Resolver reutilización y estado durable",
 ]
 
 VISIBLE_ENSEMBLE_STAGES = [
@@ -79,6 +81,8 @@ VISIBLE_ENSEMBLE_STAGES = [
     "Piloto Aragón — 10 alternativas",
     "Lote Aragón — 50 alternativas",
 ]
+
+VISIBLE_ORCHESTRATION_PLANS = ["Prueba de orquestación", "Cierre Fase 1"]
 
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -142,6 +146,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["operation"]["options"], VISIBLE_OPERATIONS)
         self.assertEqual(inputs["operation"]["default"], "Admitir contrato")
         self.assertEqual(inputs["ensemble_stage"]["options"], VISIBLE_ENSEMBLE_STAGES)
+        self.assertEqual(inputs["orchestration_plan"]["options"], VISIBLE_ORCHESTRATION_PLANS)
         self.assertEqual(self._data()["name"], "Ejecucion de Generacion de Distritos")
         self.assertEqual(inputs["ensemble_stage"]["default"], "Prueba sintética")
         self.assertEqual(inputs["confirmar_ejecucion"]["type"], "boolean")
@@ -175,18 +180,34 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             "producir_resultado_m01_m08",
             "generar_alternativas_gerrychain",
             "publicar_visor_actual",
+            "controlar_ejecucion",
+            "resolver_reutilizacion",
         ):
             self.assertIn(
                 f"|{technical_operation}) operation={technical_operation} ;;",
                 text,
             )
-
         for technical_stage in ("synthetic", "aragon_10", "aragon_50"):
             self.assertIn(
                 f"|{technical_stage}) ensemble_stage={technical_stage} ;;",
                 text,
             )
 
+    def test_orquestacion_se_resuelve_sin_texto_y_delega_en_reutilizables(self):
+        interface = INTERFACE.read_text(encoding="utf-8")
+        router = (WORKFLOWS / "_reutilizable-operacion-territorial.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            '"Prueba de orquestación") orchestration_plan_path=orchestracion/plan_lote_g10_smoke.json',
+            interface,
+        )
+        self.assertIn(
+            '"Cierre Fase 1") orchestration_plan_path=orchestracion/plan_lote_g10_fase1_cierre.json',
+            interface,
+        )
+        self.assertIn("uses: ./.github/workflows/orquestacion-control.yml", router)
+        self.assertIn("uses: ./.github/workflows/orquestacion-durable.yml", router)
 
 if __name__ == "__main__":
     unittest.main()

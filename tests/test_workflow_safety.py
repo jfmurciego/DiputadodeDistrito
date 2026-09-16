@@ -1,12 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.2
-FECHA: 2026-09-15
-CAMBIO: actualiza la referencia de la interfaz territorial principal tras su
-renombrado institucional a ejecucion-generacion-distritos.yml, sin alterar el resto de
-controles de seguridad y gobierno.
-ANTERIOR: versión 1.1.1 en historial Git.
+VERSIÓN: 1.2.1
+FECHA: 2026-09-16
+CAMBIO: archiva workflows manuales especializados, integra O01/O02 reutilizables
+sin botón manual y permite excluir legacy dentro del contenedor reproducible.
+ANTERIOR: versión 1.2.0 en historial Git.
 """
 import os
 from pathlib import Path
@@ -17,21 +16,65 @@ ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github/workflows"
 
 class WorkflowSafety(unittest.TestCase):
-    MANUAL_ONLY={
-        "auditar-robustez-semillas-aragon.yml",
-        "regresion-m06-aragon.yml",
-        "regresion-m06-castilla-y-leon.yml",
+    ARCHIVED_MANUAL={
+        "auditar-robustez-semillas-aragon.yml":"auditar-robustez-semillas-aragon_v1.1.0.yml",
+        "regresion-m06-aragon.yml":"regresion-m06-aragon_v1.6.1.yml",
+        "regresion-m06-castilla-y-leon.yml":"regresion-m06-castilla-y-leon_v1.3.0.yml",
+    }
+    AUTOMATIC_ONLY={
+        "pruebas-ddd.yml":{"push","pull_request"},
+        "validar-contratos-territoriales.yml":{"push","pull_request"},
+        "validar-productos-publicos.yml":{"push"},
     }
 
-    def test_pesados_y_publicaciones_no_tienen_disparador_automatico(self):
-        for name in self.MANUAL_ONLY:
+    def test_pesados_archivados_y_ci_sin_boton_manual(self):
+        archived=ROOT/"legacy/workflows/consolidacion-interfaz"
+        for active in self.ARCHIVED_MANUAL:
+            self.assertFalse((WORKFLOWS/active).exists(),active)
+
+        if archived.is_dir():
+            for historical in self.ARCHIVED_MANUAL.values():
+                self.assertTrue((archived/historical).is_file(),historical)
+        else:
+            self.assertEqual(
+                os.environ.get("DDD_SKIP_LEGACY_CHECK"),
+                "1",
+                "legacy ausente fuera del entorno reproducible autorizado",
+            )
+
+        for name,required in self.AUTOMATIC_ONLY.items():
             data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
             triggers=data.get(True,data.get("on",{})) or {}
-            self.assertEqual(set(triggers),{"workflow_dispatch"},name)
+            trigger_names=set(triggers)
+            self.assertNotIn("workflow_dispatch",trigger_names,name)
+            self.assertTrue(required.issubset(trigger_names),name)
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
         self.assertEqual(set(viewer_triggers),{"workflow_call"})
+
+    def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
+        self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
+        self.assertFalse((WORKFLOWS/"g10-operar-lote.yml").exists())
+
+        control_path=WORKFLOWS/"orquestacion-control.yml"
+        durable_path=WORKFLOWS/"orquestacion-durable.yml"
+        self.assertTrue(control_path.is_file())
+        self.assertTrue(durable_path.is_file())
+
+        control=yaml.safe_load(control_path.read_text(encoding="utf-8")) or {}
+        control_triggers=control.get(True,control.get("on",{})) or {}
+        self.assertEqual(set(control_triggers),{"pull_request","push","workflow_call"})
+        self.assertNotIn("workflow_dispatch",control_triggers)
+        self.assertIn("plan_path",control_triggers["workflow_call"]["inputs"])
+        self.assertEqual(control.get("name"),"O01 · Controlar ejecución")
+
+        durable=yaml.safe_load(durable_path.read_text(encoding="utf-8")) or {}
+        durable_triggers=durable.get(True,durable.get("on",{})) or {}
+        self.assertEqual(set(durable_triggers),{"workflow_call"})
+        self.assertNotIn("workflow_dispatch",durable_triggers)
+        self.assertIn("plan_path",durable_triggers["workflow_call"]["inputs"])
+        self.assertEqual(durable.get("name"),"O02 · Resolver reutilización y estado durable")
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
