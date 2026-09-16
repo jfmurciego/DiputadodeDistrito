@@ -6,6 +6,7 @@ Módulo 02 — Construir adyacencias
 VERSIÓN: 7.3.0
 NOMBRE DE VERSIÓN: Política topológica declarativa
 FECHA: 2026-09-16
+ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
 CAMBIOS: elimina el fallback silencioso de min_shared_border_m para producción continental; exige metadatos completos de pasarela; bloquea extremos inexistentes, cruces provinciales, district_id y pasarelas que no reduzcan una desconexión física/operativa diagnosticada.
