@@ -74,6 +74,8 @@ def _merge_report_metadata(report_path, **metadata):
 
 def _apply_swap(cfg,s5,out_path,report_path):
     n=int(s5.get("swap_polish_max",0) or 0)
+    if n < 0:
+        raise SystemExit("M05: swap_polish_max no puede ser negativo")
     meta={"enabled":False,"max_swaps":0,"accepted_swaps":0}
     if n:
         meta=swap_polish(cfg=cfg,graph_path=Path(str(s5["in_graph_json"])),geojson_path=out_path,out_geojson_path=out_path,max_swaps=n); meta.update(enabled=True,max_swaps=n)
