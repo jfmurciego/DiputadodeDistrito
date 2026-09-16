@@ -24,7 +24,37 @@
     },
     "modulos": {
       "type": "object",
-      "required": ["modulo_01_preparar_base_territorial", "modulo_02_construir_adyacencias", "modulo_03_construir_grafo", "modulo_04_generar_semillas", "modulo_05_optimizar_distritos", "modulo_06_consolidar_distritos"]
+      "required": ["modulo_01_preparar_base_territorial", "modulo_02_construir_adyacencias", "modulo_03_construir_grafo", "modulo_04_generar_semillas", "modulo_05_optimizar_distritos", "modulo_06_consolidar_distritos"],
+      "properties": {
+        "modulo_05_optimizar_distritos": {
+          "type": "object",
+          "properties": {
+            "population_repair": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["enabled", "max_depth", "max_transfer_set", "max_candidates", "max_seconds", "seed"],
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "max_depth": {"type": "integer", "minimum": 1},
+                "max_transfer_set": {"type": "integer", "minimum": 1},
+                "max_candidates": {"type": "integer", "minimum": 1},
+                "max_seconds": {"type": "number", "exclusiveMinimum": 0},
+                "seed": {"type": "integer"}
+              }
+            },
+            "unit_id_field": {"type": "string", "minLength": 1}
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {"population_repair": {"properties": {"enabled": {"const": true}}, "required": ["enabled"]}},
+                "required": ["population_repair"]
+              },
+              "then": {"required": ["in_graph_json", "province_field", "unit_id_field"]}
+            }
+          ]
+        }
+      }
     },
     "validation": {"type": "object"}
   }
