@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: O01 control de ejecución reutilizable
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: O01 control de ejecución con nomenclatura funcional
 # FECHA: 2026-09-16
 # ESTADO: vigente — consolidación de interfaz
 # QUÉ HACE: valida planes y obliga a que validate_config atraviese la puerta completa de producción M01-M06 sin ejecutar cálculo territorial.
-# CAMBIOS: renombra el componente G10 como O01 Controlar ejecución y conserva workflow_call, pull_request y push.
-# MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
-# ANTERIOR: legacy/workflows/g10/g10-control_v1.1.1.yml
+# CAMBIOS: adopta herramientas y artefactos con nomenclatura de orquestación; conserva contratos G10 internos sólo por compatibilidad de esquema/planes.
+# MOTIVO: expresar la función real de la capa activa sin romper planes versionados existentes.
+# ANTERIOR: O01 v1.2.0 en historial Git.
 name: O01 · Controlar ejecución
 
 on:
@@ -15,6 +15,7 @@ on:
     paths:
       - '.github/workflows/orquestacion-control.yml'
       - 'g10/**'
+      - 'herramientas/orquestar_ejecucion.py'
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'ddd_core/territory_contract.py'
@@ -27,6 +28,7 @@ on:
     paths:
       - '.github/workflows/orquestacion-control.yml'
       - 'g10/**'
+      - 'herramientas/orquestar_ejecucion.py'
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
       - 'ddd_core/territory_contract.py'
@@ -56,13 +58,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Validar plan
-        run: python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
+        run: python herramientas/orquestar_ejecucion.py validate-plan --plan "$PLAN_PATH"
       - name: Construir matriz
         id: matrix
         shell: bash
         run: |
           set -euo pipefail
-          matrix="$(python herramientas/g10_orquestar.py matrix --plan "$PLAN_PATH")"
+          matrix="$(python herramientas/orquestar_ejecucion.py matrix --plan "$PLAN_PATH")"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   ejecutar:
@@ -83,22 +85,22 @@ jobs:
           TASK_ID: ${{ matrix.task_id }}
         run: |
           set +e
-          mkdir -p "g10-out/$TASK_ID"
+          mkdir -p "orquestacion-out/$TASK_ID"
           case "$ACTION" in
             g10_selftest)
-              python -m unittest tests.test_g10_orquestacion -v >"g10-out/$TASK_ID/task.log" 2>&1 ;;
+              python -m unittest tests.test_g10_orquestacion -v >"orquestacion-out/$TASK_ID/task.log" 2>&1 ;;
             validate_config)
-              docker build -t ddd-g10:${GITHUB_SHA} . >"g10-out/$TASK_ID/build.log" 2>&1 &&
-              docker run --rm --entrypoint python ddd-g10:${GITHUB_SHA} \
+              docker build -t ddd-orquestacion:${GITHUB_SHA} . >"orquestacion-out/$TASK_ID/build.log" 2>&1 &&
+              docker run --rm --entrypoint python ddd-orquestacion:${GITHUB_SHA} \
                 herramientas/validar_contrato_territorial.py --params "$CONFIG" \
-                >"g10-out/$TASK_ID/task.log" 2>&1 ;;
+                >"orquestacion-out/$TASK_ID/task.log" 2>&1 ;;
             territory_m01_m06)
-              echo "territory_m01_m06 requiere un plan de producción territorial aprobado" >"g10-out/$TASK_ID/task.log"; false ;;
+              echo "territory_m01_m06 requiere un plan de producción territorial aprobado" >"orquestacion-out/$TASK_ID/task.log"; false ;;
             *)
-              echo "Acción no permitida: $ACTION" >"g10-out/$TASK_ID/task.log"; false ;;
+              echo "Acción no permitida: $ACTION" >"orquestacion-out/$TASK_ID/task.log"; false ;;
           esac
           code=$?
-          echo "$code" >"g10-out/$TASK_ID/exit_code"
+          echo "$code" >"orquestacion-out/$TASK_ID/exit_code"
           exit "$code"
       - name: Generar resumen aunque falle
         if: always()
@@ -109,8 +111,8 @@ jobs:
           STAGE: CONTROL
         run: |
           set -euo pipefail
-          out="g10-out/$TASK_ID"; code="$(cat "$out/exit_code" 2>/dev/null || echo 99)"
-          failure="$(python herramientas/g10_orquestar.py classify --exit-code "$code" --log "$out/task.log" --stage "$STAGE")"
+          out="orquestacion-out/$TASK_ID"; code="$(cat "$out/exit_code" 2>/dev/null || echo 99)"
+          failure="$(python herramientas/orquestar_ejecucion.py classify --exit-code "$code" --log "$out/task.log" --stage "$STAGE")"
           python - "$out/resumen.json" "$TASK_ID" "$TERRITORY" "$code" "$failure" <<'PY'
           import json,sys
           path,task,territory,code,failure=sys.argv[1:]
@@ -125,8 +127,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: g10-${{ matrix.task_id }}
-          path: g10-out/${{ matrix.task_id }}/
+          name: orquestacion-${{ matrix.task_id }}
+          path: orquestacion-out/${{ matrix.task_id }}/
 
   resumir:
     if: always()
@@ -136,16 +138,16 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7
         with:
-          pattern: g10-*
-          path: g10-results
+          pattern: orquestacion-*
+          path: orquestacion-results
       - name: Agregar lote
         shell: bash
         run: |
           set -euo pipefail
-          mapfile -t files < <(find g10-results -name resumen.json -type f | sort)
+          mapfile -t files < <(find orquestacion-results -name resumen.json -type f | sort)
           test "${#files[@]}" -gt 0
-          python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json "${files[@]}"
+          python herramientas/orquestar_ejecucion.py aggregate --output RESUMEN_LOTE_ORQUESTACION.json "${files[@]}"
       - uses: actions/upload-artifact@v6
         with:
-          name: g10-resumen-lote-${{ github.run_id }}
-          path: RESUMEN_LOTE_G10.json
+          name: orquestacion-resumen-lote-${{ github.run_id }}
+          path: RESUMEN_LOTE_ORQUESTACION.json

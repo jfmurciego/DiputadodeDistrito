@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.0
-# NOMBRE: O02 resolución de reutilización y estado durable
+# VERSIÓN: 1.2.0
+# NOMBRE: O02 resolución de reutilización y estado durable con nomenclatura funcional
 # FECHA: 2026-09-16
 # ESTADO: vigente — consolidación de interfaz
 # QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado durable.
-# CAMBIO: renombra el componente G10 como O02 y conserva workflow_call sin botón manual.
-# ANTERIOR: legacy/workflows/g10/g10-operar-lote_v1.0.3.yml
-# MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
+# CAMBIO: adopta herramientas, artefactos y estado canónico con nomenclatura de orquestación; mantiene alias persistidos G10 durante la transición.
+# ANTERIOR: O02 v1.1.0 en historial Git.
+# MOTIVO: retirar nomenclatura histórica de la capa activa sin romper consumidores de estado durable existentes.
 name: O02 · Resolver reutilización y estado durable
 on:
   workflow_call:
@@ -37,12 +37,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
-          python herramientas/g10_orquestar.py admit --plan "$PLAN_PATH" --state "$STATE_PATH" --root . > admission.json
+          python herramientas/orquestar_ejecucion.py validate-plan --plan "$PLAN_PATH"
+          python herramientas/orquestar_ejecucion.py admit --plan "$PLAN_PATH" --state "$STATE_PATH" --root . > admission.json
           echo "matrix=$(jq -c '{include:.include}' admission.json)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v6
         with:
-          name: g10-admision-${{ github.run_id }}
+          name: orquestacion-admision-${{ github.run_id }}
           path: admission.json
   ejecutar:
     needs: admitir
@@ -65,17 +65,17 @@ jobs:
           STAGE_NAME: ${{ matrix.stage_name }}
           LEGACY_MODULE: ${{ matrix.legacy_module }}
           ARTIFACT_PATHS: ${{ join(matrix.artifact_paths, ' ') }}
-          out: g10-out/${{ matrix.task_id }}
+          out: orquestacion-out/${{ matrix.task_id }}
         run: |
           set +e
-          out="g10-out/$TASK_ID"; mkdir -p "$out"
+          out="orquestacion-out/$TASK_ID"; mkdir -p "$out"
           if [ "$ADMISSION" = "REUSED" ]; then
             echo "REUSED: no se ejecuta cálculo." > "$out/task.log"; code=0
           elif [ "$ADMISSION" = "ADMITTED" ] && [ "$ACTION" = "g10_selftest" ]; then
             python -m unittest tests.test_g10_orquestacion -v > "$out/task.log" 2>&1; code=$?
           elif [ "$ADMISSION" = "ADMITTED" ] && [ "$ACTION" = "verify_existing_evidence" ]; then
             printf '%s\n' "$ARTIFACT_PATHS" | sed '/^$/d' > "$out/artifacts.list"
-            python herramientas/g10_orquestar.py verify-evidence $(cat "$out/artifacts.list") > "$out/evidence.json" 2> "$out/task.log"; code=$?
+            python herramientas/orquestar_ejecucion.py verify-evidence $(cat "$out/artifacts.list") > "$out/evidence.json" 2> "$out/task.log"; code=$?
           else
             echo "$ADMISSION / $ACTION no ejecutable." > "$out/task.log"; code=20
           fi
@@ -85,8 +85,8 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: g10-tarea-${{ matrix.task_id }}
-          path: g10-out/${{ matrix.task_id }}/
+          name: orquestacion-tarea-${{ matrix.task_id }}
+          path: orquestacion-out/${{ matrix.task_id }}/
   cerrar:
     if: always()
     needs: [admitir, ejecutar]
@@ -95,44 +95,55 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v7
         with:
-          pattern: g10-tarea-*
-          path: g10-results
+          pattern: orquestacion-tarea-*
+          path: orquestacion-results
       - name: Agregar y preparar estado
         shell: bash
         run: |
           set -euo pipefail
-          find g10-results -name resumen.json -type f | sort > summaries.list
+          find orquestacion-results -name resumen.json -type f | sort > summaries.list
           test -s summaries.list
-          python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json $(cat summaries.list)
-          python herramientas/g10_orquestar.py merge-state --state "$STATE_PATH" --output ESTADO_TAREAS_ACTUALIZADO.json --run-id "$GITHUB_RUN_ID" $(cat summaries.list)
-          python herramientas/g10_informe_operativo.py --state ESTADO_TAREAS_ACTUALIZADO.json --factual resultados/fase1/ESTADO_FACTUAL.json --output-json ESTADO_OPERATIVO_G10.json --output-md ESTADO_OPERATIVO_G10.md
+          python herramientas/orquestar_ejecucion.py aggregate --output RESUMEN_LOTE_ORQUESTACION.json $(cat summaries.list)
+          python herramientas/orquestar_ejecucion.py merge-state --state "$STATE_PATH" --output ESTADO_TAREAS_ACTUALIZADO.json --run-id "$GITHUB_RUN_ID" $(cat summaries.list)
+          python herramientas/informe_orquestacion.py --state ESTADO_TAREAS_ACTUALIZADO.json --factual resultados/fase1/ESTADO_FACTUAL.json --output-json ESTADO_OPERATIVO_ORQUESTACION.json --output-md ESTADO_OPERATIVO_ORQUESTACION.md
+          cp ESTADO_OPERATIVO_ORQUESTACION.json ESTADO_OPERATIVO_G10.json
+          cp ESTADO_OPERATIVO_ORQUESTACION.md ESTADO_OPERATIVO_G10.md
       - name: Persistir estado durable
         shell: bash
         run: |
           set -euo pipefail
           changed=0
-          for item in "$STATE_PATH:ESTADO_TAREAS_ACTUALIZADO.json" "orchestracion/estado_operativo_g10.json:ESTADO_OPERATIVO_G10.json" "docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md:ESTADO_OPERATIVO_G10.md"; do
+          for item in \
+            "$STATE_PATH:ESTADO_TAREAS_ACTUALIZADO.json" \
+            "orchestracion/estado_operativo_orquestacion.json:ESTADO_OPERATIVO_ORQUESTACION.json" \
+            "docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_ORQUESTACION.md:ESTADO_OPERATIVO_ORQUESTACION.md" \
+            "orchestracion/estado_operativo_g10.json:ESTADO_OPERATIVO_G10.json" \
+            "docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md:ESTADO_OPERATIVO_G10.md"; do
             target="${item%%:*}"; source="${item#*:}"
-            if ! cmp -s "$target" "$source"; then cp "$source" "$target"; changed=1; fi
+            if ! cmp -s "$target" "$source"; then mkdir -p "$(dirname "$target")"; cp "$source" "$target"; changed=1; fi
           done
           if [ "$changed" -eq 0 ]; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$STATE_PATH" orchestracion/estado_operativo_g10.json docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
+          git add "$STATE_PATH" \
+            orchestracion/estado_operativo_orquestacion.json \
+            docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_ORQUESTACION.md \
+            orchestracion/estado_operativo_g10.json \
+            docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
           git commit -m "orquestacion: registrar estado e informe $GITHUB_RUN_ID"
           git pull --rebase origin main
           git push origin HEAD:main
       - uses: actions/upload-artifact@v6
         with:
-          name: g10-lote-${{ github.run_id }}
+          name: orquestacion-lote-${{ github.run_id }}
           path: |
-            RESUMEN_LOTE_G10.json
+            RESUMEN_LOTE_ORQUESTACION.json
             ESTADO_TAREAS_ACTUALIZADO.json
-            ESTADO_OPERATIVO_G10.json
-            ESTADO_OPERATIVO_G10.md
+            ESTADO_OPERATIVO_ORQUESTACION.json
+            ESTADO_OPERATIVO_ORQUESTACION.md
       - uses: actions/github-script@v7
         with:
           script: |
-            const report = JSON.parse(require("fs").readFileSync("ESTADO_OPERATIVO_G10.json","utf8"));
+            const report = JSON.parse(require("fs").readFileSync("ESTADO_OPERATIVO_ORQUESTACION.json","utf8"));
             const body = "✅ @jfmurciego: orquestación durable terminada | " + context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId + "\\nReenganche: **" + report.next_reengagement.kind + "** — " + report.next_reengagement.message;
             await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:5,body});
