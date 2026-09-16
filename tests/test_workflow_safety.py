@@ -1,11 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.3
+VERSIÓN: 1.1.4
 FECHA: 2026-09-16
-CAMBIO: exige que los workflows G10 sean reutilizables sin botón manual,
-manteniendo pull_request/push en g10-control.yml.
-ANTERIOR: versión 1.1.2 en historial Git.
+CAMBIO: renombra G10 activo como O01/O02 de orquestación y exige workflows
+reutilizables sin botón manual, preservando pull_request/push en O01.
+ANTERIOR: versión 1.1.3 en historial Git.
 """
 import os
 from pathlib import Path
@@ -32,18 +32,28 @@ class WorkflowSafety(unittest.TestCase):
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
         self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
 
-    def test_g10_no_expone_boton_manual_y_conserva_ci(self):
-        control=yaml.safe_load((WORKFLOWS/"g10-control.yml").read_text(encoding="utf-8")) or {}
+    def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
+        self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
+        self.assertFalse((WORKFLOWS/"g10-operar-lote.yml").exists())
+
+        control_path=WORKFLOWS/"orquestacion-control.yml"
+        durable_path=WORKFLOWS/"orquestacion-durable.yml"
+        self.assertTrue(control_path.is_file())
+        self.assertTrue(durable_path.is_file())
+
+        control=yaml.safe_load(control_path.read_text(encoding="utf-8")) or {}
         control_triggers=control.get(True,control.get("on",{})) or {}
         self.assertEqual(set(control_triggers),{"pull_request","push","workflow_call"})
         self.assertNotIn("workflow_dispatch",control_triggers)
         self.assertIn("plan_path",control_triggers["workflow_call"]["inputs"])
+        self.assertEqual(control.get("name"),"O01 · Controlar ejecución")
 
-        operate=yaml.safe_load((WORKFLOWS/"g10-operar-lote.yml").read_text(encoding="utf-8")) or {}
-        operate_triggers=operate.get(True,operate.get("on",{})) or {}
-        self.assertEqual(set(operate_triggers),{"workflow_call"})
-        self.assertNotIn("workflow_dispatch",operate_triggers)
-        self.assertIn("plan_path",operate_triggers["workflow_call"]["inputs"])
+        durable=yaml.safe_load(durable_path.read_text(encoding="utf-8")) or {}
+        durable_triggers=durable.get(True,durable.get("on",{})) or {}
+        self.assertEqual(set(durable_triggers),{"workflow_call"})
+        self.assertNotIn("workflow_dispatch",durable_triggers)
+        self.assertIn("plan_path",durable_triggers["workflow_call"]["inputs"])
+        self.assertEqual(durable.get("name"),"O02 · Resolver reutilización y estado durable")
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")

@@ -1,19 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.1.1
-# NOMBRE DE VERSIÓN: Controlador G10 con procedencia en contenedor
-# FECHA: 2026-09-13
-# ESTADO: vigente — R034
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: O01 control de ejecución reutilizable
+# FECHA: 2026-09-16
+# ESTADO: vigente — consolidación de interfaz
 # QUÉ HACE: valida planes y obliga a que validate_config atraviese la puerta completa de producción M01-M06 sin ejecutar cálculo territorial.
-# CAMBIOS: incorpora el manifiesto SHA-256 en la imagen sin incluir datasets y vuelve a disparar el control cuando cambia esa política.
-# MOTIVO: impedir que G10 admita un territorio incompleto antes de consumir cálculo GIS.
-# ANTERIOR: legacy/workflows/g10-control_v1.1.0.yml
-name: G10 — Control de lote
+# CAMBIOS: renombra el componente G10 como O01 Controlar ejecución y conserva workflow_call, pull_request y push.
+# MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
+# ANTERIOR: legacy/workflows/g10/g10-control_v1.1.1.yml
+name: O01 · Controlar ejecución
 
 on:
   pull_request:
     paths:
-      - '.github/workflows/g10-control.yml'
+      - '.github/workflows/orquestacion-control.yml'
       - 'g10/**'
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
@@ -25,7 +25,7 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/g10-control.yml'
+      - '.github/workflows/orquestacion-control.yml'
       - 'g10/**'
       - 'herramientas/g10_orquestar.py'
       - 'herramientas/validar_contrato_territorial.py'
@@ -37,7 +37,7 @@ on:
   workflow_call:
     inputs:
       plan_path:
-        description: Plan G10 versionado en el repositorio
+        description: Plan de orquestación versionado en el repositorio
         required: true
         default: orchestracion/plan_lote_g10_smoke.json
         type: string

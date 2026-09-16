@@ -1,17 +1,19 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.0.3
-# NOMBRE: Operar lote G10 con admisión durable
-# QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado.
-# CAMBIO: adjunta el informe al artefacto y notifica la decisión de reenganche.
-# ANTERIOR: legacy/workflows/g10-operar-lote_v1.0.2.yml
-# MOTIVO: evitar recalcular productos territoriales ya validados.
-name: G10 — Operar lote durable
+# VERSIÓN: 1.1.0
+# NOMBRE: O02 resolución de reutilización y estado durable
+# FECHA: 2026-09-16
+# ESTADO: vigente — consolidación de interfaz
+# QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado durable.
+# CAMBIO: renombra el componente G10 como O02 y conserva workflow_call sin botón manual.
+# ANTERIOR: legacy/workflows/g10/g10-operar-lote_v1.0.3.yml
+# MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
+name: O02 · Resolver reutilización y estado durable
 on:
   workflow_call:
     inputs:
       plan_path:
-        description: Plan G10 versionado
+        description: Plan de orquestación versionado
         required: true
         default: orchestracion/plan_lote_g10_fase1_cierre.json
         type: string
@@ -19,7 +21,7 @@ permissions:
   contents: write
   issues: write
 concurrency:
-  group: g10-durable
+  group: orquestacion-durable
   cancel-in-progress: false
 env:
   PLAN_PATH: ${{ inputs.plan_path }}
@@ -78,7 +80,7 @@ jobs:
             echo "$ADMISSION / $ACTION no ejecutable." > "$out/task.log"; code=20
           fi
           echo "$code" > "$out/exit_code"
-          python -c 'import json,os; o=os.environ["out"]; c=int(open(o+"/exit_code").read()); a=os.environ["ADMISSION"]; json.dump({"schema_version":"1.1","task_id":os.environ["TASK_ID"],"territory":os.environ["TERRITORY"],"stage_id":os.environ["STAGE_ID"],"stage_name":os.environ["STAGE_NAME"],"legacy_module":os.environ["LEGACY_MODULE"] or None,"fingerprint":os.environ["FINGERPRINT"],"attempt":1,"status":"REUSED" if a=="REUSED" else ("SUCCESS" if c==0 else "REQUIRES_AGENT"),"artifacts":["task.log","evidence.json"]},open(o+"/resumen.json","w"),ensure_ascii=False)' 
+          python -c 'import json,os; o=os.environ["out"]; c=int(open(o+"/exit_code").read()); a=os.environ["ADMISSION"]; json.dump({"schema_version":"1.1","task_id":os.environ["TASK_ID"],"territory":os.environ["TERRITORY"],"stage_id":os.environ["STAGE_ID"],"stage_name":os.environ["STAGE_NAME"],"legacy_module":os.environ["LEGACY_MODULE"] or None,"fingerprint":os.environ["FINGERPRINT"],"attempt":1,"status":"REUSED" if a=="REUSED" else ("SUCCESS" if c==0 else "REQUIRES_AGENT"),"artifacts":["task.log","evidence.json"]},open(o+"/resumen.json","w"),ensure_ascii=False)'
           exit "$code"
       - if: always()
         uses: actions/upload-artifact@v6
@@ -117,7 +119,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$STATE_PATH" orchestracion/estado_operativo_g10.json docs/SALIDAS_CHATGPT/ESTADO_OPERATIVO_G10.md
-          git commit -m "g10: registrar estado e informe $GITHUB_RUN_ID"
+          git commit -m "orquestacion: registrar estado e informe $GITHUB_RUN_ID"
           git pull --rebase origin main
           git push origin HEAD:main
       - uses: actions/upload-artifact@v6
@@ -132,5 +134,5 @@ jobs:
         with:
           script: |
             const report = JSON.parse(require("fs").readFileSync("ESTADO_OPERATIVO_G10.json","utf8"));
-            const body = "✅ @jfmurciego: lote G10 terminado | " + context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId + "\\nReenganche: **" + report.next_reengagement.kind + "** — " + report.next_reengagement.message;
+            const body = "✅ @jfmurciego: orquestación durable terminada | " + context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId + "\\nReenganche: **" + report.next_reengagement.kind + "** — " + report.next_reengagement.message;
             await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:5,body});
