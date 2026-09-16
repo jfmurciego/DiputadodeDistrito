@@ -1,9 +1,9 @@
 # Paquete local-first: comarcas e interfaz M01–M08
 
-**Versión:** 1.0.0  
-**Fecha:** 2026-09-14  
-**Estado:** implementado localmente; pendiente certificación CI  
-**Anterior:** ninguno — documento nuevo
+**Versión:** 1.1.0  
+**Fecha:** 2026-09-16  
+**Estado:** implementado; referencias operativas reconciliadas con la interfaz única  
+**Anterior:** versión 1.0.0 en historial Git
 
 ## Alcance
 
@@ -25,15 +25,31 @@ institucional M01–M08 y corrección del inventario operativo de workflows.
 
 ## Interfaz operativa
 
-`.github/workflows/operacion-territorial.yml` es el único formulario territorial.
-La línea `producir-territorio-por-contrato.yml` solo acepta `workflow_call`.
-El antiguo `g10-ejecutar-tramo-certificado.yml` queda en legacy. La autorización
-literal sigue siendo obligatoria para cualquier operación que ejecute módulos.
+`.github/workflows/ejecucion-generacion-distritos.yml` es el único formulario
+humano territorial. Expone únicamente inputs `choice` y `boolean`; no solicita
+run IDs ni autorizaciones literales al operador.
+
+La resolución interna transforma las selecciones humanas en IDs técnicos y
+busca automáticamente la evidencia reutilizable necesaria: último checkpoint
+compatible para tramos posteriores a M01 y último Aragón-10 completo y vigente
+cuando se solicita su republicación.
+
+La línea `producir-territorio-por-contrato.yml` solo acepta `workflow_call` y
+la interfaz llega a ella a través de
+`_reutilizable-operacion-territorial.yml`, que mantiene una sola llamada a la
+cadena M01–M08 para admisión, verificación, preparación, certificación y
+producción.
+
+El antiguo `g10-ejecutar-tramo-certificado.yml` permanece únicamente como
+antecedente histórico en `legacy`. Las confirmaciones humanas de ejecución y
+coste son booleanas; los literales técnicos de compatibilidad se derivan dentro
+de los reutilizables cuando corresponde.
 
 ## Verificación permitida
 
 Solo suite local y validaciones estáticas/sintéticas. Queda prohibido ejecutar
-Aragón, Castilla y León, Extremadura, La Rioja, Cantabria u otro territorio.
+Aragón, Castilla y León, Extremadura, La Rioja, Cantabria u otro territorio sin
+autorización territorial explícita.
 
 ## Incidencia de certificación
 
@@ -42,3 +58,7 @@ sustituido; la suite lo detectó. La corrección lo eliminó, pero la segunda CI
 intentó comprobar su copia legacy dentro de la imagen, donde `.dockerignore`
 excluye deliberadamente `legacy/`. La prueba se ajusta al patrón de gobierno ya
 vigente: ausencia activa dentro y predecesor legacy en el checkout exterior.
+
+Esta actualización sólo reconcilia referencias documentales con el estado
+operativo de la interfaz única; no modifica contratos territoriales, motores,
+geometrías, umbrales ni resultados.
