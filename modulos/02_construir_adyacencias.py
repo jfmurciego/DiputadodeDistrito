@@ -3,15 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.2.0
-NOMBRE DE VERSIÓN: Contacto topológico robusto
-FECHA: 2026-09-11
-QUÉ HACE: calcula adyacencias geométricas con predicados configurables (`touches`, `intersects`, `contact`) y añade, opcionalmente, pasarelas topológicas explícitas auditables.
+VERSIÓN: 7.3.0
+NOMBRE DE VERSIÓN: Política topológica declarativa
+FECHA: 2026-09-16
+QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
-ESTADO: candidato EXT-02; `touches` mantiene compatibilidad histórica de Aragón y Castilla y León.
-CAMBIOS: añade CRS de trabajo configurable, predicado `contact` tolerante a micro-solapes cartográficos, límite configurable de área de solape y uso correcto del índice espacial sobre la geometría de trabajo con índices posicionales normalizados.
-MOTIVO: en Monesterio dos secciones comparten más de 1,5 km de borde, pero una reproyección produce un micro-solape de 0,003 m² y hace inestable `touches`. Esa relación es una adyacencia geométrica real y debe modelarse con una regla reusable, no mediante una pasarela territorial falsa.
-ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.1.0.py
+CAMBIOS: elimina el fallback silencioso de min_shared_border_m para producción continental; exige metadatos completos de pasarela; bloquea extremos inexistentes, cruces provinciales, district_id y pasarelas que no reduzcan una desconexión física/operativa diagnosticada.
+ANTERIOR: versión 7.2.0 en historial Git.
 """
 from __future__ import annotations
 
@@ -20,6 +18,7 @@ import io
 import json
 import sys
 import zipfile
+from collections import deque
 from pathlib import Path
 from typing import Iterable, Tuple
 
@@ -30,6 +29,8 @@ if str(PROJECT_ROOT) not in sys.path:
 import geopandas as gpd
 
 from ddd_core.config import load_params_yaml, module_cfg, require
+
+BRIDGE_REQUIRED = ("u", "v", "admin_scope", "edge_type", "reason", "source")
 
 
 def _gpd_read_file(path_or_buf, layer=None):
@@ -59,20 +60,14 @@ def load_geojson_any(path_str):
 
 def _relation_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_area_m2):
     if predicate == "touches":
-        ok = gi.touches(gj)
-        if not ok:
+        if not gi.touches(gj):
             return False
-        if min_shared_border_m > 0:
-            return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
-        return True
+        return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
 
     if predicate == "intersects":
-        ok = gi.intersects(gj)
-        if not ok:
+        if not gi.intersects(gj):
             return False
-        if min_shared_border_m > 0:
-            return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
-        return True
+        return gi.boundary.intersection(gj.boundary).length >= min_shared_border_m
 
     if predicate == "contact":
         if not gi.intersects(gj):
@@ -81,7 +76,6 @@ def _relation_ok(gi, gj, predicate, min_shared_border_m, max_precision_overlap_a
         if shared < min_shared_border_m:
             return False
         overlap_area = float(gi.intersection(gj).area)
-        # Contacto válido: borde puro o micro-solape atribuible a precisión/cartografía.
         return gi.touches(gj) or overlap_area <= max_precision_overlap_area_m2
 
     raise SystemExit(f"M02: predicate no soportado: {predicate}")
@@ -160,34 +154,90 @@ def iter_edges(
             yield key
 
 
-def _normalize_bridge(raw, valid_ids):
-    if not isinstance(raw, dict):
-        raise SystemExit("M02 topology_bridges debe contener objetos")
-    u = str(require(raw.get("u"), "Puente sin u"))
-    v = str(require(raw.get("v"), "Puente sin v"))
-    if u == v:
-        raise SystemExit(f"Puente inválido con extremos iguales: {u}")
-    if u not in valid_ids or v not in valid_ids:
-        raise SystemExit(f"Puente con extremo inexistente: {u}-{v}")
-    a, b = (u, v) if u < v else (v, u)
-    return {
-        "u": a,
-        "v": b,
-        "edge_type": str(raw.get("edge_type", "topology_bridge")),
-        "reason": str(raw.get("reason", "")),
-        "source": str(raw.get("source", "config")),
-    }
+def _components(ids, edges):
+    ids = {str(x) for x in ids}
+    adj = {x: set() for x in ids}
+    for u, v in edges:
+        if u in adj and v in adj and u != v:
+            adj[u].add(v)
+            adj[v].add(u)
+    out = []
+    seen = set()
+    for start in sorted(ids):
+        if start in seen:
+            continue
+        q = deque([start]); seen.add(start); comp = []
+        while q:
+            cur = q.popleft(); comp.append(cur)
+            for nxt in adj[cur]:
+                if nxt not in seen:
+                    seen.add(nxt); q.append(nxt)
+        out.append(comp)
+    return out
+
+
+def _component_map(ids, edges):
+    return {node: idx for idx, comp in enumerate(_components(ids, edges)) for node in comp}
+
+
+def _normalize_bridges(raw_bridges, gdf, id_field, province_field, municipality_field, physical_edges):
+    valid_ids = set(gdf[id_field].astype(str))
+    province = {str(row[id_field]): str(row[province_field]).zfill(2) for _, row in gdf.iterrows()}
+    municipality = {str(row[id_field]): str(row[municipality_field]) for _, row in gdf.iterrows()}
+    operational = {tuple(sorted((str(u), str(v)))) for u, v in physical_edges}
+    accepted = []
+
+    for raw in raw_bridges:
+        if not isinstance(raw, dict):
+            raise SystemExit("M02 topology_bridges debe contener objetos")
+        missing = [key for key in BRIDGE_REQUIRED if raw.get(key) in (None, "")]
+        if missing:
+            raise SystemExit("M02 pasarela incompleta; faltan: " + ", ".join(missing))
+        if "district_id" in raw:
+            raise SystemExit("M02 pasarela inválida: district_id no puede formar parte de una excepción topológica")
+        u, v = str(raw["u"]), str(raw["v"])
+        if u == v:
+            raise SystemExit(f"M02 pasarela inválida con extremos iguales: {u}")
+        if u not in valid_ids or v not in valid_ids:
+            raise SystemExit(f"M02 pasarela con extremo inexistente: {u}-{v}")
+        if province[u] != province[v]:
+            raise SystemExit(f"M02 pasarela entre provincias prohibida: {u}({province[u]})-{v}({province[v]})")
+
+        scope = str(raw["admin_scope"])
+        if scope.startswith("province:") and scope.split(":", 1)[1].zfill(2) != province[u]:
+            raise SystemExit(f"M02 admin_scope provincial incoherente para {u}-{v}: {scope}")
+        if scope.startswith("municipality:"):
+            expected = scope.split(":", 1)[1]
+            if municipality[u] != municipality[v] or municipality[u] != expected:
+                raise SystemExit(f"M02 admin_scope municipal incoherente para {u}-{v}: {scope}")
+        if not (scope.startswith("province:") or scope.startswith("municipality:")):
+            raise SystemExit(f"M02 admin_scope no soportado: {scope}")
+
+        cmap = _component_map(valid_ids, operational)
+        if cmap[u] == cmap[v]:
+            raise SystemExit(f"M02 pasarela innecesaria: {u}-{v} no resuelve una desconexión diagnosticada")
+        key = tuple(sorted((u, v)))
+        before = len(_components(valid_ids, operational))
+        candidate = set(operational); candidate.add(key)
+        after = len(_components(valid_ids, candidate))
+        if after >= before:
+            raise SystemExit(f"M02 pasarela ineficaz: {u}-{v} no reduce componentes")
+        operational = candidate
+        accepted.append({
+            "u": key[0], "v": key[1],
+            "admin_scope": scope,
+            "edge_type": str(raw["edge_type"]),
+            "reason": str(raw["reason"]),
+            "source": str(raw["source"]),
+        })
+    return accepted
 
 
 def write_edges_jsonl(geometric_edges, bridges, out_path):
     outp = Path(out_path)
     outp.parent.mkdir(parents=True, exist_ok=True)
     geom = {tuple(sorted((str(u), str(v)))) for u, v in geometric_edges if str(u) != str(v)}
-    bridge_map = {}
-    for b in bridges:
-        key = (b["u"], b["v"])
-        if key not in geom:
-            bridge_map[key] = b
+    bridge_map = {(b["u"], b["v"]): b for b in bridges if (b["u"], b["v"]) not in geom}
     with outp.open("w", encoding="utf-8") as f:
         for u, v in sorted(geom):
             f.write(json.dumps({"u": u, "v": v, "edge_type": "geometric"}, ensure_ascii=False) + "\n")
@@ -202,15 +252,25 @@ def main():
     args = ap.parse_args()
     cfg = load_params_yaml(args.params)
     s2 = module_cfg(cfg, "modulo_02_construir_adyacencias", legacy_step_key="step2_export_edges")
+    s4 = module_cfg(cfg, "modulo_04_generar_semillas", legacy_step_key="step4_generate_seeds")
     in_geo = require(s2.get("in_geojson"), "Falta M02 entrada")
     id_field = require(s2.get("id_field"), "Falta M02 id")
     out_edges = require(s2.get("out_edges_jsonl"), "Falta M02 salida")
     gdf = load_geojson_any(in_geo)
     gdf[id_field] = gdf[id_field].astype(str)
-    valid_ids = set(gdf[id_field])
+
+    if "min_shared_border_m" not in s2:
+        raise SystemExit("M02: min_shared_border_m debe declararse explícitamente; no existe fallback")
+    min_shared = float(s2["min_shared_border_m"])
+    contract = cfg.get("territory_contract") or {}
+    productive_continental = (
+        (cfg.get("meta") or {}).get("contract_level") == "production_m01_m06"
+        and str(contract.get("topology_mode", "land")) == "land"
+    )
+    if productive_continental and min_shared <= 0:
+        raise SystemExit("M02: territorio continental productivo exige min_shared_border_m > 0")
 
     predicate = str(s2.get("predicate", "touches"))
-    min_shared = float(s2.get("min_shared_border_m", 0))
     max_overlap = float(s2.get("max_precision_overlap_area_m2", 1.0))
     working_crs = str(s2.get("working_crs", "EPSG:25830"))
     geometric = list(
@@ -227,11 +287,20 @@ def main():
             working_crs,
         )
     )
-    bridges = [_normalize_bridge(x, valid_ids) for x in (s2.get("topology_bridges", []) or [])]
+
+    province_field = str(s2.get("bridge_admin_level_1_field", s4.get("province_field", "CPRO")))
+    municipality_field = str(s2.get("bridge_admin_level_2_field", s4.get("municipality_field", "CUMUN")))
+    for field in (province_field, municipality_field):
+        if field not in gdf.columns:
+            raise SystemExit(f"M02: campo administrativo para pasarelas ausente: {field}")
+    bridges = _normalize_bridges(
+        s2.get("topology_bridges", []) or [], gdf, id_field,
+        province_field, municipality_field, geometric,
+    )
     n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
     print(
-        f"[Módulo 2] OK v7.2.0 edges={n} geometric={ng} bridges={nb} "
-        f"predicate={predicate} crs={working_crs} out={out_edges}"
+        f"[Módulo 2] OK v7.3.0 edges={n} geometric={ng} bridges={nb} "
+        f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 
 
