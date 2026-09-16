@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Preflight topológico territorial genérico
-VERSIÓN: 1.0.1
+VERSIÓN: 1.0.2
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: separa grafo físico, componentes diagnosticadas, pasarelas declaradas y grafo operativo; emite READY, NEEDS_POLICY o BLOCKED sin ejecutar M01-M03.
@@ -61,6 +61,85 @@ def _edge(u: Any, v: Any) -> tuple[str, str]:
     return (a, b) if a < b else (b, a)
 
 
+def _scope_nodes(units: Mapping[str, Mapping[str, Any]], admin_scope: str) -> tuple[set[str], str | None]:
+    if admin_scope.startswith("province:"):
+        expected = admin_scope.split(":", 1)[1].zfill(2)
+        return {
+            str(uid) for uid, meta in units.items()
+            if str(meta.get("province", "")).zfill(2) == expected
+        }, None
+    if admin_scope.startswith("municipality:"):
+        expected = admin_scope.split(":", 1)[1]
+        return {
+            str(uid) for uid, meta in units.items()
+            if str(meta.get("municipality", "")) == expected
+        }, None
+    return set(), f"unsupported admin_scope: {admin_scope}"
+
+
+def validate_topology_bridges(
+    *,
+    units: Mapping[str, Mapping[str, Any]],
+    bridges: Iterable[Mapping[str, Any]],
+    base_edges: Iterable[tuple[str, str]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], set[tuple[str, str]]]:
+    """Validate bridges once, against the induced graph of each declared scope."""
+    ids = {str(x) for x in units}
+    operational_edges = {_edge(u, v) for u, v in base_edges if str(u) != str(v)}
+    accepted: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+
+    for raw in bridges:
+        if not isinstance(raw, Mapping):
+            rejected.append({"rejection_reason": "bridge must be an object"})
+            continue
+        b = dict(raw)
+        missing = [k for k in REQUIRED_BRIDGE_KEYS if b.get(k) in (None, "")]
+        if missing:
+            rejected.append({**b, "rejection_reason": f"missing declarative fields: {', '.join(missing)}"})
+            continue
+        if "district_id" in b:
+            rejected.append({**b, "rejection_reason": "district_id-dependent exceptions are forbidden"})
+            continue
+
+        u, v = str(b["u"]), str(b["v"])
+        if u == v:
+            rejected.append({**b, "rejection_reason": "bridge endpoints must be different"})
+            continue
+        if u not in ids or v not in ids:
+            rejected.append({**b, "rejection_reason": "bridge endpoint does not exist"})
+            continue
+
+        scope = str(b["admin_scope"])
+        scope_nodes, scope_error = _scope_nodes(units, scope)
+        if scope_error:
+            rejected.append({**b, "rejection_reason": scope_error})
+            continue
+        if u not in scope_nodes or v not in scope_nodes:
+            rejected.append({**b, "rejection_reason": f"bridge endpoints do not belong to declared scope {scope}"})
+            continue
+
+        scope_edges = {(a, c) for a, c in operational_edges if a in scope_nodes and c in scope_nodes}
+        before_components = _components(scope_nodes, scope_edges)
+        component_of = {uid: i for i, comp in enumerate(before_components) for uid in comp}
+        if component_of.get(u) == component_of.get(v):
+            rejected.append({**b, "rejection_reason": "bridge does not resolve a diagnosed disconnection inside declared scope"})
+            continue
+
+        candidate = _edge(u, v)
+        after_scope_edges = set(scope_edges)
+        after_scope_edges.add(candidate)
+        after_components = _components(scope_nodes, after_scope_edges)
+        if len(after_components) >= len(before_components):
+            rejected.append({**b, "rejection_reason": "bridge does not reduce components inside declared scope"})
+            continue
+
+        operational_edges.add(candidate)
+        accepted.append({**b, "u": candidate[0], "v": candidate[1]})
+
+    return accepted, rejected, operational_edges
+
+
 def evaluate_topology_preflight(
     *,
     units: Mapping[str, Mapping[str, Any]],
@@ -69,12 +148,6 @@ def evaluate_topology_preflight(
     min_shared_border_m: float,
     productive_continental: bool = True,
 ) -> dict[str, Any]:
-    """Evaluate an already measured contact set.
-
-    `contacts` items require u, v and shared_border_m. A value <= 0 is a point-only
-    contact. Values > 0 and < min_shared_border_m are diagnosed but not admitted.
-    `units` metadata uses province, municipality and multipart.
-    """
     ids = {str(x) for x in units}
     bridge_list = [dict(x) for x in bridges]
     reasons: list[str] = []
@@ -100,48 +173,13 @@ def evaluate_topology_preflight(
             physical_edges.add(_edge(u, v))
 
     physical_components = _components(ids, physical_edges)
-    component_of = {uid: i for i, comp in enumerate(physical_components) for uid in comp}
-
-    accepted: list[dict[str, Any]] = []
-    rejected: list[dict[str, Any]] = []
-    operational_edges = set(physical_edges)
-
-    for b in bridge_list:
-        missing = [k for k in REQUIRED_BRIDGE_KEYS if b.get(k) in (None, "")]
-        if missing:
-            rejected.append({**b, "rejection_reason": f"missing declarative fields: {', '.join(missing)}"})
-            blocking.append("bridge policy is incomplete")
-            continue
-        u, v = str(b["u"]), str(b["v"])
-        if "district_id" in b:
-            rejected.append({**b, "rejection_reason": "district_id-dependent exceptions are forbidden"})
-            blocking.append("bridge depends on district_id")
-            continue
-        if u not in ids or v not in ids:
-            rejected.append({**b, "rejection_reason": "bridge endpoint does not exist"})
-            blocking.append("bridge endpoint does not exist")
-            continue
-        pu = str(units[u].get("province", ""))
-        pv = str(units[v].get("province", ""))
-        if pu != pv:
-            rejected.append({**b, "rejection_reason": f"cross-province bridge forbidden: {pu}->{pv}"})
-            blocking.append("cross-province bridge requested")
-            continue
-        if component_of.get(u) == component_of.get(v):
-            rejected.append({**b, "rejection_reason": "bridge does not resolve a diagnosed physical disconnection"})
-            blocking.append("unnecessary bridge requested")
-            continue
-        before = len(_components(ids, operational_edges))
-        candidate = _edge(u, v)
-        after_edges = set(operational_edges)
-        after_edges.add(candidate)
-        after = len(_components(ids, after_edges))
-        if after >= before:
-            rejected.append({**b, "rejection_reason": "bridge does not reduce operational components"})
-            blocking.append("ineffective bridge requested")
-            continue
-        operational_edges = after_edges
-        accepted.append({**b, "u": candidate[0], "v": candidate[1]})
+    accepted, rejected, operational_edges = validate_topology_bridges(
+        units=units,
+        bridges=bridge_list,
+        base_edges=physical_edges,
+    )
+    if rejected:
+        blocking.extend(item["rejection_reason"] for item in rejected)
 
     operational_components = _components(ids, operational_edges)
     province_components = _group_components(units, operational_edges, "province")
@@ -163,10 +201,10 @@ def evaluate_topology_preflight(
             reasons.append("disconnected municipalities: " + ", ".join(unresolved_municipalities))
     else:
         decision = "READY"
-        reasons.append("each administrative level-1 component is operationally connected under declared policy")
+        reasons.append("each administrative scope is operationally connected under declared policy")
 
     return {
-        "schema_version": "1.0.0",
+        "schema_version": "1.0.1",
         "decision": decision,
         "reasons": reasons,
         "min_shared_border_m": min_shared_border_m,
