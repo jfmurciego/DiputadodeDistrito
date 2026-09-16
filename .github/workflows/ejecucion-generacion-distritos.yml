@@ -8,7 +8,7 @@
 # CAMBIOS: añade run fuente opcional para republicar una galería de ensemble sin recalcular; mantiene Desde/Hasta y aliases semánticos.
 # COMPATIBILIDAD: preparar y certificar conservan sus tramos históricos; producir admite Desde/Hasta; ensemble normal no cambia si no se indica run fuente.
 # ANTERIOR: legacy/workflows/interfaz/operacion-territorial_v3.1.1.yml
-name: Ejecucion Generacion de Distritos
+name: Ejecucion de Generacion de Distritos
 
 on:
   workflow_dispatch:
