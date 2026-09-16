@@ -8,7 +8,7 @@
 # MOTIVO: evitar recalcular productos territoriales ya validados.
 name: G10 — Operar lote durable
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       plan_path:
         description: Plan G10 versionado

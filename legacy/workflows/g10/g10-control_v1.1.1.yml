@@ -34,7 +34,7 @@ on:
       - 'orchestracion/**'
       - 'schemas/g10-*.schema.json'
       - 'tests/test_g10_orquestacion.py'
-  workflow_call:
+  workflow_dispatch:
     inputs:
       plan_path:
         description: Plan G10 versionado en el repositorio

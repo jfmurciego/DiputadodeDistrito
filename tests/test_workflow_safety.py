@@ -1,12 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.2
-FECHA: 2026-09-15
-CAMBIO: actualiza la referencia de la interfaz territorial principal tras su
-renombrado institucional a operacion-territorial.yml, sin alterar el resto de
-controles de seguridad y gobierno.
-ANTERIOR: versión 1.1.1 en historial Git.
+VERSIÓN: 1.1.3
+FECHA: 2026-09-16
+CAMBIO: exige que los workflows G10 sean reutilizables sin botón manual,
+manteniendo pull_request/push en g10-control.yml.
+ANTERIOR: versión 1.1.2 en historial Git.
 """
 import os
 from pathlib import Path
@@ -32,6 +31,19 @@ class WorkflowSafety(unittest.TestCase):
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
         self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
+
+    def test_g10_no_expone_boton_manual_y_conserva_ci(self):
+        control=yaml.safe_load((WORKFLOWS/"g10-control.yml").read_text(encoding="utf-8")) or {}
+        control_triggers=control.get(True,control.get("on",{})) or {}
+        self.assertEqual(set(control_triggers),{"pull_request","push","workflow_call"})
+        self.assertNotIn("workflow_dispatch",control_triggers)
+        self.assertIn("plan_path",control_triggers["workflow_call"]["inputs"])
+
+        operate=yaml.safe_load((WORKFLOWS/"g10-operar-lote.yml").read_text(encoding="utf-8")) or {}
+        operate_triggers=operate.get(True,operate.get("on",{})) or {}
+        self.assertEqual(set(operate_triggers),{"workflow_call"})
+        self.assertNotIn("workflow_dispatch",operate_triggers)
+        self.assertIn("plan_path",operate_triggers["workflow_call"]["inputs"])
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
