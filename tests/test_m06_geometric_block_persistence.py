@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: regresión de persistencia de la puerta geométrica M06
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE DE VERSIÓN: BLOCK sobre exit 2
 FECHA: 2026-09-16
 ESTADO: vigente
 FUNCIÓN: garantizar que una auditoría que escribe decision=BLOCK y termina con código 2 conserva BLOCK como output antes de propagar el fallo.
-CAMBIOS: prueba sintética del contrato de salida y comprobación estática del workflow consumidor.
-MOTIVO: impedir que set -e convierta un BLOCK verificable en UNKNOWN.
-ANTERIOR: ninguno
+CAMBIOS: acota la comprobación estática al tramo posterior a set +e del bloque geométrico, evitando capturar el set -euo pipefail previo.
+MOTIVO: comprobar el orden operativo real del manejo del código de salida sin falsos positivos por directivas shell anteriores.
+ANTERIOR: 1.0.0
 """
 from __future__ import annotations
 
@@ -31,6 +31,7 @@ class GeometricBlockPersistence(unittest.TestCase):
         start = text.index("      - id: geometric")
         end = text.index("      - name: Registrar estado verificable de producción", start)
         block = text[start:end]
+        handling = block[block.index("set +e"):]
 
         required = [
             "set +e",
@@ -42,7 +43,7 @@ class GeometricBlockPersistence(unittest.TestCase):
             'echo "audit_path=$output" >> "$GITHUB_OUTPUT"',
             'exit "$audit_rc"',
         ]
-        positions = [block.index(token) for token in required]
+        positions = [handling.index(token) for token in required]
         self.assertEqual(positions, sorted(positions))
 
     def test_synthetic_block_never_degrades_to_unknown_on_exit_2(self):
