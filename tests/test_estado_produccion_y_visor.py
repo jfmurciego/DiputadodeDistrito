@@ -120,10 +120,11 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertIn('decision = "PASS_WITH_EXCEPTIONS"', text)
         self.assertIn('decision = "BLOCK"', text)
 
-    def test_aragon_regression_requires_independent_geometry(self):
-        text = (ROOT / ".github/workflows/regresion-m06-aragon.yml").read_text(encoding="utf-8")
+    def test_production_requires_independent_geometry(self):
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("auditar_componentes_geometricos.py", text)
-        self.assertIn("--expected-districts 67", text)
+        self.assertIn("--expected-districts", text)
+        self.assertIn("$expected", text)
 
     def test_aragon_contract_is_authorized_with_governed_exceptions(self):
         config = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))

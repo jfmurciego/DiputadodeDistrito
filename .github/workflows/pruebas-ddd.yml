@@ -1,19 +1,18 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Puerta CI con log durable
-# FECHA: 2026-09-14
+# VERSIÓN: 1.2.1
+# NOMBRE DE VERSIÓN: Puerta CI con log durable sin botón manual
+# FECHA: 2026-09-16
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: conserva como artefacto la salida completa de unittest incluso cuando falla.
-# MOTIVO: diagnosticar fallos exclusivos del contenedor sin repetir territorios ni operar a ciegas.
-# ANTERIOR: legacy/workflows/pruebas-ddd_v1.1.0.yml
+# CAMBIOS: retira workflow_dispatch; conserva push/pull_request y el artefacto de diagnóstico de unittest.
+# MOTIVO: mantener la puerta como CI automática y reservar la interfaz humana al workflow único.
+# ANTERIOR: versión 1.2.0 en historial Git.
 name: Pruebas DDD — R015
 on:
   push:
     branches: [main]
   pull_request:
-  workflow_dispatch:
 permissions:
   contents: read
 jobs:

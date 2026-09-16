@@ -1,12 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.1.2
-FECHA: 2026-09-15
-CAMBIO: actualiza la referencia de la interfaz territorial principal tras su
-renombrado institucional a operacion-territorial.yml, sin alterar el resto de
-controles de seguridad y gobierno.
-ANTERIOR: versión 1.1.1 en historial Git.
+VERSIÓN: 1.2.0
+FECHA: 2026-09-16
+CAMBIO: archiva workflows manuales especializados y retira botones manuales de
+puertas CI automáticas sin alterar la interfaz territorial principal.
+ANTERIOR: versión 1.1.2 en historial Git.
 """
 import os
 from pathlib import Path
@@ -17,17 +16,29 @@ ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github/workflows"
 
 class WorkflowSafety(unittest.TestCase):
-    MANUAL_ONLY={
-        "auditar-robustez-semillas-aragon.yml",
-        "regresion-m06-aragon.yml",
-        "regresion-m06-castilla-y-leon.yml",
+    ARCHIVED_MANUAL={
+        "auditar-robustez-semillas-aragon.yml":"auditar-robustez-semillas-aragon_v1.1.0.yml",
+        "regresion-m06-aragon.yml":"regresion-m06-aragon_v1.6.1.yml",
+        "regresion-m06-castilla-y-leon.yml":"regresion-m06-castilla-y-leon_v1.3.0.yml",
+    }
+    AUTOMATIC_ONLY={
+        "pruebas-ddd.yml":{"push","pull_request"},
+        "validar-contratos-territoriales.yml":{"push","pull_request"},
+        "validar-productos-publicos.yml":{"push"},
     }
 
-    def test_pesados_y_publicaciones_no_tienen_disparador_automatico(self):
-        for name in self.MANUAL_ONLY:
+    def test_pesados_archivados_y_ci_sin_boton_manual(self):
+        archived=ROOT/"legacy/workflows/consolidacion-interfaz"
+        for active,historical in self.ARCHIVED_MANUAL.items():
+            self.assertFalse((WORKFLOWS/active).exists(),active)
+            self.assertTrue((archived/historical).is_file(),historical)
+
+        for name,required in self.AUTOMATIC_ONLY.items():
             data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
             triggers=data.get(True,data.get("on",{})) or {}
-            self.assertEqual(set(triggers),{"workflow_dispatch"},name)
+            trigger_names=set(triggers)
+            self.assertNotIn("workflow_dispatch",trigger_names,name)
+            self.assertTrue(required.issubset(trigger_names),name)
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
