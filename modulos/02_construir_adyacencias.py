@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.3.0
-NOMBRE DE VERSIÓN: Política topológica declarativa
+VERSIÓN: 7.3.1
+NOMBRE DE VERSIÓN: Política topológica declarativa por ámbito
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
-CAMBIOS: elimina el fallback silencioso de min_shared_border_m para producción continental; exige metadatos completos de pasarela; bloquea extremos inexistentes, cruces provinciales, district_id y pasarelas que no reduzcan una desconexión física/operativa diagnosticada.
-MOTIVO: industrializar la política de conectividad física y excepcional sin lógica específica por territorio.
+CAMBIOS: reutiliza la validación común de pasarelas y evalúa necesidad/eficacia dentro del subgrafo inducido por admin_scope.
+MOTIVO: evitar interpretaciones divergentes entre M02 y el preflight topológico.
 ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.1.0.py
 """
 from __future__ import annotations
@@ -20,7 +20,6 @@ import io
 import json
 import sys
 import zipfile
-from collections import deque
 from pathlib import Path
 from typing import Iterable, Tuple
 
@@ -31,8 +30,7 @@ if str(PROJECT_ROOT) not in sys.path:
 import geopandas as gpd
 
 from ddd_core.config import load_params_yaml, module_cfg, require
-
-BRIDGE_REQUIRED = ("u", "v", "admin_scope", "edge_type", "reason", "source")
+from ddd_core.topology_preflight import validate_topology_bridges
 
 
 def _gpd_read_file(path_or_buf, layer=None):
@@ -156,85 +154,6 @@ def iter_edges(
             yield key
 
 
-def _components(ids, edges):
-    ids = {str(x) for x in ids}
-    adj = {x: set() for x in ids}
-    for u, v in edges:
-        if u in adj and v in adj and u != v:
-            adj[u].add(v)
-            adj[v].add(u)
-    out = []
-    seen = set()
-    for start in sorted(ids):
-        if start in seen:
-            continue
-        q = deque([start]); seen.add(start); comp = []
-        while q:
-            cur = q.popleft(); comp.append(cur)
-            for nxt in adj[cur]:
-                if nxt not in seen:
-                    seen.add(nxt); q.append(nxt)
-        out.append(comp)
-    return out
-
-
-def _component_map(ids, edges):
-    return {node: idx for idx, comp in enumerate(_components(ids, edges)) for node in comp}
-
-
-def _normalize_bridges(raw_bridges, gdf, id_field, province_field, municipality_field, physical_edges):
-    valid_ids = set(gdf[id_field].astype(str))
-    province = {str(row[id_field]): str(row[province_field]).zfill(2) for _, row in gdf.iterrows()}
-    municipality = {str(row[id_field]): str(row[municipality_field]) for _, row in gdf.iterrows()}
-    operational = {tuple(sorted((str(u), str(v)))) for u, v in physical_edges}
-    accepted = []
-
-    for raw in raw_bridges:
-        if not isinstance(raw, dict):
-            raise SystemExit("M02 topology_bridges debe contener objetos")
-        missing = [key for key in BRIDGE_REQUIRED if raw.get(key) in (None, "")]
-        if missing:
-            raise SystemExit("M02 pasarela incompleta; faltan: " + ", ".join(missing))
-        if "district_id" in raw:
-            raise SystemExit("M02 pasarela inválida: district_id no puede formar parte de una excepción topológica")
-        u, v = str(raw["u"]), str(raw["v"])
-        if u == v:
-            raise SystemExit(f"M02 pasarela inválida con extremos iguales: {u}")
-        if u not in valid_ids or v not in valid_ids:
-            raise SystemExit(f"M02 pasarela con extremo inexistente: {u}-{v}")
-        if province[u] != province[v]:
-            raise SystemExit(f"M02 pasarela entre provincias prohibida: {u}({province[u]})-{v}({province[v]})")
-
-        scope = str(raw["admin_scope"])
-        if scope.startswith("province:") and scope.split(":", 1)[1].zfill(2) != province[u]:
-            raise SystemExit(f"M02 admin_scope provincial incoherente para {u}-{v}: {scope}")
-        if scope.startswith("municipality:"):
-            expected = scope.split(":", 1)[1]
-            if municipality[u] != municipality[v] or municipality[u] != expected:
-                raise SystemExit(f"M02 admin_scope municipal incoherente para {u}-{v}: {scope}")
-        if not (scope.startswith("province:") or scope.startswith("municipality:")):
-            raise SystemExit(f"M02 admin_scope no soportado: {scope}")
-
-        cmap = _component_map(valid_ids, operational)
-        if cmap[u] == cmap[v]:
-            raise SystemExit(f"M02 pasarela innecesaria: {u}-{v} no resuelve una desconexión diagnosticada")
-        key = tuple(sorted((u, v)))
-        before = len(_components(valid_ids, operational))
-        candidate = set(operational); candidate.add(key)
-        after = len(_components(valid_ids, candidate))
-        if after >= before:
-            raise SystemExit(f"M02 pasarela ineficaz: {u}-{v} no reduce componentes")
-        operational = candidate
-        accepted.append({
-            "u": key[0], "v": key[1],
-            "admin_scope": scope,
-            "edge_type": str(raw["edge_type"]),
-            "reason": str(raw["reason"]),
-            "source": str(raw["source"]),
-        })
-    return accepted
-
-
 def write_edges_jsonl(geometric_edges, bridges, out_path):
     outp = Path(out_path)
     outp.parent.mkdir(parents=True, exist_ok=True)
@@ -295,13 +214,26 @@ def main():
     for field in (province_field, municipality_field):
         if field not in gdf.columns:
             raise SystemExit(f"M02: campo administrativo para pasarelas ausente: {field}")
-    bridges = _normalize_bridges(
-        s2.get("topology_bridges", []) or [], gdf, id_field,
-        province_field, municipality_field, geometric,
+
+    units = {
+        str(row[id_field]): {
+            "province": str(row[province_field]).zfill(2),
+            "municipality": str(row[municipality_field]),
+        }
+        for _, row in gdf.iterrows()
+    }
+    bridges, rejected, _ = validate_topology_bridges(
+        units=units,
+        bridges=s2.get("topology_bridges", []) or [],
+        base_edges=geometric,
     )
+    if rejected:
+        first = rejected[0]
+        raise SystemExit(f"M02 pasarela inválida: {first.get('rejection_reason', 'error de política')}")
+
     n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
     print(
-        f"[Módulo 2] OK v7.3.0 edges={n} geometric={ng} bridges={nb} "
+        f"[Módulo 2] OK v7.3.1 edges={n} geometric={ng} bridges={nb} "
         f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 
