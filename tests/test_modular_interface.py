@@ -64,7 +64,7 @@ class EnsembleWebCrsTests(unittest.TestCase):
 
 class ModularWorkflowContractTests(unittest.TestCase):
     def test_main_interface_exposes_only_resolver_and_selected_route(self):
-        workflow = yaml.safe_load((ROOT / ".github/workflows/operacion-territorial.yml").read_text(encoding="utf-8"))
+        workflow = yaml.safe_load((ROOT / ".github/workflows/ejecucion-generacion-distritos.yml").read_text(encoding="utf-8"))
         self.assertEqual(list(workflow["jobs"]), ["resolver_interfaz", "ruta"])
 
     def test_production_workflow_has_visible_m01_m08_audit_and_viewer(self):

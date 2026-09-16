@@ -1,6 +1,6 @@
 # Diputado de Distrito — motor multi-territorio
 
-**README v4.4.1** · 15-09-2026 · Estado: **plataforma ejecutable; productos territoriales bloqueados para publicación**
+**README v4.5.0** · 15-09-2026 · Estado: **plataforma ejecutable; productos territoriales bloqueados para publicación**
 **Anterior:** `legacy/docs/README_v4.3.0.md`
 
 DDD es un motor modular y reproducible para construir, optimizar, validar y auditar distritos uninominales desde unidades censales oficiales.
@@ -26,7 +26,7 @@ No hay expansión territorial activa. Ninguna comunidad posterior se ejecuta sin
 
 GerryChain/ReCom se integra como M05 alternativo, con dependencias aisladas y
 sin sustituir el motor determinista. La interfaz territorial principal es
-`operacion-territorial.yml`; la limpieza debe retirar cualquier formulario
+`ejecucion-generacion-distritos.yml`; la limpieza debe retirar cualquier formulario
 específico redundante. El orden obligatorio es prueba sintética, piloto
 Aragón de 10 alternativas y lote de 50 únicamente tras revisar coste y
 publicación. El piloto no arranca si la partición inicial falla la continuidad

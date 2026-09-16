@@ -4,7 +4,7 @@ PRUEBA: integración ensemble / GerryChain
 VERSIÓN: 1.1.1
 FECHA: 2026-09-15
 CAMBIO: mantiene la integración existente y actualiza únicamente la referencia
-a la interfaz territorial institucional renombrada como operacion-territorial.yml.
+a la interfaz territorial institucional renombrada como ejecucion-generacion-distritos.yml.
 MOTIVO: el renombrado físico de la interfaz no modifica el contrato GerryChain.
 ANTERIOR: versión 1.1.0 en historial Git.
 """
@@ -232,7 +232,9 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("actions/deploy-pages@v4", workflow)
         self.assertIn("--draft", workflow)
         self.assertNotIn("push:", workflow)
-        self.assertIn("PROMOVER_ARAGON_50", workflow)
+        self.assertIn("promotion_confirmed", workflow)
+        self.assertIn("aragon_10_certificacion_run_35035474687.json", workflow)
+        self.assertNotIn("PROMOVER_ARAGON_50", workflow)
         self.assertIn("artifact-manifest.json", workflow)
         self.assertIn("needs: synthetic", workflow)
         self.assertIn("DDD_TO_STAGE=M05", workflow)
@@ -240,7 +242,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("auditar_topologia_geometrica.py", workflow)
         self.assertIn("auditar_componentes_geometricos.py", workflow)
         self.assertIn("base-geometric-components-preflight.json", workflow)
-        interface = (ROOT / ".github/workflows/operacion-territorial.yml").read_text(encoding="utf-8")
+        interface = (ROOT / ".github/workflows/ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("generar_alternativas_gerrychain", interface)
 
 

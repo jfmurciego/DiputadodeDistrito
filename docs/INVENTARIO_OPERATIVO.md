@@ -1,10 +1,10 @@
 # Inventario operativo
 
-**Versión:** 1.0.1 — 2026-09-15
+**Versión:** 1.1.0 — 2026-09-15
 
 ## Interfaces y workflows vigentes
 
-- `.github/workflows/operacion-territorial.yml`: única interfaz territorial
+- `.github/workflows/ejecucion-generacion-distritos.yml`: única interfaz territorial
   general para contratos, producción y ensembles. El formulario expone nombres
   institucionales en español y resuelve internamente a los IDs técnicos
   existentes antes de llamar a workflows reutilizables.

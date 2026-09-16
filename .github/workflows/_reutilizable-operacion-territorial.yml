@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 1.2.0
+# VERSIÓN: 2.0.0
 # NOMBRE DE VERSIÓN: Router con republicación de ensemble
 # FECHA: 2026-09-15
 # ESTADO: vigente
@@ -19,9 +19,9 @@ on:
       from_stage: {required: true, type: string}
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
-      execution_authorization: {required: false, type: string, default: ''}
+      execution_confirmed: {required: false, type: boolean, default: false}
       ensemble_stage: {required: false, type: string, default: synthetic}
-      ensemble_promotion_authorization: {required: false, type: string, default: ''}
+      ensemble_promotion_confirmed: {required: false, type: boolean, default: false}
       ensemble_republish_source_run_id: {required: false, type: string, default: ''}
 
 permissions:
@@ -32,7 +32,7 @@ permissions:
 
 jobs:
   contrato:
-    name: Contrato
+    name: C01 · Contrato
     if: ${{ inputs.operation == 'admitir_contrato' || inputs.operation == 'verificar_contrato' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
@@ -42,7 +42,7 @@ jobs:
       to_stage: M08
 
   preparar:
-    name: Preparar base M01–M03
+    name: M01–M03 · Preparar base
     if: ${{ inputs.operation == 'preparar_base_m01_m03' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
@@ -50,17 +50,17 @@ jobs:
       mode: execute
       from_stage: M01
       to_stage: M03
-      execution_authorization: ${{ inputs.execution_authorization }}
+      execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
 
   diagnostico:
-    name: Diagnóstico topológico
+    name: A01 · Diagnóstico topológico
     if: ${{ inputs.operation == 'diagnosticar_topologia' }}
     uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
     with:
       territory_id: ${{ inputs.territory_id }}
 
   certificar:
-    name: Certificar territorio M01–M06
+    name: M01–M06 · Certificar territorio
     if: ${{ inputs.operation == 'certificar_territorio_m01_m06' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
@@ -68,10 +68,10 @@ jobs:
       mode: execute
       from_stage: M01
       to_stage: M06
-      execution_authorization: ${{ inputs.execution_authorization }}
+      execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
 
   producir:
-    name: Producir tramo M01–M08
+    name: M01–M08 · Producir tramo
     if: ${{ inputs.operation == 'producir_resultado_m01_m08' }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
@@ -80,15 +80,15 @@ jobs:
       from_stage: ${{ inputs.from_stage }}
       to_stage: ${{ inputs.to_stage }}
       checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
-      execution_authorization: ${{ inputs.execution_authorization }}
+      execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
 
   ensemble:
-    name: Ensemble GerryChain
+    name: G01–G03 · Ensemble GerryChain
     if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
     uses: ./.github/workflows/generar-alternativas-territoriales.yml
     with:
       territory_id: ${{ inputs.territory_id }}
       stage: ${{ inputs.ensemble_stage }}
-      execution_authorization: ${{ inputs.execution_authorization }}
-      promotion_authorization: ${{ inputs.ensemble_promotion_authorization }}
+      execution_confirmed: ${{ inputs.execution_confirmed }}
+      promotion_confirmed: ${{ inputs.ensemble_promotion_confirmed }}
       republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}

@@ -6,7 +6,7 @@ FECHA: 2026-09-15
 OBJETIVO: exigir una única interfaz territorial general, ruta institucional,
 etiquetas públicas españolas y compatibilidad con los IDs técnicos vigentes.
 CAMBIO: comprueba mecánicamente todos los workflow_dispatch activos para que
-solo operacion-territorial.yml pueda exponer el formulario territorial general;
+solo ejecucion-generacion-distritos.yml pueda exponer el formulario territorial general;
 formularios manuales de diagnóstico, regresión o publicación no se confunden
 con la interfaz general.
 """
@@ -17,7 +17,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-INTERFACE = WORKFLOWS / "operacion-territorial.yml"
+INTERFACE = WORKFLOWS / "ejecucion-generacion-distritos.yml"
 
 VISIBLE_TERRITORIES = [
     "Andalucía",
@@ -127,7 +127,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             ):
                 general_interfaces.append(path.name)
 
-        self.assertEqual(general_interfaces, ["operacion-territorial.yml"])
+        self.assertEqual(general_interfaces, ["ejecucion-generacion-distritos.yml"])
 
     def test_nombres_visibles_territoriales_son_espanoles_y_canonicos(self):
         inputs = self._dispatch_inputs()
@@ -142,6 +142,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["operation"]["default"], "Admitir contrato")
         self.assertEqual(inputs["ensemble_stage"]["options"], VISIBLE_ENSEMBLE_STAGES)
         self.assertEqual(inputs["ensemble_stage"]["default"], "Prueba sintética")
+        self.assertEqual(inputs["confirmar_ejecucion"]["type"], "boolean")
+        self.assertEqual(inputs["confirmar_coste"]["type"], "boolean")
+        self.assertNotIn("execution_authorization", inputs)
+        self.assertNotIn("ensemble_promotion_authorization", inputs)
 
     def test_resolvedor_preserva_ids_tecnicos_territoriales(self):
         text = INTERFACE.read_text(encoding="utf-8")
