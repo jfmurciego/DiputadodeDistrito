@@ -137,6 +137,7 @@ modulos:
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
+    unit_id_field: ddd_unit_id
     greedy_moves_limit: 1000
     anneal_iters: 20000
     seed: 12345
@@ -146,6 +147,13 @@ modulos:
     anneal_churn_weight: 0.0016
     anneal_temp_start: 0.02
     anneal_temp_end: 0.0005
+    population_repair:
+      enabled: true
+      max_depth: 4
+      max_transfer_set: 2
+      max_candidates: 20000
+      max_seconds: 120
+      seed: 0
     out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
     out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
   modulo_06_consolidar_distritos:
