@@ -3,215 +3,120 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.5.2
-NOMBRE DE VERSIÓN: Pulido determinista — semántica de informe separada
-FECHA: 2026-09-11
-ESTADO: candidato multi-territorio; swap-polish opt-in, EXT-06 validado parcialmente.
-FUNCIÓN: ejecutar el motor validado M05 v7.4.0, conservar la normalización robusta de `ddd_unit_id` de
-v7.4.2 y, opcionalmente, aplicar una fase final determinista de swaps 1×1 que mejora estrictamente la misma
-función objetivo canónica sin romper provincia, suelo/techo, `ddd_closed_urban` ni contigüidad.
-ENTRADAS: grafo M03 y solución M04 con district_id, ddd_unit_id y ddd_closed_urban.
-SALIDAS: GeoJSON optimizado e informe M05 con `version` del motor, `wrapper_version` y `swap_polish` cuando
-está activado.
-REGLAS DURAS: el motor base no cambia. El nuevo operador solo se activa con `swap_polish_max > 0`; por
-defecto vale 0 para mantener idénticos los baselines ya validados. Cada swap debe mejorar lexicográficamente
-la función objetivo canónica y preservar todas las restricciones duras.
-CAMBIOS: preserva `report["version"]` como versión del motor optimizador v7.4.0 y añade
-`report["wrapper_version"] = "7.5.2"`. No cambia algoritmo, objetivo, movimientos ni restricciones.
-MOTIVO: R015 Run 34642133611 confirmó que toda la regresión territorial y el determinismo pasan, pero
-bloqueó correctamente que el wrapper sobrescribiera la identidad del motor validado usada por R016.
-ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.5.1.py
+VERSIÓN: 7.6.0
+NOMBRE DE VERSIÓN: Reparación poblacional genérica escalonada
+FECHA: 2026-09-16
+ESTADO: candidato multi-territorio; reparación poblacional opt-in pendiente de validación CI completa.
+FUNCIÓN: ejecutar el motor base M05 v7.4.0, aplicar el pulido determinista existente y, de forma opt-in,
+una reparación poblacional genérica acotada que preserva las restricciones duras.
+ENTRADAS: grafo M03 y solución M04 con district_id, ddd_unit_id y provincia.
+SALIDAS: GeoJSON optimizado e informe M05 con versión de wrapper y evidencia estructurada de reparación.
+REGLAS DURAS: no modifica contratos, tolerancias ni cuotas; la reparación solo se activa mediante
+population_repair.enabled y conserva provincia, contigüidad e indivisibilidad de las unidades.
+CAMBIOS: añade la fase genérica de reparación poblacional posterior al motor base y al swap-polish,
+con límites explícitos de búsqueda y resultados REPAIRED, IMPROVED_NOT_REPAIRED o NO_FEASIBLE_REPAIR_FOUND.
+MOTIVO: permitir reparación poblacional reusable y acotada sin alterar el motor base ni los contratos territoriales.
+ANTERIOR: legacy/modulo05/05_optimizar_distritos_v7.5.2.py
 """
 from __future__ import annotations
-
-import argparse
-import copy
-import importlib.util
-import io
-import json
-import sys
-import tempfile
-import zipfile
+import argparse, copy, importlib.util, io, json, sys, tempfile, zipfile
 from pathlib import Path
-
 import geopandas as gpd
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from ddd_core.config import load_params_yaml
-from ddd_core.m05_swap_polish import polish as swap_polish
+if str(ROOT) not in sys.path: sys.path.insert(0, str(ROOT))
+from ddd_core.config import load_params_yaml, hard_limits
+from ddd_core.m05_swap_polish import polish as swap_polish, load_geo, write_geo
+from ddd_core.m05_population_repair import repair, SearchLimits
 
 BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v740.py"
-WRAPPER_VERSION = "7.5.2"
-
+WRAPPER_VERSION = "7.6.0"
 
 def _load_base():
-    spec = importlib.util.spec_from_file_location("ddd_m05_opt_engine_v740", BASE_ENGINE)
-    if spec is None or spec.loader is None:
-        raise SystemExit(f"M05 v{WRAPPER_VERSION}: no se puede cargar {BASE_ENGINE}")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+    spec=importlib.util.spec_from_file_location("ddd_m05_opt_engine_v740", BASE_ENGINE)
+    if spec is None or spec.loader is None: raise SystemExit("M05: motor base no cargable")
+    mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod
 
+def _run_base(params_path):
+    mod=_load_base(); old=list(sys.argv)
+    try: sys.argv=[str(BASE_ENGINE),"--params",params_path]; mod.main()
+    finally: sys.argv=old
 
-def _run_base(params_path: str):
-    mod = _load_base()
-    old = list(sys.argv)
-    try:
-        sys.argv = [str(BASE_ENGINE), "--params", params_path]
-        mod.main()
-    finally:
-        sys.argv = old
+def _module_cfg(cfg):
+    return (cfg.get("modulos",{}) or {}).get("modulo_05_optimizar_distritos") or cfg.get("step5_optimize_swaps") or {}
 
-
-def _module_cfg(cfg: dict) -> dict:
-    mods = cfg.get("modulos", {}) or {}
-    return mods.get("modulo_05_optimizar_distritos") or cfg.get("step5_optimize_swaps") or {}
-
-
-def _raw_geojson(path: Path):
-    if path.suffix.lower() == ".zip":
+def _raw_geojson(path):
+    if path.suffix.lower()==".zip":
         with zipfile.ZipFile(path) as z:
-            name = next(n for n in z.namelist() if n.lower().endswith((".geojson", ".json")) and not n.endswith("/"))
-            return json.loads(z.read(name).decode("utf-8")), name
-    return json.loads(path.read_text(encoding="utf-8")), path.name
-
+            n=next(n for n in z.namelist() if n.lower().endswith((".geojson",".json")) and not n.endswith("/")); return json.loads(z.read(n)),n
+    return json.loads(path.read_text(encoding="utf-8")),path.name
 
 def _normalise_label(v):
-    if isinstance(v, list):
-        if len(v) != 1:
-            raise SystemExit(f"M05 v{WRAPPER_VERSION}: ddd_unit_id multivaluado no normalizable: {v!r}")
-        v = v[0]
-    if v is None:
-        raise SystemExit(f"M05 v{WRAPPER_VERSION}: ddd_unit_id nulo en GeoJSON crudo")
+    if isinstance(v,list):
+        if len(v)!=1: raise SystemExit("M05: ddd_unit_id multivaluado")
+        v=v[0]
+    if v is None: raise SystemExit("M05: ddd_unit_id nulo")
     return str(v)
 
+def _ogr_can_read_unit(path):
+    try: return "ddd_unit_id" in load_geo(path).columns
+    except Exception: return False
 
-def _ogr_can_read_unit(path: Path) -> bool:
-    try:
-        if path.suffix.lower() == ".zip":
-            with zipfile.ZipFile(path) as z:
-                name = next(n for n in z.namelist() if n.lower().endswith((".geojson", ".json")) and not n.endswith("/"))
-                g = gpd.read_file(io.BytesIO(z.read(name)))
-        else:
-            g = gpd.read_file(path)
-        return "ddd_unit_id" in g.columns
-    except Exception:
-        return False
+def _write_zip_json(data,path,inner):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with zipfile.ZipFile(path,"w",compression=zipfile.ZIP_DEFLATED) as z: z.writestr(inner,json.dumps(data,ensure_ascii=False,separators=(",",":")))
 
+def _merge_report_metadata(report_path, **metadata):
+    if not report_path or not report_path.exists(): return
+    rep=json.loads(report_path.read_text(encoding="utf-8")); rep["wrapper_version"]=WRAPPER_VERSION; rep.update(metadata)
+    report_path.write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding="utf-8")
 
-def _write_zip_json(data: dict, path: Path, inner_name: str):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    raw = json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_DEFLATED) as z:
-        z.writestr(inner_name if inner_name.lower().endswith((".geojson", ".json")) else "data.geojson", raw)
+def _apply_swap(cfg,s5,out_path,report_path):
+    n=int(s5.get("swap_polish_max",0) or 0)
+    if n < 0:
+        raise SystemExit("M05: swap_polish_max no puede ser negativo")
+    meta={"enabled":False,"max_swaps":0,"accepted_swaps":0}
+    if n:
+        meta=swap_polish(cfg=cfg,graph_path=Path(str(s5["in_graph_json"])),geojson_path=out_path,out_geojson_path=out_path,max_swaps=n); meta.update(enabled=True,max_swaps=n)
+    _merge_report_metadata(report_path,swap_polish=meta); return meta
 
+def _apply_population_repair(cfg,s5,out_path,report_path):
+    rcfg=(s5.get("population_repair") or {})
+    if not rcfg.get("enabled",False):
+        meta={"enabled":False,"result":"NO_FEASIBLE_REPAIR_FOUND"}; _merge_report_metadata(report_path,population_repair=meta); return meta
+    graph=json.loads(Path(str(s5["in_graph_json"])).read_text(encoding="utf-8")); g=load_geo(out_path)
+    idf=s5.get("id_field","CUSEC_KEY"); did=s5.get("district_field","district_id"); provf=s5.get("province_field","CPRO")
+    g[idf]=g[idf].astype(str); g["ddd_unit_id"]=g["ddd_unit_id"].astype(str); g[provf]=g[provf].astype(str).str.zfill(2)
+    pop={str(n["id"]):int(n.get("pop",0)) for n in graph["nodes"]}; sec_unit=dict(zip(g[idf],g["ddd_unit_id"]))
+    units={}; assignments={}
+    for u,x in g.groupby("ddd_unit_id"):
+        ds=set(x[did]);
+        if len(ds)!=1: raise SystemExit("M05 repair: unidad indivisible partida")
+        units[u]={"population":sum(pop.get(n,0) for n in x[idf]),"province":str(x[provf].iloc[0]).zfill(2),"municipality_group":u if str(u).endswith(":M") else None}; assignments[u]=next(iter(ds))
+    adj={u:set() for u in units}
+    for e in graph["edges"]:
+        a,b=sec_unit.get(str(e["u"])),sec_unit.get(str(e["v"]));
+        if a in adj and b in adj and a!=b: adj[a].add(b); adj[b].add(a)
+    total=sum(pop.values()); target,floor,cap,tol=hard_limits(cfg,k=len(set(assignments.values())),total_pop=total)
+    limits=SearchLimits(max_depth=int(rcfg.get("max_depth",3)),max_transfer_set=int(rcfg.get("max_transfer_set",2)),max_candidates=int(rcfg.get("max_candidates",5000)),max_seconds=float(rcfg.get("max_seconds",5)),seed=int(rcfg.get("seed",0)))
+    meta=repair(assignments=assignments,units=units,adjacency=adj,target=target,tolerance=tol,floor=floor,cap=cap,limits=limits); meta["enabled"]=True
+    for u,d in meta["assignments"].items(): g.loc[g["ddd_unit_id"]==u,did]=d
+    write_geo(g,out_path); _merge_report_metadata(report_path,population_repair=meta); return meta
 
-def _merge_report_metadata(report_path: Path | None, *, swap_meta: dict, normalization: dict | None = None):
-    if not report_path or not report_path.exists():
-        return
-    rep = json.loads(report_path.read_text(encoding="utf-8"))
-    # `version` pertenece al motor que produjo el informe (actualmente 7.4.0).
-    # El wrapper se identifica por un campo distinto para conservar la semántica estable de R016.
-    rep["wrapper_version"] = WRAPPER_VERSION
-    rep["swap_polish"] = swap_meta
-    if normalization is not None:
-        rep["unit_id_normalization"] = normalization
-    report_path.write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
-
-
-def _apply_swap_polish(cfg: dict, s5: dict, out_path: Path, report_path: Path | None):
-    max_swaps = int(s5.get("swap_polish_max", 0) or 0)
-    if max_swaps < 0:
-        raise SystemExit(f"M05 v{WRAPPER_VERSION}: swap_polish_max no puede ser negativo")
-    if max_swaps == 0:
-        meta = {"enabled": False, "max_swaps": 0, "accepted_swaps": 0}
-    else:
-        graph_path = Path(str(s5.get("in_graph_json", "")))
-        if not str(graph_path):
-            raise SystemExit(f"M05 v{WRAPPER_VERSION}: falta in_graph_json para swap-polish")
-        meta = swap_polish(
-            cfg=cfg,
-            graph_path=graph_path,
-            geojson_path=out_path,
-            out_geojson_path=out_path,
-            max_swaps=max_swaps,
-        )
-        meta["enabled"] = True
-        meta["max_swaps"] = max_swaps
-    _merge_report_metadata(report_path, swap_meta=meta)
-    return meta
-
+def _post(cfg,s5,out_path,report_path):
+    sw=_apply_swap(cfg,s5,out_path,report_path); rp=_apply_population_repair(cfg,s5,out_path,report_path); return sw,rp
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--params", required=True)
-    args = ap.parse_args()
-    params = Path(args.params).resolve()
-    cfg = load_params_yaml(str(params))
-    s5 = _module_cfg(cfg)
-    in_path = Path(str(s5.get("in_geojson", "")))
-    if not str(in_path):
-        raise SystemExit(f"M05 v{WRAPPER_VERSION}: falta in_geojson")
-
+    ap=argparse.ArgumentParser(); ap.add_argument("--params",required=True); args=ap.parse_args(); params=Path(args.params).resolve(); cfg=load_params_yaml(str(params)); s5=_module_cfg(cfg); in_path=Path(str(s5.get("in_geojson","")))
     if _ogr_can_read_unit(in_path):
-        _run_base(str(params))
-        out_path = Path(str(s5.get("out_geojson", "")))
-        report_path = Path(str(s5.get("out_report", ""))) if s5.get("out_report") else None
-        meta = _apply_swap_polish(cfg, s5, out_path, report_path)
-        print(f"[Módulo 5 wrapper] OK v{WRAPPER_VERSION} swap_polish={meta.get('accepted_swaps', 0)} out={out_path}")
-        return
-
-    data, inner = _raw_geojson(in_path)
-    labels = [_normalise_label((f.get("properties") or {}).get("ddd_unit_id")) for f in data.get("features", [])]
-    unique = sorted(set(labels))
-    label_to_code = {label: i + 1 for i, label in enumerate(unique)}
-    code_to_label = {str(code): label for label, code in label_to_code.items()}
-    for f, label in zip(data.get("features", []), labels):
-        f.setdefault("properties", {})["ddd_unit_id"] = int(label_to_code[label])
-
-    with tempfile.TemporaryDirectory(prefix="ddd_m05_752_") as td_raw:
-        td = Path(td_raw)
-        tmp_input = td / "m05_input.geojson.zip"
-        tmp_output = td / "m05_output.geojson.zip"
-        tmp_report = td / "m05_report.json"
-        tmp_params = td / "params.yaml"
-        _write_zip_json(data, tmp_input, "m05_input.geojson")
-
-        cfg2 = copy.deepcopy(cfg)
-        s52 = _module_cfg(cfg2)
-        s52["in_geojson"] = str(tmp_input)
-        s52["out_geojson"] = str(tmp_output)
-        s52["out_report"] = str(tmp_report)
-        cfg2.setdefault("modulos", {})["modulo_05_optimizar_distritos"] = s52
-        tmp_params.write_text(yaml.safe_dump(cfg2, sort_keys=False, allow_unicode=True), encoding="utf-8")
-
-        _run_base(str(tmp_params))
-        meta = _apply_swap_polish(cfg2, s52, tmp_output, tmp_report)
-
-        final_out = Path(str(s5.get("out_geojson")))
-        final_report = Path(str(s5.get("out_report", ""))) if s5.get("out_report") else None
-        final_out.parent.mkdir(parents=True, exist_ok=True)
-        final_out.write_bytes(tmp_output.read_bytes())
-
-        normalization = {
-            "applied": True,
-            "reason": "OGR dropped ddd_unit_id; raw GeoJSON labels mapped to stable integer codes",
-            "units": len(unique),
-            "code_to_original_label": code_to_label,
-        }
-        if final_report:
-            final_report.parent.mkdir(parents=True, exist_ok=True)
-            final_report.write_bytes(tmp_report.read_bytes())
-            _merge_report_metadata(final_report, swap_meta=meta, normalization=normalization)
-        print(
-            f"[Módulo 5 wrapper] OK v{WRAPPER_VERSION} normalized_units={len(unique)} "
-            f"swap_polish={meta.get('accepted_swaps', 0)} out={final_out}"
-        )
-
-
-if __name__ == "__main__":
-    main()
+        _run_base(str(params)); out=Path(str(s5["out_geojson"])); report=Path(str(s5["out_report"])) if s5.get("out_report") else None; _post(cfg,s5,out,report); return
+    data,inner=_raw_geojson(in_path); labels=[_normalise_label((f.get("properties") or {}).get("ddd_unit_id")) for f in data.get("features",[])]; unique=sorted(set(labels)); mapping={v:i+1 for i,v in enumerate(unique)}
+    for f,label in zip(data.get("features",[]),labels): f.setdefault("properties",{})["ddd_unit_id"]=mapping[label]
+    with tempfile.TemporaryDirectory(prefix="ddd_m05_760_") as td:
+        td=Path(td); ti=td/"in.zip"; to=td/"out.zip"; tr=td/"report.json"; tp=td/"params.yaml"; _write_zip_json(data,ti,"input.geojson")
+        cfg2=copy.deepcopy(cfg); s52=_module_cfg(cfg2); s52.update(in_geojson=str(ti),out_geojson=str(to),out_report=str(tr)); cfg2.setdefault("modulos",{})["modulo_05_optimizar_distritos"]=s52; tp.write_text(yaml.safe_dump(cfg2,sort_keys=False,allow_unicode=True),encoding="utf-8")
+        _run_base(str(tp)); _post(cfg2,s52,to,tr); final=Path(str(s5["out_geojson"])); final.parent.mkdir(parents=True,exist_ok=True); final.write_bytes(to.read_bytes())
+        if s5.get("out_report"):
+            fr=Path(str(s5["out_report"])); fr.parent.mkdir(parents=True,exist_ok=True); fr.write_bytes(tr.read_bytes()); _merge_report_metadata(fr,unit_id_normalization={"applied":True,"units":len(unique)})
+if __name__=="__main__": main()
