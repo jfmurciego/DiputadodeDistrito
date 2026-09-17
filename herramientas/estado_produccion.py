@@ -236,7 +236,12 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
     if execution_outcome != "success":
         return "BLOCK", "EXECUTION_FAILED"
     if population.get("population_outcome") != "success":
-        return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
+        evidence_status = population.get("population_evidence_status")
+        if evidence_status == "MISSING":
+            return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
+        if evidence_status == "UNDECLARED":
+            return "BLOCK", "M05_POPULATION_EVIDENCE_UNDECLARED"
+        return "BLOCK", "M05_POPULATION_EVIDENCE_INVALID"
     if population.get("population_decision") == HARD_BLOCK:
         return "BLOCK", "POPULATION_HARD_BLOCK"
     if population.get("population_decision") != TARGET_MET:
