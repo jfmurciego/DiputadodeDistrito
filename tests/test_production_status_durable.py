@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -73,6 +74,9 @@ class DurableProductionStatusTests(unittest.TestCase):
         return params, report, geometry, audit_dir
 
     def _run(self, params: Path, geometry: Path, audit_dir: Path) -> subprocess.CompletedProcess[str]:
+        env = os.environ.copy()
+        previous_pythonpath = env.get("PYTHONPATH")
+        env["PYTHONPATH"] = str(ROOT) if not previous_pythonpath else f"{ROOT}{os.pathsep}{previous_pythonpath}"
         return subprocess.run([
             "python", str(SCRIPT),
             "--params", str(params),
@@ -85,7 +89,7 @@ class DurableProductionStatusTests(unittest.TestCase):
             "--geometric-decision", "PASS_WITH_EXCEPTIONS",
             "--geometric-audit", str(geometry),
             "--output", str(audit_dir / "production_status.json"),
-        ], cwd=ROOT, text=True, capture_output=True, check=False)
+        ], cwd=ROOT, env=env, text=True, capture_output=True, check=False)
 
     def test_checkpoint_partial_population_records_block_and_preserves_evidence(self):
         with tempfile.TemporaryDirectory() as raw:
