@@ -7,7 +7,7 @@
 # ESTADO: candidato
 # CAMBIOS: retira la preparación de unidades internas del cuerpo oculto del procedimiento; el workflow productivo la ejecuta como trabajo visible entre M03 y M04.
 # MOTIVO: exponer entrada, salida, duración y artefacto propios sin duplicar la capacidad común.
-# ANTERIOR: versión 2.6.0 en historial Git.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.5.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
