@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.2.0
-# NOMBRE DE VERSIÓN: M01–M08 autorizados y con caché compartida
-# FECHA: 2026-09-15
+# VERSIÓN: 2.3.0
+# NOMBRE DE VERSIÓN: Estado productivo con puerta poblacional M05
+# FECHA: 2026-09-17
 # ESTADO: vigente
 # QUÉ HACE: admite/verifica contratos o ejecuta un intervalo M01–M08 mostrando cada módulo como job real, con auditoría geométrica y visor posteriores.
-# CAMBIOS: separa validez de autorización, bloquea execute salvo AUTHORIZED y reutiliza caché BuildKit entre módulos.
-# MOTIVO: impedir ejecuciones accidentales y reducir las reconstrucciones completas de Docker sin ocultar M01–M08.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.1.0.yml
+# CAMBIOS: incorpora al production_status la decisión poblacional M05 y separa ejecución, población y geometría sin impedir la ejecución técnica de M06.
+# MOTIVO: impedir que una mejora poblacional parcial se interprete como certificable aunque la ejecución y la geometría sean válidas.
+# ANTERIOR: versión 2.2.0
 name: Producción territorial modular M01–M08
 
 on:
@@ -366,38 +366,20 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-audit
-          python - <<'PY'
-          import json, os
-          from pathlib import Path
-
-          geometry = os.environ.get("GEOMETRIC_OUTCOME") or "unknown"
-          geometric_decision = os.environ.get("GEOMETRIC_DECISION") or "UNKNOWN"
-          if geometry != "success":
-              decision = "BLOCK"
-          elif geometric_decision == "PASS_WITH_EXCEPTIONS":
-              decision = "PASS_WITH_EXCEPTIONS"
-          else:
-              decision = "PASS"
-          payload = {
-              "schema": "ddd.production-status/1.0",
-              "decision": decision,
-              "territory_id": os.environ["TERRITORY_ID"],
-              "params": os.environ["PARAMS"],
-              "run_id": os.environ["RUN_ID"],
-              "from_stage": os.environ["FROM_STAGE"],
-              "to_stage": os.environ["TO_STAGE"],
-              "execution_outcome": "success",
-              "geometric_outcome": geometry,
-              "geometric_decision": geometric_decision,
-              "scope_through_stage": "M06",
-          }
-          Path(".ddd-audit/production_status.json").write_text(
-              json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-              encoding="utf-8",
-          )
-          PY
           audit='${{ steps.geometric.outputs.audit_path }}'
-          [[ -n "$audit" && -f "$audit" ]] && cp "$audit" .ddd-audit/
+          [[ -n "$audit" && -f "$audit" ]] || { echo '::error::No existe informe geométrico M06 para construir production_status.'; exit 33; }
+          python herramientas/estado_produccion.py \
+            --params "$PARAMS" \
+            --territory-id "$TERRITORY_ID" \
+            --run-id "$RUN_ID" \
+            --from-stage "$FROM_STAGE" \
+            --to-stage "$TO_STAGE" \
+            --execution-outcome success \
+            --geometric-outcome "$GEOMETRIC_OUTCOME" \
+            --geometric-decision "$GEOMETRIC_DECISION" \
+            --geometric-audit "$audit" \
+            --output .ddd-audit/production_status.json
+          cp "$audit" .ddd-audit/
       - uses: actions/upload-artifact@v6
         if: always()
         with:
