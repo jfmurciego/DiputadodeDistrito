@@ -21,8 +21,8 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertEqual(x["objective_after"][1],0)
 
     def test_secondary_total_deviation_only_restores_baseline(self):
-        # A=80, B=120; mover 5 deja dos outliers pero reduce totaldev sin mejorar maxdev.
-        units={"a":U(80),"x":U(5),"b":U(115)}; ass={"a":"A","x":"B","b":"B"}; adj=A(("a","x"),("x","b"))
+        # A=80, B=120, C=130; mover 5 reduce totaldev pero C fija maxdev en 30%.
+        units={"a":U(80),"x":U(5),"b":U(115),"c":U(130)}; ass={"a":"A","x":"B","b":"B","c":"C"}; adj=A(("a","x"),("x","b"))
         x=self.repair_case(ass,units,adj,limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=20,max_seconds=2,seed=1))
         self.assertEqual(x["result"],r.RESULT_NONE); self.assertTrue(x["baseline_restored"]); self.assertEqual(x["assignments"],ass)
         self.assertGreaterEqual(x["secondary_only_candidates"],1)
