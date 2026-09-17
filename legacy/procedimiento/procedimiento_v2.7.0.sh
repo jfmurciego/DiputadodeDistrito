@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.7.1
-# NOMBRE DE VERSIÓN: Puerta de fuentes en reanudación modular
+# VERSIÓN: 2.7.0
+# NOMBRE DE VERSIÓN: Ejecución modular sin preprocesado oculto
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# CAMBIOS: valida el paquete de fuentes restaurado antes de ejecutar cualquier reanudación M02–M08; sólo REUSE permite continuar y BLOCK no puede caer a descarga.
-# MOTIVO: cerrar el hueco por el que una reanudación podía transportar sources/ sin volver a validar edición, procedencia, tamaño, SHA-256 y registros.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.7.0.sh
+# CAMBIOS: retira la preparación de unidades internas del cuerpo oculto del procedimiento; el workflow productivo la ejecuta como trabajo visible entre M03 y M04.
+# MOTIVO: exponer entrada, salida, duración y artefacto propios sin duplicar la capacidad común.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.5.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -75,10 +75,6 @@ if state.get("params") != expected_params:
 if completed < required:
     raise SystemExit(f"CHAIN_STATE incompleto: M{completed:02d}; se requiere al menos M{required:02d}")
 PY
-    python herramientas/validar_fuentes_reanudacion.py \
-      --params "$PARAMS" \
-      --package .ddd-source-package \
-      --root-dir .
     if (( FROM >= 4 )); then
       test -f "$BASE_OK" || { echo "[FATAL] M04+ requiere checkpoint M03 materializado en $BASE_OK." >&2; exit 21; }
     fi

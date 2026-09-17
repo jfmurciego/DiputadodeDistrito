@@ -1,11 +1,12 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: interfaz productiva empresarial de GitHub Actions
-VERSIÓN: 2.0.1
+VERSIÓN: 2.1.0
 FECHA: 2026-09-17
 OBJETIVO: exigir cuatro controles humanos, resolución automática del recorrido y
 encadenamiento hacia la producción modular sin exponer parámetros técnicos.
-CAMBIO: conserva los identificadores internos estables resolver_interfaz/ruta.
+CAMBIO: el checkpoint automático debe superar la puerta común de reutilización,
+registrar descartes y conservar los identificadores internos resolver_interfaz/ruta.
 """
 from pathlib import Path
 import unittest
@@ -101,13 +102,18 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn('target_num="${TO_STAGE#M}"', text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"', text)
 
-    def test_checkpoint_automatico_exige_territorio_edicion_y_fuentes_durables(self):
+    def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
         self.assertIn('ddd-decision-$run_id', text)
         self.assertIn('ddd-state-$run_id-$stage', text)
         self.assertIn("'.territory_id // empty'", text)
         self.assertIn("'.params // empty'", text)
         self.assertIn("*/sources/manifest.json", text)
+        self.assertIn("herramientas/seleccionar_checkpoint_productivo.py", text)
+        self.assertIn("checkpoints_descartados.json", text)
+        self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}", text)
+        self.assertIn("sort_by(.created_at) | reverse", text)
+        self.assertNotIn("adquirir_fuentes_oficiales", text)
         self.assertNotIn("inputs.checkpoint_run_id", text)
 
     def test_encadenamiento_productivo_es_automatico_y_mantiene_confirmacion_humana(self):

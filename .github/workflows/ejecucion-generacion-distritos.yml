@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 6.0.1
-# NOMBRE DE VERSIÓN: Producción empresarial con cuatro controles
+# VERSIÓN: 6.1.0
+# NOMBRE DE VERSIÓN: Producción empresarial con checkpoint validado
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # QUÉ HACE: expone únicamente territorio, edición, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
-# CAMBIOS: elimina controles técnicos del formulario y convierte la operación productiva en una secuencia empresarial automática, conservando los identificadores internos estables del router.
+# CAMBIOS: el selector automático sólo reutiliza checkpoints cuyo paquete sources supera la puerta común completa y registra los descartes.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
-# ANTERIOR: versión 5.0.0 en historial Git.
+# ANTERIOR: versión 6.0.0 en historial Git.
 name: Producción de distritos
 
 on:
@@ -116,7 +116,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - id: checkpoint
-        name: Resolver automáticamente fuentes reutilizables y último checkpoint compatible
+        name: Validar y resolver último checkpoint reutilizable
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -128,8 +128,16 @@ jobs:
           checkpoint_run_id=''
           from_stage=M01
           target_num="${TO_STAGE#M}"
+          mkdir -p .ddd-checkpoint-selection
+          : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
           api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
-          mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs[].id')
+          mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs | sort_by(.created_at) | reverse | .[].id')
+
+          record_discard() {
+            local run_id="$1" stage="$2" reason="$3"
+            jq -cn --arg run_id "$run_id" --arg stage "$stage" --arg reason "$reason" \
+              '{run_id:$run_id,stage:$stage,reason:$reason}' >> .ddd-checkpoint-selection/checkpoints_descartados.jsonl
+          }
 
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
@@ -139,7 +147,15 @@ jobs:
               rm -rf "$tmp_decision"; continue
             fi
             decision="$(find "$tmp_decision" -name decision.json -type f -print -quit)"
-            if [[ -z "$decision" ]] || [[ "$(jq -r '.territory_id // empty' "$decision")" != "$TERRITORY_ID" ]] || [[ "$(jq -r '.params // empty' "$decision")" != "$PARAMS" ]]; then
+            if [[ -z "$decision" ]]; then
+              record_discard "$run_id" decision "decision.json ausente"
+              rm -rf "$tmp_decision"; continue
+            fi
+            if [[ "$(jq -r '.territory_id // empty' "$decision")" != "$TERRITORY_ID" ]]; then
+              rm -rf "$tmp_decision"; continue
+            fi
+            if [[ "$(jq -r '.params // empty' "$decision")" != "$PARAMS" ]]; then
+              record_discard "$run_id" decision "contrato o edición distintos"
               rm -rf "$tmp_decision"; continue
             fi
             rm -rf "$tmp_decision"
@@ -149,21 +165,61 @@ jobs:
               artifact_name="ddd-state-$run_id-$stage"
               jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
               tmp_state="$(mktemp -d)"
-              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp_state" >/dev/null 2>&1 \
-                 && find "$tmp_state" -type f -path '*/sources/manifest.json' -print -quit | grep -q .; then
+              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp_state" >/dev/null 2>&1; then
+                record_discard "$run_id" "$stage" "no se pudo recuperar el checkpoint"
+                rm -rf "$tmp_state"; continue
+              fi
+              source_dir="$(find "$tmp_state" -type f -path '*/sources/manifest.json' -printf '%h\n' | sort | head -1)"
+              if [[ -z "$source_dir" ]]; then
+                record_discard "$run_id" "$stage" "sources/manifest.json ausente"
+                rm -rf "$tmp_state"; continue
+              fi
+
+              candidate_json="$tmp_state/validacion_checkpoint.json"
+              set +e
+              python herramientas/seleccionar_checkpoint_productivo.py \
+                --params "$PARAMS" --package "$source_dir" --run-id "$run_id" --stage "$stage" \
+                --root-dir . > "$candidate_json"
+              validation_rc=$?
+              set -e
+              if (( validation_rc == 0 )); then
                 checkpoint_run_id="$run_id"
                 from_stage="M$(printf '%02d' "$((stage_num+1))")"
+                cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
                 rm -rf "$tmp_state"
                 break 2
               fi
+              reason="$(jq -r '.reason // "validación de fuentes rechazada"' "$candidate_json" 2>/dev/null || echo 'validación de fuentes rechazada')"
+              record_discard "$run_id" "$stage" "$reason"
               rm -rf "$tmp_state"
             done
           done
 
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('.ddd-checkpoint-selection/checkpoints_descartados.jsonl')
+          rows=[json.loads(line) for line in p.read_text(encoding='utf-8').splitlines() if line.strip()]
+          Path('.ddd-checkpoint-selection/checkpoints_descartados.json').write_text(
+              json.dumps(rows,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+          jq -cn --arg checkpoint_run_id "$checkpoint_run_id" --arg from_stage "$from_stage" \
+            --arg territory_id "$TERRITORY_ID" --arg params "$PARAMS" \
+            '{territory_id:$territory_id,params:$params,checkpoint_run_id:$checkpoint_run_id,from_stage:$from_stage}' \
+            > .ddd-checkpoint-selection/seleccion_checkpoint.json
           {
             echo "checkpoint_run_id=$checkpoint_run_id"
             echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Publicar decisión de reanudación
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-checkpoint-selection-${{ github.run_id }}
+          path: .ddd-checkpoint-selection
+          if-no-files-found: error
+          retention-days: 14
 
   ruta:
     name: Procesar territorio
@@ -177,8 +233,3 @@ jobs:
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
-
-    # Publicación resuelta dentro de la cadena productiva común:
-    # uses: ./.github/workflows/desplegar-visor-publico.yml
-    # production_run_id: ${{ github.run_id }}
-    # Ruta auxiliar no productiva preservada internamente en el router: generar_alternativas_gerrychain
