@@ -167,8 +167,8 @@ class DurableProductionStatusTests(unittest.TestCase):
             }
             self.assertTrue(evaluate_job_if(jobs["auditoria"]["if"], checkpoint_context))
             self.assertTrue(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
-            blocked_source_context = dict(checkpoint_context, electoral_source_result="failure")
-            self.assertFalse(evaluate_job_if(jobs["m07"]["if"], blocked_source_context))
+            self.assertIn("electoral_source", jobs["m07"]["needs"])
+            self.assertNotIn("always()", jobs["m07"]["if"])
             self.assertNotIn("population_decision", jobs["m07"]["if"])
             self.assertNotIn("production_status", jobs["m07"]["if"])
 
