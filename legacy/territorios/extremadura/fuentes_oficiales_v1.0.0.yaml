@@ -1,0 +1,28 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Extremadura
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Declaración oficial de fuentes Extremadura
+# FECHA: 2026-09-17
+# ESTADO: candidato declarativo; producción territorial bloqueada
+# FUNCIÓN: declarar códigos territoriales, edición, fuentes, cobertura y política por entorno.
+# CAMBIOS: incorpora Extremadura por declaración, sin ejecutar módulos ni alterar su contrato experimental.
+# MOTIVO: permitir evaluar preparación de fuentes antes de cualquier procesamiento territorial.
+# ANTERIOR: territorios/extremadura/config/extremadura_2025.yaml
+schema: ddd-territory-sources/1.0
+territory:
+  id: extremadura
+  business_name: Extremadura
+  edition: 2025
+  territorial_codes:
+    - {code: "06", business_name: Badajoz}
+    - {code: "10", business_name: Cáceres}
+required_sources:
+  - poblacion_por_sexo_y_edad
+  - secciones_censales
+coverage_checks:
+  expected_sections: 964
+  required_territorial_codes: ["06", "10"]
+environment_policy:
+  development: [verified_snapshot, official_live]
+  test: [simulated]
+  production: [official_live, verified_snapshot]

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.4.0
-# NOMBRE DE VERSIÓN: Puerta productiva de fuentes oficiales
+# VERSIÓN: 2.3.0
+# NOMBRE DE VERSIÓN: Estado productivo con puerta poblacional M05
 # FECHA: 2026-09-17
-# ESTADO: candidato
-# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; antes de M01 adquiere, valida y materializa fuentes oficiales mediante una puerta visible.
-# CAMBIOS: añade job Fuentes oficiales, publica evidencia siempre y entrega a M01 únicamente entradas cuya preparación sea READY.
-# MOTIVO: impedir que la generación de distritos arranque con fuentes ausentes, incoherentes o no trazables.
-# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
+# ESTADO: vigente
+# QUÉ HACE: admite/verifica contratos o ejecuta un intervalo M01–M08 mostrando cada módulo como job real, con auditoría geométrica y visor posteriores.
+# CAMBIOS: incorpora al production_status la decisión poblacional M05 y separa ejecución, población y geometría sin impedir la ejecución técnica de M06.
+# MOTIVO: impedir que una mejora poblacional parcial se interprete como certificable aunque la ejecución y la geometría sean válidas.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.1.0.yml
 name: Producción territorial modular M01–M08
 
 on:
@@ -114,117 +114,10 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  official_sources:
-    name: Fuentes oficiales
-    needs: [resolve]
-    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 120
-    env:
-      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
-      SOURCE_DECLARATION: territorios/${{ needs.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
-      EVIDENCE_DIR: .ddd-sources
-    steps:
-      - uses: actions/checkout@v6
-      - name: Comprobar declaración de fuentes
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible de fuentes
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          pull: true
-          load: true
-          tags: ddd-production:${{ github.sha }}
-          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
-          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
-      - id: source_mode
-        name: Resolver modo declarado de producción
-        shell: bash
-        run: |
-          set -euo pipefail
-          mode="$(docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
-          import sys,yaml
-          from pathlib import Path
-          d=yaml.safe_load((Path('/app') / sys.argv[1]).read_text(encoding='utf-8')) or {}
-          print((d.get('default_mode') or {}).get('production') or '')
-          PY
-          )"
-          case "$mode" in official_live|verified_snapshot) ;; *) echo "::error::Modo productivo de fuentes inválido: $mode"; exit 40;; esac
-          echo "mode=$mode" >> "$GITHUB_OUTPUT"
-      - name: Reconstruir copia oficial declarada
-        if: ${{ steps.source_mode.outputs.mode == 'verified_snapshot' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          bash inputs/partes/reconstruir_fuentes.sh
-      - id: acquire
-        name: Materializar fuentes declaradas
-        continue-on-error: true
-        shell: bash
-        run: |
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/adquirir_fuentes_oficiales.py \
-            --territory "/app/$SOURCE_DECLARATION" \
-            --evidence-dir "/app/$EVIDENCE_DIR" \
-            --environment production \
-            --acquisition-mode '${{ steps.source_mode.outputs.mode }}' \
-            --root-dir /app
-      - id: evaluate
-        name: Evaluar preparación de fuentes
-        if: always()
-        continue-on-error: true
-        shell: bash
-        run: |
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/evaluar_preparacion_territorial.py \
-            --territory "/app/$SOURCE_DECLARATION" \
-            --evidence-dir "/app/$EVIDENCE_DIR" \
-            --environment production \
-            --root-dir /app
-      - name: Publicar evidencia de preparación
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-fuentes-${{ github.run_id }}
-          path: |
-            .ddd-sources/inventario_fuentes.json
-            .ddd-sources/manifiesto_procedencia.json
-            .ddd-sources/decision_preparacion.json
-            .ddd-sources/informe_preparacion.md
-            .ddd-sources/declaracion_materializacion.json
-            .ddd-sources/decision_adquisicion.json
-          if-no-files-found: error
-          retention-days: 14
-      - name: Publicar entradas consumibles
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-official-inputs-${{ github.run_id }}
-          path: .ddd-sources/materialized
-          include-hidden-files: true
-          if-no-files-found: warn
-          retention-days: 14
-      - name: Aplicar puerta de preparación
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f .ddd-sources/decision_preparacion.json || { echo '::error::No existe decisión de preparación.'; exit 41; }
-          python - <<'PY'
-          import json
-          d=json.load(open('.ddd-sources/decision_preparacion.json',encoding='utf-8'))
-          if d.get('decision') != 'READY':
-              raise SystemExit('Preparación de fuentes BLOQUEADA: ' + '; '.join(d.get('reasons') or []))
-          PY
-
   m01:
     name: M01 · Base territorial y población
-    needs: [resolve, official_sources]
-    if: ${{ needs.resolve.result == 'success' && needs.official_sources.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 && fromJSON(needs.resolve.outputs.to_num) >= 1 }}
+    needs: [resolve]
+    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 && fromJSON(needs.resolve.outputs.to_num) >= 1 }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env:
@@ -276,28 +169,14 @@ jobs:
           cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
           cp -a .ddd-state/in/run/. "$RUNS_DIR/"
           test -f "$RUNS_DIR/CHAIN_STATE.json"
-      - name: Recuperar fuentes aprobadas para M01
-        if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@v6
-        with:
-          name: ddd-official-inputs-${{ github.run_id }}
-          path: .ddd-sources/materialized
-      - name: Instalar fuentes en sus rutas contractuales
+      - name: Reconstruir fuentes canónicas requeridas por M01
         if: ${{ env.STAGE == 'M01' }}
         shell: bash
         run: |
           set -euo pipefail
-          cp -a .ddd-sources/materialized/. .
-          python - "$PARAMS" <<'PY'
-          import sys,yaml
-          from pathlib import Path
-          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-          io_in=((cfg.get('io') or {}).get('input') or {})
-          paths=[(io_in.get('seccionado') or {}).get('path')]
-          paths.extend((io_in.get('population_cip') or {}).get('paths') or [])
-          missing=[p for p in paths if p and not Path(p).is_file()]
-          if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
-          PY
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
       - name: Ejecutar módulo
         shell: bash
         run: >-
@@ -426,13 +305,15 @@ jobs:
           sections="$(python - "$PARAMS" <<'PY'
           import sys, yaml
           from pathlib import Path
+
           cfg = yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
           m06 = (cfg.get('modulos') or {}).get('modulo_06_consolidar_distritos') or {}
           path = m06.get('out_geojson') or ''
           year = (cfg.get('meta') or {}).get('year')
           run_name = (cfg.get('meta') or {}).get('run_name')
           run_id = __import__('os').environ.get('RUN_ID', '')
-          print(str(path).format(year=year, run_name=run_name, run_id=run_id))
+          path = str(path).format(year=year, run_name=run_name, run_id=run_id)
+          print(path)
           PY
           )"
           test -n "$sections" || { echo '::error::M06 no declara out_geojson en el contrato territorial.'; exit 23; }
