@@ -1,6 +1,7 @@
 """Integración ligera del encadenamiento modular sin datos territoriales."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
@@ -21,6 +22,8 @@ class ModularChainIntegrationTests(unittest.TestCase):
         shutil.copy2(ROOT / "procedimiento.sh", root / "procedimiento.sh")
         (root / "modulos").mkdir()
         (root / "herramientas").mkdir()
+        shutil.copy2(ROOT / "herramientas/validar_fuentes_reanudacion.py", root / "herramientas/validar_fuentes_reanudacion.py")
+        shutil.copy2(ROOT / "herramientas/politica_reutilizacion_fuentes.py", root / "herramientas/politica_reutilizacion_fuentes.py")
         for stage in range(1, 9):
             script = root / "modulos" / {
                 1: "01_preparar_base_territorial.py",
@@ -49,11 +52,33 @@ class ModularChainIntegrationTests(unittest.TestCase):
         )
         params = root / "territory.yaml"
         params.write_text(yaml.safe_dump({
-            "meta": {"run_name": "synthetic", "year": 2025},
+            "meta": {"run_name": "synthetic", "year": 2025, "territory_id": "synthetic"},
             "io": {
                 "cache": {"dir": str(root / "cache")},
                 "runs": {"dir": str(root / "runs/{run_id}")},
             },
+        }), encoding="utf-8")
+
+        declaration = root / "territorios/synthetic/config/fuentes_oficiales.yaml"
+        declaration.parent.mkdir(parents=True)
+        declaration.write_text(yaml.safe_dump({
+            "territory": {"id": "synthetic", "edition": 2025},
+            "coverage_checks": {"expected_sections": 1},
+        }), encoding="utf-8")
+        package = root / ".ddd-source-package"
+        frozen = package / "frozen/source.csv"
+        frozen.parent.mkdir(parents=True)
+        payload = b"id,value\n1,x\n"
+        frozen.write_bytes(payload)
+        (package / "manifest.json").write_text(json.dumps({
+            "source_id": "synthetic-official",
+            "edition": 2025,
+            "origin": "https://official.example/source.csv",
+            "path": "frozen/source.csv",
+            "bytes": len(payload),
+            "sha256": hashlib.sha256(payload).hexdigest(),
+            "records": 1,
+            "acquired_at": "2026-09-17T19:00:00Z",
         }), encoding="utf-8")
         return root, params, root / "chain.json"
 
@@ -80,6 +105,8 @@ class ModularChainIntegrationTests(unittest.TestCase):
             second = self.run_stage(root, params, chain, "M02")
             self.assertEqual(second.returncode, 0, second.stderr)
             self.assertEqual(json.loads(chain.read_text(encoding="utf-8"))["completed_stage"], 2)
+            evidence = json.loads((root / ".ddd-source-package/source_execution.json").read_text(encoding="utf-8"))
+            self.assertEqual(evidence["decision"], "REUSE")
 
     def test_rechaza_checkpoint_de_otro_contrato(self):
         with tempfile.TemporaryDirectory() as raw:
