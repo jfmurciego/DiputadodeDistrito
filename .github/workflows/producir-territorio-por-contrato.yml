@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.6.0
+# VERSIÓN: 2.6.1
 # NOMBRE DE VERSIÓN: Transporte contractual de fuente electoral oficial
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; expone fuentes oficiales, preparación de unidades internas y comprobación electoral como trabajos visibles.
-# CAMBIOS: M07 recupera el artefacto electoral aprobado, verifica de nuevo su checksum y lo instala en la ruta declarada por el contrato antes de consumirlo.
+# CAMBIOS: M07 recupera el artefacto electoral aprobado, verifica de nuevo su checksum y lo instala en la ruta declarada por el contrato antes de consumirlo; la dependencia electoral bloquea M07 de forma nativa si falla.
 # MOTIVO: hacer efectiva la cadena fuente oficial → artefacto → incorporación electoral sin rutas territoriales embebidas.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
@@ -703,7 +703,7 @@ jobs:
   m07:
     name: M07 · Agregación electoral
     needs: [resolve, m06, auditoria, electoral_source]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && needs.m06.result != 'failure' && needs.m06.result != 'cancelled' && needs.auditoria.result == 'success' && needs.electoral_source.result == 'success' }}
+    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && needs.m06.result != 'failure' && needs.m06.result != 'cancelled' && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M07, PREVIOUS_STAGE: M06, PREVIOUS_RESULT: "${{ needs.m06.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
