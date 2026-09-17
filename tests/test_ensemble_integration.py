@@ -1,12 +1,13 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: integración ensemble / GerryChain
-VERSIÓN: 1.1.1
-FECHA: 2026-09-15
-CAMBIO: mantiene la integración existente y actualiza únicamente la referencia
-a la interfaz territorial institucional renombrada como ejecucion-generacion-distritos.yml.
-MOTIVO: el renombrado físico de la interfaz no modifica el contrato GerryChain.
-ANTERIOR: versión 1.1.0 en historial Git.
+VERSIÓN: 1.2.0
+FECHA: 2026-09-17
+CAMBIO: mantiene GerryChain como capacidad reutilizable interna y comprueba que
+no reaparece como control en la interfaz productiva de cuatro campos.
+MOTIVO: separar producción territorial de la generación de alternativas sin
+modificar el contrato ni la ejecución interna de GerryChain.
+ANTERIOR: versión 1.1.1 en historial Git.
 """
 from __future__ import annotations
 
@@ -243,7 +244,8 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("auditar_componentes_geometricos.py", workflow)
         self.assertIn("base-geometric-components-preflight.json", workflow)
         interface = (ROOT / ".github/workflows/ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
-        self.assertIn("generar_alternativas_gerrychain", interface)
+        self.assertNotIn("generar_alternativas_gerrychain", interface)
+        self.assertNotIn("Generar alternativas GerryChain", interface)
 
 
 if __name__ == "__main__":
