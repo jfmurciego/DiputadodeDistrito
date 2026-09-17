@@ -1,20 +1,20 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 5.0.0
-# NOMBRE DE VERSIÓN: Interfaz única sin entrada de texto
-# FECHA: 2026-09-16
-# ESTADO: vigente
-# QUÉ HACE: ofrece una única interfaz de operación, producción, visor, ensemble y orquestación.
-# CAMBIOS: elimina run IDs escritos, resuelve automáticamente checkpoints y Aragón-10 previos y limita el formulario a choices/booleanos.
-# COMPATIBILIDAD: los IDs se mantienen como inputs internos entre reutilizables, nunca como campos humanos.
-# ANTERIOR: versión 4.1.0 en historial Git.
-name: Ejecucion de Generacion de Distritos
+# VERSIÓN: 6.0.0
+# NOMBRE DE VERSIÓN: Producción empresarial con cuatro controles
+# FECHA: 2026-09-17
+# ESTADO: candidato
+# QUÉ HACE: expone únicamente territorio, edición, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
+# CAMBIOS: elimina controles técnicos del formulario y convierte la operación productiva en una secuencia empresarial automática.
+# COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
+# ANTERIOR: versión 5.0.0 en historial Git.
+name: Producción de distritos
 
 on:
   workflow_dispatch:
     inputs:
       territory_id:
-        description: Territorio del catálogo nacional
+        description: Territorio
         required: true
         default: La Rioja
         type: choice
@@ -38,113 +38,51 @@ on:
           - La Rioja
           - Ceuta
           - Melilla
-      operation:
-        description: Operación institucional
+      data_edition:
+        description: Edición de datos
         required: true
-        default: Admitir contrato
+        default: '2025'
         type: choice
         options:
-          - Admitir contrato
-          - Verificar contrato
-          - Preparar base M01–M03
-          - Diagnosticar topología
-          - Certificar territorio M01–M06
-          - Producir resultado M01–M08
-          - Generar alternativas GerryChain
-          - Publicar visor actual
-          - Controlar ejecución
-          - Resolver reutilización y estado durable
-      from_stage:
-        description: Desde módulo (aplica a Producir resultado M01–M08)
+          - '2025'
+      publish_result:
+        description: Publicar resultado
         required: true
-        default: M01
-        type: choice
-        options: [M01, M02, M03, M04, M05, M06, M07, M08]
-      to_stage:
-        description: Hasta módulo (aplica a Producir resultado M01–M08)
-        required: true
-        default: M08
-        type: choice
-        options: [M01, M02, M03, M04, M05, M06, M07, M08]
-      execution_origin:
-        description: Origen de la cadena modular
-        required: true
-        default: Nueva cadena desde M01
-        type: choice
-        options:
-          - Nueva cadena desde M01
-          - Último checkpoint compatible
+        default: true
+        type: boolean
       confirmar_ejecucion:
-        description: Confirmo la ejecución de los módulos seleccionados
+        description: Confirmar ejecución
         required: true
         default: false
         type: boolean
-      ensemble_stage:
-        description: Fase del ensemble GerryChain
-        required: false
-        default: Prueba sintética
-        type: choice
-        options:
-          - Prueba sintética
-          - Piloto Aragón — 10 alternativas
-          - Lote Aragón — 50 alternativas
-      confirmar_coste:
-        description: Confirmo el coste del lote GerryChain seleccionado
-        required: true
-        default: false
-        type: boolean
-      ensemble_origin:
-        description: Origen de las alternativas
-        required: true
-        default: Generar nuevas alternativas
-        type: choice
-        options:
-          - Generar nuevas alternativas
-          - Republicar último Aragón-10 válido
-      orchestration_plan:
-        description: Plan de orquestación versionado
-        required: true
-        default: Prueba de orquestación
-        type: choice
-        options:
-          - Prueba de orquestación
-          - Cierre Fase 1
 
 permissions:
-  contents: write
+  contents: read
   actions: read
   pages: write
   id-token: write
-  issues: write
 
 jobs:
-  resolver_interfaz:
-    name: P00 · Resolver parámetros de ejecución
-    runs-on: ubuntu-latest
+  preparar:
+    name: Preparar contrato y reanudación
+    runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
-      operation: ${{ steps.resolve.outputs.operation }}
-      from_stage: ${{ steps.resolve.outputs.from_stage }}
+      params: ${{ steps.resolve.outputs.params }}
+      from_stage: ${{ steps.checkpoint.outputs.from_stage }}
       to_stage: ${{ steps.resolve.outputs.to_stage }}
-      ensemble_stage: ${{ steps.resolve.outputs.ensemble_stage }}
-      orchestration_plan_path: ${{ steps.resolve.outputs.orchestration_plan_path }}
-      checkpoint_run_id: ${{ steps.sources.outputs.checkpoint_run_id }}
-      ensemble_source_run_id: ${{ steps.sources.outputs.ensemble_source_run_id }}
+      checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
     steps:
-      - name: Resolver territorio, operación, tramo y fase
-        id: resolve
+      - uses: actions/checkout@v6
+      - id: resolve
+        name: Resolver territorio, edición y recorrido necesario
         shell: bash
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
-          UI_OPERATION: ${{ inputs.operation }}
-          UI_FROM_STAGE: ${{ inputs.from_stage }}
-          UI_TO_STAGE: ${{ inputs.to_stage }}
-          UI_ENSEMBLE_STAGE: ${{ inputs.ensemble_stage }}
-          UI_ORCHESTRATION_PLAN: ${{ inputs.orchestration_plan }}
-          UI_EXECUTION_ORIGIN: ${{ inputs.execution_origin }}
+          UI_EDITION: ${{ inputs.data_edition }}
+          UI_PUBLISH: ${{ inputs.publish_result }}
         run: |
           set -euo pipefail
-
           case "$UI_TERRITORY" in
             "Andalucía"|andalucia) territory_id=andalucia ;;
             "Aragón"|aragon) territory_id=aragon ;;
@@ -167,148 +105,75 @@ jobs:
             "Melilla"|melilla) territory_id=melilla ;;
             *) echo "::error::Territorio no reconocido: $UI_TERRITORY"; exit 1 ;;
           esac
-
-          case "$UI_OPERATION" in
-            "Admitir contrato"|admitir_contrato) operation=admitir_contrato ;;
-            "Verificar contrato"|verificar_contrato) operation=verificar_contrato ;;
-            "Preparar base M01–M03"|preparar_base_m01_m03) operation=preparar_base_m01_m03 ;;
-            "Diagnosticar topología"|diagnosticar_topologia) operation=diagnosticar_topologia ;;
-            "Certificar territorio M01–M06"|certificar_territorio_m01_m06) operation=certificar_territorio_m01_m06 ;;
-            "Producir resultado M01–M08"|producir_resultado_m01_m08) operation=producir_resultado_m01_m08 ;;
-            "Generar alternativas GerryChain"|generar_alternativas_gerrychain) operation=generar_alternativas_gerrychain ;;
-            "Publicar visor actual"|publicar_visor_actual) operation=publicar_visor_actual ;;
-            "Controlar ejecución"|controlar_ejecucion) operation=controlar_ejecucion ;;
-            "Resolver reutilización y estado durable"|resolver_reutilizacion) operation=resolver_reutilizacion ;;
-            *) echo "::error::Operación no reconocida: $UI_OPERATION"; exit 1 ;;
-          esac
-
-          case "$operation" in
-            preparar_base_m01_m03) UI_FROM_STAGE=M01; UI_TO_STAGE=M03 ;;
-            certificar_territorio_m01_m06) UI_FROM_STAGE=M01; UI_TO_STAGE=M06 ;;
-          esac
-          if [[ "$operation" == producir_resultado_m01_m08 && "$UI_EXECUTION_ORIGIN" == "Nueva cadena desde M01" ]]; then
-            UI_FROM_STAGE=M01
-          fi
-
-          stage_number() {
-            case "$1" in
-              M01|TERRITORY_PREPARATION) echo 1 ;;
-              M02|TERRITORY_ADJACENCY) echo 2 ;;
-              M03|TERRITORY_GRAPH) echo 3 ;;
-              M04|DISTRICT_FORMATION) echo 4 ;;
-              M05|DISTRICT_BALANCING) echo 5 ;;
-              M06|TERRITORIAL_CERTIFICATION) echo 6 ;;
-              M07|ELECTORAL_ENRICHMENT) echo 7 ;;
-              M08|PUBLIC_PRODUCT_PUBLICATION) echo 8 ;;
-              *) return 1 ;;
-            esac
-          }
-          from_num="$(stage_number "$UI_FROM_STAGE")" || { echo "::error::Desde módulo inválido: $UI_FROM_STAGE"; exit 1; }
-          to_num="$(stage_number "$UI_TO_STAGE")" || { echo "::error::Hasta módulo inválido: $UI_TO_STAGE"; exit 1; }
-          if [[ "$operation" == producir_resultado_m01_m08 ]] && (( from_num > to_num )); then
-            echo "::error::Desde módulo no puede ser posterior a Hasta módulo."
-            exit 1
-          fi
-
-          case "$UI_ENSEMBLE_STAGE" in
-            "Prueba sintética"|synthetic) ensemble_stage=synthetic ;;
-            "Piloto Aragón — 10 alternativas"|aragon_10) ensemble_stage=aragon_10 ;;
-            "Lote Aragón — 50 alternativas"|aragon_50) ensemble_stage=aragon_50 ;;
-            *) echo "::error::Fase GerryChain no reconocida: $UI_ENSEMBLE_STAGE"; exit 1 ;;
-          esac
-
-          case "$UI_ORCHESTRATION_PLAN" in
-            "Prueba de orquestación") orchestration_plan_path=orchestracion/plan_lote_g10_smoke.json ;;
-            "Cierre Fase 1") orchestration_plan_path=orchestracion/plan_lote_g10_fase1_cierre.json ;;
-            *) echo "::error::Plan de orquestación no reconocido: $UI_ORCHESTRATION_PLAN"; exit 1 ;;
-          esac
-
+          [[ "$UI_EDITION" =~ ^[0-9]{4}$ ]] || { echo "::error::Edición no válida: $UI_EDITION"; exit 2; }
+          params="territorios/$territory_id/config/${territory_id}_${UI_EDITION}.yaml"
+          test -f "$params" || { echo "::error::No existe contrato para $UI_TERRITORY, edición $UI_EDITION: $params"; exit 3; }
+          if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi
           {
             echo "territory_id=$territory_id"
-            echo "operation=$operation"
-            echo "from_stage=$UI_FROM_STAGE"
-            echo "to_stage=$UI_TO_STAGE"
-            echo "ensemble_stage=$ensemble_stage"
-            echo "orchestration_plan_path=$orchestration_plan_path"
+            echo "params=$params"
+            echo "to_stage=$to_stage"
           } >> "$GITHUB_OUTPUT"
 
-      - id: sources
-        name: Resolver automáticamente evidencia anterior
+      - id: checkpoint
+        name: Resolver automáticamente fuentes reutilizables y último checkpoint compatible
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
-          OPERATION: ${{ steps.resolve.outputs.operation }}
-          FROM_STAGE: ${{ steps.resolve.outputs.from_stage }}
-          ENSEMBLE_STAGE: ${{ steps.resolve.outputs.ensemble_stage }}
-          EXECUTION_ORIGIN: ${{ inputs.execution_origin }}
-          ENSEMBLE_ORIGIN: ${{ inputs.ensemble_origin }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+          TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
-          ensemble_source_run_id=''
+          from_stage=M01
+          target_num="${TO_STAGE#M}"
           api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
           mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs[].id')
 
-          if [[ "$OPERATION" == producir_resultado_m01_m08 && "$FROM_STAGE" != M01 ]]; then
-            test "$EXECUTION_ORIGIN" = "Último checkpoint compatible" || { echo '::error::Un tramo posterior a M01 exige elegir el último checkpoint compatible.'; exit 23; }
-            previous="M$(printf '%02d' "$((10#${FROM_STAGE#M}-1))")"
-            for run_id in "${run_ids[@]}"; do
-              artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-              jq -e --arg n "ddd-state-$run_id-$previous" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
-              jq -e --arg n "ddd-decision-$run_id" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
-              tmp="$(mktemp -d)"
-              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-decision-$run_id" --dir "$tmp" >/dev/null 2>&1; then
-                decision="$(find "$tmp" -name decision.json -type f -print -quit)"
-                if [[ -n "$decision" && "$(jq -r '.territory_id // empty' "$decision")" == "$TERRITORY_ID" ]]; then
-                  checkpoint_run_id="$run_id"; rm -rf "$tmp"; break
-                fi
-              fi
-              rm -rf "$tmp"
-            done
-            test -n "$checkpoint_run_id" || { echo "::error::No existe checkpoint $previous compatible y vigente para $TERRITORY_ID."; exit 24; }
-          fi
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            jq -e --arg n "ddd-decision-$run_id" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            tmp_decision="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-decision-$run_id" --dir "$tmp_decision" >/dev/null 2>&1; then
+              rm -rf "$tmp_decision"; continue
+            fi
+            decision="$(find "$tmp_decision" -name decision.json -type f -print -quit)"
+            if [[ -z "$decision" ]] || [[ "$(jq -r '.territory_id // empty' "$decision")" != "$TERRITORY_ID" ]] || [[ "$(jq -r '.params // empty' "$decision")" != "$PARAMS" ]]; then
+              rm -rf "$tmp_decision"; continue
+            fi
+            rm -rf "$tmp_decision"
 
-          if [[ "$OPERATION" == generar_alternativas_gerrychain && "$ENSEMBLE_ORIGIN" == "Republicar último Aragón-10 válido" ]]; then
-            test "$TERRITORY_ID" = aragon && test "$ENSEMBLE_STAGE" = aragon_10 || { echo '::error::La republicación automática sólo admite Aragón-10.'; exit 25; }
-            for run_id in "${run_ids[@]}"; do
-              artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-              base_name="$(jq -r '[.artifacts[] | select((.expired|not) and (.name|startswith("ensemble-base-")))][0].name // empty' <<<"$artifacts")"
-              [[ -n "$base_name" ]] || continue
-              tmp="$(mktemp -d)"
-              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$base_name" --dir "$tmp" >/dev/null 2>&1; then
-                plan="$(find "$tmp" -path '*/work/ensemble/plan.json' -o -name plan.json | head -n1)"
-                if [[ -n "$plan" && "$(jq -r '.candidate_count // 0' "$plan")" == 10 ]]; then
-                  ensemble_source_run_id="$run_id"; rm -rf "$tmp"; break
-                fi
+            for ((stage_num=target_num-1; stage_num>=1; stage_num--)); do
+              stage="M$(printf '%02d' "$stage_num")"
+              artifact_name="ddd-state-$run_id-$stage"
+              jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+              tmp_state="$(mktemp -d)"
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp_state" >/dev/null 2>&1 \
+                 && find "$tmp_state" -type f -path '*/sources/manifest.json' -print -quit | grep -q .; then
+                checkpoint_run_id="$run_id"
+                from_stage="M$(printf '%02d' "$((stage_num+1))")"
+                rm -rf "$tmp_state"
+                break 2
               fi
-              rm -rf "$tmp"
+              rm -rf "$tmp_state"
             done
-            test -n "$ensemble_source_run_id" || { echo '::error::No existe un Aragón-10 completo y vigente para republicar.'; exit 26; }
-          fi
+          done
 
           {
             echo "checkpoint_run_id=$checkpoint_run_id"
-            echo "ensemble_source_run_id=$ensemble_source_run_id"
+            echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
 
-  ruta:
-    name: C01 · Ejecutar ruta seleccionada
-    needs: resolver_interfaz
+  producir:
+    name: Procesar territorio
+    needs: preparar
     uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
     with:
-      params: territorios/${{ needs.resolver_interfaz.outputs.territory_id }}/config/${{ needs.resolver_interfaz.outputs.territory_id }}_2025.yaml
-      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
-      operation: ${{ needs.resolver_interfaz.outputs.operation }}
-      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
-      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
-      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
+      params: ${{ needs.preparar.outputs.params }}
+      territory_id: ${{ needs.preparar.outputs.territory_id }}
+      operation: producir_resultado_m01_m08
+      from_stage: ${{ needs.preparar.outputs.from_stage }}
+      to_stage: ${{ needs.preparar.outputs.to_stage }}
+      checkpoint_run_id: ${{ needs.preparar.outputs.checkpoint_run_id }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
-      ensemble_stage: ${{ needs.resolver_interfaz.outputs.ensemble_stage }}
-      ensemble_promotion_confirmed: ${{ inputs.confirmar_coste }}
-      ensemble_republish_source_run_id: ${{ needs.resolver_interfaz.outputs.ensemble_source_run_id }}
-      orchestration_plan_path: ${{ needs.resolver_interfaz.outputs.orchestration_plan_path }}
-
-    # Contrato de publicación preservado dentro de la ruta de producción:
-    # uses: ./.github/workflows/desplegar-visor-publico.yml
-    # production_run_id: ${{ github.run_id }}

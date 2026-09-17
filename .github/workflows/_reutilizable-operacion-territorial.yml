@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 3.1.0
-# NOMBRE DE VERSIÓN: Informe de ejecución basado en evidencia
+# VERSIÓN: 3.2.0
+# NOMBRE DE VERSIÓN: Ruta productiva con nombres de negocio
 # FECHA: 2026-09-17
-# ESTADO: vigente
+# ESTADO: candidato
 # QUÉ HACE: recibe una operación institucional resuelta, delega la ruta seleccionada y genera siempre un informe de ejecución para la cadena territorial.
-# CAMBIOS: añade el trabajo visible Informe de ejecución, que recupera los artefactos DDD del run y produce inventario JSON e informe Markdown sin leer logs.
-# MOTIVO: ofrecer trazabilidad operativa comprensible y estructurada incluso cuando la cadena se bloquea.
-# ANTERIOR: versión 3.0.0 en historial Git.
+# CAMBIOS: presenta la cadena productiva con nombres de negocio sin alterar la lógica M01–M08 ni las rutas auxiliares existentes.
+# MOTIVO: hacer comprensible la secuencia productiva desde GitHub Actions sin exponer controles técnicos al usuario.
+# ANTERIOR: versión 3.1.0 en historial Git.
 name: Reutilizable — ruta territorial resuelta
 
 on:
@@ -34,7 +34,7 @@ permissions:
 
 jobs:
   produccion:
-    name: M01–M08 · Cadena modular seleccionada
+    name: Fuentes, procesamiento, controles, distritos, resultados y publicación
     if: ${{ contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
@@ -109,14 +109,14 @@ jobs:
           retention-days: 30
 
   diagnostico:
-    name: A01 · Diagnóstico topológico
+    name: Diagnóstico topológico
     if: ${{ inputs.operation == 'diagnosticar_topologia' }}
     uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
     with:
       territory_id: ${{ inputs.territory_id }}
 
   ensemble:
-    name: G01–G03 · Ensemble GerryChain
+    name: Generar alternativas territoriales
     if: ${{ inputs.operation == 'generar_alternativas_gerrychain' }}
     uses: ./.github/workflows/generar-alternativas-territoriales.yml
     with:
@@ -127,7 +127,7 @@ jobs:
       republish_source_run_id: ${{ inputs.ensemble_republish_source_run_id }}
 
   visor:
-    name: V01 · Publicar visor actual
+    name: Publicar visor actual
     if: ${{ inputs.operation == 'publicar_visor_actual' }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     with:
@@ -135,14 +135,14 @@ jobs:
       ensemble_release_tag: ''
 
   orquestacion_control:
-    name: O01 · Controlar ejecución
+    name: Controlar ejecución
     if: ${{ inputs.operation == 'controlar_ejecucion' }}
     uses: ./.github/workflows/orquestacion-control.yml
     with:
       plan_path: ${{ inputs.orchestration_plan_path }}
 
   orquestacion_durable:
-    name: O02 · Resolver reutilización y estado durable
+    name: Resolver reutilización y estado durable
     if: ${{ inputs.operation == 'resolver_reutilizacion' }}
     uses: ./.github/workflows/orquestacion-durable.yml
     with:
