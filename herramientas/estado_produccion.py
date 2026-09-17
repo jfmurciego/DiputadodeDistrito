@@ -5,8 +5,16 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 from typing import Any
+
+# Permite ejecutar este entrypoint directamente (`python herramientas/estado_produccion.py`)
+# desde la raíz del repositorio, igual que hace GitHub Actions. Python sitúa
+# `herramientas/` en sys.path en ese modo, no la raíz que contiene ddd_core/.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from ddd_core.config import load_params_yaml
 
