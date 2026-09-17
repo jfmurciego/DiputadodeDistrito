@@ -3,18 +3,19 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: pruebas de fuentes oficiales y preparación territorial
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Modos reales, negativos y consumo M01
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Inmutabilidad nacional y aislamiento territorial
 FECHA: 2026-09-17
 ESTADO: candidato
-FUNCIÓN: demostrar trazabilidad estricta, bloqueo fail-closed y preparación sintética consumible.
-CAMBIOS: cubre HTML, edición, provincias, territorio, checksum, no-red, igualdad de evidencia e integración Extremadura.
-MOTIVO: asegurar que ninguna fuente incoherente habilita la generación de distritos.
-ANTERIOR: legacy/tests/test_fuentes_oficiales_preparacion_v1.0.0.py
+FUNCIÓN: demostrar que las copias oficiales nacionales son inmutables y los recortes territoriales quedan aislados y consumibles.
+CAMBIOS: añade regresiones origen/destino, huellas nacionales, preparación consecutiva Aragón-Extremadura y consumo desde ddd-official-inputs.
+MOTIVO: impedir que preparar un territorio mutile la fuente nacional compartida o contamine la preparación del siguiente.
+ANTERIOR: legacy/tests/test_fuentes_oficiales_preparacion_v1.1.0.py
 """
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import io
 import json
@@ -25,7 +26,7 @@ from urllib.parse import parse_qs, urlparse
 
 import yaml
 
-from herramientas.adquirir_fuentes_oficiales import acquire
+from herramientas.adquirir_fuentes_oficiales import acquire, _write_shapefile_zip, _zip_single
 from herramientas.evaluar_preparacion_territorial import evaluate, readable_report
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +35,10 @@ CATALOG = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(enco
 
 def declaration(territory: str) -> dict:
     return yaml.safe_load((ROOT / "territorios" / territory / "config" / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 class SimulatedINE:
@@ -81,15 +86,51 @@ class OfficialSourcesTests(unittest.TestCase):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         evidence = root / "evidence"
-        for source_id, binding in dec["source_bindings"].items():
-            original = Path(binding["materialized_path"])
-            binding["materialized_path"] = str(root / original)
         fetcher = fetcher or SimulatedINE(dec)
         resolved, inventory, provenance, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="test", acquisition_mode="simulated", fetcher=fetcher, root_dir=root)
         return td, root, evidence, dec, resolved, inventory, provenance, acquisition
 
-    def evaluate_materialized(self, dec, root, resolved, inventory, provenance, acquisition):
-        return evaluate(catalog=CATALOG, declaration=dec, resolved_declaration=resolved, inventory=inventory, provenance=provenance, environment="test", root_dir=root, acquisition_decision=acquisition)
+    def evaluate_materialized(self, dec, root, evidence, resolved, inventory, provenance, acquisition, environment="test"):
+        return evaluate(catalog=CATALOG, declaration=dec, resolved_declaration=resolved, inventory=inventory, provenance=provenance, environment=environment, root_dir=root, evidence_dir=evidence, acquisition_decision=acquisition)
+
+    def make_shared_national_snapshots(self, root: Path) -> dict[str, Path]:
+        counts: dict[str, int] = {}
+        for territory in ("aragon", "extremadura"):
+            dec = declaration(territory)
+            expected = int(dec["coverage_checks"]["expected_sections"])
+            divisions = dec["territory"]["territorial_codes"]
+            base, remainder = divmod(expected, len(divisions))
+            for index, row in enumerate(divisions):
+                counts[str(row["code"]).zfill(2)] = base + (1 if index < remainder else 0)
+
+        population = io.StringIO()
+        population.write("Periodo\tSexo\tEdad\tSecciones\tTotal\n")
+        features = []
+        ordinal = 0
+        for code, count in sorted(counts.items()):
+            for index in range(count):
+                sid = f"{code}{index:08d}"
+                population.write(f"2025\tTotal\tTodas las edades\t{sid}\t100\n")
+                features.append({"type": "Feature", "properties": {"CPRO": code, "TIPO": "SECCION", "CUSEC": sid}, "geometry": {"type": "Point", "coordinates": [-7.0 + ordinal * 0.00001, 40.0]}})
+                ordinal += 1
+
+        national = root / "national"
+        national.mkdir(parents=True)
+        pop_path = national / "65034.csv.zip"
+        sec_path = national / "seccionado_2025.zip"
+        pop_path.write_bytes(_zip_single("65034.csv", ("\ufeff" + population.getvalue()).encode("utf-8")))
+        sec_path.write_bytes(_write_shapefile_zip(features, crs="EPSG:4326"))
+        return {"poblacion_por_sexo_y_edad": pop_path, "secciones_censales": sec_path}
+
+    def verified_declaration(self, territory: str, snapshots: dict[str, Path]) -> dict:
+        dec = copy.deepcopy(declaration(territory))
+        for source_id, binding in dec["source_bindings"].items():
+            path = snapshots[source_id]
+            binding["snapshot"]["path"] = str(path)
+            binding["snapshot"]["expected_sha256"] = sha256(path)
+        dec["environment_policy"]["production"] = ["verified_snapshot"]
+        dec["default_mode"]["production"] = "verified_snapshot"
+        return dec
 
     def test_aragon_remains_declarative_regression(self):
         dec = declaration("aragon")
@@ -142,7 +183,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.addCleanup(td.cleanup)
         inventory = copy.deepcopy(inventory)
         inventory["territory_id"] = "aragon"
-        decision = self.evaluate_materialized(dec, root, resolved, inventory, provenance, acquisition)
+        decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition)
         self.assertEqual(decision["decision"], "BLOCKED")
         self.assertTrue(any("territory_id" in reason for reason in decision["reasons"]))
 
@@ -152,7 +193,7 @@ class OfficialSourcesTests(unittest.TestCase):
         for field, replacement in (("path", "otra/ruta.zip"), ("sha256", "0" * 64), ("bytes", 7), ("urls", ["https://example.invalid"]), ("edition", 2024), ("source_id", "otra_fuente")):
             mutated = copy.deepcopy(inventory)
             mutated["sources"][0][field] = replacement
-            decision = self.evaluate_materialized(dec, root, resolved, mutated, provenance, acquisition)
+            decision = self.evaluate_materialized(dec, root, evidence, resolved, mutated, provenance, acquisition)
             self.assertEqual(decision["decision"], "BLOCKED", field)
 
     def test_wrong_snapshot_hash_blocks(self):
@@ -164,7 +205,7 @@ class OfficialSourcesTests(unittest.TestCase):
             dec = {
                 "territory": {"id": "x", "business_name": "X", "edition": 2025, "territorial_codes": [{"code": "06", "business_name": "Badajoz"}]},
                 "required_sources": ["poblacion_por_sexo_y_edad"],
-                "source_bindings": {"poblacion_por_sexo_y_edad": {"materialized_path": str(root / "out.zip"), "archive_member": "65034.csv", "snapshot": {"path": str(snapshot), "expected_sha256": "0" * 64, "official_origin_url": CATALOG["sources"]["poblacion_por_sexo_y_edad"]["url"], "edition": 2025, "acquired_at": "2026-09-17"}}},
+                "source_bindings": {"poblacion_por_sexo_y_edad": {"materialized_path": "inputs/out.zip", "archive_member": "65034.csv", "snapshot": {"path": str(snapshot), "expected_sha256": "0" * 64, "official_origin_url": CATALOG["sources"]["poblacion_por_sexo_y_edad"]["url"], "edition": 2025, "acquired_at": "2026-09-17"}}},
                 "population_validation": {"required_columns": ["Periodo", "Sexo", "Edad", "Secciones", "Total"]},
                 "environment_policy": {"production": ["verified_snapshot"]},
                 "default_mode": {"production": "verified_snapshot"},
@@ -179,7 +220,6 @@ class OfficialSourcesTests(unittest.TestCase):
             dec = copy.deepcopy(declaration("extremadura"))
             dec["required_sources"] = ["poblacion_por_sexo_y_edad"]
             binding = dec["source_bindings"]["poblacion_por_sexo_y_edad"]
-            binding["materialized_path"] = str(root / "out.zip")
             del binding["snapshot"]["path"]
             calls = []
             def forbidden(url: str) -> bytes:
@@ -204,10 +244,61 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual(row["availability"], "BLOCKED")
         self.assertTrue((evidence / "inventario_fuentes.json").is_file())
 
+    def test_national_snapshot_hashes_do_not_change(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snapshots = self.make_shared_national_snapshots(root)
+            before = {sid: sha256(path) for sid, path in snapshots.items()}
+            dec = self.verified_declaration("extremadura", snapshots)
+            evidence = root / "extremadura-evidence"
+            resolved, inventory, provenance, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="production", acquisition_mode="verified_snapshot", root_dir=root)
+            decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition, environment="production")
+            self.assertEqual(acquisition["decision"], "READY")
+            self.assertEqual(decision["decision"], "READY")
+            self.assertEqual(before, {sid: sha256(path) for sid, path in snapshots.items()})
+            self.assertTrue(decision["checks"]["official_copies_immutable"])
+
+    def test_aragon_and_extremadura_can_share_same_national_snapshots_consecutively(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snapshots = self.make_shared_national_snapshots(root)
+            baseline = {sid: sha256(path) for sid, path in snapshots.items()}
+            results = {}
+            for territory in ("aragon", "extremadura"):
+                dec = self.verified_declaration(territory, snapshots)
+                evidence = root / f"{territory}-evidence"
+                resolved, inventory, provenance, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="production", acquisition_mode="verified_snapshot", root_dir=root)
+                decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition, environment="production")
+                results[territory] = decision["decision"]
+                self.assertEqual(baseline, {sid: sha256(path) for sid, path in snapshots.items()})
+                for binding in dec["source_bindings"].values():
+                    self.assertTrue((evidence / "materialized" / binding["materialized_path"]).is_file())
+            self.assertEqual(results, {"aragon": "READY", "extremadura": "READY"})
+
+    def test_origin_equal_destination_is_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            evidence = root / "evidence"
+            destination = evidence / "materialized" / "inputs" / "65034.csv.zip"
+            destination.parent.mkdir(parents=True)
+            payload = _zip_single("65034.csv", b"\xef\xbb\xbfPeriodo\tSexo\tEdad\tSecciones\tTotal\n2025\tTotal\tTodas las edades\t0600000001\t1\n")
+            destination.write_bytes(payload)
+            dec = {
+                "territory": {"id": "x", "business_name": "X", "edition": 2025, "territorial_codes": [{"code": "06", "business_name": "Badajoz"}]},
+                "required_sources": ["poblacion_por_sexo_y_edad"],
+                "source_bindings": {"poblacion_por_sexo_y_edad": {"materialized_path": "inputs/65034.csv.zip", "archive_member": "65034.csv", "snapshot": {"path": str(destination), "expected_sha256": sha256(destination), "official_origin_url": CATALOG["sources"]["poblacion_por_sexo_y_edad"]["url"], "edition": 2025, "acquired_at": "2026-09-17"}}},
+                "population_validation": {"required_columns": ["Periodo", "Sexo", "Edad", "Secciones", "Total"]},
+                "environment_policy": {"production": ["verified_snapshot"]},
+                "default_mode": {"production": "verified_snapshot"},
+            }
+            _, _, _, acquisition = acquire(catalog=CATALOG, declaration=dec, evidence_dir=evidence, environment="production", acquisition_mode="verified_snapshot", root_dir=root)
+            self.assertEqual(acquisition["decision"], "BLOCKED")
+            self.assertIn("mismo fichero", json.dumps(acquisition, ensure_ascii=False).lower())
+
     def test_extremadura_simulation_ready_and_inputs_are_consumable_by_m01(self):
         td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("extremadura")
         self.addCleanup(td.cleanup)
-        decision = self.evaluate_materialized(dec, root, resolved, inventory, provenance, acquisition)
+        decision = self.evaluate_materialized(dec, root, evidence, resolved, inventory, provenance, acquisition)
         self.assertEqual(acquisition["decision"], "READY")
         self.assertEqual(decision["decision"], "READY")
         self.assertEqual(decision["territory_id"], "extremadura")
@@ -216,18 +307,19 @@ class OfficialSourcesTests(unittest.TestCase):
             self.assertTrue((evidence / name).is_file(), name)
         (evidence / "decision_preparacion.json").write_text(json.dumps(decision, ensure_ascii=False, indent=2), encoding="utf-8")
         (evidence / "informe_preparacion.md").write_text(readable_report(decision), encoding="utf-8")
-        self.assertTrue((evidence / "informe_preparacion.md").is_file())
 
         spec = importlib.util.spec_from_file_location("ddd_m01_test", ROOT / "modulos/01_preparar_base_territorial.py")
         module = importlib.util.module_from_spec(spec)
         assert spec and spec.loader
         spec.loader.exec_module(module)
-        section_path = Path(dec["source_bindings"]["secciones_censales"]["materialized_path"])
-        population_path = Path(dec["source_bindings"]["poblacion_por_sexo_y_edad"]["materialized_path"])
+        section_path = evidence / "materialized" / dec["source_bindings"]["secciones_censales"]["materialized_path"]
+        population_path = evidence / "materialized" / dec["source_bindings"]["poblacion_por_sexo_y_edad"]["materialized_path"]
         gdf = module.load_seccionado(str(section_path), "", ["06", "10"])
         cip = module.load_cip([str(population_path)], "Secciones", "Total", 2025, "auto", {"year_col": "Periodo", "sexo_col": "Sexo", "edad_col": "Edad", "sexo_total_values": ["Total"], "edad_total_values": ["Todas las edades"], "year_value": 2025}, ["06", "10"])
         self.assertEqual(len(gdf), 964)
         self.assertEqual(len(cip), 964)
+        self.assertFalse((root / "inputs" / "65034.csv.zip").exists())
+        self.assertFalse((root / "inputs" / "seccionado_2025.zip").exists())
 
 
 if __name__ == "__main__":
