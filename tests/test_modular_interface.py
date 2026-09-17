@@ -70,8 +70,9 @@ class ModularWorkflowContractTests(unittest.TestCase):
     def test_production_workflow_has_visible_m01_m08_audit_and_viewer(self):
         workflow = yaml.safe_load((ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8"))
         jobs = workflow["jobs"]
-        expected = ["resolve", "m01", "m02", "m03", "m04", "m05", "m06", "auditoria", "m07", "m08", "visor"]
+        expected = ["resolve", "official_sources", "m01", "m02", "m03", "m04", "m05", "m06", "auditoria", "m07", "m08", "visor"]
         self.assertEqual(list(jobs), expected)
+        self.assertEqual(jobs["official_sources"]["name"], "Fuentes oficiales")
         names = [jobs[f"m{i:02d}"]["name"] for i in range(1, 9)]
         self.assertTrue(all(f"M{i:02d}" in names[i - 1] for i in range(1, 9)))
 
