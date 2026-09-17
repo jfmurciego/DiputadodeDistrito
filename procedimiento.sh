@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.6.0
-# NOMBRE DE VERSIÓN: Preprocesado declarativo común previo a M04
+# VERSIÓN: 2.7.0
+# NOMBRE DE VERSIÓN: Ejecución modular sin preprocesado oculto
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# CAMBIOS: ejecuta el preparador común de unidades internas antes de M04 cuando partitioning lo declara; mantiene no-op para contratos sin esa política.
-# MOTIVO: eliminar dependencias territoriales específicas y materializar connected_internal_units desde configuración común.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.5.0.sh
+# CAMBIOS: retira la preparación de unidades internas del cuerpo oculto del procedimiento; el workflow productivo la ejecuta como trabajo visible entre M03 y M04.
+# MOTIVO: exponer entrada, salida, duración y artefacto propios sin duplicar la capacidad común.
+# ANTERIOR: versión 2.6.0 en historial Git.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -113,10 +113,6 @@ if (( FROM <= 3 )); then
   else
     for n in $(seq "$FROM" "$(( TO < 3 ? TO : 3 ))"); do ejecutar "$n" "${SCRIPTS[$n]}"; done
   fi
-fi
-if (( FROM <= 4 && TO >= 4 )); then
-  echo "===== PRE-M04: unidades internas declarativas ====="
-  python herramientas/preparar_unidades_internas.py --params "$PARAMS" --run-id "$RUN_ID" 2>&1 | tee "$LOG_DIR/preparar_unidades_internas.log"
 fi
 if (( TO >= 4 )); then
   for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do
