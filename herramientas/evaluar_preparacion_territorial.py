@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: evaluación automática de preparación territorial
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Igualdad estricta y validación de contenido
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Evaluación sobre recortes territoriales aislados
 FECHA: 2026-09-17
 ESTADO: candidato
-FUNCIÓN: bloquear o aprobar la preparación de fuentes antes de cualquier módulo territorial.
-CAMBIOS: compara declaración resuelta, inventario y procedencia campo a campo y revalida población, cobertura y artefactos consumibles.
-MOTIVO: impedir que una evidencia parcial o incoherente habilite producción.
-ANTERIOR: legacy/herramientas/evaluar_preparacion_territorial_v1.0.0.py
+FUNCIÓN: bloquear o aprobar la preparación comprobando sólo los ficheros territoriales generados y la inmutabilidad de las copias nacionales.
+CAMBIOS: resuelve artefactos bajo evidence/materialized, verifica origen != destino y revalida la huella actual de cada snapshot nacional.
+MOTIVO: evitar que una evaluación válida dependa de haber sobrescrito las copias oficiales compartidas.
+ANTERIOR: legacy/herramientas/evaluar_preparacion_territorial_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -37,6 +37,19 @@ def load_yaml(path: Path) -> dict:
 def _resolve(root_dir: Path, configured: str) -> Path:
     path = Path(configured)
     return path if path.is_absolute() else root_dir / path
+
+
+def _materialized_path(evidence_dir: Path, configured: str) -> Path:
+    rel = Path(configured)
+    if rel.is_absolute():
+        raise ValueError(f"materialized_path debe ser relativo: {configured}")
+    root = (evidence_dir / "materialized").resolve()
+    path = (root / rel).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(f"materialized_path sale del área temporal: {configured}") from exc
+    return path
 
 
 def _sha256(path: Path) -> str:
@@ -164,8 +177,9 @@ def _validate_sections(path: Path, expected_provinces: set[str], expected_sectio
     return {"sections": len(gdf), "provinces": sorted(provinces)}
 
 
-def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | None, inventory: dict | None, provenance: dict | None, environment: str, root_dir: Path | None = None, acquisition_decision: dict | None = None) -> dict:
+def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | None, inventory: dict | None, provenance: dict | None, environment: str, root_dir: Path | None = None, evidence_dir: Path | None = None, acquisition_decision: dict | None = None) -> dict:
     root_dir = (root_dir or Path.cwd()).resolve()
+    evidence_dir = (evidence_dir or root_dir).resolve()
     territory = declaration.get("territory") or {}
     territory_id = str(territory.get("id") or "")
     territory_name = str(territory.get("business_name") or "Territorio sin nombre")
@@ -182,6 +196,8 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         "province_coverage_exact": True,
         "environment_policy_satisfied": True,
         "acquisition_ready": True,
+        "official_copies_immutable": True,
+        "origin_destination_separated": True,
     }
 
     catalog_sources = catalog.get("sources") or {}
@@ -224,6 +240,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
                 reasons.append(f"{name}: fuentes {sorted(idx)} != requeridas {sorted(expected_ids)}")
         if all(set(idx) == expected_ids for _, idx in docs):
             ref = docs[0][1]
+            provenance_idx = docs[2][1]
             for source_id in required:
                 ref_core = _core(ref[source_id])
                 for name, idx in docs[1:]:
@@ -236,23 +253,50 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
                     reasons.append(f"{source_id}: fuente no disponible")
                 path_value = ref_core.get("path")
                 if path_value:
-                    path = _resolve(root_dir, str(path_value))
-                    if not path.is_file():
+                    try:
+                        path = _materialized_path(evidence_dir, str(path_value))
+                    except Exception as exc:
                         checks["artifacts_exact"] = False
-                        reasons.append(f"{source_id}: no existe {path_value}")
+                        reasons.append(f"{source_id}: {exc}")
                     else:
-                        actual_hash = _sha256(path)
-                        actual_bytes = path.stat().st_size
-                        if actual_hash != ref_core.get("sha256") or actual_bytes != ref_core.get("bytes"):
+                        if not path.is_file():
                             checks["artifacts_exact"] = False
-                            reasons.append(f"{source_id}: huella o bytes reales no coinciden con la evidencia")
+                            reasons.append(f"{source_id}: no existe recorte territorial {path_value}")
+                        else:
+                            actual_hash = _sha256(path)
+                            actual_bytes = path.stat().st_size
+                            if actual_hash != ref_core.get("sha256") or actual_bytes != ref_core.get("bytes"):
+                                checks["artifacts_exact"] = False
+                                reasons.append(f"{source_id}: huella o bytes del recorte territorial no coinciden con la evidencia")
+
+                if mode == "verified_snapshot":
+                    prow = provenance_idx[source_id]
+                    snapshot_path = prow.get("snapshot_path")
+                    snapshot_hash = prow.get("snapshot_sha256")
+                    if not snapshot_path or not snapshot_hash:
+                        checks["official_copies_immutable"] = False
+                        reasons.append(f"{source_id}: falta huella de la copia oficial nacional")
+                    else:
+                        origin = _resolve(root_dir, str(snapshot_path)).resolve()
+                        try:
+                            destination = _materialized_path(evidence_dir, str(path_value))
+                        except Exception as exc:
+                            checks["origin_destination_separated"] = False
+                            reasons.append(f"{source_id}: {exc}")
+                        else:
+                            if origin == destination:
+                                checks["origin_destination_separated"] = False
+                                reasons.append(f"{source_id}: origen oficial y destino territorial son el mismo fichero")
+                        if not origin.is_file() or _sha256(origin) != snapshot_hash:
+                            checks["official_copies_immutable"] = False
+                            reasons.append(f"{source_id}: la copia oficial nacional cambió después de generar el recorte")
 
         bindings = declaration.get("source_bindings") or {}
         pop_ids = [sid for sid in required if (catalog_sources.get(sid) or {}).get("kind") == "static_csv"]
         section_ids = [sid for sid in required if (catalog_sources.get(sid) or {}).get("kind") == "ogc_features"]
         for source_id in pop_ids:
             try:
-                path = _resolve(root_dir, str((bindings.get(source_id) or {}).get("materialized_path") or ""))
+                path = _materialized_path(evidence_dir, str((bindings.get(source_id) or {}).get("materialized_path") or ""))
                 _validate_population(path, declaration, int(edition), provinces)
             except Exception as exc:
                 checks["population_valid"] = False
@@ -261,7 +305,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         expected_sections = int((declaration.get("coverage_checks") or {}).get("expected_sections", 0) or 0)
         for source_id in section_ids:
             try:
-                path = _resolve(root_dir, str((bindings.get(source_id) or {}).get("materialized_path") or ""))
+                path = _materialized_path(evidence_dir, str((bindings.get(source_id) or {}).get("materialized_path") or ""))
                 _validate_sections(path, provinces, expected_sections)
             except Exception as exc:
                 checks["province_coverage_exact"] = False
@@ -272,7 +316,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         reasons.append("La adquisición terminó bloqueada")
 
     decision = "READY" if all(checks.values()) and not reasons else "BLOCKED"
-    return {"schema": "ddd-territory-readiness/1.1", "territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode, "decision": decision, "checks": checks, "reasons": reasons}
+    return {"schema": "ddd-territory-readiness/1.2", "territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode, "decision": decision, "checks": checks, "reasons": reasons}
 
 
 def readable_report(decision: dict) -> str:
@@ -310,7 +354,7 @@ def main() -> None:
     args = parser.parse_args()
     catalog = load_yaml(args.catalog)
     declaration = load_yaml(args.territory)
-    evidence = args.evidence_dir
+    evidence = args.evidence_dir.resolve()
     decision = evaluate(
         catalog=catalog,
         declaration=declaration,
@@ -319,6 +363,7 @@ def main() -> None:
         provenance=_read_json(evidence / "manifiesto_procedencia.json"),
         environment=args.environment,
         root_dir=args.root_dir,
+        evidence_dir=evidence,
         acquisition_decision=_read_json(evidence / "decision_adquisicion.json"),
     )
     evidence.mkdir(parents=True, exist_ok=True)
