@@ -1,16 +1,17 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: catálogo de fuentes oficiales
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Catálogo declarativo INE
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Identificadores estables y contratos de contenido
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# FUNCIÓN: describir las fuentes oficiales reutilizables sin lógica territorial.
-# CAMBIOS: extrae endpoints, formatos y reglas de consulta fuera de cualquier territorio.
-# MOTIVO: desacoplar adquisición oficial de Aragón y habilitar evaluación territorial genérica.
-# ANTERIOR: fuentes/normativa/extremadura_sistema_electoral_2026.md
-schema: ddd-official-source-catalog/1.0
+# FUNCIÓN: declarar fuentes oficiales reutilizables sin lógica territorial.
+# CAMBIOS: fija id estable por fuente y conserva endpoints y formato oficial.
+# MOTIVO: permitir igualdad verificable entre declaración, inventario y procedencia.
+# ANTERIOR: legacy/fuentes/catalogo_oficial_v1.0.0.yaml
+schema: ddd-official-source-catalog/1.1
 sources:
   poblacion_por_sexo_y_edad:
+    id: poblacion_por_sexo_y_edad
     business_name: Población por sexo y edad
     provider: Instituto Nacional de Estadística
     provider_abbreviation: INE
@@ -18,9 +19,10 @@ sources:
     edition_policy: annual
     format: csv
     url: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
-    output_name: poblacion_por_sexo_y_edad.csv
+    output_name: 65034.csv
     provenance_required: true
   secciones_censales:
+    id: secciones_censales
     business_name: Secciones censales
     provider: Instituto Nacional de Estadística
     provider_abbreviation: INE
