@@ -1,0 +1,51 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Extremadura
+# VERSIÓN: 1.0.0
+# NOMBRE: Fuentes electorales oficiales 2025
+# FECHA: 2026-09-17
+schema: ddd-election-official-source-declaration/1.0
+territory_id: extremadura
+election_id: extremadura_asamblea_2025-12-21
+election_date: '2025-12-21'
+minimum_resolution: section
+max_download_bytes: 50000000
+allowed_official_hosts:
+  - juntaex.es
+  - elecciones2025.juntaex.es
+  - prensa.elecciones2025.juntaex.es
+  - doe.juntaex.es
+  - juntaelectoralcentral.es
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+sources:
+  - id: junta_resultados_publicos
+    publisher: Junta de Extremadura
+    url: https://resultados.elecciones2025.juntaex.es/es/inicio
+    access: public
+    declared_resolution: municipality
+    format: html
+    role: discovery
+  - id: junta_repositorio_prensa
+    publisher: Junta de Extremadura
+    url: https://prensa.elecciones2025.juntaex.es
+    access: credentials_required
+    declared_resolution: section
+    format: csv_repository
+    granularity_markers: [seccion, sección, mesa]
+    role: candidate_data_source
+  - id: doe_resultados_definitivos
+    publisher: Junta Electoral de Extremadura / Diario Oficial de Extremadura
+    url: https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
+    access: public
+    declared_resolution: constituency
+    format: html
+    role: definitive_reconciliation_reference
+  - id: jec_ficha_eleccion
+    publisher: Junta Electoral Central
+    url: https://www.juntaelectoralcentral.es/cs/Satellite?c=JECEleccion_C&childpagename=JEC%2FJEC_Layout&cid=1408442283375&pagename=jec%2Fwrapper%2FJEC_Wrapper&rendermode=preview
+    access: public
+    declared_resolution: constituency
+    format: html
+    role: discovery
