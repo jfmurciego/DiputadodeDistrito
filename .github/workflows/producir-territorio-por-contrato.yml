@@ -7,7 +7,7 @@
 # QUÉ HACE: admite/verifica contratos o ejecuta un intervalo M01–M08 mostrando cada módulo como job real, con auditoría geométrica y visor posteriores.
 # CAMBIOS: incorpora al production_status la decisión poblacional M05 y separa ejecución, población y geometría sin impedir la ejecución técnica de M06.
 # MOTIVO: impedir que una mejora poblacional parcial se interprete como certificable aunque la ejecución y la geometría sean válidas.
-# ANTERIOR: versión 2.2.0
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.1.0.yml
 name: Producción territorial modular M01–M08
 
 on:
