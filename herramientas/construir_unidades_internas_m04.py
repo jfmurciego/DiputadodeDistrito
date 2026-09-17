@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: construir_unidades_internas_m04.py
-VERSIÓN: 1.0.4
-NOMBRE: Macro-unidades internas con núcleo canónico M04
+VERSIÓN: 1.0.5
+NOMBRE: Macro-unidades internas con API real del núcleo M04
 FECHA: 2026-09-17
 FUNCIÓN: construir una identidad de partición distinta del municipio administrativo real. Los municipios
 pequeños permanecen atómicos; los sobredimensionados se dividen determinísticamente en macro-unidades
@@ -13,8 +13,8 @@ ENTRADAS: GeoJSON o GeoJSON.zip M01, grafo M03, K, campos de sección/municipio/
 SALIDAS: GeoJSON con `partition_unit_field` y JSON de auditoría.
 REGLAS: no modifica CUMUN; no cambia población ni geometría; cada macro-unidad es conexa en M03; la
 partición solo se abre para municipios por encima de `atomicity_ratio × target`.
-CAMBIOS: usa el núcleo `core` expuesto por el motor canónico para hybrid_partition/rebalance y conserva conectividad autocontenida.
-MOTIVO: consumir la interfaz real del motor canónico sin cargar snapshots por ruta ni asumir helpers exportados en la fachada.
+CAMBIOS: consume hybrid_partition y rebalance desde `m04_seed_engine.core.previous`, la API real v7.4.5 sobre la que compone el núcleo canónico v7.4.6.
+MOTIVO: evitar asumir símbolos no reexportados por las fachadas canónicas y mantener la misma implementación de partición ya usada por M04.
 ANTERIOR: legacy/herramientas/construir_unidades_internas_m04_v1.0.1.py
 """
 from __future__ import annotations
@@ -81,7 +81,7 @@ def main():
     if a.k <= 0 or a.atomicity_ratio <= 0 or not (0 < a.chunk_ratio <= 1.0):
         raise SystemExit("Parámetros inválidos")
 
-    core = m04_seed_engine.core
+    partition_engine = m04_seed_engine.core.previous
     g = load_geo(a.geojson)
     g[a.id_field] = g[a.id_field].astype(str)
     g[a.municipality_field] = g[a.municipality_field].astype(str)
@@ -129,8 +129,8 @@ def main():
         q = min(q, len(nodes))
         avg = mp / q
 
-        parts = core.hybrid_partition(nodes, q, adj, pop, label=f"unidad interna {mun}")
-        parts, pvals, pobj = core.rebalance(
+        parts = partition_engine.hybrid_partition(nodes, q, adj, pop, label=f"unidad interna {mun}")
+        parts, pvals, pobj = partition_engine.rebalance(
             parts,
             adj,
             pop,
@@ -200,7 +200,7 @@ def main():
         if x[a.partition_unit_field].nunique() > 1
     }
     result = {
-        "version": "1.0.4",
+        "version": "1.0.5",
         "K": a.k,
         "total_population": total,
         "target": target,
