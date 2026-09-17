@@ -27,6 +27,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.sources = yaml.safe_load((ROOT / "territorios/extremadura/config/fuentes_oficiales.yaml").read_text(encoding="utf-8"))
         self.readiness = yaml.safe_load((ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml").read_text(encoding="utf-8"))
         self.election_block = json.loads((ROOT / "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text(encoding="utf-8"))
+        self.election_sources = yaml.safe_load((ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8"))
 
     def test_extremadura_is_recognized_without_execution(self):
         rows = {row["territory_id"]: row for row in self.catalog["territories"]}
@@ -36,7 +37,9 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual(row["k_districts"], 65)
         self.assertEqual(row["k_source"], "norma")
         self.assertEqual(row["production_authorization"], "BLOCKED")
+        self.assertEqual(row["status"], "preparation_blocked")
         self.assertEqual(self.params["meta"]["production_authorization"], "BLOCKED")
+        self.assertEqual(self.params["meta"]["status"], "preparation_blocked")
         self.assertTrue(self.readiness["execution_forbidden_in_this_package"])
         self.assertFalse(self.readiness["decision"]["may_execute_territory"])
 
@@ -50,7 +53,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual((contract["population_floor_ratio"], contract["population_cap_ratio"], contract["target_tolerance_ratio"]), expected)
         self.assertEqual((validation["population_floor_ratio"], validation["population_cap_ratio"], validation["target_tolerance_ratio"]), expected)
 
-    def test_common_internal_units_step_is_configuration_driven(self):
+    def test_common_internal_units_step_is_configuration_driven_and_visible(self):
         preparer = load_common_preparer()
         command = preparer.build_command(self.params_path, "synthetic-run")
         self.assertIsNotNone(command)
@@ -64,7 +67,11 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         for forbidden in ("extremadura", "badajoz", "cáceres", "caceres"):
             self.assertNotIn(forbidden, common_code)
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
-        self.assertIn("preparar_unidades_internas.py", procedure)
+        self.assertNotIn("preparar_unidades_internas.py", procedure)
+        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("name: Preparar unidades internas", workflow)
+        self.assertIn("ddd-internal-units-${{ github.run_id }}", workflow)
+        self.assertIn("PREVIOUS_STAGE: M03U", workflow)
 
     def test_sources_and_m01_m03_are_prepared_by_configuration(self):
         self.assertEqual(self.sources["territory"]["id"], "extremadura")
@@ -74,23 +81,38 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertTrue(steps["territorial_base_and_population"]["ready"])
         self.assertTrue(steps["adjacency_and_graph"]["ready"])
         self.assertTrue(steps["internal_units_preparation"]["ready"])
+        self.assertEqual(steps["internal_units_preparation"]["execution"], "visible_github_actions_job")
         self.assertEqual(steps["territorial_base_and_population"]["facts"]["expected_sections"], 964)
         self.assertEqual(steps["territorial_base_and_population"]["facts"]["expected_population_2025"], 1053345)
 
-    def test_electoral_contract_remains_fail_closed_without_public_official_granular_file(self):
+    def test_electoral_source_is_automatic_and_fail_closed(self):
         block = self.election_block
-        self.assertEqual(block["status"], "BLOCKED_NO_PUBLIC_OFFICIAL_SECTION_FILE")
         self.assertEqual(block["decision"], "BLOCKED")
-        self.assertFalse(block["contract_created"])
-        self.assertFalse(block["party_dictionary_created"])
-        self.assertFalse(block["reconciliation_created"])
         self.assertFalse(block["rtve_allowed_as_substitute"])
         self.assertEqual(block["press_repository"]["access"], "credentials_required")
         self.assertFalse((ROOT / "territorios/extremadura/config/elecciones/extremadura_asamblea_2025.json").exists())
+        self.assertEqual(self.params["meta"]["electoral_sources_declaration"], "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml")
+        self.assertEqual(self.election_sources["minimum_resolution"], "section")
+        forbidden = " ".join(str(x).lower() for x in self.election_sources["forbidden_substitutes"])
+        self.assertIn("rtve", forbidden)
+        urls = " ".join(str(s["url"]).lower() for s in self.election_sources["sources"])
+        self.assertNotIn("rtve", urls)
         electoral = self.readiness["business_steps"]["electoral_results"]
         self.assertFalse(electoral["ready"])
-        self.assertEqual(electoral["remaining_blocker"]["type"], "OFFICIAL_DISAGGREGATED_FILE_NOT_PUBLICLY_LOCATED")
-        self.assertIn("RTVE", electoral["remaining_blocker"]["detail"])
+        self.assertTrue(electoral["automated_check"])
+        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("name: Fuente electoral oficial", workflow)
+        self.assertIn("comprobar_fuente_electoral_oficial.py", workflow)
+        self.assertIn("ddd-electoral-source-${{ github.run_id }}", workflow)
+
+    def test_active_titles_do_not_use_preindustrialization(self):
+        for path in (
+            ROOT / "territorios/extremadura/config/extremadura_2025.yaml",
+            ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml",
+            ROOT / "configuracion/catalogo_territorios_espana_2025.yaml",
+        ):
+            text = path.read_text(encoding="utf-8").lower()
+            self.assertNotIn("preindustrial", text, str(path))
 
     def test_remaining_blocks_are_explicit(self):
         steps = self.readiness["business_steps"]
