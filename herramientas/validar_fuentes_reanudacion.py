@@ -15,7 +15,12 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.politica_reutilizacion_fuentes import resolve_source_action
+try:
+    from herramientas.politica_reutilizacion_fuentes import resolve_source_action
+except ModuleNotFoundError:
+    # Permite ejecutar este fichero directamente desde herramientas/ en fixtures
+    # y lanzadores locales sin relajar la política ni añadir rutas de adquisición.
+    from politica_reutilizacion_fuentes import resolve_source_action
 
 
 def _read_yaml(path: Path) -> dict:
