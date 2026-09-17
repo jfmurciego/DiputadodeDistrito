@@ -84,10 +84,12 @@ class WorkflowSafety(unittest.TestCase):
 
     def test_produccion_aplica_politica_geometrica_y_preserva_excepciones(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        state_builder=(ROOT/"herramientas/estado_produccion.py").read_text(encoding="utf-8")
         self.assertIn('continuidad_geometrica_{year}.json', production)
         self.assertIn('policy_args=(--policy "/app/$policy")', production)
         self.assertIn('GEOMETRIC_DECISION: ${{ steps.geometric.outputs.decision }}', production)
-        self.assertIn('"PASS_WITH_EXCEPTIONS"', production)
+        self.assertIn('"PASS_WITH_EXCEPTIONS"', state_builder)
+        self.assertIn("geometric_exceptions_causally_governed", state_builder)
 
     def test_workflows_sustituidos_estan_archivados(self):
         archived=ROOT/"legacy/workflows/cleanup_2026-09-14"
@@ -101,7 +103,7 @@ class WorkflowSafety(unittest.TestCase):
 
         if archived.is_dir():
             for historical in expected.values():
-                self.assertTrue((archived/historical).is_file())
+                self.assertTrue((archived/historical).is_file(),historical)
         else:
             self.assertEqual(
                 os.environ.get("DDD_SKIP_LEGACY_CHECK"),
