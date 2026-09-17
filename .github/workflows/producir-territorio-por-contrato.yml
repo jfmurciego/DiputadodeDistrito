@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.5.0
-# NOMBRE DE VERSIÓN: Preparación visible M03→M04 y puerta electoral oficial
+# VERSIÓN: 2.6.0
+# NOMBRE DE VERSIÓN: Transporte contractual de fuente electoral oficial
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; expone fuentes oficiales, preparación de unidades internas y comprobación electoral como trabajos visibles.
-# CAMBIOS: añade trabajos Preparar unidades internas y Fuente electoral oficial con artefactos y puertas propias; M04 consume M03U y M07 exige la puerta electoral.
-# MOTIVO: eliminar preprocesado oculto y hacer fail-closed la procedencia electoral oficial antes de M07.
+# CAMBIOS: M07 recupera el artefacto electoral aprobado, verifica de nuevo su checksum y lo instala en la ruta declarada por el contrato antes de consumirlo.
+# MOTIVO: hacer efectiva la cadena fuente oficial → artefacto → incorporación electoral sin rutas territoriales embebidas.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
 
@@ -298,6 +298,23 @@ jobs:
           missing=[p for p in paths if p and not Path(p).is_file()]
           if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
           PY
+      - name: Recuperar fuente electoral oficial aprobada
+        if: ${{ env.STAGE == 'M07' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-electoral-source-${{ github.run_id }}
+          path: .ddd-electoral-source
+      - name: Instalar y verificar fuente electoral en ruta contractual
+        if: ${{ env.STAGE == 'M07' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/instalar_fuente_electoral_oficial.py \
+            --params "/app/$PARAMS" \
+            --artifact-dir /app/.ddd-electoral-source \
+            --root-dir /app \
+            --report /app/.ddd-electoral-source/instalacion_m07.json
       - name: Ejecutar módulo
         shell: bash
         run: >-
