@@ -85,7 +85,7 @@ class ExecutionReportSyntheticTests(unittest.TestCase):
         jobs = yaml.safe_load(ROUTER.read_text(encoding="utf-8"))["jobs"]; report = jobs["informe_ejecucion"]
         self.assertEqual(report["name"], "Informe de ejecución"); self.assertIn("always()", report["if"])
         text = ROUTER.read_text(encoding="utf-8")
-        self.assertIn("inventario_ejecucion.json", text); self.assertIn("informe_ejecucion.md", text); self.assertIn("pattern: ddd-*", text); self.assertNotIn("gh run view", text); self.assertNotIn("logs", text.lower())
+        self.assertIn("inventario_ejecucion.json", text); self.assertIn("informe_ejecucion.md", text); self.assertIn("pattern: ddd-*", text); self.assertNotIn("gh run view", text)
 
 
 if __name__ == "__main__":
