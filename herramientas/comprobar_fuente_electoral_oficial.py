@@ -3,10 +3,11 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: comprobación automática de fuente electoral oficial
-VERSIÓN: 1.0.0
+VERSIÓN: 1.1.0
 FECHA: 2026-09-17
 FUNCIÓN: consultar únicamente fuentes oficiales declaradas y producir READY con copia/checksum o BLOCK por acceso, ausencia o granularidad insuficiente.
 REGLAS: no admite sustitutos no oficiales; RTVE queda excluida mediante política declarativa y validación de host/editor.
+CAMBIOS: la copia congelada publica una ruta estable dentro del artefacto y un fichero .sha256 que viaja con la decisión.
 """
 from __future__ import annotations
 
@@ -15,7 +16,6 @@ import hashlib
 import json
 import mimetypes
 import re
-import sys
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -201,9 +201,13 @@ def check_declaration(
         target = downloads / name
         target.write_bytes(data)
         sha = hashlib.sha256(data).hexdigest()
+        checksum = downloads / f"{name}.sha256"
+        checksum.write_text(f"{sha}  {name}\n", encoding="utf-8")
         item.update(
             status="READY",
             downloaded_path=target.as_posix(),
+            artifact_path=(Path("downloads") / name).as_posix(),
+            checksum_path=(Path("downloads") / f"{name}.sha256").as_posix(),
             sha256=sha,
             bytes=len(data),
         )
@@ -212,7 +216,7 @@ def check_declaration(
         break
 
     decision = {
-        "schema": "ddd-election-source-decision/1.0",
+        "schema": "ddd-election-source-decision/1.1",
         "territory_id": declaration["territory_id"],
         "election_id": declaration["election_id"],
         "minimum_resolution": required,
