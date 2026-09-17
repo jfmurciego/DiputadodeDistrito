@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 import yaml
@@ -53,6 +54,36 @@ def partial_population() -> dict:
     }
 
 
+def workflow_jobs() -> dict:
+    return yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))["jobs"]
+
+
+def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
+    """Evalúa el subconjunto de sintaxis GitHub usado por auditoria/M07 contra un contexto sintético."""
+    body = expression.strip()
+    if body.startswith("${{") and body.endswith("}}"):
+        body = body[3:-2].strip()
+    replacements = {
+        "always()": "True",
+        "fromJSON(needs.resolve.outputs.from_num)": str(int(context["from_num"])),
+        "fromJSON(needs.resolve.outputs.to_num)": str(int(context["to_num"])),
+        "needs.resolve.result": repr(context["resolve_result"]),
+        "needs.resolve.outputs.mode": repr(context["mode"]),
+        "needs.m06.result": repr(context["m06_result"]),
+        "needs.auditoria.result": repr(context["auditoria_result"]),
+    }
+    for token, value in replacements.items():
+        body = body.replace(token, value)
+    body = body.replace("&&", " and ").replace("||", " or ")
+    return bool(eval(body, {"__builtins__": {}}, {}))
+
+
+def archive_members(audit_dir: Path, tmp: Path) -> set[str]:
+    archive = shutil.make_archive(str(tmp / "ddd-audit-synthetic"), "zip", root_dir=audit_dir)
+    with zipfile.ZipFile(archive) as payload:
+        return set(payload.namelist())
+
+
 class DurableProductionStatusTests(unittest.TestCase):
     def _fixture(self, tmp: Path) -> tuple[Path, Path, Path, Path]:
         run_name = "synthetic_checkpoint"
@@ -91,7 +122,7 @@ class DurableProductionStatusTests(unittest.TestCase):
             "--output", str(audit_dir / "production_status.json"),
         ], cwd=ROOT, env=env, text=True, capture_output=True, check=False)
 
-    def test_checkpoint_partial_population_records_block_and_preserves_evidence(self):
+    def test_checkpoint_partial_population_records_block_publishes_evidence_and_allows_m07(self):
         with tempfile.TemporaryDirectory() as raw:
             tmp = Path(raw)
             params, report, geometry, audit_dir = self._fixture(tmp)
@@ -109,20 +140,42 @@ class DurableProductionStatusTests(unittest.TestCase):
             self.assertEqual(status["decision"], "BLOCK")
             self.assertEqual(status["block_cause"], "POPULATION_TARGET_NOT_MET")
             self.assertEqual(causes["block_cause"], "POPULATION_TARGET_NOT_MET")
-            self.assertTrue((audit_dir / "production_status.json").is_file())
-            self.assertTrue((audit_dir / "block_causes.json").is_file())
-            self.assertTrue((audit_dir / geometry.name).is_file())
 
-            workflow = WORKFLOW.read_text(encoding="utf-8")
-            registration = workflow.split("      - name: Registrar estado verificable de producción", 1)[1].split("      - name: Aplicar puerta geométrica", 1)[0]
-            self.assertIn('cp "$audit" .ddd-audit/', registration)
-            self.assertIn("path: .ddd-audit", registration)
-            m07 = workflow.split("  m07:\n", 1)[1].split("\n  m08:\n", 1)[0]
-            self.assertIn("needs.auditoria.result == 'success'", m07)
-            self.assertNotIn("population_decision", m07)
-            self.assertNotIn("production_status", m07)
+            members = archive_members(audit_dir, tmp)
+            self.assertIn("production_status.json", members)
+            self.assertIn("block_causes.json", members)
+            self.assertIn(geometry.name, members)
+
+            jobs = workflow_jobs()
+            upload_steps = [
+                step for step in jobs["auditoria"]["steps"]
+                if step.get("uses") == "actions/upload-artifact@v6"
+            ]
+            self.assertEqual(len(upload_steps), 1)
+            self.assertEqual(upload_steps[0]["with"]["path"], ".ddd-audit")
+            self.assertEqual(upload_steps[0]["with"]["if-no-files-found"], "error")
+
+            checkpoint_context = {
+                "resolve_result": "success",
+                "mode": "execute",
+                "from_num": "7",
+                "to_num": "8",
+                "m06_result": "skipped",
+                "auditoria_result": "success",
+            }
+            self.assertTrue(evaluate_job_if(jobs["auditoria"]["if"], checkpoint_context))
+            self.assertTrue(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
+            self.assertNotIn("population_decision", jobs["m07"]["if"])
+            self.assertNotIn("production_status", jobs["m07"]["if"])
+
+            state_step = next(step for step in jobs["auditoria"]["steps"] if step.get("name") == "Resolver checkpoint M06")
+            self.assertIn('else state_run_id="$CHECKPOINT_RUN_ID"', state_step["run"])
 
     def test_missing_or_damaged_population_is_closed_block_not_unknown(self):
+        expected_causes = {
+            "missing": "M05_POPULATION_EVIDENCE_MISSING",
+            "damaged": "M05_POPULATION_EVIDENCE_INVALID",
+        }
         for mode in ("missing", "damaged"):
             with self.subTest(mode=mode), tempfile.TemporaryDirectory() as raw:
                 tmp = Path(raw)
@@ -136,17 +189,20 @@ class DurableProductionStatusTests(unittest.TestCase):
                 causes = json.loads((audit_dir / "block_causes.json").read_text(encoding="utf-8"))
                 shutil.copy2(geometry, audit_dir / geometry.name)
 
-                expected = "MISSING" if mode == "missing" else "INVALID_JSON"
+                expected_status = "MISSING" if mode == "missing" else "INVALID_JSON"
                 self.assertEqual(status["decision"], "BLOCK")
                 self.assertEqual(status["population_outcome"], "failure")
                 self.assertEqual(status["population_decision"], "HARD_BLOCK")
-                self.assertEqual(status["population_evidence_status"], expected)
-                self.assertEqual(status["block_cause"], "M05_POPULATION_EVIDENCE_MISSING")
+                self.assertEqual(status["population_evidence_status"], expected_status)
+                self.assertEqual(status["block_cause"], expected_causes[mode])
                 self.assertTrue(status["population_evidence_error"])
-                self.assertEqual(causes["population_evidence_status"], expected)
-                self.assertTrue((audit_dir / "production_status.json").is_file())
-                self.assertTrue((audit_dir / "block_causes.json").is_file())
-                self.assertTrue((audit_dir / geometry.name).is_file())
+                self.assertEqual(causes["population_evidence_status"], expected_status)
+                self.assertEqual(causes["block_cause"], expected_causes[mode])
+
+                members = archive_members(audit_dir, tmp)
+                self.assertIn("production_status.json", members)
+                self.assertIn("block_causes.json", members)
+                self.assertIn(geometry.name, members)
                 self.assertNotIn("UNKNOWN", json.dumps(status, sort_keys=True))
 
 
