@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Inventario declarativo de preparación de proceso completo
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Preparación común M04 y bloqueo electoral factual
 # FECHA: 2026-09-17
 # ESTADO: preindustrialización factual; sin ejecución territorial
 # FUNCIÓN: declarar qué partes del proceso completo están preparadas y qué bloqueos siguen abiertos sin excepciones territoriales.
-# CAMBIOS: primera versión; reutiliza la evidencia F1.4 y la puerta de fuentes oficiales ya integrada en main.
-# MOTIVO: separar preparación declarativa de ejecución y hacer visibles las capacidades comunes aún faltantes.
-# ANTERIOR: ninguno — contrato nuevo.
-schema: ddd-territory-full-process-readiness/1.0
+# CAMBIOS: resuelve la capacidad común de unidades internas, adopta perfil poblacional estándar y documenta la ausencia de un fichero oficial público desagregado para 2025.
+# MOTIVO: separar capacidad preparada de certificación territorial y mantener fail-closed M07 sin fuentes sustitutas.
+# ANTERIOR: legacy/territorios/extremadura/preparacion_proceso_completo_v1.0.0.yaml
+schema: ddd-territory-full-process-readiness/1.1
 territory_id: extremadura
 edition: 2025
 production_authorization: BLOCKED
@@ -17,98 +17,73 @@ execution_forbidden_in_this_package: true
 business_steps:
   official_sources:
     ready: true
-    evidence:
-      - territorios/extremadura/config/fuentes_oficiales.yaml
-      - fuentes/catalogo_oficial.yaml
+    evidence: [territorios/extremadura/config/fuentes_oficiales.yaml, fuentes/catalogo_oficial.yaml]
     remaining_blocker: null
-
   territorial_base_and_population:
     ready: true
-    evidence:
-      - territorios/extremadura/config/extremadura_2025.yaml
-      - territorios/extremadura/CONTINUIDAD.md
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, territorios/extremadura/CONTINUIDAD.md]
     facts:
       expected_sections: 964
       expected_population_2025: 1053345
       province_codes: ['06', '10']
+      limits_profile: standard-1.0.0
+      population_floor_ratio: 0.80
+      population_cap_ratio: 1.75
+      target_tolerance_ratio: 0.12
     remaining_blocker: null
-
   adjacency_and_graph:
     ready: true
-    evidence:
-      - territorios/extremadura/config/extremadura_2025.yaml
-      - territorios/extremadura/CONTINUIDAD.md
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, territorios/extremadura/CONTINUIDAD.md]
     topology_policy:
       topology_mode: land
       min_shared_border_m: 1.0
       declared_bridges:
-        - u: '0604405005'
-          v: '0604405003'
-          admin_scope: municipality:06044
-          edge_type: same_municipality_exclave
-          reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).'
-          source: 'EXT-02 auditoría geométrica reproducible'
-        - u: '0604405006'
-          v: '0604405004'
-          admin_scope: municipality:06044
-          edge_type: same_municipality_exclave
-          reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).'
-          source: 'EXT-02 auditoría geométrica reproducible'
+        - {u: '0604405005', v: '0604405003', admin_scope: 'municipality:06044', edge_type: same_municipality_exclave, reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).', source: 'EXT-02 auditoría geométrica reproducible'}
+        - {u: '0604405006', v: '0604405004', admin_scope: 'municipality:06044', edge_type: same_municipality_exclave, reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).', source: 'EXT-02 auditoría geométrica reproducible'}
     remaining_blocker: null
-
+  internal_units_preparation:
+    ready: true
+    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, procedimiento.sh, territorios/extremadura/config/extremadura_2025.yaml]
+    capability: declarative_internal_partition_preprocessor
+    strategy: connected_internal_units
+    execution: common_pre_m04_step
+    remaining_blocker: null
   district_creation_and_balance:
     ready: false
-    evidence:
-      - territorios/extremadura/config/extremadura_2025.yaml
-      - territorios/extremadura/CONTINUIDAD.md
-      - herramientas/construir_unidades_internas_m04.py
-    historical_facts:
+    configuration_ready: true
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, herramientas/preparar_unidades_internas.py, territorios/extremadura/CONTINUIDAD.md]
+    facts:
       k_districts: 65
+      k_source: norma
+      legal_reference: 'Ley 2/1987, de 16 de marzo, artículo 18.1'
       province_apportionment: {'06': 41, '10': 24}
-      last_reproducible_run: 34703213474
-      hard_violations: 0
-      contiguous_districts: 65
-      districts_outside_target_tolerance: 2
-      max_relative_deviation: 0.133000109
+      limits_profile: standard-1.0.0
     remaining_blocker:
-      type: COMMON_CAPABILITY_REQUIRED
-      capability: declarative_internal_partition_preprocessor
-      detail: 'El flujo productivo común no materializa desde configuración la estrategia connected_internal_units antes de M04. El histórico c020 depende de construir_unidades_internas_m04.py y de artefactos intermedios específicos; no se incorpora una excepción territorial.'
-
+      type: EXECUTION_AND_CERTIFICATION_REQUIRED
+      detail: 'La configuración y el preprocesador común están preparados, pero este paquete prohíbe ejecutar el territorio. M04-M06 deben verificarse posteriormente con el perfil estándar antes de cualquier promoción.'
   geographic_control:
     ready: false
-    evidence:
-      - territorios/extremadura/CONTINUIDAD.md
-      - configuracion/politica_topologia_territorial_2025.yaml
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, configuracion/politica_topologia_territorial_2025.yaml]
     remaining_blocker:
       type: UPSTREAM_BLOCK
       depends_on: district_creation_and_balance
-      detail: 'La política de vecindad puede declararse, pero no existe una solución M04-M06 promovible sobre la que certificar el control geográfico completo.'
-
+      detail: 'La política geométrica está declarada, pero no existe todavía una solución M04-M06 ejecutada con el nuevo perfil común sobre la que certificar la geometría distrital.'
   electoral_results:
     ready: false
-    evidence:
-      - modulos/07_agregar_resultados_electorales.py
-      - ddd_core/electoral_contract.py
+    evidence: [territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json, modulos/07_agregar_resultados_electorales.py, ddd_core/electoral_contract.py]
     remaining_blocker:
-      type: DATA_AND_CONTRACT_REQUIRED
-      detail: 'No existe en el inventario actual un contrato electoral de Extremadura con fuente, huella, diccionario de partidos y reconciliación equivalente al contrato de Aragón. No se inventa ni se reutiliza un contrato de otro territorio.'
-
+      type: OFFICIAL_DISAGGREGATED_FILE_NOT_PUBLICLY_LOCATED
+      detail: 'La Junta publicó resultados provisionales descargables en CSV para medios mediante un repositorio con credenciales y el portal público de resultados ofrece municipio/autonomía; el DOE publica los resultados definitivos por circunscripción. No se ha localizado una descarga oficial pública a nivel de sección o mesa apta para el contrato M07. RTVE queda expresamente excluida como sustituto.'
   maps_generation_and_publication:
     ready: false
-    evidence:
-      - modulos/08_integrar_resultados.py
-      - .github/workflows/producir-territorio-por-contrato.yml
+    evidence: [modulos/08_integrar_resultados.py, .github/workflows/producir-territorio-por-contrato.yml]
     common_capability_available: true
     remaining_blocker:
       type: UPSTREAM_BLOCK
-      depends_on:
-        - district_creation_and_balance
-        - geographic_control
-        - electoral_results
-      detail: 'La capacidad común de integración y visor existe, pero no puede producir ni publicar un resultado de Extremadura mientras los pasos anteriores sigan bloqueados.'
+      depends_on: [district_creation_and_balance, geographic_control, electoral_results]
+      detail: 'La capacidad común de integración y visor existe, pero no puede producir ni publicar un resultado mientras los pasos anteriores sigan bloqueados.'
 
 decision:
   readiness: BLOCKED
   may_execute_territory: false
-  rationale: 'Fuentes, M01-M03 y política de vecindad están preparadas declarativamente. El proceso completo permanece bloqueado por una capacidad común de preprocesado M04 y por la ausencia de contrato electoral territorial; no se autoriza ninguna excepción.'
+  rationale: 'Fuentes, M01-M03, topología y preprocesado común previo a M04 están preparados por configuración. El paquete no ejecuta Extremadura; la certificación M04-M06 queda pendiente y M07 permanece bloqueado por ausencia de un fichero oficial público suficientemente desagregado.'

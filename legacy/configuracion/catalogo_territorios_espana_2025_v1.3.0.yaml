@@ -1,18 +1,18 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.4.0
-# NOMBRE DE VERSIÓN: Procedencia normativa de K en Extremadura
-# FECHA: 2026-09-17
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: Admisión y autorización territorial explícitas
+# FECHA: 2026-09-15
 # ESTADO: vigente — R036/R040 preflight
 # QUÉ HACE: conserva los niveles contractuales y declara separadamente si cada contrato puede ejecutar producción.
-# CAMBIOS: corrige la procedencia de K=65 en Extremadura conforme a la Ley 2/1987 y mantiene su autorización productiva bloqueada.
-# MOTIVO: separar la procedencia normativa del tamaño institucional de cualquier evidencia experimental previa.
-# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.3.0.yaml
+# CAMBIOS: autoriza Aragón tras PASS_WITH_EXCEPTIONS, mantiene Castilla y León, limita La Rioja a preflight y separa Extremadura como experimento bloqueado.
+# MOTIVO: no deducir autorización a partir de textos de estado ni del mero contract_level.
+# ANTERIOR: legacy/configuracion/catalogo_territorios_espana_2025_v1.2.0.yaml
 territories:
   - {territory_id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41'], batch: validated_or_active, status: m03_validated, contract_level: bootstrap_m01_m03}
   - {territory_id: aragon, name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: m08_validated_with_governed_geometric_exceptions, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 67, k_source: historico_no_registrado, k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."}
   - {territory_id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49'], batch: validated_or_active, status: m06_validated, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 82, k_source: norma, k_rationale: "K=82 conserva el tamaño de la XII Legislatura de las Cortes de Castilla y León; Hamilton sustituye el reparto provincial vigente."}
   - {territory_id: cataluna, name: Cataluña, province_codes: ['08','17','25','43'], batch: active, status: cat02, contract_level: bootstrap_m01_m03}
-  - {territory_id: extremadura, name: Extremadura, province_codes: ['06','10'], batch: active, status: preindustrialized_blocked, contract_level: experimental_m01_m06, production_authorization: BLOCKED, k_districts: 65, k_source: norma, k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2/1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."}
+  - {territory_id: extremadura, name: Extremadura, province_codes: ['06','10'], batch: active, status: m04_m05_experimental, contract_level: experimental_m01_m06, production_authorization: BLOCKED, k_districts: 65, k_source: historico_no_registrado, k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."}
   - {territory_id: madrid, name: Comunidad de Madrid, province_codes: ['28'], batch: madrid, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}
   - {territory_id: galicia, name: Galicia, province_codes: ['15','27','32','36'], batch: continental, status: bootstrap, contract_level: bootstrap_m01_m03}

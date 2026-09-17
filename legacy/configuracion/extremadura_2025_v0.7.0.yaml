@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.8.0
-# NOMBRE DE VERSIÓN: Preprocesado común y perfil poblacional estándar
+# VERSIÓN: 0.7.0
+# NOMBRE DE VERSIÓN: Preindustrialización declarativa del proceso completo
 # FECHA: 2026-09-17
-# ESTADO: preindustrializado bloqueado — preparado por configuración; sin ejecución territorial
-# QUÉ HACE: conecta la preparación común de unidades internas, elimina rutas históricas específicas y adopta el perfil poblacional común sin autorizar producción.
-# CAMBIOS: K=65 pasa a procedencia normativa; límites 0.80/1.75/0.12; partitioning declarativo; rutas M04-M06 comunes y sin nombres de experimentos.
-# MOTIVO: convertir la preparación M04 en capacidad común y eliminar dependencias de artefactos históricos específicos.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.7.0.yaml
+# ESTADO: experimental bloqueado — M01-M03 preparados; M04-M08 pendientes de capacidades/datos comunes
+# QUÉ HACE: conserva íntegramente el contrato experimental reproducible y añade política topológica declarativa y bloqueos explícitos para completar el proceso sin ejecutar el territorio.
+# CAMBIOS: declara topology_mode=land; tipifica y acota las dos pasarelas de Don Benito; referencia el inventario de preparación completa sin alterar K, límites, población, asignaciones ni algoritmos.
+# MOTIVO: industrializar Extremadura por configuración y separar con claridad preparación territorial de capacidades comunes aún faltantes.
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.6.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,7 +16,7 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.8.0
+  schema_version: 0.7.0
   schema_family: ddd-territory
   contract_level: experimental_m01_m06
   contract_schema_version: 1.0.0
@@ -52,42 +52,39 @@ territory_contract:
   province_codes: ['06','10']
   topology_mode: land
   k_districts: 65
-  k_source: norma
-  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2/1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
+  k_source: historico_no_registrado
+  k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."
   district_apportionment: hamilton
-  population_floor_ratio: 0.80
-  population_cap_ratio: 1.75
-  target_tolerance_ratio: 0.12
-  limits_profile: standard-1.0.0
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.50
+  target_tolerance_ratio: 0.10
+  limits_profile: exception
+  limits_exception_rationale: "Excepción histórica adoptada antes de R036 y conservada exclusivamente para reproducir la evidencia bloqueada; no es precedente para nuevos territorios."
+  limits_exception_evidence: "run 34703213474; estado experimental_blocked; la excepción no corrige los dos outliers ni autoriza promoción."
+  limits_exception_decided_at: "pre-R036; formalizada 2026-09-13"
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
-  oversized_municipality_rule: connected_internal_units
+  oversized_municipality_rule: internal_connected_chunks_c020
   municipality_atomicity_limit_ratio: 1.10
   internal_partition_chunk_ratio: 0.20
   require_auditable_district_catalogue: true
-  promotion_status: preindustrialized_blocked
+  promotion_status: experimental_blocked
   notes:
-    - K=65 procede de la Ley 2/1987, artículo 18; no del experimento histórico previo.
-    - El reparto DDD entre provincias permanece declarado como Hamilton 41/24, separado del reparto electoral autonómico vigente.
-    - El perfil poblacional activo es el común standard-1.0.0: suelo 0.80, techo 1.75 y tolerancia objetivo ±0.12.
-    - La atomicidad 1.10 y chunk 0.20 son parámetros declarativos del preprocesador común connected_internal_units.
-    - La producción sigue bloqueada: este paquete prepara configuración y capacidades sin ejecutar ni certificar una solución territorial.
+    - K=65 y el reparto Hamilton 41 Badajoz / 24 Cáceres son el contrato territorial evaluado.
+    - Los ratios 0.85/1.50/0.10 son los del candidato tight que hizo factible M04; son más estrictos que Aragón y Castilla y León y no se heredan de ellos.
+    - La atomicidad 1.10 identifica municipios que requieren partición interna; c020 forma unidades conexas con objetivo aproximado de 0.20×target.
+    - EXT-19 fue diagnóstico dirigido, no un operador general ni una solución aplicada; queda fuera del contrato canónico.
+    - La promoción exige M01-M06 con K, cuotas, contigüidad, hard y tolerancia completa. Si falla, la salida se conserva como bloqueo reproducible.
+    - La preindustrialización 0.7.0 no autoriza ejecución: cualquier capacidad ausente se conserva como bloqueo común, nunca como excepción territorial.
 
 partitioning:
-  enabled: true
   strategy: connected_internal_units
-  input_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-  graph: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-  output_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson"
-  output_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas_informe.json"
-  id_field: CUSEC_KEY
-  municipality_field: CUMUN
-  population_field: "POP_{year}"
   partition_unit_field: M04_PARTITION_UNIT
   atomicity_ratio: 1.10
   chunk_ratio: 0.20
-  source: common_preprocessor_v1
+  source: c020
+  production_materialization: COMMON_CAPABILITY_REQUIRED
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -129,7 +126,7 @@ modulos:
     out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
   modulo_04_generar_semillas:
     in_graph_json: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson"
+    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m04_input.geojson"
     id_field: CUSEC_KEY
     pop_field: "POP_{year}"
     province_field: CPRO
@@ -139,11 +136,11 @@ modulos:
     k_districts: 65
     municipality_atomicity_limit_ratio: 1.10
     seed: 12345
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json"
+    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m04.geojson.zip"
+    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m04_report.json"
   modulo_05_optimizar_distritos:
     in_graph_json: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m04_polished.geojson.zip"
     id_field: CUSEC_KEY
     pop_field: "POP_{year}"
     district_field: district_id
@@ -153,10 +150,10 @@ modulos:
     anneal_iters: 30000
     swap_polish_max: 200
     seed: 12345
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
+    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m05.geojson.zip"
+    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m05_report.json"
   modulo_06_consolidar_distritos:
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m05.geojson.zip"
     id_field: CUSEC_KEY
     district_field: district_id
     pop_field: "POP_{year}"
@@ -168,11 +165,11 @@ modulos:
     metric_crs: EPSG:3035
     expected_districts: 65
     strict_expected_k: true
-    out_summary_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv"
-    out_catalog_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv"
-    out_composition_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv"
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
-    out_district_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
+    out_summary_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m06_resumen_distritos.csv"
+    out_catalog_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m06_catalogo_distritos.csv"
+    out_composition_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m06_composicion_distritos.csv"
+    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m06_secciones.geojson.zip"
+    out_district_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/c020/m06_distritos.geojson.zip"
 
 validation:
   expected_province_codes: ['06','10']
@@ -180,9 +177,9 @@ validation:
   expected_population_total_2025: 1053345
   expected_topology_bridges: 2
   expected_districts: 65
-  population_floor_ratio: 0.80
-  population_cap_ratio: 1.75
-  target_tolerance_ratio: 0.12
+  population_floor_ratio: 0.85
+  population_cap_ratio: 1.50
+  target_tolerance_ratio: 0.10
   province_apportionment: hamilton
   province_districts: {'06': 41, '10': 24}
   require_unique_section_id: true

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.6.0
-# NOMBRE DE VERSIÓN: Preprocesado declarativo común previo a M04
-# FECHA: 2026-09-17
-# ESTADO: candidato
-# CAMBIOS: ejecuta el preparador común de unidades internas antes de M04 cuando partitioning lo declara; mantiene no-op para contratos sin esa política.
-# MOTIVO: eliminar dependencias territoriales específicas y materializar connected_internal_units desde configuración común.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.5.0.sh
+# VERSIÓN: 2.5.0
+# NOMBRE DE VERSIÓN: Ejecución modular encadenable M01–M08
+# FECHA: 2026-09-15
+# ESTADO: vigente
+# CAMBIOS: permite encadenar un módulo por job mediante DDD_CHAIN_STATE sin relajar las reglas de reenganche históricas; conserva FROM_STAGE/TO_STAGE y todas las reglas funcionales existentes.
+# MOTIVO: exponer M01–M08 como jobs visibles de GitHub Actions sin duplicar motores ni recalcular módulos anteriores.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.4.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"
@@ -113,10 +113,6 @@ if (( FROM <= 3 )); then
   else
     for n in $(seq "$FROM" "$(( TO < 3 ? TO : 3 ))"); do ejecutar "$n" "${SCRIPTS[$n]}"; done
   fi
-fi
-if (( FROM <= 4 && TO >= 4 )); then
-  echo "===== PRE-M04: unidades internas declarativas ====="
-  python herramientas/preparar_unidades_internas.py --params "$PARAMS" --run-id "$RUN_ID" 2>&1 | tee "$LOG_DIR/preparar_unidades_internas.log"
 fi
 if (( TO >= 4 )); then
   for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do
