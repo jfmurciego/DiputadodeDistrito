@@ -7,7 +7,7 @@
 # QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; conserva las fuentes preparadas dentro de cada checkpoint y las reutiliza sin red cuando siguen siendo válidas.
 # CAMBIOS: Fuentes oficiales usa la política REUSE/ACQUIRE/BLOCK; los checkpoints M01–M08 y M03U transportan el paquete congelado de fuentes.
 # MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
-# ANTERIOR: versión 2.6.1 en historial Git.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
 
 on:
