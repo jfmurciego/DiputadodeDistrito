@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Construye el estado de producción separando ejecución, población y geometría."""
+"""Construye un estado durable de producción separando ejecución, población y geometría."""
 from __future__ import annotations
 
 import argparse
 import json
 import math
 from pathlib import Path
+from typing import Any
 
 from ddd_core.config import load_params_yaml
 
@@ -20,13 +21,18 @@ SWAP_POLISH = "SWAP_POLISH"
 BASE_M05 = "BASE_M05"
 
 
-def _m05_report_path(params: Path) -> Path:
+def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
     cfg = load_params_yaml(str(params))
     s5 = (cfg.get("modulos", {}) or {}).get("modulo_05_optimizar_distritos") or cfg.get("step5_optimize_swaps") or {}
     value = s5.get("out_report")
     if not value:
         raise ValueError("M05 no declara out_report")
-    return Path(str(value))
+    meta = cfg.get("meta") or {}
+    return Path(str(value).format(
+        year=meta.get("year"),
+        run_name=meta.get("run_name"),
+        run_id=run_id or "",
+    ))
 
 
 def _objective_pair(container: dict, *, before_key: str, after_key: str, indexes: tuple[int, int, int]):
@@ -66,13 +72,28 @@ def _repair_result(repair) -> str:
     return str(repair.get("result") or "UNKNOWN")
 
 
-def population_dimension(m05_report: dict) -> dict:
-    """Normaliza evidencia poblacional M05 sin modificar ni reinterpretar el algoritmo.
+def _population_failure(*, status: str, path: str | None, error: str | None) -> dict:
+    return {
+        "population_outcome": "failure",
+        "population_decision": HARD_BLOCK,
+        "population_evidence_source": None,
+        "population_evidence_status": status,
+        "population_evidence_path": path,
+        "population_evidence_error": error,
+        "population_repair_result": "NOT_VERIFIABLE",
+        "population_outliers_before": None,
+        "population_outliers_after": None,
+        "population_max_deviation_before": None,
+        "population_max_deviation_after": None,
+        "population_termination_reason": None,
+        "population_baseline_restored": False,
+        "population_hard_constraints_before": None,
+        "population_hard_constraints_after": None,
+    }
 
-    Precedencia: reparación opt-in con objetivos, swap-polish con objetivos y, por
-    último, objetivo del motor base M05. Los índices del reparador y del motor
-    base/swap-polish son distintos y se normalizan aquí.
-    """
+
+def population_dimension(m05_report: dict) -> dict:
+    """Normaliza evidencia poblacional M05 sin modificar ni reinterpretar el algoritmo."""
     repair = m05_report.get("population_repair")
     repair_result = _repair_result(repair)
     selected = None
@@ -111,19 +132,8 @@ def population_dimension(m05_report: dict) -> dict:
             source = BASE_M05
 
     if selected is None:
-        return {
-            "population_outcome": "failure",
-            "population_decision": HARD_BLOCK,
-            "population_evidence_source": None,
+        return _population_failure(status="INVALID_CONTENT", path=None, error="M05 no contiene objetivos poblacionales verificables") | {
             "population_repair_result": repair_result,
-            "population_outliers_before": None,
-            "population_outliers_after": None,
-            "population_max_deviation_before": None,
-            "population_max_deviation_after": None,
-            "population_termination_reason": None,
-            "population_baseline_restored": False,
-            "population_hard_constraints_before": None,
-            "population_hard_constraints_after": None,
         }
 
     hard_before = selected["hard_before"]
@@ -146,6 +156,9 @@ def population_dimension(m05_report: dict) -> dict:
         "population_outcome": "success",
         "population_decision": decision,
         "population_evidence_source": source,
+        "population_evidence_status": "VALID",
+        "population_evidence_path": None,
+        "population_evidence_error": None,
         "population_repair_result": repair_result,
         "population_outliers_before": outliers_before,
         "population_outliers_after": outliers_after,
@@ -156,6 +169,37 @@ def population_dimension(m05_report: dict) -> dict:
         "population_hard_constraints_before": hard_before,
         "population_hard_constraints_after": hard_after,
     }
+
+
+def _load_population_evidence(params: Path, run_id: str) -> dict:
+    try:
+        report_path = _m05_report_path(params, run_id)
+    except Exception as exc:
+        return _population_failure(status="UNDECLARED", path=None, error=f"{type(exc).__name__}: {exc}")
+
+    path_text = report_path.as_posix()
+    try:
+        raw = report_path.read_text(encoding="utf-8")
+    except FileNotFoundError as exc:
+        return _population_failure(status="MISSING", path=path_text, error=f"{type(exc).__name__}: {exc}")
+    except OSError as exc:
+        return _population_failure(status="UNREADABLE", path=path_text, error=f"{type(exc).__name__}: {exc}")
+
+    try:
+        report = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        return _population_failure(status="INVALID_JSON", path=path_text, error=f"{type(exc).__name__}: {exc}")
+    if not isinstance(report, dict):
+        return _population_failure(status="INVALID_CONTENT", path=path_text, error="M05 debe ser un objeto JSON")
+
+    result = population_dimension(report)
+    result["population_evidence_path"] = path_text
+    if result["population_outcome"] == "success":
+        result["population_evidence_status"] = "VALID"
+        result["population_evidence_error"] = None
+    elif not result.get("population_evidence_error"):
+        result["population_evidence_error"] = "M05 no contiene objetivos poblacionales verificables"
+    return result
 
 
 def geometric_exceptions_causally_governed(audit: dict) -> bool:
@@ -192,7 +236,12 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
     if execution_outcome != "success":
         return "BLOCK", "EXECUTION_FAILED"
     if population.get("population_outcome") != "success":
-        return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
+        evidence_status = population.get("population_evidence_status")
+        if evidence_status == "MISSING":
+            return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
+        if evidence_status == "UNDECLARED":
+            return "BLOCK", "M05_POPULATION_EVIDENCE_UNDECLARED"
+        return "BLOCK", "M05_POPULATION_EVIDENCE_INVALID"
     if population.get("population_decision") == HARD_BLOCK:
         return "BLOCK", "POPULATION_HARD_BLOCK"
     if population.get("population_decision") != TARGET_MET:
@@ -206,8 +255,8 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
     return geometric_decision, None
 
 
-def build_production_status(*, territory_id: str, params: str, run_id: str, from_stage: str, to_stage: str, execution_outcome: str, geometric_outcome: str, geometric_decision: str, m05_report: dict, geometric_audit: dict) -> dict:
-    population = population_dimension(m05_report)
+def build_production_status(*, territory_id: str, params: str, run_id: str, from_stage: str, to_stage: str, execution_outcome: str, geometric_outcome: str, geometric_decision: str, m05_report: dict | None, geometric_audit: dict, population_evidence: dict | None = None) -> dict:
+    population = population_evidence if population_evidence is not None else population_dimension(m05_report or {})
     decision, block_cause = certification_gate(
         execution_outcome=execution_outcome,
         population=population,
@@ -216,7 +265,7 @@ def build_production_status(*, territory_id: str, params: str, run_id: str, from
         geometric_audit=geometric_audit,
     )
     payload = {
-        "schema": "ddd.production-status/1.1",
+        "schema": "ddd.production-status/1.2",
         "decision": decision,
         "territory_id": territory_id,
         "params": params,
@@ -234,6 +283,24 @@ def build_production_status(*, territory_id: str, params: str, run_id: str, from
     return payload
 
 
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def _block_causes(payload: dict) -> dict:
+    return {
+        "schema": "ddd.production-block-causes/1.0",
+        "decision": payload.get("decision"),
+        "block_cause": payload.get("block_cause"),
+        "population_evidence_status": payload.get("population_evidence_status"),
+        "population_evidence_path": payload.get("population_evidence_path"),
+        "population_evidence_error": payload.get("population_evidence_error"),
+        "population_decision": payload.get("population_decision"),
+        "geometric_decision": payload.get("geometric_decision"),
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", type=Path, required=True)
@@ -248,9 +315,11 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
-    report_path = _m05_report_path(args.params)
-    m05_report = json.loads(report_path.read_text(encoding="utf-8"))
     geometric_audit = json.loads(args.geometric_audit.read_text(encoding="utf-8"))
+    if not isinstance(geometric_audit, dict):
+        raise ValueError("La auditoría geométrica no es un objeto JSON")
+
+    population = _load_population_evidence(args.params, args.run_id)
     payload = build_production_status(
         territory_id=args.territory_id,
         params=str(args.params),
@@ -260,14 +329,15 @@ def main() -> None:
         execution_outcome=args.execution_outcome,
         geometric_outcome=args.geometric_outcome,
         geometric_decision=args.geometric_decision,
-        m05_report=m05_report,
+        m05_report=None,
         geometric_audit=geometric_audit,
+        population_evidence=population,
     )
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    _write_json(args.output, payload)
+    _write_json(args.output.parent / "block_causes.json", _block_causes(payload))
     print(payload["decision"])
-    if payload.get("block_cause") == "M05_POPULATION_EVIDENCE_MISSING":
-        print("M05_POPULATION_EVIDENCE_MISSING")
+    if payload.get("block_cause"):
+        print(payload["block_cause"])
 
 
 if __name__ == "__main__":

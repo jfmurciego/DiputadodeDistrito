@@ -131,7 +131,7 @@ class ProductionPopulationGateTests(unittest.TestCase):
         self.assertEqual(result["population_outcome"], "failure")
         self.assertIsNone(result["population_evidence_source"])
         self.assertEqual(result["decision"], "BLOCK")
-        self.assertEqual(result["block_cause"], "M05_POPULATION_EVIDENCE_MISSING")
+        self.assertEqual(result["block_cause"], "M05_POPULATION_EVIDENCE_INVALID")
 
     def test_aragon_equivalent_fixture_uses_base_without_recertifying_aragon(self):
         report = {
