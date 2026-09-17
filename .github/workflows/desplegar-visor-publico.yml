@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 2.0.0
-# NOMBRE: Desplegar visor técnico de ejecuciones y alternativas
+# VERSIÓN: 2.1.0
+# NOMBRE: Desplegar visor técnico con evidencia de publicación
 # ESTADO: activo
-# QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo.
-# CAMBIOS: expone la raíz del repositorio en PYTHONPATH y valida la carga real del preparador antes de descargar artefactos.
-# ANTERIOR: legacy/workflows/desplegar-visor-publico_v1.2.0.yml
+# QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo; deja evidencia estructurada de la publicación.
+# CAMBIOS: publica ddd-publication con estado, URL y mapas/resultados generados para el informe de ejecución.
+# ANTERIOR: versión 2.0.0 en historial Git.
 name: Desplegar visor técnico
 
 on:
@@ -102,3 +102,51 @@ jobs:
           path: site
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Registrar evidencia de publicación
+        if: always()
+        shell: bash
+        env:
+          DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-publication
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          site = Path("site")
+          registry = site / "data/viewer-results.json"
+          results = []
+          if registry.is_file():
+              try:
+                  data = json.loads(registry.read_text(encoding="utf-8"))
+                  results = data.get("results") or []
+              except Exception:
+                  results = []
+          maps = sorted(
+              p.relative_to(site).as_posix()
+              for p in site.rglob("*")
+              if p.is_file() and p.suffix.lower() in {".json", ".geojson", ".zip"}
+          ) if site.is_dir() else []
+          outcome = os.environ.get("DEPLOYMENT_OUTCOME") or "unknown"
+          payload = {
+              "schema": "ddd-publication-evidence/1.0",
+              "status": "SUCCESS" if outcome == "success" else "BLOCK",
+              "deployment_outcome": outcome,
+              "viewer_url": os.environ.get("PAGE_URL") or None,
+              "result_count": len(results),
+              "maps_generated": maps,
+              "source": "workflow_evidence",
+          }
+          Path(".ddd-publication/publicacion_visor.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+      - name: Publicar evidencia del visor
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-publication-${{ github.run_id }}
+          path: .ddd-publication/publicacion_visor.json
+          if-no-files-found: error
+          retention-days: 30

@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: router reutilizable interno
-# VERSIÓN: 3.0.0
-# NOMBRE DE VERSIÓN: Router modular sin duplicación de M01–M08
-# FECHA: 2026-09-16
+# VERSIÓN: 3.1.0
+# NOMBRE DE VERSIÓN: Informe de ejecución basado en evidencia
+# FECHA: 2026-09-17
 # ESTADO: vigente
-# QUÉ HACE: recibe una operación institucional resuelta y delega la única ruta seleccionada.
-# CAMBIOS: unifica contrato, preparación, certificación y producción en una sola llamada M01–M08.
-# MOTIVO: impedir que GitHub dibuje varias copias de los mismos módulos.
-# ANTERIOR: versión 2.1.0 en historial Git.
+# QUÉ HACE: recibe una operación institucional resuelta, delega la ruta seleccionada y genera siempre un informe de ejecución para la cadena territorial.
+# CAMBIOS: añade el trabajo visible Informe de ejecución, que recupera los artefactos DDD del run y produce inventario JSON e informe Markdown sin leer logs.
+# MOTIVO: ofrecer trazabilidad operativa comprensible y estructurada incluso cuando la cadena se bloquea.
+# ANTERIOR: versión 3.0.0 en historial Git.
 name: Reutilizable — ruta territorial resuelta
 
 on:
@@ -44,6 +44,69 @@ jobs:
       to_stage: ${{ inputs.operation == 'preparar_base_m01_m03' && 'M03' || inputs.operation == 'certificar_territorio_m01_m06' && 'M06' || inputs.operation == 'producir_resultado_m01_m08' && inputs.to_stage || 'M08' }}
       checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
       execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}
+
+  informe_ejecucion:
+    name: Informe de ejecución
+    needs: [produccion]
+    if: ${{ always() && contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Registrar contexto automático de la ejecución
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          OPERATION: ${{ inputs.operation }}
+          FROM_STAGE: ${{ inputs.from_stage }}
+          TO_STAGE: ${{ inputs.to_stage }}
+          PRODUCTION_RESULT: ${{ needs.produccion.result }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-execution-evidence
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = {
+              "schema": "ddd-execution-context/1.0",
+              "territory_id": os.environ["TERRITORY_ID"],
+              "operation": os.environ["OPERATION"],
+              "requested_from": os.environ["FROM_STAGE"],
+              "requested_to": os.environ["TO_STAGE"],
+              "workflow_run_id": os.environ["GITHUB_RUN_ID"],
+              "workflow_run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "production_job_result": os.environ["PRODUCTION_RESULT"],
+          }
+          Path(".ddd-execution-evidence/contexto_ejecucion.json").write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+      - name: Recuperar evidencias publicadas por la cadena
+        continue-on-error: true
+        uses: actions/download-artifact@v6
+        with:
+          pattern: ddd-*
+          path: .ddd-execution-evidence/artifacts
+      - name: Generar inventario e informe legible
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/generar_informe_ejecucion.py \
+            --evidence-root .ddd-execution-evidence/artifacts \
+            --context .ddd-execution-evidence/contexto_ejecucion.json \
+            --out-dir .ddd-execution-report
+          test -s .ddd-execution-report/inventario_ejecucion.json
+          test -s .ddd-execution-report/informe_ejecucion.md
+      - name: Publicar informe de ejecución
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-execution-report-${{ github.run_id }}
+          path: .ddd-execution-report
+          if-no-files-found: error
+          retention-days: 30
 
   diagnostico:
     name: A01 · Diagnóstico topológico
