@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.8.0
-# NOMBRE DE VERSIÓN: Preprocesado común y perfil poblacional estándar
+# VERSIÓN: 0.9.0
+# NOMBRE DE VERSIÓN: Preparación de Extremadura
 # FECHA: 2026-09-17
-# ESTADO: preindustrializado bloqueado — preparado por configuración; sin ejecución territorial
-# QUÉ HACE: conecta la preparación común de unidades internas, elimina rutas históricas específicas y adopta el perfil poblacional común sin autorizar producción.
-# CAMBIOS: K=65 pasa a procedencia normativa; límites 0.80/1.75/0.12; partitioning declarativo; rutas M04-M06 comunes y sin nombres de experimentos.
-# MOTIVO: convertir la preparación M04 en capacidad común y eliminar dependencias de artefactos históricos específicos.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.7.0.yaml
+# ESTADO: preparación bloqueada — configuración lista; sin ejecución territorial
+# QUÉ HACE: conecta la preparación común de unidades internas, elimina rutas históricas específicas, adopta el perfil poblacional común y declara la comprobación automática de fuente electoral oficial.
+# CAMBIOS: añade declaración electoral oficial automatizable y sustituye estados activos de preindustrialización por Preparación de Extremadura.
+# MOTIVO: hacer visible y auditable la preparación previa a M04/M07 sin autorizar producción.
+# ANTERIOR: versión 0.8.0 en historial Git.
 
 meta:
   procedure_name: Diputado de Distrito
@@ -16,13 +16,14 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.8.0
+  schema_version: 0.9.0
   schema_family: ddd-territory
   contract_level: experimental_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: BLOCKED
-  status: preindustrialized_blocked
+  status: preparation_blocked
   full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
+  electoral_sources_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
 
 io:
   project_root: {path: ../../..}
@@ -66,7 +67,7 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.10
   internal_partition_chunk_ratio: 0.20
   require_auditable_district_catalogue: true
-  promotion_status: preindustrialized_blocked
+  promotion_status: preparation_blocked
   notes:
     - K=65 procede de la Ley 2/1987, artículo 18; no del experimento histórico previo.
     - El reparto DDD entre provincias permanece declarado como Hamilton 41/24, separado del reparto electoral autonómico vigente.
