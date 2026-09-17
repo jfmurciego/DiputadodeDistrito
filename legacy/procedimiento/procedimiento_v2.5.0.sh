@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.7.0
-# NOMBRE DE VERSIÓN: Ejecución modular sin preprocesado oculto
-# FECHA: 2026-09-17
-# ESTADO: candidato
-# CAMBIOS: retira la preparación de unidades internas del cuerpo oculto del procedimiento; el workflow productivo la ejecuta como trabajo visible entre M03 y M04.
-# MOTIVO: exponer entrada, salida, duración y artefacto propios sin duplicar la capacidad común.
-# ANTERIOR: legacy/procedimiento/procedimiento_v2.5.0.sh
+# VERSIÓN: 2.5.0
+# NOMBRE DE VERSIÓN: Ejecución modular encadenable M01–M08
+# FECHA: 2026-09-15
+# ESTADO: vigente
+# CAMBIOS: permite encadenar un módulo por job mediante DDD_CHAIN_STATE sin relajar las reglas de reenganche históricas; conserva FROM_STAGE/TO_STAGE y todas las reglas funcionales existentes.
+# MOTIVO: exponer M01–M08 como jobs visibles de GitHub Actions sin duplicar motores ni recalcular módulos anteriores.
+# ANTERIOR: legacy/procedimiento/procedimiento_v2.4.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
 PARAMS="${DDD_PARAMS:-territorios/aragon/config/aragon_2025.yaml}"

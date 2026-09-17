@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.4.0
-# NOMBRE DE VERSIÓN: Puerta productiva de fuentes oficiales
+# VERSIÓN: 2.6.1
+# NOMBRE DE VERSIÓN: Transporte contractual de fuente electoral oficial
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; antes de M01 adquiere, valida y materializa fuentes oficiales mediante una puerta visible.
-# CAMBIOS: añade job Fuentes oficiales, publica evidencia siempre y entrega a M01 únicamente entradas cuya preparación sea READY.
-# MOTIVO: impedir que la generación de distritos arranque con fuentes ausentes, incoherentes o no trazables.
+# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; expone fuentes oficiales, preparación de unidades internas y comprobación electoral como trabajos visibles.
+# CAMBIOS: M07 recupera el artefacto electoral aprobado, verifica de nuevo su checksum y lo instala en la ruta declarada por el contrato antes de consumirlo; la dependencia electoral bloquea M07 de forma nativa si falla.
+# MOTIVO: hacer efectiva la cadena fuente oficial → artefacto → incorporación electoral sin rutas territoriales embebidas.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
 
@@ -298,6 +298,23 @@ jobs:
           missing=[p for p in paths if p and not Path(p).is_file()]
           if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
           PY
+      - name: Recuperar fuente electoral oficial aprobada
+        if: ${{ env.STAGE == 'M07' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-electoral-source-${{ github.run_id }}
+          path: .ddd-electoral-source
+      - name: Instalar y verificar fuente electoral en ruta contractual
+        if: ${{ env.STAGE == 'M07' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/instalar_fuente_electoral_oficial.py \
+            --params "/app/$PARAMS" \
+            --artifact-dir /app/.ddd-electoral-source \
+            --root-dir /app \
+            --report /app/.ddd-electoral-source/instalacion_m07.json
       - name: Ejecutar módulo
         shell: bash
         run: >-
@@ -340,13 +357,107 @@ jobs:
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M03, PREVIOUS_STAGE: M02, PREVIOUS_RESULT: "${{ needs.m02.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
     steps: *module_steps
 
-  m04:
-    name: M04 · Solución inicial
+  internal_units:
+    name: Preparar unidades internas
     needs: [resolve, m03]
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.m03.result != 'failure' && needs.m03.result != 'cancelled' }}
     runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      RUN_ID: ${{ needs.resolve.outputs.run_id }}
+      CACHE_DIR: ${{ needs.resolve.outputs.cache_dir }}
+      RUNS_DIR: ${{ needs.resolve.outputs.runs_dir }}
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      M03_RESULT: ${{ needs.m03.result }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: state
+        name: Resolver entrada M03
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$M03_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
+          [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Preparar unidades internas requiere M03 actual o checkpoint previo.'; exit 22; }
+          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+      - name: Recuperar entrada M03
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-state-${{ steps.state.outputs.run_id }}-M03
+          path: .ddd-state/in
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.state.outputs.run_id }}
+      - name: Restaurar entrada contractual
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-internal-units
+          cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
+          cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+      - name: Materializar unidades internas
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/preparar_unidades_internas.py \
+            --params "/app/$PARAMS" --run-id "$RUN_ID" \
+            --job-report /app/.ddd-internal-units/job.json
+          python - "$PARAMS" "$RUN_ID" <<'PY'
+          import json,sys,yaml,shutil
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          vals={'run_name':(cfg.get('meta') or {}).get('run_name',''),'run_id':sys.argv[2],'year':(cfg.get('meta') or {}).get('year','')}
+          p=cfg.get('partitioning') or {}
+          out=Path('.ddd-internal-units/output'); out.mkdir(parents=True,exist_ok=True)
+          for key in ('output_geojson','output_report'):
+              raw=p.get(key)
+              if raw:
+                  src=Path(str(raw).format(**vals))
+                  if src.is_file(): shutil.copy2(src,out/src.name)
+          PY
+      - name: Empaquetar salida M03U
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-state/out
+          mkdir -p .ddd-state/out/cache .ddd-state/out/run
+          cp -a "$CACHE_DIR/." .ddd-state/out/cache/
+          cp -a "$RUNS_DIR/." .ddd-state/out/run/
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ddd-state-${{ github.run_id }}-M03U
+          path: .ddd-state/out
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publicar preparación de unidades internas
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-internal-units-${{ github.run_id }}
+          path: .ddd-internal-units
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+  m04:
+    name: M04 · Solución inicial
+    needs: [resolve, internal_units]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
+    runs-on: ubuntu-24.04
     timeout-minutes: 240
-    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03, PREVIOUS_RESULT: "${{ needs.m03.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03U, PREVIOUS_RESULT: "${{ needs.internal_units.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
     steps: *module_steps
 
   m05:
@@ -511,10 +622,88 @@ jobs:
         if: always()
         run: test '${{ steps.geometric.outcome }}' = success || { echo 'La auditoría geométrica M06 bloquea la cadena.' >&2; exit 32; }
 
-  m07:
-    name: M07 · Agregación electoral
+  electoral_source:
+    name: Fuente electoral oficial
     needs: [resolve, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && needs.m06.result != 'failure' && needs.m06.result != 'cancelled' && needs.auditoria.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: declaration
+        name: Resolver declaración electoral
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-source
+          declaration="$(docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((cfg.get('meta') or {}).get('electoral_sources_declaration') or '')
+          PY
+          )"
+          echo "path=$declaration" >> "$GITHUB_OUTPUT"
+          if [[ -z "$declaration" ]]; then
+            docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
+          import json,sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          m07=(cfg.get('modulos') or {}).get('modulo_07_agregar_resultados_electorales') or {}
+          decision='READY_EXISTING_CONTRACT' if m07.get('election_contract') else 'BLOCK'
+          payload={'schema':'ddd-election-source-decision/1.0','decision':decision,'reason':'Sin declaración automática; se conserva contrato electoral existente.' if decision.startswith('READY') else 'No hay declaración electoral oficial ni contrato electoral existente.'}
+          Path('.ddd-electoral-source/decision_fuente_electoral.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          Path('.ddd-electoral-source/informe_fuente_electoral.md').write_text('# Comprobación automática de fuente electoral oficial\n\n- decisión: **'+decision+'**\n',encoding='utf-8')
+          PY
+          fi
+      - name: Consultar fuentes oficiales declaradas
+        if: ${{ steps.declaration.outputs.path != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/comprobar_fuente_electoral_oficial.py \
+            --declaration "/app/${{ steps.declaration.outputs.path }}" \
+            --out-dir /app/.ddd-electoral-source
+      - name: Publicar decisión y descarga electoral
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-electoral-source-${{ github.run_id }}
+          path: .ddd-electoral-source
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Aplicar puerta electoral oficial
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-electoral-source/decision_fuente_electoral.json || { echo '::error::Falta decisión electoral oficial.'; exit 42; }
+          python - <<'PY'
+          import json
+          d=json.load(open('.ddd-electoral-source/decision_fuente_electoral.json',encoding='utf-8'))
+          decision=str(d.get('decision') or '')
+          if not decision.startswith('READY'):
+              raise SystemExit('Fuente electoral oficial BLOQUEADA: '+decision)
+          PY
+
+  m07:
+    name: M07 · Agregación electoral
+    needs: [resolve, m06, auditoria, electoral_source]
+    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && needs.m06.result != 'failure' && needs.m06.result != 'cancelled' && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M07, PREVIOUS_STAGE: M06, PREVIOUS_RESULT: "${{ needs.m06.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}

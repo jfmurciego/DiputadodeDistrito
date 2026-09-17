@@ -70,11 +70,21 @@ class ModularWorkflowContractTests(unittest.TestCase):
     def test_production_workflow_has_visible_m01_m08_audit_and_viewer(self):
         workflow = yaml.safe_load((ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8"))
         jobs = workflow["jobs"]
-        expected = ["resolve", "official_sources", "m01", "m02", "m03", "m04", "m05", "m06", "auditoria", "m07", "m08", "visor"]
+        expected = ["resolve", "official_sources", "m01", "m02", "m03", "internal_units", "m04", "m05", "m06", "auditoria", "electoral_source", "m07", "m08", "visor"]
         self.assertEqual(list(jobs), expected)
         self.assertEqual(jobs["official_sources"]["name"], "Fuentes oficiales")
+        self.assertEqual(jobs["internal_units"]["name"], "Preparar unidades internas")
+        self.assertEqual(jobs["electoral_source"]["name"], "Fuente electoral oficial")
         names = [jobs[f"m{i:02d}"]["name"] for i in range(1, 9)]
         self.assertTrue(all(f"M{i:02d}" in names[i - 1] for i in range(1, 9)))
+
+    def test_m07_recovers_and_installs_approved_electoral_artifact(self):
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("Recuperar fuente electoral oficial aprobada", text)
+        self.assertIn("name: ddd-electoral-source-${{ github.run_id }}", text)
+        self.assertIn("instalar_fuente_electoral_oficial.py", text)
+        self.assertIn("--artifact-dir /app/.ddd-electoral-source", text)
+        self.assertIn("if: ${{ env.STAGE == 'M07' }}", text)
 
     def test_launcher_supports_explicit_chain_state_without_changing_stage_map(self):
         text = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")

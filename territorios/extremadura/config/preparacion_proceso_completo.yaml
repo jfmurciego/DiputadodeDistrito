@@ -1,0 +1,92 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Extremadura
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Preparación de Extremadura
+# FECHA: 2026-09-17
+# ESTADO: preparación factual bloqueada; sin ejecución territorial
+# FUNCIÓN: declarar qué partes del proceso completo están preparadas y qué bloqueos siguen abiertos sin excepciones territoriales.
+# CAMBIOS: hace visible el trabajo común de unidades internas y sustituye la investigación electoral manual por una comprobación automática declarativa.
+# MOTIVO: separar capacidad preparada de certificación territorial y mantener fail-closed M07 sin fuentes sustitutas.
+# ANTERIOR: versión 1.1.0 en historial Git.
+schema: ddd-territory-full-process-readiness/1.2
+territory_id: extremadura
+edition: 2025
+production_authorization: BLOCKED
+execution_forbidden_in_this_package: true
+
+business_steps:
+  official_sources:
+    ready: true
+    evidence: [territorios/extremadura/config/fuentes_oficiales.yaml, fuentes/catalogo_oficial.yaml]
+    remaining_blocker: null
+  territorial_base_and_population:
+    ready: true
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, territorios/extremadura/CONTINUIDAD.md]
+    facts:
+      expected_sections: 964
+      expected_population_2025: 1053345
+      province_codes: ['06', '10']
+      limits_profile: standard-1.0.0
+      population_floor_ratio: 0.80
+      population_cap_ratio: 1.75
+      target_tolerance_ratio: 0.12
+    remaining_blocker: null
+  adjacency_and_graph:
+    ready: true
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, territorios/extremadura/CONTINUIDAD.md]
+    topology_policy:
+      topology_mode: land
+      min_shared_border_m: 1.0
+      declared_bridges:
+        - {u: '0604405005', v: '0604405003', admin_scope: 'municipality:06044', edge_type: same_municipality_exclave, reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).', source: 'EXT-02 auditoría geométrica reproducible'}
+        - {u: '0604405006', v: '0604405004', admin_scope: 'municipality:06044', edge_type: same_municipality_exclave, reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).', source: 'EXT-02 auditoría geométrica reproducible'}
+    remaining_blocker: null
+  internal_units_preparation:
+    ready: true
+    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, .github/workflows/producir-territorio-por-contrato.yml, territorios/extremadura/config/extremadura_2025.yaml]
+    capability: declarative_internal_partition_preprocessor
+    strategy: connected_internal_units
+    execution: visible_github_actions_job
+    artifact: ddd-internal-units-<run_id>
+    remaining_blocker: null
+  district_creation_and_balance:
+    ready: false
+    configuration_ready: true
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, herramientas/preparar_unidades_internas.py, territorios/extremadura/CONTINUIDAD.md]
+    facts:
+      k_districts: 65
+      k_source: norma
+      legal_reference: 'Ley 2/1987, de 16 de marzo, artículo 18.1'
+      province_apportionment: {'06': 41, '10': 24}
+      limits_profile: standard-1.0.0
+    remaining_blocker:
+      type: EXECUTION_AND_CERTIFICATION_REQUIRED
+      detail: 'La configuración y el preprocesador común están preparados, pero este paquete prohíbe ejecutar el territorio. M04-M06 deben verificarse posteriormente con el perfil estándar antes de cualquier promoción.'
+  geographic_control:
+    ready: false
+    evidence: [territorios/extremadura/config/extremadura_2025.yaml, configuracion/politica_topologia_territorial_2025.yaml]
+    remaining_blocker:
+      type: UPSTREAM_BLOCK
+      depends_on: district_creation_and_balance
+      detail: 'La política geométrica está declarada, pero no existe todavía una solución M04-M06 ejecutada con el nuevo perfil común sobre la que certificar la geometría distrital.'
+  electoral_results:
+    ready: false
+    automated_check: true
+    evidence: [territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml, herramientas/comprobar_fuente_electoral_oficial.py, territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json, modulos/07_agregar_resultados_electorales.py, ddd_core/electoral_contract.py]
+    artifact: ddd-electoral-source-<run_id>
+    remaining_blocker:
+      type: OFFICIAL_DISAGGREGATED_FILE_NOT_PUBLICLY_LOCATED
+      detail: 'El workflow consulta automáticamente las fuentes oficiales declaradas. Si encuentra un fichero público con granularidad mínima de sección lo congela y calcula su SHA-256; si detecta ausencia, credenciales o granularidad insuficiente emite BLOCK. RTVE queda expresamente excluida como sustituto.'
+  maps_generation_and_publication:
+    ready: false
+    evidence: [modulos/08_integrar_resultados.py, .github/workflows/producir-territorio-por-contrato.yml]
+    common_capability_available: true
+    remaining_blocker:
+      type: UPSTREAM_BLOCK
+      depends_on: [district_creation_and_balance, geographic_control, electoral_results]
+      detail: 'La capacidad común de integración y visor existe, pero no puede producir ni publicar un resultado mientras los pasos anteriores sigan bloqueados.'
+
+decision:
+  readiness: BLOCKED
+  may_execute_territory: false
+  rationale: 'Fuentes, M01-M03, topología y el trabajo visible de unidades internas están preparados por configuración. El paquete no ejecuta Extremadura; la certificación M04-M06 queda pendiente y M07 permanece fail-closed hasta que la comprobación automática localice una fuente oficial pública suficientemente desagregada.'

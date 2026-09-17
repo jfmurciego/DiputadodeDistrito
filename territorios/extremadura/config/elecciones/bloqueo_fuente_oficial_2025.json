@@ -1,0 +1,51 @@
+{
+  "schema_family": "ddd-election-source-readiness",
+  "schema_version": "1.0.0",
+  "territory_id": "extremadura",
+  "election_id": "extremadura_asamblea_2025-12-21",
+  "election_date": "2025-12-21",
+  "status": "BLOCKED_NO_PUBLIC_OFFICIAL_SECTION_FILE",
+  "checked_at": "2026-09-17",
+  "required_resolution": ["section", "polling_station"],
+  "public_official_sources_checked": [
+    {
+      "publisher": "Junta de Extremadura",
+      "url": "https://resultados.elecciones2025.juntaex.es/es/inicio",
+      "finding": "Portal oficial de resultados; la documentación oficial del Centro de Difusión de Datos describe publicación pública a nivel de municipio y autonomía."
+    },
+    {
+      "publisher": "Junta de Extremadura",
+      "url": "https://www.juntaex.es/documents/77055/33212371/20251219%2BNP%2BAdministraci%C3%B3n%2BP%C3%BAblica-Centro%2BDifusi%C3%B3n%2BDatos%2B-Dossier_Elecciones_Asamblea_de_Extremadura%2B2025.pdf/b078313a-f326-f60c-0eaa-019324fe4062?t=1766143651457",
+      "finding": "El dossier oficial declara CSV de resultados provisionales en prensa.elecciones2025.juntaex.es, accesible a medios mediante credenciales; no constituye una descarga pública verificable del repositorio."
+    },
+    {
+      "publisher": "Junta Electoral de Extremadura / Diario Oficial de Extremadura",
+      "url": "https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001",
+      "finding": "Resultados definitivos publicados por circunscripción provincial; válidos como referencia final de reconciliación, pero sin granularidad de sección o mesa para M07."
+    },
+    {
+      "publisher": "Junta Electoral Central",
+      "url": "https://www.juntaelectoralcentral.es/cs/Satellite?c=JECEleccion_C&childpagename=JEC%2FJEC_Layout&cid=1408442283375&pagename=jec%2Fwrapper%2FJEC_Wrapper&rendermode=preview",
+      "finding": "La ficha oficial enlaza al portal de resultados definitivos y al acuerdo del DOE, sin exponer un fichero público desagregado apto para el contrato DDD."
+    }
+  ],
+  "press_repository": {
+    "url": "https://prensa.elecciones2025.juntaex.es",
+    "format_described": "CSV",
+    "data_status": "provisional",
+    "access": "credentials_required",
+    "frozen_copy_created": false
+  },
+  "definitive_reconciliation_reference": {
+    "publisher": "Junta Electoral de Extremadura / DOE",
+    "publication_date": "2026-01-14",
+    "resolution": "constituency",
+    "url": "https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001"
+  },
+  "contract_created": false,
+  "party_dictionary_created": false,
+  "reconciliation_created": false,
+  "rtve_allowed_as_substitute": false,
+  "decision": "BLOCKED",
+  "reason": "No se ha localizado una descarga oficial pública a nivel de sección o mesa. Sin fichero oficial desagregado no se congela copia, no se fabrica checksum, no se crea contrato electoral operativo ni se utiliza RTVE como sustituto."
+}
