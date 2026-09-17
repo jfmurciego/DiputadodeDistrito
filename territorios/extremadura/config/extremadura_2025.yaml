@@ -1,15 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 0.6.1
-# NOMBRE DE VERSIÓN: Experimento histórico fuera de producción
-# FECHA: 2026-09-12
-# ESTADO: experimental bloqueado — evidencia canónica F1.4
-# QUÉ HACE: conserva M01-M03 y declara explícitamente K=65, reparto 41/24, c020, atomicidad 1.10 y ratios 0.85/1.50/0.10 para reproducir M04-M06.
-# CAMBIOS: fija el resultado del run 34703213474: M01-M06 reproducible, hard y contigüidad PASS, 2 outliers de tolerancia; no promueve.
-# MOTIVO: cerrar F1.4 formalmente con el mejor resultado reproducible y su bloqueo explícito.
-# CAMBIOS: formaliza esquema, K sin origen registrado y excepción histórica de límites; no modifica valores ni recalcula el territorio.
-# MOTIVO: conservar evidencia c020 sin presentar sus umbrales a posteriori como política general ni como autorización de promoción.
-# ANTERIOR: legacy/configuracion/extremadura_2025_v0.6.0.yaml
+# VERSIÓN: 0.7.0
+# NOMBRE DE VERSIÓN: Preindustrialización declarativa del proceso completo
+# FECHA: 2026-09-17
+# ESTADO: experimental bloqueado — M01-M03 preparados; M04-M08 pendientes de capacidades/datos comunes
+# QUÉ HACE: conserva íntegramente el contrato experimental reproducible y añade política topológica declarativa y bloqueos explícitos para completar el proceso sin ejecutar el territorio.
+# CAMBIOS: declara topology_mode=land; tipifica y acota las dos pasarelas de Don Benito; referencia el inventario de preparación completa sin alterar K, límites, población, asignaciones ni algoritmos.
+# MOTIVO: industrializar Extremadura por configuración y separar con claridad preparación territorial de capacidades comunes aún faltantes.
+# ANTERIOR: legacy/configuracion/extremadura_2025_v0.6.1.yaml
 
 meta:
   procedure_name: Diputado de Distrito
@@ -18,12 +16,13 @@ meta:
   run_name: extremadura_2025
   year: 2025
   scope: provincial
-  schema_version: 0.6.1
+  schema_version: 0.7.0
   schema_family: ddd-territory
   contract_level: experimental_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: BLOCKED
-  status: experimental_blocked
+  status: preindustrialized_blocked
+  full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
 
 io:
   project_root: {path: ../../..}
@@ -51,6 +50,7 @@ territory_contract:
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['06','10']
+  topology_mode: land
   k_districts: 65
   k_source: historico_no_registrado
   k_rationale: "K=65 identifica el experimento bloqueado c020; su criterio original no quedó registrado y no autoriza promoción ni reutilización como norma."
@@ -76,6 +76,7 @@ territory_contract:
     - La atomicidad 1.10 identifica municipios que requieren partición interna; c020 forma unidades conexas con objetivo aproximado de 0.20×target.
     - EXT-19 fue diagnóstico dirigido, no un operador general ni una solución aplicada; queda fuera del contrato canónico.
     - La promoción exige M01-M06 con K, cuotas, contigüidad, hard y tolerancia completa. Si falla, la salida se conserva como bloqueo reproducible.
+    - La preindustrialización 0.7.0 no autoriza ejecución: cualquier capacidad ausente se conserva como bloqueo común, nunca como excepción territorial.
 
 partitioning:
   strategy: connected_internal_units
@@ -83,6 +84,7 @@ partitioning:
   atomicity_ratio: 1.10
   chunk_ratio: 0.20
   source: c020
+  production_materialization: COMMON_CAPABILITY_REQUIRED
 
 modulos:
   modulo_01_preparar_base_territorial:
@@ -105,12 +107,14 @@ modulos:
     topology_bridges:
       - u: '0604405005'
         v: '0604405003'
-        edge_type: administrative_bridge
+        admin_scope: 'municipality:06044'
+        edge_type: same_municipality_exclave
         reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).'
         source: 'EXT-02 auditoría geométrica reproducible'
       - u: '0604405006'
         v: '0604405004'
-        edge_type: administrative_bridge
+        admin_scope: 'municipality:06044'
+        edge_type: same_municipality_exclave
         reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).'
         source: 'EXT-02 auditoría geométrica reproducible'
   modulo_03_construir_grafo:
@@ -171,6 +175,7 @@ validation:
   expected_province_codes: ['06','10']
   expected_sections_geometry: 964
   expected_population_total_2025: 1053345
+  expected_topology_bridges: 2
   expected_districts: 65
   population_floor_ratio: 0.85
   population_cap_ratio: 1.50
