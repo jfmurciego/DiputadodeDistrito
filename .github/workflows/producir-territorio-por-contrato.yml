@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.6.1
-# NOMBRE DE VERSIÓN: Transporte contractual de fuente electoral oficial
+# VERSIÓN: 2.7.0
+# NOMBRE DE VERSIÓN: Reutilización durable de fuentes preparadas
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; expone fuentes oficiales, preparación de unidades internas y comprobación electoral como trabajos visibles.
-# CAMBIOS: M07 recupera el artefacto electoral aprobado, verifica de nuevo su checksum y lo instala en la ruta declarada por el contrato antes de consumirlo; la dependencia electoral bloquea M07 de forma nativa si falla.
-# MOTIVO: hacer efectiva la cadena fuente oficial → artefacto → incorporación electoral sin rutas territoriales embebidas.
+# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; conserva las fuentes preparadas dentro de cada checkpoint y las reutiliza sin red cuando siguen siendo válidas.
+# CAMBIOS: Fuentes oficiales usa la política REUSE/ACQUIRE/BLOCK; los checkpoints M01–M08 y M03U transportan el paquete congelado de fuentes.
+# MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
 
@@ -121,9 +121,11 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
+      GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
       SOURCE_DECLARATION: territorios/${{ needs.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
       EVIDENCE_DIR: .ddd-sources
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
     steps:
       - uses: actions/checkout@v6
       - name: Comprobar declaración de fuentes
@@ -161,18 +163,39 @@ jobs:
         run: |
           set -euo pipefail
           bash inputs/partes/reconstruir_fuentes.sh
+      - name: Recuperar paquete de fuentes de checkpoint solicitado
+        if: ${{ inputs.checkpoint_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-source-resume .ddd-state/in
+          mkdir -p .ddd-source-resume .ddd-state/in/sources
+          gh run download "$CHECKPOINT_RUN_ID" --pattern 'ddd-state-*' --dir .ddd-source-resume
+          source_dir="$(find .ddd-source-resume -type f -path '*/sources/manifest.json' -printf '%h\n' | sort | head -1)"
+          if [[ -n "$source_dir" ]]; then
+            cp -a "$source_dir/." .ddd-state/in/sources/
+          fi
       - id: acquire
-        name: Materializar fuentes declaradas
+        name: Resolver y materializar fuentes declaradas
         continue-on-error: true
         shell: bash
         run: |
+          set -euo pipefail
+          checkpoint_args=()
+          if [[ -f .ddd-state/in/sources/manifest.json ]]; then
+            checkpoint_args=(--checkpoint-in /app/.ddd-state/in)
+          fi
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/adquirir_fuentes_oficiales.py \
-            --territory "/app/$SOURCE_DECLARATION" \
-            --evidence-dir "/app/$EVIDENCE_DIR" \
+            /app/herramientas/ejecutar_fuentes_workflow.py \
+            --declaration "/app/$SOURCE_DECLARATION" \
+            --working /app/.ddd-source-package \
+            "${checkpoint_args[@]}" \
+            --checkpoint-out /app/.ddd-source-checkpoint \
+            --acquisition-evidence "/app/$EVIDENCE_DIR" \
             --environment production \
             --acquisition-mode '${{ steps.source_mode.outputs.mode }}' \
             --root-dir /app
+          cp .ddd-source-checkpoint/source_execution.json "$EVIDENCE_DIR/source_execution.json"
       - id: evaluate
         name: Evaluar preparación de fuentes
         if: always()
@@ -197,6 +220,7 @@ jobs:
             .ddd-sources/informe_preparacion.md
             .ddd-sources/declaracion_materializacion.json
             .ddd-sources/decision_adquisicion.json
+            .ddd-sources/source_execution.json
           if-no-files-found: error
           retention-days: 14
       - name: Publicar entradas consumibles
@@ -207,6 +231,15 @@ jobs:
           path: .ddd-sources/materialized
           include-hidden-files: true
           if-no-files-found: warn
+          retention-days: 14
+      - name: Publicar paquete durable de fuentes
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-package-${{ github.run_id }}
+          path: .ddd-source-package
+          include-hidden-files: true
+          if-no-files-found: error
           retention-days: 14
       - name: Aplicar puerta de preparación
         if: always()
@@ -275,6 +308,11 @@ jobs:
           mkdir -p "$CACHE_DIR" "$RUNS_DIR"
           cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
           cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+          if [[ -d .ddd-state/in/sources ]]; then
+            rm -rf .ddd-source-package
+            mkdir -p .ddd-source-package
+            cp -a .ddd-state/in/sources/. .ddd-source-package/
+          fi
           test -f "$RUNS_DIR/CHAIN_STATE.json"
       - name: Recuperar fuentes aprobadas para M01
         if: ${{ env.STAGE == 'M01' }}
@@ -282,6 +320,12 @@ jobs:
         with:
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
+      - name: Recuperar paquete durable para M01
+        if: ${{ env.STAGE == 'M01' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-source-package-${{ github.run_id }}
+          path: .ddd-source-package
       - name: Instalar fuentes en sus rutas contractuales
         if: ${{ env.STAGE == 'M01' }}
         shell: bash
@@ -329,9 +373,11 @@ jobs:
           set -euo pipefail
           test -f "$RUNS_DIR/CHAIN_STATE.json"
           rm -rf .ddd-state/out
-          mkdir -p .ddd-state/out/cache .ddd-state/out/run
+          mkdir -p .ddd-state/out/cache .ddd-state/out/run .ddd-state/out/sources
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
+          test -f .ddd-source-package/manifest.json || { echo '::error::El checkpoint perdería el paquete durable de fuentes.'; exit 24; }
+          cp -a .ddd-source-package/. .ddd-state/out/sources/
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
@@ -402,9 +448,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-internal-units
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-internal-units .ddd-source-package
           cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
           cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+          test -d .ddd-state/in/sources || { echo '::error::M03 no transportó fuentes durables.'; exit 24; }
+          cp -a .ddd-state/in/sources/. .ddd-source-package/
           test -f "$RUNS_DIR/CHAIN_STATE.json"
       - name: Materializar unidades internas
         shell: bash
@@ -415,7 +463,7 @@ jobs:
             --params "/app/$PARAMS" --run-id "$RUN_ID" \
             --job-report /app/.ddd-internal-units/job.json
           python - "$PARAMS" "$RUN_ID" <<'PY'
-          import json,sys,yaml,shutil
+          import sys,yaml,shutil
           from pathlib import Path
           cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
           vals={'run_name':(cfg.get('meta') or {}).get('run_name',''),'run_id':sys.argv[2],'year':(cfg.get('meta') or {}).get('year','')}
@@ -432,9 +480,10 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf .ddd-state/out
-          mkdir -p .ddd-state/out/cache .ddd-state/out/run
+          mkdir -p .ddd-state/out/cache .ddd-state/out/run .ddd-state/out/sources
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
+          cp -a .ddd-source-package/. .ddd-state/out/sources/
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-state-${{ github.run_id }}-M03U
