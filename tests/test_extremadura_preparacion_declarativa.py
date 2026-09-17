@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -25,7 +26,8 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.params_path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
         self.params = yaml.safe_load(self.params_path.read_text(encoding="utf-8"))
         self.sources = yaml.safe_load((ROOT / "territorios/extremadura/config/fuentes_oficiales.yaml").read_text(encoding="utf-8"))
-        self.readiness = yaml.safe_load((ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml").read_text(encoding="utf-8"))
+        self.readiness_path = ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml"
+        self.readiness = yaml.safe_load(self.readiness_path.read_text(encoding="utf-8"))
         self.election_block = json.loads((ROOT / "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json").read_text(encoding="utf-8"))
         self.election_sources = yaml.safe_load((ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8"))
 
@@ -105,14 +107,18 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertIn("comprobar_fuente_electoral_oficial.py", workflow)
         self.assertIn("ddd-electoral-source-${{ github.run_id }}", workflow)
 
-    def test_active_titles_do_not_use_preindustrialization(self):
-        for path in (
-            ROOT / "territorios/extremadura/config/extremadura_2025.yaml",
-            ROOT / "territorios/extremadura/config/preparacion_proceso_completo.yaml",
-            ROOT / "configuracion/catalogo_territorios_espana_2025.yaml",
-        ):
-            text = path.read_text(encoding="utf-8").lower()
-            self.assertNotIn("preindustrial", text, str(path))
+    def test_active_titles_and_statuses_use_preparacion(self):
+        params_text = self.params_path.read_text(encoding="utf-8")
+        readiness_text = self.readiness_path.read_text(encoding="utf-8")
+        catalogue_text = (ROOT / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8")
+        for text in (params_text, readiness_text, catalogue_text):
+            title = re.search(r"(?mi)^#\s*NOMBRE(?: DE VERSIÓN)?:\s*(.+)$", text)
+            if title:
+                self.assertIn("Preparación de Extremadura", title.group(1))
+                self.assertNotIn("preindustrial", title.group(1).lower())
+        self.assertEqual(self.params["meta"]["status"], "preparation_blocked")
+        row = next(row for row in self.catalog["territories"] if row["territory_id"] == "extremadura")
+        self.assertEqual(row["status"], "preparation_blocked")
 
     def test_remaining_blocks_are_explicit(self):
         steps = self.readiness["business_steps"]
