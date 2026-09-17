@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 2.1.0
-# NOMBRE: Desplegar visor técnico con evidencia de publicación
+# VERSIÓN: 2.2.0
+# NOMBRE: Desplegar visor técnico con identidad de ejecución verificable
 # ESTADO: activo
-# QUÉ HACE: publica el visor con productos históricos y, opcionalmente, un run M06/M08 y un ensemble completo; deja evidencia estructurada de la publicación.
-# CAMBIOS: publica ddd-publication con estado, URL y mapas/resultados generados para el informe de ejecución.
-# ANTERIOR: versión 2.0.0 en historial Git.
+# QUÉ HACE: publica el visor histórico o una ejecución concreta sin permitir sustituciones silenciosas; deja evidencia estructurada de identidad y publicación.
+# CAMBIOS: una ejecución solicitada debe coincidir con la evidencia generada y con el resultado realmente cargado antes de desplegarse.
+# ANTERIOR: versión 2.1.0 en historial Git.
 name: Desplegar visor técnico
 
 on:
@@ -46,22 +46,34 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --disable-pip-version-check pyproj
-      - name: Validar visor y preparador
+      - name: Validar visor y preparadores
         shell: bash
         run: |
           set -euo pipefail
           node --check visor/app.js
-          python -m py_compile herramientas/preparar_visor_ejecucion.py
+          python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py
           python herramientas/preparar_visor_ejecucion.py --help >/dev/null
-      - name: Recuperar run territorial solicitado
+          python herramientas/evaluar_publicacion_visor.py --help >/dev/null
+      - name: Recuperar ejecución territorial solicitada
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf /tmp/production
           mkdir -p /tmp/production
-          if ! gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production; then
-            echo "::warning::El run todavía no ofrece artefactos DDD descargables; se publicará el registro estático."
-          fi
+          gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
+          test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43; }
+      - name: Acreditar identidad de la ejecución descargada
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/evaluar_publicacion_visor.py \
+            --requested-run-id "$PRODUCTION_RUN_ID" \
+            --production-root /tmp/production \
+            --phase source \
+            --output .ddd-publication/publicacion_visor.json \
+            --strict-request
       - name: Recuperar ensemble solicitado
         if: ${{ inputs.ensemble_release_tag != '' }}
         shell: bash
@@ -80,20 +92,28 @@ jobs:
           mkdir -p site
           cp visor/index.html visor/app.js visor/styles.css site/
           args=(--site site --static-registry orchestracion/productos_publicos.json)
-          if [[ -n "$PRODUCTION_RUN_ID" ]] && find /tmp/production -type f -print -quit 2>/dev/null | grep -q .; then
+          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+            test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::No hay artefactos de la ejecución solicitada.'; exit 43; }
             args+=(--production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID")
             audit="docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_m06_contiguedad_geometrica_run_${PRODUCTION_RUN_ID}.json"
             [[ -f "$audit" ]] && args+=(--production-audit "$audit")
           fi
           [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
           python herramientas/preparar_visor_ejecucion.py "${args[@]}"
-          python - <<'PY'
-          import json
-          p=json.load(open('site/data/viewer-results.json',encoding='utf-8'))
-          print('[VISOR] opciones:', len(p['results']))
-          for item in p['results']:
-              print(' -', item['label'], '|', item.get('geometric_status'))
-          PY
+      - name: Acreditar resultado realmente cargado
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --requested-run-id "$PRODUCTION_RUN_ID"
+            --registry site/data/viewer-results.json
+            --phase prepared
+            --output .ddd-publication/publicacion_visor.json
+          )
+          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+            args+=(--production-root /tmp/production --strict-request)
+          fi
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
       - uses: actions/configure-pages@v5
         with:
           enablement: true
@@ -102,7 +122,7 @@ jobs:
           path: site
       - id: deployment
         uses: actions/deploy-pages@v4
-      - name: Registrar evidencia de publicación
+      - name: Registrar evidencia final de publicación
         if: always()
         shell: bash
         env:
@@ -110,38 +130,18 @@ jobs:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           set -euo pipefail
-          mkdir -p .ddd-publication
-          python - <<'PY'
-          import json, os
-          from pathlib import Path
-          site = Path("site")
-          registry = site / "data/viewer-results.json"
-          results = []
-          if registry.is_file():
-              try:
-                  data = json.loads(registry.read_text(encoding="utf-8"))
-                  results = data.get("results") or []
-              except Exception:
-                  results = []
-          maps = sorted(
-              p.relative_to(site).as_posix()
-              for p in site.rglob("*")
-              if p.is_file() and p.suffix.lower() in {".json", ".geojson", ".zip"}
-          ) if site.is_dir() else []
-          outcome = os.environ.get("DEPLOYMENT_OUTCOME") or "unknown"
-          payload = {
-              "schema": "ddd-publication-evidence/1.0",
-              "status": "SUCCESS" if outcome == "success" else "BLOCK",
-              "deployment_outcome": outcome,
-              "viewer_url": os.environ.get("PAGE_URL") or None,
-              "result_count": len(results),
-              "maps_generated": maps,
-              "source": "workflow_evidence",
-          }
-          Path(".ddd-publication/publicacion_visor.json").write_text(
-              json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+          args=(
+            --requested-run-id "$PRODUCTION_RUN_ID"
+            --registry site/data/viewer-results.json
+            --viewer-url "$PAGE_URL"
+            --deployment-outcome "$DEPLOYMENT_OUTCOME"
+            --phase final
+            --output .ddd-publication/publicacion_visor.json
           )
-          PY
+          if [[ -n "$PRODUCTION_RUN_ID" ]] && [[ -d /tmp/production ]]; then
+            args+=(--production-root /tmp/production)
+          fi
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
       - name: Publicar evidencia del visor
         if: always()
         uses: actions/upload-artifact@v6
