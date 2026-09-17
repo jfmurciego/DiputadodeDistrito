@@ -113,12 +113,16 @@ class ProductionViewerStateTests(unittest.TestCase):
 
 class WorkflowGateTests(unittest.TestCase):
     def test_production_emits_status_manifest_in_artifact(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn('"schema": "ddd.production-status/1.0"', text)
-        self.assertIn("production_status.json", text)
-        self.assertIn('geometric_decision == "PASS_WITH_EXCEPTIONS"', text)
-        self.assertIn('decision = "PASS_WITH_EXCEPTIONS"', text)
-        self.assertIn('decision = "BLOCK"', text)
+        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        builder = (ROOT / "herramientas/estado_produccion.py").read_text(encoding="utf-8")
+        self.assertIn("herramientas/estado_produccion.py", workflow)
+        self.assertIn("production_status.json", workflow)
+        self.assertIn('"schema": "ddd.production-status/1.1"', builder)
+        self.assertIn('TARGET_MET = "TARGET_MET"', builder)
+        self.assertIn('TARGET_IMPROVED_NOT_MET = "TARGET_IMPROVED_NOT_MET"', builder)
+        self.assertIn('TARGET_NOT_MET = "TARGET_NOT_MET"', builder)
+        self.assertIn('HARD_BLOCK = "HARD_BLOCK"', builder)
+        self.assertIn('return "BLOCK", "POPULATION_TARGET_NOT_MET"', builder)
 
     def test_production_requires_independent_geometry(self):
         text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
