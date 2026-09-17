@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: construir_unidades_internas_m04.py
-VERSIÓN: 1.0.2
-NOMBRE: Macro-unidades internas con motor M04 canónico
-FECHA: 2026-09-13
+VERSIÓN: 1.0.3
+NOMBRE: Macro-unidades internas con conectividad autocontenida
+FECHA: 2026-09-17
 FUNCIÓN: construir una identidad de partición distinta del municipio administrativo real. Los municipios
 pequeños permanecen atómicos; los sobredimensionados se dividen determinísticamente en macro-unidades
 internas conexas de tamaño controlado respecto del target distrital.
@@ -13,8 +13,8 @@ ENTRADAS: GeoJSON o GeoJSON.zip M01, grafo M03, K, campos de sección/municipio/
 SALIDAS: GeoJSON con `partition_unit_field` y JSON de auditoría.
 REGLAS: no modifica CUMUN; no cambia población ni geometría; cada macro-unidad es conexa en M03; la
 partición solo se abre para municipios por encima de `atomicity_ratio × target`.
-CAMBIOS: sustituye la carga dinámica del snapshot v7.4.5 por el motor canónico.
-MOTIVO: impedir que una herramienta operativa seleccione implícitamente otro motor M04.
+CAMBIOS: desacopla la comprobación de conectividad de un helper no público del motor M04 y mantiene el motor canónico para partición y rebalanceo.
+MOTIVO: hacer ejecutable y estable el preprocesador común frente a la interfaz pública real de m04_seed_engine.
 ANTERIOR: legacy/herramientas/construir_unidades_internas_m04_v1.0.1.py
 """
 from __future__ import annotations
@@ -45,6 +45,22 @@ def load_geo(path):
             )
             return gpd.read_file(io.BytesIO(z.read(n)))
     return gpd.read_file(p)
+
+
+def connected(nodes, adj):
+    nodes = set(nodes)
+    if not nodes:
+        return False
+    start = next(iter(nodes))
+    seen = {start}
+    stack = [start]
+    while stack:
+        u = stack.pop()
+        for v in adj.get(u, set()):
+            if v in nodes and v not in seen:
+                seen.add(v)
+                stack.append(v)
+    return seen == nodes
 
 
 def main():
@@ -80,7 +96,19 @@ def main():
             adj[u].add(v)
             adj[v].add(u)
 
+    section_ids = set(g[a.id_field].astype(str))
+    if section_ids != set(pop):
+        missing_graph = sorted(section_ids - set(pop))
+        missing_geo = sorted(set(pop) - section_ids)
+        raise SystemExit(
+            "Universo M01/M03 incoherente antes de particionar: "
+            f"sin_grafo={missing_graph[:10]} sin_geometria={missing_geo[:10]}"
+        )
+
     total = int(g[a.population_field].sum())
+    graph_total = sum(pop.values())
+    if total != graph_total:
+        raise SystemExit(f"Población M01/M03 incoherente: geometría={total} grafo={graph_total}")
     target = total / a.k
     atomic_limit = target * a.atomicity_ratio
     desired_chunk = target * a.chunk_ratio
@@ -94,7 +122,7 @@ def main():
         mp = sum(pop[n] for n in nodes)
         if mp <= atomic_limit or len(nodes) <= 1:
             continue
-        if not eng.connected(nodes, adj):
+        if not connected(nodes, adj):
             raise SystemExit(f"Municipio {mun} no conexo antes de particionar")
 
         q = max(2, int(math.ceil(mp / desired_chunk)))
@@ -119,7 +147,7 @@ def main():
         )
         chunks = []
         for seq, (part, pval) in enumerate(ordered, start=1):
-            if not eng.connected(part, adj):
+            if not connected(part, adj):
                 raise SystemExit(f"Macro-unidad desconectada {mun} P{seq}")
             uid = f"{mun}#P{seq:02d}"
             g.loc[g[a.id_field].isin(part), a.partition_unit_field] = uid
@@ -150,9 +178,14 @@ def main():
 
     if g[a.partition_unit_field].isna().any():
         raise SystemExit("Hay secciones sin unidad de partición")
+    if g[a.id_field].duplicated().any():
+        duplicated = sorted(g.loc[g[a.id_field].duplicated(False), a.id_field].astype(str).unique())
+        raise SystemExit(f"Secciones duplicadas tras particionar: {duplicated[:10]}")
+    if set(g[a.id_field].astype(str)) != section_ids or int(g[a.population_field].sum()) != total:
+        raise SystemExit("El preprocesado alteró el universo de secciones o la población")
     for uid, x in g.groupby(a.partition_unit_field):
         nodes = set(x[a.id_field].astype(str))
-        if not eng.connected(nodes, adj):
+        if not connected(nodes, adj):
             raise SystemExit(f"Unidad de partición final desconectada: {uid}")
         if x[a.municipality_field].nunique() != 1:
             raise SystemExit(f"Unidad de partición cruza municipios: {uid}")
@@ -167,7 +200,7 @@ def main():
         if x[a.partition_unit_field].nunique() > 1
     }
     result = {
-        "version": "1.0.1",
+        "version": "1.0.3",
         "K": a.k,
         "total_population": total,
         "target": target,
@@ -177,6 +210,9 @@ def main():
         "desired_chunk_population": desired_chunk,
         "partition_unit_field": a.partition_unit_field,
         "partition_unit_count": int(g[a.partition_unit_field].nunique()),
+        "section_count": int(len(g)),
+        "sections_unique": int(g[a.id_field].nunique()) == len(g),
+        "population_preserved": int(g[a.population_field].sum()) == total,
         "oversized_municipality_count": len(report_municipalities),
         "split_municipalities": split_muns,
         "municipalities": report_municipalities,
