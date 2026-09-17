@@ -11,6 +11,7 @@ from pathlib import Path
 PASS_STATUSES = {"PASS", "PASS_WITH_EXCEPTIONS"}
 CAUSAL_TYPES = {"ATOMIC_MULTIPART", "GOVERNED_BRIDGE"}
 GEOMETRIC_V2_SCHEMA = "ddd.geometric-components-audit/2.0"
+POPULATION_TARGET_MET = "TARGET_MET"
 
 
 def load(path: Path) -> dict:
@@ -114,8 +115,21 @@ def certify(
         errors.append("RUN_ID_MISMATCH")
     if status.get("from_stage") != "M01" or status.get("to_stage") != "M08":
         errors.append("INCOMPLETE_STAGE_RANGE")
-    if status.get("execution_outcome") != "success" or status.get("decision") not in PASS_STATUSES:
+    if status.get("execution_outcome") != "success":
+        errors.append("EXECUTION_FAILED")
+    if status.get("decision") not in PASS_STATUSES:
         errors.append("PRODUCTION_NOT_PASSED")
+
+    population_decision = status.get("population_decision")
+    if population_decision == "HARD_BLOCK":
+        errors.append("POPULATION_HARD_BLOCK")
+    elif population_decision != POPULATION_TARGET_MET:
+        errors.append("POPULATION_TARGET_NOT_MET")
+    if status.get("population_hard_constraints_after") != 0:
+        errors.append("POPULATION_HARD_CONSTRAINTS")
+    if status.get("population_outliers_after") != 0:
+        errors.append("POPULATION_OUTLIERS_REMAIN")
+
     if validation.get("estado") != "PASS" or validation.get("failures"):
         errors.append("TERRITORIAL_VALIDATION_FAILED")
     if validation.get("expected_districts") != validation.get("districts_found"):
@@ -129,8 +143,6 @@ def certify(
         errors.extend(_validate_geometric_v2(audit))
     else:
         errors.extend(_validate_geometric_v1(audit))
-    errors = list(dict.fromkeys(errors))
-    governed = int(audit.get("governed_exceptions", 0))
 
     if reconciliation.get("status") not in {"PASS", "PASS_WITH_DECLARED_EXCEPTIONS"}:
         errors.append("ELECTORAL_RECONCILIATION_FAILED")
@@ -156,6 +168,8 @@ def certify(
     if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
         errors.append("INVALID_SOURCE_COMMIT")
 
+    errors = list(dict.fromkeys(errors))
+    governed = int(audit.get("governed_exceptions", 0))
     certification = "BLOCKED"
     if not errors:
         certification = "CERTIFIED_WITH_GOVERNED_EXCEPTIONS" if (
@@ -165,7 +179,7 @@ def certify(
         ) else "CERTIFIED"
 
     return {
-        "schema": "ddd.technical-certification/1.0",
+        "schema": "ddd.technical-certification/1.1",
         "decision": certification,
         "territory_id": territory,
         "production_run_id": run_id,
@@ -173,6 +187,12 @@ def certify(
         "source_commit": source_commit,
         "contract_sha256": (decision.get("contract") or {}).get("contract_sha256"),
         "stage_range": {"from": status.get("from_stage"), "to": status.get("to_stage")},
+        "population": {
+            "decision": population_decision,
+            "repair_result": status.get("population_repair_result"),
+            "outliers_after": status.get("population_outliers_after"),
+            "hard_constraints_after": status.get("population_hard_constraints_after"),
+        },
         "districts": {
             "expected": validation.get("expected_districts"),
             "observed": validation.get("districts_found"),
