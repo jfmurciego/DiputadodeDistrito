@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Preparación común M04 y bloqueo electoral factual
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Preparación de Extremadura
 # FECHA: 2026-09-17
-# ESTADO: preindustrialización factual; sin ejecución territorial
+# ESTADO: preparación factual bloqueada; sin ejecución territorial
 # FUNCIÓN: declarar qué partes del proceso completo están preparadas y qué bloqueos siguen abiertos sin excepciones territoriales.
-# CAMBIOS: resuelve la capacidad común de unidades internas, adopta perfil poblacional estándar y documenta la ausencia de un fichero oficial público desagregado para 2025.
+# CAMBIOS: hace visible el trabajo común de unidades internas y sustituye la investigación electoral manual por una comprobación automática declarativa.
 # MOTIVO: separar capacidad preparada de certificación territorial y mantener fail-closed M07 sin fuentes sustitutas.
-# ANTERIOR: legacy/territorios/extremadura/preparacion_proceso_completo_v1.0.0.yaml
-schema: ddd-territory-full-process-readiness/1.1
+# ANTERIOR: versión 1.1.0 en historial Git.
+schema: ddd-territory-full-process-readiness/1.2
 territory_id: extremadura
 edition: 2025
 production_authorization: BLOCKED
@@ -43,10 +43,11 @@ business_steps:
     remaining_blocker: null
   internal_units_preparation:
     ready: true
-    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, procedimiento.sh, territorios/extremadura/config/extremadura_2025.yaml]
+    evidence: [herramientas/preparar_unidades_internas.py, herramientas/construir_unidades_internas_m04.py, .github/workflows/producir-territorio-por-contrato.yml, territorios/extremadura/config/extremadura_2025.yaml]
     capability: declarative_internal_partition_preprocessor
     strategy: connected_internal_units
-    execution: common_pre_m04_step
+    execution: visible_github_actions_job
+    artifact: ddd-internal-units-<run_id>
     remaining_blocker: null
   district_creation_and_balance:
     ready: false
@@ -70,10 +71,12 @@ business_steps:
       detail: 'La política geométrica está declarada, pero no existe todavía una solución M04-M06 ejecutada con el nuevo perfil común sobre la que certificar la geometría distrital.'
   electoral_results:
     ready: false
-    evidence: [territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json, modulos/07_agregar_resultados_electorales.py, ddd_core/electoral_contract.py]
+    automated_check: true
+    evidence: [territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml, herramientas/comprobar_fuente_electoral_oficial.py, territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json, modulos/07_agregar_resultados_electorales.py, ddd_core/electoral_contract.py]
+    artifact: ddd-electoral-source-<run_id>
     remaining_blocker:
       type: OFFICIAL_DISAGGREGATED_FILE_NOT_PUBLICLY_LOCATED
-      detail: 'La Junta publicó resultados provisionales descargables en CSV para medios mediante un repositorio con credenciales y el portal público de resultados ofrece municipio/autonomía; el DOE publica los resultados definitivos por circunscripción. No se ha localizado una descarga oficial pública a nivel de sección o mesa apta para el contrato M07. RTVE queda expresamente excluida como sustituto.'
+      detail: 'El workflow consulta automáticamente las fuentes oficiales declaradas. Si encuentra un fichero público con granularidad mínima de sección lo congela y calcula su SHA-256; si detecta ausencia, credenciales o granularidad insuficiente emite BLOCK. RTVE queda expresamente excluida como sustituto.'
   maps_generation_and_publication:
     ready: false
     evidence: [modulos/08_integrar_resultados.py, .github/workflows/producir-territorio-por-contrato.yml]
@@ -86,4 +89,4 @@ business_steps:
 decision:
   readiness: BLOCKED
   may_execute_territory: false
-  rationale: 'Fuentes, M01-M03, topología y preprocesado común previo a M04 están preparados por configuración. El paquete no ejecuta Extremadura; la certificación M04-M06 queda pendiente y M07 permanece bloqueado por ausencia de un fichero oficial público suficientemente desagregado.'
+  rationale: 'Fuentes, M01-M03, topología y el trabajo visible de unidades internas están preparados por configuración. El paquete no ejecuta Extremadura; la certificación M04-M06 queda pendiente y M07 permanece fail-closed hasta que la comprobación automática localice una fuente oficial pública suficientemente desagregada.'
