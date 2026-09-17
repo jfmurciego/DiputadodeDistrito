@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-PROYECTO: Diputado de Distrito
-COMPONENTE: informe de ejecución basado en evidencias
-VERSIÓN: 1.0.0
-FECHA: 2026-09-17
-FUNCIÓN: consolidar artefactos estructurados del workflow en inventario_ejecucion.json e informe_ejecucion.md.
-REGLAS: no lee logs ni documentación manual; sólo contexto automático y evidencias publicadas por la ejecución.
-"""
+"""Consolida evidencias estructuradas del workflow en inventario e informe de ejecución."""
 from __future__ import annotations
 
 import argparse
@@ -47,19 +40,13 @@ def all_json(root: Path) -> list[tuple[Path, Any]]:
     return rows
 
 
-def first_by_name(rows: list[tuple[Path, Any]], name: str) -> tuple[Path, Any] | None:
-    for path, value in rows:
-        if path.name == name:
-            return path, value
-    return None
+def first_by_name(rows, name):
+    return next(((p, v) for p, v in rows if p.name == name), None)
 
 
-def first_contains(rows: list[tuple[Path, Any]], token: str) -> tuple[Path, Any] | None:
+def first_contains(rows, token):
     token = token.lower()
-    for path, value in rows:
-        if token in path.name.lower():
-            return path, value
-    return None
+    return next(((p, v) for p, v in rows if token in p.name.lower()), None)
 
 
 def get_any(obj: Any, *keys: str, default=None):
@@ -138,6 +125,23 @@ def blockers_from(*documents: Any) -> list[str]:
     return list(dict.fromkeys(values))
 
 
+def publication_is_complete(publication: dict, requested_run_id: str | None) -> bool:
+    requested = str(requested_run_id or "").strip() or None
+    return bool(
+        requested
+        and publication.get("status") == "SUCCESS"
+        and publication.get("same_execution") is True
+        and str(publication.get("requested_run_id") or "") == requested
+        and str(publication.get("generated_run_id") or "") == requested
+        and str(publication.get("loaded_run_id") or "") == requested
+        and publication.get("deployment_outcome") == "success"
+        and publication.get("viewer_url")
+        and int(publication.get("new_map_count") or 0) > 0
+        and isinstance(publication.get("new_maps"), list)
+        and len(publication.get("new_maps") or []) == int(publication.get("new_map_count") or 0)
+    )
+
+
 def build_inventory(evidence_root: Path, context: dict) -> dict:
     rows = all_json(evidence_root)
     inv_doc = first_by_name(rows, "inventario_fuentes.json")
@@ -172,7 +176,7 @@ def build_inventory(evidence_root: Path, context: dict) -> dict:
 
     sections = find_scalar(m01v, {"sections", "section_count", "sections_count", "n_sections"})
     population = find_scalar(m01v, {"population_total", "total_population", "population"})
-    expected_districts = (find_scalar(m06v, {"expected_districts", "district_count", "districts"}) or find_scalar(m05v, {"expected_districts", "district_count", "districts"}) or find_scalar(m04v, {"expected_districts", "district_count", "districts", "K", "k"}))
+    expected_districts = find_scalar(m06v, {"expected_districts", "district_count", "districts"}) or find_scalar(m05v, {"expected_districts", "district_count", "districts"}) or find_scalar(m04v, {"expected_districts", "district_count", "districts", "K", "k"})
     created_districts = find_scalar(m04v, {"district_count", "districts", "K", "k"})
     balanced_districts = find_scalar(m05v, {"district_count", "districts", "K", "k"})
 
@@ -182,12 +186,11 @@ def build_inventory(evidence_root: Path, context: dict) -> dict:
     geom_decision = get_any(production_status, "geometric_decision") or get_any(geomv, "decision")
     governed_exceptions = get_any(geomv, "governed_exceptions", default=0)
     blocked_districts = get_any(geomv, "blocked_districts", default=0)
-
     unassigned_votes = find_scalar(m07v, {"unassigned_votes", "votes_unassigned", "unassigned_vote_count", "votos_no_asignados"})
     selected = get_any(electoral_source, "selected_source", default={}) or {}
+
     artifact_files = sorted(p.relative_to(evidence_root).as_posix() for p in evidence_root.rglob("*") if p.is_file()) if evidence_root.exists() else []
     m08_products = [p for p in artifact_files if "_m08_" in p.lower()]
-
     reached = []
     for business_name, markers in BUSINESS_STEPS:
         if any(any(marker.lower() in path.lower() for marker in markers) for path in artifact_files):
@@ -204,7 +207,12 @@ def build_inventory(evidence_root: Path, context: dict) -> dict:
         evidence_block = True
         if not blockers:
             blockers.append(f"La cadena terminó con estado automático {chain_result}.")
-    complete = bool(publication_status == "SUCCESS" or m08_products)
+
+    requested_run_id = str(context.get("workflow_run_id") or "").strip() or None
+    complete = publication_is_complete(publication, requested_run_id)
+    if publication_doc and not complete and not evidence_block:
+        blockers.append("PUBLICACION_NO_ACREDITA_MISMA_EJECUCION_DESPLIEGUE_ENLACE_Y_MAPAS_NUEVOS")
+        evidence_block = True
     final_decision = "BLOCK" if evidence_block else ("COMPLETE" if complete else "INCOMPLETE")
 
     integrity_checks = {}
@@ -213,16 +221,16 @@ def build_inventory(evidence_root: Path, context: dict) -> dict:
             integrity_checks.update(doc["checks"])
 
     return {
-        "schema": "ddd-execution-inventory/1.0",
-        "metadatos": {"territorio_id": context.get("territory_id"), "operacion": context.get("operation"), "run_id": context.get("workflow_run_id"), "intento": context.get("workflow_run_attempt"), "tramo_solicitado": {"desde": context.get("requested_from"), "hasta": context.get("requested_to")}, "resultado_trabajo_cadena": context.get("production_job_result")},
+        "schema": "ddd-execution-inventory/1.1",
+        "metadatos": {"territorio_id": context.get("territory_id"), "operacion": context.get("operation"), "run_id": requested_run_id, "intento": context.get("workflow_run_attempt"), "tramo_solicitado": {"desde": context.get("requested_from"), "hasta": context.get("requested_to")}, "resultado_trabajo_cadena": context.get("production_job_result")},
         "progreso": {"ultimo_paso_de_negocio_con_evidencia": reached_until, "pasos_con_evidencia": reached, "artefactos_observados": len(artifact_files)},
         "fuentes_oficiales": {"decision": source_decision, "modo": get_any(inventory, "acquisition_mode"), "edicion": get_any(inventory, "edition"), "fuentes": normalize_sources(inventory, provenance), "evidencias": [rel(x[0], evidence_root) for x in (inv_doc, prov_doc, prep_doc, acquire_doc) if x]},
         "base_territorial_y_poblacion": {"unidades_territoriales": sections, "poblacion_total": population, "controles_integridad": integrity_checks, "evidencia": rel(m01[0], evidence_root) if m01 else None},
         "creacion_y_equilibrado_de_distritos": {"distritos_creados": created_districts, "distritos_equilibrados": balanced_districts, "distritos_esperados": expected_districts, "cumplimiento_poblacional": {"decision": pop_decision, "resultado": pop_outcome, "detalle_reparacion": pop_repair if isinstance(pop_repair, dict) else None}, "evidencia_creacion": rel(m04[0], evidence_root) if m04 else None, "evidencia_equilibrado": rel(m05[0], evidence_root) if m05 else None},
         "control_geografico": {"decision": geom_decision, "distritos_bloqueados": blocked_districts, "excepciones_justificadas": governed_exceptions, "evidencia": rel(geom[0], evidence_root) if geom else (rel(prod_status_doc[0], evidence_root) if prod_status_doc else None)},
         "incorporacion_electoral": {"decision_fuente": electoral_decision, "fuente_seleccionada": {"identificador": selected.get("id"), "url": selected.get("url"), "checksum_sha256": selected.get("sha256"), "bytes": selected.get("bytes"), "resolucion": selected.get("declared_resolution")} if isinstance(selected, dict) else None, "reconciliacion": m07v if isinstance(m07v, dict) else None, "votos_no_asignados": unassigned_votes, "evidencia_fuente": rel(electoral_doc[0], evidence_root) if electoral_doc else None, "evidencia_reconciliacion": rel(m07_recon[0], evidence_root) if m07_recon else None},
-        "publicacion_y_visor": {"estado": publication_status, "url_visor": get_any(publication, "viewer_url"), "mapas_generados": get_any(publication, "maps_generated", default=[]), "resultados_en_visor": get_any(publication, "result_count"), "productos_m08": m08_products, "evidencia": rel(publication_doc[0], evidence_root) if publication_doc else None},
-        "decision_final": {"decision": final_decision, "causas_de_bloqueo": blockers, "hasta_donde_llego": reached_until},
+        "publicacion_y_visor": {"estado": publication_status, "ejecucion_solicitada": get_any(publication, "requested_run_id"), "ejecucion_generada": get_any(publication, "generated_run_id"), "ejecucion_publicada": get_any(publication, "loaded_run_id"), "misma_ejecucion": get_any(publication, "same_execution", default=False), "despliegue": get_any(publication, "deployment_outcome"), "url_visor": get_any(publication, "viewer_url"), "new_maps": get_any(publication, "new_maps", default=[]), "new_map_count": get_any(publication, "new_map_count", default=0), "productos_m08": m08_products, "evidencia": rel(publication_doc[0], evidence_root) if publication_doc else None},
+        "decision_final": {"decision": final_decision, "causas_de_bloqueo": list(dict.fromkeys(blockers)), "hasta_donde_llego": reached_until},
     }
 
 
@@ -237,14 +245,17 @@ def render_markdown(inv: dict) -> str:
             lines.append(f"| {show(row.get('identificador'))} | {show(row.get('fecha_adquisicion'))} | {show(row.get('procedencia'))} | {show(row.get('checksum_sha256'))} |")
     else:
         lines.append("- No hay una fuente oficial materializada en las evidencias recuperadas.")
-    lines += ["", "## Base territorial y población", f"- Unidades territoriales: {show(base.get('unidades_territoriales'))}.", f"- Población total: {show(base.get('poblacion_total'))}.", f"- Controles de integridad: {show(base.get('controles_integridad'))}.", "", "## Creación y equilibrado de distritos", f"- Distritos creados: {show(distr.get('distritos_creados'))}.", f"- Distritos equilibrados: {show(distr.get('distritos_equilibrados'))}.", f"- Distritos esperados: {show(distr.get('distritos_esperados'))}.", f"- Cumplimiento poblacional: {show((distr.get('cumplimiento_poblacional') or {}).get('decision'))}.", "", "## Control geográfico", f"- Conectividad: {show(geo.get('decision'))}.", f"- Distritos bloqueados: {show(geo.get('distritos_bloqueados'))}.", f"- Excepciones justificadas: {show(geo.get('excepciones_justificadas'))}.", "", "## Incorporación electoral", f"- Fuente electoral: {show(elec.get('decision_fuente'))}.", f"- Votos no asignados: {show(elec.get('votos_no_asignados'))}.", f"- Reconciliación: {'disponible' if elec.get('reconciliacion') else 'no disponible en las evidencias'}.", "", "## Publicación y visor", f"- Estado: {show(pub.get('estado'))}.", f"- Visor: {show(pub.get('url_visor'))}.", f"- Mapas generados: {len(pub.get('mapas_generados') or [])}.", f"- Productos electorales territoriales: {len(pub.get('productos_m08') or [])}.", "", "## Cierre"]
+    lines += ["", "## Base territorial y población", f"- Unidades territoriales: {show(base.get('unidades_territoriales'))}.", f"- Población total: {show(base.get('poblacion_total'))}.", f"- Controles de integridad: {show(base.get('controles_integridad'))}.", "", "## Creación y equilibrado de distritos", f"- Distritos creados: {show(distr.get('distritos_creados'))}.", f"- Distritos equilibrados: {show(distr.get('distritos_equilibrados'))}.", f"- Distritos esperados: {show(distr.get('distritos_esperados'))}.", f"- Cumplimiento poblacional: {show((distr.get('cumplimiento_poblacional') or {}).get('decision'))}.", "", "## Control geográfico", f"- Conectividad: {show(geo.get('decision'))}.", f"- Distritos bloqueados: {show(geo.get('distritos_bloqueados'))}.", f"- Excepciones justificadas: {show(geo.get('excepciones_justificadas'))}.", "", "## Incorporación electoral", f"- Fuente electoral: {show(elec.get('decision_fuente'))}.", f"- Votos no asignados: {show(elec.get('votos_no_asignados'))}.", f"- Reconciliación: {'disponible' if elec.get('reconciliacion') else 'no disponible en las evidencias'}.", "", "## Publicación y visor", f"- Estado: {show(pub.get('estado'))}.", f"- Ejecución solicitada: {show(pub.get('ejecucion_solicitada'))}.", f"- Ejecución generada: {show(pub.get('ejecucion_generada'))}.", f"- Ejecución publicada: {show(pub.get('ejecucion_publicada'))}.", f"- Despliegue: {show(pub.get('despliegue'))}.", f"- Visor: {show(pub.get('url_visor'))}.", f"- Mapas nuevos: {show(pub.get('new_map_count'), '0')}."]
+    for path in pub.get("new_maps") or []:
+        lines.append(f"  - {path}")
+    lines += ["", "## Cierre"]
     if final["causas_de_bloqueo"]:
         lines.append("La ejecución terminó bloqueada por las siguientes causas registradas:")
         lines.extend(f"- {reason}" for reason in final["causas_de_bloqueo"])
     elif final["decision"] == "COMPLETE":
-        lines.append("La cadena dispone de evidencia de publicación y no registra causas de bloqueo.")
+        lines.append("La ejecución generada y la publicada coinciden, el despliegue es correcto y el visor acredita mapas nuevos de esa ejecución.")
     else:
-        lines.append("La ejecución no registra un bloqueo explícito, pero las evidencias recuperadas no acreditan todavía una publicación completa.")
+        lines.append("La ejecución no registra un bloqueo explícito, pero las evidencias no acreditan todavía una publicación completa.")
     lines += ["", "_Los códigos internos de módulos y rutas se conservan únicamente en el inventario JSON como metadatos de trazabilidad._", ""]
     return "\n".join(lines)
 
@@ -252,7 +263,8 @@ def render_markdown(inv: dict) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser(); ap.add_argument("--evidence-root", required=True); ap.add_argument("--context", required=True); ap.add_argument("--out-dir", required=True); args = ap.parse_args()
     root = Path(args.evidence_root); context = load_json(Path(args.context))
-    if not isinstance(context, dict): raise SystemExit("El contexto automático de ejecución no es JSON válido")
+    if not isinstance(context, dict):
+        raise SystemExit("El contexto automático de ejecución no es JSON válido")
     out = Path(args.out_dir); out.mkdir(parents=True, exist_ok=True); inventory = build_inventory(root, context)
     (out / "inventario_ejecucion.json").write_text(json.dumps(inventory, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (out / "informe_ejecucion.md").write_text(render_markdown(inventory), encoding="utf-8")
