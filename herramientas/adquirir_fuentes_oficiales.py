@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Tres modos verificables y materialización consumible
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Copia nacional inmutable y recorte territorial aislado
 FECHA: 2026-09-17
 ESTADO: candidato
-FUNCIÓN: materializar fuentes oficiales por declaración territorial, con procedencia, huellas y bloqueo estructurado.
-CAMBIOS: implementa official_live, verified_snapshot y simulated; valida población; materializa entradas M01 y conserva evidencia aun en bloqueo.
-MOTIVO: convertir la adquisición en una puerta auditable y reproducible previa a la generación de distritos.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.0.0.py
+FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
+CAMBIOS: escribe recortes sólo en evidence/materialized, separa raíz nacional y raíz territorial y bloquea origen=destino.
+MOTIVO: impedir que la preparación de un territorio mutile o sobrescriba una copia oficial compartida por otros territorios.
+ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -114,6 +114,19 @@ def _resolve(root_dir: Path, configured: str) -> Path:
     return path if path.is_absolute() else root_dir / path
 
 
+def _territorial_destination(evidence_dir: Path, configured_path: str) -> Path:
+    configured = Path(configured_path)
+    if configured.is_absolute():
+        raise ValueError(f"materialized_path debe ser relativo al producto territorial: {configured_path}")
+    destination = (evidence_dir / "materialized" / configured).resolve()
+    staging_root = (evidence_dir / "materialized").resolve()
+    try:
+        destination.relative_to(staging_root)
+    except ValueError as exc:
+        raise ValueError(f"materialized_path sale del área temporal: {configured_path}") from exc
+    return destination
+
+
 def _source_urls(source: dict, edition: int, provinces: list[dict]) -> list[str]:
     kind = source.get("kind")
     if kind == "static_csv":
@@ -145,9 +158,12 @@ def _ensure_snapshot_metadata(binding: dict, edition: int) -> dict:
     return snapshot
 
 
-def _read_snapshot(root_dir: Path, binding: dict, edition: int) -> tuple[bytes, dict]:
+def _read_snapshot(root_dir: Path, evidence_dir: Path, binding: dict, configured_path: str, edition: int) -> tuple[bytes, dict]:
     snapshot = _ensure_snapshot_metadata(binding, edition)
-    path = _resolve(root_dir, str(snapshot["path"]))
+    path = _resolve(root_dir, str(snapshot["path"])).resolve()
+    destination = _territorial_destination(evidence_dir, configured_path)
+    if path == destination:
+        raise ValueError(f"Origen oficial y destino territorial resuelven al mismo fichero: {path}")
     if not path.is_file():
         raise FileNotFoundError(f"No existe la copia oficial declarada: {snapshot['path']}")
     payload = path.read_bytes()
@@ -157,10 +173,13 @@ def _read_snapshot(root_dir: Path, binding: dict, edition: int) -> tuple[bytes, 
         raise ValueError(f"Huella de copia incorrecta: {actual} != {expected}")
     return payload, {
         "snapshot_path": str(snapshot["path"]),
+        "snapshot_resolved_path": str(path),
         "snapshot_sha256": actual,
+        "snapshot_bytes": len(payload),
         "snapshot_official_origin_url": str(snapshot["official_origin_url"]),
         "snapshot_acquired_at": str(snapshot["acquired_at"]),
         "snapshot_edition": int(snapshot["edition"]),
+        "territorial_resolved_path": str(destination),
     }
 
 
@@ -361,7 +380,7 @@ def _collect_live_sections(source: dict, edition: int, provinces: list[dict], fe
     return all_features, urls, {"provinces": sorted(coverage), "sections_by_province": coverage, "sections": len(all_features)}
 
 
-def _write_shapefile_zip(features: list[dict], destination: Path, crs: str | None = "EPSG:4326") -> bytes:
+def _write_shapefile_zip(features: list[dict], crs: str | None = "EPSG:4326") -> bytes:
     try:
         import geopandas as gpd
     except Exception as exc:  # pragma: no cover
@@ -380,15 +399,11 @@ def _write_shapefile_zip(features: list[dict], destination: Path, crs: str | Non
         return out.getvalue()
 
 
-def _write_materialized(root_dir: Path, evidence_dir: Path, configured_path: str, payload: bytes) -> tuple[Path, dict]:
-    destination = _resolve(root_dir, configured_path)
+def _write_materialized(evidence_dir: Path, configured_path: str, payload: bytes) -> tuple[Path, dict]:
+    destination = _territorial_destination(evidence_dir, configured_path)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_bytes(payload)
-    if not Path(configured_path).is_absolute():
-        staged = evidence_dir / "materialized" / configured_path
-        staged.parent.mkdir(parents=True, exist_ok=True)
-        staged.write_bytes(payload)
-    return destination, {"path": configured_path, "sha256": sha256_bytes(payload), "bytes": len(payload)}
+    return destination, {"path": configured_path, "sha256": sha256_bytes(payload), "bytes": len(payload), "staged_path": str(destination)}
 
 
 def _core(source_id: str, configured_path: str, payload: bytes | None, urls: list[str], edition: int) -> dict:
@@ -413,10 +428,10 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
     fetch = fetcher or live_fetch
     required = _required_sources(catalog, declaration)
     header = {"territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode}
-    resolved = {"schema": "ddd-source-materialization-declaration/1.0", **header, "sources": []}
-    inventory = {"schema": "ddd-source-inventory/1.1", **header, "territorial_coverage": province_codes, "sources": []}
-    provenance = {"schema": "ddd-source-provenance/1.1", **header, "sources": []}
-    decision = {"schema": "ddd-source-acquisition-decision/1.0", **header, "decision": "READY", "reasons": []}
+    resolved = {"schema": "ddd-source-materialization-declaration/1.1", **header, "materialization_root": str((evidence_dir / "materialized").resolve()), "sources": []}
+    inventory = {"schema": "ddd-source-inventory/1.2", **header, "territorial_coverage": province_codes, "sources": []}
+    provenance = {"schema": "ddd-source-provenance/1.2", **header, "sources": []}
+    decision = {"schema": "ddd-source-acquisition-decision/1.1", **header, "decision": "READY", "reasons": []}
 
     for source_id, source, binding in required:
         configured_path = str(binding["materialized_path"])
@@ -424,9 +439,11 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
         payload_out: bytes | None = None
         content_checks: dict = {}
         snapshot_meta: dict = {}
+        staged_meta: dict = {}
         try:
+            destination = _territorial_destination(evidence_dir, configured_path)
             if mode == "verified_snapshot":
-                source_payload, snapshot_meta = _read_snapshot(root_dir, binding, edition)
+                source_payload, snapshot_meta = _read_snapshot(root_dir, evidence_dir, binding, configured_path, edition)
             elif source.get("kind") == "static_csv":
                 source_payload = fetch(official_urls[0])
             else:
@@ -443,23 +460,23 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     if coverage != sorted(province_codes):
                         raise ValueError(f"Cobertura provincial de secciones incorrecta: {coverage}")
                     content_checks = {"provinces": coverage, "sections": len(features)}
-                    payload_out = _write_shapefile_zip(features, _resolve(root_dir, configured_path), crs=crs)
+                    payload_out = _write_shapefile_zip(features, crs=crs)
                 else:
                     features, official_urls, content_checks = _collect_live_sections(source, edition, provinces, fetch)
-                    payload_out = _write_shapefile_zip(features, _resolve(root_dir, configured_path), crs="EPSG:4326")
+                    payload_out = _write_shapefile_zip(features, crs="EPSG:4326")
             else:
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
 
-            _write_materialized(root_dir, evidence_dir, configured_path, payload_out)
+            _, staged_meta = _write_materialized(evidence_dir, configured_path, payload_out)
             core = _core(source_id, configured_path, payload_out, official_urls, edition)
-            resolved["sources"].append(dict(core))
-            inventory["sources"].append({**core, "availability": "AVAILABLE", "content_checks": content_checks})
-            provenance["sources"].append({**core, "provider": source.get("provider"), "acquired_at_utc": datetime.now(timezone.utc).isoformat(), "mode": mode, **snapshot_meta})
+            resolved["sources"].append({**core, "staged_path": str(destination)})
+            inventory["sources"].append({**core, "availability": "AVAILABLE", "content_checks": content_checks, **staged_meta})
+            provenance["sources"].append({**core, "provider": source.get("provider"), "acquired_at_utc": datetime.now(timezone.utc).isoformat(), "mode": mode, **snapshot_meta, **staged_meta})
         except Exception as exc:
             core = _core(source_id, configured_path, payload_out, official_urls, edition)
             resolved["sources"].append(dict(core))
-            inventory["sources"].append({**core, "availability": "BLOCKED", "error": str(exc), "content_checks": content_checks})
-            provenance["sources"].append({**core, "provider": source.get("provider"), "mode": mode, **snapshot_meta})
+            inventory["sources"].append({**core, "availability": "BLOCKED", "error": str(exc), "content_checks": content_checks, **staged_meta})
+            provenance["sources"].append({**core, "provider": source.get("provider"), "mode": mode, **snapshot_meta, **staged_meta})
             decision["decision"] = "BLOCKED"
             decision["reasons"].append({"source_id": source_id, "reason": str(exc)})
             _persist(evidence_dir, resolved, inventory, provenance, decision)
