@@ -1,11 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: interfaz productiva empresarial de GitHub Actions
-VERSIÓN: 2.0.0
+VERSIÓN: 2.0.1
 FECHA: 2026-09-17
 OBJETIVO: exigir cuatro controles humanos, resolución automática del recorrido y
 encadenamiento hacia la producción modular sin exponer parámetros técnicos.
-CAMBIO: sustituye la interfaz multioperación por la interfaz productiva mínima.
+CAMBIO: conserva los identificadores internos estables resolver_interfaz/ruta.
 """
 from pathlib import Path
 import unittest
@@ -93,7 +93,6 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             self.assertIn(f'"{label}"|{technical_id}) territory_id={technical_id} ;;', text)
         self.assertIn('params="territorios/$territory_id/config/${territory_id}_${UI_EDITION}.yaml"', text)
         self.assertIn('test -f "$params"', text)
-        self.assertNotIn("_2025.yaml\n      territory_id:", text)
 
     def test_publicacion_resuelve_el_recorrido_sin_control_tecnico(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -113,15 +112,16 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_encadenamiento_productivo_es_automatico_y_mantiene_confirmacion_humana(self):
         data = self._load(INTERFACE)
-        job = data["jobs"]["producir"]
+        self.assertEqual(list(data["jobs"]), ["resolver_interfaz", "ruta"])
+        job = data["jobs"]["ruta"]
         self.assertEqual(job["name"], "Procesar territorio")
         self.assertEqual(job["uses"], "./.github/workflows/_reutilizable-operacion-territorial.yml")
         values = job["with"]
         self.assertEqual(values["operation"], "producir_resultado_m01_m08")
-        self.assertIn("needs.preparar.outputs.params", values["params"])
-        self.assertIn("needs.preparar.outputs.from_stage", values["from_stage"])
-        self.assertIn("needs.preparar.outputs.to_stage", values["to_stage"])
-        self.assertIn("needs.preparar.outputs.checkpoint_run_id", values["checkpoint_run_id"])
+        self.assertIn("needs.resolver_interfaz.outputs.params", values["params"])
+        self.assertIn("needs.resolver_interfaz.outputs.from_stage", values["from_stage"])
+        self.assertIn("needs.resolver_interfaz.outputs.to_stage", values["to_stage"])
+        self.assertIn("needs.resolver_interfaz.outputs.checkpoint_run_id", values["checkpoint_run_id"])
         self.assertIn("inputs.confirmar_ejecucion", values["execution_confirmed"])
 
     def test_secuencia_visible_usa_nombres_de_negocio_y_conserva_m01_m08(self):

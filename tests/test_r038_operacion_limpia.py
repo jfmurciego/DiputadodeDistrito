@@ -1,4 +1,4 @@
-"""Trinquetes R038 v1.0.2: interfaz única dentro y fuera del contenedor."""
+"""Trinquetes R038 v1.1.0: interfaz productiva única dentro y fuera del contenedor."""
 import os
 from pathlib import Path
 import subprocess
@@ -26,30 +26,28 @@ class R038OperacionLimpia(unittest.TestCase):
             for name in retired:
                 self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
 
-
-    def test_interfaz_institucional_cubre_m01_m08_y_protege_ejecucion(self):
+    def test_interfaz_productiva_cubre_m01_m08_y_protege_ejecucion(self):
         text = (WORKFLOWS / "ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        operations = raw_inputs["operation"]["options"]
-        self.assertEqual(operations, [
-            "Admitir contrato", "Verificar contrato", "Preparar base M01–M03",
-            "Diagnosticar topología", "Certificar territorio M01–M06",
-            "Producir resultado M01–M08", "Generar alternativas GerryChain",
-            "Publicar visor actual",
-            "Controlar ejecución", "Resolver reutilización y estado durable",
+        self.assertEqual(list(raw_inputs), [
+            "territory_id", "data_edition", "publish_result", "confirmar_ejecucion"
         ])
+        self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
+        self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
+        self.assertEqual(raw_inputs["publish_result"]["description"], "Publicar resultado")
+        self.assertEqual(raw_inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
         self.assertNotIn("execution_authorization:", text)
         self.assertNotIn("ensemble_promotion_authorization:", text)
-        self.assertIn("confirmar_ejecucion:", text)
-        self.assertIn("confirmar_coste:", text)
+        self.assertNotIn("operation:", raw_inputs)
+        self.assertNotIn("from_stage:", raw_inputs)
+        self.assertNotIn("to_stage:", raw_inputs)
+        self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertIn("PUBLIC_PRODUCT_PUBLICATION", text)
-        self.assertIn("admitir_contrato", text)
-        self.assertIn("generar_alternativas_gerrychain", text)
-        self.assertIn("controlar_ejecucion", text)
-        self.assertIn("resolver_reutilizacion", text)
-
+        self.assertIn("producir_resultado_m01_m08", text)
+        self.assertIn("to_stage=M08", text)
+        self.assertIn("to_stage=M07", text)
+        self.assertIn("${{ inputs.confirmar_ejecucion }}", text)
 
     def test_lanzador_shell_compila(self):
         result = subprocess.run(
@@ -57,7 +55,6 @@ class R038OperacionLimpia(unittest.TestCase):
             text=True, capture_output=True, check=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-
 
     def test_linea_comun_publica_productos_del_run(self):
         text = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
@@ -68,13 +65,17 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("workflow_dispatch", text)
 
     def test_operacion_general_publica_el_visor_con_el_componente_comun(self):
-        operation = (WORKFLOWS / "ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
+        interface = (WORKFLOWS / "ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
+        router = (WORKFLOWS / "_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8")
+        production = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         viewer = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-        self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", operation)
-        self.assertIn("production_run_id: ${{ github.run_id }}", operation)
+        self.assertIn("uses: ./.github/workflows/_reutilizable-operacion-territorial.yml", interface)
+        self.assertIn("uses: ./.github/workflows/producir-territorio-por-contrato.yml", router)
+        self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", production)
+        self.assertIn("production_run_id: ${{ github.run_id }}", production)
+        self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', interface)
         self.assertIn("workflow_call:", viewer)
         self.assertNotIn("workflow_dispatch:", viewer)
-        self.assertIn("publicar_visor_actual", operation)
 
     def test_no_queda_el_formulario_g10_sustituido(self):
         self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())

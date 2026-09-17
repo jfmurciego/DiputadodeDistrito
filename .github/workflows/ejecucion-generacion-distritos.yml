@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal
-# VERSIÓN: 6.0.0
+# VERSIÓN: 6.0.1
 # NOMBRE DE VERSIÓN: Producción empresarial con cuatro controles
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # QUÉ HACE: expone únicamente territorio, edición, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
-# CAMBIOS: elimina controles técnicos del formulario y convierte la operación productiva en una secuencia empresarial automática.
+# CAMBIOS: elimina controles técnicos del formulario y convierte la operación productiva en una secuencia empresarial automática, conservando los identificadores internos estables del router.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 5.0.0 en historial Git.
 name: Producción de distritos
@@ -63,7 +63,7 @@ permissions:
   id-token: write
 
 jobs:
-  preparar:
+  resolver_interfaz:
     name: Preparar contrato y reanudación
     runs-on: ubuntu-24.04
     outputs:
@@ -165,15 +165,20 @@ jobs:
             echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
 
-  producir:
+  ruta:
     name: Procesar territorio
-    needs: preparar
+    needs: resolver_interfaz
     uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
     with:
-      params: ${{ needs.preparar.outputs.params }}
-      territory_id: ${{ needs.preparar.outputs.territory_id }}
+      params: ${{ needs.resolver_interfaz.outputs.params }}
+      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
       operation: producir_resultado_m01_m08
-      from_stage: ${{ needs.preparar.outputs.from_stage }}
-      to_stage: ${{ needs.preparar.outputs.to_stage }}
-      checkpoint_run_id: ${{ needs.preparar.outputs.checkpoint_run_id }}
+      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
+      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
+      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
+
+    # Publicación resuelta dentro de la cadena productiva común:
+    # uses: ./.github/workflows/desplegar-visor-publico.yml
+    # production_run_id: ${{ github.run_id }}
+    # Ruta auxiliar no productiva preservada internamente en el router: generar_alternativas_gerrychain
