@@ -107,17 +107,25 @@ def evaluate_publication(
         ready = same_execution and not reasons
         status = "READY" if ready else "BLOCK"
     elif phase == "final":
-        ready = same_execution and not reasons and deployment_outcome == "success" and bool(viewer_url)
         if same_execution and deployment_outcome != "success":
             reasons.append("DESPLIEGUE_VISOR_NO_COMPLETADO")
         if same_execution and not viewer_url:
             reasons.append("VISOR_SIN_ENLACE_PUBLICADO")
+        if same_execution and not new_maps:
+            reasons.append("EJECUCION_PUBLICADA_SIN_MAPAS_NUEVOS")
+        ready = bool(
+            same_execution
+            and deployment_outcome == "success"
+            and viewer_url
+            and len(new_maps) > 0
+            and not reasons
+        )
         status = "SUCCESS" if ready else "BLOCK"
     else:
         raise ValueError(f"Fase desconocida: {phase}")
 
     return {
-        "schema": "ddd-publication-evidence/2.0",
+        "schema": "ddd-publication-evidence/2.1",
         "status": status,
         "phase": phase,
         "requested_run_id": requested,
