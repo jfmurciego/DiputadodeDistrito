@@ -195,7 +195,9 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); params=self.prepare_root(root)
             package=self.package(root,"valid")
-            state=self.state(root,"state",params)
+            state=self.accumulated_state(root,"state",params)
+            fingerprint=state/"compatibility"/"m05.json"; fingerprint.parent.mkdir(parents=True,exist_ok=True)
+            fingerprint.write_text(json.dumps(build_fingerprint(params=params,root_dir=root)),encoding="utf-8")
             params.write_text(
                 params.read_text(encoding="utf-8").replace("seed: 1","seed: 2"),
                 encoding="utf-8",
@@ -205,8 +207,10 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
                 candidates=[{"run_id":200,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
                 root_dir=root,
             )
-            self.assertIsNone(result["selected"])
-            self.assertIn("checkpoint incompatible con M05 actual",result["discarded"][0]["reason"])
+            self.assertIsNotNone(result["selected"])
+            self.assertTrue(result["selected"]["requires_derivation"])
+            self.assertEqual(result["from_stage"],"M05")
+            self.assertIn("checkpoint incompatible con M05 actual",result["selected"]["compatibility_error"])
 
     def test_no_compatible_checkpoint_starts_from_m01(self):
         with tempfile.TemporaryDirectory() as td:
