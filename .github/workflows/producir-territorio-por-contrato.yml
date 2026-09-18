@@ -381,6 +381,10 @@ jobs:
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
           test -f .ddd-source-package/manifest.json || { echo '::error::El checkpoint perdería el paquete durable de fuentes.'; exit 24; }
           cp -a .ddd-source-package/. .ddd-state/out/sources/
+          if [[ "$STAGE" == M05 || "$STAGE" == M06 ]]; then
+            python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
+              --output .ddd-state/out/compatibility/m05.json
+          fi
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
