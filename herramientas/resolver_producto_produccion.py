@@ -6,7 +6,7 @@ from pathlib import Path
 ROUTES={
     "Distritos":{"to_stage":"M06","checkpoint_policy":"latest_before_target","requires_electoral_package":False},
     "Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06","requires_electoral_package":True},
-    "Ambos":{"to_stage":"M08","checkpoint_policy":"latest_before_target","requires_electoral_package":True},
+    "Ambos":{"to_stage":"M08","checkpoint_policy":"latest_through_m06","requires_electoral_package":True},
 }
 
 def resolve_product(product:str)->dict:
