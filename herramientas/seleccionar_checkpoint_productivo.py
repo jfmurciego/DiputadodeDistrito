@@ -103,7 +103,7 @@ def select_latest_valid(*, params: Path, candidates: Iterable[dict],
             state_root=Path(candidate["state_root"]) if candidate.get("state_root") else None,
         )
         if result["valid"]:
-            return {"selected": result, "discarded": discarded, "from_stage": candidate.get("from_stage")}
+            return {"selected": result, "discarded": discarded, "from_stage": result.get("from_stage") or candidate.get("from_stage")}
         discarded.append(result)
     return {"selected": None, "discarded": discarded, "from_stage": "M01"}
 
