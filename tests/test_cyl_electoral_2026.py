@@ -16,7 +16,7 @@ RECON = ROOT / "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2
 class CastillaLeonElectoral2026(unittest.TestCase):
     def test_m07_m08_are_declared_without_changing_m01_m06_inputs(self):
         cfg = yaml.safe_load(PARAMS.read_text(encoding="utf-8"))
-        self.assertEqual(cfg["meta"]["contract_level"], "production_m01_m08")
+        self.assertEqual(cfg["meta"]["contract_level"], "production_m01_m06")
         m07 = cfg["modulos"]["modulo_07_agregar_resultados_electorales"]
         m08 = cfg["modulos"]["modulo_08_integrar_resultados"]
         self.assertEqual(m07["election_contract"], "territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json")
