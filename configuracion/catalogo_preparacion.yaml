@@ -37,7 +37,7 @@ territories:
         electoral_product_available: true
         evidence:
           territorial_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/PRODUCTOS.json
-          electoral_source: territorios/aragon/config/elecciones/aragon_cortes_2026.json
+          electoral_source: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M07/PRODUCTOS.json
           electoral_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M08/PRODUCTOS.json
         territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
         production_authorization: AUTHORIZED
