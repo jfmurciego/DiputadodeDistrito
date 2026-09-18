@@ -118,6 +118,13 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn('Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato.', text)
         self.assertIn('exit 45', text)
 
+    def test_checkpoint_m05_m06_exige_huella_y_estado_completo(self):
+        interface_text = INTERFACE.read_text(encoding="utf-8")
+        production_text = PRODUCTION.read_text(encoding="utf-8")
+        self.assertIn('--state-root "$tmp_state"', interface_text)
+        self.assertIn("huella_checkpoint_m05.py", production_text)
+        self.assertIn(".ddd-state/out/compatibility/m05.json", production_text)
+
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
         self.assertIn('ddd-decision-$run_id', text)
