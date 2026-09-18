@@ -49,15 +49,35 @@ def _later_outputs(cfg: dict, after_stage: int) -> list[str]:
     return sorted(set(names))
 
 
-def derive_checkpoint(*, params: Path, state_root: Path, output: Path, target_stage: int = 4) -> dict:
+def inspect_derivable_checkpoint(*, params: Path, state_root: Path, target_stage: int = 4) -> dict:
     cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     cache=state_root/"cache"; run=state_root/"run"; sources=state_root/"sources"
-    if not cache.is_dir() or not run.is_dir() or not sources.is_dir():
-        raise ValueError("checkpoint acumulado incompleto: requiere cache/, run/ y sources/")
+    missing_dirs=[name for name,path in (("cache",cache),("run",run),("sources",sources)) if not path.is_dir()]
+    if missing_dirs:
+        raise ValueError("checkpoint acumulado incompleto: faltan " + ", ".join(missing_dirs))
     required=_required_outputs(cfg,target_stage)
     missing=[name for name in required if not any(cache.rglob(name))]
     if missing:
         raise ValueError("checkpoint acumulado no contiene salidas necesarias hasta M%02d: %s" % (target_stage,", ".join(missing)))
+    chain=run/"CHAIN_STATE.json"
+    if not chain.is_file():
+        raise ValueError("checkpoint acumulado sin CHAIN_STATE.json")
+    state=json.loads(chain.read_text(encoding="utf-8"))
+    completed=int(state.get("completed_stage") or 0)
+    if completed < target_stage:
+        raise ValueError(f"checkpoint solo llega a M{completed:02d}; no permite derivar M{target_stage:02d}")
+    return {
+        "source_completed_stage": completed,
+        "derived_stage": f"M{target_stage:02d}",
+        "required_outputs": required,
+    }
+
+
+def derive_checkpoint(*, params: Path, state_root: Path, output: Path, target_stage: int = 4) -> dict:
+    cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+    evidence=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=target_stage)
+    cache=state_root/"cache"; run=state_root/"run"; sources=state_root/"sources"
+    required=evidence["required_outputs"]
     if output.exists():
         shutil.rmtree(output)
     shutil.copytree(state_root,output)
