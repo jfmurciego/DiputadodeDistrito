@@ -50,7 +50,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             territory = inputs.get("territory_id", {}) or {}
             if territory.get("options", []) == VISIBLE_TERRITORIES:
                 general.append(path.name)
-        self.assertEqual(general, ["ejecucion-generacion-distritos.yml"])
+        self.assertEqual(general, ["produccion-distritos.yml"])
 
     def test_formulario_productivo_tiene_exactamente_cuatro_controles(self):
         inputs = self._dispatch_inputs()
