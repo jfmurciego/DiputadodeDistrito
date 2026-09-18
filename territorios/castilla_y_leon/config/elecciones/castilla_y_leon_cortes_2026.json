@@ -1,0 +1,166 @@
+{
+  "$schema": "../../../../configuracion/esquemas/contrato_electoral.schema.json",
+  "schema_family": "ddd-election",
+  "schema_version": "1.0.0",
+  "election_id": "castilla_y_leon_cortes_2026-03-15",
+  "territory_id": "castilla_y_leon",
+  "title": "Elecciones a las Cortes de Castilla y León 2026",
+  "election_date": "2026-03-15",
+  "input_mode": "verifiable_file",
+  "boundary_independence": true,
+  "sources": [
+    {
+      "path": "inputs/cyl_2026_secciones_partidos.csv",
+      "sha256": "603e0261adc11871cdc8345a847da9f9161894050a51dd334f9928a4e6d01d30",
+      "publisher": "Junta de Castilla y León — Datos Abiertos",
+      "source_url": "https://analisis.datosabiertos.jcyl.es/explore/dataset/resultados-electorales-1983-actualidad/",
+      "retrieved_at": "2026-09-18",
+      "adapter": {
+        "kind": "long_csv",
+        "separator": ",",
+        "section_field": "section_id",
+        "party_field": "party",
+        "votes_field": "votes"
+      }
+    }
+  ],
+  "party_dictionary": {
+    "path": "territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json",
+    "sha256": "c7198a0bf8d45722c8110f81ef731cd4be857caa56eb767686c9dbaf5d1db675"
+  },
+  "reconciliation": {
+    "policy": "fail_unless_declared",
+    "allowed_result_only_sections": [
+      {
+        "section_id": "0599099001",
+        "expected_votes": 825,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "0599099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "0999099001",
+        "expected_votes": 1619,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "0999099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "2408904017",
+        "expected_votes": 1054,
+        "reason": "Sección electoral 2026 no presente como unidad idéntica en el seccionado 2025; se conserva como excepción trazada y sus votos no se asignan a un distrito sin correspondencia oficial."
+      },
+      {
+        "section_id": "2408906020",
+        "expected_votes": 784,
+        "reason": "Sección electoral 2026 no presente como unidad idéntica en el seccionado 2025; se conserva como excepción trazada y sus votos no se asignan a un distrito sin correspondencia oficial."
+      },
+      {
+        "section_id": "2499099001",
+        "expected_votes": 2433,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "2499099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "2499099003",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "3499099001",
+        "expected_votes": 570,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "3702301002",
+        "expected_votes": 624,
+        "reason": "Sección electoral 2026 no presente como unidad idéntica en el seccionado 2025; se conserva como excepción trazada y sus votos no se asignan a un distrito sin correspondencia oficial."
+      },
+      {
+        "section_id": "3799099001",
+        "expected_votes": 2256,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "3799099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "3799099003",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4099099001",
+        "expected_votes": 369,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4099099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4217302016",
+        "expected_votes": 636,
+        "reason": "Sección electoral 2026 no presente como unidad idéntica en el seccionado 2025; se conserva como excepción trazada y sus votos no se asignan a un distrito sin correspondencia oficial."
+      },
+      {
+        "section_id": "4299099001",
+        "expected_votes": 554,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4701001012",
+        "expected_votes": 776,
+        "reason": "Sección electoral 2026 no presente como unidad idéntica en el seccionado 2025; se conserva como excepción trazada y sus votos no se asignan a un distrito sin correspondencia oficial."
+      },
+      {
+        "section_id": "4799099001",
+        "expected_votes": 1754,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4799099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4999099001",
+        "expected_votes": 1402,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4999099002",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      },
+      {
+        "section_id": "4999099003",
+        "expected_votes": 0,
+        "reason": "Registro electoral especial 2026 sin geometría territorial equivalente en el seccionado 2025."
+      }
+    ],
+    "allowed_map_only_sections": [
+      {
+        "section_id": "3412004006",
+        "reason": "Sección del seccionado 2025 sin registro homólogo en los resultados oficiales 2026."
+      },
+      {
+        "section_id": "3710701002",
+        "reason": "Sección del seccionado 2025 sin registro homólogo en los resultados oficiales 2026."
+      }
+    ]
+  }
+}
