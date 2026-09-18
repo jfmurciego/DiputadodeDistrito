@@ -903,7 +903,7 @@ jobs:
           rm -rf site && mkdir -p site
           cp visor/index.html visor/app.js visor/styles.css site/
           python herramientas/preparar_visor_ejecucion.py --site site --static-registry orchestracion/productos_publicos.json --production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID"
-      - name: Acreditar resultado cargado
+      - name: Acreditar resultado realmente cargado
         run: python herramientas/evaluar_publicacion_visor.py --requested-run-id "$PRODUCTION_RUN_ID" --registry site/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json --production-root /tmp/production --strict-request
       - uses: actions/configure-pages@v5
         with: {enablement: true}
