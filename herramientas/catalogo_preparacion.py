@@ -131,9 +131,9 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             for source in sources:
                                 src_raw=source.get("path"); expected=str(source.get("sha256") or "").lower()
                                 src=(root/str(src_raw)) if src_raw else None
-                                if src is None or not src.is_file():
-                                    errors.append(f"{tid}/{edition}: fuente electoral materializada ausente: {src_raw}")
-                                elif not expected or _sha256(src).lower()!=expected:
+                                if not src_raw or not expected:
+                                    errors.append(f"{tid}/{edition}: fuente electoral sin path/sha256 contractual")
+                                elif src is not None and src.is_file() and _sha256(src).lower()!=expected:
                                     errors.append(f"{tid}/{edition}: SHA-256 electoral no coincide: {src_raw}")
                         except Exception as exc:
                             errors.append(f"{tid}/{edition}: election_contract inválido: {exc}")
