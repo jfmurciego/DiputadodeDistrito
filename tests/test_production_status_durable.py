@@ -72,6 +72,9 @@ def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
         "needs.m06.result": repr(context["m06_result"]),
         "needs.auditoria.result": repr(context["auditoria_result"]),
         "needs.electoral_source.result": repr(context.get("electoral_source_result", "success")),
+        "needs.m07.result": repr(context.get("m07_result", "success")),
+        "needs.m08.result": repr(context.get("m08_result", "success")),
+        "inputs.publish_result": "True" if context.get("publish_result", "true") == "true" else "False",
         "inputs.checkpoint_run_id": repr(context.get("checkpoint_run_id", "")),
     }
     for token, value in replacements.items():
@@ -124,7 +127,7 @@ class DurableProductionStatusTests(unittest.TestCase):
             "--output", str(audit_dir / "production_status.json"),
         ], cwd=ROOT, env=env, text=True, capture_output=True, check=False)
 
-    def test_checkpoint_partial_population_records_block_publishes_evidence_and_allows_m07(self):
+    def test_checkpoint_partial_population_blocks_m07_m08_and_publication(self):
         with tempfile.TemporaryDirectory() as raw:
             tmp = Path(raw)
             params, report, geometry, audit_dir = self._fixture(tmp)
@@ -157,23 +160,57 @@ class DurableProductionStatusTests(unittest.TestCase):
             self.assertEqual(upload_steps[0]["with"]["path"], ".ddd-audit")
             self.assertEqual(upload_steps[0]["with"]["if-no-files-found"], "error")
 
+            gate_step = next(
+                step for step in jobs["auditoria"]["steps"]
+                if step.get("name") == "Aplicar puerta de certificación territorial"
+            )
+            self.assertIn(".ddd-audit/production_status.json", gate_step["run"])
+            self.assertIn("PASS|PASS_WITH_EXCEPTIONS", gate_step["run"])
+            self.assertNotIn("steps.geometric.outcome", gate_step["run"])
+
+            gate_dir = tmp / "gate"
+            (gate_dir / ".ddd-audit").mkdir(parents=True)
+            gate_status = gate_dir / ".ddd-audit" / "production_status.json"
+            gate_status.write_text(json.dumps(status), encoding="utf-8")
+            blocked = subprocess.run(
+                ["bash", "-c", gate_step["run"]],
+                cwd=gate_dir,
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertNotEqual(blocked.returncode, 0)
+            self.assertIn("Certificación territorial bloqueada: BLOCK", blocked.stderr)
+
             checkpoint_context = {
                 "resolve_result": "success",
                 "mode": "execute",
                 "from_num": "7",
                 "to_num": "8",
                 "m06_result": "skipped",
-                "auditoria_result": "success",
-                "electoral_source_result": "success",
+                "auditoria_result": "failure",
+                "electoral_source_result": "skipped",
+                "m07_result": "skipped",
+                "m08_result": "skipped",
+                "publish_result": "true",
                 "checkpoint_run_id": "35319351944",
             }
             self.assertTrue(evaluate_job_if(jobs["auditoria"]["if"], checkpoint_context))
-            self.assertTrue(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
-            self.assertIn("electoral_source", jobs["m07"]["needs"])
-            self.assertIn("always()", jobs["m07"]["if"])
-            self.assertIn("needs.electoral_source.result == 'success'", jobs["m07"]["if"])
-            self.assertNotIn("population_decision", jobs["m07"]["if"])
-            self.assertNotIn("production_status", jobs["m07"]["if"])
+            self.assertFalse(evaluate_job_if(jobs["electoral_source"]["if"], checkpoint_context))
+            self.assertFalse(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
+            self.assertFalse(evaluate_job_if(jobs["m08"]["if"], checkpoint_context))
+            self.assertFalse(evaluate_job_if(jobs["visor"]["if"], checkpoint_context))
+
+            for accepted_decision in ("PASS", "PASS_WITH_EXCEPTIONS"):
+                gate_status.write_text(json.dumps({"decision": accepted_decision}), encoding="utf-8")
+                accepted = subprocess.run(
+                    ["bash", "-c", gate_step["run"]],
+                    cwd=gate_dir,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(accepted.returncode, 0, accepted.stderr)
 
             state_step = next(step for step in jobs["auditoria"]["steps"] if step.get("name") == "Resolver checkpoint M06")
             self.assertIn('else state_run_id="$CHECKPOINT_RUN_ID"', state_step["run"])
