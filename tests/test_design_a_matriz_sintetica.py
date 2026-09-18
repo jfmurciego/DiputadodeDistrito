@@ -86,6 +86,8 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("seleccionar_checkpoint_productivo",text)
         self.assertIn("validation_rc == 2",text)
         self.assertIn("record_discard",text)
+        self.assertIn("search_from=$target_num",text)
+        self.assertIn("requires_derivation",text)
         inputs=triggers(PROD)["workflow_dispatch"]["inputs"]
         self.assertNotIn("checkpoint_run_id",inputs)
         self.assertNotIn("from_stage",inputs)
