@@ -10,7 +10,8 @@ class WorkflowSourceWiringTests(unittest.TestCase):
         cls.text = Path('.github/workflows/producir-territorio-por-contrato.yml').read_text(encoding='utf-8')
 
     def test_workflow_uses_durable_source_adapter(self):
-        self.assertIn('ejecutar_fuentes_workflow.py', self.text)
+        self.assertIn('-m herramientas.ejecutar_fuentes_workflow', self.text)
+        self.assertNotIn('/app/herramientas/ejecutar_fuentes_workflow.py', self.text)
         self.assertIn('--checkpoint-out', self.text)
         self.assertIn('.ddd-state/out/sources', self.text)
 
