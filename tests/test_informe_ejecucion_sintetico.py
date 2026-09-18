@@ -10,7 +10,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "generar_informe_ejecucion.py"
-ROUTER = ROOT / ".github" / "workflows" / "_reutilizable-operacion-territorial.yml"
+ROUTER = ROOT / ".github" / "workflows" / "produccion-distritos.yml"
 
 
 def load_module():
