@@ -754,7 +754,7 @@ jobs:
   m07:
     name: M07 · Agregación electoral
     needs: [resolve, m06, auditoria, electoral_source]
-    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' && needs.electoral_source.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M07, PREVIOUS_STAGE: M06, PREVIOUS_RESULT: "${{ needs.m06.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
