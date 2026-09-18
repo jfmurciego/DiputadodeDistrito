@@ -57,7 +57,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(resolve_product("Resultados electorales"),{
             "product":"Resultados electorales","to_stage":"M08","checkpoint_policy":"require_m06","requires_electoral_package":True})
         self.assertEqual(resolve_product("Ambos"),{
-            "product":"Ambos","to_stage":"M08","checkpoint_policy":"latest_before_target","requires_electoral_package":True})
+            "product":"Ambos","to_stage":"M08","checkpoint_policy":"latest_through_m06","requires_electoral_package":True})
         text=PROD.read_text(encoding="utf-8")
         self.assertNotIn("UI_PUBLISH",text)
         self.assertIn('inputs.product != \'Distritos\'',text)
@@ -166,6 +166,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(plan["checkpoint_policy"],"require_m06")
         text=PROD.read_text(encoding="utf-8")
         self.assertIn("search_from=6",text); self.assertIn("search_to=6",text)
+        self.assertIn("latest_through_m06",text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"',text)
 
 if __name__=="__main__": unittest.main()
