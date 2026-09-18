@@ -72,6 +72,7 @@ def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
         "needs.m06.result": repr(context["m06_result"]),
         "needs.auditoria.result": repr(context["auditoria_result"]),
         "needs.electoral_source.result": repr(context.get("electoral_source_result", "success")),
+        "inputs.checkpoint_run_id": repr(context.get("checkpoint_run_id", "")),
     }
     for token, value in replacements.items():
         body = body.replace(token, value)
@@ -164,6 +165,7 @@ class DurableProductionStatusTests(unittest.TestCase):
                 "m06_result": "skipped",
                 "auditoria_result": "success",
                 "electoral_source_result": "success",
+                "checkpoint_run_id": "35319351944",
             }
             self.assertTrue(evaluate_job_if(jobs["auditoria"]["if"], checkpoint_context))
             self.assertTrue(evaluate_job_if(jobs["m07"]["if"], checkpoint_context))
