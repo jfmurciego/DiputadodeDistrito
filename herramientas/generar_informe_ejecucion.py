@@ -118,10 +118,14 @@ def blockers_from(*documents: Any) -> list[str]:
             raw = doc.get(key)
             if isinstance(raw, list):
                 values.extend(str(x) for x in raw if x)
-        for key in ("reason", "block_cause", "population_evidence_error"):
+        for key in ("block_cause", "population_evidence_error"):
             raw = doc.get(key)
             if raw:
                 values.append(str(raw))
+        decision = str(doc.get("decision") or "").upper()
+        raw_reason = doc.get("reason")
+        if raw_reason and decision in {"BLOCK", "HARD_BLOCK", "FAIL", "FAILED", "FAILURE"}:
+            values.append(str(raw_reason))
     return list(dict.fromkeys(values))
 
 
@@ -250,7 +254,10 @@ def render_markdown(inv: dict) -> str:
         lines.append(f"  - {path}")
     lines += ["", "## Cierre"]
     if final["causas_de_bloqueo"]:
-        lines.append("La ejecución terminó bloqueada por las siguientes causas registradas:")
+        if pub.get("estado") == "SUCCESS" and pub.get("misma_ejecucion") is True and pub.get("despliegue") == "success":
+            lines.append("La publicación se completó correctamente, pero el estado territorial permanece bloqueado por las siguientes causas registradas:")
+        else:
+            lines.append("La ejecución terminó bloqueada por las siguientes causas registradas:")
         lines.extend(f"- {reason}" for reason in final["causas_de_bloqueo"])
     elif final["decision"] == "COMPLETE":
         lines.append("La ejecución generada y la publicada coinciden, el despliegue es correcto y el visor acredita mapas nuevos de esa ejecución.")
