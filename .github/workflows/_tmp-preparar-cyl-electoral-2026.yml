@@ -100,11 +100,18 @@ jobs:
           m06={str(ft.get('properties',{}).get('CUSEC_KEY') or ft.get('properties',{}).get('CUSEC') or '') for ft in data.get('features',[])}
           m06.discard('')
           only_e=sorted(electoral-m06); only_m=sorted(m06-electoral)
-          candidates={}
+          district_by_section={}
+          for ft in data.get('features',[]):
+              pr=ft.get('properties',{})
+              sid=str(pr.get('CUSEC_KEY') or pr.get('CUSEC') or '')
+              if sid: district_by_section[sid]=pr.get('district_id')
+          candidates={}; candidate_districts={}
           for sid in only_e:
               prefix=sid[:7]
-              candidates[sid]=sorted(x for x in m06 if x[:7]==prefix)
-          out={'electoral_sections':len(electoral),'m06_sections':len(m06),'intersection':len(electoral&m06),'electoral_only':only_e,'m06_only':only_m,'electoral_only_votes':{sid:section_votes.get(sid,0) for sid in only_e},'electoral_only_total_votes':sum(section_votes.get(sid,0) for sid in only_e),'same_district_m06_candidates':candidates}
+              same=sorted(x for x in m06 if x[:7]==prefix)
+              candidates[sid]=same
+              candidate_districts[sid]=sorted({str(district_by_section.get(x)) for x in same if district_by_section.get(x) is not None})
+          out={'electoral_sections':len(electoral),'m06_sections':len(m06),'intersection':len(electoral&m06),'electoral_only':only_e,'m06_only':only_m,'electoral_only_votes':{sid:section_votes.get(sid,0) for sid in only_e},'electoral_only_total_votes':sum(section_votes.get(sid,0) for sid in only_e),'same_district_m06_candidates':candidates,'candidate_ddd_districts':candidate_districts}
           Path('.tmp-cyl-electoral/reconciliation_sections.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
