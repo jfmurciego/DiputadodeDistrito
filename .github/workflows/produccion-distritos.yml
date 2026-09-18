@@ -119,7 +119,9 @@ jobs:
             search_from=6
             search_to=1
           else
-            search_from=$((target_num-1))
+            # Para el producto territorial inspeccionamos también el estado acumulado
+            # de certificación, pero solo para derivar una etapa anterior compatible.
+            search_from=$target_num
             search_to=1
           fi
           mkdir -p .ddd-checkpoint-selection
@@ -177,8 +179,14 @@ jobs:
               validation_rc=$?
               set -e
               if (( validation_rc == 0 )); then
+                requires_derivation="$(jq -r '.requires_derivation // false' "$candidate_json")"
+                if [[ "$CHECKPOINT_POLICY" == latest_before_target && "$stage_num" -ge "$target_num" && "$requires_derivation" != true ]]; then
+                  record_discard "$run_id" "$stage" "checkpoint no anterior al objetivo y sin derivación requerida"
+                  rm -rf "$tmp_state"
+                  continue
+                fi
                 cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
-                if [[ "$(jq -r '.requires_derivation // false' "$candidate_json")" == true ]]; then
+                if [[ "$requires_derivation" == true ]]; then
                   rm -rf .ddd-derived-checkpoint
                   python herramientas/derivar_checkpoint_acumulado.py \
                     --params "$PARAMS" --state-root "$tmp_state" \
