@@ -82,6 +82,20 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertNotIn("case \"$UI_TERRITORY\"", text)
 
 
+    def test_produccion_invoca_catalogo_con_root_dir_global_y_prepara_evidencia_temprana(self):
+        text = INTERFACE.read_text(encoding="utf-8")
+        correct = "python herramientas/catalogo_preparacion.py --root-dir . validate"
+        wrong = "python herramientas/catalogo_preparacion.py validate --root-dir ."
+        init_dir = "mkdir -p .ddd-checkpoint-selection"
+        init_file = ".ddd-checkpoint-selection/resolucion_inicial.json"
+        self.assertIn(correct, text)
+        self.assertNotIn(wrong, text)
+        self.assertIn(init_dir, text)
+        self.assertIn(init_file, text)
+        self.assertLess(text.index(init_dir), text.index(correct))
+        self.assertLess(text.index(init_file), text.index(correct))
+
+
     def test_producto_resuelve_recorrido_y_publicacion_no_selecciona_etapa(self):
         text = INTERFACE.read_text(encoding="utf-8")
         routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
