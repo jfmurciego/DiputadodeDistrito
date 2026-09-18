@@ -18,7 +18,7 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.adquirir_fuentes_oficiales import acquire_sources
+from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
 
 BUNDLE_NAME = "prepared_sources.zip"
@@ -154,13 +154,21 @@ def main() -> int:
         if args.acquisition_evidence.exists():
             shutil.rmtree(args.acquisition_evidence)
         args.acquisition_evidence.mkdir(parents=True, exist_ok=True)
-        acquire_sources(
-            args.declaration,
-            args.acquisition_evidence,
+        catalog = load_yaml(args.root_dir / "fuentes/catalogo_oficial.yaml")
+        declaration = load_yaml(args.declaration)
+        _, _, _, acquisition = acquire(
+            catalog=catalog,
+            declaration=declaration,
+            evidence_dir=args.acquisition_evidence,
             environment=args.environment,
             acquisition_mode=args.acquisition_mode,
             root_dir=args.root_dir,
         )
+        if acquisition.get("decision") != "READY":
+            raise RuntimeError(
+                "Adquisición oficial bloqueada: "
+                + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
+            )
         return _manifest_from_acquisition(args.acquisition_evidence, working, edition, expected_records)
 
     evidence = execute_source_policy(
