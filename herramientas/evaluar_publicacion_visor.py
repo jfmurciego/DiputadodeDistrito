@@ -127,6 +127,7 @@ def evaluate_publication(
     return {
         "schema": "ddd-publication-evidence/2.1",
         "status": status,
+        "deployment_status": status,
         "phase": phase,
         "requested_run_id": requested,
         "generated_run_id": generated_run,

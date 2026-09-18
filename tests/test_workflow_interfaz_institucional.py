@@ -3,7 +3,7 @@ PROYECTO: Diputado de Distrito
 PRUEBA: interfaz productiva empresarial de GitHub Actions
 VERSIÓN: 2.1.0
 FECHA: 2026-09-17
-OBJETIVO: exigir cuatro controles humanos, resolución automática del recorrido y
+OBJETIVO: exigir cinco controles humanos, resolución automática del recorrido y
 encadenamiento hacia la producción modular sin exponer parámetros técnicos.
 CAMBIO: el checkpoint automático debe superar la puerta común de reutilización,
 registrar descartes y conservar los identificadores internos resolver_interfaz/ruta.
@@ -15,28 +15,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOWS = ROOT / ".github" / "workflows"
-INTERFACE = WORKFLOWS / "ejecucion-generacion-distritos.yml"
+INTERFACE = WORKFLOWS / "produccion-distritos.yml"
 ROUTER = WORKFLOWS / "_reutilizable-operacion-territorial.yml"
 PRODUCTION = WORKFLOWS / "producir-territorio-por-contrato.yml"
 
-VISIBLE_TERRITORIES = [
-    "Andalucía", "Aragón", "Principado de Asturias", "Islas Baleares", "Canarias",
-    "Cantabria", "Castilla-La Mancha", "Castilla y León", "Cataluña",
-    "Comunidad Valenciana", "Extremadura", "Galicia", "Comunidad de Madrid",
-    "Región de Murcia", "Comunidad Foral de Navarra", "País Vasco", "La Rioja",
-    "Ceuta", "Melilla",
-]
+VISIBLE_TERRITORIES = ["Aragón", "Castilla y León"]
 
-TECHNICAL_IDS = {
-    "Andalucía": "andalucia", "Aragón": "aragon",
-    "Principado de Asturias": "principado_de_asturias", "Islas Baleares": "illes_balears",
-    "Canarias": "canarias", "Cantabria": "cantabria",
-    "Castilla-La Mancha": "castilla_la_mancha", "Castilla y León": "castilla_y_leon",
-    "Cataluña": "cataluna", "Comunidad Valenciana": "comunidad_valenciana",
-    "Extremadura": "extremadura", "Galicia": "galicia", "Comunidad de Madrid": "madrid",
-    "Región de Murcia": "region_de_murcia", "Comunidad Foral de Navarra": "comunidad_foral_de_navarra",
-    "País Vasco": "pais_vasco", "La Rioja": "la_rioja", "Ceuta": "ceuta", "Melilla": "melilla",
-}
+TECHNICAL_IDS = {"Aragón": "aragon", "Castilla y León": "castilla_y_leon"}
 
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
@@ -65,15 +50,17 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             territory = inputs.get("territory_id", {}) or {}
             if territory.get("options", []) == VISIBLE_TERRITORIES:
                 general.append(path.name)
-        self.assertEqual(general, ["ejecucion-generacion-distritos.yml"])
+        self.assertEqual(general, ["produccion-distritos.yml"])
 
-    def test_formulario_productivo_tiene_exactamente_cuatro_controles(self):
+    def test_formulario_productivo_tiene_exactamente_cinco_controles(self):
         inputs = self._dispatch_inputs()
         self.assertEqual(list(inputs), [
-            "territory_id", "data_edition", "publish_result", "confirmar_ejecucion"
+            "territory_id", "data_edition", "product", "publish_result", "confirmar_ejecucion"
         ])
         self.assertEqual(inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(inputs["data_edition"]["description"], "Edición de datos")
+        self.assertEqual(inputs["product"]["description"], "Producto")
+        self.assertEqual(inputs["product"]["options"], ["Distritos", "Resultados electorales", "Ambos"])
         self.assertEqual(inputs["publish_result"]["description"], "Publicar resultado")
         self.assertEqual(inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
         self.assertEqual(inputs["territory_id"]["options"], VISIBLE_TERRITORIES)
@@ -90,17 +77,32 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_resolucion_territorial_y_contrato_dependen_solo_de_configuracion(self):
         text = INTERFACE.read_text(encoding="utf-8")
-        for label, technical_id in TECHNICAL_IDS.items():
-            self.assertIn(f'"{label}"|{technical_id}) territory_id={technical_id} ;;', text)
-        self.assertIn('params="territorios/$territory_id/config/${territory_id}_${UI_EDITION}.yaml"', text)
-        self.assertIn('test -f "$params"', text)
+        self.assertIn("herramientas/catalogo_preparacion.py resolve --mode production", text)
+        self.assertIn("contract_path", text)
+        self.assertNotIn("case \"$UI_TERRITORY\"", text)
 
-    def test_publicacion_resuelve_el_recorrido_sin_control_tecnico(self):
+
+    def test_producto_resuelve_recorrido_y_publicacion_no_selecciona_etapa(self):
         text = INTERFACE.read_text(encoding="utf-8")
-        self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', text)
+        routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
+        self.assertIn("resolver_producto_produccion.py --product", text)
+        self.assertIn('"Distritos":{"to_stage":"M06"', routes)
+        self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
+        self.assertIn('"Ambos":{"to_stage":"M08"', routes)
+        self.assertNotIn("UI_PUBLISH", text)
+        self.assertIn('publish_result: ${{ inputs.publish_result }}', text)
         self.assertIn('from_stage=M01', text)
         self.assertIn('target_num="$((10#${TO_STAGE#M}))"', text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"', text)
+
+    def test_electoral_exige_m06_y_no_recalcula_m01_m06(self):
+        text = INTERFACE.read_text(encoding="utf-8")
+        self.assertIn('search_from=6', text)
+        self.assertIn('search_to=6', text)
+        self.assertIn('Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06.', text)
+        self.assertIn('exit 44', text)
+        self.assertIn('Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato.', text)
+        self.assertIn('exit 45', text)
 
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -128,7 +130,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("needs.resolver_interfaz.outputs.from_stage", values["from_stage"])
         self.assertIn("needs.resolver_interfaz.outputs.to_stage", values["to_stage"])
         self.assertIn("needs.resolver_interfaz.outputs.checkpoint_run_id", values["checkpoint_run_id"])
+        self.assertIn("needs.resolver_interfaz.outputs.electoral_package_run_id", values["electoral_package_run_id"])
+        self.assertIn("needs.resolver_interfaz.outputs.electoral_package_artifact_name", values["electoral_package_artifact_name"])
         self.assertIn("inputs.confirmar_ejecucion", values["execution_confirmed"])
+        self.assertIn("inputs.publish_result", values["publish_result"])
 
     def test_secuencia_visible_usa_nombres_de_negocio_y_conserva_m01_m08(self):
         router = self._load(ROUTER)

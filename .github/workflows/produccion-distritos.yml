@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
-# CLASE: interfaz operativa principal
-# VERSIÓN: 6.1.0
-# NOMBRE DE VERSIÓN: Producción empresarial con checkpoint validado
-# FECHA: 2026-09-17
+# CLASE: interfaz operativa principal — Diseño A
+# VERSIÓN: 7.2.0
+# NOMBRE DE VERSIÓN: Diseño A — interfaz delgada sobre router y motor comunes
+# FECHA: 2026-09-18
 # ESTADO: candidato
-# QUÉ HACE: expone únicamente territorio, edición, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
-# CAMBIOS: el selector automático sólo reutiliza checkpoints cuyo paquete sources supera la puerta común completa y registra los descartes.
+# QUÉ HACE: expone únicamente territorio, edición, producto, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
+# CAMBIOS: añade contrato ejecutable de producto y exige paquete electoral durable validado para M07–M08.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
-# ANTERIOR: versión 6.0.0 en historial Git.
+# ANTERIOR: versión 6.1.0 en historial Git.
 name: Producción de distritos
 
 on:
@@ -16,28 +16,11 @@ on:
       territory_id:
         description: Territorio
         required: true
-        default: La Rioja
+        default: Castilla y León
         type: choice
         options:
-          - Andalucía
           - Aragón
-          - Principado de Asturias
-          - Islas Baleares
-          - Canarias
-          - Cantabria
-          - Castilla-La Mancha
           - Castilla y León
-          - Cataluña
-          - Comunidad Valenciana
-          - Extremadura
-          - Galicia
-          - Comunidad de Madrid
-          - Región de Murcia
-          - Comunidad Foral de Navarra
-          - País Vasco
-          - La Rioja
-          - Ceuta
-          - Melilla
       data_edition:
         description: Edición de datos
         required: true
@@ -45,6 +28,15 @@ on:
         type: choice
         options:
           - '2025'
+      product:
+        description: Producto
+        required: true
+        default: Ambos
+        type: choice
+        options:
+          - Distritos
+          - Resultados electorales
+          - Ambos
       publish_result:
         description: Publicar resultado
         required: true
@@ -72,7 +64,11 @@ jobs:
       params: ${{ steps.resolve.outputs.params }}
       from_stage: ${{ steps.checkpoint.outputs.from_stage }}
       to_stage: ${{ steps.resolve.outputs.to_stage }}
+      product: ${{ steps.resolve.outputs.product }}
+      checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+      electoral_package_run_id: ${{ steps.electoral_package.outputs.run_id }}
+      electoral_package_artifact_name: ${{ steps.electoral_package.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
       - id: resolve
@@ -81,39 +77,22 @@ jobs:
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
           UI_EDITION: ${{ inputs.data_edition }}
-          UI_PUBLISH: ${{ inputs.publish_result }}
+          UI_PRODUCT: ${{ inputs.product }}
         run: |
           set -euo pipefail
-          case "$UI_TERRITORY" in
-            "Andalucía"|andalucia) territory_id=andalucia ;;
-            "Aragón"|aragon) territory_id=aragon ;;
-            "Principado de Asturias"|principado_de_asturias) territory_id=principado_de_asturias ;;
-            "Islas Baleares"|illes_balears) territory_id=illes_balears ;;
-            "Canarias"|canarias) territory_id=canarias ;;
-            "Cantabria"|cantabria) territory_id=cantabria ;;
-            "Castilla-La Mancha"|castilla_la_mancha) territory_id=castilla_la_mancha ;;
-            "Castilla y León"|castilla_y_leon) territory_id=castilla_y_leon ;;
-            "Cataluña"|cataluna) territory_id=cataluna ;;
-            "Comunidad Valenciana"|comunidad_valenciana) territory_id=comunidad_valenciana ;;
-            "Extremadura"|extremadura) territory_id=extremadura ;;
-            "Galicia"|galicia) territory_id=galicia ;;
-            "Comunidad de Madrid"|madrid) territory_id=madrid ;;
-            "Región de Murcia"|region_de_murcia) territory_id=region_de_murcia ;;
-            "Comunidad Foral de Navarra"|comunidad_foral_de_navarra) territory_id=comunidad_foral_de_navarra ;;
-            "País Vasco"|pais_vasco) territory_id=pais_vasco ;;
-            "La Rioja"|la_rioja) territory_id=la_rioja ;;
-            "Ceuta"|ceuta) territory_id=ceuta ;;
-            "Melilla"|melilla) territory_id=melilla ;;
-            *) echo "::error::Territorio no reconocido: $UI_TERRITORY"; exit 1 ;;
-          esac
-          [[ "$UI_EDITION" =~ ^[0-9]{4}$ ]] || { echo "::error::Edición no válida: $UI_EDITION"; exit 2; }
-          params="territorios/$territory_id/config/${territory_id}_${UI_EDITION}.yaml"
-          test -f "$params" || { echo "::error::No existe contrato para $UI_TERRITORY, edición $UI_EDITION: $params"; exit 3; }
-          if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi
+          python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
+          python herramientas/catalogo_preparacion.py validate --root-dir .
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode production --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          territory_id="$(jq -r '.territory_id' <<<"$row")"
+          params="$(jq -r '.contract_path // empty' <<<"$row")"
+          [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
+          route="$(python herramientas/resolver_producto_produccion.py --product "$UI_PRODUCT")"
           {
             echo "territory_id=$territory_id"
             echo "params=$params"
-            echo "to_stage=$to_stage"
+            echo "product=$UI_PRODUCT"
+            echo "to_stage=$(jq -r .to_stage <<<"$route")"
+            echo "checkpoint_policy=$(jq -r .checkpoint_policy <<<"$route")"
           } >> "$GITHUB_OUTPUT"
 
       - id: checkpoint
@@ -124,11 +103,23 @@ jobs:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           PARAMS: ${{ steps.resolve.outputs.params }}
           TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
+          PRODUCT: ${{ steps.resolve.outputs.product }}
+          CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
           from_stage=M01
           target_num="$((10#${TO_STAGE#M}))"
+          if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
+            search_from=6
+            search_to=6
+          elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
+            search_from=6
+            search_to=1
+          else
+            search_from=$((target_num-1))
+            search_to=1
+          fi
           mkdir -p .ddd-checkpoint-selection
           : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
           api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
@@ -161,7 +152,7 @@ jobs:
             fi
             rm -rf "$tmp_decision"
 
-            for ((stage_num=target_num-1; stage_num>=1; stage_num--)); do
+            for ((stage_num=search_from; stage_num>=search_to; stage_num--)); do
               stage="M$(printf '%02d' "$stage_num")"
               artifact_name="ddd-state-$run_id-$stage"
               jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
@@ -203,6 +194,11 @@ jobs:
             done
           done
 
+          if [[ "$CHECKPOINT_POLICY" == require_m06 && -z "$checkpoint_run_id" ]]; then
+            echo "::error::Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06."
+            exit 44
+          fi
+
           python - <<'PY'
           import json
           from pathlib import Path
@@ -219,6 +215,45 @@ jobs:
             echo "checkpoint_run_id=$checkpoint_run_id"
             echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
+
+      - id: electoral_package
+        name: Resolver paquete electoral preparado
+        if: ${{ inputs.product != 'Distritos' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+        run: |
+          set -euo pipefail
+          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
+            for artifact_name in "${names[@]}"; do
+              tmp="$(mktemp -d)"
+              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
+                rm -rf "$tmp"; continue
+              fi
+              set +e
+              python herramientas/validar_paquete_electoral.py --package "$tmp" --params "$PARAMS"                 --territory-id "$TERRITORY_ID" --edition "$EDITION" --root-dir .                 --output "$tmp/validacion_paquete_electoral.json" >/dev/null
+              rc=$?
+              set -e
+              if (( rc == 0 )); then
+                mkdir -p .ddd-checkpoint-selection
+                cp "$tmp/validacion_paquete_electoral.json" .ddd-checkpoint-selection/
+                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+                rm -rf "$tmp"
+                exit 0
+              fi
+              rm -rf "$tmp"
+            done
+          done
+          echo "::error::Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato."
+          exit 45
 
       - name: Publicar decisión de reanudación
         if: always()
@@ -241,4 +276,7 @@ jobs:
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
+      electoral_package_run_id: ${{ needs.resolver_interfaz.outputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ needs.resolver_interfaz.outputs.electoral_package_artifact_name }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
+      publish_result: ${{ inputs.publish_result }}

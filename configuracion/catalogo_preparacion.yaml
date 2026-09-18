@@ -1,0 +1,337 @@
+# PROYECTO: Diputado de Distrito
+# DISEÑO: A — catálogo único de preparación y producción
+# FECHA: 2026-09-18
+schema: ddd-preparation-catalog/1.1
+default_edition: '2025'
+territories:
+  - territory_id: andalucia
+    name: Andalucía
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/andalucia/config/andalucia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: aragon
+    name: Aragón
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/aragon/config/aragon_2025.yaml
+        territorial_source_declaration: territorios/aragon/config/fuentes_oficiales.yaml
+        electoral_source_declaration: null
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
+        territorial_product_available: true
+        electoral_source_prepared: true
+        electoral_product_available: true
+        evidence:
+          territorial_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/PRODUCTOS.json
+          electoral_source: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M07/PRODUCTOS.json
+          electoral_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M08/PRODUCTOS.json
+        territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+        production_authorization: AUTHORIZED
+        last_valid_checkpoint: {run_id: 35010122795, stage: M06}
+  - territory_id: principado_de_asturias
+    name: Principado de Asturias
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: illes_balears
+    name: Islas Baleares
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: null
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: canarias
+    name: Canarias
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: null
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: cantabria
+    name: Cantabria
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/cantabria/config/cantabria_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: castilla_la_mancha
+    name: Castilla-La Mancha
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: castilla_y_leon
+    name: Castilla y León
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+        territorial_source_declaration: territorios/castilla_y_leon/config/fuentes_oficiales.yaml
+        electoral_source_declaration: null
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
+        territorial_product_available: true
+        electoral_source_prepared: true
+        electoral_product_available: true
+        evidence:
+          territorial_product: territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/catalogo_distritos.csv
+          electoral_source: territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json
+          electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
+        territorial_certification: BLOCK_POPULATION_TARGET_NOT_MET
+        production_authorization: AUTHORIZED
+        last_valid_checkpoint: {run_id: 35329341120, stage: M08}
+  - territory_id: cataluna
+    name: Cataluña
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/cataluna/config/cataluna_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: comunidad_valenciana
+    name: Comunidad Valenciana
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: extremadura
+    name: Extremadura
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/extremadura/config/extremadura_2025.yaml
+        territorial_source_declaration: territorios/extremadura/config/fuentes_oficiales.yaml
+        electoral_source_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: BLOCKED_PREPARATION
+        production_authorization: BLOCKED
+        last_valid_checkpoint: null
+  - territory_id: galicia
+    name: Galicia
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/galicia/config/galicia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: madrid
+    name: Comunidad de Madrid
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/madrid/config/madrid_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: region_de_murcia
+    name: Región de Murcia
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/region_de_murcia/config/region_de_murcia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: comunidad_foral_de_navarra
+    name: Comunidad Foral de Navarra
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: pais_vasco
+    name: País Vasco
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/pais_vasco/config/pais_vasco_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: la_rioja
+    name: La Rioja
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/la_rioja/config/la_rioja_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: true
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: PREFLIGHT
+        production_authorization: PREFLIGHT
+        last_valid_checkpoint: null
+  - territory_id: ceuta
+    name: Ceuta
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/ceuta/config/ceuta_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: melilla
+    name: Melilla
+    editions:
+      '2025':
+        territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/melilla/config/melilla_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null

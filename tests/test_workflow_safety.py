@@ -22,7 +22,7 @@ class WorkflowSafety(unittest.TestCase):
         "regresion-m06-castilla-y-leon.yml":"regresion-m06-castilla-y-leon_v1.3.0.yml",
     }
     AUTOMATIC_ONLY={
-        "pruebas-ddd.yml":{"push","pull_request"},
+        "pruebas-plataforma.yml":{"push","pull_request"},
         "validar-contratos-territoriales.yml":{"push","pull_request"},
         "validar-productos-publicos.yml":{"push"},
     }
@@ -80,7 +80,7 @@ class WorkflowSafety(unittest.TestCase):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_call",production)
         self.assertNotIn("workflow_dispatch",production)
-        self.assertTrue((WORKFLOWS/"ejecucion-generacion-distritos.yml").is_file())
+        self.assertTrue((WORKFLOWS/"produccion-distritos.yml").is_file())
 
     def test_produccion_aplica_politica_geometrica_y_preserva_excepciones(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")

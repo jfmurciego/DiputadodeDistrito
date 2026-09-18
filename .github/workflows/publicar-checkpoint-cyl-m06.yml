@@ -1,7 +1,7 @@
 name: Publicar checkpoint CyL M06
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       release_tag:
         description: Tag de la release temporal que contiene las partes del checkpoint

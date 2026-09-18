@@ -243,7 +243,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         self.assertIn("auditar_topologia_geometrica.py", workflow)
         self.assertIn("auditar_componentes_geometricos.py", workflow)
         self.assertIn("base-geometric-components-preflight.json", workflow)
-        interface = (ROOT / ".github/workflows/ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
+        interface = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertNotIn("generar_alternativas_gerrychain", interface)
         self.assertNotIn("Generar alternativas GerryChain", interface)
 

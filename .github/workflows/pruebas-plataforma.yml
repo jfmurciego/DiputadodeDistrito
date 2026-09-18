@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.2.1
-# NOMBRE DE VERSIÓN: Puerta CI con log durable sin botón manual
-# FECHA: 2026-09-16
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: Diseño A — puerta sintética única de la plataforma
+# FECHA: 2026-09-18
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
 # CAMBIOS: retira workflow_dispatch; conserva push/pull_request y el artefacto de diagnóstico de unittest.
 # MOTIVO: mantener la puerta como CI automática y reservar la interfaz humana al workflow único.
 # ANTERIOR: versión 1.2.0 en historial Git.
-name: Pruebas DDD — R015
+name: Pruebas de la plataforma
 on:
   push:
     branches: [main]

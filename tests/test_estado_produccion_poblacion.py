@@ -158,6 +158,7 @@ class ProductionPopulationGateTests(unittest.TestCase):
         report = repair_report(before=(0, 4, .25, 1.0, 10), after=(0, 3, .25, .9, 9), result="IMPROVED_NOT_REPAIRED")
         result = status(report)
         self.assertEqual(result["decision"], "BLOCK")
+        self.assertEqual(result["territorial_certification_status"], "BLOCK")
         self.assertEqual(result["block_cause"], "POPULATION_TARGET_NOT_MET")
 
     def test_population_not_improved_blocks(self):
@@ -196,6 +197,7 @@ class ProductionPopulationGateTests(unittest.TestCase):
         self.assertEqual(result["population_decision"], TARGET_IMPROVED_NOT_MET)
         self.assertEqual(result["geometric_decision"], "PASS_WITH_EXCEPTIONS")
         self.assertEqual(result["decision"], "BLOCK")
+        self.assertEqual(result["territorial_certification_status"], "BLOCK")
         self.assertEqual(result["block_cause"], "POPULATION_TARGET_NOT_MET")
 
     def test_m06_execution_is_not_gated_by_population_certification(self):

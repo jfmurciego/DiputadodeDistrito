@@ -73,6 +73,7 @@ class ProductionViewerStateTests(unittest.TestCase):
             self.assertEqual(result["observed_districts"], 2)
             self.assertEqual(result["technical_status"], "PASS")
             self.assertEqual(result["certification_status"], "CERTIFIED")
+            self.assertEqual(result["territorial_certification_status"], "CERTIFIED")
             self.assertEqual(result["status_reasons"], [])
 
     def test_governed_exceptions_are_certified_but_not_publicable(self):
@@ -117,7 +118,8 @@ class WorkflowGateTests(unittest.TestCase):
         builder = (ROOT / "herramientas/estado_produccion.py").read_text(encoding="utf-8")
         self.assertIn("herramientas/estado_produccion.py", workflow)
         self.assertIn("production_status.json", workflow)
-        self.assertIn('"schema": "ddd.production-status/1.2"', builder)
+        self.assertIn('"schema": "ddd.production-status/1.3"', builder)
+        self.assertIn('"territorial_certification_status": decision', builder)
         self.assertIn('TARGET_MET = "TARGET_MET"', builder)
         self.assertIn('TARGET_IMPROVED_NOT_MET = "TARGET_IMPROVED_NOT_MET"', builder)
         self.assertIn('TARGET_NOT_MET = "TARGET_NOT_MET"', builder)
