@@ -61,6 +61,37 @@ class PopulationRepairTests(unittest.TestCase):
         x=self.repair_case(ass,units,A(("a","b2"),("b2","b1"),("b1","c1"),("c1","c2")))
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertGreaterEqual(len(set(x["districts_affected"])),3)
 
+    def test_focal_chain_repairs_low_outlier_by_handoff(self):
+        units={"a":U(87),"bx":U(2),"b":U(87),"cy":U(2),"c":U(98)}
+        ass={"a":"A","bx":"B","b":"B","cy":"C","c":"C"}
+        adj=A(("a","bx"),("bx","b"),("b","cy"),("cy","c"))
+        x=self.repair_case(ass,units,adj,limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=20,max_seconds=2,seed=1))
+        self.assertEqual(x["result"],r.RESULT_REPAIRED)
+        self.assertEqual(x["objective_after"][1],0)
+        self.assertTrue(x["focal_search"]["complete"])
+        self.assertGreaterEqual(len(x["repairs"]),2)
+
+    def test_focal_chain_repairs_oversized_donor_with_cycle(self):
+        units={"a":U(95),"x":U(30),"b":U(80),"y":U(25),"c":U(85),"z":U(10)}
+        ass={"a":"A","x":"A","b":"B","y":"B","c":"C","z":"C"}
+        adj=A(("a","x"),("x","b"),("b","y"),("y","c"),("c","z"),("z","a"))
+        x=self.repair_case(ass,units,adj,limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=20,max_seconds=2,seed=2))
+        self.assertEqual(x["result"],r.RESULT_REPAIRED)
+        self.assertEqual(x["objective_after"][1],0)
+        self.assertTrue(x["focal_search"]["complete"])
+        self.assertGreaterEqual(len(x["repairs"]),3)
+
+    def test_focal_chain_supports_transit_near_population_cap(self):
+        units={"a":U(110),"r":U(1),"b":U(108),"q":U(1),"c":U(109),"d":U(107),"t":U(2)}
+        ass={"a":"A","r":"A","b":"B","q":"B","c":"C","d":"D","t":"D"}
+        adj=A(("a","r"),("r","d"),("a","t"),("t","d"),("t","b"),("b","q"),("q","c"))
+        x=self.repair_case(ass,units,adj,limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=20,max_seconds=2,seed=3))
+        self.assertEqual(x["result"],r.RESULT_REPAIRED)
+        self.assertEqual(x["objective_after"][1],0)
+        self.assertTrue(x["focal_search"]["complete"])
+        pops=x["population_after"]
+        self.assertTrue(all(90 <= pops[d] <= 110 for d in ("A","B","C","D")))
+
     def test_budget_exhausted_without_primary_restores_baseline(self):
         units={"a":U(80),"b":U(120)}; ass={"a":"A","b":"B"}
         x=self.repair_case(ass,units,A(("a","b")),limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=1,max_seconds=2,seed=1))
