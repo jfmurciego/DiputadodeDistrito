@@ -1,0 +1,29 @@
+name: Prueba OpenAI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  preguntar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preguntar a OpenAI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          RESPUESTA=$(curl -s https://api.openai.com/v1/responses \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $OPENAI_API_KEY" \
+            -d '{
+              "model": "gpt-5-mini",
+              "input": "Di hola en una frase corta."
+            }')
+
+          echo "Error (si lo hay):"
+          echo "$RESPUESTA" | jq -r '.error.message // "ninguno"'
+
+          echo "Respuesta del modelo:"
+          echo "$RESPUESTA" | jq -r '.output[] | select(.type=="message") | .content[0].text'
+
+          echo "ID de la respuesta:"
+          echo "$RESPUESTA" | jq -r '.id'
