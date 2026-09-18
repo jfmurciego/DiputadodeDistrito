@@ -189,10 +189,17 @@ jobs:
                 cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
                 rm -rf "$tmp_state"
                 break 2
+              elif (( validation_rc == 2 )); then
+                reason="$(jq -r '.reason // "validación de fuentes rechazada"' "$candidate_json" 2>/dev/null || echo 'validación de fuentes rechazada')"
+                record_discard "$run_id" "$stage" "$reason"
+                rm -rf "$tmp_state"
+                continue
+              else
+                echo "::error::Falló el validador de checkpoint para run $run_id, $stage (rc=$validation_rc)."
+                cat "$candidate_json" || true
+                rm -rf "$tmp_state"
+                exit "$validation_rc"
               fi
-              reason="$(jq -r '.reason // "validación de fuentes rechazada"' "$candidate_json" 2>/dev/null || echo 'validación de fuentes rechazada')"
-              record_discard "$run_id" "$stage" "$reason"
-              rm -rf "$tmp_state"
             done
           done
 
