@@ -62,7 +62,7 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertGreaterEqual(len(set(x["districts_affected"])),3)
 
     def test_focal_chain_repairs_low_outlier_by_handoff(self):
-        units={"a":U(87),"bx":U(2),"b":U(87),"cy":U(2),"c":U(98)}
+        units={"a":U(89),"bx":U(2),"b":U(89),"cy":U(2),"c":U(98)}
         ass={"a":"A","bx":"B","b":"B","cy":"C","c":"C"}
         adj=A(("a","bx"),("bx","b"),("b","cy"),("cy","c"))
         x=self.repair_case(ass,units,adj,limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=20,max_seconds=2,seed=1))
