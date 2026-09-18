@@ -4,6 +4,7 @@ on:
     branches: [prep/cyl-electoral-2026]
 permissions:
   contents: read
+  actions: read
 jobs:
   preparar:
     runs-on: ubuntu-24.04
@@ -72,6 +73,34 @@ jobs:
           meta={'source_bytes':len(raw),'source_sha256':hashlib.sha256(raw).hexdigest(),'rows_2026_input':inrows,'normalized_rows':len(agg),'sections':len(sections),'parties':len(parties),'normalized_sha256':sha(out),'dictionary_sha256':sha(dp),'headers':headers,'party_labels':parties}
           Path('.tmp-cyl-electoral/metadata.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(meta,ensure_ascii=False,indent=2))
+          PY
+      - name: Comparar universo 2026 con checkpoint M06
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp-m06
+          gh run download 35319351944 --repo "$GITHUB_REPOSITORY" --name ddd-state-35319351944-M06 --dir .tmp-m06
+          python - <<'PY'
+          import csv,json,zipfile
+          from pathlib import Path
+          electoral=set()
+          with Path('.tmp-cyl-electoral/cyl_2026_secciones_partidos.csv').open(encoding='utf-8') as f:
+              for r in csv.DictReader(f): electoral.add(str(r['section_id']))
+          candidates=list(Path('.tmp-m06').rglob('*m06_secciones*.geojson.zip'))
+          if not candidates: raise SystemExit('No se encontró M06 secciones en checkpoint')
+          z=candidates[0]
+          with zipfile.ZipFile(z) as zz:
+              names=[n for n in zz.namelist() if n.lower().endswith(('.geojson','.json'))]
+              if not names: raise SystemExit(f'ZIP sin geojson: {z}')
+              data=json.loads(zz.read(names[0]).decode('utf-8'))
+          m06={str(ft.get('properties',{}).get('CUSEC_KEY') or ft.get('properties',{}).get('CUSEC') or '') for ft in data.get('features',[])}
+          m06.discard('')
+          only_e=sorted(electoral-m06); only_m=sorted(m06-electoral)
+          out={'electoral_sections':len(electoral),'m06_sections':len(m06),'intersection':len(electoral&m06),'electoral_only':only_e,'m06_only':only_m}
+          Path('.tmp-cyl-electoral/reconciliation_sections.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
       - uses: actions/upload-artifact@v6
         with:
