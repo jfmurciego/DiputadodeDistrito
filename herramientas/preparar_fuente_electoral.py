@@ -53,17 +53,24 @@ def validate_previous(package:Path,territory_id:str,edition:str)->dict|None:
         if m.get("territory_id")!=territory_id or str(m.get("edition"))!=str(edition): return None
         s=m.get("selected_source") or {}; p=package/str(s.get("path") or "")
         if not p.is_file() or sha(p)!=str(s.get("sha256") or "") or p.stat().st_size!=int(s.get("bytes") or -1): return None
+        records,_=count_records(p)
+        if "records" in s and int(s.get("records") or 0)!=records: return None
         return m
     except Exception: return None
 
-def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Path|None=None,declaration:Path|None=None,previous:Path|None=None)->dict:
+def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Path|None=None,declaration:Path|None=None,previous:Path|None=None,previous_run_id:str|None=None,previous_artifact_name:str|None=None)->dict:
     root=root.resolve()
     if previous and previous.is_dir():
         m=validate_previous(previous,territory_id,edition)
-        if m:
+        if m and previous_run_id and previous_artifact_name:
             source=previous/m["selected_source"]["path"]
             meta={k:v for k,v in m["selected_source"].items() if k not in {"path","sha256","bytes","records","record_count_method"}}
-            return _write_package(package_out,"REUSE",territory_id,edition,source,meta,{"reused_from":str(previous)})
+            return _write_package(package_out,"REUSE",territory_id,edition,source,meta,{
+                "reuse_provenance":{
+                    "run_id":str(previous_run_id),
+                    "artifact_name":str(previous_artifact_name),
+                }
+            })
     cfg={}
     if params and params.is_file(): cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
@@ -92,10 +99,10 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
             meta={"origin_url":sel.get("url"),"publisher":sel.get("publisher"),"acquired_at":datetime.now(timezone.utc).isoformat(),"source_mode":"official_acquisition","declaration":str(decl)}
             manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,src,meta,{"checker_decision":result})
             shutil.rmtree(tmp,ignore_errors=True); return manifest
-        package_out.mkdir(parents=True,exist_ok=True)
+        manifest=_write_package(package_out,"BLOCK",territory_id,edition,None,{},{"reason":"No existe fuente electoral oficial reutilizable o adquirible","checker_decision":result})
         shutil.copytree(tmp,package_out/"checker",dirs_exist_ok=True)
         shutil.rmtree(tmp,ignore_errors=True)
-        return _write_package(package_out,"BLOCK",territory_id,edition,None,{},{"reason":"No existe fuente electoral oficial reutilizable o adquirible","checker_decision":result})
+        return manifest
     return _write_package(package_out,"BLOCK",territory_id,edition,None,{},{"reason":"Sin paquete reutilizable, contrato materializado ni declaración electoral oficial"})
 
 def main():
@@ -103,8 +110,9 @@ def main():
     ap.add_argument("--territory-id",required=True); ap.add_argument("--edition",required=True)
     ap.add_argument("--package-out",type=Path,required=True); ap.add_argument("--root-dir",type=Path,default=Path("."))
     ap.add_argument("--params",type=Path); ap.add_argument("--declaration",type=Path); ap.add_argument("--previous-package",type=Path)
+    ap.add_argument("--previous-run-id"); ap.add_argument("--previous-artifact-name")
     a=ap.parse_args()
-    m=prepare(territory_id=a.territory_id,edition=a.edition,package_out=a.package_out,root=a.root_dir,params=a.params,declaration=a.declaration,previous=a.previous_package)
+    m=prepare(territory_id=a.territory_id,edition=a.edition,package_out=a.package_out,root=a.root_dir,params=a.params,declaration=a.declaration,previous=a.previous_package,previous_run_id=a.previous_run_id,previous_artifact_name=a.previous_artifact_name)
     print(json.dumps(m,ensure_ascii=False))
     if m["decision"]=="BLOCK": raise SystemExit(2)
 if __name__=="__main__": main()

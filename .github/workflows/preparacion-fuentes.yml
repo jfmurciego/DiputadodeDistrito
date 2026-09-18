@@ -130,7 +130,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - name: Recuperar último paquete electoral congelado
+      - id: previous
+        name: Recuperar último paquete electoral congelado
         shell: bash
         run: |
           set -euo pipefail
@@ -141,18 +142,29 @@ jobs:
             arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$rid/artifacts?per_page=100")"
             name="$(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$arts" | head -1)"
             [[ -n "$name" ]] || continue
-            gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-electoral-previous >/dev/null 2>&1 && break
+            if gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-electoral-previous >/dev/null 2>&1; then
+              echo "run_id=$rid" >> "$GITHUB_OUTPUT"
+              echo "artifact_name=$name" >> "$GITHUB_OUTPUT"
+              break
+            fi
           done
       - id: prepare
         name: Resolver REUSE / ACQUIRE / BLOCK
         continue-on-error: true
         shell: bash
+        env:
+          PREVIOUS_RUN_ID: ${{ steps.previous.outputs.run_id }}
+          PREVIOUS_ARTIFACT_NAME: ${{ steps.previous.outputs.artifact_name }}
         run: |
           set -euo pipefail
           args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
           [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS")
           [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
-          [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous)
+          if [[ -f .ddd-electoral-previous/manifest.json ]]; then
+            args+=(--previous-package .ddd-electoral-previous)
+            [[ -n "$PREVIOUS_RUN_ID" ]] && args+=(--previous-run-id "$PREVIOUS_RUN_ID")
+            [[ -n "$PREVIOUS_ARTIFACT_NAME" ]] && args+=(--previous-artifact-name "$PREVIOUS_ARTIFACT_NAME")
+          fi
           python herramientas/preparar_fuente_electoral.py "${args[@]}"
       - uses: actions/upload-artifact@v6
         if: always()

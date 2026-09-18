@@ -52,6 +52,29 @@ class DesignA(unittest.TestCase):
             for state in row["editions"].values():
                 self.assertIn("production_authorization",state)
 
+    def test_true_availability_claims_have_real_evidence(self):
+        data=load_catalog(CAT)
+        for row in data["territories"]:
+            for state in row["editions"].values():
+                evidence=state.get("evidence") or {}
+                checks=(("territorial_product_available","territorial_product"),("electoral_source_prepared","electoral_source"),("electoral_product_available","electoral_product"))
+                for flag,key in checks:
+                    if state.get(flag):
+                        self.assertIn(key,evidence,(row["territory_id"],flag))
+                        p=ROOT/evidence[key]
+                        self.assertTrue(p.is_file() and p.stat().st_size>0,(row["territory_id"],key))
+
+    def test_catalog_validator_rejects_missing_claim_evidence(self):
+        import copy,tempfile
+        data=copy.deepcopy(load_catalog(CAT))
+        aragon=next(r for r in data["territories"] if r["territory_id"]=="aragon")
+        aragon["editions"]["2025"]["evidence"]["territorial_product"]="missing/evidence.json"
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/"catalog.yaml"
+            p.write_text(yaml.safe_dump(data,allow_unicode=True,sort_keys=False),encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"evidencia inexistente"):
+                validate_repository(p,ROOT)
+
     def test_forms_match_single_catalog(self):
         prep=(triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])
         prod=(triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])

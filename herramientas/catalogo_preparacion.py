@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, re
+import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
@@ -13,6 +13,12 @@ REQUIRED=(
  "territorial_certification","production_authorization","last_valid_checkpoint",
 )
 PREPARABLE={"READY","READY_INITIAL"}
+
+def _sha256(path:Path)->str:
+    h=hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda:f.read(1024*1024),b""): h.update(chunk)
+    return h.hexdigest()
 
 def _yaml(path:Path)->dict:
     data=yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -90,6 +96,47 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             ed_raw=state.get("electoral_source_declaration")
             if ed_raw and not (root/ed_raw).is_file():
                 errors.append(f"{tid}/{edition}: declaración electoral inexistente: {ed_raw}")
+
+            evidence=state.get("evidence") or {}
+            def require_evidence(kind:str,flag:str)->Path|None:
+                if not state.get(flag): return None
+                raw=evidence.get(kind)
+                if not raw:
+                    errors.append(f"{tid}/{edition}: {flag}=true sin evidence.{kind}")
+                    return None
+                p=root/str(raw)
+                if not p.is_file() or p.stat().st_size<=0:
+                    errors.append(f"{tid}/{edition}: evidencia inexistente o vacía: {raw}")
+                    return None
+                return p
+
+            require_evidence("territorial_product","territorial_product_available")
+            require_evidence("electoral_product","electoral_product_available")
+            electoral_evidence=require_evidence("electoral_source","electoral_source_prepared")
+            if state.get("electoral_source_prepared"):
+                if cfg is None:
+                    errors.append(f"{tid}/{edition}: fuente electoral preparada sin contrato territorial legible")
+                else:
+                    m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+                    contract_raw=m07.get("election_contract")
+                    contract_path=(root/str(contract_raw)) if contract_raw else None
+                    if contract_path is None or not contract_path.is_file():
+                        errors.append(f"{tid}/{edition}: fuente electoral preparada sin election_contract real")
+                    else:
+                        try:
+                            contract=json.loads(contract_path.read_text(encoding="utf-8"))
+                            sources=contract.get("sources") or []
+                            if not sources:
+                                errors.append(f"{tid}/{edition}: election_contract sin fuentes")
+                            for source in sources:
+                                src_raw=source.get("path"); expected=str(source.get("sha256") or "").lower()
+                                src=(root/str(src_raw)) if src_raw else None
+                                if src is None or not src.is_file():
+                                    errors.append(f"{tid}/{edition}: fuente electoral materializada ausente: {src_raw}")
+                                elif not expected or _sha256(src).lower()!=expected:
+                                    errors.append(f"{tid}/{edition}: SHA-256 electoral no coincide: {src_raw}")
+                        except Exception as exc:
+                            errors.append(f"{tid}/{edition}: election_contract inválido: {exc}")
     if errors: raise ValueError("\n".join(errors))
     return []
 

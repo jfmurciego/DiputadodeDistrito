@@ -35,6 +35,10 @@ territories:
         territorial_product_available: true
         electoral_source_prepared: true
         electoral_product_available: true
+        evidence:
+          territorial_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/PRODUCTOS.json
+          electoral_source: territorios/aragon/config/elecciones/aragon_cortes_2026.json
+          electoral_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M08/PRODUCTOS.json
         territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
         production_authorization: AUTHORIZED
         last_valid_checkpoint: {run_id: 35010122795, stage: M06}
@@ -137,6 +141,10 @@ territories:
         territorial_product_available: true
         electoral_source_prepared: true
         electoral_product_available: true
+        evidence:
+          territorial_product: territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/catalogo_distritos.csv
+          electoral_source: territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json
+          electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
         territorial_certification: BLOCK_POPULATION_TARGET_NOT_MET
         production_authorization: AUTHORIZED
         last_valid_checkpoint: {run_id: 35329341120, stage: M08}
