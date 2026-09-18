@@ -38,17 +38,20 @@ jobs:
               for x in xs:
                   if n(x) in idx:return idx[n(x)]
               raise SystemExit(f'Falta columna {xs}; cabeceras={headers}')
-          cy=c('Año','Ano'); cm=c('Código municipio','Codigo municipio'); cd=c('Distrito'); cs=c('Sección','Seccion'); cp=c('Partido'); cv=c('Nº Votos','N Votos','Numero votos')
+          cy=c('Año','Ano'); cmesa=c('Código de mesa','Codigo de mesa'); cp=c('Partido'); cv=c('Nº Votos','N Votos','Numero votos')
           agg=defaultdict(int); inrows=0
           for r in rows:
               if re.sub(r'\D','',str(r.get(cy,'')))!='2026': continue
               inrows+=1
-              mun=re.sub(r'\D','',str(r.get(cm,''))).zfill(5)
-              dis=re.sub(r'\D','',str(r.get(cd,''))).zfill(2)
-              sec=re.sub(r'\D','',str(r.get(cs,''))).zfill(3)
+              parts=str(r.get(cmesa,'')).strip().split('-')
+              if len(parts) < 5: raise SystemExit(f'Código de mesa inválido: {r.get(cmesa)!r}')
+              prov=re.sub(r'\D','',parts[0]).zfill(2)
+              mun=re.sub(r'\D','',parts[1]).zfill(3)
+              dis=re.sub(r'\D','',parts[2]).zfill(2)
+              sec=re.sub(r'\D','',parts[3]).zfill(3)
               party=' '.join(str(r.get(cp,'')).split())
               votes=int(re.sub(r'[^0-9-]','',str(r.get(cv,''))) or '0')
-              if party: agg[(mun+dis+sec,party)]+=votes
+              if party: agg[(prov+mun+dis+sec,party)]+=votes
           if not agg: raise SystemExit('No hay resultados 2026 en la descarga')
           out=Path('.tmp-cyl-electoral/cyl_2026_secciones_partidos.csv')
           with out.open('w',encoding='utf-8',newline='') as f:
