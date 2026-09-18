@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.1.1
+# VERSIÓN: 1.1.2
 # NOMBRE DE VERSIÓN: Preparación durable territorial y electoral
 # FECHA: 2026-09-18
 # ESTADO: candidato
-# CAMBIOS: corrige la posición del argumento global --root-dir al invocar el catálogo desde la preparación.
+# CAMBIOS: ejecuta los adaptadores Python de preparación como módulos para preservar imports de paquete.
 # MOTIVO: preparar fuentes una vez y reutilizarlas con procedencia y checksum verificables.
 name: Preparación de fuentes oficiales
 
@@ -107,7 +107,7 @@ jobs:
         run: bash inputs/partes/reconstruir_fuentes.sh
       - name: Adquirir y congelar fuentes
         run: |
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             /app/herramientas/ejecutar_fuentes_workflow.py             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
@@ -165,7 +165,7 @@ jobs:
             [[ -n "$PREVIOUS_RUN_ID" ]] && args+=(--previous-run-id "$PREVIOUS_RUN_ID")
             [[ -n "$PREVIOUS_ARTIFACT_NAME" ]] && args+=(--previous-artifact-name "$PREVIOUS_ARTIFACT_NAME")
           fi
-          python herramientas/preparar_fuente_electoral.py "${args[@]}"
+          python -m herramientas.preparar_fuente_electoral "${args[@]}"
       - uses: actions/upload-artifact@v6
         if: always()
         with:
