@@ -172,14 +172,28 @@ jobs:
               candidate_json="$tmp_state/validacion_checkpoint.json"
               set +e
               python -m herramientas.seleccionar_checkpoint_productivo \
-                --params "$PARAMS" --package "$source_dir" --run-id "$run_id" --stage "$stage" \
-                --root-dir . > "$candidate_json"
+                --params "$PARAMS" --package "$source_dir" --state-root "$tmp_state" \
+                --run-id "$run_id" --stage "$stage" --root-dir . > "$candidate_json"
               validation_rc=$?
               set -e
               if (( validation_rc == 0 )); then
-                checkpoint_run_id="$run_id"
-                from_stage="M$(printf '%02d' "$((stage_num+1))")"
                 cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
+                if [[ "$(jq -r '.requires_derivation // false' "$candidate_json")" == true ]]; then
+                  rm -rf .ddd-derived-checkpoint
+                  python herramientas/derivar_checkpoint_acumulado.py \
+                    --params "$PARAMS" --state-root "$tmp_state" \
+                    --target-stage M04 --output .ddd-derived-checkpoint \
+                    > .ddd-checkpoint-selection/derivacion_checkpoint.json
+                  checkpoint_run_id="$GITHUB_RUN_ID"
+                  from_stage="$(jq -r '.from_stage' "$candidate_json")"
+                  echo "derived_checkpoint=true" >> "$GITHUB_OUTPUT"
+                  echo "derived_from_run_id=$run_id" >> "$GITHUB_OUTPUT"
+                else
+                  checkpoint_run_id="$run_id"
+                  from_stage="$(jq -r '.from_stage // empty' "$candidate_json")"
+                  [[ -n "$from_stage" ]] || from_stage="M$(printf '%02d' "$((stage_num+1))")"
+                  echo "derived_checkpoint=false" >> "$GITHUB_OUTPUT"
+                fi
                 rm -rf "$tmp_state"
                 break 2
               elif (( validation_rc == 2 )); then
@@ -217,6 +231,16 @@ jobs:
             echo "checkpoint_run_id=$checkpoint_run_id"
             echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
+
+      - name: Publicar checkpoint M04 derivado
+        if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-state-${{ github.run_id }}-M04
+          path: .ddd-derived-checkpoint
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
 
       - id: electoral_package
         name: Resolver paquete electoral preparado

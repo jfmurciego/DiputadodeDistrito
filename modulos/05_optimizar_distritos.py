@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.6.0
-NOMBRE DE VERSIÓN: Reparación poblacional genérica escalonada
+VERSIÓN: 7.7.0
+NOMBRE DE VERSIÓN: Reparación poblacional focal por cadenas
 FECHA: 2026-09-16
 ESTADO: candidato multi-territorio; reparación poblacional opt-in pendiente de validación CI completa.
 FUNCIÓN: ejecutar el motor base M05 v7.4.0, aplicar el pulido determinista existente y, de forma opt-in,
@@ -31,7 +31,7 @@ from ddd_core.m05_swap_polish import polish as swap_polish, load_geo, write_geo
 from ddd_core.m05_population_repair import repair, SearchLimits
 
 BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v740.py"
-WRAPPER_VERSION = "7.6.0"
+WRAPPER_VERSION = "7.7.0"
 
 def _load_base():
     spec=importlib.util.spec_from_file_location("ddd_m05_opt_engine_v740", BASE_ENGINE)
