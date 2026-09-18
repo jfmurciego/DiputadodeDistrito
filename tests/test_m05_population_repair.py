@@ -119,8 +119,8 @@ class PopulationRepairTests(unittest.TestCase):
                 u=f"{d}{i:02d}"; units[u]=U(2); ass[u]=d
                 if i: edges.append((f"{d}{i-1:02d}",u))
         # Fuerza dos outliers sin una reparación trivial.
-        for i in range(10): units[f"A{i:02d}"]["population"]=1
-        for i in range(10): units[f"D{i:02d}"]["population"]=3
+        for i in range(12): units[f"A{i:02d}"]["population"]=1
+        for i in range(12): units[f"D{i:02d}"]["population"]=3
         edges += [("A49","B00"),("B49","C00"),("C49","D00")]
         ticks=[i*0.01 for i in range(1000)]
         with patch.object(r.time,"monotonic",side_effect=ticks):
