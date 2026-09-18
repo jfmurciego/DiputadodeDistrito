@@ -128,7 +128,7 @@ jobs:
           set -euo pipefail
           checkpoint_run_id=''
           from_stage=M01
-          target_num="${TO_STAGE#M}"
+          target_num="$((10#${TO_STAGE#M}))"
           mkdir -p .ddd-checkpoint-selection
           : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
           api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
@@ -219,6 +219,7 @@ jobs:
         with:
           name: ddd-checkpoint-selection-${{ github.run_id }}
           path: .ddd-checkpoint-selection
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
 
