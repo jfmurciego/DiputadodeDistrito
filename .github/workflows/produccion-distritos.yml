@@ -896,7 +896,7 @@ jobs:
           rm -rf /tmp/production && mkdir -p /tmp/production
           gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
           test -n "$(find /tmp/production -type f -print -quit)"
-      - name: Acreditar identidad
+      - name: Acreditar identidad de la ejecución descargada
         run: python herramientas/evaluar_publicacion_visor.py --requested-run-id "$PRODUCTION_RUN_ID" --production-root /tmp/production --phase source --output .ddd-publication/publicacion_visor.json --strict-request
       - name: Empaquetar visor
         run: |
@@ -952,7 +952,10 @@ jobs:
         uses: actions/download-artifact@v6
         with: {pattern: ddd-*, path: .ddd-execution-evidence/artifacts}
       - name: Generar informe
-        run: python herramientas/generar_informe_ejecucion.py --evidence-root .ddd-execution-evidence/artifacts --context .ddd-execution-evidence/contexto_ejecucion.json --out-dir .ddd-execution-report
+        run: |
+          python herramientas/generar_informe_ejecucion.py --evidence-root .ddd-execution-evidence/artifacts --context .ddd-execution-evidence/contexto_ejecucion.json --out-dir .ddd-execution-report
+          test -s .ddd-execution-report/inventario_ejecucion.json
+          test -s .ddd-execution-report/informe_ejecucion.md
       - uses: actions/upload-artifact@v6
         if: always()
         with:
