@@ -73,6 +73,7 @@ class ProductionViewerStateTests(unittest.TestCase):
             self.assertEqual(result["observed_districts"], 2)
             self.assertEqual(result["technical_status"], "PASS")
             self.assertEqual(result["certification_status"], "CERTIFIED")
+            self.assertEqual(result["territorial_certification_status"], "CERTIFIED")
             self.assertEqual(result["status_reasons"], [])
 
     def test_governed_exceptions_are_certified_but_not_publicable(self):

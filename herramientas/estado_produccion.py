@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Construye un estado durable de producción separando ejecución, población y geometría."""
+"""Construye un estado durable separando certificación territorial de despliegue."""
 from __future__ import annotations
 
 import argparse
@@ -273,8 +273,9 @@ def build_production_status(*, territory_id: str, params: str, run_id: str, from
         geometric_audit=geometric_audit,
     )
     payload = {
-        "schema": "ddd.production-status/1.2",
+        "schema": "ddd.production-status/1.3",
         "decision": decision,
+        "territorial_certification_status": decision,
         "territory_id": territory_id,
         "params": params,
         "run_id": run_id,

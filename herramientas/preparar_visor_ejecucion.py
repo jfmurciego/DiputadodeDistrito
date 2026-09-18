@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.2.0
+VERSIÓN: 1.3.0
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -178,7 +178,7 @@ def add_production(
     geometric_status = (audit or {}).get("decision", "NOT_AUDITED")
     gate = (audit or {}).get("gate_statement")
     production_status = metadata["production_status"]
-    recorded_status = production_status.get("decision")
+    recorded_status = production_status.get("territorial_certification_status", production_status.get("decision"))
     for stage, pattern, label, kind in [
         ("M06", "*_m06_distritos.geojson.zip", "M06 territorial", "canonical_m06"),
         ("M08", "*_m08_distritos_resultados.geojson.zip", "M08 electoral", "canonical_m08"),
@@ -216,6 +216,7 @@ def add_production(
             "viewer_path": str(dst.relative_to(site)).replace("\\", "/"),
             "technical_status": technical_status,
             "certification_status": certified,
+            "territorial_certification_status": certified,
             "status_reasons": status_reasons,
             "publication_status": "BLOCKED",
             "geometric_status": geometric_status,

@@ -63,6 +63,7 @@ class PublicationIdentityTests(unittest.TestCase):
                 requested_run_id="", registry_path=registry, viewer_url="https://example.test/", deployment_outcome="success", phase="final"
             )
             self.assertEqual(result["status"], "BLOCK")
+            self.assertEqual(result["deployment_status"], "BLOCK")
             self.assertTrue(result["historical_only"])
             self.assertIsNone(result["requested_run_id"])
             self.assertIsNone(result["loaded_run_id"])
@@ -111,6 +112,7 @@ class PublicationIdentityTests(unittest.TestCase):
                 phase="final",
             )
             self.assertEqual(result["status"], "SUCCESS")
+            self.assertEqual(result["deployment_status"], "SUCCESS")
             self.assertTrue(result["same_execution"])
             self.assertEqual(result["requested_run_id"], "123")
             self.assertEqual(result["generated_run_id"], "123")
