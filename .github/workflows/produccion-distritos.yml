@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 7.0.0
+# VERSIÓN: 7.1.0
 # NOMBRE DE VERSIÓN: Diseño A — interfaz delgada sobre router y motor comunes
 # FECHA: 2026-09-18
 # ESTADO: candidato
-# QUÉ HACE: expone únicamente territorio, edición, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
+# QUÉ HACE: expone únicamente territorio, edición, producto, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
 # CAMBIOS: las opciones se gobiernan por el catálogo único; se conserva el router y el motor común mediante workflow_call.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
@@ -28,6 +28,15 @@ on:
         type: choice
         options:
           - '2025'
+      product:
+        description: Producto
+        required: true
+        default: Ambos
+        type: choice
+        options:
+          - Distritos
+          - Resultados electorales
+          - Ambos
       publish_result:
         description: Publicar resultado
         required: true
@@ -55,6 +64,8 @@ jobs:
       params: ${{ steps.resolve.outputs.params }}
       from_stage: ${{ steps.checkpoint.outputs.from_stage }}
       to_stage: ${{ steps.resolve.outputs.to_stage }}
+      product: ${{ steps.resolve.outputs.product }}
+      checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
     steps:
       - uses: actions/checkout@v6
@@ -64,7 +75,7 @@ jobs:
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
           UI_EDITION: ${{ inputs.data_edition }}
-          UI_PUBLISH: ${{ inputs.publish_result }}
+          UI_PRODUCT: ${{ inputs.product }}
         run: |
           set -euo pipefail
           python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
@@ -73,11 +84,30 @@ jobs:
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
-          if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi
+          case "$UI_PRODUCT" in
+            "Distritos")
+              to_stage=M06
+              checkpoint_policy=latest_before_target
+              ;;
+            "Resultados electorales")
+              to_stage=M08
+              checkpoint_policy=require_m06
+              ;;
+            "Ambos")
+              to_stage=M08
+              checkpoint_policy=latest_before_target
+              ;;
+            *)
+              echo "::error::Producto no reconocido: $UI_PRODUCT"
+              exit 4
+              ;;
+          esac
           {
             echo "territory_id=$territory_id"
             echo "params=$params"
+            echo "product=$UI_PRODUCT"
             echo "to_stage=$to_stage"
+            echo "checkpoint_policy=$checkpoint_policy"
           } >> "$GITHUB_OUTPUT"
 
       - id: checkpoint
@@ -88,11 +118,20 @@ jobs:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           PARAMS: ${{ steps.resolve.outputs.params }}
           TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
+          PRODUCT: ${{ steps.resolve.outputs.product }}
+          CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
           from_stage=M01
           target_num="$((10#${TO_STAGE#M}))"
+          if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
+            search_from=6
+            search_to=6
+          else
+            search_from=$((target_num-1))
+            search_to=1
+          fi
           mkdir -p .ddd-checkpoint-selection
           : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
           api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
@@ -125,7 +164,7 @@ jobs:
             fi
             rm -rf "$tmp_decision"
 
-            for ((stage_num=target_num-1; stage_num>=1; stage_num--)); do
+            for ((stage_num=search_from; stage_num>=search_to; stage_num--)); do
               stage="M$(printf '%02d' "$stage_num")"
               artifact_name="ddd-state-$run_id-$stage"
               jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
@@ -167,6 +206,11 @@ jobs:
             done
           done
 
+          if [[ "$CHECKPOINT_POLICY" == require_m06 && -z "$checkpoint_run_id" ]]; then
+            echo "::error::Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06."
+            exit 44
+          fi
+
           python - <<'PY'
           import json
           from pathlib import Path
@@ -206,3 +250,4 @@ jobs:
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
+      publish_result: ${{ inputs.publish_result }}

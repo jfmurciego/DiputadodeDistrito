@@ -31,10 +31,12 @@ class R038OperacionLimpia(unittest.TestCase):
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
         self.assertEqual(list(raw_inputs), [
-            "territory_id", "data_edition", "publish_result", "confirmar_ejecucion"
+            "territory_id", "data_edition", "product", "publish_result", "confirmar_ejecucion"
         ])
         self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
+        self.assertEqual(raw_inputs["product"]["description"], "Producto")
+        self.assertEqual(raw_inputs["product"]["options"], ["Distritos", "Resultados electorales", "Ambos"])
         self.assertEqual(raw_inputs["publish_result"]["description"], "Publicar resultado")
         self.assertEqual(raw_inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
         self.assertNotIn("execution_authorization:", text)
@@ -45,8 +47,9 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
         self.assertIn("producir_resultado_m01_m08", text)
+        self.assertIn("to_stage=M06", text)
         self.assertIn("to_stage=M08", text)
-        self.assertIn("to_stage=M07", text)
+        self.assertIn("checkpoint_policy=require_m06", text)
         self.assertIn("${{ inputs.confirmar_ejecucion }}", text)
 
     def test_lanzador_shell_compila(self):
@@ -73,7 +76,10 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("uses: ./.github/workflows/producir-territorio-por-contrato.yml", router)
         self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", production)
         self.assertIn("production_run_id: ${{ github.run_id }}", production)
-        self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', interface)
+        self.assertNotIn("UI_PUBLISH", interface)
+        self.assertIn('publish_result: ${{ inputs.publish_result }}', interface)
+        self.assertIn('publish_result: ${{ inputs.publish_result }}', router)
+        self.assertIn("inputs.publish_result == true", production)
         self.assertIn("workflow_call:", viewer)
         self.assertNotIn("workflow_dispatch:", viewer)
 

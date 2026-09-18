@@ -3,7 +3,7 @@ PROYECTO: Diputado de Distrito
 PRUEBA: interfaz productiva empresarial de GitHub Actions
 VERSIÓN: 2.1.0
 FECHA: 2026-09-17
-OBJETIVO: exigir cuatro controles humanos, resolución automática del recorrido y
+OBJETIVO: exigir cinco controles humanos, resolución automática del recorrido y
 encadenamiento hacia la producción modular sin exponer parámetros técnicos.
 CAMBIO: el checkpoint automático debe superar la puerta común de reutilización,
 registrar descartes y conservar los identificadores internos resolver_interfaz/ruta.
@@ -52,13 +52,15 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
                 general.append(path.name)
         self.assertEqual(general, ["produccion-distritos.yml"])
 
-    def test_formulario_productivo_tiene_exactamente_cuatro_controles(self):
+    def test_formulario_productivo_tiene_exactamente_cinco_controles(self):
         inputs = self._dispatch_inputs()
         self.assertEqual(list(inputs), [
-            "territory_id", "data_edition", "publish_result", "confirmar_ejecucion"
+            "territory_id", "data_edition", "product", "publish_result", "confirmar_ejecucion"
         ])
         self.assertEqual(inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(inputs["data_edition"]["description"], "Edición de datos")
+        self.assertEqual(inputs["product"]["description"], "Producto")
+        self.assertEqual(inputs["product"]["options"], ["Distritos", "Resultados electorales", "Ambos"])
         self.assertEqual(inputs["publish_result"]["description"], "Publicar resultado")
         self.assertEqual(inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
         self.assertEqual(inputs["territory_id"]["options"], VISIBLE_TERRITORIES)
@@ -80,12 +82,26 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertNotIn("case \"$UI_TERRITORY\"", text)
 
 
-    def test_publicacion_resuelve_el_recorrido_sin_control_tecnico(self):
+    def test_producto_resuelve_recorrido_y_publicacion_no_selecciona_etapa(self):
         text = INTERFACE.read_text(encoding="utf-8")
-        self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', text)
+        self.assertIn('"Distritos")', text)
+        self.assertIn('to_stage=M06', text)
+        self.assertIn('"Resultados electorales")', text)
+        self.assertIn('checkpoint_policy=require_m06', text)
+        self.assertIn('"Ambos")', text)
+        self.assertIn('to_stage=M08', text)
+        self.assertNotIn("UI_PUBLISH", text)
+        self.assertIn('publish_result: ${{ inputs.publish_result }}', text)
         self.assertIn('from_stage=M01', text)
         self.assertIn('target_num="$((10#${TO_STAGE#M}))"', text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"', text)
+
+    def test_electoral_exige_m06_y_no_recalcula_m01_m06(self):
+        text = INTERFACE.read_text(encoding="utf-8")
+        self.assertIn('search_from=6', text)
+        self.assertIn('search_to=6', text)
+        self.assertIn('Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06.', text)
+        self.assertIn('exit 44', text)
 
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -114,6 +130,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("needs.resolver_interfaz.outputs.to_stage", values["to_stage"])
         self.assertIn("needs.resolver_interfaz.outputs.checkpoint_run_id", values["checkpoint_run_id"])
         self.assertIn("inputs.confirmar_ejecucion", values["execution_confirmed"])
+        self.assertIn("inputs.publish_result", values["publish_result"])
 
     def test_secuencia_visible_usa_nombres_de_negocio_y_conserva_m01_m08(self):
         router = self._load(ROUTER)

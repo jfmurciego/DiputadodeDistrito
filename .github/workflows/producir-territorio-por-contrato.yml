@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.7.0
+# VERSIÓN: 2.8.0
 # NOMBRE DE VERSIÓN: Reutilización durable de fuentes preparadas
 # FECHA: 2026-09-17
 # ESTADO: candidato
@@ -19,6 +19,7 @@ on:
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
       execution_authorization: {required: false, type: string, default: ''}
+      publish_result: {required: false, type: boolean, default: false}
 
 permissions:
   contents: read
@@ -771,8 +772,8 @@ jobs:
 
   visor:
     name: Visor
-    needs: [resolve, m08, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.to_num) >= 8 && needs.m08.result == 'success' && needs.auditoria.result == 'success' }}
+    needs: [resolve, m06, m08, auditoria]
+    if: ${{ always() && inputs.publish_result == true && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && needs.auditoria.result == 'success' && ((fromJSON(needs.resolve.outputs.to_num) == 6 && needs.m06.result == 'success') || (fromJSON(needs.resolve.outputs.to_num) >= 8 && needs.m08.result == 'success')) }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     with:
       production_run_id: ${{ github.run_id }}
