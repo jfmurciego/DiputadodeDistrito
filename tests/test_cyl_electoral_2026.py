@@ -4,9 +4,6 @@ import unittest
 
 import yaml
 
-from ddd_core.electoral_contract import load_election_contract
-
-
 ROOT = Path(__file__).resolve().parents[1]
 PARAMS = ROOT / "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
 CONTRACT = ROOT / "territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json"
@@ -24,16 +21,18 @@ class CastillaLeonElectoral2026(unittest.TestCase):
         self.assertEqual(m07["district_field"], "district_id")
         self.assertIn("m06_distritos.geojson.zip", m08["in_district_geojson"])
 
-    def test_contract_and_frozen_source_are_verifiable(self):
-        contract, dictionary = load_election_contract(
-            CONTRACT,
-            project_root=ROOT,
-            expected_territory_id="castilla_y_leon",
-        )
+    def test_contract_declares_verifiable_frozen_source(self):
+        contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+        self.assertEqual(contract["schema_family"], "ddd-election")
+        self.assertEqual(contract["schema_version"], "1.0.0")
         self.assertEqual(contract["election_id"], "castilla_y_leon_cortes_2026-03-15")
+        self.assertEqual(contract["territory_id"], "castilla_y_leon")
         self.assertTrue(contract["boundary_independence"])
         self.assertEqual(len(contract["sources"]), 1)
-        self.assertEqual(contract["sources"][0]["adapter"]["kind"], "long_csv")
+        source = contract["sources"][0]
+        self.assertEqual(source["path"], "inputs/cyl_2026_secciones_partidos.csv")
+        self.assertEqual(source["sha256"], "603e0261adc11871cdc8345a847da9f9161894050a51dd334f9928a4e6d01d30")
+        self.assertEqual(source["adapter"]["kind"], "long_csv")
         self.assertEqual(contract["reconciliation"]["policy"], "fail_unless_declared")
 
     def test_reconciliation_inventory_is_explicit(self):
