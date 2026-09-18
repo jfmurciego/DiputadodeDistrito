@@ -17,7 +17,12 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             encoding="utf-8",
         )
         params = root / "params.yaml"
-        params.write_text("meta:\n  territory_id: demo\n", encoding="utf-8")
+        params.write_text(
+            "meta:\n  territory_id: demo\n  run_name: demo_2025\n  year: 2025\n"
+            "modulos:\n  modulo_05_optimizar_distritos:\n"
+            "    out_report: cache/{run_name}_m05_informe.json\n",
+            encoding="utf-8",
+        )
         return params
 
     def package(self, root: Path, name: str, *, payload: bytes = b"id,value\n1,x\n",
@@ -42,13 +47,24 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
         (package / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         return package
 
+    def state(self, root: Path, name: str, *, outliers: int = 0, hard: int = 0) -> Path:
+        state = root / name
+        report = state / "cache" / "demo_2025_m05_informe.json"
+        report.parent.mkdir(parents=True, exist_ok=True)
+        report.write_text(json.dumps({
+            "objective_start": [hard, 0, outliers, 0.2, 1.0],
+            "objective_final": [hard, 0, outliers, 0.1, 0.5],
+        }), encoding="utf-8")
+        return state
+
     def test_manifest_present_and_valid_copy_is_selected(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td); params = self.prepare_root(root)
             valid = self.package(root, "valid")
+            state = self.state(root, "state-valid")
             result = select_latest_valid(
                 params=params,
-                candidates=[{"run_id": 200, "stage": "M06", "from_stage": "M07", "package": valid}],
+                candidates=[{"run_id": 200, "stage": "M06", "from_stage": "M07", "package": valid, "state_root": state}],
                 root_dir=root,
             )
             self.assertEqual(result["selected"]["run_id"], "200")
@@ -85,17 +101,33 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             root = Path(td); params = self.prepare_root(root)
             newest = self.package(root, "newest", corrupt_hash=True)
             older = self.package(root, "older")
+            older_state = self.state(root, "older-state")
             result = select_latest_valid(
                 params=params,
                 candidates=[
                     {"run_id": 300, "stage": "M06", "from_stage": "M07", "package": newest},
-                    {"run_id": 250, "stage": "M05", "from_stage": "M06", "package": older},
+                    {"run_id": 250, "stage": "M05", "from_stage": "M06", "package": older, "state_root": older_state},
                 ],
                 root_dir=root,
             )
             self.assertEqual(result["selected"]["run_id"], "250")
             self.assertEqual([d["run_id"] for d in result["discarded"]], ["300"])
             self.assertEqual(result["from_stage"], "M06")
+
+    def test_m06_with_population_block_is_discarded(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td); params = self.prepare_root(root)
+            package = self.package(root, "valid")
+            state = self.state(root, "state-blocked", outliers=3)
+            result = select_latest_valid(
+                params=params,
+                candidates=[{"run_id": 35319351944, "stage": "M06", "from_stage": "M07", "package": package, "state_root": state}],
+                root_dir=root,
+            )
+            self.assertIsNone(result["selected"])
+            self.assertIn("checkpoint poblacionalmente no certificado", result["discarded"][0]["reason"])
+            self.assertIn("outliers=3", result["discarded"][0]["reason"])
+            self.assertEqual(result["from_stage"], "M01")
 
     def test_no_compatible_checkpoint_starts_from_m01(self):
         with tempfile.TemporaryDirectory() as td:
