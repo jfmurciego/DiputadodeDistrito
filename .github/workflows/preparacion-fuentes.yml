@@ -96,7 +96,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Comprobar declaración de fuentes
-        run: test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
       - uses: docker/setup-buildx-action@v3
       - name: Preparar entorno reproducible de fuentes
         uses: docker/build-push-action@v6
