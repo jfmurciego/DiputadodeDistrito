@@ -3,7 +3,7 @@ on:
   push:
     branches: [prep/cyl-electoral-2026]
 permissions:
-  contents: read
+  contents: write
   actions: read
 jobs:
   preparar:
@@ -108,6 +108,20 @@ jobs:
           Path('.tmp-cyl-electoral/reconciliation_sections.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
+      - name: Congelar copia normalizada verificable en la rama de preparación
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p inputs territorios/castilla_y_leon/config/elecciones territorios/castilla_y_leon/evidencia
+          cp .tmp-cyl-electoral/cyl_2026_secciones_partidos.csv inputs/cyl_2026_secciones_partidos.csv
+          cp .tmp-cyl-electoral/diccionario_partidos_cyl_2026.json territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json
+          cp .tmp-cyl-electoral/reconciliation_sections.json territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add inputs/cyl_2026_secciones_partidos.csv territorios/castilla_y_leon/config/elecciones/diccionario_partidos_cyl_2026.json territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: congelar fuente electoral oficial CyL 2026"
+          git push origin HEAD:prep/cyl-electoral-2026
       - uses: actions/upload-artifact@v6
         with:
           name: cyl-electoral-2026-preparado
