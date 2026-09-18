@@ -1,0 +1,88 @@
+name: Validación temporal CyL M07-M08
+on:
+  push:
+    branches: [prep/cyl-electoral-2026]
+permissions:
+  actions: read
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Recuperar checkpoint M06 compuesto
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-state-35319351944-M06
+          path: .ddd-state/in
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 35319351944
+      - name: Restaurar estado M06 y fuentes durables
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d .ddd-state/in/cache
+          test -d .ddd-state/in/run
+          test -d .ddd-state/in/sources
+          rm -rf territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025
+          mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025
+          cp -a .ddd-state/in/cache/. territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/
+          mkdir -p territorios/castilla_y_leon/resultados/ejecuciones/${GITHUB_RUN_ID}
+          cp -a .ddd-state/in/run/. territorios/castilla_y_leon/resultados/ejecuciones/${GITHUB_RUN_ID}/
+          rm -rf .ddd-source-package
+          mkdir -p .ddd-source-package
+          cp -a .ddd-state/in/sources/. .ddd-source-package/
+          test -f .ddd-source-package/manifest.json
+      - uses: docker/setup-buildx-action@v3
+      - name: Construir entorno reproducible
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-cyl-electoral-test:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-cyl-electoral-test
+          cache-to: type=gha,mode=max,scope=ddd-cyl-electoral-test
+      - name: Ejecutar exclusivamente M07 y M08
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app \
+            -e DDD_PARAMS=territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml \
+            -e DDD_RUN_ID="${GITHUB_RUN_ID}" \
+            -e DDD_FROM_STAGE=M07 -e DDD_TO_STAGE=M08 \
+            -e DDD_CHAIN_STATE="territorios/castilla_y_leon/resultados/ejecuciones/${GITHUB_RUN_ID}/CHAIN_STATE.json" \
+            --entrypoint /bin/bash ddd-cyl-electoral-test:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Verificar productos electorales
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025
+          test -f "$base/castilla_y_leon_2025_m07_reconciliacion.json"
+          test -f "$base/castilla_y_leon_2025_m07_resumen_electoral.csv"
+          test -f "$base/castilla_y_leon_2025_m08_distritos_resultados.geojson.zip"
+          jq -e '.status == "PASS_WITH_DECLARED_EXCEPTIONS" or .status == "PASS"' "$base/castilla_y_leon_2025_m07_reconciliacion.json"
+          python - <<'PY'
+          import csv,json,zipfile
+          from pathlib import Path
+          base=Path('territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025')
+          with (base/'castilla_y_leon_2025_m07_resumen_electoral.csv').open(encoding='utf-8') as f:
+              rows=list(csv.DictReader(f))
+          if len(rows)!=82: raise SystemExit(f'M07 produjo {len(rows)} distritos, esperados 82')
+          with zipfile.ZipFile(base/'castilla_y_leon_2025_m08_distritos_resultados.geojson.zip') as z:
+              name=next(n for n in z.namelist() if n.endswith(('.geojson','.json')))
+              data=json.loads(z.read(name).decode('utf-8'))
+          if len(data.get('features',[]))!=82: raise SystemExit('M08 no contiene 82 distritos')
+          print('M07/M08 OK: 82 distritos')
+          PY
+      - uses: actions/upload-artifact@v6
+        with:
+          name: cyl-m07-m08-validacion-${{ github.run_id }}
+          path: |
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m07_reconciliacion.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m07_resumen_electoral.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m08_distritos_resultados.geojson.zip
+          if-no-files-found: error
+          retention-days: 7
