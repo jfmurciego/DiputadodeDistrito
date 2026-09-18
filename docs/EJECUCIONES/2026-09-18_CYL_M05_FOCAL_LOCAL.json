@@ -268,7 +268,7 @@
     "run2": {
       "candidate_budget": 20000,
       "candidates_examined": 14740,
-      "canonical_assignment_sha256": "de6525e732c5b805a531aaabc335998efb3b42e6c5540bc0b76f5f53f86172",
+      "canonical_assignment_sha256": "de6525e732c5c3b805a531aaabc335998efb3b42e6c5540bc0b76f5f53f86172",
       "final_max_relative_deviation": 0.1199727138818126,
       "focal_candidate_attempts": 4740,
       "focal_elapsed_seconds": 0.846773,
