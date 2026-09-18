@@ -8,6 +8,9 @@ from pathlib import Path
 
 from herramientas.seleccionar_checkpoint_productivo import select_latest_valid
 from herramientas.huella_checkpoint_m05 import ENGINE_FILES, build_fingerprint
+from herramientas.derivar_checkpoint_acumulado import derive_checkpoint, inspect_derivable_checkpoint
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProductiveCheckpointSelectorTests(unittest.TestCase):
@@ -22,9 +25,16 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             path.write_text(f"synthetic {rel}\n",encoding="utf-8")
         params = root / "params.yaml"
         params.write_text(
-            "meta:\n  territory_id: demo\n"
-            "modulos:\n  modulo_05_optimizar_distritos:\n"
-            "    seed: 1\n    population_repair:\n      enabled: true\n",
+            "meta:\n  territory_id: demo\n  run_name: demo_2025\n  year: 2025\n"
+            "modulos:\n"
+            "  modulo_01_preparar_base_territorial:\n    out_geojson: cache/demo_2025_m01.geojson.zip\n"
+            "  modulo_02_construir_adyacencias:\n    out_edges_jsonl: cache/demo_2025_m02.jsonl\n"
+            "  modulo_03_construir_grafo:\n    out_graph_json: cache/demo_2025_m03.json\n"
+            "  modulo_04_generar_semillas:\n    out_geojson: cache/demo_2025_m04.geojson.zip\n"
+            "  modulo_05_optimizar_distritos:\n"
+            "    seed: 1\n    population_repair:\n      enabled: true\n"
+            "    out_geojson: cache/demo_2025_m05.geojson.zip\n"
+            "  modulo_06_consolidar_distritos:\n    out_geojson: cache/demo_2025_m06.geojson.zip\n",
             encoding="utf-8",
         )
         return params
@@ -56,6 +66,17 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
         if fingerprint:
             out=state / "compatibility" / "m05.json"; out.parent.mkdir(parents=True,exist_ok=True)
             out.write_text(json.dumps(build_fingerprint(params=params,root_dir=root)),encoding="utf-8")
+        return state
+
+    def accumulated_state(self, root: Path, name: str, params: Path) -> Path:
+        state=self.state(root,name,params,fingerprint=False)
+        cache=state/"cache"; cache.mkdir(parents=True,exist_ok=True)
+        for fname in ("demo_2025_m01.geojson.zip","demo_2025_m02.jsonl","demo_2025_m03.json","demo_2025_m04.geojson.zip",
+                      "demo_2025_m05.geojson.zip","demo_2025_m06.geojson.zip"):
+            (cache/fname).write_text(fname,encoding="utf-8")
+        (state/"sources").mkdir(parents=True,exist_ok=True)
+        run=state/"run"; run.mkdir(parents=True,exist_ok=True)
+        (run/"CHAIN_STATE.json").write_text(json.dumps({"completed_stage":6,"completed_stage_label":"M06"}),encoding="utf-8")
         return state
 
     def test_manifest_present_and_valid_copy_is_selected(self):
@@ -118,22 +139,57 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertEqual([d["run_id"] for d in result["discarded"]], ["300"])
             self.assertEqual(result["from_stage"], "M06")
 
-    def test_old_m06_without_m05_fingerprint_is_rejected_and_m04_can_be_reused(self):
+    def test_old_m06_without_m05_fingerprint_derives_m04_and_resumes_m05(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); params=self.prepare_root(root)
             package=self.package(root,"valid")
-            old_state=self.state(root,"old-state",params,fingerprint=False)
+            old_state=self.accumulated_state(root,"old-state",params)
             result=select_latest_valid(
                 params=params,
-                candidates=[
-                    {"run_id":35319351944,"stage":"M06","from_stage":"M07","package":package,"state_root":old_state},
-                    {"run_id":190,"stage":"M04","from_stage":"M05","package":package,"state_root":old_state},
-                ],
+                candidates=[{"run_id":35319351944,"stage":"M06","from_stage":"M07","package":package,"state_root":old_state}],
                 root_dir=root,
             )
-            self.assertEqual(result["selected"]["stage"],"M04")
+            self.assertEqual(result["selected"]["run_id"],"35319351944")
+            self.assertTrue(result["selected"]["requires_derivation"])
+            self.assertEqual(result["selected"]["effective_stage"],"M04")
             self.assertEqual(result["from_stage"],"M05")
-            self.assertIn("sin huella de compatibilidad M05",result["discarded"][0]["reason"])
+            derived=root/"derived-m04"
+            evidence=derive_checkpoint(params=params,state_root=old_state,output=derived,target_stage=4)
+            self.assertEqual(evidence["derived_stage"],"M04")
+            chain=json.loads((derived/"run"/"CHAIN_STATE.json").read_text(encoding="utf-8"))
+            self.assertEqual(chain["completed_stage"],4)
+            self.assertTrue((derived/"cache"/"demo_2025_m04.geojson.zip").is_file())
+            self.assertFalse((derived/"cache"/"demo_2025_m05.geojson.zip").exists())
+            self.assertFalse((derived/"cache"/"demo_2025_m06.geojson.zip").exists())
+
+    def test_real_checkpoint_35319351944_inventory_contains_derivable_m04(self):
+        fixture=ROOT / "tests" / "fixtures" / "checkpoint_35319351944_inventory.json"
+        inventory=json.loads(fixture.read_text(encoding="utf-8"))
+        self.assertEqual(inventory["run_id"],35319351944)
+        self.assertEqual(inventory["chain_state"]["completed_stage"],6)
+        self.assertEqual(
+            inventory["sha256"]["cache/castilla_y_leon_2025_m04_semillas.geojson.zip"],
+            "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
+        )
+        params=ROOT / "territorios" / "castilla_y_leon" / "config" / "castilla_y_leon_2025.yaml"
+        cfg=__import__("yaml").safe_load(params.read_text(encoding="utf-8")) or {}
+        required=[]
+        for module_name,module_cfg in (cfg.get("modulos") or {}).items():
+            try: stage=int(str(module_name).split("_")[1])
+            except Exception: continue
+            if stage>4: continue
+            for key,value in (module_cfg or {}).items():
+                if str(key).startswith("out_") and isinstance(value,str):
+                    required.append(Path(value.format(
+                        year=(cfg.get("meta") or {}).get("year"),
+                        run_name=(cfg.get("meta") or {}).get("run_name"),
+                        run_id="",
+                    )).name)
+        available={Path(p).name for p in inventory["files"] if p.startswith("cache/")}
+        self.assertTrue(set(required) <= available)
+        self.assertIn("sources/manifest.json",inventory["files"])
+        self.assertIn("run/CHAIN_STATE.json",inventory["files"])
+
 
     def test_changed_m05_config_invalidates_m06(self):
         with tempfile.TemporaryDirectory() as td:
