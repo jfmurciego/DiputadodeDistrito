@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 7.1.0
+# VERSIÓN: 7.2.0
 # NOMBRE DE VERSIÓN: Diseño A — interfaz delgada sobre router y motor comunes
 # FECHA: 2026-09-18
 # ESTADO: candidato
 # QUÉ HACE: expone únicamente territorio, edición, producto, publicación y confirmación; resuelve automáticamente contrato, fuentes, reutilización, checkpoint y recorrido.
-# CAMBIOS: las opciones se gobiernan por el catálogo único; se conserva el router y el motor común mediante workflow_call.
+# CAMBIOS: añade contrato ejecutable de producto y exige paquete electoral durable validado para M07–M08.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
 name: Producción de distritos
@@ -67,6 +67,8 @@ jobs:
       product: ${{ steps.resolve.outputs.product }}
       checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+      electoral_package_run_id: ${{ steps.electoral_package.outputs.run_id }}
+      electoral_package_artifact_name: ${{ steps.electoral_package.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
       - id: resolve
@@ -84,30 +86,13 @@ jobs:
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
-          case "$UI_PRODUCT" in
-            "Distritos")
-              to_stage=M06
-              checkpoint_policy=latest_before_target
-              ;;
-            "Resultados electorales")
-              to_stage=M08
-              checkpoint_policy=require_m06
-              ;;
-            "Ambos")
-              to_stage=M08
-              checkpoint_policy=latest_before_target
-              ;;
-            *)
-              echo "::error::Producto no reconocido: $UI_PRODUCT"
-              exit 4
-              ;;
-          esac
+          route="$(python herramientas/resolver_producto_produccion.py --product "$UI_PRODUCT")"
           {
             echo "territory_id=$territory_id"
             echo "params=$params"
             echo "product=$UI_PRODUCT"
-            echo "to_stage=$to_stage"
-            echo "checkpoint_policy=$checkpoint_policy"
+            echo "to_stage=$(jq -r .to_stage <<<"$route")"
+            echo "checkpoint_policy=$(jq -r .checkpoint_policy <<<"$route")"
           } >> "$GITHUB_OUTPUT"
 
       - id: checkpoint
@@ -228,6 +213,45 @@ jobs:
             echo "from_stage=$from_stage"
           } >> "$GITHUB_OUTPUT"
 
+      - id: electoral_package
+        name: Resolver paquete electoral preparado
+        if: ${{ inputs.product != 'Distritos' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
+        run: |
+          set -euo pipefail
+          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
+            for artifact_name in "${names[@]}"; do
+              tmp="$(mktemp -d)"
+              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
+                rm -rf "$tmp"; continue
+              fi
+              set +e
+              python herramientas/validar_paquete_electoral.py --package "$tmp" --params "$PARAMS"                 --territory-id "$TERRITORY_ID" --edition "$EDITION" --root-dir .                 --output "$tmp/validacion_paquete_electoral.json" >/dev/null
+              rc=$?
+              set -e
+              if (( rc == 0 )); then
+                mkdir -p .ddd-checkpoint-selection
+                cp "$tmp/validacion_paquete_electoral.json" .ddd-checkpoint-selection/
+                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+                rm -rf "$tmp"
+                exit 0
+              fi
+              rm -rf "$tmp"
+            done
+          done
+          echo "::error::Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato."
+          exit 45
+
       - name: Publicar decisión de reanudación
         if: always()
         uses: actions/upload-artifact@v6
@@ -249,5 +273,7 @@ jobs:
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
+      electoral_package_run_id: ${{ needs.resolver_interfaz.outputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ needs.resolver_interfaz.outputs.electoral_package_artifact_name }}
       execution_confirmed: ${{ inputs.confirmar_ejecucion }}
       publish_result: ${{ inputs.publish_result }}
