@@ -18,10 +18,10 @@ meta:
   scope: provincial
   schema_version: 0.12.0
   schema_family: ddd-territory
-  contract_level: production_m01_m08
+  contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: candidate_m08
+  status: candidate_m06
 
 io:
   project_root: {path: ../../..}
