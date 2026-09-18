@@ -20,9 +20,11 @@ class ProductRoutingDesignA(unittest.TestCase):
 
     def test_product_is_only_stage_selector(self):
         text=UI.read_text(encoding="utf-8")
-        self.assertIn('"Distritos")',text); self.assertIn("to_stage=M06",text)
-        self.assertIn('"Resultados electorales")',text); self.assertIn("checkpoint_policy=require_m06",text)
-        self.assertIn('"Ambos")',text); self.assertIn("to_stage=M08",text)
+        routes=(ROOT/"herramientas/resolver_producto_produccion.py").read_text(encoding="utf-8")
+        self.assertIn("resolver_producto_produccion.py --product",text)
+        self.assertIn('"Distritos":{"to_stage":"M06"',routes)
+        self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"',routes)
+        self.assertIn('"Ambos":{"to_stage":"M08"',routes)
         self.assertNotIn("UI_PUBLISH",text)
 
     def test_electoral_is_fail_closed_on_missing_m06(self):
