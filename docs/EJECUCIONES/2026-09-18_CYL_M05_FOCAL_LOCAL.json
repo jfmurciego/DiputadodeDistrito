@@ -1,0 +1,58 @@
+{
+  "schema": "ddd.local-m05-focal-evidence/1.0",
+  "date": "2026-09-18",
+  "source_checkpoint": {
+    "run_id": 35319351944,
+    "artifact": "ddd-state-35319351944-M06",
+    "source_run_chain_state": "production-35199668216-1"
+  },
+  "population": {
+    "before_outliers": 3,
+    "before": {
+      "1": 25761,
+      "46": 36763,
+      "51": 33074
+    },
+    "after_outliers": 0,
+    "after": {
+      "1": 25770,
+      "46": 31258,
+      "51": 32785
+    },
+    "districts": 82,
+    "hard_constraint_violations": 0
+  },
+  "integrity": {
+    "sections": 3506,
+    "unique_sections": 3506,
+    "lost_sections": 0,
+    "duplicated_sections": 0,
+    "disconnected_districts": 0,
+    "province_preserved": true,
+    "atomic_units_preserved": true,
+    "municipal_integrity_preserved": true
+  },
+  "focal_search": {
+    "candidate_attempts": 4679,
+    "states_explored": 131,
+    "elapsed_seconds": 2.014131,
+    "termination_reason": "QUEUE_EMPTY",
+    "beam_width": 24,
+    "rejections": {
+      "DONOR_CONTIGUITY": 1828,
+      "HARD_POPULATION_LIMIT": 37
+    },
+    "tracemalloc_peak_bytes": 27626936,
+    "process_max_rss_kb": 269980,
+    "wall_clock_seconds_including_input_load": 5.62
+  },
+  "derived_m04_real_checkpoint": {
+    "required_present": true,
+    "m05_present_after_derivation": false,
+    "m06_present_after_derivation": false,
+    "completed_stage_after_derivation": "M04",
+    "m04_seed_sha256": "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
+    "m04_report_sha256": "20a12783c1da217e4b7fa581576821569dcec4e525ccee154d51a947832a45f6"
+  },
+  "execution_mode": "local_only_no_workflow_dispatch"
+}
