@@ -1,8 +1,7 @@
 # PROYECTO: Diputado de Distrito
-# DISEÑO: A — separación preparación / producción / pruebas
+# DISEÑO: A — catálogo único de preparación y producción
 # FECHA: 2026-09-18
-# FUENTE ÚNICA: este registro gobierna las opciones de los formularios y su validación.
-schema: ddd-preparation-catalog/1.0
+schema: ddd-preparation-catalog/1.1
 default_edition: '2025'
 territories:
   - territory_id: andalucia
@@ -10,6 +9,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/andalucia/config/andalucia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -23,6 +26,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/aragon/config/aragon_2025.yaml
+        territorial_source_declaration: territorios/aragon/config/fuentes_oficiales.yaml
+        electoral_source_declaration: null
         territorial_sources_prepared: true
         territorial_contract_complete: true
         territorial_product_available: true
@@ -30,12 +37,16 @@ territories:
         electoral_product_available: true
         territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
         production_authorization: AUTHORIZED
-        last_valid_checkpoint: null
+        last_valid_checkpoint: {run_id: 35010122795, stage: M06}
   - territory_id: principado_de_asturias
     name: Principado de Asturias
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -49,6 +60,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: null
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -62,6 +77,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: null
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -75,6 +94,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/cantabria/config/cantabria_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -88,6 +111,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/castilla_la_mancha/config/castilla_la_mancha_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -101,6 +128,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+        territorial_source_declaration: territorios/castilla_y_leon/config/fuentes_oficiales.yaml
+        electoral_source_declaration: null
         territorial_sources_prepared: true
         territorial_contract_complete: true
         territorial_product_available: true
@@ -114,6 +145,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/cataluna/config/cataluna_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -127,6 +162,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -140,6 +179,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: READY
+        contract_path: territorios/extremadura/config/extremadura_2025.yaml
+        territorial_source_declaration: territorios/extremadura/config/fuentes_oficiales.yaml
+        electoral_source_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -153,6 +196,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/galicia/config/galicia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -166,6 +213,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/madrid/config/madrid_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -179,6 +230,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/region_de_murcia/config/region_de_murcia_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -192,6 +247,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -205,6 +264,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/pais_vasco/config/pais_vasco_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -218,6 +281,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/la_rioja/config/la_rioja_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: true
         territorial_product_available: false
@@ -231,6 +298,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/ceuta/config/ceuta_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false
@@ -244,6 +315,10 @@ territories:
     editions:
       '2025':
         territory_declared: true
+        preparation_status: PENDING_INCORPORATION
+        contract_path: territorios/melilla/config/melilla_2025.yaml
+        territorial_source_declaration: null
+        electoral_source_declaration: null
         territorial_sources_prepared: false
         territorial_contract_complete: false
         territorial_product_available: false

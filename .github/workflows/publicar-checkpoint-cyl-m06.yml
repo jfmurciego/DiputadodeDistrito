@@ -1,0 +1,129 @@
+name: Publicar checkpoint CyL M06
+
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        description: Tag de la release temporal que contiene las partes del checkpoint
+        required: true
+        default: cyl-m06-checkpoint-temp
+        type: string
+      checkpoint_asset:
+        description: Nombre base del ZIP compuesto M06
+        required: true
+        default: ddd-state-35199668216-M06-with-sources.zip
+        type: string
+      expected_checkpoint_sha256:
+        description: SHA-256 esperado del ZIP compuesto
+        required: true
+        default: f178824f1e4b8ad6ecbdaf83ad1a841a8f767cfdbef393ca59a4dd77c4b232d5
+        type: string
+      confirmar_publicacion:
+        description: Confirmar publicación sin ejecutar módulos territoriales
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    if: ${{ inputs.confirmar_publicacion == true }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.release_tag }}
+      CHECKPOINT_ASSET: ${{ inputs.checkpoint_asset }}
+      EXPECTED_CHECKPOINT_SHA256: ${{ inputs.expected_checkpoint_sha256 }}
+    steps:
+      - name: Descargar partes publicadas
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p incoming
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "$CHECKPOINT_ASSET.part*" \
+            --pattern "MANIFEST.parts.json" \
+            --dir incoming
+          compgen -G "incoming/$CHECKPOINT_ASSET.part*" >/dev/null
+          test -f incoming/MANIFEST.parts.json
+
+      - name: Reconstruir y verificar checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          LC_ALL=C cat $(printf '%s\n' incoming/"$CHECKPOINT_ASSET".part* | sort) > "incoming/$CHECKPOINT_ASSET"
+          actual_sha="$(sha256sum "incoming/$CHECKPOINT_ASSET" | awk '{print $1}')"
+          test "$actual_sha" = "$EXPECTED_CHECKPOINT_SHA256" || {
+            echo "::error::SHA-256 del checkpoint inesperado: $actual_sha"
+            exit 41
+          }
+
+      - name: Preparar estado M06 sin recalcular módulos
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p publish/state
+          unzip -q "incoming/$CHECKPOINT_ASSET" -d publish/state
+          test -d publish/state/cache
+          test -d publish/state/run
+          test -d publish/state/sources
+          test -f publish/state/run/CHAIN_STATE.json
+          test -f publish/state/sources/manifest.json
+          test -f publish/state/sources/source_execution.json
+          jq -e '.decision == "REUSE"' publish/state/sources/source_execution.json >/dev/null
+
+      - name: Registrar decisión REUSE
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p publish/decision
+          cp publish/state/sources/source_execution.json publish/decision/source_execution.json
+          jq -n \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg source_run_id "35199668216" \
+            --arg release_tag "$RELEASE_TAG" \
+            --arg checkpoint_asset "$CHECKPOINT_ASSET" \
+            --arg checkpoint_sha256 "$EXPECTED_CHECKPOINT_SHA256" \
+            '{
+              schema: "ddd-checkpoint-publication/1.0",
+              territory_id: "castilla_y_leon",
+              completed_stage: "M06",
+              publication_run_id: ($run_id | tonumber),
+              source_run_id: ($source_run_id | tonumber),
+              release_tag: $release_tag,
+              source_asset: $checkpoint_asset,
+              checkpoint_sha256: $checkpoint_sha256,
+              decision: "REUSE",
+              territorial_modules_executed: false
+            }' > publish/decision/publication.json
+          jq -n '{
+              schema_version: "1.0.0",
+              decision: "ADMITTED",
+              production_authorization: "AUTHORIZED",
+              production_authorized: true,
+              territory_id: "castilla_y_leon",
+              run_name: "castilla_y_leon_2025",
+              params: "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
+            }' > publish/decision/decision.json
+
+      - name: Publicar checkpoint M06 compuesto
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-state-${{ github.run_id }}-M06
+          path: publish/state
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publicar decisión REUSE
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-decision-${{ github.run_id }}
+          path: publish/decision
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

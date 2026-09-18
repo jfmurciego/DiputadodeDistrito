@@ -70,7 +70,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
             self.assertNotIn(forbidden, common_code)
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
         self.assertNotIn("preparar_unidades_internas.py", procedure)
-        workflow = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("name: Preparar unidades internas", workflow)
         self.assertIn("ddd-internal-units-${{ github.run_id }}", workflow)
         self.assertIn("PREVIOUS_STAGE: M03U", workflow)
@@ -102,7 +102,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         electoral = self.readiness["business_steps"]["electoral_results"]
         self.assertFalse(electoral["ready"])
         self.assertTrue(electoral["automated_check"])
-        workflow = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("name: Fuente electoral oficial", workflow)
         self.assertIn("comprobar_fuente_electoral_oficial.py", workflow)
         self.assertIn("ddd-electoral-source-${{ github.run_id }}", workflow)

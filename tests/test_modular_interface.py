@@ -63,33 +63,43 @@ class EnsembleWebCrsTests(unittest.TestCase):
 
 
 class ModularWorkflowContractTests(unittest.TestCase):
-    WORKFLOW=ROOT/".github/workflows/produccion-distritos.yml"
+    def test_main_interface_exposes_only_resolver_and_selected_route(self):
+        workflow = yaml.safe_load((ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8"))
+        self.assertEqual(list(workflow["jobs"]), ["resolver_interfaz", "ruta"])
 
-    def test_production_workflow_has_interface_m01_m08_audit_viewer_report(self):
-        workflow=yaml.safe_load(self.WORKFLOW.read_text(encoding="utf-8"))
-        jobs=workflow["jobs"]
-        expected=["resolver_interfaz","resolve","official_sources","m01","m02","m03","internal_units","m04","m05","m06","auditoria","electoral_source","m07","m08","visor","informe_ejecucion"]
-        self.assertEqual(list(jobs),expected)
-        self.assertEqual(jobs["official_sources"]["name"],"Fuentes oficiales")
-        self.assertEqual(jobs["electoral_source"]["name"],"Fuente electoral oficial")
-        for i in range(1,9): self.assertIn(f"M{i:02d}",jobs[f"m{i:02d}"]["name"])
+    def test_production_workflow_has_visible_m01_m08_audit_and_viewer(self):
+        workflow = yaml.safe_load((ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8"))
+        jobs = workflow["jobs"]
+        expected = ["resolve", "official_sources", "m01", "m02", "m03", "internal_units", "m04", "m05", "m06", "auditoria", "electoral_source", "m07", "m08", "visor"]
+        self.assertEqual(list(jobs), expected)
+        self.assertEqual(jobs["official_sources"]["name"], "Fuentes oficiales")
+        self.assertEqual(jobs["internal_units"]["name"], "Preparar unidades internas")
+        self.assertEqual(jobs["electoral_source"]["name"], "Fuente electoral oficial")
+        names = [jobs[f"m{i:02d}"]["name"] for i in range(1, 9)]
+        self.assertTrue(all(f"M{i:02d}" in names[i - 1] for i in range(1, 9)))
 
     def test_m07_recovers_and_installs_approved_electoral_artifact(self):
-        text=self.WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("Recuperar fuente electoral oficial aprobada",text)
-        self.assertIn("instalar_fuente_electoral_oficial.py",text)
-        self.assertIn("--artifact-dir /app/.ddd-electoral-source",text)
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("Recuperar fuente electoral oficial aprobada", text)
+        self.assertIn("name: ddd-electoral-source-${{ github.run_id }}", text)
+        self.assertIn("instalar_fuente_electoral_oficial.py", text)
+        self.assertIn("--artifact-dir /app/.ddd-electoral-source", text)
+        self.assertIn("if: ${{ env.STAGE == 'M07' }}", text)
 
     def test_launcher_supports_explicit_chain_state_without_changing_stage_map(self):
-        text=(ROOT/"procedimiento.sh").read_text(encoding="utf-8")
-        self.assertIn('CHAIN_STATE="${DDD_CHAIN_STATE:-}"',text)
-        for stage in range(1,9): self.assertIn(f"M{stage:02d}) echo {stage}",text)
+        text = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        self.assertIn('CHAIN_STATE="${DDD_CHAIN_STATE:-}"', text)
+        for stage in range(1, 9):
+            self.assertIn(f"M{stage:02d}) echo {stage}", text)
 
     def test_checkpoint_audit_and_viewer_share_run_identity(self):
-        text=self.WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}",text)
-        self.assertIn("name: ddd-audit-${{ github.run_id }}",text)
-        self.assertIn("PRODUCTION_RUN_ID: ${{ github.run_id }}",text)
-        self.assertIn("cache-from: type=gha,scope=ddd-production-${{ github.sha }}",text)
+        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        self.assertIn("name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}", text)
+        self.assertIn("name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}", text)
+        self.assertIn("name: ddd-audit-${{ github.run_id }}", text)
+        self.assertIn("production_run_id: ${{ github.run_id }}", text)
+        self.assertIn("cache-from: type=gha,scope=ddd-production-${{ github.sha }}", text)
 
-if __name__=="__main__": unittest.main()
+
+if __name__ == "__main__":
+    unittest.main()

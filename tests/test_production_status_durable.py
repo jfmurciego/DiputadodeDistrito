@@ -15,7 +15,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "estado_produccion.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "produccion-distritos.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "producir-territorio-por-contrato.yml"
 
 
 def governed_geometry() -> dict:
@@ -73,7 +73,6 @@ def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
         "needs.auditoria.result": repr(context["auditoria_result"]),
         "needs.electoral_source.result": repr(context.get("electoral_source_result", "success")),
         "inputs.checkpoint_run_id": repr(context.get("checkpoint_run_id", "")),
-        "needs.resolve.outputs.checkpoint_run_id": repr(context.get("checkpoint_run_id", "")),
     }
     for token, value in replacements.items():
         body = body.replace(token, value)

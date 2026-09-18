@@ -1,0 +1,152 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 2.2.0
+# NOMBRE: Desplegar visor técnico con identidad de ejecución verificable
+# ESTADO: activo
+# QUÉ HACE: publica el visor histórico o una ejecución concreta sin permitir sustituciones silenciosas; deja evidencia estructurada de identidad y publicación.
+# CAMBIOS: una ejecución solicitada debe coincidir con la evidencia generada y con el resultado realmente cargado antes de desplegarse.
+# ANTERIOR: versión 2.1.0 en historial Git.
+name: Desplegar visor técnico
+
+on:
+  workflow_call:
+    inputs:
+      production_run_id:
+        required: false
+        type: string
+      ensemble_release_tag:
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PRODUCTION_RUN_ID: ${{ inputs.production_run_id }}
+      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag }}
+      PYTHONPATH: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Preparar dependencia de reproyección
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check pyproj
+      - name: Validar visor y preparadores
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py
+          python herramientas/preparar_visor_ejecucion.py --help >/dev/null
+          python herramientas/evaluar_publicacion_visor.py --help >/dev/null
+      - name: Recuperar ejecución territorial solicitada
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/production
+          mkdir -p /tmp/production
+          gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
+          test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43; }
+      - name: Acreditar identidad de la ejecución descargada
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/evaluar_publicacion_visor.py \
+            --requested-run-id "$PRODUCTION_RUN_ID" \
+            --production-root /tmp/production \
+            --phase source \
+            --output .ddd-publication/publicacion_visor.json \
+            --strict-request
+      - name: Recuperar ensemble solicitado
+        if: ${{ inputs.ensemble_release_tag != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ensemble/download /tmp/ensemble/unpacked
+          gh release download "$ENSEMBLE_RELEASE_TAG" --pattern "$ENSEMBLE_RELEASE_TAG.zip" --dir /tmp/ensemble/download
+          archive="$(find /tmp/ensemble/download -name '*.zip' -print -quit)"
+          test -n "$archive"
+          unzip -q "$archive" -d /tmp/ensemble/unpacked
+      - name: Empaquetar visor de ejecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site
+          cp visor/index.html visor/app.js visor/styles.css site/
+          args=(--site site --static-registry orchestracion/productos_publicos.json)
+          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+            test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::No hay artefactos de la ejecución solicitada.'; exit 43; }
+            args+=(--production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID")
+            audit="docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_m06_contiguedad_geometrica_run_${PRODUCTION_RUN_ID}.json"
+            [[ -f "$audit" ]] && args+=(--production-audit "$audit")
+          fi
+          [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
+          python herramientas/preparar_visor_ejecucion.py "${args[@]}"
+      - name: Acreditar resultado realmente cargado
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --requested-run-id "$PRODUCTION_RUN_ID"
+            --registry site/data/viewer-results.json
+            --phase prepared
+            --output .ddd-publication/publicacion_visor.json
+          )
+          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
+            args+=(--production-root /tmp/production --strict-request)
+          fi
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Registrar evidencia final de publicación
+        if: always()
+        shell: bash
+        env:
+          DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          args=(
+            --requested-run-id "$PRODUCTION_RUN_ID"
+            --registry site/data/viewer-results.json
+            --viewer-url "$PAGE_URL"
+            --deployment-outcome "$DEPLOYMENT_OUTCOME"
+            --phase final
+            --output .ddd-publication/publicacion_visor.json
+          )
+          if [[ -n "$PRODUCTION_RUN_ID" ]] && [[ -d /tmp/production ]]; then
+            args+=(--production-root /tmp/production)
+          fi
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+      - name: Publicar evidencia del visor
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-publication-${{ github.run_id }}
+          path: .ddd-publication/publicacion_visor.json
+          if-no-files-found: error
+          retention-days: 30

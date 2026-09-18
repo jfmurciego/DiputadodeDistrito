@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "evaluar_publicacion_visor.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "produccion-distritos.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "desplegar-visor-publico.yml"
 
 
 def load_module():

@@ -1,0 +1,472 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: workflow reutilizable
+# VERSIÓN: 2.0.0
+# FECHA: 2026-09-15
+# QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
+# CAMBIOS: añade republicación ligera de Aragón-10 desde un run fuente, reensambla con el código actual y valida las copias web EPSG:4326 antes de Pages.
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.2.1.yml
+name: Ensemble territorial GerryChain
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      stage: {required: true, type: string}
+      execution_confirmed: {required: false, type: boolean, default: false}
+      promotion_confirmed: {required: false, type: boolean, default: false}
+      deploy_pages: {required: false, type: boolean, default: true}
+      republish_source_run_id: {required: false, type: string, default: ''}
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ddd-ensemble-${{ inputs.territory_id }}
+  cancel-in-progress: false
+
+jobs:
+  synthetic:
+    if: ${{ inputs.republish_source_run_id == '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Probar contratos, toolkit y ReCom real
+        run: |
+          python -m unittest discover -s tests -p 'test_auditar_topologia_geometrica.py' -v
+          python -m unittest discover -s tests -p 'test_m05_gerrychain_engine.py' -v
+          python -m unittest discover -s tests -p 'test_ensemble_toolkit.py' -v
+          python -m unittest discover -s tests -p 'test_ensemble_integration.py' -v
+
+  base:
+    if: ${{ inputs.republish_source_run_id == '' && inputs.stage != 'synthetic' }}
+    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+      run_key: ${{ steps.key.outputs.value }}
+      candidate_count: ${{ steps.gate.outputs.candidate_count }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: gate
+        name: Autorizar piloto o lote promovido
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ inputs.territory_id }}" = aragon
+          test "${{ inputs.execution_confirmed }}" = true
+          case "${{ inputs.stage }}" in
+            aragon_10) count=10 ;;
+            aragon_50)
+              test "${{ inputs.promotion_confirmed }}" = true || {
+                echo 'El lote de 50 exige confirmación expresa de coste.' >&2
+                exit 21
+              }
+              certification=docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_10_certificacion_run_35035474687.json
+              python - "$certification" <<'PY'
+              import json
+              import sys
+              from pathlib import Path
+              payload = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+              assert payload["territory_id"] == "aragon"
+              assert payload["ensemble"] == "aragon-10"
+              assert payload["promotion"]["next_stage"] == "ARAGON_50"
+              assert payload["promotion"]["authorized"] is True
+              assert payload["completeness"]["candidates_valid"] == 10
+              assert payload["hard_constraints"]["all_candidates_pass"] is True
+              PY
+              count=50
+              ;;
+            *) echo 'Fase no admitida.' >&2; exit 20 ;;
+          esac
+          echo "candidate_count=$count" >> "$GITHUB_OUTPUT"
+      - name: Reconstruir fuentes canónicas
+        run: bash inputs/partes/reconstruir_fuentes.sh
+      - name: Preparar M01–M05 una sola vez con topología métrica
+        run: |
+          set -euo pipefail
+          docker build --pull -t ddd-ensemble-base:${GITHUB_SHA} .
+          docker run --rm -v "$PWD:/app" -w /app \
+            -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
+            -e DDD_RUN_ID=ensemble-aragon-base \
+            -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M05 \
+            --entrypoint /bin/bash ddd-ensemble-base:${GITHUB_SHA} /app/procedimiento.sh
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Bloquear topología o partición inicial no defendibles
+        run: |
+          set -euo pipefail
+          python herramientas/auditar_topologia_geometrica.py \
+            --sections .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip \
+            --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
+            --assignment ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --output work/ensemble/base-topology-preflight.json \
+            --min-shared-border-m 1 --working-crs EPSG:25830
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts 67 \
+            --policy territorios/aragon/config/continuidad_geometrica_2025.json \
+            --output work/ensemble/base-geometric-components-preflight.json
+      - name: Crear plan determinista
+        run: |
+          python -m ddd_ensemble.runner \
+            --config configuracion/ensemble/aragon.json --mode plan \
+            --count '${{ steps.gate.outputs.candidate_count }}' --output work/ensemble
+      - id: matrix
+        run: python herramientas/exportar_matriz_ensemble.py work/ensemble/plan.json >> "$GITHUB_OUTPUT"
+      - id: key
+        run: python herramientas/calcular_clave_ensemble.py work/ensemble/plan.json >> "$GITHUB_OUTPUT"
+      - name: Recuperar candidatos válidos de un intento anterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="ensemble-${{ steps.key.outputs.value }}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            mkdir -p work/prior
+            gh release download "$tag" --pattern "$tag.zip" --dir work/prior
+            unzip -qo "work/prior/$tag.zip" -d work/ensemble
+          fi
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ensemble-base-${{ steps.key.outputs.value }}
+          retention-days: 7
+          path: |
+            .cache/ddd/preparacion/aragon_2025
+            ejecuciones/ensemble-aragon-base
+            inputs/COMARCAS.csv
+            work/ensemble
+
+  generate:
+    needs: base
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.base.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - uses: actions/download-artifact@v6
+        with:
+          name: ensemble-base-${{ needs.base.outputs.run_key }}
+          path: .
+      - name: Ejecutar o reanudar perfil
+        shell: bash
+        run: |
+          mkdir -p work/ensemble/telemetry
+          /usr/bin/time -v -o "work/ensemble/telemetry/${{ matrix.profile }}.txt" \
+            python -m ddd_ensemble.runner \
+              --config configuracion/ensemble/aragon.json --mode run \
+              --profile '${{ matrix.profile }}' \
+              --count '${{ needs.base.outputs.candidate_count }}' --output work/ensemble
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ensemble-${{ needs.base.outputs.run_key }}-${{ matrix.profile }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            work/ensemble/results
+            work/ensemble/telemetry
+
+  publish:
+    if: ${{ always() && inputs.republish_source_run_id == '' && needs.base.result == 'success' }}
+    needs: [base, generate]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      complete: ${{ steps.status.outputs.complete }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - uses: actions/download-artifact@v6
+        with:
+          name: ensemble-base-${{ needs.base.outputs.run_key }}
+          path: .
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: ensemble-${{ needs.base.outputs.run_key }}-*
+          path: work/ensemble
+          merge-multiple: true
+      - name: Ensamblar evidencia y matriz de reintento
+        run: |
+          python -m ddd_ensemble.runner \
+            --config configuracion/ensemble/aragon.json --mode assemble \
+            --count '${{ needs.base.outputs.candidate_count }}' \
+            --output work/ensemble --allow-partial
+      - id: status
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          print('complete=' + str(json.load(open('work/ensemble/analysis/summary.json'))['complete']).lower())
+          PY
+      - name: Empaquetar evidencia sin commit
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path('work/ensemble')
+          files = {}
+          for path in sorted(root.rglob('*')):
+              if path.is_file() and path.name != 'artifact-manifest.json':
+                  files[str(path.relative_to(root))] = hashlib.sha256(path.read_bytes()).hexdigest()
+          summary = json.load(open(root / 'analysis/summary.json', encoding='utf-8'))
+          manifest = {
+              'schema': 'ddd.ensemble-artifact/1.0',
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'commit': os.environ['GITHUB_SHA'],
+              'plan_sha256': summary['plan_sha256'],
+              'complete': summary['complete'],
+              'candidate_count_expected': summary['candidate_count_expected'],
+              'candidate_count_valid': summary['candidate_count_valid'],
+              'files': files,
+          }
+          (root / 'artifact-manifest.json').write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          PY
+          cd work/ensemble
+          zip -qr "../../ensemble-${{ needs.base.outputs.run_key }}.zip" \
+            artifact-manifest.json plan.json analysis results site telemetry
+      - name: Crear o actualizar release borrador
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="ensemble-${{ needs.base.outputs.run_key }}"
+          asset="$tag.zip"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$asset" --clobber
+          else
+            gh release create "$tag" "$asset" --draft --title "$tag" \
+              --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
+          fi
+      - uses: actions/upload-artifact@v6
+        if: ${{ steps.status.outputs.complete == 'true' }}
+        with:
+          name: ensemble-site-${{ needs.base.outputs.run_key }}
+          retention-days: 14
+          path: work/ensemble/site
+      - uses: actions/configure-pages@v5
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        with:
+          path: work/ensemble/site
+      - id: deployment
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        uses: actions/deploy-pages@v4
+
+  republish:
+    name: Republicar Aragón-10 sin recalcular
+    if: ${{ inputs.republish_source_run_id != '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: ${{ inputs.republish_source_run_id }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - id: source
+        name: Validar run fuente y resolver clave del ensemble
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::El run fuente debe ser numérico.'; exit 30; }
+          test "${{ inputs.territory_id }}" = aragon || { echo '::error::La republicación está limitada a Aragón.'; exit 31; }
+          test "${{ inputs.stage }}" = aragon_10 || { echo '::error::Sólo se permite republicar Aragón-10; Aragón-50 sigue bloqueado.'; exit 32; }
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" > /tmp/source-artifacts.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          data=json.load(open('/tmp/source-artifacts.json',encoding='utf-8'))
+          names=[a['name'] for a in data.get('artifacts',[]) if not a.get('expired')]
+          bases=[n for n in names if n.startswith('ensemble-base-')]
+          if len(bases) != 1:
+              raise SystemExit(f'Esperaba exactamente un ensemble-base vigente; encontrados: {bases}')
+          run_key=bases[0][len('ensemble-base-'):]
+          profiles=[n for n in names if n.startswith(f'ensemble-{run_key}-')]
+          if len(profiles) != 5:
+              raise SystemExit(f'Esperaba cinco artefactos de perfiles; encontrados: {profiles}')
+          print(f'run_key={run_key}')
+          print(f'base_name={bases[0]}')
+          PY
+      - name: Recuperar base analítica del run fuente
+        uses: actions/download-artifact@v6
+        with:
+          name: ${{ steps.source.outputs.base_name }}
+          path: .
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.republish_source_run_id }}
+      - name: Recuperar candidatos analíticos del run fuente
+        uses: actions/download-artifact@v6
+        with:
+          pattern: ensemble-${{ steps.source.outputs.run_key }}-*
+          path: work/ensemble
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.republish_source_run_id }}
+      - name: Reensamblar galería con el código actual
+        run: |
+          python -m ddd_ensemble.runner \
+            --config configuracion/ensemble/aragon.json --mode assemble \
+            --count 10 --output work/ensemble --allow-partial
+      - id: validate
+        name: Validar 10 candidatos y copias web WGS84
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+
+          summary=json.load(open('work/ensemble/analysis/summary.json',encoding='utf-8'))
+          if not summary.get('complete') or summary.get('candidate_count_valid') != 10:
+              raise SystemExit(f"Ensemble incompleto: {summary.get('candidate_count_valid')}/10")
+          assets=sorted(Path('work/ensemble/site/assets').glob('*.geojson'))
+          analytical=sorted(Path('work/ensemble/results').glob('*/candidate.geojson'))
+          if len(assets) != 10 or len(analytical) != 10:
+              raise SystemExit(f'Esperaba 10 assets web y 10 analíticos; hay {len(assets)} y {len(analytical)}')
+
+          def pairs(value):
+              if isinstance(value, list):
+                  if len(value) >= 2 and all(isinstance(v, (int,float)) for v in value[:2]):
+                      yield value[0], value[1]
+                  else:
+                      for item in value:
+                          yield from pairs(item)
+
+          projected_seen=False
+          for path in analytical:
+              payload=json.load(open(path,encoding='utf-8'))
+              for feature in payload.get('features',[]):
+                  for x,y in pairs((feature.get('geometry') or {}).get('coordinates')):
+                      if abs(x) > 180 or abs(y) > 90:
+                          projected_seen=True
+                          break
+                  if projected_seen:
+                      break
+              if projected_seen:
+                  break
+          if not projected_seen:
+              raise SystemExit('No se reconoce la copia analítica proyectada esperada; se aborta para no confundir canónico y web.')
+
+          for path in assets:
+              payload=json.load(open(path,encoding='utf-8'))
+              if 'crs' in payload:
+                  raise SystemExit(f'{path}: la copia web conserva CRS proyectado')
+              count=0
+              for feature in payload.get('features',[]):
+                  for lon,lat in pairs((feature.get('geometry') or {}).get('coordinates')):
+                      count += 1
+                      if not (-180 <= lon <= 180 and -90 <= lat <= 90):
+                          raise SystemExit(f'{path}: coordenada fuera de WGS84: {lon}, {lat}')
+              if count == 0:
+                  raise SystemExit(f'{path}: sin coordenadas')
+          print('complete=true')
+          print('web_asset_count=10')
+          PY
+      - name: Empaquetar evidencia republicada con procedencia
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root=Path('work/ensemble')
+          files={}
+          for path in sorted(root.rglob('*')):
+              if path.is_file() and path.name != 'artifact-manifest.json':
+                  files[str(path.relative_to(root))]=hashlib.sha256(path.read_bytes()).hexdigest()
+          summary=json.load(open(root/'analysis/summary.json',encoding='utf-8'))
+          manifest={
+              'schema':'ddd.ensemble-artifact/1.0',
+              'run_id':os.environ['GITHUB_RUN_ID'],
+              'run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],
+              'commit':os.environ['GITHUB_SHA'],
+              'source_run_id':os.environ['SOURCE_RUN_ID'],
+              'republished':True,
+              'plan_sha256':summary['plan_sha256'],
+              'complete':summary['complete'],
+              'candidate_count_expected':summary['candidate_count_expected'],
+              'candidate_count_valid':summary['candidate_count_valid'],
+              'files':files,
+          }
+          (root/'artifact-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
+          PY
+          cd work/ensemble
+          zip -qr "../../ensemble-${{ steps.source.outputs.run_key }}.zip" \
+            artifact-manifest.json plan.json analysis results site telemetry
+      - name: Actualizar release borrador del mismo ensemble
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="ensemble-${{ steps.source.outputs.run_key }}"
+          asset="$tag.zip"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$asset" --clobber
+          else
+            gh release create "$tag" "$asset" --draft --title "$tag" \
+              --notes 'Ensemble DDD republicado desde artefactos existentes; sin recálculo GerryChain.'
+          fi
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ensemble-site-${{ steps.source.outputs.run_key }}
+          retention-days: 14
+          path: work/ensemble/site
+      - uses: actions/configure-pages@v5
+        if: ${{ inputs.deploy_pages }}
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        if: ${{ inputs.deploy_pages }}
+        with:
+          path: work/ensemble/site
+      - id: deployment
+        if: ${{ inputs.deploy_pages }}
+        uses: actions/deploy-pages@v4

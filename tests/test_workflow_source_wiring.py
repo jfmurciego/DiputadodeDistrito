@@ -7,7 +7,7 @@ from pathlib import Path
 class WorkflowSourceWiringTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.text = Path('.github/workflows/produccion-distritos.yml').read_text(encoding='utf-8')
+        cls.text = Path('.github/workflows/producir-territorio-por-contrato.yml').read_text(encoding='utf-8')
 
     def test_workflow_uses_durable_source_adapter(self):
         self.assertIn('ejecutar_fuentes_workflow.py', self.text)
