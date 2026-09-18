@@ -178,7 +178,7 @@ jobs:
 
               candidate_json="$tmp_state/validacion_checkpoint.json"
               set +e
-              python herramientas/seleccionar_checkpoint_productivo.py \
+              python -m herramientas.seleccionar_checkpoint_productivo \
                 --params "$PARAMS" --package "$source_dir" --run-id "$run_id" --stage "$stage" \
                 --root-dir . > "$candidate_json"
               validation_rc=$?

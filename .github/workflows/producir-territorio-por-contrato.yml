@@ -148,7 +148,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mode="$(docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
+          mode="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
           import sys,yaml
           from pathlib import Path
           d=yaml.safe_load((Path('/app') / sys.argv[1]).read_text(encoding='utf-8')) or {}
