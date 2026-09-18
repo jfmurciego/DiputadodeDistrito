@@ -703,7 +703,7 @@ jobs:
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: ${{ inputs.electoral_package_run_id }}
-      - name: Validar procedencia y materializar fuente contractual
+      - name: Validar procedencia y empaquetar fuente contractual
         shell: bash
         run: |
           set -euo pipefail
@@ -714,8 +714,25 @@ jobs:
           print((cfg.get('meta') or {}).get('year') or '')
           PY
           )"
-          mkdir -p .ddd-electoral-source
-          python herramientas/validar_paquete_electoral.py             --package .ddd-electoral-package --params "$PARAMS"             --territory-id "$TERRITORY_ID" --edition "$edition" --root-dir . --materialize             --output .ddd-electoral-source/decision_fuente_electoral.json
+          mkdir -p .ddd-electoral-source/data
+          python herramientas/validar_paquete_electoral.py --package .ddd-electoral-package --params "$PARAMS" --territory-id "$TERRITORY_ID" --edition "$edition" --root-dir . --output .ddd-electoral-source/validacion_paquete_electoral.json
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          manifest=json.loads(Path('.ddd-electoral-package/manifest.json').read_text(encoding='utf-8'))
+          validation=json.loads(Path('.ddd-electoral-source/validacion_paquete_electoral.json').read_text(encoding='utf-8'))
+          selected=manifest['selected_source']; src=Path('.ddd-electoral-package')/selected['path']
+          dst=Path('.ddd-electoral-source/data')/src.name; shutil.copy2(src,dst)
+          checksum=Path(str(dst)+'.sha256')
+          checksum.write_text(selected['sha256']+'  '+dst.name+'\n',encoding='utf-8')
+          decision={**validation,'selected_source':{
+              'artifact_path':dst.relative_to('.ddd-electoral-source').as_posix(),
+              'checksum_path':checksum.relative_to('.ddd-electoral-source').as_posix(),
+              'sha256':selected['sha256'],
+          }}
+          Path('.ddd-electoral-source/decision_fuente_electoral.json').write_text(
+              json.dumps(decision,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
       - name: Publicar decisión y procedencia electoral
         if: always()
         uses: actions/upload-artifact@v6
