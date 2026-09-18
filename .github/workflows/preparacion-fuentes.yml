@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.1.1
 # NOMBRE DE VERSIÓN: Preparación durable territorial y electoral
 # FECHA: 2026-09-18
 # ESTADO: candidato
-# CAMBIOS: separa preparación de producción y añade REUSE/ACQUIRE/BLOCK electoral con paquete congelado.
+# CAMBIOS: corrige la posición del argumento global --root-dir al invocar el catálogo desde la preparación.
 # MOTIVO: preparar fuentes una vez y reutilizarlas con procedencia y checksum verificables.
 name: Preparación de fuentes oficiales
 
@@ -61,7 +61,7 @@ jobs:
         run: |
           set -euo pipefail
           [[ "$CONFIRM" == true ]] || { echo "::error::La preparación requiere confirmación explícita."; exit 20; }
-          python herramientas/catalogo_preparacion.py validate --root-dir .
+          python herramientas/catalogo_preparacion.py --root-dir . validate
           row="$(python herramientas/catalogo_preparacion.py resolve --mode preparation --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
           echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
