@@ -105,6 +105,7 @@ jobs:
         with:
           name: ddd-execution-report-${{ github.run_id }}
           path: .ddd-execution-report
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
 

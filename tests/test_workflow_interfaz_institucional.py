@@ -99,7 +99,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text = INTERFACE.read_text(encoding="utf-8")
         self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', text)
         self.assertIn('from_stage=M01', text)
-        self.assertIn('target_num="${TO_STAGE#M}"', text)
+        self.assertIn('target_num="$((10#${TO_STAGE#M}))"', text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"', text)
 
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
@@ -109,7 +109,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("'.territory_id // empty'", text)
         self.assertIn("'.params // empty'", text)
         self.assertIn("*/sources/manifest.json", text)
-        self.assertIn("herramientas/seleccionar_checkpoint_productivo.py", text)
+        self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo", text)
         self.assertIn("checkpoints_descartados.json", text)
         self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}", text)
         self.assertIn("sort_by(.created_at) | reverse", text)
