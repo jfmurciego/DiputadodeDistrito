@@ -47,9 +47,10 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
         self.assertIn("producir_resultado_m01_m08", text)
-        self.assertIn("to_stage=M06", text)
-        self.assertIn("to_stage=M08", text)
-        self.assertIn("checkpoint_policy=require_m06", text)
+        routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
+        self.assertIn('"Distritos":{"to_stage":"M06"', routes)
+        self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
+        self.assertIn('"Ambos":{"to_stage":"M08"', routes)
         self.assertIn("${{ inputs.confirmar_ejecucion }}", text)
 
     def test_lanzador_shell_compila(self):
