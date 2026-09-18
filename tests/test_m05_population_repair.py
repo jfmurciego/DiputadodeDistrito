@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from ddd_core import m05_population_repair as r
 
@@ -91,6 +92,46 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertTrue(x["focal_search"]["complete"])
         pops=x["population_after"]
         self.assertTrue(all(90 <= pops[d] <= 110 for d in ("A","B","C","D")))
+
+    def test_global_candidate_budget_caps_primary_plus_focal_on_large_case(self):
+        units={}; ass={}; edges=[]
+        # Cuatro distritos, 160 unidades: A queda bajo tolerancia y D alto.
+        for d,base in (("A",39),("B",40),("C",40),("D",41)):
+            for i in range(40):
+                u=f"{d}{i:02d}"; units[u]=U(2); ass[u]=d
+                if i: edges.append((f"{d}{i-1:02d}",u))
+        edges += [("A39","B00"),("B39","C00"),("C39","D00")]
+        x=self.repair_case(
+            ass,units,A(*edges),
+            limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=50,max_seconds=10,seed=1),
+        )
+        self.assertLessEqual(x["candidates_examined"],50)
+        self.assertLessEqual(
+            x["primary_candidates_examined"] + x["focal_search"]["candidate_attempts"],
+            50,
+        )
+        self.assertEqual(x["focal_search"]["candidate_budget"],50-x["primary_candidates_examined"])
+
+    def test_total_time_budget_includes_focal_phase_on_large_case(self):
+        units={}; ass={}; edges=[]
+        for d in ("A","B","C","D"):
+            for i in range(50):
+                u=f"{d}{i:02d}"; units[u]=U(2); ass[u]=d
+                if i: edges.append((f"{d}{i-1:02d}",u))
+        # Fuerza dos outliers sin una reparación trivial.
+        for i in range(10): units[f"A{i:02d}"]["population"]=1
+        for i in range(10): units[f"D{i:02d}"]["population"]=3
+        edges += [("A49","B00"),("B49","C00"),("C49","D00")]
+        ticks=[i*0.01 for i in range(1000)]
+        with patch.object(r.time,"monotonic",side_effect=ticks):
+            x=self.repair_case(
+                ass,units,A(*edges),
+                limits=r.SearchLimits(max_depth=0,max_transfer_set=1,max_candidates=10000,max_seconds=0.08,seed=1),
+            )
+        self.assertEqual(x["termination_reason"],"TIME_BUDGET_EXHAUSTED")
+        self.assertGreater(x["focal_search"]["elapsed_seconds"],0)
+        self.assertGreaterEqual(x["elapsed_seconds"],x["focal_search"]["elapsed_seconds"])
+        self.assertLessEqual(x["candidates_examined"],10000)
 
     def test_budget_exhausted_without_primary_restores_baseline(self):
         units={"a":U(80),"b":U(120)}; ass={"a":"A","b":"B"}
