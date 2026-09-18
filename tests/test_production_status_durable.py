@@ -172,9 +172,25 @@ class DurableProductionStatusTests(unittest.TestCase):
             (gate_dir / ".ddd-audit").mkdir(parents=True)
             gate_status = gate_dir / ".ddd-audit" / "production_status.json"
             gate_status.write_text(json.dumps(status), encoding="utf-8")
+            bin_dir = gate_dir / "bin"
+            bin_dir.mkdir()
+            jq = bin_dir / "jq"
+            jq.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json, sys\n"
+                "path = sys.argv[-1]\n"
+                "data = json.load(open(path, encoding='utf-8'))\n"
+                "print(data.get('decision') or 'UNKNOWN')\n",
+                encoding="utf-8",
+            )
+            jq.chmod(0o755)
+            gate_env = os.environ.copy()
+            gate_env["PATH"] = f"{bin_dir}{os.pathsep}{gate_env.get('PATH', '')}"
+
             blocked = subprocess.run(
                 ["bash", "-c", gate_step["run"]],
                 cwd=gate_dir,
+                env=gate_env,
                 text=True,
                 capture_output=True,
                 check=False,
@@ -206,6 +222,7 @@ class DurableProductionStatusTests(unittest.TestCase):
                 accepted = subprocess.run(
                     ["bash", "-c", gate_step["run"]],
                     cwd=gate_dir,
+                    env=gate_env,
                     text=True,
                     capture_output=True,
                     check=False,
