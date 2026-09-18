@@ -57,10 +57,11 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
   actions: read
   pages: write
   id-token: write
+  issues: write
 
 jobs:
   resolver_interfaz:
