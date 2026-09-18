@@ -113,6 +113,9 @@ jobs:
           if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
             search_from=6
             search_to=6
+          elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
+            search_from=6
+            search_to=1
           else
             search_from=$((target_num-1))
             search_to=1
