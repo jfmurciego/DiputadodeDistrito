@@ -131,6 +131,13 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("derived_checkpoint=true", text)
         self.assertIn("ddd-state-${{ github.run_id }}-M04", text)
         self.assertIn("from_stage=\"$(jq -r '.from_stage' \"$candidate_json\")\"", text)
+        self.assertIn("search_from=$target_num", text)
+        self.assertIn("checkpoint no anterior al objetivo y sin derivación requerida", text)
+
+    def test_fuentes_se_ejecutan_como_modulo_python(self):
+        text = PRODUCTION.read_text(encoding="utf-8")
+        self.assertIn("-m herramientas.ejecutar_fuentes_workflow", text)
+        self.assertNotIn("/app/herramientas/ejecutar_fuentes_workflow.py", text)
 
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
