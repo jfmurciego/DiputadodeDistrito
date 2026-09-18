@@ -30,7 +30,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","produccion-distritos.yml","prueba-openai.yml"])
 
     def test_incomplete_territory_is_preparation_only(self):
         prep=[r["name"] for r in rows_for("preparation",CAT)]
