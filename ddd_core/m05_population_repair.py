@@ -163,9 +163,7 @@ def _rank(state,path,units,adjacency,target,tolerance,floor,cap):
     return (obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
-def _province_rank(state,units,province,target,tolerance):
-    pops=_district_pops(state,units)
-    districts={d for u,d in state.items() if units[u].get("province")==province}
+def _province_rank_from_pops(pops,districts,target,tolerance):
     outliers={d for d in districts if abs(pops[d]-target)>tolerance}
     distance=round(sum(max(0,abs(pops[d]-target)-tolerance) for d in districts)/target,12)
     maxdev=round(max((abs(pops[d]-target)/target for d in outliers),default=0.0),12)
@@ -174,7 +172,24 @@ def _province_rank(state,units,province,target,tolerance):
 
 
 def _province_state_key(state,units,province):
-    return tuple(sorted(((u,state[u]) for u in state if units[u].get("province")==province),key=lambda x:str(x[0])))
+    return tuple(sorted(((u,state[u]) for u in state if str(units[u].get("province"))==province),key=lambda x:str(x[0])))
+
+
+def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,receiver,*,floor,cap):
+    checks={"province_verified":True,"donor_contiguity_verified":False,
+        "receiver_contiguity_verified":True,"atomic_units_verified":True,"municipal_integrity_verified":False}
+    group=units[u].get("municipality_group")
+    if group:
+        owned={v for v in province_units if state[v]==donor and units[v].get("municipality_group")==group}
+        if owned and owned != {u}: return False,"MUNICIPAL_INTEGRITY",checks
+    checks["municipal_integrity_verified"]=True
+    donor_nodes={v for v in province_units if state[v]==donor and v!=u}
+    if not donor_nodes or not connected(donor_nodes,adjacency): return False,"DONOR_CONTIGUITY",checks
+    checks["donor_contiguity_verified"]=True
+    after_donor=pops[donor]-int(units[u]["population"]); after_receiver=pops[receiver]+int(units[u]["population"])
+    if after_donor<floor or after_donor>cap or after_receiver<floor or after_receiver>cap:
+        return False,"HARD_POPULATION_LIMIT",checks
+    return True,"VALID",checks
 
 
 def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limits):
@@ -183,48 +198,57 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
     rejection_counts={}; province_reports=[]
     provinces=sorted({str(units[u].get("province")) for u in units},key=str)
     for province in provinces:
-        start_rank,start_outliers=_province_rank(working,units,province,target,tolerance)
-        if not start_outliers: continue
         province_units=sorted((u for u in working if str(units[u].get("province"))==province),key=str)
+        if not province_units: continue
+        districts=sorted({working[u] for u in province_units},key=str)
+        start_pops={d:0 for d in districts}
+        for u in province_units: start_pops[working[u]]+=int(units[u]["population"])
+        start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance)
+        if not start_outliers: continue
         depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
         state_budget=min(250000,max(int(limits.max_candidates),len(province_units)*depth_limit*40))
         heap=[]; serial=0; seen={_province_state_key(working,units,province):0}
-        heapq.heappush(heap,(start_rank,0,serial,dict(working),[]))
+        heapq.heappush(heap,(start_rank,0,serial,dict(working),start_pops,[]))
         examined=0; depth_exhausted=0; found=None
         while heap and examined < state_budget:
-            rank,depth,_,current,path=heapq.heappop(heap); examined+=1
+            rank,depth,_,current,pops,path=heapq.heappop(heap); examined+=1
             if rank[0]==0:
-                found=(current,path,rank); break
+                found=(current,pops,path,rank); break
             if depth>=depth_limit:
                 depth_exhausted+=1; continue
-            pops=_district_pops(current,units)
-            _,outliers=_province_rank(current,units,province,target,tolerance)
+            _,outliers=_province_rank_from_pops(pops,districts,target,tolerance)
             for u in province_units:
                 donor=current[u]
                 receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor and str(units[v].get("province"))==province},key=str)
                 for receiver in receivers:
                     if donor not in outliers and receiver not in outliers: continue
-                    ok,reason,checks=_valid_transfer(current,units,adjacency,(u,),donor,receiver,floor=floor,cap=cap)
+                    ok,reason,checks=_focal_single_transfer(current,pops,province_units,units,adjacency,u,donor,receiver,floor=floor,cap=cap)
                     if not ok:
                         rejection_counts[reason]=rejection_counts.get(reason,0)+1
                         continue
-                    trial=dict(current); trial[u]=receiver
-                    trial_rank,trial_outliers=_province_rank(trial,units,province,target,tolerance)
+                    trial_pops=dict(pops); delta=int(units[u]["population"])
+                    trial_pops[donor]-=delta; trial_pops[receiver]+=delta
+                    trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance)
                     if len(trial_outliers)>len(outliers)+1: continue
+                    trial=dict(current); trial[u]=receiver
                     key=_province_state_key(trial,units,province); nd=depth+1
                     if seen.get(key,10**9)<=nd: continue
-                    seen[key]=nd
-                    step=_step_evidence(current,trial,units,adjacency,(u,),donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap)
-                    serial+=1
-                    heapq.heappush(heap,(trial_rank,nd,serial,trial,path+[step]))
+                    seen[key]=nd; serial+=1
+                    heapq.heappush(heap,(trial_rank,nd,serial,trial,trial_pops,path+[(u,donor,receiver,checks)]))
         total_examined+=examined
         rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
         report={"province":province,"outliers_before":len(start_outliers),"depth_limit":depth_limit,"state_budget":state_budget,
                 "states_examined":examined,"depth_exhausted_states":depth_exhausted,"repaired":found is not None}
         if found is not None:
-            working,steps,final_rank=found; all_steps.extend(steps); report["outliers_after"]=final_rank[0]
+            found_state,_,moves,final_rank=found
+            replay=dict(working); steps=[]
+            for u,donor,receiver,checks in moves:
+                trial=dict(replay); trial[u]=receiver
+                steps.append(_step_evidence(replay,trial,units,adjacency,(u,),donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap))
+                replay=trial
+            working=found_state; all_steps.extend(steps); report["outliers_after"]=final_rank[0]
         else:
-            final_rank,_=_province_rank(working,units,province,target,tolerance); report["outliers_after"]=final_rank[0]
+            report["outliers_after"]=start_rank[0]
         province_reports.append(report)
     final_pops=_district_pops(working,units)
     complete=not _outliers(final_pops,target,tolerance)
