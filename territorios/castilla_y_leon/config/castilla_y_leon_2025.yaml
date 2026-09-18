@@ -18,10 +18,10 @@ meta:
   scope: provincial
   schema_version: 0.12.0
   schema_family: ddd-territory
-  contract_level: production_m01_m06
+  contract_level: production_m01_m08
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: candidate_m06
+  status: candidate_m08
 
 io:
   project_root: {path: ../../..}
@@ -174,6 +174,20 @@ modulos:
     out_composition_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv"
     out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
     out_district_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
+
+  modulo_07_agregar_resultados_electorales:
+    in_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
+    section_id_field: CUSEC_KEY
+    district_field: district_id
+    election_contract: territorios/castilla_y_leon/config/elecciones/castilla_y_leon_cortes_2026.json
+    out_district_party_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resultados_partido.csv"
+    out_district_summary_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resumen_electoral.csv"
+    out_reconciliation_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m07_reconciliacion.json"
+    out_sections_enriched_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m07_secciones_resultados.geojson.zip"
+  modulo_08_integrar_resultados:
+    in_district_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
+    in_district_summary_csv: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resumen_electoral.csv"
+    out_districts_with_results_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m08_distritos_resultados.geojson.zip"
 
 validation:
   expected_province_codes: ['05','09','24','34','37','40','42','47','49']
