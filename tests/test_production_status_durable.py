@@ -15,7 +15,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "herramientas" / "estado_produccion.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "producir-territorio-por-contrato.yml"
+WORKFLOW = ROOT / ".github" / "workflows" / "produccion-distritos.yml"
 
 
 def governed_geometry() -> dict:
