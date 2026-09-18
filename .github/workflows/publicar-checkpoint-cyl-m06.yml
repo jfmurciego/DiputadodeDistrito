@@ -100,6 +100,15 @@ jobs:
               decision: "REUSE",
               territorial_modules_executed: false
             }' > publish/decision/publication.json
+          jq -n '{
+              schema_version: "1.0.0",
+              decision: "ADMITTED",
+              production_authorization: "AUTHORIZED",
+              production_authorized: true,
+              territory_id: "castilla_y_leon",
+              run_name: "castilla_y_leon_2025",
+              params: "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
+            }' > publish/decision/decision.json
 
       - name: Publicar checkpoint M06 compuesto
         uses: actions/upload-artifact@v6
