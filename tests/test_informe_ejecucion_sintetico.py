@@ -113,6 +113,26 @@ class ExecutionReportSyntheticTests(unittest.TestCase):
             root = Path(td); write_json(root / "ddd-electoral-source-123" / "decision_fuente_electoral.json", {"decision": "BLOCK", "reason": "Granularidad insuficiente"}); inv = self.mod.build_inventory(root, self._context("failure"))
             self.assertEqual(inv["decision_final"]["decision"], "BLOCK"); self.assertIn("Granularidad insuficiente", inv["decision_final"]["causas_de_bloqueo"])
 
+
+    def test_ready_electoral_reason_is_not_reported_as_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self._complete_fixture(root)
+            write_json(
+                root / "ddd-electoral-source-123" / "decision_fuente_electoral.json",
+                {"decision": "READY_EXISTING_CONTRACT", "reason": "Sin declaración automática; se conserva contrato electoral existente."},
+            )
+            write_json(
+                root / "ddd-audit-123" / "production_status.json",
+                {"decision": "BLOCK", "population_decision": "TARGET_IMPROVED_NOT_MET", "population_outcome": "success", "block_cause": "POPULATION_TARGET_NOT_MET"},
+            )
+            inv = self.mod.build_inventory(root, self._context("success"))
+            self.assertEqual(inv["decision_final"]["decision"], "BLOCK")
+            self.assertEqual(inv["decision_final"]["causas_de_bloqueo"], ["POPULATION_TARGET_NOT_MET"])
+            md = self.mod.render_markdown(inv)
+            self.assertIn("La publicación se completó correctamente, pero el estado territorial permanece bloqueado", md)
+            self.assertNotIn("Sin declaración automática", md)
+
     def test_workflow_has_visible_always_running_business_report_job(self):
         jobs = yaml.safe_load(ROUTER.read_text(encoding="utf-8"))["jobs"]; report = jobs["informe_ejecucion"]
         self.assertEqual(report["name"], "Informe de ejecución"); self.assertIn("always()", report["if"])
