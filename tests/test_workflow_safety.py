@@ -22,7 +22,7 @@ class WorkflowSafety(unittest.TestCase):
         "regresion-m06-castilla-y-leon.yml":"regresion-m06-castilla-y-leon_v1.3.0.yml",
     }
     AUTOMATIC_ONLY={
-        "pruebas-ddd.yml":{"push","pull_request"},
+        "pruebas-plataforma.yml":{"push","pull_request"},
         "validar-contratos-territoriales.yml":{"push","pull_request"},
         "validar-productos-publicos.yml":{"push"},
     }
