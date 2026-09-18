@@ -389,7 +389,7 @@ jobs:
   m02:
     name: M02 · Adyacencias territoriales
     needs: [resolve, m01]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 2 && fromJSON(needs.resolve.outputs.to_num) >= 2 && (needs.m01.result == 'success' || (needs.m01.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 2 && fromJSON(needs.resolve.outputs.to_num) >= 2 && (needs.m01.result == 'success' || (needs.m01.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 2)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M02, PREVIOUS_STAGE: M01, PREVIOUS_RESULT: "${{ needs.m01.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
@@ -398,7 +398,7 @@ jobs:
   m03:
     name: M03 · Grafo territorial
     needs: [resolve, m02]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 3 && fromJSON(needs.resolve.outputs.to_num) >= 3 && (needs.m02.result == 'success' || (needs.m02.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 3 && fromJSON(needs.resolve.outputs.to_num) >= 3 && (needs.m02.result == 'success' || (needs.m02.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 3)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M03, PREVIOUS_STAGE: M02, PREVIOUS_RESULT: "${{ needs.m02.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
@@ -407,7 +407,7 @@ jobs:
   internal_units:
     name: Preparar unidades internas
     needs: [resolve, m03]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && (needs.m03.result == 'success' || (needs.m03.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && (needs.m03.result == 'success' || (needs.m03.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 4)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -514,7 +514,7 @@ jobs:
   m05:
     name: M05 · Optimización de distritos
     needs: [resolve, m04]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 5 && fromJSON(needs.resolve.outputs.to_num) >= 5 && (needs.m04.result == 'success' || (needs.m04.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 5 && fromJSON(needs.resolve.outputs.to_num) >= 5 && (needs.m04.result == 'success' || (needs.m04.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 5)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M05, PREVIOUS_STAGE: M04, PREVIOUS_RESULT: "${{ needs.m04.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
@@ -523,7 +523,7 @@ jobs:
   m06:
     name: M06 · Consolidación territorial
     needs: [resolve, m05]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 6 && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m05.result == 'success' || (needs.m05.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 6 && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m05.result == 'success' || (needs.m05.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 6)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M06, PREVIOUS_STAGE: M05, PREVIOUS_RESULT: "${{ needs.m05.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
@@ -532,7 +532,7 @@ jobs:
   auditoria:
     name: Auditoría geométrica M06
     needs: [resolve, m06]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) >= 7)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     outputs:
@@ -699,7 +699,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-electoral-source
-          declaration="$(docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
+          declaration="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
           import sys,yaml
           from pathlib import Path
           cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
@@ -708,7 +708,7 @@ jobs:
           )"
           echo "path=$declaration" >> "$GITHUB_OUTPUT"
           if [[ -z "$declaration" ]]; then
-            docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
+            docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
           import json,sys,yaml
           from pathlib import Path
           cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
@@ -763,7 +763,7 @@ jobs:
   m08:
     name: M08 · Producto electoral territorial
     needs: [resolve, m07, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 8 && fromJSON(needs.resolve.outputs.to_num) >= 8 && (needs.m07.result == 'success' || (needs.m07.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 8 && fromJSON(needs.resolve.outputs.to_num) >= 8 && (needs.m07.result == 'success' || (needs.m07.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 8)) && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M08, PREVIOUS_STAGE: M07, PREVIOUS_RESULT: "${{ needs.m07.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
