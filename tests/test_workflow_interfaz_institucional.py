@@ -84,12 +84,11 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_producto_resuelve_recorrido_y_publicacion_no_selecciona_etapa(self):
         text = INTERFACE.read_text(encoding="utf-8")
-        self.assertIn('"Distritos")', text)
-        self.assertIn('to_stage=M06', text)
-        self.assertIn('"Resultados electorales")', text)
-        self.assertIn('checkpoint_policy=require_m06', text)
-        self.assertIn('"Ambos")', text)
-        self.assertIn('to_stage=M08', text)
+        routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
+        self.assertIn("resolver_producto_produccion.py --product", text)
+        self.assertIn('"Distritos":{"to_stage":"M06"', routes)
+        self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
+        self.assertIn('"Ambos":{"to_stage":"M08"', routes)
         self.assertNotIn("UI_PUBLISH", text)
         self.assertIn('publish_result: ${{ inputs.publish_result }}', text)
         self.assertIn('from_stage=M01', text)
@@ -102,6 +101,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn('search_to=6', text)
         self.assertIn('Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06.', text)
         self.assertIn('exit 44', text)
+        self.assertIn('Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato.', text)
+        self.assertIn('exit 45', text)
 
     def test_checkpoint_automatico_valida_paquete_completo_y_registra_descartes(self):
         text = INTERFACE.read_text(encoding="utf-8")
@@ -129,6 +130,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("needs.resolver_interfaz.outputs.from_stage", values["from_stage"])
         self.assertIn("needs.resolver_interfaz.outputs.to_stage", values["to_stage"])
         self.assertIn("needs.resolver_interfaz.outputs.checkpoint_run_id", values["checkpoint_run_id"])
+        self.assertIn("needs.resolver_interfaz.outputs.electoral_package_run_id", values["electoral_package_run_id"])
+        self.assertIn("needs.resolver_interfaz.outputs.electoral_package_artifact_name", values["electoral_package_artifact_name"])
         self.assertIn("inputs.confirmar_ejecucion", values["execution_confirmed"])
         self.assertIn("inputs.publish_result", values["publish_result"])
 
