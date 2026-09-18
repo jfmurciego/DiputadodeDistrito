@@ -1,0 +1,79 @@
+name: Preparación temporal electoral CyL 2026
+on:
+  push:
+    branches: [prep/cyl-electoral-2026]
+permissions:
+  contents: read
+jobs:
+  preparar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Descargar y normalizar fuente oficial JCyL
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp-cyl-electoral
+          url='https://analisis.datosabiertos.jcyl.es/api/explore/v2.1/catalog/datasets/resultados-electorales-1983-actualidad/exports/csv?lang=es&timezone=Europe%2FMadrid&use_labels=true&delimiter=%3B'
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 "$url" -o .tmp-cyl-electoral/original.csv
+          python - <<'PY'
+          import csv,hashlib,json,re,unicodedata
+          from collections import defaultdict
+          from pathlib import Path
+          p=Path('.tmp-cyl-electoral/original.csv'); raw=p.read_bytes()
+          if raw.lstrip().lower().startswith((b'<!doctype html',b'<html')): raise SystemExit('HTML recibido')
+          text=raw.decode('utf-8-sig')
+          try: d=csv.Sniffer().sniff(text[:65536],delimiters=';,\t,')
+          except Exception:
+              class D(csv.excel): delimiter=';'
+              d=D()
+          rows=list(csv.DictReader(text.splitlines(),dialect=d))
+          if not rows: raise SystemExit('CSV oficial vacío')
+          headers=list(rows[0])
+          def n(s):
+              s=unicodedata.normalize('NFKD',str(s or '')); s=''.join(c for c in s if not unicodedata.combining(c))
+              return re.sub(r'[^a-z0-9]+',' ',s.casefold()).strip()
+          idx={n(h):h for h in headers}
+          def c(*xs):
+              for x in xs:
+                  if n(x) in idx:return idx[n(x)]
+              raise SystemExit(f'Falta columna {xs}; cabeceras={headers}')
+          cy=c('Año','Ano'); cm=c('Código municipio','Codigo municipio'); cd=c('Distrito'); cs=c('Sección','Seccion'); cp=c('Partido'); cv=c('Nº Votos','N Votos','Numero votos')
+          agg=defaultdict(int); inrows=0
+          for r in rows:
+              if re.sub(r'\D','',str(r.get(cy,'')))!='2026': continue
+              inrows+=1
+              mun=re.sub(r'\D','',str(r.get(cm,''))).zfill(5)
+              dis=re.sub(r'\D','',str(r.get(cd,''))).zfill(2)
+              sec=re.sub(r'\D','',str(r.get(cs,''))).zfill(3)
+              party=' '.join(str(r.get(cp,'')).split())
+              votes=int(re.sub(r'[^0-9-]','',str(r.get(cv,''))) or '0')
+              if party: agg[(mun+dis+sec,party)]+=votes
+          if not agg: raise SystemExit('No hay resultados 2026 en la descarga')
+          out=Path('.tmp-cyl-electoral/cyl_2026_secciones_partidos.csv')
+          with out.open('w',encoding='utf-8',newline='') as f:
+              w=csv.writer(f); w.writerow(['section_id','party','votes'])
+              for (sid,party),votes in sorted(agg.items()): w.writerow([sid,party,votes])
+          parties=sorted({party for _,party in agg}); sections=sorted({sid for sid,_ in agg})
+          def slug(s):
+              t=unicodedata.normalize('NFKD',s); t=''.join(c for c in t if not unicodedata.combining(c))
+              return re.sub(r'[^A-Za-z0-9]+','_',t).strip('_').upper() or 'PARTY'
+          used={}; plist=[]
+          for party in parties:
+              base=slug(party); cid=base; i=2
+              while cid in used and used[cid]!=party: cid=f'{base}_{i}'; i+=1
+              used[cid]=party; plist.append({'canonical_id':cid,'display_name':party,'aliases':[party]})
+          dp=Path('.tmp-cyl-electoral/diccionario_partidos_cyl_2026.json')
+          dp.write_text(json.dumps({'schema_family':'ddd-party-dictionary','schema_version':'1.0.0','unknown_party_policy':'reject','parties':plist},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          sha=lambda x: hashlib.sha256(Path(x).read_bytes()).hexdigest()
+          meta={'source_bytes':len(raw),'source_sha256':hashlib.sha256(raw).hexdigest(),'rows_2026_input':inrows,'normalized_rows':len(agg),'sections':len(sections),'parties':len(parties),'normalized_sha256':sha(out),'dictionary_sha256':sha(dp),'headers':headers,'party_labels':parties}
+          Path('.tmp-cyl-electoral/metadata.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(meta,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v6
+        with:
+          name: cyl-electoral-2026-preparado
+          path: .tmp-cyl-electoral
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
