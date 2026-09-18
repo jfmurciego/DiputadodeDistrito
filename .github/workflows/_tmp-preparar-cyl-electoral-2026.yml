@@ -85,9 +85,11 @@ jobs:
           python - <<'PY'
           import csv,json,zipfile
           from pathlib import Path
-          electoral=set()
+          electoral=set(); section_votes={}
           with Path('.tmp-cyl-electoral/cyl_2026_secciones_partidos.csv').open(encoding='utf-8') as f:
-              for r in csv.DictReader(f): electoral.add(str(r['section_id']))
+              for r in csv.DictReader(f):
+                  sid=str(r['section_id']); electoral.add(sid)
+                  section_votes[sid]=section_votes.get(sid,0)+int(r['votes'])
           candidates=list(Path('.tmp-m06').rglob('*m06_secciones*.geojson.zip'))
           if not candidates: raise SystemExit('No se encontró M06 secciones en checkpoint')
           z=candidates[0]
@@ -98,7 +100,11 @@ jobs:
           m06={str(ft.get('properties',{}).get('CUSEC_KEY') or ft.get('properties',{}).get('CUSEC') or '') for ft in data.get('features',[])}
           m06.discard('')
           only_e=sorted(electoral-m06); only_m=sorted(m06-electoral)
-          out={'electoral_sections':len(electoral),'m06_sections':len(m06),'intersection':len(electoral&m06),'electoral_only':only_e,'m06_only':only_m}
+          candidates={}
+          for sid in only_e:
+              prefix=sid[:7]
+              candidates[sid]=sorted(x for x in m06 if x[:7]==prefix)
+          out={'electoral_sections':len(electoral),'m06_sections':len(m06),'intersection':len(electoral&m06),'electoral_only':only_e,'m06_only':only_m,'electoral_only_votes':{sid:section_votes.get(sid,0) for sid in only_e},'electoral_only_total_votes':sum(section_votes.get(sid,0) for sid in only_e),'same_district_m06_candidates':candidates}
           Path('.tmp-cyl-electoral/reconciliation_sections.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
