@@ -1,0 +1,31 @@
+# PROYECTO: Diputado de Distrito
+# DISEÑO A: única puerta CI sintética
+name: Pruebas de la plataforma
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  pruebas:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - name: Auditar cabeceras y legacy
+        run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
+      - name: Suite sintética
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee ci-unittest.log
+      - name: Conservar diagnóstico
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ci-unittest.log
+          if-no-files-found: error

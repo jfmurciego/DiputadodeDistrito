@@ -1,0 +1,254 @@
+# PROYECTO: Diputado de Distrito
+# DISEÑO: A — separación preparación / producción / pruebas
+# FECHA: 2026-09-18
+# FUENTE ÚNICA: este registro gobierna las opciones de los formularios y su validación.
+schema: ddd-preparation-catalog/1.0
+default_edition: '2025'
+territories:
+  - territory_id: andalucia
+    name: Andalucía
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: aragon
+    name: Aragón
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
+        territorial_product_available: true
+        electoral_source_prepared: true
+        electoral_product_available: true
+        territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+        production_authorization: AUTHORIZED
+        last_valid_checkpoint: null
+  - territory_id: principado_de_asturias
+    name: Principado de Asturias
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: illes_balears
+    name: Islas Baleares
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: canarias
+    name: Canarias
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: cantabria
+    name: Cantabria
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: castilla_la_mancha
+    name: Castilla-La Mancha
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: castilla_y_leon
+    name: Castilla y León
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
+        territorial_product_available: true
+        electoral_source_prepared: true
+        electoral_product_available: true
+        territorial_certification: BLOCK_POPULATION_TARGET_NOT_MET
+        production_authorization: AUTHORIZED
+        last_valid_checkpoint: {run_id: 35329341120, stage: M08}
+  - territory_id: cataluna
+    name: Cataluña
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: comunidad_valenciana
+    name: Comunidad Valenciana
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: extremadura
+    name: Extremadura
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: BLOCKED_PREPARATION
+        production_authorization: BLOCKED
+        last_valid_checkpoint: null
+  - territory_id: galicia
+    name: Galicia
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: madrid
+    name: Comunidad de Madrid
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: region_de_murcia
+    name: Región de Murcia
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: comunidad_foral_de_navarra
+    name: Comunidad Foral de Navarra
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: pais_vasco
+    name: País Vasco
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: la_rioja
+    name: La Rioja
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: true
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: PREFLIGHT
+        production_authorization: PREFLIGHT
+        last_valid_checkpoint: null
+  - territory_id: ceuta
+    name: Ceuta
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null
+  - territory_id: melilla
+    name: Melilla
+    editions:
+      '2025':
+        territory_declared: true
+        territorial_sources_prepared: false
+        territorial_contract_complete: false
+        territorial_product_available: false
+        electoral_source_prepared: false
+        electoral_product_available: false
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: NONE
+        last_valid_checkpoint: null

@@ -1,0 +1,212 @@
+# PROYECTO: Diputado de Distrito
+# DISEÑO A: preparación de fuentes desacoplada de la cadena territorial
+# OPCIONES: generadas/verificadas contra configuracion/catalogo_preparacion.yaml
+name: Preparación de fuentes oficiales
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        type: choice
+        options:
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
+          - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: choice
+        options:
+          - '2025'
+      source_scope:
+        description: Fuentes a preparar
+        required: true
+        default: Ambas
+        type: choice
+        options:
+          - Territoriales
+          - Electorales
+          - Ambas
+      confirmar_preparacion:
+        description: Confirmar preparación
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  resolver:
+    name: Resolver preparación desde catálogo
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      params: ${{ steps.resolve.outputs.params }}
+    steps:
+      - uses: actions/checkout@v6
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        env:
+          TERRITORY: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          CONFIRM: ${{ inputs.confirmar_preparacion }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$CONFIRM" == true ]] || { echo "::error::La preparación requiere confirmación explícita."; exit 20; }
+          python herramientas/catalogo_preparacion.py validate
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode preparation --territory "$TERRITORY" --edition "$EDITION")"
+          territory_id="$(jq -r .territory_id <<<"$row")"
+          params="$(jq -r .params <<<"$row")"
+          test -f "$params" || { echo "::error::Contrato no materializado todavía: $params"; exit 21; }
+          echo "territory_id=$territory_id" >> "$GITHUB_OUTPUT"
+          echo "params=$params" >> "$GITHUB_OUTPUT"
+
+  territoriales:
+    name: Preparar fuentes territoriales
+    needs: resolver
+    if: ${{ inputs.source_scope != 'Electorales' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      SOURCE_DECLARATION: territorios/${{ needs.resolver.outputs.territory_id }}/config/fuentes_oficiales.yaml
+      EVIDENCE_DIR: .ddd-sources
+    steps:
+      - uses: actions/checkout@v6
+      - name: Comprobar declaración de fuentes
+        run: test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible de fuentes
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-source-preparation:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-source-preparation-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-source-preparation-${{ github.sha }}
+      - id: source_mode
+        name: Resolver modo declarado
+        shell: bash
+        run: |
+          set -euo pipefail
+          mode="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load((Path('/app')/sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((d.get('default_mode') or {}).get('production') or '')
+          PY
+          )"
+          case "$mode" in official_live|verified_snapshot) ;; *) echo "::error::Modo productivo inválido: $mode"; exit 40;; esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+      - name: Reconstruir copia oficial declarada
+        if: ${{ steps.source_mode.outputs.mode == 'verified_snapshot' }}
+        run: bash inputs/partes/reconstruir_fuentes.sh
+      - id: acquire
+        name: Materializar y congelar fuentes
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             /app/herramientas/ejecutar_fuentes_workflow.py             --declaration "/app/$SOURCE_DECLARATION"             --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint             --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production             --acquisition-mode '${{ steps.source_mode.outputs.mode }}'             --root-dir /app
+          cp .ddd-source-checkpoint/source_execution.json "$EVIDENCE_DIR/source_execution.json"
+      - name: Evaluar preparación
+        if: always()
+        shell: bash
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             /app/herramientas/evaluar_preparacion_territorial.py             --territory "/app/$SOURCE_DECLARATION" --evidence-dir "/app/$EVIDENCE_DIR"             --environment production --root-dir /app
+      - name: Publicar paquete durable
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: .ddd-source-package
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publicar evidencia
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-evidence-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: .ddd-sources
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Aplicar puerta
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('.ddd-sources/decision_preparacion.json',encoding='utf-8'))
+          if d.get('decision') != 'READY':
+              raise SystemExit('Preparación BLOQUEADA: '+'; '.join(d.get('reasons') or []))
+          PY
+
+  electorales:
+    name: Verificar fuente electoral congelada
+    needs: resolver
+    if: ${{ inputs.source_scope != 'Territoriales' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Verificar contrato, fichero y huella electoral
+        env:
+          PARAMS: ${{ needs.resolver.outputs.params }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-electoral-preparation
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          import yaml
+          params=Path(os.environ['PARAMS'])
+          cfg=yaml.safe_load(params.read_text(encoding='utf-8')) or {}
+          m07=(cfg.get('modulos') or {}).get('modulo_07_agregar_resultados_electorales') or {}
+          contract_path=Path(str(m07.get('election_contract') or ''))
+          if not contract_path.is_file():
+              raise SystemExit('No existe contrato electoral preparado para este territorio/edición.')
+          contract=json.loads(contract_path.read_text(encoding='utf-8'))
+          checked=[]
+          for source in contract.get('sources') or []:
+              p=Path(str(source.get('path') or ''))
+              if not p.is_file(): raise SystemExit(f'Fuente electoral ausente: {p}')
+              actual=hashlib.sha256(p.read_bytes()).hexdigest()
+              expected=str(source.get('sha256') or '').lower()
+              if actual.lower()!=expected: raise SystemExit(f'SHA-256 electoral incorrecto: {p}')
+              checked.append({'path':str(p),'sha256':actual,'bytes':p.stat().st_size})
+          if not checked: raise SystemExit('Contrato electoral sin fuentes verificables.')
+          payload={'schema':'ddd-electoral-preparation/1.0','decision':'READY','contract':str(contract_path),'sources':checked}
+          Path('.ddd-electoral-preparation/decision.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ddd-electoral-preparation-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: .ddd-electoral-preparation
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
