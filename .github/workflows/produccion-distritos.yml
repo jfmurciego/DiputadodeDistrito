@@ -1,5 +1,11 @@
 # PROYECTO: Diputado de Distrito
-# DISEÑO A: una única interfaz productiva; motor M01-M08 conservado
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Diseño A — producción única con catálogo de preparación
+# FECHA: 2026-09-18
+# ESTADO: candidato
+# CAMBIOS: consolida interfaz, cadena M01-M08 y publicación en un único workflow visible.
+# MOTIVO: separar preparación, producción y pruebas sin alterar la lógica territorial.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 # OPCIONES: generadas/verificadas contra configuracion/catalogo_preparacion.yaml
 name: Producción de distritos
 

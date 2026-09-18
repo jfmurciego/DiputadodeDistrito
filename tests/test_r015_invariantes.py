@@ -272,7 +272,7 @@ class GovernanceHeaders(unittest.TestCase):
         "herramientas/validar_ejecucion.py",
         "territorios/aragon/config/aragon_2025.yaml",
         "procedimiento.sh",
-        ".github/workflows/producir-territorio-por-contrato.yml",
+        ".github/workflows/produccion-distritos.yml",
     ]
     CANONICAL_VERSIONED_DOCS = [
         "README.md",

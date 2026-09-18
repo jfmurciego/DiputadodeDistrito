@@ -1,87 +1,37 @@
-"""Trinquetes R038 v1.1.0: interfaz productiva única dentro y fuera del contenedor."""
-import os
+"""Trinquetes de interfaz tras Diseño A."""
+import os,subprocess,unittest
 from pathlib import Path
-import subprocess
-import unittest
-
 import yaml
-
-
-ROOT = Path(__file__).resolve().parents[1]
-WORKFLOWS = ROOT / ".github" / "workflows"
-
+ROOT=Path(__file__).resolve().parents[1]
+WORKFLOWS=ROOT/".github/workflows"
 
 class R038OperacionLimpia(unittest.TestCase):
-    def test_workflows_territoriales_sustituidos_no_siguen_activos(self):
-        retired = {
-            "preparar-territorio.yml", "optimizar-territorio.yml",
-            "consolidar-territorio.yml", "inventario-extremadura.yml",
-            "auditar-topologia-extremadura.yml", "f104-extremadura-canonica.yml",
-            "procedimiento-ddd.yml", "auditoria-integral-f1-40-controles.yml",
-            "lote-autonomo-f1-auditoria-geojson.yml",
-            "f106-cierre-complementario-f1.yml",
-        }
-        self.assertFalse(retired & {path.name for path in WORKFLOWS.glob("*.yml")})
-        if os.environ.get("DDD_SKIP_LEGACY_CHECK") != "1":
-            for name in retired:
-                self.assertTrue((ROOT / "legacy" / "workflows" / "r038" / name).is_file())
+    def test_exactamente_tres_workflows(self):
+        self.assertEqual(sorted(p.name for p in WORKFLOWS.glob("*.yml")),["preparacion-fuentes.yml","produccion-distritos.yml","pruebas-plataforma.yml"])
 
-    def test_interfaz_productiva_cubre_m01_m08_y_protege_ejecucion(self):
-        text = (WORKFLOWS / "ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
-        data = yaml.safe_load(text)
-        raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(raw_inputs), [
-            "territory_id", "data_edition", "publish_result", "confirmar_ejecucion"
-        ])
-        self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
-        self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
-        self.assertEqual(raw_inputs["publish_result"]["description"], "Publicar resultado")
-        self.assertEqual(raw_inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
-        self.assertNotIn("execution_authorization:", text)
-        self.assertNotIn("ensemble_promotion_authorization:", text)
-        self.assertNotIn("operation:", raw_inputs)
-        self.assertNotIn("from_stage:", raw_inputs)
-        self.assertNotIn("to_stage:", raw_inputs)
-        self.assertNotIn("checkpoint_run_id:", raw_inputs)
-        self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertIn("producir_resultado_m01_m08", text)
-        self.assertIn("to_stage=M08", text)
-        self.assertIn("to_stage=M07", text)
-        self.assertIn("${{ inputs.confirmar_ejecucion }}", text)
+    def test_interfaz_productiva_tiene_cuatro_controles(self):
+        data=yaml.safe_load((WORKFLOWS/"produccion-distritos.yml").read_text(encoding="utf-8"))
+        raw=(data.get("on") or data.get(True))["workflow_dispatch"]["inputs"]
+        self.assertEqual(list(raw),["territory_id","data_edition","publish_result","confirmar_ejecucion"])
+        self.assertNotIn("checkpoint_run_id",raw)
+        self.assertNotIn("from_stage",raw)
+        self.assertNotIn("to_stage",raw)
 
     def test_lanzador_shell_compila(self):
-        result = subprocess.run(
-            ["bash", "-n", str(ROOT / "procedimiento.sh")],
-            text=True, capture_output=True, check=False,
-        )
-        self.assertEqual(result.returncode, 0, result.stderr)
+        r=subprocess.run(["bash","-n",str(ROOT/"procedimiento.sh")],text=True,capture_output=True)
+        self.assertEqual(r.returncode,0,r.stderr)
 
     def test_linea_comun_publica_productos_del_run(self):
-        text = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("steps.resolve.outputs.runs_dir", text)
-        self.assertIn("--run-id \"$DDD_RUN_ID\"", text)
-        self.assertIn("bash -n procedimiento.sh", text)
-        self.assertIn("workflow_call", text)
-        self.assertNotIn("workflow_dispatch", text)
+        text=(WORKFLOWS/"produccion-distritos.yml").read_text(encoding="utf-8")
+        self.assertIn("steps.resolve.outputs.runs_dir",text)
+        self.assertIn("--run-id \"$DDD_RUN_ID\"",text)
+        self.assertIn("bash -n procedimiento.sh",text)
+        self.assertIn("actions/deploy-pages@v4",text)
+        self.assertIn("ddd-state-",text)
 
-    def test_operacion_general_publica_el_visor_con_el_componente_comun(self):
-        interface = (WORKFLOWS / "ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
-        router = (WORKFLOWS / "_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8")
-        production = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        viewer = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-        self.assertIn("uses: ./.github/workflows/_reutilizable-operacion-territorial.yml", interface)
-        self.assertIn("uses: ./.github/workflows/producir-territorio-por-contrato.yml", router)
-        self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", production)
-        self.assertIn("production_run_id: ${{ github.run_id }}", production)
-        self.assertIn('if [[ "$UI_PUBLISH" == true ]]; then to_stage=M08; else to_stage=M07; fi', interface)
-        self.assertIn("workflow_call:", viewer)
-        self.assertNotIn("workflow_dispatch:", viewer)
+    def test_no_quedan_workflows_territoriales_o_g10_visibles(self):
+        names={p.name for p in WORKFLOWS.glob("*.yml")}
+        for name in ("g10-ejecutar-tramo-certificado.yml","aragon-ejecucion-integral.yml","procedimiento-ddd.yml"):
+            self.assertNotIn(name,names)
 
-    def test_no_queda_el_formulario_g10_sustituido(self):
-        self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())
-        if os.environ.get("DDD_SKIP_LEGACY_CHECK") != "1":
-            self.assertTrue((ROOT / "legacy/workflows/local_first/g10-ejecutar-tramo-certificado_v1.1.0.yml").exists())
-
-
-if __name__ == "__main__":
-    unittest.main()
+if __name__=="__main__": unittest.main()

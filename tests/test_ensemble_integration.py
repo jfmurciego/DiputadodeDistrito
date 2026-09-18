@@ -226,26 +226,12 @@ class IntegratedRunnerTests(unittest.TestCase):
             resumed = invoke(config, "--mode", "run", "--profile", "balanced")
             self.assertEqual(resumed["run"], {"executed": 1, "skipped": 0, "failed": 0})
 
-    def test_workflow_has_single_visible_entry_and_five_profile_parallelism(self):
-        workflow = (ROOT / ".github/workflows/generar-alternativas-territoriales.yml").read_text(encoding="utf-8")
-        self.assertIn("workflow_call:", workflow)
-        self.assertIn("max-parallel: 5", workflow)
-        self.assertIn("actions/deploy-pages@v4", workflow)
-        self.assertIn("--draft", workflow)
-        self.assertNotIn("push:", workflow)
-        self.assertIn("promotion_confirmed", workflow)
-        self.assertIn("aragon_10_certificacion_run_35035474687.json", workflow)
-        self.assertNotIn("PROMOVER_ARAGON_50", workflow)
-        self.assertIn("artifact-manifest.json", workflow)
-        self.assertIn("needs: synthetic", workflow)
-        self.assertIn("DDD_TO_STAGE=M05", workflow)
-        self.assertIn("--entrypoint /bin/bash", workflow)
-        self.assertIn("auditar_topologia_geometrica.py", workflow)
-        self.assertIn("auditar_componentes_geometricos.py", workflow)
-        self.assertIn("base-geometric-components-preflight.json", workflow)
-        interface = (ROOT / ".github/workflows/ejecucion-generacion-distritos.yml").read_text(encoding="utf-8")
-        self.assertNotIn("generar_alternativas_gerrychain", interface)
-        self.assertNotIn("Generar alternativas GerryChain", interface)
+    def test_design_a_does_not_expose_ensemble_as_workflow(self):
+        workflows=ROOT/".github/workflows"
+        self.assertFalse((workflows/"generar-alternativas-territoriales.yml").exists())
+        production=(workflows/"produccion-distritos.yml").read_text(encoding="utf-8")
+        self.assertNotIn("Generar alternativas GerryChain",production)
+        self.assertNotIn("generar_alternativas_gerrychain",production)
 
 
 if __name__ == "__main__":

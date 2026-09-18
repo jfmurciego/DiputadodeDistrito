@@ -14,7 +14,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 CHECKER = ROOT / "herramientas/comprobar_fuente_electoral_oficial.py"
 INSTALLER = ROOT / "herramientas/instalar_fuente_electoral_oficial.py"
-WORKFLOW = ROOT / ".github/workflows/producir-territorio-por-contrato.yml"
+WORKFLOW = ROOT / ".github/workflows/produccion-distritos.yml"
 
 
 def load_module(path: Path, name: str):

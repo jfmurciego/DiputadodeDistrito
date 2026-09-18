@@ -113,7 +113,7 @@ class ProductionViewerStateTests(unittest.TestCase):
 
 class WorkflowGateTests(unittest.TestCase):
     def test_production_emits_status_manifest_in_artifact(self):
-        workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         builder = (ROOT / "herramientas/estado_produccion.py").read_text(encoding="utf-8")
         self.assertIn("herramientas/estado_produccion.py", workflow)
         self.assertIn("production_status.json", workflow)
@@ -125,7 +125,7 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertIn('return "BLOCK", "POPULATION_TARGET_NOT_MET"', builder)
 
     def test_production_requires_independent_geometry(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("auditar_componentes_geometricos.py", text)
         self.assertIn("--expected-districts", text)
         self.assertIn("$expected", text)
@@ -137,7 +137,7 @@ class WorkflowGateTests(unittest.TestCase):
         self.assertEqual(config["meta"]["production_authorization"], "AUTHORIZED")
 
     def test_modular_execution_requires_contract_authorization(self):
-        text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+        text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn('test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED', text)
 
 
