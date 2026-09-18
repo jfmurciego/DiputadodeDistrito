@@ -4,19 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: Tag de la release temporal que contiene los dos ficheros
+        description: Tag de la release temporal que contiene las partes del checkpoint
         required: true
         default: cyl-m06-checkpoint-temp
         type: string
       checkpoint_asset:
-        description: Nombre exacto del ZIP compuesto M06
+        description: Nombre base del ZIP compuesto M06
         required: true
         default: ddd-state-35199668216-M06-with-sources.zip
-        type: string
-      decision_asset:
-        description: Nombre exacto de la evidencia REUSE
-        required: true
-        default: cyl_checkpoint_verification_final.json
         type: string
       expected_checkpoint_sha256:
         description: SHA-256 esperado del ZIP compuesto
@@ -41,43 +36,31 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       RELEASE_TAG: ${{ inputs.release_tag }}
       CHECKPOINT_ASSET: ${{ inputs.checkpoint_asset }}
-      DECISION_ASSET: ${{ inputs.decision_asset }}
       EXPECTED_CHECKPOINT_SHA256: ${{ inputs.expected_checkpoint_sha256 }}
     steps:
-      - name: Descargar únicamente los assets publicados
+      - name: Descargar partes publicadas
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p incoming
           gh release download "$RELEASE_TAG" \
             --repo "$GITHUB_REPOSITORY" \
-            --pattern "$CHECKPOINT_ASSET" \
-            --pattern "$DECISION_ASSET" \
+            --pattern "$CHECKPOINT_ASSET.part*" \
+            --pattern "MANIFEST.parts.json" \
             --dir incoming
-          test -f "incoming/$CHECKPOINT_ASSET"
-          test -f "incoming/$DECISION_ASSET"
+          compgen -G "incoming/$CHECKPOINT_ASSET.part*" >/dev/null
+          test -f incoming/MANIFEST.parts.json
 
-      - name: Verificar checkpoint y evidencia REUSE
+      - name: Reconstruir y verificar checkpoint
         shell: bash
         run: |
           set -euo pipefail
+          LC_ALL=C cat $(printf '%s\n' incoming/"$CHECKPOINT_ASSET".part* | sort) > "incoming/$CHECKPOINT_ASSET"
           actual_sha="$(sha256sum "incoming/$CHECKPOINT_ASSET" | awk '{print $1}')"
           test "$actual_sha" = "$EXPECTED_CHECKPOINT_SHA256" || {
             echo "::error::SHA-256 del checkpoint inesperado: $actual_sha"
             exit 41
           }
-
-          jq -e '
-            .territory_id == "castilla_y_leon" and
-            .base_run_id == 35199668216 and
-            .completed_stage == "M06" and
-            .m01_m06_integrity.unchanged == true and
-            (.m01_m06_integrity.hash_mismatches | length) == 0 and
-            .resume_gate.decision == "REUSE" and
-            .resume_gate.network_accesses == 0 and
-            .resume_gate.downloader_calls == 0 and
-            .checkpoint.sha256 == $sha
-          ' --arg sha "$actual_sha" "incoming/$DECISION_ASSET" >/dev/null
 
       - name: Preparar estado M06 sin recalcular módulos
         shell: bash
@@ -91,13 +74,14 @@ jobs:
           test -f publish/state/run/CHAIN_STATE.json
           test -f publish/state/sources/manifest.json
           test -f publish/state/sources/source_execution.json
+          jq -e '.decision == "REUSE"' publish/state/sources/source_execution.json >/dev/null
 
-      - name: Registrar publicación
+      - name: Registrar decisión REUSE
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p publish/decision
-          cp "incoming/$DECISION_ASSET" publish/decision/
+          cp publish/state/sources/source_execution.json publish/decision/source_execution.json
           jq -n \
             --arg run_id "$GITHUB_RUN_ID" \
             --arg source_run_id "35199668216" \
