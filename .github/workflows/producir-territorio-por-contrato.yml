@@ -189,7 +189,7 @@ jobs:
             checkpoint_args=(--checkpoint-in /app/.ddd-state/in)
           fi
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/ejecutar_fuentes_workflow.py \
+            -m herramientas.ejecutar_fuentes_workflow \
             --declaration "/app/$SOURCE_DECLARATION" \
             --working /app/.ddd-source-package \
             "${checkpoint_args[@]}" \
