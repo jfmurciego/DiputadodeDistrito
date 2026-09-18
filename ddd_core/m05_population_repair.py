@@ -193,7 +193,7 @@ def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,rec
 
 
 def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limits,deadline,candidate_budget):
-    """Búsqueda focal con presupuesto global, tiempo total real y estados limitados a una provincia."""
+    """Beam search focal: presupuesto global, tiempo real y estados exclusivamente provinciales."""
     phase_start=time.monotonic()
     working=dict(state); all_steps=[]; candidate_attempts=0; states_explored=0
     rejection_counts={}; province_reports=[]; termination="QUEUE_EMPTY"
@@ -212,49 +212,58 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance)
         if not start_outliers: continue
         depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
-        heap=[]; serial=0; seen={_state_key(local_base):0}
-        heapq.heappush(heap,(start_rank,0,serial,local_base,start_pops,[]))
+        beam_width=min(64,max(24,8*len(start_outliers)))
+        frontier=[(local_base,start_pops,[],start_rank)]
+        seen={_state_key(local_base)}
         province_states=0; depth_exhausted=0; found=None
-        while heap:
-            if candidate_attempts>=candidate_budget:
-                termination="CANDIDATE_BUDGET_EXHAUSTED"; break
-            if time.monotonic()>=deadline:
-                termination="TIME_BUDGET_EXHAUSTED"; break
-            rank,depth,_,current,pops,path=heapq.heappop(heap)
-            states_explored+=1; province_states+=1
-            if rank[0]==0:
-                found=(current,pops,path,rank); break
-            if depth>=depth_limit:
-                depth_exhausted+=1; continue
-            _,outliers=_province_rank_from_pops(pops,districts,target,tolerance)
-            for u in province_units:
-                donor=current[u]
-                receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor},key=str)
-                for receiver in receivers:
-                    if candidate_attempts>=candidate_budget:
-                        termination="CANDIDATE_BUDGET_EXHAUSTED"; break
-                    if time.monotonic()>=deadline:
-                        termination="TIME_BUDGET_EXHAUSTED"; break
-                    if donor not in outliers and receiver not in outliers: continue
-                    candidate_attempts+=1
-                    ok,reason,checks=_focal_single_transfer(current,pops,province_units,units,adjacency,u,donor,receiver,floor=floor,cap=cap)
-                    if not ok:
-                        rejection_counts[reason]=rejection_counts.get(reason,0)+1
-                        continue
-                    trial_pops=dict(pops); delta=int(units[u]["population"])
-                    trial_pops[donor]-=delta; trial_pops[receiver]+=delta
-                    trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance)
-                    if len(trial_outliers)>len(outliers)+1: continue
-                    trial=current.copy(); trial[u]=receiver
-                    key=_state_key(trial); nd=depth+1
-                    if seen.get(key,10**9)<=nd: continue
-                    seen[key]=nd; serial+=1
-                    heapq.heappush(heap,(trial_rank,nd,serial,trial,trial_pops,path+[(u,donor,receiver,checks)]))
+        for depth in range(depth_limit+1):
+            next_frontier=[]
+            for current,pops,path,rank in frontier:
+                if candidate_attempts>=candidate_budget:
+                    termination="CANDIDATE_BUDGET_EXHAUSTED"; break
+                if time.monotonic()>=deadline:
+                    termination="TIME_BUDGET_EXHAUSTED"; break
+                states_explored+=1; province_states+=1
+                if rank[0]==0:
+                    found=(current,pops,path,rank); break
+                if depth>=depth_limit:
+                    depth_exhausted+=1; continue
+                _,outliers=_province_rank_from_pops(pops,districts,target,tolerance)
+                for u in province_units:
+                    donor=current[u]
+                    receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor},key=str)
+                    for receiver in receivers:
+                        if candidate_attempts>=candidate_budget:
+                            termination="CANDIDATE_BUDGET_EXHAUSTED"; break
+                        if time.monotonic()>=deadline:
+                            termination="TIME_BUDGET_EXHAUSTED"; break
+                        donor_high=donor in outliers and pops[donor] > target+tolerance
+                        receiver_low=receiver in outliers and pops[receiver] < target-tolerance
+                        if not (donor_high or receiver_low): continue
+                        candidate_attempts+=1
+                        ok,reason,checks=_focal_single_transfer(current,pops,province_units,units,adjacency,u,donor,receiver,floor=floor,cap=cap)
+                        if not ok:
+                            rejection_counts[reason]=rejection_counts.get(reason,0)+1
+                            continue
+                        trial_pops=dict(pops); delta=int(units[u]["population"])
+                        trial_pops[donor]-=delta; trial_pops[receiver]+=delta
+                        trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance)
+                        if len(trial_outliers)>len(outliers)+1: continue
+                        trial=current.copy(); trial[u]=receiver
+                        key=_state_key(trial)
+                        if key in seen: continue
+                        seen.add(key)
+                        next_frontier.append((trial_rank,key,trial,trial_pops,path+[(u,donor,receiver,checks)]))
+                    if termination.endswith("EXHAUSTED"): break
                 if termination.endswith("EXHAUSTED"): break
-            if termination.endswith("EXHAUSTED"): break
+            if found or termination.endswith("EXHAUSTED"): break
+            next_frontier.sort(key=lambda x:(x[0],x[1]))
+            frontier=[(row[2],row[3],row[4],row[0]) for row in next_frontier[:beam_width]]
+            if not frontier: break
         rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
         report={"province":province,"outliers_before":len(start_outliers),"depth_limit":depth_limit,
-                "states_explored":province_states,"depth_exhausted_states":depth_exhausted,"repaired":found is not None}
+                "beam_width":beam_width,"states_explored":province_states,
+                "depth_exhausted_states":depth_exhausted,"repaired":found is not None}
         if found is not None:
             found_local,_,moves,final_rank=found
             replay=dict(working); steps=[]
@@ -291,8 +300,7 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
     baseline=dict(assignments); baseline_pops=_district_pops(baseline,units); baseline_tm=territorial_metrics(baseline,adjacency)
     baseline_obj=objective(baseline_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=baseline_tm["cut_boundary_edges"])
     baseline_outliers=baseline_obj[1]
-    reserve_for_focal=max(0,min(int(limits.max_candidates)//2,
-        max(1,int(limits.max_candidates)//5) if baseline_outliers else 0))
+    reserve_for_focal=(int(limits.max_candidates)//2) if baseline_outliers else 0
     primary_budget=max(0,int(limits.max_candidates)-reserve_for_focal)
     best_primary=None; rejected=[]; rejection_counts={}; depth_exhausted=0; seen={_state_key(baseline)}; heap=[]
     rank,_=_rank(baseline,[],units,adjacency,target,tolerance,floor,cap); heapq.heappush(heap,(rank,0,baseline,[]))
