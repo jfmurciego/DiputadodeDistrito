@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.8.0
+# VERSIÓN: 2.9.0
 # NOMBRE DE VERSIÓN: Reutilización durable de fuentes preparadas
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; conserva las fuentes preparadas dentro de cada checkpoint y las reutiliza sin red cuando siguen siendo válidas.
-# CAMBIOS: Fuentes oficiales usa la política REUSE/ACQUIRE/BLOCK; los checkpoints M01–M08 y M03U transportan el paquete congelado de fuentes.
+# CAMBIOS: conserva fuentes territoriales durables y M07–M08 consumen exclusivamente el paquete electoral preparado y validado contra contrato.
 # MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Producción territorial modular M01–M08
@@ -18,6 +18,8 @@ on:
       from_stage: {required: true, type: string}
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
+      electoral_package_run_id: {required: false, type: string, default: ''}
+      electoral_package_artifact_name: {required: false, type: string, default: ''}
       execution_authorization: {required: false, type: string, default: ''}
       publish_result: {required: false, type: boolean, default: false}
 
@@ -675,61 +677,46 @@ jobs:
         run: test '${{ steps.geometric.outcome }}' = success || { echo 'La auditoría geométrica M06 bloquea la cadena.' >&2; exit 32; }
 
   electoral_source:
-    name: Fuente electoral oficial
+    name: Fuente electoral preparada
     needs: [resolve, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
+      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+      PACKAGE_RUN_ID: ${{ inputs.electoral_package_run_id }}
+      PACKAGE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
     steps:
       - uses: actions/checkout@v6
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          pull: true
-          load: true
-          tags: ddd-production:${{ github.sha }}
-          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
-          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
-      - id: declaration
-        name: Resolver declaración electoral
+      - name: Exigir identidad del paquete electoral
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p .ddd-electoral-source
-          declaration="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
+          [[ "$PACKAGE_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::Falta run_id del paquete electoral preparado.'; exit 42; }
+          [[ "$PACKAGE_ARTIFACT_NAME" == ddd-electoral-package-* ]] || { echo '::error::Falta nombre contractual del paquete electoral preparado.'; exit 42; }
+      - name: Recuperar paquete electoral preparado
+        uses: actions/download-artifact@v6
+        with:
+          name: ${{ inputs.electoral_package_artifact_name }}
+          path: .ddd-electoral-package
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.electoral_package_run_id }}
+      - name: Validar procedencia y materializar fuente contractual
+        shell: bash
+        run: |
+          set -euo pipefail
+          edition="$(python - "$PARAMS" <<'PY'
           import sys,yaml
           from pathlib import Path
           cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-          print((cfg.get('meta') or {}).get('electoral_sources_declaration') or '')
+          print((cfg.get('meta') or {}).get('year') or '')
           PY
           )"
-          echo "path=$declaration" >> "$GITHUB_OUTPUT"
-          if [[ -z "$declaration" ]]; then
-            docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$PARAMS" <<'PY'
-          import json,sys,yaml
-          from pathlib import Path
-          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-          m07=(cfg.get('modulos') or {}).get('modulo_07_agregar_resultados_electorales') or {}
-          decision='READY_EXISTING_CONTRACT' if m07.get('election_contract') else 'BLOCK'
-          payload={'schema':'ddd-election-source-decision/1.0','decision':decision,'reason':'Sin declaración automática; se conserva contrato electoral existente.' if decision.startswith('READY') else 'No hay declaración electoral oficial ni contrato electoral existente.'}
-          Path('.ddd-electoral-source/decision_fuente_electoral.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          Path('.ddd-electoral-source/informe_fuente_electoral.md').write_text('# Comprobación automática de fuente electoral oficial\n\n- decisión: **'+decision+'**\n',encoding='utf-8')
-          PY
-          fi
-      - name: Consultar fuentes oficiales declaradas
-        if: ${{ steps.declaration.outputs.path != '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/comprobar_fuente_electoral_oficial.py \
-            --declaration "/app/${{ steps.declaration.outputs.path }}" \
-            --out-dir /app/.ddd-electoral-source
-      - name: Publicar decisión y descarga electoral
+          mkdir -p .ddd-electoral-source
+          python herramientas/validar_paquete_electoral.py             --package .ddd-electoral-package --params "$PARAMS"             --territory-id "$TERRITORY_ID" --edition "$edition" --root-dir . --materialize             --output .ddd-electoral-source/decision_fuente_electoral.json
+      - name: Publicar decisión y procedencia electoral
         if: always()
         uses: actions/upload-artifact@v6
         with:
@@ -738,19 +725,13 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
-      - name: Aplicar puerta electoral oficial
+      - name: Aplicar puerta del paquete electoral
         if: always()
         shell: bash
         run: |
           set -euo pipefail
-          test -f .ddd-electoral-source/decision_fuente_electoral.json || { echo '::error::Falta decisión electoral oficial.'; exit 42; }
-          python - <<'PY'
-          import json
-          d=json.load(open('.ddd-electoral-source/decision_fuente_electoral.json',encoding='utf-8'))
-          decision=str(d.get('decision') or '')
-          if not decision.startswith('READY'):
-              raise SystemExit('Fuente electoral oficial BLOQUEADA: '+decision)
-          PY
+          test -f .ddd-electoral-source/decision_fuente_electoral.json || { echo '::error::Falta validación del paquete electoral.'; exit 42; }
+          test "$(jq -r .decision .ddd-electoral-source/decision_fuente_electoral.json)" = READY_PACKAGE || { echo '::error::Paquete electoral BLOQUEADO.'; exit 42; }
 
   m07:
     name: M07 · Agregación electoral
