@@ -80,6 +80,7 @@ def evaluate_job_if(expression: str, context: dict[str, str]) -> bool:
     for token, value in replacements.items():
         body = body.replace(token, value)
     body = body.replace("&&", " and ").replace("||", " or ")
+    body = body.replace(" true", " True").replace(" false", " False")
     return bool(eval(body, {"__builtins__": {}}, {}))
 
 
