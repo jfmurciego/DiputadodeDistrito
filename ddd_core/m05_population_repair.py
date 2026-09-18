@@ -163,19 +163,97 @@ def _rank(state,path,units,adjacency,target,tolerance,floor,cap):
     return (obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
+def _province_rank(state,units,province,target,tolerance):
+    pops=_district_pops(state,units)
+    districts={d for u,d in state.items() if units[u].get("province")==province}
+    outliers={d for d in districts if abs(pops[d]-target)>tolerance}
+    distance=round(sum(max(0,abs(pops[d]-target)-tolerance) for d in districts)/target,12)
+    maxdev=round(max((abs(pops[d]-target)/target for d in outliers),default=0.0),12)
+    totaldev=round(sum(abs(pops[d]-target)/target for d in districts),12)
+    return (len(outliers),distance,maxdev,totaldev),outliers
+
+
+def _province_state_key(state,units,province):
+    return tuple(sorted(((u,state[u]) for u in state if units[u].get("province")==province),key=lambda x:str(x[0])))
+
+
+def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limits):
+    """Búsqueda determinista focalizada en outliers; permite cadenas preparatorias sin relajar restricciones."""
+    working=dict(state); all_steps=[]; total_examined=0
+    rejection_counts={}; province_reports=[]
+    provinces=sorted({str(units[u].get("province")) for u in units},key=str)
+    for province in provinces:
+        start_rank,start_outliers=_province_rank(working,units,province,target,tolerance)
+        if not start_outliers: continue
+        province_units=sorted((u for u in working if str(units[u].get("province"))==province),key=str)
+        depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
+        state_budget=min(250000,max(int(limits.max_candidates),len(province_units)*depth_limit*40))
+        heap=[]; serial=0; seen={_province_state_key(working,units,province):0}
+        heapq.heappush(heap,(start_rank,0,serial,dict(working),[]))
+        examined=0; depth_exhausted=0; found=None
+        while heap and examined < state_budget:
+            rank,depth,_,current,path=heapq.heappop(heap); examined+=1
+            if rank[0]==0:
+                found=(current,path,rank); break
+            if depth>=depth_limit:
+                depth_exhausted+=1; continue
+            pops=_district_pops(current,units)
+            _,outliers=_province_rank(current,units,province,target,tolerance)
+            for u in province_units:
+                donor=current[u]
+                receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor and str(units[v].get("province"))==province},key=str)
+                for receiver in receivers:
+                    if donor not in outliers and receiver not in outliers: continue
+                    ok,reason,checks=_valid_transfer(current,units,adjacency,(u,),donor,receiver,floor=floor,cap=cap)
+                    if not ok:
+                        rejection_counts[reason]=rejection_counts.get(reason,0)+1
+                        continue
+                    trial=dict(current); trial[u]=receiver
+                    trial_rank,trial_outliers=_province_rank(trial,units,province,target,tolerance)
+                    if len(trial_outliers)>len(outliers)+1: continue
+                    key=_province_state_key(trial,units,province); nd=depth+1
+                    if seen.get(key,10**9)<=nd: continue
+                    seen[key]=nd
+                    step=_step_evidence(current,trial,units,adjacency,(u,),donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap)
+                    serial+=1
+                    heapq.heappush(heap,(trial_rank,nd,serial,trial,path+[step]))
+        total_examined+=examined
+        rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
+        report={"province":province,"outliers_before":len(start_outliers),"depth_limit":depth_limit,"state_budget":state_budget,
+                "states_examined":examined,"depth_exhausted_states":depth_exhausted,"repaired":found is not None}
+        if found is not None:
+            working,steps,final_rank=found; all_steps.extend(steps); report["outliers_after"]=final_rank[0]
+        else:
+            final_rank,_=_province_rank(working,units,province,target,tolerance); report["outliers_after"]=final_rank[0]
+        province_reports.append(report)
+    final_pops=_district_pops(working,units)
+    complete=not _outliers(final_pops,target,tolerance)
+    classification={
+        "contiguity": rejection_counts.get("DONOR_CONTIGUITY",0)+rejection_counts.get("RECEIVER_CONTIGUITY",0)+rejection_counts.get("TRANSFER_SET_DISCONNECTED",0),
+        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0),
+        "cross_province": rejection_counts.get("CROSS_PROVINCE",0),
+        "municipal_integrity": rejection_counts.get("MUNICIPAL_INTEGRITY",0),
+        "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
+    }
+    return working,all_steps,{"enabled":True,"complete":complete,"states_examined":total_examined,
+        "provinces":province_reports,"rejection_counts":rejection_counts,"rejection_classification":classification}
+
+
 def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None):
     """Búsqueda best-first dirigida a outliers; selección lexicográfica y aceptación primaria separadas."""
     limits=limits or SearchLimits(); start=time.monotonic(); examined=0; created=1; secondary_only=0
     baseline=dict(assignments); baseline_pops=_district_pops(baseline,units); baseline_tm=territorial_metrics(baseline,adjacency)
     baseline_obj=objective(baseline_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=baseline_tm["cut_boundary_edges"])
-    best_primary=None; rejected=[]; seen={_state_key(baseline)}; heap=[]
+    best_primary=None; rejected=[]; rejection_counts={}; depth_exhausted=0; seen={_state_key(baseline)}; heap=[]
     rank,_=_rank(baseline,[],units,adjacency,target,tolerance,floor,cap); heapq.heappush(heap,(rank,0,baseline,[]))
     serial=0; termination="QUEUE_EMPTY"
     while heap:
         if examined>=limits.max_candidates: termination="CANDIDATE_BUDGET_EXHAUSTED"; break
         if time.monotonic()-start>limits.max_seconds: termination="TIME_BUDGET_EXHAUSTED"; break
         _,_,state,path=heapq.heappop(heap)
-        if len(path)>=limits.max_depth: continue
+        if len(path)>=limits.max_depth:
+            depth_exhausted+=1
+            continue
         relevant=_relevant_districts(state,units,adjacency,target,tolerance,limits.max_depth-len(path))
         districts=sorted(relevant,key=str)
         pairs=[]
@@ -194,6 +272,7 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
                 examined+=1
                 ok,reason,checks=_valid_transfer(state,units,adjacency,moved,donor,receiver,floor=floor,cap=cap)
                 if not ok:
+                    rejection_counts[reason]=rejection_counts.get(reason,0)+1
                     if len(rejected)<100: rejected.append({"units":sorted(moved,key=str),"districts":[donor,receiver],"reason":reason,**checks})
                     continue
                 trial=dict(state)
@@ -215,9 +294,27 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         best_state=baseline; best_path=[]; best_obj=baseline_obj; status=RESULT_NONE; baseline_restored=True
     else:
         _,best_state,best_path,best_obj=best_primary; status=RESULT_REPAIRED if best_obj[1]==0 else RESULT_IMPROVED; baseline_restored=False
+    focal_meta={"enabled":False,"complete":best_obj[1]==0,"states_examined":0,"provinces":[],"rejection_counts":{},"rejection_classification":{}}
+    if best_obj[1] != 0:
+        focal_state,focal_steps,focal_meta=_focal_chain_search(state=best_state,units=units,adjacency=adjacency,target=target,tolerance=tolerance,floor=floor,cap=cap,limits=limits)
+        focal_pops=_district_pops(focal_state,units); focal_tm=territorial_metrics(focal_state,adjacency)
+        focal_obj=objective(focal_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=focal_tm["cut_boundary_edges"])
+        if focal_obj < best_obj or focal_obj[1]==0:
+            best_state=focal_state; best_path=best_path+focal_steps; best_obj=focal_obj
+            status=RESULT_REPAIRED if best_obj[1]==0 else RESULT_IMPROVED; baseline_restored=False
+    rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
+    for reason,count in (focal_meta.get("rejection_counts") or {}).items():
+        rejection_counts[reason]=rejection_counts.get(reason,0)+int(count)
+    rejection_classification={
+        "contiguity": rejection_counts.get("DONOR_CONTIGUITY",0)+rejection_counts.get("RECEIVER_CONTIGUITY",0)+rejection_counts.get("TRANSFER_SET_DISCONNECTED",0),
+        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0),
+        "cross_province": rejection_counts.get("CROSS_PROVINCE",0),
+        "municipal_integrity": rejection_counts.get("MUNICIPAL_INTEGRITY",0),
+        "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
+    }
     final_pops=_district_pops(best_state,units); final_tm=territorial_metrics(best_state,adjacency,boundary_units_moved=sum(len(s["units"]) for s in best_path))
     affected=sorted({d for s in best_path for d in (s["donor"],s["receiver"])},key=str)
-    return {"schema":"ddd.m05-population-repair/1.2","result":status,"limits":asdict(limits),"candidates_examined":examined,
+    return {"schema":"ddd.m05-population-repair/1.3","result":status,"limits":asdict(limits),"candidates_examined":examined,
         "termination_reason":termination,"elapsed_seconds":round(elapsed,6),"queue_states_created":created,"queue_states_examined":examined,
         "primary_improvement_found":best_primary is not None,"secondary_only_candidates":secondary_only,"baseline_restored":baseline_restored,
         "objective_hierarchy":["hard_constraints","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
@@ -225,4 +322,5 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         "population_before":baseline_pops,"population_after":final_pops,"populations_before":baseline_pops,"populations_after":final_pops,"assignments":best_state,
         "repairs":best_path,"districts_affected":affected,"constraints_verified":["EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY","HARD_POPULATION_LIMITS"],
         "territorial_metric_availability":{"cut_boundary_edges":True,"boundary_units_moved":True,"corridor_penalty":False,"base_compactness":False},
+        "focal_search":focal_meta,"rejection_counts":rejection_counts,"rejection_classification":rejection_classification,
         "rejections":rejected,"baseline_preserved":best_state==baseline}
