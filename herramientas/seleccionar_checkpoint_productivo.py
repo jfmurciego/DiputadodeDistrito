@@ -15,6 +15,7 @@ from typing import Iterable
 
 from herramientas.validar_fuentes_reanudacion import validate_resume_sources
 from herramientas.huella_checkpoint_m05 import build_fingerprint
+from herramientas.derivar_checkpoint_acumulado import inspect_derivable_checkpoint
 
 
 def _stage_num(stage: str) -> int:
@@ -47,10 +48,16 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
             root_dir=root_dir,
         )
         compatibility=None
+        derivation=None
+        compatibility_error=None
         if _stage_num(stage) >= 5:
             if state_root is None:
                 raise ValueError("checkpoint M05/M06 exige estado completo para validar compatibilidad")
-            compatibility=_validate_m05_compatibility(params=params,state_root=state_root,root_dir=root_dir)
+            try:
+                compatibility=_validate_m05_compatibility(params=params,state_root=state_root,root_dir=root_dir)
+            except Exception as exc:
+                compatibility_error=str(exc)
+                derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
     except Exception as exc:
         return {
             "valid": False,
@@ -64,9 +71,21 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         "stage": str(stage),
         "reason": "checkpoint compatible: fuentes y huella de etapa validadas",
         "source_evidence": evidence,
+        "requires_derivation": False,
+        "effective_stage": str(stage),
+        "from_stage": f"M{_stage_num(stage)+1:02d}",
     }
     if compatibility is not None:
         result["m05_compatibility"]=compatibility
+    elif derivation is not None:
+        result.update({
+            "reason":"checkpoint M05/M06 incompatible con el motor actual; M04 acumulado es reutilizable",
+            "requires_derivation":True,
+            "effective_stage":"M04",
+            "from_stage":"M05",
+            "compatibility_error":compatibility_error,
+            "derivation":derivation,
+        })
     return result
 
 
