@@ -677,7 +677,7 @@ jobs:
         run: test '${{ steps.geometric.outcome }}' = success || { echo 'La auditoría geométrica M06 bloquea la cadena.' >&2; exit 32; }
 
   electoral_source:
-    name: Fuente electoral preparada
+    name: Fuente electoral oficial
     needs: [resolve, m06, auditoria]
     if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
