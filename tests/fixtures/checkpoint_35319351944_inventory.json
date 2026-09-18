@@ -1,0 +1,46 @@
+{
+  "run_id": 35319351944,
+  "artifact": "ddd-state-35319351944-M06",
+  "files": [
+    "cache/castilla_y_leon_2025_m01_informe.json",
+    "cache/castilla_y_leon_2025_m01_secciones_poblacion.geojson.zip",
+    "cache/castilla_y_leon_2025_m02_adyacencias.jsonl",
+    "cache/castilla_y_leon_2025_m03_grafo.json",
+    "cache/castilla_y_leon_2025_m03_informe.json",
+    "cache/castilla_y_leon_2025_m04_informe.json",
+    "cache/castilla_y_leon_2025_m04_semillas.geojson.zip",
+    "cache/castilla_y_leon_2025_m05_distritos_optimizados.geojson.zip",
+    "cache/castilla_y_leon_2025_m05_informe.json",
+    "cache/castilla_y_leon_2025_m06_catalogo_distritos.csv",
+    "cache/castilla_y_leon_2025_m06_composicion_distritos.csv",
+    "cache/castilla_y_leon_2025_m06_distritos.geojson.zip",
+    "cache/castilla_y_leon_2025_m06_resumen_distritos.csv",
+    "cache/castilla_y_leon_2025_m06_secciones.geojson.zip",
+    "manifest.json",
+    "run/CHAIN_STATE.json",
+    "run/REENGANCHE.json",
+    "run/logs/modulo_1.log",
+    "run/logs/modulo_2.log",
+    "run/logs/modulo_3.log",
+    "run/logs/modulo_4.log",
+    "run/logs/modulo_5.log",
+    "run/logs/modulo_6.log",
+    "sources/frozen/castilla_y_leon_2025_verified_sources.zip",
+    "sources/inventory.json",
+    "sources/manifest.json",
+    "sources/source_execution.json"
+  ],
+  "sha256": {
+    "cache/castilla_y_leon_2025_m04_semillas.geojson.zip": "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
+    "cache/castilla_y_leon_2025_m04_informe.json": "20a12783c1da217e4b7fa581576821569dcec4e525ccee154d51a947832a45f6",
+    "cache/castilla_y_leon_2025_m05_informe.json": "3c62802bb72cb1b1952af83c242f66f8e98e1ee749f2fe02134a452d5b9b8f1a",
+    "run/CHAIN_STATE.json": "456132cebcbd2fdf4c9807a7cfbc6f77dd4db85a9050cf1d5f0bc566831a7f5c"
+  },
+  "chain_state": {
+    "schema": "ddd.module-chain-state/1.0",
+    "params": "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+    "run_id": "production-35199668216-1",
+    "completed_stage": 6,
+    "completed_stage_label": "M06"
+  }
+}
