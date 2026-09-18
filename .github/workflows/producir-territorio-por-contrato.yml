@@ -672,9 +672,17 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
-      - name: Aplicar puerta geométrica
+      - name: Aplicar puerta de certificación territorial
         if: always()
-        run: test '${{ steps.geometric.outcome }}' = success || { echo 'La auditoría geométrica M06 bloquea la cadena.' >&2; exit 32; }
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-audit/production_status.json || { echo '::error::Falta production_status.json; la cadena queda bloqueada.'; exit 32; }
+          decision="$(jq -r '.decision // "UNKNOWN"' .ddd-audit/production_status.json)"
+          case "$decision" in
+            PASS|PASS_WITH_EXCEPTIONS) ;;
+            *) echo "::error::Certificación territorial bloqueada: $decision" >&2; exit 32 ;;
+          esac
 
   electoral_source:
     name: Fuente electoral oficial
