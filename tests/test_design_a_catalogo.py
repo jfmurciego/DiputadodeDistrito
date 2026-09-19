@@ -78,9 +78,12 @@ class DesignA(unittest.TestCase):
         generation=triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
-        generable=[r["name"] for r in rows_for("generation",CAT)]\n        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
+        generable=[r["name"] for r in rows_for("generation",CAT)]
+        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep,expected)
-        self.assertEqual(generation,producible)
-        self.assertEqual(electoral,producible)
+        self.assertEqual(generation,generable)
+        self.assertEqual(electoral,electoral_ready)
+        self.assertIn("Galicia",generation)
+        self.assertNotIn("Galicia",electoral)
 
 if __name__=="__main__": unittest.main()
