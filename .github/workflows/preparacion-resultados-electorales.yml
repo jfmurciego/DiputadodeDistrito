@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — preparación electoral
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Preparación durable de resultados electorales
 # FECHA: 2026-09-19
 # ESTADO: candidato
-# QUÉ HACE: prepara únicamente el paquete de resultados electorales; no descarga datos territoriales ni ejecuta M01-M08.
-# MOTIVO: desacoplar el ciclo de vida electoral del censo, población y geometría usados para construir distritos.
+# QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
+# MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada.
 name: Preparación de resultados electorales
 
 on:
@@ -35,12 +35,6 @@ on:
           - La Rioja
           - Ceuta
           - Melilla
-      data_edition:
-        description: Edición del producto territorial asociado
-        required: true
-        default: '2025'
-        type: choice
-        options: ['2025']
       reutilizar_si_ya_preparada:
         description: Reutilizar resultados electorales ya preparados
         required: true
@@ -62,6 +56,9 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
+      edition: ${{ steps.resolve.outputs.edition }}
+      election_id: ${{ steps.resolve.outputs.election_id }}
+      election_date: ${{ steps.resolve.outputs.election_date }}
       contract_path: ${{ steps.resolve.outputs.contract_path }}
       electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
     steps:
@@ -70,16 +67,20 @@ jobs:
       - id: resolve
         env:
           TERRITORY: ${{ inputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
           CONFIRM: ${{ inputs.confirmar_preparacion }}
         run: |
           set -euo pipefail
           [[ "$CONFIRM" == true ]] || { echo "::error::La preparación electoral requiere confirmación explícita."; exit 20; }
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
-          echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
+          current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY")"
+          edition="$(jq -r .territorial_edition <<<"$current")"
+          row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
+          echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "edition=$edition" >> "$GITHUB_OUTPUT"
+          echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "electoral_declaration=$(jq -r '.electoral_source_declaration // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
+          echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
 
   electorales:
     name: Preparar resultados electorales
@@ -88,9 +89,10 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ inputs.data_edition }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
       PARAMS: ${{ needs.resolver.outputs.contract_path }}
       DECLARATION: ${{ needs.resolver.outputs.electoral_declaration }}
+      ELECTION_ID: ${{ needs.resolver.outputs.election_id }}
     steps:
       - uses: actions/checkout@v6
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -136,7 +138,7 @@ jobs:
       - uses: actions/upload-artifact@v6
         if: always()
         with:
-          name: ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          name: ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: .ddd-electoral-package
           include-hidden-files: true
           if-no-files-found: error

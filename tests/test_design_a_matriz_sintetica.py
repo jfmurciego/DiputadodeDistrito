@@ -139,7 +139,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "ddd-electoral-source-${{ github.run_id }}",
         ]: self.assertIn(token,engine)
         self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}",ui)
-        self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",electoral_prep)
+        self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",prep)
         for name in [
             "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
