@@ -233,10 +233,13 @@ def promote(
     if not isinstance(state, dict):
         raise ValueError(f"Edición no registrada: {territory_id}/{edition}")
 
-    valid, reasons = validate_prepared_package(package, territory_id=territory_id, edition=edition)
+    package_abs = package if package.is_absolute() else root / package
+    source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
+
+    valid, reasons = validate_prepared_package(package_abs, territory_id=territory_id, edition=edition)
     if not valid:
         raise ValueError("Paquete territorial no promovible: " + "; ".join(reasons))
-    manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+    manifest = json.loads((package_abs / "manifest.json").read_text(encoding="utf-8"))
     package_sha256 = str(manifest.get("sha256") or "")
     if not package_sha256:
         raise ValueError("Paquete territorial sin SHA-256 interno")
@@ -253,8 +256,8 @@ def promote(
     else:
         durable_declaration = root / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
     durable_declaration.parent.mkdir(parents=True, exist_ok=True)
-    if source_declaration.resolve() != durable_declaration.resolve():
-        shutil.copy2(source_declaration, durable_declaration)
+    if source_declaration_abs.resolve() != durable_declaration.resolve():
+        shutil.copy2(source_declaration_abs, durable_declaration)
     source_rel = durable_declaration.relative_to(root).as_posix()
 
     if contract_complete:
