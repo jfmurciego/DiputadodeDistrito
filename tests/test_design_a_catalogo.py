@@ -1,6 +1,7 @@
 from pathlib import Path
 import unittest,yaml
 from herramientas.catalogo_preparacion import load_catalog,rows_for,validate_repository
+from herramientas.resolver_fuentes_territorio import territories
 
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
@@ -75,10 +76,10 @@ class DesignA(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"evidencia inexistente"):
                 validate_repository(p,ROOT)
 
-    def test_forms_match_single_catalog(self):
+    def test_preparation_uses_common_territory_registry_and_production_keeps_catalog_gate(self):
         prep=(triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])
         prod=(triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])
-        self.assertEqual(prep,[r["name"] for r in rows_for("preparation",CAT)])
+        self.assertEqual(prep,[r["name"] for r in territories()])
         self.assertEqual(prod,[r["name"] for r in rows_for("production",CAT)])
         pending=[r for r in load_catalog(CAT)["territories"] if next(iter(r["editions"].values()))["preparation_status"]=="PENDING_INCORPORATION"]
         self.assertTrue(pending)
