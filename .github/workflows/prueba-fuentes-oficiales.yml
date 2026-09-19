@@ -1,0 +1,137 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz de desarrollo
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-19
+# ESTADO: candidato
+# FUNCIÓN: probar adquisición oficial desde cero sin alterar fuentes ni producción.
+name: Prueba de fuentes oficiales
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory:
+        description: Territorio
+        required: true
+        type: choice
+        default: La Rioja
+        options:
+          - Todos
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
+          - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      data_edition:
+        description: Edición de datos
+        required: true
+        type: choice
+        default: '2025'
+        options: ['2025']
+      mode:
+        description: Modo
+        required: true
+        type: choice
+        default: Unit test
+        options:
+          - Unit test
+          - Todo
+      confirm:
+        description: Confirmar prueba
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  resolver:
+    name: Resolver territorios de prueba
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: matrix
+        env:
+          TERRITORY: ${{ inputs.territory }}
+          CONFIRM: ${{ inputs.confirm }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$CONFIRM" == true ]] || { echo "::error::La prueba requiere confirmación explícita."; exit 20; }
+          matrix="$(python herramientas/resolver_fuentes_territorio.py matrix --territory "$TERRITORY")"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  probar:
+    name: Probar fuentes — ${{ matrix.territory }}
+    needs: resolver
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        territory: ${{ fromJSON(needs.resolver.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 130
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-source-test:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-source-test-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-source-test-${{ github.sha }}
+      - name: Ejecutar prueba aislada
+        env:
+          TERRITORY: ${{ matrix.territory }}
+          EDITION: ${{ inputs.data_edition }}
+          MODE: ${{ inputs.mode }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-source-test
+          mkdir -p .ddd-source-test
+          if [[ "$MODE" == "Unit test" ]]; then
+            internal_mode=unit
+            budget=10m
+          else
+            internal_mode=full
+            budget=120m
+          fi
+          timeout "$budget" docker run --rm \
+            -v "$PWD:/app" -w /app \
+            --entrypoint python ddd-source-test:${GITHUB_SHA} \
+            -m herramientas.probar_fuentes_oficiales \
+            --territory "$TERRITORY" \
+            --edition "$EDITION" \
+            --mode "$internal_mode" \
+            --output-dir "/app/.ddd-source-test/${{ strategy.job-index }}" \
+            --timeout-seconds 10 \
+            --sample-size 10
+      - name: Conservar evidencia
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-test-${{ matrix.territory }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: .ddd-source-test
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
