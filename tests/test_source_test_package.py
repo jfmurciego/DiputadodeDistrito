@@ -150,7 +150,7 @@ class SourceTestPackageTests(unittest.TestCase):
         d = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         trigger = d.get("on") or d.get(True)
         inputs = trigger["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(inputs), {"territory", "data_edition", "mode", "confirm"})
+        self.assertEqual(set(inputs), {"territory", "data_edition", "mode"})
         self.assertEqual(inputs["mode"]["options"], ["Unit test", "Todo"])
         self.assertEqual(inputs["territory"]["options"][0], "Todos")
         self.assertIn("La Rioja", inputs["territory"]["options"])
