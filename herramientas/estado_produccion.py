@@ -6,6 +6,8 @@ import argparse
 import json
 import math
 import sys
+
+import yaml
 from pathlib import Path
 from typing import Any
 
@@ -30,17 +32,28 @@ BASE_M05 = "BASE_M05"
 
 
 def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
-    cfg = load_params_yaml(str(params))
-    s5 = (cfg.get("modulos", {}) or {}).get("modulo_05_optimizar_distritos") or cfg.get("step5_optimize_swaps") or {}
+    """Resuelve la evidencia M05 con el run solicitado, sin depender de DDD_RUN_ID del proceso."""
+    params = params.expanduser().resolve()
+    raw = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+    if not isinstance(raw, dict):
+        raise ValueError("El YAML debe tener un objeto raíz")
+    s5 = (raw.get("modulos", {}) or {}).get("modulo_05_optimizar_distritos") or raw.get("step5_optimize_swaps") or {}
     value = s5.get("out_report")
     if not value:
         raise ValueError("M05 no declara out_report")
-    meta = cfg.get("meta") or {}
-    return Path(str(value).format(
-        year=meta.get("year"),
-        run_name=meta.get("run_name"),
-        run_id=run_id or "",
-    ))
+    meta = raw.get("meta") or {}
+    run_name = meta.get("run_name", params.stem)
+    year = int(meta.get("year", 2025))
+    effective_run_id = run_id or meta.get("run_id") or "local"
+    io_cfg = raw.get("io", {}) or {}
+    project_root = (io_cfg.get("project_root", {}) or {}).get("path", "")
+    root = params.parent.resolve()
+    if project_root:
+        p = Path(str(project_root)).expanduser()
+        root = p.resolve() if p.is_absolute() else (params.parent / p).resolve()
+    rendered = str(value).format(year=year, run_name=run_name, run_id=effective_run_id)
+    path = Path(rendered).expanduser()
+    return path if path.is_absolute() else (root / path).resolve()
 
 
 def _objective_pair(container: dict, *, before_key: str, after_key: str, indexes: tuple[int, int, int]):
