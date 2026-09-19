@@ -137,9 +137,11 @@ def _source_urls(source: dict, edition: int, provinces: list[dict]) -> list[str]
         feature_filter = str(source.get("feature_filter") or "")
         urls = []
         for province in provinces:
+            # Filtrar remotamente sólo por provincia. La API del INE expone TIPO,
+            # pero sus valores/semántica no son estables entre colecciones anuales.
+            # La selección de secciones se hace después de forma determinista con
+            # TIPO/CSEC/CUSEC sobre la respuesta territorial.
             clauses = [f"{filter_field}='{province['code']}'"]
-            if feature_filter:
-                clauses.append(feature_filter)
             params = {"f": "application/geo+json", "filter": " AND ".join(clauses), "filter-lang": "cql2-text", "limit": "10000"}
             urls.append(endpoint + "?" + urlencode(params))
         return urls
@@ -368,7 +370,15 @@ def _collect_live_sections(source: dict, edition: int, provinces: list[dict], fe
                 raise ValueError(f"Provincia inesperada en secciones: {actual}; solicitada {code}")
             section_id = str(props.get(section_id_field) or "").strip()
             if not section_id:
-                raise ValueError("Sección sin identificador oficial")
+                raise ValueError("Entidad sin identificador oficial")
+            tipo = str(props.get("TIPO") or "").strip().upper()
+            csec = str(props.get("CSEC") or "").strip()
+            # Las colecciones OGC del INE pueden contener también distritos.
+            # Preferimos TIPO cuando identifica una sección; como respaldo,
+            # CSEC distinto de 000 identifica el nivel sección.
+            is_section = ("SECC" in tipo) if tipo else bool(csec and csec != "000")
+            if not is_section:
+                continue
             if section_id in seen_ids:
                 continue
             seen_ids.add(section_id)
