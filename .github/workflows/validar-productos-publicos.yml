@@ -8,7 +8,7 @@
 # CAMBIOS: retira workflow_dispatch y conserva la validación automática por push.
 # MOTIVO: separar el control de calidad automático de la única interfaz humana de ejecución.
 # ANTERIOR: versión 1.0.0 en historial Git.
-name: Validar productos públicos
+name: Validar Productos Públicos
 
 on:
   push:
