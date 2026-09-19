@@ -6,7 +6,7 @@
 # QUÉ HACE: avisa una sola vez cuando termina la interfaz operativa única y enlaza el reenganche.
 # CAMBIO: sustituye los nombres archivados por el nombre vigente del workflow principal.
 # ANTERIOR: legacy/workflows/notificar-finalizacion-orquestacion_v1.2.0.yml
-name: Notificar finalización de lote DDD
+name: Notificar Finalización de Lote DDD
 on:
   workflow_run:
     workflows: ["Ejecucion de Generacion de Distritos"]
