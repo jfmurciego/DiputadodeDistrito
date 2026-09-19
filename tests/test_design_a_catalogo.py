@@ -13,19 +13,20 @@ def triggers(path):
     d=load(path); return d.get("on") or d.get(True) or {}
 
 class DesignA(unittest.TestCase):
-    def test_three_business_interfaces_are_named(self):
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de fuentes oficiales")
+    def test_business_interfaces_are_named(self):
+        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de datos territoriales")
+        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"Preparación de resultados electorales")
         self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"Producción de distritos")
         self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la plataforma")
 
-    def test_only_preparation_and_production_have_manual_territorial_button(self):
+    def test_preparations_and_production_have_manual_territorial_button(self):
         manual=[]
         for path in WF.glob("*.yml"):
             t=triggers(path)
             if "workflow_dispatch" in t:
                 inputs=(t["workflow_dispatch"] or {}).get("inputs",{}) or {}
                 if "territory_id" in inputs: manual.append(path.name)
-        self.assertEqual(sorted(manual),["preparacion-fuentes.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(manual),["preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
 
     def test_internal_capabilities_remain(self):
         expected={

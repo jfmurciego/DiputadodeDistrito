@@ -13,6 +13,7 @@ from herramientas.seleccionar_paquete_fuentes import select_first_valid, validat
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
+ELECTORAL_WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
 
 
 def build_package(root: Path, *, territory="la_rioja", edition=2025, corrupt=False) -> Path:
@@ -94,8 +95,9 @@ class PreparedSourceReuseTests(unittest.TestCase):
             self.assertTrue(diagnostics[1]["valid"])
             self.assertTrue(any("tamaño incorrecto" in r or "checksum incorrecto" in r for r in diagnostics[0]["reasons"]))
 
-    def test_workflow_declares_runner_dependency_and_reuse_switch_controls_both_packages(self):
+    def test_workflows_declare_runner_dependency_and_independent_reuse_switches(self):
         data = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        electoral_data = yaml.safe_load(ELECTORAL_WORKFLOW.read_text(encoding="utf-8"))
         jobs = data["jobs"]
         territorial_steps = jobs["territoriales"]["steps"]
         install_index = next(i for i, s in enumerate(territorial_steps) if s.get("name") == "Instalar dependencias de resolución territorial")
@@ -104,10 +106,12 @@ class PreparedSourceReuseTests(unittest.TestCase):
         self.assertIn("PyYAML==6.0.2", territorial_steps[install_index]["run"])
 
         territorial_previous = next(s for s in territorial_steps if s.get("id") == "previous")
-        electoral_previous = next(s for s in jobs["electorales"]["steps"] if s.get("id") == "previous")
+        electoral_previous = next(s for s in electoral_data["jobs"]["electorales"]["steps"] if s.get("id") == "previous")
         expected = "${{ inputs.reutilizar_si_ya_preparada }}"
         self.assertEqual(territorial_previous["if"], expected)
         self.assertEqual(electoral_previous["if"], expected)
+        self.assertNotIn("electorales", jobs)
+        self.assertNotIn("territoriales", electoral_data["jobs"])
 
         script = territorial_previous["run"]
         self.assertIn("herramientas.seleccionar_paquete_fuentes", script)

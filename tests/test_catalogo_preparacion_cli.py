@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-fuentes.yml"
+ELECTORAL_WORKFLOW = ROOT / ".github" / "workflows" / "preparacion-resultados-electorales.yml"
 SCRIPT = ROOT / "herramientas" / "catalogo_preparacion.py"
 
 
@@ -34,12 +35,14 @@ class CatalogoPreparacionCliRegression(unittest.TestCase):
 
 
 class PreparationEntrypointRegression(unittest.TestCase):
-    def test_workflow_uses_module_entrypoints(self):
-        text = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("-m herramientas.ejecutar_fuentes_workflow", text)
-        self.assertIn("python -m herramientas.preparar_fuente_electoral", text)
-        self.assertNotIn("/app/herramientas/ejecutar_fuentes_workflow.py", text)
-        self.assertNotIn("python herramientas/preparar_fuente_electoral.py", text)
+    def test_workflows_use_module_entrypoints(self):
+        territorial = WORKFLOW.read_text(encoding="utf-8")
+        electoral = ELECTORAL_WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("-m herramientas.ejecutar_fuentes_workflow", territorial)
+        self.assertNotIn("preparar_fuente_electoral", territorial)
+        self.assertIn("python -m herramientas.preparar_fuente_electoral", electoral)
+        self.assertNotIn("/app/herramientas/ejecutar_fuentes_workflow.py", territorial)
+        self.assertNotIn("python herramientas/preparar_fuente_electoral.py", electoral)
 
     def test_module_entrypoints_import_cleanly(self):
         for module in (

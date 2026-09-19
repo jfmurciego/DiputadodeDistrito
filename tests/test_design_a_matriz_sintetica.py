@@ -11,6 +11,7 @@ from herramientas.validar_paquete_electoral import validate_package
 ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
 PREP=WF/"preparacion-fuentes.yml"
+ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
 PROD=WF/"produccion-distritos.yml"
 ENGINE=WF/"producir-territorio-por-contrato.yml"
 ROUTER=WF/"_reutilizable-operacion-territorial.yml"
@@ -23,15 +24,16 @@ def triggers(path:Path):
     d=load(path); return d.get("on") or d.get(True) or {}
 
 class MandatorySyntheticDesignATests(unittest.TestCase):
-    def test_three_visible_workflows(self):
+    def test_visible_workflows(self):
         visible={
-            "Preparación de fuentes oficiales":PREP,
+            "Preparación de datos territoriales":PREP,
+            "Preparación de resultados electorales":ELECTORAL_PREP,
             "Producción de distritos":PROD,
             "Pruebas de la plataforma":WF/"pruebas-plataforma.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml"])
+        self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml"])
 
     def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
@@ -46,7 +48,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
-        self.assertEqual(inputs["source_scope"]["default"],"Territoriales")
+        self.assertNotIn("source_scope",inputs)
         self.assertTrue(inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")
         self.assertIn("resolver_fuentes_territorio.py declaration",text)
@@ -60,16 +62,22 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(row["territory_id"],"la_rioja")
         self.assertEqual(row["preparation_status"],"PENDING_INCORPORATION")
 
-    def test_preparation_never_executes_m01_m08_and_electoral_has_no_geometry(self):
-        d=load(PREP)
-        self.assertEqual(set(d["jobs"]),{"resolver","territoriales","electorales"})
-        text=PREP.read_text(encoding="utf-8")
-        self.assertNotIn("procedimiento.sh",text)
-        self.assertNotIn("producir-territorio-por-contrato.yml",text)
-        electoral=yaml.safe_dump(d["jobs"]["electorales"],allow_unicode=True)
-        self.assertNotIn("auditar_componentes_geometricos",electoral)
-        self.assertNotIn("M06",electoral)
-        self.assertNotIn("geometry",electoral.lower())
+    def test_preparations_are_separate_and_never_execute_m01_m08(self):
+        territorial=load(PREP)
+        electoral=load(ELECTORAL_PREP)
+        self.assertEqual(set(territorial["jobs"]),{"resolver","territoriales"})
+        self.assertEqual(set(electoral["jobs"]),{"resolver","electorales"})
+        territorial_text=PREP.read_text(encoding="utf-8")
+        electoral_text=ELECTORAL_PREP.read_text(encoding="utf-8")
+        self.assertNotIn("preparar_fuente_electoral",territorial_text)
+        self.assertNotIn("ddd-electoral-package",territorial_text)
+        for text in (territorial_text,electoral_text):
+            self.assertNotIn("procedimiento.sh",text)
+            self.assertNotIn("producir-territorio-por-contrato.yml",text)
+        electoral_job=yaml.safe_dump(electoral["jobs"]["electorales"],allow_unicode=True)
+        self.assertNotIn("auditar_componentes_geometricos",electoral_job)
+        self.assertNotIn("M06",electoral_job)
+        self.assertNotIn("geometry",electoral_job.lower())
 
     def test_three_products_route_without_publish_changing_stage(self):
         self.assertEqual(resolve_product("Distritos"),{
@@ -124,13 +132,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         engine=ENGINE.read_text(encoding="utf-8")
         ui=PROD.read_text(encoding="utf-8")
         prep=PREP.read_text(encoding="utf-8")
+        electoral_prep=ELECTORAL_PREP.read_text(encoding="utf-8")
         for token in [
             "ddd-state-${{ github.run_id }}-${{ env.STAGE }}",
             "ddd-audit-${{ github.run_id }}",
             "ddd-electoral-source-${{ github.run_id }}",
         ]: self.assertIn(token,engine)
         self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}",ui)
-        self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",prep)
+        self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",electoral_prep)
         self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",prep)
         for name in [
             "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
