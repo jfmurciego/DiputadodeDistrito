@@ -7,7 +7,8 @@ WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-GENERATION_TERRITORIES=["Aragón","Castilla y León","Galicia"]\nELECTORAL_TERRITORIES=["Aragón","Castilla y León"]
+GENERATION_TERRITORIES=["Aragón","Castilla y León","Galicia"]
+ELECTORAL_TERRITORIES=["Aragón","Castilla y León"]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod
@@ -47,7 +48,9 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",text)
         self.assertNotIn("Resolver paquete electoral preparado",text)
-        self.assertIn("resolver_producto_produccion.py --product",text)\n        self.assertIn("Resolver paquete territorial preparado",text)\n        self.assertIn("source_package_run_id",text)
+        self.assertIn("resolver_producto_produccion.py --product",text)
+        self.assertIn("Resolver paquete territorial preparado",text)
+        self.assertIn("source_package_run_id",text)
 
     def test_electoral_requires_existing_m06_and_prepared_package(self):
         text=ELECTORAL.read_text(encoding="utf-8")
