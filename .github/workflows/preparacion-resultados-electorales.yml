@@ -6,7 +6,7 @@
 # ESTADO: candidato
 # QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
 # MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada.
-name: Preparación de resultados electorales
+name: Preparación de Resultados Electorales
 
 on:
   workflow_dispatch:
@@ -40,11 +40,6 @@ on:
         required: true
         default: true
         type: boolean
-      confirmar_preparacion:
-        description: Confirmar preparación
-        required: true
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -67,10 +62,8 @@ jobs:
       - id: resolve
         env:
           TERRITORY: ${{ inputs.territory_id }}
-          CONFIRM: ${{ inputs.confirmar_preparacion }}
         run: |
           set -euo pipefail
-          [[ "$CONFIRM" == true ]] || { echo "::error::La preparación electoral requiere confirmación explícita."; exit 20; }
           python herramientas/catalogo_preparacion.py --root-dir . validate
           current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY")"
           edition="$(jq -r .territorial_edition <<<"$current")"
