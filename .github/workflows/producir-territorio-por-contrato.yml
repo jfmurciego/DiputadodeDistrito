@@ -8,7 +8,7 @@
 # CAMBIOS: conserva fuentes territoriales durables y M07–M08 consumen exclusivamente el paquete electoral preparado y validado contra contrato.
 # MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
-name: Producción territorial modular M01–M08
+name: Producción Territorial Modular
 
 on:
   workflow_call:
@@ -18,6 +18,8 @@ on:
       from_stage: {required: true, type: string}
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
       electoral_package_run_id: {required: false, type: string, default: ''}
       electoral_package_artifact_name: {required: false, type: string, default: ''}
       execution_authorization: {required: false, type: string, default: ''}
@@ -54,6 +56,8 @@ jobs:
       MODE: ${{ inputs.mode }}
       AUTHORIZATION: ${{ inputs.execution_authorization }}
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+      SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
       DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v6
@@ -166,6 +170,23 @@ jobs:
         run: |
           set -euo pipefail
           bash inputs/partes/reconstruir_fuentes.sh
+      - name: Recuperar datos territoriales preparados
+        if: ${{ inputs.source_package_run_id != '' && inputs.checkpoint_run_id == '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-prepared-source-package .ddd-state/in
+          mkdir -p .ddd-prepared-source-package .ddd-state/in/sources
+          gh run download "$SOURCE_PACKAGE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_PACKAGE_ARTIFACT_NAME" --dir .ddd-prepared-source-package
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-prepared-source-package             --territory-id "$TERRITORY_ID"             --edition "$(python - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((d.get('territory') or {}).get('edition'))
+          PY
+          )"
+          cp -a .ddd-prepared-source-package/. .ddd-state/in/sources/
+
       - name: Recuperar paquete de fuentes de checkpoint solicitado
         if: ${{ inputs.checkpoint_run_id != '' }}
         shell: bash

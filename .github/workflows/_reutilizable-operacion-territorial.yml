@@ -8,7 +8,7 @@
 # CAMBIOS: presenta la cadena productiva con nombres de negocio sin alterar la lógica M01–M08 ni las rutas auxiliares existentes.
 # MOTIVO: hacer comprensible la secuencia productiva desde GitHub Actions sin exponer controles técnicos al usuario.
 # ANTERIOR: versión 3.1.0 en historial Git.
-name: Reutilizable — ruta territorial resuelta
+name: Reutilizable — Ruta Territorial Resuelta
 
 on:
   workflow_call:
@@ -19,6 +19,8 @@ on:
       from_stage: {required: true, type: string}
       to_stage: {required: true, type: string}
       checkpoint_run_id: {required: false, type: string, default: ''}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
       electoral_package_run_id: {required: false, type: string, default: ''}
       electoral_package_artifact_name: {required: false, type: string, default: ''}
       execution_confirmed: {required: false, type: boolean, default: false}
@@ -46,6 +48,8 @@ jobs:
       from_stage: ${{ inputs.operation == 'producir_resultado_m01_m08' && inputs.from_stage || 'M01' }}
       to_stage: ${{ inputs.operation == 'preparar_base_m01_m03' && 'M03' || inputs.operation == 'certificar_territorio_m01_m06' && 'M06' || inputs.operation == 'producir_resultado_m01_m08' && inputs.to_stage || 'M08' }}
       checkpoint_run_id: ${{ inputs.checkpoint_run_id }}
+      source_package_run_id: ${{ inputs.source_package_run_id }}
+      source_package_artifact_name: ${{ inputs.source_package_artifact_name }}
       electoral_package_run_id: ${{ inputs.electoral_package_run_id }}
       electoral_package_artifact_name: ${{ inputs.electoral_package_artifact_name }}
       execution_authorization: ${{ inputs.execution_confirmed && 'EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION' || '' }}

@@ -8,7 +8,7 @@
 # CAMBIOS: retira workflow_dispatch y conserva push/pull_request como puerta CI automática.
 # MOTIVO: impedir que la validación estructural se confunda con una interfaz humana de ejecución.
 # ANTERIOR: versión 1.2.0 en historial Git.
-name: Validar contratos territoriales
+name: Validar Contratos Territoriales
 
 on:
   push:

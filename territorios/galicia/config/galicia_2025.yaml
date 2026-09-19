@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Galicia
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Contrato topológico R025
+# VERSIÓN: 2.0.0
+# NOMBRE DE VERSIÓN: Contrato Productivo de Galicia 2025
 # FECHA: 2026-09-12
-# ESTADO: candidato M01-M03 estricto.
-# QUÉ HACE: congela cardinalidad/población R022 y aplica exclusivamente las pasarelas explícitas justificadas por R023.
-# CAMBIOS: primera configuración territorial persistente.
-# MOTIVO: promover el bootstrap observable a contrato reproducible sin fijar K ni abrir M04.
+# ESTADO: autorizado para generación de distritos autonómicos.
+# QUÉ HACE: conserva la base territorial auditada y completa el contrato de generación hasta el producto de distritos.
+# CAMBIOS: fija 75 distritos, añade formación, equilibrado y consolidación, y autoriza ejecución con fuentes territoriales 2025 preparadas.
+# MOTIVO: permitir que Galicia pase a la lista de generación en cuanto sus datos territoriales oficiales han quedado preparados.
 # ANTERIOR: ninguno — territorio nuevo.
 meta:
   procedure_name: Diputado de Distrito
@@ -15,8 +15,12 @@ meta:
   run_name: galicia_2025
   year: 2025
   scope: provincial
-  schema_version: 1.0.0
-  status: topology_contract_r025
+  schema_version: 2.0.0
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+  status: generation_ready
 io:
   project_root: {path: ../../..}
   input:
@@ -28,16 +32,32 @@ io:
       pop_col: Total
       filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
   cache: {dir: "territorios/galicia/.cache/ddd/preparacion/{run_name}"}
+  runs: {dir: "territorios/galicia/resultados/ejecuciones/{run_id}"}
 territory_contract:
   unit_id_role: census_section
   admin_level_1_role: province
   admin_level_2_role: municipality
   province_codes: ['15','27','32','36']
-  status: topology_contract_candidate
+  status: generation_ready
+  topology_mode: land
+  k_districts: 75
+  k_source: norma
+  k_rationale: "K=75 conserva el número legal de diputados del Parlamento de Galicia; el procedimiento DDD usa ese tamaño institucional y distribuye los distritos entre provincias mediante Hamilton."
+  district_apportionment: hamilton
+  population_floor_ratio: 0.80
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: closed_target_cores_plus_open_residual
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  require_auditable_district_catalogue: true
   notes:
     - R022 congeló 2134 secciones y 2714741 habitantes sin faltantes.
     - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
-    - K y M04 permanecen pendientes.
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: ['15','27','32','36']
@@ -66,11 +86,78 @@ modulos:
     pop_field: "POP_{year}"
     out_graph_json: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
     out_report: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+
+  modulo_04_generar_semillas:
+    in_graph_json: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 75
+    municipality_atomicity_limit_ratio: 1.12
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    out_report: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json"
+  modulo_05_optimizar_distritos:
+    in_graph_json: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
+    in_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    id_field: CUSEC_KEY
+    pop_field: "POP_{year}"
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    unit_id_field: ddd_unit_id
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    population_repair:
+      enabled: true
+      max_depth: 4
+      max_transfer_set: 2
+      max_candidates: 20000
+      max_seconds: 120
+      seed: 0
+    out_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    out_report: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
+  modulo_06_consolidar_distritos:
+    in_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: "POP_{year}"
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 75
+    strict_expected_k: true
+    out_summary_csv: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv"
+    out_catalog_csv: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv"
+    out_composition_csv: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv"
+    out_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
+    out_district_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
+
 validation:
   expected_province_codes: ['15','27','32','36']
   expected_sections_geometry: 2134
   expected_population_total_2025: 2714741
   expected_topology_bridges: 2
+  expected_districts: 75
+  population_floor_ratio: 0.80
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
@@ -81,3 +168,12 @@ validation:
   audit_admin_level_2_components: true
   require_one_graph_component_per_province: true
   require_connected_municipalities: true
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  max_mixed_districts_per_split_municipality: 1
+  require_zero_outside_tolerance_after_m05: true
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true

@@ -67,14 +67,14 @@ class WorkflowSafety(unittest.TestCase):
         self.assertEqual(set(control_triggers),{"pull_request","push","workflow_call"})
         self.assertNotIn("workflow_dispatch",control_triggers)
         self.assertIn("plan_path",control_triggers["workflow_call"]["inputs"])
-        self.assertEqual(control.get("name"),"O01 · Controlar ejecución")
+        self.assertEqual(control.get("name"),"Controlar Ejecución")
 
         durable=yaml.safe_load(durable_path.read_text(encoding="utf-8")) or {}
         durable_triggers=durable.get(True,durable.get("on",{})) or {}
         self.assertEqual(set(durable_triggers),{"workflow_call"})
         self.assertNotIn("workflow_dispatch",durable_triggers)
         self.assertIn("plan_path",durable_triggers["workflow_call"]["inputs"])
-        self.assertEqual(durable.get("name"),"O02 · Resolver reutilización y estado durable")
+        self.assertEqual(durable.get("name"),"Resolver Reutilización y Estado Durable")
 
     def test_unica_ejecucion_territorial_manual_es_interfaz_institucional(self):
         production=(WORKFLOWS/"producir-territorio-por-contrato.yml").read_text(encoding="utf-8")

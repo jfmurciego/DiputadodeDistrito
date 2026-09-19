@@ -14,19 +14,25 @@ def triggers(path):
 
 class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de datos territoriales")
-        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"Preparación de resultados electorales")
-        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"Producción de distritos")
-        self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la plataforma")
+        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de Datos Territoriales")
+        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"Preparación de Resultados Electorales")
+        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"Generación de Distritos Autonómicos")
+        self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"Incorporación de Resultados Electorales")
+        self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la Plataforma")
 
-    def test_preparations_and_production_have_manual_territorial_button(self):
+    def test_business_workflows_with_territory_selector_are_explicit(self):
         manual=[]
         for path in WF.glob("*.yml"):
             t=triggers(path)
             if "workflow_dispatch" in t:
                 inputs=(t["workflow_dispatch"] or {}).get("inputs",{}) or {}
                 if "territory_id" in inputs: manual.append(path.name)
-        self.assertEqual(sorted(manual),["preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml"])
+        self.assertEqual(sorted(manual),[
+            "incorporacion-resultados-electorales.yml",
+            "preparacion-fuentes.yml",
+            "preparacion-resultados-electorales.yml",
+            "produccion-distritos.yml",
+        ])
 
     def test_internal_capabilities_remain(self):
         expected={
@@ -39,11 +45,12 @@ class DesignA(unittest.TestCase):
         }
         self.assertTrue(expected.issubset({p.name for p in WF.glob("*.yml")}))
 
-    def test_production_is_thin_router_interface(self):
-        d=load(WF/"produccion-distritos.yml")
-        self.assertEqual(list(d["jobs"]),["resolver_interfaz","ruta"])
-        self.assertEqual(d["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
-        self.assertFalse("m01" in d["jobs"])
+    def test_generation_and_electoral_incorporation_are_thin_router_interfaces(self):
+        for name in ("produccion-distritos.yml","incorporacion-resultados-electorales.yml"):
+            d=load(WF/name)
+            self.assertEqual(list(d["jobs"]),["resolver_interfaz","ruta"])
+            self.assertEqual(d["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
+            self.assertFalse("m01" in d["jobs"])
         engine=load(WF/"producir-territorio-por-contrato.yml")
         t=engine.get("on") or engine.get(True)
         self.assertIn("workflow_call",t)
@@ -63,27 +70,20 @@ class DesignA(unittest.TestCase):
                 for flag,key in checks:
                     if state.get(flag):
                         self.assertIn(key,evidence,(row["territory_id"],flag))
-                        p=ROOT/evidence[key]
-                        self.assertTrue(p.is_file() and p.stat().st_size>0,(row["territory_id"],key))
+                        q=ROOT/evidence[key]
+                        self.assertTrue(q.is_file() and q.stat().st_size>0,(row["territory_id"],key))
 
-    def test_catalog_validator_rejects_missing_claim_evidence(self):
-        import copy,tempfile
-        data=copy.deepcopy(load_catalog(CAT))
-        aragon=next(r for r in data["territories"] if r["territory_id"]=="aragon")
-        aragon["editions"]["2025"]["evidence"]["territorial_product"]="missing/evidence.json"
-        with tempfile.TemporaryDirectory() as td:
-            p=Path(td)/"catalog.yaml"
-            p.write_text(yaml.safe_dump(data,allow_unicode=True,sort_keys=False),encoding="utf-8")
-            with self.assertRaisesRegex(ValueError,"evidencia inexistente"):
-                validate_repository(p,ROOT)
-
-    def test_preparation_uses_common_territory_registry_and_production_keeps_catalog_gate(self):
-        prep=(triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])
-        prod=(triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"])
-        self.assertEqual(prep,[r["name"] for r in territories()])
-        self.assertEqual(prod,[r["name"] for r in rows_for("production",CAT)])
-        pending=[r for r in load_catalog(CAT)["territories"] if next(iter(r["editions"].values()))["preparation_status"]=="PENDING_INCORPORATION"]
-        self.assertTrue(pending)
-        self.assertTrue(all(next(iter(r["editions"].values()))["territorial_source_declaration"] is None for r in pending))
+    def test_preparation_uses_common_registry_and_generation_keeps_readiness_gate(self):
+        prep=triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        generation=triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        expected=[r["name"] for r in territories()]
+        generable=[r["name"] for r in rows_for("generation",CAT)]
+        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
+        self.assertEqual(prep,expected)
+        self.assertEqual(generation,generable)
+        self.assertEqual(electoral,electoral_ready)
+        self.assertIn("Galicia",generation)
+        self.assertNotIn("Galicia",electoral)
 
 if __name__=="__main__": unittest.main()

@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.0.0
-# NOMBRE DE VERSIÓN: Generación de distritos autonómicos
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Incorporación de resultados electorales
 # FECHA: 2026-09-18
 # ESTADO: candidato
-# QUÉ HACE: genera distritos autonómicos para un territorio y una edición, publica automáticamente el resultado en el visor y no incorpora resultados electorales.
-# CAMBIOS: elimina selector de producto, publicación y confirmación; la generación ejecuta M01–M06 y publica el visor automáticamente.
+# QUÉ HACE: incorpora al último producto territorial M06 los resultados electorales previamente preparados y publica automáticamente el resultado en el visor.
+# CAMBIOS: interfaz separada de la generación de distritos; ejecuta exclusivamente M07–M08 desde un M06 válido.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
-name: Generación de Distritos Autonómicos
+name: Incorporación de Resultados Electorales
 
 on:
   workflow_dispatch:
@@ -21,7 +21,6 @@ on:
         options:
           - Aragón
           - Castilla y León
-          - Galicia
       data_edition:
         description: Edición de datos
         required: true
@@ -49,8 +48,8 @@ jobs:
       product: ${{ steps.resolve.outputs.product }}
       checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
-      source_package_run_id: ${{ steps.source_package.outputs.run_id }}
-      source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
+      electoral_package_run_id: ${{ steps.electoral_package.outputs.run_id }}
+      electoral_package_artifact_name: ${{ steps.electoral_package.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
       - id: resolve
@@ -59,14 +58,14 @@ jobs:
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
           UI_EDITION: ${{ inputs.data_edition }}
-          UI_PRODUCT: Distritos
+          UI_PRODUCT: Resultados electorales
         run: |
           set -euo pipefail
           mkdir -p .ddd-checkpoint-selection
           printf '{"status":"INITIALIZED","run_id":"%s"}\n' "$GITHUB_RUN_ID" > .ddd-checkpoint-selection/resolucion_inicial.json
           python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve --mode generation --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
@@ -232,22 +231,18 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - id: source_package
-        name: Resolver paquete territorial preparado
+      - id: electoral_package
+        name: Resolver paquete electoral preparado
+        if: ${{ true }}
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
-          CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+          PARAMS: ${{ steps.resolve.outputs.params }}
         run: |
           set -euo pipefail
-          if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
-            echo "run_id=" >> "$GITHUB_OUTPUT"
-            echo "artifact_name=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
+          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
           mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
@@ -257,7 +252,13 @@ jobs:
               if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
                 rm -rf "$tmp"; continue
               fi
-              if python -m herramientas.seleccionar_paquete_fuentes --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
+              set +e
+              python herramientas/validar_paquete_electoral.py --package "$tmp" --params "$PARAMS"                 --territory-id "$TERRITORY_ID" --edition "$EDITION" --root-dir .                 --output "$tmp/validacion_paquete_electoral.json" >/dev/null
+              rc=$?
+              set -e
+              if (( rc == 0 )); then
+                mkdir -p .ddd-checkpoint-selection
+                cp "$tmp/validacion_paquete_electoral.json" .ddd-checkpoint-selection/
                 echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
                 echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
                 rm -rf "$tmp"
@@ -266,8 +267,8 @@ jobs:
               rm -rf "$tmp"
             done
           done
-          echo "::error::La generación requiere datos territoriales preparados, íntegros y de la misma edición."
-          exit 46
+          echo "::error::Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato."
+          exit 45
 
       - name: Publicar decisión de reanudación
         if: always()
@@ -290,9 +291,7 @@ jobs:
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
-      source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
-      source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
-      electoral_package_run_id: ''
-      electoral_package_artifact_name: ''
+      electoral_package_run_id: ${{ needs.resolver_interfaz.outputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ needs.resolver_interfaz.outputs.electoral_package_artifact_name }}
       execution_confirmed: true
       publish_result: true

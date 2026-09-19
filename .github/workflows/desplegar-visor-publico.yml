@@ -6,7 +6,7 @@
 # QUÉ HACE: publica el visor histórico o una ejecución concreta sin permitir sustituciones silenciosas; deja evidencia estructurada de identidad y publicación.
 # CAMBIOS: una ejecución solicitada debe coincidir con la evidencia generada y con el resultado realmente cargado antes de desplegarse.
 # ANTERIOR: versión 2.1.0 en historial Git.
-name: Desplegar visor técnico
+name: Desplegar Visor Técnico
 
 on:
   workflow_call:

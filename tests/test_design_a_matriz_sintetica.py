@@ -12,7 +12,8 @@ ROOT=Path(__file__).resolve().parents[1]
 WF=ROOT/".github/workflows"
 PREP=WF/"preparacion-fuentes.yml"
 ELECTORAL_PREP=WF/"preparacion-resultados-electorales.yml"
-PROD=WF/"produccion-distritos.yml"
+GEN=WF/"produccion-distritos.yml"
+ELECTORAL_APPLY=WF/"incorporacion-resultados-electorales.yml"
 ENGINE=WF/"producir-territorio-por-contrato.yml"
 ROUTER=WF/"_reutilizable-operacion-territorial.yml"
 CAT=ROOT/"configuracion/catalogo_preparacion.yaml"
@@ -26,25 +27,30 @@ def triggers(path:Path):
 class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
-            "Preparación de datos territoriales":PREP,
-            "Preparación de resultados electorales":ELECTORAL_PREP,
-            "Producción de distritos":PROD,
-            "Pruebas de la plataforma":WF/"pruebas-plataforma.yml",
+            "Preparación de Datos Territoriales":PREP,
+            "Preparación de Resultados Electorales":ELECTORAL_PREP,
+            "Generación de Distritos Autonómicos":GEN,
+            "Incorporación de Resultados Electorales":ELECTORAL_APPLY,
+            "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml"])
+        self.assertEqual(sorted(dispatch),["incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml"])
 
     def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
-        prod=[r["name"] for r in rows_for("production",CAT)]
+        generable=[r["name"] for r in rows_for("generation",CAT)]
+        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
         self.assertIn("La Rioja",prep_options)
         self.assertIn("Ceuta",prep_options)
         self.assertIn("Melilla",prep_options)
-        self.assertNotIn("La Rioja",prod)
-        self.assertEqual(triggers(PROD)["workflow_dispatch"]["inputs"]["territory_id"]["options"],prod)
+        self.assertNotIn("La Rioja",generable)
+        self.assertIn("Galicia",generable)
+        self.assertNotIn("Galicia",electoral_ready)
+        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],generable)
+        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],electoral_ready)
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
@@ -86,9 +92,12 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "product":"Resultados electorales","to_stage":"M08","checkpoint_policy":"require_m06","requires_electoral_package":True})
         self.assertEqual(resolve_product("Ambos"),{
             "product":"Ambos","to_stage":"M08","checkpoint_policy":"latest_through_m06","requires_electoral_package":True})
-        text=PROD.read_text(encoding="utf-8")
-        self.assertNotIn("UI_PUBLISH",text)
-        self.assertIn('inputs.product != \'Distritos\'',text)
+        gen=GEN.read_text(encoding="utf-8")
+        electoral=ELECTORAL_APPLY.read_text(encoding="utf-8")
+        self.assertIn("UI_PRODUCT: Distritos",gen)
+        self.assertIn("UI_PRODUCT: Resultados electorales",electoral)
+        self.assertIn("publish_result: true",gen)
+        self.assertIn("publish_result: true",electoral)
 
     def test_territorial_product_has_no_electoral_dependency(self):
         route=resolve_product("Distritos")
@@ -98,7 +107,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("fromJSON(needs.resolve.outputs.to_num) >= 7",engine["jobs"]["electoral_source"]["if"])
 
     def test_electoral_requires_package_and_valid_m06_without_recalculation(self):
-        text=PROD.read_text(encoding="utf-8")
+        text=ELECTORAL_APPLY.read_text(encoding="utf-8")
         self.assertIn("checkpoint_policy",text)
         self.assertIn("require_m06",text)
         self.assertIn("search_from=6",text); self.assertIn("search_to=6",text)
@@ -109,14 +118,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(resolve_product("Resultados electorales")["checkpoint_policy"],"require_m06")
 
     def test_checkpoint_is_automatic_and_corrupt_candidates_are_discarded(self):
-        text=PROD.read_text(encoding="utf-8")
+        text=GEN.read_text(encoding="utf-8")
         self.assertIn("sort_by(.created_at) | reverse",text)
         self.assertIn("seleccionar_checkpoint_productivo",text)
         self.assertIn("validation_rc == 2",text)
         self.assertIn("record_discard",text)
         self.assertIn("search_from=$target_num",text)
         self.assertIn("requires_derivation",text)
-        inputs=triggers(PROD)["workflow_dispatch"]["inputs"]
+        inputs=triggers(GEN)["workflow_dispatch"]["inputs"]
         self.assertNotIn("checkpoint_run_id",inputs)
         self.assertNotIn("from_stage",inputs)
 
@@ -130,7 +139,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_contractual_artifacts_and_internal_workflows_are_preserved(self):
         engine=ENGINE.read_text(encoding="utf-8")
-        ui=PROD.read_text(encoding="utf-8")
+        ui=GEN.read_text(encoding="utf-8")
         prep=PREP.read_text(encoding="utf-8")
         electoral_prep=ELECTORAL_PREP.read_text(encoding="utf-8")
         for token in [
@@ -195,7 +204,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         plan=synthetic_matrix_decision("Resultados electorales","existing","existing")
         self.assertTrue(plan["runnable"]); self.assertEqual(plan["to_stage"],"M08")
         self.assertEqual(plan["checkpoint_policy"],"require_m06")
-        text=PROD.read_text(encoding="utf-8")
+        text=ELECTORAL_APPLY.read_text(encoding="utf-8")
         self.assertIn("search_from=6",text); self.assertIn("search_to=6",text)
         self.assertIn("latest_through_m06",text)
         self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"',text)

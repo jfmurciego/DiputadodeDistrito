@@ -5,7 +5,7 @@
 # QUÉ HACE: produce ensembles reanudables o republica una galería desde artefactos de un run previo sin recalcular GerryChain.
 # CAMBIOS: añade republicación ligera de Aragón-10 desde un run fuente, reensambla con el código actual y valida las copias web EPSG:4326 antes de Pages.
 # ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.2.1.yml
-name: Ensemble territorial GerryChain
+name: Ensemble Territorial GerryChain
 
 on:
   workflow_call:

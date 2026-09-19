@@ -4,7 +4,7 @@
 # FECHA: 2026-09-19
 # ESTADO: candidato
 # FUNCIÓN: probar adquisición oficial desde cero sin alterar fuentes ni producción.
-name: Prueba de fuentes oficiales
+name: Prueba de Fuentes Oficiales
 
 on:
   workflow_dispatch:
@@ -49,11 +49,6 @@ on:
         options:
           - Unit test
           - Todo
-      confirm:
-        description: Confirmar prueba
-        required: true
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -70,11 +65,9 @@ jobs:
       - id: matrix
         env:
           TERRITORY: ${{ inputs.territory }}
-          CONFIRM: ${{ inputs.confirm }}
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$CONFIRM" == true ]] || { echo "::error::La prueba requiere confirmación explícita."; exit 20; }
           matrix="$(python herramientas/resolver_fuentes_territorio.py matrix --territory "$TERRITORY")"
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
