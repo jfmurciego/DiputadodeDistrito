@@ -15,6 +15,7 @@ from herramientas.probar_fuentes_oficiales import (
     probe_ogc,
     probe_static_csv,
 )
+from herramientas.adquirir_fuentes_oficiales import _collect_live_sections, _source_urls
 from herramientas.resolver_fuentes_territorio import build_declaration, matrix, territories
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,6 +70,25 @@ class SourceTestPackageTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["sample_records"], 10)
         self.assertLess(result["sample_bytes"], len(payload))
+
+    def test_ogc_remote_filter_is_only_province_and_sections_are_filtered_locally(self):
+        d = build_declaration("La Rioja", 2025)
+        source = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))["sources"]["secciones_censales"]
+        urls = _source_urls(source, 2025, d["territory"]["territorial_codes"])
+        self.assertEqual(len(urls), 1)
+        self.assertIn("CPRO%3D%2726%27", urls[0])
+        self.assertNotIn("TIPO", urls[0])
+
+        payload = json.dumps({"features": [
+            {"properties": {"CPRO": "26", "CUSEC": "2600101000", "CSEC": "000", "TIPO": "DISTRITO"}},
+            {"properties": {"CPRO": "26", "CUSEC": "2600101001", "CSEC": "001", "TIPO": "SECCIÓN"}},
+            {"properties": {"CPRO": "26", "CUSEC": "2600101002", "CSEC": "002"}},
+        ]}).encode()
+        features, _, checks = _collect_live_sections(
+            source, 2025, d["territory"]["territorial_codes"], lambda _url: payload
+        )
+        self.assertEqual([f["properties"]["CUSEC"] for f in features], ["2600101001", "2600101002"])
+        self.assertEqual(checks["sections"], 2)
 
     def test_ogc_probe_limits_each_province(self):
         d = build_declaration("Canarias", 2025)
