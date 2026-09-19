@@ -6,7 +6,7 @@
 # ESTADO: candidato
 # CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
 # MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
-name: Preparación de datos territoriales
+name: Preparación de Datos Territoriales
 
 on:
   workflow_dispatch:
@@ -46,11 +46,6 @@ on:
         required: true
         default: true
         type: boolean
-      confirmar_preparacion:
-        description: Confirmar preparación
-        required: true
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -69,10 +64,8 @@ jobs:
         env:
           TERRITORY: ${{ inputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
-          CONFIRM: ${{ inputs.confirmar_preparacion }}
         run: |
           set -euo pipefail
-          [[ "$CONFIRM" == true ]] || { echo "::error::La preparación requiere confirmación explícita."; exit 20; }
           python herramientas/catalogo_preparacion.py --root-dir . validate
           python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" >/dev/null
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
