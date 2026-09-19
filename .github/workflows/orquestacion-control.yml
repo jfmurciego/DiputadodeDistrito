@@ -8,7 +8,7 @@
 # CAMBIOS: renombra el componente G10 como O01 Controlar ejecución y conserva workflow_call, pull_request y push.
 # MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
 # ANTERIOR: legacy/workflows/g10/g10-control_v1.1.1.yml
-name: O01 · Controlar Ejecución
+name: Controlar Ejecución
 
 on:
   pull_request:
