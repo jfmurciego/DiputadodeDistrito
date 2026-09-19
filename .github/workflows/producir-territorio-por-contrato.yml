@@ -8,7 +8,7 @@
 # CAMBIOS: conserva fuentes territoriales durables y M07–M08 consumen exclusivamente el paquete electoral preparado y validado contra contrato.
 # MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
-name: Producción Territorial Modular M01–M08
+name: Producción Territorial Modular
 
 on:
   workflow_call:
