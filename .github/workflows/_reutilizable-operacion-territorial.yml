@@ -8,7 +8,7 @@
 # CAMBIOS: presenta la cadena productiva con nombres de negocio sin alterar la lógica M01–M08 ni las rutas auxiliares existentes.
 # MOTIVO: hacer comprensible la secuencia productiva desde GitHub Actions sin exponer controles técnicos al usuario.
 # ANTERIOR: versión 3.1.0 en historial Git.
-name: Reutilizable — ruta territorial resuelta
+name: Reutilizable — Ruta Territorial Resuelta
 
 on:
   workflow_call:
