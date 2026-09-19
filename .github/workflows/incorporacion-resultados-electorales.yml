@@ -65,7 +65,7 @@ jobs:
           printf '{"status":"INITIALIZED","run_id":"%s"}\n' "$GITHUB_RUN_ID" > .ddd-checkpoint-selection/resolucion_inicial.json
           python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve --mode production --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
