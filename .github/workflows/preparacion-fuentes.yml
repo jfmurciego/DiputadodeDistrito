@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.1.2
+# VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Preparación durable territorial y electoral
-# FECHA: 2026-09-18
+# FECHA: 2026-09-19
 # ESTADO: candidato
-# CAMBIOS: ejecuta los adaptadores Python de preparación como módulos para preservar imports de paquete.
-# MOTIVO: preparar fuentes una vez y reutilizarlas con procedencia y checksum verificables.
+# CAMBIOS: preparación territorial genérica para los 19 territorios y reutilización opcional de fuentes ya congeladas.
+# MOTIVO: eliminar la pre-preparación manual y evitar descargas repetidas cuando existe un paquete íntegro de la misma edición.
 name: Preparación de fuentes oficiales
 
 on:
@@ -16,9 +16,25 @@ on:
         required: true
         type: choice
         options:
+          - Andalucía
           - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
           - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
           - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
       data_edition:
         description: Edición de datos
         required: true
@@ -28,9 +44,14 @@ on:
       source_scope:
         description: Fuentes a preparar
         required: true
-        default: Ambas
+        default: Territoriales
         type: choice
         options: [Territoriales, Electorales, Ambas]
+      reutilizar_si_ya_preparada:
+        description: Reutilizar fuente oficial ya preparada
+        required: true
+        default: true
+        type: boolean
       confirmar_preparacion:
         description: Confirmar preparación
         required: true
@@ -48,7 +69,6 @@ jobs:
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
       contract_path: ${{ steps.resolve.outputs.contract_path }}
-      source_declaration: ${{ steps.resolve.outputs.source_declaration }}
       electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
     steps:
       - uses: actions/checkout@v6
@@ -62,10 +82,10 @@ jobs:
           set -euo pipefail
           [[ "$CONFIRM" == true ]] || { echo "::error::La preparación requiere confirmación explícita."; exit 20; }
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve --mode preparation --territory "$TERRITORY" --edition "$EDITION")"
+          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" >/dev/null
+          row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
           echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "source_declaration=$(jq -r '.territorial_source_declaration // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
           echo "electoral_declaration=$(jq -r '.electoral_source_declaration // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
 
   territoriales:
@@ -75,14 +95,40 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
-      SOURCE_DECLARATION: ${{ needs.resolver.outputs.source_declaration }}
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY: ${{ inputs.territory_id }}
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ inputs.data_edition }}
+      SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
       EVIDENCE_DIR: .ddd-sources
     steps:
       - uses: actions/checkout@v6
-      - name: Validar preparación inicial independiente del contrato final
+      - name: Generar declaración territorial desde fuentes oficiales
         run: |
           set -euo pipefail
-          [[ -n "$SOURCE_DECLARATION" && -f "$SOURCE_DECLARATION" ]] || { echo "::error::Territorio pendiente de incorporación: falta declaración de fuentes territoriales."; exit 40; }
+          mkdir -p "$(dirname "$SOURCE_DECLARATION")"
+          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY"             --edition "$EDITION"             --output "$SOURCE_DECLARATION"
+          test -s "$SOURCE_DECLARATION"
+      - id: previous
+        name: Recuperar fuente territorial ya preparada
+        if: ${{ inputs.reutilizar_si_ya_preparada }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t runs < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for rid in "${runs[@]}"; do
+            arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$rid/artifacts?per_page=100")"
+            name="$(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$arts" | head -1)"
+            [[ -n "$name" ]] || continue
+            rm -rf .ddd-source-package
+            if gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-source-package >/dev/null 2>&1 && [[ -f .ddd-source-package/manifest.json ]]; then
+              echo "run_id=$rid" >> "$GITHUB_OUTPUT"
+              echo "artifact_name=$name" >> "$GITHUB_OUTPUT"
+              echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
+              break
+            fi
+          done
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
