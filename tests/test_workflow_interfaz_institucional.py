@@ -51,6 +51,11 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("resolver_producto_produccion.py --product",text)
         self.assertIn("Resolver paquete territorial preparado",text)
         self.assertIn("source_package_run_id",text)
+        self.assertIn("prepared_source_run_id",text)
+        self.assertIn("prepared_source_artifact_name",text)
+        self.assertIn("preparation_evidence.run_id",text)
+        self.assertIn("preparation_evidence.artifact_name",text)
+        self.assertIn('gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100"',text)
 
     def test_electoral_requires_existing_m06_and_prepared_package(self):
         text=ELECTORAL.read_text(encoding="utf-8")
