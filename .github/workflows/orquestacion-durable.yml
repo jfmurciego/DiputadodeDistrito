@@ -8,7 +8,7 @@
 # CAMBIO: renombra el componente G10 como O02 y conserva workflow_call sin botón manual.
 # ANTERIOR: legacy/workflows/g10/g10-operar-lote_v1.0.3.yml
 # MOTIVO: expresar la función real de orquestación y retirar nomenclatura histórica G10 de los workflows activos.
-name: O02 · Resolver reutilización y estado durable
+name: O02 · Resolver Reutilización y Estado Durable
 on:
   workflow_call:
     inputs:
