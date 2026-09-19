@@ -40,14 +40,17 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
-        generable=[r["name"] for r in rows_for("generation",CAT)]\n        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
+        generable=[r["name"] for r in rows_for("generation",CAT)]
+        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
         self.assertIn("La Rioja",prep_options)
         self.assertIn("Ceuta",prep_options)
         self.assertIn("Melilla",prep_options)
-        self.assertNotIn("La Rioja",prod)
-        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],prod)
-        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],prod)
+        self.assertNotIn("La Rioja",generable)
+        self.assertIn("Galicia",generable)
+        self.assertNotIn("Galicia",electoral_ready)
+        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],generable)
+        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],electoral_ready)
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
