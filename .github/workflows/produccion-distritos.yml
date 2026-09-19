@@ -239,8 +239,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
+          CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
         run: |
           set -euo pipefail
+          if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
+            echo "run_id=" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
           mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
           for run_id in "${run_ids[@]}"; do
