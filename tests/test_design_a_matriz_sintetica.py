@@ -27,11 +27,11 @@ def triggers(path:Path):
 class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
-            "Preparación de datos territoriales":PREP,
-            "Preparación de resultados electorales":ELECTORAL_PREP,
-            "Generación de distritos autonómicos":GEN,
-            "Incorporación de resultados electorales":ELECTORAL_APPLY,
-            "Pruebas de la plataforma":WF/"pruebas-plataforma.yml",
+            "Preparación de Datos Territoriales":PREP,
+            "Preparación de Resultados Electorales":ELECTORAL_PREP,
+            "Generación de Distritos Autonómicos":GEN,
+            "Incorporación de Resultados Electorales":ELECTORAL_APPLY,
+            "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
@@ -40,7 +40,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
-        prod=[r["name"] for r in rows_for("production",CAT)]
+        generable=[r["name"] for r in rows_for("generation",CAT)]\n        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
         self.assertIn("La Rioja",prep_options)
         self.assertIn("Ceuta",prep_options)
