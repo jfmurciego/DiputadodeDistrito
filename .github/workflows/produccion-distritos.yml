@@ -262,7 +262,8 @@ jobs:
               rm -rf "$tmp"
               return 1
             fi
-            if python -m herramientas.seleccionar_paquete_fuentes               --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
+            if python -m herramientas.seleccionar_paquete_fuentes \
+              --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
               echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
               echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
               rm -rf "$tmp"
@@ -272,48 +273,18 @@ jobs:
             return 1
           }
 
-          # Primero usa la evidencia durable registrada al preparar el territorio.
           if validate_candidate "$PREPARED_SOURCE_RUN_ID" "$PREPARED_SOURCE_ARTIFACT_NAME"; then
             exit 0
           fi
 
-          # Fallback: inventario paginado de artefactos. No limita la búsqueda a los
-          # 100 runs más recientes, porque un paquete territorial válido puede ser anterior.
           prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
           mapfile -t candidates < <(
             gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100" |
-              jq -r --arg p "$prefix"                 '.artifacts[]? | select((.name|startswith($p)) and (.expired|not)) | [.workflow_run.id,.name] | @tsv'
+              jq -r --arg p "$prefix" '.artifacts[]? | select((.name|startswith($p)) and (.expired|not)) | "\(.workflow_run.id)|\(.name)"'
           )
           for candidate in "${candidates[@]}"; do
-            IFS=
-      - name: Publicar decisión de reanudación
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-checkpoint-selection-${{ github.run_id }}
-          path: .ddd-checkpoint-selection
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-
-  ruta:
-    name: Procesar territorio
-    needs: resolver_interfaz
-    uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
-    with:
-      params: ${{ needs.resolver_interfaz.outputs.params }}
-      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
-      operation: producir_resultado_m01_m08
-      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
-      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
-      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
-      source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
-      source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
-      electoral_package_run_id: ''
-      electoral_package_artifact_name: ''
-      execution_confirmed: true
-      publish_result: true
-\t' read -r run_id artifact_name <<<"$candidate"
+            run_id="${candidate%%|*}"
+            artifact_name="${candidate#*|}"
             [[ "$run_id" == "$PREPARED_SOURCE_RUN_ID" && "$artifact_name" == "$PREPARED_SOURCE_ARTIFACT_NAME" ]] && continue
             if validate_candidate "$run_id" "$artifact_name"; then
               exit 0
