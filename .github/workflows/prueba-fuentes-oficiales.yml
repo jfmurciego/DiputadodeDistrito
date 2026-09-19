@@ -49,7 +49,6 @@ on:
         options:
           - Unit test
           - Todo
-        default: false
 
 permissions:
   contents: read
