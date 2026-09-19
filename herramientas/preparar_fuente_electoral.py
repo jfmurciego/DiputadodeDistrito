@@ -31,6 +31,41 @@ def count_records(path:Path)->tuple[int,str]:
         pass
     return 0,"not_countable"
 
+def _read_delimited(path:Path)->tuple[list[str],list[dict]]:
+    raw=path.read_bytes()
+    text=None
+    for encoding in ("utf-8-sig","utf-8","latin-1"):
+        try:
+            text=raw.decode(encoding); break
+        except UnicodeDecodeError:
+            continue
+    if text is None: raise ValueError(f"No se puede decodificar {path}")
+    lines=text.splitlines()
+    if not lines: raise ValueError(f"Fuente vacía: {path}")
+    delimiter=max((";",",","\t"),key=lambda d:lines[0].count(d))
+    reader=csv.DictReader(lines,delimiter=delimiter)
+    fields=[str(x or "").strip() for x in (reader.fieldnames or [])]
+    if not fields: raise ValueError(f"CSV sin cabecera: {path}")
+    rows=[]
+    for row in reader:
+        rows.append({fields[i]: row.get(reader.fieldnames[i],"") for i in range(len(fields))})
+    return fields,rows
+
+def merge_delimited_sources(paths:list[Path],out:Path)->dict:
+    all_fields=[]; all_rows=[]
+    for path in paths:
+        fields,rows=_read_delimited(path)
+        for field in fields:
+            if field not in all_fields: all_fields.append(field)
+        all_rows.extend(rows)
+    if not all_rows: raise ValueError("Las fuentes electorales no contienen registros")
+    out.parent.mkdir(parents=True,exist_ok=True)
+    with out.open("w",encoding="utf-8",newline="") as f:
+        writer=csv.DictWriter(f,fieldnames=all_fields,delimiter=";",extrasaction="ignore")
+        writer.writeheader()
+        for row in all_rows: writer.writerow({field:row.get(field,"") for field in all_fields})
+    return {"records":len(all_rows),"columns":all_fields}
+
 def _write_package(out:Path,decision:str,territory_id:str,edition:str,source:Path|None,meta:dict,extra:dict|None=None)->dict:
     if out.exists(): shutil.rmtree(out)
     out.mkdir(parents=True)
@@ -95,9 +130,46 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
         if tmp.exists(): shutil.rmtree(tmp)
         d=load_declaration(decl); result=check_declaration(d,tmp)
         if result.get("decision")=="READY":
-            sel=result["selected_source"]; src=tmp/str(sel["artifact_path"])
+            selected_sources=result.get("selected_sources") or []
+            election_extra={"checker_decision":result,"election_id":d.get("election_id"),"election_date":d.get("election_date")}
+            if len(selected_sources)>1:
+                source_paths=[tmp/str(sel["artifact_path"]) for sel in selected_sources]
+                merged=tmp/"resultados_electorales_vigentes.csv"
+                merge_info=merge_delimited_sources(source_paths,merged)
+                provenance=[{
+                    "id":sel.get("id"),"url":sel.get("url"),"publisher":sel.get("publisher"),
+                    "sha256":sel.get("sha256"),"bytes":sel.get("bytes")
+                } for sel in selected_sources]
+                meta={
+                    "publisher":"; ".join(sorted({str(sel.get("publisher") or "") for sel in selected_sources if sel.get("publisher")})),
+                    "acquired_at":datetime.now(timezone.utc).isoformat(),
+                    "source_mode":"official_acquisition_multisource",
+                    "source_count":len(selected_sources),
+                    "sources":provenance,
+                    "merge":merge_info,
+                    "declaration":str(decl),
+                }
+                manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra)
+                raw_dir=package_out/"raw"; raw_dir.mkdir(exist_ok=True)
+                for sel,src in zip(selected_sources,source_paths):
+                    raw_target=raw_dir/src.name
+                    shutil.copy2(src,raw_target)
+                manifest["raw_sources"]=[{
+                    "id":sel.get("id"),
+                    "path":f"raw/{(tmp/str(sel['artifact_path'])).name}",
+                    "sha256":sel.get("sha256"),
+                    "bytes":sel.get("bytes"),
+                    "url":sel.get("url"),
+                    "publisher":sel.get("publisher"),
+                } for sel in selected_sources]
+                (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+                shutil.rmtree(tmp,ignore_errors=True); return manifest
+            sel=result.get("selected_source") or (selected_sources[0] if selected_sources else None)
+            if not sel:
+                raise ValueError("READY sin fuente electoral seleccionada")
+            src=tmp/str(sel["artifact_path"])
             meta={"origin_url":sel.get("url"),"publisher":sel.get("publisher"),"acquired_at":datetime.now(timezone.utc).isoformat(),"source_mode":"official_acquisition","declaration":str(decl)}
-            manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,src,meta,{"checker_decision":result})
+            manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,src,meta,election_extra)
             shutil.rmtree(tmp,ignore_errors=True); return manifest
         manifest=_write_package(package_out,"BLOCK",territory_id,edition,None,{},{"reason":"No existe fuente electoral oficial reutilizable o adquirible","checker_decision":result})
         shutil.copytree(tmp,package_out/"checker",dirs_exist_ok=True)

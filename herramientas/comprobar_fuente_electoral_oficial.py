@@ -3,11 +3,11 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: comprobación automática de fuente electoral oficial
-VERSIÓN: 1.1.0
+VERSIÓN: 1.2.0
 FECHA: 2026-09-17
-FUNCIÓN: consultar únicamente fuentes oficiales declaradas y producir READY con copia/checksum o BLOCK por acceso, ausencia o granularidad insuficiente.
+FUNCIÓN: consultar fuentes oficiales declaradas y admitir una fuente suficiente o un conjunto completo de fuentes requeridas.
 REGLAS: no admite sustitutos no oficiales; RTVE queda excluida mediante política declarativa y validación de host/editor.
-CAMBIOS: la copia congelada publica una ruta estable dentro del artefacto y un fichero .sha256 que viaja con la decisión.
+CAMBIOS: añade selection_mode=all_required para convocatorias publicadas en varios ficheros oficiales.
 """
 from __future__ import annotations
 
@@ -48,6 +48,9 @@ def load_declaration(path: str | Path) -> dict:
         raise ValueError("minimum_resolution desconocida")
     if not isinstance(data["sources"], list) or not data["sources"]:
         raise ValueError("sources debe ser una lista no vacía")
+    mode = str(data.get("selection_mode") or "first_ready")
+    if mode not in {"first_ready", "all_required"}:
+        raise ValueError("selection_mode desconocido")
     return data
 
 
@@ -120,6 +123,8 @@ def check_declaration(
     max_bytes = int(declaration.get("max_download_bytes") or 50_000_000)
     results = []
     ready = None
+    ready_items = []
+    selection_mode = str(declaration.get("selection_mode") or "first_ready")
 
     for source in declaration["sources"]:
         if not isinstance(source, dict):
@@ -135,6 +140,7 @@ def check_declaration(
             "url": url,
             "declared_resolution": resolution,
             "access": access,
+            "required": bool(source.get("required", True)),
         }
         forbidden_token = _forbidden(source, forbidden)
         if forbidden_token:
@@ -213,7 +219,18 @@ def check_declaration(
         )
         results.append(item)
         ready = item
-        break
+        ready_items.append(item)
+        if selection_mode == "first_ready":
+            break
+
+    if selection_mode == "all_required":
+        required_rows = [row for row in results if row.get("required")]
+        complete = bool(required_rows) and all(row.get("status") == "READY" for row in required_rows)
+        selected_sources = [row for row in required_rows if row.get("status") == "READY"]
+        ready = None
+    else:
+        complete = ready is not None
+        selected_sources = [ready] if ready else []
 
     decision = {
         "schema": "ddd-election-source-decision/1.1",
@@ -221,8 +238,10 @@ def check_declaration(
         "election_id": declaration["election_id"],
         "minimum_resolution": required,
         "rtve_allowed_as_substitute": False,
-        "decision": "READY" if ready else "BLOCK",
+        "selection_mode": selection_mode,
+        "decision": "READY" if complete else "BLOCK",
         "selected_source": ready,
+        "selected_sources": selected_sources,
         "checks": results,
     }
     decision_path = out / "decision_fuente_electoral.json"
@@ -252,7 +271,7 @@ def main() -> None:
     args = ap.parse_args()
     declaration = load_declaration(args.declaration)
     decision = check_declaration(declaration, args.out_dir, timeout=args.timeout)
-    print(json.dumps({"decision": decision["decision"], "selected_source": decision["selected_source"]}, ensure_ascii=False))
+    print(json.dumps({"decision": decision["decision"], "selected_source": decision["selected_source"], "selected_sources": decision.get("selected_sources") or []}, ensure_ascii=False))
 
 
 if __name__ == "__main__":
