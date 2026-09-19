@@ -21,6 +21,7 @@ on:
         options:
           - Aragón
           - Castilla y León
+          - Galicia
       data_edition:
         description: Edición de datos
         required: true
@@ -48,6 +49,8 @@ jobs:
       product: ${{ steps.resolve.outputs.product }}
       checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+      source_package_run_id: ${{ steps.source_package.outputs.run_id }}
+      source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
       - id: resolve
@@ -63,7 +66,7 @@ jobs:
           printf '{"status":"INITIALIZED","run_id":"%s"}\n' "$GITHUB_RUN_ID" > .ddd-checkpoint-selection/resolucion_inicial.json
           python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve --mode production --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          row="$(python herramientas/catalogo_preparacion.py resolve --mode generation --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
@@ -229,6 +232,37 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - id: source_package
+        name: Resolver paquete territorial preparado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+        run: |
+          set -euo pipefail
+          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          for run_id in "${run_ids[@]}"; do
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
+            for artifact_name in "${names[@]}"; do
+              tmp="$(mktemp -d)"
+              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
+                rm -rf "$tmp"; continue
+              fi
+              if python -m herramientas.seleccionar_paquete_fuentes --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
+                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+                rm -rf "$tmp"
+                exit 0
+              fi
+              rm -rf "$tmp"
+            done
+          done
+          echo "::error::La generación requiere datos territoriales preparados, íntegros y de la misma edición."
+          exit 46
+
       - name: Publicar decisión de reanudación
         if: always()
         uses: actions/upload-artifact@v6
@@ -250,6 +284,8 @@ jobs:
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
+      source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
+      source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
       electoral_package_run_id: ''
       electoral_package_artifact_name: ''
       execution_confirmed: true
