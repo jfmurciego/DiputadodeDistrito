@@ -33,6 +33,10 @@ def _edition(declaration: Path) -> int:
     return int((_declaration(declaration).get("territory") or {})["edition"])
 
 
+def _territory_id(declaration: Path) -> str:
+    return str((_declaration(declaration).get("territory") or {})["id"])
+
+
 def _expected_records(declaration: Path) -> int | None:
     value = (_declaration(declaration).get("coverage_checks") or {}).get("expected_sections")
     return int(value) if value not in (None, "") else None
@@ -72,7 +76,7 @@ def _write_deterministic_bundle(evidence: Path, destination: Path) -> None:
             archive.writestr(info, path.read_bytes())
 
 
-def _manifest_from_acquisition(evidence: Path, working: Path, edition: int,
+def _manifest_from_acquisition(evidence: Path, working: Path, territory_id: str, edition: int,
                                expected_records: int | None) -> dict:
     inv_rows, prov_rows = _source_rows(evidence)
     working.mkdir(parents=True, exist_ok=True)
@@ -107,6 +111,7 @@ def _manifest_from_acquisition(evidence: Path, working: Path, edition: int,
 
     return {
         "source_id": "prepared-territorial-sources:" + ",".join(sorted(set(source_ids))),
+        "territory_id": territory_id,
         "edition": edition,
         "origin": " | ".join(sorted(urls)) or "declared-official-sources",
         "path": frozen.name,
@@ -148,6 +153,7 @@ def main() -> int:
     ap.add_argument("--expected-records", type=int)
     args = ap.parse_args()
     edition = _edition(args.declaration)
+    territory_id = _territory_id(args.declaration)
     expected_records = args.expected_records if args.expected_records is not None else _expected_records(args.declaration)
 
     def downloader(working: Path) -> dict:
@@ -169,7 +175,7 @@ def main() -> int:
                 "Adquisición oficial bloqueada: "
                 + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
             )
-        return _manifest_from_acquisition(args.acquisition_evidence, working, edition, expected_records)
+        return _manifest_from_acquisition(args.acquisition_evidence, working, territory_id, edition, expected_records)
 
     evidence = execute_source_policy(
         requested_edition=edition,

@@ -3,7 +3,8 @@ import hashlib,json,tempfile,unittest
 from pathlib import Path
 import yaml
 
-from herramientas.catalogo_preparacion import rows_for
+from herramientas.catalogo_preparacion import lookup,rows_for
+from herramientas.resolver_fuentes_territorio import territories
 from herramientas.resolver_producto_produccion import ROUTES,resolve_product,synthetic_matrix_decision
 from herramientas.validar_paquete_electoral import validate_package
 
@@ -32,13 +33,32 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
         self.assertEqual(sorted(dispatch),["preparacion-fuentes.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml"])
 
-    def test_incomplete_territory_is_preparation_only(self):
-        prep=[r["name"] for r in rows_for("preparation",CAT)]
+    def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
+        prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        expected=[r["name"] for r in territories()]
         prod=[r["name"] for r in rows_for("production",CAT)]
-        self.assertIn("Extremadura",prep)
-        self.assertNotIn("Extremadura",prod)
-        self.assertEqual(triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"],prep)
+        self.assertEqual(prep_options,expected)
+        self.assertIn("La Rioja",prep_options)
+        self.assertIn("Ceuta",prep_options)
+        self.assertIn("Melilla",prep_options)
+        self.assertNotIn("La Rioja",prod)
         self.assertEqual(triggers(PROD)["workflow_dispatch"]["inputs"]["territory_id"]["options"],prod)
+
+    def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
+        inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
+        self.assertEqual(inputs["source_scope"]["default"],"Territoriales")
+        self.assertTrue(inputs["reutilizar_si_ya_preparada"]["default"])
+        text=PREP.read_text(encoding="utf-8")
+        self.assertIn("resolver_fuentes_territorio.py declaration",text)
+        self.assertIn("Recuperar fuente territorial ya preparada",text)
+        self.assertIn("gh run download",text)
+        self.assertIn("ddd-source-package-$TERRITORY_ID-$EDITION-",text)
+        self.assertNotIn("Territorio pendiente de incorporación: falta declaración de fuentes territoriales.",text)
+
+    def test_catalog_lookup_does_not_require_preparation_status_ready(self):
+        row=lookup("La Rioja","2025",CAT)
+        self.assertEqual(row["territory_id"],"la_rioja")
+        self.assertEqual(row["preparation_status"],"PENDING_INCORPORATION")
 
     def test_preparation_never_executes_m01_m08_and_electoral_has_no_geometry(self):
         d=load(PREP)

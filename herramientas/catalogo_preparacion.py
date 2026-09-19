@@ -158,15 +158,28 @@ def resolve(mode:str,territory:str,edition:str,path:Path=CATALOG)->dict:
     if len(matches)!=1: raise SystemExit(f"No existe opción {mode} única para territorio={territory!r}, edición={edition!r}")
     return matches[0]
 
+def lookup(territory:str,edition:str,path:Path=CATALOG)->dict:
+    matches=[]
+    for row in load_catalog(path)["territories"]:
+        if territory.strip() not in {row["name"],row["territory_id"]}: continue
+        state=(row.get("editions") or {}).get(str(edition))
+        if state is not None:
+            matches.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})
+    if len(matches)!=1:
+        raise SystemExit(f"No existe territorio/edición único para territorio={territory!r}, edición={edition!r}")
+    return matches[0]
+
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--catalog",type=Path,default=CATALOG); ap.add_argument("--root-dir",type=Path,default=Path("."))
     sub=ap.add_subparsers(dest="cmd",required=True)
     sub.add_parser("validate")
     op=sub.add_parser("options"); op.add_argument("--mode",choices=["preparation","production"],required=True)
     rs=sub.add_parser("resolve"); rs.add_argument("--mode",choices=["preparation","production"],required=True); rs.add_argument("--territory",required=True); rs.add_argument("--edition",required=True)
+    lk=sub.add_parser("lookup"); lk.add_argument("--territory",required=True); lk.add_argument("--edition",required=True)
     a=ap.parse_args()
     path=a.catalog if a.catalog.is_absolute() else a.root_dir/a.catalog
     if a.cmd=="validate": validate_repository(path,a.root_dir); print("OK"); return
     if a.cmd=="options": print(json.dumps(rows_for(a.mode,path),ensure_ascii=False)); return
+    if a.cmd=="lookup": print(json.dumps(lookup(a.territory,a.edition,path),ensure_ascii=False)); return
     print(json.dumps(resolve(a.mode,a.territory,a.edition,path),ensure_ascii=False))
 if __name__=="__main__": main()

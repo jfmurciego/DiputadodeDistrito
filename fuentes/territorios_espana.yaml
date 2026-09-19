@@ -19,7 +19,7 @@ territories:
   - {id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46']}
   - {id: extremadura, name: Extremadura, province_codes: ['06','10']}
   - {id: galicia, name: Galicia, province_codes: ['15','27','32','36']}
-  - {id: comunidad_de_madrid, name: Comunidad de Madrid, province_codes: ['28']}
+  - {id: madrid, name: Comunidad de Madrid, province_codes: ['28']}
   - {id: region_de_murcia, name: Región de Murcia, province_codes: ['30']}
   - {id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31']}
   - {id: pais_vasco, name: País Vasco, province_codes: ['01','20','48']}
