@@ -30,7 +30,7 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertNotIn("inputs.product",text)
         self.assertNotIn("inputs.publish_result",text)
         self.assertNotIn("inputs.confirmar_ejecucion",text)
-        self.assertNotIn("Resolver paquete electoral preparado",text)
+        self.assertNotIn("Resolver paquete electoral preparado",text)\n        self.assertIn("Resolver paquete territorial preparado",text)\n        self.assertIn("source_package_run_id",text)
 
     def test_electoral_incorporation_is_fixed_to_results_and_auto_publishes(self):
         text=ELECTORAL.read_text(encoding="utf-8")
@@ -44,7 +44,7 @@ class ProductRoutingDesignA(unittest.TestCase):
         router=load(ROUTER); engine=load(ENGINE)
         rt=(router.get("on") or router.get(True))["workflow_call"]["inputs"]
         en=(engine.get("on") or engine.get(True))["workflow_call"]["inputs"]
-        self.assertIn("publish_result",rt); self.assertIn("publish_result",en)
+        self.assertIn("publish_result",rt); self.assertIn("publish_result",en)\n        self.assertIn("source_package_run_id",rt); self.assertIn("source_package_run_id",en)
         visor=engine["jobs"]["visor"]
         self.assertIn("inputs.publish_result == true",visor["if"])
         self.assertIn("needs.m06.result == 'success'",visor["if"])
