@@ -8,7 +8,7 @@
 # CAMBIOS: retira workflow_dispatch; conserva push/pull_request y el artefacto de diagnóstico de unittest.
 # MOTIVO: mantener la puerta como CI automática y reservar la interfaz humana al workflow único.
 # ANTERIOR: versión 1.2.0 en historial Git.
-name: Pruebas de la plataforma
+name: Pruebas de la Plataforma
 on:
   push:
     branches: [main]
