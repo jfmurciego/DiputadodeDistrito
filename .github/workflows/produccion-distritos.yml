@@ -48,6 +48,8 @@ jobs:
       to_stage: ${{ steps.resolve.outputs.to_stage }}
       product: ${{ steps.resolve.outputs.product }}
       checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
+      prepared_source_run_id: ${{ steps.resolve.outputs.prepared_source_run_id }}
+      prepared_source_artifact_name: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
       checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
       source_package_run_id: ${{ steps.source_package.outputs.run_id }}
       source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
@@ -77,6 +79,8 @@ jobs:
             echo "product=$UI_PRODUCT"
             echo "to_stage=$(jq -r .to_stage <<<"$route")"
             echo "checkpoint_policy=$(jq -r .checkpoint_policy <<<"$route")"
+            echo "prepared_source_run_id=$(jq -r '.preparation_evidence.run_id // empty' <<<"$row")"
+            echo "prepared_source_artifact_name=$(jq -r '.preparation_evidence.artifact_name // empty' <<<"$row")"
           } >> "$GITHUB_OUTPUT"
 
       - id: checkpoint
@@ -240,6 +244,8 @@ jobs:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
           CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
+          PREPARED_SOURCE_RUN_ID: ${{ steps.resolve.outputs.prepared_source_run_id }}
+          PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
         run: |
           set -euo pipefail
           if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
@@ -247,25 +253,44 @@ jobs:
             echo "artifact_name=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
-          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
-          for run_id in "${run_ids[@]}"; do
-            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
-            for artifact_name in "${names[@]}"; do
-              tmp="$(mktemp -d)"
-              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
-                rm -rf "$tmp"; continue
-              fi
-              if python -m herramientas.seleccionar_paquete_fuentes --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
-                echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
-                echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
-                rm -rf "$tmp"
-                exit 0
-              fi
+
+          validate_candidate() {
+            local run_id="$1" artifact_name="$2" tmp
+            [[ -n "$run_id" && -n "$artifact_name" ]] || return 1
+            tmp="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
               rm -rf "$tmp"
-            done
+              return 1
+            fi
+            if python -m herramientas.seleccionar_paquete_fuentes \
+              --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
+              echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+              echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+              rm -rf "$tmp"
+              return 0
+            fi
+            rm -rf "$tmp"
+            return 1
+          }
+
+          if validate_candidate "$PREPARED_SOURCE_RUN_ID" "$PREPARED_SOURCE_ARTIFACT_NAME"; then
+            exit 0
+          fi
+
+          prefix="ddd-source-package-$TERRITORY_ID-$EDITION-"
+          mapfile -t candidates < <(
+            gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100" |
+              jq -r --arg p "$prefix" '.artifacts[]? | select((.name|startswith($p)) and (.expired|not)) | "\(.workflow_run.id)|\(.name)"'
+          )
+          for candidate in "${candidates[@]}"; do
+            run_id="${candidate%%|*}"
+            artifact_name="${candidate#*|}"
+            [[ "$run_id" == "$PREPARED_SOURCE_RUN_ID" && "$artifact_name" == "$PREPARED_SOURCE_ARTIFACT_NAME" ]] && continue
+            if validate_candidate "$run_id" "$artifact_name"; then
+              exit 0
+            fi
           done
+
           echo "::error::La generación requiere datos territoriales preparados, íntegros y de la misma edición."
           exit 46
 
