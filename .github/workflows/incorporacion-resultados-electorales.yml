@@ -8,7 +8,7 @@
 # CAMBIOS: interfaz separada de la generación de distritos; ejecuta exclusivamente M07–M08 desde un M06 válido.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
-name: Incorporación de resultados electorales
+name: Incorporación de Resultados Electorales
 
 on:
   workflow_dispatch:
