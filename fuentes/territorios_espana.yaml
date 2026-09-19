@@ -1,0 +1,28 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: registro administrativo mínimo para pruebas de fuentes
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-19
+# ESTADO: candidato
+# FUNCIÓN: permitir probar fuentes oficiales para cualquier territorio sin exigir preparación previa.
+schema: ddd-territory-source-test-registry/1.0
+default_edition: '2025'
+territories:
+  - {id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41']}
+  - {id: aragon, name: Aragón, province_codes: ['22','44','50']}
+  - {id: principado_de_asturias, name: Principado de Asturias, province_codes: ['33']}
+  - {id: illes_balears, name: Islas Baleares, province_codes: ['07']}
+  - {id: canarias, name: Canarias, province_codes: ['35','38']}
+  - {id: cantabria, name: Cantabria, province_codes: ['39']}
+  - {id: castilla_la_mancha, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45']}
+  - {id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49']}
+  - {id: cataluna, name: Cataluña, province_codes: ['08','17','25','43']}
+  - {id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46']}
+  - {id: extremadura, name: Extremadura, province_codes: ['06','10']}
+  - {id: galicia, name: Galicia, province_codes: ['15','27','32','36']}
+  - {id: comunidad_de_madrid, name: Comunidad de Madrid, province_codes: ['28']}
+  - {id: region_de_murcia, name: Región de Murcia, province_codes: ['30']}
+  - {id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31']}
+  - {id: pais_vasco, name: País Vasco, province_codes: ['01','20','48']}
+  - {id: la_rioja, name: La Rioja, province_codes: ['26']}
+  - {id: ceuta, name: Ceuta, province_codes: ['51']}
+  - {id: melilla, name: Melilla, province_codes: ['52']}
