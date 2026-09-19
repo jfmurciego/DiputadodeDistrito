@@ -110,8 +110,9 @@ class DurableProductionStatusTests(unittest.TestCase):
         audit_dir = tmp / ".ddd-audit"
         return params, report, geometry, audit_dir
 
-    def _run(self, params: Path, geometry: Path, audit_dir: Path) -> subprocess.CompletedProcess[str]:
+    def _run(self, params: Path, geometry: Path, audit_dir: Path, extra_env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
         env = os.environ.copy()
+        env.update(extra_env or {})
         previous_pythonpath = env.get("PYTHONPATH")
         env["PYTHONPATH"] = str(ROOT) if not previous_pythonpath else f"{ROOT}{os.pathsep}{previous_pythonpath}"
         return subprocess.run([
@@ -232,6 +233,41 @@ class DurableProductionStatusTests(unittest.TestCase):
 
             state_step = next(step for step in jobs["auditoria"]["steps"] if step.get("name") == "Resolver checkpoint M06")
             self.assertIn('else state_run_id="$CHECKPOINT_RUN_ID"', state_step["run"])
+
+    def test_explicit_run_id_resolves_population_evidence_even_if_environment_says_local(self):
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            params, _, geometry, audit_dir = self._fixture(tmp)
+            params.write_text(yaml.safe_dump({
+                "meta": {"year": 2025, "run_name": "synthetic_checkpoint"},
+                "io": {"project_root": {"path": str(tmp)}},
+                "modulos": {
+                    "modulo_05_optimizar_distritos": {
+                        "out_report": "ejecuciones/{run_id}/{run_name}_m05_informe.json"
+                    }
+                },
+            }), encoding="utf-8")
+            report = tmp / "ejecuciones" / "production-synthetic-checkpoint" / "synthetic_checkpoint_m05_informe.json"
+            report.parent.mkdir(parents=True)
+            report.write_text(json.dumps({
+                "population_repair": {
+                    "enabled": True,
+                    "result": "REPAIRED",
+                    "objective_before": [0, 3, 0.20, 1.0, 10],
+                    "objective_after": [0, 0, 0.11, 0.7, 8],
+                    "termination_reason": "QUEUE_EMPTY",
+                    "baseline_restored": False,
+                }
+            }), encoding="utf-8")
+
+            result = self._run(params, geometry, audit_dir, {"DDD_RUN_ID": "local"})
+            self.assertEqual(result.returncode, 0, result.stderr)
+            status = json.loads((audit_dir / "production_status.json").read_text(encoding="utf-8"))
+            self.assertEqual(status["decision"], "PASS_WITH_EXCEPTIONS")
+            self.assertEqual(status["population_decision"], "TARGET_MET")
+            self.assertEqual(status["population_evidence_status"], "VALID")
+            self.assertEqual(Path(status["population_evidence_path"]), report.resolve())
+            self.assertNotIn("/ejecuciones/local/", status["population_evidence_path"])
 
     def test_missing_or_damaged_population_is_closed_block_not_unknown(self):
         expected_causes = {
