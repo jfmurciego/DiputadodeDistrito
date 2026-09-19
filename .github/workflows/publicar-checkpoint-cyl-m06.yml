@@ -1,4 +1,4 @@
-name: Publicar Checkpoint CyL M06
+name: Publicar Checkpoint de Castilla y León
 
 on:
   workflow_call:
