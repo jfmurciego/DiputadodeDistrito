@@ -148,8 +148,21 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
             if not state.get("territory_declared"): continue
             if mode=="preparation":
                 eligible=state.get("preparation_status") in PREPARABLE
+            elif mode in {"production","generation"}:
+                eligible=bool(
+                    state.get("territorial_sources_prepared")
+                    and state.get("territorial_contract_complete")
+                    and state.get("production_authorization")=="AUTHORIZED"
+                )
+            elif mode=="electoral_application":
+                eligible=bool(
+                    state.get("territorial_product_available")
+                    and state.get("electoral_source_prepared")
+                    and state.get("territorial_contract_complete")
+                    and state.get("production_authorization")=="AUTHORIZED"
+                )
             else:
-                eligible=bool(state.get("territorial_sources_prepared") and state.get("territorial_contract_complete") and state.get("production_authorization")=="AUTHORIZED")
+                raise ValueError(f"Modo de catálogo desconocido: {mode}")
             if eligible: out.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})
     return out
 
@@ -173,8 +186,9 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--catalog",type=Path,default=CATALOG); ap.add_argument("--root-dir",type=Path,default=Path("."))
     sub=ap.add_subparsers(dest="cmd",required=True)
     sub.add_parser("validate")
-    op=sub.add_parser("options"); op.add_argument("--mode",choices=["preparation","production"],required=True)
-    rs=sub.add_parser("resolve"); rs.add_argument("--mode",choices=["preparation","production"],required=True); rs.add_argument("--territory",required=True); rs.add_argument("--edition",required=True)
+    modes=["preparation","production","generation","electoral_application"]
+    op=sub.add_parser("options"); op.add_argument("--mode",choices=modes,required=True)
+    rs=sub.add_parser("resolve"); rs.add_argument("--mode",choices=modes,required=True); rs.add_argument("--territory",required=True); rs.add_argument("--edition",required=True)
     lk=sub.add_parser("lookup"); lk.add_argument("--territory",required=True); lk.add_argument("--edition",required=True)
     a=ap.parse_args()
     path=a.catalog if a.catalog.is_absolute() else a.root_dir/a.catalog
