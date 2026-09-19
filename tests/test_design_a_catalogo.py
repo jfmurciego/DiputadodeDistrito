@@ -14,11 +14,11 @@ def triggers(path):
 
 class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de datos territoriales")
-        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"Preparación de resultados electorales")
-        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"Generación de distritos autonómicos")
-        self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"Incorporación de resultados electorales")
-        self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la plataforma")
+        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"Preparación de Datos Territoriales")
+        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"Preparación de Resultados Electorales")
+        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"Generación de Distritos Autonómicos")
+        self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"Incorporación de Resultados Electorales")
+        self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la Plataforma")
 
     def test_business_workflows_with_territory_selector_are_explicit(self):
         manual=[]
@@ -78,7 +78,7 @@ class DesignA(unittest.TestCase):
         generation=triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
-        producible=[r["name"] for r in rows_for("production",CAT)]
+        generable=[r["name"] for r in rows_for("generation",CAT)]\n        electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep,expected)
         self.assertEqual(generation,producible)
         self.assertEqual(electoral,producible)
