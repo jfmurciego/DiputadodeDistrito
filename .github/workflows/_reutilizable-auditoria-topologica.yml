@@ -8,7 +8,7 @@
 # CAMBIOS: primera versión.
 # MOTIVO: convertir los hallazgos del bootstrap nacional en diagnósticos auditables sin añadir pasarelas automáticas.
 # ANTERIOR: ninguno — workflow nuevo.
-name: Reutilizable — diagnóstico topológico territorial
+name: Reutilizable — Diagnóstico Topológico Territorial
 on:
   workflow_call:
     inputs:
