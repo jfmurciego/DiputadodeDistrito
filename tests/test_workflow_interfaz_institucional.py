@@ -7,7 +7,7 @@ WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-VISIBLE_TERRITORIES=["Aragón","Castilla y León"]
+GENERATION_TERRITORIES=["Aragón","Castilla y León","Galicia"]\nELECTORAL_TERRITORIES=["Aragón","Castilla y León"]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod
@@ -20,17 +20,17 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         return ((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
 
     def test_generation_interface_name_and_controls(self):
-        self.assertEqual(self._load(GEN)["name"],"Generación de distritos autonómicos")
+        self.assertEqual(self._load(GEN)["name"],"Generación de Distritos Autonómicos")
         inputs=self._dispatch_inputs(GEN)
         self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],VISIBLE_TERRITORIES)
+        self.assertEqual(inputs["territory_id"]["options"],GENERATION_TERRITORIES)
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
 
     def test_electoral_incorporation_name_and_controls(self):
-        self.assertEqual(self._load(ELECTORAL)["name"],"Incorporación de resultados electorales")
+        self.assertEqual(self._load(ELECTORAL)["name"],"Incorporación de Resultados Electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
         self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],VISIBLE_TERRITORIES)
+        self.assertEqual(inputs["territory_id"]["options"],ELECTORAL_TERRITORIES)
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
 
     def test_no_redundant_human_confirmation_or_publish_switch(self):
@@ -47,7 +47,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",text)
         self.assertNotIn("Resolver paquete electoral preparado",text)
-        self.assertIn("resolver_producto_produccion.py --product",text)
+        self.assertIn("resolver_producto_produccion.py --product",text)\n        self.assertIn("Resolver paquete territorial preparado",text)\n        self.assertIn("source_package_run_id",text)
 
     def test_electoral_requires_existing_m06_and_prepared_package(self):
         text=ELECTORAL.read_text(encoding="utf-8")
