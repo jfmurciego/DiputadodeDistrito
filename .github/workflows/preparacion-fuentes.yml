@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.2.1
-# NOMBRE DE VERSIÓN: Preparación durable territorial y electoral
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-09-19
 # ESTADO: candidato
-# CAMBIOS: preparación territorial genérica para los 19 territorios y reutilización opcional de fuentes ya congeladas.
-# MOTIVO: eliminar la pre-preparación manual y evitar descargas repetidas cuando existe un paquete íntegro de la misma edición.
-name: Preparación de fuentes oficiales
+# CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
+# MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
+name: Preparación de datos territoriales
 
 on:
   workflow_dispatch:
@@ -41,12 +41,6 @@ on:
         default: '2025'
         type: choice
         options: ['2025']
-      source_scope:
-        description: Fuentes a preparar
-        required: true
-        default: Territoriales
-        type: choice
-        options: [Territoriales, Electorales, Ambas]
       reutilizar_si_ya_preparada:
         description: Reutilizar fuente oficial ya preparada
         required: true
@@ -68,8 +62,6 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
-      contract_path: ${{ steps.resolve.outputs.contract_path }}
-      electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
     steps:
       - uses: actions/checkout@v6
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -85,13 +77,10 @@ jobs:
           python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" >/dev/null
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "electoral_declaration=$(jq -r '.electoral_source_declaration // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
 
   territoriales:
     name: Preparar fuentes territoriales
     needs: resolver
-    if: ${{ inputs.source_scope != 'Electorales' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -178,68 +167,3 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  electorales:
-    name: Preparar fuente electoral durable
-    needs: resolver
-    if: ${{ inputs.source_scope != 'Territoriales' }}
-    runs-on: ubuntu-24.04
-    env:
-      GH_TOKEN: ${{ github.token }}
-      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ inputs.data_edition }}
-      PARAMS: ${{ needs.resolver.outputs.contract_path }}
-      DECLARATION: ${{ needs.resolver.outputs.electoral_declaration }}
-    steps:
-      - uses: actions/checkout@v6
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - id: previous
-        name: Recuperar último paquete electoral congelado
-        if: ${{ inputs.reutilizar_si_ya_preparada }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p .ddd-electoral-previous
-          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
-          mapfile -t runs < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
-          for rid in "${runs[@]}"; do
-            arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$rid/artifacts?per_page=100")"
-            name="$(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$arts" | head -1)"
-            [[ -n "$name" ]] || continue
-            if gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-electoral-previous >/dev/null 2>&1; then
-              echo "run_id=$rid" >> "$GITHUB_OUTPUT"
-              echo "artifact_name=$name" >> "$GITHUB_OUTPUT"
-              break
-            fi
-          done
-      - id: prepare
-        name: Resolver REUSE / ACQUIRE / BLOCK
-        continue-on-error: true
-        shell: bash
-        env:
-          PREVIOUS_RUN_ID: ${{ steps.previous.outputs.run_id }}
-          PREVIOUS_ARTIFACT_NAME: ${{ steps.previous.outputs.artifact_name }}
-        run: |
-          set -euo pipefail
-          args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
-          [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS")
-          [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
-          if [[ -f .ddd-electoral-previous/manifest.json ]]; then
-            args+=(--previous-package .ddd-electoral-previous)
-            [[ -n "$PREVIOUS_RUN_ID" ]] && args+=(--previous-run-id "$PREVIOUS_RUN_ID")
-            [[ -n "$PREVIOUS_ARTIFACT_NAME" ]] && args+=(--previous-artifact-name "$PREVIOUS_ARTIFACT_NAME")
-          fi
-          python -m herramientas.preparar_fuente_electoral "${args[@]}"
-      - uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
-          path: .ddd-electoral-package
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 30
-      - name: Aplicar decisión electoral
-        if: always()
-        run: |
-          test -f .ddd-electoral-package/manifest.json
-          decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"
-          case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
