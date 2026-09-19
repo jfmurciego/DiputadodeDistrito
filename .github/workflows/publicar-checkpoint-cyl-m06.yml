@@ -1,4 +1,4 @@
-name: Publicar checkpoint CyL M06
+name: Publicar Checkpoint CyL M06
 
 on:
   workflow_call:
