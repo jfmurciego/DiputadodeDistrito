@@ -30,15 +30,12 @@ class R038OperacionLimpia(unittest.TestCase):
         text = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(raw_inputs), [
-            "territory_id", "data_edition", "product", "publish_result", "confirmar_ejecucion"
-        ])
+        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition"])
         self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
-        self.assertEqual(raw_inputs["product"]["description"], "Producto")
-        self.assertEqual(raw_inputs["product"]["options"], ["Distritos", "Resultados electorales", "Ambos"])
-        self.assertEqual(raw_inputs["publish_result"]["description"], "Publicar resultado")
-        self.assertEqual(raw_inputs["confirmar_ejecucion"]["description"], "Confirmar ejecución")
+        self.assertNotIn("product", raw_inputs)
+        self.assertNotIn("publish_result", raw_inputs)
+        self.assertNotIn("confirmar_ejecucion", raw_inputs)
         self.assertNotIn("execution_authorization:", text)
         self.assertNotIn("ensemble_promotion_authorization:", text)
         self.assertNotIn("operation:", raw_inputs)
@@ -51,7 +48,8 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn('"Distritos":{"to_stage":"M06"', routes)
         self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
         self.assertIn('"Ambos":{"to_stage":"M08"', routes)
-        self.assertIn("${{ inputs.confirmar_ejecucion }}", text)
+        self.assertIn("execution_confirmed: true", text)
+        self.assertIn("publish_result: true", text)
 
     def test_lanzador_shell_compila(self):
         result = subprocess.run(
@@ -78,7 +76,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("uses: ./.github/workflows/desplegar-visor-publico.yml", production)
         self.assertIn("production_run_id: ${{ github.run_id }}", production)
         self.assertNotIn("UI_PUBLISH", interface)
-        self.assertIn('publish_result: ${{ inputs.publish_result }}', interface)
+        self.assertIn('publish_result: true', interface)
         self.assertIn('publish_result: ${{ inputs.publish_result }}', router)
         self.assertIn("inputs.publish_result == true", production)
         self.assertIn("workflow_call:", viewer)
