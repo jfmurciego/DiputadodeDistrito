@@ -204,18 +204,23 @@ territories:
     editions:
       '2025':
         territory_declared: true
-        preparation_status: PENDING_INCORPORATION
+        preparation_status: READY
         contract_path: territorios/galicia/config/galicia_2025.yaml
-        territorial_source_declaration: null
+        territorial_source_declaration: territorios/galicia/config/fuentes_oficiales.yaml
         electoral_source_declaration: null
-        territorial_sources_prepared: false
-        territorial_contract_complete: false
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
         territorial_product_available: false
         electoral_source_prepared: false
         electoral_product_available: false
         territorial_certification: NOT_CERTIFIED
-        production_authorization: NONE
+        production_authorization: AUTHORIZED
         last_valid_checkpoint: null
+        preparation_evidence:
+          run_id: 35470063566
+          artifact_name: ddd-source-package-galicia-2025-35470063566
+          artifact_sha256: 8fa15b4beb7428b56ad0a83993facbf80482e7874038ec2f9681e83726ecda18
+          package_sha256: b1947d2ad300a8f24b2954f5abd58712d7fa0637c6b3000dd9fb3ec073791515
   - territory_id: madrid
     name: Comunidad de Madrid
     editions:
