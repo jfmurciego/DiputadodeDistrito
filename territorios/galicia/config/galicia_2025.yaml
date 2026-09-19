@@ -42,7 +42,7 @@ territory_contract:
   topology_mode: land
   k_districts: 75
   k_source: norma
-  k_rationale: "El número legal de miembros del Parlamento de Galicia es 75; DDD usa ese número como cardinalidad del producto territorial."
+  k_rationale: "K=75 conserva el número legal de diputados del Parlamento de Galicia; el procedimiento DDD usa ese tamaño institucional y distribuye los distritos entre provincias mediante Hamilton."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
