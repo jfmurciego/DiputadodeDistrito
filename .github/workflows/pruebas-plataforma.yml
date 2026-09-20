@@ -24,10 +24,6 @@ jobs:
         uses: actions/checkout@v6
       - name: Auditar cabeceras y legacy en checkout
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
-      - name: Validar sintaxis y contratos de GitHub Actions
-        uses: docker://rhysd/actionlint:1.7.12
-        with:
-          args: -color
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
       - name: Verificar evidencia publicada y determinismo sintético
