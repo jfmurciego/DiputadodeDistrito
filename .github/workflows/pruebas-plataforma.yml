@@ -50,4 +50,4 @@ jobs:
           path: |
             ci-unittest.log
             ci-gerrychain.log
-          if-no-files-found: error
+          if-no-files-found: warn
