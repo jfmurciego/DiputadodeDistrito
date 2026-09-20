@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.3.0
 # NOMBRE DE VERSIÓN: Preparación de Extremadura
 # FECHA: 2026-09-17
-# ESTADO: preparación factual bloqueada; sin ejecución territorial
+# ESTADO: datos territoriales preparados; generación autorizada
 # FUNCIÓN: declarar qué partes del proceso completo están preparadas y qué bloqueos siguen abiertos sin excepciones territoriales.
 # CAMBIOS: hace visible el trabajo común de unidades internas y sustituye la investigación electoral manual por una comprobación automática declarativa.
 # MOTIVO: separar capacidad preparada de certificación territorial y mantener fail-closed M07 sin fuentes sustitutas.
@@ -11,8 +11,8 @@
 schema: ddd-territory-full-process-readiness/1.2
 territory_id: extremadura
 edition: 2025
-production_authorization: BLOCKED
-execution_forbidden_in_this_package: true
+production_authorization: AUTHORIZED
+execution_forbidden_in_this_package: false
 
 business_steps:
   official_sources:
@@ -50,7 +50,7 @@ business_steps:
     artifact: ddd-internal-units-<run_id>
     remaining_blocker: null
   district_creation_and_balance:
-    ready: false
+    ready: true
     configuration_ready: true
     evidence: [territorios/extremadura/config/extremadura_2025.yaml, herramientas/preparar_unidades_internas.py, territorios/extremadura/CONTINUIDAD.md]
     facts:
@@ -59,16 +59,14 @@ business_steps:
       legal_reference: 'Ley 2/1987, de 16 de marzo, artículo 18.1'
       province_apportionment: {'06': 41, '10': 24}
       limits_profile: standard-1.0.0
-    remaining_blocker:
-      type: EXECUTION_AND_CERTIFICATION_REQUIRED
-      detail: 'La configuración y el preprocesador común están preparados, pero este paquete prohíbe ejecutar el territorio. M04-M06 deben verificarse posteriormente con el perfil estándar antes de cualquier promoción.'
+    remaining_blocker: null
   geographic_control:
     ready: false
     evidence: [territorios/extremadura/config/extremadura_2025.yaml, configuracion/politica_topologia_territorial_2025.yaml]
     remaining_blocker:
       type: UPSTREAM_BLOCK
       depends_on: district_creation_and_balance
-      detail: 'La política geométrica está declarada, pero no existe todavía una solución M04-M06 ejecutada con el nuevo perfil común sobre la que certificar la geometría distrital.'
+      detail: 'La política geométrica está declarada y la generación está autorizada; falta ejecutar y certificar la solución territorial resultante.'
   electoral_results:
     ready: false
     automated_check: true
@@ -87,6 +85,6 @@ business_steps:
       detail: 'La capacidad común de integración y visor existe, pero no puede producir ni publicar un resultado mientras los pasos anteriores sigan bloqueados.'
 
 decision:
-  readiness: BLOCKED
-  may_execute_territory: false
-  rationale: 'Fuentes, M01-M03, topología y el trabajo visible de unidades internas están preparados por configuración. El paquete no ejecuta Extremadura; la certificación M04-M06 queda pendiente y M07 permanece fail-closed hasta que la comprobación automática localice una fuente oficial pública suficientemente desagregada.'
+  readiness: READY_FOR_GENERATION
+  may_execute_territory: true
+  rationale: 'Los datos territoriales 2025 están preparados y el contrato de generación ha superado la puerta contractual. Extremadura puede ejecutar Generación de Distritos Autonómicos; la certificación territorial y los resultados electorales permanecen como fases posteriores e independientes.'
