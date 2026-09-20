@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: smoke test temporal
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Smoke GerryChain Galicia M05→M06
 # FECHA: 2026-09-20
 # ESTADO: temporal
 # QUÉ HACE: recupera el checkpoint real de Galicia, fuerza gerrychain_recom sólo en una copia efímera del contrato y valida M05→M06 sin publicar ni registrar producto.
-# CAMBIOS: nuevo smoke controlado posterior a la integración de GerryChain como estrategia 02.5.
+# CAMBIOS: corrige el falso negativo del smoke: valida la estrategia en el informe M05, no mediante un banner stdout no incluido en modulo_5.log.
 # MOTIVO: demostrar el wiring real de producción sin recalcular M01–M04 ni alterar el contrato productivo de Galicia.
-# ANTERIOR: ninguno — workflow temporal de smoke.
+# ANTERIOR: 1.0.0 en historial Git.
 name: Smoke · GerryChain Galicia M05→M06
 
 on:
@@ -108,8 +108,9 @@ jobs:
           REPORT="$CACHE_DIR/galicia_2025_m05_informe.json"
           OUT="$CACHE_DIR/galicia_2025_m05_distritos_optimizados.geojson.zip"
           test -f "$LOG" && test -f "$REPORT" && test -f "$OUT"
-          grep -F "Estrategia de optimización — gerrychain_recom" "$LOG"
-
+          # El banner de estrategia se imprime en stdout antes del tee del módulo y no
+          # forma parte de modulo_5.log. La evidencia contractual fiable es el propio
+          # informe M05, que verificamos dentro del contenedor.
           docker run --rm -v "$PWD:/app" -w /app \
             --entrypoint /opt/ddd-gerrychain/bin/python ddd-smoke:${GITHUB_SHA} - "$REPORT" "$OUT" <<'PY'
           import json,sys,geopandas as gpd
