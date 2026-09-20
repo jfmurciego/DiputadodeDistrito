@@ -201,6 +201,10 @@ jobs:
           elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
             persist=true
           fi
+          if [[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then
+            echo "::error::La persistencia durable sólo está permitida desde main; ref actual: $GITHUB_REF_NAME"
+            exit 52
+          fi
           {
             echo "source_ref=$SOURCE_REF"
             echo "persist_state=$persist"
