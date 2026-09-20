@@ -140,7 +140,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
         self.assertIn('p["executed"] and p["result"] != "success"',writer)
 
-    def test_reuse_plan_skips_complete_phases(self):
+    def test_reuse_plan_reruns_generation_for_selected_algorithm(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             evidence = root / "evidence"
@@ -197,9 +197,10 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 root_dir=root,
             )
             self.assertFalse(plan["run_prepare_territorial"])
-            self.assertFalse(plan["run_generate"])
+            self.assertTrue(plan["run_generate"])
             self.assertFalse(plan["run_prepare_electoral"])
-            self.assertFalse(plan["run_incorporate"])
+            self.assertTrue(plan["run_incorporate"])
+            self.assertEqual(plan["optimization_algorithm"], "Canónico")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
     def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
@@ -250,10 +251,40 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 root_dir=root,
             )
             self.assertFalse(plan["run_prepare_territorial"])
-            self.assertFalse(plan["run_generate"])
+            self.assertTrue(plan["run_generate"])
             self.assertTrue(plan["run_prepare_electoral"])
             self.assertTrue(plan["run_incorporate"])
             self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 500)
+
+    def test_gerrychain_50_is_preserved_in_plan(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            catalog=root/"catalog.yaml"
+            catalog.write_text(yaml.safe_dump({
+                "schema":"ddd-preparation-catalog/1.1",
+                "default_edition":"2025",
+                "territories":[{
+                    "territory_id":"demo","name":"Demo","editions":{"2025":{
+                        "territory_declared":True,"preparation_status":"READY",
+                        "contract_path":"territorios/demo/config/demo_2025.yaml",
+                        "territorial_sources_prepared":True,
+                        "territorial_product_available":True,
+                        "electoral_source_prepared":True,
+                        "electoral_product_available":True,
+                        "territorial_certification":"PASS",
+                        "production_authorization":"AUTHORIZED",
+                        "last_valid_checkpoint":{"run_id":10,"stage":"M06"},
+                        "preparation_evidence":{"run_id":9,"artifact_name":"source"}
+                    }}
+                }]
+            },allow_unicode=True,sort_keys=False),encoding="utf-8")
+            plan=build_plan(
+                territory="Demo",edition="2025",execution_mode="reuse",
+                catalog=catalog,root_dir=root,optimization_algorithm="GerryChain 50",
+            )
+            self.assertEqual(plan["optimization_algorithm"],"GerryChain 50")
+            self.assertTrue(plan["run_generate"])
+            self.assertTrue(plan["run_incorporate"])
 
     def test_from_start_runs_all_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
