@@ -34,6 +34,10 @@ def main() -> None:
     ap.add_argument("--generate-executed", choices=["true", "false"], required=True)
     ap.add_argument("--prepare-electoral-executed", choices=["true", "false"], required=True)
     ap.add_argument("--incorporate-executed", choices=["true", "false"], required=True)
+    ap.add_argument("--territorial-source-run-id")
+    ap.add_argument("--territorial-product-run-id")
+    ap.add_argument("--electoral-source-run-id")
+    ap.add_argument("--electoral-product-run-id")
     ap.add_argument("--territorial-source-artifact")
     ap.add_argument("--territorial-product-artifact")
     ap.add_argument("--electoral-source-artifact")
@@ -45,10 +49,10 @@ def main() -> None:
         return v == "true"
 
     phases = [
-        phase("01 · Preparación de Datos Territoriales", ns.prepare_territorial_result, b(ns.prepare_territorial_executed), ns.workflow_run_id, ns.territorial_source_artifact),
-        phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.workflow_run_id, ns.territorial_product_artifact),
-        phase("03 · Preparación de Resultados Electorales", ns.prepare_electoral_result, b(ns.prepare_electoral_executed), ns.workflow_run_id, ns.electoral_source_artifact),
-        phase("04 · Incorporación de Resultados Electorales", ns.incorporate_result, b(ns.incorporate_executed), ns.workflow_run_id, ns.electoral_product_artifact),
+        phase("01 · Preparación de Datos Territoriales", ns.prepare_territorial_result, b(ns.prepare_territorial_executed), ns.territorial_source_run_id, ns.territorial_source_artifact),
+        phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.territorial_product_run_id, ns.territorial_product_artifact),
+        phase("03 · Preparación de Resultados Electorales", ns.prepare_electoral_result, b(ns.prepare_electoral_executed), ns.electoral_source_run_id, ns.electoral_source_artifact),
+        phase("04 · Incorporación de Resultados Electorales", ns.incorporate_result, b(ns.incorporate_executed), ns.electoral_product_run_id, ns.electoral_product_artifact),
         phase("05 · Publicación del Visor", ns.publish_result, ns.publish_requested == "true", ns.workflow_run_id, None),
     ]
     failed = [p["name"] for p in phases if p["executed"] and p["result"] not in {"success", "skipped"}]
