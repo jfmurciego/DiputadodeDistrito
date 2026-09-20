@@ -217,9 +217,11 @@ def main():
     g[provf]=g[provf].astype(str).str.zfill(2);g[munf]=g[munf].astype(str)
     total=sum(pop.values());target,floor,cap,tol=hard_limits(cfg,k=K,total_pop=total);cap_ratio=cap/target;atomic_ratio=float(s4.get('municipality_atomicity_limit_ratio',cap_ratio));atomic_limit=target*atomic_ratio
     quota={str(k).zfill(2):int(v) for k,v in (val.get('province_districts') or {}).items()}
+    floor_exempt={str(x) for x in (val.get('population_floor_exempt_partitions') or [])}
     if sum(quota.values())!=K:raise SystemExit(f'M04: cuotas provinciales suman {sum(quota.values())}, esperado {K}')
     meta=g.set_index(idf)[[provf,munf]+([munname] if munname in g.columns else [])].to_dict('index');assign={};unit_id={};closed={};district_counter=0;prov_report={}
     for prov in sorted(quota):
+        prov_floor=0.0 if prov in floor_exempt else floor
         prov_nodes=[n for n in pop if n in meta and str(meta[n][provf]).zfill(2)==prov];mun_nodes=collections.defaultdict(set)
         for n in prov_nodes:mun_nodes[str(meta[n][munf])].add(n)
         units=[];oversized_report=[]
@@ -253,11 +255,11 @@ def main():
             for seq,comp in enumerate(cs,1):
                 pcomp=sum(upop[i] for i in comp)
                 kmin=max(1,int(math.ceil(pcomp/cap-1e-12)))
-                kmax=min(len(comp),int(math.floor(pcomp/floor+1e-12)))
+                kmax=min(len(comp),need) if prov_floor<=0 else min(len(comp),int(math.floor(pcomp/prov_floor+1e-12)))
                 opts=[]
                 for kc in range(kmin,kmax+1):
                     pp=hybrid_partition(comp,kc,uadj,upop,label=f'provincia {prov} componente abierto {seq} k={kc}')
-                    pp,pvals,pobj=rebalance(pp,uadj,upop,target,floor,cap,tol,30000)
+                    pp,pvals,pobj=rebalance(pp,uadj,upop,target,prov_floor,cap,tol,30000)
                     opts.append((kc,pp,pvals,pobj))
                 if not opts:
                     detail={'units':len(comp),'pop':pcomp,'kmin':kmin,'kmax':kmax,'ids':[units[i][0] for i in sorted(comp)[:12]]}
@@ -287,7 +289,7 @@ def main():
                 open_parts.extend(pp);open_pops.extend(pvals)
         else:
             open_parts=hybrid_partition(open_units,need,uadj,upop,label=f'provincia {prov} unidades abiertas') if need else []
-            open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,floor,cap,tol,30000) if open_parts else ([],[],())
+            open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,prov_floor,cap,tol,30000) if open_parts else ([],[],())
         local_ids=[];dist_nodes={}
         for i in locked:
             d=district_counter;district_counter+=1;local_ids.append(d);dist_nodes[d]=set(units[i][1])
@@ -304,11 +306,13 @@ def main():
     if district_counter!=K:raise SystemExit(f'M04: generados {district_counter} distritos, esperado {K}')
     if len(assign)!=len(pop):raise SystemExit(f'M04: asignadas {len(assign)} secciones de {len(pop)}')
     g['district_id']=g[idf].map(assign).astype('int64');g['ddd_unit_id']=g[idf].map(unit_id);g['ddd_closed_urban']=g[idf].map(closed).fillna(False).astype(bool);g['district_pop_section']=g[idf].map(pop).fillna(0).astype('int64')
-    pops=g.groupby('district_id')['district_pop_section'].sum();hard=int(((pops<floor)|(pops>cap)).sum());outside=int((abs(pops-target)>tol).sum());prov_counts={str(x[provf].iloc[0]).zfill(2):0 for _,x in g.groupby('district_id')}
+    pops=g.groupby('district_id')['district_pop_section'].sum();outside=int((abs(pops-target)>tol).sum());prov_counts={str(x[provf].iloc[0]).zfill(2):0 for _,x in g.groupby('district_id')}
+    district_partition={int(d):str(x[provf].iloc[0]).zfill(2) for d,x in g.groupby('district_id')}
+    hard=sum(1 for d,p in pops.items() if p>cap or (p<floor and district_partition[int(d)] not in floor_exempt))
     for _,x in g.groupby('district_id'):prov_counts[str(x[provf].iloc[0]).zfill(2)]+=1
     if prov_counts!=quota:raise SystemExit(f'M04: cardinalidad provincial {prov_counts}, esperada {quota}')
     if hard:raise SystemExit(f'M04: solución inicial mantiene {hard} distritos fuera de suelo/techo')
-    write_geo(g,out);rep={'module':'04','version':'7.4.5','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'residual_first_complement_fallback':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True}}
+    write_geo(g,out);rep={'module':'04','version':'7.4.5','K':K,'total_pop':int(total),'target':target,'floor':floor,'cap':cap,'tolerance':tol,'municipality_atomicity_limit_ratio':atomic_ratio,'municipality_atomicity_limit':atomic_limit,'topology_gateway_nodes':sorted(bridge_nodes),'min_pop':int(pops.min()),'max_pop':int(pops.max()),'outside_target_tolerance':outside,'hard_population_violations':hard,'population_floor_exempt_partitions':sorted(floor_exempt),'province_counts':prov_counts,'province_districts':prov_report,'assigned_missing':0,'rules':{'single_province':True,'municipality_atomic_until_configured_limit':True,'topology_bridge_gateways_preserved_in_open_residual':True,'municipal_boundary_gateway_preserved_in_open_residual':True,'residual_first_complement_fallback':True,'oversized_municipality_global_partition_when_feasible':True,'oversized_municipality_core_residual_fallback':True,'district_contiguity_preexport':True}}
     if report_path:Path(report_path).write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding='utf-8')
     print(f'[Módulo 4] OK v7.4.5 K={K} provincias={prov_counts} hard=0 outside_tol={outside} min={int(pops.min())} max={int(pops.max())} out={out}')
 if __name__=='__main__':main()
