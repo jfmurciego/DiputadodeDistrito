@@ -9,6 +9,7 @@ from typing import Any
 
 import yaml
 
+from ddd_core.config import load_params_yaml
 from ddd_core.m05_gerrychain_engine import (
     Contract,
     Weights,
@@ -81,7 +82,7 @@ def build_strategy_inputs(
     initial_override: str | Path | None = None,
 ):
     params_path = _resolve(params)
-    cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
+    cfg = load_params_yaml(str(params_path))
     meta = cfg.get("meta") or {}
     year = meta.get("year")
     m02 = _module(cfg, "modulo_02_construir_adyacencias")
