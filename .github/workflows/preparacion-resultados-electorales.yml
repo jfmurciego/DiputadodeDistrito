@@ -80,8 +80,6 @@ jobs:
         with:
           ref: ${{ inputs.source_ref || github.sha }}
           token: ${{ github.token }}
-        with:
-          token: ${{ github.token }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         env:
