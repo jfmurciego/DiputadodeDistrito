@@ -87,6 +87,19 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("OVERRIDE_SOURCE_RUN_ID", generation)
         self.assertIn("OVERRIDE_RUN_ID", electoral)
 
+    def test_failed_scheduled_phase_blocks_following_phases(self):
+        data = load(ORCH)
+        generate_if = data["jobs"]["generar"]["if"]
+        electoral_if = data["jobs"]["preparar_electoral"]["if"]
+        incorporate_if = data["jobs"]["incorporar"]["if"]
+        publish_if = data["jobs"]["publicar"]["if"]
+        self.assertIn("needs.planificar.outputs.run_prepare_territorial == 'false'", generate_if)
+        self.assertNotIn("needs.preparar_territorial.result == 'skipped'", generate_if)
+        self.assertIn("needs.planificar.outputs.run_generate == 'false'", electoral_if)
+        self.assertNotIn("needs.generar.result == 'skipped'", electoral_if)
+        self.assertIn("needs.planificar.outputs.run_prepare_electoral == 'false'", incorporate_if)
+        self.assertIn("needs.planificar.outputs.run_incorporate == 'false'", publish_if)
+
     def test_manifest_is_uploaded_and_durable_on_main(self):
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn("ddd-full-run-manifest-${{ github.run_id }}", text)
