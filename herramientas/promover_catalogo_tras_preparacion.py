@@ -71,25 +71,45 @@ def _replace_key(lines: list[str], start: int, end: int, indent: str, key: str, 
 
 
 def _catalog_state_bounds(lines: list[str], territory_id: str, edition: str) -> tuple[int, int]:
-    territory_marker = f"  - territory_id: {territory_id}"
+    territory_re = re.compile(rf"^(?P<indent>\s*)-\s+territory_id:\s*{re.escape(territory_id)}\s*$")
     try:
-        t0 = next(i for i, line in enumerate(lines) if line == territory_marker)
+        t0, match = next(
+            (i, m) for i, line in enumerate(lines) if (m := territory_re.match(line))
+        )
     except StopIteration as exc:
         raise ValueError(f"Territorio ausente del catálogo: {territory_id}") from exc
-    t1 = next((i for i in range(t0 + 1, len(lines)) if lines[i].startswith("  - territory_id: ")), len(lines))
-    edition_markers = {f"      '{edition}':", f'      "{edition}":', f"      {edition}:"}
+
+    territory_indent = match.group("indent")
+    next_territory_re = re.compile(rf"^{re.escape(territory_indent)}-\s+territory_id:")
+    t1 = next(
+        (i for i in range(t0 + 1, len(lines)) if next_territory_re.match(lines[i])),
+        len(lines),
+    )
+
+    edition_re = re.compile(rf"^(?P<indent>\s*)['\"]?{re.escape(str(edition))}['\"]?:\s*$")
     try:
-        e0 = next(i for i in range(t0, t1) if lines[i] in edition_markers)
+        e0, edition_match = next(
+            (i, m)
+            for i in range(t0, t1)
+            if (m := edition_re.match(lines[i])) and len(m.group("indent")) > len(territory_indent)
+        )
     except StopIteration as exc:
         raise ValueError(f"Edición {edition} ausente para {territory_id}") from exc
-    e1 = t1
-    for i in range(e0 + 1, t1):
-        if re.match(r"^      ['\"]?\d{4}['\"]?:$", lines[i]):
-            e1 = i
-            break
+
+    edition_indent = edition_match.group("indent")
+    next_edition_re = re.compile(rf"^{re.escape(edition_indent)}['\"]?\d{{4}}['\"]?:\s*$")
+    e1 = next(
+        (i for i in range(e0 + 1, t1) if next_edition_re.match(lines[i])),
+        t1,
+    )
     return e0 + 1, e1
 
 
+def _catalog_state_indent(lines: list[str], start: int, end: int) -> str:
+    for line in lines[start:end]:
+        if line.strip():
+            return line[: len(line) - len(line.lstrip())]
+    return "      "
 def _set_catalog_state(
     path: Path,
     *,
@@ -117,24 +137,29 @@ def _set_catalog_state(
 
     for key, value in updates.items():
         start, end = _catalog_state_bounds(lines, territory_id, edition)
-        _replace_key(lines, start, end, "        ", key, value)
+        state_indent = _catalog_state_indent(lines, start, end)
+        _replace_key(lines, start, end, state_indent, key, value)
 
     start, end = _catalog_state_bounds(lines, territory_id, edition)
-    pe_start = next((i for i in range(start, end) if lines[i].startswith("        preparation_evidence:")), None)
+    state_indent = _catalog_state_indent(lines, start, end)
+    child_indent = state_indent + "  "
+    pe_start = next((i for i in range(start, end) if lines[i].startswith(state_indent + "preparation_evidence:")), None)
     if pe_start is not None:
         pe_end = pe_start + 1
-        while pe_end < end and (lines[pe_end].startswith("          ") or not lines[pe_end].strip()):
+        while pe_end < end and (lines[pe_end].startswith(child_indent) or not lines[pe_end].strip()):
             pe_end += 1
         del lines[pe_start:pe_end]
         start, end = _catalog_state_bounds(lines, territory_id, edition)
 
-    insert_at = next((i + 1 for i in range(start, end) if lines[i].startswith("        last_valid_checkpoint:")), end)
+    state_indent = _catalog_state_indent(lines, start, end)
+    child_indent = state_indent + "  "
+    insert_at = next((i + 1 for i in range(start, end) if lines[i].startswith(state_indent + "last_valid_checkpoint:")), end)
     evidence = [
-        "        preparation_evidence:",
-        f"          run_id: {run_id}",
-        f"          artifact_name: {artifact_name}",
-        f"          artifact_sha256: {artifact_sha256}",
-        f"          package_sha256: {package_sha256}",
+        f"{state_indent}preparation_evidence:",
+        f"{child_indent}run_id: {run_id}",
+        f"{child_indent}artifact_name: {artifact_name}",
+        f"{child_indent}artifact_sha256: {artifact_sha256}",
+        f"{child_indent}package_sha256: {package_sha256}",
     ]
     lines[insert_at:insert_at] = evidence
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
