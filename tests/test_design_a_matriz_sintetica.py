@@ -49,8 +49,8 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertNotIn("La Rioja",generable)
         self.assertIn("Galicia",generable)
         self.assertNotIn("Galicia",electoral_ready)
-        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
-        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
+        self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],generable)
+        self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],electoral_ready)
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
         inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
