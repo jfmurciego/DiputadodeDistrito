@@ -27,12 +27,12 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         self.assertEqual(data["name"], "00 · Ejecución Completa del Proyecto")
         inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "publish_result"])
+        self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm", "publish_result"])
         self.assertEqual(
             inputs["execution_mode"]["options"],
             ["Reutilizar progreso existente", "Ejecutar desde el principio"],
         )
-        dumped = yaml.safe_dump(inputs, allow_unicode=True)
+        self.assertEqual(inputs["optimization_algorithm"]["options"], ["Canónico","GerryChain","GerryChain 25","GerryChain 50"])\n        dumped = yaml.safe_dump(inputs, allow_unicode=True)
         for forbidden in ("checkpoint_run_id:", "from_stage:", "to_stage:", "product:"):
             self.assertNotIn(forbidden, dumped)
 
