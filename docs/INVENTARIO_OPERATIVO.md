@@ -1,7 +1,7 @@
 # Inventario operativo
 
-**Versión:** 1.3.0 — 2026-09-20
-**Anterior:** versión 1.2.0 en historial Git
+**Versión:** 1.4.0 — 2026-09-20
+**Anterior:** versión 1.3.0 en historial Git
 
 ## Interfaces y workflows vigentes
 
@@ -18,10 +18,8 @@
   reutilizable GerryChain, sintética → Aragón 10 → Aragón 50.
 - `.github/workflows/_reutilizable-auditoria-topologica.yml`: diagnóstico
   topológico reutilizable.
-- `.github/workflows/desplegar-visor-publico.yml`: publicador manual y reutilizable del
-  sitio GitHub Pages. Expone `workflow_dispatch` con selector `Sitio completo`,
-  `Visor territorial` o `Dashboard operativo`; empaqueta siempre el sitio completo
-  para no borrar rutas existentes.
+- `.github/workflows/desplegar-visor-publico.yml`: interfaz humana **Publicar Sitio Web**; sólo `workflow_dispatch`, sin ejecución territorial.
+- `.github/workflows/_reutilizable-publicar-sitio.yml`: despliegue técnico común de GitHub Pages; sólo `workflow_call`. La producción territorial actualiza el visor mediante este componente y conserva el snapshot promovido de `publicado/dashboard/`.
 - `.github/workflows/orquestacion-control.yml`: control de ejecución reutilizable.
 - `.github/workflows/orquestacion-durable.yml`: resolución durable de
   reutilización y estado.
