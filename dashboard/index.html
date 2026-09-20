@@ -13,7 +13,7 @@
       <p class="eyebrow">Diputado de Distrito</p>
       <h1>Estado operativo del proyecto</h1>
       <p class="subtitle">Resumen ejecutivo de la cadena automática vigente</p>
-      <p class="source">Fuente de verdad: repositorio y evidencia reproducible en GitHub.</p>
+      <p class="source">Fuente de verdad: catálogo y evidencias reproducibles del repositorio.</p>
     </div>
     <nav class="nav" aria-label="Navegación principal">
       <a href="../">Visor territorial</a>
@@ -25,68 +25,25 @@
     <section class="legend" aria-label="Leyenda del semáforo">
       <span><i class="dot green"></i> completo</span>
       <span><i class="dot yellow"></i> parcial / pendiente</span>
-      <span><i class="dot red"></i> no incorporado</span>
+      <span><i class="dot red"></i> no incorporado / bloqueado</span>
       <span><i class="dot gray"></i> no iniciado</span>
     </section>
 
-    <section class="kpis" aria-label="Indicadores principales">
-      <article class="kpi good">
-        <p>Cadena territorial validada</p>
-        <strong>1</strong>
-        <span>Galicia</span>
-      </article>
-      <article class="kpi info">
-        <p>Preparados para continuar</p>
-        <strong>2</strong>
-        <span>Extremadura · Castilla-La Mancha</span>
-      </article>
-      <article class="kpi warn">
-        <p>Revalidación pendiente</p>
-        <strong>2</strong>
-        <span>Aragón · Castilla y León</span>
-      </article>
-      <article class="kpi bad">
-        <p>Pendientes o no incorporados</p>
-        <strong>14</strong>
-        <span>Resto del mapa</span>
-      </article>
-    </section>
+    <section id="kpis" class="kpis" aria-label="Indicadores principales"></section>
 
     <section class="layout">
       <article class="panel territory-panel">
         <div class="panel-heading">
           <div>
             <h2>Estado actual por territorio</h2>
-            <p>Orden alfabético · FT = fuentes territoriales · FE = fuentes electorales · G = generación · RE = resultados electorales</p>
+            <p>FT = fuentes territoriales · FE = fuentes electorales · G = generación · RE = resultados electorales</p>
           </div>
-          <span class="snapshot">20-09-2026</span>
+          <span id="snapshot" class="snapshot">—</span>
         </div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Territorio</th><th>FT</th><th>FE</th><th>G</th><th>RE</th><th>Estado</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Andalucía</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Aragón</td><td><i class="dot yellow"></i></td><td><i class="dot yellow"></i></td><td><i class="dot yellow"></i></td><td><i class="dot gray"></i></td><td>Revalidación pendiente</td></tr>
-              <tr><td>Asturias</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Baleares</td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td>No incorporada</td></tr>
-              <tr><td>Canarias</td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td><i class="dot red"></i></td><td>No incorporada</td></tr>
-              <tr><td>Cantabria</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Castilla-La Mancha</td><td><i class="dot green"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Preparada; falta promoción</td></tr>
-              <tr><td>Castilla y León</td><td><i class="dot yellow"></i></td><td><i class="dot yellow"></i></td><td><i class="dot yellow"></i></td><td><i class="dot gray"></i></td><td>Revalidación pendiente</td></tr>
-              <tr><td>Cataluña</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Ceuta</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Comunidad de Madrid</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Comunidad Valenciana</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Extremadura</td><td><i class="dot green"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Preparada para continuar</td></tr>
-              <tr class="highlight"><td>Galicia</td><td><i class="dot green"></i></td><td><i class="dot green"></i></td><td><i class="dot green"></i></td><td><i class="dot gray"></i></td><td>Cadena territorial validada</td></tr>
-              <tr><td>La Rioja</td><td><i class="dot yellow"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Preflight</td></tr>
-              <tr><td>Melilla</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Murcia</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>Navarra</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-              <tr><td>País Vasco</td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td><i class="dot gray"></i></td><td>Pendiente de preparación</td></tr>
-            </tbody>
+            <thead><tr><th>Territorio</th><th>FT</th><th>FE</th><th>G</th><th>RE</th><th>Estado</th></tr></thead>
+            <tbody id="territories"></tbody>
           </table>
         </div>
       </article>
@@ -97,52 +54,35 @@
           <div class="pipeline">
             <div><b>1</b><strong>Fuentes territoriales</strong><span>preparar / reutilizar</span></div>
             <div><b>2</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
-            <div><b>3</b><strong>Generación territorial</strong><span>M01–M06 + publicación</span></div>
+            <div><b>3</b><strong>Generación territorial</strong><span>M01–M06</span></div>
             <div><b>4</b><strong>Resultados electorales</strong><span>M07–M08</span></div>
           </div>
-          <p class="rule">La geometría nunca depende de los resultados electorales.</p>
+          <p class="rule">Actualizar estado no publica la web. La geometría nunca depende de resultados electorales.</p>
         </article>
 
         <article class="panel">
-          <div class="panel-heading"><h2>Último territorio validado</h2><span class="badge green-bg">Galicia</span></div>
-          <dl class="metrics">
-            <dt>Run</dt><dd><a href="https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/35505298149">35505298149</a></dd>
-            <dt>Distritos</dt><dd>75</dd>
-            <dt>Secciones</dt><dd>2.134</dd>
-            <dt>Población</dt><dd>2.714.741</dd>
-            <dt>Auditoría geométrica</dt><dd>PASS_WITH_EXCEPTIONS</dd>
-            <dt>Visor</dt><dd class="positive">Publicado</dd>
-            <dt>Resultados electorales</dt><dd>Pendientes de incorporación</dd>
-          </dl>
+          <div class="panel-heading"><h2>Último producto territorial validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
+          <dl id="latest" class="metrics"></dl>
         </article>
 
         <article class="panel">
           <div class="panel-heading"><h2>Bloqueos y alertas</h2></div>
-          <ul class="alerts">
-            <li><span>Aragón</span> Revalidar con la cadena separada actual</li>
-            <li><span>Castilla y León</span> Revalidar con la cadena separada actual</li>
-            <li><span>Castilla-La Mancha</span> Promover evidencia al catálogo</li>
-            <li><span>Extremadura</span> Preparar FE y lanzar generación</li>
-          </ul>
+          <ul id="alerts" class="alerts"></ul>
         </article>
 
         <article class="panel">
           <div class="panel-heading"><h2>Siguiente foco operativo</h2></div>
-          <ol class="next">
-            <li><b>Extremadura</b> — preparar fuentes electorales</li>
-            <li><b>Extremadura</b> — ejecutar generación automática</li>
-            <li><b>Castilla-La Mancha</b> — alinear catálogo</li>
-            <li><b>Aragón / Castilla y León</b> — revalidación</li>
-          </ol>
+          <ol id="next" class="next"></ol>
         </article>
       </aside>
     </section>
   </main>
 
   <footer>
-    <span>19 territorios monitorizados</span>
-    <span>1 cadena territorial validada</span>
-    <span>Dashboard operativo de GitHub Pages</span>
+    <span id="footer-territories">—</span>
+    <span id="footer-validated">—</span>
+    <span>Publicación manual del dashboard</span>
   </footer>
+  <script src="app.js"></script>
 </body>
 </html>
