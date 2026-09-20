@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.1.0
+# VERSIÓN: 8.1.1
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-09-20
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
-# CAMBIOS: incorpora selección funcional de estrategia 02.5: Canónico, GerryChain, GerryChain 25 o GerryChain 50; la elección viaja hasta M05 y obliga a ejecutar M05 para alternativas GerryChain.
+# CAMBIOS: corrige la ejecución manual directa de 02: persist_state deja de llegar como cadena vacía al workflow reutilizable booleano; mantiene el selector Canónico/GerryChain.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
 name: 02 · Generación de Distritos Autonómicos
@@ -391,6 +391,6 @@ jobs:
       source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
       source_ref: ${{ inputs.source_ref }}
-      persist_state: ${{ inputs.persist_state }}
+      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
 
