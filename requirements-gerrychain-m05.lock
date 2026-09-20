@@ -12,7 +12,7 @@ numpy==2.4.6
 packaging==26.3
 pandas==3.0.5
 pyogrio==0.13.0
-pyproj==3.8.0
+pyproj==3.7.2
 PyYAML==6.0.2
 python-dateutil==2.9.0.post0
 rustworkx==0.18.1
