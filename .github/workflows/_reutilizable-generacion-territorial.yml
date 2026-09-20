@@ -691,7 +691,7 @@ jobs:
   registrar:
     name: Registrar producto territorial
     needs: [resolve, auditoria]
-    if: ${{ needs.resolve.result == 'success' && needs.auditoria.result == 'success' }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
