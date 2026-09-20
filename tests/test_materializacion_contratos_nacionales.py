@@ -23,11 +23,11 @@ MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 PARTITIONS = ROOT / "configuracion/particiones_insulares_2025.json"
 
 
-def population_package(root: Path, rows: list[tuple[str, int]]) -> Path:
+def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str = "\t") -> Path:
     package = root / "package"
     package.mkdir(parents=True)
     payload = io.StringIO()
-    writer = csv.writer(payload, delimiter="\t", lineterminator="\n")
+    writer = csv.writer(payload, delimiter=delimiter, lineterminator="\n")
     writer.writerow(["Total Nacional","Provincias","Municipios","Secciones","Sexo","Edad","Periodo","Total"])
     for section, population in rows:
         writer.writerow([
@@ -90,6 +90,22 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         self.assertEqual(sum(quota.values()), 59)
         self.assertEqual(quota["C"], 1)
         self.assertEqual(exempt, ["C"])
+
+    def test_population_parser_accepts_semicolon_official_subset(self):
+        td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+        try:
+            root = Path(td.name)
+            package = population_package(
+                root,
+                [("3300101001", 1507), ("3300201001", 1905), ("3300201002", 0)],
+                delimiter=";",
+            )
+            result = materialize(root, "principado_de_asturias", "2025", package)
+            self.assertEqual(result["status"], "READY")
+            cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
+            self.assertEqual(cfg["validation"]["province_districts"], {"33": 45})
+        finally:
+            td.cleanup()
 
     def test_materializes_asturias_without_manual_contract_work(self):
         td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
