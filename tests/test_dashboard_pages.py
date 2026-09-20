@@ -1,42 +1,56 @@
 from pathlib import Path
+import json
+import tempfile
+
+from herramientas.generar_estado_dashboard import build
 
 ROOT = Path(__file__).resolve().parents[1]
+MANUAL = ROOT / ".github/workflows/desplegar-visor-publico.yml"
+REUSABLE = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
 
 
-def test_dashboard_operativo_existe():
-    assert (ROOT / "dashboard" / "index.html").is_file()
-    assert (ROOT / "dashboard" / "styles.css").is_file()
+def test_dashboard_fuente_y_snapshot_publicado_existen():
+    for base in (ROOT / "dashboard", ROOT / "publicado/dashboard"):
+        for name in ("index.html","app.js","styles.css"):
+            assert (base / name).is_file()
+    assert (ROOT / "publicado/dashboard/status.json").is_file()
 
 
-def test_pages_publica_dashboard_junto_al_visor():
-    workflow = (ROOT / ".github" / "workflows" / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-    assert "mkdir -p site/dashboard" in workflow
-    assert "cp dashboard/index.html dashboard/styles.css site/dashboard/" in workflow
+def test_dashboard_se_genera_desde_catalogo():
+    payload=build(ROOT,"2025")
+    assert payload["schema"]=="ddd-dashboard-status/1.0"
+    galicia=next(r for r in payload["territories"] if r["territory_id"]=="galicia")
+    assert galicia["g"]=="green"
+    assert galicia["run_id"]==35513005773
+    assert payload["latest_validated"]["run_id"]==35513005773
 
 
-def test_publicacion_web_expone_selector_manual():
-    workflow = (ROOT / ".github" / "workflows" / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-    assert "workflow_dispatch:" in workflow
-    assert "pagina_publicar:" in workflow
-    assert "type: choice" in workflow
-    assert "- Sitio completo" in workflow
-    assert "- Visor territorial" in workflow
-    assert "- Dashboard operativo" in workflow
+def test_publicador_manual_y_reutilizable_estan_separados():
+    manual=MANUAL.read_text(encoding="utf-8")
+    reusable=REUSABLE.read_text(encoding="utf-8")
+    assert "workflow_dispatch:" in manual
+    assert "workflow_call:" not in manual
+    assert "workflow_call:" in reusable
+    assert "workflow_dispatch:" not in reusable
+    assert "pagina_publicar:" in manual
+    assert "- Dashboard operativo" in manual
+    assert "- Visor territorial" in manual
+    assert "- Sitio completo" in manual
 
 
-def test_publicacion_selectiva_no_elimina_otras_paginas():
-    workflow = (ROOT / ".github" / "workflows" / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-    assert "cp visor/index.html visor/app.js visor/styles.css site/" in workflow
-    assert "cp dashboard/index.html dashboard/styles.css site/dashboard/" in workflow
+def test_produccion_automatica_preserva_dashboard_promovido():
+    reusable=REUSABLE.read_text(encoding="utf-8")
+    assert "cp -R publicado/dashboard/. site/dashboard/" in reusable
+    assert "cp dashboard/index.html" not in reusable
+
+
+def test_promocion_dashboard_es_explicita_y_trazable():
+    manual=MANUAL.read_text(encoding="utf-8")
+    assert "generar_estado_dashboard.py" in manual
+    assert "cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/" in manual
+    assert 'git commit -m "chore: promover dashboard operativo"' in manual
 
 
 def test_visor_enlaza_dashboard():
-    html = (ROOT / "visor" / "index.html").read_text(encoding="utf-8")
+    html=(ROOT/"visor/index.html").read_text(encoding="utf-8")
     assert 'href="dashboard/"' in html
-    assert "Dashboard operativo" in html
-
-
-def test_publicacion_web_esta_en_critical_path():
-    doc = (ROOT / "docs" / "ORQUESTACION" / "CRITICAL_PATH_EJECUTABLES.md").read_text(encoding="utf-8")
-    assert "Publicar Sitio Web" in doc
-    assert ".github/workflows/desplegar-visor-publico.yml" in doc
