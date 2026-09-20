@@ -27,12 +27,12 @@ def triggers(path:Path):
 class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
-            "Preparación de Datos Territoriales":PREP,
-            "Preparación de Resultados Electorales":ELECTORAL_PREP,
-            "Generación de Distritos Autonómicos":GEN,
-            "Incorporación de Resultados Electorales":ELECTORAL_APPLY,
+            "01 · Preparación de Datos Territoriales":PREP,
+            "03 · Preparación de Resultados Electorales":ELECTORAL_PREP,
+            "02 · Generación de Distritos Autonómicos":GEN,
+            "04 · Incorporación de Resultados Electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
-            "Publicar Sitio Web":WF/"desplegar-visor-publico.yml",
+            "05 · Publicación del Visor":WF/"desplegar-visor-publico.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
@@ -86,7 +86,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertNotIn("M06",electoral_job)
         self.assertNotIn("geometry",electoral_job.lower())
 
-    def test_three_products_route_without_publish_changing_stage(self):
+    def test_products_do_not_auto_publish_from_generation_or_electoral_incorporation(self):
         self.assertEqual(resolve_product("Distritos"),{
             "product":"Distritos","to_stage":"M06","checkpoint_policy":"latest_before_target","requires_electoral_package":False})
         self.assertEqual(resolve_product("Resultados electorales"),{
@@ -96,9 +96,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         gen=GEN.read_text(encoding="utf-8")
         electoral=ELECTORAL_APPLY.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",gen)
-        self.assertIn("UI_PRODUCT: Resultados electorales",electoral)
-        self.assertIn("publish_result: true",gen)
-        self.assertIn("publish_result: true",electoral)
+        self.assertIn("publish_result: false",gen)
+        self.assertNotIn("publish_result:",electoral)
+        self.assertNotIn("_reutilizable-publicar-sitio.yml",electoral)
 
     def test_territorial_product_has_no_electoral_dependency(self):
         route=resolve_product("Distritos")
@@ -107,16 +107,16 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         engine=load(ENGINE)
         self.assertIn("fromJSON(needs.resolve.outputs.to_num) >= 7",engine["jobs"]["electoral_source"]["if"])
 
-    def test_electoral_requires_package_and_valid_m06_without_recalculation(self):
+    def test_electoral_requires_prepared_inputs_without_recalculating_districts(self):
         text=ELECTORAL_APPLY.read_text(encoding="utf-8")
-        self.assertIn("checkpoint_policy",text)
-        self.assertIn("require_m06",text)
-        self.assertIn("search_from=6",text); self.assertIn("search_to=6",text)
-        self.assertIn("Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06.",text)
-        self.assertIn("Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato.",text)
+        reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
+        self.assertIn("Localizar producto territorial certificado",text)
+        self.assertIn("Localizar resultados electorales preparados",text)
         self.assertIn("exit 44",text); self.assertIn("exit 45",text)
-        self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"',text)
-        self.assertEqual(resolve_product("Resultados electorales")["checkpoint_policy"],"require_m06")
+        for forbidden in ("m01:","m02:","m03:","m04:","m05:","m06:","auditar_componentes_geometricos"):
+            self.assertNotIn(forbidden,reusable)
+        self.assertIn("Agregar resultados electorales a los distritos",reusable)
+        self.assertIn("Generar producto electoral territorial",reusable)
 
     def test_checkpoint_is_automatic_and_corrupt_candidates_are_discarded(self):
         text=GEN.read_text(encoding="utf-8")
@@ -155,7 +155,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
             "generar-alternativas-territoriales.yml","orquestacion-control.yml","orquestacion-durable.yml",
             "notificar-finalizacion-orquestacion.yml","desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml",
-            "producir-territorio-por-contrato.yml",
+            "producir-territorio-por-contrato.yml","_reutilizable-incorporacion-electoral.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
         router=ROUTER.read_text(encoding="utf-8")
         self.assertIn("generar-alternativas-territoriales.yml",router)
@@ -201,13 +201,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"hash interno"):
                 validate_package(package=package,params=params,territory_id="fixture",edition="2025",root=root)
 
-    def test_new_election_uses_m06_checkpoint_and_m07_m08_only(self):
+    def test_new_election_consumes_certified_territorial_product_only(self):
         plan=synthetic_matrix_decision("Resultados electorales","existing","existing")
         self.assertTrue(plan["runnable"]); self.assertEqual(plan["to_stage"],"M08")
         self.assertEqual(plan["checkpoint_policy"],"require_m06")
-        text=ELECTORAL_APPLY.read_text(encoding="utf-8")
-        self.assertIn("search_from=6",text); self.assertIn("search_to=6",text)
-        self.assertIn("latest_through_m06",text)
-        self.assertIn('from_stage="M$(printf \'%02d\' "$((stage_num+1))")"',text)
+        text=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
+        self.assertIn("Recuperar producto territorial consolidado",text)
+        self.assertIn("Verificar producto territorial certificado",text)
+        self.assertIn("Agregar resultados electorales a los distritos",text)
+        self.assertIn("Generar producto electoral territorial",text)
 
 if __name__=="__main__": unittest.main()
