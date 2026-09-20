@@ -22,6 +22,16 @@ def _load_json(path: str | None, root: Path) -> dict:
         return {}
 
 
+def _run_from_artifact(name: object, fallback: object = None) -> int | None:
+    match = re.search(r"(\d+)(?:-M\d+)?$", str(name or ""))
+    if match:
+        return int(match.group(1))
+    try:
+        return int(fallback) if fallback not in (None, "") else None
+    except (TypeError, ValueError):
+        return None
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path, optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False) -> dict:
     row = lookup(territory, edition, catalog)
     state = row
@@ -39,22 +49,13 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     except ValueError:
         last_num = 0
 
-    def run_from_artifact(name, fallback=None):
-        match = re.search(r"(\\d+)(?:-M\\d+)?$", str(name or ""))
-        if match:
-            return int(match.group(1))
-        try:
-            return int(fallback) if fallback not in (None, "") else None
-        except (TypeError, ValueError):
-            return None
-
-    source_run_id = run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
-    territorial_product_run_id = run_from_artifact(territorial_evidence.get("artifact_name"), territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None))
+    source_run_id = _run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
+    territorial_product_run_id = _run_from_artifact(territorial_evidence.get("artifact_name"), territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None))
     territorial_product_artifact = territorial_evidence.get("artifact_name") or (
         f"ddd-state-{territorial_product_run_id}-M06" if territorial_product_run_id else None
     )
-    electoral_source_run_id = run_from_artifact(electoral_source_evidence.get("artifact_name"), electoral_source_evidence.get("run_id"))
-    electoral_product_run_id = run_from_artifact(electoral_product_evidence.get("artifact_name"), electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None))
+    electoral_source_run_id = _run_from_artifact(electoral_source_evidence.get("artifact_name"), electoral_source_evidence.get("run_id"))
+    electoral_product_run_id = _run_from_artifact(electoral_product_evidence.get("artifact_name"), electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None))
     electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
     )
