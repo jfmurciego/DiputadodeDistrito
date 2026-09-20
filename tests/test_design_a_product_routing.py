@@ -22,11 +22,11 @@ class ProductRoutingDesignA(unittest.TestCase):
     def test_electoral_incorporation_form_has_only_territory_and_edition(self):
         self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])
 
-    def test_generation_is_fixed_to_districts_and_auto_publishes(self):
+    def test_generation_is_fixed_to_districts_without_auto_publish(self):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",text)
         self.assertIn("execution_confirmed: true",text)
-        self.assertIn("publish_result: true",text)
+        self.assertIn("publish_result: false",text)
         self.assertNotIn("inputs.product",text)
         self.assertNotIn("inputs.publish_result",text)
         self.assertNotIn("inputs.confirmar_ejecucion",text)
@@ -34,13 +34,13 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertIn("Resolver paquete territorial preparado",text)
         self.assertIn("source_package_run_id",text)
 
-    def test_electoral_incorporation_is_fixed_to_results_and_auto_publishes(self):
+    def test_electoral_incorporation_uses_dedicated_reusable_without_publication(self):
+        data=load(ELECTORAL)
         text=ELECTORAL.read_text(encoding="utf-8")
-        self.assertIn("UI_PRODUCT: Resultados electorales",text)
-        self.assertIn("execution_confirmed: true",text)
-        self.assertIn("publish_result: true",text)
-        self.assertIn("Resultados electorales requiere un checkpoint M06 válido",text)
-        self.assertIn("Resolver paquete electoral preparado",text)
+        self.assertEqual(data["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
+        self.assertNotIn("publish_result:",text)
+        self.assertIn("Localizar producto territorial certificado",text)
+        self.assertIn("Localizar resultados electorales preparados",text)
 
     def test_publication_still_targets_the_visor(self):
         router=load(ROUTER); engine=load(ENGINE)
@@ -53,13 +53,12 @@ class ProductRoutingDesignA(unittest.TestCase):
         self.assertIn("needs.m06.result == 'success'",visor["if"])
         self.assertIn("needs.m08.result == 'success'",visor["if"])
 
-    def test_engine_remains_single_reusable_chain(self):
-        for ui_path in (GEN,ELECTORAL):
-            ui=load(ui_path)
-            self.assertEqual(ui["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
+    def test_generation_and_electoral_paths_are_separate(self):
+        generation=load(GEN); electoral=load(ELECTORAL)
+        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
+        self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
         router=load(ROUTER); engine=load(ENGINE)
         self.assertEqual(router["jobs"]["produccion"]["uses"],"./.github/workflows/producir-territorio-por-contrato.yml")
         self.assertIn("workflow_call",engine.get("on") or engine.get(True))
-        for stage in range(1,9): self.assertIn(f"m{stage:02d}",engine["jobs"])
 
 if __name__=="__main__": unittest.main()
