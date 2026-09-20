@@ -7,8 +7,12 @@ WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-GENERATION_TERRITORIES=["Aragón","Castilla y León","Extremadura","Galicia"]
-ELECTORAL_TERRITORIES=["Aragón","Castilla y León"]
+ALL_TERRITORIES=[
+    "Andalucía","Aragón","Principado de Asturias","Islas Baleares","Canarias","Cantabria",
+    "Castilla-La Mancha","Castilla y León","Cataluña","Comunidad Valenciana","Extremadura",
+    "Galicia","Comunidad de Madrid","Región de Murcia","Comunidad Foral de Navarra",
+    "País Vasco","La Rioja","Ceuta","Melilla",
+]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod
@@ -24,14 +28,14 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(self._load(GEN)["name"],"Generación de Distritos Autonómicos")
         inputs=self._dispatch_inputs(GEN)
         self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],GENERATION_TERRITORIES)
+        self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
 
     def test_electoral_incorporation_name_and_controls(self):
         self.assertEqual(self._load(ELECTORAL)["name"],"Incorporación de Resultados Electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
         self.assertEqual(list(inputs),["territory_id","data_edition"])
-        self.assertEqual(inputs["territory_id"]["options"],ELECTORAL_TERRITORIES)
+        self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
 
     def test_no_redundant_human_confirmation_or_publish_switch(self):
