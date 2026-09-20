@@ -13,7 +13,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          tar --exclude=.git -czf /tmp/ddd-source.tgz .
+          tar -czf /tmp/ddd-source.tgz \
+            ddd_core modulos herramientas territorios/galicia/config \
+            fuentes tests procedimiento.sh requirements.lock Dockerfile \
+            .github/workflows/produccion-distritos.yml \
+            .github/workflows/_reutilizable-operacion-territorial.yml \
+            .github/workflows/producir-territorio-por-contrato.yml
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-source-snapshot
