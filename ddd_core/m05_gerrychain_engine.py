@@ -1,6 +1,6 @@
 """Laboratorio M05 para GerryChain/ReCom, sin dependencias del repositorio DDD.
 
-VERSIÓN DEL ADAPTADOR: 1.1.0. La continuidad se valida tanto sobre secciones
+VERSIÓN DEL ADAPTADOR: 1.2.0. La continuidad se valida tanto sobre secciones
 como sobre cada componente poligonal, incluidas las secciones MultiPolygon.
 
 La frontera correcta es sección censal: el ``id`` del grafo M03 se une con
@@ -167,6 +167,7 @@ def adapt_inputs(
     comarca_enabled: bool = False,
     min_shared_border_m: float = 0.0,
     preserve_atomic_multipart_sections: bool = False,
+    declared_topology_bridges: Sequence[tuple[str, str]] = (),
 ) -> AdaptedInputs:
     """Adapta M03/M04 usando sección como clave y ddd_unit_id como atomicidad."""
     features = _feature_index(geojson, section_field)
@@ -273,6 +274,19 @@ def adapt_inputs(
         for section, parts in geometry_components.items()
     }
     component_edges: set[tuple[str, str]] = set()
+    logical_bridges = {
+        tuple(sorted((_text(left), _text(right))))
+        for left, right in declared_topology_bridges
+    }
+    if any(not left or not right or left == right for left, right in logical_bridges):
+        raise InputContractError("Pasarela topológica declarada inválida")
+    unknown_bridge_nodes = {
+        node for edge in logical_bridges for node in edge if node not in nodes
+    }
+    if unknown_bridge_nodes:
+        raise InputContractError(
+            f"Pasarelas con secciones ajenas al universo: {sorted(unknown_bridge_nodes)[:10]}"
+        )
     if preserve_atomic_multipart_sections:
         # Una sección censal es la unidad mínima de población y voto. Cuando
         # su geometría oficial es MultiPolygon, sus piezas no pueden recibir
@@ -294,7 +308,11 @@ def adapt_inputs(
             if geometries:
                 shared = float(geometries[u].boundary.intersection(geometries[v].boundary).length)
                 shared_border_lengths[edge] = shared
-                if min_shared_border_m > 0 and shared + 1e-9 < min_shared_border_m:
+                if (
+                    min_shared_border_m > 0
+                    and edge not in logical_bridges
+                    and shared + 1e-9 < min_shared_border_m
+                ):
                     raise InputContractError(
                         f"Arista sin frontera métrica suficiente: {edge}, "
                         f"shared_border_m={shared:.6f} < {min_shared_border_m:.6f}"
@@ -309,8 +327,19 @@ def adapt_inputs(
                                 section_components[u][left_index],
                                 section_components[v][right_index],
                             ))))
+                if edge in logical_bridges and section_components.get(u) and section_components.get(v):
+                    # Las pasarelas son política territorial declarada: no inventan
+                    # frontera métrica, pero sí forman parte de la continuidad operativa.
+                    component_edges.add(tuple(sorted((
+                        section_components[u][0], section_components[v][0]
+                    ))))
             seen.add(edge)
             edges.append(edge)
+    missing_bridges = logical_bridges - seen
+    if missing_bridges:
+        raise InputContractError(
+            f"Pasarelas declaradas ausentes del grafo M03: {sorted(missing_bridges)[:10]}"
+        )
     return AdaptedInputs(
         nodes,
         sorted(edges),
@@ -727,3 +756,315 @@ def run_gerrychain(
         "configuration": {"contract": asdict(contract), "weights": asdict(weights), "comarca_surcharge": comarca_surcharge},
     }
     return output_geojson(data, selected), report
+
+
+# ---------------------------------------------------------------------------
+# Estrategia de optimización GerryChain para el paso funcional 2.5.
+# Mantiene run_gerrychain() intacto para compatibilidad con los ensembles
+# históricos y añade una ruta que admite semillas M04 todavía fuera del
+# objetivo poblacional, igual que el M05 canónico.
+# ---------------------------------------------------------------------------
+
+
+def population_target_quality(
+    data: AdaptedInputs,
+    assignment: Mapping[str, Any],
+    contract: Contract,
+) -> dict[str, Any]:
+    total = sum(node["population"] for node in data.nodes.values())
+    target = total / contract.k
+    populations: dict[Any, float] = defaultdict(float)
+    for section, district in assignment.items():
+        populations[district] += data.nodes[section]["population"]
+    deviations = {
+        district: abs(population - target) / target
+        for district, population in populations.items()
+    }
+    outside = {
+        district: value
+        for district, value in deviations.items()
+        if value > contract.target_tolerance_ratio + 1e-12
+    }
+    return {
+        "target": target,
+        "district_populations": {
+            str(key): value for key, value in sorted(populations.items(), key=lambda item: str(item[0]))
+        },
+        "districts_outside_tolerance": len(outside),
+        "outside_districts": {
+            str(key): value for key, value in sorted(outside.items(), key=lambda item: str(item[0]))
+        },
+        "max_relative_deviation": max(deviations.values(), default=0.0),
+        "total_relative_deviation": sum(deviations.values()),
+    }
+
+
+def structural_constraint_violations(
+    data: AdaptedInputs,
+    assignment: Mapping[str, Any],
+    contract: Contract,
+) -> list[str]:
+    """Restricciones duras del M05 productivo, sin convertir ±target en hard gate."""
+    return [
+        violation
+        for violation in hard_constraint_violations(data, assignment, contract)
+        if not violation.startswith("population_tolerance:")
+    ]
+
+
+def _optimization_rank(
+    data: AdaptedInputs,
+    assignment: Mapping[str, Any],
+    contract: Contract,
+    *,
+    weights: Weights,
+) -> tuple[tuple[Any, ...], dict[str, Any], dict[str, Any]]:
+    quality = population_target_quality(data, assignment, contract)
+    metrics = plan_metrics(data, assignment, contract)
+    score = score_metrics(metrics, weights=weights, edge_count=len(data.edges))
+    rank = (
+        int(quality["districts_outside_tolerance"]),
+        round(float(quality["max_relative_deviation"]), 12),
+        round(float(quality["total_relative_deviation"]), 12),
+        round(float(score), 12),
+        metrics["assignment_sha256"],
+    )
+    return rank, quality, metrics
+
+
+def _epsilon_schedule(initial_max_deviation: float, target: float, rounds: int) -> list[float]:
+    rounds = max(1, int(rounds))
+    target = float(target)
+    if rounds == 1:
+        return [target]
+    start = max(target, min(0.45, max(float(initial_max_deviation) + 0.02, target * 1.5)))
+    values = [start + (target - start) * index / (rounds - 1) for index in range(rounds)]
+    result: list[float] = []
+    for value in values:
+        value = round(max(target, value), 12)
+        if not result or not math.isclose(value, result[-1], rel_tol=0, abs_tol=1e-12):
+            result.append(value)
+    if not math.isclose(result[-1], target, rel_tol=0, abs_tol=1e-12):
+        result.append(target)
+    return result
+
+
+def _run_recom_optimization_stage(
+    data: AdaptedInputs,
+    contract: Contract,
+    initial_assignment: Mapping[str, Any],
+    *,
+    epsilon: float,
+    total_steps: int,
+    seed: int,
+    comarca_surcharge: float,
+    weights: Weights,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if total_steps < 1:
+        raise InputContractError("total_steps debe ser positivo")
+    try:
+        import networkx as nx
+        from gerrychain import MarkovChain, Partition, updaters
+        from gerrychain.proposals import ReCom
+    except ImportError as exc:
+        raise RuntimeError("GerryChain 1.0 no está instalado en este entorno") from exc
+
+    nx_graph = nx.Graph()
+    for section, attrs in data.nodes.items():
+        node_attrs = dict(attrs)
+        node_attrs["district"] = initial_assignment[section]
+        nx_graph.add_node(section, **node_attrs)
+    nx_graph.add_edges_from(data.edges)
+    initial = Partition(
+        nx_graph,
+        assignment="district",
+        updaters={
+            "population": updaters.Tally("population", alias="population"),
+            "cut_edges": updaters.cut_edges,
+        },
+    )
+    ideal = sum(node["population"] for node in data.nodes.values()) / contract.k
+
+    def ddd_structural_contract(partition: Any) -> bool:
+        return not structural_constraint_violations(
+            data, _partition_assignment_by_section(partition), contract
+        )
+
+    surcharge = (
+        {"comarca": comarca_surcharge}
+        if comarca_surcharge and all(node.get("comarca") for node in data.nodes.values())
+        else None
+    )
+    chain = MarkovChain(
+        proposal_fn=ReCom.district_pairs_mst(
+            pop_col="population",
+            pop_target=ideal,
+            epsilon=float(epsilon),
+            region_surcharge=surcharge,
+            allow_pair_reselection=True,
+        ),
+        constraints=[ddd_structural_contract],
+        initial_partition=initial,
+        total_steps=int(total_steps),
+        rng=int(seed),
+    )
+
+    baseline = dict(initial_assignment)
+    best_rank, best_quality, best_metrics = _optimization_rank(
+        data, baseline, contract, weights=weights
+    )
+    best_assignment = baseline
+    best_step = -1
+    previous_hash = assignment_hash(baseline)
+    unique_hashes = {previous_hash}
+    self_loops = 0
+    observed = 0
+    failures: list[str] = []
+    try:
+        for step, partition in enumerate(chain):
+            state = _partition_assignment_by_section(partition)
+            state_hash = assignment_hash(state)
+            if state_hash == previous_hash:
+                self_loops += 1
+            previous_hash = state_hash
+            unique_hashes.add(state_hash)
+            observed += 1
+            rank, quality, metrics = _optimization_rank(data, state, contract, weights=weights)
+            if rank < best_rank:
+                best_rank = rank
+                best_quality = quality
+                best_metrics = metrics
+                best_assignment = dict(state)
+                best_step = step
+    except RuntimeError as exc:
+        failures.append(str(exc))
+
+    return best_assignment, {
+        "epsilon": float(epsilon),
+        "seed": int(seed),
+        "steps_requested": int(total_steps),
+        "states_observed": observed,
+        "unique_states": len(unique_hashes),
+        "self_loops": self_loops,
+        "best_step": best_step,
+        "best_rank": list(best_rank[:-1]),
+        "best_quality": best_quality,
+        "best_metrics": best_metrics,
+        "failures": failures,
+    }
+
+
+def run_gerrychain_optimization(
+    data: AdaptedInputs,
+    contract: Contract,
+    *,
+    steps_per_stage: int = 250,
+    warmup_rounds: int = 4,
+    seed: int = 20260920,
+    comarca_surcharge: float = 0.30,
+    weights: Weights = Weights(),
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Optimización ReCom compatible con semillas M04 todavía fuera de ±target.
+
+    El suelo/techo poblacional, K, provincia, cuotas, atomicidad, disciplina
+    municipal, núcleos urbanos cerrados y continuidad siguen siendo hard gates.
+    La tolerancia objetivo se usa como objetivo lexicográfico y como epsilon
+    final de ReCom, igualando la semántica productiva del M05 canónico.
+    """
+    structural = structural_constraint_violations(data, data.initial_assignment, contract)
+    if structural:
+        raise InputContractError(
+            "La partición inicial incumple restricciones estructurales: "
+            + ", ".join(structural[:30])
+        )
+    before_rank, before_quality, before_metrics = _optimization_rank(
+        data, data.initial_assignment, contract, weights=weights
+    )
+    schedule = _epsilon_schedule(
+        float(before_quality["max_relative_deviation"]),
+        contract.target_tolerance_ratio,
+        warmup_rounds,
+    )
+    current = dict(data.initial_assignment)
+    best = dict(current)
+    best_rank = before_rank
+    best_quality = before_quality
+    best_metrics = before_metrics
+    stages: list[dict[str, Any]] = []
+    for index, epsilon in enumerate(schedule):
+        stage_assignment, stage_report = _run_recom_optimization_stage(
+            data,
+            contract,
+            current,
+            epsilon=epsilon,
+            total_steps=steps_per_stage,
+            seed=int(seed) + index * 1009,
+            comarca_surcharge=comarca_surcharge,
+            weights=weights,
+        )
+        current = stage_assignment
+        rank, quality, metrics = _optimization_rank(data, current, contract, weights=weights)
+        stage_report["selected_rank"] = list(rank[:-1])
+        stage_report["selected_quality"] = quality
+        stages.append(stage_report)
+        if rank < best_rank:
+            best = dict(current)
+            best_rank = rank
+            best_quality = quality
+            best_metrics = metrics
+
+    final_structural = structural_constraint_violations(data, best, contract)
+    if final_structural:
+        raise InputContractError(
+            "GerryChain produjo una solución estructuralmente inválida: "
+            + ", ".join(final_structural[:30])
+        )
+    if int(best_quality["districts_outside_tolerance"]) == 0:
+        status = "REPAIRED"
+    elif best_rank < before_rank:
+        status = "IMPROVED_NOT_REPAIRED"
+    else:
+        status = "NO_IMPROVEMENT"
+    report = {
+        "schema": "ddd.m05-gerrychain-optimization/1.0",
+        "engine": {
+            "id": "gerrychain_recom",
+            "library_version": "1.0.0",
+            "adapter_version": "1.2.0",
+        },
+        "optimization_status": status,
+        "hard_constraints": {
+            "all_pass": True,
+            "violations": [],
+            "checks": [
+                "unit_universe", "k", "population_floor", "population_cap",
+                "province", "province_apportionment", "atomic_unit",
+                "municipality", "closed_urban", "contiguity",
+                "geometric_contiguity", "declared_topology_bridges",
+            ],
+        },
+        "target_tolerance": {
+            "ratio": contract.target_tolerance_ratio,
+            "before": before_quality,
+            "after": best_quality,
+            "met": int(best_quality["districts_outside_tolerance"]) == 0,
+        },
+        "objective": {
+            "before": list(before_rank[:-1]),
+            "after": list(best_rank[:-1]),
+            "non_degrading": best_rank <= before_rank,
+        },
+        "initial_metrics": before_metrics,
+        "selected_metrics": best_metrics,
+        "schedule": schedule,
+        "stages": stages,
+        "configuration": {
+            "contract": asdict(contract),
+            "weights": asdict(weights),
+            "steps_per_stage": int(steps_per_stage),
+            "warmup_rounds": int(warmup_rounds),
+            "seed": int(seed),
+            "comarca_surcharge": comarca_surcharge,
+        },
+    }
+    return output_geojson(data, best), report
