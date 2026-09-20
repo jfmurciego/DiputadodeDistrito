@@ -16,8 +16,9 @@ def inputs(path):
     return t["workflow_dispatch"]["inputs"]
 
 class ProductRoutingDesignA(unittest.TestCase):
-    def test_generation_form_has_only_territory_and_edition(self):
-        self.assertEqual(list(inputs(GEN)),["territory_id","data_edition"])
+    def test_generation_form_has_functional_execution_mode(self):
+        self.assertEqual(list(inputs(GEN)),["territory_id","data_edition","execution_mode"])
+        self.assertEqual(inputs(GEN)["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
 
     def test_electoral_incorporation_form_has_only_territory_and_edition(self):
         self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])
