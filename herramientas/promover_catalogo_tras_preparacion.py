@@ -14,6 +14,7 @@ from ddd_core.territory_contract import validate_production_contract
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
+GENERATION_WORKFLOW = Path(".github/workflows/produccion-distritos.yml")
 
 REQUIRED_GENERATION_MODULES = (
     "modulo_01_preparar_base_territorial",
@@ -185,6 +186,35 @@ def _promote_master(path: Path, territory_id: str, contract_complete: bool) -> N
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _generation_names(catalog: Path) -> list[str]:
+    data = _yaml(catalog)
+    out: list[str] = []
+    for row in data.get("territories") or []:
+        for state in (row.get("editions") or {}).values():
+            if (
+                state.get("territory_declared")
+                and state.get("territorial_sources_prepared")
+                and state.get("territorial_contract_complete")
+                and state.get("production_authorization") == "AUTHORIZED"
+            ):
+                out.append(str(row["name"]))
+                break
+    return out
+
+
+def _rewrite_generation_options(path: Path, names: list[str]) -> None:
+    if not names:
+        raise ValueError("La lista de territorios generables no puede quedar vacía")
+    lines = path.read_text(encoding="utf-8").splitlines()
+    territory_idx = next(i for i, line in enumerate(lines) if line == "      territory_id:")
+    options_idx = next(i for i in range(territory_idx, len(lines)) if lines[i] == "        options:")
+    end = options_idx + 1
+    while end < len(lines) and lines[end].startswith("          - "):
+        end += 1
+    lines[options_idx + 1:end] = [f"          - {name}" for name in names]
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def promote(
     *,
     root_dir: Path,
@@ -199,6 +229,7 @@ def promote(
     root = root_dir.resolve()
     catalog = root / CATALOG
     master = root / MASTER
+    generation_workflow = root / GENERATION_WORKFLOW
 
     catalog_data = _yaml(catalog)
     row = next((r for r in catalog_data.get("territories") or [] if r.get("territory_id") == territory_id), None)
@@ -242,6 +273,7 @@ def promote(
     original_contract = contract.read_text(encoding="utf-8")
     original_master = master.read_text(encoding="utf-8")
     original_catalog = catalog.read_text(encoding="utf-8")
+    original_generation = generation_workflow.read_text(encoding="utf-8")
 
     generation_enabled = False
     admission_errors: list[str] = []
@@ -267,6 +299,7 @@ def promote(
         contract.write_text(original_contract, encoding="utf-8")
         master.write_text(original_master, encoding="utf-8")
         catalog.write_text(original_catalog, encoding="utf-8")
+        generation_workflow.write_text(original_generation, encoding="utf-8")
         _set_catalog_state(
             catalog,
             territory_id=territory_id,
@@ -279,6 +312,7 @@ def promote(
             package_sha256=package_sha256,
         )
 
+    _rewrite_generation_options(generation_workflow, _generation_names(catalog))
 
     return {
         "territory_id": territory_id,
