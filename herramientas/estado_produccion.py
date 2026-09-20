@@ -253,7 +253,7 @@ def geometric_exceptions_causally_governed(audit: dict) -> bool:
     return True
 
 
-def certification_gate(*, execution_outcome: str, population: dict, geometric_outcome: str, geometric_decision: str, geometric_audit: dict) -> tuple[str, str | None]:
+def certification_gate(*, execution_outcome: str, population: dict, geometric_outcome: str, geometric_decision: str, geometric_audit: dict, population_target_required: bool = False) -> tuple[str, str | None]:
     if execution_outcome != "success":
         return "BLOCK", "EXECUTION_FAILED"
     if population.get("population_outcome") != "success":
@@ -265,10 +265,11 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
         return "BLOCK", "M05_POPULATION_EVIDENCE_INVALID"
     if population.get("population_decision") == HARD_BLOCK:
         return "BLOCK", "POPULATION_HARD_BLOCK"
-    if population.get("population_decision") != TARGET_MET:
-        return "BLOCK", "POPULATION_TARGET_NOT_MET"
-    if population.get("population_hard_constraints_after") != 0 or population.get("population_outliers_after") != 0:
-        return "BLOCK", "POPULATION_TARGET_NOT_MET"
+    if population.get("population_hard_constraints_after") != 0:
+        return "BLOCK", "POPULATION_HARD_BLOCK"
+    if population_target_required:
+        if population.get("population_decision") != TARGET_MET or population.get("population_outliers_after") != 0:
+            return "BLOCK", "POPULATION_TARGET_NOT_MET"
     if geometric_outcome != "success" or geometric_decision not in GEOMETRIC_PASS:
         return "BLOCK", "GEOMETRIC_BLOCK"
     if geometric_decision == "PASS_WITH_EXCEPTIONS" and not geometric_exceptions_causally_governed(geometric_audit):
@@ -276,7 +277,7 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
     return geometric_decision, None
 
 
-def build_production_status(*, territory_id: str, params: str, run_id: str, from_stage: str, to_stage: str, execution_outcome: str, geometric_outcome: str, geometric_decision: str, m05_report: dict | None, geometric_audit: dict, population_evidence: dict | None = None) -> dict:
+def build_production_status(*, territory_id: str, params: str, run_id: str, from_stage: str, to_stage: str, execution_outcome: str, geometric_outcome: str, geometric_decision: str, m05_report: dict | None, geometric_audit: dict, population_evidence: dict | None = None, population_target_required: bool = False) -> dict:
     population = population_evidence if population_evidence is not None else population_dimension(m05_report or {})
     decision, block_cause = certification_gate(
         execution_outcome=execution_outcome,
@@ -284,6 +285,7 @@ def build_production_status(*, territory_id: str, params: str, run_id: str, from
         geometric_outcome=geometric_outcome,
         geometric_decision=geometric_decision,
         geometric_audit=geometric_audit,
+        population_target_required=population_target_required,
     )
     payload = {
         "schema": "ddd.production-status/1.3",
@@ -297,6 +299,7 @@ def build_production_status(*, territory_id: str, params: str, run_id: str, from
         "execution_outcome": execution_outcome,
         "geometric_outcome": geometric_outcome,
         "geometric_decision": geometric_decision,
+        "population_target_required": bool(population_target_required),
         **population,
         "scope_through_stage": "M06",
     }
@@ -342,6 +345,10 @@ def main() -> None:
         raise ValueError("La auditoría geométrica no es un objeto JSON")
 
     population = _load_population_evidence(args.params, args.run_id)
+    params_cfg = load_params_yaml(str(args.params))
+    population_target_required = bool(
+        ((params_cfg.get("validation") or {}).get("require_zero_outside_tolerance_after_m05", False))
+    )
     payload = build_production_status(
         territory_id=args.territory_id,
         params=str(args.params),
@@ -354,6 +361,7 @@ def main() -> None:
         m05_report=None,
         geometric_audit=geometric_audit,
         population_evidence=population,
+        population_target_required=population_target_required,
     )
     _write_json(args.output, payload)
     _write_json(args.output.parent / "block_causes.json", _block_causes(payload))
