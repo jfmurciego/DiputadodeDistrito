@@ -1,13 +1,13 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.4.0
 # NOMBRE DE VERSIÓN: Diseño A — puerta sintética única de la plataforma
-# FECHA: 2026-09-18
+# FECHA: 2026-09-20
 # ESTADO: vigente
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
-# CAMBIOS: retira workflow_dispatch; conserva push/pull_request y el artefacto de diagnóstico de unittest.
+# CAMBIOS: conserva la suite canónica y añade smoke real de GerryChain 1.0 en su venv aislado.
 # MOTIVO: mantener la puerta como CI automática y reservar la interfaz humana al workflow único.
-# ANTERIOR: versión 1.2.0 en historial Git.
+# ANTERIOR: versión 1.3.0 en historial Git.
 name: Pruebas de la Plataforma
 on:
   push:
@@ -33,10 +33,21 @@ jobs:
           docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
             ddd-tests:${GITHUB_SHA} -m unittest discover -s tests -p 'test_*.py' -v \
             2>&1 | tee ci-unittest.log
+      - name: Probar runtime GerryChain aislado
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e PYTHONHASHSEED=0 -e DDD_SKIP_LEGACY_CHECK=1 \
+            --entrypoint /opt/ddd-gerrychain/bin/python ddd-tests:${GITHUB_SHA} \
+            -m unittest tests.test_m05_gerrychain_strategy.ContractTests \
+              tests.test_m05_gerrychain_strategy.GerryChainRuntimeTests -v \
+            2>&1 | tee ci-gerrychain.log
       - name: Conservar diagnóstico de la suite
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ci-unittest.log
-          if-no-files-found: error
+          path: |
+            ci-unittest.log
+            ci-gerrychain.log
+          if-no-files-found: warn

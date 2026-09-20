@@ -1,0 +1,22 @@
+# PROYECTO: Diputado de Distrito
+# ENTORNO: 02.5 GerryChain/ReCom sobre Python 3.11
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-20
+# ESTADO: candidato
+# MOTIVO: requirements-ensemble.lock está fijado para Python 3.12; este lock conserva
+# GerryChain 1.0.0 con versiones compatibles con el runtime productivo Python 3.11.
+gerrychain==1.0.0
+geopandas==1.1.4
+networkx==3.6.1
+numpy==2.4.6
+packaging==26.3
+pandas==3.0.5
+pyogrio==0.13.0
+pyproj==3.7.2
+PyYAML==6.0.2
+python-dateutil==2.9.0.post0
+rustworkx==0.18.1
+scipy==1.17.1
+shapely==2.1.2
+six==1.17.0
+tqdm==4.70.1
