@@ -40,9 +40,12 @@ class LightweightBusinessWorkflows(unittest.TestCase):
     def test_generation_and_electoral_incorporation_do_not_publish_pages(self):
         generation=(WF/"produccion-distritos.yml").read_text(encoding="utf-8")
         electoral=(WF/"incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
-        self.assertIn("publish_result: false",generation)
+        self.assertNotIn("publish_result:",generation)
         self.assertNotIn("pages: write",generation)
         self.assertNotIn("id-token: write",generation)
+        territorial=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        for forbidden in ("M07","M08","electoral","_reutilizable-publicar-sitio.yml","pages: write","id-token: write"):
+            self.assertNotIn(forbidden,territorial)
         self.assertNotIn("publish_result:",electoral)
         self.assertNotIn("pages: write",electoral)
         self.assertNotIn("id-token: write",electoral)
@@ -59,7 +62,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("ddd-electoral-prod-",electoral)
         self.assertIn("group: ddd-catalog-promotion",territorial_prep)
         self.assertIn("group: ddd-catalog-promotion",electoral_prep)
-        self.assertIn("group: ddd-catalog-promotion",(WF/"_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8"))
+        self.assertIn("group: ddd-catalog-promotion",(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
         self.assertIn("group: ddd-catalog-promotion", (WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8"))
         self.assertIn("group: ddd-pages-prod",publisher)
         self.assertIn("cancel-in-progress: false",publisher)
