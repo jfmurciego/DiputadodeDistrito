@@ -244,10 +244,50 @@ def main():
         if need==0 and open_units:raise SystemExit(f'M04: provincia {prov}: no quedan distritos abiertos para {len(open_units)} unidades')
         if need>len(open_units):raise SystemExit(f'M04: provincia {prov}: need={need} > unidades abiertas={len(open_units)}')
         if open_units and not connected(open_units,uadj):
-            cs=components(open_units,uadj);detail=[{'units':len(c),'pop':sum(upop[i] for i in c),'ids':[units[i][0] for i in sorted(c)[:12]]} for c in cs]
-            raise SystemExit(f'M04: unidades abiertas desconectadas provincia {prov}; componentes={detail}')
-        open_parts=hybrid_partition(open_units,need,uadj,upop,label=f'provincia {prov} unidades abiertas') if need else []
-        open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,floor,cap,tol,30000) if open_parts else ([],[],())
+            cs=components(open_units,uadj)
+            # Los núcleos cerrados pueden separar legítimamente el residual provincial.
+            # Evaluamos las cardinalidades factibles de cada componente con el mismo
+            # particionador/rebalanceador y elegimos la combinación lexicográficamente
+            # mejor que suma exactamente la cuota abierta.
+            choices=[]
+            for seq,comp in enumerate(cs,1):
+                pcomp=sum(upop[i] for i in comp)
+                kmin=max(1,int(math.ceil(pcomp/cap-1e-12)))
+                kmax=min(len(comp),int(math.floor(pcomp/floor+1e-12)))
+                opts=[]
+                for kc in range(kmin,kmax+1):
+                    pp=hybrid_partition(comp,kc,uadj,upop,label=f'provincia {prov} componente abierto {seq} k={kc}')
+                    pp,pvals,pobj=rebalance(pp,uadj,upop,target,floor,cap,tol,30000)
+                    opts.append((kc,pp,pvals,pobj))
+                if not opts:
+                    detail={'units':len(comp),'pop':pcomp,'kmin':kmin,'kmax':kmax,'ids':[units[i][0] for i in sorted(comp)[:12]]}
+                    raise SystemExit(f'M04: componente abierto sin cardinalidad factible provincia {prov}: {detail}')
+                choices.append(opts)
+            def combine(a,b):
+                return (a[0]+b[0],a[1]+b[1],a[2]+b[2],max(a[3],b[3]),a[4]+b[4])
+            states={0:((0,0,0,0.0,0.0),[])}
+            for opts in choices:
+                nxt={}
+                for used,(obj_acc,sel) in states.items():
+                    for option in opts:
+                        kc,pp,pvals,pobj=option
+                        total_used=used+kc
+                        if total_used>need:continue
+                        obj=combine(obj_acc,pobj)
+                        prev=nxt.get(total_used)
+                        if prev is None or obj<prev[0]:
+                            nxt[total_used]=(obj,sel+[option])
+                states=nxt
+            if need not in states:
+                detail=[{'units':len(c),'pop':sum(upop[i] for i in c),'ids':[units[i][0] for i in sorted(c)[:12]]} for c in cs]
+                raise SystemExit(f'M04: componentes abiertos no admiten need={need} provincia {prov}; componentes={detail}')
+            open_obj,selected=states[need]
+            open_parts=[];open_pops=[]
+            for kc,pp,pvals,pobj in selected:
+                open_parts.extend(pp);open_pops.extend(pvals)
+        else:
+            open_parts=hybrid_partition(open_units,need,uadj,upop,label=f'provincia {prov} unidades abiertas') if need else []
+            open_parts,open_pops,open_obj=rebalance(open_parts,uadj,upop,target,floor,cap,tol,30000) if open_parts else ([],[],())
         local_ids=[];dist_nodes={}
         for i in locked:
             d=district_counter;district_counter+=1;local_ids.append(d);dist_nodes[d]=set(units[i][1])

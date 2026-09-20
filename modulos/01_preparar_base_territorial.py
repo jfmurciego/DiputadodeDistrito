@@ -58,7 +58,12 @@ def load_seccionado(path_str,layer="",province_codes=None):
             return pyogrio.read_dataframe(str(shp),layer=layer or None,where=where)
         except Exception as exc:print(f"[Módulo 1] AVISO filtro temprano no disponible: {exc}");return gpd.read_file(str(shp))
     return gpd.read_file(str(p),layer=layer or None)
-def _sniff_sep(sample):return "\t" if "\t" in sample and sample.count("\t")>=sample.count(",") else ","
+def _sniff_sep(sample):
+    first=sample.splitlines()[0] if sample.splitlines() else sample
+    counts={d:first.count(d) for d in ("\t",";",",")}
+    sep=max(counts,key=counts.get)
+    if counts[sep]==0:raise ValueError("CSV sin delimitador reconocible")
+    return sep
 def load_cip(paths,section_key_col,pop_col,year,sep,filters,province_codes=None,chunksize=100000):
     partials=[];year_col=filters.get("year_col","Periodo");sexo_col=filters.get("sexo_col","Sexo");edad_col=filters.get("edad_col","Edad");sexo_vals=[str(x) for x in filters.get("sexo_total_values",["Total"])];edad_vals=[str(x) for x in filters.get("edad_total_values",["Todas las edades"])]
     def consume(reader):

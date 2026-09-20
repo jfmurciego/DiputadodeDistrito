@@ -72,6 +72,34 @@ def _merge_report_metadata(report_path, **metadata):
     rep=json.loads(report_path.read_text(encoding="utf-8")); rep["wrapper_version"]=WRAPPER_VERSION; rep.update(metadata)
     report_path.write_text(json.dumps(rep,ensure_ascii=False,indent=2),encoding="utf-8")
 
+def _protect_closed_urban_districts(g,did,assignments,adj):
+    """Aísla del post-procesado las fronteras de los distritos urbanos cerrados."""
+    frozen_districts={next(iter(set(x[did]))) for _,x in g.groupby(did) if bool(x["ddd_closed_urban"].all())}
+    frozen_units={u for u,d in assignments.items() if d in frozen_districts}
+    protected={u:set(vs) for u,vs in adj.items()}
+    if frozen_units:
+        for u in list(protected):
+            protected[u]={v for v in protected[u] if not ((u in frozen_units) ^ (v in frozen_units))}
+    return protected,frozen_districts,frozen_units,{u:assignments[u] for u in frozen_units}
+
+def _refresh_population_report(report_path,g,did,pop_by_section,idf,target,floor,cap,tol):
+    if not report_path or not report_path.exists(): return
+    sec_pop=g[idf].astype(str).map(pop_by_section).fillna(0).astype(int)
+    pops=sec_pop.groupby(g[did]).sum().to_dict(); vals=list(pops.values())
+    hard=sum(p<floor or p>cap for p in vals)
+    hard_mag=sum(max(0,floor-p,p-cap) for p in vals)
+    outside=sum(abs(p-target)>tol for p in vals)
+    maxdev=max((abs(p-target)/target for p in vals),default=0.0)
+    sq=sum(((p-target)/target)**2 for p in vals)
+    _merge_report_metadata(
+        report_path,
+        objective_final=[hard,round(hard_mag/target,12),outside,round(maxdev,12),round(sq,12)],
+        districts_below_floor=sum(p<floor for p in vals),
+        districts_above_cap=sum(p>cap for p in vals),
+        districts_outside_tolerance=outside,
+        best_max_rel_dev=round(maxdev,12),
+    )
+
 def _apply_swap(cfg,s5,out_path,report_path):
     n=int(s5.get("swap_polish_max",0) or 0)
     if n < 0:
@@ -98,11 +126,21 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
     for e in graph["edges"]:
         a,b=sec_unit.get(str(e["u"])),sec_unit.get(str(e["v"]));
         if a in adj and b in adj and a!=b: adj[a].add(b); adj[b].add(a)
+    # Los distritos urbanos cerrados son una restricción dura creada por la formación inicial.
+    # El motor base ya los congela; la reparación posterior debe conservar exactamente
+    # la misma frontera y no puede usarlos como donante ni receptor.
+    adj,frozen_districts,frozen_units,baseline_frozen=_protect_closed_urban_districts(g,did,assignments,adj)
     total=sum(pop.values()); target,floor,cap,tol=hard_limits(cfg,k=len(set(assignments.values())),total_pop=total)
     limits=SearchLimits(max_depth=int(rcfg.get("max_depth",3)),max_transfer_set=int(rcfg.get("max_transfer_set",2)),max_candidates=int(rcfg.get("max_candidates",5000)),max_seconds=float(rcfg.get("max_seconds",5)),seed=int(rcfg.get("seed",0)))
     meta=repair(assignments=assignments,units=units,adjacency=adj,target=target,tolerance=tol,floor=floor,cap=cap,limits=limits); meta["enabled"]=True
+    moved_frozen={u:(baseline_frozen[u],meta["assignments"].get(u)) for u in baseline_frozen if meta["assignments"].get(u)!=baseline_frozen[u]}
+    if moved_frozen: raise SystemExit(f"M05 repair: distrito urbano cerrado modificado: {moved_frozen}")
+    meta["frozen_districts"]=sorted(frozen_districts,key=str); meta["frozen_units"]=len(frozen_units)
     for u,d in meta["assignments"].items(): g.loc[g["ddd_unit_id"]==u,did]=d
-    write_geo(g,out_path); _merge_report_metadata(report_path,population_repair=meta); return meta
+    write_geo(g,out_path)
+    _merge_report_metadata(report_path,population_repair=meta)
+    _refresh_population_report(report_path,g,did,pop,idf,target,floor,cap,tol)
+    return meta
 
 def _post(cfg,s5,out_path,report_path):
     sw=_apply_swap(cfg,s5,out_path,report_path); rp=_apply_population_repair(cfg,s5,out_path,report_path); return sw,rp

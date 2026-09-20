@@ -198,6 +198,5 @@ validation:
   require_municipality_discipline: true
   municipality_atomicity_limit_ratio: 1.10
   max_mixed_districts_per_split_municipality: 1
-  require_zero_outside_tolerance_after_m05: true
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true

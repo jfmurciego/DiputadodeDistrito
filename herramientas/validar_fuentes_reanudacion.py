@@ -64,7 +64,9 @@ def validate_resume_sources(*, params: Path, package: Path, root_dir: Path = Pat
         root=package_path,
         requested_edition=edition,
         official_available=False,
-        expected_records=expected_records,
+        # El campo records del manifiesto es cardinalidad del bundle; la cobertura
+        # censal se valida sobre la evidencia territorial interna.
+        expected_records=None,
     )
     if decision.get("decision") != "REUSE":
         raise RuntimeError("Fuentes BLOQUEADAS: " + str(decision.get("reason") or "copia no reutilizable"))

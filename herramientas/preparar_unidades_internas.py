@@ -91,7 +91,7 @@ def build_command(params_path: str | Path, run_id: str) -> list[str] | None:
     m04 = ((cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {})
     id_field = str(policy.get("id_field") or m04.get("id_field") or "CUSEC_KEY")
     municipality_field = str(policy.get("municipality_field") or "CUMUN")
-    population_field = str(policy.get("population_field") or m04.get("pop_field") or f"POP_{(cfg.get('meta') or {}).get('year', '')}")
+    population_field = _fmt(str(policy.get("population_field") or m04.get("pop_field") or f"POP_{(cfg.get('meta') or {}).get('year', '')}"), cfg=cfg, run_id=run_id)
 
     output_geojson = _fmt(policy["output_geojson"], cfg=cfg, run_id=run_id)
     m04_input = _fmt(str(m04.get("in_geojson") or ""), cfg=cfg, run_id=run_id)

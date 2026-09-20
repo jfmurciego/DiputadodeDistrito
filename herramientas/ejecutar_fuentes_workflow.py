@@ -184,7 +184,9 @@ def main() -> int:
         checkpoint_out=args.checkpoint_out,
         official_available=True,
         downloader=downloader,
-        expected_records=expected_records,
+        # El manifiesto del bundle describe el paquete, no el número de secciones.
+        # La cobertura territorial se valida después sobre el inventario materializado.
+        expected_records=None,
     )
     if evidence["decision"] == "REUSE":
         _restore_acquisition_evidence(args.working, args.acquisition_evidence)
