@@ -44,7 +44,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertNotIn("pages: write",generation)
         self.assertNotIn("id-token: write",generation)
         territorial=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
-        for forbidden in ("M07","M08","electoral","_reutilizable-publicar-sitio.yml","pages: write","id-token: write"):
+        for forbidden in ("M07","M08","_reutilizable-publicar-sitio.yml","pages: write","id-token: write","instalar_fuente_electoral_oficial.py"):
             self.assertNotIn(forbidden,territorial)
         self.assertNotIn("publish_result:",electoral)
         self.assertNotIn("pages: write",electoral)
