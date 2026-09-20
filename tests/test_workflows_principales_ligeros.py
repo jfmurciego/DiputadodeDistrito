@@ -11,6 +11,7 @@ def load(name):
 class LightweightBusinessWorkflows(unittest.TestCase):
     def test_visible_business_names_are_numbered(self):
         expected={
+            "ejecucion-completa-proyecto.yml":"00 · Ejecución Completa del Proyecto",
             "preparacion-fuentes.yml":"01 · Preparación de Datos Territoriales",
             "produccion-distritos.yml":"02 · Generación de Distritos Autonómicos",
             "preparacion-resultados-electorales.yml":"03 · Preparación de Resultados Electorales",

@@ -11,6 +11,15 @@
 name: 02 · Generación de Distritos Autonómicos
 
 on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      execution_mode: {required: false, type: string, default: reuse}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -45,6 +54,14 @@ on:
         type: choice
         options:
           - '2025'
+      execution_mode:
+        description: Modo de ejecución
+        required: true
+        default: Reutilizar progreso existente
+        type: choice
+        options:
+          - Reutilizar progreso existente
+          - Ejecutar desde el principio
 
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
@@ -73,6 +90,8 @@ jobs:
       source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
       - id: resolve
         name: Resolver territorio, edición y recorrido necesario
         shell: bash
@@ -111,10 +130,24 @@ jobs:
           TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
           PRODUCT: ${{ steps.resolve.outputs.product }}
           CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
+          EXECUTION_MODE: ${{ inputs.execution_mode }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
           from_stage=M01
+          mode="$EXECUTION_MODE"
+          [[ "$mode" == "Ejecutar desde el principio" ]] && mode=from_start
+          [[ "$mode" == "Reutilizar progreso existente" ]] && mode=reuse
+          if [[ "$mode" == from_start ]]; then
+            mkdir -p .ddd-checkpoint-selection
+            printf '[]\n' > .ddd-checkpoint-selection/checkpoints_descartados.json
+            jq -cn --arg territory_id "$TERRITORY_ID" --arg params "$PARAMS"               '{territory_id:$territory_id,params:$params,checkpoint_run_id:"",from_stage:"M01",execution_mode:"from_start"}'               > .ddd-checkpoint-selection/seleccion_checkpoint.json
+            {
+              echo "checkpoint_run_id="
+              echo "from_stage=M01"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           target_num="$((10#${TO_STAGE#M}))"
           if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
             search_from=6
@@ -264,6 +297,8 @@ jobs:
           CHECKPOINT_RUN_ID: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
           PREPARED_SOURCE_RUN_ID: ${{ steps.resolve.outputs.prepared_source_run_id }}
           PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
+          OVERRIDE_SOURCE_RUN_ID: ${{ inputs.source_package_run_id }}
+          OVERRIDE_SOURCE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
         run: |
           set -euo pipefail
           if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
@@ -291,6 +326,9 @@ jobs:
             return 1
           }
 
+          if validate_candidate "$OVERRIDE_SOURCE_RUN_ID" "$OVERRIDE_SOURCE_ARTIFACT_NAME"; then
+            exit 0
+          fi
           if validate_candidate "$PREPARED_SOURCE_RUN_ID" "$PREPARED_SOURCE_ARTIFACT_NAME"; then
             exit 0
           fi
@@ -336,4 +374,6 @@ jobs:
       source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
       source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+      source_ref: ${{ inputs.source_ref }}
+      persist_state: ${{ inputs.persist_state }}
 
