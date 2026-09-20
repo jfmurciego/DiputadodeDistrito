@@ -273,7 +273,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 catalog=catalog,
                 root_dir=root,
             )
-            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertTrue(plan["run_prepare_territorial"])
             self.assertTrue(plan["run_generate"])
             self.assertTrue(plan["run_prepare_electoral"])
             self.assertTrue(plan["run_incorporate"])
