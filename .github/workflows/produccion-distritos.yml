@@ -167,15 +167,13 @@ jobs:
           elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
             search_from=6
             search_to=1
-          elif [[ "$OPTIMIZATION_ALGORITHM" != "Canónico" ]]; then
-            # Una alternativa GerryChain seleccionada por el usuario debe ejecutar
-            # realmente 02.5. Nunca reutilizamos un M05/M06 previo que pueda haber
-            # sido producido por otra estrategia: reanudamos como máximo desde M04.
+          elif [[ "$CHECKPOINT_POLICY" == latest_before_target ]]; then
+            # El usuario ha elegido explícitamente cómo ejecutar 02.5. Esa elección
+            # debe ejecutarse siempre: reutilizamos como máximo M04 y recalculamos
+            # optimización + consolidación, tanto para Canónico como para GerryChain.
             search_from=4
             search_to=1
           else
-            # Para el producto territorial inspeccionamos también el estado acumulado
-            # de certificación, pero solo para derivar una etapa anterior compatible.
             search_from=$target_num
             search_to=1
           fi
