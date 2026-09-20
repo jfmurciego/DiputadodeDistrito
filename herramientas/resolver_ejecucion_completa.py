@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 from herramientas.catalogo_preparacion import lookup
@@ -21,7 +22,7 @@ def _load_json(path: str | None, root: Path) -> dict:
         return {}
 
 
-def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path, optimization_algorithm: str = "Canónico") -> dict:
+def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path, optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False) -> dict:
     row = lookup(territory, edition, catalog)
     state = row
     evidence = state.get("evidence") or {}
@@ -38,11 +39,22 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     except ValueError:
         last_num = 0
 
-    territorial_product_run_id = territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None)
+    def run_from_artifact(name, fallback=None):
+        match = re.search(r"(\\d+)(?:-M\\d+)?$", str(name or ""))
+        if match:
+            return int(match.group(1))
+        try:
+            return int(fallback) if fallback not in (None, "") else None
+        except (TypeError, ValueError):
+            return None
+
+    source_run_id = run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
+    territorial_product_run_id = run_from_artifact(territorial_evidence.get("artifact_name"), territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None))
     territorial_product_artifact = territorial_evidence.get("artifact_name") or (
         f"ddd-state-{territorial_product_run_id}-M06" if territorial_product_run_id else None
     )
-    electoral_product_run_id = electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None)
+    electoral_source_run_id = run_from_artifact(electoral_source_evidence.get("artifact_name"), electoral_source_evidence.get("run_id"))
+    electoral_product_run_id = run_from_artifact(electoral_product_evidence.get("artifact_name"), electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None))
     electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
     )
@@ -55,33 +67,42 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
 
     territorial_sources_ready = bool(
-        state.get("territorial_sources_prepared") and prep.get("run_id") and prep.get("artifact_name")
+        state.get("territorial_sources_prepared")
+        and source_run_id
+        and prep.get("artifact_name")
+        and prep.get("artifact_sha256")
     )
     territorial_product_ready = bool(
         state.get("territorial_product_available")
         and state.get("territorial_certification") in PASS_CERTIFICATIONS
         and territorial_product_run_id
+        and territorial_evidence.get("artifact_sha256")
     )
     electoral_source_ready = bool(
         state.get("electoral_source_prepared")
-        and electoral_source_evidence.get("run_id")
+        and electoral_source_run_id
         and electoral_source_evidence.get("artifact_name")
+        and electoral_source_evidence.get("artifact_sha256")
     )
-    electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id)
+    electoral_product_ready = bool(
+        state.get("electoral_product_available")
+        and electoral_product_run_id
+        and electoral_product_evidence.get("artifact_sha256")
+    )
 
     run_prepare_territorial = from_start or not territorial_sources_ready
-    # 00 expone una elección explícita de algoritmo: por tanto 02 debe ejecutarse.
-    # La propia generación reutilizará M04 cuando sea compatible, evitando repetir
-    # M01–M04 pero garantizando que la estrategia seleccionada sí corre.
-    run_generate = True
+    # En ejecución manual, 00 expone una elección explícita de algoritmo y 02 debe
+    # ejecutarse. El smoke de pull request puede desactivar esta fuerza para validar
+    # la orquestación sin recalcular un territorio ya certificado.
+    run_generate = bool(from_start or run_prepare_territorial or not territorial_product_ready or optimization_algorithm != "Canónico" or force_selected_algorithm)
     run_prepare_electoral = from_start or not electoral_source_ready
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
 
-    existing_source_run_id = prep.get("run_id")
+    existing_source_run_id = source_run_id
     existing_source_artifact_name = prep.get("artifact_name")
 
     plan = {
-        "schema": "ddd.full-run-plan/1.0",
+        "schema": "ddd.full-run-plan/1.1",
         "territory_id": row["territory_id"],
         "territory_name": row["name"],
         "edition": edition,
@@ -96,20 +117,27 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "territorial_source": {
                 "run_id": existing_source_run_id,
                 "artifact_name": existing_source_artifact_name,
+                "artifact_sha256": prep.get("artifact_sha256"),
+                "decision": "VALIDADO" if territorial_sources_ready else None,
             },
             "territorial_product": {
                 "run_id": territorial_product_run_id,
                 "artifact_name": territorial_product_artifact,
+                "artifact_sha256": territorial_evidence.get("artifact_sha256"),
                 "decision": territorial_evidence.get("decision"),
             },
             "electoral_source": {
-                "run_id": electoral_source_evidence.get("run_id"),
+                "run_id": electoral_source_run_id,
                 "artifact_name": electoral_source_evidence.get("artifact_name"),
+                "artifact_sha256": electoral_source_evidence.get("artifact_sha256"),
                 "election_id": electoral_source_evidence.get("election_id"),
+                "decision": "VALIDADO" if electoral_source_ready else None,
             },
             "electoral_product": {
                 "run_id": electoral_product_run_id,
                 "artifact_name": electoral_product_artifact,
+                "artifact_sha256": electoral_product_evidence.get("artifact_sha256"),
+                "decision": "VALIDADO" if electoral_product_ready else None,
             },
         },
         "catalog_state": {
@@ -140,6 +168,7 @@ def main() -> None:
     ap.add_argument("--edition", required=True)
     ap.add_argument("--execution-mode", choices=["reuse", "from_start"], required=True)
     ap.add_argument("--optimization-algorithm", default="Canónico", choices=["Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"])
+    ap.add_argument("--reuse-existing-optimization", action="store_true")
     ap.add_argument("--catalog", default="configuracion/catalogo_preparacion.yaml")
     ap.add_argument("--root-dir", default=".")
     ap.add_argument("--output")
@@ -153,6 +182,7 @@ def main() -> None:
         catalog=root / ns.catalog,
         root_dir=root,
         optimization_algorithm=ns.optimization_algorithm,
+        force_selected_algorithm=not ns.reuse_existing_optimization,
     )
     text = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
     if ns.output:

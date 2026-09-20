@@ -4,9 +4,9 @@ const esc = value => String(value ?? "—").replace(/[&<>"']/g, c => ({"&":"&amp
 function renderKpis(kpis) {
   const root=document.querySelector("#kpis");
   const cards=[
-    ["good","Cadena territorial validada",kpis.validated,kpis.validated_names.join(" · ") || "—"],
+    ["good","Cadena completa validada",kpis.complete,kpis.complete_names.join(" · ") || "—"],
     ["info","Preparados para continuar",kpis.ready,kpis.ready_names.join(" · ") || "—"],
-    ["warn","Revalidación / preflight",kpis.pending,kpis.pending_names.join(" · ") || "—"],
+    ["warn","Validación pendiente",kpis.pending,kpis.pending_names.join(" · ") || "—"],
     ["bad","Pendientes o bloqueados",kpis.blocked,kpis.blocked_names.join(" · ") || "—"],
   ];
   root.innerHTML=cards.map(([cls,label,value,names])=>`<article class="kpi ${cls}"><p>${label}</p><strong>${value}</strong><span>${esc(names)}</span></article>`).join("");
@@ -14,7 +14,7 @@ function renderKpis(kpis) {
 function renderTerritories(rows) {
   document.querySelector("#territories").innerHTML=rows.map(r=>`
     <tr class="${r.g==="green"?"highlight":""}">
-      <td>${esc(r.name)}</td><td>${dot(r.ft)}</td><td>${dot(r.fe)}</td><td>${dot(r.g)}</td><td>${dot(r.re)}</td><td>${esc(r.status)}</td>
+      <td>${esc(r.name)}</td><td>${dot(r.ft)}</td><td>${dot(r.g)}</td><td>${dot(r.fe)}</td><td>${dot(r.re)}</td><td>${esc(r.status)}</td>
     </tr>`).join("");
 }
 function renderLatest(latest) {
@@ -37,7 +37,7 @@ async function bootstrap(){
   renderKpis(data.kpis); renderTerritories(data.territories); renderLatest(data.latest_validated);
   renderList("#alerts",data.alerts); renderList("#next",data.next_actions,true);
   document.querySelector("#footer-territories").textContent=`${data.territories.length} territorios monitorizados`;
-  document.querySelector("#footer-validated").textContent=`${data.kpis.validated} cadenas territoriales validadas`;
+  document.querySelector("#footer-validated").textContent=`${data.kpis.complete} cadenas completas validadas`;
 }
 bootstrap().catch(error=>{
   console.error(error);

@@ -36,13 +36,13 @@
         <div class="panel-heading">
           <div>
             <h2>Estado actual por territorio</h2>
-            <p>FT = fuentes territoriales · FE = fuentes electorales · G = generación · RE = resultados electorales</p>
+            <p>FT = fuentes territoriales · G = generación · FE = fuentes electorales · RE = resultados electorales</p>
           </div>
           <span id="snapshot" class="snapshot">—</span>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Territorio</th><th>FT</th><th>FE</th><th>G</th><th>RE</th><th>Estado</th></tr></thead>
+            <thead><tr><th>Territorio</th><th>FT</th><th>G</th><th>FE</th><th>RE</th><th>Estado</th></tr></thead>
             <tbody id="territories"></tbody>
           </table>
         </div>
@@ -53,15 +53,15 @@
           <div class="panel-heading"><h2>Cadena automática</h2></div>
           <div class="pipeline">
             <div><b>1</b><strong>Fuentes territoriales</strong><span>preparar / reutilizar</span></div>
-            <div><b>2</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
-            <div><b>3</b><strong>Generación territorial</strong><span>M01–M06</span></div>
+            <div><b>2</b><strong>Generación territorial</strong><span>M01–M06</span></div>
+            <div><b>3</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
             <div><b>4</b><strong>Resultados electorales</strong><span>M07–M08</span></div>
           </div>
-          <p class="rule">Actualizar estado no publica la web. La geometría nunca depende de resultados electorales.</p>
+          <p class="rule">Cada transición exige una puerta de validación. La geometría nunca depende de resultados electorales.</p>
         </article>
 
         <article class="panel">
-          <div class="panel-heading"><h2>Último producto territorial validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
+          <div class="panel-heading"><h2>Último producto validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
           <dl id="latest" class="metrics"></dl>
         </article>
 
@@ -81,7 +81,7 @@
   <footer>
     <span id="footer-territories">—</span>
     <span id="footer-validated">—</span>
-    <span>Publicación manual del dashboard</span>
+    <span>Estado sincronizado antes de publicación</span>
   </footer>
   <script src="app.js"></script>
 </body>
