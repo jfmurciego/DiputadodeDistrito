@@ -807,6 +807,7 @@ jobs:
     name: Visor
     needs: [resolve, m06, m08, auditoria]
     if: ${{ always() && inputs.publish_result == true && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && needs.auditoria.result == 'success' && ((fromJSON(needs.resolve.outputs.to_num) == 6 && needs.m06.result == 'success') || (fromJSON(needs.resolve.outputs.to_num) >= 8 && needs.m08.result == 'success')) }}
-    uses: ./.github/workflows/desplegar-visor-publico.yml
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
     with:
       production_run_id: ${{ github.run_id }}
+      target_page: Visor territorial
