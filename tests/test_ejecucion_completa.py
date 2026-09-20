@@ -36,13 +36,21 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         for forbidden in ("checkpoint_run_id:", "from_stage:", "to_stage:", "product:"):
             self.assertNotIn(forbidden, dumped)
 
-    def test_orchestrator_runs_its_own_safe_premerge_smoke(self):
+    def test_existing_platform_ci_invokes_safe_premerge_smoke(self):
         t = triggers(ORCH)
         self.assertIn("workflow_call", t)
-        self.assertIn("pull_request", t)
         call_inputs = t["workflow_call"]["inputs"]
         self.assertIn("source_ref", call_inputs)
         self.assertIn("persist_state", call_inputs)
+
+        ci = load(WF / "pruebas-plataforma.yml")
+        smoke = ci["jobs"]["smoke_orquestador_completo"]
+        self.assertEqual(smoke["uses"], "./.github/workflows/ejecucion-completa-proyecto.yml")
+        self.assertEqual(smoke["with"]["territory_id"], "Galicia")
+        self.assertEqual(smoke["with"]["execution_mode"], "Reutilizar progreso existente")
+        self.assertFalse(smoke["with"]["publish_result"])
+        self.assertFalse(smoke["with"]["persist_state"])
+
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn("github.event_name == 'pull_request' && 'Galicia'", text)
         self.assertIn("github.event_name == 'pull_request' && '2025'", text)
