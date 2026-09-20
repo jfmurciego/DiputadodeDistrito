@@ -47,7 +47,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ddd-electoral-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+  group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
 
 jobs:
