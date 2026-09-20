@@ -77,7 +77,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
-      GH_TOKEN: ${{ secrets.DDD_WORKFLOW_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
@@ -86,11 +86,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          token: ${{ secrets.DDD_WORKFLOW_TOKEN }}
-      - name: Verificar credencial de promoción
-        shell: bash
-        run: |
-          test -n "$GH_TOKEN" || { echo "::error::Falta el secreto DDD_WORKFLOW_TOKEN con Contents:write y Workflows:write."; exit 50; }
+          token: ${{ github.token }}
       - name: Instalar dependencias de resolución territorial
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Generar declaración territorial desde fuentes oficiales
@@ -193,7 +189,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             .github/workflows/produccion-distritos.yml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
+          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
           git commit -m "chore: promover $TERRITORY_ID tras preparación territorial"
           git push origin "HEAD:$TARGET_BRANCH"
 

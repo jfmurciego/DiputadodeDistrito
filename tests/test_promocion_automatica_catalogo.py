@@ -34,11 +34,11 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertIn("--artifact-sha256", promote)
         self.assertIn("git push origin", promote)
 
-    def test_preparation_uses_workflow_capable_token_for_dynamic_selector(self):
+    def test_preparation_uses_standard_github_token_for_catalog_promotion(self):
         text = PREP.read_text(encoding="utf-8")
-        self.assertIn("secrets.DDD_WORKFLOW_TOKEN", text)
-        self.assertIn("Falta el secreto DDD_WORKFLOW_TOKEN", text)
-        self.assertIn(".github/workflows/produccion-distritos.yml", text)
+        self.assertIn("github.token", text)
+        self.assertNotIn("DDD_WORKFLOW_TOKEN", text)
+        self.assertNotIn(".github/workflows/produccion-distritos.yml", text)
 
     def test_extremadura_preparation_evidence_is_durable(self):
         row = lookup("Extremadura", "2025", CAT)
