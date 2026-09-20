@@ -89,7 +89,7 @@ class ContractTests(unittest.TestCase):
         self.assertIn("/opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py", procedure)
         self.assertIn("PYTHONHASHSEED=0", procedure)
         self.assertIn("python -m venv /opt/ddd-gerrychain", dockerfile)
-        self.assertIn("requirements-ensemble.lock", dockerfile)
+        self.assertIn("requirements-gerrychain-m05.lock", dockerfile)
 
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
