@@ -69,11 +69,18 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         for forbidden in ("extremadura", "badajoz", "cáceres", "caceres"):
             self.assertNotIn(forbidden, common_code)
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
-        self.assertNotIn("preparar_unidades_internas.py", procedure)
+        self.assertIn("preparar_unidades_internas.py", procedure)
         workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
         self.assertIn("name: Preparar unidades internas", workflow)
         self.assertIn("ddd-internal-units-${{ github.run_id }}", workflow)
         self.assertIn("PREVIOUS_STAGE: M03U", workflow)
+
+    def test_m02_uses_original_administrative_fields_before_internal_partitioning(self):
+        m02 = (ROOT / "modulos/02_construir_adyacencias.py").read_text(encoding="utf-8")
+        self.assertIn('validation.get("municipality_field", "CUMUN")', m02)
+        self.assertEqual(self.params["validation"]["municipality_field"], "CUMUN")
+        self.assertEqual(self.params["modulos"]["modulo_04_generar_semillas"]["municipality_field"], "M04_PARTITION_UNIT")
+        self.assertNotIn("require_zero_outside_tolerance_after_m05", self.params["validation"])
 
     def test_sources_and_m01_m03_are_prepared_by_configuration(self):
         self.assertEqual(self.sources["territory"]["id"], "extremadura")
