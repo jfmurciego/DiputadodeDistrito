@@ -25,6 +25,15 @@ class WorkflowSourceWiringTests(unittest.TestCase):
         self.assertIn('.ddd-state/in/sources', self.text)
         self.assertIn('--checkpoint-in', self.text)
 
+    def test_prepared_source_identifiers_are_wired_into_official_sources_job(self):
+        self.assertIn("SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}", self.text)
+        self.assertIn("SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}", self.text)
+        recover = self.text.index("name: Recuperar datos territoriales preparados")
+        run_ref = self.text.index('gh run download "$SOURCE_PACKAGE_RUN_ID"', recover)
+        artifact_ref = self.text.index('"$SOURCE_PACKAGE_ARTIFACT_NAME"', recover)
+        self.assertGreater(run_ref, recover)
+        self.assertGreater(artifact_ref, recover)
+
 
 if __name__ == '__main__':
     unittest.main()
