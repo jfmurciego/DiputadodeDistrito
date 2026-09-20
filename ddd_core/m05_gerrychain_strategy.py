@@ -705,4 +705,139 @@ def build_report(
         "cut_edges_start": cut_start,
         "cut_edges_final": cut_final,
         "changed_units": churn,
-        "changed_unit_ratio"
+        "changed_unit_ratio": churn / max(1, len(problem.initial_assignment)),
+        "hard_constraints_before": hard_before,
+        "hard_constraints_after": hard_after,
+        "search": {
+            "steps_per_seed": config.steps_per_seed,
+            "seed_base": config.seed_base,
+            "seed_count": config.seed_count,
+            "seeds": config.seeds(),
+            "proposal_epsilon": config.proposal_epsilon,
+            "max_bipartition_attempts": config.max_bipartition_attempts,
+            "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
+            "runs": [
+                {k: v for k, v in run.items() if k != "assignment"}
+                for run in portfolio["runs"]
+            ],
+            "selected_seed": portfolio["selected"]["seed"],
+            "selected_assignment_hash": portfolio["selected"]["assignment_hash"],
+        },
+        "inputs": {
+            "graph": str(graph_path),
+            "graph_sha256": _sha256(graph_path),
+            "initial": str(initial_path),
+            "initial_sha256": _sha256(initial_path),
+        },
+        "output": {
+            "geojson": str(output_path),
+            "sha256": _sha256(output_path),
+        },
+        "nonpartisan_contract": {
+            "electoral_fields_consumed": [],
+            "party_fields_consumed": [],
+            "expected_k": contract.expected_k,
+            "target_tolerance_ratio": contract.target_tolerance_ratio,
+            "population_floor_ratio": contract.population_floor_ratio,
+            "population_cap_ratio": contract.population_cap_ratio,
+            "province_districts": dict(contract.province_districts),
+        },
+    }
+
+
+def run_from_paths(
+    *,
+    graph_path: Path,
+    initial_path: Path,
+    output_path: Path,
+    report_path: Path,
+    contract: StrategyContract,
+    strategy: StrategyConfig,
+) -> dict[str, Any]:
+    problem = prepare_problem(graph_path, initial_path, contract)
+    portfolio = run_portfolio(problem, contract, strategy)
+    materialise_output(problem, portfolio["selected"]["assignment"], output_path)
+    report = build_report(problem, contract, strategy, portfolio, graph_path, initial_path, output_path)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return report
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--params", type=Path)
+    ap.add_argument("--run-id", default="local-gerrychain")
+    ap.add_argument("--graph", type=Path)
+    ap.add_argument("--initial", type=Path)
+    ap.add_argument("--output", type=Path)
+    ap.add_argument("--report", type=Path)
+    ap.add_argument("--expected-k", type=int)
+    ap.add_argument("--province-quotas", default="")
+    ap.add_argument("--target-tolerance", type=float, default=0.12)
+    ap.add_argument("--population-floor", type=float, default=0.80)
+    ap.add_argument("--population-cap", type=float, default=1.75)
+    ap.add_argument("--steps-per-seed", type=int)
+    ap.add_argument("--seed-base", type=int)
+    ap.add_argument("--seed-count", type=int)
+    ap.add_argument("--proposal-epsilon", type=float)
+    ap.add_argument("--max-bipartition-attempts", type=int)
+    args = ap.parse_args()
+
+    if args.params:
+        params_path = args.params.expanduser().resolve()
+        cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
+        contract = contract_from_yaml(cfg)
+        strategy = strategy_config_from_yaml(cfg)
+        paths = resolve_paths(cfg, params_path, args.run_id)
+    else:
+        if not all((args.graph, args.initial, args.output, args.report, args.expected_k)):
+            ap.error("Sin --params son obligatorios --graph --initial --output --report --expected-k")
+        quotas: dict[str, int] = {}
+        if args.province_quotas:
+            quotas = {
+                k.strip().zfill(2): int(v)
+                for k, v in (item.split("=", 1) for item in args.province_quotas.split(","))
+            }
+        contract = StrategyContract(
+            expected_k=args.expected_k,
+            target_tolerance_ratio=args.target_tolerance,
+            population_floor_ratio=args.population_floor,
+            population_cap_ratio=args.population_cap,
+            province_districts=quotas,
+        )
+        strategy = StrategyConfig()
+        paths = {
+            "graph": args.graph,
+            "initial": args.initial,
+            "output": args.output,
+            "report": args.report,
+        }
+
+    strategy = StrategyConfig(
+        steps_per_seed=args.steps_per_seed if args.steps_per_seed is not None else strategy.steps_per_seed,
+        seed_base=args.seed_base if args.seed_base is not None else strategy.seed_base,
+        seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
+        proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
+        max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
+        require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
+    )
+    strategy.validate()
+    report = run_from_paths(
+        graph_path=Path(paths["graph"]),
+        initial_path=Path(paths["initial"]),
+        output_path=Path(paths["output"]),
+        report_path=Path(paths["report"]),
+        contract=contract,
+        strategy=strategy,
+    )
+    print(json.dumps({
+        "strategy": report["strategy"],
+        "objective_start": report["objective_start"],
+        "objective_final": report["objective_final"],
+        "selected_seed": report["search"]["selected_seed"],
+        "output": report["output"],
+    }, ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()
