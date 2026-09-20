@@ -9,6 +9,14 @@
 name: 00 · Ejecución Completa del Proyecto
 
 on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      execution_mode: {required: false, type: string, default: Reutilizar progreso existente}
+      publish_result: {required: false, type: boolean, default: false}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -89,6 +97,8 @@ jobs:
       existing_electoral_product_artifact: ${{ steps.plan.outputs.existing_electoral_product_artifact }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: plan
         name: Resolver fases necesarias
@@ -147,7 +157,10 @@ jobs:
     secrets: inherit
     with:
       territory_id: ${{ inputs.territory_id }}
+      data_edition: ${{ inputs.data_edition }}
       reutilizar_si_ya_preparada: true
+      source_ref: ${{ inputs.source_ref }}
+      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
 
   generar:
     name: 02 · Generar distritos autonómicos
@@ -161,7 +174,8 @@ jobs:
       execution_mode: ${{ inputs.execution_mode }}
       source_package_run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || '' }}
       source_package_artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || '' }}
-      source_ref: ${{ github.ref_name }}
+      source_ref: ${{ inputs.source_ref || github.ref_name }}
+      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
 
   preparar_electoral:
     name: 03 · Preparar resultados electorales
@@ -171,9 +185,9 @@ jobs:
     secrets: inherit
     with:
       territory_id: ${{ inputs.territory_id }}
-      data_edition: ${{ inputs.data_edition }}
       reutilizar_si_ya_preparada: true
-      source_ref: ${{ github.ref_name }}
+      source_ref: ${{ inputs.source_ref || github.ref_name }}
+      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
 
   incorporar:
     name: 04 · Incorporar resultados electorales
@@ -187,7 +201,8 @@ jobs:
       territorial_run_id: ${{ needs.generar.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_product_run_id }}
       electoral_package_run_id: ${{ needs.preparar_electoral.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_source_run_id }}
       electoral_package_artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
-      source_ref: ${{ github.ref_name }}
+      source_ref: ${{ inputs.source_ref || github.ref_name }}
+      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
 
   publicar:
     name: 05 · Publicar visor
@@ -224,7 +239,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ inputs.source_ref || github.ref_name }}
       - name: Construir manifiesto único
         shell: bash
         run: |
@@ -246,7 +261,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Conservar manifiesto durable en producción
-        if: ${{ github.ref_name == 'main' }}
+        if: ${{ github.ref_name == 'main' && (github.event_name == 'workflow_dispatch' || inputs.persist_state) }}
         shell: bash
         run: |
           set -euo pipefail
