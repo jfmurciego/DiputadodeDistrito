@@ -703,7 +703,7 @@ jobs:
   registrar:
     name: Registrar producto territorial
     needs: [resolve, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && inputs.persist_state }}
+    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' && ((github.event_name == 'workflow_dispatch' && github.ref_name == 'main') || inputs.persist_state) }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
