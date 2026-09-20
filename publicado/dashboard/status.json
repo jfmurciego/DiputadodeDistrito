@@ -1,7 +1,7 @@
 {
   "schema": "ddd-dashboard-status/1.0",
   "edition": "2025",
-  "generated_at": "2026-09-20T13:53:22.714418+00:00",
+  "generated_at": "2026-09-20T18:41:13.749852+00:00",
   "territories": [
     {
       "territory_id": "andalucia",
@@ -165,10 +165,10 @@
       "ft": "green",
       "fe": "green",
       "g": "green",
-      "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "re": "green",
+      "status": "Producto electoral incorporado",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35513005773,
+      "run_id": 35520753227,
       "stage": "M06",
       "edition": "2025"
     },
@@ -287,7 +287,7 @@
   "latest_validated": {
     "territory_id": "galicia",
     "name": "Galicia",
-    "run_id": 35513005773,
+    "run_id": 35520753227,
     "stage": "M06",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -310,10 +310,6 @@
       "action": "revalidar generación territorial"
     },
     {
-      "territory": "Galicia",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "Islas Baleares",
       "action": "incorporación territorial pendiente"
     },
@@ -334,10 +330,6 @@
     {
       "territory": "Extremadura",
       "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Galicia",
-      "action": "incorporar resultados electorales"
     },
     {
       "territory": "La Rioja",
