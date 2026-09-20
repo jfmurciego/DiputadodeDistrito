@@ -21,6 +21,7 @@ on:
         options:
           - Aragón
           - Castilla y León
+          - Galicia
       data_edition:
         description: Edición de datos
         required: true
