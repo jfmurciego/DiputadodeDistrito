@@ -187,4 +187,159 @@ def _normalise_district(v: Any) -> Any:
 def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
     validation = cfg.get("validation") or {}
     meta = cfg.get("meta") or {}
-    s4 = (cfg.get("modulos") or {}).get("modulo_04_generar_semi
+    s4 = (cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
+    s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
+    k = int(
+        s5.get("expected_districts")
+        or s4.get("expected_districts")
+        or validation.get("expected_districts")
+        or meta.get("expected_districts")
+        or 0
+    )
+    if k <= 0:
+        raise ValueError("No se pudo resolver expected_k desde el contrato")
+    tol = float(
+        s5.get("target_tolerance_ratio")
+        or validation.get("target_tolerance_ratio")
+        or 0.12
+    )
+    floor = float(s5.get("population_floor_ratio") or validation.get("population_floor_ratio") or 0.80)
+    cap = float(s5.get("population_cap_ratio") or validation.get("population_cap_ratio") or 1.75)
+    quotas_raw = (
+        s5.get("province_districts")
+        or s4.get("province_districts")
+        or validation.get("province_districts")
+        or {}
+    )
+    quotas = {str(k).zfill(2): int(v) for k, v in dict(quotas_raw).items()}
+    return StrategyContract(
+        expected_k=k,
+        target_tolerance_ratio=tol,
+        population_floor_ratio=floor,
+        population_cap_ratio=cap,
+        province_districts=quotas,
+        require_single_province=bool(validation.get("require_single_province_per_district", True)),
+        require_contiguity=bool(validation.get("require_graph_contiguity", validation.get("require_contiguity", True))),
+        require_municipality_discipline=bool(validation.get("require_municipality_discipline", True)),
+        max_mixed_districts_per_split_municipality=int(
+            validation.get("max_mixed_districts_per_split_municipality", 1)
+        ),
+        preserve_closed_urban=bool(validation.get("preserve_closed_urban", True)),
+    )
+
+
+def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
+    s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
+    raw = s5.get("gerrychain") or {}
+    validation = cfg.get("validation") or {}
+    default_epsilon = float(validation.get("target_tolerance_ratio", 0.12))
+    result = StrategyConfig(
+        steps_per_seed=int(raw.get("steps_per_seed", 3000)),
+        seed_base=int(raw.get("seed_base", 20260920)),
+        seed_count=int(raw.get("seed_count", 4)),
+        proposal_epsilon=float(raw.get("proposal_epsilon", default_epsilon)),
+        max_bipartition_attempts=int(raw.get("max_bipartition_attempts", 500)),
+        require_pythonhashseed_zero=bool(raw.get("require_pythonhashseed_zero", True)),
+    )
+    result.validate()
+    return result
+
+
+def resolve_paths(cfg: Mapping[str, Any], params_path: Path, run_id: str) -> dict[str, Path]:
+    meta = cfg.get("meta") or {}
+    values = {
+        "year": meta.get("year", ""),
+        "run_name": meta.get("run_name", params_path.stem),
+        "run_id": run_id,
+    }
+    s3 = (cfg.get("modulos") or {}).get("modulo_03_construir_grafo") or {}
+    s4 = (cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
+    s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
+    graph = s5.get("in_graph_json") or s4.get("in_graph_json") or s3.get("out_graph_json")
+    initial = s5.get("in_geojson") or s4.get("out_geojson")
+    output = s5.get("out_geojson")
+    report = s5.get("out_report")
+    if not all((graph, initial, output, report)):
+        raise ValueError("El contrato no declara rutas completas M03/M04/M05")
+
+    io_cfg = cfg.get("io") or {}
+    project_root_raw = (io_cfg.get("project_root") or {}).get("path", "")
+    root = params_path.parent.resolve()
+    if project_root_raw:
+        declared = Path(str(project_root_raw)).expanduser()
+        root = declared.resolve() if declared.is_absolute() else (params_path.parent / declared).resolve()
+
+    def render(raw: str) -> Path:
+        p = Path(str(raw).format(**values)).expanduser()
+        return p if p.is_absolute() else (root / p).resolve()
+
+    return {"graph": render(graph), "initial": render(initial), "output": render(output), "report": render(report)}
+
+
+def prepare_problem(
+    graph_path: Path,
+    initial_geojson: Path,
+    contract: StrategyContract,
+    *,
+    id_field: str = "CUSEC_KEY",
+    population_field: str = "POP_2025",
+    district_field: str = "district_id",
+    unit_field: str = "ddd_unit_id",
+    province_field: str = "CPRO",
+    municipality_field: str = "CUMUN",
+    closed_urban_field: str = "ddd_closed_urban",
+) -> PreparedProblem:
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    node_population = {str(n["id"]): float(n.get("pop", 0)) for n in graph.get("nodes", [])}
+    sections = _load_geojson_any(initial_geojson)
+    required = {id_field, district_field, unit_field, province_field, municipality_field, closed_urban_field}
+    missing = sorted(required - set(sections.columns))
+    if missing:
+        raise ValueError("M04 carece de columnas requeridas: " + ", ".join(missing))
+    if sections.crs is None:
+        raise ValueError("M04 no declara CRS")
+
+    sections = sections.copy()
+    sections[id_field] = sections[id_field].astype(str)
+    sections[unit_field] = sections[unit_field].astype(str)
+    sections[province_field] = sections[province_field].astype(str).str.zfill(2)
+    sections[municipality_field] = sections[municipality_field].astype(str)
+    sections[district_field] = sections[district_field].map(_normalise_district)
+
+    if sections[id_field].duplicated().any():
+        raise ValueError("M04 contiene secciones duplicadas")
+    if set(sections[id_field]) != set(node_population):
+        raise ValueError("El universo de M04 no coincide exactamente con M03")
+
+    section_unit = dict(zip(sections[id_field], sections[unit_field]))
+    units: dict[str, dict[str, Any]] = {}
+    initial: dict[str, Any] = {}
+    for unit, rows in sections.groupby(unit_field, sort=True):
+        districts = set(rows[district_field])
+        provinces = set(rows[province_field])
+        municipalities = set(rows[municipality_field])
+        if len(districts) != 1:
+            raise ValueError(f"Unidad indivisible ya partida en M04: {unit}")
+        if len(provinces) != 1:
+            raise ValueError(f"Unidad cruza provincias: {unit}")
+        if len(municipalities) != 1:
+            raise ValueError(f"Unidad cruza municipios: {unit}")
+        units[str(unit)] = {
+            "unit_id": str(unit),
+            "population": float(sum(node_population[s] for s in rows[id_field])),
+            "province": next(iter(provinces)),
+            "municipality": next(iter(municipalities)),
+            "closed_urban": bool(rows[closed_urban_field].fillna(False).astype(bool).all()),
+        }
+        initial[str(unit)] = next(iter(districts))
+
+    edges: set[tuple[str, str]] = set()
+    for edge in graph.get("edges", []):
+        u = section_unit.get(str(edge["u"]))
+        v = section_unit.get(str(edge["v"]))
+        if u is None or v is None:
+            raise ValueError("M03 contiene arista fuera del universo M04")
+        if u != v:
+            edges.add(tuple(sorted((u, v))))
+
+    members: dict[Any, set[str]
