@@ -1,11 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# CLASE: activo
-# VERSIÓN: 2.3.0
-# NOMBRE: Publicación manual y reutilizable del sitio web DDD
+# CLASE: interfaz humana de publicación
+# VERSIÓN: 3.0.0
+# NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: activo
-# QUÉ HACE: publica el sitio GitHub Pages completo y permite seleccionar desde Actions la página objetivo visible; conserva compatibilidad como workflow reutilizable.
-# CAMBIOS: añade workflow_dispatch con selector de página, mantiene workflow_call y evita despliegues parciales destructivos publicando siempre el sitio completo.
-# ANTERIOR: versión 2.2.0 en historial Git.
+# QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
 name: Publicar Sitio Web
 
 on:
@@ -14,196 +12,65 @@ on:
       pagina_publicar:
         description: Página a publicar
         required: true
-        default: Sitio completo
+        default: Dashboard operativo
         type: choice
         options:
-          - Sitio completo
-          - Visor territorial
           - Dashboard operativo
-  workflow_call:
-    inputs:
-      pagina_publicar:
-        required: false
-        type: string
-        default: Sitio completo
-      production_run_id:
-        required: false
-        type: string
-      ensemble_release_tag:
-        required: false
-        type: string
+          - Visor territorial
+          - Sitio completo
 
 permissions:
-  contents: read
+  contents: write
   actions: read
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  publicar:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  preparar_publicacion:
+    name: Preparar promoción web
     runs-on: ubuntu-24.04
-    env:
-      GH_TOKEN: ${{ github.token }}
-      TARGET_PAGE: ${{ inputs.pagina_publicar || 'Sitio completo' }}
-      PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
-      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
-      PYTHONPATH: ${{ github.workspace }}
+    outputs:
+      source_ref: ${{ steps.resolve.outputs.source_ref }}
+      production_run_id: ${{ steps.resolve.outputs.production_run_id }}
     steps:
       - uses: actions/checkout@v6
-      - name: Resolver página solicitada
-        id: pagina
-        shell: bash
-        run: |
-          set -euo pipefail
-          case "$TARGET_PAGE" in
-            "Sitio completo")
-              relative_path=""
-              ;;
-            "Visor territorial")
-              relative_path=""
-              ;;
-            "Dashboard operativo")
-              relative_path="dashboard/"
-              ;;
-            *)
-              echo "::error::Página no soportada: $TARGET_PAGE"
-              exit 64
-              ;;
-          esac
-          echo "relative_path=$relative_path" >> "$GITHUB_OUTPUT"
-          echo "Página solicitada: $TARGET_PAGE"
-
-      - name: Preparar dependencia de reproyección
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m pip install --disable-pip-version-check pyproj
-      - name: Validar visor y preparadores
-        shell: bash
-        run: |
-          set -euo pipefail
-          node --check visor/app.js
-          test -f dashboard/index.html
-          test -f dashboard/styles.css
-          python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py
-          python herramientas/preparar_visor_ejecucion.py --help >/dev/null
-          python herramientas/evaluar_publicacion_visor.py --help >/dev/null
-      - name: Recuperar ejecución territorial solicitada
-        if: ${{ inputs.production_run_id != '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf /tmp/production
-          mkdir -p /tmp/production
-          gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
-          test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43; }
-      - name: Acreditar identidad de la ejecución descargada
-        if: ${{ inputs.production_run_id != '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          python herramientas/evaluar_publicacion_visor.py \
-            --requested-run-id "$PRODUCTION_RUN_ID" \
-            --production-root /tmp/production \
-            --phase source \
-            --output .ddd-publication/publicacion_visor.json \
-            --strict-request
-      - name: Recuperar ensemble solicitado
-        if: ${{ inputs.ensemble_release_tag != '' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/ensemble/download /tmp/ensemble/unpacked
-          gh release download "$ENSEMBLE_RELEASE_TAG" --pattern "$ENSEMBLE_RELEASE_TAG.zip" --dir /tmp/ensemble/download
-          archive="$(find /tmp/ensemble/download -name '*.zip' -print -quit)"
-          test -n "$archive"
-          unzip -q "$archive" -d /tmp/ensemble/unpacked
-      - name: Empaquetar sitio web completo
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf site
-          mkdir -p site/dashboard
-          cp visor/index.html visor/app.js visor/styles.css site/
-          cp dashboard/index.html dashboard/styles.css site/dashboard/
-          args=(--site site --static-registry orchestracion/productos_publicos.json)
-          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
-            test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::No hay artefactos de la ejecución solicitada.'; exit 43; }
-            args+=(--production-root /tmp/production --production-run-id "$PRODUCTION_RUN_ID")
-            audit="docs/SALIDAS_CHATGPT/EVIDENCIAS/aragon_m06_contiguedad_geometrica_run_${PRODUCTION_RUN_ID}.json"
-            [[ -f "$audit" ]] && args+=(--production-audit "$audit")
-          fi
-          [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
-          python herramientas/preparar_visor_ejecucion.py "${args[@]}"
-      - name: Acreditar resultado realmente cargado
-        shell: bash
-        run: |
-          set -euo pipefail
-          args=(
-            --requested-run-id "$PRODUCTION_RUN_ID"
-            --registry site/data/viewer-results.json
-            --phase prepared
-            --output .ddd-publication/publicacion_visor.json
-          )
-          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
-            args+=(--production-root /tmp/production --strict-request)
-          fi
-          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
-      - uses: actions/configure-pages@v5
         with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: site
-      - id: deployment
-        uses: actions/deploy-pages@v4
-      - name: Registrar evidencia final de publicación
-        if: always()
+          ref: main
+          token: ${{ github.token }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: resolve
+        name: Generar estado y promover sólo si se solicita
         shell: bash
         env:
-          DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
-          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          TARGET_PAGE: ${{ inputs.pagina_publicar }}
         run: |
           set -euo pipefail
-          args=(
-            --requested-run-id "$PRODUCTION_RUN_ID"
-            --registry site/data/viewer-results.json
-            --viewer-url "$PAGE_URL"
-            --deployment-outcome "$DEPLOYMENT_OUTCOME"
-            --phase final
-            --output .ddd-publication/publicacion_visor.json
-          )
-          if [[ -n "$PRODUCTION_RUN_ID" ]] && [[ -d /tmp/production ]]; then
-            args+=(--production-root /tmp/production)
-          fi
-          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
           mkdir -p .ddd-publication
-          target_url=""
-          if [[ -n "$PAGE_URL" ]]; then
-            target_url="$PAGE_URL${{ steps.pagina.outputs.relative_path }}"
+          python herramientas/generar_estado_dashboard.py --output .ddd-publication/status.json
+          production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
+          if [[ "$TARGET_PAGE" == "Dashboard operativo" || "$TARGET_PAGE" == "Sitio completo" ]]; then
+            mkdir -p publicado/dashboard
+            cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/
+            cp .ddd-publication/status.json publicado/dashboard/status.json
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add publicado/dashboard
+            if ! git diff --cached --quiet; then
+              git commit -m "chore: promover dashboard operativo"
+              git pull --rebase origin main
+              git push origin HEAD:main
+            fi
           fi
-          jq -n \
-            --arg pagina "$TARGET_PAGE" \
-            --arg url "$target_url" \
-            --arg pages_root "$PAGE_URL" \
-            --arg run_id "$GITHUB_RUN_ID" \
-            --arg deployment_outcome "$DEPLOYMENT_OUTCOME" \
-            '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id,deployment_outcome:$deployment_outcome}' \
-            > .ddd-publication/pagina_publicada.json
-      - name: Publicar evidencia del sitio
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-publication-${{ github.run_id }}
-          path: |
-            .ddd-publication/publicacion_visor.json
-            .ddd-publication/pagina_publicada.json
-          if-no-files-found: error
-          retention-days: 30
+          echo "source_ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "production_run_id=$production_run_id" >> "$GITHUB_OUTPUT"
+
+  publicar:
+    name: Desplegar página seleccionada
+    needs: preparar_publicacion
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      source_ref: ${{ needs.preparar_publicacion.outputs.source_ref }}
+      production_run_id: ${{ needs.preparar_publicacion.outputs.production_run_id }}
+      ensemble_release_tag: ''
+      target_page: ${{ inputs.pagina_publicar }}
