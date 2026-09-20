@@ -79,6 +79,8 @@ jobs:
     name: Preparar fuentes territoriales
     needs: resolver
     runs-on: ubuntu-24.04
+    outputs:
+      artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
     timeout-minutes: 120
     env:
       GH_TOKEN: ${{ github.token }}
@@ -167,33 +169,50 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Promover catálogo territorial
+  registrar:
+    name: Registrar fuentes territoriales preparadas
+    needs: [resolver, territoriales]
+    if: ${{ needs.territoriales.result == 'success' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY: ${{ inputs.territory_id }}
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ inputs.data_edition }}
+      ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+      ARTIFACT_SHA256: ${{ needs.territoriales.outputs.artifact_digest }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+      SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - uses: actions/download-artifact@v6
+        with:
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: .ddd-source-package
+      - name: Registrar preparación territorial
         shell: bash
-        env:
-          ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
-          ARTIFACT_SHA256: ${{ steps.upload.outputs.artifact-digest }}
-          TARGET_BRANCH: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-
-          # Trabaja siempre sobre la punta actual de la misma rama para no publicar
-          # un catálogo calculado sobre un commit obsoleto.
+          mkdir -p "$(dirname "$SOURCE_DECLARATION")"
+          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --output "$SOURCE_DECLARATION"
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
-
-          python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
-          python herramientas/promover_catalogo_tras_preparacion.py             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --package .ddd-source-package             --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256"             > .ddd-catalog-promotion.json
-
+          python herramientas/promover_catalogo_tras_preparacion.py             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
           python herramientas/catalogo_preparacion.py --root-dir . validate
-
-          if git diff --quiet; then
-            echo "El catálogo ya reflejaba este estado; no hay commit que publicar."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
-          git commit -m "chore: promover $TERRITORY_ID tras preparación territorial"
-          git push origin "HEAD:$TARGET_BRANCH"
-
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: registrar preparación territorial de $TERRITORY_ID"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "::error::No se pudo registrar la preparación territorial tras tres intentos."; exit 47
