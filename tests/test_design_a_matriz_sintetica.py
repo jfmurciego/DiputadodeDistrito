@@ -49,7 +49,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("Melilla",prep_options)
         self.assertNotIn("La Rioja",generable)
         self.assertIn("Galicia",generable)
-        self.assertNotIn("Galicia",electoral_ready)
+        self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
         self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
 
@@ -154,14 +154,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         for name in [
             "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
             "generar-alternativas-territoriales.yml","orquestacion-control.yml","orquestacion-durable.yml",
-            "notificar-finalizacion-orquestacion.yml","desplegar-visor-publico.yml",
+            "notificar-finalizacion-orquestacion.yml","desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml",
             "producir-territorio-por-contrato.yml",
         ]: self.assertTrue((WF/name).is_file(),name)
         router=ROUTER.read_text(encoding="utf-8")
         self.assertIn("generar-alternativas-territoriales.yml",router)
         self.assertIn("orquestacion-control.yml",router)
         self.assertIn("orquestacion-durable.yml",router)
-        self.assertIn("desplegar-visor-publico.yml",router)
+        self.assertIn("_reutilizable-publicar-sitio.yml",router)
 
     def test_complete_54_case_matrix(self):
         cases=0
