@@ -173,6 +173,59 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertFalse(plan["run_incorporate"])
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
+    def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            catalog = root / "catalog.yaml"
+            catalog.write_text(
+                yaml.safe_dump(
+                    {
+                        "schema": "ddd-preparation-catalog/1.1",
+                        "default_edition": "2025",
+                        "territories": [
+                            {
+                                "territory_id": "demo",
+                                "name": "Demo",
+                                "editions": {
+                                    "2025": {
+                                        "territory_declared": True,
+                                        "preparation_status": "READY",
+                                        "contract_path": "territorios/demo/config/demo_2025.yaml",
+                                        "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
+                                        "electoral_source_declaration": "territorios/demo/config/elecciones/vigente.yaml",
+                                        "territorial_sources_prepared": True,
+                                        "territorial_contract_complete": True,
+                                        "territorial_product_available": True,
+                                        "electoral_source_prepared": True,
+                                        "electoral_product_available": False,
+                                        "territorial_certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+                                        "production_authorization": "AUTHORIZED",
+                                        "last_valid_checkpoint": {"run_id": 500, "stage": "M06"},
+                                        "preparation_evidence": {"run_id": 400, "artifact_name": "source-package"},
+                                        "evidence": {},
+                                    }
+                                },
+                            }
+                        ],
+                    },
+                    allow_unicode=True,
+                    sort_keys=False,
+                ),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="Demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=root,
+            )
+            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertFalse(plan["run_generate"])
+            self.assertTrue(plan["run_prepare_electoral"])
+            self.assertTrue(plan["run_incorporate"])
+            self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 500)
+
     def test_from_start_runs_all_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
