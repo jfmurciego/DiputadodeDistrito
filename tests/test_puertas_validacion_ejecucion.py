@@ -29,6 +29,8 @@ def test_puerta_reutilizable_tiene_contrato_uniforme():
     assert "ddd.validation-gate/1.0" in text
     assert "artifact_digest" in text
     assert "expected_digest" in text
+    assert "workflow_run.id" in text
+    assert "actions/artifacts?per_page=100" in text
 
 
 def test_puerta_valida_semantica_de_los_cuatro_productos():
@@ -38,7 +40,8 @@ def test_puerta_valida_semantica_de_los_cuatro_productos():
     assert "production_status.json" in text
     assert "validar_paquete_electoral.py" in text
     assert "ddd-electoral-application-report-" in text
-    assert "electoral_application" in text
+    assert ".workflow_run_id // empty" in text
+    assert "certificación preservada bloqueante" in text
 
 
 def test_orquestador_no_consumira_una_fase_sin_puerta_verde():
