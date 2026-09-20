@@ -40,3 +40,20 @@ jobs:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: ci-unittest.log
           if-no-files-found: error
+  smoke_orquestador_completo:
+    name: Smoke operacional · 00 Ejecución Completa
+    if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: write
+      actions: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/ejecucion-completa-proyecto.yml
+    secrets: inherit
+    with:
+      territory_id: Galicia
+      data_edition: '2025'
+      execution_mode: Reutilizar progreso existente
+      publish_result: false
+      source_ref: ${{ github.head_ref }}
+      persist_state: false
