@@ -7,7 +7,7 @@
 # QUÉ HACE: ejecuta la suite automática de regresión, determinismo y gobernanza en el mismo contenedor reproducible del procedimiento.
 # CAMBIOS: conserva la suite canónica y añade smoke real de GerryChain 1.0 en su venv aislado.
 # MOTIVO: mantener la puerta como CI automática y reservar la interfaz humana al workflow único.
-# ANTERIOR: versión 1.2.0 en historial Git.
+# ANTERIOR: versión 1.3.0 en historial Git.
 name: Pruebas de la Plataforma
 on:
   push:
