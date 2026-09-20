@@ -1,12 +1,58 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: registro técnico temporal
 # ESTADO: bootstrap no operativo
-# QUÉ HACE: registra en la rama por defecto la ruta del workflow 00 para poder
-# ejecutar y validar su implementación real desde una PR antes de fusionarla.
-# NO HACE: preparación, generación, incorporación, publicación ni cambios de estado.
+# QUÉ HACE: registra en la rama por defecto la ruta y la interfaz manual del workflow 00
+# para poder ejecutar y validar su implementación real desde una PR antes de fusionarla.
+# NO HACE: preparación, generación, incorporación, publicación ni cambios de estado cuando se ejecuta en main.
 name: 00 · Ejecución Completa del Proyecto
 
 on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio
+        required: true
+        default: Galicia
+        type: choice
+        options:
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla-La Mancha
+          - Castilla y León
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: choice
+        options: ['2025']
+      execution_mode:
+        description: Modo de ejecución
+        required: true
+        default: Reutilizar progreso existente
+        type: choice
+        options:
+          - Reutilizar progreso existente
+          - Ejecutar desde el principio
+      publish_result:
+        description: Publicar el visor al terminar
+        required: true
+        default: false
+        type: boolean
   pull_request:
     branches: [main]
     paths:
@@ -20,4 +66,4 @@ jobs:
     name: Registro técnico del workflow 00
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "Bootstrap no operativo; la implementación funcional se valida en la PR que sustituye este fichero."
+      - run: echo "Bootstrap no operativo en main; para el smoke pre-merge selecciona la rama de la PR en Run workflow."
