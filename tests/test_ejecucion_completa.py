@@ -36,6 +36,37 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         for forbidden in ("checkpoint_run_id:", "from_stage:", "to_stage:", "product:"):
             self.assertNotIn(forbidden, dumped)
 
+    def test_orchestrator_is_callable_for_premerge_smoke(self):
+        t = triggers(ORCH)
+        self.assertIn("workflow_call", t)
+        call_inputs = t["workflow_call"]["inputs"]
+        self.assertIn("source_ref", call_inputs)
+        self.assertIn("persist_state", call_inputs)
+
+        smoke = load(WF / "smoke-ejecucion-completa-pr.yml")
+        smoke_triggers = smoke.get("on") or smoke.get(True) or {}
+        self.assertIn("pull_request", smoke_triggers)
+        job = smoke["jobs"]["smoke"]
+        self.assertEqual(job["uses"], "./.github/workflows/ejecucion-completa-proyecto.yml")
+        self.assertEqual(job["with"]["territory_id"], "Galicia")
+        self.assertEqual(job["with"]["execution_mode"], "Reutilizar progreso existente")
+        self.assertFalse(job["with"]["publish_result"])
+        self.assertFalse(job["with"]["persist_state"])
+
+    def test_premerge_smoke_cannot_persist_catalog_state(self):
+        for name in (
+            "preparacion-fuentes.yml",
+            "preparacion-resultados-electorales.yml",
+            "_reutilizable-generacion-territorial.yml",
+            "_reutilizable-incorporacion-electoral.yml",
+        ):
+            text = (WF / name).read_text(encoding="utf-8")
+            self.assertIn("persist_state", text, name)
+        self.assertIn("inputs.persist_state", load(WF / "preparacion-fuentes.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("inputs.persist_state", load(WF / "preparacion-resultados-electorales.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("inputs.persist_state", load(WF / "_reutilizable-generacion-territorial.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("inputs.persist_state", load(WF / "_reutilizable-incorporacion-electoral.yml")["jobs"]["registrar"]["if"])
+
     def test_orchestrator_calls_business_phases_in_order(self):
         data = load(ORCH)
         jobs = data["jobs"]
