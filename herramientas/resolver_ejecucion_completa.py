@@ -21,7 +21,7 @@ def _load_json(path: str | None, root: Path) -> dict:
         return {}
 
 
-def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path) -> dict:
+def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path, optimization_algorithm: str = "Canónico") -> dict:
     row = lookup(territory, edition, catalog)
     state = row
     evidence = state.get("evidence") or {}
@@ -50,6 +50,9 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     from_start = execution_mode == "from_start"
     if execution_mode not in {"reuse", "from_start"}:
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
+    allowed_algorithms = {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}
+    if optimization_algorithm not in allowed_algorithms:
+        raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
 
     territorial_sources_ready = bool(
         state.get("territorial_sources_prepared") and prep.get("run_id") and prep.get("artifact_name")
@@ -67,7 +70,10 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id)
 
     run_prepare_territorial = from_start or not territorial_sources_ready
-    run_generate = from_start or run_prepare_territorial or not territorial_product_ready
+    # 00 expone una elección explícita de algoritmo: por tanto 02 debe ejecutarse.
+    # La propia generación reutilizará M04 cuando sea compatible, evitando repetir
+    # M01–M04 pero garantizando que la estrategia seleccionada sí corre.
+    run_generate = True
     run_prepare_electoral = from_start or not electoral_source_ready
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
 
@@ -81,6 +87,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         "edition": edition,
         "contract_path": row.get("contract_path"),
         "execution_mode": execution_mode,
+        "optimization_algorithm": optimization_algorithm,
         "run_prepare_territorial": run_prepare_territorial,
         "run_generate": run_generate,
         "run_prepare_electoral": run_prepare_electoral,
@@ -132,6 +139,7 @@ def main() -> None:
     ap.add_argument("--territory", required=True)
     ap.add_argument("--edition", required=True)
     ap.add_argument("--execution-mode", choices=["reuse", "from_start"], required=True)
+    ap.add_argument("--optimization-algorithm", default="Canónico", choices=["Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"])
     ap.add_argument("--catalog", default="configuracion/catalogo_preparacion.yaml")
     ap.add_argument("--root-dir", default=".")
     ap.add_argument("--output")
@@ -144,6 +152,7 @@ def main() -> None:
         execution_mode=ns.execution_mode,
         catalog=root / ns.catalog,
         root_dir=root,
+        optimization_algorithm=ns.optimization_algorithm,
     )
     text = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
     if ns.output:
