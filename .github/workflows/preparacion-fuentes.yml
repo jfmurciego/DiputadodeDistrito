@@ -9,6 +9,18 @@
 name: 01 · Preparación de Datos Territoriales
 
 on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+    outputs:
+      territory_id:
+        value: ${{ jobs.resolver.outputs.territory_id }}
+      artifact_name:
+        value: ${{ jobs.territoriales.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.territoriales.outputs.artifact_digest }}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -81,6 +93,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
+      artifact_name: ${{ steps.meta.outputs.artifact_name }}
     timeout-minutes: 120
     env:
       GH_TOKEN: ${{ github.token }}
@@ -160,6 +173,9 @@ jobs:
       - name: Adquirir y congelar fuentes
         run: |
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
+      - id: meta
+        name: Identificar paquete territorial
+        run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
         uses: actions/upload-artifact@v6
         with:
