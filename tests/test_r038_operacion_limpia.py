@@ -49,7 +49,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
         self.assertIn('"Ambos":{"to_stage":"M08"', routes)
         self.assertIn("execution_confirmed: true", text)
-        self.assertIn("publish_result: true", text)
+        self.assertIn("publish_result: false", text)
 
     def test_lanzador_shell_compila(self):
         result = subprocess.run(
@@ -66,22 +66,18 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("workflow_call", text)
         self.assertNotIn("workflow_dispatch", text)
 
-    def test_operacion_general_publica_el_visor_con_el_componente_comun(self):
-        interface = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
-        router = (WORKFLOWS / "_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8")
-        production = (WORKFLOWS / "producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
+    def test_publicacion_es_un_proceso_independiente(self):
+        generation = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
+        electoral = (WORKFLOWS / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
         viewer = (WORKFLOWS / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
-        self.assertIn("uses: ./.github/workflows/_reutilizable-operacion-territorial.yml", interface)
-        self.assertIn("uses: ./.github/workflows/producir-territorio-por-contrato.yml", router)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", production)
-        self.assertIn("production_run_id: ${{ github.run_id }}", production)
-        self.assertNotIn("UI_PUBLISH", interface)
-        self.assertIn('publish_result: true', interface)
-        self.assertIn('publish_result: ${{ inputs.publish_result }}', router)
-        self.assertIn("inputs.publish_result == true", production)
+        manual = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        self.assertIn('publish_result: false', generation)
+        self.assertNotIn('publish_result:', electoral)
+        self.assertNotIn("_reutilizable-publicar-sitio.yml", electoral)
         self.assertIn("workflow_call:", viewer)
         self.assertNotIn("workflow_dispatch:", viewer)
-        manual = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        self.assertIn("group: ddd-pages-prod", viewer)
+        self.assertIn("cancel-in-progress: false", viewer)
         self.assertIn("workflow_dispatch:", manual)
         self.assertNotIn("workflow_call:", manual)
 
