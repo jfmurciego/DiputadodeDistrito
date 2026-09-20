@@ -133,6 +133,8 @@ jobs:
       SOURCE_DECLARATION: territorios/${{ needs.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
       EVIDENCE_DIR: .ddd-sources
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+      SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
     steps:
       - uses: actions/checkout@v6
       - name: Comprobar declaración de fuentes
