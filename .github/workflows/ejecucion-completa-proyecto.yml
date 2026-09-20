@@ -137,7 +137,7 @@ jobs:
           esac
           mkdir -p .ddd-full-run
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          python herramientas/resolver_ejecucion_completa.py             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
+          python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           p=json.load(open(".ddd-full-run/plan.json",encoding="utf-8"))
