@@ -323,21 +323,17 @@ jobs:
           retention-days: 14
 
   ruta:
-    name: Procesar territorio
+    name: Generar y certificar distritos
     needs: resolver_interfaz
-    uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
+    uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
     secrets: inherit
     with:
       params: ${{ needs.resolver_interfaz.outputs.params }}
-      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
-      operation: producir_resultado_m01_m08
+      mode: execute
       from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
       to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
       checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
       source_package_run_id: ${{ needs.resolver_interfaz.outputs.source_package_run_id }}
       source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
-      electoral_package_run_id: ''
-      electoral_package_artifact_name: ''
-      execution_confirmed: true
-      publish_result: false
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
 
