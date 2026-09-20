@@ -96,7 +96,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         gen=GEN.read_text(encoding="utf-8")
         electoral=ELECTORAL_APPLY.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",gen)
-        self.assertIn("publish_result: false",gen)
+        self.assertNotIn("publish_result:",gen)
         self.assertNotIn("publish_result:",electoral)
         self.assertNotIn("_reutilizable-publicar-sitio.yml",electoral)
 
