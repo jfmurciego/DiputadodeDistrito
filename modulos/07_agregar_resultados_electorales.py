@@ -95,8 +95,51 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             raise ValueError(f"No se pudieron extraer votos del JSON: {source}")
         return pd.DataFrame(rows), section_ids
 
+    if adapter.get("kind") == "wide_polling_station_csv":
+        first = text.splitlines()[0] if text else ""
+        separator = adapter.get("separator", "auto")
+        if separator == "auto":
+            separator = ";" if first.count(";") > first.count(",") else ","
+        frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+        province_field = require(adapter.get("province_field"), "Falta province_field")
+        municipality_field = require(adapter.get("municipality_field"), "Falta municipality_field")
+        polling_field = require(adapter.get("polling_station_field"), "Falta polling_station_field")
+        polling_regex = require(adapter.get("polling_station_regex"), "Falta polling_station_regex")
+        party_columns = require(adapter.get("party_columns"), "Falta party_columns")
+        missing = [c for c in [province_field, municipality_field, polling_field, *party_columns] if c not in frame.columns]
+        if missing:
+            raise ValueError(f"CSV electoral ancho carece de columnas: {missing}")
+        match = frame[polling_field].fillna("").str.extract(polling_regex)
+        if not {"district", "section"}.issubset(match.columns):
+            raise ValueError("polling_station_regex debe exponer grupos district y section")
+        valid = (
+            match["district"].notna()
+            & match["section"].notna()
+            & frame[province_field].fillna("").str.fullmatch(r"\d+")
+            & frame[municipality_field].fillna("").str.fullmatch(r"\d+")
+        )
+        frame = frame.loc[valid].copy()
+        match = match.loc[valid]
+        frame[section_field] = (
+            frame[province_field].astype(str).str.zfill(int(adapter.get("province_width", 2)))
+            + frame[municipality_field].astype(str).str.zfill(int(adapter.get("municipality_width", 3)))
+            + match["district"].astype(str).str.zfill(int(adapter.get("district_width", 2)))
+            + match["section"].astype(str).str.zfill(int(adapter.get("section_width", 3)))
+        )
+        section_ids = set(frame[section_field])
+        rows = []
+        for raw_party in party_columns:
+            canonical = parties.canonicalize(raw_party)
+            batch = frame[[section_field, raw_party]].rename(columns={raw_party: "votes"})
+            batch["party"] = canonical
+            batch["votes"] = pd.to_numeric(batch["votes"], errors="coerce").fillna(0).astype("int64")
+            rows.append(batch[[section_field, "party", "votes"]])
+        if not rows:
+            raise ValueError(f"No se pudieron extraer partidos del CSV ancho: {source}")
+        return pd.concat(rows, ignore_index=True), section_ids
+
     if adapter.get("kind") != "long_csv":
-        raise ValueError(f"El contenido tabular requiere adaptador long_csv: {source}")
+        raise ValueError(f"El contenido tabular requiere adaptador long_csv o wide_polling_station_csv: {source}")
     first = text.splitlines()[0] if text else ""
     separator = adapter.get("separator", "auto")
     if separator == "auto":
