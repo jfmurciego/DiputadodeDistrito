@@ -70,10 +70,15 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id)
 
     run_prepare_territorial = from_start or not territorial_sources_ready
-    # 00 expone una elección explícita de algoritmo: por tanto 02 debe ejecutarse.
-    # La propia generación reutilizará M04 cuando sea compatible, evitando repetir
-    # M01–M04 pero garantizando que la estrategia seleccionada sí corre.
-    run_generate = True
+    # En modo reutilización, el algoritmo canónico conserva un producto certificado
+    # existente. Elegir una estrategia alternativa sí obliga a ejecutar 02.
+    algorithm_forces_generation = optimization_algorithm != "Canónico"
+    run_generate = (
+        from_start
+        or algorithm_forces_generation
+        or run_prepare_territorial
+        or not territorial_product_ready
+    )
     run_prepare_electoral = from_start or not electoral_source_ready
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
 
