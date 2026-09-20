@@ -717,7 +717,7 @@ def run_gerrychain(
     best: tuple[float, str, dict[str, Any], dict[str, Any], int] | None = None
     try:
         for partition in chain:
-            state = _partition_assignment_by_section(partition)
+            state = assignment_by_section(partition)
             state_hash = assignment_hash(state)
             if previous_hash == state_hash:
                 self_loops += 1
@@ -869,12 +869,61 @@ def _run_recom_optimization_stage(
     except ImportError as exc:
         raise RuntimeError("GerryChain 1.0 no está instalado en este entorno") from exc
 
-    nx_graph = nx.Graph()
+    # ReCom debe operar sobre la misma unidad indivisible que M05. En Galicia,
+    # por ejemplo, 2.134 secciones se agrupan en unas pocas centenas de
+    # ddd_unit_id. Proponer a nivel de sección y rechazar después las unidades
+    # partidas produce una cadena casi inmóvil y un coste innecesario.
+    sections_by_unit: dict[str, list[str]] = defaultdict(list)
     for section, attrs in data.nodes.items():
-        node_attrs = dict(attrs)
-        node_attrs["district"] = initial_assignment[section]
-        nx_graph.add_node(section, **node_attrs)
-    nx_graph.add_edges_from(data.edges)
+        sections_by_unit[_text(attrs["atomic_unit"])].append(section)
+
+    unit_assignment: dict[str, Any] = {}
+    nx_graph = nx.Graph()
+    for unit, sections in sorted(sections_by_unit.items()):
+        districts = {initial_assignment[section] for section in sections}
+        if len(districts) != 1:
+            raise InputContractError(f"Unidad atómica partida en la entrada: {unit}")
+        provinces = {data.nodes[section]["province"] for section in sections}
+        if len(provinces) != 1:
+            raise InputContractError(f"Unidad atómica cruza provincias: {unit}")
+        municipalities = {data.nodes[section]["municipality"] for section in sections}
+        if len(municipalities) != 1:
+            raise InputContractError(f"Unidad atómica cruza municipios: {unit}")
+        comarcas = {
+            data.nodes[section].get("comarca")
+            for section in sections
+            if data.nodes[section].get("comarca")
+        }
+        district = next(iter(districts))
+        unit_assignment[unit] = district
+        nx_graph.add_node(
+            unit,
+            population=sum(data.nodes[section]["population"] for section in sections),
+            district=district,
+            province=next(iter(provinces)),
+            municipality=next(iter(municipalities)),
+            comarca=next(iter(comarcas)) if len(comarcas) == 1 else None,
+        )
+
+    for left, right in data.edges:
+        left_unit = _text(data.nodes[left]["atomic_unit"])
+        right_unit = _text(data.nodes[right]["atomic_unit"])
+        if left_unit != right_unit:
+            nx_graph.add_edge(left_unit, right_unit)
+
+    def assignment_by_section(partition: Any) -> dict[str, Any]:
+        raw = (
+            partition.assignment.to_dict()
+            if hasattr(partition.assignment, "to_dict")
+            else dict(partition.assignment)
+        )
+        expanded: dict[str, Any] = {}
+        for unit_id, district in raw.items():
+            unit = _text(unit_id)
+            for section in sections_by_unit[unit]:
+                expanded[section] = district
+        return expanded
+
     initial = Partition(
         nx_graph,
         assignment="district",
@@ -887,7 +936,7 @@ def _run_recom_optimization_stage(
 
     def ddd_structural_contract(partition: Any) -> bool:
         return not structural_constraint_violations(
-            data, _partition_assignment_by_section(partition), contract
+            data, assignment_by_section(partition), contract
         )
 
     surcharge = (
