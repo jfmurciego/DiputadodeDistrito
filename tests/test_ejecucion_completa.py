@@ -1,0 +1,197 @@
+from __future__ import annotations
+
+import json
+import tempfile
+from pathlib import Path
+import unittest
+import yaml
+
+from herramientas.resolver_ejecucion_completa import build_plan
+
+ROOT = Path(__file__).resolve().parents[1]
+WF = ROOT / ".github" / "workflows"
+ORCH = WF / "ejecucion-completa-proyecto.yml"
+
+
+def load(path: Path) -> dict:
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+
+
+def triggers(path: Path) -> dict:
+    data = load(path)
+    return data.get("on") or data.get(True) or {}
+
+
+class FullProjectOrchestratorTests(unittest.TestCase):
+    def test_orchestrator_exposes_only_functional_controls(self):
+        data = load(ORCH)
+        self.assertEqual(data["name"], "00 · Ejecución Completa del Proyecto")
+        inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
+        self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "publish_result"])
+        self.assertEqual(
+            inputs["execution_mode"]["options"],
+            ["Reutilizar progreso existente", "Ejecutar desde el principio"],
+        )
+        dumped = yaml.safe_dump(inputs, allow_unicode=True)
+        for forbidden in ("checkpoint_run_id:", "from_stage:", "to_stage:", "product:"):
+            self.assertNotIn(forbidden, dumped)
+
+    def test_orchestrator_calls_business_phases_in_order(self):
+        data = load(ORCH)
+        jobs = data["jobs"]
+        self.assertEqual(
+            list(jobs),
+            [
+                "planificar",
+                "preparar_territorial",
+                "generar",
+                "preparar_electoral",
+                "incorporar",
+                "publicar",
+                "manifestar",
+            ],
+        )
+        self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
+        self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
+        self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
+        self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
+        self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/desplegar-visor-publico.yml")
+
+    def test_business_phases_are_reusable(self):
+        for name in (
+            "preparacion-fuentes.yml",
+            "produccion-distritos.yml",
+            "preparacion-resultados-electorales.yml",
+            "incorporacion-resultados-electorales.yml",
+            "desplegar-visor-publico.yml",
+        ):
+            self.assertIn("workflow_call", triggers(WF / name), name)
+
+    def test_from_start_disables_checkpoint_reuse_but_keeps_prepared_sources_reusable(self):
+        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        preparation = (WF / "preparacion-fuentes.yml").read_text(encoding="utf-8")
+        self.assertIn('if [[ "$mode" == from_start ]]', generation)
+        self.assertIn('echo "from_stage=M01"', generation)
+        self.assertIn("reutilizar_si_ya_preparada", preparation)
+        orchestrator = ORCH.read_text(encoding="utf-8")
+        self.assertIn("reutilizar_si_ya_preparada: true", orchestrator)
+
+    def test_current_run_artifacts_can_feed_next_phase(self):
+        orchestration = ORCH.read_text(encoding="utf-8")
+        self.assertIn("source_package_run_id:", orchestration)
+        self.assertIn("territorial_run_id:", orchestration)
+        self.assertIn("electoral_package_run_id:", orchestration)
+        self.assertIn("github.run_id", orchestration)
+        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        electoral = (WF / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("OVERRIDE_SOURCE_RUN_ID", generation)
+        self.assertIn("OVERRIDE_RUN_ID", electoral)
+
+    def test_manifest_is_uploaded_and_durable_on_main(self):
+        text = ORCH.read_text(encoding="utf-8")
+        self.assertIn("ddd-full-run-manifest-${{ github.run_id }}", text)
+        self.assertIn("retention-days: 90", text)
+        self.assertIn("ejecuciones_completas/$GITHUB_RUN_ID.json", text)
+        self.assertIn("github.ref_name == 'main'", text)
+
+    def test_reuse_plan_skips_complete_phases(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            evidence = root / "evidence"
+            evidence.mkdir()
+            (evidence / "territorial.json").write_text(json.dumps({"run_id": 101, "artifact_name": "m06", "decision": "PASS"}), encoding="utf-8")
+            (evidence / "source.json").write_text(json.dumps({"run_id": 102, "artifact_name": "electoral-source"}), encoding="utf-8")
+            (evidence / "electoral.json").write_text(json.dumps({"run_id": 103, "artifact_name": "m08"}), encoding="utf-8")
+            catalog = root / "catalog.yaml"
+            catalog.write_text(
+                yaml.safe_dump(
+                    {
+                        "schema": "ddd-preparation-catalog/1.1",
+                        "default_edition": "2025",
+                        "territories": [
+                            {
+                                "territory_id": "demo",
+                                "name": "Demo",
+                                "editions": {
+                                    "2025": {
+                                        "contract_path": "territorios/demo/config/demo_2025.yaml",
+                                        "territorial_sources_prepared": True,
+                                        "territorial_product_available": True,
+                                        "electoral_source_prepared": True,
+                                        "electoral_product_available": True,
+                                        "territorial_certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+                                        "preparation_evidence": {"run_id": 100, "artifact_name": "source-package"},
+                                        "evidence": {
+                                            "territorial_product": "evidence/territorial.json",
+                                            "electoral_source": "evidence/source.json",
+                                            "electoral_product": "evidence/electoral.json",
+                                        },
+                                    }
+                                },
+                            }
+                        ],
+                    },
+                    allow_unicode=True,
+                    sort_keys=False,
+                ),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="Demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=root,
+            )
+            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertFalse(plan["run_generate"])
+            self.assertFalse(plan["run_prepare_electoral"])
+            self.assertFalse(plan["run_incorporate"])
+            self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
+
+    def test_from_start_runs_all_business_phases(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            catalog = root / "catalog.yaml"
+            catalog.write_text(
+                yaml.safe_dump(
+                    {
+                        "schema": "ddd-preparation-catalog/1.1",
+                        "default_edition": "2025",
+                        "territories": [
+                            {
+                                "territory_id": "demo",
+                                "name": "Demo",
+                                "editions": {
+                                    "2025": {
+                                        "contract_path": None,
+                                        "territorial_sources_prepared": False,
+                                        "territorial_product_available": False,
+                                        "electoral_source_prepared": False,
+                                        "electoral_product_available": False,
+                                        "territorial_certification": "NOT_CERTIFIED",
+                                    }
+                                },
+                            }
+                        ],
+                    },
+                    allow_unicode=True,
+                    sort_keys=False,
+                ),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="Demo",
+                edition="2025",
+                execution_mode="from_start",
+                catalog=catalog,
+                root_dir=root,
+            )
+            self.assertTrue(plan["run_prepare_territorial"])
+            self.assertTrue(plan["run_generate"])
+            self.assertTrue(plan["run_prepare_electoral"])
+            self.assertTrue(plan["run_incorporate"])
+
+
+if __name__ == "__main__":
+    unittest.main()
