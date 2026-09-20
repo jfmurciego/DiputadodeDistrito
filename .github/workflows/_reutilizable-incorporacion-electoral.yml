@@ -174,6 +174,36 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Preservar certificación para publicación posterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-audit
+          mkdir -p .ddd-audit
+          source_status="$(find .ddd-territorial-certification -name production_status.json -type f -print -quit)"
+          test -n "$source_status" || { echo "::error::Falta production_status.json de la certificación territorial."; exit 46; }
+          cp -a .ddd-territorial-certification/. .ddd-audit/
+          python - "$source_status" ".ddd-audit/production_status.json" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          src,dst,run_id,attempt=sys.argv[1:]
+          payload=json.loads(Path(src).read_text(encoding="utf-8"))
+          payload["run_id"]=f"production-{run_id}-{attempt}"
+          payload["workflow_run_id"]=int(run_id)
+          payload["source_territorial_run_id"]=int(__import__("os").environ["TERRITORIAL_RUN_ID"])
+          payload["electoral_application"]=True
+          Path(dst).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+
+      - uses: actions/upload-artifact@v6
+        name: Conservar certificación consumible por publicación
+        with:
+          name: ddd-audit-${{ github.run_id }}
+          path: .ddd-audit
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Generar informe de incorporación
         shell: bash
         run: |
