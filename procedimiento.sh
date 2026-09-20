@@ -119,6 +119,10 @@ if (( FROM <= 3 )); then
   fi
 fi
 if (( TO >= 4 )); then
+  if (( FROM <= 4 )); then
+    echo "===== PREPARACIÓN INTERNA: unidades declarativas previas a formación de distritos ====="
+    python herramientas/preparar_unidades_internas.py --params "$PARAMS" --run-id "$RUN_ID" --job-report "$RUN_DIR/preparacion_unidades_internas.json" 2>&1 | tee "$LOG_DIR/preparacion_unidades_internas.log"
+  fi
   for n in $(seq "$(( FROM > 4 ? FROM : 4 ))" "$TO"); do
     ejecutar "$n" "${SCRIPTS[$n]}"
   done
