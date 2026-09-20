@@ -74,9 +74,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             [
                 "planificar",
                 "preparar_territorial",
+                "validar_territorial",
                 "generar",
+                "validar_generacion",
                 "preparar_electoral",
+                "validar_electoral",
                 "incorporar",
+                "validar_producto",
+                "actualizar_estado",
                 "publicar",
                 "manifestar",
             ],
@@ -117,18 +122,35 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("OVERRIDE_SOURCE_RUN_ID", generation)
         self.assertIn("OVERRIDE_RUN_ID", electoral)
 
-    def test_failed_scheduled_phase_blocks_following_phases(self):
+    def test_failed_or_unvalidated_phase_blocks_following_phases(self):
         data = load(ORCH)
-        generate_if = data["jobs"]["generar"]["if"]
-        electoral_if = data["jobs"]["preparar_electoral"]["if"]
-        incorporate_if = data["jobs"]["incorporar"]["if"]
-        publish_if = data["jobs"]["publicar"]["if"]
-        self.assertIn("needs.planificar.outputs.run_prepare_territorial == 'false'", generate_if)
-        self.assertNotIn("needs.preparar_territorial.result == 'skipped'", generate_if)
-        self.assertIn("needs.planificar.outputs.run_generate == 'false'", electoral_if)
-        self.assertNotIn("needs.generar.result == 'skipped'", electoral_if)
-        self.assertIn("needs.planificar.outputs.run_prepare_electoral == 'false'", incorporate_if)
-        self.assertIn("needs.planificar.outputs.run_incorporate == 'false'", publish_if)
+        jobs = data["jobs"]
+        self.assertIn("needs.validar_territorial.result == 'success'", jobs["generar"]["if"])
+        self.assertIn("needs.validar_generacion.result == 'success'", jobs["preparar_electoral"]["if"])
+        self.assertIn("needs.validar_electoral.result == 'success'", jobs["incorporar"]["if"])
+        self.assertIn("needs.validar_producto.result == 'success'", jobs["publicar"]["if"])
+        self.assertIn("needs.actualizar_estado.result == 'success'", jobs["publicar"]["if"])
+        for name in ("validar_territorial", "validar_generacion", "validar_electoral", "validar_producto"):
+            self.assertEqual(jobs[name]["uses"], "./.github/workflows/_reutilizable-puerta-validacion.yml")
+
+    def test_operational_state_is_synchronized_before_publication(self):
+        data = load(ORCH)
+        jobs = data["jobs"]
+        self.assertIn("actualizar_estado", jobs)
+        self.assertIn("publicado/estado_operativo.json", ORCH.read_text(encoding="utf-8"))
+        self.assertIn("README.md publicado/estado_operativo.json publicado/dashboard", ORCH.read_text(encoding="utf-8"))
+        self.assertIn("actualizar_estado", jobs["publicar"]["needs"])
+
+    def test_plan_propagates_durable_digests_to_validation_gates(self):
+        text = ORCH.read_text(encoding="utf-8")
+        for key in (
+            "existing_territorial_source_digest",
+            "existing_territorial_product_digest",
+            "existing_electoral_source_digest",
+            "existing_electoral_product_digest",
+        ):
+            self.assertIn(key, text)
+        self.assertIn("expected_digest:", text)
 
     def test_manifest_is_uploaded_and_durable_on_main(self):
         text = ORCH.read_text(encoding="utf-8")
