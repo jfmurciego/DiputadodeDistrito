@@ -1,0 +1,351 @@
+{
+  "schema": "ddd-operational-state/1.0",
+  "edition": "2025",
+  "generated_at": "2026-09-20T20:10:18.426693+00:00",
+  "territories": [
+    {
+      "territory_id": "andalucia",
+      "name": "Andalucía",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "aragon",
+      "name": "Aragón",
+      "ft": "green",
+      "fe": "green",
+      "g": "yellow",
+      "re": "yellow",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 35010122795,
+      "stage": "M06",
+      "edition": "2025"
+    },
+    {
+      "territory_id": "canarias",
+      "name": "Canarias",
+      "ft": "red",
+      "fe": "red",
+      "g": "red",
+      "re": "red",
+      "status": "No incorporado",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "cantabria",
+      "name": "Cantabria",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "name": "Castilla y León",
+      "ft": "green",
+      "fe": "green",
+      "g": "yellow",
+      "re": "yellow",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "BLOCK_POPULATION_TARGET_NOT_MET",
+      "run_id": 35329341120,
+      "stage": "M08",
+      "edition": "2025"
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "name": "Castilla-La Mancha",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "cataluna",
+      "name": "Cataluña",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "ceuta",
+      "name": "Ceuta",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "madrid",
+      "name": "Comunidad de Madrid",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "name": "Comunidad Foral de Navarra",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "name": "Comunidad Valenciana",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "extremadura",
+      "name": "Extremadura",
+      "ft": "green",
+      "fe": "yellow",
+      "g": "yellow",
+      "re": "gray",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "galicia",
+      "name": "Galicia",
+      "ft": "green",
+      "fe": "green",
+      "g": "green",
+      "re": "green",
+      "status": "Producto electoral incorporado",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 35533666934,
+      "stage": "M08",
+      "edition": "2025"
+    },
+    {
+      "territory_id": "illes_balears",
+      "name": "Islas Baleares",
+      "ft": "red",
+      "fe": "red",
+      "g": "red",
+      "re": "red",
+      "status": "No incorporado",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "la_rioja",
+      "name": "La Rioja",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "yellow",
+      "re": "gray",
+      "status": "Puerta de validación pendiente",
+      "certification": "PREFLIGHT",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "melilla",
+      "name": "Melilla",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "pais_vasco",
+      "name": "País Vasco",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "name": "Principado de Asturias",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "name": "Región de Murcia",
+      "ft": "gray",
+      "fe": "gray",
+      "g": "gray",
+      "re": "gray",
+      "status": "Pendiente de preparación",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
+      "edition": "2025"
+    }
+  ],
+  "kpis": {
+    "validated": 1,
+    "validated_names": [
+      "Galicia"
+    ],
+    "ready": 3,
+    "ready_names": [
+      "Aragón",
+      "Castilla y León",
+      "Extremadura"
+    ],
+    "pending": 1,
+    "pending_names": [
+      "La Rioja"
+    ],
+    "blocked": 14,
+    "blocked_names": [
+      "Andalucía",
+      "Canarias",
+      "Cantabria",
+      "Castilla-La Mancha",
+      "Cataluña",
+      "Ceuta",
+      "Comunidad de Madrid",
+      "Comunidad Foral de Navarra",
+      "Comunidad Valenciana",
+      "Islas Baleares",
+      "Melilla",
+      "País Vasco",
+      "Principado de Asturias",
+      "Región de Murcia"
+    ],
+    "complete": 1,
+    "complete_names": [
+      "Galicia"
+    ]
+  },
+  "latest_validated": {
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "run_id": 35533666934,
+    "stage": "M08",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "edition": "2025"
+  },
+  "alerts": [
+    {
+      "territory": "Aragón",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Canarias",
+      "action": "incorporación territorial pendiente"
+    },
+    {
+      "territory": "Castilla y León",
+      "action": "incorporar resultados electorales"
+    },
+    {
+      "territory": "Extremadura",
+      "action": "revalidar generación territorial"
+    },
+    {
+      "territory": "Islas Baleares",
+      "action": "incorporación territorial pendiente"
+    },
+    {
+      "territory": "La Rioja",
+      "action": "revalidar generación territorial"
+    }
+  ],
+  "next_actions": [
+    {
+      "territory": "Aragón",
+      "action": "revalidar cadena automática"
+    },
+    {
+      "territory": "Castilla y León",
+      "action": "revalidar cadena automática"
+    },
+    {
+      "territory": "Extremadura",
+      "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "La Rioja",
+      "action": "revalidar cadena automática"
+    }
+  ],
+  "latest_complete": {
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "run_id": 35533666934,
+    "stage": "M08",
+    "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+    "edition": "2025"
+  }
+}
