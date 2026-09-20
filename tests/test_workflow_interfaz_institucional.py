@@ -75,6 +75,13 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             self.assertEqual(route["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
             self.assertEqual(route["with"]["operation"],"producir_resultado_m01_m08")
 
+    def test_routes_inherit_promotion_secret(self):
+        for path in (GEN,ELECTORAL):
+            data=self._load(path)
+            self.assertEqual(data["jobs"]["ruta"]["secrets"], "inherit")
+        router=(WORKFLOWS/"_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("secrets.DDD_WORKFLOW_TOKEN", router)
+
     def test_checkpoint_selection_and_engine_are_preserved(self):
         for path in (GEN,ELECTORAL):
             text=path.read_text(encoding="utf-8")

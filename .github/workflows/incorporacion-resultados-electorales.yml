@@ -284,6 +284,7 @@ jobs:
     name: Procesar territorio
     needs: resolver_interfaz
     uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
+    secrets: inherit
     with:
       params: ${{ needs.resolver_interfaz.outputs.params }}
       territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}

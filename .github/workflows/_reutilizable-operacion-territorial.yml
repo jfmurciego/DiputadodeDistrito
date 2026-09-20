@@ -132,11 +132,18 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: main
+          token: ${{ secrets.DDD_WORKFLOW_TOKEN }}
+      - name: Verificar credencial de promoción
+        shell: bash
+        env:
+          PROMOTION_TOKEN: ${{ secrets.DDD_WORKFLOW_TOKEN }}
+        run: |
+          test -n "$PROMOTION_TOKEN" || { echo "::error::Falta el secreto DDD_WORKFLOW_TOKEN con Contents:write y Workflows:write."; exit 50; }
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Promover producto generado
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.DDD_WORKFLOW_TOKEN }}
           PARAMS: ${{ inputs.params }}
           TERRITORY_ID: ${{ inputs.territory_id }}
           TO_STAGE: ${{ inputs.to_stage }}

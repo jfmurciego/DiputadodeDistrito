@@ -58,6 +58,12 @@ jobs:
       electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.DDD_WORKFLOW_TOKEN }}
+      - name: Verificar credencial de promoción
+        shell: bash
+        run: |
+          test -n "$GH_TOKEN" || { echo "::error::Falta el secreto DDD_WORKFLOW_TOKEN con Contents:write y Workflows:write."; exit 50; }
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         env:
@@ -80,7 +86,7 @@ jobs:
     needs: resolver
     runs-on: ubuntu-24.04
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.DDD_WORKFLOW_TOKEN }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ needs.resolver.outputs.edition }}
       PARAMS: ${{ needs.resolver.outputs.contract_path }}
