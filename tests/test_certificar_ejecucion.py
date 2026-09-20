@@ -15,6 +15,7 @@ class TechnicalCertificationTests(unittest.TestCase):
             "decision": geometric_decision, "territory_id": "aragon", "run_id": "production-1",
             "from_stage": "M01", "to_stage": "M08", "execution_outcome": "success",
             "population_outcome": "success", "population_decision": "TARGET_MET",
+            "population_target_required": False,
             "population_repair_result": "REPAIRED", "population_outliers_before": 1,
             "population_outliers_after": 0, "population_max_deviation_before": 0.13,
             "population_max_deviation_after": 0.11, "population_termination_reason": "REPAIRED",
@@ -81,21 +82,33 @@ class TechnicalCertificationTests(unittest.TestCase):
         self.assertEqual(result["decision"], "CERTIFIED_WITH_GOVERNED_EXCEPTIONS")
         self.assertEqual(result["errors"], [])
 
-    def test_population_improved_not_met_is_blocked(self):
+    def test_population_improved_not_met_is_certifiable_when_target_is_not_required(self):
         evidence = list(self.evidence(v2=True))
         evidence[1] = copy.deepcopy(evidence[1])
-        evidence[1].update(decision="BLOCK", population_decision="TARGET_IMPROVED_NOT_MET", population_outliers_after=3)
+        evidence[1].update(decision="PASS_WITH_EXCEPTIONS", population_decision="TARGET_IMPROVED_NOT_MET", population_outliers_after=3)
         result = self.certify_evidence(evidence)
-        self.assertEqual(result["decision"], "BLOCKED")
-        self.assertIn("POPULATION_TARGET_NOT_MET", result["errors"])
+        self.assertNotEqual(result["decision"], "BLOCKED")
+        self.assertNotIn("POPULATION_TARGET_NOT_MET", result["errors"])
 
-    def test_population_not_improved_is_blocked(self):
+    def test_population_not_improved_is_certifiable_when_target_is_not_required(self):
         evidence = list(self.evidence(v2=True))
         evidence[1] = copy.deepcopy(evidence[1])
-        evidence[1].update(decision="BLOCK", population_decision="TARGET_NOT_MET", population_outliers_after=4)
+        evidence[1].update(decision="PASS_WITH_EXCEPTIONS", population_decision="TARGET_NOT_MET", population_outliers_after=4)
+        result = self.certify_evidence(evidence)
+        self.assertNotEqual(result["decision"], "BLOCKED")
+        self.assertNotIn("POPULATION_TARGET_NOT_MET", result["errors"])
+
+    def test_population_target_policy_blocks_when_explicitly_required(self):
+        evidence = list(self.evidence(v2=True))
+        evidence[1] = copy.deepcopy(evidence[1])
+        evidence[1].update(
+            decision="BLOCK", population_target_required=True,
+            population_decision="TARGET_IMPROVED_NOT_MET", population_outliers_after=3,
+        )
         result = self.certify_evidence(evidence)
         self.assertEqual(result["decision"], "BLOCKED")
         self.assertIn("POPULATION_TARGET_NOT_MET", result["errors"])
+        self.assertIn("POPULATION_OUTLIERS_REMAIN", result["errors"])
 
     def test_population_hard_limit_is_blocked(self):
         evidence = list(self.evidence(v2=True))
