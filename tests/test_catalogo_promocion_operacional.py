@@ -71,6 +71,37 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             payload = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(payload["artifact_name"], "ddd-electoral-package-demo-2025-101")
 
+    def test_electoral_source_alone_does_not_enable_incorporation(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            decl = self.fixture(root)
+            result = promote(
+                root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                run_id=101, artifact_name="ddd-electoral-package-demo-2025-101", artifact_sha256="b" * 64,
+                declaration=str(decl.relative_to(root)), election_id="demo_2025", source_commit="2" * 40,
+            )
+            self.assertFalse(result["incorporation_enabled"])
+            workflow = (root / ".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
+            self.assertNotIn("          - Demo", workflow)
+
+    def test_territorial_product_plus_electoral_source_enables_selector(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            decl = self.fixture(root)
+            promote(
+                root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                run_id=101, artifact_name="ddd-electoral-package-demo-2025-101", artifact_sha256="b" * 64,
+                declaration=str(decl.relative_to(root)), election_id="demo_2025", source_commit="2" * 40,
+            )
+            result = promote(
+                root_dir=root, kind="territorial_product", territory_id="demo", edition="2025",
+                run_id=100, artifact_name="ddd-state-100-M06", artifact_sha256="a" * 64,
+                decision="PASS_WITH_EXCEPTIONS", source_commit="1" * 40,
+            )
+            self.assertTrue(result["incorporation_enabled"])
+            workflow = (root / ".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
+            self.assertIn("          - Demo", workflow)
+
     def test_electoral_product_closes_catalog_state(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
