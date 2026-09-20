@@ -152,7 +152,7 @@ jobs:
   generar:
     name: 02 · Generar distritos autonómicos
     needs: [planificar, preparar_territorial]
-    if: ${{ always() && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.preparar_territorial.result == 'skipped') && needs.planificar.outputs.run_generate == 'true' }}
+    if: ${{ always() && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') && needs.planificar.outputs.run_generate == 'true' }}
     uses: ./.github/workflows/produccion-distritos.yml
     secrets: inherit
     with:
@@ -166,7 +166,7 @@ jobs:
   preparar_electoral:
     name: 03 · Preparar resultados electorales
     needs: [planificar, generar]
-    if: ${{ always() && needs.planificar.result == 'success' && (needs.generar.result == 'success' || needs.generar.result == 'skipped') && needs.planificar.outputs.run_prepare_electoral == 'true' }}
+    if: ${{ always() && needs.planificar.result == 'success' && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') && needs.planificar.outputs.run_prepare_electoral == 'true' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -178,7 +178,7 @@ jobs:
   incorporar:
     name: 04 · Incorporar resultados electorales
     needs: [planificar, generar, preparar_electoral]
-    if: ${{ always() && needs.planificar.result == 'success' && (needs.generar.result == 'success' || needs.generar.result == 'skipped') && (needs.preparar_electoral.result == 'success' || needs.preparar_electoral.result == 'skipped') && needs.planificar.outputs.run_incorporate == 'true' }}
+    if: ${{ always() && needs.planificar.result == 'success' && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') && needs.planificar.outputs.run_incorporate == 'true' }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -192,7 +192,7 @@ jobs:
   publicar:
     name: 05 · Publicar visor
     needs: [planificar, preparar_territorial, generar, preparar_electoral, incorporar]
-    if: ${{ always() && inputs.publish_result && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.preparar_territorial.result == 'skipped') && (needs.generar.result == 'success' || needs.generar.result == 'skipped') && (needs.preparar_electoral.result == 'success' || needs.preparar_electoral.result == 'skipped') && (needs.incorporar.result == 'success' || needs.incorporar.result == 'skipped') }}
+    if: ${{ always() && inputs.publish_result && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
