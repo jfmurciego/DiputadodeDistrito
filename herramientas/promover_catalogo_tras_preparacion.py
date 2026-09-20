@@ -147,9 +147,14 @@ def _promote_contract(path: Path) -> None:
         m1 = next(i for i in range(m0, len(lines)) if lines[i] and not lines[i].startswith("  "))
     except Exception as exc:
         raise ValueError(f"Contrato sin bloque meta legible: {path}") from exc
-    _replace_key(lines, m0, m1, "  ", "contract_level", "production_m01_m06")
-    _replace_key(lines, m0, m1, "  ", "production_authorization", "AUTHORIZED")
-    _replace_key(lines, m0, m1, "  ", "status", "generation_ready")
+    for key, value in (
+        ("contract_level", "production_m01_m06"),
+        ("production_authorization", "AUTHORIZED"),
+        ("status", "generation_ready"),
+    ):
+        m0 = lines.index("meta:") + 1
+        m1 = next(i for i in range(m0, len(lines)) if lines[i] and not lines[i].startswith("  "))
+        _replace_key(lines, m0, m1, "  ", key, value)
 
     tc0 = next((i for i, line in enumerate(lines) if line == "territory_contract:"), None)
     if tc0 is not None:
