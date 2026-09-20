@@ -148,9 +148,21 @@ def main():
     summary["abs_difference"] = summary["difference"].abs()
     summary["relative_deviation"] = summary["difference"] / target
     summary["population_target_ratio"] = summary["district_pop"] / target
-    summary["population_floor"] = floor
+    floor_exempt = {str(x) for x in (val.get("population_floor_exempt_partitions") or [])}
+    if province_field in df.columns:
+        district_partition = (
+            df.groupby(district_field)[province_field]
+            .agg(lambda values: sorted({str(v).zfill(2) for v in values})[0])
+            .to_dict()
+        )
+    else:
+        district_partition = {}
+    summary["hard_partition"] = summary["district_id"].map(lambda d: district_partition.get(int(d), ""))
+    summary["population_floor"] = summary["hard_partition"].map(
+        lambda p: 0.0 if str(p) in floor_exempt else floor
+    )
     summary["population_cap"] = cap
-    summary["within_hard_bounds"] = (summary["district_pop"] >= floor) & (summary["district_pop"] <= cap)
+    summary["within_hard_bounds"] = (summary["district_pop"] >= summary["population_floor"]) & (summary["district_pop"] <= cap)
     summary["within_target_tolerance"] = summary["relative_deviation"].abs() <= tol_ratio + 1e-12
 
     if not bool(summary["within_hard_bounds"].all()):

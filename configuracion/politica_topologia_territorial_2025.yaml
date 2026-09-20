@@ -22,8 +22,10 @@ policies:
     require_contiguity_within_component: true
     district_cross_component: false
     component_apportionment: required_before_m04
-    small_component_exception: explicit_legal_or_administrative_grouping_only
-    default_decision: POLICY_DEFINED_NOT_ADMITTED
+    small_component_exception: one_contiguous_district_floor_exception
+    component_partition_registry: configuracion/particiones_insulares_2025.json
+    component_generation_policy: configuracion/politica_generacion_territorial_2025.yaml
+    default_decision: ADMITTED_COMPONENT_PARTITIONS
 territories:
   - {territory_id: cantabria, mode: land_connected, evidence: r023, isolated: 1, admin_level_1_disconnected: 1, admin_level_2_disconnected: 0, decision: BLOCKED_PENDING_REVIEW}
   - {territory_id: castilla_la_mancha, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 0, decision: BLOCKED_PENDING_REVIEW}
@@ -32,5 +34,5 @@ territories:
   - {territory_id: galicia, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
   - {territory_id: pais_vasco, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 1, admin_level_2_disconnected: 1, decision: BLOCKED_PENDING_REVIEW}
   - {territory_id: region_de_murcia, mode: land_connected, evidence: r023, isolated: 0, admin_level_1_disconnected: 0, admin_level_2_disconnected: 2, decision: BLOCKED_PENDING_REVIEW}
-  - {territory_id: illes_balears, mode: archipelago_components, decision: POLICY_DEFINED_NOT_ADMITTED}
-  - {territory_id: canarias, mode: archipelago_components, decision: POLICY_DEFINED_NOT_ADMITTED}
+  - {territory_id: illes_balears, mode: archipelago_components, decision: ADMITTED_COMPONENT_PARTITIONS}
+  - {territory_id: canarias, mode: archipelago_components, decision: ADMITTED_COMPONENT_PARTITIONS}

@@ -217,10 +217,53 @@ def normalize_unit_property_for_ogr(path):
     return changed
 
 
+
+def prepare_hard_partitions(params_path):
+    cfg = load_params_yaml(params_path)
+    s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
+    lookup_raw = s4.get("hard_partition_lookup")
+    if not lookup_raw:
+        return
+    lookup_path = Path(lookup_raw)
+    if not lookup_path.is_file():
+        raise SystemExit(f"M04: lookup de particiones inexistente: {lookup_path}")
+    territory_id = str(s4.get("hard_partition_territory_id") or (cfg.get("meta") or {}).get("territory_id") or "")
+    payload = json.loads(lookup_path.read_text(encoding="utf-8"))
+    territory = (payload.get("territories") or {}).get(territory_id)
+    if not territory:
+        raise SystemExit(f"M04: particiones no declaradas para {territory_id}")
+    source = Path(require(s4.get("source_geojson"), "M04: falta source_geojson para particiones"))
+    target = Path(require(s4.get("in_geojson"), "M04: falta in_geojson de particiones"))
+    id_field = require(s4.get("id_field"), "M04: falta id_field")
+    municipality_source = str(s4.get("source_municipality_field", "CUMUN"))
+    partition_field = str(s4.get("province_field", "DDD_PARTITION"))
+    municipality_field = str(s4.get("municipality_field", "DDD_MUNICIPALITY_PARTITION"))
+    mun_map = {str(k): str(v) for k, v in (territory.get("municipality_to_partition") or {}).items()}
+    overrides = {str(k): str(v) for k, v in (territory.get("section_overrides") or {}).items()}
+    g = load_geo(source)
+    if id_field not in g.columns or municipality_source not in g.columns:
+        raise SystemExit(f"M04: fuente sin {id_field}/{municipality_source} para particiones")
+    g[id_field] = g[id_field].astype(str)
+    g[municipality_source] = g[municipality_source].astype(str).str.zfill(5)
+    g[partition_field] = [
+        overrides.get(section) or mun_map.get(municipality)
+        for section, municipality in zip(g[id_field], g[municipality_source])
+    ]
+    missing = sorted(g.loc[g[partition_field].isna(), id_field].astype(str).tolist())
+    if missing:
+        raise SystemExit(f"M04: lookup de particiones incompleto: {len(missing)} secciones; ejemplo={missing[:10]}")
+    g[partition_field] = g[partition_field].astype(str)
+    g[municipality_field] = g[municipality_source] + ":" + g[partition_field]
+    target.parent.mkdir(parents=True, exist_ok=True)
+    write_geo(g, target)
+    print(f"[Módulo 4] particiones físicas materializadas territorio={territory_id} particiones={g[partition_field].nunique()} out={target}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
     args = ap.parse_args()
+    prepare_hard_partitions(args.params)
     m04_seed_engine.main()
     cfg = load_params_yaml(args.params)
     s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")

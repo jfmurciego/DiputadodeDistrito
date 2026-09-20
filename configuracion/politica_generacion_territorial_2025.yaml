@@ -1,0 +1,44 @@
+# PROYECTO: Diputado de Distrito
+# COMPONENTE: política nacional de generación territorial
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-20
+# ESTADO: candidato
+# FUNCIÓN: materializar de forma uniforme contratos ejecutables de generación para todos los territorios.
+schema: ddd-generation-policy/1.0
+edition: '2025'
+defaults:
+  population_floor_ratio: 0.80
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  municipality_atomicity_limit_ratio: 1.75
+  district_apportionment: hamilton
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  require_auditable_district_catalogue: true
+territories:
+  andalucia: {k: 109, k_source: norma, partition_mode: province_hamilton, rationale: "K=109 conserva el tamaño vigente del Parlamento de Andalucía como regla institucional ex ante."}
+  aragon: {k: 67, k_source: historico_no_registrado, partition_mode: province_hamilton, rationale: "K=67 conserva el baseline institucional heredado y ya gobernado por el contrato de Aragón."}
+  principado_de_asturias: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Junta General del Principado de Asturias como regla institucional ex ante."}
+  illes_balears: {k: 59, k_source: norma, partition_mode: physical_components_hamilton, rationale: "K=59 conserva el tamaño vigente del Parlament de les Illes Balears; la geometría se reparte por componentes físicos sin puentes marítimos."}
+  canarias: {k: 70, k_source: norma, partition_mode: physical_components_hamilton, rationale: "K=70 conserva el tamaño vigente del Parlamento de Canarias; la geometría se reparte por componentes físicos sin puentes marítimos."}
+  cantabria: {k: 35, k_source: norma, partition_mode: province_hamilton, rationale: "K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla institucional ex ante."}
+  castilla_la_mancha: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente de las Cortes de Castilla-La Mancha como regla institucional ex ante."}
+  castilla_y_leon: {k: 82, k_source: norma, partition_mode: province_hamilton, rationale: "K=82 conserva el tamaño vigente de las Cortes de Castilla y León como regla institucional ex ante."}
+  cataluna: {k: 135, k_source: norma, partition_mode: province_hamilton, rationale: "K=135 conserva el tamaño vigente del Parlament de Catalunya como regla institucional ex ante."}
+  comunidad_valenciana: {k: 99, k_source: norma, partition_mode: province_hamilton, rationale: "K=99 conserva el tamaño vigente de Les Corts Valencianes como regla institucional ex ante."}
+  extremadura: {k: 65, k_source: norma, partition_mode: province_hamilton, rationale: "K=65 conserva el tamaño vigente de la Asamblea de Extremadura como regla institucional ex ante."}
+  galicia: {k: 75, k_source: norma, partition_mode: province_hamilton, rationale: "K=75 conserva el tamaño vigente del Parlamento de Galicia como regla institucional ex ante."}
+  madrid: {k: 135, k_source: norma, partition_mode: province_hamilton, rationale: "K=135 conserva el tamaño vigente de la Asamblea de Madrid en la edición 2025 del proyecto."}
+  region_de_murcia: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Asamblea Regional de Murcia como regla institucional ex ante."}
+  comunidad_foral_de_navarra: {k: 50, k_source: norma, partition_mode: province_hamilton, rationale: "K=50 conserva el tamaño vigente del Parlamento de Navarra como regla institucional ex ante."}
+  pais_vasco: {k: 75, k_source: norma, partition_mode: province_hamilton, rationale: "K=75 conserva el tamaño vigente del Parlamento Vasco como regla institucional ex ante."}
+  la_rioja: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente del Parlamento de La Rioja como regla institucional ex ante."}
+  ceuta: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Ceuta como regla institucional ex ante."}
+  melilla: {k: 25, k_source: norma, partition_mode: province_hamilton, rationale: "K=25 conserva el tamaño de la Asamblea de Melilla como regla institucional ex ante."}
+archipelago:
+  partition_lookup: configuracion/particiones_insulares_2025.json
+  apportionment: hamilton_min_one_floor_feasible
+  small_component_policy: one_contiguous_district_floor_exception
+  small_component_rule: "Una componente física aislada cuya población total no alcanza el suelo global recibe exactamente un distrito, conserva contigüidad física y queda declarada como excepción poblacional; nunca se crea una arista marítima."

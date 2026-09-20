@@ -78,6 +78,7 @@ class StrategyContract:
     population_floor_ratio: float
     population_cap_ratio: float
     province_districts: Mapping[str, int] = field(default_factory=dict)
+    population_floor_exempt_partitions: tuple[str, ...] = ()
     require_single_province: bool = True
     require_contiguity: bool = True
     require_municipality_discipline: bool = True
@@ -219,6 +220,7 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
         population_floor_ratio=floor,
         population_cap_ratio=cap,
         province_districts=quotas,
+        population_floor_exempt_partitions=tuple(str(x) for x in (validation.get("population_floor_exempt_partitions") or [])),
         require_single_province=bool(validation.get("require_single_province_per_district", True)),
         require_contiguity=bool(validation.get("require_graph_contiguity", validation.get("require_contiguity", True))),
         require_municipality_discipline=bool(validation.get("require_municipality_discipline", True)),
@@ -419,8 +421,10 @@ def hard_constraint_violations(
         district_municipalities[district].add(row["municipality"])
         municipality_pop[row["municipality"]] += row["population"]
 
+    floor_exempt = set(contract.population_floor_exempt_partitions)
     for district, population in pops.items():
-        if population < floor - 1e-9:
+        partition = next(iter(provinces.get(district, set())), "")
+        if population < floor - 1e-9 and str(partition) not in floor_exempt:
             violations.append(f"population_floor:{district}")
         if population > cap + 1e-9:
             violations.append(f"population_cap:{district}")
@@ -750,7 +754,14 @@ def build_report(
         },
         "objective_start": objective_start,
         "objective_final": objective_final,
-        "districts_below_floor": sum(p < floor - 1e-9 for p in final_pops),
+        "districts_below_floor": sum(
+            1 for district, p in final_metrics["district_populations"].items()
+            if p < floor - 1e-9
+            and str(next(iter({
+                problem.units[u]["province"] for u, d in selected_assignment.items()
+                if str(d) == str(district)
+            }), "")) not in set(contract.population_floor_exempt_partitions)
+        ),
         "districts_above_cap": sum(p > cap + 1e-9 for p in final_pops),
         "districts_outside_tolerance": final_metrics["districts_outside_tolerance"],
         "best_max_rel_dev": round(final_metrics["max_relative_deviation"], 12),
@@ -799,6 +810,7 @@ def build_report(
             "population_floor_ratio": contract.population_floor_ratio,
             "population_cap_ratio": contract.population_cap_ratio,
             "province_districts": dict(contract.province_districts),
+            "population_floor_exempt_partitions": list(contract.population_floor_exempt_partitions),
         },
     }
 

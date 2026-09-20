@@ -29,6 +29,10 @@ def validate(policy_path: str|Path, root: str|Path|None=None)->dict[str,Any]:
     if land.get("automatic_nearest_bridge")!="forbidden": errors.append("los puentes automáticos deben estar prohibidos")
     if islands.get("inter_component_edges")!="forbidden" or islands.get("district_cross_component") is not False: errors.append("un archipiélago no puede simular contigüidad entre componentes")
     if islands.get("component_apportionment")!="required_before_m04": errors.append("el reparto por componente debe preceder a M04")
+    partition_registry = project / str(islands.get("component_partition_registry") or "")
+    generation_policy = project / str(islands.get("component_generation_policy") or "")
+    if not partition_registry.is_file(): errors.append("falta registro de particiones insulares")
+    if not generation_policy.is_file(): errors.append("falta política de generación insular")
     records=data.get("territories") or []; ids=[x.get("territory_id") for x in records if isinstance(x,dict)]
     if len(ids)!=len(set(ids)): errors.append("territory_id duplicado")
     summary_path=project/(data.get("evidence") or {}).get("r023","")
@@ -53,7 +57,16 @@ def validate(policy_path: str|Path, root: str|Path|None=None)->dict[str,Any]:
                     if repair.get("edge_type") not in set(land.get("admitted_repairs") or []): errors.append(f"{tid}: tipo de reparación no admitido")
             elif repairs: errors.append(f"{tid}: reparaciones presentes sin decisión de admisión")
         elif mode=="archipelago_components":
-            if decision!="POLICY_DEFINED_NOT_ADMITTED": errors.append(f"{tid}: archipiélago no puede admitirse antes del reparto por componente")
+            if decision not in {"POLICY_DEFINED_NOT_ADMITTED","ADMITTED_COMPONENT_PARTITIONS"}:
+                errors.append(f"{tid}: decisión insular inválida")
+            if decision=="ADMITTED_COMPONENT_PARTITIONS":
+                if not partition_registry.is_file():
+                    errors.append(f"{tid}: admisión sin registro de particiones")
+                else:
+                    pdata=json.loads(partition_registry.read_text(encoding="utf-8"))
+                    tdata=(pdata.get("territories") or {}).get(tid) or {}
+                    if not tdata.get("components") or not tdata.get("municipality_to_partition"):
+                        errors.append(f"{tid}: particiones físicas incompletas")
         else: errors.append(f"{tid}: modo topológico inválido")
     return {"schema_version":"1.0.0","status":"PASS" if not errors else "FAIL","errors":errors,"territories":len(records)}
 
