@@ -268,6 +268,9 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                     "territory_id":"demo","name":"Demo","editions":{"2025":{
                         "territory_declared":True,"preparation_status":"READY",
                         "contract_path":"territorios/demo/config/demo_2025.yaml",
+                        "territorial_source_declaration":"territorios/demo/config/fuentes_oficiales.yaml",
+                        "electoral_source_declaration":"territorios/demo/config/elecciones/vigente.yaml",
+                        "territorial_contract_complete":True,
                         "territorial_sources_prepared":True,
                         "territorial_product_available":True,
                         "electoral_source_prepared":True,
