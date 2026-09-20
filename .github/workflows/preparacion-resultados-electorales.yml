@@ -42,7 +42,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -142,3 +142,46 @@ jobs:
           test -f .ddd-electoral-package/manifest.json
           decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"
           case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
+
+
+  promover_catalogo:
+    name: Registrar fuente electoral preparada
+    needs: [resolver, electorales]
+    if: ${{ needs.electorales.result == 'success' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
+      DECLARATION: ${{ needs.resolver.outputs.electoral_declaration }}
+      ELECTION_ID: ${{ needs.resolver.outputs.election_id }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Promover catálogo electoral e interfaz
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
+          test -n "$artifact" || { echo "::error::No existe el paquete electoral del run actual."; exit 47; }
+          digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          test -n "$digest" || { echo "::error::Paquete electoral sin digest."; exit 47; }
+          python herramientas/promover_catalogo_operacional.py \
+            --kind electoral_source \
+            --territory-id "$TERRITORY_ID" --edition "$EDITION" \
+            --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest" \
+            --declaration "$DECLARATION" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml .github/workflows/incorporacion-resultados-electorales.yml \
+            "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_source_$EDITION.json"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: registrar fuente electoral preparada de $TERRITORY_ID"
+          git push origin HEAD:main
