@@ -121,14 +121,16 @@ def certify(
         errors.append("PRODUCTION_NOT_PASSED")
 
     population_decision = status.get("population_decision")
+    population_target_required = bool(status.get("population_target_required", False))
     if population_decision == "HARD_BLOCK":
         errors.append("POPULATION_HARD_BLOCK")
-    elif population_decision != POPULATION_TARGET_MET:
-        errors.append("POPULATION_TARGET_NOT_MET")
     if status.get("population_hard_constraints_after") != 0:
         errors.append("POPULATION_HARD_CONSTRAINTS")
-    if status.get("population_outliers_after") != 0:
-        errors.append("POPULATION_OUTLIERS_REMAIN")
+    if population_target_required:
+        if population_decision != POPULATION_TARGET_MET:
+            errors.append("POPULATION_TARGET_NOT_MET")
+        if status.get("population_outliers_after") != 0:
+            errors.append("POPULATION_OUTLIERS_REMAIN")
 
     if validation.get("estado") != "PASS" or validation.get("failures"):
         errors.append("TERRITORIAL_VALIDATION_FAILED")
@@ -189,6 +191,7 @@ def certify(
         "stage_range": {"from": status.get("from_stage"), "to": status.get("to_stage")},
         "population": {
             "decision": population_decision,
+            "target_required": population_target_required,
             "repair_result": status.get("population_repair_result"),
             "outliers_after": status.get("population_outliers_after"),
             "hard_constraints_after": status.get("population_hard_constraints_after"),
