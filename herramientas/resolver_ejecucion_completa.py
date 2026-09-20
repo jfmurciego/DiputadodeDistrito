@@ -96,20 +96,24 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "territorial_source": {
                 "run_id": existing_source_run_id,
                 "artifact_name": existing_source_artifact_name,
+                "artifact_sha256": prep.get("artifact_sha256"),
             },
             "territorial_product": {
                 "run_id": territorial_product_run_id,
                 "artifact_name": territorial_product_artifact,
+                "artifact_sha256": territorial_evidence.get("artifact_sha256"),
                 "decision": territorial_evidence.get("decision"),
             },
             "electoral_source": {
                 "run_id": electoral_source_evidence.get("run_id"),
                 "artifact_name": electoral_source_evidence.get("artifact_name"),
+                "artifact_sha256": electoral_source_evidence.get("artifact_sha256"),
                 "election_id": electoral_source_evidence.get("election_id"),
             },
             "electoral_product": {
                 "run_id": electoral_product_run_id,
                 "artifact_name": electoral_product_artifact,
+                "artifact_sha256": electoral_product_evidence.get("artifact_sha256"),
             },
         },
         "catalog_state": {
