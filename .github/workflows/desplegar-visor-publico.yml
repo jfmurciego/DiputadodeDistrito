@@ -51,6 +51,8 @@ jobs:
         run: |
           set -euo pipefail
           node --check visor/app.js
+          test -f dashboard/index.html
+          test -f dashboard/styles.css
           python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py
           python herramientas/preparar_visor_ejecucion.py --help >/dev/null
           python herramientas/evaluar_publicacion_visor.py --help >/dev/null
@@ -89,8 +91,9 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf site
-          mkdir -p site
+          mkdir -p site/dashboard
           cp visor/index.html visor/app.js visor/styles.css site/
+          cp dashboard/index.html dashboard/styles.css site/dashboard/
           args=(--site site --static-registry orchestracion/productos_publicos.json)
           if [[ -n "$PRODUCTION_RUN_ID" ]]; then
             test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::No hay artefactos de la ejecución solicitada.'; exit 43; }
