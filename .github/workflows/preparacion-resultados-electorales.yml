@@ -9,6 +9,20 @@
 name: 03 · Preparación de Resultados Electorales
 
 on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: false, type: string, default: ''}
+      reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+    outputs:
+      territory_id:
+        value: ${{ jobs.resolver.outputs.territory_id }}
+      edition:
+        value: ${{ jobs.resolver.outputs.edition }}
+      artifact_name:
+        value: ${{ jobs.electorales.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.electorales.outputs.artifact_digest }}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -73,6 +87,11 @@ jobs:
           python herramientas/catalogo_preparacion.py --root-dir . validate
           current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY")"
           edition="$(jq -r .territorial_edition <<<"$current")"
+          expected='${{ inputs.data_edition }}'
+          if [[ -n "$expected" && "$edition" != "$expected" ]]; then
+            echo "::error::La convocatoria vigente pertenece a la edición territorial $edition, no a $expected."
+            exit 41
+          fi
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
           echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "edition=$edition" >> "$GITHUB_OUTPUT"
@@ -87,6 +106,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
+      artifact_name: ${{ steps.meta.outputs.artifact_name }}
     env:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
@@ -136,6 +156,9 @@ jobs:
             [[ -n "$PREVIOUS_ARTIFACT_NAME" ]] && args+=(--previous-artifact-name "$PREVIOUS_ARTIFACT_NAME")
           fi
           python -m herramientas.preparar_fuente_electoral "${args[@]}"
+      - id: meta
+        name: Identificar paquete electoral
+        run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
         uses: actions/upload-artifact@v6
         if: always()
