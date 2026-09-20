@@ -76,10 +76,13 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
                 declaration=str(decl.relative_to(root)), election_id="demo_2025", source_commit="2" * 40,
             )
             self.assertFalse(result["incorporation_enabled"])
-            workflow = (root / ".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
-            self.assertNotIn("          - Demo", workflow)
+            catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+            state = catalog["territories"][0]["editions"]["2025"]
+            self.assertTrue(state["electoral_source_prepared"])
+            self.assertFalse(state["territorial_product_available"])
+            self.assertFalse((root / ".github").exists())
 
-    def test_territorial_product_plus_electoral_source_enables_selector(self):
+    def test_territorial_product_plus_electoral_source_enables_incorporation(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
             decl = self.fixture(root)
@@ -94,8 +97,11 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
                 decision="PASS_WITH_EXCEPTIONS", source_commit="1" * 40,
             )
             self.assertTrue(result["incorporation_enabled"])
-            workflow = (root / ".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
-            self.assertIn("          - Demo", workflow)
+            catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+            state = catalog["territories"][0]["editions"]["2025"]
+            self.assertTrue(state["electoral_source_prepared"])
+            self.assertTrue(state["territorial_product_available"])
+            self.assertFalse((root / ".github").exists())
 
     def test_electoral_product_closes_catalog_state(self):
         with tempfile.TemporaryDirectory() as raw:
