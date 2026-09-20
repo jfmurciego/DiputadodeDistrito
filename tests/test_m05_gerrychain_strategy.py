@@ -91,6 +91,29 @@ class ContractTests(unittest.TestCase):
         self.assertIn("python -m venv /opt/ddd-gerrychain", dockerfile)
         self.assertIn("requirements-gerrychain-m05.lock", dockerfile)
 
+    def test_business_profiles_map_to_expected_candidate_counts(self):
+        procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        self.assertIn('"GerryChain"|gerrychain_recom) printf', procedure)
+        self.assertIn('"GerryChain 25"|gerrychain_25)', procedure)
+        self.assertIn('"GerryChain 50"|gerrychain_50)', procedure)
+        self.assertIn("gerrychain_recom 1", procedure)
+        self.assertIn("gerrychain_recom 25", procedure)
+        self.assertIn("gerrychain_recom 50", procedure)
+        self.assertIn('--seed-count "$candidate_count"', procedure)
+
+    def test_02_and_00_expose_same_algorithm_selector(self):
+        import yaml
+        def load(path):
+            data=yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            return data.get("on") or data.get(True) or {}
+        w02=load(ROOT/".github/workflows/produccion-distritos.yml")
+        w00=load(ROOT/".github/workflows/ejecucion-completa-proyecto.yml")
+        expected=["Canónico","GerryChain","GerryChain 25","GerryChain 50"]
+        self.assertEqual(w02["workflow_dispatch"]["inputs"]["optimization_algorithm"]["options"],expected)
+        self.assertEqual(w00["workflow_dispatch"]["inputs"]["optimization_algorithm"]["options"],expected)
+        text00=(ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+        self.assertIn("optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}",text00)
+
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
 class GerryChainRuntimeTests(unittest.TestCase):
