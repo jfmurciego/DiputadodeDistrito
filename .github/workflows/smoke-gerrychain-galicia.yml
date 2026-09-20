@@ -1,0 +1,237 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: smoke test temporal
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Smoke GerryChain Galicia M05→M06
+# FECHA: 2026-09-20
+# ESTADO: temporal
+# QUÉ HACE: recupera el checkpoint real de Galicia, fuerza gerrychain_recom sólo en una copia efímera del contrato y valida M05→M06 sin publicar ni registrar producto.
+# CAMBIOS: nuevo smoke controlado posterior a la integración de GerryChain como estrategia 02.5.
+# MOTIVO: demostrar el wiring real de producción sin recalcular M01–M04 ni alterar el contrato productivo de Galicia.
+# ANTERIOR: ninguno — workflow temporal de smoke.
+name: Smoke · GerryChain Galicia M05→M06
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ddd-smoke-gerrychain-galicia
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    name: Galicia · GerryChain 02.5 → certificación M06
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      SOURCE_RUN_ID: '35520753227'
+      SOURCE_ARTIFACT: ddd-state-35520753227-M06
+      PARAMS_CANONICAL: territorios/galicia/config/galicia_2025.yaml
+      PARAMS_SMOKE: territorios/galicia/config/galicia_2025_gerrychain_smoke.yaml
+      CACHE_DIR: territorios/galicia/.cache/ddd/preparacion/galicia_2025
+      SMOKE_RUN_ID: smoke-gerrychain-${{ github.run_id }}
+
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+
+      - name: Recuperar checkpoint real de Galicia
+        uses: actions/download-artifact@v6
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: .ddd-smoke/source
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Restaurar exclusivamente M03/M04 y preparar contrato efímero
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-smoke/source/cache/galicia_2025_m03_grafo.json
+          test -f .ddd-smoke/source/cache/galicia_2025_m04_semillas.geojson.zip
+          rm -rf "$CACHE_DIR"
+          mkdir -p "$CACHE_DIR" .ddd-smoke/evidence
+          cp -a .ddd-smoke/source/cache/. "$CACHE_DIR/"
+          # El smoke debe volver a producir M05/M06, no reutilizar las salidas anteriores.
+          rm -f "$CACHE_DIR"/galicia_2025_m05_* "$CACHE_DIR"/galicia_2025_m06_*
+
+          python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
+          cp "$PARAMS_CANONICAL" "$PARAMS_SMOKE"
+          python - "$PARAMS_SMOKE" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          p=Path(sys.argv[1])
+          cfg=yaml.safe_load(p.read_text(encoding='utf-8')) or {}
+          m05=((cfg.get('modulos') or {}).get('modulo_05_optimizar_distritos') or {})
+          m05['optimization_strategy']='gerrychain_recom'
+          m05['gerrychain']={
+              'steps_per_seed':250,
+              'seed_base':20260920,
+              'seed_count':1,
+              'proposal_epsilon':0.12,
+              'max_bipartition_attempts':500,
+              'require_pythonhashseed_zero':True,
+          }
+          p.write_text(yaml.safe_dump(cfg,sort_keys=False,allow_unicode=True),encoding='utf-8')
+          PY
+
+          cat > .ddd-smoke/PRODUCTOS.json <<'JSON'
+          {"products":[{"stage":"M04","source_run_id":"35520753227","artifact":"ddd-state-35520753227-M06"}]}
+          JSON
+
+      - name: Construir entorno reproducible
+        shell: bash
+        run: docker build --pull -t ddd-smoke:${GITHUB_SHA} .
+
+      - name: Ejecutar recorrido real M05 → M06 con GerryChain
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app \
+            -e DDD_PARAMS="/app/$PARAMS_SMOKE" \
+            -e DDD_RUN_ID="$SMOKE_RUN_ID" \
+            -e DDD_FROM_STAGE=M05 \
+            -e DDD_TO_STAGE=M06 \
+            -e DDD_CHECKPOINT_MANIFEST=/app/.ddd-smoke/PRODUCTOS.json \
+            -e DDD_CHECKPOINT_CACHE_DIR="/app/$CACHE_DIR" \
+            --entrypoint /bin/bash ddd-smoke:${GITHUB_SHA} /app/procedimiento.sh
+
+      - name: Verificar wiring y contrato de salida M05
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOG="territorios/galicia/resultados/ejecuciones/$SMOKE_RUN_ID/logs/modulo_5.log"
+          REPORT="$CACHE_DIR/galicia_2025_m05_informe.json"
+          OUT="$CACHE_DIR/galicia_2025_m05_distritos_optimizados.geojson.zip"
+          test -f "$LOG" && test -f "$REPORT" && test -f "$OUT"
+          grep -F "Estrategia de optimización — gerrychain_recom" "$LOG"
+
+          docker run --rm -v "$PWD:/app" -w /app \
+            --entrypoint /opt/ddd-gerrychain/bin/python ddd-smoke:${GITHUB_SHA} - "$REPORT" "$OUT" <<'PY'
+          import json,sys,geopandas as gpd
+          report=json.load(open(sys.argv[1],encoding='utf-8'))
+          g=gpd.read_file('zip:///app/'+sys.argv[2])
+          g['CUSEC_KEY']=g['CUSEC_KEY'].astype(str)
+          g['CPRO']=g['CPRO'].astype(str).str.zfill(2)
+          g['district_id']=g['district_id'].astype(int)
+          assert report['strategy']=='gerrychain_recom', report.get('strategy')
+          assert report['hard_constraints_after']==[], report['hard_constraints_after']
+          assert report['districts_below_floor']==0
+          assert report['districts_above_cap']==0
+          assert len(report['search']['runs'])==1
+          assert report['search']['runs'][0]['states_observed']==250
+          assert len(g)==2134, len(g)
+          assert g['CUSEC_KEY'].nunique()==2134
+          assert int(g['POP_2025'].sum())==2714741
+          assert g['district_id'].nunique()==75
+          assert int(g.groupby('district_id')['CPRO'].nunique().max())==1
+          assert int(g.groupby('ddd_unit_id')['district_id'].nunique().max())==1
+          counts=g.groupby('district_id')['CPRO'].first().value_counts().to_dict()
+          assert counts=={'15':31,'36':26,'27':9,'32':9}, counts
+          target=g['POP_2025'].sum()/75
+          pops=g.groupby('district_id')['POP_2025'].sum()
+          assert (pops >= target*0.80-1e-9).all()
+          assert (pops <= target*1.75+1e-9).all()
+          print(json.dumps({
+            'sections':len(g),'population':int(g['POP_2025'].sum()),
+            'districts':int(g['district_id'].nunique()),'province_counts':counts,
+            'selected_seed':report['search']['selected_seed'],
+            'assignment_hash':report['search']['selected_assignment_hash'],
+            'objective_start':report['objective_start'],
+            'objective_final':report['objective_final'],
+          },ensure_ascii=False,indent=2))
+          PY
+
+      - id: geometric
+        name: Auditar componentes geométricos de M06
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          SECTIONS="$CACHE_DIR/galicia_2025_m06_secciones.geojson.zip"
+          AUDIT=".ddd-smoke/evidence/galicia_2025_m06_contiguedad_geometrica.json"
+          test -f "$SECTIONS"
+          set +e
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-smoke:${GITHUB_SHA} \
+            /app/herramientas/auditar_componentes_geometricos.py \
+            --sections "/app/$SECTIONS" \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts 75 \
+            --output "/app/$AUDIT"
+          rc=$?
+          set -e
+          test -f "$AUDIT"
+          decision="$(jq -r '.decision // "UNKNOWN"' "$AUDIT")"
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          echo "audit_rc=$rc" >> "$GITHUB_OUTPUT"
+          echo "Auditoría geométrica: $decision (rc=$rc)"
+
+      - name: Aplicar criterios del smoke y generar resumen
+        shell: bash
+        env:
+          GEOMETRIC_DECISION: ${{ steps.geometric.outputs.decision }}
+          GEOMETRIC_RC: ${{ steps.geometric.outputs.audit_rc }}
+        run: |
+          set -euo pipefail
+          M05="$CACHE_DIR/galicia_2025_m05_informe.json"
+          M06="$CACHE_DIR/galicia_2025_m06_secciones.geojson.zip"
+          AUDIT=".ddd-smoke/evidence/galicia_2025_m06_contiguedad_geometrica.json"
+          test -f "$M05" && test -f "$M06" && test -f "$AUDIT"
+
+          case "$GEOMETRIC_DECISION" in
+            PASS|PASS_WITH_EXCEPTIONS) ;;
+            *) echo "::error::Smoke bloqueado por auditoría geométrica: $GEOMETRIC_DECISION"; exit 32 ;;
+          esac
+
+          python - "$M05" "$AUDIT" "$GEOMETRIC_DECISION" "$SOURCE_RUN_ID" "$SOURCE_ARTIFACT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          m05=json.load(open(sys.argv[1],encoding='utf-8'))
+          audit=json.load(open(sys.argv[2],encoding='utf-8'))
+          summary={
+            'schema':'ddd.smoke-gerrychain-galicia/1.0',
+            'result':'PASS',
+            'source_run_id':sys.argv[4],
+            'source_artifact':sys.argv[5],
+            'route':'M05→M06',
+            'strategy':m05['strategy'],
+            'seed_count':m05['search']['seed_count'],
+            'steps_per_seed':m05['search']['steps_per_seed'],
+            'selected_seed':m05['search']['selected_seed'],
+            'selected_assignment_hash':m05['search']['selected_assignment_hash'],
+            'objective_start':m05['objective_start'],
+            'objective_final':m05['objective_final'],
+            'hard_constraints_after':m05['hard_constraints_after'],
+            'geometric_decision':sys.argv[3],
+            'geometric_districts':audit.get('districts_total'),
+          }
+          Path('.ddd-smoke/evidence/smoke_summary.json').write_text(
+              json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False,indent=2))
+          PY
+
+          cp "$PARAMS_SMOKE" .ddd-smoke/evidence/
+          cp "$M05" .ddd-smoke/evidence/
+          cp "$CACHE_DIR/galicia_2025_m06_resumen_distritos.csv" .ddd-smoke/evidence/
+          cp "$CACHE_DIR/galicia_2025_m06_catalogo_distritos.csv" .ddd-smoke/evidence/
+          cp "territorios/galicia/resultados/ejecuciones/$SMOKE_RUN_ID/logs/modulo_5.log" .ddd-smoke/evidence/
+          cp "territorios/galicia/resultados/ejecuciones/$SMOKE_RUN_ID/logs/modulo_6.log" .ddd-smoke/evidence/
+
+          # Garantía explícita: el contrato productivo versionado no se ha modificado.
+          git diff --exit-code -- "$PARAMS_CANONICAL"
+
+      - name: Publicar evidencia del smoke
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-smoke-gerrychain-galicia-${{ github.run_id }}
+          path: .ddd-smoke/evidence
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
