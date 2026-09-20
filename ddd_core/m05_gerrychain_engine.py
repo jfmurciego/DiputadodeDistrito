@@ -21,6 +21,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 import zipfile
@@ -1024,6 +1025,11 @@ def run_gerrychain_optimization(
     La tolerancia objetivo se usa como objetivo lexicográfico y como epsilon
     final de ReCom, igualando la semántica productiva del M05 canónico.
     """
+    if os.environ.get("PYTHONHASHSEED") != "0":
+        raise InputContractError(
+            "Estrategia GerryChain requiere PYTHONHASHSEED=0 para reproducibilidad "
+            "entre procesos y runners."
+        )
     structural = structural_constraint_violations(data, data.initial_assignment, contract)
     if structural:
         raise InputContractError(
