@@ -37,7 +37,7 @@ class DesignA(unittest.TestCase):
     def test_internal_capabilities_remain(self):
         expected={
           "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
-          "desplegar-visor-publico.yml","generar-alternativas-territoriales.yml",
+          "desplegar-visor-publico.yml","_reutilizable-publicar-sitio.yml","generar-alternativas-territoriales.yml",
           "notificar-finalizacion-orquestacion.yml","orquestacion-control.yml",
           "orquestacion-durable.yml","producir-territorio-por-contrato.yml",
           "publicar-checkpoint-cyl-m06.yml","validar-contratos-territoriales.yml",
@@ -84,6 +84,6 @@ class DesignA(unittest.TestCase):
         self.assertEqual(generation,expected)
         self.assertEqual(electoral,expected)
         self.assertIn("Galicia",generable)
-        self.assertNotIn("Galicia",electoral_ready)
+        self.assertIn("Galicia",electoral_ready)
 
 if __name__=="__main__": unittest.main()
