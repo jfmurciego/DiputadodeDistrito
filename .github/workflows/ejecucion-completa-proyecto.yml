@@ -391,6 +391,7 @@ jobs:
     with:
       pagina_publicar: Sitio completo
       production_run_id: ${{ needs.validar_producto.outputs.run_id }}
+      estado_sincronizado: true
 
   manifestar:
     name: Registrar manifiesto de ejecución completa
