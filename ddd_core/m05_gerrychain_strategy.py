@@ -342,4 +342,168 @@ def prepare_problem(
         if u != v:
             edges.add(tuple(sorted((u, v))))
 
-    members: dict[Any, set[str]
+    members: dict[Any, set[str]] = defaultdict(set)
+    closed_members: dict[Any, set[str]] = defaultdict(set)
+    for unit, district in initial.items():
+        members[district].add(unit)
+        if units[unit]["closed_urban"]:
+            closed_members[district].add(unit)
+    frozen = {
+        district: frozenset(unit_set)
+        for district, unit_set in members.items()
+        if contract.preserve_closed_urban and unit_set and unit_set == closed_members[district]
+    }
+
+    total = sum(row["population"] for row in units.values())
+    target = total / contract.expected_k
+    problem = PreparedProblem(
+        sections=sections,
+        units=units,
+        edges=sorted(edges),
+        initial_assignment=initial,
+        frozen_districts=frozen,
+        target_population=target,
+    )
+    violations = hard_constraint_violations(problem, initial, contract)
+    if violations:
+        raise ValueError("M04 viola restricciones duras previas a GerryChain: " + ", ".join(violations[:20]))
+    return problem
+
+
+def population_metrics(problem: PreparedProblem, assignment: Mapping[str, Any], contract: StrategyContract) -> dict[str, Any]:
+    pops: dict[Any, float] = defaultdict(float)
+    for unit, district in assignment.items():
+        pops[district] += problem.units[unit]["population"]
+    target = problem.target_population
+    dev = {d: abs(p - target) / target for d, p in pops.items()}
+    signed = {d: (p - target) / target for d, p in pops.items()}
+    return {
+        "target": target,
+        "district_populations": {str(k): v for k, v in pops.items()},
+        "district_relative_deviation": {str(k): v for k, v in signed.items()},
+        "districts_outside_tolerance": sum(v > contract.target_tolerance_ratio + 1e-12 for v in dev.values()),
+        "max_relative_deviation": max(dev.values(), default=0.0),
+        "rms_relative_deviation": math.sqrt(sum(v * v for v in dev.values()) / len(dev)) if dev else 0.0,
+    }
+
+
+def hard_constraint_violations(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+    contract: StrategyContract,
+) -> list[str]:
+    violations: list[str] = []
+    if set(assignment) != set(problem.units):
+        return ["unit_universe"]
+    districts = set(assignment.values())
+    if len(districts) != contract.expected_k:
+        violations.append(f"district_count:{len(districts)}")
+
+    target = problem.target_population
+    floor = target * contract.population_floor_ratio
+    cap = target * contract.population_cap_ratio
+    pops: dict[Any, float] = defaultdict(float)
+    provinces: dict[Any, set[str]] = defaultdict(set)
+    members: dict[Any, set[str]] = defaultdict(set)
+    municipalities: dict[str, set[Any]] = defaultdict(set)
+    district_municipalities: dict[Any, set[str]] = defaultdict(set)
+    municipality_pop: dict[str, float] = defaultdict(float)
+
+    for unit, district in assignment.items():
+        row = problem.units[unit]
+        members[district].add(unit)
+        pops[district] += row["population"]
+        provinces[district].add(row["province"])
+        municipalities[row["municipality"]].add(district)
+        district_municipalities[district].add(row["municipality"])
+        municipality_pop[row["municipality"]] += row["population"]
+
+    for district, population in pops.items():
+        if population < floor - 1e-9:
+            violations.append(f"population_floor:{district}")
+        if population > cap + 1e-9:
+            violations.append(f"population_cap:{district}")
+
+    if contract.require_single_province:
+        for district, values in provinces.items():
+            if len(values) != 1:
+                violations.append(f"province:{district}")
+
+    if contract.province_districts:
+        observed = Counter(next(iter(v)) for v in provinces.values() if len(v) == 1)
+        for province, expected in contract.province_districts.items():
+            if observed.get(str(province).zfill(2), 0) != int(expected):
+                violations.append(f"province_count:{province}")
+
+    if contract.require_municipality_discipline:
+        for municipality, district_set in municipalities.items():
+            pop = municipality_pop[municipality]
+            minimum = max(1, math.ceil(pop / cap)) if pop > 0 else 1
+            maximum = max(1, math.ceil(pop / target)) if pop > 0 else 1
+            if not (minimum <= len(district_set) <= maximum):
+                violations.append(f"municipality:{municipality}")
+            mixed = sum(1 for d in district_set if len(district_municipalities[d]) > 1)
+            if len(district_set) > 1 and mixed > contract.max_mixed_districts_per_split_municipality:
+                violations.append(f"municipality_mixed:{municipality}")
+
+    if contract.preserve_closed_urban:
+        for district, frozen in problem.frozen_districts.items():
+            if members.get(district, set()) != set(frozen):
+                violations.append(f"closed_urban:{district}")
+
+    if contract.require_contiguity:
+        adjacency = {u: set() for u in problem.units}
+        for u, v in problem.edges:
+            adjacency[u].add(v)
+            adjacency[v].add(u)
+        for district, wanted in members.items():
+            if not wanted:
+                violations.append(f"empty_district:{district}")
+                continue
+            start = next(iter(wanted))
+            reached = {start}
+            queue: deque[str] = deque([start])
+            while queue:
+                u = queue.popleft()
+                for v in adjacency[u] & wanted:
+                    if v not in reached:
+                        reached.add(v)
+                        queue.append(v)
+            if reached != wanted:
+                violations.append(f"contiguity:{district}")
+
+    # Deliberadamente NO se incluye target_tolerance_ratio aquí. Es objetivo,
+    # no límite duro de los estados intermedios.
+    return sorted(set(violations))
+
+
+def candidate_rank(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+    contract: StrategyContract,
+    initial: Mapping[str, Any],
+) -> tuple[Any, ...]:
+    pop = population_metrics(problem, assignment, contract)
+    cut_edges = sum(1 for u, v in problem.edges if assignment[u] != assignment[v])
+    churn = sum(assignment[u] != initial[u] for u in initial) / max(1, len(initial))
+    # Orden técnico declarativo y no partidista. El hash resuelve empates de
+    # forma determinista; no intervienen votos ni composición electoral.
+    return (
+        int(pop["districts_outside_tolerance"]),
+        float(pop["max_relative_deviation"]),
+        float(pop["rms_relative_deviation"]),
+        int(cut_edges),
+        float(churn),
+        _assignment_hash(assignment),
+    )
+
+
+def _partition_assignment(partition: Any) -> dict[str, Any]:
+    raw = partition.assignment.to_dict() if hasattr(partition.assignment, "to_dict") else dict(partition.assignment)
+    return {
+        str(partition.graph.node_data(node_id)["unit_id"]): district
+        for node_id, district in raw.items()
+    }
+
+
+def _proposal_graph(problem: PreparedProb
