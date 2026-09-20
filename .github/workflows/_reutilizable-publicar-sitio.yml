@@ -129,5 +129,6 @@ jobs:
         with:
           name: ddd-publication-${{ github.run_id }}
           path: .ddd-publication
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
