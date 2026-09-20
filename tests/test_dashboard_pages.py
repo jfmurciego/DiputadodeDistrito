@@ -54,3 +54,9 @@ def test_promocion_dashboard_es_explicita_y_trazable():
 def test_visor_enlaza_dashboard():
     html=(ROOT/"visor/index.html").read_text(encoding="utf-8")
     assert 'href="dashboard/"' in html
+
+
+def test_evidencia_oculta_de_publicacion_se_sube():
+    reusable=REUSABLE.read_text(encoding="utf-8")
+    assert "path: .ddd-publication" in reusable
+    assert "include-hidden-files: true" in reusable
