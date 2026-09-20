@@ -14,6 +14,8 @@ on:
       territory_id: {required: true, type: string}
       data_edition: {required: true, type: string}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
+      source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
     outputs:
       territory_id:
         value: ${{ jobs.resolver.outputs.territory_id }}
@@ -75,6 +77,8 @@ jobs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         env:
@@ -105,6 +109,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.source_ref || github.sha }}
           token: ${{ github.token }}
       - name: Instalar dependencias de resolución territorial
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -188,7 +193,7 @@ jobs:
   registrar:
     name: Registrar fuentes territoriales preparadas
     needs: [resolver, territoriales]
-    if: ${{ needs.territoriales.result == 'success' }}
+    if: ${{ needs.territoriales.result == 'success' && inputs.persist_state }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
