@@ -39,7 +39,7 @@ permissions:
 
 jobs:
   produccion:
-    name: Fuentes, procesamiento, controles, distritos, resultados y publicación
+    name: Procesamiento territorial modular
     if: ${{ contains(fromJSON('["admitir_contrato","verificar_contrato","preparar_base_m01_m03","certificar_territorio_m01_m06","producir_resultado_m01_m08"]'), inputs.operation) }}
     uses: ./.github/workflows/producir-territorio-por-contrato.yml
     with:
