@@ -16,6 +16,7 @@ on:
       electoral_package_run_id: {required: false, type: string, default: ''}
       electoral_package_artifact_name: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -187,3 +188,4 @@ jobs:
       electoral_package_run_id: ${{ needs.preparar.outputs.electoral_package_run_id }}
       electoral_package_artifact_name: ${{ needs.preparar.outputs.electoral_package_artifact_name }}
       source_ref: ${{ inputs.source_ref }}
+      persist_state: ${{ inputs.persist_state }}
