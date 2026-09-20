@@ -18,10 +18,10 @@ meta:
   scope: provincial
   schema_version: 0.9.0
   schema_family: ddd-territory
-  contract_level: experimental_m01_m06
+  contract_level: production_m01_m06
   contract_schema_version: 1.0.0
-  production_authorization: BLOCKED
-  status: preparation_blocked
+  production_authorization: AUTHORIZED
+  status: generation_ready
   full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
   electoral_sources_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
 
@@ -54,7 +54,7 @@ territory_contract:
   topology_mode: land
   k_districts: 65
   k_source: norma
-  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2/1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
+  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2 de 1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
@@ -67,7 +67,7 @@ territory_contract:
   municipality_atomicity_limit_ratio: 1.10
   internal_partition_chunk_ratio: 0.20
   require_auditable_district_catalogue: true
-  promotion_status: preparation_blocked
+  promotion_status: generation_ready
   notes:
     - K=65 procede de la Ley 2/1987, artículo 18; no del experimento histórico previo.
     - El reparto DDD entre provincias permanece declarado como Hamilton 41/24, separado del reparto electoral autonómico vigente.
@@ -149,7 +149,7 @@ modulos:
     pop_field: "POP_{year}"
     district_field: district_id
     province_field: CPRO
-    municipality_field: CUMUN
+    municipality_field: M04_PARTITION_UNIT
     greedy_moves_limit: 1000
     anneal_iters: 30000
     swap_polish_max: 200
@@ -163,7 +163,7 @@ modulos:
     pop_field: "POP_{year}"
     province_field: CPRO
     province_name_field: NPRO
-    municipality_field: CUMUN
+    municipality_field: M04_PARTITION_UNIT
     municipality_name_field: NMUN
     cudis_field: CUDIS
     metric_crs: EPSG:3035

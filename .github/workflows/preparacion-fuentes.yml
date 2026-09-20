@@ -48,7 +48,7 @@ on:
         type: boolean
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -152,11 +152,42 @@ jobs:
       - name: Adquirir y congelar fuentes
         run: |
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
-      - uses: actions/upload-artifact@v6
+      - id: upload
+        uses: actions/upload-artifact@v6
         with:
           name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
           path: .ddd-source-package
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
+
+      - name: Promover catálogo territorial
+        shell: bash
+        env:
+          ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          ARTIFACT_SHA256: ${{ steps.upload.outputs.artifact-digest }}
+          TARGET_BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          # Trabaja siempre sobre la punta actual de la misma rama para no publicar
+          # un catálogo calculado sobre un commit obsoleto.
+          git fetch origin "$TARGET_BRANCH"
+          git reset --hard "origin/$TARGET_BRANCH"
+
+          python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
+          python herramientas/promover_catalogo_tras_preparacion.py             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --package .ddd-source-package             --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256"             > .ddd-catalog-promotion.json
+
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+
+          if git diff --quiet; then
+            echo "El catálogo ya reflejaba este estado; no hay commit que publicar."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             .github/workflows/produccion-distritos.yml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
+          git commit -m "chore: promover $TERRITORY_ID tras preparación territorial"
+          git push origin "HEAD:$TARGET_BRANCH"
 

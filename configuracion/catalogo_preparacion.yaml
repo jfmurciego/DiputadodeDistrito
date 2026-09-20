@@ -191,14 +191,19 @@ territories:
         contract_path: territorios/extremadura/config/extremadura_2025.yaml
         territorial_source_declaration: territorios/extremadura/config/fuentes_oficiales.yaml
         electoral_source_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
-        territorial_sources_prepared: false
-        territorial_contract_complete: false
+        territorial_sources_prepared: true
+        territorial_contract_complete: true
         territorial_product_available: false
         electoral_source_prepared: false
         electoral_product_available: false
-        territorial_certification: BLOCKED_PREPARATION
-        production_authorization: BLOCKED
+        territorial_certification: NOT_CERTIFIED
+        production_authorization: AUTHORIZED
         last_valid_checkpoint: null
+        preparation_evidence:
+          run_id: 35475119597
+          artifact_name: ddd-source-package-extremadura-2025-35475119597
+          artifact_sha256: f115ec74a9241e796fcef231a0400121d218b22dbeb8d22d467665c671d94c1a
+          package_sha256: 1e4b65391424fe1108eabd19471ab749a9a657278d4c8de2b9cfa700cfce9c9a
   - territory_id: galicia
     name: Galicia
     editions:
