@@ -163,4 +163,46 @@ class GaliciaEndToEndTests(unittest.TestCase):
             self.invoke(out, report, steps=500)
             rep = json.loads(report.read_text(encoding="utf-8"))
             g = gpd.read_file("zip://" + str(out))
-         
+            g["CUSEC_KEY"] = g["CUSEC_KEY"].astype(str)
+            g["CPRO"] = g["CPRO"].astype(str).str.zfill(2)
+            g["district_id"] = g["district_id"].astype(int)
+            self.assertEqual(len(g), 2134)
+            self.assertEqual(g["CUSEC_KEY"].nunique(), 2134)
+            self.assertEqual(int(g["POP_2025"].sum()), 2714741)
+            self.assertEqual(g["district_id"].nunique(), 75)
+            self.assertEqual(int(g.groupby("district_id")["CPRO"].nunique().max()), 1)
+            self.assertEqual(
+                g.groupby("district_id")["CPRO"].first().value_counts().to_dict(),
+                {"15": 31, "36": 26, "27": 9, "32": 9},
+            )
+            target = g["POP_2025"].sum() / 75
+            pops = g.groupby("district_id")["POP_2025"].sum()
+            self.assertTrue((pops >= target * 0.80 - 1e-9).all())
+            self.assertTrue((pops <= target * 1.75 + 1e-9).all())
+            self.assertEqual(rep["hard_constraints_after"], [])
+            self.assertEqual(rep["districts_below_floor"], 0)
+            self.assertEqual(rep["districts_above_cap"], 0)
+            dissolved = g[["district_id", "POP_2025", "geometry"]].dissolve(
+                by="district_id", aggfunc={"POP_2025": "sum"}, as_index=False
+            )
+            self.assertEqual(len(dissolved), 75)
+            self.assertEqual(int(dissolved["POP_2025"].sum()), 2714741)
+
+    def test_runtime_refuses_unpinned_hash_seed(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            env = dict(os.environ, PYTHONPATH=str(ROOT))
+            env.pop("PYTHONHASHSEED", None)
+            completed = subprocess.run(
+                [sys.executable, str(ENGINE), "--graph", str(GRAPH), "--initial", str(M04),
+                 "--output", str(td / "o.zip"), "--report", str(td / "r.json"),
+                 "--expected-k", "75", "--province-quotas", "15=31,27=9,32=9,36=26",
+                 "--steps-per-seed", "2", "--seed-count", "1"],
+                capture_output=True, text=True, env=env,
+            )
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn("PYTHONHASHSEED=0", completed.stderr)
+
+
+if __name__ == "__main__":
+    unittest.main()
