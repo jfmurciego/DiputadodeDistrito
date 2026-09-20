@@ -9,6 +9,7 @@
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
 name: 02 · Generación de Distritos Autonómicos
+run-name: 02 · ${{ inputs.territory_id }} · ${{ inputs.data_edition }}
 
 on:
   workflow_call:
