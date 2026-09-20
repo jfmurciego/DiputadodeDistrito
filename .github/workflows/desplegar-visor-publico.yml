@@ -5,7 +5,7 @@
 # ESTADO: activo
 # QUÉ HACE: publica el sitio GitHub Pages completo y permite seleccionar desde Actions la página objetivo visible; conserva compatibilidad como workflow reutilizable.
 # CAMBIOS: añade workflow_dispatch con selector de página, mantiene workflow_call y evita despliegues parciales destructivos publicando siempre el sitio completo.
-# ANTERIOR: versión 2.1.0 en historial Git.
+# ANTERIOR: versión 2.2.0 en historial Git.
 name: Publicar Sitio Web
 
 on:
@@ -156,8 +156,6 @@ jobs:
             args+=(--production-root /tmp/production --strict-request)
           fi
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
-          target_url="$PAGE_URL${{ steps.pagina.outputs.relative_path }}"
-          jq -n             --arg pagina "$TARGET_PAGE"             --arg url "$target_url"             --arg pages_root "$PAGE_URL"             --arg run_id "$GITHUB_RUN_ID"             '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id}'             > .ddd-publication/pagina_publicada.json
       - uses: actions/configure-pages@v5
         with:
           enablement: true
@@ -186,7 +184,20 @@ jobs:
             args+=(--production-root /tmp/production)
           fi
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
-      - name: Publicar evidencia del visor
+          mkdir -p .ddd-publication
+          target_url=""
+          if [[ -n "$PAGE_URL" ]]; then
+            target_url="$PAGE_URL${{ steps.pagina.outputs.relative_path }}"
+          fi
+          jq -n \
+            --arg pagina "$TARGET_PAGE" \
+            --arg url "$target_url" \
+            --arg pages_root "$PAGE_URL" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg deployment_outcome "$DEPLOYMENT_OUTCOME" \
+            '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id,deployment_outcome:$deployment_outcome}' \
+            > .ddd-publication/pagina_publicada.json
+      - name: Publicar evidencia del sitio
         if: always()
         uses: actions/upload-artifact@v6
         with:
