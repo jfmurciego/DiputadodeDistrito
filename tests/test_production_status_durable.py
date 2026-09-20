@@ -99,6 +99,7 @@ class DurableProductionStatusTests(unittest.TestCase):
         params = tmp / "territory.yaml"
         params.write_text(yaml.safe_dump({
             "meta": {"year": 2025, "run_name": run_name},
+            "validation": {"require_zero_outside_tolerance_after_m05": True},
             "modulos": {
                 "modulo_05_optimizar_distritos": {
                     "out_report": str(tmp / "preparacion" / "{run_name}" / "{run_name}_m05_informe.json")
@@ -233,6 +234,24 @@ class DurableProductionStatusTests(unittest.TestCase):
 
             state_step = next(step for step in jobs["auditoria"]["steps"] if step.get("name") == "Resolver checkpoint M06")
             self.assertIn('else state_run_id="$CHECKPOINT_RUN_ID"', state_step["run"])
+
+    def test_partial_population_is_not_a_block_when_contract_does_not_require_target(self):
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            params, report, geometry, audit_dir = self._fixture(tmp)
+            cfg = yaml.safe_load(params.read_text(encoding="utf-8"))
+            cfg["validation"]["require_zero_outside_tolerance_after_m05"] = False
+            params.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+            report.write_text(json.dumps(partial_population()), encoding="utf-8")
+
+            result = self._run(params, geometry, audit_dir)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            status = json.loads((audit_dir / "production_status.json").read_text(encoding="utf-8"))
+            self.assertFalse(status["population_target_required"])
+            self.assertEqual(status["population_decision"], "TARGET_IMPROVED_NOT_MET")
+            self.assertEqual(status["population_hard_constraints_after"], 0)
+            self.assertEqual(status["decision"], "PASS_WITH_EXCEPTIONS")
+            self.assertNotIn("block_cause", status)
 
     def test_explicit_run_id_resolves_population_evidence_even_if_environment_says_local(self):
         with tempfile.TemporaryDirectory() as raw:
