@@ -111,9 +111,48 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
             (audit/"production_status.json").write_text(json.dumps({
                 "territory_id":"demo","decision":"PASS","scope_through_stage":"M06","electoral_application":True
             }),encoding="utf-8")
-            result=validate_gate(phase="electoral_product",artifact_root=root,audit_root=audit,
+            params=Path(td)/"demo.yaml"
+            params.write_text(yaml.safe_dump({"meta":{"year":2025}}),encoding="utf-8")
+            result=validate_gate(phase="electoral_product",artifact_root=root,audit_root=audit,params=params,
                 territory_id="demo",edition="2025",run_id="123",artifact_name="ddd-state-123-M08",artifact_digest="b"*64)
             self.assertEqual(result["decision"],"VALIDADO")
+
+    def test_electoral_product_without_application_flag_requires_durable_legacy_digest(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)/"state"; audit=Path(td)/"audit"
+            for name in ("cache","run","sources"): (root/name).mkdir(parents=True,exist_ok=True)
+            audit.mkdir()
+            (root/"run/CHAIN_STATE.json").write_text(json.dumps({"completed_stage":8}),encoding="utf-8")
+            (audit/"production_status.json").write_text(json.dumps({
+                "territory_id":"demo","decision":"PASS_WITH_EXCEPTIONS"
+            }),encoding="utf-8")
+            params=Path(td)/"demo.yaml"
+            params.write_text(yaml.safe_dump({"meta":{"year":2025}}),encoding="utf-8")
+            digest="c"*64
+            current=validate_gate(phase="electoral_product",artifact_root=root,audit_root=audit,params=params,
+                territory_id="demo",edition="2025",run_id="123",artifact_name="ddd-state-123-M08",artifact_digest=digest)
+            self.assertEqual(current["decision"],"BLOQUEADO")
+            self.assertIn("INCORPORACION_ELECTORAL_NO_ACREDITADA",current["reasons"])
+            legacy=validate_gate(phase="electoral_product",artifact_root=root,audit_root=audit,params=params,
+                territory_id="demo",edition="2025",run_id="123",artifact_name="ddd-state-123-M08",
+                artifact_digest=digest,expected_digest=digest)
+            self.assertEqual(legacy["decision"],"VALIDADO")
+
+    def test_product_gate_rejects_contract_from_other_edition(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)/"state"; audit=Path(td)/"audit"
+            for name in ("cache","run","sources"): (root/name).mkdir(parents=True,exist_ok=True)
+            audit.mkdir()
+            (root/"run/CHAIN_STATE.json").write_text(json.dumps({"completed_stage":6}),encoding="utf-8")
+            (audit/"production_status.json").write_text(json.dumps({
+                "territory_id":"demo","decision":"PASS"
+            }),encoding="utf-8")
+            params=Path(td)/"demo.yaml"
+            params.write_text(yaml.safe_dump({"meta":{"year":2024}}),encoding="utf-8")
+            result=validate_gate(phase="territorial_product",artifact_root=root,audit_root=audit,params=params,
+                territory_id="demo",edition="2025",run_id="123",artifact_name="ddd-state-123-M06",artifact_digest="d"*64)
+            self.assertEqual(result["decision"],"BLOQUEADO")
+            self.assertIn("EDICION_CONTRATO_NO_COINCIDE",result["reasons"])
 
 
 if __name__=="__main__":
