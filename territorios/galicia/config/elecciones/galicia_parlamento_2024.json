@@ -21,7 +21,7 @@
         "province_field": "Cód Cir",
         "municipality_field": "Cód Con",
         "polling_station_field": "Mesa",
-        "polling_station_regex": "^(?<district>\\d{2})-(?<section>\\d{3})-[A-Z0-9]+$",
+        "polling_station_regex": "^(?P<district>\\d{2})-(?P<section>\\d{3})-[A-Z0-9]+$",
         "party_columns": [
           "BNG",
           "ECG",
