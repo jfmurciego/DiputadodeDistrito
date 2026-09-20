@@ -68,7 +68,7 @@ jobs:
           rm -rf /tmp/production && mkdir -p /tmp/production
           gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
           test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43; }
-      - name: Acreditar identidad de la ejecución
+      - name: Acreditar identidad de la ejecución descargada
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
@@ -96,7 +96,7 @@ jobs:
           fi
           [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
           python herramientas/preparar_visor_ejecucion.py "${args[@]}"
-      - name: Acreditar resultado cargado
+      - name: Acreditar resultado realmente cargado
         shell: bash
         run: |
           set -euo pipefail
