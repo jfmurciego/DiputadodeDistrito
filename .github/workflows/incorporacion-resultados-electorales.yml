@@ -21,7 +21,6 @@ on:
         options:
           - Aragón
           - Castilla y León
-          - Galicia
       data_edition:
         description: Edición de datos
         required: true
@@ -296,4 +295,3 @@ jobs:
       electoral_package_artifact_name: ${{ needs.resolver_interfaz.outputs.electoral_package_artifact_name }}
       execution_confirmed: true
       publish_result: true
-
