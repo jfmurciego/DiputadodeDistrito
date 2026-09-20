@@ -7,6 +7,7 @@
 # QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
 # MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada.
 name: 03 · Preparación de Resultados Electorales
+run-name: 03 · ${{ inputs.territory_id }}
 
 on:
   workflow_call:
@@ -177,7 +178,7 @@ jobs:
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
-    if: ${{ needs.electorales.result == 'success' && inputs.persist_state }}
+    if: ${{ needs.electorales.result == 'success' && ((github.event_name == 'workflow_dispatch' && github.ref_name == 'main') || inputs.persist_state) }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
