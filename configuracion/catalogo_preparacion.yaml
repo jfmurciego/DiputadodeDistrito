@@ -216,12 +216,14 @@ territories:
       electoral_source_declaration: territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 35513005773
+        stage: M06
       preparation_evidence:
         run_id: 35470063566
         artifact_name: ddd-source-package-galicia-2025-35470063566
@@ -229,6 +231,7 @@ territories:
         package_sha256: b1947d2ad300a8f24b2954f5abd58712d7fa0637c6b3000dd9fb3ec073791515
       evidence:
         electoral_source: territorios/galicia/evidencia/catalogo/electoral_source_2025.json
+        territorial_product: territorios/galicia/evidencia/catalogo/territorial_product_2025.json
 - territory_id: madrid
   name: Comunidad de Madrid
   editions:
