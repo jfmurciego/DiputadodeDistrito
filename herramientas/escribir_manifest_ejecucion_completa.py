@@ -22,6 +22,7 @@ def main() -> None:
     ap.add_argument("--territory-name", required=True)
     ap.add_argument("--edition", required=True)
     ap.add_argument("--execution-mode", required=True)
+    ap.add_argument("--optimization-algorithm", required=True)
     ap.add_argument("--workflow-run-id", required=True)
     ap.add_argument("--source-sha", required=True)
     ap.add_argument("--publish-requested", choices=["true", "false"], required=True)
@@ -68,6 +69,7 @@ def main() -> None:
         "territory_name": ns.territory_name,
         "edition": ns.edition,
         "execution_mode": ns.execution_mode,
+        "optimization_algorithm": ns.optimization_algorithm,
         "workflow_run_id": int(ns.workflow_run_id),
         "source_sha": ns.source_sha,
         "publish_requested": ns.publish_requested == "true",
