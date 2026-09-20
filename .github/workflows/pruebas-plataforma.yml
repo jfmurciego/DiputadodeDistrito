@@ -48,7 +48,7 @@ jobs:
       actions: read
       pages: write
       id-token: write
-    uses: ./.github/workflows/ejecucion-completa-proyecto.yml
+    uses: jfmurciego/DiputadodeDistrito/.github/workflows/ejecucion-completa-proyecto.yml@feat/orquestador-ejecucion-completa
     secrets: inherit
     with:
       territory_id: Galicia
