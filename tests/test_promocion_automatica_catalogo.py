@@ -5,8 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.catalogo_preparacion import lookup
-from herramientas.resolver_fuentes_territorio import territories
+from herramientas.catalogo_preparacion import lookup, rows_for
 from herramientas.promover_catalogo_tras_preparacion import (
     contract_is_generation_complete,
 )
@@ -58,16 +57,13 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertEqual(contract["meta"]["contract_level"], "production_m01_m06")
         self.assertEqual(contract["meta"]["production_authorization"], "AUTHORIZED")
 
-    def test_generation_selector_is_stable_and_readiness_is_catalog_driven(self):
+    def test_generation_selector_is_derived_from_catalog_readiness(self):
         data = yaml.safe_load(GEN.read_text(encoding="utf-8"))
         triggers = data.get("on") or data.get(True)
         options = triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected = [r["name"] for r in territories()]
+        expected = [r["name"] for r in rows_for("generation", CAT)]
         self.assertEqual(options, expected)
-        promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
-        self.assertNotIn("produccion-distritos.yml", promoter)
-        prep = PREP.read_text(encoding="utf-8")
-        self.assertNotIn(".github/workflows/produccion-distritos.yml", prep)
+        self.assertIn("Extremadura", options)
 
     def test_master_catalog_matches_extremadura_promotion(self):
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
