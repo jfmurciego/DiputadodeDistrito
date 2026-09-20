@@ -248,7 +248,7 @@ jobs:
   registrar:
     name: Registrar producto electoral
     needs: incorporar
-    if: ${{ needs.incorporar.result == 'success' && inputs.persist_state }}
+    if: ${{ needs.incorporar.result == 'success' && ((github.event_name == 'workflow_dispatch' && github.ref_name == 'main') || inputs.persist_state) }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
