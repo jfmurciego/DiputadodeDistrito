@@ -6,7 +6,7 @@
 # ESTADO: candidato
 # QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
 # MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada.
-name: Preparación de Resultados Electorales
+name: 03 · Preparación de Resultados Electorales
 
 on:
   workflow_dispatch:
@@ -40,6 +40,10 @@ on:
         required: true
         default: true
         type: boolean
+
+concurrency:
+  group: ddd-electoral-prod-${{ inputs.territory_id }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
