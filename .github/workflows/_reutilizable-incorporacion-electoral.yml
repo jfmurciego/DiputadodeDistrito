@@ -204,7 +204,7 @@ jobs:
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-electoral-application-report-${{ github.run_id }}
-          path:
+          path: |
             .ddd-electoral-report
             .ddd-electoral-evidence
           include-hidden-files: true
