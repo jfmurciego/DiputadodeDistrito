@@ -209,10 +209,11 @@ jobs:
   visor:
     name: Publicar visor actual
     if: ${{ inputs.operation == 'publicar_visor_actual' }}
-    uses: ./.github/workflows/desplegar-visor-publico.yml
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
     with:
       production_run_id: ''
       ensemble_release_tag: ''
+      target_page: Visor territorial
 
   orquestacion_control:
     name: Controlar ejecución
