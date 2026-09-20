@@ -50,18 +50,19 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping
 
 import geopandas as gpd
-import networkx as nx
 import pandas as pd
 import yaml
 
 try:
     import gerrychain
+    import networkx as nx
     import rustworkx
     from gerrychain import MarkovChain, Partition, updaters
     from gerrychain.proposals.tree_proposals import MetagraphError, build_recom_proposal_fn
     from gerrychain.tree import BalanceError, PopulationBalanceError, ReselectException, bipartition_tree
 except Exception as exc:  # pragma: no cover - exercised by explicit dependency preflight
     gerrychain = None
+    nx = None
     rustworkx = None
     _GERRYCHAIN_IMPORT_ERROR = exc
 else:
