@@ -81,6 +81,16 @@ class ContractTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             StrategyConfig(proposal_epsilon=0).validate()
 
+    def test_production_wiring_keeps_canonical_default_and_isolates_gerrychain(self):
+        procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+        self.assertIn('m05.get("optimization_strategy") or "canonical"', procedure)
+        self.assertIn("gerrychain_recom)", procedure)
+        self.assertIn("/opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py", procedure)
+        self.assertIn("PYTHONHASHSEED=0", procedure)
+        self.assertIn("python -m venv /opt/ddd-gerrychain", dockerfile)
+        self.assertIn("requirements-ensemble.lock", dockerfile)
+
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
 class GerryChainRuntimeTests(unittest.TestCase):
