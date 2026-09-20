@@ -1,16 +1,31 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: activo
-# VERSIÓN: 2.2.0
-# NOMBRE: Desplegar visor técnico con identidad de ejecución verificable
+# VERSIÓN: 2.3.0
+# NOMBRE: Publicación manual y reutilizable del sitio web DDD
 # ESTADO: activo
-# QUÉ HACE: publica el visor histórico o una ejecución concreta sin permitir sustituciones silenciosas; deja evidencia estructurada de identidad y publicación.
-# CAMBIOS: una ejecución solicitada debe coincidir con la evidencia generada y con el resultado realmente cargado antes de desplegarse.
-# ANTERIOR: versión 2.1.0 en historial Git.
-name: Desplegar Visor Técnico
+# QUÉ HACE: publica el sitio GitHub Pages completo y permite seleccionar desde Actions la página objetivo visible; conserva compatibilidad como workflow reutilizable.
+# CAMBIOS: añade workflow_dispatch con selector de página, mantiene workflow_call y evita despliegues parciales destructivos publicando siempre el sitio completo.
+# ANTERIOR: versión 2.2.0 en historial Git.
+name: Publicar Sitio Web
 
 on:
+  workflow_dispatch:
+    inputs:
+      pagina_publicar:
+        description: Página a publicar
+        required: true
+        default: Sitio completo
+        type: choice
+        options:
+          - Sitio completo
+          - Visor territorial
+          - Dashboard operativo
   workflow_call:
     inputs:
+      pagina_publicar:
+        required: false
+        type: string
+        default: Sitio completo
       production_run_id:
         required: false
         type: string
@@ -36,11 +51,35 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
-      PRODUCTION_RUN_ID: ${{ inputs.production_run_id }}
-      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag }}
+      TARGET_PAGE: ${{ inputs.pagina_publicar || 'Sitio completo' }}
+      PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
+      ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
       PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v6
+      - name: Resolver página solicitada
+        id: pagina
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$TARGET_PAGE" in
+            "Sitio completo")
+              relative_path=""
+              ;;
+            "Visor territorial")
+              relative_path=""
+              ;;
+            "Dashboard operativo")
+              relative_path="dashboard/"
+              ;;
+            *)
+              echo "::error::Página no soportada: $TARGET_PAGE"
+              exit 64
+              ;;
+          esac
+          echo "relative_path=$relative_path" >> "$GITHUB_OUTPUT"
+          echo "Página solicitada: $TARGET_PAGE"
+
       - name: Preparar dependencia de reproyección
         shell: bash
         run: |
@@ -86,7 +125,7 @@ jobs:
           archive="$(find /tmp/ensemble/download -name '*.zip' -print -quit)"
           test -n "$archive"
           unzip -q "$archive" -d /tmp/ensemble/unpacked
-      - name: Empaquetar visor de ejecución
+      - name: Empaquetar sitio web completo
         shell: bash
         run: |
           set -euo pipefail
@@ -145,11 +184,26 @@ jobs:
             args+=(--production-root /tmp/production)
           fi
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
-      - name: Publicar evidencia del visor
+          mkdir -p .ddd-publication
+          target_url=""
+          if [[ -n "$PAGE_URL" ]]; then
+            target_url="$PAGE_URL${{ steps.pagina.outputs.relative_path }}"
+          fi
+          jq -n \
+            --arg pagina "$TARGET_PAGE" \
+            --arg url "$target_url" \
+            --arg pages_root "$PAGE_URL" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg deployment_outcome "$DEPLOYMENT_OUTCOME" \
+            '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id,deployment_outcome:$deployment_outcome}' \
+            > .ddd-publication/pagina_publicada.json
+      - name: Publicar evidencia del sitio
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: ddd-publication-${{ github.run_id }}
-          path: .ddd-publication/publicacion_visor.json
+          path: |
+            .ddd-publication/publicacion_visor.json
+            .ddd-publication/pagina_publicada.json
           if-no-files-found: error
           retention-days: 30

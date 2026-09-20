@@ -80,7 +80,9 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn('publish_result: ${{ inputs.publish_result }}', router)
         self.assertIn("inputs.publish_result == true", production)
         self.assertIn("workflow_call:", viewer)
-        self.assertNotIn("workflow_dispatch:", viewer)
+        self.assertIn("workflow_dispatch:", viewer)
+        self.assertIn("pagina_publicar:", viewer)
+        self.assertIn("Dashboard operativo", viewer)
 
     def test_no_queda_el_formulario_g10_sustituido(self):
         self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())

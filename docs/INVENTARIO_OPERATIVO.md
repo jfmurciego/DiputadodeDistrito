@@ -1,7 +1,7 @@
 # Inventario operativo
 
-**Versión:** 1.2.0 — 2026-09-16
-**Anterior:** versión 1.1.0 en historial Git
+**Versión:** 1.3.0 — 2026-09-20
+**Anterior:** versión 1.2.0 en historial Git
 
 ## Interfaces y workflows vigentes
 
@@ -18,8 +18,10 @@
   reutilizable GerryChain, sintética → Aragón 10 → Aragón 50.
 - `.github/workflows/_reutilizable-auditoria-topologica.yml`: diagnóstico
   topológico reutilizable.
-- `.github/workflows/desplegar-visor-publico.yml`: publicador reutilizable del
-  visor canónico; no expone `workflow_dispatch` propio.
+- `.github/workflows/desplegar-visor-publico.yml`: publicador manual y reutilizable del
+  sitio GitHub Pages. Expone `workflow_dispatch` con selector `Sitio completo`,
+  `Visor territorial` o `Dashboard operativo`; empaqueta siempre el sitio completo
+  para no borrar rutas existentes.
 - `.github/workflows/orquestacion-control.yml`: control de ejecución reutilizable.
 - `.github/workflows/orquestacion-durable.yml`: resolución durable de
   reutilización y estado.
@@ -33,10 +35,10 @@
 su predecesor se conserva en
 `legacy/workflows/consolidacion-interfaz/_reutilizable-bootstrap-territorio_v1.0.0.yml`.
 
-El único `workflow_dispatch` humano vigente es el de
-`.github/workflows/ejecucion-generacion-distritos.yml`. Las puertas CI conservan
-sus disparadores automáticos y los componentes reutilizables sólo aceptan
-`workflow_call` u otros eventos no interactivos según corresponda.
+Las interfaces humanas vigentes incluyen las operaciones de preparación, generación,
+incorporación electoral y publicación web. Las puertas CI conservan sus disparadores
+automáticos. El critical path manual está documentado en
+`docs/ORQUESTACION/CRITICAL_PATH_EJECUTABLES.md`.
 
 ## Compatibilidad de la interfaz
 
