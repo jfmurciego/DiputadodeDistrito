@@ -17,6 +17,19 @@ on:
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/ejecucion-completa-proyecto.yml'
+      - '.github/workflows/preparacion-fuentes.yml'
+      - '.github/workflows/produccion-distritos.yml'
+      - '.github/workflows/preparacion-resultados-electorales.yml'
+      - '.github/workflows/incorporacion-resultados-electorales.yml'
+      - '.github/workflows/desplegar-visor-publico.yml'
+      - '.github/workflows/_reutilizable-generacion-territorial.yml'
+      - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
+      - 'herramientas/resolver_ejecucion_completa.py'
+      - 'herramientas/escribir_manifest_ejecucion_completa.py'
   workflow_dispatch:
     inputs:
       territory_id:
@@ -83,6 +96,10 @@ jobs:
       territory_name: ${{ steps.plan.outputs.territory_name }}
       contract_path: ${{ steps.plan.outputs.contract_path }}
       execution_mode_internal: ${{ steps.plan.outputs.execution_mode_internal }}
+      edition: ${{ steps.plan.outputs.edition }}
+      source_ref: ${{ steps.plan.outputs.source_ref }}
+      persist_state: ${{ steps.plan.outputs.persist_state }}
+      publish_result: ${{ steps.plan.outputs.publish_result }}
       run_prepare_territorial: ${{ steps.plan.outputs.run_prepare_territorial }}
       run_generate: ${{ steps.plan.outputs.run_generate }}
       run_prepare_electoral: ${{ steps.plan.outputs.run_prepare_electoral }}
@@ -104,9 +121,12 @@ jobs:
         name: Resolver fases necesarias
         shell: bash
         env:
-          TERRITORY: ${{ inputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
-          UI_MODE: ${{ inputs.execution_mode }}
+          TERRITORY: ${{ github.event_name == 'pull_request' && 'Galicia' || inputs.territory_id }}
+          EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
+          UI_MODE: ${{ github.event_name == 'pull_request' && 'Reutilizar progreso existente' || inputs.execution_mode }}
+          SOURCE_REF: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.source_ref || github.ref_name }}
+          PERSIST_INPUT: ${{ inputs.persist_state }}
+          PUBLISH_INPUT: ${{ inputs.publish_result }}
         run: |
           set -euo pipefail
           case "$UI_MODE" in
@@ -130,6 +150,7 @@ jobs:
           out("territory_name",p["territory_name"])
           out("contract_path",p.get("contract_path"))
           out("execution_mode_internal",p["execution_mode"])
+          out("edition",p["edition"])
           for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate"):
               out(key,p[key])
           existing=p["existing"]
@@ -142,6 +163,19 @@ jobs:
           out("existing_electoral_product_run_id",existing["electoral_product"].get("run_id"))
           out("existing_electoral_product_artifact",existing["electoral_product"].get("artifact_name"))
           PY
+          persist="$PERSIST_INPUT"
+          publish="$PUBLISH_INPUT"
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            persist=false
+            publish=false
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            persist=true
+          fi
+          {
+            echo "source_ref=$SOURCE_REF"
+            echo "persist_state=$persist"
+            echo "publish_result=$publish"
+          } >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-full-run-plan-${{ github.run_id }}
@@ -156,11 +190,11 @@ jobs:
     uses: ./.github/workflows/preparacion-fuentes.yml
     secrets: inherit
     with:
-      territory_id: ${{ inputs.territory_id }}
-      data_edition: ${{ inputs.data_edition }}
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: ${{ needs.planificar.outputs.edition }}
       reutilizar_si_ya_preparada: true
-      source_ref: ${{ inputs.source_ref }}
-      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
+      source_ref: ${{ needs.planificar.outputs.source_ref }}
+      persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   generar:
     name: 02 · Generar distritos autonómicos
@@ -169,13 +203,13 @@ jobs:
     uses: ./.github/workflows/produccion-distritos.yml
     secrets: inherit
     with:
-      territory_id: ${{ inputs.territory_id }}
-      data_edition: ${{ inputs.data_edition }}
-      execution_mode: ${{ inputs.execution_mode }}
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: ${{ needs.planificar.outputs.edition }}
+      execution_mode: ${{ needs.planificar.outputs.execution_mode_internal }}
       source_package_run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || '' }}
       source_package_artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || '' }}
-      source_ref: ${{ inputs.source_ref || github.ref_name }}
-      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
+      source_ref: ${{ needs.planificar.outputs.source_ref }}
+      persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   preparar_electoral:
     name: 03 · Preparar resultados electorales
@@ -184,10 +218,10 @@ jobs:
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
-      territory_id: ${{ inputs.territory_id }}
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
       reutilizar_si_ya_preparada: true
-      source_ref: ${{ inputs.source_ref || github.ref_name }}
-      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
+      source_ref: ${{ needs.planificar.outputs.source_ref }}
+      persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   incorporar:
     name: 04 · Incorporar resultados electorales
@@ -196,18 +230,18 @@ jobs:
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
-      territory_id: ${{ inputs.territory_id }}
-      data_edition: ${{ inputs.data_edition }}
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: ${{ needs.planificar.outputs.edition }}
       territorial_run_id: ${{ needs.generar.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_product_run_id }}
       electoral_package_run_id: ${{ needs.preparar_electoral.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_source_run_id }}
       electoral_package_artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
-      source_ref: ${{ inputs.source_ref || github.ref_name }}
-      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
+      source_ref: ${{ needs.planificar.outputs.source_ref }}
+      persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   publicar:
     name: 05 · Publicar visor
     needs: [planificar, preparar_territorial, generar, preparar_electoral, incorporar]
-    if: ${{ always() && inputs.publish_result && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    if: ${{ always() && needs.planificar.outputs.publish_result == 'true' && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
@@ -235,11 +269,11 @@ jobs:
       RUN_GEN: ${{ needs.planificar.outputs.run_generate }}
       RUN_PREP_E: ${{ needs.planificar.outputs.run_prepare_electoral }}
       RUN_INC: ${{ needs.planificar.outputs.run_incorporate }}
-      PUBLISH_REQUESTED: ${{ inputs.publish_result }}
+      PUBLISH_REQUESTED: ${{ needs.planificar.outputs.publish_result }}
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.source_ref || github.ref_name }}
+          ref: ${{ needs.planificar.outputs.source_ref }}
       - name: Construir manifiesto único
         shell: bash
         run: |
@@ -253,7 +287,7 @@ jobs:
           elec_source_artifact="${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}"
           elec_product_run="${{ needs.incorporar.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_product_run_id }}"
           elec_product_artifact="${{ needs.incorporar.result == 'success' && format('ddd-state-{0}-M08', github.run_id) || needs.planificar.outputs.existing_electoral_product_artifact }}"
-          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ inputs.data_edition }}" --execution-mode "$MODE"             --workflow-run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --output .ddd-full-run/manifest.json
+          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --workflow-run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --output .ddd-full-run/manifest.json
       - uses: actions/upload-artifact@v6
         with:
           name: ddd-full-run-manifest-${{ github.run_id }}
@@ -261,7 +295,7 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Conservar manifiesto durable en producción
-        if: ${{ github.ref_name == 'main' && (github.event_name == 'workflow_dispatch' || inputs.persist_state) }}
+        if: ${{ github.ref_name == 'main' && needs.planificar.outputs.persist_state == 'true' }}
         shell: bash
         run: |
           set -euo pipefail
