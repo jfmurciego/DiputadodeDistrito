@@ -6,7 +6,7 @@ from pathlib import Path
 import unittest
 import yaml
 
-from herramientas.resolver_ejecucion_completa import build_plan
+from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
@@ -23,6 +23,11 @@ def triggers(path: Path) -> dict:
 
 
 class FullProjectOrchestratorTests(unittest.TestCase):
+    def test_run_id_se_extrae_del_nombre_real_del_artefacto(self):
+        self.assertEqual(_run_from_artifact("ddd-state-123456-M06", 999999), 123456)
+        self.assertEqual(_run_from_artifact("ddd-state-654321-M08", None), 654321)
+        self.assertEqual(_run_from_artifact("ddd-source-package-galicia-2025-777777", 1), 777777)
+
     def test_orchestrator_exposes_only_functional_controls(self):
         data = load(ORCH)
         self.assertEqual(data["name"], "00 · Ejecución Completa del Proyecto")
@@ -52,6 +57,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn('if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]', text)
         self.assertIn("persist=false", text)
         self.assertIn("publish=false", text)
+        self.assertIn('[[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]', text)
+        self.assertIn("La persistencia durable sólo está permitida desde main", text)
 
     def test_premerge_smoke_cannot_persist_catalog_state(self):
         for name in (
