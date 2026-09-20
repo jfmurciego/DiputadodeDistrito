@@ -1,0 +1,166 @@
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+import geopandas as gpd
+import importlib.util
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from ddd_core.m05_gerrychain_strategy import (
+    StrategyConfig,
+    StrategyContract,
+    contract_from_yaml,
+    resolve_paths,
+    strategy_config_from_yaml,
+    PreparedProblem,
+    _run_seed,
+)
+
+GALICIA = Path(os.environ.get("DDD_GALICIA_M06_DIR", "/mnt/data/galicia_m06/cache"))
+GRAPH = GALICIA / "galicia_2025_m03_grafo.json"
+M04 = GALICIA / "galicia_2025_m04_semillas.geojson.zip"
+ENGINE = ROOT / "ddd_core/m05_gerrychain_strategy.py"
+
+
+class ContractTests(unittest.TestCase):
+    def test_contract_reads_current_ddd_names(self):
+        cfg = {
+            "meta": {"territory_id": "x"},
+            "validation": {
+                "expected_districts": 3,
+                "target_tolerance_ratio": 0.09,
+                "population_floor_ratio": 0.80,
+                "population_cap_ratio": 1.75,
+                "require_graph_contiguity": True,
+                "province_districts": {"1": 1, "2": 2},
+            },
+        }
+        c = contract_from_yaml(cfg)
+        self.assertEqual(c.expected_k, 3)
+        self.assertTrue(c.require_contiguity)
+        self.assertEqual(c.province_districts, {"01": 1, "02": 2})
+        s = strategy_config_from_yaml(cfg)
+        self.assertEqual(s.proposal_epsilon, 0.09)
+
+    def test_resolve_paths_honours_project_root(self):
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td)
+            params = repo / "territorios/x/config/x_2025.yaml"
+            params.parent.mkdir(parents=True)
+            cfg = {
+                "meta": {"year": 2025, "run_name": "x_2025"},
+                "io": {"project_root": {"path": "../../.."}},
+                "modulos": {
+                    "modulo_03_construir_grafo": {"out_graph_json": "territorios/x/.cache/g.json"},
+                    "modulo_04_generar_semillas": {"out_geojson": "territorios/x/.cache/m04.zip"},
+                    "modulo_05_optimizar_distritos": {
+                        "in_graph_json": "territorios/x/.cache/g.json",
+                        "in_geojson": "territorios/x/.cache/m04.zip",
+                        "out_geojson": "territorios/x/.cache/m05.zip",
+                        "out_report": "territorios/x/.cache/m05.json",
+                    },
+                },
+            }
+            params.write_text("meta: {}\n", encoding="utf-8")
+            paths = resolve_paths(cfg, params, "r1")
+            self.assertEqual(paths["graph"], repo / "territorios/x/.cache/g.json")
+
+    def test_invalid_strategy_config_is_rejected(self):
+        with self.assertRaises(ValueError):
+            StrategyConfig(steps_per_seed=0).validate()
+        with self.assertRaises(ValueError):
+            StrategyConfig(proposal_epsilon=0).validate()
+
+
+@unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
+class GerryChainRuntimeTests(unittest.TestCase):
+    def test_recoverable_recom_failure_becomes_self_loop(self):
+        units = {
+            "u1": {"unit_id": "u1", "population": 10.0, "province": "01", "municipality": "m1", "closed_urban": True},
+            "u2": {"unit_id": "u2", "population": 10.0, "province": "01", "municipality": "m2", "closed_urban": True},
+        }
+        problem = PreparedProblem(
+            sections=gpd.GeoDataFrame(),
+            units=units,
+            edges=[("u1", "u2")],
+            initial_assignment={"u1": 1, "u2": 2},
+            frozen_districts={1: frozenset({"u1"}), 2: frozenset({"u2"})},
+            target_population=10.0,
+        )
+        contract = StrategyContract(
+            expected_k=2, target_tolerance_ratio=0.12,
+            population_floor_ratio=0.80, population_cap_ratio=1.75,
+            province_districts={"01": 2}, require_municipality_discipline=False,
+        )
+        config = StrategyConfig(steps_per_seed=4, seed_base=100, seed_count=1, proposal_epsilon=0.12)
+        old = os.environ.get("PYTHONHASHSEED")
+        os.environ["PYTHONHASHSEED"] = "0"
+        try:
+            result = _run_seed(problem, contract, config, 101)
+        finally:
+            if old is None:
+                os.environ.pop("PYTHONHASHSEED", None)
+            else:
+                os.environ["PYTHONHASHSEED"] = old
+        self.assertEqual(result["states_observed"], 4)
+        self.assertGreaterEqual(result["proposal_failures"], 1)
+        self.assertEqual(result["assignment_hash"], __import__("ddd_core.m05_gerrychain_strategy", fromlist=["_assignment_hash"])._assignment_hash(problem.initial_assignment))
+
+
+@unittest.skipUnless(GRAPH.is_file() and M04.is_file(), "Checkpoint M03/M04 de Galicia no disponible")
+class GaliciaEndToEndTests(unittest.TestCase):
+    contract = StrategyContract(
+        expected_k=75,
+        target_tolerance_ratio=0.12,
+        population_floor_ratio=0.80,
+        population_cap_ratio=1.75,
+        province_districts={"15": 31, "27": 9, "32": 9, "36": 26},
+    )
+
+    def invoke(self, out: Path, report: Path, steps: int = 250):
+        env = dict(os.environ, PYTHONHASHSEED="0", PYTHONPATH=str(ROOT))
+        return subprocess.run(
+            [
+                sys.executable, str(ENGINE),
+                "--graph", str(GRAPH), "--initial", str(M04),
+                "--output", str(out), "--report", str(report),
+                "--expected-k", "75", "--province-quotas", "15=31,27=9,32=9,36=26",
+                "--steps-per-seed", str(steps), "--seed-base", "20260920", "--seed-count", "1",
+                "--proposal-epsilon", "0.12", "--max-bipartition-attempts", "500",
+            ],
+            check=True, capture_output=True, text=True, env=env,
+        )
+
+    def test_reproducible_assignment_and_bytes(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            out = td / "m05.zip"
+            report = td / "m05.json"
+            self.invoke(out, report)
+            first = json.loads(report.read_text(encoding="utf-8"))
+            first_bytes = out.read_bytes()
+            self.invoke(out, report)
+            second = json.loads(report.read_text(encoding="utf-8"))
+            self.assertEqual(first["search"]["selected_assignment_hash"], second["search"]["selected_assignment_hash"])
+            self.assertEqual(first["objective_final"], second["objective_final"])
+            self.assertEqual(hashlib.sha256(first_bytes).hexdigest(), hashlib.sha256(out.read_bytes()).hexdigest())
+
+    def test_output_is_m06_consumable(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            out = td / "m05.zip"
+            report = td / "m05.json"
+            self.invoke(out, report, steps=500)
+            rep = json.loads(report.read_text(encoding="utf-8"))
+            g = gpd.read_file("zip://" + str(out))
+         
