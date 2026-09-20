@@ -219,16 +219,16 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
+      preparation_evidence:
+        run_id: 35533666934
+        artifact_name: ddd-source-package-galicia-2025-35533666934
+        artifact_sha256: 9b1f55233c246c21d414ba4d84a3845f6a173d63719aed182435f2db43b39310
+        package_sha256: 7b7b57efa113e12d82fef9fb77ae2b2f2451f7b3f62b7a1cb89bd1de4cbc2f00
         run_id: 35520753227
         stage: M06
-      preparation_evidence:
-        run_id: 35470063566
-        artifact_name: ddd-source-package-galicia-2025-35470063566
-        artifact_sha256: 8fa15b4beb7428b56ad0a83993facbf80482e7874038ec2f9681e83726ecda18
-        package_sha256: b1947d2ad300a8f24b2954f5abd58712d7fa0637c6b3000dd9fb3ec073791515
       evidence:
         electoral_source: territorios/galicia/evidencia/catalogo/electoral_source_2025.json
         territorial_product: territorios/galicia/evidencia/catalogo/territorial_product_2025.json

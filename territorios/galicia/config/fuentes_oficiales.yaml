@@ -1,23 +1,20 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Galicia
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Fuentes Territoriales Oficiales 2025
-# FECHA: 2026-09-20
-# ESTADO: preparado y verificable
-# FUNCIÓN: declarar las fuentes territoriales oficiales consumibles por la generación de distritos.
 schema: ddd-territory-sources/1.1
 territory:
   id: galicia
   business_name: Galicia
   edition: 2025
   territorial_codes:
-    - {code: "15", business_name: A Coruña}
-    - {code: "27", business_name: Lugo}
-    - {code: "32", business_name: Ourense}
-    - {code: "36", business_name: Pontevedra}
+  - code: '15'
+    business_name: '15'
+  - code: '27'
+    business_name: '27'
+  - code: '32'
+    business_name: '32'
+  - code: '36'
+    business_name: '36'
 required_sources:
-  - poblacion_por_sexo_y_edad
-  - secciones_censales
+- poblacion_por_sexo_y_edad
+- secciones_censales
 source_bindings:
   poblacion_por_sexo_y_edad:
     materialized_path: inputs/65034.csv.zip
@@ -25,22 +22,35 @@ source_bindings:
   secciones_censales:
     materialized_path: inputs/seccionado_2025.zip
 population_validation:
-  required_columns: [Periodo, Sexo, Edad, Secciones, Total]
+  required_columns:
+  - Periodo
+  - Sexo
+  - Edad
+  - Secciones
+  - Total
   year_col: Periodo
   sex_col: Sexo
   age_col: Edad
   section_col: Secciones
   population_col: Total
-  sex_total_values: [Total]
-  age_total_values: [Todas las edades]
+  sex_total_values:
+  - Total
+  age_total_values:
+  - Todas las edades
 coverage_checks:
-  expected_sections: 2134
-  required_territorial_codes: ["15", "27", "32", "36"]
+  required_territorial_codes:
+  - '15'
+  - '27'
+  - '32'
+  - '36'
 default_mode:
   development: official_live
   test: official_live
   production: official_live
 environment_policy:
-  development: [official_live]
-  test: [official_live]
-  production: [official_live]
+  development:
+  - official_live
+  test:
+  - official_live
+  production:
+  - official_live
