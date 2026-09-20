@@ -63,6 +63,8 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertIn("construir_unidades_internas_m04.py", joined)
         self.assertIn("M04_PARTITION_UNIT", joined)
         self.assertIn("extremadura_2025_m03_unidades_internas.geojson", joined)
+        self.assertIn("POP_2025", command)
+        self.assertNotIn("POP_{year}", command)
         active = self.params_path.read_text(encoding="utf-8").lower()
         self.assertNotIn("c020", active)
         common_code = (ROOT / "herramientas/preparar_unidades_internas.py").read_text(encoding="utf-8").lower()
@@ -81,6 +83,12 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual(self.params["validation"]["municipality_field"], "CUMUN")
         self.assertEqual(self.params["modulos"]["modulo_04_generar_semillas"]["municipality_field"], "M04_PARTITION_UNIT")
         self.assertNotIn("require_zero_outside_tolerance_after_m05", self.params["validation"])
+
+    def test_validator_applies_discipline_to_declared_internal_units(self):
+        validator = (ROOT / "herramientas/validar_ejecucion.py").read_text(encoding="utf-8")
+        self.assertIn("municipality_discipline_field", validator)
+        self.assertIn("connected_internal_units", validator)
+        self.assertIn("partition_unit_field", validator)
 
     def test_sources_and_m01_m03_are_prepared_by_configuration(self):
         self.assertEqual(self.sources["territory"]["id"], "extremadura")
