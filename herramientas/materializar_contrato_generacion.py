@@ -225,6 +225,47 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
 
     cfg, contract_path = existing_or_bootstrap(root, territory_id, name, provinces, edition)
     modules = cfg.setdefault("modulos", {})
+
+    # Los contratos ya industrializados no se regeneran: se conservan sus
+    # parámetros territoriales específicos y sólo se normaliza la autorización.
+    already_complete = all(
+        isinstance(modules.get(key), dict)
+        for key in (
+            "modulo_01_preparar_base_territorial", "modulo_02_construir_adyacencias",
+            "modulo_03_construir_grafo", "modulo_04_generar_semillas",
+            "modulo_05_optimizar_distritos", "modulo_06_consolidar_distritos",
+        )
+    ) and bool((cfg.get("territory_contract") or {}).get("k_districts"))
+    if already_complete:
+        current_k = int((cfg.get("territory_contract") or {})["k_districts"])
+        if current_k != k:
+            raise ValueError(f"K vigente {current_k} no coincide con política nacional {k}")
+        cfg.setdefault("meta", {}).update({
+            "schema_family": "ddd-territory", "contract_level": "production_m01_m06",
+            "contract_schema_version": "1.0.0", "production_authorization": "AUTHORIZED",
+        })
+        row.update({
+            "contract_level": "production_m01_m06", "production_authorization": "AUTHORIZED",
+            "k_districts": current_k,
+            "k_source": (cfg.get("territory_contract") or {}).get("k_source", pentry["k_source"]),
+            "k_rationale": (cfg.get("territory_contract") or {}).get("k_rationale", pentry["rationale"]),
+            "status": "generation_ready",
+        })
+        ywrite(master_path, master)
+        ywrite(contract_path, cfg)
+        admitted = validate_production_contract(contract_path, expected_territory=territory_id)
+        if admitted["status"] != "ADMITTED" or not admitted.get("production_authorized"):
+            raise ValueError("Contrato existente no admitido: " + "; ".join(admitted.get("errors") or []))
+        return {
+            "schema": "ddd-generation-contract-materialization/1.0",
+            "territory_id": territory_id, "edition": edition,
+            "contract_path": str(contract_path.relative_to(root)),
+            "k": current_k, "partition_mode": "existing_contract",
+            "partition_districts": (cfg.get("validation") or {}).get("province_districts") or {},
+            "population_floor_exempt_partitions": (cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [],
+            "contract_sha256": admitted["contract_sha256"], "status": "READY",
+            "preserved_existing_contract": True,
+        }
     val = cfg.setdefault("validation", {})
     meta = cfg.setdefault("meta", {})
     contract = cfg.setdefault("territory_contract", {})
