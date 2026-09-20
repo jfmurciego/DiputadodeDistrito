@@ -17,19 +17,6 @@ on:
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
-  pull_request:
-    branches: [main]
-    paths:
-      - '.github/workflows/ejecucion-completa-proyecto.yml'
-      - '.github/workflows/preparacion-fuentes.yml'
-      - '.github/workflows/produccion-distritos.yml'
-      - '.github/workflows/preparacion-resultados-electorales.yml'
-      - '.github/workflows/incorporacion-resultados-electorales.yml'
-      - '.github/workflows/desplegar-visor-publico.yml'
-      - '.github/workflows/_reutilizable-generacion-territorial.yml'
-      - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
-      - 'herramientas/resolver_ejecucion_completa.py'
-      - 'herramientas/escribir_manifest_ejecucion_completa.py'
   workflow_dispatch:
     inputs:
       territory_id:
