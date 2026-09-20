@@ -1,0 +1,188 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: reutilizable interno — puerta de validación
+# VERSIÓN: 1.0.0
+# NOMBRE: Puerta de validación entre fases de la ejecución completa
+name: _Puerta de Validación de Ejecución Completa
+
+on:
+  workflow_call:
+    inputs:
+      kind: {required: true, type: string}
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      run_id: {required: true, type: string}
+      artifact_name: {required: true, type: string}
+      expected_digest: {required: false, type: string, default: ''}
+      params: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+    outputs:
+      decision:
+        value: ${{ jobs.validar.outputs.decision }}
+      run_id:
+        value: ${{ jobs.validar.outputs.run_id }}
+      artifact_name:
+        value: ${{ jobs.validar.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.validar.outputs.artifact_digest }}
+      evidence_artifact:
+        value: ${{ jobs.validar.outputs.evidence_artifact }}
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validar:
+    name: Validar aptitud para la fase siguiente
+    runs-on: ubuntu-24.04
+    outputs:
+      decision: ${{ steps.validate.outputs.decision }}
+      run_id: ${{ steps.validate.outputs.run_id }}
+      artifact_name: ${{ steps.validate.outputs.artifact_name }}
+      artifact_digest: ${{ steps.validate.outputs.artifact_digest }}
+      evidence_artifact: ddd-validation-gate-${{ inputs.kind }}-${{ github.run_id }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      KIND: ${{ inputs.kind }}
+      TERRITORY_ID: ${{ inputs.territory_id }}
+      EDITION: ${{ inputs.data_edition }}
+      SOURCE_RUN_ID: ${{ inputs.run_id }}
+      ARTIFACT_NAME: ${{ inputs.artifact_name }}
+      EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+      PARAMS: ${{ inputs.params }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: validate
+        name: Evaluar puerta de validación
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p .ddd-validation-gate/input .ddd-validation-gate/aux
+
+          write_result() {
+            local decision="$1" reason="$2" digest="${3:-}"
+            jq -n \
+              --arg schema "ddd.validation-gate/1.0" \
+              --arg kind "$KIND" \
+              --arg territory_id "$TERRITORY_ID" \
+              --arg edition "$EDITION" \
+              --arg decision "$decision" \
+              --arg reason "$reason" \
+              --arg run_id "$SOURCE_RUN_ID" \
+              --arg artifact_name "$ARTIFACT_NAME" \
+              --arg artifact_digest "$digest" \
+              '{schema:$schema,kind:$kind,territory_id:$territory_id,edition:$edition,decision:$decision,reason:$reason,run_id:($run_id|tonumber? // $run_id),artifact_name:$artifact_name,artifact_digest:$artifact_digest}' \
+              > .ddd-validation-gate/gate.json
+            {
+              echo "decision=$decision"
+              echo "run_id=$SOURCE_RUN_ID"
+              echo "artifact_name=$ARTIFACT_NAME"
+              echo "artifact_digest=$digest"
+            } >> "$GITHUB_OUTPUT"
+          }
+
+          block() {
+            write_result "BLOQUEADO" "$1" "${2:-}"
+            exit 0
+          }
+
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || block "run_id ausente o inválido"
+          [[ -n "$ARTIFACT_NAME" ]] || block "nombre de artefacto ausente"
+
+          artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")" || block "no se pudo consultar el run $SOURCE_RUN_ID"
+          artifact="$(jq -c --arg n "$ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" | head -1)"
+          [[ -n "$artifact" ]] || block "artefacto ausente o expirado: $ARTIFACT_NAME"
+          actual_digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          [[ -n "$actual_digest" ]] || block "artefacto sin digest: $ARTIFACT_NAME"
+          if [[ -n "$EXPECTED_DIGEST" ]]; then
+            expected="${EXPECTED_DIGEST#sha256:}"
+            actual="${actual_digest#sha256:}"
+            [[ "$expected" == "$actual" ]] || block "digest distinto de la evidencia durable" "$actual_digest"
+          fi
+
+          if ! gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-validation-gate/input >/dev/null 2>&1; then
+            block "no se pudo descargar el artefacto" "$actual_digest"
+          fi
+
+          case "$KIND" in
+            territorial_sources)
+              if ! python -m herramientas.seleccionar_paquete_fuentes \
+                --package .ddd-validation-gate/input \
+                --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null 2>&1; then
+                block "paquete territorial no apto para generación" "$actual_digest"
+              fi
+              ;;
+            territorial_product)
+              [[ -n "$PARAMS" && -f "$PARAMS" ]] || block "contrato territorial ausente" "$actual_digest"
+              if ! gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$SOURCE_RUN_ID" --dir .ddd-validation-gate/aux >/dev/null 2>&1; then
+                block "certificación territorial ausente" "$actual_digest"
+              fi
+              status="$(find .ddd-validation-gate/aux -name production_status.json -type f -print -quit)"
+              [[ -n "$status" ]] || block "production_status.json ausente" "$actual_digest"
+              certified="$(jq -r '.territory_id // empty' "$status")"
+              decision="$(jq -r '.decision // empty' "$status")"
+              [[ "$certified" == "$TERRITORY_ID" ]] || block "certificación pertenece a otro territorio" "$actual_digest"
+              case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) block "certificación territorial bloqueante: $decision" "$actual_digest";; esac
+              source_dir="$(find .ddd-validation-gate/input -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
+              [[ -n "$source_dir" ]] || block "estado M06 sin manifiesto de fuentes" "$actual_digest"
+              if ! python -m herramientas.seleccionar_checkpoint_productivo \
+                --params "$PARAMS" --package "$source_dir" --state-root .ddd-validation-gate/input \
+                --run-id "$SOURCE_RUN_ID" --stage M06 --root-dir . >/dev/null 2>&1; then
+                block "producto territorial no reutilizable por la fase siguiente" "$actual_digest"
+              fi
+              ;;
+            electoral_source)
+              [[ -n "$PARAMS" && -f "$PARAMS" ]] || block "contrato territorial ausente" "$actual_digest"
+              if ! python herramientas/validar_paquete_electoral.py \
+                --package .ddd-validation-gate/input --params "$PARAMS" \
+                --territory-id "$TERRITORY_ID" --edition "$EDITION" --root-dir . >/dev/null 2>&1; then
+                block "paquete electoral no apto para incorporación" "$actual_digest"
+              fi
+              ;;
+            electoral_product)
+              if ! gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+                --name "ddd-electoral-application-report-$SOURCE_RUN_ID" --dir .ddd-validation-gate/aux >/dev/null 2>&1; then
+                block "informe de incorporación electoral ausente" "$actual_digest"
+              fi
+              report="$(find .ddd-validation-gate/aux -name report.json -type f -print -quit)"
+              [[ -n "$report" ]] || block "report.json de incorporación ausente" "$actual_digest"
+              [[ "$(jq -r '.status // empty' "$report")" == "SUCCESS" ]] || block "informe electoral no declara SUCCESS" "$actual_digest"
+              [[ "$(jq -r '.territory_id // empty' "$report")" == "$TERRITORY_ID" ]] || block "producto electoral pertenece a otro territorio" "$actual_digest"
+              if ! gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$SOURCE_RUN_ID" --dir .ddd-validation-gate/cert >/dev/null 2>&1; then
+                block "certificación preservada del producto electoral ausente" "$actual_digest"
+              fi
+              status="$(find .ddd-validation-gate/cert -name production_status.json -type f -print -quit)"
+              [[ -n "$status" ]] || block "producto electoral sin production_status.json" "$actual_digest"
+              [[ "$(jq -r '.electoral_application // false' "$status")" == "true" ]] || block "certificación no acredita incorporación electoral" "$actual_digest"
+              ;;
+            *)
+              block "tipo de puerta desconocido: $KIND" "$actual_digest"
+              ;;
+          esac
+
+          write_result "VALIDADO" "evidencia apta para la fase siguiente" "$actual_digest"
+
+      - name: Publicar evidencia de la puerta
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-validation-gate-${{ inputs.kind }}-${{ github.run_id }}
+          path: .ddd-validation-gate/gate.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Aplicar puerta
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-validation-gate/gate.json || { echo "::error::La puerta no produjo evidencia."; exit 61; }
+          decision="$(jq -r '.decision' .ddd-validation-gate/gate.json)"
+          [[ "$decision" == "VALIDADO" ]] || {
+            reason="$(jq -r '.reason' .ddd-validation-gate/gate.json)"
+            echo "::error::Puerta de validación BLOQUEADA: $reason"
+            exit 61
+          }
