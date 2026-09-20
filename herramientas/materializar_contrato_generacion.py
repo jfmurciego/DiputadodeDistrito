@@ -86,7 +86,19 @@ def section_populations(package: Path, edition: str, province_codes: list[str]) 
         if not names:
             raise ValueError("65034.csv.zip no contiene CSV")
         with z.open(names[0]) as raw:
-            reader = csv.DictReader(io.TextIOWrapper(raw, encoding="utf-8-sig", newline=""), delimiter="\t")
+            text = io.TextIOWrapper(raw, encoding="utf-8-sig", newline="")
+            header = text.readline()
+            if not header:
+                raise ValueError("65034.csv está vacío")
+            delimiter = ";" if header.count(";") > header.count("\t") else "\t"
+            fieldnames = next(csv.reader([header], delimiter=delimiter))
+            required = {"Periodo", "Sexo", "Edad", "Secciones", "Total"}
+            if not required.issubset(set(fieldnames)):
+                raise ValueError(
+                    "65034.csv no contiene las columnas esperadas; "
+                    f"delimitador={delimiter!r}; columnas={fieldnames}"
+                )
+            reader = csv.DictReader(text, fieldnames=fieldnames, delimiter=delimiter)
             for row in reader:
                 if str(row.get("Periodo") or "") != str(edition):
                     continue
