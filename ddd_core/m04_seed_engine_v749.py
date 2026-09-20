@@ -126,6 +126,7 @@ def postprocess(params_path):
     target, floor, cap, tol = hard_limits(cfg, k=K, total_pop=total)
     lo, hi = target - tol, target + tol
     quota = {str(k).zfill(2): int(v) for k, v in (val.get("province_districts") or {}).items()}
+    floor_exempt = {str(x) for x in (val.get("population_floor_exempt_partitions") or [])}
 
     bridge_nodes = set()
     for b in s2.get("topology_bridges", []) or []:
@@ -190,6 +191,8 @@ def postprocess(params_path):
 
     adjustments = []
     for prov in sorted(quota):
+        if prov in floor_exempt:
+            continue
         for _ in range(50):
             ids = sorted(g.loc[g[provf] == prov, did].unique())
             closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
@@ -234,7 +237,11 @@ def postprocess(params_path):
             raise SystemExit(f"M04 v7.4.9: demasiados ajustes en provincia {prov}")
 
     pops = g.groupby(did)["district_pop_section"].sum()
-    hard = int(((pops < floor) | (pops > cap)).sum())
+    district_partition = {int(d): str(x[provf].iloc[0]).zfill(2) for d, x in g.groupby(did)}
+    hard = sum(
+        1 for d, p in pops.items()
+        if p > cap or (p < floor and district_partition[int(d)] not in floor_exempt)
+    )
     outside = int((abs(pops - target) > tol).sum())
 
     if g[did].nunique() != K:
@@ -258,6 +265,8 @@ def postprocess(params_path):
 
     # Final aggregate feasibility after all irreversible closures.
     for prov in sorted(quota):
+        if prov in floor_exempt:
+            continue
         ids = sorted(g.loc[g[provf] == prov, did].unique())
         closed = [d for d in ids if bool(g.loc[g[did] == d, "ddd_closed_urban"].all())]
         open_ids = [d for d in ids if d not in closed]
@@ -276,6 +285,7 @@ def postprocess(params_path):
         "max_pop": int(pops.max()),
         "outside_target_tolerance": outside,
         "hard_population_violations": hard,
+        "population_floor_exempt_partitions": sorted(floor_exempt),
         "province_counts": counts,
         "province_feasibility_adjustments": adjustments,
     })
