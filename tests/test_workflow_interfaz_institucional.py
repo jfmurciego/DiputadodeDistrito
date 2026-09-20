@@ -8,7 +8,7 @@ GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
 GENERATION_TERRITORIES=["Aragón","Castilla y León","Extremadura","Galicia"]
-ELECTORAL_TERRITORIES=["Aragón","Castilla y León"]
+ELECTORAL_TERRITORIES=["Aragón","Castilla y León","Galicia"]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod
