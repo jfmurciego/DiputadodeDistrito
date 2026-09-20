@@ -1,0 +1,291 @@
+{
+  "$schema": "../../../../configuracion/esquemas/contrato_electoral.schema.json",
+  "schema_family": "ddd-election",
+  "schema_version": "1.0.0",
+  "election_id": "galicia_parlamento_2024-02-18",
+  "territory_id": "galicia",
+  "title": "Elecciones al Parlamento de Galicia 2024",
+  "election_date": "2024-02-18",
+  "input_mode": "verifiable_file",
+  "boundary_independence": true,
+  "sources": [
+    {
+      "path": "inputs/galicia_parlamento_2024_mesas.csv",
+      "sha256": "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96",
+      "publisher": "Xunta de Galicia",
+      "source_url": "https://abertos.xunta.gal/es/catalogo/administracion-publica/-/dataset/0656/elecciones-parlamento-galicia-resultados-2024",
+      "retrieved_at": "2026-09-20",
+      "adapter": {
+        "kind": "wide_polling_station_csv",
+        "separator": ";",
+        "province_field": "Cód Cir",
+        "municipality_field": "Cód Con",
+        "polling_station_field": "Mesa",
+        "polling_station_regex": "^(?P<district>\\d{2})-(?P<section>\\d{3})-[A-Z0-9]+$",
+        "party_columns": [
+          "BNG",
+          "ECG",
+          "ESCANOS EN BRANCO",
+          "PACMA",
+          "PODEMOS-ALIANZA VERDE",
+          "PP",
+          "PSdeG-PSOE",
+          "PUM+J",
+          "SUMAR GALICIA",
+          "VOX",
+          "DO"
+        ]
+      }
+    }
+  ],
+  "party_dictionary": {
+    "path": "territorios/galicia/config/elecciones/diccionario_partidos_galicia_2024.json",
+    "sha256": "5951b129e683d892909a167bea3e1f23b987723409967704028e60114b3646cb"
+  },
+  "reconciliation": {
+    "policy": "fail_unless_declared",
+    "allowed_result_only_sections": [
+      {
+        "section_id": "1503402002",
+        "expected_votes": 416,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "1504501006",
+        "expected_votes": 328,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "1504901002",
+        "expected_votes": 406,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "1599099001",
+        "expected_votes": 8066,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099002",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099003",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099004",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099005",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099006",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099007",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099008",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099009",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099010",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099011",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099012",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "1599099013",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2700601003",
+        "expected_votes": 410,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "2706301002",
+        "expected_votes": 334,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "2706601002",
+        "expected_votes": 330,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "2799099001",
+        "expected_votes": 2659,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099002",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099003",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099004",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099005",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099006",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "2799099007",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3208902001",
+        "expected_votes": 358,
+        "reason": "sección electoral 2024 sin unidad censal idéntica en el seccionado territorial 2025"
+      },
+      {
+        "section_id": "3299099001",
+        "expected_votes": 4491,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099002",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099003",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099004",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099005",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099006",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099007",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3299099008",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099001",
+        "expected_votes": 7288,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099002",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099003",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099004",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099005",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099006",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099007",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099008",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099009",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099010",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099011",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099012",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      },
+      {
+        "section_id": "3699099013",
+        "expected_votes": 0,
+        "reason": "registro electoral 2024 con código administrativo 99-99 sin geometría censal territorial 2025"
+      }
+    ],
+    "allowed_map_only_sections": []
+  }
+}
