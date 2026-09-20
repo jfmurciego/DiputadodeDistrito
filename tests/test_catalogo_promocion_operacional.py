@@ -12,7 +12,6 @@ from herramientas.promover_catalogo_operacional import promote
 class CatalogOperationalPromotionTests(unittest.TestCase):
     def fixture(self, root: Path):
         (root / "configuracion").mkdir()
-        (root / ".github/workflows").mkdir(parents=True)
         (root / "territorios/demo/config/elecciones").mkdir(parents=True)
         (root / "configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({
             "schema": "ddd-preparation-catalog/1.1",
@@ -37,10 +36,6 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
                 }},
             }],
         }, sort_keys=False), encoding="utf-8")
-        (root / ".github/workflows/incorporacion-resultados-electorales.yml").write_text(
-            "on:\n  workflow_dispatch:\n    inputs:\n      territory_id:\n        options:\n          - Anterior\n",
-            encoding="utf-8",
-        )
         decl = root / "territorios/demo/config/elecciones/demo.yaml"
         decl.write_text("schema: ddd-election-official-source-declaration/1.0\n", encoding="utf-8")
         return decl
@@ -66,10 +61,10 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             self.assertTrue(state["territorial_product_available"])
             self.assertTrue(state["electoral_source_prepared"])
             self.assertEqual(state["last_valid_checkpoint"], {"run_id": 100, "stage": "M06"})
-            self.assertIn("Demo", (root / ".github/workflows/incorporacion-resultados-electorales.yml").read_text(encoding="utf-8"))
             receipt = root / state["evidence"]["electoral_source"]
             payload = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(payload["artifact_name"], "ddd-electoral-package-demo-2025-101")
+            self.assertFalse((root / ".github").exists())
 
     def test_electoral_source_alone_does_not_enable_incorporation(self):
         with tempfile.TemporaryDirectory() as raw:
