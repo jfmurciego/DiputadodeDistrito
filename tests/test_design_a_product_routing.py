@@ -25,8 +25,8 @@ class ProductRoutingDesignA(unittest.TestCase):
     def test_generation_is_fixed_to_districts_without_auto_publish(self):
         text=GEN.read_text(encoding="utf-8")
         self.assertIn("UI_PRODUCT: Distritos",text)
-        self.assertIn("execution_confirmed: true",text)
-        self.assertIn("publish_result: false",text)
+        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",text)
+        self.assertNotIn("publish_result:",text)
         self.assertNotIn("inputs.product",text)
         self.assertNotIn("inputs.publish_result",text)
         self.assertNotIn("inputs.confirmar_ejecucion",text)
@@ -55,7 +55,7 @@ class ProductRoutingDesignA(unittest.TestCase):
 
     def test_generation_and_electoral_paths_are_separate(self):
         generation=load(GEN); electoral=load(ELECTORAL)
-        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
+        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
         router=load(ROUTER); engine=load(ENGINE)
         self.assertEqual(router["jobs"]["produccion"]["uses"],"./.github/workflows/producir-territorio-por-contrato.yml")
