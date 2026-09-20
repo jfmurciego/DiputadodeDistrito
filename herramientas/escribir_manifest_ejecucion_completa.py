@@ -53,7 +53,13 @@ def main() -> None:
         phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.territorial_product_run_id, ns.territorial_product_artifact),
         phase("03 · Preparación de Resultados Electorales", ns.prepare_electoral_result, b(ns.prepare_electoral_executed), ns.electoral_source_run_id, ns.electoral_source_artifact),
         phase("04 · Incorporación de Resultados Electorales", ns.incorporate_result, b(ns.incorporate_executed), ns.electoral_product_run_id, ns.electoral_product_artifact),
-        phase("05 · Publicación del Visor", ns.publish_result, ns.publish_requested == "true", ns.workflow_run_id, None),
+        phase(
+            "05 · Publicación del Visor",
+            ns.publish_result,
+            ns.publish_requested == "true",
+            ns.workflow_run_id if ns.publish_requested == "true" else None,
+            None,
+        ),
     ]
     failed = [p["name"] for p in phases if p["executed"] and p["result"] != "success"]
     payload = {
