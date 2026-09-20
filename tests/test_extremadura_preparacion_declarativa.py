@@ -118,7 +118,7 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertFalse(electoral["ready"])
         self.assertTrue(electoral["automated_check"])
         workflow = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
-        self.assertIn("name: Fuente electoral oficial", workflow)
+        self.assertIn("name: Verificar resultados electorales preparados", workflow)
         self.assertIn("validar_paquete_electoral.py", workflow)
         self.assertIn("electoral_package_run_id", workflow)
         self.assertIn("ddd-electoral-source-${{ github.run_id }}", workflow)
