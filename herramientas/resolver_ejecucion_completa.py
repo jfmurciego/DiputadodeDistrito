@@ -91,8 +91,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         },
     }
 
-    if not plan["contract_path"]:
-        raise ValueError(f"El territorio {row['name']} no tiene contrato productivo materializado")
+    if not plan["contract_path"] and not run_prepare_territorial:
+        raise ValueError(f"El territorio {row['name']} no tiene contrato productivo materializado y la preparación territorial no está programada")
 
     if not run_generate and not plan["existing"]["territorial_product"]["run_id"]:
         raise ValueError("El catálogo marca producto territorial disponible pero no existe evidencia durable con run_id")
