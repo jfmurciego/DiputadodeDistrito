@@ -23,7 +23,10 @@ def _load_json(path: str | None, root: Path) -> dict:
 
 
 def _run_from_artifact(name: object, fallback: object = None) -> int | None:
-    match = re.search(r"(\d+)(?:-M\d+)?$", str(name or ""))
+    artifact_name = str(name or "")
+    match = re.search(r"-(\d+)-M\d+$", artifact_name)
+    if match is None:
+        match = re.search(r"-(\d+)$", artifact_name)
     if match:
         return int(match.group(1))
     try:
