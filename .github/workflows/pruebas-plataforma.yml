@@ -24,6 +24,20 @@ jobs:
         uses: actions/checkout@v6
       - name: Auditar cabeceras y legacy en checkout
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
+      - name: Validar contratos del orquestador 00
+        uses: docker://rhysd/actionlint:1.7.12
+        with:
+          args: >-
+            -shellcheck=
+            -pyflakes=
+            .github/workflows/ejecucion-completa-proyecto.yml
+            .github/workflows/preparacion-fuentes.yml
+            .github/workflows/produccion-distritos.yml
+            .github/workflows/_reutilizable-generacion-territorial.yml
+            .github/workflows/preparacion-resultados-electorales.yml
+            .github/workflows/incorporacion-resultados-electorales.yml
+            .github/workflows/_reutilizable-incorporacion-electoral.yml
+            .github/workflows/desplegar-visor-publico.yml
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
       - name: Verificar evidencia publicada y determinismo sintético
