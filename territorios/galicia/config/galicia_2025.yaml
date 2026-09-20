@@ -77,8 +77,8 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '3690101003', v: '3606103002', edge_type: island_administrative_bridge, reason: 'A Illa de Arousa: componente insular; enlace mínimo auditado a Vilanova de Arousa (~1149 m).', source: 'R023 run 34688393979'}
-      - {u: '3600601002', v: '3600601001', edge_type: municipal_discontinuity, reason: 'Cambados: componentes municipales separadas; enlace intramunicipal mínimo auditado (~259 m).', source: 'R023 run 34688393979'}
+      - {u: '3690101003', v: '3606103002', admin_scope: 'province:36', edge_type: island_administrative_bridge, reason: 'A Illa de Arousa: componente insular; enlace mínimo auditado a Vilanova de Arousa (~1149 m).', source: 'R023 run 34688393979'}
+      - {u: '3600601002', v: '3600601001', admin_scope: 'municipality:36006', edge_type: municipal_discontinuity, reason: 'Cambados: componentes municipales separadas; enlace intramunicipal mínimo auditado (~259 m).', source: 'R023 run 34688393979'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
@@ -158,6 +158,7 @@ validation:
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
   province_apportionment: hamilton
+  province_districts: {'15': 31, '27': 9, '32': 9, '36': 26}
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
