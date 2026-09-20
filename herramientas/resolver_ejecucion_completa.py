@@ -55,19 +55,30 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
 
     territorial_sources_ready = bool(
-        state.get("territorial_sources_prepared") and prep.get("run_id") and prep.get("artifact_name")
+        state.get("territorial_sources_prepared")
+        and prep.get("run_id")
+        and prep.get("artifact_name")
+        and prep.get("artifact_sha256")
     )
     territorial_product_ready = bool(
         state.get("territorial_product_available")
         and state.get("territorial_certification") in PASS_CERTIFICATIONS
         and territorial_product_run_id
+        and territorial_product_artifact
+        and territorial_evidence.get("artifact_sha256")
     )
     electoral_source_ready = bool(
         state.get("electoral_source_prepared")
         and electoral_source_evidence.get("run_id")
         and electoral_source_evidence.get("artifact_name")
+        and electoral_source_evidence.get("artifact_sha256")
     )
-    electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id)
+    electoral_product_ready = bool(
+        state.get("electoral_product_available")
+        and electoral_product_run_id
+        and electoral_product_artifact
+        and electoral_product_evidence.get("artifact_sha256")
+    )
 
     run_prepare_territorial = from_start or not territorial_sources_ready
     # En modo reutilización, el algoritmo canónico conserva un producto certificado
