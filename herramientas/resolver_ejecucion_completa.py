@@ -29,25 +29,48 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     territorial_evidence = _load_json(evidence.get("territorial_product"), root_dir)
     electoral_source_evidence = _load_json(evidence.get("electoral_source"), root_dir)
     electoral_product_evidence = _load_json(evidence.get("electoral_product"), root_dir)
+    prep = state.get("preparation_evidence") or {}
+    last = state.get("last_valid_checkpoint") or {}
+    last_run = last.get("run_id")
+    last_stage = str(last.get("stage") or "")
+    try:
+        last_num = int(last_stage.removeprefix("M"))
+    except ValueError:
+        last_num = 0
+
+    territorial_product_run_id = territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None)
+    territorial_product_artifact = territorial_evidence.get("artifact_name") or (
+        f"ddd-state-{territorial_product_run_id}-M06" if territorial_product_run_id else None
+    )
+    electoral_product_run_id = electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None)
+    electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
+        f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
+    )
 
     from_start = execution_mode == "from_start"
     if execution_mode not in {"reuse", "from_start"}:
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
 
-    territorial_sources_ready = bool(state.get("territorial_sources_prepared"))
+    territorial_sources_ready = bool(
+        state.get("territorial_sources_prepared") and prep.get("run_id") and prep.get("artifact_name")
+    )
     territorial_product_ready = bool(
         state.get("territorial_product_available")
         and state.get("territorial_certification") in PASS_CERTIFICATIONS
+        and territorial_product_run_id
     )
-    electoral_source_ready = bool(state.get("electoral_source_prepared"))
-    electoral_product_ready = bool(state.get("electoral_product_available"))
+    electoral_source_ready = bool(
+        state.get("electoral_source_prepared")
+        and electoral_source_evidence.get("run_id")
+        and electoral_source_evidence.get("artifact_name")
+    )
+    electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id)
 
     run_prepare_territorial = from_start or not territorial_sources_ready
     run_generate = from_start or run_prepare_territorial or not territorial_product_ready
     run_prepare_electoral = from_start or not electoral_source_ready
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
 
-    prep = state.get("preparation_evidence") or {}
     existing_source_run_id = prep.get("run_id")
     existing_source_artifact_name = prep.get("artifact_name")
 
@@ -68,8 +91,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 "artifact_name": existing_source_artifact_name,
             },
             "territorial_product": {
-                "run_id": territorial_evidence.get("run_id"),
-                "artifact_name": territorial_evidence.get("artifact_name"),
+                "run_id": territorial_product_run_id,
+                "artifact_name": territorial_product_artifact,
                 "decision": territorial_evidence.get("decision"),
             },
             "electoral_source": {
@@ -78,8 +101,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 "election_id": electoral_source_evidence.get("election_id"),
             },
             "electoral_product": {
-                "run_id": electoral_product_evidence.get("run_id"),
-                "artifact_name": electoral_product_evidence.get("artifact_name"),
+                "run_id": electoral_product_run_id,
+                "artifact_name": electoral_product_artifact,
             },
         },
         "catalog_state": {
