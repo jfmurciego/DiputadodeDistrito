@@ -11,6 +11,7 @@ import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
 from ddd_core.territory_contract import validate_production_contract
+from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -121,6 +122,7 @@ def _set_catalog_state(
     artifact_name: str,
     artifact_sha256: str,
     package_sha256: str,
+    contract_path: str | None = None,
 ) -> None:
     lines = path.read_text(encoding="utf-8").splitlines()
     start, end = _catalog_state_bounds(lines, territory_id, edition)
@@ -131,6 +133,8 @@ def _set_catalog_state(
         "territorial_sources_prepared": "true",
         "territorial_contract_complete": "true" if contract_complete else "false",
     }
+    if contract_path:
+        updates["contract_path"] = contract_path
     if contract_complete:
         updates["production_authorization"] = "AUTHORIZED"
         updates["territorial_certification"] = "NOT_CERTIFIED"
@@ -223,7 +227,6 @@ def promote(
 ) -> dict:
     root = root_dir.resolve()
     catalog = root / CATALOG
-    master = root / MASTER
 
     catalog_data = _yaml(catalog)
     row = next((r for r in catalog_data.get("territories") or [] if r.get("territory_id") == territory_id), None)
@@ -235,7 +238,6 @@ def promote(
 
     package_abs = package if package.is_absolute() else root / package
     source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
-
     valid, reasons = validate_prepared_package(package_abs, territory_id=territory_id, edition=edition)
     if not valid:
         raise ValueError("Paquete territorial no promovible: " + "; ".join(reasons))
@@ -244,80 +246,55 @@ def promote(
     if not package_sha256:
         raise ValueError("Paquete territorial sin SHA-256 interno")
 
-    contract_raw = state.get("contract_path")
-    contract = root / str(contract_raw or "")
-    if not contract.is_file():
-        raise ValueError(f"Contrato territorial inexistente: {contract_raw}")
-    structurally_complete, contract_reasons = contract_is_generation_complete(contract)
-
     src_raw = state.get("territorial_source_declaration")
-    if src_raw:
-        durable_declaration = root / str(src_raw)
-    else:
-        durable_declaration = root / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
+    durable_declaration = root / str(src_raw) if src_raw else root / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
     durable_declaration.parent.mkdir(parents=True, exist_ok=True)
     if source_declaration_abs.resolve() != durable_declaration.resolve():
         shutil.copy2(source_declaration_abs, durable_declaration)
     source_rel = durable_declaration.relative_to(root).as_posix()
 
-    # Registrar fuentes preparadas es independiente de autorizar generación.
-    # La autorización sólo se conserva si la puerta contractual completa admite
-    # el contrato ya promovido. Si la puerta lo rechaza, se revierte la promoción
-    # y el territorio queda con datos preparados, pero fuera del selector.
-    original_contract = contract.read_text(encoding="utf-8")
-    original_master = master.read_text(encoding="utf-8")
-    original_catalog = catalog.read_text(encoding="utf-8")
-
-    generation_enabled = False
-    admission_errors: list[str] = []
-    if structurally_complete:
-        _promote_contract(contract)
-        _promote_master(master, territory_id, True)
-        _set_catalog_state(
-            catalog,
-            territory_id=territory_id,
-            edition=str(edition),
-            source_declaration=source_rel,
-            contract_complete=True,
-            run_id=run_id,
-            artifact_name=artifact_name,
-            artifact_sha256=artifact_sha256.removeprefix("sha256:"),
-            package_sha256=package_sha256,
-        )
-        report = validate_production_contract(contract, expected_territory=territory_id)
-        generation_enabled = bool(report.get("status") == "ADMITTED" and report.get("production_authorized"))
-        admission_errors = list(report.get("errors") or [])
-
-    if not generation_enabled:
-        contract.write_text(original_contract, encoding="utf-8")
-        master.write_text(original_master, encoding="utf-8")
-        catalog.write_text(original_catalog, encoding="utf-8")
-        _set_catalog_state(
-            catalog,
-            territory_id=territory_id,
-            edition=str(edition),
-            source_declaration=source_rel,
-            contract_complete=False,
-            run_id=run_id,
-            artifact_name=artifact_name,
-            artifact_sha256=artifact_sha256.removeprefix("sha256:"),
-            package_sha256=package_sha256,
+    # Desde R046 la preparación territorial no deja un territorio a medias:
+    # materializa automáticamente el contrato completo que consumirá 02 y lo
+    # somete a la misma puerta estructural R036. No hay alta manual por región.
+    materialized = materialize_generation_contract(
+        root, territory_id, str(edition), package_abs
+    )
+    contract_rel = str(materialized["contract_path"])
+    contract = root / contract_rel
+    report = validate_production_contract(contract, expected_territory=territory_id)
+    if report.get("status") != "ADMITTED" or not report.get("production_authorized"):
+        raise ValueError(
+            "Contrato territorial auto-materializado no autorizado: "
+            + "; ".join(report.get("errors") or [])
         )
 
+    _set_catalog_state(
+        catalog,
+        territory_id=territory_id,
+        edition=str(edition),
+        source_declaration=source_rel,
+        contract_complete=True,
+        run_id=run_id,
+        artifact_name=artifact_name,
+        artifact_sha256=artifact_sha256.removeprefix("sha256:"),
+        package_sha256=package_sha256,
+        contract_path=contract_rel,
+    )
 
     return {
         "territory_id": territory_id,
         "edition": str(edition),
         "territorial_sources_prepared": True,
-        "contract_complete": generation_enabled,
-        "generation_enabled": generation_enabled,
-        "contract_reasons": contract_reasons,
-        "admission_errors": admission_errors,
+        "contract_complete": True,
+        "generation_enabled": True,
+        "contract_reasons": [],
+        "admission_errors": [],
         "source_declaration": source_rel,
+        "contract_path": contract_rel,
+        "generation_contract": materialized,
         "run_id": run_id,
         "artifact_name": artifact_name,
     }
-
 
 def main() -> int:
     ap = argparse.ArgumentParser()
