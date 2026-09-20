@@ -80,6 +80,7 @@ on:
 permissions:
   contents: write
   actions: read
+  issues: write
   pages: write
   id-token: write
 
