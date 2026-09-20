@@ -1,0 +1,23 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: registro técnico temporal
+# ESTADO: bootstrap no operativo
+# QUÉ HACE: registra en la rama por defecto la ruta del workflow 00 para poder
+# ejecutar y validar su implementación real desde una PR antes de fusionarla.
+# NO HACE: preparación, generación, incorporación, publicación ni cambios de estado.
+name: 00 · Ejecución Completa del Proyecto
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/ejecucion-completa-proyecto.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  registro:
+    name: Registro técnico del workflow 00
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Bootstrap no operativo; la implementación funcional se valida en la PR que sustituye este fichero."
