@@ -177,7 +177,7 @@ jobs:
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml .github/workflows/incorporacion-resultados-electorales.yml \
+          git add configuracion/catalogo_preparacion.yaml \
             "territorios/$TERRITORY_ID/evidencia/catalogo/${kind}_$edition.json"
           git diff --cached --quiet && exit 0
           git commit -m "chore: registrar $kind de $TERRITORY_ID"
