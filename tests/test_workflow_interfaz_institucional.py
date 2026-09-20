@@ -41,8 +41,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             self.assertNotIn("product",inputs)
         generation=GEN.read_text(encoding="utf-8")
         electoral=ELECTORAL.read_text(encoding="utf-8")
-        self.assertIn("execution_confirmed: true",generation)
-        self.assertIn("publish_result: false",generation)
+        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION",generation)
+        self.assertNotIn("publish_result:",generation)
         self.assertNotIn("publish_result:",electoral)
 
     def test_generation_uses_district_route_only(self):
@@ -69,7 +69,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
 
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
-        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-operacion-territorial.yml")
+        self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
         electoral=self._load(ELECTORAL)
         self.assertEqual(electoral["jobs"]["incorporar"]["uses"],"./.github/workflows/_reutilizable-incorporacion-electoral.yml")
 
@@ -78,7 +78,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         electoral=self._load(ELECTORAL)
         self.assertEqual(generation["jobs"]["ruta"]["secrets"],"inherit")
         self.assertEqual(electoral["jobs"]["incorporar"]["secrets"],"inherit")
-        for reusable in ("_reutilizable-operacion-territorial.yml","_reutilizable-incorporacion-electoral.yml"):
+        for reusable in ("_reutilizable-generacion-territorial.yml","_reutilizable-incorporacion-electoral.yml"):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
 
