@@ -124,7 +124,7 @@ jobs:
         env:
           TERRITORY: ${{ github.event_name == 'pull_request' && 'Galicia' || inputs.territory_id }}
           EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
-          UI_MODE: ${{ github.event_name == 'pull_request' && 'Reutilizar progreso existente' || inputs.execution_mode }}
+          UI_MODE: ${{ github.event_name == 'pull_request' && 'Ejecutar desde el principio' || inputs.execution_mode }}
           SOURCE_REF: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.source_ref || github.ref_name }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
