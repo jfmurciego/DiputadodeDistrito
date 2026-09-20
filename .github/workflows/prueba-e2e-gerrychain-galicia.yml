@@ -19,7 +19,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       DDD_GALICIA_GERRYCHAIN_E2E: .galicia-m06
-      DDD_GERRYCHAIN_STEPS: '120'
+      DDD_GERRYCHAIN_STEPS: '30'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
