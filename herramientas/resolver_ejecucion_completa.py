@@ -23,7 +23,7 @@ def _load_json(path: str | None, root: Path) -> dict:
 
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path) -> dict:
     row = lookup(territory, edition, catalog)
-    state = row["state"]
+    state = row
     evidence = state.get("evidence") or {}
 
     territorial_evidence = _load_json(evidence.get("territorial_product"), root_dir)
