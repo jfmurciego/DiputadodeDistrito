@@ -439,19 +439,19 @@ jobs:
             --territorial-source-run-id "${{ needs.validar_territorial.outputs.run_id }}" \
             --territorial-source-artifact "${{ needs.validar_territorial.outputs.artifact_name }}" \
             --territorial-source-digest "${{ needs.validar_territorial.outputs.artifact_digest }}" \
-            --territorial-source-decision "${{ needs.validar_territorial.outputs.decision || 'BLOQUEADO' }}" \
+            --territorial-source-decision "${{ needs.validar_territorial.outputs.decision || 'NO_EVALUADA' }}" \
             --territorial-product-run-id "${{ needs.validar_generacion.outputs.run_id }}" \
             --territorial-product-artifact "${{ needs.validar_generacion.outputs.artifact_name }}" \
             --territorial-product-digest "${{ needs.validar_generacion.outputs.artifact_digest }}" \
-            --territorial-product-decision "${{ needs.validar_generacion.outputs.decision || 'BLOQUEADO' }}" \
+            --territorial-product-decision "${{ needs.validar_generacion.outputs.decision || 'NO_EVALUADA' }}" \
             --electoral-source-run-id "${{ needs.validar_electoral.outputs.run_id }}" \
             --electoral-source-artifact "${{ needs.validar_electoral.outputs.artifact_name }}" \
             --electoral-source-digest "${{ needs.validar_electoral.outputs.artifact_digest }}" \
-            --electoral-source-decision "${{ needs.validar_electoral.outputs.decision || 'BLOQUEADO' }}" \
+            --electoral-source-decision "${{ needs.validar_electoral.outputs.decision || 'NO_EVALUADA' }}" \
             --electoral-product-run-id "${{ needs.validar_producto.outputs.run_id }}" \
             --electoral-product-artifact "${{ needs.validar_producto.outputs.artifact_name }}" \
             --electoral-product-digest "${{ needs.validar_producto.outputs.artifact_digest }}" \
-            --electoral-product-decision "${{ needs.validar_producto.outputs.decision || 'BLOQUEADO' }}" \
+            --electoral-product-decision "${{ needs.validar_producto.outputs.decision || 'NO_EVALUADA' }}" \
             --operational-state-result "${{ needs.actualizar_estado.result }}" \
             --output .ddd-full-run/manifest.json
       - uses: actions/upload-artifact@v6
