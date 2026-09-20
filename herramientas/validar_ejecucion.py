@@ -83,8 +83,8 @@ def main():
     pops=pd.to_numeric(summ[pop_col],errors='coerce') if pop_col else pd.Series(dtype=float)
     below=summ.loc[pops<floor,['district_id',pop_col]].to_dict('records') if pop_col else []
     above=summ.loc[pops>cap,['district_id',pop_col]].to_dict('records') if pop_col else []
-    if below:fails.append(f'distritos bajo {fr:.2f}x target={len(below)}')
-    if above:fails.append(f'distritos sobre {cr:.2f}x target={len(above)}')
+    if below:fails.append(f'distritos bajo límite poblacional={len(below)}')
+    if above:fails.append(f'distritos sobre límite poblacional={len(above)}')
 
     # R012: provincia como frontera dura.
     province_crossings=[];province_counts={}
