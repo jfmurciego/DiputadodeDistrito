@@ -108,17 +108,21 @@ def main():
     # puede ocupar como máximo ceil(P/target) distritos y solo uno de ellos puede
     # ser mixto con otros municipios.
     municipality_violations=[]
+    municipality_discipline_field=municipality_field
+    partitioning=cfg.get('partitioning') or {}
+    if bool(partitioning.get('enabled')) and str(partitioning.get('strategy') or '')=='connected_internal_units':
+        municipality_discipline_field=str(partitioning.get('partition_unit_field') or municipality_field)
     if bool(val.get('require_municipality_discipline',False)):
-        if municipality_field not in sec.columns:
-            fails.append(f'falta campo municipal {municipality_field}')
+        if municipality_discipline_field not in sec.columns:
+            fails.append(f'falta campo de disciplina municipal {municipality_discipline_field}')
         else:
-            work=sec[[did,municipality_field,pop]].copy()
-            work[municipality_field]=work[municipality_field].astype(str)
+            work=sec[[did,municipality_discipline_field,pop]].copy()
+            work[municipality_discipline_field]=work[municipality_discipline_field].astype(str)
             work[did]=work[did].astype(str)
             work[pop]=pd.to_numeric(work[pop],errors='coerce').fillna(0)
-            municipality_pop=work.groupby(municipality_field)[pop].sum().to_dict()
-            district_municipalities=work.groupby(did)[municipality_field].agg(lambda s:set(s)).to_dict()
-            for mun,g in work.groupby(municipality_field):
+            municipality_pop=work.groupby(municipality_discipline_field)[pop].sum().to_dict()
+            district_municipalities=work.groupby(did)[municipality_discipline_field].agg(lambda s:set(s)).to_dict()
+            for mun,g in work.groupby(municipality_discipline_field):
                 p=float(municipality_pop[mun]);dids=sorted(set(g[did]))
                 min_allowed=max(1,int(math.ceil(p/cap))) if p>0 else 1
                 max_allowed=max(1,int(math.ceil(p/target))) if p>0 else 1
@@ -136,6 +140,8 @@ def main():
         'sections':len(sec),'total_population':section_pop,'target_population':target,'population_floor':floor,'population_cap':cap,
         'below_floor':below,'above_cap':above,'graph_disconnected':disconnected,
         'province_crossings':province_crossings,'province_district_counts':province_counts,
+        'municipality_discipline_field':municipality_discipline_field,
+        'municipality_discipline_strategy':str(partitioning.get('strategy') or 'municipality'),
         'municipality_violations':municipality_violations,'failures':fails
     }
     report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
