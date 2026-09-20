@@ -14,6 +14,7 @@ on:
       territory_id: {required: true, type: string}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
+      persist_state: {required: false, type: boolean, default: true}
     outputs:
       territory_id:
         value: ${{ jobs.resolver.outputs.territory_id }}
@@ -176,7 +177,7 @@ jobs:
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
-    if: ${{ needs.electorales.result == 'success' }}
+    if: ${{ needs.electorales.result == 'success' && inputs.persist_state }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
