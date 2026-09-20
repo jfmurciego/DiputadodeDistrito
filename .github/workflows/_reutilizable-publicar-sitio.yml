@@ -30,8 +30,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: ddd-pages-prod
+  cancel-in-progress: false
 
 jobs:
   publicar:
