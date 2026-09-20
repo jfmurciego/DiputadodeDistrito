@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import Path
 
+import yaml
+
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
 from herramientas.validar_paquete_electoral import validate_package as validate_electoral_package
 
@@ -117,6 +119,16 @@ def validate_gate(
                 reasons.append(f"PAQUETE_ELECTORAL:{exc}")
 
     elif not reasons and phase in {"territorial_product", "electoral_product"}:
+        if params is None or not params.is_file():
+            reasons.append("CONTRATO_TERRITORIAL_AUSENTE")
+        else:
+            try:
+                cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+                contract_edition = str((cfg.get("meta") or {}).get("year") or "")
+                if contract_edition != str(edition):
+                    reasons.append("EDICION_CONTRATO_NO_COINCIDE")
+            except Exception as exc:
+                reasons.append(f"CONTRATO_TERRITORIAL_INVALIDO:{exc}")
         for directory in ("cache", "run", "sources"):
             if not (artifact_root / directory).is_dir():
                 reasons.append(f"ESTADO_SIN_{directory.upper()}")
@@ -137,8 +149,12 @@ def validate_gate(
             scope = str(status.get("scope_through_stage") or "")
             if phase == "territorial_product" and scope and scope != "M06":
                 reasons.append("ETAPA_CERTIFICADA_NO_COINCIDE")
-            if phase == "electoral_product" and status.get("electoral_application") is False:
-                reasons.append("INCORPORACION_ELECTORAL_RECHAZADA")
+            if phase == "electoral_product":
+                electoral_application = status.get("electoral_application")
+                if electoral_application is False:
+                    reasons.append("INCORPORACION_ELECTORAL_RECHAZADA")
+                elif electoral_application is not True and expected is None:
+                    reasons.append("INCORPORACION_ELECTORAL_NO_ACREDITADA")
 
     decision = "VALIDADO" if not reasons else "BLOQUEADO"
     return {
