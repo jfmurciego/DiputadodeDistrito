@@ -67,6 +67,12 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         self.assertIn("group: ddd-pages-prod",publisher)
         self.assertIn("cancel-in-progress: false",publisher)
 
+    def test_territorial_registration_runs_after_resumed_skipped_stages(self):
+        reusable=load("_reutilizable-generacion-territorial.yml")
+        register=reusable["jobs"]["registrar"]
+        self.assertIn("always()",register["if"])
+        self.assertIn("needs.auditoria.result == 'success'",register["if"])
+
     def test_electoral_product_remains_publishable_after_decoupling(self):
         reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
         publisher=(WF/"desplegar-visor-publico.yml").read_text(encoding="utf-8")
