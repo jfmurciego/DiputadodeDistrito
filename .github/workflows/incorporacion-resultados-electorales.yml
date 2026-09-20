@@ -1,14 +1,11 @@
 # PROYECTO: Diputado de Distrito
-# CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Incorporación de resultados electorales
-# FECHA: 2026-09-18
+# CLASE: interfaz operativa principal
+# VERSIÓN: 2.0.0
+# NOMBRE DE VERSIÓN: Incorporación electoral desacoplada
 # ESTADO: candidato
-# QUÉ HACE: incorpora al último producto territorial M06 los resultados electorales previamente preparados y publica automáticamente el resultado en el visor.
-# CAMBIOS: interfaz separada de la generación de distritos; ejecuta exclusivamente M07–M08 desde un M06 válido.
-# COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
-# ANTERIOR: versión 6.1.0 en historial Git.
-name: Incorporación de Resultados Electorales
+# QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
+# NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
+name: 04 · Incorporación de Resultados Electorales
 
 on:
   workflow_dispatch:
@@ -16,7 +13,7 @@ on:
       territory_id:
         description: Territorio
         required: true
-        default: Castilla y León
+        default: Galicia
         type: choice
         options:
           - Andalucía
@@ -43,214 +40,87 @@ on:
         required: true
         default: '2025'
         type: choice
-        options:
-          - '2025'
+        options: ['2025']
 
 permissions:
   contents: write
   actions: read
-  pages: write
-  id-token: write
-  issues: write
+
+concurrency:
+  group: ddd-electoral-prod-${{ inputs.territory_id }}
+  cancel-in-progress: false
 
 jobs:
-  resolver_interfaz:
-    name: Preparar contrato y reanudación
+  preparar:
+    name: Preparar incorporación electoral
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
       params: ${{ steps.resolve.outputs.params }}
-      from_stage: ${{ steps.checkpoint.outputs.from_stage }}
-      to_stage: ${{ steps.resolve.outputs.to_stage }}
-      product: ${{ steps.resolve.outputs.product }}
-      checkpoint_policy: ${{ steps.resolve.outputs.checkpoint_policy }}
-      checkpoint_run_id: ${{ steps.checkpoint.outputs.checkpoint_run_id }}
-      electoral_package_run_id: ${{ steps.electoral_package.outputs.run_id }}
-      electoral_package_artifact_name: ${{ steps.electoral_package.outputs.artifact_name }}
+      territorial_run_id: ${{ steps.territorial.outputs.run_id }}
+      electoral_package_run_id: ${{ steps.electoral.outputs.run_id }}
+      electoral_package_artifact_name: ${{ steps.electoral.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@v6
+
+      - name: Preparar validadores
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
       - id: resolve
-        name: Resolver territorio, edición y recorrido necesario
+        name: Verificar elegibilidad del territorio
         shell: bash
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
           UI_EDITION: ${{ inputs.data_edition }}
-          UI_PRODUCT: Resultados electorales
         run: |
           set -euo pipefail
-          mkdir -p .ddd-checkpoint-selection
-          printf '{"status":"INITIALIZED","run_id":"%s"}\n' "$GITHUB_RUN_ID" > .ddd-checkpoint-selection/resolucion_inicial.json
-          python -m pip install --disable-pip-version-check PyYAML==6.0.2 >/dev/null
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          row="$(python herramientas/catalogo_preparacion.py resolve             --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
-          [[ -n "$params" && -f "$params" ]] || { echo "::error::Contrato productivo no materializado: $params"; exit 3; }
-          route="$(python herramientas/resolver_producto_produccion.py --product "$UI_PRODUCT")"
-          {
-            echo "territory_id=$territory_id"
-            echo "params=$params"
-            echo "product=$UI_PRODUCT"
-            echo "to_stage=$(jq -r .to_stage <<<"$route")"
-            echo "checkpoint_policy=$(jq -r .checkpoint_policy <<<"$route")"
-          } >> "$GITHUB_OUTPUT"
+          test -n "$params" && test -f "$params"
+          echo "territory_id=$territory_id" >> "$GITHUB_OUTPUT"
+          echo "params=$params" >> "$GITHUB_OUTPUT"
 
-      - id: checkpoint
-        name: Validar y resolver último checkpoint reutilizable
+      - id: territorial
+        name: Localizar producto territorial certificado
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           PARAMS: ${{ steps.resolve.outputs.params }}
-          TO_STAGE: ${{ steps.resolve.outputs.to_stage }}
-          PRODUCT: ${{ steps.resolve.outputs.product }}
-          CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
         run: |
           set -euo pipefail
-          checkpoint_run_id=''
-          from_stage=M01
-          target_num="$((10#${TO_STAGE#M}))"
-          if [[ "$CHECKPOINT_POLICY" == require_m06 ]]; then
-            search_from=6
-            search_to=6
-          elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
-            search_from=6
-            search_to=1
-          else
-            # Para el producto territorial inspeccionamos también el estado acumulado
-            # de certificación, pero solo para derivar una etapa anterior compatible.
-            search_from=$target_num
-            search_to=1
-          fi
-          mkdir -p .ddd-checkpoint-selection
-          : > .ddd-checkpoint-selection/checkpoints_descartados.jsonl
-          api="repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"
-          mapfile -t run_ids < <(gh api "$api" --jq '.workflow_runs | sort_by(.created_at) | reverse | .[].id')
-
-          record_discard() {
-            local run_id="$1" stage="$2" reason="$3"
-            jq -cn --arg run_id "$run_id" --arg stage "$stage" --arg reason "$reason" \
-              '{run_id:$run_id,stage:$stage,reason:$reason}' >> .ddd-checkpoint-selection/checkpoints_descartados.jsonl
-          }
-
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=workflow_dispatch&status=completed&per_page=100"             --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            jq -e --arg n "ddd-decision-$run_id" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
-            tmp_decision="$(mktemp -d)"
-            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-decision-$run_id" --dir "$tmp_decision" >/dev/null 2>&1; then
-              rm -rf "$tmp_decision"; continue
+            jq -e --arg n "ddd-state-$run_id-M06" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            jq -e --arg n "ddd-audit-$run_id" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            tmp="$(mktemp -d)"
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-state-$run_id-M06" --dir "$tmp/state" >/dev/null 2>&1; then
+              rm -rf "$tmp"; continue
             fi
-            decision="$(find "$tmp_decision" -name decision.json -type f -print -quit)"
-            if [[ -z "$decision" ]]; then
-              record_discard "$run_id" decision "decision.json ausente"
-              rm -rf "$tmp_decision"; continue
-            fi
-            if [[ "$(jq -r '.territory_id // empty' "$decision")" != "$TERRITORY_ID" ]]; then
-              rm -rf "$tmp_decision"; continue
-            fi
-            if [[ "$(jq -r '.params // empty' "$decision")" != "$PARAMS" ]]; then
-              record_discard "$run_id" decision "contrato o edición distintos"
-              rm -rf "$tmp_decision"; continue
-            fi
-            rm -rf "$tmp_decision"
-
-            for ((stage_num=search_from; stage_num>=search_to; stage_num--)); do
-              stage="M$(printf '%02d' "$stage_num")"
-              artifact_name="ddd-state-$run_id-$stage"
-              jq -e --arg n "$artifact_name" '.artifacts[] | select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
-              tmp_state="$(mktemp -d)"
-              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp_state" >/dev/null 2>&1; then
-                record_discard "$run_id" "$stage" "no se pudo recuperar el checkpoint"
-                rm -rf "$tmp_state"; continue
-              fi
-              source_dir="$(find "$tmp_state" -type f -path '*/sources/manifest.json' -printf '%h\n' | sort | head -1)"
-              if [[ -z "$source_dir" ]]; then
-                record_discard "$run_id" "$stage" "sources/manifest.json ausente"
-                rm -rf "$tmp_state"; continue
-              fi
-
-              candidate_json="$tmp_state/validacion_checkpoint.json"
-              set +e
-              python -m herramientas.seleccionar_checkpoint_productivo \
-                --params "$PARAMS" --package "$source_dir" --state-root "$tmp_state" \
-                --run-id "$run_id" --stage "$stage" --root-dir . > "$candidate_json"
-              validation_rc=$?
-              set -e
-              if (( validation_rc == 0 )); then
-                requires_derivation="$(jq -r '.requires_derivation // false' "$candidate_json")"
-                if [[ "$CHECKPOINT_POLICY" == latest_before_target && "$stage_num" -ge "$target_num" && "$requires_derivation" != true ]]; then
-                  record_discard "$run_id" "$stage" "checkpoint no anterior al objetivo y sin derivación requerida"
-                  rm -rf "$tmp_state"
-                  continue
+            source_dir="$(find "$tmp/state" -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
+            test -n "$source_dir" || { rm -rf "$tmp"; continue; }
+            if python -m herramientas.seleccionar_checkpoint_productivo               --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state"               --run-id "$run_id" --stage M06 --root-dir . >/dev/null 2>&1; then
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$run_id" --dir "$tmp/audit" >/dev/null 2>&1; then
+                status="$(find "$tmp/audit" -name production_status.json -type f -print -quit)"
+                decision="$(test -n "$status" && jq -r '.decision // empty' "$status" || true)"
+                certified="$(test -n "$status" && jq -r '.territory_id // empty' "$status" || true)"
+                if [[ "$certified" == "$TERRITORY_ID" && "$decision" =~ ^PASS(_WITH_EXCEPTIONS)?$ ]]; then
+                  echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                  rm -rf "$tmp"
+                  exit 0
                 fi
-                cp "$candidate_json" .ddd-checkpoint-selection/checkpoint_seleccionado.json
-                if [[ "$requires_derivation" == true ]]; then
-                  rm -rf .ddd-derived-checkpoint
-                  python herramientas/derivar_checkpoint_acumulado.py \
-                    --params "$PARAMS" --state-root "$tmp_state" \
-                    --target-stage M04 --output .ddd-derived-checkpoint \
-                    > .ddd-checkpoint-selection/derivacion_checkpoint.json
-                  checkpoint_run_id="$GITHUB_RUN_ID"
-                  from_stage="$(jq -r '.from_stage' "$candidate_json")"
-                  echo "derived_checkpoint=true" >> "$GITHUB_OUTPUT"
-                  echo "derived_from_run_id=$run_id" >> "$GITHUB_OUTPUT"
-                else
-                  checkpoint_run_id="$run_id"
-                  from_stage="$(jq -r '.from_stage // empty' "$candidate_json")"
-                  [[ -n "$from_stage" ]] || from_stage="M$(printf '%02d' "$((stage_num+1))")"
-                  echo "derived_checkpoint=false" >> "$GITHUB_OUTPUT"
-                fi
-                rm -rf "$tmp_state"
-                break 2
-              elif (( validation_rc == 2 )); then
-                reason="$(jq -r '.reason // "validación de fuentes rechazada"' "$candidate_json" 2>/dev/null || echo 'validación de fuentes rechazada')"
-                record_discard "$run_id" "$stage" "$reason"
-                rm -rf "$tmp_state"
-                continue
-              else
-                echo "::error::Falló el validador de checkpoint para run $run_id, $stage (rc=$validation_rc)."
-                cat "$candidate_json" || true
-                rm -rf "$tmp_state"
-                exit "$validation_rc"
               fi
-            done
+            fi
+            rm -rf "$tmp"
           done
+          echo "::error::No existe un producto territorial certificado y reutilizable para $TERRITORY_ID."
+          exit 44
 
-          if [[ "$CHECKPOINT_POLICY" == require_m06 && -z "$checkpoint_run_id" ]]; then
-            echo "::error::Resultados electorales requiere un checkpoint M06 válido; no se recalculará M01–M06."
-            exit 44
-          fi
-
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p=Path('.ddd-checkpoint-selection/checkpoints_descartados.jsonl')
-          rows=[json.loads(line) for line in p.read_text(encoding='utf-8').splitlines() if line.strip()]
-          Path('.ddd-checkpoint-selection/checkpoints_descartados.json').write_text(
-              json.dumps(rows,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          PY
-          jq -cn --arg checkpoint_run_id "$checkpoint_run_id" --arg from_stage "$from_stage" \
-            --arg territory_id "$TERRITORY_ID" --arg params "$PARAMS" \
-            '{territory_id:$territory_id,params:$params,checkpoint_run_id:$checkpoint_run_id,from_stage:$from_stage}' \
-            > .ddd-checkpoint-selection/seleccion_checkpoint.json
-          {
-            echo "checkpoint_run_id=$checkpoint_run_id"
-            echo "from_stage=$from_stage"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Publicar checkpoint M04 derivado
-        if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-state-${{ github.run_id }}-M04
-          path: .ddd-derived-checkpoint
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-
-      - id: electoral_package
-        name: Resolver paquete electoral preparado
-        if: ${{ true }}
+      - id: electoral
+        name: Localizar resultados electorales preparados
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -260,22 +130,14 @@ jobs:
         run: |
           set -euo pipefail
           prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
-          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100"             --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
             mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
             for artifact_name in "${names[@]}"; do
               tmp="$(mktemp -d)"
-              if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1; then
-                rm -rf "$tmp"; continue
-              fi
-              set +e
-              python herramientas/validar_paquete_electoral.py --package "$tmp" --params "$PARAMS"                 --territory-id "$TERRITORY_ID" --edition "$EDITION" --root-dir .                 --output "$tmp/validacion_paquete_electoral.json" >/dev/null
-              rc=$?
-              set -e
-              if (( rc == 0 )); then
-                mkdir -p .ddd-checkpoint-selection
-                cp "$tmp/validacion_paquete_electoral.json" .ddd-checkpoint-selection/
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1 &&
+                 python herramientas/validar_paquete_electoral.py                    --package "$tmp" --params "$PARAMS" --territory-id "$TERRITORY_ID"                    --edition "$EDITION" --root-dir . >/dev/null 2>&1; then
                 echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
                 echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
                 rm -rf "$tmp"
@@ -284,32 +146,18 @@ jobs:
               rm -rf "$tmp"
             done
           done
-          echo "::error::Producción electoral requiere un paquete electoral preparado, íntegro y coincidente con el contrato."
+          echo "::error::No existe un paquete electoral preparado, íntegro y compatible."
           exit 45
 
-      - name: Publicar decisión de reanudación
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-checkpoint-selection-${{ github.run_id }}
-          path: .ddd-checkpoint-selection
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-
-  ruta:
-    name: Procesar territorio
-    needs: resolver_interfaz
-    uses: ./.github/workflows/_reutilizable-operacion-territorial.yml
+  incorporar:
+    name: Incorporar resultados
+    needs: preparar
+    uses: ./.github/workflows/_reutilizable-incorporacion-electoral.yml
     secrets: inherit
     with:
-      params: ${{ needs.resolver_interfaz.outputs.params }}
-      territory_id: ${{ needs.resolver_interfaz.outputs.territory_id }}
-      operation: producir_resultado_m01_m08
-      from_stage: ${{ needs.resolver_interfaz.outputs.from_stage }}
-      to_stage: ${{ needs.resolver_interfaz.outputs.to_stage }}
-      checkpoint_run_id: ${{ needs.resolver_interfaz.outputs.checkpoint_run_id }}
-      electoral_package_run_id: ${{ needs.resolver_interfaz.outputs.electoral_package_run_id }}
-      electoral_package_artifact_name: ${{ needs.resolver_interfaz.outputs.electoral_package_artifact_name }}
-      execution_confirmed: true
-      publish_result: true
+      params: ${{ needs.preparar.outputs.params }}
+      territory_id: ${{ needs.preparar.outputs.territory_id }}
+      data_edition: ${{ inputs.data_edition }}
+      territorial_run_id: ${{ needs.preparar.outputs.territorial_run_id }}
+      electoral_package_run_id: ${{ needs.preparar.outputs.electoral_package_run_id }}
+      electoral_package_artifact_name: ${{ needs.preparar.outputs.electoral_package_artifact_name }}

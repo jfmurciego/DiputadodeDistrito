@@ -1,14 +1,14 @@
 # PROYECTO: Diputado de Distrito
-# CLASE: workflow reutilizable de producción modular
-# VERSIÓN: 2.9.0
-# NOMBRE DE VERSIÓN: Reutilización durable de fuentes preparadas
+# CLASE: reutilizable interno — generación territorial
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Generación territorial desacoplada
 # FECHA: 2026-09-17
 # ESTADO: candidato
-# QUÉ HACE: admite/verifica contratos o ejecuta M01–M08; conserva las fuentes preparadas dentro de cada checkpoint y las reutiliza sin red cuando siguen siendo válidas.
-# CAMBIOS: conserva fuentes territoriales durables y M07–M08 consumen exclusivamente el paquete electoral preparado y validado contra contrato.
-# MOTIVO: impedir descargas innecesarias y preservar procedencia, edición y checksum a través de reanudaciones.
+# QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
+# CAMBIOS: elimina por diseño toda incorporación electoral y toda publicación web.
+# MOTIVO: aislar el proceso 02 y reducir superficie operacional.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
-name: Producción Territorial Modular
+name: Reutilizable — Generación Territorial
 
 on:
   workflow_call:
@@ -20,19 +20,14 @@ on:
       checkpoint_run_id: {required: false, type: string, default: ''}
       source_package_run_id: {required: false, type: string, default: ''}
       source_package_artifact_name: {required: false, type: string, default: ''}
-      electoral_package_run_id: {required: false, type: string, default: ''}
-      electoral_package_artifact_name: {required: false, type: string, default: ''}
       execution_authorization: {required: false, type: string, default: ''}
-      publish_result: {required: false, type: boolean, default: false}
 
 permissions:
-  contents: read
+  contents: write
   actions: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: ddd-production-${{ inputs.params }}
+  group: ddd-territorial-engine-${{ inputs.params }}
   cancel-in-progress: false
 
 jobs:
@@ -91,7 +86,6 @@ jobs:
               TERRITORY_PREPARATION|M01) echo 1;; TERRITORY_ADJACENCY|M02) echo 2;;
               TERRITORY_GRAPH|M03) echo 3;; DISTRICT_FORMATION|M04) echo 4;;
               DISTRICT_BALANCING|M05) echo 5;; TERRITORIAL_CERTIFICATION|M06) echo 6;;
-              ELECTORAL_ENRICHMENT|M07) echo 7;; PUBLIC_PRODUCT_PUBLICATION|M08) echo 8;;
               *) return 1;;
             esac
           }
@@ -122,7 +116,7 @@ jobs:
           retention-days: 14
 
   official_sources:
-    name: Fuentes oficiales
+    name: Verificar datos territoriales preparados
     needs: [resolve]
     if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 }}
     runs-on: ubuntu-24.04
@@ -368,23 +362,6 @@ jobs:
           missing=[p for p in paths if p and not Path(p).is_file()]
           if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
           PY
-      - name: Recuperar fuente electoral oficial aprobada
-        if: ${{ env.STAGE == 'M07' }}
-        uses: actions/download-artifact@v6
-        with:
-          name: ddd-electoral-source-${{ github.run_id }}
-          path: .ddd-electoral-source
-      - name: Instalar y verificar fuente electoral en ruta contractual
-        if: ${{ env.STAGE == 'M07' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/instalar_fuente_electoral_oficial.py \
-            --params "/app/$PARAMS" \
-            --artifact-dir /app/.ddd-electoral-source \
-            --root-dir /app \
-            --report /app/.ddd-electoral-source/instalacion_m07.json
       - name: Ejecutar módulo
         shell: bash
         run: >-
@@ -711,103 +688,57 @@ jobs:
             *) echo "::error::Certificación territorial bloqueada: $decision" >&2; exit 32 ;;
           esac
 
-  electoral_source:
-    name: Verificar resultados electorales preparados
-    needs: [resolve, m06, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' }}
+  registrar:
+    name: Registrar producto territorial
+    needs: [resolve, auditoria]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.auditoria.result == 'success' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
-      PACKAGE_RUN_ID: ${{ inputs.electoral_package_run_id }}
-      PACKAGE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
     steps:
       - uses: actions/checkout@v6
-      - name: Exigir identidad del paquete electoral
-        shell: bash
-        run: |
-          set -euo pipefail
-          [[ "$PACKAGE_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::Falta run_id del paquete electoral preparado.'; exit 42; }
-          [[ "$PACKAGE_ARTIFACT_NAME" == ddd-electoral-package-* ]] || { echo '::error::Falta nombre contractual del paquete electoral preparado.'; exit 42; }
-      - name: Recuperar paquete electoral preparado
-        uses: actions/download-artifact@v6
         with:
-          name: ${{ inputs.electoral_package_artifact_name }}
-          path: .ddd-electoral-package
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ inputs.electoral_package_run_id }}
-      - name: Validar procedencia y empaquetar fuente contractual
+          ref: ${{ github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Registrar producto territorial certificado
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          edition="$(python - "$PARAMS" <<'PY'
-          import sys,yaml
-          from pathlib import Path
-          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-          print((cfg.get('meta') or {}).get('year') or '')
+          edition="$(python - <<'PY'
+          import os,yaml
+          cfg=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((cfg.get("meta") or {}).get("year",""))
           PY
           )"
-          mkdir -p .ddd-electoral-source/data
-          python herramientas/validar_paquete_electoral.py --package .ddd-electoral-package --params "$PARAMS" --territory-id "$TERRITORY_ID" --edition "$edition" --root-dir . --output .ddd-electoral-source/validacion_paquete_electoral.json
-          python - <<'PY'
-          import json,shutil
-          from pathlib import Path
-          manifest=json.loads(Path('.ddd-electoral-package/manifest.json').read_text(encoding='utf-8'))
-          validation=json.loads(Path('.ddd-electoral-source/validacion_paquete_electoral.json').read_text(encoding='utf-8'))
-          selected=manifest['selected_source']; src=Path('.ddd-electoral-package')/selected['path']
-          dst=Path('.ddd-electoral-source/data')/src.name; shutil.copy2(src,dst)
-          checksum=Path(str(dst)+'.sha256')
-          checksum.write_text(selected['sha256']+'  '+dst.name+'\n',encoding='utf-8')
-          decision={**validation,'selected_source':{
-              'artifact_path':dst.relative_to('.ddd-electoral-source').as_posix(),
-              'checksum_path':checksum.relative_to('.ddd-electoral-source').as_posix(),
-              'sha256':selected['sha256'],
-          }}
-          Path('.ddd-electoral-source/decision_fuente_electoral.json').write_text(
-              json.dumps(decision,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          PY
-      - name: Publicar decisión y procedencia electoral
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: ddd-electoral-source-${{ github.run_id }}
-          path: .ddd-electoral-source
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 14
-      - name: Aplicar puerta del paquete electoral
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f .ddd-electoral-source/decision_fuente_electoral.json || { echo '::error::Falta validación del paquete electoral.'; exit 42; }
-          test "$(jq -r .decision .ddd-electoral-source/decision_fuente_electoral.json)" = READY_PACKAGE || { echo '::error::Paquete electoral BLOQUEADO.'; exit 42; }
-
-  m07:
-    name: Agregar resultados electorales a los distritos
-    needs: [resolve, m06, auditoria, electoral_source]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 7 && fromJSON(needs.resolve.outputs.to_num) >= 7 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '')) && needs.auditoria.result == 'success' && needs.electoral_source.result == 'success' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 240
-    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M07, PREVIOUS_STAGE: M06, PREVIOUS_RESULT: "${{ needs.m06.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
-    steps: *module_steps
-
-  m08:
-    name: Generar producto electoral territorial
-    needs: [resolve, m07, auditoria]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 8 && fromJSON(needs.resolve.outputs.to_num) >= 8 && (needs.m07.result == 'success' || (needs.m07.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 8)) && needs.auditoria.result == 'success' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 240
-    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M08, PREVIOUS_STAGE: M07, PREVIOUS_RESULT: "${{ needs.m07.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
-    steps: *module_steps
-
-  visor:
-    name: Publicación del visor
-    needs: [resolve, m06, m08, auditoria]
-    if: ${{ always() && inputs.publish_result == true && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && needs.auditoria.result == 'success' && ((fromJSON(needs.resolve.outputs.to_num) == 6 && needs.m06.result == 'success') || (fromJSON(needs.resolve.outputs.to_num) >= 8 && needs.m08.result == 'success')) }}
-    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
-    with:
-      production_run_id: ${{ github.run_id }}
-      target_page: Publicación del visor territorial
+          test -n "$edition" || { echo "::error::No se pudo resolver edición desde el contrato."; exit 48; }
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M06"
+          rm -rf .ddd-audit-promote && mkdir .ddd-audit-promote
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID" --dir .ddd-audit-promote >/dev/null
+          status="$(find .ddd-audit-promote -name production_status.json -type f -print -quit)"
+          test -n "$status" || { echo "::error::Falta production_status.json del run."; exit 48; }
+          decision="$(jq -r '.decision // empty' "$status")"
+          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificable: $decision"; exit 48;; esac
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
+          test -n "$artifact" || { echo "::error::No existe $artifact_name."; exit 48; }
+          digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          test -n "$digest" || { echo "::error::Artefacto sin digest: $artifact_name"; exit 48; }
+          python herramientas/promover_catalogo_operacional.py             --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest"             --source-commit "$GITHUB_SHA" --decision "$decision"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: registrar producto territorial de $TERRITORY_ID"
+          target_branch="$GITHUB_REF_NAME"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "::error::No se pudo registrar el producto territorial tras tres intentos."; exit 48

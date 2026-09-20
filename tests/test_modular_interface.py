@@ -67,16 +67,20 @@ class ModularWorkflowContractTests(unittest.TestCase):
         workflow = yaml.safe_load((ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8"))
         self.assertEqual(list(workflow["jobs"]), ["resolver_interfaz", "ruta"])
 
-    def test_production_workflow_has_visible_m01_m08_audit_and_viewer(self):
+    def test_production_workflow_keeps_internal_stages_with_functional_names(self):
         workflow = yaml.safe_load((ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8"))
         jobs = workflow["jobs"]
         expected = ["resolve", "official_sources", "m01", "m02", "m03", "internal_units", "m04", "m05", "m06", "auditoria", "electoral_source", "m07", "m08", "visor"]
         self.assertEqual(list(jobs), expected)
         self.assertEqual(jobs["official_sources"]["name"], "Fuentes oficiales")
         self.assertEqual(jobs["internal_units"]["name"], "Preparar unidades internas")
-        self.assertEqual(jobs["electoral_source"]["name"], "Fuente electoral oficial")
-        names = [jobs[f"m{i:02d}"]["name"] for i in range(1, 9)]
-        self.assertTrue(all(f"M{i:02d}" in names[i - 1] for i in range(1, 9)))
+        self.assertEqual(jobs["m06"]["name"], "Consolidación territorial")
+        self.assertEqual(jobs["auditoria"]["name"], "Auditoría geométrica de la consolidación territorial")
+        self.assertEqual(jobs["electoral_source"]["name"], "Verificar resultados electorales preparados")
+        self.assertEqual(jobs["m07"]["name"], "Agregar resultados electorales a los distritos")
+        self.assertEqual(jobs["m08"]["name"], "Generar producto electoral territorial")
+        for stage in range(1,9):
+            self.assertNotIn(f"M{stage:02d} ·", jobs[f"m{stage:02d}"]["name"])
 
     def test_m07_recovers_and_installs_approved_electoral_artifact(self):
         text = (ROOT / ".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")

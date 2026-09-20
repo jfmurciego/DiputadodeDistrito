@@ -4,7 +4,7 @@
 # NOMBRE: Publicación manual desacoplada del cálculo territorial
 # ESTADO: activo
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
-name: Publicar Sitio Web
+name: 05 · Publicación del Visor
 
 on:
   workflow_dispatch:
