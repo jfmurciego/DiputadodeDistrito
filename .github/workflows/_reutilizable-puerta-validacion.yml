@@ -169,12 +169,15 @@ jobs:
               [[ -n "$report" ]] || block "report.json de incorporación ausente" "$actual_digest"
               [[ "$(jq -r '.status // empty' "$report")" == "SUCCESS" ]] || block "informe electoral no declara SUCCESS" "$actual_digest"
               [[ "$(jq -r '.territory_id // empty' "$report")" == "$TERRITORY_ID" ]] || block "producto electoral pertenece a otro territorio" "$actual_digest"
+              [[ "$(jq -r '.workflow_run_id // empty' "$report")" == "$SOURCE_RUN_ID" ]] || block "informe electoral pertenece a otro run" "$actual_digest"
               if ! gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$SOURCE_RUN_ID" --dir .ddd-validation-gate/cert >/dev/null 2>&1; then
                 block "certificación preservada del producto electoral ausente" "$actual_digest"
               fi
               status="$(find .ddd-validation-gate/cert -name production_status.json -type f -print -quit)"
               [[ -n "$status" ]] || block "producto electoral sin production_status.json" "$actual_digest"
-              [[ "$(jq -r '.electoral_application // false' "$status")" == "true" ]] || block "certificación no acredita incorporación electoral" "$actual_digest"
+              [[ "$(jq -r '.territory_id // empty' "$status")" == "$TERRITORY_ID" ]] || block "certificación preservada pertenece a otro territorio" "$actual_digest"
+              decision="$(jq -r '.decision // empty' "$status")"
+              case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) block "certificación preservada bloqueante: $decision" "$actual_digest";; esac
               ;;
             *)
               block "tipo de puerta desconocido: $KIND" "$actual_digest"
