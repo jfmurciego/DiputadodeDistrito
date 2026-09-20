@@ -362,23 +362,6 @@ jobs:
           missing=[p for p in paths if p and not Path(p).is_file()]
           if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
           PY
-      - name: Recuperar fuente electoral oficial aprobada
-        if: ${{ env.STAGE == 'M07' }}
-        uses: actions/download-artifact@v6
-        with:
-          name: ddd-electoral-source-${{ github.run_id }}
-          path: .ddd-electoral-source
-      - name: Instalar y verificar fuente electoral en ruta contractual
-        if: ${{ env.STAGE == 'M07' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/instalar_fuente_electoral_oficial.py \
-            --params "/app/$PARAMS" \
-            --artifact-dir /app/.ddd-electoral-source \
-            --root-dir /app \
-            --report /app/.ddd-electoral-source/instalacion_m07.json
       - name: Ejecutar módulo
         shell: bash
         run: >-
