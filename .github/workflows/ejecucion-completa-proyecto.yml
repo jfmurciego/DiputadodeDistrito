@@ -147,7 +147,6 @@ jobs:
     secrets: inherit
     with:
       territory_id: ${{ inputs.territory_id }}
-      data_edition: ${{ inputs.data_edition }}
       reutilizar_si_ya_preparada: true
 
   generar:
