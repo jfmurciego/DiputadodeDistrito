@@ -113,30 +113,48 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             require_evidence("territorial_product","territorial_product_available")
             require_evidence("electoral_product","electoral_product_available")
             electoral_evidence=require_evidence("electoral_source","electoral_source_prepared")
-            if state.get("electoral_source_prepared"):
-                if cfg is None:
-                    errors.append(f"{tid}/{edition}: fuente electoral preparada sin contrato territorial legible")
+            if state.get("electoral_source_prepared") and electoral_evidence is not None:
+                receipt=None
+                try:
+                    receipt=json.loads(electoral_evidence.read_text(encoding="utf-8"))
+                except Exception:
+                    receipt=None
+                if isinstance(receipt,dict) and receipt.get("schema")=="ddd.catalog-evidence/1.0":
+                    if receipt.get("kind")!="electoral_source":
+                        errors.append(f"{tid}/{edition}: evidencia electoral con tipo inválido")
+                    if str(receipt.get("territory_id") or "")!=tid or str(receipt.get("edition") or "")!=str(edition):
+                        errors.append(f"{tid}/{edition}: evidencia electoral no corresponde al territorio/edición")
+                    if not isinstance(receipt.get("run_id"),int) or not str(receipt.get("artifact_name") or "").startswith(f"ddd-electoral-package-{tid}-{edition}-"):
+                        errors.append(f"{tid}/{edition}: evidencia electoral sin run/artefacto durable")
+                    if not re.fullmatch(r"[0-9a-f]{64}",str(receipt.get("artifact_sha256") or "")):
+                        errors.append(f"{tid}/{edition}: evidencia electoral sin SHA-256 de artefacto")
+                    if str(receipt.get("declaration") or "")!=str(ed_raw or ""):
+                        errors.append(f"{tid}/{edition}: evidencia electoral y declaración no coinciden")
                 else:
-                    m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
-                    contract_raw=m07.get("election_contract")
-                    contract_path=(root/str(contract_raw)) if contract_raw else None
-                    if contract_path is None or not contract_path.is_file():
-                        errors.append(f"{tid}/{edition}: fuente electoral preparada sin election_contract real")
+                    # Compatibilidad con evidencias históricas ya certificadas de Aragón/Castilla y León.
+                    if cfg is None:
+                        errors.append(f"{tid}/{edition}: fuente electoral preparada sin contrato territorial legible")
                     else:
-                        try:
-                            contract=json.loads(contract_path.read_text(encoding="utf-8"))
-                            sources=contract.get("sources") or []
-                            if not sources:
-                                errors.append(f"{tid}/{edition}: election_contract sin fuentes")
-                            for source in sources:
-                                src_raw=source.get("path"); expected=str(source.get("sha256") or "").lower()
-                                src=(root/str(src_raw)) if src_raw else None
-                                if not src_raw or not expected:
-                                    errors.append(f"{tid}/{edition}: fuente electoral sin path/sha256 contractual")
-                                elif src is not None and src.is_file() and _sha256(src).lower()!=expected:
-                                    errors.append(f"{tid}/{edition}: SHA-256 electoral no coincide: {src_raw}")
-                        except Exception as exc:
-                            errors.append(f"{tid}/{edition}: election_contract inválido: {exc}")
+                        m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+                        contract_raw=m07.get("election_contract")
+                        contract_path=(root/str(contract_raw)) if contract_raw else None
+                        if contract_path is None or not contract_path.is_file():
+                            errors.append(f"{tid}/{edition}: fuente electoral preparada sin election_contract real")
+                        else:
+                            try:
+                                contract=json.loads(contract_path.read_text(encoding="utf-8"))
+                                sources=contract.get("sources") or []
+                                if not sources:
+                                    errors.append(f"{tid}/{edition}: election_contract sin fuentes")
+                                for source in sources:
+                                    src_raw=source.get("path"); expected=str(source.get("sha256") or "").lower()
+                                    src=(root/str(src_raw)) if src_raw else None
+                                    if not src_raw or not expected:
+                                        errors.append(f"{tid}/{edition}: fuente electoral sin path/sha256 contractual")
+                                    elif src is not None and src.is_file() and _sha256(src).lower()!=expected:
+                                        errors.append(f"{tid}/{edition}: SHA-256 electoral no coincide: {src_raw}")
+                            except Exception as exc:
+                                errors.append(f"{tid}/{edition}: election_contract inválido: {exc}")
     if errors: raise ValueError("\n".join(errors))
     return []
 
