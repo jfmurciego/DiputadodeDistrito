@@ -53,6 +53,15 @@ def test_promocion_dashboard_y_readme_comparten_generador():
     assert 'git commit -m "chore: sincronizar estado operativo para publicación"' in manual
 
 
+def test_publicacion_desde_00_no_duplica_sincronizacion_y_manual_si_refresca():
+    manual = MANUAL.read_text(encoding="utf-8")
+    orch = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+    assert "estado_sincronizado:" in manual
+    assert 'if [[ "$ESTADO_SINCRONIZADO" != "true" ]]' in manual
+    assert "estado_sincronizado: true" in orch
+    assert 'if [[ "$TARGET_PAGE" == "Dashboard operativo"' not in manual
+
+
 def test_visor_enlaza_dashboard():
     html = (ROOT / "visor/index.html").read_text(encoding="utf-8")
     assert 'href="dashboard/"' in html
