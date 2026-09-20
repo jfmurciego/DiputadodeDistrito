@@ -35,22 +35,46 @@ jobs:
         run: python -m unittest tests.test_m05_gerrychain_strategy.GerryChainStrategyContractTests -v
       - name: Ejecutar E2E real M04 → GerryChain/ReCom con Galicia
         run: python -m unittest tests.test_m05_gerrychain_strategy.GaliciaGerryChainE2E -v
-      - name: Materializar evidencia E2E
+      - name: Materializar evidencia E2E hasta M06
+        shell: bash
         run: |
-          mkdir -p .gerrychain-evidence
+          set -euo pipefail
+          CACHE="territorios/galicia/.cache/ddd/preparacion/galicia_2025"
+          mkdir -p "$CACHE" gerrychain-evidence
+          cp .galicia-m06/cache/galicia_2025_m03_grafo.json "$CACHE/"
+          cp .galicia-m06/cache/galicia_2025_m04_semillas.geojson.zip "$CACHE/"
+
+          # Ejecuta 2.5 sobre las rutas contractuales reales, sin overrides.
           python -m ddd_core.m05_gerrychain_strategy \
             --params territorios/galicia/config/galicia_2025.yaml \
-            --graph .galicia-m06/cache/galicia_2025_m03_grafo.json \
-            --initial .galicia-m06/cache/galicia_2025_m04_semillas.geojson.zip \
-            --output .gerrychain-evidence/galicia_gerrychain_m05.geojson.zip \
-            --report .gerrychain-evidence/galicia_gerrychain_m05_report.json \
             --steps-per-stage 250 --warmup-rounds 4 --seed 20260920
+
+          # Comprueba que la salida alternativa es consumible por el M06 canónico.
+          python modulos/06_consolidar_distritos.py \
+            --params territorios/galicia/config/galicia_2025.yaml
+
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections "$CACHE/galicia_2025_m06_secciones.geojson.zip" \
+            --contract territorios/galicia/config/galicia_2025.yaml \
+            --expected-districts 75 \
+            --output gerrychain-evidence/auditoria_geometrica_m06.json
+
+          cp "$CACHE/galicia_2025_m05_distritos_optimizados.geojson.zip" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m05_informe.json" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m06_secciones.geojson.zip" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m06_distritos.geojson.zip" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m06_resumen_distritos.csv" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m06_catalogo_distritos.csv" gerrychain-evidence/
+          cp "$CACHE/galicia_2025_m06_composicion_distritos.csv" gerrychain-evidence/
+
           jq '{optimization_status,target_tolerance,objective,schedule,engine,strategy}' \
-            .gerrychain-evidence/galicia_gerrychain_m05_report.json
+            "$CACHE/galicia_2025_m05_informe.json"
+          jq '{decision,gate_statement,section_count,district_count,connected_districts,governed_exceptions,blocked_districts}' \
+            gerrychain-evidence/auditoria_geometrica_m06.json
       - name: Publicar evidencia E2E
         uses: actions/upload-artifact@v6
         with:
           name: gerrychain-galicia-e2e-${{ github.run_id }}
-          path: .gerrychain-evidence
+          path: gerrychain-evidence
           if-no-files-found: error
           retention-days: 30
