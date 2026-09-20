@@ -1,0 +1,761 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: reutilizable interno — generación territorial
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Generación territorial desacoplada
+# FECHA: 2026-09-17
+# ESTADO: candidato
+# QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
+# CAMBIOS: elimina por diseño toda incorporación electoral y toda publicación web.
+# MOTIVO: aislar el proceso 02 y reducir superficie operacional.
+# ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
+name: Reutilizable — Generación Territorial
+
+on:
+  workflow_call:
+    inputs:
+      params: {required: true, type: string}
+      mode: {required: true, type: string}
+      from_stage: {required: true, type: string}
+      to_stage: {required: true, type: string}
+      checkpoint_run_id: {required: false, type: string, default: ''}
+      source_package_run_id: {required: false, type: string, default: ''}
+      source_package_artifact_name: {required: false, type: string, default: ''}
+      execution_authorization: {required: false, type: string, default: ''}
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: ddd-territorial-engine-${{ inputs.params }}
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    name: Resolver contrato y tramo
+    runs-on: ubuntu-24.04
+    outputs:
+      mode: ${{ steps.range.outputs.mode }}
+      params: ${{ steps.resolve.outputs.params }}
+      territory_id: ${{ steps.resolve.outputs.territory_id }}
+      run_id: ${{ steps.resolve.outputs.run_id }}
+      cache_dir: ${{ steps.resolve.outputs.cache_dir }}
+      runs_dir: ${{ steps.resolve.outputs.runs_dir }}
+      production_authorization: ${{ steps.resolve.outputs.production_authorization }}
+      from_stage: ${{ steps.range.outputs.from_stage }}
+      to_stage: ${{ steps.range.outputs.to_stage }}
+      from_num: ${{ steps.range.outputs.from_num }}
+      to_num: ${{ steps.range.outputs.to_num }}
+    env:
+      PARAMS: ${{ inputs.params }}
+      MODE: ${{ inputs.mode }}
+      AUTHORIZATION: ${{ inputs.execution_authorization }}
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+      SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+      DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validar lanzador común
+        run: bash -n procedimiento.sh
+      - id: resolve
+        name: Admitir contrato antes de cualquier cálculo
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/resolver_ejecucion_territorial.py \
+            --params "$PARAMS" --run-id "$DDD_RUN_ID" --output decision.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          d=json.load(open('decision.json',encoding='utf-8'))
+          for key in ('params','territory_id','cache_dir','runs_dir','production_authorization'):
+              print(f"{key}={d[key]}")
+          print(f"run_id=production-{os.environ['GITHUB_RUN_ID']}-{os.environ['GITHUB_RUN_ATTEMPT']}")
+          PY
+      - id: range
+        name: Resolver FROM_STAGE / TO_STAGE
+        shell: bash
+        env:
+          FROM_STAGE: ${{ inputs.from_stage }}
+          TO_STAGE: ${{ inputs.to_stage }}
+          PRODUCTION_AUTHORIZATION: ${{ steps.resolve.outputs.production_authorization }}
+        run: |
+          set -euo pipefail
+          stage_num(){
+            case "$1" in
+              TERRITORY_PREPARATION|M01) echo 1;; TERRITORY_ADJACENCY|M02) echo 2;;
+              TERRITORY_GRAPH|M03) echo 3;; DISTRICT_FORMATION|M04) echo 4;;
+              DISTRICT_BALANCING|M05) echo 5;; TERRITORIAL_CERTIFICATION|M06) echo 6;;
+              *) return 1;;
+            esac
+          }
+          from_num="$(stage_num "$FROM_STAGE")" || { echo "::error::FROM_STAGE desconocido: $FROM_STAGE"; exit 20; }
+          to_num="$(stage_num "$TO_STAGE")" || { echo "::error::TO_STAGE desconocido: $TO_STAGE"; exit 20; }
+          (( from_num <= to_num )) || { echo '::error::FROM_STAGE no puede ser posterior a TO_STAGE'; exit 20; }
+          case "$MODE" in admit_only|verify_only|execute) ;; *) echo "::error::Modo no admitido: $MODE"; exit 20;; esac
+          if [[ "$MODE" == execute ]]; then
+            test "$AUTHORIZATION" = EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION || { echo '::error::execute exige autorización explícita.'; exit 21; }
+            test "$PRODUCTION_AUTHORIZATION" = AUTHORIZED || { echo "::error::Contrato válido pero no autorizado para producción: $PRODUCTION_AUTHORIZATION"; exit 21; }
+            if (( from_num > 1 )); then
+              [[ "$CHECKPOINT_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::FROM_STAGE > M01 exige checkpoint_run_id numérico de una ejecución modular previa.'; exit 22; }
+            fi
+          fi
+          {
+            echo "mode=$MODE"
+            echo "from_stage=M$(printf '%02d' "$from_num")"
+            echo "to_stage=M$(printf '%02d' "$to_num")"
+            echo "from_num=$from_num"
+            echo "to_num=$to_num"
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ddd-decision-${{ github.run_id }}
+          path: decision.json
+          if-no-files-found: error
+          retention-days: 14
+
+  official_sources:
+    name: Verificar datos territoriales preparados
+    needs: [resolve]
+    if: ${{ needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+      SOURCE_DECLARATION: territorios/${{ needs.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
+      EVIDENCE_DIR: .ddd-sources
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+      SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Comprobar declaración de fuentes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible de fuentes
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: source_mode
+        name: Resolver modo declarado de producción
+        shell: bash
+        run: |
+          set -euo pipefail
+          mode="$(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load((Path('/app') / sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((d.get('default_mode') or {}).get('production') or '')
+          PY
+          )"
+          case "$mode" in official_live|verified_snapshot) ;; *) echo "::error::Modo productivo de fuentes inválido: $mode"; exit 40;; esac
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+      - name: Reconstruir copia oficial declarada
+        if: ${{ steps.source_mode.outputs.mode == 'verified_snapshot' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+      - name: Recuperar datos territoriales preparados
+        if: ${{ inputs.source_package_run_id != '' && inputs.checkpoint_run_id == '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-prepared-source-package .ddd-state/in
+          mkdir -p .ddd-prepared-source-package .ddd-state/in/sources
+          gh run download "$SOURCE_PACKAGE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_PACKAGE_ARTIFACT_NAME" --dir .ddd-prepared-source-package
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-prepared-source-package             --territory-id "$TERRITORY_ID"             --edition "$(python - "$SOURCE_DECLARATION" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          print((d.get('territory') or {}).get('edition'))
+          PY
+          )"
+          cp -a .ddd-prepared-source-package/. .ddd-state/in/sources/
+
+      - name: Recuperar paquete de fuentes de checkpoint solicitado
+        if: ${{ inputs.checkpoint_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-source-resume .ddd-state/in
+          mkdir -p .ddd-source-resume .ddd-state/in/sources
+          gh run download "$CHECKPOINT_RUN_ID" --pattern 'ddd-state-*' --dir .ddd-source-resume
+          source_dir="$(find .ddd-source-resume -type f -path '*/sources/manifest.json' -printf '%h\n' | sort | head -1)"
+          if [[ -n "$source_dir" ]]; then
+            cp -a "$source_dir/." .ddd-state/in/sources/
+          fi
+      - id: acquire
+        name: Resolver y materializar fuentes declaradas
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          checkpoint_args=()
+          if [[ -f .ddd-state/in/sources/manifest.json ]]; then
+            checkpoint_args=(--checkpoint-in /app/.ddd-state/in)
+          fi
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            -m herramientas.ejecutar_fuentes_workflow \
+            --declaration "/app/$SOURCE_DECLARATION" \
+            --working /app/.ddd-source-package \
+            "${checkpoint_args[@]}" \
+            --checkpoint-out /app/.ddd-source-checkpoint \
+            --acquisition-evidence "/app/$EVIDENCE_DIR" \
+            --environment production \
+            --acquisition-mode '${{ steps.source_mode.outputs.mode }}' \
+            --root-dir /app
+          cp .ddd-source-checkpoint/source_execution.json "$EVIDENCE_DIR/source_execution.json"
+      - id: evaluate
+        name: Evaluar preparación de fuentes
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/evaluar_preparacion_territorial.py \
+            --territory "/app/$SOURCE_DECLARATION" \
+            --evidence-dir "/app/$EVIDENCE_DIR" \
+            --environment production \
+            --root-dir /app
+      - name: Publicar evidencia de preparación
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-fuentes-${{ github.run_id }}
+          path: |
+            .ddd-sources/inventario_fuentes.json
+            .ddd-sources/manifiesto_procedencia.json
+            .ddd-sources/decision_preparacion.json
+            .ddd-sources/informe_preparacion.md
+            .ddd-sources/declaracion_materializacion.json
+            .ddd-sources/decision_adquisicion.json
+            .ddd-sources/source_execution.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publicar entradas consumibles
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-official-inputs-${{ github.run_id }}
+          path: .ddd-sources/materialized
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publicar paquete durable de fuentes
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-package-${{ github.run_id }}
+          path: .ddd-source-package
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Aplicar puerta de preparación
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-sources/decision_preparacion.json || { echo '::error::No existe decisión de preparación.'; exit 41; }
+          python - <<'PY'
+          import json
+          d=json.load(open('.ddd-sources/decision_preparacion.json',encoding='utf-8'))
+          if d.get('decision') != 'READY':
+              raise SystemExit('Preparación de fuentes BLOQUEADA: ' + '; '.join(d.get('reasons') or []))
+          PY
+
+  m01:
+    name: Base territorial y población
+    needs: [resolve, official_sources]
+    if: ${{ needs.resolve.result == 'success' && needs.official_sources.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 1 && fromJSON(needs.resolve.outputs.to_num) >= 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      RUN_ID: ${{ needs.resolve.outputs.run_id }}
+      CACHE_DIR: ${{ needs.resolve.outputs.cache_dir }}
+      RUNS_DIR: ${{ needs.resolve.outputs.runs_dir }}
+      STAGE: M01
+      PREVIOUS_STAGE: ''
+      PREVIOUS_RESULT: ''
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+    steps: &module_steps
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible con caché compartida
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: state
+        if: ${{ env.PREVIOUS_STAGE != '' }}
+        name: Resolver estado anterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$PREVIOUS_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
+          [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::No hay run anterior utilizable.'; exit 22; }
+          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+      - name: Recuperar estado acumulado anterior
+        if: ${{ env.PREVIOUS_STAGE != '' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}
+          path: .ddd-state/in
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.state.outputs.run_id }}
+      - name: Restaurar estado contractual
+        if: ${{ env.PREVIOUS_STAGE != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d .ddd-state/in/cache && test -d .ddd-state/in/run
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR"
+          cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
+          cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+          if [[ -d .ddd-state/in/sources ]]; then
+            rm -rf .ddd-source-package
+            mkdir -p .ddd-source-package
+            cp -a .ddd-state/in/sources/. .ddd-source-package/
+          fi
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+      - name: Recuperar fuentes aprobadas para M01
+        if: ${{ env.STAGE == 'M01' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-official-inputs-${{ github.run_id }}
+          path: .ddd-sources/materialized
+      - name: Recuperar paquete durable para M01
+        if: ${{ env.STAGE == 'M01' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-source-package-${{ github.run_id }}
+          path: .ddd-source-package
+      - name: Instalar fuentes en sus rutas contractuales
+        if: ${{ env.STAGE == 'M01' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -a .ddd-sources/materialized/. .
+          python - "$PARAMS" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          io_in=((cfg.get('io') or {}).get('input') or {})
+          paths=[(io_in.get('seccionado') or {}).get('path')]
+          paths.extend((io_in.get('population_cip') or {}).get('paths') or [])
+          missing=[p for p in paths if p and not Path(p).is_file()]
+          if missing: raise SystemExit('Fuentes aprobadas no llegaron a rutas M01: '+', '.join(missing))
+          PY
+      - name: Recuperar fuente electoral oficial aprobada
+        if: ${{ env.STAGE == 'M07' }}
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-electoral-source-${{ github.run_id }}
+          path: .ddd-electoral-source
+      - name: Instalar y verificar fuente electoral en ruta contractual
+        if: ${{ env.STAGE == 'M07' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/instalar_fuente_electoral_oficial.py \
+            --params "/app/$PARAMS" \
+            --artifact-dir /app/.ddd-electoral-source \
+            --root-dir /app \
+            --report /app/.ddd-electoral-source/instalacion_m07.json
+      - name: Ejecutar módulo
+        shell: bash
+        run: >-
+          docker run --rm -v "$PWD:/app" -w /app
+          -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"
+          -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
+          -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"
+          --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Empaquetar checkpoint acumulado del módulo
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+          rm -rf .ddd-state/out
+          mkdir -p .ddd-state/out/cache .ddd-state/out/run .ddd-state/out/sources
+          cp -a "$CACHE_DIR/." .ddd-state/out/cache/
+          cp -a "$RUNS_DIR/." .ddd-state/out/run/
+          test -f .ddd-source-package/manifest.json || { echo '::error::El checkpoint perdería el paquete durable de fuentes.'; exit 24; }
+          cp -a .ddd-source-package/. .ddd-state/out/sources/
+          if [[ "$STAGE" == M05 || "$STAGE" == M06 ]]; then
+            python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
+              --output .ddd-state/out/compatibility/m05.json
+          fi
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
+          path: .ddd-state/out
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+  m02:
+    name: Adyacencias territoriales
+    needs: [resolve, m01]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 2 && fromJSON(needs.resolve.outputs.to_num) >= 2 && (needs.m01.result == 'success' || (needs.m01.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 2)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M02, PREVIOUS_STAGE: M01, PREVIOUS_RESULT: "${{ needs.m01.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    steps: *module_steps
+
+  m03:
+    name: Grafo territorial
+    needs: [resolve, m02]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 3 && fromJSON(needs.resolve.outputs.to_num) >= 3 && (needs.m02.result == 'success' || (needs.m02.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 3)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M03, PREVIOUS_STAGE: M02, PREVIOUS_RESULT: "${{ needs.m02.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    steps: *module_steps
+
+  internal_units:
+    name: Preparar unidades internas
+    needs: [resolve, m03]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && (needs.m03.result == 'success' || (needs.m03.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 4)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      RUN_ID: ${{ needs.resolve.outputs.run_id }}
+      CACHE_DIR: ${{ needs.resolve.outputs.cache_dir }}
+      RUNS_DIR: ${{ needs.resolve.outputs.runs_dir }}
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      M03_RESULT: ${{ needs.m03.result }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: state
+        name: Resolver entrada M03
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$M03_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
+          [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Preparar unidades internas requiere M03 actual o checkpoint previo.'; exit 22; }
+          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+      - name: Recuperar entrada M03
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-state-${{ steps.state.outputs.run_id }}-M03
+          path: .ddd-state/in
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.state.outputs.run_id }}
+      - name: Restaurar entrada contractual
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR" .ddd-internal-units .ddd-source-package
+          cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
+          cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+          test -d .ddd-state/in/sources || { echo '::error::M03 no transportó fuentes durables.'; exit 24; }
+          cp -a .ddd-state/in/sources/. .ddd-source-package/
+          test -f "$RUNS_DIR/CHAIN_STATE.json"
+      - name: Materializar unidades internas
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/preparar_unidades_internas.py \
+            --params "/app/$PARAMS" --run-id "$RUN_ID" \
+            --job-report /app/.ddd-internal-units/job.json
+          python - "$PARAMS" "$RUN_ID" <<'PY'
+          import sys,yaml,shutil
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          vals={'run_name':(cfg.get('meta') or {}).get('run_name',''),'run_id':sys.argv[2],'year':(cfg.get('meta') or {}).get('year','')}
+          p=cfg.get('partitioning') or {}
+          out=Path('.ddd-internal-units/output'); out.mkdir(parents=True,exist_ok=True)
+          for key in ('output_geojson','output_report'):
+              raw=p.get(key)
+              if raw:
+                  src=Path(str(raw).format(**vals))
+                  if src.is_file(): shutil.copy2(src,out/src.name)
+          PY
+      - name: Empaquetar salida M03U
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-state/out
+          mkdir -p .ddd-state/out/cache .ddd-state/out/run .ddd-state/out/sources
+          cp -a "$CACHE_DIR/." .ddd-state/out/cache/
+          cp -a "$RUNS_DIR/." .ddd-state/out/run/
+          cp -a .ddd-source-package/. .ddd-state/out/sources/
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ddd-state-${{ github.run_id }}-M03U
+          path: .ddd-state/out
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publicar preparación de unidades internas
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-internal-units-${{ github.run_id }}
+          path: .ddd-internal-units
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+
+  m04:
+    name: Formación inicial de distritos
+    needs: [resolve, internal_units]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03U, PREVIOUS_RESULT: "${{ needs.internal_units.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    steps: *module_steps
+
+  m05:
+    name: Optimización de distritos
+    needs: [resolve, m04]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 5 && fromJSON(needs.resolve.outputs.to_num) >= 5 && (needs.m04.result == 'success' || (needs.m04.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 5)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M05, PREVIOUS_STAGE: M04, PREVIOUS_RESULT: "${{ needs.m04.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    steps: *module_steps
+
+  m06:
+    name: Consolidación territorial
+    needs: [resolve, m05]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 6 && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m05.result == 'success' || (needs.m05.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) == 6)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M06, PREVIOUS_STAGE: M05, PREVIOUS_RESULT: "${{ needs.m05.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}
+    steps: *module_steps
+
+  auditoria:
+    name: Auditoría geométrica de la consolidación territorial
+    needs: [resolve, m06]
+    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.to_num) >= 6 && (needs.m06.result == 'success' || (needs.m06.result == 'skipped' && inputs.checkpoint_run_id != '' && fromJSON(needs.resolve.outputs.from_num) >= 7)) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    outputs:
+      decision: ${{ steps.geometric.outputs.decision }}
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      RUN_ID: ${{ needs.resolve.outputs.run_id }}
+      RUNS_DIR: ${{ needs.resolve.outputs.runs_dir }}
+      CACHE_DIR: ${{ needs.resolve.outputs.cache_dir }}
+      CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
+      M06_RESULT: ${{ needs.m06.result }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - name: Preparar entorno reproducible con caché compartida
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          pull: true
+          load: true
+          tags: ddd-production:${{ github.sha }}
+          cache-from: type=gha,scope=ddd-production-${{ github.sha }}
+          cache-to: type=gha,mode=max,scope=ddd-production-${{ github.sha }}
+      - id: state
+        name: Resolver checkpoint M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$M06_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
+          [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Auditoría M06 requiere estado M06 actual o checkpoint previo.'; exit 22; }
+          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+      - name: Recuperar estado M06
+        uses: actions/download-artifact@v6
+        with:
+          name: ddd-state-${{ steps.state.outputs.run_id }}-M06
+          path: .ddd-state/in
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.state.outputs.run_id }}
+      - name: Restaurar estado M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$CACHE_DIR" "$RUNS_DIR"
+          cp -a .ddd-state/in/cache/. "$CACHE_DIR/"
+          cp -a .ddd-state/in/run/. "$RUNS_DIR/"
+      - id: geometric
+        name: Auditar componentes geométricos de M06
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          sections="$(python - "$PARAMS" <<'PY'
+          import sys, yaml
+          from pathlib import Path
+          cfg = yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          m06 = (cfg.get('modulos') or {}).get('modulo_06_consolidar_distritos') or {}
+          path = m06.get('out_geojson') or ''
+          year = (cfg.get('meta') or {}).get('year')
+          run_name = (cfg.get('meta') or {}).get('run_name')
+          run_id = __import__('os').environ.get('RUN_ID', '')
+          print(str(path).format(year=year, run_name=run_name, run_id=run_id))
+          PY
+          )"
+          test -n "$sections" || { echo '::error::M06 no declara out_geojson en el contrato territorial.'; exit 23; }
+          test -f "$sections" || { echo "::error::No existe M06 materializado en la ruta contractual: $sections"; exit 23; }
+          expected="$(python - "$PARAMS" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          m06=(cfg.get('modulos') or {}).get('modulo_06_consolidar_distritos') or {}
+          print(m06.get('expected_districts') or (cfg.get('validation') or {}).get('expected_districts') or 0)
+          PY
+          )"
+          policy="$(python - "$PARAMS" <<'PY'
+          import sys,yaml
+          from pathlib import Path
+          params=Path(sys.argv[1]); cfg=yaml.safe_load(params.read_text(encoding='utf-8')) or {}
+          year=(cfg.get('meta') or {}).get('year'); candidate=params.parent / f"continuidad_geometrica_{year}.json"
+          print(candidate.as_posix() if year and candidate.is_file() else '')
+          PY
+          )"
+          policy_args=()
+          if [[ -n "$policy" ]]; then
+            policy_args=(--policy "/app/$policy")
+            echo "Aplicando política geométrica territorial: $policy"
+          fi
+          output="${sections%_secciones.geojson.zip}_contiguedad_geometrica.json"
+          set +e
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            /app/herramientas/auditar_componentes_geometricos.py --sections "/app/$sections" \
+            --section-field CUSEC_KEY --district-field district_id --working-crs EPSG:3035 \
+            --expected-districts "$expected" "${policy_args[@]}" --output "/app/$output"
+          audit_rc=$?
+          set -e
+          decision=UNKNOWN
+          if [[ -f "$output" ]]; then
+            decision="$(python -c 'import json,sys; print(json.load(open(sys.argv[1],encoding="utf-8"))["decision"])' "$output")"
+          fi
+          echo "decision=$decision" >> "$GITHUB_OUTPUT"
+          echo "audit_path=$output" >> "$GITHUB_OUTPUT"
+          exit "$audit_rc"
+      - name: Registrar estado verificable de producción
+        if: always()
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+          FROM_STAGE: ${{ needs.resolve.outputs.from_stage }}
+          TO_STAGE: ${{ needs.resolve.outputs.to_stage }}
+          GEOMETRIC_OUTCOME: ${{ steps.geometric.outcome }}
+          GEOMETRIC_DECISION: ${{ steps.geometric.outputs.decision }}
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-audit
+          audit='${{ steps.geometric.outputs.audit_path }}'
+          [[ -n "$audit" && -f "$audit" ]] || { echo '::error::No existe informe geométrico M06 para construir production_status.'; exit 33; }
+          python herramientas/estado_produccion.py \
+            --params "$PARAMS" \
+            --territory-id "$TERRITORY_ID" \
+            --run-id "$RUN_ID" \
+            --from-stage "$FROM_STAGE" \
+            --to-stage "$TO_STAGE" \
+            --execution-outcome success \
+            --geometric-outcome "$GEOMETRIC_OUTCOME" \
+            --geometric-decision "$GEOMETRIC_DECISION" \
+            --geometric-audit "$audit" \
+            --output .ddd-audit/production_status.json
+          cp "$audit" .ddd-audit/
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ddd-audit-${{ github.run_id }}
+          path: .ddd-audit
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+      - name: Aplicar puerta de certificación territorial
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .ddd-audit/production_status.json || { echo '::error::Falta production_status.json; la cadena queda bloqueada.'; exit 32; }
+          decision="$(jq -r '.decision // "UNKNOWN"' .ddd-audit/production_status.json)"
+          case "$decision" in
+            PASS|PASS_WITH_EXCEPTIONS) ;;
+            *) echo "::error::Certificación territorial bloqueada: $decision" >&2; exit 32 ;;
+          esac
+
+  registrar:
+    name: Registrar producto territorial
+    needs: [resolve, auditoria]
+    if: ${{ needs.resolve.result == 'success' && needs.auditoria.result == 'success' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    env:
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Registrar producto territorial certificado
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          edition="$(python - <<'PY'
+          import os,yaml
+          cfg=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((cfg.get("meta") or {}).get("year",""))
+          PY
+          )"
+          test -n "$edition" || { echo "::error::No se pudo resolver edición desde el contrato."; exit 48; }
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M06"
+          rm -rf .ddd-audit-promote && mkdir .ddd-audit-promote
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID" --dir .ddd-audit-promote >/dev/null
+          status="$(find .ddd-audit-promote -name production_status.json -type f -print -quit)"
+          test -n "$status" || { echo "::error::Falta production_status.json del run."; exit 48; }
+          decision="$(jq -r '.decision // empty' "$status")"
+          case "$decision" in PASS|PASS_WITH_EXCEPTIONS) ;; *) echo "::error::Producto territorial no certificable: $decision"; exit 48;; esac
+          artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100" --jq ".artifacts[] | select(.name==\"$artifact_name\")")"
+          test -n "$artifact" || { echo "::error::No existe $artifact_name."; exit 48; }
+          digest="$(jq -r '.digest // empty' <<<"$artifact")"
+          test -n "$digest" || { echo "::error::Artefacto sin digest: $artifact_name"; exit 48; }
+          python herramientas/promover_catalogo_operacional.py             --kind territorial_product --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$digest"             --source-commit "$GITHUB_SHA" --decision "$decision"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/territorial_product_$edition.json"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: registrar producto territorial de $TERRITORY_ID"
+          target_branch="$GITHUB_REF_NAME"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "::error::No se pudo registrar el producto territorial tras tres intentos."; exit 48
