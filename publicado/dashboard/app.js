@@ -4,9 +4,9 @@ const esc = value => String(value ?? "—").replace(/[&<>"']/g, c => ({"&":"&amp
 function renderKpis(kpis) {
   const root=document.querySelector("#kpis");
   const cards=[
-    ["good","Cadena territorial validada",kpis.validated,kpis.validated_names.join(" · ") || "—"],
+    ["good","Cadenas completas",kpis.complete,kpis.complete_names.join(" · ") || "—"],
     ["info","Preparados para continuar",kpis.ready,kpis.ready_names.join(" · ") || "—"],
-    ["warn","Revalidación / preflight",kpis.pending,kpis.pending_names.join(" · ") || "—"],
+    ["warn","Revalidación / validación pendiente",kpis.pending,kpis.pending_names.join(" · ") || "—"],
     ["bad","Pendientes o bloqueados",kpis.blocked,kpis.blocked_names.join(" · ") || "—"],
   ];
   root.innerHTML=cards.map(([cls,label,value,names])=>`<article class="kpi ${cls}"><p>${label}</p><strong>${value}</strong><span>${esc(names)}</span></article>`).join("");
@@ -37,7 +37,7 @@ async function bootstrap(){
   renderKpis(data.kpis); renderTerritories(data.territories); renderLatest(data.latest_validated);
   renderList("#alerts",data.alerts); renderList("#next",data.next_actions,true);
   document.querySelector("#footer-territories").textContent=`${data.territories.length} territorios monitorizados`;
-  document.querySelector("#footer-validated").textContent=`${data.kpis.validated} cadenas territoriales validadas`;
+  document.querySelector("#footer-validated").textContent=`${data.kpis.complete} cadenas completas`;
 }
 bootstrap().catch(error=>{
   console.error(error);
