@@ -224,7 +224,7 @@ jobs:
           python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --output "$SOURCE_DECLARATION"
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
-          python herramientas/promover_catalogo_tras_preparacion.py             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
+          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
