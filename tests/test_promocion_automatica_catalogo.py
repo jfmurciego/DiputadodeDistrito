@@ -20,20 +20,22 @@ EXT = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
 
 
 class AutomaticCatalogPromotionTests(unittest.TestCase):
-    def test_preparation_workflow_promotes_after_successful_artifact_upload(self):
+    def test_preparation_workflow_promotes_in_serialized_lightweight_job(self):
         text = PREP.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         self.assertEqual(data["permissions"]["contents"], "write")
-        steps = data["jobs"]["territoriales"]["steps"]
-        upload_index = next(i for i, s in enumerate(steps) if s.get("id") == "upload")
-        promote_index = next(i for i, s in enumerate(steps) if s.get("name") == "Promover catálogo territorial")
-        self.assertLess(upload_index, promote_index)
-        promote = steps[promote_index]["run"]
-        self.assertIn("promover_catalogo_tras_preparacion.py", promote)
-        self.assertIn("--run-id", promote)
-        self.assertIn("--artifact-name", promote)
-        self.assertIn("--artifact-sha256", promote)
-        self.assertIn("git push origin", promote)
+        self.assertIn("registrar",data["jobs"])
+        register=data["jobs"]["registrar"]
+        self.assertEqual(register["concurrency"]["group"],"ddd-catalog-promotion")
+        self.assertFalse(register["concurrency"]["cancel-in-progress"])
+        run="\n".join(step.get("run","") for step in register["steps"])
+        self.assertIn("promover_catalogo_tras_preparacion.py",run)
+        self.assertIn("--run-id",run)
+        self.assertIn("--artifact-name",run)
+        self.assertIn("--artifact-sha256",run)
+        self.assertIn("git push origin",run)
+        upload_steps=data["jobs"]["territoriales"]["steps"]
+        self.assertTrue(any(step.get("id")=="upload" for step in upload_steps))
 
     def test_preparation_uses_standard_github_token_for_catalog_promotion(self):
         text = PREP.read_text(encoding="utf-8")
