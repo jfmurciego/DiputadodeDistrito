@@ -111,8 +111,16 @@ def main() -> None:
         p["name"] for p in phases if p["executed"] and p["result"] != "success"
     ]
     blocked_gates = [
-        p["name"] for p in phases[:4] if p["validation_decision"] != "VALIDADO"
+        p["name"] for p in phases[:4] if p["validation_decision"] == "BLOQUEADO"
     ]
+    unevaluated_gates = [
+        p["name"]
+        for p in phases[:4]
+        if p["validation_decision"] not in {"VALIDADO", "BLOQUEADO"}
+    ]
+    all_gates_validated = all(
+        p["validation_decision"] == "VALIDADO" for p in phases[:4]
+    )
     state_ok = ns.operational_state_result == "success"
 
     payload = {
@@ -125,9 +133,10 @@ def main() -> None:
         "workflow_run_id": int(ns.workflow_run_id),
         "source_sha": ns.source_sha,
         "publish_requested": ns.publish_requested == "true",
-        "status": "SUCCESS" if not failed_phases and not blocked_gates and state_ok else "FAILED",
+        "status": "SUCCESS" if not failed_phases and all_gates_validated and state_ok else "FAILED",
         "failed_phases": failed_phases,
         "blocked_validation_gates": blocked_gates,
+        "unevaluated_validation_gates": unevaluated_gates,
         "operational_state_result": ns.operational_state_result,
         "phases": phases,
         "generated_at": datetime.now(timezone.utc).isoformat(),
