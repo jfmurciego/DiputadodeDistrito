@@ -1,8 +1,8 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.0.1
 # NOMBRE DE VERSIÓN: Ejecución completa lineal y reanudable
-# ESTADO: candidato
+# ESTADO: candidato — smoke pre-merge obligatorio
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas
 # y conserva un manifiesto único de la ejecución.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
