@@ -68,12 +68,13 @@ def geometry(decision="PASS"):
     }
 
 
-def status(report, *, geo="PASS", execution="success"):
+def status(report, *, geo="PASS", execution="success", target_required=False):
     return build_production_status(
         territory_id="fixture", params="fixture.yaml", run_id="production-fixture",
         from_stage="M05", to_stage="M06", execution_outcome=execution,
         geometric_outcome="success" if execution == "success" else "failure",
         geometric_decision=geo, m05_report=report, geometric_audit=geometry(geo),
+        population_target_required=target_required,
     )
 
 
@@ -154,18 +155,27 @@ class ProductionPopulationGateTests(unittest.TestCase):
         result = status(repair_report(), geo="PASS_WITH_EXCEPTIONS")
         self.assertEqual(result["decision"], "PASS_WITH_EXCEPTIONS")
 
-    def test_population_improved_but_not_met_blocks(self):
+    def test_population_improved_but_not_met_is_quality_warning_when_not_contractual(self):
         report = repair_report(before=(0, 4, .25, 1.0, 10), after=(0, 3, .25, .9, 9), result="IMPROVED_NOT_REPAIRED")
         result = status(report)
-        self.assertEqual(result["decision"], "BLOCK")
-        self.assertEqual(result["territorial_certification_status"], "BLOCK")
-        self.assertEqual(result["block_cause"], "POPULATION_TARGET_NOT_MET")
+        self.assertEqual(result["decision"], "PASS")
+        self.assertEqual(result["population_decision"], TARGET_IMPROVED_NOT_MET)
+        self.assertFalse(result["population_target_required"])
+        self.assertNotIn("block_cause", result)
 
-    def test_population_not_improved_blocks(self):
+    def test_population_not_improved_is_quality_warning_when_not_contractual(self):
         report = repair_report(before=(0, 4, .25, 1.0, 10), after=(0, 4, .25, .9, 9), result="NO_FEASIBLE_REPAIR_FOUND", baseline=True)
         result = status(report)
-        self.assertEqual(result["decision"], "BLOCK")
+        self.assertEqual(result["decision"], "PASS")
         self.assertEqual(result["population_decision"], TARGET_NOT_MET)
+        self.assertNotIn("block_cause", result)
+
+    def test_explicit_target_policy_blocks_remaining_outliers(self):
+        report = repair_report(before=(0, 4, .25, 1.0, 10), after=(0, 3, .25, .9, 9), result="IMPROVED_NOT_REPAIRED")
+        result = status(report, target_required=True)
+        self.assertTrue(result["population_target_required"])
+        self.assertEqual(result["decision"], "BLOCK")
+        self.assertEqual(result["block_cause"], "POPULATION_TARGET_NOT_MET")
 
     def test_hard_limit_blocks(self):
         report = repair_report(before=(1, 1, .13, .13, 10), after=(1, 0, .11, .11, 9))
@@ -196,9 +206,30 @@ class ProductionPopulationGateTests(unittest.TestCase):
         self.assertEqual(result["population_evidence_source"], POPULATION_REPAIR)
         self.assertEqual(result["population_decision"], TARGET_IMPROVED_NOT_MET)
         self.assertEqual(result["geometric_decision"], "PASS_WITH_EXCEPTIONS")
-        self.assertEqual(result["decision"], "BLOCK")
-        self.assertEqual(result["territorial_certification_status"], "BLOCK")
-        self.assertEqual(result["block_cause"], "POPULATION_TARGET_NOT_MET")
+        self.assertEqual(result["decision"], "PASS_WITH_EXCEPTIONS")
+        self.assertFalse(result["population_target_required"])
+        self.assertNotIn("block_cause", result)
+
+    def test_galicia_run_35502232253_regression_passes_without_soft_target_gate(self):
+        report = repair_report(
+            before=(0, 3, 0.357919595276, 3.760697613511, 399),
+            after=(0, 2, 0.357919595276, 3.871868439752, 404),
+            result="IMPROVED_NOT_REPAIRED",
+            baseline=False,
+            termination="PRIMARY_BUDGET_RESERVED_FOR_FOCAL",
+        )
+        result = build_production_status(
+            territory_id="galicia", params="territorios/galicia/config/galicia_2025.yaml",
+            run_id="production-35502232253-1", from_stage="M01", to_stage="M06",
+            execution_outcome="success", geometric_outcome="success",
+            geometric_decision="PASS_WITH_EXCEPTIONS", m05_report=report,
+            geometric_audit=geometry("PASS_WITH_EXCEPTIONS"),
+            population_target_required=False,
+        )
+        self.assertEqual(result["population_hard_constraints_after"], 0)
+        self.assertEqual(result["population_outliers_after"], 2)
+        self.assertEqual(result["decision"], "PASS_WITH_EXCEPTIONS")
+        self.assertNotIn("block_cause", result)
 
     def test_m06_execution_is_not_gated_by_population_certification(self):
         workflow = Path(".github/workflows/producir-territorio-por-contrato.yml").read_text(encoding="utf-8")
