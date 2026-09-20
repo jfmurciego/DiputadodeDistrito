@@ -717,7 +717,7 @@ def run_gerrychain(
     best: tuple[float, str, dict[str, Any], dict[str, Any], int] | None = None
     try:
         for partition in chain:
-            state = assignment_by_section(partition)
+            state = _partition_assignment_by_section(partition)
             state_hash = assignment_hash(state)
             if previous_hash == state_hash:
                 self_loops += 1
