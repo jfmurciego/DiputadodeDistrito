@@ -14,6 +14,7 @@ import csv
 import io
 import json
 import math
+import re
 import tempfile
 import zipfile
 from pathlib import Path
@@ -36,6 +37,31 @@ def ywrite(path: Path, data: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
 
+
+
+def update_master_entry(path: Path, territory_id: str, *, status: str, authorization: str, k: int, k_source: str, k_rationale: str) -> None:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    idx = next((i for i, line in enumerate(lines) if f"territory_id: {territory_id}," in line), None)
+    if idx is None:
+        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
+    line = lines[idx]
+    values = {
+        "status": status,
+        "contract_level": "production_m01_m06",
+        "production_authorization": authorization,
+        "k_districts": str(int(k)),
+        "k_source": k_source,
+        "k_rationale": json.dumps(str(k_rationale), ensure_ascii=False),
+    }
+    for key, value in values.items():
+        pattern = re.compile(rf"{re.escape(key)}:\s*(?:\"[^\"]*\"|'[^']*'|[^,}}]+)")
+        replacement = f"{key}: {value}"
+        if pattern.search(line):
+            line = pattern.sub(replacement, line)
+        else:
+            line = line[:-1] + f", {replacement}" + "}"
+    lines[idx] = line
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 def _open_population_zip(package: Path) -> zipfile.ZipFile:
     direct = list(package.rglob("65034.csv.zip")) if package.exists() else []
@@ -251,7 +277,12 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
             "k_rationale": (cfg.get("territory_contract") or {}).get("k_rationale", pentry["rationale"]),
             "status": "generation_ready",
         })
-        ywrite(master_path, master)
+        update_master_entry(
+            master_path, territory_id, status="generation_ready", authorization="AUTHORIZED",
+            k=current_k,
+            k_source=(cfg.get("territory_contract") or {}).get("k_source", pentry["k_source"]),
+            k_rationale=(cfg.get("territory_contract") or {}).get("k_rationale", pentry["rationale"]),
+        )
         ywrite(contract_path, cfg)
         admitted = validate_production_contract(contract_path, expected_territory=territory_id)
         if admitted["status"] != "ADMITTED" or not admitted.get("production_authorized"):
@@ -419,7 +450,10 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
         "k_districts": k, "k_source": pentry["k_source"], "k_rationale": pentry["rationale"],
         "status": "production_ready_auto_materialized",
     })
-    ywrite(master_path, master)
+    update_master_entry(
+        master_path, territory_id, status="generation_ready", authorization="AUTHORIZED",
+        k=k, k_source=pentry["k_source"], k_rationale=pentry["rationale"],
+    )
     ywrite(contract_path, cfg)
 
     report = validate_production_contract(contract_path, expected_territory=territory_id)
