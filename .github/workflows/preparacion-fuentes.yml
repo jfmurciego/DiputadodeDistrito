@@ -6,7 +6,7 @@
 # ESTADO: candidato
 # CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
 # MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
-name: Preparación de Datos Territoriales
+name: 01 · Preparación de Datos Territoriales
 
 on:
   workflow_dispatch:
@@ -46,6 +46,10 @@ on:
         required: true
         default: true
         type: boolean
+
+concurrency:
+  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
