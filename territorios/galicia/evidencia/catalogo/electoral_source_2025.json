@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "run_id": 35474708984,
+  "artifact_name": "ddd-electoral-package-galicia-2025-35474708984",
+  "artifact_sha256": "e98c265fceb0b4fe9612ef94a455032610a9c0814694764e1d6ab64a5bafb9e1",
+  "source_commit": "f871a8eccbbd018aeaa07f651f75e7f243aaf8cb",
+  "declaration": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml",
+  "election_id": "galicia_parlamento_2024"
+}
