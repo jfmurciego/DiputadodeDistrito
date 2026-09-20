@@ -35,3 +35,22 @@ jobs:
         run: python -m unittest tests.test_m05_gerrychain_strategy.GerryChainStrategyContractTests -v
       - name: Ejecutar E2E real M04 → GerryChain/ReCom con Galicia
         run: python -m unittest tests.test_m05_gerrychain_strategy.GaliciaGerryChainE2E -v
+      - name: Materializar evidencia E2E
+        run: |
+          mkdir -p .gerrychain-evidence
+          python ddd_core/m05_gerrychain_strategy.py \
+            --params territorios/galicia/config/galicia_2025.yaml \
+            --graph .galicia-m06/cache/galicia_2025_m03_grafo.json \
+            --initial .galicia-m06/cache/galicia_2025_m04_semillas.geojson.zip \
+            --output .gerrychain-evidence/galicia_gerrychain_m05.geojson.zip \
+            --report .gerrychain-evidence/galicia_gerrychain_m05_report.json \
+            --steps-per-stage 30 --warmup-rounds 4 --seed 20260920
+          jq '{optimization_status,target_tolerance,objective,schedule,engine,strategy}' \
+            .gerrychain-evidence/galicia_gerrychain_m05_report.json
+      - name: Publicar evidencia E2E
+        uses: actions/upload-artifact@v6
+        with:
+          name: gerrychain-galicia-e2e-${{ github.run_id }}
+          path: .gerrychain-evidence
+          if-no-files-found: error
+          retention-days: 30
