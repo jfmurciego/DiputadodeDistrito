@@ -55,6 +55,7 @@ class ProductionContractAdmission(unittest.TestCase):
         expected = {
             "aragon": ("AUTHORIZED", True),
             "castilla_y_leon": ("AUTHORIZED", True),
+            "extremadura": ("AUTHORIZED", True),
             "la_rioja": ("PREFLIGHT", False),
         }
         for territory, (authorization, authorized) in expected.items():
@@ -67,12 +68,12 @@ class ProductionContractAdmission(unittest.TestCase):
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
             self.assertEqual(population_repair_contract_errors(data), [])
 
-    def test_extremadura_permanece_experimento_bloqueado_no_admisible(self):
+    def test_extremadura_promovida_es_admisible_y_autorizada(self):
         path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
         report = validate_production_contract(path, expected_territory="extremadura")
-        self.assertEqual(report["status"], "REJECTED")
-        self.assertFalse(report["production_authorized"])
-        self.assertTrue(any("contract_level" in error for error in report["errors"]))
+        self.assertEqual(report["status"], "ADMITTED", report["errors"])
+        self.assertTrue(report["production_authorized"])
+        self.assertEqual(report["production_authorization"], "AUTHORIZED")
 
     def mutated(self, mutate):
         source = ROOT / "territorios" / "aragon" / "config" / "aragon_2025.yaml"
