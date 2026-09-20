@@ -898,6 +898,7 @@ def _run_recom_optimization_stage(
         unit_assignment[unit] = district
         nx_graph.add_node(
             unit,
+            atomic_unit_id=unit,
             population=sum(data.nodes[section]["population"] for section in sections),
             district=district,
             province=next(iter(provinces)),
@@ -918,8 +919,11 @@ def _run_recom_optimization_stage(
             else dict(partition.assignment)
         )
         expanded: dict[str, Any] = {}
-        for unit_id, district in raw.items():
-            unit = _text(unit_id)
+        for node_id, district in raw.items():
+            attrs = partition.graph.node_data(node_id)
+            unit = _text(attrs["atomic_unit_id"])
+            if unit not in sections_by_unit:
+                raise InputContractError(f"Unidad GerryChain desconocida: {unit}")
             for section in sections_by_unit[unit]:
                 expanded[section] = district
         return expanded
