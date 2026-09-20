@@ -8,8 +8,6 @@ from pathlib import Path
 import yaml
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
-INCORPORATION_WORKFLOW = Path(".github/workflows/incorporacion-resultados-electorales.yml")
-
 
 def _load_yaml(path: Path) -> dict:
     data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -43,35 +41,6 @@ def _write_receipt(path: Path, payload: dict) -> str:
     return path.as_posix()
 
 
-def _eligible_incorporation_names(catalog: dict) -> list[str]:
-    names = []
-    for row in catalog.get("territories") or []:
-        for state in (row.get("editions") or {}).values():
-            if (
-                state.get("territory_declared")
-                and state.get("territorial_product_available")
-                and state.get("electoral_source_prepared")
-                and state.get("territorial_contract_complete")
-                and state.get("production_authorization") == "AUTHORIZED"
-            ):
-                names.append(str(row.get("name")))
-                break
-    return names
-
-
-def _rewrite_options(path: Path, names: list[str]) -> None:
-    if not names:
-        return
-    lines = path.read_text(encoding="utf-8").splitlines()
-    territory_idx = next(i for i, line in enumerate(lines) if line == "      territory_id:")
-    options_idx = next(i for i in range(territory_idx, len(lines)) if lines[i] == "        options:")
-    end = options_idx + 1
-    while end < len(lines) and lines[end].startswith("          - "):
-        end += 1
-    lines[options_idx + 1:end] = [f"          - {name}" for name in names]
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
 def promote(
     *,
     root_dir: Path,
@@ -88,7 +57,6 @@ def promote(
 ) -> dict:
     root = root_dir.resolve()
     catalog_path = root / CATALOG
-    workflow_path = root / INCORPORATION_WORKFLOW
     catalog = _load_yaml(catalog_path)
     state, territory_name = _state(catalog, territory_id, edition)
     evidence = state.setdefault("evidence", {})
@@ -140,13 +108,17 @@ def promote(
         raise ValueError(f"Tipo de promoción desconocido: {kind}")
 
     _save_yaml(catalog_path, catalog)
-    _rewrite_options(workflow_path, _eligible_incorporation_names(catalog))
     return {
         "territory_id": territory_id,
         "edition": str(edition),
         "kind": kind,
         "run_id": int(run_id),
-        "incorporation_enabled": territory_name in _eligible_incorporation_names(catalog),
+        "incorporation_enabled": bool(
+            state.get("territorial_product_available")
+            and state.get("electoral_source_prepared")
+            and state.get("territorial_contract_complete")
+            and state.get("production_authorization") == "AUTHORIZED"
+        ),
     }
 
 
