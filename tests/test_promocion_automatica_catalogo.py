@@ -77,6 +77,15 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
         self.assertNotIn(".github/workflows/produccion-distritos.yml", promoter)
 
+    def test_catalog_state_bounds_accept_current_catalog_indentation(self):
+        from herramientas.promover_catalogo_tras_preparacion import _catalog_state_bounds
+
+        lines = CAT.read_text(encoding="utf-8").splitlines()
+        start, end = _catalog_state_bounds(lines, "galicia", "2025")
+        block = lines[start:end]
+        self.assertTrue(any(line.strip() == "preparation_status: READY" for line in block))
+        self.assertTrue(any(line.strip() == "contract_path: territorios/galicia/config/galicia_2025.yaml" for line in block))
+
     def test_master_catalog_matches_extremadura_promotion(self):
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
         row = next(r for r in master["territories"] if r["territory_id"] == "extremadura")
