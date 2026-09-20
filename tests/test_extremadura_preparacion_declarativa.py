@@ -38,18 +38,18 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertEqual(row["province_codes"], ["06", "10"])
         self.assertEqual(row["k_districts"], 65)
         self.assertEqual(row["k_source"], "norma")
-        self.assertEqual(row["production_authorization"], "BLOCKED")
-        self.assertEqual(row["status"], "preparation_blocked")
-        self.assertEqual(self.params["meta"]["production_authorization"], "BLOCKED")
-        self.assertEqual(self.params["meta"]["status"], "preparation_blocked")
-        self.assertTrue(self.readiness["execution_forbidden_in_this_package"])
-        self.assertFalse(self.readiness["decision"]["may_execute_territory"])
+        self.assertEqual(row["production_authorization"], "AUTHORIZED")
+        self.assertEqual(row["status"], "generation_ready")
+        self.assertEqual(self.params["meta"]["production_authorization"], "AUTHORIZED")
+        self.assertEqual(self.params["meta"]["status"], "generation_ready")
+        self.assertFalse(self.readiness["execution_forbidden_in_this_package"])
+        self.assertTrue(self.readiness["decision"]["may_execute_territory"])
 
     def test_common_population_profile_and_k_provenance(self):
         contract = self.params["territory_contract"]
         validation = self.params["validation"]
         self.assertEqual(contract["k_source"], "norma")
-        self.assertIn("Ley 2/1987", contract["k_rationale"])
+        self.assertIn("Ley 2 de 1987", contract["k_rationale"])
         self.assertEqual(contract["limits_profile"], "standard-1.0.0")
         expected = (0.80, 1.75, 0.12)
         self.assertEqual((contract["population_floor_ratio"], contract["population_cap_ratio"], contract["target_tolerance_ratio"]), expected)
@@ -117,18 +117,18 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
             if title:
                 self.assertIn("Preparación de Extremadura", title.group(1))
                 self.assertNotIn("preindustrial", title.group(1).lower())
-        self.assertEqual(self.params["meta"]["status"], "preparation_blocked")
+        self.assertEqual(self.params["meta"]["status"], "generation_ready")
         row = next(row for row in self.catalog["territories"] if row["territory_id"] == "extremadura")
-        self.assertEqual(row["status"], "preparation_blocked")
+        self.assertEqual(row["status"], "generation_ready")
 
     def test_remaining_blocks_are_explicit(self):
         steps = self.readiness["business_steps"]
-        self.assertFalse(steps["district_creation_and_balance"]["ready"])
+        self.assertTrue(steps["district_creation_and_balance"]["ready"])
         self.assertTrue(steps["district_creation_and_balance"]["configuration_ready"])
-        self.assertEqual(steps["district_creation_and_balance"]["remaining_blocker"]["type"], "EXECUTION_AND_CERTIFICATION_REQUIRED")
+        self.assertIsNone(steps["district_creation_and_balance"]["remaining_blocker"])
         self.assertFalse(steps["geographic_control"]["ready"])
         self.assertFalse(steps["maps_generation_and_publication"]["ready"])
-        self.assertEqual(self.readiness["decision"]["readiness"], "BLOCKED")
+        self.assertEqual(self.readiness["decision"]["readiness"], "READY_FOR_GENERATION")
 
 
 if __name__ == "__main__":
