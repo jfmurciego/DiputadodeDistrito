@@ -7,6 +7,7 @@
 # CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
 # MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
 name: 01 · Preparación de Datos Territoriales
+run-name: 01 · ${{ inputs.territory_id }} · ${{ inputs.data_edition }}
 
 on:
   workflow_call:
@@ -193,7 +194,7 @@ jobs:
   registrar:
     name: Registrar fuentes territoriales preparadas
     needs: [resolver, territoriales]
-    if: ${{ needs.territoriales.result == 'success' && inputs.persist_state }}
+    if: ${{ needs.territoriales.result == 'success' && ((github.event_name == 'workflow_dispatch' && github.ref_name == 'main') || inputs.persist_state) }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
