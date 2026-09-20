@@ -49,7 +49,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("Melilla",prep_options)
         self.assertNotIn("La Rioja",generable)
         self.assertIn("Galicia",generable)
-        self.assertNotIn("Galicia",electoral_ready)
+        self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
         self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
 
