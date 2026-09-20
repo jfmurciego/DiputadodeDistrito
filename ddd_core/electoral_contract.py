@@ -22,7 +22,7 @@ from typing import Any, Mapping
 
 SCHEMA_FAMILY = "ddd-election"
 SCHEMA_VERSION = "1.0.0"
-SUPPORTED_ADAPTERS = {"long_csv", "nested_json"}
+SUPPORTED_ADAPTERS = {"long_csv", "nested_json", "wide_polling_station_csv"}
 
 
 def _required(mapping: Mapping[str, Any], key: str, context: str) -> Any:
