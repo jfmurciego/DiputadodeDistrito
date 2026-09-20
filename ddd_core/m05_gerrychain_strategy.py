@@ -106,7 +106,10 @@ def build_strategy_inputs(
         atomic_unit_field=str(m05.get("unit_id_field", "ddd_unit_id")),
         closed_urban_field="ddd_closed_urban",
         comarca_enabled=False,
-        min_shared_border_m=float(m02.get("min_shared_border_m", 0.0)),
+        # M03 ya es el grafo contractual producido por M02 después de aplicar
+        # min_shared_border_m en su CRS métrico. M04 puede estar publicado en
+        # CRS84; volver a medir aquí "metros" sobre grados sería incorrecto.
+        min_shared_border_m=0.0,
         preserve_atomic_multipart_sections=True,
         declared_topology_bridges=bridges,
     )
@@ -160,6 +163,10 @@ def run_strategy(
         "initial": str(initial),
         "output": str(output),
         "declared_topology_bridges": [list(edge) for edge in bridges],
+        "source_topology": {
+            "m03_is_canonical_filtered_graph": True,
+            "m02_min_shared_border_m": float((_module(cfg, "modulo_02_construir_adyacencias")).get("min_shared_border_m", 0.0)),
+        },
     }
     _write_geojson(output, result)
     report_path.parent.mkdir(parents=True, exist_ok=True)
