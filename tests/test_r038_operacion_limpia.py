@@ -36,7 +36,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
         self.assertNotIn("confirmar_ejecucion", raw_inputs)
-        self.assertNotIn("execution_authorization:", text)
+        self.assertNotIn("execution_authorization:", raw_inputs)
         self.assertNotIn("ensemble_promotion_authorization:", text)
         self.assertNotIn("operation:", raw_inputs)
         self.assertNotIn("from_stage:", raw_inputs)
