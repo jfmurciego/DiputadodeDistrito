@@ -27,6 +27,7 @@ class DeploymentVsCertificationTests(unittest.TestCase):
             from_stage="M05",to_stage="M06",execution_outcome="success",
             geometric_outcome="success",geometric_decision="PASS",
             m05_report=report,geometric_audit=geometry(),
+            population_target_required=True,
         )
         self.assertEqual(territorial["decision"],"BLOCK")  # compatibilidad
         self.assertEqual(territorial["territorial_certification_status"],"BLOCK")
