@@ -114,7 +114,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                                 "name": "Demo",
                                 "editions": {
                                     "2025": {
+                                        "territory_declared": True,
+                                        "preparation_status": "READY",
                                         "contract_path": "territorios/demo/config/demo_2025.yaml",
+                                        "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
+                                        "electoral_source_declaration": "territorios/demo/config/elecciones/vigente.yaml",
+                                        "territorial_contract_complete": True,
+                                        "production_authorization": "AUTHORIZED",
+                                        "last_valid_checkpoint": {"run_id": 101, "stage": "M06"},
                                         "territorial_sources_prepared": True,
                                         "territorial_product_available": True,
                                         "electoral_source_prepared": True,
@@ -164,7 +171,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                                 "name": "Demo",
                                 "editions": {
                                     "2025": {
+                                        "territory_declared": True,
+                                        "preparation_status": "PENDING_INCORPORATION",
                                         "contract_path": None,
+                                        "territorial_source_declaration": None,
+                                        "electoral_source_declaration": None,
+                                        "territorial_contract_complete": False,
+                                        "production_authorization": "NONE",
+                                        "last_valid_checkpoint": None,
                                         "territorial_sources_prepared": False,
                                         "territorial_product_available": False,
                                         "electoral_source_prepared": False,
