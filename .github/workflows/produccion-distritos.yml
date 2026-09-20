@@ -8,7 +8,7 @@
 # CAMBIOS: elimina selector de producto, publicación y confirmación; la generación ejecuta M01–M06 y publica el visor automáticamente.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
-name: Generación de Distritos Autonómicos
+name: 02 · Generación de Distritos Autonómicos
 
 on:
   workflow_dispatch:
@@ -46,11 +46,13 @@ on:
         options:
           - '2025'
 
+concurrency:
+  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   actions: read
-  pages: write
-  id-token: write
   issues: write
 
 jobs:
@@ -337,5 +339,5 @@ jobs:
       electoral_package_run_id: ''
       electoral_package_artifact_name: ''
       execution_confirmed: true
-      publish_result: true
+      publish_result: false
 
