@@ -1,52 +1,99 @@
 # Critical path de ejecutables DDD
 
-**Versión:** 1.0.0  
-**Fecha:** 2026-09-20  
+**Versión:** 1.1.0  
+**Fecha:** 2026-09-21  
 **Estado:** vigente
 
 ## Objetivo
 
-Mantener una lista corta y explícita de los workflows que deben poder ejecutarse desde cero cuando se reconstruya un entorno o se promueva la solución entre entornos.
+Mantener una cadena corta, explícita y reproducible de procesos de negocio para reconstruir un territorio desde cero o reanudarlo desde evidencia durable.
 
-La lista describe el **critical path operativo**. No sustituye las puertas automáticas de CI ni implica que la separación completa Dev/Test/Prod esté ya implementada en el repositorio.
+La interfaz principal es **00 · Ejecución Completa del Proyecto**. Los procesos 01–05 permanecen ejecutables de forma independiente, pero el recorrido completo se gobierna desde 00.
 
-## Critical path manual
+## Cadena completa
 
-1. **Preparación de Datos Territoriales**  
+1. **01 · Preparación de Datos Territoriales**  
    Workflow: `.github/workflows/preparacion-fuentes.yml`  
-   Materializa y valida las fuentes territoriales reutilizables.
+   Materializa o reutiliza fuentes territoriales oficiales y produce un paquete identificado por run, artefacto y digest.
 
-2. **Preparación de Resultados Electorales**  
-   Workflow: `.github/workflows/preparacion-resultados-electorales.yml`  
-   Materializa de forma independiente las fuentes electorales oficiales.
+   **Puerta de validación territorial**  
+   Comprueba identidad, edición, integridad y aptitud del paquete antes de permitir 02.
 
-3. **Generación de Distritos Autonómicos**  
+2. **02 · Generación de Distritos Autonómicos**  
    Workflow: `.github/workflows/produccion-distritos.yml`  
-   Ejecuta la cadena territorial M01–M06 y produce el resultado territorial.
+   Ejecuta la cadena territorial hasta M06 con la estrategia seleccionada y conserva certificación geométrica.
 
-4. **Incorporación de Resultados Electorales**  
+   **Puerta de validación de generación**  
+   Comprueba el artefacto M06, su digest, la certificación territorial y su reutilización segura antes de permitir 03.
+
+3. **03 · Preparación de Resultados Electorales**  
+   Workflow: `.github/workflows/preparacion-resultados-electorales.yml`  
+   Resuelve la convocatoria vigente y prepara de forma independiente el paquete electoral oficial.
+
+   **Puerta de validación electoral**  
+   Comprueba identidad, edición, hash contractual y aptitud del paquete antes de permitir 04.
+
+4. **04 · Incorporación de Resultados Electorales**  
    Workflow: `.github/workflows/incorporacion-resultados-electorales.yml`  
-   Ejecuta M07–M08 sobre un M06 válido cuando se quiera publicar el producto territorial-electoral.
+   Aplica los resultados electorales sobre un producto territorial previamente certificado.
 
-5. **Publicar Sitio Web**  
+   **Puerta de validación del producto**  
+   Comprueba el producto M08, el informe de incorporación y la certificación preservada antes de considerarlo consumible o publicable.
+
+5. **05 · Publicación del Visor**  
    Workflow: `.github/workflows/desplegar-visor-publico.yml`  
-   Interfaz humana exclusivamente manual. No se invoca desde la producción territorial. Expone selector:
-   - `Dashboard operativo`
-   - `Visor territorial`
-   - `Sitio completo`
+   Despliega el producto ya validado. Nunca calcula distritos ni modifica el resultado territorial.
 
-El despliegue técnico común vive en `.github/workflows/_reutilizable-publicar-sitio.yml` y no tiene botón manual. La producción territorial lo usa únicamente para actualizar el visor y siempre conserva el último snapshot de dashboard promovido explícitamente.
+Las puertas de validación usan el workflow interno `.github/workflows/_reutilizable-puerta-validacion.yml` y emiten siempre el mismo contrato: `VALIDADO` o `BLOQUEADO`, run, artefacto, digest y evidencia durable.
+
+## Reanudación y ejecución desde el principio
+
+**Reutilizar progreso existente** sólo omite una fase cuando existe evidencia durable suficiente: run, artefacto, digest y estado semánticamente válido. Un flag de catálogo sin procedencia completa no basta.
+
+**Ejecutar desde el principio** programa las cuatro fases funcionales de cálculo. Las fuentes oficiales congeladas pueden reutilizarse como materia prima idéntica; lo que no se reutiliza es el resultado calculado de la cadena territorial/electoral.
+
+La selección de una estrategia alternativa en 02 —por ejemplo GerryChain— obliga a ejecutar la generación aunque exista un producto canónico reutilizable.
+
+## Estado operativo único
+
+La fuente de verdad de presentación no es el README ni el dashboard por separado.
+
+`herramientas/estado_operativo.py` deriva un único estado estructurado desde `configuracion/catalogo_preparacion.yaml` y las evidencias durables. `herramientas/actualizar_estado_operativo.py` materializa simultáneamente:
+
+- `publicado/estado_operativo.json`, snapshot canónico;
+- `publicado/dashboard/status.json`, consumido por el dashboard;
+- el bloque gestionado automáticamente de `README.md`.
+
+Después de que las cuatro puertas de validación estén verdes, 00 ejecuta **Sincronizar estado operativo** incluso cuando `Publicar = No`. Por tanto, una ejecución productiva completa actualiza README y dashboard aunque el despliegue web se deje para más tarde.
+
+Cuando `Publicar = Sí`, 05 sólo se ejecuta después de esa sincronización. El sitio publicado recibe así el estado actualizado de la misma ejecución.
+
+La ejecución manual de 05 vuelve a ejecutar el mismo generador antes de desplegar, evitando publicar un snapshot obsoleto.
 
 ## Regla de publicación de Pages
 
-GitHub Pages despliega un artefacto de sitio completo, no una ruta aislada. Por tanto, el selector **Página a publicar** identifica la página objetivo del run, pero el workflow empaqueta siempre todas las páginas activas para evitar que publicar una ruta elimine las demás.
-
-Actualmente:
+GitHub Pages despliega un artefacto de sitio completo, no una ruta aislada. La publicación empaqueta siempre:
 
 - raíz de Pages → visor territorial;
 - `/dashboard/` → dashboard operativo.
 
-Las páginas futuras se añadirán al mismo selector y al mismo paquete de sitio. Cada página no territorial mantiene un snapshot en `publicado/`; cambiar su código fuente no la promueve. El dashboard sólo actualiza `publicado/dashboard/` cuando el usuario ejecuta `Publicar Sitio Web` con `Dashboard operativo` o `Sitio completo`.
+La publicación es una operación de despliegue, no un quinto indicador territorial. El dashboard muestra el estado funcional FT / FE / G / RE; si los cuatro están completos, la cadena territorial-electoral está completa aunque todavía no se haya solicitado un nuevo despliegue.
+
+## Persistencia
+
+En `pull_request`:
+
+- no se muta el catálogo;
+- no se actualiza README ni snapshots durables en `main`;
+- no se publica Pages;
+- sí se ejecutan las validaciones necesarias para comprobar la arquitectura.
+
+En producción sobre `main`:
+
+- cada fase persiste su evidencia durable cuando corresponde;
+- las puertas conservan evidencia durante 90 días;
+- el estado operativo se sincroniza después de una cadena validada;
+- el manifiesto de ejecución completa conserva run, artefacto, digest y decisión por fase.
 
 ## Promoción entre entornos
 
@@ -55,8 +102,4 @@ Cuando la separación DTAP esté materializada, este mismo critical path debe se
 - fin de **Dev** → reconstrucción/validación en **Test**;
 - fin de **Test** → reconstrucción/publicación en **Prod**.
 
-Las puertas automáticas de plataforma, contratos y productos públicos deben estar verdes antes de promover. La publicación web es el último ejecutable del critical path y no puede disparar cálculo territorial.
-
-## Sincronización del dashboard
-
-El estado del dashboard no se mantiene a mano. `herramientas/generar_estado_dashboard.py` deriva `status.json` desde `configuracion/catalogo_preparacion.yaml` y sus evidencias. La generación territorial puede actualizar el catálogo y sus receipts sin publicar el dashboard. La siguiente publicación manual del dashboard toma ese estado actualizado, crea un commit de promoción en `publicado/dashboard/` y sólo entonces lo despliega.
+Ninguna fase posterior debe consumir una salida que no haya superado su puerta de validación.
