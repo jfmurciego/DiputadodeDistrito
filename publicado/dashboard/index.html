@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dashboard operativo del proyecto Diputado de Distrito">
+  <title>Diputado de Distrito · estado operativo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Diputado de Distrito</p>
+      <h1>Estado operativo del proyecto</h1>
+      <p class="subtitle">Resumen ejecutivo de la cadena automática vigente</p>
+      <p class="source">Fuente de verdad: catálogo y evidencias reproducibles del repositorio.</p>
+    </div>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="../">Visor territorial</a>
+      <a href="https://github.com/jfmurciego/DiputadodeDistrito">Repositorio</a>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <section class="legend" aria-label="Leyenda del semáforo">
+      <span><i class="dot green"></i> completo</span>
+      <span><i class="dot yellow"></i> parcial / pendiente</span>
+      <span><i class="dot red"></i> no incorporado / bloqueado</span>
+      <span><i class="dot gray"></i> no iniciado</span>
+    </section>
+
+    <section id="kpis" class="kpis" aria-label="Indicadores principales"></section>
+
+    <section class="layout">
+      <article class="panel territory-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Estado actual por territorio</h2>
+            <p>FT = fuentes territoriales · FE = fuentes electorales · G = generación · RE = resultados electorales</p>
+          </div>
+          <span id="snapshot" class="snapshot">—</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Territorio</th><th>FT</th><th>FE</th><th>G</th><th>RE</th><th>Estado</th></tr></thead>
+            <tbody id="territories"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <aside class="side-stack">
+        <article class="panel">
+          <div class="panel-heading"><h2>Cadena automática</h2></div>
+          <div class="pipeline">
+            <div><b>1</b><strong>Fuentes territoriales</strong><span>preparar / reutilizar</span></div>
+            <div><b>2</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
+            <div><b>3</b><strong>Generación territorial</strong><span>M01–M06</span></div>
+            <div><b>4</b><strong>Resultados electorales</strong><span>M07–M08</span></div>
+          </div>
+          <p class="rule">Actualizar estado no publica la web. La geometría nunca depende de resultados electorales.</p>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><h2>Último producto territorial validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
+          <dl id="latest" class="metrics"></dl>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><h2>Bloqueos y alertas</h2></div>
+          <ul id="alerts" class="alerts"></ul>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading"><h2>Siguiente foco operativo</h2></div>
+          <ol id="next" class="next"></ol>
+        </article>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <span id="footer-territories">—</span>
+    <span id="footer-validated">—</span>
+    <span>Publicación manual del dashboard</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
