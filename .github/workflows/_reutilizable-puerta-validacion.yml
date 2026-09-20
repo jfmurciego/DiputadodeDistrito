@@ -92,9 +92,27 @@ jobs:
           [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || block "run_id ausente o inválido"
           [[ -n "$ARTIFACT_NAME" ]] || block "nombre de artefacto ausente"
 
-          artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")" || block "no se pudo consultar el run $SOURCE_RUN_ID"
+          artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" 2>/dev/null || echo '{"artifacts":[]}')"
           artifact="$(jq -c --arg n "$ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" | head -1)"
-          [[ -n "$artifact" ]] || block "artefacto ausente o expirado: $ARTIFACT_NAME"
+
+          # Evidencias históricas pueden contener un run_id obsoleto aunque el nombre,
+          # digest y artefacto durable sean correctos. La puerta no confía ciegamente
+          # en ese run: localiza el artefacto exacto y normaliza su run real.
+          if [[ -z "$artifact" ]]; then
+            all_artifacts="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?per_page=100")" ||
+              block "no se pudo consultar el inventario durable de artefactos"
+            artifact="$(jq -sc --arg n "$ARTIFACT_NAME" --arg d "$EXPECTED_DIGEST" '
+              [ .[]?.artifacts[]?
+                | select(.name==$n and (.expired|not))
+                | select(($d=="") or ((.digest // "" | sub("^sha256:";"")) == ($d | sub("^sha256:";""))))
+              ] | sort_by(.created_at) | reverse | .[0] // empty
+            ' <<<"$all_artifacts")"
+            [[ -n "$artifact" ]] || block "artefacto ausente o expirado: $ARTIFACT_NAME"
+            resolved_run_id="$(jq -r '.workflow_run.id // empty' <<<"$artifact")"
+            [[ "$resolved_run_id" =~ ^[0-9]+$ ]] || block "artefacto sin run de procedencia"
+            SOURCE_RUN_ID="$resolved_run_id"
+          fi
+
           actual_digest="$(jq -r '.digest // empty' <<<"$artifact")"
           [[ -n "$actual_digest" ]] || block "artefacto sin digest: $ARTIFACT_NAME"
           if [[ -n "$EXPECTED_DIGEST" ]]; then
