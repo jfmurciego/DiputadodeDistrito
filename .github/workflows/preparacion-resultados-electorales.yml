@@ -12,7 +12,6 @@ on:
   workflow_call:
     inputs:
       territory_id: {required: true, type: string}
-      data_edition: {required: false, type: string, default: ''}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
     outputs:
@@ -89,11 +88,6 @@ jobs:
           python herramientas/catalogo_preparacion.py --root-dir . validate
           current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY")"
           edition="$(jq -r .territorial_edition <<<"$current")"
-          expected='${{ inputs.data_edition }}'
-          if [[ -n "$expected" && "$edition" != "$expected" ]]; then
-            echo "::error::La convocatoria vigente pertenece a la edición territorial $edition, no a $expected."
-            exit 41
-          fi
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
           echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "edition=$edition" >> "$GITHUB_OUTPUT"
