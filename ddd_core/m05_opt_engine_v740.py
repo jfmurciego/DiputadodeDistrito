@@ -139,6 +139,7 @@ def main():
     K = int(g[did].nunique())
     total = sum(pop.values())
     target, floor, cap, tol = hard_limits(cfg, k=K, total_pop=total)
+    floor_exempt = {str(x) for x in ((cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [])}
 
     d_units = {d: set() for d in sorted(g[did].unique())}
     d_nodes = {d: set() for d in d_units}
@@ -168,13 +169,16 @@ def main():
                 uadj[u].add(v)
     uadj_list = {u: sorted(vs) for u, vs in uadj.items()}
 
+    def district_floor(d):
+        return 0.0 if str(d_prov.get(d, "")) in floor_exempt else floor
+
     def obj(values):
-        vals = list(values.values())
-        hard = sum(p < floor or p > cap for p in vals)
-        hard_mag = sum(max(0, floor - p, p - cap) for p in vals)
-        outside = sum(abs(p - target) > tol for p in vals)
-        maxdev = max(abs(p - target) / target for p in vals)
-        sq = sum(((p - target) / target) ** 2 for p in vals)
+        items = list(values.items())
+        hard = sum(p < district_floor(d) or p > cap for d, p in items)
+        hard_mag = sum(max(0, district_floor(d) - p, p - cap) for d, p in items)
+        outside = sum(abs(p - target) > tol for _, p in items)
+        maxdev = max(abs(p - target) / target for _, p in items)
+        sq = sum(((p - target) / target) ** 2 for _, p in items)
         return (
             hard,
             round(hard_mag / target, 12),
@@ -212,7 +216,7 @@ def main():
                 continue
             new0 = d_pop[d0] - unit_pop[u]
             new1 = d_pop[d1] + unit_pop[u]
-            if new0 < floor or new0 > cap or new1 < floor or new1 > cap:
+            if new0 < district_floor(d0) or new0 > cap or new1 < district_floor(d1) or new1 > cap:
                 continue
             remaining = d_nodes[d0] - unit_nodes[u]
             newrecv = d_nodes[d1] | unit_nodes[u]
@@ -308,7 +312,7 @@ def main():
 
             new0 = d_pop[d0] - unit_pop[u]
             new1 = d_pop[d1] + unit_pop[u]
-            if new0 < floor or new0 > cap or new1 < floor or new1 > cap:
+            if new0 < district_floor(d0) or new0 > cap or new1 < district_floor(d1) or new1 > cap:
                 continue
 
             remaining = d_nodes[d0] - unit_nodes[u]
@@ -390,7 +394,8 @@ def main():
         "objective_start": list(start),
         "objective_after_greedy": list(greedy_final),
         "objective_final": list(final),
-        "districts_below_floor": sum(p < floor for p in d_pop.values()),
+        "districts_below_floor": sum(p < district_floor(d) for d, p in d_pop.items()),
+        "population_floor_exempt_partitions": sorted(floor_exempt),
         "districts_above_cap": sum(p > cap for p in d_pop.values()),
         "districts_outside_tolerance": sum(abs(p - target) > tol for p in d_pop.values()),
         "best_max_rel_dev": final[3],
