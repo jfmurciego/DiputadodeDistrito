@@ -107,6 +107,10 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("ejecuciones_completas/$GITHUB_RUN_ID.json", text)
         self.assertIn("github.ref_name == 'main'", text)
 
+    def test_manifest_treats_skipped_scheduled_phase_as_failure(self):
+        writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
+        self.assertIn('p["executed"] and p["result"] != "success"',writer)
+
     def test_reuse_plan_skips_complete_phases(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
