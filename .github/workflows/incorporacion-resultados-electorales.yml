@@ -6,6 +6,7 @@
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
 name: 04 · Incorporación de Resultados Electorales
+run-name: 04 · ${{ inputs.territory_id }} · ${{ inputs.data_edition }}
 
 on:
   workflow_call:
