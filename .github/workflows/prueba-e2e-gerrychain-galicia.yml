@@ -20,6 +20,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       DDD_GALICIA_GERRYCHAIN_E2E: .galicia-m06
       DDD_GERRYCHAIN_STEPS: '30'
+      PYTHONHASHSEED: '0'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -48,6 +49,22 @@ jobs:
           python -m ddd_core.m05_gerrychain_strategy \
             --params territorios/galicia/config/galicia_2025.yaml \
             --steps-per-stage 250 --warmup-rounds 4 --seed 20260920
+
+          # Repetibilidad entre procesos: misma entrada, semilla y runtime => mismo hash.
+          python -m ddd_core.m05_gerrychain_strategy \
+            --params territorios/galicia/config/galicia_2025.yaml \
+            --graph "$CACHE/galicia_2025_m03_grafo.json" \
+            --initial "$CACHE/galicia_2025_m04_semillas.geojson.zip" \
+            --output gerrychain-evidence/repeat_m05.geojson.zip \
+            --report gerrychain-evidence/repeat_m05_report.json \
+            --steps-per-stage 250 --warmup-rounds 4 --seed 20260920
+          h1="$(jq -r '.selected_metrics.assignment_sha256' "$CACHE/galicia_2025_m05_informe.json")"
+          h2="$(jq -r '.selected_metrics.assignment_sha256' gerrychain-evidence/repeat_m05_report.json)"
+          test "$h1" = "$h2" || {
+            echo "::error::GerryChain no es reproducible entre procesos: $h1 != $h2"
+            exit 61
+          }
+          printf '%s\n' "$h1" > gerrychain-evidence/assignment_sha256.txt
 
           # Comprueba que la salida alternativa es consumible por el M06 canónico.
           python modulos/06_consolidar_distritos.py \
