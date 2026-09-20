@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.0.1
-# NOMBRE DE VERSIÓN: Ejecución completa lineal y reanudable
+# VERSIÓN: 1.1.0
+# NOMBRE DE VERSIÓN: Ejecución completa con estrategia 02.5 seleccionable
 # ESTADO: candidato — smoke pre-merge obligatorio
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas
-# y conserva un manifiesto único de la ejecución.
+# conserva un manifiesto único de la ejecución y hereda la estrategia de optimización de 02.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
 name: 00 · Ejecución Completa del Proyecto
 
@@ -14,6 +14,7 @@ on:
       territory_id: {required: true, type: string}
       data_edition: {required: true, type: string}
       execution_mode: {required: false, type: string, default: Reutilizar progreso existente}
+      optimization_algorithm: {required: false, type: string, default: Canónico}
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
@@ -71,6 +72,16 @@ on:
         options:
           - Reutilizar progreso existente
           - Ejecutar desde el principio
+      optimization_algorithm:
+        description: Estrategia de optimización para 02
+        required: true
+        default: Canónico
+        type: choice
+        options:
+          - Canónico
+          - GerryChain
+          - GerryChain 25
+          - GerryChain 50
       publish_result:
         description: Publicar el visor al terminar
         required: true
@@ -97,6 +108,7 @@ jobs:
       territory_name: ${{ steps.plan.outputs.territory_name }}
       contract_path: ${{ steps.plan.outputs.contract_path }}
       execution_mode_internal: ${{ steps.plan.outputs.execution_mode_internal }}
+      optimization_algorithm: ${{ steps.plan.outputs.optimization_algorithm }}
       edition: ${{ steps.plan.outputs.edition }}
       source_ref: ${{ steps.plan.outputs.source_ref }}
       persist_state: ${{ steps.plan.outputs.persist_state }}
@@ -125,6 +137,7 @@ jobs:
           TERRITORY: ${{ github.event_name == 'pull_request' && 'Galicia' || inputs.territory_id }}
           EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
           UI_MODE: ${{ github.event_name == 'pull_request' && 'Reutilizar progreso existente' || inputs.execution_mode }}
+          UI_ALGORITHM: ${{ github.event_name == 'pull_request' && 'Canónico' || inputs.optimization_algorithm }}
           SOURCE_REF: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.source_ref || github.ref_name }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
@@ -137,7 +150,7 @@ jobs:
           esac
           mkdir -p .ddd-full-run
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
+          python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --optimization-algorithm "$UI_ALGORITHM" --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           p=json.load(open(".ddd-full-run/plan.json",encoding="utf-8"))
@@ -151,6 +164,7 @@ jobs:
           out("territory_name",p["territory_name"])
           out("contract_path",p.get("contract_path"))
           out("execution_mode_internal",p["execution_mode"])
+          out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
           for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate"):
               out(key,p[key])
@@ -207,6 +221,7 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       execution_mode: ${{ needs.planificar.outputs.execution_mode_internal }}
+      optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
       source_package_run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || '' }}
       source_package_artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
