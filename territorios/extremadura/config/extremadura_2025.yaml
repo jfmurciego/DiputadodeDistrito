@@ -54,7 +54,7 @@ territory_contract:
   topology_mode: land
   k_districts: 65
   k_source: norma
-  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2/1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
+  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2 de 1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
   district_apportionment: hamilton
   population_floor_ratio: 0.80
   population_cap_ratio: 1.75
@@ -149,7 +149,7 @@ modulos:
     pop_field: "POP_{year}"
     district_field: district_id
     province_field: CPRO
-    municipality_field: CUMUN
+    municipality_field: M04_PARTITION_UNIT
     greedy_moves_limit: 1000
     anneal_iters: 30000
     swap_polish_max: 200
@@ -163,7 +163,7 @@ modulos:
     pop_field: "POP_{year}"
     province_field: CPRO
     province_name_field: NPRO
-    municipality_field: CUMUN
+    municipality_field: M04_PARTITION_UNIT
     municipality_name_field: NMUN
     cudis_field: CUDIS
     metric_crs: EPSG:3035
