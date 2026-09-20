@@ -5,6 +5,7 @@
 # ESTADO: activo
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
 name: 05 · Publicación del Visor
+run-name: 05 · ${{ inputs.pagina_publicar }}
 
 on:
   workflow_call:
