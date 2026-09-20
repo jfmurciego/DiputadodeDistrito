@@ -51,14 +51,17 @@ class WorkflowSafety(unittest.TestCase):
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
-        self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
+        self.assertEqual(set(viewer_triggers),{"workflow_dispatch"})
         manual_inputs=viewer_triggers["workflow_dispatch"]["inputs"]
         self.assertEqual(set(manual_inputs),{"pagina_publicar"})
         self.assertEqual(manual_inputs["pagina_publicar"]["type"],"choice")
         self.assertEqual(
             manual_inputs["pagina_publicar"]["options"],
-            ["Sitio completo","Visor territorial","Dashboard operativo"],
+            ["Dashboard operativo","Visor territorial","Sitio completo"],
         )
+        reusable=yaml.safe_load((WORKFLOWS/"_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")) or {}
+        reusable_triggers=reusable.get(True,reusable.get("on",{})) or {}
+        self.assertEqual(set(reusable_triggers),{"workflow_call"})
 
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
