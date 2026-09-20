@@ -55,7 +55,7 @@ def main() -> None:
         phase("04 · Incorporación de Resultados Electorales", ns.incorporate_result, b(ns.incorporate_executed), ns.electoral_product_run_id, ns.electoral_product_artifact),
         phase("05 · Publicación del Visor", ns.publish_result, ns.publish_requested == "true", ns.workflow_run_id, None),
     ]
-    failed = [p["name"] for p in phases if p["executed"] and p["result"] not in {"success", "skipped"}]
+    failed = [p["name"] for p in phases if p["executed"] and p["result"] != "success"]
     payload = {
         "schema": "ddd.full-run-manifest/1.0",
         "territory_id": ns.territory_id,
