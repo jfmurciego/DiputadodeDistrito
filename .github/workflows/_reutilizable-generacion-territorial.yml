@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — generación territorial
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # NOMBRE DE VERSIÓN: Generación territorial desacoplada
-# FECHA: 2026-09-17
+# FECHA: 2026-09-20
 # ESTADO: candidato
 # QUÉ HACE: consume fuentes territoriales preparadas y genera/certifica el producto territorial hasta la consolidación.
-# CAMBIOS: elimina por diseño toda incorporación electoral y toda publicación web.
+# CAMBIOS: propaga la estrategia funcional de optimización seleccionada por 02 hasta el lanzador común M05.
 # MOTIVO: aislar el proceso 02 y reducir superficie operacional.
 # ANTERIOR: legacy/workflows/producir-territorio-por-contrato_v2.3.0.yml
 name: Reutilizable — Generación Territorial
@@ -23,6 +23,7 @@ on:
       execution_authorization: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      optimization_algorithm: {required: false, type: string, default: Canónico}
 
 permissions:
   contents: write
@@ -377,6 +378,7 @@ jobs:
           -e DDD_PARAMS="$PARAMS" -e DDD_RUN_ID="$RUN_ID"
           -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
           -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"
+          -e DDD_OPTIMIZATION_ALGORITHM="${{ inputs.optimization_algorithm }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
       - name: Empaquetar checkpoint acumulado del módulo
         shell: bash
