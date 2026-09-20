@@ -81,9 +81,9 @@ class DesignA(unittest.TestCase):
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep,expected)
-        self.assertEqual(generation,expected)
-        self.assertEqual(electoral,expected)
-        self.assertIn("Galicia",generable)
-        self.assertNotIn("Galicia",electoral_ready)
+        self.assertEqual(generation,generable)
+        self.assertEqual(electoral,electoral_ready)
+        self.assertIn("Galicia",generation)
+        self.assertNotIn("Galicia",electoral)
 
 if __name__=="__main__": unittest.main()
