@@ -113,6 +113,55 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         finally:
             td.cleanup()
 
+    def test_every_non_insular_territory_materializes_without_manual_promotion(self):
+        policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
+        master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
+        by_id = {row["territory_id"]: row for row in master["territories"]}
+        for territory_id, entry in policy["territories"].items():
+            if entry["partition_mode"] == "physical_components_hamilton":
+                continue
+            row = by_id[territory_id]
+            provinces = [str(x).zfill(2) for x in row["province_codes"]]
+            td = temp_root(territory_id, row["name"], provinces)
+            try:
+                root = Path(td.name)
+                rows = [(f"{province}00101001", 100000 + index * 1000) for index, province in enumerate(provinces)]
+                package = population_package(root, rows)
+                result = materialize(root, territory_id, "2025", package)
+                self.assertEqual(result["status"], "READY", territory_id)
+                self.assertEqual(result["k"], int(entry["k"]), territory_id)
+                cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
+                self.assertEqual(cfg["meta"]["production_authorization"], "AUTHORIZED", territory_id)
+                self.assertEqual(sum(cfg["validation"]["province_districts"].values()), int(entry["k"]), territory_id)
+            finally:
+                td.cleanup()
+
+    def test_materializes_canary_archipelago_without_marine_bridge(self):
+        td = temp_root("canarias", "Canarias", ["35", "38"])
+        try:
+            root = Path(td.name)
+            package = population_package(root, [
+                ("3500101001", 875589),
+                ("3500301001", 129080),
+                ("3500401001", 166146),
+                ("3502401010", 732),
+                ("3800101001", 966469),
+                ("3800201001", 22560),
+                ("3800701001", 86297),
+                ("3801301001", 11993),
+            ])
+            result = materialize(root, "canarias", "2025", package)
+            self.assertEqual(result["status"], "READY")
+            self.assertEqual(result["partition_mode"], "physical_components_hamilton")
+            self.assertEqual(sum(result["partition_districts"].values()), 70)
+            self.assertIn("35-C04", result["population_floor_exempt_partitions"])
+            self.assertIn("38-C04", result["population_floor_exempt_partitions"])
+            cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
+            self.assertEqual(cfg["validation"]["hard_partition_mode"], "physical_components")
+            self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"], [])
+        finally:
+            td.cleanup()
+
     def test_materializes_balearic_archipelago_with_explicit_partition_exception(self):
         td = temp_root("illes_balears", "Islas Baleares", ["07"])
         try:
