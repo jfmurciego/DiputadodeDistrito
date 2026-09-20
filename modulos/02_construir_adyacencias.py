@@ -209,8 +209,12 @@ def main():
         )
     )
 
-    province_field = str(s2.get("bridge_admin_level_1_field", s4.get("province_field", "CPRO")))
-    municipality_field = str(s2.get("bridge_admin_level_2_field", s4.get("municipality_field", "CUMUN")))
+    validation = cfg.get("validation") or {}
+    # M02 opera sobre la base censal previa a cualquier partición interna de M04.
+    # Las pasarelas deben validarse con los campos administrativos originales,
+    # nunca con un identificador derivado que aún no existe en esta fase.
+    province_field = str(s2.get("bridge_admin_level_1_field", validation.get("province_field", s4.get("province_field", "CPRO"))))
+    municipality_field = str(s2.get("bridge_admin_level_2_field", validation.get("municipality_field", "CUMUN")))
     for field in (province_field, municipality_field):
         if field not in gdf.columns:
             raise SystemExit(f"M02: campo administrativo para pasarelas ausente: {field}")
