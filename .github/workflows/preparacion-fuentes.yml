@@ -189,7 +189,7 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             .github/workflows/produccion-distritos.yml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
+          git add             configuracion/catalogo_preparacion.yaml             configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"             herramientas/promover_catalogo_tras_preparacion.py
           git commit -m "chore: promover $TERRITORY_ID tras preparación territorial"
           git push origin "HEAD:$TARGET_BRANCH"
 
