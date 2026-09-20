@@ -84,6 +84,6 @@ class DesignA(unittest.TestCase):
         self.assertEqual(generation,expected)
         self.assertEqual(electoral,expected)
         self.assertIn("Galicia",generable)
-        self.assertNotIn("Galicia",electoral_ready)
+        self.assertIn("Galicia",electoral_ready)
 
 if __name__=="__main__": unittest.main()
