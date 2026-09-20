@@ -69,6 +69,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("exit 44",text)
         self.assertIn("exit 45",text)
 
+    def test_direct_generation_passes_boolean_persist_state_to_reusable(self):
+        text=GEN.read_text(encoding="utf-8")
+        self.assertIn("persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}",text)
+
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
         self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
