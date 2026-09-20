@@ -22,10 +22,11 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
     def test_generation_interface_name_and_controls(self):
         self.assertEqual(self._load(GEN)["name"],"02 · Generación de Distritos Autonómicos")
         inputs=self._dispatch_inputs(GEN)
-        self.assertEqual(list(inputs),["territory_id","data_edition","execution_mode"])
+        self.assertEqual(list(inputs),["territory_id","data_edition","execution_mode","optimization_algorithm"])
         self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
         self.assertEqual(inputs["data_edition"]["options"],["2025"])
         self.assertEqual(inputs["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
+        self.assertEqual(inputs["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
 
     def test_electoral_incorporation_name_and_controls(self):
         self.assertEqual(self._load(ELECTORAL)["name"],"04 · Incorporación de Resultados Electorales")

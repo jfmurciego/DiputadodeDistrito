@@ -17,8 +17,9 @@ def inputs(path):
 
 class ProductRoutingDesignA(unittest.TestCase):
     def test_generation_form_has_functional_execution_mode(self):
-        self.assertEqual(list(inputs(GEN)),["territory_id","data_edition","execution_mode"])
+        self.assertEqual(list(inputs(GEN)),["territory_id","data_edition","execution_mode","optimization_algorithm"])
         self.assertEqual(inputs(GEN)["execution_mode"]["options"],["Reutilizar progreso existente","Ejecutar desde el principio"])
+        self.assertEqual(inputs(GEN)["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
 
     def test_electoral_incorporation_form_has_only_territory_and_edition(self):
         self.assertEqual(list(inputs(ELECTORAL)),["territory_id","data_edition"])

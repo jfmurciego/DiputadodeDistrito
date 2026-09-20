@@ -68,7 +68,7 @@ except Exception as exc:  # pragma: no cover - exercised by explicit dependency 
 else:
     _GERRYCHAIN_IMPORT_ERROR = None
 
-STRATEGY_VERSION = "2.0.1"
+STRATEGY_VERSION = "2.1.0"
 
 
 @dataclass(frozen=True)
@@ -650,6 +650,57 @@ def materialise_output(
     return out
 
 
+def materialise_portfolio(
+    problem: PreparedProblem,
+    portfolio: Mapping[str, Any],
+    output_path: Path,
+) -> list[dict[str, Any]]:
+    """Materializa un escenario por semilla para perfiles GerryChain 25/50.
+
+    El candidato seleccionado sigue siendo el único que pasa a M06. El portfolio
+    completo queda dentro del cache/checkpoint para comparación posterior.
+    """
+    base_name = output_path.name
+    token = "_m05_distritos_optimizados.geojson.zip"
+    if base_name.endswith(token):
+        directory_name = base_name[:-len(token)] + "_m05_gerrychain_portfolio"
+    else:
+        directory_name = output_path.stem + "_gerrychain_portfolio"
+    portfolio_dir = output_path.parent / directory_name
+    if portfolio_dir.exists():
+        import shutil
+        shutil.rmtree(portfolio_dir)
+    portfolio_dir.mkdir(parents=True, exist_ok=True)
+
+    rows: list[dict[str, Any]] = []
+    for index, run in enumerate(portfolio["runs"], start=1):
+        candidate = portfolio_dir / f"candidate_{index:03d}_seed_{run['seed']}.geojson.zip"
+        materialise_output(problem, run["assignment"], candidate)
+        rows.append({
+            "index": index,
+            "seed": run["seed"],
+            "assignment_hash": run["assignment_hash"],
+            "rank": run["rank"],
+            "states_observed": run["states_observed"],
+            "unique_states": run["unique_states"],
+            "proposal_failures": run["proposal_failures"],
+            "geojson": str(candidate),
+            "sha256": _sha256(candidate),
+            "selected": run["assignment_hash"] == portfolio["selected"]["assignment_hash"],
+        })
+    (portfolio_dir / "portfolio.json").write_text(
+        json.dumps({
+            "schema": "ddd.m05-gerrychain-portfolio/1.0",
+            "candidate_count": len(rows),
+            "unique_candidate_count": len({row["assignment_hash"] for row in rows}),
+            "selected_assignment_hash": portfolio["selected"]["assignment_hash"],
+            "candidates": rows,
+        }, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return rows
+
+
 def build_report(
     problem: PreparedProblem,
     contract: StrategyContract,
@@ -658,6 +709,7 @@ def build_report(
     graph_path: Path,
     initial_path: Path,
     output_path: Path,
+    portfolio_rows: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     initial_metrics = population_metrics(problem, problem.initial_assignment, contract)
     selected_assignment = portfolio["selected"]["assignment"]
@@ -734,6 +786,11 @@ def build_report(
             "geojson": str(output_path),
             "sha256": _sha256(output_path),
         },
+        "portfolio": {
+            "candidate_count": len(portfolio_rows or []),
+            "unique_candidate_count": len({row["assignment_hash"] for row in (portfolio_rows or [])}),
+            "candidates": portfolio_rows or [],
+        },
         "nonpartisan_contract": {
             "electoral_fields_consumed": [],
             "party_fields_consumed": [],
@@ -758,7 +815,11 @@ def run_from_paths(
     problem = prepare_problem(graph_path, initial_path, contract)
     portfolio = run_portfolio(problem, contract, strategy)
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
-    report = build_report(problem, contract, strategy, portfolio, graph_path, initial_path, output_path)
+    portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
+    report = build_report(
+        problem, contract, strategy, portfolio, graph_path, initial_path, output_path,
+        portfolio_rows=portfolio_rows,
+    )
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report

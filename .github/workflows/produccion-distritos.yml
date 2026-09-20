@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz operativa principal — Diseño A
-# VERSIÓN: 8.0.0
+# VERSIÓN: 8.1.0
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
-# FECHA: 2026-09-18
+# FECHA: 2026-09-20
 # ESTADO: candidato
 # QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
-# CAMBIOS: mantiene la generación territorial y desacopla la publicación web como proceso independiente.
+# CAMBIOS: incorpora selección funcional de estrategia 02.5: Canónico, GerryChain, GerryChain 25 o GerryChain 50; la elección viaja hasta M05 y obliga a ejecutar M05 para alternativas GerryChain.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
 name: 02 · Generación de Distritos Autonómicos
@@ -16,6 +16,7 @@ on:
       territory_id: {required: true, type: string}
       data_edition: {required: true, type: string}
       execution_mode: {required: false, type: string, default: reuse}
+      optimization_algorithm: {required: false, type: string, default: Canónico}
       source_package_run_id: {required: false, type: string, default: ''}
       source_package_artifact_name: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
@@ -62,6 +63,16 @@ on:
         options:
           - Reutilizar progreso existente
           - Ejecutar desde el principio
+      optimization_algorithm:
+        description: Estrategia de optimización 02.5
+        required: true
+        default: Canónico
+        type: choice
+        options:
+          - Canónico
+          - GerryChain
+          - GerryChain 25
+          - GerryChain 50
 
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
@@ -131,6 +142,7 @@ jobs:
           PRODUCT: ${{ steps.resolve.outputs.product }}
           CHECKPOINT_POLICY: ${{ steps.resolve.outputs.checkpoint_policy }}
           EXECUTION_MODE: ${{ inputs.execution_mode }}
+          OPTIMIZATION_ALGORITHM: ${{ inputs.optimization_algorithm }}
         run: |
           set -euo pipefail
           checkpoint_run_id=''
@@ -155,9 +167,13 @@ jobs:
           elif [[ "$CHECKPOINT_POLICY" == latest_through_m06 ]]; then
             search_from=6
             search_to=1
+          elif [[ "$CHECKPOINT_POLICY" == latest_before_target ]]; then
+            # El usuario ha elegido explícitamente cómo ejecutar 02.5. Esa elección
+            # debe ejecutarse siempre: reutilizamos como máximo M04 y recalculamos
+            # optimización + consolidación, tanto para Canónico como para GerryChain.
+            search_from=4
+            search_to=1
           else
-            # Para el producto territorial inspeccionamos también el estado acumulado
-            # de certificación, pero solo para derivar una etapa anterior compatible.
             search_from=$target_num
             search_to=1
           fi
@@ -376,4 +392,5 @@ jobs:
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
       source_ref: ${{ inputs.source_ref }}
       persist_state: ${{ inputs.persist_state }}
+      optimization_algorithm: ${{ inputs.optimization_algorithm }}
 

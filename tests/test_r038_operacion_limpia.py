@@ -30,11 +30,12 @@ class R038OperacionLimpia(unittest.TestCase):
         text = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition", "execution_mode"])
+        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm"])
         self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
         self.assertEqual(raw_inputs["execution_mode"]["description"], "Modo de ejecución")
         self.assertEqual(raw_inputs["execution_mode"]["options"], ["Reutilizar progreso existente","Ejecutar desde el principio"])
+        self.assertEqual(raw_inputs["optimization_algorithm"]["options"], ["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
         self.assertNotIn("confirmar_ejecucion", raw_inputs)

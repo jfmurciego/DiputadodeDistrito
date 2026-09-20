@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.8.0
+# VERSIÓN: 2.9.0
 # NOMBRE DE VERSIÓN: Estrategia de optimización seleccionable en M05
 # FECHA: 2026-09-20
 # ESTADO: candidato
-# CAMBIOS: mantiene el motor canónico por defecto y permite seleccionar declarativamente gerrychain_recom en M05 sin alterar M01–M04 ni M06.
+# CAMBIOS: admite selección funcional desde 02/00: Canónico, GerryChain (1 candidato), GerryChain 25 y GerryChain 50; el contrato sigue siendo fallback para ejecuciones internas sin selector.
 # MOTIVO: reincorporar GerryChain/ReCom como alternativa industrializada del paso 02.5, con dependencias aisladas y ejecución reproducible.
 # ANTERIOR: legacy/procedimiento/procedimiento_v2.7.0.sh
 set -euo pipefail
@@ -99,29 +99,49 @@ out,params,run_id,first,last,manifest,cache=map(str,sys.argv[1:])
 Path(out).write_text(json.dumps({"schema_version":"1.0","run_id":run_id,"params":params,"from_stage":first,"to_stage":last,"checkpoint_manifest":manifest or None,"checkpoint_cache_dir":cache,"created_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat()},ensure_ascii=False,indent=2),encoding="utf-8")
 PY
 python herramientas/registrar_ejecucion.py --params "$PARAMS" --phase start --run-id "$RUN_ID"
-resolver_estrategia_m05(){
-  python - "$PARAMS" <<'PY'
+resolver_perfil_m05(){
+  case "${DDD_OPTIMIZATION_ALGORITHM:-}" in
+    "Canónico"|canonical) printf '%s|%s\n' canonical 0 ;;
+    "GerryChain"|gerrychain_recom) printf '%s|%s\n' gerrychain_recom 1 ;;
+    "GerryChain 25"|gerrychain_25) printf '%s|%s\n' gerrychain_recom 25 ;;
+    "GerryChain 50"|gerrychain_50) printf '%s|%s\n' gerrychain_recom 50 ;;
+    "")
+      python - "$PARAMS" <<'PY'
 import sys,yaml
 from pathlib import Path
 cfg=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
 m05=((cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {})
-print(m05.get("optimization_strategy") or "canonical")
+strategy=m05.get("optimization_strategy") or "canonical"
+seed_count=((m05.get("gerrychain") or {}).get("seed_count") or 0) if strategy=="gerrychain_recom" else 0
+print(f"{strategy}|{seed_count}")
 PY
+      ;;
+    *)
+      echo "[FATAL] Estrategia de optimización desconocida: ${DDD_OPTIMIZATION_ALGORITHM}" >&2
+      exit 20
+      ;;
+  esac
 }
 ejecutar(){
   local n="$1" script="$2"
   if [[ "$n" == "5" ]]; then
-    local strategy
-    strategy="$(resolver_estrategia_m05)"
-    echo "===== MÓDULO 5: Estrategia de optimización — $strategy ====="
+    local profile strategy candidate_count
+    profile="$(resolver_perfil_m05)"
+    strategy="${profile%%|*}"
+    candidate_count="${profile#*|}"
+    echo "===== MÓDULO 5: Estrategia de optimización — $strategy; candidatos=$candidate_count ====="
     case "$strategy" in
       canonical)
         python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
         ;;
       gerrychain_recom)
         test -x /opt/ddd-gerrychain/bin/python || { echo "[FATAL] Falta entorno reproducible GerryChain." >&2; exit 20; }
+        seed_args=()
+        if [[ "$candidate_count" =~ ^[0-9]+$ ]] && (( candidate_count > 0 )); then
+          seed_args=(--seed-count "$candidate_count")
+        fi
         PYTHONHASHSEED=0 /opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py \
-          --params "$PARAMS" --run-id "$RUN_ID" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+          --params "$PARAMS" --run-id "$RUN_ID" "${seed_args[@]}" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
         ;;
       *)
         echo "[FATAL] Estrategia de optimización desconocida: $strategy" >&2
