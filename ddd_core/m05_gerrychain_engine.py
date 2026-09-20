@@ -975,7 +975,7 @@ def _run_recom_optimization_stage(
     failures: list[str] = []
     try:
         for step, partition in enumerate(chain):
-            state = _partition_assignment_by_section(partition)
+            state = assignment_by_section(partition)
             state_hash = assignment_hash(state)
             if state_hash == previous_hash:
                 self_loops += 1
