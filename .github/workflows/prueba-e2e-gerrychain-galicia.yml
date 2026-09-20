@@ -1,0 +1,37 @@
+name: Prueba E2E GerryChain Galicia
+
+on:
+  pull_request:
+    paths:
+      - 'ddd_core/m05_gerrychain_engine.py'
+      - 'ddd_core/m05_gerrychain_strategy.py'
+      - 'tests/test_m05_gerrychain_strategy.py'
+      - '.github/workflows/prueba-e2e-gerrychain-galicia.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  gerrychain_galicia:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DDD_GALICIA_GERRYCHAIN_E2E: .galicia-m06
+      DDD_GERRYCHAIN_STEPS: '120'
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - name: Instalar entorno GerryChain reproducible
+        run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Recuperar M06 certificado de Galicia sin recalcular territorio
+        run: gh run download 35519337721 --name ddd-state-35519337721-M06 --dir .galicia-m06
+      - name: Ejecutar pruebas unitarias de estrategia
+        run: python -m unittest tests.test_m05_gerrychain_strategy.GerryChainStrategyContractTests -v
+      - name: Ejecutar E2E real M04 → GerryChain/ReCom con Galicia
+        run: python -m unittest tests.test_m05_gerrychain_strategy.GaliciaGerryChainE2E -v
