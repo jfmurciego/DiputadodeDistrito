@@ -506,4 +506,203 @@ def _partition_assignment(partition: Any) -> dict[str, Any]:
     }
 
 
-def _proposal_graph(problem: PreparedProb
+def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
+    graph = nx.Graph()
+    frozen_by_unit = {
+        unit: district
+        for district, units in problem.frozen_districts.items()
+        for unit in units
+    }
+    for unit, row in problem.units.items():
+        graph.add_node(unit, **row, district=problem.initial_assignment[unit])
+    for u, v in problem.edges:
+        # Una transición ReCom no puede cruzar provincias porque la provincia es
+        # restricción dura y la cuota distrital provincial es invariante.
+        if problem.units[u]["province"] != problem.units[v]["province"]:
+            continue
+        fu, fv = frozen_by_unit.get(u), frozen_by_unit.get(v)
+        # Los distritos urbanos cerrados quedan aislados del metagrafo de
+        # propuestas, en lugar de generar miles de propuestas que luego serían rechazadas.
+        if (fu is not None or fv is not None) and fu != fv:
+            continue
+        graph.add_edge(u, v)
+    return graph
+
+
+def _run_seed(
+    problem: PreparedProblem,
+    contract: StrategyContract,
+    config: StrategyConfig,
+    seed: int,
+) -> dict[str, Any]:
+    require_runtime(config)
+    graph = _proposal_graph(problem)
+    initial_partition = Partition(
+        graph,
+        assignment="district",
+        updaters={
+            "population": updaters.Tally("population", alias="population"),
+            "cut_edges": updaters.cut_edges,
+        },
+    )
+
+    def hard(partition: Any) -> bool:
+        return not hard_constraint_violations(problem, _partition_assignment(partition), contract)
+
+    raw_proposal = build_recom_proposal_fn(
+        pop_col="population",
+        pop_target=problem.target_population,
+        epsilon=config.proposal_epsilon,
+        region_surcharge=None,
+        bipartition_tree_fn=partial(
+            bipartition_tree,
+            max_attempts=config.max_bipartition_attempts,
+            allow_pair_reselection=False,
+        ),
+        pair_selection="district_pairs",
+    )
+    proposal_failures = 0
+
+    def safe_proposal(partition: Any, *, rng: Any) -> Any:
+        nonlocal proposal_failures
+        try:
+            return raw_proposal(partition, rng=rng)
+        except (BalanceError, PopulationBalanceError, ReselectException, MetagraphError, RuntimeError):
+            # Fallos esperables de ReCom en pares que no admiten una bipartición
+            # equilibrada. Se modelan como self-loop; no deben abortar la cadena.
+            proposal_failures += 1
+            return partition
+
+    chain = MarkovChain(
+        proposal_fn=safe_proposal,
+        constraints=[hard],
+        initial_partition=initial_partition,
+        total_steps=config.steps_per_seed,
+        rng=seed,
+    )
+
+    best_assignment = dict(problem.initial_assignment)
+    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment)
+    unique: set[str] = set()
+    self_loops = 0
+    previous_hash: str | None = None
+    observed = 0
+    started = time.perf_counter()
+    for partition in chain:
+        observed += 1
+        assignment = _partition_assignment(partition)
+        digest = _assignment_hash(assignment)
+        unique.add(digest)
+        if previous_hash == digest:
+            self_loops += 1
+        previous_hash = digest
+        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment)
+        if rank < best_rank:
+            best_rank = rank
+            best_assignment = assignment
+    elapsed = time.perf_counter() - started
+    return {
+        "seed": seed,
+        "states_observed": observed,
+        "unique_states": len(unique),
+        "self_loops": self_loops,
+        "proposal_failures": proposal_failures,
+        "seconds": elapsed,
+        "rank": list(best_rank[:-1]),
+        "assignment_hash": _assignment_hash(best_assignment),
+        "assignment": best_assignment,
+    }
+
+
+def run_portfolio(
+    problem: PreparedProblem,
+    contract: StrategyContract,
+    config: StrategyConfig,
+) -> dict[str, Any]:
+    initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment)
+    runs = [_run_seed(problem, contract, config, seed) for seed in config.seeds()]
+    selected = min(
+        runs,
+        key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment),
+    )
+    selected_assignment = selected["assignment"]
+    selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment)
+    if selected_rank > initial_rank:
+        raise AssertionError("El portfolio GerryChain intentó degradar M04; esto no debe ser posible")
+    return {"runs": runs, "selected": selected}
+
+
+def materialise_output(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+    output_path: Path,
+    *,
+    unit_field: str = "ddd_unit_id",
+    district_field: str = "district_id",
+) -> gpd.GeoDataFrame:
+    out = problem.sections.copy()
+    mapped = out[unit_field].astype(str).map(dict(assignment))
+    if mapped.isna().any():
+        raise ValueError("La asignación GerryChain no cubre todas las unidades")
+    out[district_field] = pd.to_numeric(mapped, errors="raise").astype(int)
+    _write_geojson_zip(out, output_path)
+    return out
+
+
+def build_report(
+    problem: PreparedProblem,
+    contract: StrategyContract,
+    config: StrategyConfig,
+    portfolio: Mapping[str, Any],
+    graph_path: Path,
+    initial_path: Path,
+    output_path: Path,
+) -> dict[str, Any]:
+    initial_metrics = population_metrics(problem, problem.initial_assignment, contract)
+    selected_assignment = portfolio["selected"]["assignment"]
+    final_metrics = population_metrics(problem, selected_assignment, contract)
+    hard_before = hard_constraint_violations(problem, problem.initial_assignment, contract)
+    hard_after = hard_constraint_violations(problem, selected_assignment, contract)
+    if hard_after:
+        raise AssertionError("Salida GerryChain viola restricciones duras: " + ", ".join(hard_after[:20]))
+    cut_start = sum(1 for u, v in problem.edges if problem.initial_assignment[u] != problem.initial_assignment[v])
+    cut_final = sum(1 for u, v in problem.edges if selected_assignment[u] != selected_assignment[v])
+    churn = sum(selected_assignment[u] != problem.initial_assignment[u] for u in problem.initial_assignment)
+    # Compatible con estado_produccion.py: índices 0,2,3 = hard, outliers, maxdev.
+    objective_start = [
+        len(hard_before),
+        0.0,
+        initial_metrics["districts_outside_tolerance"],
+        round(initial_metrics["max_relative_deviation"], 12),
+        round(initial_metrics["rms_relative_deviation"] ** 2, 12),
+    ]
+    objective_final = [
+        0,
+        0.0,
+        final_metrics["districts_outside_tolerance"],
+        round(final_metrics["max_relative_deviation"], 12),
+        round(final_metrics["rms_relative_deviation"] ** 2, 12),
+    ]
+    floor = final_metrics["target"] * contract.population_floor_ratio
+    cap = final_metrics["target"] * contract.population_cap_ratio
+    final_pops = list(final_metrics["district_populations"].values())
+    return {
+        "schema": "ddd.m05-gerrychain-strategy/2.0",
+        "strategy": "gerrychain_recom",
+        "strategy_version": STRATEGY_VERSION,
+        "engine": {
+            "gerrychain": "1.0.0",
+            "rustworkx": getattr(rustworkx, "__version__", "unknown") if rustworkx else None,
+            "python": platform.python_version(),
+        },
+        "objective_start": objective_start,
+        "objective_final": objective_final,
+        "districts_below_floor": sum(p < floor - 1e-9 for p in final_pops),
+        "districts_above_cap": sum(p > cap + 1e-9 for p in final_pops),
+        "districts_outside_tolerance": final_metrics["districts_outside_tolerance"],
+        "best_max_rel_dev": round(final_metrics["max_relative_deviation"], 12),
+        "target_population": final_metrics["target"],
+        "cut_edges_start": cut_start,
+        "cut_edges_final": cut_final,
+        "changed_units": churn,
+        "changed_unit_ratio"
