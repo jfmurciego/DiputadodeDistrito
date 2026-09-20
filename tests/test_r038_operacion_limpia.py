@@ -30,9 +30,11 @@ class R038OperacionLimpia(unittest.TestCase):
         text = (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         raw_inputs = data[True]["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition"])
+        self.assertEqual(list(raw_inputs), ["territory_id", "data_edition", "execution_mode"])
         self.assertEqual(raw_inputs["territory_id"]["description"], "Territorio")
         self.assertEqual(raw_inputs["data_edition"]["description"], "Edición de datos")
+        self.assertEqual(raw_inputs["execution_mode"]["description"], "Modo de ejecución")
+        self.assertEqual(raw_inputs["execution_mode"]["options"], ["Reutilizar progreso existente","Ejecutar desde el principio"])
         self.assertNotIn("product", raw_inputs)
         self.assertNotIn("publish_result", raw_inputs)
         self.assertNotIn("confirmar_ejecucion", raw_inputs)
@@ -79,7 +81,7 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertIn("group: ddd-pages-prod", viewer)
         self.assertIn("cancel-in-progress: false", viewer)
         self.assertIn("workflow_dispatch:", manual)
-        self.assertNotIn("workflow_call:", manual)
+        self.assertIn("workflow_call:", manual)
 
     def test_no_queda_el_formulario_g10_sustituido(self):
         self.assertFalse((WORKFLOWS / "g10-ejecutar-tramo-certificado.yml").exists())

@@ -51,7 +51,7 @@ class WorkflowSafety(unittest.TestCase):
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
-        self.assertEqual(set(viewer_triggers),{"workflow_dispatch"})
+        self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
         manual_inputs=viewer_triggers["workflow_dispatch"]["inputs"]
         self.assertEqual(set(manual_inputs),{"pagina_publicar"})
         self.assertEqual(manual_inputs["pagina_publicar"]["type"],"choice")

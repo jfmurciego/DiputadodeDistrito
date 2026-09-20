@@ -7,6 +7,10 @@
 name: 05 · Publicación del Visor
 
 on:
+  workflow_call:
+    inputs:
+      pagina_publicar: {required: false, type: string, default: Sitio completo}
+      production_run_id: {required: false, type: string, default: ''}
   workflow_dispatch:
     inputs:
       pagina_publicar:
@@ -43,11 +47,15 @@ jobs:
         shell: bash
         env:
           TARGET_PAGE: ${{ inputs.pagina_publicar }}
+          PRODUCTION_RUN_ID_OVERRIDE: ${{ inputs.production_run_id }}
         run: |
           set -euo pipefail
           mkdir -p .ddd-publication
           python herramientas/generar_estado_dashboard.py --output .ddd-publication/status.json
-          production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
+          production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
+          if [[ -z "$production_run_id" ]]; then
+            production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
+          fi
           if [[ "$TARGET_PAGE" == "Dashboard operativo" || "$TARGET_PAGE" == "Sitio completo" ]]; then
             mkdir -p publicado/dashboard
             cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/
