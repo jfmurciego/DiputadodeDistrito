@@ -1,0 +1,22 @@
+name: Debug Exportar Código
+on:
+  push:
+    branches: [debug/local-e2e-galicia]
+permissions:
+  contents: read
+jobs:
+  exportar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Empaquetar repositorio
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=.git -czf /tmp/ddd-source.tgz .
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ddd-source-snapshot
+          path: /tmp/ddd-source.tgz
+          if-no-files-found: error
+          retention-days: 1
