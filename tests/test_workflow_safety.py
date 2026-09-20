@@ -1,11 +1,11 @@
 """
 PROYECTO: Diputado de Distrito
 PRUEBA: seguridad y gobierno de workflows
-VERSIÓN: 1.2.1
+VERSIÓN: 1.3.0
 FECHA: 2026-09-16
-CAMBIO: archiva workflows manuales especializados, integra O01/O02 reutilizables
-sin botón manual y permite excluir legacy dentro del contenedor reproducible.
-ANTERIOR: versión 1.2.0 en historial Git.
+CAMBIO: mantiene las puertas CI automáticas y permite un publicador web manual
+separado de toda ejecución territorial.
+ANTERIOR: versión 1.2.1 en historial Git.
 """
 import os
 from pathlib import Path
@@ -51,7 +51,14 @@ class WorkflowSafety(unittest.TestCase):
 
         viewer=yaml.safe_load((WORKFLOWS/"desplegar-visor-publico.yml").read_text(encoding="utf-8")) or {}
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
-        self.assertEqual(set(viewer_triggers),{"workflow_call"})
+        self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
+        manual_inputs=viewer_triggers["workflow_dispatch"]["inputs"]
+        self.assertEqual(set(manual_inputs),{"pagina_publicar"})
+        self.assertEqual(manual_inputs["pagina_publicar"]["type"],"choice")
+        self.assertEqual(
+            manual_inputs["pagina_publicar"]["options"],
+            ["Sitio completo","Visor territorial","Dashboard operativo"],
+        )
 
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
