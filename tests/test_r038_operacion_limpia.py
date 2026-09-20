@@ -43,13 +43,13 @@ class R038OperacionLimpia(unittest.TestCase):
         self.assertNotIn("to_stage:", raw_inputs)
         self.assertNotIn("checkpoint_run_id:", raw_inputs)
         self.assertIn("${{ inputs.territory_id }}", text)
-        self.assertIn("producir_resultado_m01_m08", text)
+        self.assertIn("_reutilizable-generacion-territorial.yml", text)
         routes = (ROOT / "herramientas" / "resolver_producto_produccion.py").read_text(encoding="utf-8")
         self.assertIn('"Distritos":{"to_stage":"M06"', routes)
         self.assertIn('"Resultados electorales":{"to_stage":"M08","checkpoint_policy":"require_m06"', routes)
         self.assertIn('"Ambos":{"to_stage":"M08"', routes)
-        self.assertIn("execution_confirmed: true", text)
-        self.assertIn("publish_result: false", text)
+        self.assertIn("execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION", text)
+        self.assertNotIn("publish_result:", text)
 
     def test_lanzador_shell_compila(self):
         result = subprocess.run(
@@ -71,7 +71,7 @@ class R038OperacionLimpia(unittest.TestCase):
         electoral = (WORKFLOWS / "incorporacion-resultados-electorales.yml").read_text(encoding="utf-8")
         viewer = (WORKFLOWS / "_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8")
         manual = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
-        self.assertIn('publish_result: false', generation)
+        self.assertNotIn('publish_result:', generation)
         self.assertNotIn('publish_result:', electoral)
         self.assertNotIn("_reutilizable-publicar-sitio.yml", electoral)
         self.assertIn("workflow_call:", viewer)
