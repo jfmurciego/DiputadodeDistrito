@@ -10,6 +10,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
+from ddd_core.territory_contract import validate_production_contract
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -253,7 +254,7 @@ def promote(
     contract = root / str(contract_raw or "")
     if not contract.is_file():
         raise ValueError(f"Contrato territorial inexistente: {contract_raw}")
-    contract_complete, contract_reasons = contract_is_generation_complete(contract)
+    structurally_complete, contract_reasons = contract_is_generation_complete(contract)
 
     src_raw = state.get("territorial_source_declaration")
     if src_raw:
@@ -265,29 +266,62 @@ def promote(
         shutil.copy2(source_declaration_abs, durable_declaration)
     source_rel = durable_declaration.relative_to(root).as_posix()
 
-    if contract_complete:
+    # Registrar fuentes preparadas es independiente de autorizar generación.
+    # La autorización sólo se conserva si la puerta contractual completa admite
+    # el contrato ya promovido. Si la puerta lo rechaza, se revierte la promoción
+    # y el territorio queda con datos preparados, pero fuera del selector.
+    original_contract = contract.read_text(encoding="utf-8")
+    original_master = master.read_text(encoding="utf-8")
+    original_catalog = catalog.read_text(encoding="utf-8")
+    original_generation = generation_workflow.read_text(encoding="utf-8")
+
+    generation_enabled = False
+    admission_errors: list[str] = []
+    if structurally_complete:
         _promote_contract(contract)
-    _promote_master(master, territory_id, contract_complete)
-    _set_catalog_state(
-        catalog,
-        territory_id=territory_id,
-        edition=str(edition),
-        source_declaration=source_rel,
-        contract_complete=contract_complete,
-        run_id=run_id,
-        artifact_name=artifact_name,
-        artifact_sha256=artifact_sha256.removeprefix("sha256:"),
-        package_sha256=package_sha256,
-    )
+        _promote_master(master, territory_id, True)
+        _set_catalog_state(
+            catalog,
+            territory_id=territory_id,
+            edition=str(edition),
+            source_declaration=source_rel,
+            contract_complete=True,
+            run_id=run_id,
+            artifact_name=artifact_name,
+            artifact_sha256=artifact_sha256.removeprefix("sha256:"),
+            package_sha256=package_sha256,
+        )
+        report = validate_production_contract(contract, expected_territory=territory_id)
+        generation_enabled = bool(report.get("status") == "ADMITTED" and report.get("production_authorized"))
+        admission_errors = list(report.get("errors") or [])
+
+    if not generation_enabled:
+        contract.write_text(original_contract, encoding="utf-8")
+        master.write_text(original_master, encoding="utf-8")
+        catalog.write_text(original_catalog, encoding="utf-8")
+        generation_workflow.write_text(original_generation, encoding="utf-8")
+        _set_catalog_state(
+            catalog,
+            territory_id=territory_id,
+            edition=str(edition),
+            source_declaration=source_rel,
+            contract_complete=False,
+            run_id=run_id,
+            artifact_name=artifact_name,
+            artifact_sha256=artifact_sha256.removeprefix("sha256:"),
+            package_sha256=package_sha256,
+        )
+
     _rewrite_generation_options(generation_workflow, _generation_names(catalog))
 
     return {
         "territory_id": territory_id,
         "edition": str(edition),
         "territorial_sources_prepared": True,
-        "contract_complete": contract_complete,
-        "generation_enabled": contract_complete,
+        "contract_complete": generation_enabled,
+        "generation_enabled": generation_enabled,
         "contract_reasons": contract_reasons,
+        "admission_errors": admission_errors,
         "source_declaration": source_rel,
         "run_id": run_id,
         "artifact_name": artifact_name,
