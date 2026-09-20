@@ -4,8 +4,8 @@
 # NOMBRE DE VERSIÓN: Generación de distritos autonómicos
 # FECHA: 2026-09-18
 # ESTADO: candidato
-# QUÉ HACE: genera distritos autonómicos para un territorio y una edición, publica automáticamente el resultado en el visor y no incorpora resultados electorales.
-# CAMBIOS: elimina selector de producto, publicación y confirmación; la generación ejecuta M01–M06 y publica el visor automáticamente.
+# QUÉ HACE: genera y certifica distritos autonómicos para un territorio y una edición; no incorpora resultados electorales ni publica el visor.
+# CAMBIOS: mantiene la generación territorial y desacopla la publicación web como proceso independiente.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
 name: 02 · Generación de Distritos Autonómicos
