@@ -80,7 +80,8 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             data=self._load(path)
             self.assertEqual(data["jobs"]["ruta"]["secrets"], "inherit")
         router=(WORKFLOWS/"_reutilizable-operacion-territorial.yml").read_text(encoding="utf-8")
-        self.assertIn("secrets.DDD_WORKFLOW_TOKEN", router)
+        self.assertIn("github.token", router)
+        self.assertNotIn("DDD_WORKFLOW_TOKEN", router)
 
     def test_checkpoint_selection_and_engine_are_preserved(self):
         for path in (GEN,ELECTORAL):
