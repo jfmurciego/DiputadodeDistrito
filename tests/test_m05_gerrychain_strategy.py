@@ -89,6 +89,39 @@ class GaliciaGerryChainE2E(unittest.TestCase):
             self.assertEqual(len(geo["features"]), 2134)
             self.assertEqual(len({f["properties"]["district_id"] for f in geo["features"]}), 75)
 
+            # Repetibilidad: misma entrada + misma semilla => misma asignación elegida.
+            output_2 = root / "galicia_gerrychain_m05_repeat.geojson.zip"
+            report_2 = run_strategy(
+                GALICIA,
+                graph_override=graph,
+                initial_override=initial,
+                output_override=output_2,
+                report_override=root / "galicia_gerrychain_m05_repeat_report.json",
+                steps_per_stage=int(os.environ.get("DDD_GERRYCHAIN_STEPS", "30")),
+                warmup_rounds=4,
+                seed=20260920,
+            )
+            self.assertEqual(
+                report["selected_metrics"]["assignment_sha256"],
+                report_2["selected_metrics"]["assignment_sha256"],
+            )
+            print("GERRYCHAIN_GALICIA_E2E=" + json.dumps({
+                "status": report["optimization_status"],
+                "before": report["target_tolerance"]["before"],
+                "after": report["target_tolerance"]["after"],
+                "assignment_sha256": report["selected_metrics"]["assignment_sha256"],
+                "schedule": report["schedule"],
+                "stages": [
+                    {
+                        "epsilon": stage["epsilon"],
+                        "states_observed": stage["states_observed"],
+                        "unique_states": stage["unique_states"],
+                        "self_loops": stage["self_loops"],
+                    }
+                    for stage in report["stages"]
+                ],
+            }, sort_keys=True))
+
 
 if __name__ == "__main__":
     unittest.main()
