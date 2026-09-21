@@ -104,7 +104,6 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
     expected_year=str(transform.get("election_year") or str(declaration.get("election_date") or "")[:4])
     special_crosswalk=_load_special_crosswalk(root,transform)
     special_pos=0
-    aliases={str(x["from"]):str(x["to"]) for x in ((declaration.get("section_reconciliation") or {}).get("aliases") or [])}
     all_party_totals={}
     cera_party_totals={}
     out_dir.mkdir(parents=True,exist_ok=True)
@@ -162,7 +161,6 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
             else:
                 cusec=f"{prov}{mun}{dist}{sec}"
 
-            cusec=aliases.get(cusec,cusec)
             sections.add(cusec)
             for party,votes in row_party_votes.items():
                 parties.add(party)
