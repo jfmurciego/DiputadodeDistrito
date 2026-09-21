@@ -226,8 +226,47 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
     def normalized_codes(value: Any) -> Any:
         return [str(item).zfill(2) for item in value] if isinstance(value, list) else value
     _same("provincias", [("contrato", normalized_codes(provinces)), ("M01", normalized_codes(m[0].get("province_codes"))), ("validación", normalized_codes((cfg.get("validation") or {}).get("expected_province_codes", provinces)))], errors)
-    for field, indexes in (("id_field", range(1, 6)), ("pop_field", range(2, 6)), ("province_field", range(3, 6)), ("municipality_field", range(3, 6))):
+    for field, indexes in (("id_field", range(1, 6)), ("pop_field", range(2, 6)), ("province_field", range(3, 6))):
         _same(field, [(f"M{i+1}", m[i].get(field)) for i in indexes], errors)
+
+    partitioning = cfg.get("partitioning") or {}
+    partitioning_enabled = bool(
+        isinstance(partitioning, Mapping)
+        and partitioning.get("enabled") is not False
+        and str(partitioning.get("strategy") or "").strip()
+    )
+    if partitioning_enabled:
+        if partitioning.get("strategy") != "connected_internal_units":
+            errors.append("partitioning.strategy no soportada por contrato productivo")
+        partition_field = partitioning.get("partition_unit_field")
+        admin_municipality_field = partitioning.get("municipality_field")
+        if not partition_field:
+            errors.append("falta partitioning.partition_unit_field")
+        if not admin_municipality_field:
+            errors.append("falta partitioning.municipality_field")
+        if m[3].get("municipality_field") != partition_field:
+            errors.append(
+                "M04.municipality_field debe coincidir con partitioning.partition_unit_field "
+                "cuando hay unidades internas"
+            )
+        _same(
+            "municipio administrativo",
+            [
+                ("partitioning", admin_municipality_field),
+                ("M05", m[4].get("municipality_field")),
+                ("M06", m[5].get("municipality_field")),
+                ("validación", (cfg.get("validation") or {}).get("municipality_field")),
+            ],
+            errors,
+        )
+        if partitioning.get("output_geojson") != m[3].get("in_geojson"):
+            errors.append("partitioning.output_geojson debe alimentar M04.in_geojson")
+        if partitioning.get("input_geojson") != m[0].get("out_geojson"):
+            errors.append("partitioning.input_geojson debe partir de M01.out_geojson")
+        if partitioning.get("graph") != m[2].get("out_graph_json"):
+            errors.append("partitioning.graph debe coincidir con M03.out_graph_json")
+    else:
+        _same("municipality_field", [(f"M{i+1}", m[i].get("municipality_field")) for i in range(3, 6)], errors)
     _same("district_field", [("M05", m[4].get("district_field")), ("M06", m[5].get("district_field"))], errors)
     _same("reparto", [("contrato", contract.get("district_apportionment")), ("M04", m[3].get("district_apportionment")), ("validación", (cfg.get("validation") or {}).get("province_apportionment"))], errors)
 
