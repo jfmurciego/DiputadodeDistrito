@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import os
 from pathlib import Path
 
 import yaml
@@ -53,6 +54,20 @@ def materialize(params: Path, validation: Path, output: Path) -> Path:
     }
     modules["modulo_07_agregar_resultados_electorales"] = m07
     modules["modulo_08_integrar_resultados"] = m08
+
+    # El overlay se escribe fuera del directorio del contrato territorial original.
+    # Recalcular project_root evita que rutas relativas heredadas (p.ej. ../../..)
+    # se interpreten desde .ddd-electoral-runtime y terminen apuntando a /.
+    io_cfg = cfg.setdefault("io", {})
+    project_root_cfg = io_cfg.setdefault("project_root", {})
+    raw_root = str(project_root_cfg.get("path") or "")
+    original_parent = params.resolve().parent
+    if raw_root:
+        candidate = Path(raw_root).expanduser()
+        project_root = candidate.resolve() if candidate.is_absolute() else (original_parent / candidate).resolve()
+    else:
+        project_root = original_parent
+    project_root_cfg["path"] = os.path.relpath(project_root, output.resolve().parent)
 
     # El contrato runtime vive fuera del directorio territorial original. Recalcular
     # project_root preserva exactamente el mismo root lógico que tenía el contrato
