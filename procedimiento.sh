@@ -135,11 +135,25 @@ ejecutar(){
         python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
         ;;
       gerrychain_recom)
-        local gerry_rc=0
+        local gerry_rc=0 baseline_rc=0
         seed_args=()
         if [[ "$candidate_count" =~ ^[0-9]+$ ]] && (( candidate_count > 0 )); then
           seed_args=(--seed-count "$candidate_count")
         fi
+
+        # La validez del contrato y de la Formación inicial se comprueba siempre,
+        # incluso si el runtime aislado de GerryChain no está disponible.
+        set +e
+        python ddd_core/m05_gerrychain_strategy.py \
+          --params "$PARAMS" --run-id "$RUN_ID" --validate-baseline-only \
+          2>&1 | tee "$LOG_DIR/modulo_${n}_baseline_validation.log"
+        baseline_rc=${PIPESTATUS[0]}
+        set -e
+        if (( baseline_rc != 0 )); then
+          echo "[FATAL] Contrato o Formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          exit 42
+        fi
+
         if [[ -x /opt/ddd-gerrychain/bin/python ]]; then
           set +e
           PYTHONHASHSEED=0 /opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py \
@@ -148,11 +162,11 @@ ejecutar(){
           set -e
         else
           gerry_rc=20
-          echo "[WARN] Entorno reproducible GerryChain no disponible." | tee "$LOG_DIR/modulo_${n}.log"
+          echo "[WARN] Entorno reproducible GerryChain no disponible tras validar baseline." | tee "$LOG_DIR/modulo_${n}.log"
         fi
 
         if (( gerry_rc == 42 )); then
-          echo "[FATAL] GerryChain rechazó contrato o formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          echo "[FATAL] GerryChain detectó entrada inválida tras el preflight; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
           exit 42
         fi
 
@@ -163,7 +177,7 @@ import datetime,json,sys
 from pathlib import Path
 out,rc,candidates=sys.argv[1:]
 payload={
-    "schema":"ddd.optimization-fallback/1.1",
+    "schema":"ddd.optimization-fallback/1.2",
     "requested_strategy":"gerrychain_recom",
     "requested_candidates":int(candidates),
     "gerrychain_exit_code":int(rc),
