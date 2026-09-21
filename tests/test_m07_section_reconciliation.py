@@ -80,5 +80,33 @@ class SectionReconciliationTests(unittest.TestCase):
             )
 
 
+class AsturiasElectoralGovernanceTests(unittest.TestCase):
+    def test_asturias_contract_closes_known_2023_2025_gaps(self):
+        import json, yaml
+        declaration=ROOT/"territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml"
+        crosswalk=ROOT/"territorios/principado_de_asturias/config/elecciones/asturias_2023_oviedo_special_crosswalk.json"
+        data=yaml.safe_load(declaration.read_text(encoding="utf-8"))
+        cw=json.loads(crosswalk.read_text(encoding="utf-8"))
+
+        self.assertEqual(data["verification"]["mode"],"exact_party_totals")
+        self.assertEqual(sum(data["verification"]["official_party_totals"].values()),527500)
+        self.assertEqual(data["verification"]["official_candidate_votes"],527500)
+
+        self.assertEqual(cw["schema"],"ddd-election-special-row-crosswalk/1.0")
+        self.assertEqual(len(cw["rows"]),81)
+        self.assertEqual([row["ordinal"] for row in cw["rows"]],list(range(1,82)))
+        self.assertTrue(all(str(row["target_cusec"]).startswith("33044") for row in cw["rows"]))
+
+        reconciliation=data["section_reconciliation"]
+        self.assertEqual(len(reconciliation["aliases"]),8)
+        self.assertEqual(len(reconciliation["splits"]),2)
+        self.assertEqual(data["reconciliation"]["allowed_result_only_sections"],[])
+        self.assertEqual(data["reconciliation"]["allowed_map_only_sections"],[])
+
+        cera=data["non_geocodable_vote_policy"]["CERA"]
+        self.assertEqual(cera["action"],"exclude_from_geographic_district_allocation")
+        self.assertEqual(cera["reporting"],"mandatory")
+
+
 if __name__=="__main__":
     unittest.main()
