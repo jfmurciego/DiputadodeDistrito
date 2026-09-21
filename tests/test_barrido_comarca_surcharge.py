@@ -3,7 +3,11 @@ import unittest
 import yaml
 
 from ddd_core.m05_gerrychain_strategy import PreparedProblem, StrategyContract
-from herramientas.barrer_comarca_surcharge_aragon import comarca_metrics, rows_from_portfolio
+from herramientas.barrer_comarca_surcharge_aragon import (
+    BASELINE_CANONICAL,
+    comarca_metrics,
+    rows_from_portfolio,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "configuracion/experimentos/barrido_comarca_surcharge_aragon.yaml"
@@ -17,6 +21,12 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
         self.assertEqual(cfg["promotion"], "forbidden")
         self.assertFalse(cfg["publication"])
         self.assertEqual(cfg["persistence"], "metrics_only")
+        self.assertEqual(cfg["baseline"]["source_artifact"], "gh-34599224954-1")
+        self.assertEqual(cfg["baseline"]["comarcas_divididas"], 31)
+        self.assertEqual(cfg["baseline"]["comarcas_divididas_evitables"], 20)
+        self.assertAlmostEqual(cfg["baseline"]["retencion_comarcal"], 0.290)
+        self.assertAlmostEqual(cfg["baseline"]["retencion_techo_teorico"], 0.352)
+        self.assertAlmostEqual(cfg["baseline"]["retencion_sobre_maximo"], 0.822)
         self.assertEqual(
             cfg["metrics"],
             [
@@ -91,6 +101,15 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
         self.assertEqual([row["seed"] for row in rows], [101, 102, 103, 104])
         self.assertEqual(sum(bool(row["selected_for_surcharge"]) for row in rows), 1)
         self.assertEqual({row["comarca_surcharge"] for row in rows}, {0.5})
+        self.assertEqual({row["row_type"] for row in rows}, {"barrido"})
+
+    def test_canonical_baseline_is_preserved_verbatim(self):
+        self.assertEqual(BASELINE_CANONICAL["source_artifact"], "gh-34599224954-1")
+        self.assertEqual(BASELINE_CANONICAL["comarcas_divididas"], 31)
+        self.assertEqual(BASELINE_CANONICAL["comarcas_divididas_evitables"], 20)
+        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_comarcal"], 0.290)
+        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_techo_teorico"], 0.352)
+        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_sobre_maximo"], 0.822)
 
     def test_retention_ceiling_accounts_for_unavoidable_large_comarca(self):
         problem = PreparedProblem(
