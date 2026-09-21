@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — preparación electoral
-# VERSIÓN: 1.1.0
+# VERSIÓN: 1.2.0
 # NOMBRE DE VERSIÓN: Preparación durable de resultados electorales
 # FECHA: 2026-09-19
 # ESTADO: candidato
 # QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
-# MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada.
+# MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada, sin exigir alta manual en elecciones_vigentes.yaml.
 name: 03 · Preparación de Resultados Electorales
 
 on:
@@ -115,7 +115,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.source_ref || github.sha }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
       - id: previous
         name: Recuperar último paquete electoral congelado
         if: ${{ inputs.reutilizar_si_ya_preparada }}
