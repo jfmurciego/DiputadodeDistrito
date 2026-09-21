@@ -69,6 +69,17 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("exit 44",text)
         self.assertIn("exit 45",text)
 
+    def test_electoral_rejects_m06_that_selector_only_allows_to_derive(self):
+        text=ELECTORAL.read_text(encoding="utf-8")
+        self.assertIn('selection="$tmp/checkpoint_selection.json"',text)
+        self.assertIn('"$selection"',text)
+        self.assertIn(
+            "(.valid == true) and ((.requires_derivation // false) == false) and (.effective_stage == \"M06\")",
+            text,
+        )
+        self.assertIn('if [[ "$direct_reuse" != true ]]',text)
+        self.assertIn("continue",text)
+
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
         self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
