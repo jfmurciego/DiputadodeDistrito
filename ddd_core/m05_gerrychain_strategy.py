@@ -93,6 +93,9 @@ class StrategyConfig:
     seed_count: int = 4
     proposal_epsilon: float = 0.12
     comarca_surcharge: float = 0.30
+    population_band: float = 0.005
+    metric_crs: str = "EPSG:3035"
+    min_shared_border_m: float = 1.0
     max_bipartition_attempts: int = 500
     require_pythonhashseed_zero: bool = True
 
@@ -105,6 +108,12 @@ class StrategyConfig:
             raise ValueError("proposal_epsilon debe estar entre 0 y 1")
         if not 0 <= self.comarca_surcharge <= 1:
             raise ValueError("comarca_surcharge debe estar entre 0 y 1")
+        if not 0 < self.population_band < 1:
+            raise ValueError("population_band debe estar entre 0 y 1")
+        if not self.metric_crs:
+            raise ValueError("metric_crs no puede estar vacío")
+        if self.min_shared_border_m <= 0:
+            raise ValueError("min_shared_border_m debe ser > 0")
         if self.max_bipartition_attempts < 1:
             raise ValueError("max_bipartition_attempts debe ser >= 1")
 
@@ -126,6 +135,8 @@ class PreparedProblem:
     shared_border_lengths: dict[tuple[str, str], float] = field(default_factory=dict)
     unit_components: dict[str, tuple[str, ...]] = field(default_factory=dict)
     component_edges: list[tuple[str, str]] = field(default_factory=list)
+    internal_component_edges: list[tuple[str, str]] = field(default_factory=list)
+    initial_geometric_exceptions: dict[Any, frozenset[str]] = field(default_factory=dict)
     component_adjacency: dict[str, set[str]] = field(default_factory=dict)
 
 
@@ -252,6 +263,8 @@ def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
     s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
     raw = s5.get("gerrychain") or {}
     validation = cfg.get("validation") or {}
+    s2 = (cfg.get("modulos") or {}).get("modulo_02_construir_adyacencias") or {}
+    s6 = (cfg.get("modulos") or {}).get("modulo_06_consolidar_distritos") or {}
     default_epsilon = float(validation.get("target_tolerance_ratio", 0.12))
     result = StrategyConfig(
         steps_per_seed=int(raw.get("steps_per_seed", 3000)),
@@ -259,6 +272,9 @@ def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
         seed_count=int(raw.get("seed_count", 4)),
         proposal_epsilon=float(raw.get("proposal_epsilon", default_epsilon)),
         comarca_surcharge=float(raw.get("comarca_surcharge", 0.30)),
+        population_band=float(raw.get("population_band", 0.005)),
+        metric_crs=str(raw.get("metric_crs") or s6.get("metric_crs") or s2.get("working_crs") or "EPSG:3035"),
+        min_shared_border_m=float(raw.get("min_shared_border_m", s2.get("min_shared_border_m", 1.0))),
         max_bipartition_attempts=int(raw.get("max_bipartition_attempts", 500)),
         require_pythonhashseed_zero=bool(raw.get("require_pythonhashseed_zero", True)),
     )
@@ -309,6 +325,8 @@ def prepare_problem(
     province_field: str = "CPRO",
     municipality_field: str = "CUMUN",
     closed_urban_field: str = "ddd_closed_urban",
+    metric_crs: str = "EPSG:3035",
+    min_shared_border_m: float = 1.0,
 ) -> PreparedProblem:
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
     graph_nodes = {str(n["id"]): n for n in graph.get("nodes", [])}
@@ -320,6 +338,8 @@ def prepare_problem(
         raise ValueError("M04 carece de columnas requeridas: " + ", ".join(missing))
     if sections.crs is None:
         raise ValueError("M04 no declara CRS")
+    if min_shared_border_m <= 0:
+        raise ValueError("min_shared_border_m debe ser > 0")
 
     sections = sections.copy()
     sections[id_field] = sections[id_field].astype(str)
@@ -333,6 +353,8 @@ def prepare_problem(
     if set(sections[id_field]) != set(node_population):
         raise ValueError("El universo de M04 no coincide exactamente con M03")
 
+    metric_sections = sections.to_crs(metric_crs)
+
     section_unit = dict(zip(sections[id_field], sections[unit_field]))
     units: dict[str, dict[str, Any]] = {}
     initial: dict[str, Any] = {}
@@ -342,8 +364,9 @@ def prepare_problem(
     section_components: dict[str, list[tuple[str, Any]]] = {}
     unit_components: dict[str, list[str]] = defaultdict(list)
     component_edges: set[tuple[str, str]] = set()
+    internal_component_edges: set[tuple[str, str]] = set()
 
-    for section_id, geometry in zip(sections[id_field], sections.geometry):
+    for section_id, geometry in zip(metric_sections[id_field], metric_sections.geometry):
         if geometry is None or geometry.is_empty or not geometry.is_valid:
             raise ValueError(f"Geometría inválida en {section_id}")
         components = _polygon_components(geometry)
@@ -353,9 +376,9 @@ def prepare_problem(
         unit_components[unit].extend(name for name, _ in named)
         if len(named) > 1:
             anchor = named[0][0]
-            component_edges.update(tuple(sorted((anchor, name))) for name, _ in named[1:])
+            internal_component_edges.update(tuple(sorted((anchor, name))) for name, _ in named[1:])
 
-    for unit, rows in sections.groupby(unit_field, sort=True):
+    for unit, rows in metric_sections.groupby(unit_field, sort=True):
         districts = set(rows[district_field])
         provinces = set(rows[province_field])
         municipalities = set(rows[municipality_field])
@@ -407,7 +430,8 @@ def prepare_problem(
         unit_u, unit_v = str(u), str(v)
         for left_name, left_part in section_components.get(section_u, []):
             for right_name, right_part in section_components.get(section_v, []):
-                if float(left_part.boundary.intersection(right_part.boundary).length) > 1e-9:
+                shared_component_border = float(left_part.boundary.intersection(right_part.boundary).length)
+                if shared_component_border + 1e-9 >= min_shared_border_m:
                     component_edges.add(tuple(sorted((left_name, right_name))))
         if unit_u != unit_v:
             edges.add(tuple(sorted((unit_u, unit_v))))
@@ -429,6 +453,38 @@ def prepare_problem(
         if contract.preserve_closed_urban and unit_set and unit_set == closed_members[district]
     }
 
+    def component_connected(wanted: set[str], edges_for_check: Iterable[tuple[str, str]]) -> bool:
+        if not wanted:
+            return True
+        adjacency = {component: set() for component in wanted}
+        for left, right in edges_for_check:
+            if left in wanted and right in wanted:
+                adjacency[left].add(right)
+                adjacency[right].add(left)
+        start = next(iter(wanted))
+        reached = {start}
+        queue: deque[str] = deque([start])
+        while queue:
+            component = queue.popleft()
+            for neighbor in adjacency[component]:
+                if neighbor not in reached:
+                    reached.add(neighbor)
+                    queue.append(neighbor)
+        return reached == wanted
+
+    initial_geometric_exceptions: dict[Any, frozenset[str]] = {}
+    initial_components: dict[Any, set[str]] = defaultdict(set)
+    for unit, district in initial.items():
+        initial_components[district].update(unit_components.get(unit, ()))
+    combined_component_edges = set(component_edges) | set(internal_component_edges)
+    for district, wanted in initial_components.items():
+        if component_connected(wanted, component_edges):
+            continue
+        if component_connected(wanted, combined_component_edges):
+            # Excepción heredada estricta: solo se conserva mientras el distrito
+            # mantenga exactamente el mismo conjunto de componentes de M04.
+            initial_geometric_exceptions[district] = frozenset(wanted)
+
     total = sum(row["population"] for row in units.values())
     target = total / contract.expected_k
     problem = PreparedProblem(
@@ -443,6 +499,8 @@ def prepare_problem(
         shared_border_lengths=shared_border_lengths,
         unit_components={unit: tuple(components) for unit, components in unit_components.items()},
         component_edges=sorted(component_edges),
+        internal_component_edges=sorted(internal_component_edges),
+        initial_geometric_exceptions=initial_geometric_exceptions,
     )
     violations = hard_constraint_violations(problem, initial, contract)
     if violations:
@@ -582,7 +640,9 @@ def hard_constraint_violations(
                             reached.add(neighbor)
                             queue.append(neighbor)
                 if reached != wanted:
-                    violations.append(f"geometric_contiguity:{district}")
+                    inherited = problem.initial_geometric_exceptions.get(district)
+                    if inherited != frozenset(wanted):
+                        violations.append(f"geometric_contiguity:{district}")
 
     # Deliberadamente NO se incluye target_tolerance_ratio aquí. Es objetivo,
     # no límite duro de los estados intermedios.
@@ -630,6 +690,7 @@ def candidate_rank(
     assignment: Mapping[str, Any],
     contract: StrategyContract,
     initial: Mapping[str, Any],
+    population_band: float = 0.005,
 ) -> tuple[Any, ...]:
     pop = population_metrics(problem, assignment, contract)
     shape = geometric_shape_metrics(problem, assignment)
@@ -637,11 +698,14 @@ def candidate_rank(
     churn = sum(assignment[u] != initial[u] for u in initial) / max(1, len(initial))
     # Orden técnico declarativo y no partidista. El hash resuelve empates de
     # forma determinista; no intervienen votos ni composición electoral.
+    max_rel_dev = float(pop["max_relative_deviation"])
+    rms = float(pop["rms_relative_deviation"])
     return (
         int(pop["districts_outside_tolerance"]),
-        float(pop["max_relative_deviation"]),
-        float(pop["rms_relative_deviation"]),
+        int(math.ceil(max_rel_dev / population_band)),
         float(shape["penalty"]),
+        max_rel_dev,
+        rms,
         int(cut_edges),
         float(churn),
         _assignment_hash(assignment),
@@ -737,7 +801,7 @@ def _run_seed(
     )
 
     best_assignment = dict(problem.initial_assignment)
-    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment)
+    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment, config.population_band)
     unique: set[str] = set()
     self_loops = 0
     previous_hash: str | None = None
@@ -751,7 +815,7 @@ def _run_seed(
         if previous_hash == digest:
             self_loops += 1
         previous_hash = digest
-        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment)
+        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment, config.population_band)
         if rank < best_rank:
             best_rank = rank
             best_assignment = assignment
@@ -774,14 +838,14 @@ def run_portfolio(
     contract: StrategyContract,
     config: StrategyConfig,
 ) -> dict[str, Any]:
-    initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment)
+    initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment, config.population_band)
     runs = [_run_seed(problem, contract, config, seed) for seed in config.seeds()]
     selected = min(
         runs,
-        key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment),
+        key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment, config.population_band),
     )
     selected_assignment = selected["assignment"]
-    selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment)
+    selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment, config.population_band)
     if selected_rank > initial_rank:
         raise AssertionError("El portfolio GerryChain intentó degradar M04; esto no debe ser posible")
     return {"runs": runs, "selected": selected}
@@ -928,6 +992,9 @@ def build_report(
             "seed_count": config.seed_count,
             "seeds": config.seeds(),
             "proposal_epsilon": config.proposal_epsilon,
+            "population_band": config.population_band,
+            "metric_crs": config.metric_crs,
+            "min_shared_border_m": config.min_shared_border_m,
             "max_bipartition_attempts": config.max_bipartition_attempts,
             "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
             "runs": [
@@ -974,7 +1041,13 @@ def run_from_paths(
     contract: StrategyContract,
     strategy: StrategyConfig,
 ) -> dict[str, Any]:
-    problem = prepare_problem(graph_path, initial_path, contract)
+    problem = prepare_problem(
+        graph_path,
+        initial_path,
+        contract,
+        metric_crs=strategy.metric_crs,
+        min_shared_border_m=strategy.min_shared_border_m,
+    )
     portfolio = run_portfolio(problem, contract, strategy)
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
     portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
@@ -1004,6 +1077,7 @@ def main() -> None:
     ap.add_argument("--seed-base", type=int)
     ap.add_argument("--seed-count", type=int)
     ap.add_argument("--proposal-epsilon", type=float)
+    ap.add_argument("--population-band", type=float)
     ap.add_argument("--max-bipartition-attempts", type=int)
     args = ap.parse_args()
 
@@ -1042,6 +1116,10 @@ def main() -> None:
         seed_base=args.seed_base if args.seed_base is not None else strategy.seed_base,
         seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
         proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
+        comarca_surcharge=strategy.comarca_surcharge,
+        population_band=args.population_band if args.population_band is not None else strategy.population_band,
+        metric_crs=strategy.metric_crs,
+        min_shared_border_m=strategy.min_shared_border_m,
         max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
         require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
     )
