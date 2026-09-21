@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-21T08:27:23.376047+00:00 · Edición: **2025**
+Actualizado: 2026-09-21T16:05:40.138842+00:00 · Edición: **2025**
 
 ## Resumen
 
@@ -18,8 +18,8 @@ Actualizado: 2026-09-21T08:27:23.376047+00:00 · Edición: **2025**
 |---|---:|---|
 | **Cadena completa validada** | 🟢 **1** | Galicia |
 | **Generación territorial validada** | 🟢 **2** | Galicia · Principado de Asturias |
-| **Preparados para continuar** | 🔵 **1** | Extremadura |
-| **Validación pendiente** | 🟡 **3** | Aragón · Castilla y León · La Rioja |
+| **Preparados para continuar** | 🔵 **2** | Castilla y León · Extremadura |
+| **Validación pendiente** | 🟡 **2** | Aragón · La Rioja |
 | **Pendientes o no incorporados** | ⚪/🔴 **13** | Andalucía · Canarias · Cantabria · Castilla-La Mancha · Cataluña · Ceuta · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · Islas Baleares · Melilla · País Vasco · Región de Murcia |
 
 ## Estado actual por territorio
@@ -32,7 +32,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **Aragón** | 🟡 | 🟡 | 🟡 | 🟡 | Validación pendiente |
 | **Canarias** | 🔴 | 🔴 | 🔴 | 🔴 | No incorporado |
 | **Cantabria** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **Castilla y León** | 🟡 | 🟡 | 🟡 | 🟡 | Validación pendiente |
+| **Castilla y León** | 🟢 | 🟡 | 🟡 | 🟡 | Fuentes territoriales preparadas |
 | **Castilla-La Mancha** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
 | **Cataluña** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
 | **Ceuta** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |

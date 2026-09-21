@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-21T08:27:23.376047+00:00",
+  "generated_at": "2026-09-21T16:05:40.138842+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -94,17 +94,24 @@
     {
       "territory_id": "castilla_y_leon",
       "name": "Castilla y León",
-      "ft": "yellow",
+      "ft": "green",
       "g": "yellow",
       "fe": "yellow",
       "re": "yellow",
-      "status": "Validación pendiente",
-      "certification": "BLOCK_POPULATION_TARGET_NOT_MET",
-      "run_id": 35329341120,
-      "stage": "M08",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
+      "run_id": null,
+      "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "castilla_y_leon",
+          "edition": "2025",
+          "run_id": 35610439734,
+          "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+          "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
@@ -259,16 +266,16 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35576816441,
+      "run_id": 35622073641,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "galicia",
           "edition": "2025",
-          "run_id": 35533666934,
-          "artifact_name": "ddd-source-package-galicia-2025-35533666934",
-          "artifact_sha256": "9b1f55233c246c21d414ba4d84a3845f6a173d63719aed182435f2db43b39310",
+          "run_id": 35586097396,
+          "artifact_name": "ddd-source-package-galicia-2025-35586097396",
+          "artifact_sha256": "40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -277,10 +284,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 35576816441,
-          "artifact_name": "ddd-state-35576816441-M06",
-          "artifact_sha256": "279ccecf74ea1257bd5693726ca80f9fc29bd0562acf5c7062ee31b98f0ef400",
-          "source_commit": "20bee39a246ca667220523a10765bd23e42bc9d0",
+          "run_id": 35622073641,
+          "artifact_name": "ddd-state-35622073641-M06",
+          "artifact_sha256": "fdb7e6aed796b660390a432105cfc67b61af5ea6a21ecbeaa44218acad221622",
+          "source_commit": "611b09050318d21d36203a047554473b0a4aad3f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -303,10 +310,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 35576816441,
-          "artifact_name": "ddd-state-35576816441-M08",
-          "artifact_sha256": "ac24c748bdbf33b7885fccd93373b6ec27f4a12f5c295fa7c42ebc11b5520769",
-          "source_commit": "20bee39a246ca667220523a10765bd23e42bc9d0",
+          "run_id": 35622073641,
+          "artifact_name": "ddd-state-35622073641-M08",
+          "artifact_sha256": "ea3397ace18017ccd5eef3e6106dbec37cafda76ab3fefe1fde99867456c9e9b",
+          "source_commit": "611b09050318d21d36203a047554473b0a4aad3f",
           "stage": "M08"
         }
       }
@@ -460,14 +467,14 @@
       "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 1,
+    "ready": 2,
     "ready_names": [
+      "Castilla y León",
       "Extremadura"
     ],
-    "pending": 3,
+    "pending": 2,
     "pending_names": [
       "Aragón",
-      "Castilla y León",
       "La Rioja"
     ],
     "blocked": 13,
@@ -490,7 +497,7 @@
   "latest_validated": {
     "territory_id": "galicia",
     "name": "Galicia",
-    "run_id": 35576816441,
+    "run_id": 35622073641,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -522,6 +529,10 @@
     }
   ],
   "next_actions": [
+    {
+      "territory": "Castilla y León",
+      "action": "generar y validar distritos"
+    },
     {
       "territory": "Extremadura",
       "action": "generar y validar distritos"
