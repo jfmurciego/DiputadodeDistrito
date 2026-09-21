@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # PROYECTO: Diputado de Distrito
 # FICHERO: procedimiento.sh
-# VERSIÓN: 2.9.0
+# VERSIÓN: 2.9.1
 # NOMBRE DE VERSIÓN: Estrategia de optimización seleccionable en M05
 # FECHA: 2026-09-20
 # ESTADO: candidato
-# CAMBIOS: admite selección funcional desde 02/00: Canónico, GerryChain (1 candidato), GerryChain 25 y GerryChain 50; el contrato sigue siendo fallback para ejecuciones internas sin selector.
-# MOTIVO: reincorporar GerryChain/ReCom como alternativa industrializada del paso 02.5, con dependencias aisladas y ejecución reproducible.
+# CAMBIOS: mantiene la selección Canónico/GerryChain y añade fallback operativo de GerryChain a Canónico cuando la estrategia alternativa no puede producir salida.
+# MOTIVO: una optimización opcional no debe dejar sin producto una formación inicial válida; el fallo GerryChain queda trazado y el flujo continúa con la estrategia canónica.
 # ANTERIOR: legacy/procedimiento/procedimiento_v2.7.0.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; cd "$ROOT"
@@ -122,6 +122,24 @@ PY
       ;;
   esac
 }
+registrar_optimizacion(){
+  local requested="$1" effective="$2" fallback="$3" reason="${4:-}" gerry_rc="${5:-}"
+  python - "$RUN_DIR/OPTIMIZATION_EXECUTION.json" "$requested" "$effective" "$fallback" "$reason" "$gerry_rc" <<'PY'
+import datetime,json,sys
+from pathlib import Path
+out,requested,effective,fallback,reason,gerry_rc=sys.argv[1:]
+payload={
+    "schema":"ddd.optimization-execution/1.0",
+    "requested_algorithm":requested,
+    "effective_algorithm":effective,
+    "fallback":fallback.lower()=="true",
+    "fallback_reason":reason or None,
+    "gerrychain_exit_code":int(gerry_rc) if gerry_rc else None,
+    "created_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+}
+Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+PY
+}
 ejecutar(){
   local n="$1" script="$2"
   if [[ "$n" == "5" ]]; then
@@ -133,15 +151,67 @@ ejecutar(){
     case "$strategy" in
       canonical)
         python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+        registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-Canónico}" "Canónico" false
         ;;
       gerrychain_recom)
-        test -x /opt/ddd-gerrychain/bin/python || { echo "[FATAL] Falta entorno reproducible GerryChain." >&2; exit 20; }
+        local gerry_rc=0 baseline_rc=0
         seed_args=()
         if [[ "$candidate_count" =~ ^[0-9]+$ ]] && (( candidate_count > 0 )); then
           seed_args=(--seed-count "$candidate_count")
         fi
-        PYTHONHASHSEED=0 /opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py \
-          --params "$PARAMS" --run-id "$RUN_ID" "${seed_args[@]}" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+
+        # La validez del contrato y de la Formación inicial se comprueba siempre,
+        # incluso si el runtime aislado de GerryChain no está disponible.
+        set +e
+        python ddd_core/m05_gerrychain_strategy.py \
+          --params "$PARAMS" --run-id "$RUN_ID" --validate-baseline-only \
+          2>&1 | tee "$LOG_DIR/modulo_${n}_baseline_validation.log"
+        baseline_rc=${PIPESTATUS[0]}
+        set -e
+        if (( baseline_rc != 0 )); then
+          echo "[FATAL] Contrato o Formación inicial inválidos; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          exit 42
+        fi
+
+        if [[ -x /opt/ddd-gerrychain/bin/python ]]; then
+          set +e
+          PYTHONHASHSEED=0 /opt/ddd-gerrychain/bin/python ddd_core/m05_gerrychain_strategy.py \
+            --params "$PARAMS" --run-id "$RUN_ID" "${seed_args[@]}" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+          gerry_rc=${PIPESTATUS[0]}
+          set -e
+        else
+          gerry_rc=20
+          echo "[WARN] Entorno reproducible GerryChain no disponible tras validar baseline." | tee "$LOG_DIR/modulo_${n}.log"
+        fi
+
+        if (( gerry_rc == 42 )); then
+          echo "[FATAL] GerryChain detectó entrada inválida tras el preflight; no se permite fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          exit 42
+        fi
+
+        if (( gerry_rc != 0 )); then
+          echo "[WARN] GerryChain falló después de validar la entrada (rc=$gerry_rc); se ejecuta Canónico como fallback." | tee -a "$LOG_DIR/modulo_${n}.log"
+          python - "$RUN_DIR/OPTIMIZATION_FALLBACK.json" "$gerry_rc" "$candidate_count" <<'PY'
+import datetime,json,sys
+from pathlib import Path
+out,rc,candidates=sys.argv[1:]
+payload={
+    "schema":"ddd.optimization-fallback/1.2",
+    "requested_strategy":"gerrychain_recom",
+    "requested_candidates":int(candidates),
+    "gerrychain_exit_code":int(rc),
+    "fallback_strategy":"canonical",
+    "reason":"gerrychain_runtime_failure_after_valid_baseline",
+    "baseline_validated":True,
+    "created_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+}
+Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+PY
+          python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}_fallback_canonical.log"
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "Canónico" true "gerrychain_runtime_failure_after_valid_baseline" "$gerry_rc"
+        else
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" false
+        fi
         ;;
       *)
         echo "[FATAL] Estrategia de optimización desconocida: $strategy" >&2

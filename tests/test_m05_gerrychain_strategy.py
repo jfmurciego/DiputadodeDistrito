@@ -28,6 +28,7 @@ from ddd_core.m05_gerrychain_strategy import (
     candidate_rank,
     geometric_shape_metrics,
     hard_constraint_violations,
+    physical_geometry_diagnostics,
     prepare_problem,
     _run_seed,
 )
@@ -124,6 +125,85 @@ class ContractTests(unittest.TestCase):
         self.assertIn("gerrychain_recom 50", procedure)
         self.assertIn('--seed-count "$candidate_count"', procedure)
 
+    def test_gerrychain_failure_falls_back_to_canonical_without_aborting_generation(self):
+        procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        self.assertIn("gerry_rc=${PIPESTATUS[0]}", procedure)
+        self.assertIn("--validate-baseline-only", procedure)
+        self.assertIn("baseline_rc=${PIPESTATUS[0]}", procedure)
+        self.assertIn("baseline_rc != 0", procedure)
+        self.assertIn("gerry_rc == 42", procedure)
+        self.assertIn("no se permite fallback", procedure)
+        self.assertIn("falló después de validar la entrada", procedure)
+        self.assertIn("Canónico como fallback", procedure)
+        self.assertIn("OPTIMIZATION_FALLBACK.json", procedure)
+        self.assertIn("OPTIMIZATION_EXECUTION.json", procedure)
+        self.assertIn("registrar_optimizacion", procedure)
+        self.assertIn('"fallback_strategy":"canonical"', procedure)
+        self.assertIn('"baseline_validated":True', procedure)
+        self.assertIn('modulo_${n}_fallback_canonical.log', procedure)
+
+    def test_invalid_baseline_has_reserved_non_fallback_exit_code(self):
+        engine = ENGINE.read_text(encoding="utf-8")
+        procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
+        self.assertIn("BASELINE_INVALID", engine)
+        self.assertIn("SystemExit(42)", engine)
+        self.assertIn("gerry_rc == 42", procedure)
+        self.assertIn("exit 42", procedure)
+
+    def test_invalid_baseline_preflight_exits_42_before_optimizer(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            geo = root / "m04.geojson"
+            gdf = gpd.GeoDataFrame(
+                {
+                    "CUSEC_KEY": ["A"],
+                    "ddd_unit_id": ["A"],
+                    "CPRO": ["01"],
+                    "CUMUN": ["m1"],
+                    "ddd_closed_urban": [False],
+                    "district_id": [1],
+                },
+                geometry=[box(0, 0, 100, 100)],
+                crs="EPSG:3035",
+            )
+            geo.write_text(gdf.to_json(), encoding="utf-8")
+            graph = root / "m03.json"
+            graph.write_text(json.dumps({"nodes": [{"id": "A", "pop": 100}], "edges": []}), encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    sys.executable, str(ENGINE),
+                    "--graph", str(graph), "--initial", str(geo),
+                    "--output", str(root / "unused.zip"), "--report", str(root / "unused.json"),
+                    "--expected-k", "2", "--validate-baseline-only",
+                ],
+                capture_output=True, text=True,
+                env=dict(os.environ, PYTHONHASHSEED="0", PYTHONPATH=str(ROOT)),
+            )
+            self.assertEqual(completed.returncode, 42)
+            self.assertIn("BASELINE_INVALID", completed.stderr)
+            self.assertFalse((root / "unused.zip").exists())
+
+    def test_unrelated_bridge_does_not_explain_physical_discontinuity(self):
+        problem = PreparedProblem(
+            sections=gpd.GeoDataFrame(),
+            units={u: {"population": 1.0, "province": "01", "municipality": u, "closed_urban": False}
+                   for u in ("A", "B", "C", "D")},
+            edges=[("A", "B"), ("C", "D")],
+            initial_assignment={u: 1 for u in ("A", "B", "C", "D")},
+            frozen_districts={},
+            target_population=4.0,
+            unit_components={u: (f"{u}#0",) for u in ("A", "B", "C", "D")},
+            component_edges=[("A#0", "B#0"), ("C#0", "D#0")],
+            operational_edge_types={("A", "B"): ("declared_bridge",), ("C", "D"): ("geometric",)},
+        )
+        diagnostic = physical_geometry_diagnostics(problem, problem.initial_assignment)
+        self.assertEqual(diagnostic["count"], 1)
+        self.assertEqual(
+            diagnostic["districts"][0]["classification"],
+            "UNEXPLAINED_PHYSICAL_DISCONTINUITY",
+        )
+        self.assertEqual(diagnostic["districts"][0]["causal_topology_bridge_edges"], [])
+
     def test_multipart_section_cannot_create_new_geometric_bridge(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -185,7 +265,66 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(hard_constraint_violations(problem, problem.initial_assignment, contract), [])
             candidate = {"A": 1, "B": 1, "C": 1, "D": 2, "E": 3}
             violations = hard_constraint_violations(problem, candidate, contract)
-            self.assertIn("geometric_contiguity:1", violations)
+            self.assertNotIn("geometric_contiguity:1", violations)
+            diagnostic = physical_geometry_diagnostics(problem, candidate)
+            row = next(r for r in diagnostic["districts"] if r["district_id"] == "1")
+            self.assertEqual(row["classification"], "ATOMIC_MULTIPART")
+            self.assertTrue(row["causal_atomic_multipart_edges"])
+            self.assertEqual(diagnostic["semantics"], "diagnostic_only_operational_graph_is_authoritative")
+
+    def test_operational_graph_bridge_is_authoritative_even_without_physical_contact(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            gdf = gpd.GeoDataFrame(
+                {
+                    "CUSEC_KEY": ["A", "B"],
+                    "ddd_unit_id": ["A", "B"],
+                    "CPRO": ["01", "01"],
+                    "CUMUN": ["m1", "m2"],
+                    "ddd_closed_urban": [False, False],
+                    "district_id": [1, 1],
+                },
+                geometry=[box(0, 0, 100, 100), box(1000, 0, 1100, 100)],
+                crs="EPSG:3035",
+            )
+            geo = root / "m04.geojson"
+            geo.write_text(gdf.to_json(), encoding="utf-8")
+            graph = {
+                "nodes": [{"id": "A", "pop": 50}, {"id": "B", "pop": 50}],
+                "edges": [{
+                    "u": "A", "v": "B",
+                    "edge_type": "island_administrative_bridge",
+                    "reason": "conexión territorial declarada",
+                }],
+            }
+            graph_path = root / "m03.json"
+            graph_path.write_text(json.dumps(graph), encoding="utf-8")
+            contract = StrategyContract(
+                expected_k=1,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=10.0,
+                require_single_province=False,
+                require_municipality_discipline=False,
+                preserve_closed_urban=False,
+            )
+            problem = prepare_problem(
+                graph_path, geo, contract,
+                metric_crs="EPSG:3035", min_shared_border_m=1.0,
+            )
+            self.assertEqual(hard_constraint_violations(problem, problem.initial_assignment, contract), [])
+            diagnostic = physical_geometry_diagnostics(problem, problem.initial_assignment)
+            self.assertEqual(diagnostic["count"], 1)
+            self.assertEqual(diagnostic["districts"][0]["district_id"], "1")
+            self.assertEqual(diagnostic["districts"][0]["classification"], "DECLARED_TOPOLOGY_BRIDGE")
+            self.assertEqual(
+                diagnostic["districts"][0]["declared_topology_bridge_types"],
+                ["island_administrative_bridge"],
+            )
+            self.assertEqual(
+                problem.operational_edge_types[("A", "B")],
+                ("island_administrative_bridge",),
+            )
 
     def test_shape_score_is_orientation_invariant_after_metric_reprojection(self):
         with tempfile.TemporaryDirectory() as td:
@@ -397,6 +536,49 @@ class ContractTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
 class GerryChainRuntimeTests(unittest.TestCase):
+    def test_declared_water_bridge_does_not_block_gerrychain_start(self):
+        units = {
+            u: {
+                "unit_id": u, "population": 10.0, "province": "01",
+                "municipality": u, "closed_urban": False, "comarca": None,
+            }
+            for u in ("A", "B", "C", "D")
+        }
+        problem = PreparedProblem(
+            sections=gpd.GeoDataFrame(),
+            units=units,
+            edges=[("A", "B"), ("B", "C"), ("C", "D")],
+            initial_assignment={"A": 1, "B": 1, "C": 2, "D": 2},
+            frozen_districts={},
+            target_population=20.0,
+            operational_edge_types={
+                ("A", "B"): ("water_bridge",),
+                ("B", "C"): ("geometric",),
+                ("C", "D"): ("geometric",),
+            },
+        )
+        contract = StrategyContract(
+            expected_k=2, target_tolerance_ratio=0.50,
+            population_floor_ratio=0.0, population_cap_ratio=10.0,
+            province_districts={"01": 2},
+            require_municipality_discipline=False,
+            preserve_closed_urban=False,
+        )
+        config = StrategyConfig(
+            steps_per_seed=3, seed_base=200, seed_count=1,
+            proposal_epsilon=0.50,
+        )
+        old_hash = os.environ.get("PYTHONHASHSEED")
+        os.environ["PYTHONHASHSEED"] = "0"
+        try:
+            result = _run_seed(problem, contract, config, 201)
+        finally:
+            if old_hash is None:
+                os.environ.pop("PYTHONHASHSEED", None)
+            else:
+                os.environ["PYTHONHASHSEED"] = old_hash
+        self.assertEqual(result["states_observed"], 3)
+
     def test_recoverable_recom_failure_becomes_self_loop(self):
         units = {
             "u1": {"unit_id": "u1", "population": 10.0, "province": "01", "municipality": "m1", "closed_urban": True},

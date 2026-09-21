@@ -5,8 +5,10 @@
 # motor sin tocar este fichero hace fallar tests/test_controles_obligatorios.py.
 #
 # CODEOWNERS exige revisión explícita para cualquier cambio aquí.
+# La continuidad geométrica física se conserva como diagnóstico auditable, no
+# como segunda restricción dura capaz de contradecir pasarelas declaradas.
 
-schema: ddd.controles-obligatorios/1.0
+schema: ddd.controles-obligatorios/1.1
 motor: ddd_core/m05_gerrychain_strategy.py
 
 restricciones_duras:
@@ -21,8 +23,13 @@ restricciones_duras:
   - municipality_mixed
   - closed_urban
   - empty_district
-  - contiguity
-  - geometric_contiguity      # retirada en la estrategia 02.5; restaurar
+  - contiguity                # autoridad única: grafo territorial operativo M03
+
+semantica_contigüidad:
+  hard_constraint: operational_graph_m03
+  physical_geometry: diagnostic_only
+  declared_topology_bridges: authoritative
+  fallback_on_invalid_baseline: forbidden
 
 objetivo:
   # region_surcharge no puede ser None en la propuesta ReCom

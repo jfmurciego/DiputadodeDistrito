@@ -2,7 +2,7 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: 02.5 Estrategia de Optimización — GerryChain/ReCom
-VERSIÓN PROPUESTA: 2.0.1
+VERSIÓN PROPUESTA: 2.1.0
 ESTADO: candidato de integración, genérico multi-territorio
 
 Objetivo
@@ -138,6 +138,11 @@ class PreparedProblem:
     internal_component_edges: list[tuple[str, str]] = field(default_factory=list)
     initial_geometric_exceptions: dict[Any, frozenset[str]] = field(default_factory=dict)
     component_adjacency: dict[str, set[str]] = field(default_factory=dict)
+    operational_edge_types: dict[tuple[str, str], tuple[str, ...]] = field(default_factory=dict)
+
+
+class BaselineValidationError(RuntimeError):
+    """Entrada/contrato inválido: no es un fallo recuperable de GerryChain."""
 
 
 def require_runtime(config: StrategyConfig | None = None) -> None:
@@ -421,6 +426,7 @@ def prepare_problem(
         initial[unit_key] = next(iter(districts))
 
     edges: set[tuple[str, str]] = set()
+    operational_edge_types: dict[tuple[str, str], set[str]] = defaultdict(set)
     for edge in graph.get("edges", []):
         section_u, section_v = str(edge["u"]), str(edge["v"])
         u = section_unit.get(section_u)
@@ -434,7 +440,9 @@ def prepare_problem(
                 if shared_component_border + 1e-9 >= min_shared_border_m:
                     component_edges.add(tuple(sorted((left_name, right_name))))
         if unit_u != unit_v:
-            edges.add(tuple(sorted((unit_u, unit_v))))
+            unit_edge = tuple(sorted((unit_u, unit_v)))
+            edges.add(unit_edge)
+            operational_edge_types[unit_edge].add(str(edge.get("edge_type") or "unclassified"))
 
     shared_border_lengths = {
         edge: float(unit_geometries[edge[0]].boundary.intersection(unit_geometries[edge[1]].boundary).length)
@@ -501,10 +509,16 @@ def prepare_problem(
         component_edges=sorted(component_edges),
         internal_component_edges=sorted(internal_component_edges),
         initial_geometric_exceptions=initial_geometric_exceptions,
+        operational_edge_types={
+            edge: tuple(sorted(types))
+            for edge, types in operational_edge_types.items()
+        },
     )
     violations = hard_constraint_violations(problem, initial, contract)
     if violations:
-        raise ValueError("M04 viola restricciones duras previas a GerryChain: " + ", ".join(violations[:20]))
+        raise BaselineValidationError(
+            "Formación inicial viola restricciones duras: " + ", ".join(violations[:20])
+        )
     return problem
 
 
@@ -612,42 +626,113 @@ def hard_constraint_violations(
             if reached != wanted:
                 violations.append(f"contiguity:{district}")
 
-        if problem.unit_components:
-            if not problem.component_adjacency:
-                component_nodes = {
-                    component
-                    for components in problem.unit_components.values()
-                    for component in components
-                }
-                component_adjacency = {component: set() for component in component_nodes}
-                for left, right in problem.component_edges:
-                    component_adjacency[left].add(right)
-                    component_adjacency[right].add(left)
-                problem.component_adjacency = component_adjacency
-            district_components: dict[Any, set[str]] = defaultdict(set)
-            for unit, district in assignment.items():
-                district_components[district].update(problem.unit_components.get(unit, ()))
-            for district, wanted in district_components.items():
-                if not wanted:
-                    continue
-                start = next(iter(wanted))
-                reached = {start}
-                queue: deque[str] = deque([start])
-                while queue:
-                    component = queue.popleft()
-                    for neighbor in problem.component_adjacency.get(component, set()) & wanted:
-                        if neighbor not in reached:
-                            reached.add(neighbor)
-                            queue.append(neighbor)
-                if reached != wanted:
-                    inherited = problem.initial_geometric_exceptions.get(district)
-                    if inherited != frozenset(wanted):
-                        violations.append(f"geometric_contiguity:{district}")
-
     # Deliberadamente NO se incluye target_tolerance_ratio aquí. Es objetivo,
     # no límite duro de los estados intermedios.
     return sorted(set(violations))
 
+
+def physical_geometry_diagnostics(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Diagnóstico físico causal; nunca una segunda puerta de validez territorial."""
+    if not problem.unit_components:
+        return {"available": False, "districts": [], "count": 0, "unexplained_count": 0}
+
+    if not problem.component_adjacency:
+        component_nodes = {
+            component
+            for components in problem.unit_components.values()
+            for component in components
+        }
+        component_adjacency = {component: set() for component in component_nodes}
+        for left, right in problem.component_edges:
+            component_adjacency[left].add(right)
+            component_adjacency[right].add(left)
+        problem.component_adjacency = component_adjacency
+
+    district_units: dict[Any, set[str]] = defaultdict(set)
+    district_components: dict[Any, set[str]] = defaultdict(set)
+    for unit, district in assignment.items():
+        district_units[district].add(unit)
+        district_components[district].update(problem.unit_components.get(unit, ()))
+
+    rows: list[dict[str, Any]] = []
+    for district, wanted in district_components.items():
+        if not wanted:
+            continue
+
+        # Componentes conexas físicas reales del distrito.
+        groups: list[set[str]] = []
+        unseen = set(wanted)
+        while unseen:
+            start = next(iter(unseen))
+            reached = {start}
+            queue: deque[str] = deque([start])
+            while queue:
+                component = queue.popleft()
+                for neighbor in problem.component_adjacency.get(component, set()) & wanted:
+                    if neighbor not in reached:
+                        reached.add(neighbor)
+                        queue.append(neighbor)
+            groups.append(reached)
+            unseen -= reached
+        if len(groups) == 1:
+            continue
+
+        group_of = {component: index for index, group in enumerate(groups) for component in group}
+        units = district_units[district]
+
+        causal_bridge_types: set[str] = set()
+        causal_bridge_edges: list[list[str]] = []
+        for edge, types in problem.operational_edge_types.items():
+            u, v = edge
+            if u not in units or v not in units:
+                continue
+            non_geometric = {t for t in types if t not in {"geometric", "unclassified"}}
+            if not non_geometric:
+                continue
+            left_groups = {group_of[c] for c in problem.unit_components.get(u, ()) if c in group_of}
+            right_groups = {group_of[c] for c in problem.unit_components.get(v, ()) if c in group_of}
+            if left_groups and right_groups and left_groups.isdisjoint(right_groups):
+                causal_bridge_types.update(non_geometric)
+                causal_bridge_edges.append([u, v])
+
+        causal_atomic_edges: list[list[str]] = []
+        for left, right in problem.internal_component_edges:
+            if left in group_of and right in group_of and group_of[left] != group_of[right]:
+                causal_atomic_edges.append([left, right])
+
+        if causal_bridge_edges:
+            classification = "DECLARED_TOPOLOGY_BRIDGE"
+        elif causal_atomic_edges:
+            classification = "ATOMIC_MULTIPART"
+        else:
+            classification = "UNEXPLAINED_PHYSICAL_DISCONTINUITY"
+
+        rows.append({
+            "district_id": str(district),
+            "classification": classification,
+            "physical_component_count": len(groups),
+            "declared_topology_bridge_types": sorted(causal_bridge_types),
+            "causal_topology_bridge_edges": causal_bridge_edges,
+            "causal_atomic_multipart_edges": causal_atomic_edges,
+        })
+
+    rows.sort(key=lambda row: (
+        not row["district_id"].isdigit(),
+        int(row["district_id"]) if row["district_id"].isdigit() else row["district_id"],
+    ))
+    return {
+        "available": True,
+        "districts": rows,
+        "count": len(rows),
+        "unexplained_count": sum(
+            row["classification"] == "UNEXPLAINED_PHYSICAL_DISCONTINUITY"
+            for row in rows
+        ),
+        "semantics": "diagnostic_only_operational_graph_is_authoritative",
+    }
 
 def geometric_shape_metrics(
     problem: PreparedProblem,
@@ -720,31 +805,34 @@ def _partition_assignment(partition: Any) -> dict[str, Any]:
     }
 
 
-def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
-    graph = nx.Graph()
+def _proposal_edges(problem: PreparedProblem) -> list[tuple[str, str, tuple[str, ...]]]:
     frozen_by_unit = {
         unit: district
         for district, units in problem.frozen_districts.items()
         for unit in units
     }
-    for unit, row in problem.units.items():
-        attrs = dict(row)
-        # Si un territorio no aporta comarcas, cada unidad recibe una región
-        # sintética propia: el sobrecargo queda neutral en vez de inventar una
-        # comarca o agrupar artificialmente unidades sin cobertura.
-        attrs["comarca"] = attrs.get("comarca") or f"__sin_comarca__:{unit}"
-        graph.add_node(unit, **attrs, district=problem.initial_assignment[unit])
+    edges: list[tuple[str, str, tuple[str, ...]]] = []
     for u, v in problem.edges:
-        # Una transición ReCom no puede cruzar provincias porque la provincia es
-        # restricción dura y la cuota distrital provincial es invariante.
         if problem.units[u]["province"] != problem.units[v]["province"]:
             continue
         fu, fv = frozen_by_unit.get(u), frozen_by_unit.get(v)
-        # Los distritos urbanos cerrados quedan aislados del metagrafo de
-        # propuestas, en lugar de generar miles de propuestas que luego serían rechazadas.
         if (fu is not None or fv is not None) and fu != fv:
             continue
-        graph.add_edge(u, v)
+        edges.append((
+            u, v,
+            problem.operational_edge_types.get(tuple(sorted((u, v))), ("unclassified",)),
+        ))
+    return edges
+
+
+def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
+    graph = nx.Graph()
+    for unit, row in problem.units.items():
+        attrs = dict(row)
+        attrs["comarca"] = attrs.get("comarca") or f"__sin_comarca__:{unit}"
+        graph.add_node(unit, **attrs, district=problem.initial_assignment[unit])
+    for u, v, edge_types in _proposal_edges(problem):
+        graph.add_edge(u, v, edge_types=edge_types)
     return graph
 
 
@@ -936,6 +1024,18 @@ def build_report(
     hard_after = hard_constraint_violations(problem, selected_assignment, contract)
     if hard_after:
         raise AssertionError("Salida GerryChain viola restricciones duras: " + ", ".join(hard_after[:20]))
+    graph_payload = json.loads(graph_path.read_text(encoding="utf-8"))
+    source_edge_type_counts = Counter(
+        str(edge.get("edge_type") or "unclassified")
+        for edge in graph_payload.get("edges", [])
+    )
+    proposal_edge_type_counts = Counter(
+        edge_type
+        for _, _, types in _proposal_edges(problem)
+        for edge_type in types
+    )
+    physical_before = physical_geometry_diagnostics(problem, problem.initial_assignment)
+    physical_after = physical_geometry_diagnostics(problem, selected_assignment)
     cut_start = sum(1 for u, v in problem.edges if problem.initial_assignment[u] != problem.initial_assignment[v])
     cut_final = sum(1 for u, v in problem.edges if selected_assignment[u] != selected_assignment[v])
     churn = sum(selected_assignment[u] != problem.initial_assignment[u] for u in problem.initial_assignment)
@@ -986,6 +1086,16 @@ def build_report(
         "changed_unit_ratio": churn / max(1, len(problem.initial_assignment)),
         "hard_constraints_before": hard_before,
         "hard_constraints_after": hard_after,
+        "operational_graph": {
+            "authority": "M03",
+            "source_graph_edge_type_counts": dict(sorted(source_edge_type_counts.items())),
+            "proposal_graph_edge_type_counts": dict(sorted(proposal_edge_type_counts.items())),
+            "contiguity_semantics": "operational_graph_including_declared_topology_bridges",
+        },
+        "physical_geometry_diagnostics": {
+            "initial": physical_before,
+            "selected": physical_after,
+        },
         "search": {
             "steps_per_seed": config.steps_per_seed,
             "seed_base": config.seed_base,
@@ -1048,13 +1158,18 @@ def run_from_paths(
     contract: StrategyContract,
     strategy: StrategyConfig,
 ) -> dict[str, Any]:
-    problem = prepare_problem(
-        graph_path,
-        initial_path,
-        contract,
-        metric_crs=strategy.metric_crs,
-        min_shared_border_m=strategy.min_shared_border_m,
-    )
+    try:
+        problem = prepare_problem(
+            graph_path,
+            initial_path,
+            contract,
+            metric_crs=strategy.metric_crs,
+            min_shared_border_m=strategy.min_shared_border_m,
+        )
+    except BaselineValidationError:
+        raise
+    except (ValueError, FileNotFoundError, KeyError) as exc:
+        raise BaselineValidationError(str(exc)) from exc
     portfolio = run_portfolio(problem, contract, strategy)
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
     portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
@@ -1067,7 +1182,7 @@ def run_from_paths(
     return report
 
 
-def main() -> None:
+def _main_impl() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", type=Path)
     ap.add_argument("--run-id", default="local-gerrychain")
@@ -1086,51 +1201,75 @@ def main() -> None:
     ap.add_argument("--proposal-epsilon", type=float)
     ap.add_argument("--population-band", type=float)
     ap.add_argument("--max-bipartition-attempts", type=int)
+    ap.add_argument("--validate-baseline-only", action="store_true")
     args = ap.parse_args()
 
-    if args.params:
-        params_path = args.params.expanduser().resolve()
-        cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
-        contract = contract_from_yaml(cfg)
-        strategy = strategy_config_from_yaml(cfg)
-        paths = resolve_paths(cfg, params_path, args.run_id)
-    else:
-        if not all((args.graph, args.initial, args.output, args.report, args.expected_k)):
-            ap.error("Sin --params son obligatorios --graph --initial --output --report --expected-k")
-        quotas: dict[str, int] = {}
-        if args.province_quotas:
-            quotas = {
-                k.strip().zfill(2): int(v)
-                for k, v in (item.split("=", 1) for item in args.province_quotas.split(","))
+    try:
+        if args.params:
+            params_path = args.params.expanduser().resolve()
+            cfg = yaml.safe_load(params_path.read_text(encoding="utf-8")) or {}
+            contract = contract_from_yaml(cfg)
+            strategy = strategy_config_from_yaml(cfg)
+            paths = resolve_paths(cfg, params_path, args.run_id)
+        else:
+            if not all((args.graph, args.initial, args.output, args.report, args.expected_k)):
+                ap.error("Sin --params son obligatorios --graph --initial --output --report --expected-k")
+            quotas: dict[str, int] = {}
+            if args.province_quotas:
+                quotas = {
+                    k.strip().zfill(2): int(v)
+                    for k, v in (item.split("=", 1) for item in args.province_quotas.split(","))
+                }
+            contract = StrategyContract(
+                expected_k=args.expected_k,
+                target_tolerance_ratio=args.target_tolerance,
+                population_floor_ratio=args.population_floor,
+                population_cap_ratio=args.population_cap,
+                province_districts=quotas,
+            )
+            strategy = StrategyConfig()
+            paths = {
+                "graph": args.graph,
+                "initial": args.initial,
+                "output": args.output,
+                "report": args.report,
             }
-        contract = StrategyContract(
-            expected_k=args.expected_k,
-            target_tolerance_ratio=args.target_tolerance,
-            population_floor_ratio=args.population_floor,
-            population_cap_ratio=args.population_cap,
-            province_districts=quotas,
-        )
-        strategy = StrategyConfig()
-        paths = {
-            "graph": args.graph,
-            "initial": args.initial,
-            "output": args.output,
-            "report": args.report,
-        }
 
-    strategy = StrategyConfig(
-        steps_per_seed=args.steps_per_seed if args.steps_per_seed is not None else strategy.steps_per_seed,
-        seed_base=args.seed_base if args.seed_base is not None else strategy.seed_base,
-        seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
-        proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
-        comarca_surcharge=strategy.comarca_surcharge,
-        population_band=args.population_band if args.population_band is not None else strategy.population_band,
-        metric_crs=strategy.metric_crs,
-        min_shared_border_m=strategy.min_shared_border_m,
-        max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
-        require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
-    )
-    strategy.validate()
+        strategy = StrategyConfig(
+            steps_per_seed=args.steps_per_seed if args.steps_per_seed is not None else strategy.steps_per_seed,
+            seed_base=args.seed_base if args.seed_base is not None else strategy.seed_base,
+            seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
+            proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
+            comarca_surcharge=strategy.comarca_surcharge,
+            population_band=args.population_band if args.population_band is not None else strategy.population_band,
+            metric_crs=strategy.metric_crs,
+            min_shared_border_m=strategy.min_shared_border_m,
+            max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
+            require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
+        )
+        strategy.validate()
+    except (ValueError, FileNotFoundError, KeyError) as exc:
+        raise BaselineValidationError(str(exc)) from exc
+    if args.validate_baseline_only:
+        try:
+            problem = prepare_problem(
+                Path(paths["graph"]),
+                Path(paths["initial"]),
+                contract,
+                metric_crs=strategy.metric_crs,
+                min_shared_border_m=strategy.min_shared_border_m,
+            )
+        except BaselineValidationError:
+            raise
+        except (ValueError, FileNotFoundError, KeyError) as exc:
+            raise BaselineValidationError(str(exc)) from exc
+        print(json.dumps({
+            "baseline_valid": True,
+            "units": len(problem.units),
+            "districts": len(set(problem.initial_assignment.values())),
+        }, ensure_ascii=False))
+        return
+
     report = run_from_paths(
         graph_path=Path(paths["graph"]),
         initial_path=Path(paths["initial"]),
@@ -1146,6 +1285,14 @@ def main() -> None:
         "selected_seed": report["search"]["selected_seed"],
         "output": report["output"],
     }, ensure_ascii=False, indent=2))
+
+
+def main() -> None:
+    try:
+        _main_impl()
+    except BaselineValidationError as exc:
+        print(f"[FATAL] BASELINE_INVALID: {exc}", file=__import__("sys").stderr)
+        raise SystemExit(42) from exc
 
 
 if __name__ == "__main__":
