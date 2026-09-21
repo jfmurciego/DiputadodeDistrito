@@ -104,6 +104,7 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         population_evidence=None
         derivation=None
         compatibility_error=None
+        derivation_cause=None
         if _stage_num(stage) >= 5:
             if state_root is None:
                 raise ValueError("checkpoint M05/M06 exige estado completo para validar compatibilidad")
@@ -111,6 +112,7 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
                 compatibility=_validate_m05_compatibility(params=params,state_root=state_root,root_dir=root_dir)
             except Exception as exc:
                 compatibility_error=str(exc)
+                derivation_cause="M05_INCOMPATIBLE"
                 derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
             else:
                 try:
@@ -122,6 +124,7 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
                 except Exception as exc:
                     compatibility_error=str(exc)
                     compatibility=None
+                    derivation_cause="POPULATION_NOT_CERTIFIED"
                     derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
     except Exception as exc:
         return {
@@ -145,8 +148,14 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
         result["population_evidence"]=population_evidence
         result["reason"]="checkpoint compatible: fuentes, huella M05 y certificación poblacional validadas"
     elif derivation is not None:
+        derivation_reason = (
+            "checkpoint M05/M06 no certificado bajo la política poblacional vigente; M04 acumulado es reutilizable"
+            if derivation_cause == "POPULATION_NOT_CERTIFIED"
+            else "checkpoint M05/M06 incompatible con el motor actual; M04 acumulado es reutilizable"
+        )
         result.update({
-            "reason":"checkpoint M05/M06 incompatible con el motor actual; M04 acumulado es reutilizable",
+            "reason":derivation_reason,
+            "derivation_cause":derivation_cause,
             "requires_derivation":True,
             "effective_stage":"M04",
             "from_stage":"M05",
