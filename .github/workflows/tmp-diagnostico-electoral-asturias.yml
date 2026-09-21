@@ -35,6 +35,8 @@ jobs:
               raise KeyError(name)
           sec_i=idx("SECCION"); mun_i=idx("COD.MUN"); dist_i=idx("DISTRITO"); year_i=idx("ANYO")
           structural=max(i for i,h in enumerate(headers) if str(h).strip().upper() in {"VOTOS","BLANCOS","NULOS"})
+          grouped={}
+          normal_oviedo=0
           for values in rows:
               if str(values[year_i]).strip() not in {"2023","2023.0"}: continue
               mun_raw=str(values[mun_i]).strip()
@@ -43,11 +45,28 @@ jobs:
               if mun_norm!="44": continue
               raw=str(values[sec_i]).strip()
               try: special=float(values[sec_i]) <= 0
-              except Exception: special=not bool(re.fullmatch(r"\d+",raw))
-              if special:
-                  payload={str(headers[i]):values[i] for i in range(structural+1)}
-                  parties={str(headers[i]):values[i] for i in range(structural+1,len(headers))}
-                  print("SPECIAL_STRUCT",json.dumps(payload,ensure_ascii=False,default=str,sort_keys=True))
-                  print("SPECIAL_PARTIES",json.dumps(parties,ensure_ascii=False,default=str,sort_keys=True))
+              except Exception: special=not bool(re.fullmatch(r"\\d+",raw))
+              if not special:
+                  normal_oviedo+=1
+                  continue
+              item=grouped.setdefault(raw,{"rows":0,"censo":0,"votos":0,"blancos":0,"nulos":0,"sample":[],"parties":{}})
+              item["rows"]+=1
+              for key,name in [("censo","CENSO.TOTAL"),("votos","VOTOS"),("blancos","BLANCOS"),("nulos","NULOS")]:
+                  try: item[key]+=int(values[idx(name)] or 0)
+                  except Exception: pass
+              for i in range(structural+1,len(headers)):
+                  party=str(headers[i]); item["parties"][party]=item["parties"].get(party,0)+int(values[i] or 0)
+              if len(item["sample"])<5:
+                  item["sample"].append({
+                      "cod.mesa":values[idx("COD.MESA")],
+                      "distrito":values[dist_i],
+                      "seccion":values[sec_i],
+                      "mesa":values[idx("MESA")],
+                      "censo":values[idx("CENSO.TOTAL")],
+                      "votos":values[idx("VOTOS")],
+                  })
+          print("OVIEDO_NORMAL_ROWS",normal_oviedo)
+          for key in sorted(grouped):
+              print("SPECIAL_SUMMARY",key,json.dumps(grouped[key],ensure_ascii=False,sort_keys=True))
           wb.close()
           PY
