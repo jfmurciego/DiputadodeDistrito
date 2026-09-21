@@ -36,7 +36,7 @@
     "aragon": {
       "configuration": "territorios/aragon/config/aragon_2025.yaml",
       "declared_source": "inputs/COMARCAS.csv",
-      "source_enabled": false,
+      "source_enabled": true,
       "status": "NOT_EVALUABLE"
     },
     "castilla_y_leon": {
