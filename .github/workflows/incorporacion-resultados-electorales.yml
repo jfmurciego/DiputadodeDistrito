@@ -70,8 +70,7 @@ jobs:
       electoral_package_run_id: ${{ steps.electoral.outputs.run_id }}
       electoral_package_artifact_name: ${{ steps.electoral.outputs.artifact_name }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
 
       - name: Preparar validadores
