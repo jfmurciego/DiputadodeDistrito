@@ -132,6 +132,21 @@ jobs:
           cp -a .ddd-territorial-product/sources/. .ddd-source-package/
           test -f "$RUNS_DIR/CHAIN_STATE.json"
           test -f .ddd-source-package/manifest.json
+          # El overlay sólo añade M07/M08 al mismo contrato territorial. Registrar
+          # explícitamente la transición para que el encadenamiento mantenga trazabilidad
+          # y no confunda el path del contrato M01–M06 con el contrato runtime electoral.
+          python - "$RUNS_DIR/CHAIN_STATE.json" "$PARAMS" <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]); runtime=sys.argv[2]
+          state=json.loads(p.read_text(encoding="utf-8"))
+          previous=state.get("params")
+          if previous != runtime:
+              state["territorial_params"]=previous
+              state["params"]=runtime
+              state["electoral_runtime_overlay"]=True
+              p.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
 
       - uses: docker/setup-buildx-action@v3
 
