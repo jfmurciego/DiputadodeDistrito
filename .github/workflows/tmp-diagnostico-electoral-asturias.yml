@@ -219,12 +219,18 @@ jobs:
                       "municipal_censo":int(mrow["_censo"]),
                       "same_censo":srow["censo"]==int(mrow["_censo"]),
                   })
+              diffs=[x["municipal_censo"]-x["special_censo"] for x in direct]
               print("ORDERED_MATCH_COUNTS",json.dumps({
                   "special":len(special),"municipal":len(ordered),
                   "same_censo":sum(1 for x in direct if x["same_censo"]),
                   "different_censo":sum(1 for x in direct if not x["same_censo"]),
+                  "municipal_ge_autonomic":sum(1 for d in diffs if d>=0),
+                  "municipal_lt_autonomic":sum(1 for d in diffs if d<0),
+                  "min_diff":min(diffs) if diffs else None,
+                  "max_diff":max(diffs) if diffs else None,
+                  "sum_diff":sum(diffs),
               }))
-              print("ORDERED_MATCH_SAMPLE",json.dumps(direct[:20],ensure_ascii=False))
+              print("ORDERED_MATCH_ALL",json.dumps(direct,ensure_ascii=False))
           wb.close()
           PY
 
@@ -291,6 +297,22 @@ jobs:
           print("INE_ASTURIAS_COUNTS",len(ids23),len(ids25))
           print("INE_ASTURIAS_RESULT_ONLY",json.dumps(sorted(ids23-ids25)))
           print("INE_ASTURIAS_MAP_ONLY",json.dumps(sorted(ids25-ids23)))
+          # Crosswalk espacial de cada sección 2023 desaparecida contra todas las
+          # secciones 2025. Esto permite distinguir renumeraciones, fusiones y splits.
+          detail=[]
+          for of in a23:
+              oid=str(of["properties"]["CUSEC"])
+              if oid in ids25: continue
+              og=shape(of["geometry"]); denom=og.area or 1
+              overlaps=[]
+              for nf in a25:
+                  ng=shape(nf["geometry"]); nid=str(nf["properties"]["CUSEC"])
+                  inter=og.intersection(ng).area
+                  if inter>0:
+                      overlaps.append({"to":nid,"old_area_share":inter/denom,"intersection_area":inter})
+              overlaps.sort(key=lambda x:x["old_area_share"],reverse=True)
+              detail.append({"from":oid,"overlaps":overlaps[:20],"covered_share":sum(x["old_area_share"] for x in overlaps)})
+          print("INE_ASTURIAS_CROSSWALK_DETAIL",json.dumps(detail,sort_keys=True))
           ov23={x for x in ids23 if x.startswith("33044")}
           source_normal_ids=set(json.load(open("/tmp/oviedo_normal_ids.json")))
           print("GIPEYOP_OVIEDO_MISSING_VS_INE2023",json.dumps(sorted(ov23-source_normal_ids)))
