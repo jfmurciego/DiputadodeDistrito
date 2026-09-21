@@ -425,14 +425,14 @@ jobs:
         with:
           ref: ${{ needs.planificar.outputs.source_ref }}
       - name: Recuperar evidencia de optimización efectiva
-        if: ${{ needs.planificar.outputs.run_generate == 'true' && needs.puerta_02.result == 'success' }}
+        if: ${{ needs.planificar.outputs.run_generate == 'true' && needs.generar.result == 'success' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ${{ needs.puerta_02.outputs.artifact_name }}
+          name: ddd-state-${{ github.run_id }}-M06
           path: .ddd-optimization-state
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
-          run-id: ${{ needs.puerta_02.outputs.run_id }}
+          run-id: ${{ github.run_id }}
       - name: Construir manifiesto único
         shell: bash
         run: |
