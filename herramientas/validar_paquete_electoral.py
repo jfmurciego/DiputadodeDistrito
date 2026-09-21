@@ -145,7 +145,10 @@ def validate_package(
         contract_info = {
             "mode": "static_contract",
             "runtime_contract_path": str(contract_raw),
-            "contract_sha256": None,
+            # Compatibilidad con el contrato histórico del validador: este campo
+            # representa el hash contractual de la fuente seleccionada.
+            "contract_sha256": actual,
+            "contract_source_path": str(target_raw),
             "party_dictionary_sha256": None,
         }
     else:
