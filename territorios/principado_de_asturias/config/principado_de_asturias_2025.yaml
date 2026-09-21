@@ -48,6 +48,7 @@ territory_contract:
   - R022 congeló 826 secciones y 1015128 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción no auditada.
   - K y M04 permanecen pendientes.
+  - El run 35542554559 demostró que la atomicidad municipal completa deja dos distritos bajo suelo; se habilitan macro-unidades internas declarativas antes de M04.
   k_districts: 45
   k_source: norma
   k_rationale: K=45 conserva el tamaño vigente de la Junta General del Principado
@@ -60,9 +61,21 @@ territory_contract:
   require_graph_contiguity: true
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
-  oversized_municipality_rule: split_only_above_hard_cap
+  oversized_municipality_rule: connected_internal_units_before_m04
   municipality_atomicity_limit_ratio: 1.75
   require_auditable_district_catalogue: true
+partitioning:
+  enabled: true
+  strategy: connected_internal_units
+  input_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+  graph: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+  output_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03u_unidades.geojson
+  output_report: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03u_informe.json
+  partition_unit_field: M04_PARTITION_UNIT
+  municipality_field: CUMUN
+  population_field: POP_{year}
+  atomicity_ratio: 1.5
+  chunk_ratio: 0.5
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes:
@@ -92,11 +105,11 @@ modulos:
     out_report: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
-    in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03u_unidades.geojson
     id_field: CUSEC_KEY
     pop_field: POP_{year}
     province_field: CPRO
-    municipality_field: CUMUN
+    municipality_field: M04_PARTITION_UNIT
     municipality_name_field: NMUN
     district_apportionment: hamilton
     k_districts: 45

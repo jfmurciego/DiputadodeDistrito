@@ -68,6 +68,23 @@ class ProductionContractAdmission(unittest.TestCase):
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
             self.assertEqual(population_repair_contract_errors(data), [])
 
+    def test_asturias_admite_unidad_de_trabajo_m04_distinta_del_municipio_real(self):
+        path = ROOT / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
+        report = validate_production_contract(path, expected_territory="principado_de_asturias")
+        self.assertEqual(report["status"], "ADMITTED", report["errors"])
+        self.assertTrue(report["production_authorized"])
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        self.assertEqual(data["partitioning"]["partition_unit_field"], "M04_PARTITION_UNIT")
+        self.assertEqual(data["partitioning"]["municipality_field"], "CUMUN")
+        self.assertEqual(
+            data["modulos"]["modulo_04_generar_semillas"]["municipality_field"],
+            "M04_PARTITION_UNIT",
+        )
+        self.assertEqual(
+            data["modulos"]["modulo_05_optimizar_distritos"]["municipality_field"],
+            "CUMUN",
+        )
+
     def test_extremadura_promovida_es_admisible_y_autorizada(self):
         path = ROOT / "territorios/extremadura/config/extremadura_2025.yaml"
         report = validate_production_contract(path, expected_territory="extremadura")
