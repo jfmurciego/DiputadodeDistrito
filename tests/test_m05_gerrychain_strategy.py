@@ -20,6 +20,7 @@ if str(ROOT) not in sys.path:
 from ddd_core.m05_gerrychain_strategy import (
     StrategyConfig,
     StrategyContract,
+    BaselineValidationError,
     contract_from_yaml,
     resolve_paths,
     strategy_config_from_yaml,
@@ -331,12 +332,10 @@ class ContractTests(unittest.TestCase):
                 municipality_discipline_field="CUMUN",
                 preserve_closed_urban=False,
             )
-            raw_problem = prepare_problem(graph_path, geo, raw_contract, metric_crs="EPSG:3035")
-            raw_violations = hard_constraint_violations(
-                raw_problem, raw_problem.initial_assignment, raw_contract
-            )
-            self.assertIn("municipality:BIG", raw_violations)
-            self.assertIn("municipality_mixed:BIG", raw_violations)
+            with self.assertRaises(BaselineValidationError) as raw_error:
+                prepare_problem(graph_path, geo, raw_contract, metric_crs="EPSG:3035")
+            self.assertIn("municipality:BIG", str(raw_error.exception))
+            self.assertIn("municipality_mixed:BIG", str(raw_error.exception))
 
             contractual = StrategyContract(
                 expected_k=3,
