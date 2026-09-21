@@ -21,8 +21,7 @@ jobs:
     env:
       TID: ${{ inputs.territory_id }}
     steps:
-      - uses: actions/checkout@v6
-        with: {lfs: false, fetch-depth: 1}
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       - name: Fuentes y entorno
         run: |
           set -euo pipefail
@@ -56,16 +55,14 @@ jobs:
           (b/"RESUMEN_DIAGNOSTICO.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps({k:v for k,v in out.items() if k not in ("province_components","municipality_components")},ensure_ascii=False))
           PY
       - name: Publicar resumen
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: r023-${{ inputs.territory_id }}-summary-${{ github.run_id }}
           path: |
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/RESUMEN_DIAGNOSTICO.json
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/*_m01_informe.json
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/*_m03_informe.json
       - name: Publicar geometría
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: r023-${{ inputs.territory_id }}-geometry-${{ github.run_id }}
           path: |
             territorios/${{ inputs.territory_id }}/.cache/ddd/preparacion/${{ inputs.territory_id }}_2025/RELACIONES_GEOMETRICAS.json
