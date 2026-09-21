@@ -359,3 +359,29 @@ jobs:
       electoral_package_artifact_name: ${{ needs.preparar.outputs.artifact_name }}
       source_ref: ${{ github.sha }}
       persist_state: false
+
+  preparar_e2e:
+    name: E2E · Preparar Asturias 2023
+    needs: diagnostico
+    uses: ./.github/workflows/preparacion-resultados-electorales.yml
+    secrets: inherit
+    with:
+      territory_id: Principado de Asturias
+      reutilizar_si_ya_preparada: false
+      source_ref: ${{ github.sha }}
+      persist_state: false
+
+  incorporar_e2e:
+    name: E2E · Incorporar sobre M06 Asturias
+    needs: preparar_e2e
+    uses: ./.github/workflows/_reutilizable-incorporacion-electoral.yml
+    secrets: inherit
+    with:
+      params: territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml
+      territory_id: principado_de_asturias
+      data_edition: '2025'
+      territorial_run_id: '35575723511'
+      electoral_package_run_id: ${{ github.run_id }}
+      electoral_package_artifact_name: ${{ needs.preparar_e2e.outputs.artifact_name }}
+      source_ref: ${{ github.sha }}
+      persist_state: false
