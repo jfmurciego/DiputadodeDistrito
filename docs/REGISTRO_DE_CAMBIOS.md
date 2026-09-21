@@ -2,6 +2,20 @@
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
 
+## 2026-09-21 — Comarca efectiva en Aragón y huella territorial
+
+Aragón activa `io.input.comarcas.enabled: true` con cobertura completa para que
+`comarca_surcharge` sea efectivo en GerryChain. Este cambio modifica
+deliberadamente el contenido de M01 y, por propagación, la huella de los
+productos territoriales M01–M06 en la siguiente ejecución de Aragón. Una huella
+distinta después de esta activación es el resultado esperado del nuevo atributo
+comarcal y no debe clasificarse por sí sola como regresión. Los productos
+anteriores siguen siendo evidencia histórica de ejecuciones previas.
+
+El valor por defecto de `comarca_surcharge` pasa a `0.0`: ningún territorio
+recibe presión comarcal implícita. Todo valor positivo debe declararse
+explícitamente y exige comarcas activadas en M01 con cobertura completa.
+
 ## 2026-09-15 — Estado verificable y continuidad de componentes
 
 El run Aragón `34960965537` deja de figurar como baseline canónico porque la
