@@ -1158,6 +1158,7 @@ def build_report(
             "population_cap_ratio": contract.population_cap_ratio,
             "province_districts": dict(contract.province_districts),
             "population_floor_exempt_partitions": list(contract.population_floor_exempt_partitions),
+            "municipality_discipline_field": contract.municipality_discipline_field,
         },
     }
 
