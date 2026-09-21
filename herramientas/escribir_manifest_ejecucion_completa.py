@@ -32,6 +32,7 @@ def optimization_lineage(
     requested: str,
     *,
     generate_executed: bool,
+    generate_result: str,
     evidence_path: str | None,
 ) -> dict:
     if not generate_executed:
@@ -43,8 +44,17 @@ def optimization_lineage(
             "optimization_fallback_reason": None,
             "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
         }
+    if generate_result != "success":
+        return {
+            "optimization_algorithm": requested,
+            "optimization_algorithm_requested": requested,
+            "optimization_algorithm_effective": None,
+            "optimization_fallback": False,
+            "optimization_fallback_reason": None,
+            "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+        }
     if not evidence_path:
-        raise ValueError("La generación ejecutada debe aportar evidencia de optimización efectiva")
+        raise ValueError("La generación completada correctamente debe aportar evidencia de optimización efectiva")
     path = Path(evidence_path)
     if not path.is_file():
         raise FileNotFoundError(f"No existe evidencia de optimización: {path}")
@@ -133,6 +143,7 @@ def main() -> None:
     optimization = optimization_lineage(
         ns.optimization_algorithm,
         generate_executed=b(ns.generate_executed),
+        generate_result=ns.generate_result,
         evidence_path=ns.optimization_evidence,
     )
 
