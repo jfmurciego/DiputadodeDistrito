@@ -21,8 +21,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Obtener código
-        uses: actions/checkout@v6
-      - name: Auditar cabeceras y legacy en checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
@@ -44,8 +43,7 @@ jobs:
             2>&1 | tee ci-gerrychain.log
       - name: Conservar diagnóstico de la suite
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             ci-unittest.log
