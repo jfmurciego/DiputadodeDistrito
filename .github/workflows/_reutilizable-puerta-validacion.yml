@@ -1,0 +1,114 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: reutilizable interno — puerta de validación
+# VERSIÓN: 1.1.0
+# QUÉ HACE: acredita identidad, digest y aptitud semántica del artefacto que alimentará la siguiente fase.
+name: _Puerta de Validación de Fase
+
+on:
+  workflow_call:
+    inputs:
+      phase: {required: true, type: string}
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      run_id: {required: true, type: string}
+      artifact_name: {required: true, type: string}
+      expected_digest: {required: false, type: string, default: ''}
+      source_ref: {required: false, type: string, default: ''}
+    outputs:
+      decision:
+        value: ${{ jobs.validar.outputs.decision }}
+      artifact_digest:
+        value: ${{ jobs.validar.outputs.artifact_digest }}
+      phase_decision:
+        value: ${{ jobs.validar.outputs.phase_decision }}
+      run_id:
+        value: ${{ jobs.validar.outputs.run_id }}
+      artifact_name:
+        value: ${{ jobs.validar.outputs.artifact_name }}
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validar:
+    name: Puerta de validación
+    runs-on: ubuntu-24.04
+    outputs:
+      decision: ${{ steps.gate.outputs.decision }}
+      artifact_digest: ${{ steps.gate.outputs.artifact_digest }}
+      phase_decision: ${{ steps.gate.outputs.phase_decision }}
+      run_id: ${{ steps.gate.outputs.run_id }}
+      artifact_name: ${{ steps.gate.outputs.artifact_name }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: gate
+        name: Validar evidencia consumible
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PHASE: ${{ inputs.phase }}
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          SOURCE_RUN_ID: ${{ inputs.run_id }}
+          ARTIFACT_NAME: ${{ inputs.artifact_name }}
+          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+        run: |
+          set -u -o pipefail
+          rm -rf .ddd-gate && mkdir -p .ddd-gate/artifact .ddd-gate/audit
+          emit_blocked() {
+            local reason="$1" code="$2"
+            jq -n --arg phase "$PHASE" --arg territory "$TERRITORY_ID" --arg edition "$EDITION"               --arg run_id "$SOURCE_RUN_ID" --arg artifact "$ARTIFACT_NAME" --arg reason "$reason"               '{schema:"ddd.puerta-validacion/1.0",phase:$phase,decision:"BLOQUEADO",phase_decision:null,territory_id:$territory,edition:$edition,run_id:($run_id|tonumber? // null),artifact_name:$artifact,artifact_digest:null,expected_digest:null,reasons:[$reason]}' > .ddd-gate/puerta.json
+            echo "decision=BLOQUEADO" >> "$GITHUB_OUTPUT"
+            echo "artifact_digest=" >> "$GITHUB_OUTPUT"
+            echo "phase_decision=" >> "$GITHUB_OUTPUT"
+            echo "run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+            echo "::error::$reason"
+            exit "$code"
+          }
+          expected="${EXPECTED_DIGEST#sha256:}"
+          row=""
+          resolved_run_id="$SOURCE_RUN_ID"
+          if [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]]; then
+            metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")"
+            row="$(jq -c --arg n "$ARTIFACT_NAME" --arg d "$expected" '[.artifacts[]|select(.name==$n and (.expired|not))|select(($d=="") or (((.digest//"")|sub("^sha256:";""))==$d))]|.[0]//empty' <<<"$metadata")"
+          fi
+          if [[ -z "$row" ]]; then
+            metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$ARTIFACT_NAME&per_page=100")"
+            row="$(jq -c --arg n "$ARTIFACT_NAME" --arg d "$expected" '[.artifacts[]|select(.name==$n and (.expired|not))|select(($d=="") or (((.digest//"")|sub("^sha256:";""))==$d))]|sort_by(.created_at)|reverse|.[0]//empty' <<<"$metadata")"
+            [[ -n "$row" ]] || emit_blocked "Artefacto requerido no disponible o digest durable no coincidente: $ARTIFACT_NAME" 41
+            resolved_run_id="$(jq -r '.workflow_run.id // empty' <<<"$row")"
+          fi
+          [[ "$resolved_run_id" =~ ^[0-9]+$ ]] || emit_blocked "No se pudo acreditar el run del artefacto $ARTIFACT_NAME" 41
+          digest="$(jq -r '.digest // empty' <<<"$row")"
+          [[ -n "$digest" ]] || emit_blocked "Artefacto sin digest GitHub: $ARTIFACT_NAME" 42
+          gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-gate/artifact || emit_blocked "No se pudo descargar $ARTIFACT_NAME" 42
+          audit_args=()
+          if [[ "$PHASE" == territorial_product || "$PHASE" == electoral_product ]]; then
+            audit_name="ddd-audit-$resolved_run_id"
+            gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-gate/audit || emit_blocked "Falta certificación $audit_name" 43
+            audit_args=(--audit-root .ddd-gate/audit)
+          fi
+          params="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.contract_path // empty')"
+          params_args=()
+          [[ -n "$params" ]] && params_args=(--params "$params" --root-dir .)
+          rc=0
+          python -m herramientas.validar_puerta_ejecucion --phase "$PHASE" --artifact-root .ddd-gate/artifact             "${audit_args[@]}" "${params_args[@]}" --territory-id "$TERRITORY_ID" --edition "$EDITION"             --run-id "$resolved_run_id" --artifact-name "$ARTIFACT_NAME" --artifact-digest "$digest"             --expected-digest "$EXPECTED_DIGEST" --output .ddd-gate/puerta.json || rc=$?
+          echo "decision=$(jq -r .decision .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"
+          echo "artifact_digest=$(jq -r '.artifact_digest // empty' .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"
+          echo "phase_decision=$(jq -r '.phase_decision // empty' .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"
+          echo "run_id=$resolved_run_id" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+          exit "$rc"
+      - name: Conservar evidencia de la puerta
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: ddd-puerta-${{ inputs.phase }}-${{ github.run_id }}
+          path: .ddd-gate/puerta.json
+          if-no-files-found: error
+          retention-days: 90
