@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import json
 import os
-import os
 from pathlib import Path
 
 import yaml
@@ -69,19 +68,6 @@ def materialize(params: Path, validation: Path, output: Path) -> Path:
         project_root = original_parent
     project_root_cfg["path"] = os.path.relpath(project_root, output.resolve().parent)
 
-    # El contrato runtime vive fuera del directorio territorial original. Recalcular
-    # project_root preserva exactamente el mismo root lógico que tenía el contrato
-    # M01–M06 y evita que ../../.. desde .ddd-electoral-runtime apunte a '/'.
-    io_cfg = cfg.setdefault("io", {})
-    project_root_cfg = io_cfg.setdefault("project_root", {})
-    original_raw = str(project_root_cfg.get("path") or "")
-    if original_raw:
-        original_path = Path(original_raw).expanduser()
-        original_root = original_path.resolve() if original_path.is_absolute() else (params.resolve().parent / original_path).resolve()
-    else:
-        original_root = params.resolve().parent
-    output_parent = output.resolve().parent
-    project_root_cfg["path"] = os.path.relpath(original_root, output_parent)
     cfg.setdefault("_runtime", {})["electoral_contract_mode"] = result.get("mode")
     cfg["_runtime"]["electoral_package_election_id"] = result.get("election_id")
 
