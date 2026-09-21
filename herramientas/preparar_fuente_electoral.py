@@ -218,12 +218,31 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
         if m and previous_run_id and previous_artifact_name:
             source=previous/m["selected_source"]["path"]
             meta={k:v for k,v in m["selected_source"].items() if k not in {"path","sha256","bytes","records","record_count_method"}}
-            return _write_package(package_out,"REUSE",territory_id,edition,source,meta,{
+            manifest=_write_package(package_out,"REUSE",territory_id,edition,source,meta,{
                 "reuse_provenance":{
                     "run_id":str(previous_run_id),
                     "artifact_name":str(previous_artifact_name),
-                }
+                },
+                "election_id":m.get("election_id"),
+                "election_date":m.get("election_date"),
             })
+            embedded=m.get("embedded_contract") or {}
+            if embedded:
+                contract_src=previous/str(embedded.get("election_contract") or "")
+                dictionary_src=previous/str(embedded.get("party_dictionary") or "")
+                if not contract_src.is_file() or not dictionary_src.is_file():
+                    raise ValueError("Paquete electoral reutilizable perdió su contrato embebido")
+                contract_dir=package_out/"contract"; contract_dir.mkdir(exist_ok=True)
+                shutil.copy2(contract_src,contract_dir/"election_contract.json")
+                shutil.copy2(dictionary_src,contract_dir/"party_dictionary.json")
+                manifest["embedded_contract"]={
+                    "election_contract":"contract/election_contract.json",
+                    "party_dictionary":"contract/party_dictionary.json",
+                    "contract_sha256":sha(contract_dir/"election_contract.json"),
+                    "party_dictionary_sha256":sha(contract_dir/"party_dictionary.json"),
+                }
+                (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+            return manifest
     cfg={}
     if params and params.is_file(): cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
