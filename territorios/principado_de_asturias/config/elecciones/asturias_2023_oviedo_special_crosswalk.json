@@ -1,0 +1,747 @@
+{
+  "schema": "ddd-election-special-row-crosswalk/1.0",
+  "territory_id": "principado_de_asturias",
+  "election_id": "asturias_jgpa_2023",
+  "evidence": {
+    "diagnostic_run_id": "35589567098",
+    "special_rows": 81,
+    "target_polling_rows": 81,
+    "municipal_ge_autonomic_rows": 81,
+    "municipal_lt_autonomic_rows": 0,
+    "census_delta_min": 0,
+    "census_delta_max": 8,
+    "census_delta_sum": 190,
+    "method": "row-order crosswalk against 2023 municipal polling-station inventory for Oviedo districts 10-16; exact validation of special code and autonomous census per ordinal"
+  },
+  "rows": [
+    {
+      "ordinal": 1,
+      "special_code": "-00",
+      "expected_autonomic_census": 471,
+      "target_cusec": "3304410001",
+      "target_mesa": "A",
+      "municipal_census": 473,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 2,
+      "special_code": "-00",
+      "expected_autonomic_census": 430,
+      "target_cusec": "3304410001",
+      "target_mesa": "B",
+      "municipal_census": 433,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 3,
+      "special_code": "-00",
+      "expected_autonomic_census": 455,
+      "target_cusec": "3304410002",
+      "target_mesa": "A",
+      "municipal_census": 455,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 4,
+      "special_code": "-00",
+      "expected_autonomic_census": 423,
+      "target_cusec": "3304410002",
+      "target_mesa": "B",
+      "municipal_census": 425,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 5,
+      "special_code": "-00",
+      "expected_autonomic_census": 573,
+      "target_cusec": "3304410003",
+      "target_mesa": "U",
+      "municipal_census": 575,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 6,
+      "special_code": "-00",
+      "expected_autonomic_census": 500,
+      "target_cusec": "3304410004",
+      "target_mesa": "A",
+      "municipal_census": 502,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 7,
+      "special_code": "-00",
+      "expected_autonomic_census": 436,
+      "target_cusec": "3304410004",
+      "target_mesa": "B",
+      "municipal_census": 436,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 8,
+      "special_code": "-00",
+      "expected_autonomic_census": 602,
+      "target_cusec": "3304410005",
+      "target_mesa": "A",
+      "municipal_census": 605,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 9,
+      "special_code": "-00",
+      "expected_autonomic_census": 528,
+      "target_cusec": "3304410005",
+      "target_mesa": "B",
+      "municipal_census": 529,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 10,
+      "special_code": "-00",
+      "expected_autonomic_census": 850,
+      "target_cusec": "3304410006",
+      "target_mesa": "A",
+      "municipal_census": 851,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 11,
+      "special_code": "-00",
+      "expected_autonomic_census": 690,
+      "target_cusec": "3304410006",
+      "target_mesa": "B",
+      "municipal_census": 696,
+      "census_delta": 6
+    },
+    {
+      "ordinal": 12,
+      "special_code": "-00",
+      "expected_autonomic_census": 759,
+      "target_cusec": "3304410007",
+      "target_mesa": "A",
+      "municipal_census": 760,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 13,
+      "special_code": "-00",
+      "expected_autonomic_census": 683,
+      "target_cusec": "3304410007",
+      "target_mesa": "B",
+      "municipal_census": 685,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 14,
+      "special_code": "-00",
+      "expected_autonomic_census": 572,
+      "target_cusec": "3304410008",
+      "target_mesa": "A",
+      "municipal_census": 574,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 15,
+      "special_code": "-00",
+      "expected_autonomic_census": 453,
+      "target_cusec": "3304410008",
+      "target_mesa": "B",
+      "municipal_census": 457,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 16,
+      "special_code": "-00",
+      "expected_autonomic_census": 596,
+      "target_cusec": "3304410009",
+      "target_mesa": "A",
+      "municipal_census": 601,
+      "census_delta": 5
+    },
+    {
+      "ordinal": 17,
+      "special_code": "-00",
+      "expected_autonomic_census": 601,
+      "target_cusec": "3304410009",
+      "target_mesa": "B",
+      "municipal_census": 605,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 18,
+      "special_code": "-01",
+      "expected_autonomic_census": 528,
+      "target_cusec": "3304410010",
+      "target_mesa": "A",
+      "municipal_census": 530,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 19,
+      "special_code": "-01",
+      "expected_autonomic_census": 495,
+      "target_cusec": "3304410010",
+      "target_mesa": "B",
+      "municipal_census": 497,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 20,
+      "special_code": "-01",
+      "expected_autonomic_census": 886,
+      "target_cusec": "3304410011",
+      "target_mesa": "A",
+      "municipal_census": 887,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 21,
+      "special_code": "-01",
+      "expected_autonomic_census": 800,
+      "target_cusec": "3304410011",
+      "target_mesa": "B",
+      "municipal_census": 803,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 22,
+      "special_code": "-01",
+      "expected_autonomic_census": 714,
+      "target_cusec": "3304410013",
+      "target_mesa": "U",
+      "municipal_census": 718,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 23,
+      "special_code": "-01",
+      "expected_autonomic_census": 661,
+      "target_cusec": "3304410015",
+      "target_mesa": "A",
+      "municipal_census": 663,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 24,
+      "special_code": "-01",
+      "expected_autonomic_census": 566,
+      "target_cusec": "3304410015",
+      "target_mesa": "B",
+      "municipal_census": 567,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 25,
+      "special_code": "-01",
+      "expected_autonomic_census": 674,
+      "target_cusec": "3304410016",
+      "target_mesa": "U",
+      "municipal_census": 682,
+      "census_delta": 8
+    },
+    {
+      "ordinal": 26,
+      "special_code": "-00",
+      "expected_autonomic_census": 791,
+      "target_cusec": "3304411001",
+      "target_mesa": "U",
+      "municipal_census": 795,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 27,
+      "special_code": "-00",
+      "expected_autonomic_census": 617,
+      "target_cusec": "3304411002",
+      "target_mesa": "U",
+      "municipal_census": 619,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 28,
+      "special_code": "-00",
+      "expected_autonomic_census": 531,
+      "target_cusec": "3304411003",
+      "target_mesa": "U",
+      "municipal_census": 533,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 29,
+      "special_code": "-00",
+      "expected_autonomic_census": 585,
+      "target_cusec": "3304411004",
+      "target_mesa": "U",
+      "municipal_census": 586,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 30,
+      "special_code": "-00",
+      "expected_autonomic_census": 804,
+      "target_cusec": "3304411005",
+      "target_mesa": "U",
+      "municipal_census": 804,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 31,
+      "special_code": "-00",
+      "expected_autonomic_census": 747,
+      "target_cusec": "3304411006",
+      "target_mesa": "U",
+      "municipal_census": 748,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 32,
+      "special_code": "-00",
+      "expected_autonomic_census": 602,
+      "target_cusec": "3304411007",
+      "target_mesa": "U",
+      "municipal_census": 604,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 33,
+      "special_code": "-00",
+      "expected_autonomic_census": 530,
+      "target_cusec": "3304411008",
+      "target_mesa": "U",
+      "municipal_census": 531,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 34,
+      "special_code": "-00",
+      "expected_autonomic_census": 685,
+      "target_cusec": "3304411009",
+      "target_mesa": "U",
+      "municipal_census": 687,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 35,
+      "special_code": "-01",
+      "expected_autonomic_census": 511,
+      "target_cusec": "3304411010",
+      "target_mesa": "U",
+      "municipal_census": 512,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 36,
+      "special_code": "-01",
+      "expected_autonomic_census": 788,
+      "target_cusec": "3304411011",
+      "target_mesa": "U",
+      "municipal_census": 789,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 37,
+      "special_code": "-00",
+      "expected_autonomic_census": 792,
+      "target_cusec": "3304412001",
+      "target_mesa": "A",
+      "municipal_census": 796,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 38,
+      "special_code": "-00",
+      "expected_autonomic_census": 680,
+      "target_cusec": "3304412001",
+      "target_mesa": "B",
+      "municipal_census": 682,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 39,
+      "special_code": "-00",
+      "expected_autonomic_census": 788,
+      "target_cusec": "3304412002",
+      "target_mesa": "U",
+      "municipal_census": 789,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 40,
+      "special_code": "-00",
+      "expected_autonomic_census": 470,
+      "target_cusec": "3304412003",
+      "target_mesa": "A",
+      "municipal_census": 470,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 41,
+      "special_code": "-00",
+      "expected_autonomic_census": 410,
+      "target_cusec": "3304412003",
+      "target_mesa": "B",
+      "municipal_census": 412,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 42,
+      "special_code": "-00",
+      "expected_autonomic_census": 500,
+      "target_cusec": "3304412004",
+      "target_mesa": "A",
+      "municipal_census": 501,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 43,
+      "special_code": "-00",
+      "expected_autonomic_census": 409,
+      "target_cusec": "3304412004",
+      "target_mesa": "B",
+      "municipal_census": 414,
+      "census_delta": 5
+    },
+    {
+      "ordinal": 44,
+      "special_code": "-00",
+      "expected_autonomic_census": 683,
+      "target_cusec": "3304412005",
+      "target_mesa": "A",
+      "municipal_census": 689,
+      "census_delta": 6
+    },
+    {
+      "ordinal": 45,
+      "special_code": "-00",
+      "expected_autonomic_census": 581,
+      "target_cusec": "3304412005",
+      "target_mesa": "B",
+      "municipal_census": 585,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 46,
+      "special_code": "-00",
+      "expected_autonomic_census": 647,
+      "target_cusec": "3304412006",
+      "target_mesa": "A",
+      "municipal_census": 652,
+      "census_delta": 5
+    },
+    {
+      "ordinal": 47,
+      "special_code": "-00",
+      "expected_autonomic_census": 562,
+      "target_cusec": "3304412006",
+      "target_mesa": "B",
+      "municipal_census": 565,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 48,
+      "special_code": "-00",
+      "expected_autonomic_census": 778,
+      "target_cusec": "3304412007",
+      "target_mesa": "U",
+      "municipal_census": 779,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 49,
+      "special_code": "-00",
+      "expected_autonomic_census": 479,
+      "target_cusec": "3304412008",
+      "target_mesa": "A",
+      "municipal_census": 480,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 50,
+      "special_code": "-00",
+      "expected_autonomic_census": 434,
+      "target_cusec": "3304412008",
+      "target_mesa": "B",
+      "municipal_census": 434,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 51,
+      "special_code": "-00",
+      "expected_autonomic_census": 614,
+      "target_cusec": "3304412009",
+      "target_mesa": "A",
+      "municipal_census": 614,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 52,
+      "special_code": "-00",
+      "expected_autonomic_census": 591,
+      "target_cusec": "3304412009",
+      "target_mesa": "B",
+      "municipal_census": 593,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 53,
+      "special_code": "-01",
+      "expected_autonomic_census": 663,
+      "target_cusec": "3304412011",
+      "target_mesa": "U",
+      "municipal_census": 663,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 54,
+      "special_code": "-01",
+      "expected_autonomic_census": 781,
+      "target_cusec": "3304412012",
+      "target_mesa": "U",
+      "municipal_census": 786,
+      "census_delta": 5
+    },
+    {
+      "ordinal": 55,
+      "special_code": "-01",
+      "expected_autonomic_census": 817,
+      "target_cusec": "3304412013",
+      "target_mesa": "A",
+      "municipal_census": 821,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 56,
+      "special_code": "-01",
+      "expected_autonomic_census": 850,
+      "target_cusec": "3304412013",
+      "target_mesa": "B",
+      "municipal_census": 857,
+      "census_delta": 7
+    },
+    {
+      "ordinal": 57,
+      "special_code": "-01",
+      "expected_autonomic_census": 474,
+      "target_cusec": "3304412014",
+      "target_mesa": "A",
+      "municipal_census": 477,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 58,
+      "special_code": "-01",
+      "expected_autonomic_census": 444,
+      "target_cusec": "3304412014",
+      "target_mesa": "B",
+      "municipal_census": 444,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 59,
+      "special_code": "-01",
+      "expected_autonomic_census": 494,
+      "target_cusec": "3304412015",
+      "target_mesa": "A",
+      "municipal_census": 495,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 60,
+      "special_code": "-01",
+      "expected_autonomic_census": 483,
+      "target_cusec": "3304412015",
+      "target_mesa": "B",
+      "municipal_census": 486,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 61,
+      "special_code": "-01",
+      "expected_autonomic_census": 853,
+      "target_cusec": "3304412016",
+      "target_mesa": "U",
+      "municipal_census": 858,
+      "census_delta": 5
+    },
+    {
+      "ordinal": 62,
+      "special_code": "-00",
+      "expected_autonomic_census": 549,
+      "target_cusec": "3304413001",
+      "target_mesa": "A",
+      "municipal_census": 550,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 63,
+      "special_code": "-00",
+      "expected_autonomic_census": 477,
+      "target_cusec": "3304413001",
+      "target_mesa": "B",
+      "municipal_census": 478,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 64,
+      "special_code": "-00",
+      "expected_autonomic_census": 534,
+      "target_cusec": "3304413003",
+      "target_mesa": "A",
+      "municipal_census": 534,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 65,
+      "special_code": "-00",
+      "expected_autonomic_census": 467,
+      "target_cusec": "3304413003",
+      "target_mesa": "B",
+      "municipal_census": 470,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 66,
+      "special_code": "-00",
+      "expected_autonomic_census": 900,
+      "target_cusec": "3304414001",
+      "target_mesa": "A",
+      "municipal_census": 906,
+      "census_delta": 6
+    },
+    {
+      "ordinal": 67,
+      "special_code": "-00",
+      "expected_autonomic_census": 804,
+      "target_cusec": "3304414001",
+      "target_mesa": "B",
+      "municipal_census": 806,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 68,
+      "special_code": "-00",
+      "expected_autonomic_census": 872,
+      "target_cusec": "3304414003",
+      "target_mesa": "U",
+      "municipal_census": 874,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 69,
+      "special_code": "-00",
+      "expected_autonomic_census": 680,
+      "target_cusec": "3304415001",
+      "target_mesa": "A",
+      "municipal_census": 683,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 70,
+      "special_code": "-00",
+      "expected_autonomic_census": 525,
+      "target_cusec": "3304415001",
+      "target_mesa": "B",
+      "municipal_census": 529,
+      "census_delta": 4
+    },
+    {
+      "ordinal": 71,
+      "special_code": "-00",
+      "expected_autonomic_census": 493,
+      "target_cusec": "3304415003",
+      "target_mesa": "A",
+      "municipal_census": 496,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 72,
+      "special_code": "-00",
+      "expected_autonomic_census": 392,
+      "target_cusec": "3304415003",
+      "target_mesa": "B",
+      "municipal_census": 392,
+      "census_delta": 0
+    },
+    {
+      "ordinal": 73,
+      "special_code": "-00",
+      "expected_autonomic_census": 389,
+      "target_cusec": "3304415005",
+      "target_mesa": "A",
+      "municipal_census": 392,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 74,
+      "special_code": "-00",
+      "expected_autonomic_census": 324,
+      "target_cusec": "3304415005",
+      "target_mesa": "B",
+      "municipal_census": 327,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 75,
+      "special_code": "-00",
+      "expected_autonomic_census": 870,
+      "target_cusec": "3304416001",
+      "target_mesa": "A",
+      "municipal_census": 871,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 76,
+      "special_code": "-00",
+      "expected_autonomic_census": 562,
+      "target_cusec": "3304416001",
+      "target_mesa": "B",
+      "municipal_census": 568,
+      "census_delta": 6
+    },
+    {
+      "ordinal": 77,
+      "special_code": "-00",
+      "expected_autonomic_census": 328,
+      "target_cusec": "3304416003",
+      "target_mesa": "A",
+      "municipal_census": 329,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 78,
+      "special_code": "-00",
+      "expected_autonomic_census": 440,
+      "target_cusec": "3304416003",
+      "target_mesa": "B",
+      "municipal_census": 442,
+      "census_delta": 2
+    },
+    {
+      "ordinal": 79,
+      "special_code": "-00",
+      "expected_autonomic_census": 635,
+      "target_cusec": "3304416004",
+      "target_mesa": "U",
+      "municipal_census": 638,
+      "census_delta": 3
+    },
+    {
+      "ordinal": 80,
+      "special_code": "-00",
+      "expected_autonomic_census": 526,
+      "target_cusec": "3304416006",
+      "target_mesa": "A",
+      "municipal_census": 527,
+      "census_delta": 1
+    },
+    {
+      "ordinal": 81,
+      "special_code": "-00",
+      "expected_autonomic_census": 403,
+      "target_cusec": "3304416006",
+      "target_mesa": "B",
+      "municipal_census": 403,
+      "census_delta": 0
+    }
+  ]
+}
