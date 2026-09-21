@@ -7,6 +7,7 @@ import unittest
 import yaml
 
 from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
+from herramientas.escribir_manifest_ejecucion_completa import optimization_lineage
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
@@ -192,6 +193,56 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("retention-days: 90", text)
         self.assertIn("ejecuciones_completas/$GITHUB_RUN_ID.json", text)
         self.assertIn("github.ref_name == 'main'", text)
+
+    def test_manifest_records_requested_and_effective_algorithm_after_fallback(self):
+        with tempfile.TemporaryDirectory() as td:
+            evidence = Path(td) / "OPTIMIZATION_EXECUTION.json"
+            evidence.write_text(
+                json.dumps({
+                    "schema": "ddd.optimization-execution/1.0",
+                    "requested_algorithm": "GerryChain 50",
+                    "effective_algorithm": "Canónico",
+                    "fallback": True,
+                    "fallback_reason": "gerrychain_runtime_failure_after_valid_baseline",
+                }),
+                encoding="utf-8",
+            )
+            lineage = optimization_lineage(
+                "GerryChain 50",
+                generate_executed=True,
+                evidence_path=str(evidence),
+            )
+            self.assertEqual(lineage["optimization_algorithm_requested"], "GerryChain 50")
+            self.assertEqual(lineage["optimization_algorithm_effective"], "Canónico")
+            self.assertTrue(lineage["optimization_fallback"])
+            self.assertEqual(
+                lineage["optimization_fallback_reason"],
+                "gerrychain_runtime_failure_after_valid_baseline",
+            )
+
+    def test_manifest_rejects_missing_effective_evidence_when_generation_ran(self):
+        with self.assertRaises(ValueError):
+            optimization_lineage(
+                "GerryChain 25",
+                generate_executed=True,
+                evidence_path=None,
+            )
+
+    def test_reused_product_does_not_invent_effective_algorithm(self):
+        lineage = optimization_lineage(
+            "Canónico",
+            generate_executed=False,
+            evidence_path=None,
+        )
+        self.assertIsNone(lineage["optimization_algorithm_effective"])
+        self.assertEqual(lineage["optimization_evidence_status"], "REUSED_EXISTING_PRODUCT")
+
+    def test_workflow_downloads_effective_optimization_evidence_for_manifest(self):
+        orchestration = ORCH.read_text(encoding="utf-8")
+        self.assertIn("Recuperar evidencia de optimización efectiva", orchestration)
+        self.assertIn("OPTIMIZATION_EXECUTION.json", orchestration)
+        self.assertIn("--optimization-evidence", orchestration)
+        self.assertIn("La generación terminó sin evidencia de estrategia efectiva.", orchestration)
 
     def test_manifest_treats_skipped_scheduled_phase_as_failure(self):
         writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
