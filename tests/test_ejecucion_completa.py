@@ -161,7 +161,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("generar_estado_operativo", ORCH.read_text(encoding="utf-8"))
         self.assertIn("actualizar_estado", jobs["publicar"]["needs"])
         generator = (ROOT / "herramientas/generar_estado_operativo.py").read_text(encoding="utf-8")
-        self.assertIn("orquestacion/estado_operativo.json", generator)
+        self.assertIn("orchestracion/estado_operativo.json", generator)
         self.assertIn("publicado/dashboard/status.json", generator)
         self.assertIn("README.md", generator)
 
