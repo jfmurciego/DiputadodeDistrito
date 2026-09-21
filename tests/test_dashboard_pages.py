@@ -49,7 +49,7 @@ def test_produccion_automatica_preserva_dashboard_promovido():
 def test_promocion_dashboard_es_explicita_y_trazable():
     manual=MANUAL.read_text(encoding="utf-8")
     assert "generar_estado_operativo" in manual
-    assert "orquestacion/estado_operativo.json" in manual
+    assert "orchestracion/estado_operativo.json" in manual
     assert "README.md" in manual
     assert "cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/" in manual
     assert 'git commit -m "chore: sincronizar estado operativo antes de publicar"' in manual
