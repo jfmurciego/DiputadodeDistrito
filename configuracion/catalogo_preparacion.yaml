@@ -54,11 +54,11 @@ territories:
       preparation_status: READY
       contract_path: territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml
       territorial_source_declaration: territorios/principado_de_asturias/config/fuentes_oficiales.yaml
-      electoral_source_declaration: null
+      electoral_source_declaration: territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -72,6 +72,7 @@ territories:
         package_sha256: 77aefe9e7766fb649f2ff0afcfd6ca0b785507f5d5c01dfbef9a84b0f8a5171b
       evidence:
         territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/principado_de_asturias/evidencia/catalogo/electoral_source_2025.json
 - territory_id: illes_balears
   name: Islas Baleares
   editions:
