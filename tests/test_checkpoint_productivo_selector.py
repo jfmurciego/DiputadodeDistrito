@@ -165,6 +165,8 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertTrue(result["selected"]["requires_derivation"])
             self.assertEqual(result["selected"]["effective_stage"],"M04")
             self.assertEqual(result["from_stage"],"M05")
+            self.assertEqual(result["selected"]["derivation_cause"],"POPULATION_NOT_CERTIFIED")
+            self.assertIn("no certificado bajo la política poblacional vigente",result["selected"]["reason"])
             self.assertIn("checkpoint poblacionalmente no certificado",result["selected"]["compatibility_error"])
             self.assertIn("target_required=True",result["selected"]["compatibility_error"])
             self.assertIn("outliers=3",result["selected"]["compatibility_error"])
@@ -202,6 +204,7 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertEqual(result["selected"]["run_id"],"202")
             self.assertTrue(result["selected"]["requires_derivation"])
             self.assertEqual(result["selected"]["effective_stage"],"M04")
+            self.assertEqual(result["selected"]["derivation_cause"],"POPULATION_NOT_CERTIFIED")
             self.assertIn("hard=1",result["selected"]["compatibility_error"])
 
     def test_compatible_m06_with_target_met_is_reused_directly(self):
@@ -289,7 +292,9 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             )
             self.assertIsNotNone(result["selected"])
             self.assertTrue(result["selected"]["requires_derivation"])
+            self.assertEqual(result["selected"]["derivation_cause"],"M05_INCOMPATIBLE")
             self.assertEqual(result["from_stage"],"M05")
+            self.assertIn("incompatible con el motor actual",result["selected"]["reason"])
             self.assertIn("checkpoint incompatible con M05 actual",result["selected"]["compatibility_error"])
 
     def test_no_compatible_checkpoint_starts_from_m01(self):
