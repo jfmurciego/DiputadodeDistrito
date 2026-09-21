@@ -56,7 +56,11 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(c.expected_k, 3)
         self.assertTrue(c.require_contiguity)
         self.assertEqual(c.province_districts, {"01": 1, "02": 2})
+        self.assertEqual(c.municipality_discipline_field, "CUMUN")
         cfg["modulos"] = {
+            "modulo_04_generar_semillas": {
+                "municipality_field": "M04_PARTITION_UNIT",
+            },
             "modulo_02_construir_adyacencias": {
                 "working_crs": "EPSG:3035",
                 "min_shared_border_m": 1.0,
@@ -65,6 +69,8 @@ class ContractTests(unittest.TestCase):
                 "gerrychain": {"population_band": 0.005},
             },
         }
+        c = contract_from_yaml(cfg)
+        self.assertEqual(c.municipality_discipline_field, "M04_PARTITION_UNIT")
         s = strategy_config_from_yaml(cfg)
         self.assertEqual(s.proposal_epsilon, 0.09)
         self.assertEqual(s.comarca_surcharge, 0.0)
@@ -271,6 +277,74 @@ class ContractTests(unittest.TestCase):
             self.assertEqual(row["classification"], "ATOMIC_MULTIPART")
             self.assertTrue(row["causal_atomic_multipart_edges"])
             self.assertEqual(diagnostic["semantics"], "diagnostic_only_operational_graph_is_authoritative")
+
+    def test_municipality_discipline_uses_m04_declared_partition_unit(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            ids = ["A", "B", "C", "D", "E", "F"]
+            gdf = gpd.GeoDataFrame(
+                {
+                    "CUSEC_KEY": ids,
+                    "ddd_unit_id": ids,
+                    "CPRO": ["33"] * 6,
+                    "CUMUN": ["BIG", "BIG", "BIG", "S1", "S2", "S3"],
+                    "M04_PARTITION_UNIT": ["BIG#P1", "BIG#P2", "BIG#P3", "S1", "S2", "S3"],
+                    "ddd_closed_urban": [False] * 6,
+                    "district_id": [1, 2, 3, 1, 2, 3],
+                },
+                geometry=[
+                    box(0, 0, 1, 1), box(10, 0, 11, 1), box(20, 0, 21, 1),
+                    box(1, 0, 2, 1), box(11, 0, 12, 1), box(21, 0, 22, 1),
+                ],
+                crs="EPSG:3035",
+            )
+            geo = root / "m04.geojson"
+            geo.write_text(gdf.to_json(), encoding="utf-8")
+            graph = {
+                "nodes": [{"id": section, "pop": 100} for section in ids],
+                "edges": [
+                    {"u": "A", "v": "D", "edge_type": "geometric"},
+                    {"u": "B", "v": "E", "edge_type": "geometric"},
+                    {"u": "C", "v": "F", "edge_type": "geometric"},
+                ],
+            }
+            graph_path = root / "m03.json"
+            graph_path.write_text(json.dumps(graph), encoding="utf-8")
+
+            raw_contract = StrategyContract(
+                expected_k=3,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=1.75,
+                province_districts={"33": 3},
+                municipality_discipline_field="CUMUN",
+                preserve_closed_urban=False,
+            )
+            raw_problem = prepare_problem(graph_path, geo, raw_contract, metric_crs="EPSG:3035")
+            raw_violations = hard_constraint_violations(
+                raw_problem, raw_problem.initial_assignment, raw_contract
+            )
+            self.assertIn("municipality:BIG", raw_violations)
+            self.assertIn("municipality_mixed:BIG", raw_violations)
+
+            contractual = StrategyContract(
+                expected_k=3,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=1.75,
+                province_districts={"33": 3},
+                municipality_discipline_field="M04_PARTITION_UNIT",
+                preserve_closed_urban=False,
+            )
+            problem = prepare_problem(graph_path, geo, contractual, metric_crs="EPSG:3035")
+            self.assertEqual(
+                hard_constraint_violations(problem, problem.initial_assignment, contractual),
+                [],
+            )
+            self.assertEqual(
+                {row["municipality"] for row in problem.units.values()},
+                {"BIG#P1", "BIG#P2", "BIG#P3", "S1", "S2", "S3"},
+            )
 
     def test_operational_graph_bridge_is_authoritative_even_without_physical_contact(self):
         with tempfile.TemporaryDirectory() as td:
