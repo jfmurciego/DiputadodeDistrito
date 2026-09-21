@@ -1,0 +1,16 @@
+{
+  "title": "Diputado de Distrito: motor reproducible de distritos uninominales",
+  "upload_type": "software",
+  "creators": [
+    {"name": "Murciego, Jesus", "orcid": "0009-0002-4434-959X"}
+  ],
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "language": "spa",
+  "keywords": ["redistricting", "distritos uninominales", "GerryChain", "ReCom", "INE", "España"],
+  "description": "Motor modular M01–M08 para distritos uninominales desde secciones censales. Cada versión archiva los productos de un mapa publicado, su manifiesto SHA-256 y la atestación de procedencia SLSA. Los mapas no tienen valor oficial.",
+  "related_identifiers": [
+    {"identifier": "https://github.com/jfmurciego/DiputadodeDistrito", "relation": "isSupplementTo", "scheme": "url"}
+  ],
+  "notes": "Las fuentes territoriales proceden del INE (padrón y seccionado). Consultar las condiciones de reutilización del INE antes de redistribuir datos brutos."
+}

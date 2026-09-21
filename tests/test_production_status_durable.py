@@ -157,7 +157,7 @@ class DurableProductionStatusTests(unittest.TestCase):
             jobs = workflow_jobs()
             upload_steps = [
                 step for step in jobs["auditoria"]["steps"]
-                if step.get("uses") == "actions/upload-artifact@v6"
+                if step.get("uses") == "actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f"
             ]
             self.assertEqual(len(upload_steps), 1)
             self.assertEqual(upload_steps[0]["with"]["path"], ".ddd-audit")

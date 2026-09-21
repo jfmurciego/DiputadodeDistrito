@@ -92,6 +92,10 @@ class StrategyConfig:
     seed_base: int = 20260920
     seed_count: int = 4
     proposal_epsilon: float = 0.12
+    comarca_surcharge: float = 0.30
+    population_band: float = 0.005
+    metric_crs: str = "EPSG:3035"
+    min_shared_border_m: float = 1.0
     max_bipartition_attempts: int = 500
     require_pythonhashseed_zero: bool = True
 
@@ -102,6 +106,14 @@ class StrategyConfig:
             raise ValueError("seed_count debe ser >= 1")
         if not 0 < self.proposal_epsilon < 1:
             raise ValueError("proposal_epsilon debe estar entre 0 y 1")
+        if not 0 <= self.comarca_surcharge <= 1:
+            raise ValueError("comarca_surcharge debe estar entre 0 y 1")
+        if not 0 < self.population_band < 1:
+            raise ValueError("population_band debe estar entre 0 y 1")
+        if not self.metric_crs:
+            raise ValueError("metric_crs no puede estar vacío")
+        if self.min_shared_border_m <= 0:
+            raise ValueError("min_shared_border_m debe ser > 0")
         if self.max_bipartition_attempts < 1:
             raise ValueError("max_bipartition_attempts debe ser >= 1")
 
@@ -118,6 +130,14 @@ class PreparedProblem:
     initial_assignment: dict[str, Any]
     frozen_districts: dict[Any, frozenset[str]]
     target_population: float
+    unit_areas: dict[str, float] = field(default_factory=dict)
+    unit_perimeters: dict[str, float] = field(default_factory=dict)
+    shared_border_lengths: dict[tuple[str, str], float] = field(default_factory=dict)
+    unit_components: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    component_edges: list[tuple[str, str]] = field(default_factory=list)
+    internal_component_edges: list[tuple[str, str]] = field(default_factory=list)
+    initial_geometric_exceptions: dict[Any, frozenset[str]] = field(default_factory=dict)
+    component_adjacency: dict[str, set[str]] = field(default_factory=dict)
 
 
 def require_runtime(config: StrategyConfig | None = None) -> None:
@@ -139,6 +159,14 @@ def _load_geojson_any(path: Path) -> gpd.GeoDataFrame:
     if path.suffix.lower() == ".zip":
         return gpd.read_file("zip://" + str(path))
     return gpd.read_file(path)
+
+
+def _polygon_components(geometry: Any) -> list[Any]:
+    if geometry.geom_type == "Polygon":
+        return [geometry]
+    if geometry.geom_type == "MultiPolygon":
+        return list(geometry.geoms)
+    return [geometry]
 
 
 def _write_geojson_zip(gdf: gpd.GeoDataFrame, path: Path) -> None:
@@ -235,12 +263,18 @@ def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
     s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
     raw = s5.get("gerrychain") or {}
     validation = cfg.get("validation") or {}
+    s2 = (cfg.get("modulos") or {}).get("modulo_02_construir_adyacencias") or {}
+    s6 = (cfg.get("modulos") or {}).get("modulo_06_consolidar_distritos") or {}
     default_epsilon = float(validation.get("target_tolerance_ratio", 0.12))
     result = StrategyConfig(
         steps_per_seed=int(raw.get("steps_per_seed", 3000)),
         seed_base=int(raw.get("seed_base", 20260920)),
         seed_count=int(raw.get("seed_count", 4)),
         proposal_epsilon=float(raw.get("proposal_epsilon", default_epsilon)),
+        comarca_surcharge=float(raw.get("comarca_surcharge", 0.30)),
+        population_band=float(raw.get("population_band", 0.005)),
+        metric_crs=str(raw.get("metric_crs") or s6.get("metric_crs") or s2.get("working_crs") or "EPSG:3035"),
+        min_shared_border_m=float(raw.get("min_shared_border_m", s2.get("min_shared_border_m", 1.0))),
         max_bipartition_attempts=int(raw.get("max_bipartition_attempts", 500)),
         require_pythonhashseed_zero=bool(raw.get("require_pythonhashseed_zero", True)),
     )
@@ -291,9 +325,12 @@ def prepare_problem(
     province_field: str = "CPRO",
     municipality_field: str = "CUMUN",
     closed_urban_field: str = "ddd_closed_urban",
+    metric_crs: str = "EPSG:3035",
+    min_shared_border_m: float = 1.0,
 ) -> PreparedProblem:
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
-    node_population = {str(n["id"]): float(n.get("pop", 0)) for n in graph.get("nodes", [])}
+    graph_nodes = {str(n["id"]): n for n in graph.get("nodes", [])}
+    node_population = {section: float(node.get("pop", 0)) for section, node in graph_nodes.items()}
     sections = _load_geojson_any(initial_geojson)
     required = {id_field, district_field, unit_field, province_field, municipality_field, closed_urban_field}
     missing = sorted(required - set(sections.columns))
@@ -301,6 +338,8 @@ def prepare_problem(
         raise ValueError("M04 carece de columnas requeridas: " + ", ".join(missing))
     if sections.crs is None:
         raise ValueError("M04 no declara CRS")
+    if min_shared_border_m <= 0:
+        raise ValueError("min_shared_border_m debe ser > 0")
 
     sections = sections.copy()
     sections[id_field] = sections[id_field].astype(str)
@@ -314,10 +353,32 @@ def prepare_problem(
     if set(sections[id_field]) != set(node_population):
         raise ValueError("El universo de M04 no coincide exactamente con M03")
 
+    metric_sections = sections.to_crs(metric_crs)
+
     section_unit = dict(zip(sections[id_field], sections[unit_field]))
     units: dict[str, dict[str, Any]] = {}
     initial: dict[str, Any] = {}
-    for unit, rows in sections.groupby(unit_field, sort=True):
+    unit_areas: dict[str, float] = {}
+    unit_perimeters: dict[str, float] = {}
+    unit_geometries: dict[str, Any] = {}
+    section_components: dict[str, list[tuple[str, Any]]] = {}
+    unit_components: dict[str, list[str]] = defaultdict(list)
+    component_edges: set[tuple[str, str]] = set()
+    internal_component_edges: set[tuple[str, str]] = set()
+
+    for section_id, geometry in zip(metric_sections[id_field], metric_sections.geometry):
+        if geometry is None or geometry.is_empty or not geometry.is_valid:
+            raise ValueError(f"Geometría inválida en {section_id}")
+        components = _polygon_components(geometry)
+        named = [(f"{section_id}#{index}", part) for index, part in enumerate(components)]
+        section_components[str(section_id)] = named
+        unit = str(section_unit[str(section_id)])
+        unit_components[unit].extend(name for name, _ in named)
+        if len(named) > 1:
+            anchor = named[0][0]
+            internal_component_edges.update(tuple(sorted((anchor, name))) for name, _ in named[1:])
+
+    for unit, rows in metric_sections.groupby(unit_field, sort=True):
         districts = set(rows[district_field])
         provinces = set(rows[province_field])
         municipalities = set(rows[municipality_field])
@@ -327,23 +388,58 @@ def prepare_problem(
             raise ValueError(f"Unidad cruza provincias: {unit}")
         if len(municipalities) != 1:
             raise ValueError(f"Unidad cruza municipios: {unit}")
-        units[str(unit)] = {
-            "unit_id": str(unit),
+
+        comarca_values: set[str] = set()
+        for section_id in rows[id_field]:
+            node = graph_nodes[str(section_id)]
+            value = node.get("COMARCA_CODIGO") or node.get("COMARCA_COD")
+            if value not in (None, ""):
+                comarca_values.add(str(value).strip())
+        for column in ("COMARCA_CODIGO", "COMARCA_COD", "ddd_comarca_codigo"):
+            if column in rows.columns:
+                comarca_values.update(
+                    str(value).strip()
+                    for value in rows[column].dropna()
+                    if str(value).strip()
+                )
+        if len(comarca_values) > 1:
+            raise ValueError(f"Unidad cruza comarcas: {unit}")
+
+        geometry = rows.geometry.union_all() if hasattr(rows.geometry, "union_all") else rows.geometry.unary_union
+        unit_key = str(unit)
+        unit_geometries[unit_key] = geometry
+        unit_areas[unit_key] = float(geometry.area)
+        unit_perimeters[unit_key] = float(geometry.length)
+        units[unit_key] = {
+            "unit_id": unit_key,
             "population": float(sum(node_population[s] for s in rows[id_field])),
             "province": next(iter(provinces)),
             "municipality": next(iter(municipalities)),
             "closed_urban": bool(rows[closed_urban_field].fillna(False).astype(bool).all()),
+            "comarca": next(iter(comarca_values), None),
         }
-        initial[str(unit)] = next(iter(districts))
+        initial[unit_key] = next(iter(districts))
 
     edges: set[tuple[str, str]] = set()
     for edge in graph.get("edges", []):
-        u = section_unit.get(str(edge["u"]))
-        v = section_unit.get(str(edge["v"]))
+        section_u, section_v = str(edge["u"]), str(edge["v"])
+        u = section_unit.get(section_u)
+        v = section_unit.get(section_v)
         if u is None or v is None:
             raise ValueError("M03 contiene arista fuera del universo M04")
-        if u != v:
-            edges.add(tuple(sorted((u, v))))
+        unit_u, unit_v = str(u), str(v)
+        for left_name, left_part in section_components.get(section_u, []):
+            for right_name, right_part in section_components.get(section_v, []):
+                shared_component_border = float(left_part.boundary.intersection(right_part.boundary).length)
+                if shared_component_border + 1e-9 >= min_shared_border_m:
+                    component_edges.add(tuple(sorted((left_name, right_name))))
+        if unit_u != unit_v:
+            edges.add(tuple(sorted((unit_u, unit_v))))
+
+    shared_border_lengths = {
+        edge: float(unit_geometries[edge[0]].boundary.intersection(unit_geometries[edge[1]].boundary).length)
+        for edge in edges
+    }
 
     members: dict[Any, set[str]] = defaultdict(set)
     closed_members: dict[Any, set[str]] = defaultdict(set)
@@ -357,6 +453,38 @@ def prepare_problem(
         if contract.preserve_closed_urban and unit_set and unit_set == closed_members[district]
     }
 
+    def component_connected(wanted: set[str], edges_for_check: Iterable[tuple[str, str]]) -> bool:
+        if not wanted:
+            return True
+        adjacency = {component: set() for component in wanted}
+        for left, right in edges_for_check:
+            if left in wanted and right in wanted:
+                adjacency[left].add(right)
+                adjacency[right].add(left)
+        start = next(iter(wanted))
+        reached = {start}
+        queue: deque[str] = deque([start])
+        while queue:
+            component = queue.popleft()
+            for neighbor in adjacency[component]:
+                if neighbor not in reached:
+                    reached.add(neighbor)
+                    queue.append(neighbor)
+        return reached == wanted
+
+    initial_geometric_exceptions: dict[Any, frozenset[str]] = {}
+    initial_components: dict[Any, set[str]] = defaultdict(set)
+    for unit, district in initial.items():
+        initial_components[district].update(unit_components.get(unit, ()))
+    combined_component_edges = set(component_edges) | set(internal_component_edges)
+    for district, wanted in initial_components.items():
+        if component_connected(wanted, component_edges):
+            continue
+        if component_connected(wanted, combined_component_edges):
+            # Excepción heredada estricta: solo se conserva mientras el distrito
+            # mantenga exactamente el mismo conjunto de componentes de M04.
+            initial_geometric_exceptions[district] = frozenset(wanted)
+
     total = sum(row["population"] for row in units.values())
     target = total / contract.expected_k
     problem = PreparedProblem(
@@ -366,6 +494,13 @@ def prepare_problem(
         initial_assignment=initial,
         frozen_districts=frozen,
         target_population=target,
+        unit_areas=unit_areas,
+        unit_perimeters=unit_perimeters,
+        shared_border_lengths=shared_border_lengths,
+        unit_components={unit: tuple(components) for unit, components in unit_components.items()},
+        component_edges=sorted(component_edges),
+        internal_component_edges=sorted(internal_component_edges),
+        initial_geometric_exceptions=initial_geometric_exceptions,
     )
     violations = hard_constraint_violations(problem, initial, contract)
     if violations:
@@ -477,9 +612,77 @@ def hard_constraint_violations(
             if reached != wanted:
                 violations.append(f"contiguity:{district}")
 
+        if problem.unit_components:
+            if not problem.component_adjacency:
+                component_nodes = {
+                    component
+                    for components in problem.unit_components.values()
+                    for component in components
+                }
+                component_adjacency = {component: set() for component in component_nodes}
+                for left, right in problem.component_edges:
+                    component_adjacency[left].add(right)
+                    component_adjacency[right].add(left)
+                problem.component_adjacency = component_adjacency
+            district_components: dict[Any, set[str]] = defaultdict(set)
+            for unit, district in assignment.items():
+                district_components[district].update(problem.unit_components.get(unit, ()))
+            for district, wanted in district_components.items():
+                if not wanted:
+                    continue
+                start = next(iter(wanted))
+                reached = {start}
+                queue: deque[str] = deque([start])
+                while queue:
+                    component = queue.popleft()
+                    for neighbor in problem.component_adjacency.get(component, set()) & wanted:
+                        if neighbor not in reached:
+                            reached.add(neighbor)
+                            queue.append(neighbor)
+                if reached != wanted:
+                    inherited = problem.initial_geometric_exceptions.get(district)
+                    if inherited != frozenset(wanted):
+                        violations.append(f"geometric_contiguity:{district}")
+
     # Deliberadamente NO se incluye target_tolerance_ratio aquí. Es objetivo,
     # no límite duro de los estados intermedios.
     return sorted(set(violations))
+
+
+def geometric_shape_metrics(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+) -> dict[str, float | bool]:
+    if len(problem.unit_areas) != len(problem.units) or len(problem.unit_perimeters) != len(problem.units):
+        return {"available": False, "polsby_popper_min": 0.0, "polsby_popper_median": 0.0, "penalty": 0.0}
+    areas: dict[Any, float] = defaultdict(float)
+    perimeters: dict[Any, float] = defaultdict(float)
+    for unit, district in assignment.items():
+        areas[district] += problem.unit_areas[unit]
+        perimeters[district] += problem.unit_perimeters[unit]
+    for edge, shared in problem.shared_border_lengths.items():
+        left, right = edge
+        if assignment[left] == assignment[right]:
+            perimeters[assignment[left]] -= 2.0 * shared
+    polsby_popper = [
+        4.0 * math.pi * area / (perimeters[district] ** 2)
+        if area > 0 and perimeters[district] > 0 else 0.0
+        for district, area in areas.items()
+    ]
+    ordered = sorted(polsby_popper)
+    median = (
+        ordered[len(ordered) // 2]
+        if len(ordered) % 2
+        else (ordered[len(ordered) // 2 - 1] + ordered[len(ordered) // 2]) / 2.0
+    ) if ordered else 0.0
+    minimum = min(ordered, default=0.0)
+    compactness_penalty = (1.0 - median) + max(0.0, (0.15 - minimum) / 0.15)
+    return {
+        "available": True,
+        "polsby_popper_min": minimum,
+        "polsby_popper_median": median,
+        "penalty": compactness_penalty,
+    }
 
 
 def candidate_rank(
@@ -487,16 +690,22 @@ def candidate_rank(
     assignment: Mapping[str, Any],
     contract: StrategyContract,
     initial: Mapping[str, Any],
+    population_band: float = 0.005,
 ) -> tuple[Any, ...]:
     pop = population_metrics(problem, assignment, contract)
+    shape = geometric_shape_metrics(problem, assignment)
     cut_edges = sum(1 for u, v in problem.edges if assignment[u] != assignment[v])
     churn = sum(assignment[u] != initial[u] for u in initial) / max(1, len(initial))
     # Orden técnico declarativo y no partidista. El hash resuelve empates de
     # forma determinista; no intervienen votos ni composición electoral.
+    max_rel_dev = float(pop["max_relative_deviation"])
+    rms = float(pop["rms_relative_deviation"])
     return (
         int(pop["districts_outside_tolerance"]),
-        float(pop["max_relative_deviation"]),
-        float(pop["rms_relative_deviation"]),
+        int(math.ceil(max_rel_dev / population_band)),
+        float(shape["penalty"]),
+        max_rel_dev,
+        rms,
         int(cut_edges),
         float(churn),
         _assignment_hash(assignment),
@@ -519,7 +728,12 @@ def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
         for unit in units
     }
     for unit, row in problem.units.items():
-        graph.add_node(unit, **row, district=problem.initial_assignment[unit])
+        attrs = dict(row)
+        # Si un territorio no aporta comarcas, cada unidad recibe una región
+        # sintética propia: el sobrecargo queda neutral en vez de inventar una
+        # comarca o agrupar artificialmente unidades sin cobertura.
+        attrs["comarca"] = attrs.get("comarca") or f"__sin_comarca__:{unit}"
+        graph.add_node(unit, **attrs, district=problem.initial_assignment[unit])
     for u, v in problem.edges:
         # Una transición ReCom no puede cruzar provincias porque la provincia es
         # restricción dura y la cuota distrital provincial es invariante.
@@ -558,7 +772,7 @@ def _run_seed(
         pop_col="population",
         pop_target=problem.target_population,
         epsilon=config.proposal_epsilon,
-        region_surcharge=None,
+        region_surcharge={"comarca": config.comarca_surcharge},
         bipartition_tree_fn=partial(
             bipartition_tree,
             max_attempts=config.max_bipartition_attempts,
@@ -587,7 +801,7 @@ def _run_seed(
     )
 
     best_assignment = dict(problem.initial_assignment)
-    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment)
+    best_rank = candidate_rank(problem, best_assignment, contract, problem.initial_assignment, config.population_band)
     unique: set[str] = set()
     self_loops = 0
     previous_hash: str | None = None
@@ -601,7 +815,7 @@ def _run_seed(
         if previous_hash == digest:
             self_loops += 1
         previous_hash = digest
-        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment)
+        rank = candidate_rank(problem, assignment, contract, problem.initial_assignment, config.population_band)
         if rank < best_rank:
             best_rank = rank
             best_assignment = assignment
@@ -624,14 +838,14 @@ def run_portfolio(
     contract: StrategyContract,
     config: StrategyConfig,
 ) -> dict[str, Any]:
-    initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment)
+    initial_rank = candidate_rank(problem, problem.initial_assignment, contract, problem.initial_assignment, config.population_band)
     runs = [_run_seed(problem, contract, config, seed) for seed in config.seeds()]
     selected = min(
         runs,
-        key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment),
+        key=lambda r: candidate_rank(problem, r["assignment"], contract, problem.initial_assignment, config.population_band),
     )
     selected_assignment = selected["assignment"]
-    selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment)
+    selected_rank = candidate_rank(problem, selected_assignment, contract, problem.initial_assignment, config.population_band)
     if selected_rank > initial_rank:
         raise AssertionError("El portfolio GerryChain intentó degradar M04; esto no debe ser posible")
     return {"runs": runs, "selected": selected}
@@ -778,6 +992,9 @@ def build_report(
             "seed_count": config.seed_count,
             "seeds": config.seeds(),
             "proposal_epsilon": config.proposal_epsilon,
+            "population_band": config.population_band,
+            "metric_crs": config.metric_crs,
+            "min_shared_border_m": config.min_shared_border_m,
             "max_bipartition_attempts": config.max_bipartition_attempts,
             "pythonhashseed": os.environ.get("PYTHONHASHSEED"),
             "runs": [
@@ -824,7 +1041,13 @@ def run_from_paths(
     contract: StrategyContract,
     strategy: StrategyConfig,
 ) -> dict[str, Any]:
-    problem = prepare_problem(graph_path, initial_path, contract)
+    problem = prepare_problem(
+        graph_path,
+        initial_path,
+        contract,
+        metric_crs=strategy.metric_crs,
+        min_shared_border_m=strategy.min_shared_border_m,
+    )
     portfolio = run_portfolio(problem, contract, strategy)
     materialise_output(problem, portfolio["selected"]["assignment"], output_path)
     portfolio_rows = materialise_portfolio(problem, portfolio, output_path)
@@ -854,6 +1077,7 @@ def main() -> None:
     ap.add_argument("--seed-base", type=int)
     ap.add_argument("--seed-count", type=int)
     ap.add_argument("--proposal-epsilon", type=float)
+    ap.add_argument("--population-band", type=float)
     ap.add_argument("--max-bipartition-attempts", type=int)
     args = ap.parse_args()
 
@@ -892,6 +1116,10 @@ def main() -> None:
         seed_base=args.seed_base if args.seed_base is not None else strategy.seed_base,
         seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
         proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
+        comarca_surcharge=strategy.comarca_surcharge,
+        population_band=args.population_band if args.population_band is not None else strategy.population_band,
+        metric_crs=strategy.metric_crs,
+        min_shared_border_m=strategy.min_shared_border_m,
         max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
         require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
     )

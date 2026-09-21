@@ -230,7 +230,7 @@ class IntegratedRunnerTests(unittest.TestCase):
         workflow = (ROOT / ".github/workflows/generar-alternativas-territoriales.yml").read_text(encoding="utf-8")
         self.assertIn("workflow_call:", workflow)
         self.assertIn("max-parallel: 5", workflow)
-        self.assertIn("actions/deploy-pages@v4", workflow)
+        self.assertIn("actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e", workflow)
         self.assertIn("--draft", workflow)
         self.assertNotIn("push:", workflow)
         self.assertIn("promotion_confirmed", workflow)
