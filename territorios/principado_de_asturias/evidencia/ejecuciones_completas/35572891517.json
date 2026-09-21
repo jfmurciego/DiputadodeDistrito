@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.full-run-manifest/2.0",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "workflow_run_id": 35572891517,
+  "source_sha": "cf71e05953e28dd724dbeb0b4ee8c5f7a5ee105d",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [
+    "01 · Preparación de Datos Territoriales",
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35572891517,
+      "artifact": "ddd-source-package-principado_de_asturias-2025-35572891517",
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35572891517,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-21T07:29:31.820155+00:00"
+}
