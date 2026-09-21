@@ -102,6 +102,11 @@ modulos:
     out_geojson: "ejecuciones/{run_id}/{run_name}_m04_semillas.geojson.zip"
     out_report: "ejecuciones/{run_id}/{run_name}_m04_informe.json"
   modulo_05_optimizar_distritos:
+    gerrychain:
+      population_band: 0.005
+      comarca_surcharge: 0.30
+      metric_crs: EPSG:3035
+      min_shared_border_m: 1.0
     in_graph_json: ".cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
     in_geojson: "ejecuciones/{run_id}/{run_name}_m04_semillas.geojson.zip"
     id_field: CUSEC_KEY

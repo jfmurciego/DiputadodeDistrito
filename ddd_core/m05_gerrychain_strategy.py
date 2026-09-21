@@ -1003,6 +1003,13 @@ def build_report(
             ],
             "selected_seed": portfolio["selected"]["seed"],
             "selected_assignment_hash": portfolio["selected"]["assignment_hash"],
+            "frozen_geometric_exceptions": {
+                "count": len(problem.initial_geometric_exceptions),
+                "district_ids": sorted(
+                    (str(district) for district in problem.initial_geometric_exceptions),
+                    key=lambda value: (not value.isdigit(), int(value) if value.isdigit() else value),
+                ),
+            },
         },
         "inputs": {
             "graph": str(graph_path),
