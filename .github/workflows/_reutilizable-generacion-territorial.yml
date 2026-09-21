@@ -58,8 +58,7 @@ jobs:
       SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
       DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
       - name: Validar lanzador común
         run: bash -n procedimiento.sh
@@ -112,8 +111,7 @@ jobs:
             echo "from_num=$from_num"
             echo "to_num=$to_num"
           } >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v6
-        if: always()
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-decision-${{ github.run_id }}
           path: decision.json
@@ -135,18 +133,15 @@ jobs:
       SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
       SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
       - name: Comprobar declaración de fuentes
         shell: bash
         run: |
           set -euo pipefail
           test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible de fuentes
-        uses: docker/build-push-action@v6
-        with:
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
           context: .
           pull: true
           load: true
@@ -237,8 +232,7 @@ jobs:
             --root-dir /app
       - name: Publicar evidencia de preparación
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-fuentes-${{ github.run_id }}
           path: |
             .ddd-sources/inventario_fuentes.json
@@ -252,8 +246,7 @@ jobs:
           retention-days: 14
       - name: Publicar entradas consumibles
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
           include-hidden-files: true
@@ -261,8 +254,7 @@ jobs:
           retention-days: 14
       - name: Publicar paquete durable de fuentes
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-source-package-${{ github.run_id }}
           path: .ddd-source-package
           include-hidden-files: true
@@ -297,13 +289,10 @@ jobs:
       PREVIOUS_RESULT: ''
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
     steps: &module_steps
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@v6
-        with:
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
           context: .
           pull: true
           load: true
@@ -321,8 +310,7 @@ jobs:
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar estado acumulado anterior
         if: ${{ env.PREVIOUS_STAGE != '' }}
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}
           path: .ddd-state/in
           github-token: ${{ github.token }}
@@ -345,14 +333,12 @@ jobs:
           test -f "$RUNS_DIR/CHAIN_STATE.json"
       - name: Recuperar fuentes aprobadas para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
       - name: Recuperar paquete durable para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           name: ddd-source-package-${{ github.run_id }}
           path: .ddd-source-package
       - name: Instalar fuentes en sus rutas contractuales
@@ -395,8 +381,7 @@ jobs:
             python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
               --output .ddd-state/out/compatibility/m05.json
           fi
-      - uses: actions/upload-artifact@v6
-        with:
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
           path: .ddd-state/out
           include-hidden-files: true
@@ -435,13 +420,10 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       M03_RESULT: ${{ needs.m03.result }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible
-        uses: docker/build-push-action@v6
-        with:
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
           context: .
           pull: true
           load: true
@@ -457,8 +439,7 @@ jobs:
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Preparar unidades internas requiere M03 actual o checkpoint previo.'; exit 22; }
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar entrada M03
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           name: ddd-state-${{ steps.state.outputs.run_id }}-M03
           path: .ddd-state/in
           github-token: ${{ github.token }}
@@ -504,8 +485,7 @@ jobs:
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
           cp -a .ddd-source-package/. .ddd-state/out/sources/
-      - uses: actions/upload-artifact@v6
-        with:
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-state-${{ github.run_id }}-M03U
           path: .ddd-state/out
           include-hidden-files: true
@@ -513,8 +493,7 @@ jobs:
           retention-days: 14
       - name: Publicar preparación de unidades internas
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-internal-units-${{ github.run_id }}
           path: .ddd-internal-units
           include-hidden-files: true
@@ -564,13 +543,10 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       M06_RESULT: ${{ needs.m06.result }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
-      - uses: docker/setup-buildx-action@v3
-      - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@v6
-        with:
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
           context: .
           pull: true
           load: true
@@ -586,8 +562,7 @@ jobs:
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Auditoría M06 requiere estado M06 actual o checkpoint previo.'; exit 22; }
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar estado M06
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           name: ddd-state-${{ steps.state.outputs.run_id }}-M06
           path: .ddd-state/in
           github-token: ${{ github.token }}
@@ -682,8 +657,7 @@ jobs:
             --geometric-audit "$audit" \
             --output .ddd-audit/production_status.json
           cp "$audit" .ddd-audit/
-      - uses: actions/upload-artifact@v6
-        if: always()
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-audit-${{ github.run_id }}
           path: .ddd-audit
@@ -714,8 +688,7 @@ jobs:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.ref_name }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Registrar producto territorial certificado
