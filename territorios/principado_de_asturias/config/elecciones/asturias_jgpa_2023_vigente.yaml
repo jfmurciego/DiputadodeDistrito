@@ -65,7 +65,7 @@ reconciliation:
     - section_id: 'SPECIAL:33:044:01:-01'
       expected_votes: 8340
       reason: registro electoral especial 2023 sin geometría censal equivalente en el seccionado territorial 2025
-    - section_id: 'SPECIAL:33:044:01:0'
+    - section_id: 'SPECIAL:33:044:01:-00'
       expected_votes: 22999
       reason: registro electoral especial 2023 sin geometría censal equivalente en el seccionado territorial 2025
   allowed_map_only_sections:
