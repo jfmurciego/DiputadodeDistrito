@@ -37,8 +37,7 @@ jobs:
       source_ref: ${{ steps.resolve.outputs.source_ref }}
       production_run_id: ${{ steps.resolve.outputs.production_run_id }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: main
           token: ${{ github.token }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
