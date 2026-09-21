@@ -11,6 +11,7 @@ from pathlib import Path
 
 import geopandas as gpd
 import importlib.util
+from shapely.geometry import MultiPolygon, Point, box
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -23,6 +24,10 @@ from ddd_core.m05_gerrychain_strategy import (
     resolve_paths,
     strategy_config_from_yaml,
     PreparedProblem,
+    candidate_rank,
+    geometric_shape_metrics,
+    hard_constraint_violations,
+    prepare_problem,
     _run_seed,
 )
 
@@ -49,8 +54,20 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(c.expected_k, 3)
         self.assertTrue(c.require_contiguity)
         self.assertEqual(c.province_districts, {"01": 1, "02": 2})
+        cfg["modulos"] = {
+            "modulo_02_construir_adyacencias": {
+                "working_crs": "EPSG:3035",
+                "min_shared_border_m": 1.0,
+            },
+            "modulo_05_optimizar_distritos": {
+                "gerrychain": {"population_band": 0.005},
+            },
+        }
         s = strategy_config_from_yaml(cfg)
         self.assertEqual(s.proposal_epsilon, 0.09)
+        self.assertEqual(s.population_band, 0.005)
+        self.assertEqual(s.metric_crs, "EPSG:3035")
+        self.assertEqual(s.min_shared_border_m, 1.0)
 
     def test_resolve_paths_honours_project_root(self):
         with tempfile.TemporaryDirectory() as td:
@@ -100,6 +117,155 @@ class ContractTests(unittest.TestCase):
         self.assertIn("gerrychain_recom 25", procedure)
         self.assertIn("gerrychain_recom 50", procedure)
         self.assertIn('--seed-count "$candidate_count"', procedure)
+
+    def test_multipart_section_cannot_create_new_geometric_bridge(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            center = gpd.GeoSeries([Point(-3.7, 41.6)], crs="EPSG:4326").to_crs("EPSG:3035").iloc[0]
+            x0, y0 = center.x, center.y
+            geometries = [
+                box(x0, y0, x0 + 100, y0 + 100),
+                MultiPolygon([
+                    box(x0 + 100, y0, x0 + 200, y0 + 100),
+                    box(x0 + 7100, y0, x0 + 7200, y0 + 100),
+                ]),
+                box(x0 + 7200, y0, x0 + 7300, y0 + 100),
+                box(x0 + 7300, y0, x0 + 7400, y0 + 100),
+                box(x0 + 7400, y0, x0 + 7500, y0 + 100),
+            ]
+            ids = ["A", "B", "C", "D", "E"]
+            initial = [1, 2, 3, 3, 3]
+            gdf = gpd.GeoDataFrame(
+                {
+                    "CUSEC_KEY": ids,
+                    "ddd_unit_id": ids,
+                    "CPRO": ["01"] * 5,
+                    "CUMUN": ids,
+                    "ddd_closed_urban": [False] * 5,
+                    "district_id": initial,
+                },
+                geometry=geometries,
+                crs="EPSG:3035",
+            ).to_crs("EPSG:4326")
+            geo = root / "m04.geojson"
+            geo.write_text(gdf.to_json(), encoding="utf-8")
+            graph = {
+                "nodes": [{"id": section, "pop": 1.0} for section in ids],
+                "edges": [
+                    {"u": "A", "v": "B"},
+                    {"u": "B", "v": "C"},
+                    {"u": "C", "v": "D"},
+                    {"u": "D", "v": "E"},
+                ],
+            }
+            graph_path = root / "m03.json"
+            graph_path.write_text(json.dumps(graph), encoding="utf-8")
+            contract = StrategyContract(
+                expected_k=3,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=10.0,
+                require_single_province=False,
+                require_municipality_discipline=False,
+                preserve_closed_urban=False,
+            )
+            problem = prepare_problem(
+                graph_path,
+                geo,
+                contract,
+                metric_crs="EPSG:3035",
+                min_shared_border_m=1.0,
+            )
+            self.assertEqual(hard_constraint_violations(problem, problem.initial_assignment, contract), [])
+            candidate = {"A": 1, "B": 1, "C": 1, "D": 2, "E": 3}
+            violations = hard_constraint_violations(problem, candidate, contract)
+            self.assertIn("geometric_contiguity:1", violations)
+
+    def test_shape_score_is_orientation_invariant_after_metric_reprojection(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            center = gpd.GeoSeries([Point(-3.7, 41.6)], crs="EPSG:4326").to_crs("EPSG:3035").iloc[0]
+            contract = StrategyContract(
+                expected_k=1,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=10.0,
+                require_single_province=False,
+                require_municipality_discipline=False,
+                preserve_closed_urban=False,
+            )
+
+            def score(name: str, width: float, height: float) -> float:
+                x0 = center.x - width / 2
+                y0 = center.y - height / 2
+                gdf = gpd.GeoDataFrame(
+                    {
+                        "CUSEC_KEY": [name],
+                        "ddd_unit_id": [name],
+                        "CPRO": ["01"],
+                        "CUMUN": [name],
+                        "ddd_closed_urban": [False],
+                        "district_id": [1],
+                    },
+                    geometry=[box(x0, y0, x0 + width, y0 + height)],
+                    crs="EPSG:3035",
+                ).to_crs("EPSG:4326")
+                geo = root / f"{name}.geojson"
+                geo.write_text(gdf.to_json(), encoding="utf-8")
+                graph_path = root / f"{name}.json"
+                graph_path.write_text(
+                    json.dumps({"nodes": [{"id": name, "pop": 100.0}], "edges": []}),
+                    encoding="utf-8",
+                )
+                problem = prepare_problem(
+                    graph_path,
+                    geo,
+                    contract,
+                    metric_crs="EPSG:3035",
+                    min_shared_border_m=1.0,
+                )
+                return float(geometric_shape_metrics(problem, problem.initial_assignment)["polsby_popper_min"])
+
+            east_west = score("EW", 3000.0, 1000.0)
+            north_south = score("NS", 1000.0, 3000.0)
+            self.assertAlmostEqual(east_west, north_south, places=6)
+
+    def test_more_compact_map_wins_inside_same_population_band(self):
+        units = {
+            "u1": {"population": 50.2},
+            "u2": {"population": 50.2},
+            "u3": {"population": 50.1},
+            "u4": {"population": 49.5},
+        }
+        edges = [("u1", "u2"), ("u1", "u3"), ("u2", "u4"), ("u3", "u4")]
+        problem = PreparedProblem(
+            sections=gpd.GeoDataFrame(),
+            units=units,
+            edges=edges,
+            initial_assignment={"u1": 1, "u2": 1, "u3": 2, "u4": 2},
+            frozen_districts={},
+            target_population=100.0,
+            unit_areas={unit: 1.0 for unit in units},
+            unit_perimeters={unit: 4.0 for unit in units},
+            shared_border_lengths={edge: 1.0 for edge in edges},
+        )
+        contract = StrategyContract(
+            expected_k=2,
+            target_tolerance_ratio=0.12,
+            population_floor_ratio=0.0,
+            population_cap_ratio=10.0,
+            require_single_province=False,
+            require_municipality_discipline=False,
+            preserve_closed_urban=False,
+        )
+        compact = {"u1": 1, "u2": 1, "u3": 2, "u4": 2}
+        dispersed = {"u1": 1, "u2": 2, "u3": 2, "u4": 1}
+        compact_rank = candidate_rank(problem, compact, contract, compact, population_band=0.005)
+        dispersed_rank = candidate_rank(problem, dispersed, contract, compact, population_band=0.005)
+        self.assertEqual(compact_rank[1], dispersed_rank[1])
+        self.assertGreater(compact_rank[3], dispersed_rank[3])
+        self.assertLess(compact_rank[2], dispersed_rank[2])
+        self.assertLess(compact_rank, dispersed_rank)
 
     def test_02_and_00_expose_same_algorithm_selector(self):
         import yaml
