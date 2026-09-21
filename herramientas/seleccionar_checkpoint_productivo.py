@@ -102,11 +102,16 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
                 compatibility_error=str(exc)
                 derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
             else:
-                population_evidence=_validate_population_certification(
-                    params=params,
-                    state_root=state_root,
-                    run_id=str(run_id),
-                )
+                try:
+                    population_evidence=_validate_population_certification(
+                        params=params,
+                        state_root=state_root,
+                        run_id=str(run_id),
+                    )
+                except Exception as exc:
+                    compatibility_error=str(exc)
+                    compatibility=None
+                    derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
     except Exception as exc:
         return {
             "valid": False,
