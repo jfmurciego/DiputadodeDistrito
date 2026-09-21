@@ -25,7 +25,7 @@ def triggers(path: Path) -> dict:
 class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_newly_produced_artifacts_do_not_reuse_previous_digest(self):
-        orchestration = WORKFLOW.read_text(encoding="utf-8")
+        orchestration = ORCH.read_text(encoding="utf-8")
         self.assertIn(
             "needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || ''",
             orchestration,
