@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ProductiveCheckpointSelectorTests(unittest.TestCase):
-    def prepare_root(self, root: Path):
+    def prepare_root(self, root: Path, *, target_required: bool = False):
         (root / "territorios/demo/config").mkdir(parents=True)
         (root / "territorios/demo/config/fuentes_oficiales.yaml").write_text(
             "territory:\n  id: demo\n  edition: 2025\ncoverage_checks:\n  expected_sections: 1\n",
@@ -35,7 +35,8 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             "    seed: 1\n    population_repair:\n      enabled: true\n"
             "    out_geojson: cache/demo_2025_m05.geojson.zip\n"
             "    out_report: cache/demo_2025_m05_informe.json\n"
-            "  modulo_06_consolidar_distritos:\n    out_geojson: cache/demo_2025_m06.geojson.zip\n",
+            "  modulo_06_consolidar_distritos:\n    out_geojson: cache/demo_2025_m06.geojson.zip\n"
+            f"validation:\n  require_zero_outside_tolerance_after_m05: {'true' if target_required else 'false'}\n",
             encoding="utf-8",
         )
         return params
@@ -76,8 +77,9 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
         }),encoding="utf-8")
         return state
 
-    def accumulated_state(self, root: Path, name: str, params: Path) -> Path:
-        state=self.state(root,name,params,fingerprint=False)
+    def accumulated_state(self, root: Path, name: str, params: Path, *, fingerprint: bool = False,
+                          outliers: int = 0, hard: int = 0) -> Path:
+        state=self.state(root,name,params,fingerprint=fingerprint,outliers=outliers,hard=hard)
         cache=state/"cache"; cache.mkdir(parents=True,exist_ok=True)
         for fname in ("demo_2025_m01.geojson.zip","demo_2025_m02.jsonl","demo_2025_m03.json","demo_2025_m04.geojson.zip",
                       "demo_2025_m05.geojson.zip","demo_2025_m06.geojson.zip"):
@@ -147,11 +149,13 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertEqual([d["run_id"] for d in result["discarded"]], ["300"])
             self.assertEqual(result["from_stage"], "M06")
 
-    def test_compatible_m06_with_population_block_is_not_reused(self):
+    def test_compatible_m06_with_required_target_and_outliers_degrades_to_m04(self):
         with tempfile.TemporaryDirectory() as td:
-            root=Path(td); params=self.prepare_root(root)
+            root=Path(td); params=self.prepare_root(root,target_required=True)
             package=self.package(root,"valid")
-            state=self.state(root,"state-blocked",params,outliers=3)
+            state=self.accumulated_state(
+                root,"state-blocked",params,fingerprint=True,outliers=3
+            )
             result=select_latest_valid(
                 params=params,
                 candidates=[{"run_id":35319351944,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
@@ -162,7 +166,43 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertEqual(result["selected"]["effective_stage"],"M04")
             self.assertEqual(result["from_stage"],"M05")
             self.assertIn("checkpoint poblacionalmente no certificado",result["selected"]["compatibility_error"])
+            self.assertIn("target_required=True",result["selected"]["compatibility_error"])
             self.assertIn("outliers=3",result["selected"]["compatibility_error"])
+
+    def test_compatible_m06_allows_outliers_when_contract_does_not_require_target(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); params=self.prepare_root(root,target_required=False)
+            package=self.package(root,"valid")
+            state=self.state(root,"state-improved",params,outliers=3)
+            result=select_latest_valid(
+                params=params,
+                candidates=[{"run_id":201,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
+                root_dir=root,
+            )
+            self.assertEqual(result["selected"]["run_id"],"201")
+            self.assertFalse(result["selected"]["requires_derivation"])
+            population=result["selected"]["population_evidence"]
+            self.assertFalse(population["population_target_required"])
+            self.assertEqual(population["population_decision"],"TARGET_IMPROVED_NOT_MET")
+            self.assertEqual(population["population_outliers_after"],3)
+            self.assertEqual(result["from_stage"],"M07")
+
+    def test_hard_population_violation_degrades_even_without_target_requirement(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); params=self.prepare_root(root,target_required=False)
+            package=self.package(root,"valid")
+            state=self.accumulated_state(
+                root,"state-hard",params,fingerprint=True,outliers=0,hard=1
+            )
+            result=select_latest_valid(
+                params=params,
+                candidates=[{"run_id":202,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
+                root_dir=root,
+            )
+            self.assertEqual(result["selected"]["run_id"],"202")
+            self.assertTrue(result["selected"]["requires_derivation"])
+            self.assertEqual(result["selected"]["effective_stage"],"M04")
+            self.assertIn("hard=1",result["selected"]["compatibility_error"])
 
     def test_compatible_m06_with_target_met_is_reused_directly(self):
         with tempfile.TemporaryDirectory() as td:
