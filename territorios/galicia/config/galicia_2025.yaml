@@ -105,7 +105,8 @@ modulos:
   modulo_05_optimizar_distritos:
     gerrychain:
       population_band: 0.005
-      comarca_surcharge: 0.30
+      comarca_surcharge: 0.0
+      comarca_surcharge_note: "Neutral: Galicia no tiene datos comarcales cargados en M01."
       metric_crs: EPSG:3035
       min_shared_border_m: 1.0
     in_graph_json: "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"

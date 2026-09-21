@@ -331,21 +331,50 @@ class ContractTests(unittest.TestCase):
 
     def test_aragon_and_galicia_declare_gerrychain_parameters_explicitly(self):
         import yaml
-        expected = {
+        expected_common = {
             "population_band": 0.005,
-            "comarca_surcharge": 0.30,
             "metric_crs": "EPSG:3035",
             "min_shared_border_m": 1.0,
         }
-        for relative in (
-            "territorios/aragon/config/aragon_2025.yaml",
-            "territorios/galicia/config/galicia_2025.yaml",
-        ):
+        expected_surcharge = {
+            "territorios/aragon/config/aragon_2025.yaml": 0.30,
+            "territorios/galicia/config/galicia_2025.yaml": 0.0,
+        }
+        for relative, surcharge in expected_surcharge.items():
             cfg = yaml.safe_load((ROOT / relative).read_text(encoding="utf-8")) or {}
             gerry = cfg["modulos"]["modulo_05_optimizar_distritos"]["gerrychain"]
-            for key, value in expected.items():
+            for key, value in expected_common.items():
                 self.assertIn(key, gerry, f"{relative}: falta {key}")
                 self.assertEqual(gerry[key], value, f"{relative}: {key}")
+            self.assertIn("comarca_surcharge", gerry, f"{relative}: falta comarca_surcharge")
+            self.assertEqual(gerry["comarca_surcharge"], surcharge, f"{relative}: comarca_surcharge")
+        galicia = yaml.safe_load(
+            (ROOT / "territorios/galicia/config/galicia_2025.yaml").read_text(encoding="utf-8")
+        ) or {}
+        note = galicia["modulos"]["modulo_05_optimizar_distritos"]["gerrychain"].get("comarca_surcharge_note")
+        self.assertIn("no tiene datos comarcales cargados", note)
+
+    def test_positive_comarca_surcharge_requires_full_coverage_in_m01(self):
+        import yaml
+        offenders = []
+        for params in sorted((ROOT / "territorios").glob("*/config/*_2025.yaml")):
+            cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+            gerry = (
+                ((cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {})
+                .get("gerrychain")
+                or {}
+            )
+            surcharge = float(gerry.get("comarca_surcharge", 0.0) or 0.0)
+            if surcharge <= 0:
+                continue
+            comarcas = (((cfg.get("io") or {}).get("input") or {}).get("comarcas") or {})
+            if comarcas.get("enabled") is not True or comarcas.get("require_full_coverage") is not True:
+                offenders.append(str(params.relative_to(ROOT)))
+        self.assertEqual(
+            offenders,
+            [],
+            "Todo territorio con comarca_surcharge > 0 debe activar comarcas en M01 con cobertura completa.",
+        )
 
     def test_02_and_00_expose_same_algorithm_selector(self):
         import yaml
