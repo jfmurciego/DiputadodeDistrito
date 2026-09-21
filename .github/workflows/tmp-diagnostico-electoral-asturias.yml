@@ -21,7 +21,9 @@ jobs:
           import urllib.request, openpyxl, json, re
           url="https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx"
           path="/tmp/Asturias2023_mesas.xlsx"
-          urllib.request.urlretrieve(url,path)
+          req=urllib.request.Request(url,headers={"User-Agent":"DDD-official-election-source-check/1.0"})
+with urllib.request.urlopen(req,timeout=30) as response:
+    open(path,"wb").write(response.read())
           wb=openpyxl.load_workbook(path,read_only=True,data_only=True)
           ws=wb["MESAS"]
           rows=ws.iter_rows(values_only=True)
