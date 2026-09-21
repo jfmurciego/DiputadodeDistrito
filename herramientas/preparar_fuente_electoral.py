@@ -80,6 +80,10 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
     try: headers_raw=next(rows)
     except StopIteration: raise ValueError("XLSX electoral vacío")
     headers=[_clean_header(x) for x in headers_raw]
+    raw_header_index={str(value or "").strip().upper(): idx for idx,value in enumerate(headers_raw)}
+    census_index=raw_header_index.get("CENSO.TOTAL")
+    if census_index is None:
+        raise ValueError(f"XLSX electoral sin CENSO.TOTAL; cabecera={headers_raw}")
     aliases={
         "year":{"year","anyo","ano"}, "province":{"cod_prov","codigo_provincia","provincia"},
         "municipality":{"cod_mun","codigo_municipio","municipio"}, "district":{"distrito","codigo_distrito"},
@@ -151,7 +155,7 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
                         f"Crosswalk especial fuera de secuencia ordinal={special_pos}: "
                         f"esperado={expected.get('special_code')} observado={sec_raw}"
                     )
-                census_value=_as_int(values[headers.index("CENSO.TOTAL")] if "CENSO.TOTAL" in headers else 0)
+                census_value=_as_int(values[census_index] if census_index < len(values) else 0)
                 if census_value != int(expected.get("expected_autonomic_census") or -1):
                     raise ValueError(
                         f"Crosswalk especial no reproduce censo ordinal={special_pos}: "
