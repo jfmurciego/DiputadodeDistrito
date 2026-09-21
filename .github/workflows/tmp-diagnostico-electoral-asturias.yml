@@ -37,6 +37,7 @@ jobs:
           structural=max(i for i,h in enumerate(headers) if str(h).strip().upper() in {"VOTOS","BLANCOS","NULOS"})
           grouped={}
           normal_oviedo=0
+          source_normal_ids=set()
           for values in rows:
               if str(values[year_i]).strip() not in {"2023","2023.0"}: continue
               mun_raw=str(values[mun_i]).strip()
@@ -48,6 +49,14 @@ jobs:
               except Exception: special=not bool(re.fullmatch(r"\\d+",raw))
               if not special:
                   normal_oviedo+=1
+                  try:
+                      prov=str(int(float(values[idx("COD.PROV")]))).zfill(2)
+                      mun=str(values[mun_i]).strip().zfill(3)
+                      dist=str(values[dist_i]).strip().zfill(2)
+                      sec=str(values[sec_i]).strip().zfill(3)
+                      source_normal_ids.add(f"{prov}{mun}{dist}{sec}")
+                  except Exception:
+                      pass
                   continue
               item=grouped.setdefault(raw,{"rows":0,"censo":0,"votos":0,"blancos":0,"nulos":0,"sample":[],"parties":{}})
               item["rows"]+=1
@@ -66,6 +75,7 @@ jobs:
                       "votos":values[idx("VOTOS")],
                   })
           print("OVIEDO_NORMAL_ROWS",normal_oviedo)
+          print("OVIEDO_NORMAL_UNIQUE_SECTIONS",len(source_normal_ids))
           for key in sorted(grouped):
               print("SPECIAL_SUMMARY",key,json.dumps(grouped[key],ensure_ascii=False,sort_keys=True))
           wb.close()
@@ -119,4 +129,22 @@ jobs:
               overlaps.sort(key=lambda x:x[1],reverse=True)
               rows.append({"from":oid,"to":overlaps[:10]})
           print("INE_CROSSWALK",json.dumps(rows,sort_keys=True))
+
+          # Asturias completa: distinguir cambios reales de seccionado de errores de codificación.
+          def fetch_asturias(year):
+              coll=urllib.parse.quote(f"WMS_INE_SECCIONES_G01:Secciones_{year}",safe="")
+              url=f"{base}{coll}/items?f=json&limit=10000&bbox=-7.3,42.7,-4.3,43.9"
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as response:
+                  data=json.load(response)
+              return [f for f in data.get("features",[]) if str((f.get("properties") or {}).get("CPRO") or "")=="33" and str((f.get("properties") or {}).get("TIPO") or "").upper()!="DISTRITO"]
+          a23=fetch_asturias(2023); a25=fetch_asturias(2025)
+          ids23={str(f["properties"]["CUSEC"]) for f in a23}
+          ids25={str(f["properties"]["CUSEC"]) for f in a25}
+          print("INE_ASTURIAS_COUNTS",len(ids23),len(ids25))
+          print("INE_ASTURIAS_RESULT_ONLY",json.dumps(sorted(ids23-ids25)))
+          print("INE_ASTURIAS_MAP_ONLY",json.dumps(sorted(ids25-ids23)))
+          ov23={x for x in ids23 if x.startswith("33044")}
+          print("GIPEYOP_OVIEDO_MISSING_VS_INE2023",json.dumps(sorted(ov23-source_normal_ids)))
+          print("GIPEYOP_OVIEDO_EXTRA_VS_INE2023",json.dumps(sorted(source_normal_ids-ov23)))
           PY
