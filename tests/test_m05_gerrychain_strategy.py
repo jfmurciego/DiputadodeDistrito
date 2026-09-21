@@ -136,6 +136,8 @@ class ContractTests(unittest.TestCase):
         self.assertIn("falló después de validar la entrada", procedure)
         self.assertIn("Canónico como fallback", procedure)
         self.assertIn("OPTIMIZATION_FALLBACK.json", procedure)
+        self.assertIn("OPTIMIZATION_EXECUTION.json", procedure)
+        self.assertIn("registrar_optimizacion", procedure)
         self.assertIn('"fallback_strategy":"canonical"', procedure)
         self.assertIn('"baseline_validated":True', procedure)
         self.assertIn('modulo_${n}_fallback_canonical.log', procedure)
