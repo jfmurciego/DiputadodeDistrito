@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import unittest
 from pathlib import Path
 
 import geopandas as gpd
@@ -26,45 +27,39 @@ def _sections():
     )
 
 
-def test_map_only_gate_requires_explicit_population_threshold():
-    report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
-    try:
-        m08.derive_declared_missing_districts(
+class MapOnlyPopulationGateTests(unittest.TestCase):
+    def test_requires_explicit_population_threshold(self):
+        report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
+        with self.assertRaisesRegex(ValueError,"max_map_only_population"):
+            m08.derive_declared_missing_districts(
+                _sections(),report,
+                section_field="CUSEC_KEY",district_field="district_id",
+                population_field="POP_2025",max_map_only_population=None,
+            )
+
+    def test_blocks_when_declared_population_exceeds_threshold(self):
+        report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
+        with self.assertRaisesRegex(ValueError,"2100 > 2000"):
+            m08.derive_declared_missing_districts(
+                _sections(),report,
+                section_field="CUSEC_KEY",district_field="district_id",
+                population_field="POP_2025",max_map_only_population=2000,
+            )
+
+    def test_can_authorize_only_wholly_declared_district_below_threshold(self):
+        report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
+        allowed=m08.derive_declared_missing_districts(
             _sections(),report,
             section_field="CUSEC_KEY",district_field="district_id",
-            population_field="POP_2025",max_map_only_population=None,
+            population_field="POP_2025",max_map_only_population=2200,
         )
-    except ValueError as exc:
-        assert "max_map_only_population" in str(exc)
-    else:
-        raise AssertionError("Debe bloquear sin umbral poblacional explícito")
+        self.assertEqual(allowed,["39"])
+
+    def test_runtime_materializer_does_not_enable_map_only_by_default(self):
+        text=(ROOT/"herramientas/materializar_contrato_electoral_runtime.py").read_text(encoding="utf-8")
+        self.assertIn('"allow_declared_map_only_districts": False',text)
+        self.assertNotIn('"allow_declared_map_only_districts": True',text)
 
 
-def test_map_only_gate_blocks_when_declared_population_exceeds_threshold():
-    report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
-    try:
-        m08.derive_declared_missing_districts(
-            _sections(),report,
-            section_field="CUSEC_KEY",district_field="district_id",
-            population_field="POP_2025",max_map_only_population=2000,
-        )
-    except ValueError as exc:
-        assert "2100 > 2000" in str(exc)
-    else:
-        raise AssertionError("Debe bloquear cuando map_only supera el umbral")
-
-
-def test_map_only_gate_can_authorize_only_wholly_declared_district_below_threshold():
-    report={"map_only_sections":[{"section_id":"A"},{"section_id":"B"}]}
-    allowed=m08.derive_declared_missing_districts(
-        _sections(),report,
-        section_field="CUSEC_KEY",district_field="district_id",
-        population_field="POP_2025",max_map_only_population=2200,
-    )
-    assert allowed==["39"]
-
-
-def test_runtime_materializer_does_not_enable_map_only_by_default():
-    text=(ROOT/"herramientas/materializar_contrato_electoral_runtime.py").read_text(encoding="utf-8")
-    assert '"allow_declared_map_only_districts": False' in text
-    assert '"allow_declared_map_only_districts": True' not in text
+if __name__=="__main__":
+    unittest.main()
