@@ -27,7 +27,9 @@ restricciones_duras:
 objetivo:
   # region_surcharge no puede ser None en la propuesta ReCom
   comarca_surcharge_activo: true
-  # candidate_rank debe contener un término de forma real
+  # candidate_rank debe agrupar población antes de comparar forma.
+  population_band: 0.005
+  # candidate_rank debe contener un término de forma real y efectivo.
   forma_en_objetivo: true
 
 reproducibilidad:
