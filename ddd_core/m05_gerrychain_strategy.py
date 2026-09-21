@@ -635,7 +635,7 @@ def physical_geometry_diagnostics(
     problem: PreparedProblem,
     assignment: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Diagnóstico físico, nunca una segunda puerta de validez territorial."""
+    """Diagnóstico físico causal; nunca una segunda puerta de validez territorial."""
     if not problem.unit_components:
         return {"available": False, "districts": [], "count": 0, "unexplained_count": 0}
 
@@ -661,31 +661,51 @@ def physical_geometry_diagnostics(
     for district, wanted in district_components.items():
         if not wanted:
             continue
-        start = next(iter(wanted))
-        reached = {start}
-        queue: deque[str] = deque([start])
-        while queue:
-            component = queue.popleft()
-            for neighbor in problem.component_adjacency.get(component, set()) & wanted:
-                if neighbor not in reached:
-                    reached.add(neighbor)
-                    queue.append(neighbor)
-        if reached == wanted:
+
+        # Componentes conexas físicas reales del distrito.
+        groups: list[set[str]] = []
+        unseen = set(wanted)
+        while unseen:
+            start = next(iter(unseen))
+            reached = {start}
+            queue: deque[str] = deque([start])
+            while queue:
+                component = queue.popleft()
+                for neighbor in problem.component_adjacency.get(component, set()) & wanted:
+                    if neighbor not in reached:
+                        reached.add(neighbor)
+                        queue.append(neighbor)
+            groups.append(reached)
+            unseen -= reached
+        if len(groups) == 1:
             continue
 
+        group_of = {component: index for index, group in enumerate(groups) for component in group}
         units = district_units[district]
-        bridge_types: set[str] = set()
-        for edge, types in problem.operational_edge_types.items():
-            if edge[0] in units and edge[1] in units:
-                bridge_types.update(t for t in types if t not in {"geometric", "unclassified"})
 
-        atomic_multipart = any(
-            left in wanted and right in wanted
-            for left, right in problem.internal_component_edges
-        )
-        if bridge_types:
+        causal_bridge_types: set[str] = set()
+        causal_bridge_edges: list[list[str]] = []
+        for edge, types in problem.operational_edge_types.items():
+            u, v = edge
+            if u not in units or v not in units:
+                continue
+            non_geometric = {t for t in types if t not in {"geometric", "unclassified"}}
+            if not non_geometric:
+                continue
+            left_groups = {group_of[c] for c in problem.unit_components.get(u, ()) if c in group_of}
+            right_groups = {group_of[c] for c in problem.unit_components.get(v, ()) if c in group_of}
+            if left_groups and right_groups and left_groups.isdisjoint(right_groups):
+                causal_bridge_types.update(non_geometric)
+                causal_bridge_edges.append([u, v])
+
+        causal_atomic_edges: list[list[str]] = []
+        for left, right in problem.internal_component_edges:
+            if left in group_of and right in group_of and group_of[left] != group_of[right]:
+                causal_atomic_edges.append([left, right])
+
+        if causal_bridge_edges:
             classification = "DECLARED_TOPOLOGY_BRIDGE"
-        elif atomic_multipart:
+        elif causal_atomic_edges:
             classification = "ATOMIC_MULTIPART"
         else:
             classification = "UNEXPLAINED_PHYSICAL_DISCONTINUITY"
@@ -693,8 +713,10 @@ def physical_geometry_diagnostics(
         rows.append({
             "district_id": str(district),
             "classification": classification,
-            "declared_topology_bridge_types": sorted(bridge_types),
-            "atomic_multipart_present": atomic_multipart,
+            "physical_component_count": len(groups),
+            "declared_topology_bridge_types": sorted(causal_bridge_types),
+            "causal_topology_bridge_edges": causal_bridge_edges,
+            "causal_atomic_multipart_edges": causal_atomic_edges,
         })
 
     rows.sort(key=lambda row: (
@@ -783,34 +805,34 @@ def _partition_assignment(partition: Any) -> dict[str, Any]:
     }
 
 
-def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
-    graph = nx.Graph()
+def _proposal_edges(problem: PreparedProblem) -> list[tuple[str, str, tuple[str, ...]]]:
     frozen_by_unit = {
         unit: district
         for district, units in problem.frozen_districts.items()
         for unit in units
     }
-    for unit, row in problem.units.items():
-        attrs = dict(row)
-        # Si un territorio no aporta comarcas, cada unidad recibe una región
-        # sintética propia: el sobrecargo queda neutral en vez de inventar una
-        # comarca o agrupar artificialmente unidades sin cobertura.
-        attrs["comarca"] = attrs.get("comarca") or f"__sin_comarca__:{unit}"
-        graph.add_node(unit, **attrs, district=problem.initial_assignment[unit])
+    edges: list[tuple[str, str, tuple[str, ...]]] = []
     for u, v in problem.edges:
-        # Una transición ReCom no puede cruzar provincias porque la provincia es
-        # restricción dura y la cuota distrital provincial es invariante.
         if problem.units[u]["province"] != problem.units[v]["province"]:
             continue
         fu, fv = frozen_by_unit.get(u), frozen_by_unit.get(v)
-        # Los distritos urbanos cerrados quedan aislados del metagrafo de
-        # propuestas, en lugar de generar miles de propuestas que luego serían rechazadas.
         if (fu is not None or fv is not None) and fu != fv:
             continue
-        graph.add_edge(
+        edges.append((
             u, v,
-            edge_types=problem.operational_edge_types.get(tuple(sorted((u, v))), ("unclassified",)),
-        )
+            problem.operational_edge_types.get(tuple(sorted((u, v))), ("unclassified",)),
+        ))
+    return edges
+
+
+def _proposal_graph(problem: PreparedProblem) -> nx.Graph:
+    graph = nx.Graph()
+    for unit, row in problem.units.items():
+        attrs = dict(row)
+        attrs["comarca"] = attrs.get("comarca") or f"__sin_comarca__:{unit}"
+        graph.add_node(unit, **attrs, district=problem.initial_assignment[unit])
+    for u, v, edge_types in _proposal_edges(problem):
+        graph.add_edge(u, v, edge_types=edge_types)
     return graph
 
 
@@ -1009,7 +1031,7 @@ def build_report(
     )
     proposal_edge_type_counts = Counter(
         edge_type
-        for types in problem.operational_edge_types.values()
+        for _, _, types in _proposal_edges(problem)
         for edge_type in types
     )
     physical_before = physical_geometry_diagnostics(problem, problem.initial_assignment)
@@ -1179,6 +1201,7 @@ def _main_impl() -> None:
     ap.add_argument("--proposal-epsilon", type=float)
     ap.add_argument("--population-band", type=float)
     ap.add_argument("--max-bipartition-attempts", type=int)
+    ap.add_argument("--validate-baseline-only", action="store_true")
     args = ap.parse_args()
 
     try:
@@ -1227,6 +1250,26 @@ def _main_impl() -> None:
         strategy.validate()
     except (ValueError, FileNotFoundError, KeyError) as exc:
         raise BaselineValidationError(str(exc)) from exc
+    if args.validate_baseline_only:
+        try:
+            problem = prepare_problem(
+                Path(paths["graph"]),
+                Path(paths["initial"]),
+                contract,
+                metric_crs=strategy.metric_crs,
+                min_shared_border_m=strategy.min_shared_border_m,
+            )
+        except BaselineValidationError:
+            raise
+        except (ValueError, FileNotFoundError, KeyError) as exc:
+            raise BaselineValidationError(str(exc)) from exc
+        print(json.dumps({
+            "baseline_valid": True,
+            "units": len(problem.units),
+            "districts": len(set(problem.initial_assignment.values())),
+        }, ensure_ascii=False))
+        return
+
     report = run_from_paths(
         graph_path=Path(paths["graph"]),
         initial_path=Path(paths["initial"]),
