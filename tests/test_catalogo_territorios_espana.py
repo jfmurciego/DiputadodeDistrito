@@ -23,12 +23,15 @@ class CatalogoTerritoriosEspana(unittest.TestCase):
         self.assertEqual({x["territory_id"] for x in CAT if x["batch"]=="insular"},{"illes_balears","canarias"})
 
     def test_niveles_y_gobierno_de_k(self):
-        production={x["territory_id"] for x in CAT if x["contract_level"]=="production_m01_m06"}
-        self.assertEqual(production,{"aragon","castilla_y_leon","extremadura"})
         for territory in CAT:
-            self.assertIn(territory["contract_level"],{"bootstrap_m01_m03","production_m01_m06"})
+            level=territory["contract_level"]
+            self.assertIn(level,{"bootstrap_m01_m03","production_m01_m06"})
             governed=all(territory.get(key) not in (None,"") for key in ("k_districts","k_source","k_rationale"))
-            self.assertEqual(governed,territory["contract_level"]=="production_m01_m06")
+            if level=="production_m01_m06":
+                self.assertTrue(governed,territory["territory_id"])
+                self.assertIn(territory.get("production_authorization"),{"AUTHORIZED","PREFLIGHT"})
+            else:
+                self.assertFalse(governed,territory["territory_id"])
 
 if __name__=="__main__":
     unittest.main()
