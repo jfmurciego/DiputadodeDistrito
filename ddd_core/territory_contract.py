@@ -250,11 +250,20 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
                 "cuando hay unidades internas"
             )
         _same(
+            "municipality_field M05/M06",
+            [("M05", m[4].get("municipality_field")), ("M06", m[5].get("municipality_field"))],
+            errors,
+        )
+        downstream_municipality_field = m[4].get("municipality_field")
+        if downstream_municipality_field not in {partition_field, admin_municipality_field}:
+            errors.append(
+                "M05/M06.municipality_field debe usar el municipio administrativo "
+                "o la unidad interna declarada"
+            )
+        _same(
             "municipio administrativo",
             [
                 ("partitioning", admin_municipality_field),
-                ("M05", m[4].get("municipality_field")),
-                ("M06", m[5].get("municipality_field")),
                 ("validación", (cfg.get("validation") or {}).get("municipality_field")),
             ],
             errors,
