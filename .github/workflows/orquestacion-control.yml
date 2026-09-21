@@ -54,7 +54,7 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       - name: Validar plan
         run: python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
       - name: Construir matriz
@@ -73,7 +73,7 @@ jobs:
       max-parallel: 4
       matrix: ${{ fromJSON(needs.planificar.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       - name: Ejecutar acción permitida
         id: task
         shell: bash
@@ -123,7 +123,7 @@ jobs:
           PY
       - name: Publicar resumen individual
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: g10-${{ matrix.task_id }}
           path: g10-out/${{ matrix.task_id }}/
@@ -133,8 +133,8 @@ jobs:
     needs: [planificar, ejecutar]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v7
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           pattern: g10-*
           path: g10-results
@@ -145,7 +145,7 @@ jobs:
           mapfile -t files < <(find g10-results -name resumen.json -type f | sort)
           test "${#files[@]}" -gt 0
           python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json "${files[@]}"
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: g10-resumen-lote-${{ github.run_id }}
           path: RESUMEN_LOTE_G10.json

@@ -37,7 +37,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
-        self.assertEqual(sorted(dispatch),["desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml","smoke-gerrychain-galicia.yml"])
+        self.assertEqual(sorted(dispatch),["desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml","publicar-version-mapa.yml","smoke-gerrychain-galicia.yml"])
 
     def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]

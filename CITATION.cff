@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: >-
+  Si usas este software o los mapas que produce, cítalo con los metadatos de
+  abajo. Para un mapa concreto, cita el DOI de su versión en Zenodo.
+title: "Diputado de Distrito: motor reproducible de distritos uninominales"
+type: software
+authors:
+  - family-names: "Murciego"          # ← rellenar
+    given-names: "Jesus"              # ← rellenar
+    orcid: "https://orcid.org/0009-0002-4434-959X"   # ← rellenar
+repository-code: "https://github.com/jfmurciego/DiputadodeDistrito"
+url: "https://jfmurciego.github.io/DiputadodeDistrito/"
+license: Apache-2.0                    # ← debe coincidir con LICENSE
+version: "4.7.0"
+date-released: "2026-09-20"
+keywords:
+  - redistricting
+  - distritos uninominales
+  - GerryChain
+  - ReCom
+  - secciones censales
+  - España
+abstract: >-
+  Motor modular (M01–M08) que construye, optimiza, valida y audita distritos
+  uninominales a partir de secciones censales oficiales del INE. Los mapas
+  producidos son un ejercicio de investigación y no tienen valor oficial.

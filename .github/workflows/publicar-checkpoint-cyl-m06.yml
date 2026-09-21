@@ -111,7 +111,7 @@ jobs:
             }' > publish/decision/decision.json
 
       - name: Publicar checkpoint M06 compuesto
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-state-${{ github.run_id }}-M06
           path: publish/state
@@ -120,7 +120,7 @@ jobs:
           retention-days: 14
 
       - name: Publicar decisión REUSE
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-decision-${{ github.run_id }}
           path: publish/decision
