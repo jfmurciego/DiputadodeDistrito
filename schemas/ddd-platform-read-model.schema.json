@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diputadodedistrito.invalid/schemas/ddd-platform-read-model.schema.json",
+  "title": "DDD Platform Read Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","edition","generated_at","source_of_truth","territories","campaigns","publications"],
+  "properties": {
+    "schema": {"const": "ddd-platform-read-model/1.0"},
+    "edition": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "source_of_truth": {"type": "array","items":{"type":"string"}},
+    "territories": {"type":"array","items":{
+      "type":"object","additionalProperties":false,
+      "required":["territory_id","name","edition","phases","community_interest","latest_run_id","source_commit","artifact_sha256","release_tag","doi","attestation_verified","osf_registration"],
+      "properties":{
+        "territory_id":{"type":"string"},"name":{"type":"string"},"edition":{"type":"string"},
+        "phases":{"type":"object","additionalProperties":false,"required":["territorial_sources","district_generation","electoral_sources","electoral_incorporation","publication"],"properties":{
+          "territorial_sources":{"enum":["READY","PENDING","BLOCKED","UNKNOWN"]},
+          "district_generation":{"enum":["READY","PENDING","BLOCKED","UNKNOWN"]},
+          "electoral_sources":{"enum":["READY","PENDING","BLOCKED","UNKNOWN"]},
+          "electoral_incorporation":{"enum":["READY","PENDING","BLOCKED","UNKNOWN"]},
+          "publication":{"enum":["READY","PENDING","BLOCKED","UNKNOWN"]}
+        }},
+        "community_interest":{"type":"object","additionalProperties":false,
+          "required":["available","source_enabled","semantics","integration_status","source","source_sha256","search_weight","metrics","structural_retention_max"],
+          "properties":{
+            "available":{"type":"boolean"},
+            "source_enabled":{"type":"boolean"},
+            "semantics":{"enum":["SOFT_OBJECTIVE","NONE"]},
+            "integration_status":{"enum":["DESIGN_ONLY","NOT_CONFIGURED","READY_FOR_INTEGRATION"]},
+            "source":{"type":["string","null"]},
+            "source_sha256":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+            "search_weight":{"type":["number","null"],"minimum":0},
+            "metrics":{"type":"array","items":{"type":"string"}},
+            "structural_retention_max":{"type":["number","null"],"minimum":0,"maximum":1}
+          }},
+        "latest_run_id":{"type":["integer","null"],"minimum":1},
+        "certification":{"type":["string","null"]},"status":{"type":["string","null"]},
+        "source_commit":{"type":["string","null"]},
+        "artifact_sha256":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+        "release_tag":{"type":["string","null"]},
+        "doi":{"type":["string","null"]},
+        "attestation_verified":{"type":["boolean","null"]},
+        "osf_registration":{"type":["string","null"]}
+      }}},
+    "campaigns":{"type":"array","items":{"type":"object","required":["campaign_id","environment","status","territories"],"properties":{
+      "campaign_id":{"type":"string"},"environment":{"enum":["dev","test","prod"]},"status":{"enum":["DEFINED","RUNNING","COMPLETED","FAILED","BLOCKED"]},"territories":{"type":"array","items":{"type":"string"}}
+    }}},
+    "publications":{"type":"array","items":{
+      "type":"object","additionalProperties":false,
+      "required":["territory_id","kind","status","source_commit","artifact_sha256","release_tag","doi","attestation_verified","osf_registration"],
+      "properties":{
+        "territory_id":{"type":"string"},"kind":{"type":"string"},"status":{"type":"string"},
+        "source_commit":{"type":["string","null"]},
+        "artifact_sha256":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+        "release_tag":{"type":["string","null"]},
+        "doi":{"type":["string","null"]},
+        "attestation_verified":{"type":["boolean","null"]},
+        "osf_registration":{"type":["string","null"]}
+      }
+    }}
+  }
+}
