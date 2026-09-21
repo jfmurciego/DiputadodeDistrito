@@ -79,15 +79,38 @@ class ControlesObligatorios(unittest.TestCase):
     def test_forma_en_objetivo(self) -> None:
         if not self.reg["objetivo"]["forma_en_objetivo"]:
             self.skipTest("forma desactivada explícitamente en el registro")
-        ids = _identificadores(self.arbol, "candidate_rank")
-        self.assertIsNotNone(ids, "No se encuentra candidate_rank")
-        termino_forma = any(re.search(r"polsby|compact|shape", i, re.I) for i in ids)
-        cota_dura = "UpperBound" in self.fuente
-        self.assertTrue(
-            termino_forma or cota_dura,
-            "candidate_rank no contiene término de forma y no hay cota dura "
-            "sobre aristas de corte. cut_edges detrás de dos flotantes de "
-            "población en una tupla lexicográfica no decide nunca.",
+        funcion = next(
+            (n for n in ast.walk(self.arbol) if isinstance(n, ast.FunctionDef) and n.name == "candidate_rank"),
+            None,
+        )
+        self.assertIsNotNone(funcion, "No se encuentra candidate_rank")
+        retorno = next(
+            (n for n in ast.walk(funcion) if isinstance(n, ast.Return) and isinstance(n.value, ast.Tuple)),
+            None,
+        )
+        self.assertIsNotNone(retorno, "candidate_rank no devuelve una tupla explícita")
+        elementos = [ast.unparse(e) for e in retorno.value.elts]
+        self.assertGreaterEqual(len(elementos), 8, "candidate_rank perdió dimensiones del objetivo")
+        self.assertIn("math.ceil", elementos[1])
+        self.assertIn("population_band", elementos[1])
+        self.assertEqual(
+            float(self.reg["objetivo"]["population_band"]),
+            0.005,
+            "La banda poblacional registrada debe ser 0.005.",
+        )
+        forma = next((i for i, e in enumerate(elementos) if "shape" in e and "penalty" in e), None)
+        self.assertIsNotNone(forma, "candidate_rank no contiene penalización de forma")
+        continuas = [
+            i for i, e in enumerate(elementos)
+            if e in {"max_rel_dev", "rms"}
+            or "max_relative_deviation" in e
+            or "rms_relative_deviation" in e
+        ]
+        self.assertTrue(continuas, "No se localizaron métricas continuas de población")
+        self.assertLess(
+            forma,
+            min(continuas),
+            "La forma debe decidir antes que max_rel_dev/rms dentro de la banda poblacional.",
         )
 
     def test_reproducibilidad(self) -> None:
