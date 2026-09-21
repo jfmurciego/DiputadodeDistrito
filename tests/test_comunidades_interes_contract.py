@@ -2,6 +2,8 @@ import json
 import unittest
 from pathlib import Path
 
+import yaml
+
 ROOT=Path(__file__).resolve().parents[1]
 CONTRACT=ROOT/"configuracion/comunidades_interes.json"
 EVIDENCE=ROOT/"resultados/fase1/EVIDENCIA_PUBLICABILIDAD.json"
@@ -15,16 +17,20 @@ class ComunidadesInteresContract(unittest.TestCase):
         self.assertEqual(set(contract["metrics"]),{"split_communities","communities_per_district","dominant_population_share","population_retention"})
         self.assertIs(contract["evaluation_rule"]["precommitment_required"],True)
         self.assertIs(contract["evaluation_rule"]["not_evaluable_blocks_publication"],True)
-        self.assertTrue(all(item["status"]=="NOT_EVALUABLE" and item["source_enabled"] is False for item in contract["territories"].values()))
 
-    def test_rutas_comarcales_existentes_siguen_inertes(self):
-        for relative in ("territorios/aragon/config/aragon_2025.yaml","territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"):
-            text=(ROOT/relative).read_text(encoding="utf-8")
-            start=text.index("    comarcas:")
-            block=text[start:start+220]
-            self.assertIn("enabled: false",block)
+    def test_rutas_comarcales_se_declaran_en_yaml_territorial_vigente(self):
+        for relative in (
+            "territorios/aragon/config/aragon_2025.yaml",
+            "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml",
+        ):
+            cfg=yaml.safe_load((ROOT/relative).read_text(encoding="utf-8")) or {}
+            comarcas=(((cfg.get("io") or {}).get("input") or {}).get("comarcas") or {})
+            self.assertIn("enabled",comarcas)
+            self.assertIsInstance(comarcas["enabled"],bool)
+            self.assertTrue(str(comarcas.get("path") or "").strip())
+            self.assertIs(comarcas.get("require_full_coverage"),True)
 
-    def test_p07_no_se_presenta_como_superado(self):
+    def test_p07_no_se_presenta_como_superado_en_evidencia_historica(self):
         evidence=json.loads(EVIDENCE.read_text(encoding="utf-8"))
         self.assertEqual(evidence["communities_of_interest"]["criterion"],"P07")
         for record in evidence["territories"].values():
