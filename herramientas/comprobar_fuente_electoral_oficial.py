@@ -3,9 +3,9 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: comprobación automática de fuente electoral oficial
-VERSIÓN: 1.2.0
+VERSIÓN: 1.3.0
 FECHA: 2026-09-17
-FUNCIÓN: consultar fuentes oficiales declaradas y admitir una fuente suficiente o un conjunto completo de fuentes requeridas.
+FUNCIÓN: consultar fuentes electorales declaradas y admitir fuentes oficiales o mirrors auditables con referencias oficiales explícitas.
 REGLAS: no admite sustitutos no oficiales; RTVE queda excluida mediante política declarativa y validación de host/editor.
 CAMBIOS: añade selection_mode=all_required para convocatorias publicadas en varios ficheros oficiales.
 """
@@ -41,9 +41,12 @@ def load_declaration(path: str | Path) -> dict:
     data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
     if not isinstance(data, dict):
         raise ValueError("La declaración electoral debe ser un objeto YAML")
-    for key in ("schema", "territory_id", "election_id", "minimum_resolution", "allowed_official_hosts", "sources"):
+    for key in ("schema", "territory_id", "election_id", "minimum_resolution", "sources"):
         if data.get(key) in (None, "", []):
             raise ValueError(f"Falta {key} en la declaración electoral")
+    allowed = data.get("allowed_official_hosts") or data.get("allowed_source_hosts")
+    if not allowed:
+        raise ValueError("Falta allowed_official_hosts/allowed_source_hosts en la declaración electoral")
     if data["minimum_resolution"] not in RESOLUTION_RANK:
         raise ValueError("minimum_resolution desconocida")
     if not isinstance(data["sources"], list) or not data["sources"]:
@@ -116,7 +119,8 @@ def check_declaration(
     out.mkdir(parents=True, exist_ok=True)
     downloads = out / "downloads"
     downloads.mkdir(parents=True, exist_ok=True)
-    allowed_hosts = [str(x) for x in declaration.get("allowed_official_hosts") or []]
+    allowed_hosts = [str(x) for x in (declaration.get("allowed_official_hosts") or declaration.get("allowed_source_hosts") or [])]
+    official_reference_urls = [str(x) for x in declaration.get("official_reference_urls") or []]
     forbidden = [str(x) for x in declaration.get("forbidden_substitutes") or []]
     required = str(declaration["minimum_resolution"])
     required_rank = RESOLUTION_RANK[required]
@@ -134,6 +138,7 @@ def check_declaration(
         publisher = str(source.get("publisher") or "")
         resolution = str(source.get("declared_resolution") or "none")
         access = str(source.get("access") or "public")
+        source_class = str(source.get("source_class") or "official")
         item = {
             "id": sid,
             "publisher": publisher,
@@ -141,7 +146,16 @@ def check_declaration(
             "declared_resolution": resolution,
             "access": access,
             "required": bool(source.get("required", True)),
+            "source_class": source_class,
         }
+        if source_class not in {"official", "verified_mirror"}:
+            item.update(status="BLOCK_SOURCE_CLASS", reason=f"source_class no soportada: {source_class}")
+            results.append(item)
+            continue
+        if source_class == "verified_mirror" and not official_reference_urls:
+            item.update(status="BLOCK_MISSING_OFFICIAL_REFERENCE", reason="Mirror sin referencias oficiales de la elección")
+            results.append(item)
+            continue
         forbidden_token = _forbidden(source, forbidden)
         if forbidden_token:
             item.update(status="BLOCK_FORBIDDEN_SUBSTITUTE", reason=f"Fuente prohibida por política: {forbidden_token}")
@@ -238,6 +252,7 @@ def check_declaration(
         "election_id": declaration["election_id"],
         "minimum_resolution": required,
         "rtve_allowed_as_substitute": False,
+        "official_reference_urls": official_reference_urls,
         "selection_mode": selection_mode,
         "decision": "READY" if complete else "BLOCK",
         "selected_source": ready,
@@ -254,6 +269,7 @@ def check_declaration(
         f"- resolución mínima: `{required}`",
         f"- decisión: **{decision['decision']}**",
         "- RTVE como sustituto: **no permitido**",
+        f"- referencias oficiales: **{len(official_reference_urls)}**",
         "",
         "## Fuentes consultadas",
     ]
