@@ -262,6 +262,19 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn('if [[ "$RUN_GEN" == "true" && "$GEN_RESULT" == "success" ]]', orchestration)
         self.assertIn("La generación completó correctamente pero no dejó evidencia de estrategia efectiva.", orchestration)
 
+    def test_generation_success_recovers_optimization_evidence_even_if_gate_02_fails(self):
+        orchestration = ORCH.read_text(encoding="utf-8")
+        self.assertIn(
+            "needs.planificar.outputs.run_generate == 'true' && needs.generar.result == 'success'",
+            orchestration,
+        )
+        self.assertNotIn(
+            "needs.planificar.outputs.run_generate == 'true' && needs.puerta_02.result == 'success'",
+            orchestration,
+        )
+        self.assertIn("name: ddd-state-${{ github.run_id }}-M06", orchestration)
+        self.assertIn("run-id: ${{ github.run_id }}", orchestration)
+
     def test_manifest_cli_integrates_effective_optimization_evidence(self):
         import subprocess
         import sys
