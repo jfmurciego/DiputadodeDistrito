@@ -24,6 +24,7 @@ from ddd_core.m05_gerrychain_strategy import (
     resolve_paths,
     strategy_config_from_yaml,
     PreparedProblem,
+    build_report,
     candidate_rank,
     geometric_shape_metrics,
     hard_constraint_violations,
@@ -266,6 +267,85 @@ class ContractTests(unittest.TestCase):
         self.assertGreater(compact_rank[3], dispersed_rank[3])
         self.assertLess(compact_rank[2], dispersed_rank[2])
         self.assertLess(compact_rank, dispersed_rank)
+
+    def test_report_lists_frozen_geometric_exceptions(self):
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            graph = td / "graph.json"
+            initial = td / "initial.bin"
+            output = td / "output.bin"
+            graph.write_text("{}", encoding="utf-8")
+            initial.write_bytes(b"initial")
+            output.write_bytes(b"output")
+            problem = PreparedProblem(
+                sections=gpd.GeoDataFrame(),
+                units={
+                    "u1": {
+                        "population": 100.0,
+                        "province": "01",
+                        "municipality": "m1",
+                        "closed_urban": False,
+                    }
+                },
+                edges=[],
+                initial_assignment={"u1": 7},
+                frozen_districts={},
+                target_population=100.0,
+                initial_geometric_exceptions={7: frozenset({"u1#0", "u1#1"})},
+            )
+            contract = StrategyContract(
+                expected_k=1,
+                target_tolerance_ratio=0.12,
+                population_floor_ratio=0.0,
+                population_cap_ratio=10.0,
+                require_single_province=False,
+                require_municipality_discipline=False,
+                preserve_closed_urban=False,
+            )
+            strategy = StrategyConfig(seed_count=1, steps_per_seed=1)
+            portfolio = {
+                "runs": [{
+                    "seed": 20260921,
+                    "states_observed": 1,
+                    "unique_states": 1,
+                    "self_loops": 0,
+                    "proposal_failures": 0,
+                    "seconds": 0.0,
+                    "rank": [0],
+                    "assignment_hash": "x",
+                    "assignment": {"u1": 7},
+                }],
+                "selected": {
+                    "seed": 20260921,
+                    "assignment_hash": "x",
+                    "assignment": {"u1": 7},
+                },
+            }
+            report = build_report(
+                problem, contract, strategy, portfolio, graph, initial, output
+            )
+            self.assertEqual(
+                report["search"]["frozen_geometric_exceptions"],
+                {"count": 1, "district_ids": ["7"]},
+            )
+
+    def test_aragon_and_galicia_declare_gerrychain_parameters_explicitly(self):
+        import yaml
+        expected = {
+            "population_band": 0.005,
+            "comarca_surcharge": 0.30,
+            "metric_crs": "EPSG:3035",
+            "min_shared_border_m": 1.0,
+        }
+        for relative in (
+            "territorios/aragon/config/aragon_2025.yaml",
+            "territorios/galicia/config/galicia_2025.yaml",
+        ):
+            cfg = yaml.safe_load((ROOT / relative).read_text(encoding="utf-8")) or {}
+            gerry = cfg["modulos"]["modulo_05_optimizar_distritos"]["gerrychain"]
+            for key, value in expected.items():
+                self.assertIn(key, gerry, f"{relative}: falta {key}")
+                self.assertEqual(gerry[key], value, f"{relative}: {key}")
 
     def test_02_and_00_expose_same_algorithm_selector(self):
         import yaml

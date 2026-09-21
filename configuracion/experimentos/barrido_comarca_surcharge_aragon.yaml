@@ -1,0 +1,16 @@
+schema: ddd.gerrychain-comarca-sweep/1.0
+territory_id: aragon
+territorial_params: territorios/aragon/config/aragon_2025.yaml
+comarca_surcharge_values: [0.3, 0.4, 0.5, 0.6, 0.8]
+metrics:
+  - comarcas_divididas
+  - retencion_comarcal
+  - polsby_popper_min
+  - polsby_popper_median
+  - max_relative_deviation
+promotion: forbidden
+publication: false
+persistence: metrics_only
+notes:
+  - Cada valor usa la misma configuración territorial y las mismas semillas.
+  - El barrido no modifica el contrato territorial, el catálogo, el visor ni ningún mapa promovido.
