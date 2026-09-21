@@ -30,6 +30,18 @@ class ComunidadesInteresContract(unittest.TestCase):
             self.assertTrue(str(comarcas.get("path") or "").strip())
             self.assertIs(comarcas.get("require_full_coverage"),True)
 
+    def test_source_enabled_coincide_con_yaml_territorial(self):
+        contract=json.loads(CONTRACT.read_text(encoding="utf-8"))
+        for territory_id, territory in contract["territories"].items():
+            cfg=yaml.safe_load((ROOT/territory["configuration"]).read_text(encoding="utf-8")) or {}
+            comarcas=(((cfg.get("io") or {}).get("input") or {}).get("comarcas") or {})
+            expected=bool(comarcas.get("enabled",False))
+            self.assertIs(
+                territory["source_enabled"],
+                expected,
+                f"{territory_id}: source_enabled debe reflejar io.input.comarcas.enabled",
+            )
+
     def test_p07_no_se_presenta_como_superado_en_evidencia_historica(self):
         evidence=json.loads(EVIDENCE.read_text(encoding="utf-8"))
         self.assertEqual(evidence["communities_of_interest"]["criterion"],"P07")
