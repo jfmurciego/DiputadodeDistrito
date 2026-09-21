@@ -240,7 +240,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root-dir", type=Path, default=Path("."))
     ap.add_argument("--edition", default="2025")
-    ap.add_argument("--json-output", type=Path, default=Path("orquestacion/estado_operativo.json"))
+    ap.add_argument("--json-output", type=Path, default=Path("orchestracion/estado_operativo.json"))
     ap.add_argument("--dashboard-output", type=Path, default=Path("publicado/dashboard/status.json"))
     ap.add_argument("--readme", type=Path, default=Path("README.md"))
     ap.add_argument("--no-readme", action="store_true")

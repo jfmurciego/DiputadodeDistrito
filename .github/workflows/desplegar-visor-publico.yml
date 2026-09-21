@@ -52,7 +52,7 @@ jobs:
           set -euo pipefail
           mkdir -p .ddd-publication
           python -m herramientas.generar_estado_operativo --root-dir .
-          cp orquestacion/estado_operativo.json .ddd-publication/status.json
+          cp orchestracion/estado_operativo.json .ddd-publication/status.json
           production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
           if [[ -z "$production_run_id" ]]; then
             production_run_id="$(jq -r '.latest_validated.run_id // empty' .ddd-publication/status.json)"
@@ -61,7 +61,7 @@ jobs:
           cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add README.md orquestacion/estado_operativo.json publicado/dashboard
+          git add README.md orchestracion/estado_operativo.json publicado/dashboard
           if ! git diff --cached --quiet; then
             git commit -m "chore: sincronizar estado operativo antes de publicar"
             git pull --rebase origin main
