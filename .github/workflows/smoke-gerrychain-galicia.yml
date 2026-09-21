@@ -73,6 +73,7 @@ jobs:
               'seed_base':20260920,
               'seed_count':1,
               'proposal_epsilon':0.12,
+              'population_band':0.005,
               'max_bipartition_attempts':500,
               'require_pythonhashseed_zero':True,
           }
