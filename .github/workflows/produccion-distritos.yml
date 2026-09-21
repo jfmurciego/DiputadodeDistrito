@@ -100,8 +100,7 @@ jobs:
       source_package_run_id: ${{ steps.source_package.outputs.run_id }}
       source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ inputs.source_ref || github.sha }}
       - id: resolve
         name: Resolver territorio, edición y recorrido necesario
@@ -295,8 +294,7 @@ jobs:
 
       - name: Publicar checkpoint M04 derivado
         if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-state-${{ github.run_id }}-M04
           path: .ddd-derived-checkpoint
           include-hidden-files: true
@@ -368,8 +366,7 @@ jobs:
 
       - name: Publicar decisión de reanudación
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-checkpoint-selection-${{ github.run_id }}
           path: .ddd-checkpoint-selection
           include-hidden-files: true
