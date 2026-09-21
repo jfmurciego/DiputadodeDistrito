@@ -76,6 +76,7 @@ jobs:
                   })
           print("OVIEDO_NORMAL_ROWS",normal_oviedo)
           print("OVIEDO_NORMAL_UNIQUE_SECTIONS",len(source_normal_ids))
+          open("/tmp/oviedo_normal_ids.json","w").write(json.dumps(sorted(source_normal_ids)))
           for key in sorted(grouped):
               print("SPECIAL_SUMMARY",key,json.dumps(grouped[key],ensure_ascii=False,sort_keys=True))
           wb.close()
@@ -145,6 +146,7 @@ jobs:
           print("INE_ASTURIAS_RESULT_ONLY",json.dumps(sorted(ids23-ids25)))
           print("INE_ASTURIAS_MAP_ONLY",json.dumps(sorted(ids25-ids23)))
           ov23={x for x in ids23 if x.startswith("33044")}
+          source_normal_ids=set(json.load(open("/tmp/oviedo_normal_ids.json")))
           print("GIPEYOP_OVIEDO_MISSING_VS_INE2023",json.dumps(sorted(ov23-source_normal_ids)))
           print("GIPEYOP_OVIEDO_EXTRA_VS_INE2023",json.dumps(sorted(source_normal_ids-ov23)))
           PY
