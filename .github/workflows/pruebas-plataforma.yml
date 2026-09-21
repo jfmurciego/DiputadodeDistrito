@@ -26,6 +26,13 @@ jobs:
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
+      - name: Verificar descubrimiento completo de tests unittest
+        shell: bash
+        run: |
+          set -o pipefail
+          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
+            ddd-tests:${GITHUB_SHA} herramientas/verificar_descubrimiento_tests.py \
+            2>&1 | tee ci-test-discovery.log
       - name: Verificar evidencia publicada y determinismo sintético
         shell: bash
         run: |
@@ -48,6 +55,7 @@ jobs:
         with:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            ci-test-discovery.log
             ci-unittest.log
             ci-gerrychain.log
           if-no-files-found: warn
