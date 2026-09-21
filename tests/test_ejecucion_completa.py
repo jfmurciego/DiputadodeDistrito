@@ -259,7 +259,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("Recuperar evidencia de optimización efectiva", orchestration)
         self.assertIn("OPTIMIZATION_EXECUTION.json", orchestration)
         self.assertIn("--optimization-evidence", orchestration)
-        self.assertIn("La generación terminó sin evidencia de estrategia efectiva.", orchestration)
+        self.assertIn('if [[ "$RUN_GEN" == "true" && "$GEN_RESULT" == "success" ]]', orchestration)
+        self.assertIn("La generación completó correctamente pero no dejó evidencia de estrategia efectiva.", orchestration)
 
     def test_manifest_cli_integrates_effective_optimization_evidence(self):
         import subprocess
