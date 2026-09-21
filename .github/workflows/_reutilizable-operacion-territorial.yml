@@ -64,8 +64,7 @@ jobs:
       contents: read
       actions: read
     steps:
-      - uses: actions/checkout@v6
-      - name: Registrar contexto automático de la ejecución
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         shell: bash
         env:
           TERRITORY_ID: ${{ inputs.territory_id }}
@@ -95,8 +94,7 @@ jobs:
           PY
       - name: Recuperar evidencias publicadas por la cadena
         continue-on-error: true
-        uses: actions/download-artifact@v6
-        with:
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
           pattern: ddd-*
           path: .ddd-execution-evidence/artifacts
       - name: Generar inventario e informe legible
@@ -111,8 +109,7 @@ jobs:
           test -s .ddd-execution-report/informe_ejecucion.md
       - name: Publicar informe de ejecución
         if: always()
-        uses: actions/upload-artifact@v6
-        with:
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
           name: ddd-execution-report-${{ github.run_id }}
           path: .ddd-execution-report
           include-hidden-files: true
@@ -132,8 +129,7 @@ jobs:
       contents: write
       actions: read
     steps:
-      - uses: actions/checkout@v6
-        with:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
           ref: ${{ github.ref_name }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Promover producto generado
