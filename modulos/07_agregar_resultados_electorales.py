@@ -195,7 +195,7 @@ def apply_section_reconciliation(
     out = section_party.copy()
     out[section_field] = out[section_field].astype(str)
     votes_before = int(out["votes"].sum())
-    evidence = {"status": "APPLIED", "aliases": [], "splits": [], "votes_before": votes_before}
+    evidence = {"status": "RECONCILED", "aliases": [], "splits": [], "votes_before": votes_before}
 
     alias_map = {}
     for item in aliases:
