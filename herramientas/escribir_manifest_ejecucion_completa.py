@@ -28,6 +28,47 @@ def phase(
     }
 
 
+def optimization_lineage(
+    requested: str,
+    *,
+    generate_executed: bool,
+    evidence_path: str | None,
+) -> dict:
+    if not generate_executed:
+        return {
+            "optimization_algorithm": requested,
+            "optimization_algorithm_requested": requested,
+            "optimization_algorithm_effective": None,
+            "optimization_fallback": False,
+            "optimization_fallback_reason": None,
+            "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+        }
+    if not evidence_path:
+        raise ValueError("La generación ejecutada debe aportar evidencia de optimización efectiva")
+    path = Path(evidence_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"No existe evidencia de optimización: {path}")
+    evidence = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(evidence, dict):
+        raise ValueError("La evidencia de optimización debe ser un objeto JSON")
+    if evidence.get("requested_algorithm") not in (None, requested):
+        raise ValueError(
+            "La evidencia de optimización no coincide con la estrategia solicitada: "
+            f"{evidence.get('requested_algorithm')} != {requested}"
+        )
+    effective = evidence.get("effective_algorithm")
+    if not effective:
+        raise ValueError("La evidencia de optimización no declara effective_algorithm")
+    return {
+        "optimization_algorithm": requested,
+        "optimization_algorithm_requested": requested,
+        "optimization_algorithm_effective": effective,
+        "optimization_fallback": bool(evidence.get("fallback", False)),
+        "optimization_fallback_reason": evidence.get("fallback_reason"),
+        "optimization_evidence_status": "VALID",
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory-id", required=True)
@@ -89,32 +130,11 @@ def main() -> None:
     ]
     failed = [p["name"] for p in phases if p["executed"] and p["result"] != "success"]
     blocked = [p["name"] for p in phases[:4] if p.get("validation_decision") not in {None, "VALIDADO"}]
-    optimization_requested = ns.optimization_algorithm
-    optimization_effective = None
-    optimization_fallback = False
-    optimization_fallback_reason = None
-    optimization_evidence_status = "REUSED_EXISTING_PRODUCT" if not b(ns.generate_executed) else "MISSING"
-
-    if ns.optimization_evidence:
-        evidence_path = Path(ns.optimization_evidence)
-        if not evidence_path.is_file():
-            raise FileNotFoundError(f"No existe evidencia de optimización: {evidence_path}")
-        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
-        if not isinstance(evidence, dict):
-            raise ValueError("La evidencia de optimización debe ser un objeto JSON")
-        optimization_effective = evidence.get("effective_algorithm")
-        optimization_fallback = bool(evidence.get("fallback", False))
-        optimization_fallback_reason = evidence.get("fallback_reason")
-        if evidence.get("requested_algorithm") not in (None, optimization_requested):
-            raise ValueError(
-                "La evidencia de optimización no coincide con la estrategia solicitada: "
-                f"{evidence.get('requested_algorithm')} != {optimization_requested}"
-            )
-        if not optimization_effective:
-            raise ValueError("La evidencia de optimización no declara effective_algorithm")
-        optimization_evidence_status = "VALID"
-    elif b(ns.generate_executed):
-        raise ValueError("La generación ejecutada debe aportar evidencia de optimización efectiva")
+    optimization = optimization_lineage(
+        ns.optimization_algorithm,
+        generate_executed=b(ns.generate_executed),
+        evidence_path=ns.optimization_evidence,
+    )
 
     payload = {
         "schema": "ddd.full-run-manifest/2.1",
@@ -122,12 +142,7 @@ def main() -> None:
         "territory_name": ns.territory_name,
         "edition": ns.edition,
         "execution_mode": ns.execution_mode,
-        "optimization_algorithm": optimization_requested,
-        "optimization_algorithm_requested": optimization_requested,
-        "optimization_algorithm_effective": optimization_effective,
-        "optimization_fallback": optimization_fallback,
-        "optimization_fallback_reason": optimization_fallback_reason,
-        "optimization_evidence_status": optimization_evidence_status,
+        **optimization,
         "workflow_run_id": int(ns.workflow_run_id),
         "source_sha": ns.source_sha,
         "publish_requested": ns.publish_requested == "true",
