@@ -1,0 +1,31 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://diputadodedistrito.invalid/schemas/ddd-campaign.schema.json",
+  "title":"DDD Campaign Definition",
+  "type":"object","additionalProperties":false,
+  "required":["schema","campaign_id","environment","edition","execution_mode","publish_result","max_parallel","territories"],
+  "properties":{
+    "schema":{"const":"ddd-campaign/1.0"},
+    "campaign_id":{"type":"string","pattern":"^[a-z0-9][a-z0-9._-]*$"},
+    "environment":{"enum":["dev","test","prod"]},
+    "edition":{"type":"string"},
+    "execution_mode":{"enum":["reuse","from_start"]},
+    "publish_result":{"type":"boolean"},
+    "max_parallel":{"type":"integer","minimum":1,"maximum":19},
+    "territories":{"type":"array","minItems":1,"uniqueItems":true,"items":{
+      "type":"object","additionalProperties":false,
+      "required":["territory_id","phases"],
+      "properties":{
+        "territory_id":{"type":"string","minLength":1},
+        "phases":{"type":"object","additionalProperties":false,
+          "required":["prepare_territorial","generate_districts","prepare_electoral","incorporate_electoral"],
+          "properties":{
+            "prepare_territorial":{"type":"boolean"},
+            "generate_districts":{"type":"boolean"},
+            "prepare_electoral":{"type":"boolean"},
+            "incorporate_electoral":{"type":"boolean"}
+          }}
+      }
+    }}
+  }
+}
