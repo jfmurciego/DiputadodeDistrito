@@ -59,9 +59,9 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35542554559
-        artifact_name: ddd-source-package-principado_de_asturias-2025-35542554559
-        artifact_sha256: 235c1d9e533eb39c6a2c62bad70f6de1ab4cb67b3d5219e689ba0646fb8250db
+        run_id: 35572891517
+        artifact_name: ddd-source-package-principado_de_asturias-2025-35572891517
+        artifact_sha256: 49ec0ca38f515aa6d5a471bdf540158b1aca48b6c60291b96ec1330fc6bdf21e
         package_sha256: 77aefe9e7766fb649f2ff0afcfd6ca0b785507f5d5c01dfbef9a84b0f8a5171b
 - territory_id: illes_balears
   name: Islas Baleares
