@@ -146,7 +146,7 @@ jobs:
               for n in names:
                   if n.lower() in lower: return lower[n.lower()]
               return None
-          year=col("year","anyo","año"); prov=col("codigo_provincia","cod_prov","provincia")
+          year=col("year","anno","anyo","año"); prov=col("codigo_provincia","cod_prov","provincia")
           mun=col("codigo_municipio","cod_mun","municipio"); district=col("codigo_distrito","distrito")
           section=col("codigo_seccion","seccion"); mesa=col("codigo_mesa","mesa"); census=col("censo_ine","censo","censo_total")
           print("MUNICIPALES_KEYS",json.dumps({"year":year,"prov":prov,"mun":mun,"district":district,"section":section,"mesa":mesa,"census":census},ensure_ascii=False))
