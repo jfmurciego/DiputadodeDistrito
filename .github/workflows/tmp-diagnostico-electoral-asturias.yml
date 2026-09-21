@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5 shapely==2.1.1
       - name: Inspeccionar filas especiales GIPEYOP
         shell: bash
         run: |
@@ -69,4 +69,54 @@ jobs:
           for key in sorted(grouped):
               print("SPECIAL_SUMMARY",key,json.dumps(grouped[key],ensure_ascii=False,sort_keys=True))
           wb.close()
+          PY
+
+      - name: Comparar seccionado INE Oviedo 2023→2025
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.parse, urllib.request
+          from shapely.geometry import shape
+
+          base="https://www.ine.es/geoserver/ogc/features/v1/collections/"
+          bbox="-5.95,43.25,-5.72,43.48"
+          headers={"User-Agent":"DDD-INE-section-crosswalk/1.0"}
+          def fetch(year):
+              coll=urllib.parse.quote(f"WMS_INE_SECCIONES_G01:Secciones_{year}",safe="")
+              url=f"{base}{coll}/items?f=json&limit=10000&bbox={bbox}"
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as response:
+                  data=json.load(response)
+              feats=[]
+              for feat in data.get("features",[]):
+                  prop=feat.get("properties") or {}
+                  if str(prop.get("CUMUN") or "")=="33044" and str(prop.get("TIPO") or "").upper()!="DISTRITO":
+                      feats.append(feat)
+              return feats
+          old=fetch(2023); new=fetch(2025)
+          print("INE_OVIEDO_COUNTS",len(old),len(new))
+          old_ids=sorted(str((f.get("properties") or {}).get("CUSEC")) for f in old)
+          new_ids=sorted(str((f.get("properties") or {}).get("CUSEC")) for f in new)
+          print("INE_2023_IDS",json.dumps(old_ids))
+          print("INE_2025_IDS",json.dumps(new_ids))
+          print("INE_RESULT_ONLY",json.dumps(sorted(set(old_ids)-set(new_ids))))
+          print("INE_MAP_ONLY",json.dumps(sorted(set(new_ids)-set(old_ids))))
+          # Area-overlap crosswalk only for changed sections. Geometry is reprojected
+          # by service as CRS84; area ratios are local enough for diagnostic ranking.
+          old_changed=[f for f in old if str((f.get("properties") or {}).get("CUSEC")) not in set(new_ids)]
+          new_changed=[f for f in new if str((f.get("properties") or {}).get("CUSEC")) not in set(old_ids)]
+          rows=[]
+          for of in old_changed:
+              og=shape(of["geometry"]); oid=str(of["properties"]["CUSEC"])
+              denom=og.area or 1
+              overlaps=[]
+              for nf in new_changed:
+                  ng=shape(nf["geometry"]); nid=str(nf["properties"]["CUSEC"])
+                  inter=og.intersection(ng).area
+                  if inter>0:
+                      overlaps.append((nid,inter/denom))
+              overlaps.sort(key=lambda x:x[1],reverse=True)
+              rows.append({"from":oid,"to":overlaps[:10]})
+          print("INE_CROSSWALK",json.dumps(rows,sort_keys=True))
           PY
