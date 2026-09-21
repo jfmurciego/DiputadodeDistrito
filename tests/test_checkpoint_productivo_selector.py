@@ -157,10 +157,12 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
                 candidates=[{"run_id":35319351944,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
                 root_dir=root,
             )
-            self.assertIsNone(result["selected"])
-            self.assertIn("checkpoint poblacionalmente no certificado",result["discarded"][0]["reason"])
-            self.assertIn("outliers=3",result["discarded"][0]["reason"])
-            self.assertEqual(result["from_stage"],"M01")
+            self.assertEqual(result["selected"]["run_id"],"35319351944")
+            self.assertTrue(result["selected"]["requires_derivation"])
+            self.assertEqual(result["selected"]["effective_stage"],"M04")
+            self.assertEqual(result["from_stage"],"M05")
+            self.assertIn("checkpoint poblacionalmente no certificado",result["selected"]["compatibility_error"])
+            self.assertIn("outliers=3",result["selected"]["compatibility_error"])
 
     def test_compatible_m06_with_target_met_is_reused_directly(self):
         with tempfile.TemporaryDirectory() as td:
