@@ -122,6 +122,24 @@ PY
       ;;
   esac
 }
+registrar_optimizacion(){
+  local requested="$1" effective="$2" fallback="$3" reason="${4:-}" gerry_rc="${5:-}"
+  python - "$RUN_DIR/OPTIMIZATION_EXECUTION.json" "$requested" "$effective" "$fallback" "$reason" "$gerry_rc" <<'PY'
+import datetime,json,sys
+from pathlib import Path
+out,requested,effective,fallback,reason,gerry_rc=sys.argv[1:]
+payload={
+    "schema":"ddd.optimization-execution/1.0",
+    "requested_algorithm":requested,
+    "effective_algorithm":effective,
+    "fallback":fallback.lower()=="true",
+    "fallback_reason":reason or None,
+    "gerrychain_exit_code":int(gerry_rc) if gerry_rc else None,
+    "created_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+}
+Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+PY
+}
 ejecutar(){
   local n="$1" script="$2"
   if [[ "$n" == "5" ]]; then
@@ -133,6 +151,7 @@ ejecutar(){
     case "$strategy" in
       canonical)
         python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}.log"
+        registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-Canónico}" "Canónico" false
         ;;
       gerrychain_recom)
         local gerry_rc=0 baseline_rc=0
@@ -189,6 +208,9 @@ payload={
 Path(out).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 PY
           python "$script" --params "$PARAMS" 2>&1 | tee "$LOG_DIR/modulo_${n}_fallback_canonical.log"
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "Canónico" true "gerrychain_runtime_failure_after_valid_baseline" "$gerry_rc"
+        else
+          registrar_optimizacion "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" "${DDD_OPTIMIZATION_ALGORITHM:-GerryChain}" false
         fi
         ;;
       *)
