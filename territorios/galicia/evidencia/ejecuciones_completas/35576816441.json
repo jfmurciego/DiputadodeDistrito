@@ -1,0 +1,67 @@
+{
+  "schema": "ddd.full-run-manifest/2.0",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "GerryChain",
+  "workflow_run_id": 35576816441,
+  "source_sha": "20bee39a246ca667220523a10765bd23e42bc9d0",
+  "publish_requested": true,
+  "status": "SUCCESS",
+  "failed_phases": [],
+  "blocked_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35533666934,
+      "artifact": "ddd-source-package-galicia-2025-35533666934",
+      "artifact_digest": "sha256:9b1f55233c246c21d414ba4d84a3845f6a173d63719aed182435f2db43b39310",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35576816441,
+      "artifact": "ddd-state-35576816441-M06",
+      "artifact_digest": "sha256:279ccecf74ea1257bd5693726ca80f9fc29bd0562acf5c7062ee31b98f0ef400",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35533666934,
+      "artifact": "ddd-electoral-package-galicia-2025-35533666934",
+      "artifact_digest": "sha256:dc23a91d1b391a75226ad71a0fea6ef886b68c630e59ab3bcff9263188bd6b4e",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "REUSE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35576816441,
+      "artifact": "ddd-state-35576816441-M08",
+      "artifact_digest": "sha256:ac24c748bdbf33b7885fccd93373b6ec27f4a12f5c295fa7c42ebc11b5520769",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 35576816441,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-21T08:28:18.523527+00:00"
+}
