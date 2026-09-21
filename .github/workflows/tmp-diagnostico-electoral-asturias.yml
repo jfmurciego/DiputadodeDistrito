@@ -82,6 +82,50 @@ jobs:
           wb.close()
           PY
 
+      - name: Contrastar CER + CERA del mirror con total oficial
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, openpyxl
+          official={
+            "ANDECHA":1245,"Cs":4974,"FORO.ASTURIAS":19652,"IU.MÁS.PAÍS.IAS":40774,
+            "PACMA":3271,"PCTE":1401,"PODEMOS":21052,"PP":175131,"PSOE":195999,
+            "PUEDE":236,"PUM+J":789,"SMP":1148,"SOS.ASTURIAS":5838,
+            "VERDES.EQUO":1717,"VOX":54273,
+          }
+          wb=openpyxl.load_workbook("/tmp/Asturias2023_mesas.xlsx",read_only=True,data_only=True)
+          ws=wb["MESAS"]; it=ws.iter_rows(values_only=True); headers=list(next(it))
+          h={str(v).strip().upper():i for i,v in enumerate(headers)}
+          structural=max(h[x] for x in ("VOTOS","BLANCOS","NULOS"))
+          parties=[str(headers[i]) for i in range(structural+1,len(headers))]
+          cer={p:0 for p in parties}; cera={p:0 for p in parties}
+          cera_rows=0
+          for row in it:
+              year=str(row[h["ANYO"]] or "").strip()
+              try: year=str(int(float(year)))
+              except Exception: pass
+              if year!="2023": continue
+              mun=str(row[h["COD.MUN"]] or "").strip()
+              try: mun=str(int(float(mun))).zfill(3)
+              except Exception: mun=mun.zfill(3)
+              target=cera if mun in {"991","992","993"} else cer
+              if target is cera: cera_rows+=1
+              for i,p in enumerate(parties,start=structural+1):
+                  try: target[p]+=int(row[i] or 0)
+                  except Exception: pass
+          full={p:cer.get(p,0)+cera.get(p,0) for p in parties}
+          print("MIRROR_CER",json.dumps(cer,ensure_ascii=False,sort_keys=True))
+          print("MIRROR_CERA",json.dumps(cera,ensure_ascii=False,sort_keys=True))
+          print("MIRROR_CERA_ROWS",cera_rows)
+          print("MIRROR_FULL",json.dumps(full,ensure_ascii=False,sort_keys=True))
+          print("OFFICIAL_FINAL",json.dumps(official,ensure_ascii=False,sort_keys=True))
+          delta={p:full.get(p,0)-official.get(p,0) for p in sorted(set(full)|set(official))}
+          print("MIRROR_MINUS_OFFICIAL",json.dumps(delta,ensure_ascii=False,sort_keys=True))
+          print("VERIFY_TOTALS",sum(cer.values()),sum(cera.values()),sum(full.values()),sum(official.values()))
+          wb.close()
+          PY
+
       - name: Comparar seccionado INE Oviedo 2023→2025
         shell: bash
         run: |
