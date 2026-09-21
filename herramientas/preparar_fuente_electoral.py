@@ -22,9 +22,19 @@ def _as_int(value: object) -> int:
 def _normalise_code(value: object,width:int) -> str:
     if value in (None,""): return ""
     raw=str(value).strip()
-    try: raw=str(int(float(raw)))
-    except Exception: raw=re.sub(r"\\D","",raw)
+    try:
+        raw=str(int(float(raw)))
+    except Exception:
+        raw=re.sub(r"\D","",raw)
     return raw.zfill(width)
+
+
+def _raw_code(value: object) -> str:
+    if value in (None, ""):
+        return ""
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value).strip()
 
 
 def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,source_decl:dict)->dict:
@@ -78,11 +88,20 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
             prov=_normalise_code(values[positions["province"]],2)
             mun=_normalise_code(values[positions["municipality"]],3)
             dist=_normalise_code(values[positions["district"]],2)
+            sec_raw=_raw_code(values[positions["section"]])
             sec=_normalise_code(values[positions["section"]],3)
-            if not (prov and mun and dist and sec): continue
-            # CERA y códigos administrativos 99x no tienen geometría censal ordinaria.
+            if not (prov and mun and dist and sec_raw): continue
+            # CERA codificada como municipio 991/992/993 queda fuera de la cartografía,
+            # pero no se mezcla con secciones ordinarias.
             if mun in {"991","992","993","999"}: continue
-            cusec=f"{prov}{mun}{dist}{sec}"
+            # Códigos especiales de sección (0, negativos o alfanuméricos) no son CUSEC.
+            # Se preservan como identificadores explícitos para que reconciliación los
+            # contabilice como result_only; nunca deben colisionar con una sección real.
+            special_section = (
+                not re.fullmatch(r"\d+", sec_raw)
+                or int(sec_raw) <= 0
+            )
+            cusec=(f"SPECIAL:{prov}:{mun}:{dist}:{sec_raw}" if special_section else f"{prov}{mun}{dist}{sec}")
             sections.add(cusec)
             for idx,party in party_headers:
                 votes=_as_int(values[idx] if idx < len(values) else 0)
@@ -110,7 +129,7 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
             "adapter":{"kind":"long_csv","separator":";","section_field":"CUSEC_KEY","party_field":"party","votes_field":"votes"},
         }],
         "party_dictionary":{"path":dictionary.as_posix(),"sha256":sha(dictionary)},
-        "reconciliation":{"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
+        "reconciliation":declaration.get("reconciliation") or {"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
     }
     contract.write_text(json.dumps(contract_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     return {"source":normalized,"contract":contract,"dictionary":dictionary,"records":records,"sections":len(sections),"parties":len(parties)}
