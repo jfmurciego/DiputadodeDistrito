@@ -118,7 +118,19 @@ jobs:
             fi
             source_dir="$(find "$tmp/state" -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
             test -n "$source_dir" || { rm -rf "$tmp"; continue; }
-            if python -m herramientas.seleccionar_checkpoint_productivo               --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state"               --run-id "$run_id" --stage M06 --root-dir . >/dev/null 2>&1; then
+            selection="$tmp/checkpoint_selection.json"
+            set +e
+            python -m herramientas.seleccionar_checkpoint_productivo \
+              --params "$PARAMS" --package "$source_dir" --state-root "$tmp/state" \
+              --run-id "$run_id" --stage M06 --root-dir . > "$selection"
+            validation_rc=$?
+            set -e
+            if (( validation_rc == 0 )); then
+              direct_reuse="$(jq -r '(.valid == true) and ((.requires_derivation // false) == false) and (.effective_stage == "M06")' "$selection")"
+              if [[ "$direct_reuse" != true ]]; then
+                rm -rf "$tmp"
+                continue
+              fi
               if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$run_id" --dir "$tmp/audit" >/dev/null 2>&1; then
                 status="$(find "$tmp/audit" -name production_status.json -type f -print -quit)"
                 decision="$(test -n "$status" && jq -r '.decision // empty' "$status" || true)"
@@ -129,6 +141,8 @@ jobs:
                   exit 0
                 fi
               fi
+            elif (( validation_rc != 2 )); then
+              echo "::warning::Validador de checkpoint terminó con rc=$validation_rc para run $run_id; se descarta."
             fi
             rm -rf "$tmp"
           done
