@@ -82,6 +82,7 @@ class StrategyContract:
     require_single_province: bool = True
     require_contiguity: bool = True
     require_municipality_discipline: bool = True
+    municipality_discipline_field: str = "CUMUN"
     max_mixed_districts_per_split_municipality: int = 1
     preserve_closed_urban: bool = True
 
@@ -224,6 +225,15 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
     meta = cfg.get("meta") or {}
     s4 = (cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
     s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
+    partitioning = cfg.get("partitioning") or {}
+    municipality_discipline_field = str(validation.get("municipality_field") or "CUMUN")
+    if (
+        bool(partitioning.get("enabled"))
+        and str(partitioning.get("strategy") or "") == "connected_internal_units"
+    ):
+        municipality_discipline_field = str(
+            partitioning.get("partition_unit_field") or municipality_discipline_field
+        )
     k = int(
         s5.get("expected_districts")
         or s4.get("expected_districts")
@@ -257,6 +267,7 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
         require_single_province=bool(validation.get("require_single_province_per_district", True)),
         require_contiguity=bool(validation.get("require_graph_contiguity", validation.get("require_contiguity", True))),
         require_municipality_discipline=bool(validation.get("require_municipality_discipline", True)),
+        municipality_discipline_field=municipality_discipline_field,
         max_mixed_districts_per_split_municipality=int(
             validation.get("max_mixed_districts_per_split_municipality", 1)
         ),
@@ -328,11 +339,12 @@ def prepare_problem(
     district_field: str = "district_id",
     unit_field: str = "ddd_unit_id",
     province_field: str = "CPRO",
-    municipality_field: str = "CUMUN",
+    municipality_field: str | None = None,
     closed_urban_field: str = "ddd_closed_urban",
     metric_crs: str = "EPSG:3035",
     min_shared_border_m: float = 1.0,
 ) -> PreparedProblem:
+    municipality_field = municipality_field or contract.municipality_discipline_field
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
     graph_nodes = {str(n["id"]): n for n in graph.get("nodes", [])}
     node_population = {section: float(node.get("pop", 0)) for section, node in graph_nodes.items()}
@@ -420,6 +432,7 @@ def prepare_problem(
             "population": float(sum(node_population[s] for s in rows[id_field])),
             "province": next(iter(provinces)),
             "municipality": next(iter(municipalities)),
+            "municipality_discipline_field": municipality_field,
             "closed_urban": bool(rows[closed_urban_field].fillna(False).astype(bool).all()),
             "comarca": next(iter(comarca_values), None),
         }
@@ -1145,6 +1158,7 @@ def build_report(
             "population_cap_ratio": contract.population_cap_ratio,
             "province_districts": dict(contract.province_districts),
             "population_floor_exempt_partitions": list(contract.population_floor_exempt_partitions),
+            "municipality_discipline_field": contract.municipality_discipline_field,
         },
     }
 

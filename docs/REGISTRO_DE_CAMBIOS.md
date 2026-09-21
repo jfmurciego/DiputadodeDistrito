@@ -1,3 +1,18 @@
+## 2026-09-21 — GerryChain — disciplina municipal contractual
+
+El canary real de Asturias `35656993014` mostró que el preflight GerryChain
+reinterpretaba la disciplina municipal usando siempre `CUMUN`, aunque el contrato
+territorial había materializado previamente unidades internas conectadas para municipios
+sobredimensionados. El validador común ya resuelve esos casos mediante
+`partitioning.strategy=connected_internal_units` y `partition_unit_field`.
+
+GerryChain pasa a consumir exactamente esa misma unidad declarada de disciplina municipal.
+No se introducen excepciones por territorio ni cambios de umbrales. Los municipios reales
+se conservan como metadato administrativo; la restricción dura se aplica sobre la unidad
+contractual que produjo la Formación inicial. Se añade regresión específica con la
+configuración vigente de Asturias y una prueba sintética que demuestra que el municipio
+bruto fallaría mientras las unidades internas declaradas pasan.
+
 
 ## 2026-09-21 — Optimización territorial — autoridad única del grafo operativo
 
