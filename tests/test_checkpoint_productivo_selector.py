@@ -34,6 +34,7 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             "  modulo_05_optimizar_distritos:\n"
             "    seed: 1\n    population_repair:\n      enabled: true\n"
             "    out_geojson: cache/demo_2025_m05.geojson.zip\n"
+            "    out_report: cache/demo_2025_m05_informe.json\n"
             "  modulo_06_consolidar_distritos:\n    out_geojson: cache/demo_2025_m06.geojson.zip\n",
             encoding="utf-8",
         )
@@ -61,11 +62,18 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
         (package / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
         return package
 
-    def state(self, root: Path, name: str, params: Path, *, fingerprint: bool = True) -> Path:
+    def state(self, root: Path, name: str, params: Path, *, fingerprint: bool = True,
+              outliers: int = 0, hard: int = 0) -> Path:
         state=root / name
         if fingerprint:
             out=state / "compatibility" / "m05.json"; out.parent.mkdir(parents=True,exist_ok=True)
             out.write_text(json.dumps(build_fingerprint(params=params,root_dir=root)),encoding="utf-8")
+        report=state / "cache" / "demo_2025_m05_informe.json"
+        report.parent.mkdir(parents=True,exist_ok=True)
+        report.write_text(json.dumps({
+            "objective_start": [hard, 0, max(outliers, 1), 0.20, 1.0],
+            "objective_final": [hard, 0, outliers, 0.10 if outliers == 0 else 0.13, 0.5],
+        }),encoding="utf-8")
         return state
 
     def accumulated_state(self, root: Path, name: str, params: Path) -> Path:
@@ -138,6 +146,36 @@ class ProductiveCheckpointSelectorTests(unittest.TestCase):
             self.assertEqual(result["selected"]["run_id"], "250")
             self.assertEqual([d["run_id"] for d in result["discarded"]], ["300"])
             self.assertEqual(result["from_stage"], "M06")
+
+    def test_compatible_m06_with_population_block_is_not_reused(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); params=self.prepare_root(root)
+            package=self.package(root,"valid")
+            state=self.state(root,"state-blocked",params,outliers=3)
+            result=select_latest_valid(
+                params=params,
+                candidates=[{"run_id":35319351944,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
+                root_dir=root,
+            )
+            self.assertIsNone(result["selected"])
+            self.assertIn("checkpoint poblacionalmente no certificado",result["discarded"][0]["reason"])
+            self.assertIn("outliers=3",result["discarded"][0]["reason"])
+            self.assertEqual(result["from_stage"],"M01")
+
+    def test_compatible_m06_with_target_met_is_reused_directly(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td); params=self.prepare_root(root)
+            package=self.package(root,"valid")
+            state=self.state(root,"state-certified",params,outliers=0)
+            result=select_latest_valid(
+                params=params,
+                candidates=[{"run_id":200,"stage":"M06","from_stage":"M07","package":package,"state_root":state}],
+                root_dir=root,
+            )
+            self.assertEqual(result["selected"]["run_id"],"200")
+            self.assertFalse(result["selected"]["requires_derivation"])
+            self.assertEqual(result["selected"]["population_evidence"]["population_decision"],"TARGET_MET")
+            self.assertEqual(result["from_stage"],"M07")
 
     def test_old_m06_without_m05_fingerprint_derives_m04_and_resumes_m05(self):
         with tempfile.TemporaryDirectory() as td:
