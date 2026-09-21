@@ -21,6 +21,7 @@ on:
       source_package_artifact_name: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      invocation_context: {required: false, type: string, default: reusable}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -391,6 +392,6 @@ jobs:
       source_package_artifact_name: ${{ needs.resolver_interfaz.outputs.source_package_artifact_name }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
       source_ref: ${{ inputs.source_ref }}
-      persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}
+      persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
 
