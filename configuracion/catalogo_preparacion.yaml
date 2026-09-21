@@ -52,17 +52,21 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: false
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 35575723511
+        stage: M06
       preparation_evidence:
         run_id: 35575723511
         artifact_name: ddd-source-package-principado_de_asturias-2025-35575723511
         artifact_sha256: 15718423c4b6e17c5d9bbdaa8db7343ef36e108d4353ebce1d24d22194161a52
         package_sha256: 77aefe9e7766fb649f2ff0afcfd6ca0b785507f5d5c01dfbef9a84b0f8a5171b
+      evidence:
+        territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
 - territory_id: illes_balears
   name: Islas Baleares
   editions:
