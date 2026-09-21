@@ -93,6 +93,7 @@ class StrategyConfig:
     seed_count: int = 4
     proposal_epsilon: float = 0.12
     max_bipartition_attempts: int = 500
+    comarca_surcharge: float = 0.30
     require_pythonhashseed_zero: bool = True
 
     def validate(self) -> None:
@@ -104,6 +105,8 @@ class StrategyConfig:
             raise ValueError("proposal_epsilon debe estar entre 0 y 1")
         if self.max_bipartition_attempts < 1:
             raise ValueError("max_bipartition_attempts debe ser >= 1")
+        if not 0 <= self.comarca_surcharge <= 1:
+            raise ValueError("comarca_surcharge debe estar entre 0 y 1")
 
     def seeds(self) -> list[int]:
         self.validate()
@@ -118,6 +121,12 @@ class PreparedProblem:
     initial_assignment: dict[str, Any]
     frozen_districts: dict[Any, frozenset[str]]
     target_population: float
+    section_unit: dict[str, str]
+    section_areas: dict[str, float]
+    section_perimeters: dict[str, float]
+    shared_border_lengths: dict[tuple[str, str], float]
+    section_components: dict[str, tuple[str, ...]]
+    component_edges: list[tuple[str, str]]
 
 
 def require_runtime(config: StrategyConfig | None = None) -> None:
@@ -242,6 +251,7 @@ def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
         seed_count=int(raw.get("seed_count", 4)),
         proposal_epsilon=float(raw.get("proposal_epsilon", default_epsilon)),
         max_bipartition_attempts=int(raw.get("max_bipartition_attempts", 500)),
+        comarca_surcharge=float(raw.get("comarca_surcharge", 0.30)),
         require_pythonhashseed_zero=bool(raw.get("require_pythonhashseed_zero", True)),
     )
     result.validate()
@@ -315,6 +325,23 @@ def prepare_problem(
         raise ValueError("El universo de M04 no coincide exactamente con M03")
 
     section_unit = dict(zip(sections[id_field], sections[unit_field]))
+    section_geometries = dict(zip(sections[id_field], sections.geometry))
+    section_areas = {section: float(geometry.area) for section, geometry in section_geometries.items()}
+    section_perimeters = {section: float(geometry.length) for section, geometry in section_geometries.items()}
+    section_components: dict[str, tuple[str, ...]] = {}
+    geometry_components: dict[str, list[Any]] = {}
+    for section, geometry in section_geometries.items():
+        if geometry is None or geometry.is_empty or not geometry.is_valid:
+            raise ValueError(f"Geometría inválida en {section}")
+        parts = list(geometry.geoms) if geometry.geom_type == "MultiPolygon" else [geometry]
+        geometry_components[section] = parts
+        section_components[section] = tuple(f"{section}#{index}" for index in range(len(parts)))
+
+    comarca_field = next(
+        (name for name in ("ddd_comarca_codigo", "COMARCA_CODIGO", "COMARCA_COD", "COMARCA")
+         if name in sections.columns),
+        None,
+    )
     units: dict[str, dict[str, Any]] = {}
     initial: dict[str, Any] = {}
     for unit, rows in sections.groupby(unit_field, sort=True):
@@ -327,21 +354,56 @@ def prepare_problem(
             raise ValueError(f"Unidad cruza provincias: {unit}")
         if len(municipalities) != 1:
             raise ValueError(f"Unidad cruza municipios: {unit}")
+        comarcas = {
+            str(value).strip()
+            for value in (rows[comarca_field] if comarca_field else [])
+            if value is not None and str(value).strip() and str(value).lower() != "nan"
+        }
         units[str(unit)] = {
             "unit_id": str(unit),
             "population": float(sum(node_population[s] for s in rows[id_field])),
             "province": next(iter(provinces)),
             "municipality": next(iter(municipalities)),
             "closed_urban": bool(rows[closed_urban_field].fillna(False).astype(bool).all()),
+            "comarca": next(iter(comarcas)) if len(comarcas) == 1 else None,
         }
         initial[str(unit)] = next(iter(districts))
 
     edges: set[tuple[str, str]] = set()
+    shared_border_lengths: dict[tuple[str, str], float] = {}
+    component_edges: set[tuple[str, str]] = set()
+
+    # ddd_unit_id es indivisible: sus componentes quedan unidos lógicamente aunque
+    # la fuente oficial sea multipart. La continuidad entre unidades, en cambio,
+    # exige frontera geométrica real entre componentes.
+    by_unit_components: dict[str, list[str]] = defaultdict(list)
+    for section, unit in section_unit.items():
+        by_unit_components[unit].extend(section_components[section])
+    for components in by_unit_components.values():
+        if len(components) > 1:
+            anchor = components[0]
+            component_edges.update(tuple(sorted((anchor, component))) for component in components[1:])
+
     for edge in graph.get("edges", []):
-        u = section_unit.get(str(edge["u"]))
-        v = section_unit.get(str(edge["v"]))
+        section_u, section_v = str(edge["u"]), str(edge["v"])
+        u = section_unit.get(section_u)
+        v = section_unit.get(section_v)
         if u is None or v is None:
             raise ValueError("M03 contiene arista fuera del universo M04")
+        section_edge = tuple(sorted((section_u, section_v)))
+        shared = float(section_geometries[section_u].boundary.intersection(
+            section_geometries[section_v].boundary
+        ).length)
+        shared_border_lengths[section_edge] = shared
+        if shared > 1e-9:
+            for left_index, left_part in enumerate(geometry_components[section_u]):
+                for right_index, right_part in enumerate(geometry_components[section_v]):
+                    component_shared = float(left_part.boundary.intersection(right_part.boundary).length)
+                    if component_shared > 1e-9:
+                        component_edges.add(tuple(sorted((
+                            section_components[section_u][left_index],
+                            section_components[section_v][right_index],
+                        ))))
         if u != v:
             edges.add(tuple(sorted((u, v))))
 
@@ -366,6 +428,12 @@ def prepare_problem(
         initial_assignment=initial,
         frozen_districts=frozen,
         target_population=target,
+        section_unit=section_unit,
+        section_areas=section_areas,
+        section_perimeters=section_perimeters,
+        shared_border_lengths=shared_border_lengths,
+        section_components=section_components,
+        component_edges=sorted(component_edges),
     )
     violations = hard_constraint_violations(problem, initial, contract)
     if violations:
@@ -477,9 +545,73 @@ def hard_constraint_violations(
             if reached != wanted:
                 violations.append(f"contiguity:{district}")
 
+        component_adjacency = {
+            component: set()
+            for components in problem.section_components.values()
+            for component in components
+        }
+        for u, v in problem.component_edges:
+            component_adjacency[u].add(v)
+            component_adjacency[v].add(u)
+        district_components: dict[Any, set[str]] = defaultdict(set)
+        for section, components in problem.section_components.items():
+            district = assignment[problem.section_unit[section]]
+            district_components[district].update(components)
+        for district, wanted in district_components.items():
+            if not wanted:
+                continue
+            start = next(iter(wanted))
+            reached = {start}
+            queue = deque([start])
+            while queue:
+                current = queue.popleft()
+                for neighbor in component_adjacency[current] & wanted:
+                    if neighbor not in reached:
+                        reached.add(neighbor)
+                        queue.append(neighbor)
+            if reached != wanted:
+                violations.append(f"geometric_contiguity:{district}")
+
     # Deliberadamente NO se incluye target_tolerance_ratio aquí. Es objetivo,
     # no límite duro de los estados intermedios.
     return sorted(set(violations))
+
+
+def geometric_shape_metrics(
+    problem: PreparedProblem,
+    assignment: Mapping[str, Any],
+) -> dict[str, Any]:
+    areas: dict[Any, float] = defaultdict(float)
+    perimeters: dict[Any, float] = defaultdict(float)
+    for section, unit in problem.section_unit.items():
+        district = assignment[unit]
+        areas[district] += problem.section_areas[section]
+        perimeters[district] += problem.section_perimeters[section]
+    for (left, right), shared in problem.shared_border_lengths.items():
+        if shared <= 0:
+            continue
+        left_district = assignment[problem.section_unit[left]]
+        right_district = assignment[problem.section_unit[right]]
+        if left_district == right_district:
+            perimeters[left_district] -= 2.0 * shared
+    polsby_popper = {
+        district: 4.0 * math.pi * area / (perimeters[district] ** 2)
+        if area > 0 and perimeters[district] > 0 else 0.0
+        for district, area in areas.items()
+    }
+    values = sorted(polsby_popper.values())
+    median = (
+        values[len(values) // 2]
+        if len(values) % 2
+        else (values[len(values) // 2 - 1] + values[len(values) // 2]) / 2.0
+    )
+    minimum = min(values, default=0.0)
+    shape_penalty = (1.0 - median) + max(0.0, (0.15 - minimum) / 0.15)
+    return {
+        "polsby_popper_min": minimum,
+        "polsby_popper_median": median,
+        "shape_penalty": shape_penalty,
+    }
 
 
 def candidate_rank(
@@ -489,6 +621,7 @@ def candidate_rank(
     initial: Mapping[str, Any],
 ) -> tuple[Any, ...]:
     pop = population_metrics(problem, assignment, contract)
+    shape = geometric_shape_metrics(problem, assignment)
     cut_edges = sum(1 for u, v in problem.edges if assignment[u] != assignment[v])
     churn = sum(assignment[u] != initial[u] for u in initial) / max(1, len(initial))
     # Orden técnico declarativo y no partidista. El hash resuelve empates de
@@ -497,6 +630,7 @@ def candidate_rank(
         int(pop["districts_outside_tolerance"]),
         float(pop["max_relative_deviation"]),
         float(pop["rms_relative_deviation"]),
+        float(shape["shape_penalty"]),
         int(cut_edges),
         float(churn),
         _assignment_hash(assignment),
@@ -554,11 +688,16 @@ def _run_seed(
     def hard(partition: Any) -> bool:
         return not hard_constraint_violations(problem, _partition_assignment(partition), contract)
 
+    surcharge = (
+        {"comarca": config.comarca_surcharge}
+        if all(row.get("comarca") for row in problem.units.values())
+        else None
+    )
     raw_proposal = build_recom_proposal_fn(
         pop_col="population",
         pop_target=problem.target_population,
         epsilon=config.proposal_epsilon,
-        region_surcharge=None,
+        region_surcharge=surcharge,
         bipartition_tree_fn=partial(
             bipartition_tree,
             max_attempts=config.max_bipartition_attempts,
@@ -893,6 +1032,7 @@ def main() -> None:
         seed_count=args.seed_count if args.seed_count is not None else strategy.seed_count,
         proposal_epsilon=args.proposal_epsilon if args.proposal_epsilon is not None else strategy.proposal_epsilon,
         max_bipartition_attempts=args.max_bipartition_attempts if args.max_bipartition_attempts is not None else strategy.max_bipartition_attempts,
+        comarca_surcharge=strategy.comarca_surcharge,
         require_pythonhashseed_zero=strategy.require_pythonhashseed_zero,
     )
     strategy.validate()
