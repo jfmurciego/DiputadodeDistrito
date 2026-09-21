@@ -1,0 +1,36 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Principado de Asturias
+# COMPONENTE: resolución y adquisición electoral vigente para edición territorial 2025
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-21
+schema: ddd-election-official-source-declaration/1.0
+territory_id: principado_de_asturias
+title: Elecciones a la Junta General del Principado de Asturias 2023
+election_id: asturias_jgpa_2023
+election_date: '2023-05-28'
+selection_mode: first_ready
+minimum_resolution: polling_station
+max_download_bytes: 2000000
+allowed_source_hosts:
+  - pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+official_reference_urls:
+  - https://actualidad.asturias.es/-/el-gobierno-de-asturias-pone-en-marcha-un-amplio-dispositivo-de-seguimiento-para-facilitar-la-difusi%C3%B3n-de-los-resultados-electorales-del-28m
+  - https://resultadosasturias2023.infoelecciones.com/
+sources:
+  - id: asturias_2023_mesas_verified_mirror
+    publisher: GIPEYOP / Spain Electoral Project (mirror auditable)
+    url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx
+    access: public
+    required: true
+    source_class: verified_mirror
+    declared_resolution: polling_station
+    format: xlsx
+    granularity_markers: []
+    transform:
+      kind: gipeyop_polling_xlsx
+      sheet: MESAS
+      election_year: '2023'
