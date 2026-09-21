@@ -23,6 +23,27 @@ def triggers(path: Path) -> dict:
 
 
 class FullProjectOrchestratorTests(unittest.TestCase):
+
+    def test_newly_produced_artifacts_do_not_reuse_previous_digest(self):
+        orchestration = ORCH.read_text(encoding="utf-8")
+        self.assertIn(
+            "needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || ''",
+            orchestration,
+        )
+        self.assertIn(
+            "needs.generar.result != 'success' && needs.planificar.outputs.existing_territorial_product_digest || ''",
+            orchestration,
+        )
+        self.assertIn(
+            "needs.preparar_electoral.result != 'success' && needs.planificar.outputs.existing_electoral_source_digest || ''",
+            orchestration,
+        )
+        self.assertIn(
+            "needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || ''",
+            orchestration,
+        )
+        self.assertNotIn("result == 'success' && '' || needs.planificar.outputs.existing_", orchestration)
+
     def test_run_id_se_extrae_del_nombre_real_del_artefacto(self):
         self.assertEqual(_run_from_artifact("ddd-state-123456-M06", 999999), 123456)
         self.assertEqual(_run_from_artifact("ddd-state-654321-M08", None), 654321)
