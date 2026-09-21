@@ -1,0 +1,24 @@
+schema: ddd-community-interest-candidates/1.0
+status: DESIGN_ONLY
+production_integration: false
+description: >-
+  Solo describe semántica y métricas aún no presentes en el contrato territorial.
+  Fuente, activación y peso de búsqueda se leen exclusivamente del YAML territorial vigente.
+territories:
+  aragon:
+    schema: ddd-community-interest-policy/1.0
+    territory_id: aragon
+    edition: '2025'
+    semantics: SOFT_OBJECTIVE
+    integration_status: DESIGN_ONLY
+    metrics:
+      - split_communities
+      - avoidable_split_communities
+      - communities_per_district
+      - dominant_population_share
+      - population_retention
+      - retention_over_structural_max
+    structural_normalization:
+      oversized_communities: 11
+      total_communities: 33
+      retention_max: 0.352
