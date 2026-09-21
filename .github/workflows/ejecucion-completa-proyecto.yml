@@ -365,7 +365,7 @@ jobs:
           if [[ "$PERSIST" == "true" ]]; then
             git config user.name github-actions
             git config user.email github-actions@github.com
-            git add README.md orquestacion/estado_operativo.json publicado/dashboard/status.json
+            git add README.md orchestracion/estado_operativo.json publicado/dashboard/status.json
             if ! git diff --cached --quiet; then
               git commit -m "chore: actualizar estado operativo"
               for attempt in 1 2 3; do
@@ -381,7 +381,7 @@ jobs:
         with:
           name: ddd-estado-operativo-${{ github.run_id }}
           path: |
-            orquestacion/estado_operativo.json
+            orchestracion/estado_operativo.json
             publicado/dashboard/status.json
             README.md
           if-no-files-found: error
