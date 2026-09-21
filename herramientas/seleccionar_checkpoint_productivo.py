@@ -16,6 +16,8 @@ from typing import Iterable
 from herramientas.validar_fuentes_reanudacion import validate_resume_sources
 from herramientas.huella_checkpoint_m05 import build_fingerprint
 from herramientas.derivar_checkpoint_acumulado import inspect_derivable_checkpoint
+from herramientas.estado_produccion import TARGET_MET, population_dimension
+from ddd_core.config import load_params_yaml
 
 
 def _stage_num(stage: str) -> int:
@@ -39,6 +41,57 @@ def _validate_m05_compatibility(*, params: Path, state_root: Path, root_dir: Pat
     return {"stored":stored,"current":current}
 
 
+def _validate_population_certification(*, params: Path, state_root: Path, run_id: str) -> dict:
+    cfg = load_params_yaml(str(params))
+    m05 = (cfg.get("modulos", {}) or {}).get("modulo_05_optimizar_distritos") or cfg.get("step5_optimize_swaps") or {}
+    raw = m05.get("out_report")
+    if not raw:
+        raise ValueError("M05 no declara out_report; checkpoint no certificable poblacionalmente")
+    meta = cfg.get("meta") or {}
+    expected = Path(str(raw).format(
+        year=meta.get("year"),
+        run_name=meta.get("run_name"),
+        run_id=run_id,
+    )).name
+    matches = sorted(state_root.rglob(expected))
+    if len(matches) != 1:
+        raise ValueError(f"checkpoint sin evidencia M05 unívoca: {expected} ({len(matches)} coincidencias)")
+    try:
+        report = json.loads(matches[0].read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ValueError(f"evidencia M05 ilegible: {type(exc).__name__}: {exc}") from exc
+    if not isinstance(report, dict):
+        raise ValueError("evidencia M05 inválida: se esperaba objeto JSON")
+    population = population_dimension(report)
+    target_required = bool(
+        ((cfg.get("validation") or {}).get("require_zero_outside_tolerance_after_m05", False))
+    )
+    invalid = (
+        population.get("population_outcome") != "success"
+        or population.get("population_hard_constraints_after") != 0
+        or (
+            target_required
+            and (
+                population.get("population_decision") != TARGET_MET
+                or population.get("population_outliers_after") != 0
+            )
+        )
+    )
+    if invalid:
+        raise ValueError(
+            "checkpoint poblacionalmente no certificado: "
+            f"target_required={target_required}, "
+            f"decision={population.get('population_decision')}, "
+            f"hard={population.get('population_hard_constraints_after')}, "
+            f"outliers={population.get('population_outliers_after')}"
+        )
+    return {
+        "report_path": matches[0].as_posix(),
+        "population_target_required": target_required,
+        **population,
+    }
+
+
 def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
                        root_dir: Path = Path("."), state_root: Path | None = None) -> dict:
     try:
@@ -48,8 +101,10 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
             root_dir=root_dir,
         )
         compatibility=None
+        population_evidence=None
         derivation=None
         compatibility_error=None
+        derivation_cause=None
         if _stage_num(stage) >= 5:
             if state_root is None:
                 raise ValueError("checkpoint M05/M06 exige estado completo para validar compatibilidad")
@@ -57,7 +112,20 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
                 compatibility=_validate_m05_compatibility(params=params,state_root=state_root,root_dir=root_dir)
             except Exception as exc:
                 compatibility_error=str(exc)
+                derivation_cause="M05_INCOMPATIBLE"
                 derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
+            else:
+                try:
+                    population_evidence=_validate_population_certification(
+                        params=params,
+                        state_root=state_root,
+                        run_id=str(run_id),
+                    )
+                except Exception as exc:
+                    compatibility_error=str(exc)
+                    compatibility=None
+                    derivation_cause="POPULATION_NOT_CERTIFIED"
+                    derivation=inspect_derivable_checkpoint(params=params,state_root=state_root,target_stage=4)
     except Exception as exc:
         return {
             "valid": False,
@@ -77,9 +145,17 @@ def evaluate_candidate(*, params: Path, package: Path, run_id: str, stage: str,
     }
     if compatibility is not None:
         result["m05_compatibility"]=compatibility
+        result["population_evidence"]=population_evidence
+        result["reason"]="checkpoint compatible: fuentes, huella M05 y certificación poblacional validadas"
     elif derivation is not None:
+        derivation_reason = (
+            "checkpoint M05/M06 no certificado bajo la política poblacional vigente; M04 acumulado es reutilizable"
+            if derivation_cause == "POPULATION_NOT_CERTIFIED"
+            else "checkpoint M05/M06 incompatible con el motor actual; M04 acumulado es reutilizable"
+        )
         result.update({
-            "reason":"checkpoint M05/M06 incompatible con el motor actual; M04 acumulado es reutilizable",
+            "reason":derivation_reason,
+            "derivation_cause":derivation_cause,
             "requires_derivation":True,
             "effective_stage":"M04",
             "from_stage":"M05",

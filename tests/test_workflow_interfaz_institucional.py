@@ -69,6 +69,17 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertIn("exit 44",text)
         self.assertIn("exit 45",text)
 
+    def test_electoral_rejects_m06_that_selector_only_allows_to_derive(self):
+        text=ELECTORAL.read_text(encoding="utf-8")
+        self.assertIn('selection="$tmp/checkpoint_selection.json"',text)
+        self.assertIn('"$selection"',text)
+        self.assertIn(
+            "(.valid == true) and ((.requires_derivation // false) == false) and (.effective_stage == \"M06\")",
+            text,
+        )
+        self.assertIn('if [[ "$direct_reuse" != true ]]',text)
+        self.assertIn("continue",text)
+
     def test_interfaces_delegate_to_separate_reusable_chains(self):
         generation=self._load(GEN)
         self.assertEqual(generation["jobs"]["ruta"]["uses"],"./.github/workflows/_reutilizable-generacion-territorial.yml")
@@ -83,6 +94,17 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         for reusable in ("_reutilizable-generacion-territorial.yml","_reutilizable-incorporacion-electoral.yml"):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
+
+    def test_manual_generation_persists_state_by_default_without_overriding_reusable_calls(self):
+        data=self._load(GEN)
+        triggers=data.get(True,data.get("on",{})) or {}
+        call_inputs=((triggers.get("workflow_call") or {}).get("inputs",{}) or {})
+        dispatch_inputs=((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
+        self.assertEqual(call_inputs["invocation_context"]["default"],"reusable")
+        self.assertNotIn("invocation_context",dispatch_inputs)
+        self.assertNotIn("persist_state",dispatch_inputs)
+        text=GEN.read_text(encoding="utf-8")
+        self.assertIn("persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",text)
 
     def test_checkpoint_selection_and_engine_are_preserved(self):
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))

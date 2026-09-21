@@ -96,6 +96,24 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-generacion-territorial.yml")["jobs"]["registrar"]["if"])
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-incorporacion-electoral.yml")["jobs"]["registrar"]["if"])
 
+    def test_orchestrator_false_persistence_is_respected_by_generation(self):
+        orchestration=load(ORCH)
+        generation=load(WF / "produccion-distritos.yml")
+        generar=orchestration["jobs"]["generar"]["with"]
+        self.assertEqual(
+            generar["persist_state"],
+            "${{ needs.planificar.outputs.persist_state == 'true' }}",
+        )
+        generation_triggers=triggers(WF / "produccion-distritos.yml")
+        self.assertEqual(
+            generation_triggers["workflow_call"]["inputs"]["invocation_context"]["default"],
+            "reusable",
+        )
+        self.assertEqual(
+            generation["jobs"]["ruta"]["with"]["persist_state"],
+            "${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",
+        )
+
     def test_orchestrator_calls_business_phases_in_order(self):
         data = load(ORCH)
         jobs = data["jobs"]
