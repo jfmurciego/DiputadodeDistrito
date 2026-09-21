@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno — incorporación electoral
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y un paquete electoral preparado,
 # agrega los resultados, genera el producto electoral y registra su disponibilidad.
-# NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web.
+# NO HACE: preparación territorial, generación de distritos, auditoría geométrica ni publicación web. Puede materializar M07/M08 genéricos desde un paquete electoral autocontenido.
 name: Reutilizable — Incorporación Electoral
 
 on:
@@ -99,6 +99,14 @@ jobs:
           python herramientas/validar_paquete_electoral.py             --package .ddd-electoral-package             --params "$PARAMS"             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --root-dir .             --materialize             --output .ddd-electoral-evidence/validacion_paquete_electoral.json
           test "$(jq -r '.decision' .ddd-electoral-evidence/validacion_paquete_electoral.json)" = READY_PACKAGE
 
+      - name: Materializar contrato electoral de ejecución
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_params="$(python herramientas/materializar_contrato_electoral_runtime.py             --params "$PARAMS"             --validation .ddd-electoral-evidence/validacion_paquete_electoral.json             --output .ddd-electoral-runtime/params.yaml)"
+          echo "PARAMS=$runtime_params" >> "$GITHUB_ENV"
+          echo "Contrato electoral de ejecución: $runtime_params"
+
       - name: Restaurar producto territorial como entrada
         shell: bash
         run: |
@@ -124,6 +132,21 @@ jobs:
           cp -a .ddd-territorial-product/sources/. .ddd-source-package/
           test -f "$RUNS_DIR/CHAIN_STATE.json"
           test -f .ddd-source-package/manifest.json
+          # El overlay sólo añade M07/M08 al mismo contrato territorial. Registrar
+          # explícitamente la transición para que el encadenamiento mantenga trazabilidad
+          # y no confunda el path del contrato M01–M06 con el contrato runtime electoral.
+          python - "$RUNS_DIR/CHAIN_STATE.json" "$PARAMS" <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]); runtime=sys.argv[2]
+          state=json.loads(p.read_text(encoding="utf-8"))
+          previous=state.get("params")
+          if previous != runtime:
+              state["territorial_params"]=previous
+              state["params"]=runtime
+              state["electoral_runtime_overlay"]=True
+              p.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
 
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
 

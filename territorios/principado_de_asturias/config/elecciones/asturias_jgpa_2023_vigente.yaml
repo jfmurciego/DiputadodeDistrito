@@ -1,0 +1,177 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Principado de Asturias
+# COMPONENTE: resolución y adquisición electoral vigente para edición territorial 2025
+# VERSIÓN: 1.0.0
+# FECHA: 2026-09-21
+schema: ddd-election-official-source-declaration/1.0
+territory_id: principado_de_asturias
+title: Elecciones a la Junta General del Principado de Asturias 2023
+election_id: asturias_jgpa_2023
+election_date: '2023-05-28'
+selection_mode: first_ready
+minimum_resolution: polling_station
+max_download_bytes: 2000000
+allowed_source_hosts:
+  - pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+official_reference_urls:
+  - https://actualidad.asturias.es/-/el-gobierno-de-asturias-pone-en-marcha-un-amplio-dispositivo-de-seguimiento-para-facilitar-la-difusi%C3%B3n-de-los-resultados-electorales-del-28m
+  - https://resultadosasturias2023.infoelecciones.com/
+sources:
+  - id: asturias_2023_mesas_verified_mirror
+    publisher: GIPEYOP / Spain Electoral Project (mirror auditable)
+    url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx
+    access: public
+    required: true
+    source_class: verified_mirror
+    declared_resolution: polling_station
+    format: xlsx
+    granularity_markers: []
+    transform:
+      kind: gipeyop_polling_xlsx
+      sheet: MESAS
+      election_year: '2023'
+
+reconciliation:
+  policy: fail_unless_declared
+  allowed_result_only_sections:
+    - section_id: '3300401020'
+      expected_votes: 243
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3301601015'
+      expected_votes: 395
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3302406008'
+      expected_votes: 278
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3302408014'
+      expected_votes: 314
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3303402002'
+      expected_votes: 775
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3303701042'
+      expected_votes: 316
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3304501005'
+      expected_votes: 340
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: '3307201003'
+      expected_votes: 340
+      reason: sección electoral 2023 sin CUSEC idéntica en el seccionado territorial 2025
+    - section_id: 'SPECIAL:33:044:01:-01'
+      expected_votes: 8340
+      reason: registro electoral especial 2023 sin geometría censal equivalente en el seccionado territorial 2025
+    - section_id: 'SPECIAL:33:044:01:-00'
+      expected_votes: 22999
+      reason: registro electoral especial 2023 sin geometría censal equivalente en el seccionado territorial 2025
+  allowed_map_only_sections:
+    - section_id: '3302405023'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3302409020'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410002'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410004'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410005'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410006'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410007'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410008'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410009'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410010'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410011'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410013'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410015'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304410016'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411002'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411004'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411005'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411006'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411007'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411008'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411009'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411010'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304411011'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412002'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412004'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412005'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412006'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412007'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412008'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412009'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412011'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412012'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412013'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412014'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412015'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304412016'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304413001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304413003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304414001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304414003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304415001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304415003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304415005'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304416001'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304416003'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304416004'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
+    - section_id: '3304416006'
+      reason: sección territorial 2025 sin resultado electoral 2023 con CUSEC idéntica
