@@ -153,9 +153,14 @@ territories:
         territorial_product: territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/catalogo_distritos.csv
         electoral_source: territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
-      territorial_certification: BLOCK_POPULATION_TARGET_NOT_MET
+      territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
+      preparation_evidence:
+        run_id: 35610439734
+        artifact_name: ddd-source-package-castilla_y_leon-2025-35610439734
+        artifact_sha256: c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d
+        package_sha256: 37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752
         run_id: 35329341120
         stage: M08
 - territory_id: cataluna

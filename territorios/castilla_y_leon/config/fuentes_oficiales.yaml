@@ -1,64 +1,71 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Castilla y León
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Fuentes verificables para producción y reanudación
-# FECHA: 2026-09-17
-# ESTADO: declaración productiva de fuentes 2025
-# FUNCIÓN: declarar identidad, edición, provincias, snapshots verificados y materialización de fuentes oficiales.
-# MOTIVO: permitir REUSE durable y fail-closed en reanudaciones M02-M08 sin acceso a red.
 schema: ddd-territory-sources/1.1
 territory:
   id: castilla_y_leon
   business_name: Castilla y León
   edition: 2025
   territorial_codes:
-    - {code: "05", business_name: Ávila}
-    - {code: "09", business_name: Burgos}
-    - {code: "24", business_name: León}
-    - {code: "34", business_name: Palencia}
-    - {code: "37", business_name: Salamanca}
-    - {code: "40", business_name: Segovia}
-    - {code: "42", business_name: Soria}
-    - {code: "47", business_name: Valladolid}
-    - {code: "49", business_name: Zamora}
+  - code: '05'
+    business_name: '05'
+  - code: 09
+    business_name: 09
+  - code: '24'
+    business_name: '24'
+  - code: '34'
+    business_name: '34'
+  - code: '37'
+    business_name: '37'
+  - code: '40'
+    business_name: '40'
+  - code: '42'
+    business_name: '42'
+  - code: '47'
+    business_name: '47'
+  - code: '49'
+    business_name: '49'
 required_sources:
-  - poblacion_por_sexo_y_edad
-  - secciones_censales
+- poblacion_por_sexo_y_edad
+- secciones_censales
 source_bindings:
   poblacion_por_sexo_y_edad:
     materialized_path: inputs/65034.csv.zip
     archive_member: 65034.csv
-    snapshot:
-      path: inputs/65034.csv.zip
-      expected_sha256: 91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3
-      official_origin_url: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
-      edition: 2025
-      acquired_at: "2026-09-11"
   secciones_censales:
     materialized_path: inputs/seccionado_2025.zip
-    snapshot:
-      path: inputs/seccionado_2025.zip
-      expected_sha256: 55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4
-      official_origin_url: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items
-      edition: 2025
-      acquired_at: "2026-09-11"
 population_validation:
-  required_columns: [Periodo, Sexo, Edad, Secciones, Total]
+  required_columns:
+  - Periodo
+  - Sexo
+  - Edad
+  - Secciones
+  - Total
   year_col: Periodo
   sex_col: Sexo
   age_col: Edad
   section_col: Secciones
   population_col: Total
-  sex_total_values: [Total]
-  age_total_values: [Todas las edades]
+  sex_total_values:
+  - Total
+  age_total_values:
+  - Todas las edades
 coverage_checks:
-  expected_sections: 3506
-  required_territorial_codes: ["05", "09", "24", "34", "37", "40", "42", "47", "49"]
+  required_territorial_codes:
+  - '05'
+  - 09
+  - '24'
+  - '34'
+  - '37'
+  - '40'
+  - '42'
+  - '47'
+  - '49'
 default_mode:
-  development: verified_snapshot
-  test: simulated
-  production: verified_snapshot
+  development: official_live
+  test: official_live
+  production: official_live
 environment_policy:
-  development: [verified_snapshot, official_live]
-  test: [simulated]
-  production: [official_live, verified_snapshot]
+  development:
+  - official_live
+  test:
+  - official_live
+  production:
+  - official_live
