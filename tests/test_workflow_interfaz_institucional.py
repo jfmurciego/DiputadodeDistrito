@@ -84,6 +84,10 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
 
+    def test_manual_generation_persists_state_by_default(self):
+        text=GEN.read_text(encoding="utf-8")
+        self.assertIn("persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}",text)
+
     def test_checkpoint_selection_and_engine_are_preserved(self):
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",ELECTORAL.read_text(encoding="utf-8"))
