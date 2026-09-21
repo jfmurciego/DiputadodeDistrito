@@ -92,7 +92,7 @@ class StrategyConfig:
     seed_base: int = 20260920
     seed_count: int = 4
     proposal_epsilon: float = 0.12
-    comarca_surcharge: float = 0.30
+    comarca_surcharge: float = 0.0
     population_band: float = 0.005
     metric_crs: str = "EPSG:3035"
     min_shared_border_m: float = 1.0
@@ -271,7 +271,7 @@ def strategy_config_from_yaml(cfg: Mapping[str, Any]) -> StrategyConfig:
         seed_base=int(raw.get("seed_base", 20260920)),
         seed_count=int(raw.get("seed_count", 4)),
         proposal_epsilon=float(raw.get("proposal_epsilon", default_epsilon)),
-        comarca_surcharge=float(raw.get("comarca_surcharge", 0.30)),
+        comarca_surcharge=float(raw.get("comarca_surcharge", 0.0)),
         population_band=float(raw.get("population_band", 0.005)),
         metric_crs=str(raw.get("metric_crs") or s6.get("metric_crs") or s2.get("working_crs") or "EPSG:3035"),
         min_shared_border_m=float(raw.get("min_shared_border_m", s2.get("min_shared_border_m", 1.0))),

@@ -66,9 +66,14 @@ class ContractTests(unittest.TestCase):
         }
         s = strategy_config_from_yaml(cfg)
         self.assertEqual(s.proposal_epsilon, 0.09)
+        self.assertEqual(s.comarca_surcharge, 0.0)
         self.assertEqual(s.population_band, 0.005)
         self.assertEqual(s.metric_crs, "EPSG:3035")
         self.assertEqual(s.min_shared_border_m, 1.0)
+
+    def test_strategy_config_default_comarca_is_neutral(self):
+        self.assertEqual(StrategyConfig().comarca_surcharge, 0.0)
+        self.assertEqual(strategy_config_from_yaml({}).comarca_surcharge, 0.0)
 
     def test_resolve_paths_honours_project_root(self):
         with tempfile.TemporaryDirectory() as td:
