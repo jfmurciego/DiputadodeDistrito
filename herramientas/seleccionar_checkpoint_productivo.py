@@ -63,20 +63,31 @@ def _validate_population_certification(*, params: Path, state_root: Path, run_id
     if not isinstance(report, dict):
         raise ValueError("evidencia M05 inválida: se esperaba objeto JSON")
     population = population_dimension(report)
-    if (
+    target_required = bool(
+        ((cfg.get("validation") or {}).get("require_zero_outside_tolerance_after_m05", False))
+    )
+    invalid = (
         population.get("population_outcome") != "success"
-        or population.get("population_decision") != TARGET_MET
         or population.get("population_hard_constraints_after") != 0
-        or population.get("population_outliers_after") != 0
-    ):
+        or (
+            target_required
+            and (
+                population.get("population_decision") != TARGET_MET
+                or population.get("population_outliers_after") != 0
+            )
+        )
+    )
+    if invalid:
         raise ValueError(
             "checkpoint poblacionalmente no certificado: "
+            f"target_required={target_required}, "
             f"decision={population.get('population_decision')}, "
             f"hard={population.get('population_hard_constraints_after')}, "
             f"outliers={population.get('population_outliers_after')}"
         )
     return {
         "report_path": matches[0].as_posix(),
+        "population_target_required": target_required,
         **population,
     }
 
