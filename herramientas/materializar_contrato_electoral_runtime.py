@@ -50,7 +50,7 @@ def materialize(params: Path, validation: Path, output: Path) -> Path:
         "in_district_geojson": m06_districts,
         "in_district_summary_csv": m07["out_district_summary_csv"],
         "out_districts_with_results_geojson": f"{cache_dir}/{{run_name}}_m08_distritos_resultados.geojson.zip",
-        "allow_declared_map_only_districts": True,
+        "allow_declared_map_only_districts": False,
     }
     modules["modulo_07_agregar_resultados_electorales"] = m07
     modules["modulo_08_integrar_resultados"] = m08
