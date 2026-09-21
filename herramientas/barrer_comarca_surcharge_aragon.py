@@ -4,17 +4,21 @@
 No publica, no promueve y no modifica el catálogo. Reutiliza M03/M04 ya
 preparados, ejecuta la misma estrategia GerryChain con semillas idénticas para
 cada surcharge y persiste únicamente métricas comparables en JSON/CSV.
+La línea base histórica se calcula desde su asignación CSV canónica y queda
+atada a ella mediante SHA-256.
 """
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 from collections import defaultdict
 from dataclasses import replace
 from pathlib import Path
 
 import geopandas as gpd
+import pandas as pd
 import yaml
 
 from ddd_core.comarcas import load_comarcas, normalize_municipality_key
@@ -30,22 +34,9 @@ from ddd_core.m05_gerrychain_strategy import (
 
 SCHEMA = "ddd.gerrychain-comarca-sweep/1.2"
 
-BASELINE_CANONICAL = {
-    "row_type": "baseline_canonico",
-    "source_artifact": "gh-34599224954-1",
-    "comarca_surcharge": None,
-    "seed": None,
-    "selected_for_surcharge": None,
-    "comarcas_divididas": 31,
-    "comarcas_divididas_evitables": 20,
-    "retencion_comarcal": 0.290,
-    "retencion_techo_teorico": 0.352,
-    "retencion_sobre_maximo": 0.822,
-    "polsby_popper_min": None,
-    "polsby_popper_median": None,
-    "max_relative_deviation": 0.09930,
-    "assignment_hash": None,
-}
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _enrich_with_comarcas(initial: Path, comarca_csv: Path, output: Path) -> Path:
@@ -83,14 +74,10 @@ def comarca_metrics(problem, assignment, *, target_tolerance_ratio: float) -> di
         covered_population += population
         by_comarca[str(comarca)][district] += population
 
-    comarca_totals = {
-        comarca: sum(pieces.values())
-        for comarca, pieces in by_comarca.items()
-    }
+    comarca_totals = {comarca: sum(pieces.values()) for comarca, pieces in by_comarca.items()}
     single_district_ceiling = problem.target_population * (1.0 + target_tolerance_ratio)
     split = sum(
-        1
-        for pieces in by_comarca.values()
+        1 for pieces in by_comarca.values()
         if len([population for population in pieces.values() if population > 0]) > 1
     )
     split_avoidable = sum(
@@ -101,15 +88,8 @@ def comarca_metrics(problem, assignment, *, target_tolerance_ratio: float) -> di
     )
     retained_population = sum(max(pieces.values()) for pieces in by_comarca.values() if pieces)
     retention = retained_population / covered_population if covered_population else None
-    theoretical_retained_population = sum(
-        min(total, single_district_ceiling)
-        for total in comarca_totals.values()
-    )
-    retention_ceiling = (
-        theoretical_retained_population / covered_population
-        if covered_population
-        else None
-    )
+    theoretical_retained_population = sum(min(total, single_district_ceiling) for total in comarca_totals.values())
+    retention_ceiling = theoretical_retained_population / covered_population if covered_population else None
     retention_over_maximum = (
         retention / retention_ceiling
         if retention is not None and retention_ceiling
@@ -122,6 +102,89 @@ def comarca_metrics(problem, assignment, *, target_tolerance_ratio: float) -> di
         "retencion_techo_teorico": retention_ceiling,
         "retencion_sobre_maximo": retention_over_maximum,
         "poblacion_maxima_comarca_en_un_distrito": single_district_ceiling,
+    }
+
+
+def _assignment_from_baseline_csv(
+    problem,
+    baseline_csv: Path,
+    *,
+    section_field: str = "CUSEC_KEY",
+    unit_field: str = "ddd_unit_id",
+    district_field: str = "district_id",
+) -> dict[str, int]:
+    source = pd.read_csv(baseline_csv, dtype={section_field: str})
+    missing = sorted({section_field, district_field} - set(source.columns))
+    if missing:
+        raise ValueError("CSV de línea base sin columnas requeridas: " + ", ".join(missing))
+    if source[section_field].duplicated().any():
+        raise ValueError("CSV de línea base contiene secciones duplicadas")
+
+    sections = problem.sections[[section_field, unit_field]].copy()
+    sections[section_field] = sections[section_field].astype(str)
+    merged = sections.merge(
+        source[[section_field, district_field]],
+        on=section_field,
+        how="left",
+        validate="one_to_one",
+    )
+    if merged[district_field].isna().any():
+        missing_ids = merged.loc[merged[district_field].isna(), section_field].tolist()
+        raise ValueError(f"Línea base no cubre {len(missing_ids)} secciones: {missing_ids[:10]}")
+    if set(source[section_field]) != set(sections[section_field]):
+        extras = sorted(set(source[section_field]) - set(sections[section_field]))
+        raise ValueError(f"Línea base tiene universo distinto de M04; extras={extras[:10]}")
+
+    merged[district_field] = pd.to_numeric(merged[district_field], errors="raise").astype(int)
+    split_units = merged.groupby(unit_field)[district_field].nunique()
+    bad = split_units[split_units != 1]
+    if not bad.empty:
+        raise ValueError(f"Línea base parte unidades indivisibles actuales: {list(bad.index[:10])}")
+
+    assignment = {
+        str(unit): int(rows[district_field].iloc[0])
+        for unit, rows in merged.groupby(unit_field, sort=True)
+    }
+    if set(assignment) != set(problem.units):
+        raise ValueError("La línea base no cubre exactamente las unidades del problema")
+    return assignment
+
+
+def calculate_baseline(problem, contract, baseline_csv: Path, source_artifact: str, expected_sha256: str) -> dict:
+    observed_sha256 = _sha256(baseline_csv)
+    if observed_sha256 != expected_sha256:
+        raise ValueError(
+            f"SHA-256 inesperado para línea base: {observed_sha256}; esperado={expected_sha256}"
+        )
+    assignment = _assignment_from_baseline_csv(problem, baseline_csv)
+    comarca = comarca_metrics(
+        problem,
+        assignment,
+        target_tolerance_ratio=contract.target_tolerance_ratio,
+    )
+    shape = geometric_shape_metrics(problem, assignment)
+    population = population_metrics(problem, assignment, contract)
+    violations = hard_constraint_violations(problem, assignment, contract)
+    return {
+        "row_type": "baseline_canonico",
+        "source_artifact": source_artifact,
+        "source_path": baseline_csv.as_posix(),
+        "source_sha256": observed_sha256,
+        "baseline_valid_under_current_contract": not violations,
+        "hard_constraint_violation_count": len(violations),
+        "hard_constraint_violations": violations[:20],
+        "comarca_surcharge": None,
+        "seed": None,
+        "selected_for_surcharge": None,
+        "comarcas_divididas": comarca["comarcas_divididas"],
+        "comarcas_divididas_evitables": comarca["comarcas_divididas_evitables"],
+        "retencion_comarcal": comarca["retencion_comarcal"],
+        "retencion_techo_teorico": comarca["retencion_techo_teorico"],
+        "retencion_sobre_maximo": comarca["retencion_sobre_maximo"],
+        "polsby_popper_min": shape["polsby_popper_min"],
+        "polsby_popper_median": shape["polsby_popper_median"],
+        "max_relative_deviation": population["max_relative_deviation"],
+        "assignment_hash": None,
     }
 
 
@@ -145,6 +208,11 @@ def rows_from_portfolio(problem, contract, surcharge: float, portfolio: dict) ->
         rows.append({
             "row_type": "barrido",
             "source_artifact": None,
+            "source_path": None,
+            "source_sha256": None,
+            "baseline_valid_under_current_contract": None,
+            "hard_constraint_violation_count": None,
+            "hard_constraint_violations": None,
             "comarca_surcharge": surcharge,
             "seed": run["seed"],
             "selected_for_surcharge": run["assignment_hash"] == selected_hash,
@@ -175,6 +243,11 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
     territorial = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     contract = contract_from_yaml(territorial)
     base = strategy_config_from_yaml(territorial)
+    baseline_spec = spec.get("baseline") or {}
+    baseline_csv = Path(str(baseline_spec["source_assignment_csv"]))
+    source_artifact = str(baseline_spec["source_artifact"])
+    expected_sha256 = str(baseline_spec["source_sha256"])
+
     output_dir.mkdir(parents=True, exist_ok=True)
     enriched = _enrich_with_comarcas(initial, comarca_csv, output_dir / "m04_comarcas.geojson")
     problem = prepare_problem(
@@ -184,6 +257,7 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
         metric_crs=base.metric_crs,
         min_shared_border_m=base.min_shared_border_m,
     )
+    baseline = calculate_baseline(problem, contract, baseline_csv, source_artifact, expected_sha256)
 
     rows = []
     for surcharge in surcharges:
@@ -201,13 +275,13 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
         "min_shared_border_m": base.min_shared_border_m,
         "seed_count": base.seed_count,
         "expected_rows": len(surcharges) * base.seed_count,
-        "baseline": BASELINE_CANONICAL,
+        "baseline": baseline,
         "rows": rows,
     }
     json_path = output_dir / "barrido_comarca_surcharge_aragon.json"
     csv_path = output_dir / "barrido_comarca_surcharge_aragon.csv"
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    csv_rows = [BASELINE_CANONICAL, *rows]
+    csv_rows = [baseline, *rows]
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(csv_rows[0]) if csv_rows else [])
         writer.writeheader()

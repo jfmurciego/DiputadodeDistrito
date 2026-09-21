@@ -1,10 +1,14 @@
 from pathlib import Path
+import tempfile
 import unittest
+
+import pandas as pd
 import yaml
 
 from ddd_core.m05_gerrychain_strategy import PreparedProblem, StrategyContract
 from herramientas.barrer_comarca_surcharge_aragon import (
-    BASELINE_CANONICAL,
+    _assignment_from_baseline_csv,
+    _sha256,
     comarca_metrics,
     rows_from_portfolio,
 )
@@ -22,11 +26,14 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
         self.assertFalse(cfg["publication"])
         self.assertEqual(cfg["persistence"], "metrics_only")
         self.assertEqual(cfg["baseline"]["source_artifact"], "gh-34599224954-1")
-        self.assertEqual(cfg["baseline"]["comarcas_divididas"], 31)
-        self.assertEqual(cfg["baseline"]["comarcas_divididas_evitables"], 20)
-        self.assertAlmostEqual(cfg["baseline"]["retencion_comarcal"], 0.290)
-        self.assertAlmostEqual(cfg["baseline"]["retencion_techo_teorico"], 0.352)
-        self.assertAlmostEqual(cfg["baseline"]["retencion_sobre_maximo"], 0.822)
+        self.assertEqual(
+            cfg["baseline"]["source_assignment_csv"],
+            "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M05/asignacion_optimizada.csv",
+        )
+        self.assertEqual(
+            cfg["baseline"]["source_sha256"],
+            "456d3982313037a629b80f218b2061a5418ecb3ee77f6a5d7a782d5aba4ec45c",
+        )
         self.assertEqual(
             cfg["metrics"],
             [
@@ -55,11 +62,7 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
             frozen_districts={},
             target_population=100.0,
         )
-        metrics = comarca_metrics(
-            problem,
-            problem.initial_assignment,
-            target_tolerance_ratio=0.12,
-        )
+        metrics = comarca_metrics(problem, problem.initial_assignment, target_tolerance_ratio=0.12)
         self.assertEqual(metrics["comarcas_divididas"], 1)
         self.assertEqual(metrics["comarcas_divididas_evitables"], 1)
         self.assertAlmostEqual(metrics["retencion_comarcal"], 0.8)
@@ -103,13 +106,31 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
         self.assertEqual({row["comarca_surcharge"] for row in rows}, {0.5})
         self.assertEqual({row["row_type"] for row in rows}, {"barrido"})
 
-    def test_canonical_baseline_is_preserved_verbatim(self):
-        self.assertEqual(BASELINE_CANONICAL["source_artifact"], "gh-34599224954-1")
-        self.assertEqual(BASELINE_CANONICAL["comarcas_divididas"], 31)
-        self.assertEqual(BASELINE_CANONICAL["comarcas_divididas_evitables"], 20)
-        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_comarcal"], 0.290)
-        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_techo_teorico"], 0.352)
-        self.assertAlmostEqual(BASELINE_CANONICAL["retencion_sobre_maximo"], 0.822)
+    def test_baseline_assignment_and_sha_are_derived_from_source_csv(self):
+        sections = pd.DataFrame({
+            "CUSEC_KEY": ["s1", "s2", "s3"],
+            "ddd_unit_id": ["u1", "u1", "u2"],
+        })
+        problem = PreparedProblem(
+            sections=sections,
+            units={
+                "u1": {"population": 100.0},
+                "u2": {"population": 50.0},
+            },
+            edges=[],
+            initial_assignment={"u1": 1, "u2": 2},
+            frozen_districts={},
+            target_population=75.0,
+        )
+        with tempfile.TemporaryDirectory() as td:
+            source = Path(td) / "baseline.csv"
+            source.write_text(
+                "CUSEC_KEY,district_id\ns1,7\ns2,7\ns3,9\n",
+                encoding="utf-8",
+            )
+            assignment = _assignment_from_baseline_csv(problem, source)
+            self.assertEqual(assignment, {"u1": 7, "u2": 9})
+            self.assertEqual(len(_sha256(source)), 64)
 
     def test_retention_ceiling_accounts_for_unavoidable_large_comarca(self):
         problem = PreparedProblem(
@@ -124,11 +145,7 @@ class BarridoComarcaSurchargeTests(unittest.TestCase):
             frozen_districts={},
             target_population=100.0,
         )
-        metrics = comarca_metrics(
-            problem,
-            problem.initial_assignment,
-            target_tolerance_ratio=0.12,
-        )
+        metrics = comarca_metrics(problem, problem.initial_assignment, target_tolerance_ratio=0.12)
         self.assertEqual(metrics["comarcas_divididas"], 1)
         self.assertEqual(metrics["comarcas_divididas_evitables"], 0)
         self.assertAlmostEqual(metrics["retencion_comarcal"], 2 / 3)

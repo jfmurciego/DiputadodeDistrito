@@ -16,14 +16,12 @@ publication: false
 persistence: metrics_only
 baseline:
   source_artifact: gh-34599224954-1
-  comarcas_divididas: 31
-  comarcas_divididas_evitables: 20
-  retencion_comarcal: 0.290
-  retencion_techo_teorico: 0.352
-  retencion_sobre_maximo: 0.822
-  max_relative_deviation: 0.09930
+  source_assignment_csv: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M05/asignacion_optimizada.csv
+  source_sha256: 456d3982313037a629b80f218b2061a5418ecb3ee77f6a5d7a782d5aba4ec45c
 notes:
   - Cada valor usa la misma configuración territorial y las mismas cuatro semillas.
   - Se guarda una fila por semilla y surcharge; el mapa seleccionado no sustituye a las otras cadenas.
+  - La línea base se recalcula desde su CSV canónico, cuya huella SHA-256 esperada queda fijada en este contrato experimental.
+  - La línea base se evalúa también con las restricciones duras vigentes y se etiqueta como referencia histórica, no como alternativa promovible.
   - La retención se normaliza también contra el máximo teórico impuesto por objetivo × 1,12.
   - El barrido no modifica el contrato territorial, el catálogo, el visor ni ningún mapa promovido.
