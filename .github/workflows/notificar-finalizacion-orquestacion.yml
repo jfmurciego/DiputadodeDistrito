@@ -18,8 +18,7 @@ jobs:
   avisar:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/github-script@v7
-        with:
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
           script: |
             const run = context.payload.workflow_run;
             const body = "✅ @jfmurciego: lote terminado.\n\n- Workflow: **" + run.name + "**\n- Resultado: **" + (run.conclusion || "unknown").toUpperCase() + "**\n- Run: " + run.html_url + "\n- Reenganche: docs/SALIDAS_CHATGPT/PUNTO_REENGANCHE.md";
