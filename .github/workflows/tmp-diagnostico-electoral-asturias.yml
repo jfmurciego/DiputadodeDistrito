@@ -313,6 +313,20 @@ jobs:
               overlaps.sort(key=lambda x:x["old_area_share"],reverse=True)
               detail.append({"from":oid,"overlaps":overlaps[:20],"covered_share":sum(x["old_area_share"] for x in overlaps)})
           print("INE_ASTURIAS_CROSSWALK_DETAIL",json.dumps(detail,sort_keys=True))
+          reverse=[]
+          for nf in a25:
+              nid=str(nf["properties"]["CUSEC"])
+              if nid in ids23: continue
+              ng=shape(nf["geometry"]); denom=ng.area or 1
+              overlaps=[]
+              for of in a23:
+                  og=shape(of["geometry"]); oid=str(of["properties"]["CUSEC"])
+                  inter=ng.intersection(og).area
+                  if inter>0:
+                      overlaps.append({"from":oid,"new_area_share":inter/denom,"intersection_area":inter})
+              overlaps.sort(key=lambda x:x["new_area_share"],reverse=True)
+              reverse.append({"to":nid,"overlaps":overlaps[:20],"covered_share":sum(x["new_area_share"] for x in overlaps)})
+          print("INE_ASTURIAS_NEW_SECTIONS_PARENT",json.dumps(reverse,sort_keys=True))
           ov23={x for x in ids23 if x.startswith("33044")}
           source_normal_ids=set(json.load(open("/tmp/oviedo_normal_ids.json")))
           print("GIPEYOP_OVIEDO_MISSING_VS_INE2023",json.dumps(sorted(ov23-source_normal_ids)))
