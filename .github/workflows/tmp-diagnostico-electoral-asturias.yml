@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5 shapely==2.1.1
+      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5 shapely==2.1.1 pyreadr==0.5.3
       - name: Inspeccionar filas especiales GIPEYOP
         shell: bash
         run: |
@@ -123,6 +123,92 @@ jobs:
           delta={p:full.get(p,0)-official.get(p,0) for p in sorted(set(full)|set(official))}
           print("MIRROR_MINUS_OFFICIAL",json.dumps(delta,ensure_ascii=False,sort_keys=True))
           print("VERIFY_TOTALS",sum(cer.values()),sum(cera.values()),sum(full.values()),sum(official.values()))
+          wb.close()
+          PY
+
+      - name: Cruzar mesas autonómicas anómalas con municipales oficiales
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.request, pyreadr, pandas as pd, openpyxl
+          url="https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/00b-municipales/mesas.rds"
+          path="/tmp/municipales_mesas.rds"
+          req=urllib.request.Request(url,headers={"User-Agent":"DDD-official-election-source-check/1.0"})
+          with urllib.request.urlopen(req,timeout=90) as response:
+              open(path,"wb").write(response.read())
+          obj=pyreadr.read_r(path)
+          df=next(iter(obj.values()))
+          print("MUNICIPALES_COLUMNS",json.dumps(list(df.columns),ensure_ascii=False))
+          # Seleccionar 2023 y Oviedo a partir de nombres de columna disponibles.
+          def col(*names):
+              lower={str(c).lower():c for c in df.columns}
+              for n in names:
+                  if n.lower() in lower: return lower[n.lower()]
+              return None
+          year=col("year","anyo","año"); prov=col("codigo_provincia","cod_prov","provincia")
+          mun=col("codigo_municipio","cod_mun","municipio"); district=col("codigo_distrito","distrito")
+          section=col("codigo_seccion","seccion"); mesa=col("codigo_mesa","mesa"); census=col("censo_ine","censo","censo_total")
+          print("MUNICIPALES_KEYS",json.dumps({"year":year,"prov":prov,"mun":mun,"district":district,"section":section,"mesa":mesa,"census":census},ensure_ascii=False))
+          work=df.copy()
+          if year:
+              y=pd.to_numeric(work[year],errors="coerce")
+              work=work[y.eq(2023)]
+          if prov:
+              p=work[prov].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(2)
+              work=work[p.eq("33")]
+          if mun:
+              m=work[mun].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(3)
+              work=work[m.eq("044")]
+          print("MUNICIPALES_OVIEDO_ROWS",len(work))
+          keys=[x for x in [district,section,mesa,census] if x]
+          print("MUNICIPALES_OVIEDO_SAMPLE",work[keys].head(10).to_json(orient="records",force_ascii=False))
+
+          # Leer las 81 filas anómalas autonómicas y buscar correspondencia por censo,
+          # preservando orden para diagnosticar si son las mismas mesas.
+          wb=openpyxl.load_workbook("/tmp/Asturias2023_mesas.xlsx",read_only=True,data_only=True)
+          ws=wb["MESAS"]; it=ws.iter_rows(values_only=True); headers=list(next(it))
+          h={str(v).strip().upper():i for i,v in enumerate(headers)}
+          special=[]
+          for idx,row in enumerate(it):
+              yr=str(row[h["ANYO"]] or "").strip()
+              try: yr=str(int(float(yr)))
+              except Exception: pass
+              if yr!="2023": continue
+              mu=str(row[h["COD.MUN"]] or "").strip()
+              try: mu=str(int(float(mu))).zfill(3)
+              except Exception: mu=mu.zfill(3)
+              if mu!="044": continue
+              sec=str(row[h["SECCION"]] or "").strip()
+              if sec not in {"-00","-01"}: continue
+              special.append({"idx":idx,"special":sec,"censo":int(row[h["CENSO.TOTAL"]] or 0),"votos":int(row[h["VOTOS"]] or 0)})
+          print("AUTONOMIC_SPECIAL_ROWS",len(special))
+          if census and district and section and mesa:
+              cand=work.copy()
+              cand["_censo"]=pd.to_numeric(cand[census],errors="coerce").fillna(-1).astype(int)
+              cand["_district"]=cand[district].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(2)
+              cand["_section"]=cand[section].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(3)
+              cand["_mesa"]=cand[mesa].astype(str)
+              # Sólo las secciones INE que faltan en GIPEYOP: distritos 10-16.
+              cand=cand[cand["_district"].isin([str(i).zfill(2) for i in range(10,17)])]
+              print("MUNICIPALES_DIST10_16_ROWS",len(cand))
+              by_census={}
+              for _,r in cand.iterrows():
+                  by_census.setdefault(int(r["_censo"]),[]).append(f'{r["_district"]}{r["_section"]}:{r["_mesa"]}')
+              unique=0; ambiguous=0; unmatched=0
+              mappings=[]
+              used=set()
+              for row in special:
+                  options=[x for x in by_census.get(row["censo"],[]) if x not in used]
+                  if len(options)==1:
+                      chosen=options[0]; used.add(chosen); unique+=1
+                      mappings.append({**row,"target":chosen,"match":"unique_census"})
+                  elif not options:
+                      unmatched+=1; mappings.append({**row,"target":None,"match":"unmatched"})
+                  else:
+                      ambiguous+=1; mappings.append({**row,"target":options,"match":"ambiguous"})
+              print("CENSUS_MATCH_COUNTS",json.dumps({"unique":unique,"ambiguous":ambiguous,"unmatched":unmatched,"used":len(used)}))
+              print("CENSUS_MATCH_SAMPLE",json.dumps(mappings[:20],ensure_ascii=False))
           wb.close()
           PY
 
