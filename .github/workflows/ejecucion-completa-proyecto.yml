@@ -242,7 +242,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_source_run_id }}
       artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || needs.planificar.outputs.existing_territorial_source_artifact }}
-      expected_digest: ${{ needs.preparar_territorial.result == 'success' && '' || needs.planificar.outputs.existing_territorial_source_digest }}
+      expected_digest: ${{ needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
   generar:
@@ -273,7 +273,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.generar.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_product_run_id }}
       artifact_name: ${{ needs.generar.result == 'success' && format('ddd-state-{0}-M06', github.run_id) || needs.planificar.outputs.existing_territorial_product_artifact }}
-      expected_digest: ${{ needs.generar.result == 'success' && '' || needs.planificar.outputs.existing_territorial_product_digest }}
+      expected_digest: ${{ needs.generar.result != 'success' && needs.planificar.outputs.existing_territorial_product_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
   preparar_electoral:
@@ -300,7 +300,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.preparar_electoral.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_source_run_id }}
       artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
-      expected_digest: ${{ needs.preparar_electoral.result == 'success' && '' || needs.planificar.outputs.existing_electoral_source_digest }}
+      expected_digest: ${{ needs.preparar_electoral.result != 'success' && needs.planificar.outputs.existing_electoral_source_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
   incorporar:
@@ -330,7 +330,7 @@ jobs:
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.incorporar.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_product_run_id }}
       artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-state-{0}-M08', github.run_id) || needs.planificar.outputs.existing_electoral_product_artifact }}
-      expected_digest: ${{ needs.incorporar.result == 'success' && '' || needs.planificar.outputs.existing_electoral_product_digest }}
+      expected_digest: ${{ needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
   actualizar_estado:
