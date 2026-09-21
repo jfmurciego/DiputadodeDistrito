@@ -225,6 +225,15 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
     meta = cfg.get("meta") or {}
     s4 = (cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
     s5 = (cfg.get("modulos") or {}).get("modulo_05_optimizar_distritos") or {}
+    partitioning = cfg.get("partitioning") or {}
+    municipality_discipline_field = str(validation.get("municipality_field") or "CUMUN")
+    if (
+        bool(partitioning.get("enabled"))
+        and str(partitioning.get("strategy") or "") == "connected_internal_units"
+    ):
+        municipality_discipline_field = str(
+            partitioning.get("partition_unit_field") or municipality_discipline_field
+        )
     k = int(
         s5.get("expected_districts")
         or s4.get("expected_districts")
@@ -258,12 +267,7 @@ def contract_from_yaml(cfg: Mapping[str, Any]) -> StrategyContract:
         require_single_province=bool(validation.get("require_single_province_per_district", True)),
         require_contiguity=bool(validation.get("require_graph_contiguity", validation.get("require_contiguity", True))),
         require_municipality_discipline=bool(validation.get("require_municipality_discipline", True)),
-        municipality_discipline_field=str(
-            s4.get("municipality_field")
-            or validation.get("municipality_discipline_field")
-            or validation.get("municipality_field")
-            or "CUMUN"
-        ),
+        municipality_discipline_field=municipality_discipline_field,
         max_mixed_districts_per_split_municipality=int(
             validation.get("max_mixed_districts_per_split_municipality", 1)
         ),
