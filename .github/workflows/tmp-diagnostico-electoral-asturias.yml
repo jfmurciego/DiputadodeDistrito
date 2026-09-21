@@ -191,6 +191,7 @@ jobs:
               cand["_mesa"]=cand[mesa].astype(str)
               # Sólo las secciones INE que faltan en GIPEYOP: distritos 10-16.
               cand=cand[cand["_district"].isin([str(i).zfill(2) for i in range(10,17)])]
+              cand=cand.drop_duplicates(["_district","_section","_mesa","_censo"]).copy()
               print("MUNICIPALES_DIST10_16_ROWS",len(cand))
               by_census={}
               for _,r in cand.iterrows():
@@ -209,6 +210,21 @@ jobs:
                       ambiguous+=1; mappings.append({**row,"target":options,"match":"ambiguous"})
               print("CENSUS_MATCH_COUNTS",json.dumps({"unique":unique,"ambiguous":ambiguous,"unmatched":unmatched,"used":len(used)}))
               print("CENSUS_MATCH_SAMPLE",json.dumps(mappings[:20],ensure_ascii=False))
+              ordered=cand.sort_values(["_district","_section","_mesa"],kind="stable")
+              direct=[]
+              for srow,(_,mrow) in zip(special,ordered.iterrows()):
+                  direct.append({
+                      "special":srow["special"],"special_censo":srow["censo"],
+                      "target":f'{mrow["_district"]}{mrow["_section"]}:{mrow["_mesa"]}',
+                      "municipal_censo":int(mrow["_censo"]),
+                      "same_censo":srow["censo"]==int(mrow["_censo"]),
+                  })
+              print("ORDERED_MATCH_COUNTS",json.dumps({
+                  "special":len(special),"municipal":len(ordered),
+                  "same_censo":sum(1 for x in direct if x["same_censo"]),
+                  "different_censo":sum(1 for x in direct if not x["same_censo"]),
+              }))
+              print("ORDERED_MATCH_SAMPLE",json.dumps(direct[:20],ensure_ascii=False))
           wb.close()
           PY
 
