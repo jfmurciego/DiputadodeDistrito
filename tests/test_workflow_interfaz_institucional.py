@@ -84,9 +84,16 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
             text=(WORKFLOWS/reusable).read_text(encoding="utf-8")
             self.assertNotIn("DDD_WORKFLOW_TOKEN",text)
 
-    def test_manual_generation_persists_state_by_default(self):
+    def test_manual_generation_persists_state_by_default_without_overriding_reusable_calls(self):
+        data=self._load(GEN)
+        triggers=data.get(True,data.get("on",{})) or {}
+        call_inputs=((triggers.get("workflow_call") or {}).get("inputs",{}) or {})
+        dispatch_inputs=((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
+        self.assertEqual(call_inputs["invocation_context"]["default"],"reusable")
+        self.assertNotIn("invocation_context",dispatch_inputs)
+        self.assertNotIn("persist_state",dispatch_inputs)
         text=GEN.read_text(encoding="utf-8")
-        self.assertIn("persist_state: ${{ github.event_name == 'workflow_dispatch' || inputs.persist_state }}",text)
+        self.assertIn("persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",text)
 
     def test_checkpoint_selection_and_engine_are_preserved(self):
         self.assertIn("python -m herramientas.seleccionar_checkpoint_productivo",GEN.read_text(encoding="utf-8"))
