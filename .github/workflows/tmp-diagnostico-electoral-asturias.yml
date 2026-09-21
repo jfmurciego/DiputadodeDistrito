@@ -1,0 +1,334 @@
+name: TEMP · Diagnóstico electoral Asturias
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: python -m pip install --disable-pip-version-check openpyxl==3.1.5 shapely==2.1.1 pyreadr==0.5.3
+      - name: Inspeccionar filas especiales GIPEYOP
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import urllib.request, openpyxl, json, re
+          url="https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/03-asturias/gipeyop/Asturias2023_mesas.xlsx"
+          path="/tmp/Asturias2023_mesas.xlsx"
+          req=urllib.request.Request(url,headers={"User-Agent":"DDD-official-election-source-check/1.0"})
+          with urllib.request.urlopen(req,timeout=30) as response:
+              open(path,"wb").write(response.read())
+          wb=openpyxl.load_workbook(path,read_only=True,data_only=True)
+          ws=wb["MESAS"]
+          rows=ws.iter_rows(values_only=True)
+          headers=list(next(rows))
+          print("HEADERS",json.dumps(headers,ensure_ascii=False,default=str))
+          def idx(name):
+              for i,h in enumerate(headers):
+                  if str(h).strip().upper()==name: return i
+              raise KeyError(name)
+          sec_i=idx("SECCION"); mun_i=idx("COD.MUN"); dist_i=idx("DISTRITO"); year_i=idx("ANYO")
+          structural=max(i for i,h in enumerate(headers) if str(h).strip().upper() in {"VOTOS","BLANCOS","NULOS"})
+          grouped={}
+          normal_oviedo=0
+          source_normal_ids=set()
+          for values in rows:
+              if str(values[year_i]).strip() not in {"2023","2023.0"}: continue
+              mun_raw=str(values[mun_i]).strip()
+              try: mun_norm=str(int(float(mun_raw)))
+              except Exception: mun_norm=mun_raw
+              if mun_norm!="44": continue
+              raw=str(values[sec_i]).strip()
+              try: special=float(values[sec_i]) <= 0
+              except Exception: special=not bool(re.fullmatch(r"\\d+",raw))
+              if not special:
+                  normal_oviedo+=1
+                  try:
+                      prov=str(int(float(values[idx("COD.PROV")]))).zfill(2)
+                      mun=str(values[mun_i]).strip().zfill(3)
+                      dist=str(values[dist_i]).strip().zfill(2)
+                      sec=str(values[sec_i]).strip().zfill(3)
+                      source_normal_ids.add(f"{prov}{mun}{dist}{sec}")
+                  except Exception:
+                      pass
+                  continue
+              item=grouped.setdefault(raw,{"rows":0,"censo":0,"votos":0,"blancos":0,"nulos":0,"sample":[],"parties":{}})
+              item["rows"]+=1
+              for key,name in [("censo","CENSO.TOTAL"),("votos","VOTOS"),("blancos","BLANCOS"),("nulos","NULOS")]:
+                  try: item[key]+=int(values[idx(name)] or 0)
+                  except Exception: pass
+              for i in range(structural+1,len(headers)):
+                  party=str(headers[i]); item["parties"][party]=item["parties"].get(party,0)+int(values[i] or 0)
+              if len(item["sample"])<5:
+                  item["sample"].append({
+                      "cod.mesa":values[idx("COD.MESA")],
+                      "distrito":values[dist_i],
+                      "seccion":values[sec_i],
+                      "mesa":values[idx("MESA")],
+                      "censo":values[idx("CENSO.TOTAL")],
+                      "votos":values[idx("VOTOS")],
+                  })
+          print("OVIEDO_NORMAL_ROWS",normal_oviedo)
+          print("OVIEDO_NORMAL_UNIQUE_SECTIONS",len(source_normal_ids))
+          open("/tmp/oviedo_normal_ids.json","w").write(json.dumps(sorted(source_normal_ids)))
+          for key in sorted(grouped):
+              print("SPECIAL_SUMMARY",key,json.dumps(grouped[key],ensure_ascii=False,sort_keys=True))
+          wb.close()
+          PY
+
+      - name: Contrastar CER + CERA del mirror con total oficial
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, openpyxl
+          official={
+            "ANDECHA":1245,"Cs":4974,"FORO.ASTURIAS":19652,"IU.MÁS.PAÍS.IAS":40774,
+            "PACMA":3271,"PCTE":1401,"PODEMOS":21052,"PP":175131,"PSOE":195999,
+            "PUEDE":236,"PUM+J":789,"SMP":1148,"SOS.ASTURIAS":5838,
+            "VERDES.EQUO":1717,"VOX":54273,
+          }
+          wb=openpyxl.load_workbook("/tmp/Asturias2023_mesas.xlsx",read_only=True,data_only=True)
+          ws=wb["MESAS"]; it=ws.iter_rows(values_only=True); headers=list(next(it))
+          h={str(v).strip().upper():i for i,v in enumerate(headers)}
+          structural=max(h[x] for x in ("VOTOS","BLANCOS","NULOS"))
+          parties=[str(headers[i]) for i in range(structural+1,len(headers))]
+          cer={p:0 for p in parties}; cera={p:0 for p in parties}
+          cera_rows=0
+          for row in it:
+              year=str(row[h["ANYO"]] or "").strip()
+              try: year=str(int(float(year)))
+              except Exception: pass
+              if year!="2023": continue
+              mun=str(row[h["COD.MUN"]] or "").strip()
+              try: mun=str(int(float(mun))).zfill(3)
+              except Exception: mun=mun.zfill(3)
+              target=cera if mun in {"991","992","993"} else cer
+              if target is cera: cera_rows+=1
+              for i,p in enumerate(parties,start=structural+1):
+                  try: target[p]+=int(row[i] or 0)
+                  except Exception: pass
+          full={p:cer.get(p,0)+cera.get(p,0) for p in parties}
+          print("MIRROR_CER",json.dumps(cer,ensure_ascii=False,sort_keys=True))
+          print("MIRROR_CERA",json.dumps(cera,ensure_ascii=False,sort_keys=True))
+          print("MIRROR_CERA_ROWS",cera_rows)
+          print("MIRROR_FULL",json.dumps(full,ensure_ascii=False,sort_keys=True))
+          print("OFFICIAL_FINAL",json.dumps(official,ensure_ascii=False,sort_keys=True))
+          delta={p:full.get(p,0)-official.get(p,0) for p in sorted(set(full)|set(official))}
+          print("MIRROR_MINUS_OFFICIAL",json.dumps(delta,ensure_ascii=False,sort_keys=True))
+          print("VERIFY_TOTALS",sum(cer.values()),sum(cera.values()),sum(full.values()),sum(official.values()))
+          wb.close()
+          PY
+
+      - name: Cruzar mesas autonómicas anómalas con municipales oficiales
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.request, pyreadr, pandas as pd, openpyxl
+          url="https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/00b-municipales/mesas.rds"
+          path="/tmp/municipales_mesas.rds"
+          req=urllib.request.Request(url,headers={"User-Agent":"DDD-official-election-source-check/1.0"})
+          with urllib.request.urlopen(req,timeout=90) as response:
+              open(path,"wb").write(response.read())
+          obj=pyreadr.read_r(path)
+          df=next(iter(obj.values()))
+          print("MUNICIPALES_COLUMNS",json.dumps(list(df.columns),ensure_ascii=False))
+          # Seleccionar 2023 y Oviedo a partir de nombres de columna disponibles.
+          def col(*names):
+              lower={str(c).lower():c for c in df.columns}
+              for n in names:
+                  if n.lower() in lower: return lower[n.lower()]
+              return None
+          year=col("year","anno","anyo","año"); prov=col("codigo_provincia","cod_prov","provincia")
+          mun=col("codigo_municipio","cod_mun","municipio"); district=col("codigo_distrito","distrito")
+          section=col("codigo_seccion","seccion"); mesa=col("codigo_mesa","mesa"); census=col("censo_ine","censo","censo_total")
+          print("MUNICIPALES_KEYS",json.dumps({"year":year,"prov":prov,"mun":mun,"district":district,"section":section,"mesa":mesa,"census":census},ensure_ascii=False))
+          work=df.copy()
+          if year:
+              y=pd.to_numeric(work[year],errors="coerce")
+              work=work[y.eq(2023)]
+          if prov:
+              p=work[prov].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(2)
+              work=work[p.eq("33")]
+          if mun:
+              m=work[mun].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(3)
+              work=work[m.eq("044")]
+          print("MUNICIPALES_OVIEDO_ROWS",len(work))
+          keys=[x for x in [district,section,mesa,census] if x]
+          print("MUNICIPALES_OVIEDO_SAMPLE",work[keys].head(10).to_json(orient="records",force_ascii=False))
+
+          # Leer las 81 filas anómalas autonómicas y buscar correspondencia por censo,
+          # preservando orden para diagnosticar si son las mismas mesas.
+          wb=openpyxl.load_workbook("/tmp/Asturias2023_mesas.xlsx",read_only=True,data_only=True)
+          ws=wb["MESAS"]; it=ws.iter_rows(values_only=True); headers=list(next(it))
+          h={str(v).strip().upper():i for i,v in enumerate(headers)}
+          special=[]
+          for idx,row in enumerate(it):
+              yr=str(row[h["ANYO"]] or "").strip()
+              try: yr=str(int(float(yr)))
+              except Exception: pass
+              if yr!="2023": continue
+              mu=str(row[h["COD.MUN"]] or "").strip()
+              try: mu=str(int(float(mu))).zfill(3)
+              except Exception: mu=mu.zfill(3)
+              if mu!="044": continue
+              sec=str(row[h["SECCION"]] or "").strip()
+              if sec not in {"-00","-01"}: continue
+              special.append({"idx":idx,"special":sec,"censo":int(row[h["CENSO.TOTAL"]] or 0),"votos":int(row[h["VOTOS"]] or 0)})
+          print("AUTONOMIC_SPECIAL_ROWS",len(special))
+          if census and district and section and mesa:
+              cand=work.copy()
+              cand["_censo"]=pd.to_numeric(cand[census],errors="coerce").fillna(-1).astype(int)
+              cand["_district"]=cand[district].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(2)
+              cand["_section"]=cand[section].astype(str).str.replace(r"\.0$","",regex=True).str.zfill(3)
+              cand["_mesa"]=cand[mesa].astype(str)
+              # Sólo las secciones INE que faltan en GIPEYOP: distritos 10-16.
+              cand=cand[cand["_district"].isin([str(i).zfill(2) for i in range(10,17)])]
+              cand=cand.drop_duplicates(["_district","_section","_mesa","_censo"]).copy()
+              print("MUNICIPALES_DIST10_16_ROWS",len(cand))
+              by_census={}
+              for _,r in cand.iterrows():
+                  by_census.setdefault(int(r["_censo"]),[]).append(f'{r["_district"]}{r["_section"]}:{r["_mesa"]}')
+              unique=0; ambiguous=0; unmatched=0
+              mappings=[]
+              used=set()
+              for row in special:
+                  options=[x for x in by_census.get(row["censo"],[]) if x not in used]
+                  if len(options)==1:
+                      chosen=options[0]; used.add(chosen); unique+=1
+                      mappings.append({**row,"target":chosen,"match":"unique_census"})
+                  elif not options:
+                      unmatched+=1; mappings.append({**row,"target":None,"match":"unmatched"})
+                  else:
+                      ambiguous+=1; mappings.append({**row,"target":options,"match":"ambiguous"})
+              print("CENSUS_MATCH_COUNTS",json.dumps({"unique":unique,"ambiguous":ambiguous,"unmatched":unmatched,"used":len(used)}))
+              print("CENSUS_MATCH_SAMPLE",json.dumps(mappings[:20],ensure_ascii=False))
+              ordered=cand.sort_values(["_district","_section","_mesa"],kind="stable")
+              direct=[]
+              for srow,(_,mrow) in zip(special,ordered.iterrows()):
+                  direct.append({
+                      "special":srow["special"],"special_censo":srow["censo"],
+                      "target":f'{mrow["_district"]}{mrow["_section"]}:{mrow["_mesa"]}',
+                      "municipal_censo":int(mrow["_censo"]),
+                      "same_censo":srow["censo"]==int(mrow["_censo"]),
+                  })
+              diffs=[x["municipal_censo"]-x["special_censo"] for x in direct]
+              print("ORDERED_MATCH_COUNTS",json.dumps({
+                  "special":len(special),"municipal":len(ordered),
+                  "same_censo":sum(1 for x in direct if x["same_censo"]),
+                  "different_censo":sum(1 for x in direct if not x["same_censo"]),
+                  "municipal_ge_autonomic":sum(1 for d in diffs if d>=0),
+                  "municipal_lt_autonomic":sum(1 for d in diffs if d<0),
+                  "min_diff":min(diffs) if diffs else None,
+                  "max_diff":max(diffs) if diffs else None,
+                  "sum_diff":sum(diffs),
+              }))
+              print("ORDERED_MATCH_ALL",json.dumps(direct,ensure_ascii=False))
+          wb.close()
+          PY
+
+      - name: Comparar seccionado INE Oviedo 2023→2025
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, urllib.parse, urllib.request
+          from shapely.geometry import shape
+
+          base="https://www.ine.es/geoserver/ogc/features/v1/collections/"
+          bbox="-5.95,43.25,-5.72,43.48"
+          headers={"User-Agent":"DDD-INE-section-crosswalk/1.0"}
+          def fetch(year):
+              coll=urllib.parse.quote(f"WMS_INE_SECCIONES_G01:Secciones_{year}",safe="")
+              url=f"{base}{coll}/items?f=json&limit=10000&bbox={bbox}"
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as response:
+                  data=json.load(response)
+              feats=[]
+              for feat in data.get("features",[]):
+                  prop=feat.get("properties") or {}
+                  if str(prop.get("CUMUN") or "")=="33044" and str(prop.get("TIPO") or "").upper()!="DISTRITO":
+                      feats.append(feat)
+              return feats
+          old=fetch(2023); new=fetch(2025)
+          print("INE_OVIEDO_COUNTS",len(old),len(new))
+          old_ids=sorted(str((f.get("properties") or {}).get("CUSEC")) for f in old)
+          new_ids=sorted(str((f.get("properties") or {}).get("CUSEC")) for f in new)
+          print("INE_2023_IDS",json.dumps(old_ids))
+          print("INE_2025_IDS",json.dumps(new_ids))
+          print("INE_RESULT_ONLY",json.dumps(sorted(set(old_ids)-set(new_ids))))
+          print("INE_MAP_ONLY",json.dumps(sorted(set(new_ids)-set(old_ids))))
+          # Area-overlap crosswalk only for changed sections. Geometry is reprojected
+          # by service as CRS84; area ratios are local enough for diagnostic ranking.
+          old_changed=[f for f in old if str((f.get("properties") or {}).get("CUSEC")) not in set(new_ids)]
+          new_changed=[f for f in new if str((f.get("properties") or {}).get("CUSEC")) not in set(old_ids)]
+          rows=[]
+          for of in old_changed:
+              og=shape(of["geometry"]); oid=str(of["properties"]["CUSEC"])
+              denom=og.area or 1
+              overlaps=[]
+              for nf in new_changed:
+                  ng=shape(nf["geometry"]); nid=str(nf["properties"]["CUSEC"])
+                  inter=og.intersection(ng).area
+                  if inter>0:
+                      overlaps.append((nid,inter/denom))
+              overlaps.sort(key=lambda x:x[1],reverse=True)
+              rows.append({"from":oid,"to":overlaps[:10]})
+          print("INE_CROSSWALK",json.dumps(rows,sort_keys=True))
+
+          # Asturias completa: distinguir cambios reales de seccionado de errores de codificación.
+          def fetch_asturias(year):
+              coll=urllib.parse.quote(f"WMS_INE_SECCIONES_G01:Secciones_{year}",safe="")
+              url=f"{base}{coll}/items?f=json&limit=10000&bbox=-7.3,42.7,-4.3,43.9"
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=60) as response:
+                  data=json.load(response)
+              return [f for f in data.get("features",[]) if str((f.get("properties") or {}).get("CPRO") or "")=="33" and str((f.get("properties") or {}).get("TIPO") or "").upper()!="DISTRITO"]
+          a23=fetch_asturias(2023); a25=fetch_asturias(2025)
+          ids23={str(f["properties"]["CUSEC"]) for f in a23}
+          ids25={str(f["properties"]["CUSEC"]) for f in a25}
+          print("INE_ASTURIAS_COUNTS",len(ids23),len(ids25))
+          print("INE_ASTURIAS_RESULT_ONLY",json.dumps(sorted(ids23-ids25)))
+          print("INE_ASTURIAS_MAP_ONLY",json.dumps(sorted(ids25-ids23)))
+          # Crosswalk espacial de cada sección 2023 desaparecida contra todas las
+          # secciones 2025. Esto permite distinguir renumeraciones, fusiones y splits.
+          detail=[]
+          for of in a23:
+              oid=str(of["properties"]["CUSEC"])
+              if oid in ids25: continue
+              og=shape(of["geometry"]); denom=og.area or 1
+              overlaps=[]
+              for nf in a25:
+                  ng=shape(nf["geometry"]); nid=str(nf["properties"]["CUSEC"])
+                  inter=og.intersection(ng).area
+                  if inter>0:
+                      overlaps.append({"to":nid,"old_area_share":inter/denom,"intersection_area":inter})
+              overlaps.sort(key=lambda x:x["old_area_share"],reverse=True)
+              detail.append({"from":oid,"overlaps":overlaps[:20],"covered_share":sum(x["old_area_share"] for x in overlaps)})
+          print("INE_ASTURIAS_CROSSWALK_DETAIL",json.dumps(detail,sort_keys=True))
+          reverse=[]
+          for nf in a25:
+              nid=str(nf["properties"]["CUSEC"])
+              if nid in ids23: continue
+              ng=shape(nf["geometry"]); denom=ng.area or 1
+              overlaps=[]
+              for of in a23:
+                  og=shape(of["geometry"]); oid=str(of["properties"]["CUSEC"])
+                  inter=ng.intersection(og).area
+                  if inter>0:
+                      overlaps.append({"from":oid,"new_area_share":inter/denom,"intersection_area":inter})
+              overlaps.sort(key=lambda x:x["new_area_share"],reverse=True)
+              reverse.append({"to":nid,"overlaps":overlaps[:20],"covered_share":sum(x["new_area_share"] for x in overlaps)})
+          print("INE_ASTURIAS_NEW_SECTIONS_PARENT",json.dumps(reverse,sort_keys=True))
+          ov23={x for x in ids23 if x.startswith("33044")}
+          source_normal_ids=set(json.load(open("/tmp/oviedo_normal_ids.json")))
+          print("GIPEYOP_OVIEDO_MISSING_VS_INE2023",json.dumps(sorted(ov23-source_normal_ids)))
+          print("GIPEYOP_OVIEDO_EXTRA_VS_INE2023",json.dumps(sorted(source_normal_ids-ov23)))
+          PY
