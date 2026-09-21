@@ -69,6 +69,15 @@ class ControlesObligatorios(unittest.TestCase):
             "Restaura el control o retíralo del registro con justificación.",
         )
 
+    def test_semantica_contiguedad_no_se_relaja(self) -> None:
+        sem = self.reg["semantica_contigüidad"]
+        self.assertEqual(sem["hard_constraint"], "operational_graph_m03")
+        self.assertEqual(sem["physical_geometry"], "diagnostic_only")
+        self.assertEqual(sem["declared_topology_bridges"], "authoritative")
+        self.assertEqual(sem["fallback_on_invalid_baseline"], "forbidden")
+        self.assertIn("physical_geometry_diagnostics", self.fuente)
+        self.assertIn("BASELINE_INVALID", self.fuente)
+
     def test_comarca_activa_en_propuesta(self) -> None:
         if not self.reg["objetivo"]["comarca_surcharge_activo"]:
             self.skipTest("comarca desactivada explícitamente en el registro")
