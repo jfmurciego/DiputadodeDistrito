@@ -48,7 +48,8 @@ territory_contract:
   - R022 congeló 826 secciones y 1015128 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción no auditada.
   - K y M04 permanecen pendientes.
-  - El run 35542554559 demostró que la atomicidad municipal completa deja dos distritos bajo suelo; se habilitan macro-unidades internas declarativas antes de M04.
+  - El run 35542554559 demostró que la atomicidad municipal completa deja dos distritos
+    bajo suelo; se habilitan macro-unidades internas declarativas antes de M04.
   k_districts: 45
   k_source: norma
   k_rationale: K=45 conserva el tamaño vigente de la Junta General del Principado
