@@ -1,4 +1,4 @@
-schema: ddd.gerrychain-comarca-sweep/1.1
+schema: ddd.gerrychain-comarca-sweep/1.2
 territory_id: aragon
 territorial_params: territorios/aragon/config/aragon_2025.yaml
 comarca_surcharge_values: [0.3, 0.4, 0.5, 0.6, 0.8]
@@ -14,6 +14,14 @@ metrics:
 promotion: forbidden
 publication: false
 persistence: metrics_only
+baseline:
+  source_artifact: gh-34599224954-1
+  comarcas_divididas: 31
+  comarcas_divididas_evitables: 20
+  retencion_comarcal: 0.290
+  retencion_techo_teorico: 0.352
+  retencion_sobre_maximo: 0.822
+  max_relative_deviation: 0.09930
 notes:
   - Cada valor usa la misma configuración territorial y las mismas cuatro semillas.
   - Se guarda una fila por semilla y surcharge; el mapa seleccionado no sustituye a las otras cadenas.
