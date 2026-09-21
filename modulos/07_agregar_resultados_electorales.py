@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.2.0
+VERSIÓN: 7.3.0
 NOMBRE DE VERSIÓN: Contrato electoral universal
 FECHA: 2026-09-14
 QUÉ HACE: verifica convocatoria, fuentes y partidos antes de agregar votos a distritos.
 POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
 ESTADO: vigente — R039
-CAMBIOS: sustituye parámetros de proveedor incrustados por contrato, checksum, adaptador y diccionario.
+CAMBIOS: añade reconciliación declarativa de cambios de seccionado 2023→2025 con aliases 1:1 y splits ponderados por población, conservando exactamente los votos.
 MOTIVO: permitir nuevas elecciones sin tablas ni lógica territorial en M07.
 ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.1.0.py
 """
@@ -161,6 +161,106 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
     return result, section_ids
 
 
+
+def _largest_remainder(total: int, weighted_targets: list[tuple[str, float]]) -> dict[str, int]:
+    if total < 0:
+        raise ValueError("No se pueden reconciliar votos negativos")
+    denominator = sum(max(0.0, float(weight)) for _, weight in weighted_targets)
+    if denominator <= 0:
+        raise ValueError("Split electoral sin peso positivo")
+    exact = [(target, total * max(0.0, float(weight)) / denominator) for target, weight in weighted_targets]
+    base = {target: int(value // 1) for target, value in exact}
+    remaining = total - sum(base.values())
+    order = sorted(exact, key=lambda item: (-(item[1] - int(item[1] // 1)), item[0]))
+    for target, _ in order[:remaining]:
+        base[target] += 1
+    if sum(base.values()) != total:
+        raise AssertionError("El reparto electoral no conserva votos")
+    return base
+
+
+def apply_section_reconciliation(
+    section_party: pd.DataFrame,
+    gdf,
+    *,
+    section_field: str,
+    contract: dict,
+) -> tuple[pd.DataFrame, dict]:
+    policy = contract.get("section_reconciliation") or {}
+    aliases = policy.get("aliases") or []
+    splits = policy.get("splits") or []
+    if not aliases and not splits:
+        return section_party, {"status": "NOT_REQUIRED", "aliases": [], "splits": [], "votes_before": int(section_party["votes"].sum()), "votes_after": int(section_party["votes"].sum())}
+
+    out = section_party.copy()
+    out[section_field] = out[section_field].astype(str)
+    votes_before = int(out["votes"].sum())
+    evidence = {"status": "APPLIED", "aliases": [], "splits": [], "votes_before": votes_before}
+
+    alias_map = {}
+    for item in aliases:
+        source = str(require(item.get("from"), "Alias electoral sin from"))
+        target = str(require(item.get("to"), "Alias electoral sin to"))
+        if source in alias_map and alias_map[source] != target:
+            raise ValueError(f"Alias electoral ambiguo para {source}")
+        alias_map[source] = target
+        evidence["aliases"].append({"from": source, "to": target, "method": item.get("method")})
+    if alias_map:
+        out[section_field] = out[section_field].map(lambda value: alias_map.get(str(value), str(value)))
+        out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
+
+    for rule in splits:
+        source = str(require(rule.get("source_section"), "Split electoral sin source_section"))
+        targets = [str(value) for value in require(rule.get("target_sections"), "Split electoral sin target_sections")]
+        if len(targets) < 2 or source not in targets:
+            raise ValueError(f"Split electoral inválido para {source}: {targets}")
+        if str(rule.get("weighting") or "") != "current_population":
+            raise ValueError(f"Weighting no soportado en split {source}: {rule.get('weighting')}")
+        population_field = str(require(rule.get("population_field"), f"Split {source} sin population_field"))
+        if population_field not in gdf.columns:
+            raise ValueError(f"Split {source}: falta {population_field} en geometría territorial")
+        map_rows = gdf[[section_field, population_field]].copy()
+        map_rows[section_field] = map_rows[section_field].astype(str)
+        if map_rows[section_field].duplicated().any():
+            raise ValueError("La geometría territorial contiene secciones duplicadas al reconciliar elecciones")
+        weights = {}
+        for target in targets:
+            rows = map_rows.loc[map_rows[section_field] == target, population_field]
+            if len(rows) != 1:
+                raise ValueError(f"Split {source}: target {target} ausente o duplicado")
+            weights[target] = float(pd.to_numeric(rows.iloc[0], errors="raise"))
+        source_rows = out.loc[out[section_field] == source].copy()
+        if source_rows.empty:
+            raise ValueError(f"Split declarado pero source_section ausente de resultados: {source}")
+        out = out.loc[out[section_field] != source].copy()
+        allocated = []
+        source_total = int(source_rows["votes"].sum())
+        for row in source_rows.itertuples(index=False):
+            party = getattr(row, "party")
+            votes = int(getattr(row, "votes"))
+            allocation = _largest_remainder(votes, [(target, weights[target]) for target in targets])
+            for target, amount in allocation.items():
+                allocated.append({section_field: target, "party": party, "votes": amount})
+        out = pd.concat([out, pd.DataFrame(allocated)], ignore_index=True)
+        out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
+        evidence["splits"].append({
+            "source_section": source,
+            "target_sections": targets,
+            "population_field": population_field,
+            "weights": weights,
+            "votes_reallocated": source_total,
+            "method": "current_population_largest_remainder",
+            "spatial_evidence": rule.get("spatial_evidence"),
+        })
+
+    votes_after = int(out["votes"].sum())
+    if votes_after != votes_before:
+        raise ValueError(f"Reconciliación electoral altera votos: {votes_before} -> {votes_after}")
+    evidence["votes_after"] = votes_after
+    return out, evidence
+
+
+
 def electoral_outputs(assigned, district_field, parties: PartyDictionary):
     by_party = assigned.groupby([district_field, "party"], as_index=False)["votes"].sum()
     by_party = by_party.rename(columns={district_field: "district_id"})
@@ -212,6 +312,13 @@ def main():
     results = pd.concat([batch[0] for batch in result_batches], ignore_index=True)
     result_section_ids = set().union(*(batch[1] for batch in result_batches))
     section_party = results.groupby([section_field, "party"], as_index=False)["votes"].sum()
+    section_party, section_reconciliation_report = apply_section_reconciliation(
+        section_party,
+        gdf,
+        section_field=section_field,
+        contract=contract,
+    )
+    result_section_ids = set(section_party[section_field].astype(str))
     assigned, report = reconcile_sections(
         mapping,
         section_party,
@@ -220,6 +327,9 @@ def main():
         policy=contract["reconciliation"],
         result_section_ids=result_section_ids,
     )
+    report["section_reconciliation"] = section_reconciliation_report
+    report["source_verification"] = contract.get("source_verification") or {}
+    report["non_geocodable_votes"] = contract.get("non_geocodable_votes") or {}
     report_file = Path(report_path)
     report_file.parent.mkdir(parents=True, exist_ok=True)
     report_file.write_text(
