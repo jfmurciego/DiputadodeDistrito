@@ -1,3 +1,21 @@
+
+## 2026-09-21 — Optimización territorial — autoridad única del grafo operativo
+
+Se corrige la integración GerryChain tras el fallo factual del run Galicia `35586097396`.
+La estrategia alternativa reconstruía una segunda contigüidad desde el contacto físico de
+polígonos y podía rechazar una partición válida en el grafo territorial ya certificado,
+incluidas pasarelas declaradas para islas, rías, enclaves o discontinuidades municipales.
+
+La restricción dura de contigüidad pasa a tener una única autoridad: el grafo operativo
+producido por Construcción del grafo territorial. La discontinuidad física se mantiene como
+diagnóstico separado y auditable, pero no puede invalidar por sí sola una partición conectada
+según dicho grafo. La semántica de aristas de Adyacencias territoriales (`edge_type`,
+`admin_scope`, `reason`, `source`) se conserva en el grafo para trazabilidad.
+
+Además, si GerryChain no produce una salida utilizable, Optimización de distritos ejecuta
+automáticamente la estrategia Canónica y conserva evidencia explícita del fallback. No se
+modifican contratos territoriales, umbrales, reparto provincial ni disciplina municipal.
+
 # Registro de cambios DDD
 
 Registro cronológico acumulativo. No se reescriben entradas antiguas.
