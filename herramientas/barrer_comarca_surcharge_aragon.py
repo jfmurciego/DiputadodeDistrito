@@ -28,7 +28,7 @@ from ddd_core.m05_gerrychain_strategy import (
     strategy_config_from_yaml,
 )
 
-SCHEMA = "ddd.gerrychain-comarca-sweep/1.0"
+SCHEMA = "ddd.gerrychain-comarca-sweep/1.1"
 
 
 def _enrich_with_comarcas(initial: Path, comarca_csv: Path, output: Path) -> Path:
@@ -54,7 +54,7 @@ def _enrich_with_comarcas(initial: Path, comarca_csv: Path, output: Path) -> Pat
     return output
 
 
-def comarca_metrics(problem, assignment) -> dict[str, float | int | None]:
+def comarca_metrics(problem, assignment, *, target_tolerance_ratio: float) -> dict[str, float | int | None]:
     by_comarca: dict[str, dict[object, float]] = defaultdict(lambda: defaultdict(float))
     covered_population = 0.0
     for unit, district in assignment.items():
@@ -65,12 +65,81 @@ def comarca_metrics(problem, assignment) -> dict[str, float | int | None]:
         population = float(row["population"])
         covered_population += population
         by_comarca[str(comarca)][district] += population
-    split = sum(1 for pieces in by_comarca.values() if len([p for p in pieces.values() if p > 0]) > 1)
-    retained = sum(max(pieces.values()) for pieces in by_comarca.values() if pieces)
+
+    comarca_totals = {
+        comarca: sum(pieces.values())
+        for comarca, pieces in by_comarca.items()
+    }
+    single_district_ceiling = problem.target_population * (1.0 + target_tolerance_ratio)
+    split = sum(
+        1
+        for pieces in by_comarca.values()
+        if len([population for population in pieces.values() if population > 0]) > 1
+    )
+    split_avoidable = sum(
+        1
+        for comarca, pieces in by_comarca.items()
+        if comarca_totals[comarca] <= single_district_ceiling + 1e-9
+        and len([population for population in pieces.values() if population > 0]) > 1
+    )
+    retained_population = sum(max(pieces.values()) for pieces in by_comarca.values() if pieces)
+    retention = retained_population / covered_population if covered_population else None
+    theoretical_retained_population = sum(
+        min(total, single_district_ceiling)
+        for total in comarca_totals.values()
+    )
+    retention_ceiling = (
+        theoretical_retained_population / covered_population
+        if covered_population
+        else None
+    )
+    retention_over_maximum = (
+        retention / retention_ceiling
+        if retention is not None and retention_ceiling
+        else None
+    )
     return {
         "comarcas_divididas": split,
-        "retencion_comarcal": retained / covered_population if covered_population else None,
+        "comarcas_divididas_evitables": split_avoidable,
+        "retencion_comarcal": retention,
+        "retencion_techo_teorico": retention_ceiling,
+        "retencion_sobre_maximo": retention_over_maximum,
+        "poblacion_maxima_comarca_en_un_distrito": single_district_ceiling,
     }
+
+
+def rows_from_portfolio(problem, contract, surcharge: float, portfolio: dict) -> list[dict]:
+    selected_hash = portfolio["selected"]["assignment_hash"]
+    rows: list[dict] = []
+    for run in portfolio["runs"]:
+        assignment = run["assignment"]
+        violations = hard_constraint_violations(problem, assignment, contract)
+        if violations:
+            raise AssertionError(
+                f"Salida inválida con surcharge={surcharge}, seed={run['seed']}: {violations[:20]}"
+            )
+        comarca = comarca_metrics(
+            problem,
+            assignment,
+            target_tolerance_ratio=contract.target_tolerance_ratio,
+        )
+        shape = geometric_shape_metrics(problem, assignment)
+        population = population_metrics(problem, assignment, contract)
+        rows.append({
+            "comarca_surcharge": surcharge,
+            "seed": run["seed"],
+            "selected_for_surcharge": run["assignment_hash"] == selected_hash,
+            "comarcas_divididas": comarca["comarcas_divididas"],
+            "comarcas_divididas_evitables": comarca["comarcas_divididas_evitables"],
+            "retencion_comarcal": comarca["retencion_comarcal"],
+            "retencion_techo_teorico": comarca["retencion_techo_teorico"],
+            "retencion_sobre_maximo": comarca["retencion_sobre_maximo"],
+            "polsby_popper_min": shape["polsby_popper_min"],
+            "polsby_popper_median": shape["polsby_popper_median"],
+            "max_relative_deviation": population["max_relative_deviation"],
+            "assignment_hash": run["assignment_hash"],
+        })
+    return rows
 
 
 def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, output_dir: Path) -> dict:
@@ -101,23 +170,7 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
     for surcharge in surcharges:
         strategy = replace(base, comarca_surcharge=surcharge)
         portfolio = run_portfolio(problem, contract, strategy)
-        assignment = portfolio["selected"]["assignment"]
-        violations = hard_constraint_violations(problem, assignment, contract)
-        if violations:
-            raise AssertionError(f"Salida inválida con surcharge={surcharge}: {violations[:20]}")
-        comarca = comarca_metrics(problem, assignment)
-        shape = geometric_shape_metrics(problem, assignment)
-        population = population_metrics(problem, assignment, contract)
-        rows.append({
-            "comarca_surcharge": surcharge,
-            "comarcas_divididas": comarca["comarcas_divididas"],
-            "retencion_comarcal": comarca["retencion_comarcal"],
-            "polsby_popper_min": shape["polsby_popper_min"],
-            "polsby_popper_median": shape["polsby_popper_median"],
-            "max_relative_deviation": population["max_relative_deviation"],
-            "selected_seed": portfolio["selected"]["seed"],
-            "assignment_hash": portfolio["selected"]["assignment_hash"],
-        })
+        rows.extend(rows_from_portfolio(problem, contract, surcharge, portfolio))
 
     payload = {
         "schema": SCHEMA,
@@ -127,6 +180,8 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
         "population_band": base.population_band,
         "metric_crs": base.metric_crs,
         "min_shared_border_m": base.min_shared_border_m,
+        "seed_count": base.seed_count,
+        "expected_rows": len(surcharges) * base.seed_count,
         "rows": rows,
     }
     json_path = output_dir / "barrido_comarca_surcharge_aragon.json"

@@ -32,7 +32,7 @@ io:
       pop_col: Total
       filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
     comarcas:
-      enabled: false
+      enabled: true
       path: inputs/COMARCAS.csv
       sep: auto
       require_full_coverage: true
