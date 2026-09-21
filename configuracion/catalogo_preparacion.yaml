@@ -6,18 +6,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
+      preparation_status: READY
       contract_path: territorios/andalucia/config/andalucia_2025.yaml
-      territorial_source_declaration: null
+      territorial_source_declaration: territorios/andalucia/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 35654729415
+        artifact_name: ddd-source-package-andalucia-2025-35654729415
+        artifact_sha256: 0847da7af4dbb0e400920ef4d0d0e0cdefd7d1f994a6da30b1e580b301e529dd
+        package_sha256: 0f1b1bbd10c2a0eef0a2248f1fcb6c3381fe5533764342403c6a24c336b30cb1
 - territory_id: aragon
   name: Aragón
   editions:
