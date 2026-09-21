@@ -155,13 +155,12 @@ territories:
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
-      last_valid_checkpoint:
+      last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35610439734
+        run_id: 35329341120
         artifact_name: ddd-source-package-castilla_y_leon-2025-35610439734
         artifact_sha256: c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d
         package_sha256: 37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752
-        run_id: 35329341120
         stage: M08
 - territory_id: cataluna
   name: Cataluña
@@ -233,15 +232,16 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
+        run_id: 35622073641
+        stage: M06
       preparation_evidence:
-        run_id: 35586097396
+        run_id: 35578239300
         artifact_name: ddd-source-package-galicia-2025-35586097396
         artifact_sha256: 40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7
         package_sha256: 1675fbc37a1fd3e5e9233c766397f9ea591bfc764a501ac732912a7facbb2111
-        run_id: 35578239300
         stage: M08
       evidence:
         electoral_source: territorios/galicia/evidencia/catalogo/electoral_source_2025.json
