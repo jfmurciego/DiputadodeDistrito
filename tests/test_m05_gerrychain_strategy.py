@@ -57,10 +57,12 @@ class ContractTests(unittest.TestCase):
         self.assertTrue(c.require_contiguity)
         self.assertEqual(c.province_districts, {"01": 1, "02": 2})
         self.assertEqual(c.municipality_discipline_field, "CUMUN")
+        cfg["partitioning"] = {
+            "enabled": True,
+            "strategy": "connected_internal_units",
+            "partition_unit_field": "M04_PARTITION_UNIT",
+        }
         cfg["modulos"] = {
-            "modulo_04_generar_semillas": {
-                "municipality_field": "M04_PARTITION_UNIT",
-            },
             "modulo_02_construir_adyacencias": {
                 "working_crs": "EPSG:3035",
                 "min_shared_border_m": 1.0,
@@ -77,6 +79,15 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(s.population_band, 0.005)
         self.assertEqual(s.metric_crs, "EPSG:3035")
         self.assertEqual(s.min_shared_border_m, 1.0)
+
+    def test_asturias_contract_uses_declared_internal_partition_unit(self):
+        import yaml
+        cfg = yaml.safe_load(
+            (ROOT / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml")
+            .read_text(encoding="utf-8")
+        ) or {}
+        contract = contract_from_yaml(cfg)
+        self.assertEqual(contract.municipality_discipline_field, "M04_PARTITION_UNIT")
 
     def test_strategy_config_default_comarca_is_neutral(self):
         self.assertEqual(StrategyConfig().comarca_surcharge, 0.0)
