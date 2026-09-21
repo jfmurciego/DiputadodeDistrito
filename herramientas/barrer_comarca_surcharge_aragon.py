@@ -28,7 +28,24 @@ from ddd_core.m05_gerrychain_strategy import (
     strategy_config_from_yaml,
 )
 
-SCHEMA = "ddd.gerrychain-comarca-sweep/1.1"
+SCHEMA = "ddd.gerrychain-comarca-sweep/1.2"
+
+BASELINE_CANONICAL = {
+    "row_type": "baseline_canonico",
+    "source_artifact": "gh-34599224954-1",
+    "comarca_surcharge": None,
+    "seed": None,
+    "selected_for_surcharge": None,
+    "comarcas_divididas": 31,
+    "comarcas_divididas_evitables": 20,
+    "retencion_comarcal": 0.290,
+    "retencion_techo_teorico": 0.352,
+    "retencion_sobre_maximo": 0.822,
+    "polsby_popper_min": None,
+    "polsby_popper_median": None,
+    "max_relative_deviation": 0.09930,
+    "assignment_hash": None,
+}
 
 
 def _enrich_with_comarcas(initial: Path, comarca_csv: Path, output: Path) -> Path:
@@ -126,6 +143,8 @@ def rows_from_portfolio(problem, contract, surcharge: float, portfolio: dict) ->
         shape = geometric_shape_metrics(problem, assignment)
         population = population_metrics(problem, assignment, contract)
         rows.append({
+            "row_type": "barrido",
+            "source_artifact": None,
             "comarca_surcharge": surcharge,
             "seed": run["seed"],
             "selected_for_surcharge": run["assignment_hash"] == selected_hash,
@@ -182,15 +201,17 @@ def execute(config_path: Path, graph: Path, initial: Path, comarca_csv: Path, ou
         "min_shared_border_m": base.min_shared_border_m,
         "seed_count": base.seed_count,
         "expected_rows": len(surcharges) * base.seed_count,
+        "baseline": BASELINE_CANONICAL,
         "rows": rows,
     }
     json_path = output_dir / "barrido_comarca_surcharge_aragon.json"
     csv_path = output_dir / "barrido_comarca_surcharge_aragon.csv"
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    csv_rows = [BASELINE_CANONICAL, *rows]
     with csv_path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]) if rows else [])
+        writer = csv.DictWriter(handle, fieldnames=list(csv_rows[0]) if csv_rows else [])
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(csv_rows)
     enriched.unlink(missing_ok=True)
     return payload
 
