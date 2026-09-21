@@ -1,0 +1,35 @@
+# Registro cerrado de controles obligatorios del motor de producción M05.
+#
+# Regla: un control solo sale de esta lista mediante un commit que modifique
+# ESTE fichero y lo justifique en docs/REGISTRO_DE_CAMBIOS.md. Retirarlo del
+# motor sin tocar este fichero hace fallar tests/test_controles_obligatorios.py.
+#
+# CODEOWNERS exige revisión explícita para cualquier cambio aquí.
+
+schema: ddd.controles-obligatorios/1.0
+motor: ddd_core/m05_gerrychain_strategy.py
+
+restricciones_duras:
+  # nombre emitido en violations.append(...) o en return [...]
+  - unit_universe
+  - district_count
+  - population_floor
+  - population_cap
+  - province
+  - province_count
+  - municipality
+  - municipality_mixed
+  - closed_urban
+  - empty_district
+  - contiguity
+  - geometric_contiguity      # retirada en la estrategia 02.5; restaurar
+
+objetivo:
+  # region_surcharge no puede ser None en la propuesta ReCom
+  comarca_surcharge_activo: true
+  # candidate_rank debe contener un término de forma real
+  forma_en_objetivo: true
+
+reproducibilidad:
+  require_pythonhashseed_zero: true
+  garantia_monotonia: true
