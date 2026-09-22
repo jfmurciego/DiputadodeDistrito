@@ -57,8 +57,8 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '3120301001', v: '3113501001', edge_type: administrative_enclave, reason: 'Petilla de Aragón: enclave navarro; enlace mínimo auditado a Javier (~9286 m).', source: 'R023 run 34688393979'}
-      - {u: '3107601002', v: '3107601001', edge_type: municipal_exclave, reason: 'Cizur: componentes municipales separadas; enlace intramunicipal mínimo auditado (~826 m).', source: 'R023 run 34688393979'}
+      - {u: '3120301001', v: '3113501001', admin_scope: 'province:31', edge_type: administrative_enclave, reason: 'Petilla de Aragón: enclave navarro; enlace mínimo auditado a Javier (~9286 m).', source: 'R023 run 34688393979'}
+      - {u: '3107601002', v: '3107601001', admin_scope: 'municipality:31076', edge_type: municipal_exclave, reason: 'Cizur: componentes municipales separadas; enlace intramunicipal mínimo auditado (~826 m).', source: 'R023 run 34688393979'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
