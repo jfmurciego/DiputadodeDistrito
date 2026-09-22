@@ -68,6 +68,49 @@ def _declaration_candidates(root_dir: Path, territory_id: str, state: dict) -> l
     return result
 
 
+def _row_from_materialized_contract(
+    *,
+    territory_id: str,
+    name: str,
+    territorial_edition: str,
+    state: dict,
+    root_dir: Path,
+) -> dict | None:
+    contract_raw = state.get("contract_path")
+    if not contract_raw:
+        return None
+    params_path = root_dir / str(contract_raw)
+    if not params_path.is_file():
+        return None
+    params = _load_yaml(params_path)
+    m07 = (params.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+    election_contract_raw = m07.get("election_contract")
+    if not election_contract_raw:
+        return None
+    election_contract = root_dir / str(election_contract_raw)
+    if not election_contract.is_file():
+        return None
+    try:
+        data = json.loads(election_contract.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    for key in ("territory_id", "election_id", "election_date"):
+        if data.get(key) in (None, ""):
+            return None
+    if str(data.get("territory_id")) != territory_id:
+        raise SystemExit(f"Contrato electoral de otro territorio: {election_contract}")
+    return {
+        "territory_id": territory_id,
+        "name": name,
+        "territorial_edition": territorial_edition,
+        "election_id": str(data["election_id"]),
+        "election_date": str(data["election_date"]),
+        "declaration": "",
+        "election_contract": election_contract.relative_to(root_dir).as_posix(),
+        "resolution_mode": "materialized_election_contract",
+    }
+
+
 def _row_from_declaration(
     *,
     territory_id: str,
@@ -150,9 +193,18 @@ def resolve(
         except Exception:
             continue
     if not resolved:
+        materialized = _row_from_materialized_contract(
+            territory_id=territory_id,
+            name=name,
+            territorial_edition=territorial_edition,
+            state=state,
+            root_dir=root,
+        )
+        if materialized is not None:
+            return materialized
         raise SystemExit(
-            f"No existe declaración electoral resoluble para territorio={territory!r}; "
-            "03 debe disponer de una declaración de fuente o perfil de adquisición."
+            f"No existe elección resoluble para territorio={territory!r}: "
+            "no hay declaración de adquisición ni contrato electoral materializado."
         )
 
     # La elección más reciente declarada es la vigente. Empate de fecha = ambigüedad.
