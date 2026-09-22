@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 35716459467,
+  "source_sha": "a23eb3b177c016391a50b19258c1165ae4ba31ae",
+  "publish_requested": true,
+  "status": "FAILED",
+  "failed_phases": [
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35586097396,
+      "artifact": "ddd-source-package-galicia-2025-35586097396",
+      "artifact_digest": "sha256:40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35716459467,
+      "artifact": "ddd-state-35716459467-M06",
+      "artifact_digest": "sha256:2603879d90102ae2c30f845560446d4da70023656e78cb1e53c1838e21bf1302",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35533666934,
+      "artifact": "ddd-electoral-package-galicia-2025-35533666934",
+      "artifact_digest": "sha256:dc23a91d1b391a75226ad71a0fea6ef886b68c630e59ab3bcff9263188bd6b4e",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "REUSE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35716459467,
+      "artifact": "ddd-state-35716459467-M08",
+      "artifact_digest": "sha256:124836794a2a3945084734583342b4cd8c9595377c9175c7c8af16f3f55e7a11",
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 35716459467,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-22T10:43:00.881754+00:00"
+}
