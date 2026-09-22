@@ -120,18 +120,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
+      preparation_status: READY
       contract_path: territorios/cantabria/config/cantabria_2025.yaml
-      territorial_source_declaration: null
+      territorial_source_declaration: territorios/cantabria/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 35744447964
+        artifact_name: ddd-source-package-cantabria-2025-35744447964
+        artifact_sha256: 99a9803fa0573a525cbc604fb5a6eb0dbde69c88de231156358e5fced5ec01b2
+        package_sha256: a00188a6c0ce9bd52239bb4814e964240525fd0eaa88c331b02a33b9e1a46610
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
   editions:
