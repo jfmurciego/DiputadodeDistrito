@@ -1,0 +1,59 @@
+schema: ddd-territory-sources/1.1
+territory:
+  id: castilla_la_mancha
+  business_name: Castilla-La Mancha
+  edition: 2025
+  territorial_codes:
+  - code: '02'
+    business_name: '02'
+  - code: '13'
+    business_name: '13'
+  - code: '16'
+    business_name: '16'
+  - code: '19'
+    business_name: '19'
+  - code: '45'
+    business_name: '45'
+required_sources:
+- poblacion_por_sexo_y_edad
+- secciones_censales
+source_bindings:
+  poblacion_por_sexo_y_edad:
+    materialized_path: inputs/65034.csv.zip
+    archive_member: 65034.csv
+  secciones_censales:
+    materialized_path: inputs/seccionado_2025.zip
+population_validation:
+  required_columns:
+  - Periodo
+  - Sexo
+  - Edad
+  - Secciones
+  - Total
+  year_col: Periodo
+  sex_col: Sexo
+  age_col: Edad
+  section_col: Secciones
+  population_col: Total
+  sex_total_values:
+  - Total
+  age_total_values:
+  - Todas las edades
+coverage_checks:
+  required_territorial_codes:
+  - '02'
+  - '13'
+  - '16'
+  - '19'
+  - '45'
+default_mode:
+  development: official_live
+  test: official_live
+  production: official_live
+environment_policy:
+  development:
+  - official_live
+  test:
+  - official_live
+  production:
+  - official_live
