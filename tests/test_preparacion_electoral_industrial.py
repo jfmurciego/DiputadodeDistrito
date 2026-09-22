@@ -13,6 +13,7 @@ from herramientas.comprobar_fuente_electoral_oficial import check_declaration
 from herramientas.materializar_contrato_electoral_runtime import materialize
 from herramientas.resolver_eleccion_vigente import resolve
 from herramientas.validar_paquete_electoral import validate_package
+from herramientas.preparar_fuente_electoral import prepare, validate_previous
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -65,6 +66,53 @@ class ResolverIndustrialTests(unittest.TestCase):
         self.assertEqual(row["election_id"], "galicia_parlamento_2024")
         self.assertEqual(row["resolution_mode"], "governed_override")
 
+
+class StaticContractPreparationTests(unittest.TestCase):
+    @staticmethod
+    def sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def test_static_contract_package_records_election_identity_and_rejects_stale_reuse(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            source=root/"results.json"
+            source.write_text(json.dumps({"mapa":{"zonas":[]}}),encoding="utf-8")
+            contract=root/"election.json"
+            contract.write_text(json.dumps({
+                "schema_family":"ddd-election",
+                "schema_version":"1.0.0",
+                "election_id":"demo_2026",
+                "territory_id":"demo",
+                "election_date":"2026-02-08",
+                "sources":[{
+                    "path":"results.json",
+                    "sha256":self.sha(source),
+                    "publisher":"Demo",
+                    "source_url":"https://example.invalid/results",
+                    "retrieved_at":"2026-09-22",
+                }],
+            }),encoding="utf-8")
+            params=root/"params.yaml"
+            params.write_text(yaml.safe_dump({
+                "meta":{"territory_id":"demo","year":2025},
+                "modulos":{"modulo_07_agregar_resultados_electorales":{"election_contract":"election.json"}},
+            },sort_keys=False),encoding="utf-8")
+            out=root/"package"
+            manifest=prepare(
+                territory_id="demo",edition="2025",package_out=out,root=root,params=params
+            )
+            self.assertEqual(manifest["election_id"],"demo_2026")
+            self.assertEqual(manifest["election_date"],"2026-02-08")
+            self.assertIsNotNone(validate_previous(
+                out,"demo","2025",
+                expected_election_id="demo_2026",
+                expected_election_date="2026-02-08",
+            ))
+            self.assertIsNone(validate_previous(
+                out,"demo","2025",
+                expected_election_id="demo_2027",
+                expected_election_date="2027-02-08",
+            ))
 
 class VerifiedMirrorPolicyTests(unittest.TestCase):
     def base_declaration(self):
