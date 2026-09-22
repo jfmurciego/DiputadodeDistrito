@@ -1,13 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Comunidad Valenciana
-# VERSIÓN: 1.0.0
-# NOMBRE DE VERSIÓN: Contrato topológico R025
-# FECHA: 2026-09-12
-# ESTADO: candidato M01-M03 estricto.
-# QUÉ HACE: congela cardinalidad/población R022 y aplica exclusivamente las pasarelas explícitas justificadas por R023.
-# CAMBIOS: primera configuración territorial persistente.
-# MOTIVO: promover el bootstrap observable a contrato reproducible sin fijar K ni abrir M04.
-# ANTERIOR: ninguno — territorio nuevo.
 meta:
   procedure_name: Diputado de Distrito
   territory_id: comunidad_valenciana
@@ -16,38 +6,78 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: topology_contract_r025
+  status: production_ready_auto_materialized
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
 io:
-  project_root: {path: ../../..}
+  project_root:
+    path: ../../..
   input:
-    seccionado: {path: inputs/seccionado_2025.zip, layer: '', section_key_col: CUSEC}
+    seccionado:
+      path: inputs/seccionado_2025.zip
+      layer: ''
+      section_key_col: CUSEC
     population_cip:
-      paths: [inputs/65034.csv.zip]
+      paths:
+      - inputs/65034.csv.zip
       sep: auto
       section_key_col: Secciones
       pop_col: Total
-      filters: {year_col: Periodo, sexo_col: Sexo, edad_col: Edad, sexo_total_values: [Total], edad_total_values: [Todas las edades]}
-  cache: {dir: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}"}
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+  cache:
+    dir: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/comunidad_valenciana/resultados/ejecuciones/{run_id}
 territory_contract:
   unit_id_role: census_section
   admin_level_1_role: province
   admin_level_2_role: municipality
-  province_codes: ['03','12','46']
+  province_codes: &id001
+  - '03'
+  - '12'
+  - '46'
   status: topology_contract_candidate
   notes:
-    - R022 congeló 3515 secciones y 5425182 habitantes sin faltantes.
-    - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
-    - K y M04 permanecen pendientes.
+  - R022 congeló 3515 secciones y 5425182 habitantes sin faltantes.
+  - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
+  - K y M04 permanecen pendientes.
+  k_districts: 99
+  k_source: norma
+  k_rationale: K=99 conserva el tamaño vigente de Les Corts Valencianes como regla
+    institucional ex ante.
+  district_apportionment: hamilton
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.75
+  require_auditable_district_catalogue: true
 modulos:
   modulo_01_preparar_base_territorial:
-    province_codes: ['03','12','46']
+    province_codes:
+    - '03'
+    - '12'
+    - '46'
     drop_missing_population: false
-    out_geojson: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-    out_report: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+    out_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json
   modulo_02_construir_adyacencias:
-    in_geojson: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    out_edges_jsonl: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    out_edges_jsonl: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     predicate: contact
     working_crs: EPSG:3035
     min_shared_border_m: 1.0
@@ -57,17 +87,82 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '4620101001', v: '4604101001', admin_scope: 'province:46', edge_type: administrative_enclave, reason: 'Rincón de Ademuz: componente valenciana separada; enlace mínimo auditado a Aras de los Olmos (~4614 m).', source: 'R023 run 34688393979'}
-      - {u: '0309907006', v: '0309907004', admin_scope: 'municipality:03099', edge_type: municipal_discontinuity, reason: 'Orihuela: componentes municipales separadas; enlace intramunicipal mínimo auditado (~665 m).', source: 'R023 run 34688393979'}
+    - u: '4620101001'
+      v: '4604101001'
+      admin_scope: province:46
+      edge_type: administrative_enclave
+      reason: 'Rincón de Ademuz: componente valenciana separada; enlace mínimo auditado
+        a Aras de los Olmos (~4614 m).'
+      source: R023 run 34688393979
+    - u: 0309907006
+      v: 0309907004
+      admin_scope: municipality:03099
+      edge_type: municipal_discontinuity
+      reason: 'Orihuela: componentes municipales separadas; enlace intramunicipal
+        mínimo auditado (~665 m).'
+      source: R023 run 34688393979
   modulo_03_construir_grafo:
-    in_geojson: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-    in_edges_jsonl: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    in_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: "POP_{year}"
-    out_graph_json: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    out_report: "territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+    pop_field: POP_{year}
+    out_graph_json: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    out_report: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 99
+    municipality_atomicity_limit_ratio: 1.75
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip
+    out_report: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_informe.json
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_{year}
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 99
+    strict_expected_k: true
+    out_summary_csv: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m06_composicion_distritos.csv
+    out_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m06_secciones.geojson.zip
+    out_district_geojson: territorios/comunidad_valenciana/.cache/ddd/preparacion/{run_name}/comunidad_valenciana_2025_m06_distritos.geojson.zip
 validation:
-  expected_province_codes: ['03','12','46']
+  expected_province_codes: *id001
   expected_sections_geometry: 3515
   expected_population_total_2025: 5425182
   expected_topology_bridges: 2
@@ -81,3 +176,20 @@ validation:
   audit_admin_level_2_components: true
   require_one_graph_component_per_province: true
   require_connected_municipalities: true
+  expected_districts: 99
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
+  province_districts:
+    '03': 37
+    '12': 12
+    '46': 50
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.75
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: []

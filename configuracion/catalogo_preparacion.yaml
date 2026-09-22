@@ -217,18 +217,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
+      preparation_status: READY
       contract_path: territorios/comunidad_valenciana/config/comunidad_valenciana_2025.yaml
-      territorial_source_declaration: null
+      territorial_source_declaration: territorios/comunidad_valenciana/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 35755379898
+        artifact_name: ddd-source-package-comunidad_valenciana-2025-35755379898
+        artifact_sha256: ce4e433dc62bbe4a203dacf5dd4b01df81acb57d30489c3f09f70ae130c27edd
+        package_sha256: 201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97
 - territory_id: extremadura
   name: Extremadura
   editions:
