@@ -232,7 +232,7 @@ class MinsaitTransformTests(unittest.TestCase):
             source=root/"minsait.csv"
             source.write_text(
                 "codigo_ccaa,codigo_provincia,codigo_municipio,codigo_distrito,codigo_seccion,codigo_mesa,recode,votos\n"
-                "11,6,15,1,2,A,PP,10\n"
+                "11,6,15,1,0002,A,PP,10\n"
                 "11,6,15,1,2,B,PP,12\n"
                 "11,6,15,1,2,A,PSOE,8\n"
                 "11,6,15,1,2,B,PSOE,7\n"
