@@ -1,25 +1,53 @@
 # PROYECTO: Diputado de Distrito
 # TERRITORIO: Extremadura
-# VERSIÓN: 1.0.0
-# NOMBRE: Fuentes electorales oficiales 2025
-# FECHA: 2026-09-17
+# VERSIÓN: 1.1.0
+# NOMBRE: Fuentes electorales verificables 2025
+# FECHA: 2026-09-22
 schema: ddd-election-official-source-declaration/1.0
 territory_id: extremadura
 election_id: extremadura_asamblea_2025-12-21
 election_date: '2025-12-21'
 minimum_resolution: section
 max_download_bytes: 50000000
-allowed_official_hosts:
+allowed_source_hosts:
   - juntaex.es
   - elecciones2025.juntaex.es
   - prensa.elecciones2025.juntaex.es
   - doe.juntaex.es
   - juntaelectoralcentral.es
+  - pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev
+official_reference_urls:
+  - https://www.juntaex.es/documents/77055/33212371/20251219%2BNP%2BAdministraci%C3%B3n%2BP%C3%BAblica-Centro%2BDifusi%C3%B3n%2BDatos%2B-Dossier_Elecciones_Asamblea_de_Extremadura%2B2025.pdf/b078313a-f326-f60c-0eaa-019324fe4062?t=1766143651457
+  - https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
 forbidden_substitutes:
   - rtve.es
   - resultados-elecciones.rtve.es
   - Corporación RTVE
 sources:
+  - id: eleccionesdb_minsait_extremadura
+    publisher: Spain Electoral Project / eleccionesdb
+    url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
+    access: public
+    source_class: verified_mirror
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [codigo_seccion, codigo_mesa]
+    role: candidate_data_source
+    transform:
+      kind: minsait_polling_long_csv
+      province_field: codigo_provincia
+      municipality_field: codigo_municipio
+      district_field: codigo_distrito
+      section_field: codigo_seccion
+      polling_station_field: codigo_mesa
+      party_fields: [recode, partido, siglas, denominacion]
+      votes_field: votos
+      autonomous_community_field: codigo_ccaa
+      autonomous_community_code: '11'
+      province_width: 2
+      municipality_width: 3
+      district_width: 2
+      section_width: 3
   - id: junta_resultados_publicos
     publisher: Junta de Extremadura
     url: https://resultados.elecciones2025.juntaex.es/es/inicio
