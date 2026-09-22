@@ -231,12 +231,12 @@ class MinsaitTransformTests(unittest.TestCase):
             root=Path(td)
             source=root/"minsait.csv"
             source.write_text(
-                "codigo_ccaa,codigo_provincia,codigo_municipio,codigo_distrito,codigo_seccion,codigo_mesa,recode,votos\n"
-                "11,6,15,1,0002,A,PP,10\n"
-                "11,6,15,1,2,B,PP,12\n"
-                "11,6,15,1,2,A,PSOE,8\n"
-                "11,6,15,1,2,B,PSOE,7\n"
-                "11,10,20,3,4,A,PP,5\n",
+                "codigo_ccaa,codigo_provincia,codigo_municipio,codigo_distrito,codigo_seccion,codigo_mesa,recode,siglas,votos\n"
+                "11,6,15,1,0002,A,PP,PP,10\n"
+                "11,6,15,1,2,B,PP,PP,12\n"
+                "11,6,15,1,2,A,,PSOE,8\n"
+                "11,6,15,1,2,B,,PSOE,7\n"
+                "11,10,20,3,4,A,PP,PP,5\n",
                 encoding="utf-8",
             )
             declaration={
