@@ -26,6 +26,9 @@ class AsturiasElectoralReconciliationTests(unittest.TestCase):
         self.assertEqual(len({r["target_cusec"] for r in rows}), 51)
         self.assertTrue(all(str(r["target_cusec"])[:5] == "33044" for r in rows))
         self.assertTrue(all(str(r["target_cusec"])[5:7] in {"10","11","12","13","14","15","16"} for r in rows))
+        evidence = data["evidence"]
+        self.assertEqual(evidence["source_identity"], {"province":"33","municipality":"044","district":"01"})
+        self.assertEqual(set(evidence["target_districts"]), {"10","11","12","13","14","15","16"})
 
     def test_declared_official_totals_are_exact_and_cera_is_separate(self):
         cfg = yaml.safe_load(DECL.read_text(encoding="utf-8"))
