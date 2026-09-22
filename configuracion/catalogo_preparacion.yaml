@@ -40,12 +40,12 @@ territories:
       evidence:
         territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aragon/evidencia/catalogo/electoral_source_2025.json
-        electoral_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M08/PRODUCTOS.json
+        electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 35710908574
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 35010122795
         artifact_name: ddd-source-package-aragon-2025-35699814855

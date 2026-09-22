@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "aragon",
+  "territory_name": "Aragón",
+  "edition": "2025",
+  "run_id": 35710908574,
+  "artifact_name": "ddd-state-35710908574-M08",
+  "artifact_sha256": "1f31bed4df68020542abaf3ed07e71fd83612745dc9ce77b2321fb72602c0ba5",
+  "source_commit": "7a9bcac22d4171e5ca298602935339f6d427d557",
+  "stage": "M08"
+}
