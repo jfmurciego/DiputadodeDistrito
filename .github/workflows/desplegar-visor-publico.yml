@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de publicación
-# VERSIÓN: 3.0.0
-# NOMBRE: Publicación manual desacoplada del cálculo territorial
+# VERSIÓN: 3.1.0
+# NOMBRE: Publicación manual del shell con datos vivos
 # ESTADO: activo
 # QUÉ HACE: promueve explícitamente páginas web y después despliega Pages. Nunca calcula distritos.
 name: 05 · Publicación del Visor
@@ -41,17 +41,24 @@ jobs:
         with:
           ref: main
           token: ${{ github.token }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 pyproj
       - id: resolve
         name: Generar estado y promover sólo si se solicita
         shell: bash
         env:
           TARGET_PAGE: ${{ inputs.pagina_publicar }}
           PRODUCTION_RUN_ID_OVERRIDE: ${{ inputs.production_run_id }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p .ddd-publication
           python -m herramientas.generar_estado_operativo --root-dir .
+          if [[ "$TARGET_PAGE" != "Dashboard operativo" ]]; then
+            python -m herramientas.sincronizar_visor_publico \
+              --root-dir . \
+              --repository "$GITHUB_REPOSITORY" \
+              --all
+          fi
           cp orchestracion/estado_operativo.json .ddd-publication/status.json
           production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
           if [[ -z "$production_run_id" ]]; then
@@ -61,7 +68,7 @@ jobs:
           cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add README.md orchestracion/estado_operativo.json publicado/dashboard
+          git add README.md orchestracion/estado_operativo.json publicado/dashboard publicado/visor
           if ! git diff --cached --quiet; then
             git commit -m "chore: sincronizar estado operativo antes de publicar"
             git pull --rebase origin main
