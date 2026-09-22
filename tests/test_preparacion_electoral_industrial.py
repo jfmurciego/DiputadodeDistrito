@@ -45,6 +45,21 @@ class ResolverIndustrialTests(unittest.TestCase):
         self.assertEqual(row["election_date"], "2023-05-28")
         self.assertEqual(row["resolution_mode"], "auto_discovered_declaration")
 
+    def test_aragon_resolves_from_materialized_contract_without_source_declaration(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        aragon = next(r for r in catalog["territories"] if r["territory_id"] == "aragon")
+        self.assertIsNone(aragon["editions"]["2025"]["electoral_source_declaration"])
+        row = resolve("Aragón", root_dir=ROOT, edition="2025")
+        self.assertEqual(row["territory_id"], "aragon")
+        self.assertEqual(row["election_id"], "aragon_cortes_2026-02-08")
+        self.assertEqual(row["election_date"], "2026-02-08")
+        self.assertEqual(row["declaration"], "")
+        self.assertEqual(row["resolution_mode"], "materialized_election_contract")
+        self.assertEqual(
+            row["election_contract"],
+            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+        )
+
     def test_galicia_governed_override_is_preserved(self):
         row = resolve("Galicia", root_dir=ROOT, edition="2025")
         self.assertEqual(row["election_id"], "galicia_parlamento_2024")
