@@ -92,6 +92,7 @@ modulos:
     topology_bridges:
     - u: '1709401001'
       v: '1714101003'
+      admin_scope: province:17
       edge_type: administrative_enclave
       reason: Llívia es un enclave español separado del cuerpo principal de Girona;
         enlace a la sección española más próxima en Puigcerdà (~1636 m).
