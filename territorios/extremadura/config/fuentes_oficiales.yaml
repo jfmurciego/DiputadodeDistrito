@@ -1,59 +1,50 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Extremadura
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Fuentes verificables en tres modos
-# FECHA: 2026-09-17
-# ESTADO: candidato declarativo; producción territorial bloqueada
-# FUNCIÓN: declarar identidad, edición, provincias, modos y materialización de fuentes oficiales.
-# CAMBIOS: añade copias oficiales verificadas, rutas consumibles y política estricta de simulación.
-# MOTIVO: preparar fuentes de Extremadura sin ejecutar ni promover su contrato territorial.
-# ANTERIOR: legacy/territorios/extremadura/fuentes_oficiales_v1.0.0.yaml
 schema: ddd-territory-sources/1.1
 territory:
   id: extremadura
   business_name: Extremadura
   edition: 2025
   territorial_codes:
-    - {code: "06", business_name: Badajoz}
-    - {code: "10", business_name: Cáceres}
+  - code: '06'
+    business_name: '06'
+  - code: '10'
+    business_name: '10'
 required_sources:
-  - poblacion_por_sexo_y_edad
-  - secciones_censales
+- poblacion_por_sexo_y_edad
+- secciones_censales
 source_bindings:
   poblacion_por_sexo_y_edad:
     materialized_path: inputs/65034.csv.zip
     archive_member: 65034.csv
-    snapshot:
-      path: inputs/65034.csv.zip
-      expected_sha256: 91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3
-      official_origin_url: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
-      edition: 2025
-      acquired_at: "2026-09-11"
   secciones_censales:
     materialized_path: inputs/seccionado_2025.zip
-    snapshot:
-      path: inputs/seccionado_2025.zip
-      expected_sha256: 55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4
-      official_origin_url: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items
-      edition: 2025
-      acquired_at: "2026-09-11"
 population_validation:
-  required_columns: [Periodo, Sexo, Edad, Secciones, Total]
+  required_columns:
+  - Periodo
+  - Sexo
+  - Edad
+  - Secciones
+  - Total
   year_col: Periodo
   sex_col: Sexo
   age_col: Edad
   section_col: Secciones
   population_col: Total
-  sex_total_values: [Total]
-  age_total_values: [Todas las edades]
+  sex_total_values:
+  - Total
+  age_total_values:
+  - Todas las edades
 coverage_checks:
-  expected_sections: 964
-  required_territorial_codes: ["06", "10"]
+  required_territorial_codes:
+  - '06'
+  - '10'
 default_mode:
-  development: verified_snapshot
-  test: simulated
-  production: verified_snapshot
+  development: official_live
+  test: official_live
+  production: official_live
 environment_policy:
-  development: [verified_snapshot, official_live]
-  test: [simulated]
-  production: [official_live, verified_snapshot]
+  development:
+  - official_live
+  test:
+  - official_live
+  production:
+  - official_live

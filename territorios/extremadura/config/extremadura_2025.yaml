@@ -1,14 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# TERRITORIO: Extremadura
-# VERSIÓN: 0.9.0
-# NOMBRE DE VERSIÓN: Preparación de Extremadura
-# FECHA: 2026-09-17
-# ESTADO: preparación bloqueada — configuración lista; sin ejecución territorial
-# QUÉ HACE: conecta la preparación común de unidades internas, elimina rutas históricas específicas, adopta el perfil poblacional común y declara la comprobación automática de fuente electoral oficial.
-# CAMBIOS: añade declaración electoral oficial automatizable y sustituye estados activos de preindustrialización por Preparación de Extremadura.
-# MOTIVO: hacer visible y auditable la preparación previa a M04/M07 sin autorizar producción.
-# ANTERIOR: versión 0.8.0 en historial Git.
-
 meta:
   procedure_name: Diputado de Distrito
   territory_id: extremadura
@@ -24,16 +13,17 @@ meta:
   status: generation_ready
   full_process_readiness: territorios/extremadura/config/preparacion_proceso_completo.yaml
   electoral_sources_declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml
-
 io:
-  project_root: {path: ../../..}
+  project_root:
+    path: ../../..
   input:
     seccionado:
       path: inputs/seccionado_2025.zip
       layer: ''
       section_key_col: CUSEC
     population_cip:
-      paths: [inputs/65034.csv.zip]
+      paths:
+      - inputs/65034.csv.zip
       sep: auto
       section_key_col: Secciones
       pop_col: Total
@@ -41,22 +31,29 @@ io:
         year_col: Periodo
         sexo_col: Sexo
         edad_col: Edad
-        sexo_total_values: [Total]
-        edad_total_values: [Todas las edades]
-  cache: {dir: "territorios/extremadura/.cache/ddd/preparacion/{run_name}"}
-  runs: {dir: "territorios/extremadura/resultados/ejecuciones/{run_id}"}
-
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+  cache:
+    dir: territorios/extremadura/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/extremadura/resultados/ejecuciones/{run_id}
 territory_contract:
   unit_id_role: census_section
   admin_level_1_role: province
   admin_level_2_role: municipality
-  province_codes: ['06','10']
+  province_codes:
+  - '06'
+  - '10'
   topology_mode: land
   k_districts: 65
   k_source: norma
-  k_rationale: "K=65 conserva el número legal de diputados de la Asamblea de Extremadura establecido por el artículo 18 de la Ley 2 de 1987; el procedimiento DDD usa ese tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton."
+  k_rationale: K=65 conserva el número legal de diputados de la Asamblea de Extremadura
+    establecido por el artículo 18 de la Ley 2 de 1987; el procedimiento DDD usa ese
+    tamaño institucional y redistribuye los distritos entre provincias mediante Hamilton.
   district_apportionment: hamilton
-  population_floor_ratio: 0.80
+  population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
   limits_profile: standard-1.0.0
@@ -64,42 +61,46 @@ territory_contract:
   require_single_admin_level_1_per_district: true
   require_municipality_discipline: true
   oversized_municipality_rule: connected_internal_units
-  municipality_atomicity_limit_ratio: 1.10
-  internal_partition_chunk_ratio: 0.20
+  municipality_atomicity_limit_ratio: 1.1
+  internal_partition_chunk_ratio: 0.2
   require_auditable_district_catalogue: true
   promotion_status: generation_ready
   notes:
-    - K=65 procede de la Ley 2/1987, artículo 18; no del experimento histórico previo.
-    - El reparto DDD entre provincias permanece declarado como Hamilton 41/24, separado del reparto electoral autonómico vigente.
-    - El perfil poblacional activo es el común standard-1.0.0: suelo 0.80, techo 1.75 y tolerancia objetivo ±0.12.
-    - La atomicidad 1.10 y chunk 0.20 son parámetros declarativos del preprocesador común connected_internal_units.
-    - La producción sigue bloqueada: este paquete prepara configuración y capacidades sin ejecutar ni certificar una solución territorial.
-
+  - K=65 procede de la Ley 2/1987, artículo 18; no del experimento histórico previo.
+  - El reparto DDD entre provincias permanece declarado como Hamilton 41/24, separado
+    del reparto electoral autonómico vigente.
+  - El perfil poblacional activo es el común standard-1.0.0: suelo 0.80, techo 1.75
+      y tolerancia objetivo ±0.12.
+  - La atomicidad 1.10 y chunk 0.20 son parámetros declarativos del preprocesador
+    común connected_internal_units.
+  - La producción sigue bloqueada: este paquete prepara configuración y capacidades
+      sin ejecutar ni certificar una solución territorial.
 partitioning:
   enabled: true
   strategy: connected_internal_units
-  input_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-  graph: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-  output_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson"
-  output_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas_informe.json"
+  input_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+  graph: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+  output_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson
+  output_report: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas_informe.json
   id_field: CUSEC_KEY
   municipality_field: CUMUN
-  population_field: "POP_{year}"
+  population_field: POP_{year}
   partition_unit_field: M04_PARTITION_UNIT
-  atomicity_ratio: 1.10
-  chunk_ratio: 0.20
+  atomicity_ratio: 1.1
+  chunk_ratio: 0.2
   source: common_preprocessor_v1
-
 modulos:
   modulo_01_preparar_base_territorial:
-    province_codes: ['06','10']
+    province_codes:
+    - '06'
+    - '10'
     drop_missing_population: false
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+    out_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json
   modulo_02_construir_adyacencias:
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    in_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    out_edges_jsonl: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    out_edges_jsonl: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     predicate: contact
     working_crs: EPSG:3035
     min_shared_border_m: 1.0
@@ -109,44 +110,46 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - u: '0604405005'
-        v: '0604405003'
-        admin_scope: 'municipality:06044'
-        edge_type: same_municipality_exclave
-        reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~2074 m).'
-        source: 'EXT-02 auditoría geométrica reproducible'
-      - u: '0604405006'
-        v: '0604405004'
-        admin_scope: 'municipality:06044'
-        edge_type: same_municipality_exclave
-        reason: 'Componente censal físicamente separada de Don Benito; enlace al nodo del mismo municipio más próximo auditado (~869 m).'
-        source: 'EXT-02 auditoría geométrica reproducible'
+    - u: '0604405005'
+      v: '0604405003'
+      admin_scope: municipality:06044
+      edge_type: same_municipality_exclave
+      reason: Componente censal físicamente separada de Don Benito; enlace al nodo
+        del mismo municipio más próximo auditado (~2074 m).
+      source: EXT-02 auditoría geométrica reproducible
+    - u: '0604405006'
+      v: '0604405004'
+      admin_scope: municipality:06044
+      edge_type: same_municipality_exclave
+      reason: Componente censal físicamente separada de Don Benito; enlace al nodo
+        del mismo municipio más próximo auditado (~869 m).
+      source: EXT-02 auditoría geométrica reproducible
   modulo_03_construir_grafo:
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
-    in_edges_jsonl: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
+    in_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: "POP_{year}"
-    out_graph_json: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json"
+    pop_field: POP_{year}
+    out_graph_json: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    out_report: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
-    in_graph_json: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson"
+    in_graph_json: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_unidades_internas.geojson
     id_field: CUSEC_KEY
-    pop_field: "POP_{year}"
+    pop_field: POP_{year}
     province_field: CPRO
     municipality_field: M04_PARTITION_UNIT
     municipality_name_field: NMUN
     district_apportionment: hamilton
     k_districts: 65
-    municipality_atomicity_limit_ratio: 1.10
+    municipality_atomicity_limit_ratio: 1.1
     seed: 12345
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json"
+    out_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
+    out_report: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json
   modulo_05_optimizar_distritos:
-    in_graph_json: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json"
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip"
+    in_graph_json: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: "POP_{year}"
+    pop_field: POP_{year}
     district_field: district_id
     province_field: CPRO
     municipality_field: M04_PARTITION_UNIT
@@ -154,13 +157,13 @@ modulos:
     anneal_iters: 30000
     swap_polish_max: 200
     seed: 12345
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
-    out_report: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json"
+    out_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json
   modulo_06_consolidar_distritos:
-    in_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip"
+    in_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: "POP_{year}"
+    pop_field: POP_{year}
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: M04_PARTITION_UNIT
@@ -169,23 +172,26 @@ modulos:
     metric_crs: EPSG:3035
     expected_districts: 65
     strict_expected_k: true
-    out_summary_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv"
-    out_catalog_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv"
-    out_composition_csv: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv"
-    out_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip"
-    out_district_geojson: "territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip"
-
+    out_summary_csv: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv
+    out_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip
+    out_district_geojson: territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip
 validation:
-  expected_province_codes: ['06','10']
+  expected_province_codes:
+  - '06'
+  - '10'
   expected_sections_geometry: 964
   expected_population_total_2025: 1053345
   expected_topology_bridges: 2
   expected_districts: 65
-  population_floor_ratio: 0.80
+  population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
   province_apportionment: hamilton
-  province_districts: {'06': 41, '10': 24}
+  province_districts:
+    '06': 41
+    '10': 24
   require_unique_section_id: true
   require_non_null_population: true
   province_field: CPRO
@@ -196,7 +202,7 @@ validation:
   require_single_province_per_district: true
   require_graph_contiguity: true
   require_municipality_discipline: true
-  municipality_atomicity_limit_ratio: 1.10
+  municipality_atomicity_limit_ratio: 1.1
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
