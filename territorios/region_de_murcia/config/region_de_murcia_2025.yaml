@@ -57,8 +57,8 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '3003008005', v: '3003008002', edge_type: municipal_discontinuity, reason: 'Murcia: componente censal municipal separada; enlace intramunicipal mínimo auditado (~1698 m).', source: 'R023 run 34688393979'}
-      - {u: '3003501007', v: '3003501005', edge_type: municipal_discontinuity, reason: 'San Javier: componente municipal separada; enlace intramunicipal mínimo auditado (~3179 m).', source: 'R023 run 34688393979'}
+      - {u: '3003008005', v: '3003008002', admin_scope: 'municipality:30030', edge_type: municipal_discontinuity, reason: 'Murcia: componente censal municipal separada; enlace intramunicipal mínimo auditado (~1698 m).', source: 'R023 run 34688393979'}
+      - {u: '3003501007', v: '3003501005', admin_scope: 'municipality:30035', edge_type: municipal_discontinuity, reason: 'San Javier: componente municipal separada; enlace intramunicipal mínimo auditado (~3179 m).', source: 'R023 run 34688393979'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
