@@ -118,12 +118,14 @@ modulos:
     topology_bridges:
     - u: '2102502002'
       v: '2102502001'
+      admin_scope: municipality:21025
       edge_type: administrative_bridge
       reason: Componente censal físicamente separada de Cortegana; enlace al nodo
         del mismo municipio más próximo auditado (~3064 m).
       source: AND-02 auditoría geométrica reproducible
     - u: '2909401015'
       v: '2909403005'
+      admin_scope: municipality:29094
       edge_type: administrative_bridge
       reason: Componente censal físicamente separada de Vélez-Málaga; enlace al nodo
         del mismo municipio más próximo auditado (~1658 m).
