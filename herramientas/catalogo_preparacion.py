@@ -130,6 +130,26 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                         errors.append(f"{tid}/{edition}: evidencia electoral sin SHA-256 de artefacto")
                     if str(receipt.get("declaration") or "")!=str(ed_raw or ""):
                         errors.append(f"{tid}/{edition}: evidencia electoral y declaración no coinciden")
+                    if not ed_raw:
+                        election_contract_raw=str(receipt.get("election_contract") or "")
+                        election_contract_hash=str(receipt.get("election_contract_sha256") or "").lower()
+                        if not election_contract_raw or not re.fullmatch(r"[0-9a-f]{64}",election_contract_hash):
+                            errors.append(f"{tid}/{edition}: evidencia electoral sin contrato materializado verificable")
+                        else:
+                            election_contract_path=root/election_contract_raw
+                            if not election_contract_path.is_file():
+                                errors.append(f"{tid}/{edition}: contrato electoral de evidencia inexistente: {election_contract_raw}")
+                            elif _sha256(election_contract_path).lower()!=election_contract_hash:
+                                errors.append(f"{tid}/{edition}: SHA-256 del contrato electoral de evidencia no coincide")
+                            else:
+                                try:
+                                    election_contract=json.loads(election_contract_path.read_text(encoding="utf-8"))
+                                    if str(election_contract.get("territory_id") or "")!=tid:
+                                        errors.append(f"{tid}/{edition}: contrato electoral de evidencia pertenece a otro territorio")
+                                    if str(election_contract.get("election_id") or "")!=str(receipt.get("election_id") or ""):
+                                        errors.append(f"{tid}/{edition}: election_id de evidencia no coincide con contrato electoral")
+                                except Exception as exc:
+                                    errors.append(f"{tid}/{edition}: contrato electoral de evidencia inválido: {exc}")
                 else:
                     # Compatibilidad con evidencias históricas ya certificadas de Aragón/Castilla y León.
                     if cfg is None:
