@@ -1,32 +1,97 @@
 <!doctype html>
-<!-- DDD visor v1.4.0 — visor técnico de ejecuciones y alternativas. -->
+<!-- DDD visor v2.0.0 — visor público ejecutivo con datos vivos. -->
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Diputado de Distrito · visor territorial</title>
+  <meta name="description" content="Visor público del proyecto Diputado de Distrito: distritos, datos censales y resultados electorales por territorio.">
+  <title>Diputado de Distrito · visor público</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <div><p class="eyebrow">Diputado de Distrito</p><h1>Visor territorial</h1><a class="dashboard-link" href="dashboard/">Dashboard operativo</a></div>
-    <div class="selectors">
-      <label class="selector">Territorio<select id="territory-select" aria-label="Seleccionar territorio"></select></label>
-      <label class="selector result-selector">Resultado<select id="result-select" aria-label="Seleccionar resultado o alternativa"></select></label>
-    </div>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Inicio">
+      <span class="brand-mark">DDD</span>
+      <span><strong>Diputado de Distrito</strong><small>Distritación territorial reproducible</small></span>
+    </a>
+    <nav>
+      <a href="#estado-proyecto">Estado del proyecto</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="https://github.com/jfmurciego/DiputadodeDistrito" target="_blank" rel="noreferrer">Código y datos</a>
+    </nav>
   </header>
+
   <main>
-    <section id="map" aria-label="Mapa de distritos"></section>
-    <aside class="panel">
-      <p class="status" id="status">Cargando resultados…</p>
-      <section id="summary" class="summary" hidden></section>
-      <section id="legend" class="card legend" aria-live="polite" hidden></section>
-      <section class="card"><h2>Distrito</h2><div id="detail">Pulsa un distrito para ver su ficha.</div></section>
-      <section class="card warning"><h2>Estado de uso</h2><p id="use-status">Vista técnica. Un resultado visible puede estar bloqueado por una puerta de auditoría y no equivale a una propuesta publicable.</p></section>
-      <section class="source-note"><h2>Fuente</h2><p>La vista no ejecuta ni modifica el motor. Representa el artefacto seleccionado.</p><a id="source-link" target="_blank" rel="noreferrer" hidden>Abrir fuente</a></section>
-    </aside>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Visor público</p>
+        <h1>Distritos sobre datos censales. Elecciones, después.</h1>
+        <p class="lede">Explora la división territorial y, cuando están disponibles, los resultados de las últimas elecciones incorporados a esos mismos distritos. Los resultados electorales nunca intervienen en el trazado.</p>
+      </div>
+      <div class="live-note" title="El estado se consulta al abrir la página">
+        <span class="pulse" aria-hidden="true"></span>
+        <span><strong>Datos vivos</strong><small id="freshness">Consultando estado actual…</small></span>
+      </div>
+    </section>
+
+    <section class="viewer-card" aria-label="Visor de distritos">
+      <div class="viewer-toolbar">
+        <label>Territorio
+          <select id="territory-select" aria-label="Seleccionar territorio"></select>
+        </label>
+        <label>Vista
+          <select id="result-select" aria-label="Seleccionar vista"></select>
+        </label>
+        <div id="territory-badge" class="territory-badge">Cargando…</div>
+      </div>
+
+      <div class="viewer-layout">
+        <section id="map" aria-label="Mapa de distritos"></section>
+        <aside class="map-panel">
+          <div id="summary" class="summary"></div>
+          <section id="legend" class="info-card legend" hidden></section>
+          <section class="info-card">
+            <h2>Distrito</h2>
+            <div id="detail" class="detail-empty">Pulsa un distrito para ver sus datos.</div>
+          </section>
+          <p id="map-message" class="map-message" role="status">Cargando mapa…</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="estado-proyecto" class="project-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Estado del proyecto</p>
+          <h2>Qué territorios están disponibles y qué falta</h2>
+        </div>
+        <p>Este cuadro procede de la misma fuente que alimenta el estado del repositorio. No muestra detalles internos de ejecución.</p>
+      </div>
+      <div id="kpi-grid" class="kpi-grid"></div>
+      <div id="territory-status-grid" class="territory-grid"></div>
+    </section>
+
+    <section id="como-funciona" class="method-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Cómo funciona</p>
+          <h2>Una secuencia sencilla y auditable</h2>
+        </div>
+      </div>
+      <div class="method-grid">
+        <article><span>1</span><h3>Datos censales y territoriales</h3><p>Se parte de secciones censales, población y geometría oficial para construir una base territorial común.</p></article>
+        <article><span>2</span><h3>Construcción de distritos</h3><p>Los distritos se generan y validan con reglas territoriales y poblacionales. La geometría queda cerrada antes de incorporar votos.</p></article>
+        <article><span>3</span><h3>Resultados electorales</h3><p>Las últimas elecciones disponibles se agregan después sobre los distritos ya construidos, sin cambiar sus límites.</p></article>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <strong>Diputado de Distrito</strong>
+    <span>Proyecto abierto, reproducible y trazable.</span>
+  </footer>
+
   <script src="https://unpkg.com/maplibre-gl@5.7.0/dist/maplibre-gl.js"></script>
   <script src="app.js"></script>
 </body>
