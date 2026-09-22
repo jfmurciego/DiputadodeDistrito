@@ -19,10 +19,10 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35654729415
-        artifact_name: ddd-source-package-andalucia-2025-35654729415
-        artifact_sha256: 0847da7af4dbb0e400920ef4d0d0e0cdefd7d1f994a6da30b1e580b301e529dd
-        package_sha256: 0f1b1bbd10c2a0eef0a2248f1fcb6c3381fe5533764342403c6a24c336b30cb1
+        run_id: 35746122811
+        artifact_name: ddd-source-package-andalucia-2025-35746122811
+        artifact_sha256: a9fe53ace05f6626696c0a8c45d6fb0cd2881875f43b8774e4aebe16b24ebffb
+        package_sha256: 2614e94f40c62743eaf3c2e30b8f4ab3a89dc92c9a07fb4ce2a4ab6f7348a8fc
 - territory_id: aragon
   name: Aragón
   editions:
