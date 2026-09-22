@@ -11,7 +11,21 @@
     "census_delta_min": 0,
     "census_delta_max": 8,
     "census_delta_sum": 190,
-    "method": "row-order crosswalk against 2023 municipal polling-station inventory for Oviedo districts 10-16; exact validation of special code and autonomous census per ordinal"
+    "method": "row-order crosswalk against 2023 municipal polling-station inventory for Oviedo districts 10-16; exact validation of special code and autonomous census per ordinal",
+    "source_identity": {
+      "province": "33",
+      "municipality": "044",
+      "district": "01"
+    },
+    "target_districts": [
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ]
   },
   "rows": [
     {
