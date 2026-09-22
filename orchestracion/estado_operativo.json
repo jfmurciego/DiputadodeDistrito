@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-22T12:25:12.726468+00:00",
+  "generated_at": "2026-09-22T13:28:59.426973+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -57,9 +57,9 @@
         "territorial_source": {
           "territory_id": "aragon",
           "edition": "2025",
-          "run_id": 35699814855,
-          "artifact_name": "ddd-source-package-aragon-2025-35699814855",
-          "artifact_sha256": "98214652711299c1476395d978253feaedfae8fac6b74affe96897b5f12ebafc",
+          "run_id": 35728613828,
+          "artifact_name": "ddd-source-package-aragon-2025-35728613828",
+          "artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -68,10 +68,10 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 35710908574,
-          "artifact_name": "ddd-state-35710908574-M06",
-          "artifact_sha256": "4cd60e6e64d67a0c2268ca1bab969cfb373b0446feea635d338becb540d3b374",
-          "source_commit": "7a9bcac22d4171e5ca298602935339f6d427d557",
+          "run_id": 35728613828,
+          "artifact_name": "ddd-state-35728613828-M06",
+          "artifact_sha256": "ba84c593a702beb63bf54c55bb47f6d130ad3deea51e7d2e667013be2fb62932",
+          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -81,10 +81,10 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 35710908574,
-          "artifact_name": "ddd-electoral-package-aragon-2025-35710908574",
-          "artifact_sha256": "f8a6d74c48c844611745a6f01e8452283a65891f015bdf48181cbe7818a5ca9c",
-          "source_commit": "7a9bcac22d4171e5ca298602935339f6d427d557",
+          "run_id": 35728613828,
+          "artifact_name": "ddd-electoral-package-aragon-2025-35728613828",
+          "artifact_sha256": "8b6217a69aa326992a9efc3acdd1eef1c6b9b57c12c33b0a422f4d9a96539dec",
+          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
           "election_id": "aragon_cortes_2026-02-08",
           "declaration": null,
           "election_contract": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
@@ -470,19 +470,19 @@
       "ft": "green",
       "g": "green",
       "fe": "green",
-      "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35661268397,
-      "stage": "M06",
+      "run_id": 35728626894,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "principado_de_asturias",
           "edition": "2025",
-          "run_id": 35575723511,
-          "artifact_name": "ddd-source-package-principado_de_asturias-2025-35575723511",
-          "artifact_sha256": "15718423c4b6e17c5d9bbdaa8db7343ef36e108d4353ebce1d24d22194161a52",
+          "run_id": 35728626894,
+          "artifact_name": "ddd-source-package-principado_de_asturias-2025-35728626894",
+          "artifact_sha256": "fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -491,10 +491,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 35661268397,
-          "artifact_name": "ddd-state-35661268397-M06",
-          "artifact_sha256": "b477dd5b0ffb08a57564e8c0e2125184c6dc466d1473ea4ba19f389ff685a2bb",
-          "source_commit": "3dec05ae08a7f0445d5eec70743d59fd14cf1611",
+          "run_id": 35728626894,
+          "artifact_name": "ddd-state-35728626894-M06",
+          "artifact_sha256": "9b3bd94abdcefa452b85e30d217cedc8985175b103beec058cffc5c315fe57a2",
+          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -504,14 +504,25 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 35661268397,
-          "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-35661268397",
-          "artifact_sha256": "2c7da4eff53e0d1866cfbf08c242d2a1b60140b1c4cf4b9712bfe28f34ce5b72",
-          "source_commit": "3dec05ae08a7f0445d5eec70743d59fd14cf1611",
-          "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml",
-          "election_id": "asturias_jgpa_2023"
+          "run_id": 35728626894,
+          "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-35728626894",
+          "artifact_sha256": "3dff251f7c22013af1c8d54b808aee6f1739b66b12809f7bbb39be4fda4216db",
+          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+          "election_id": "asturias_jgpa_2023",
+          "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml"
         },
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "principado_de_asturias",
+          "territory_name": "Principado de Asturias",
+          "edition": "2025",
+          "run_id": 35728626894,
+          "artifact_name": "ddd-state-35728626894-M08",
+          "artifact_sha256": "19e5bac205f67fb49f985e4dbe5b56f5314dc37926382555d3e5b6a2617a206a",
+          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+          "stage": "M08"
+        }
       }
     },
     {
@@ -535,10 +546,11 @@
     }
   ],
   "kpis": {
-    "complete": 2,
+    "complete": 3,
     "complete_names": [
       "Aragón",
-      "Galicia"
+      "Galicia",
+      "Principado de Asturias"
     ],
     "territorial_validated": 4,
     "territorial_validated_names": [
@@ -580,9 +592,9 @@
     ]
   },
   "latest_validated": {
-    "territory_id": "galicia",
-    "name": "Galicia",
-    "run_id": 35716459467,
+    "territory_id": "principado_de_asturias",
+    "name": "Principado de Asturias",
+    "run_id": 35728626894,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -611,10 +623,6 @@
     {
       "territory": "La Rioja",
       "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Principado de Asturias",
-      "action": "incorporar resultados electorales"
     }
   ],
   "next_actions": [
@@ -633,10 +641,6 @@
     {
       "territory": "Extremadura",
       "action": "preparar fuentes electorales"
-    },
-    {
-      "territory": "Principado de Asturias",
-      "action": "incorporar resultados electorales"
     }
   ]
 }

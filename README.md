@@ -10,13 +10,13 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-22T12:25:12.726468+00:00 · Edición: **2025**
+Actualizado: 2026-09-22T13:28:59.426973+00:00 · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **2** | Aragón · Galicia |
+| **Cadena completa validada** | 🟢 **3** | Aragón · Galicia · Principado de Asturias |
 | **Generación territorial validada** | 🟢 **4** | Aragón · Extremadura · Galicia · Principado de Asturias |
 | **Preparados para continuar** | 🔵 **3** | Andalucía · Castilla y León · Cataluña |
 | **Validación pendiente** | 🟡 **1** | La Rioja |
@@ -45,7 +45,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **La Rioja** | ⚪ | 🟡 | ⚪ | ⚪ | Puerta de validación pendiente |
 | **Melilla** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
 | **País Vasco** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
+| **Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **Región de Murcia** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
 
 ## Cadena automática
