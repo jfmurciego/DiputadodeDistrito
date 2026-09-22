@@ -57,7 +57,7 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '1301701001', v: '1304901001', edge_type: administrative_exclave, reason: 'Componente de Ciudad Real físicamente separada; enlace mínimo auditado a Horcajo de los Montes (~4619 m).', source: 'R023 run 34688393979'}
+      - {u: '1301701001', v: '1304901001', admin_scope: 'province:13', edge_type: administrative_exclave, reason: 'Componente de Ciudad Real físicamente separada; enlace mínimo auditado a Horcajo de los Montes (~4619 m).', source: 'R023 run 34688393979'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"

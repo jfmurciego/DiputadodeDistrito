@@ -57,7 +57,7 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges:
-      - {u: '3910101001', v: '3903001001', edge_type: administrative_exclave, reason: 'Valle de Villaverde: componente cántabra separada; enlace mínimo auditado a Guriezo (~2702 m).', source: 'R023 run 34688393979'}
+      - {u: '3910101001', v: '3903001001', admin_scope: 'province:39', edge_type: administrative_exclave, reason: 'Valle de Villaverde: componente cántabra separada; enlace mínimo auditado a Guriezo (~2702 m).', source: 'R023 run 34688393979'}
   modulo_03_construir_grafo:
     in_geojson: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
     in_edges_jsonl: "territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl"
