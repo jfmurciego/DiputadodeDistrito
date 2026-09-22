@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 08 — Integrar resultados en el mapa final
-VERSIÓN: 7.2.0
+VERSIÓN: 7.3.0
 NOMBRE DE VERSIÓN: Unión electoral exhaustiva con identificador canónico
 FECHA: 2026-09-15
 QUÉ HACE: une resultados agregados con la geometría; por defecto exige cobertura exacta y sólo permite distritos sin resultados cuando todas sus secciones están declaradas como map_only en la reconciliación M07.
 POR QUÉ ES SEPARADO: es la unión final de dos productos ya generados y permite cambiar datos electorales sin redistritar.
 ESTADO: vigente — R039
-CAMBIOS: añade excepción auditable para distritos compuestos íntegramente por secciones map_only declaradas en M07.
+CAMBIOS: endurece la excepción map_only: requiere umbral poblacional explícito y falla si la población declarada en secciones map_only lo supera.
 MOTIVO: pandas puede inferir district_id electoral como float al leer CSV; la representación no puede convertir una cobertura 67/67 en un falso faltante total.
 ANTERIOR: legacy/modulo08/08_integrar_resultados_v7.1.0.py
 """
@@ -101,16 +101,27 @@ def integrate_results(gdf, results, *, allowed_missing_districts=None):
     return out
 
 
-def derive_declared_missing_districts(section_gdf, reconciliation_report, *, section_field, district_field):
-    """Autoriza sólo distritos cuyas secciones están todas en map_only ya validado por M07."""
-    if section_field not in section_gdf.columns or district_field not in section_gdf.columns:
-        raise ValueError("No se puede auditar cobertura distrital: faltan campos de sección/distrito")
+def derive_declared_missing_districts(section_gdf, reconciliation_report, *, section_field, district_field, population_field, max_map_only_population):
+    """Autoriza sólo distritos íntegramente map_only y bajo un umbral poblacional explícito."""
+    required={section_field,district_field,population_field}
+    missing_fields=sorted(required-set(section_gdf.columns))
+    if missing_fields:
+        raise ValueError(f"No se puede auditar cobertura distrital: faltan campos {missing_fields}")
+    if max_map_only_population is None:
+        raise ValueError("allow_declared_map_only_districts requiere max_map_only_population explícito")
     map_only={str(item.get("section_id")) for item in (reconciliation_report.get("map_only_sections") or [])}
     if not map_only:
         return []
-    work=section_gdf[[section_field,district_field]].copy()
+    work=section_gdf[[section_field,district_field,population_field]].copy()
     work[section_field]=work[section_field].astype(str)
     work[district_field]=work[district_field].map(canonical_district_id)
+    work[population_field]=pd.to_numeric(work[population_field],errors="coerce").fillna(0)
+    map_only_population=int(work.loc[work[section_field].isin(map_only),population_field].sum())
+    if map_only_population > int(max_map_only_population):
+        raise ValueError(
+            "Población en secciones map_only por encima del umbral declarado: "
+            f"{map_only_population} > {int(max_map_only_population)}"
+        )
     allowed=[]
     for district_id,group in work.groupby(district_field):
         sections=set(group[section_field])
@@ -149,6 +160,11 @@ def main():
             reconciliation,
             section_field=require(m07.get("section_id_field"), "Falta M07 section_id"),
             district_field=require(m07.get("district_field"), "Falta M07 district_id"),
+            population_field=require(
+                m08.get("population_field") or m06.get("pop_field"),
+                "Falta campo de población para auditar map_only",
+            ),
+            max_map_only_population=m08.get("max_map_only_population"),
         )
     output = integrate_results(
         load_geojson_zip(districts_geo),
