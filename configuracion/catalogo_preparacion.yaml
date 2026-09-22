@@ -355,18 +355,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
+      preparation_status: READY
       contract_path: territorios/pais_vasco/config/pais_vasco_2025.yaml
-      territorial_source_declaration: null
+      territorial_source_declaration: territorios/pais_vasco/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 35755166499
+        artifact_name: ddd-source-package-pais_vasco-2025-35755166499
+        artifact_sha256: f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b
+        package_sha256: 02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a
 - territory_id: la_rioja
   name: La Rioja
   editions:
