@@ -192,7 +192,11 @@ def transform_minsait_polling_long_csv(source:Path,out_dir:Path,declaration:dict
         if mun in {"991","992","993","999"}:
             skipped+=1
             continue
-        special_section=(not re.fullmatch(r"\d+",sec_raw) or int(sec_raw)<=0 or len(re.sub(r"\D","",sec_raw))>section_width)
+        special_section=(
+            not re.fullmatch(r"\d+",sec_raw)
+            or int(sec_raw)<=0
+            or int(sec_raw) >= 10**section_width
+        )
         cusec=(f"SPECIAL:{prov}:{mun}:{dist}:{sec_raw}" if special_section else f"{prov}{mun}{dist}{sec}")
         votes=_as_int(row.get(votes_field))
         key=(cusec,party)
