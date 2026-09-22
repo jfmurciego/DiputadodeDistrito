@@ -166,38 +166,50 @@ def sync_territory_from_artifact_roots(
     if territorial:
         run_id = int(territorial["run_id"])
         destination = territory_dir / "territorial.geojson"
-        if m06_root is None:
-            raise ValueError(f"{territory_id}: falta artefacto M06")
-        count = _product_from_artifact(
-            artifact_root=m06_root,
-            stage="M06",
-            destination=destination,
+        existing_product = products.get("territorial") or {}
+        reusable = (
+            int(existing_product.get("source_run_id") or -1) == run_id
+            and destination.is_file()
         )
-        products["territorial"] = _product_entry(
-            kind="territorial",
-            source_path=destination.relative_to(root),
-            district_count=count,
-            source_run_id=run_id,
-        )
+        if not reusable:
+            if m06_root is None:
+                raise ValueError(f"{territory_id}: falta artefacto M06 y no existe copia web durable")
+            count = _product_from_artifact(
+                artifact_root=m06_root,
+                stage="M06",
+                destination=destination,
+            )
+            products["territorial"] = _product_entry(
+                kind="territorial",
+                source_path=destination.relative_to(root),
+                district_count=count,
+                source_run_id=run_id,
+            )
 
     if electoral:
         run_id = int(electoral["run_id"])
         destination = territory_dir / "electoral.geojson"
-        if m08_root is None:
-            raise ValueError(f"{territory_id}: falta artefacto M08")
-        count = _product_from_artifact(
-            artifact_root=m08_root,
-            stage="M08",
-            destination=destination,
+        existing_product = products.get("electoral") or {}
+        reusable = (
+            int(existing_product.get("source_run_id") or -1) == run_id
+            and destination.is_file()
         )
-        products["electoral"] = _product_entry(
-            kind="electoral",
-            source_path=destination.relative_to(root),
-            district_count=count,
-            source_run_id=run_id,
-            election_id=election_id,
-            election_date=election_date,
-        )
+        if not reusable:
+            if m08_root is None:
+                raise ValueError(f"{territory_id}: falta artefacto M08 y no existe copia web durable")
+            count = _product_from_artifact(
+                artifact_root=m08_root,
+                stage="M08",
+                destination=destination,
+            )
+            products["electoral"] = _product_entry(
+                kind="electoral",
+                source_path=destination.relative_to(root),
+                district_count=count,
+                source_run_id=run_id,
+                election_id=election_id,
+                election_date=election_date,
+            )
 
     if not products:
         return catalog
@@ -243,28 +255,48 @@ def sync_territory(
     if not territorial and not electoral:
         return _load_catalog(catalog_path)
 
+    catalog = _load_catalog(catalog_path)
+    existing = next(
+        (row for row in catalog.get("territories", []) if row.get("territory_id") == territory_id),
+        {},
+    )
+    existing_products = {
+        product.get("kind"): product
+        for product in existing.get("products", [])
+        if product.get("kind")
+    }
+
+    def already_durable(kind: str, run_id: int, filename: str) -> bool:
+        product = existing_products.get(kind) or {}
+        return (
+            int(product.get("source_run_id") or -1) == run_id
+            and (output_root / territory_id / filename).is_file()
+        )
+
     with tempfile.TemporaryDirectory(prefix=f"ddd-visor-{territory_id}-") as td:
         work = Path(td)
         m06_root = None
         m08_root = None
         if territorial:
             run_id = int(territorial["run_id"])
-            artifact_name = str(territorial.get("artifact_name") or f"ddd-state-{run_id}-M06")
-            m06_root = _download_artifact(
-                repository=repository,
-                run_id=run_id,
-                artifact_name=artifact_name,
-                destination=work / "m06",
-            )
+            if not already_durable("territorial", run_id, "territorial.geojson"):
+                artifact_name = str(territorial.get("artifact_name") or f"ddd-state-{run_id}-M06")
+                m06_root = _download_artifact(
+                    repository=repository,
+                    run_id=run_id,
+                    artifact_name=artifact_name,
+                    destination=work / "m06",
+                )
         if electoral:
             run_id = int(electoral["run_id"])
-            artifact_name = str(electoral.get("artifact_name") or f"ddd-state-{run_id}-M08")
-            m08_root = _download_artifact(
-                repository=repository,
-                run_id=run_id,
-                artifact_name=artifact_name,
-                destination=work / "m08",
-            )
+            if not already_durable("electoral", run_id, "electoral.geojson"):
+                artifact_name = str(electoral.get("artifact_name") or f"ddd-state-{run_id}-M08")
+                m08_root = _download_artifact(
+                    repository=repository,
+                    run_id=run_id,
+                    artifact_name=artifact_name,
+                    destination=work / "m08",
+                )
         return sync_territory_from_artifact_roots(
             root=root,
             state=state,
