@@ -14,7 +14,7 @@ from herramientas.comprobar_fuente_electoral_oficial import check_declaration
 from herramientas.materializar_contrato_electoral_runtime import materialize
 from herramientas.resolver_eleccion_vigente import resolve
 from herramientas.validar_paquete_electoral import validate_package
-from herramientas.preparar_fuente_electoral import prepare, validate_previous
+from herramientas.preparar_fuente_electoral import prepare, validate_previous, transform_minsait_polling_long_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -223,6 +223,61 @@ class VerifiedMirrorPolicyTests(unittest.TestCase):
             )
             self.assertEqual(result["decision"], "READY")
             self.assertEqual(result["selected_source"]["source_class"], "verified_mirror")
+
+
+class MinsaitTransformTests(unittest.TestCase):
+    def test_polling_station_long_csv_is_aggregated_to_cusec_and_party(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            source=root/"minsait.csv"
+            source.write_text(
+                "codigo_ccaa,codigo_provincia,codigo_municipio,codigo_distrito,codigo_seccion,codigo_mesa,recode,votos\n"
+                "11,6,15,1,2,A,PP,10\n"
+                "11,6,15,1,2,B,PP,12\n"
+                "11,6,15,1,2,A,PSOE,8\n"
+                "11,6,15,1,2,B,PSOE,7\n"
+                "11,10,20,3,4,A,PP,5\n",
+                encoding="utf-8",
+            )
+            declaration={
+                "territory_id":"extremadura",
+                "election_id":"extremadura_asamblea_2025-12-21",
+                "election_date":"2025-12-21",
+                "reconciliation":{
+                    "policy":"fail_unless_declared",
+                    "allowed_result_only_sections":[],
+                    "allowed_map_only_sections":[],
+                },
+            }
+            source_decl={
+                "publisher":"Mirror Minsait",
+                "url":"https://mirror.example/extremadura.csv",
+                "transform":{
+                    "kind":"minsait_polling_long_csv",
+                    "province_field":"codigo_provincia",
+                    "municipality_field":"codigo_municipio",
+                    "district_field":"codigo_distrito",
+                    "section_field":"codigo_seccion",
+                    "polling_station_field":"codigo_mesa",
+                    "party_fields":["recode","partido","siglas","denominacion"],
+                    "votes_field":"votos",
+                    "autonomous_community_field":"codigo_ccaa",
+                    "autonomous_community_code":"11",
+                },
+            }
+            result=transform_minsait_polling_long_csv(source,root/"out",declaration,source_decl)
+            self.assertEqual(result["raw_rows"],5)
+            self.assertEqual(result["polling_stations"],3)
+            self.assertEqual(result["sections"],2)
+            self.assertEqual(result["parties"],2)
+            self.assertEqual(result["records"],3)
+            rows=(root/"out/resultados_electorales_normalizados.csv").read_text(encoding="utf-8").splitlines()
+            self.assertIn("0601501002;PP;22",rows)
+            self.assertIn("0601501002;PSOE;15",rows)
+            self.assertIn("1002003004;PP;5",rows)
+            contract=json.loads((root/"out/election_contract.json").read_text(encoding="utf-8"))
+            self.assertEqual(contract["sources"][0]["adapter"]["kind"],"long_csv")
+            self.assertEqual(contract["territory_id"],"extremadura")
 
 
 class EmbeddedContractTests(unittest.TestCase):
