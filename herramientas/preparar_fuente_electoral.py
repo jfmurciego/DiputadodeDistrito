@@ -160,9 +160,28 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
                         f"esperado={expected.get('expected_autonomic_census')} observado={census_value}"
                     )
                 cusec=str(expected["target_cusec"])
-                if len(cusec) != 10 or cusec[:2] != prov or cusec[2:5] != mun or cusec[5:7] != dist:
+                evidence=(json.loads((root/str(transform.get("special_row_crosswalk"))).read_text(encoding="utf-8")).get("evidence") or {})
+                source_identity=evidence.get("source_identity") or {}
+                if (
+                    str(source_identity.get("province") or "") != prov
+                    or str(source_identity.get("municipality") or "") != mun
+                    or str(source_identity.get("district") or "") != dist
+                ):
                     raise ValueError(
-                        f"Crosswalk especial no reproduce identidad territorial ordinal={special_pos}: "
+                        f"Crosswalk especial no reproduce identidad de la fila fuente ordinal={special_pos}: "
+                        f"observado={prov}/{mun}/{dist}/{sec_raw} esperado="
+                        f"{source_identity.get('province')}/{source_identity.get('municipality')}/{source_identity.get('district')}"
+                    )
+                target_district=cusec[5:7] if len(cusec)==10 else ""
+                allowed_target_districts={str(x) for x in (evidence.get("target_districts") or [])}
+                if (
+                    len(cusec) != 10
+                    or cusec[:2] != prov
+                    or cusec[2:5] != mun
+                    or target_district not in allowed_target_districts
+                ):
+                    raise ValueError(
+                        f"Crosswalk especial no reproduce identidad territorial de destino ordinal={special_pos}: "
                         f"fuente={prov}/{mun}/{dist}/{sec_raw} destino={cusec}"
                     )
             else:
