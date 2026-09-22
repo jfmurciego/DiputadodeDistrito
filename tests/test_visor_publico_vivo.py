@@ -182,7 +182,7 @@ class LiveViewerCatalogTests(unittest.TestCase):
         self.assertNotIn("publication_status", app)
         self.assertNotIn("run_id", app)
         self.assertIn("Territorial y censal", app)
-        self.assertIn("Resultados electorales nunca intervienen", html)
+        self.assertIn("Los resultados electorales nunca intervienen", html)
 
     def test_existing_workflows_refresh_live_data_without_redeploy_dependency(self):
         full = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
