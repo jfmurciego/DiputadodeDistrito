@@ -1,1 +1,80 @@
-:root{--ink:#14213d;--muted:#52606d;--line:#d9e2ec;--paper:#f7f9fb;--accent:#b42318;--blue:#0b5cab;--ok:#18794e;--bad:#b42318}*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--paper)}.topbar{min-height:92px;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff;border-bottom:1px solid var(--line)}h1,h2,p{margin:0}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:700}h1{font-size:24px}.dashboard-link{display:inline-block;margin-top:6px;color:var(--blue);font-size:13px;font-weight:700;text-decoration:none}.dashboard-link:hover{text-decoration:underline}.selectors{display:flex;gap:12px;align-items:end;flex-wrap:wrap;justify-content:flex-end}.selector{font-weight:650;color:var(--muted);display:grid;gap:4px}.selector select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);max-width:360px}.result-selector select{min-width:310px}main{height:calc(100vh - 92px);display:grid;grid-template-columns:minmax(0,1fr) 360px}#map{min-height:400px;background:#dce8f3}.panel{overflow:auto;background:#fff;border-left:1px solid var(--line);padding:18px}.status{font-weight:650;color:var(--blue);margin-bottom:16px}.card,.source-note,.summary{border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px;background:#fff}.warning{border-left:4px solid var(--accent)}.card h2,.source-note h2{font-size:15px;margin-bottom:8px}.summary dl,.detail-list{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 12px}.summary dt,.detail-list dt{color:var(--muted)}.summary dd,.detail-list dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}.district-title{font-size:18px;font-weight:750;margin:0 0 10px}.legend ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}.legend li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:center;font-size:13px}.legend-swatch{width:18px;height:14px;border:1px solid rgba(20,33,61,.28);border-radius:2px}.source-note a{color:var(--blue)}.maplibregl-popup-content{padding:9px 11px;font:14px system-ui}.good{color:var(--ok);font-weight:750}.bad{color:var(--bad);font-weight:750}.gate{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}@media(max-width:900px){.topbar{align-items:flex-start}.selectors{max-width:60%}.result-selector select{min-width:240px}}@media(max-width:760px){.topbar{min-height:150px;padding:14px 16px;display:block}.topbar h1{font-size:20px}.selectors{max-width:none;display:grid;grid-template-columns:1fr;margin-top:10px}.selector select,.result-selector select{max-width:none;min-width:0;width:100%}main{height:auto;min-height:calc(100vh - 150px);display:block}#map{height:60vh}.panel{border-left:0;border-top:1px solid var(--line)}}
+:root{
+  --ink:#142033;
+  --muted:#667085;
+  --line:#e4e7ec;
+  --paper:#f5f7fa;
+  --surface:#ffffff;
+  --brand:#153e75;
+  --brand-2:#0f2d52;
+  --accent:#b42318;
+  --ok:#18794e;
+  --ok-bg:#eaf7f0;
+  --warn:#b26a00;
+  --warn-bg:#fff6df;
+  --info:#175cd3;
+  --info-bg:#edf4ff;
+  --off:#667085;
+  --off-bg:#f2f4f7;
+  --danger:#b42318;
+  --danger-bg:#fff0ee;
+  --shadow:0 12px 32px rgba(16,24,40,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper)}
+a{color:inherit}
+h1,h2,h3,p{margin-top:0}
+.site-header{height:74px;padding:0 max(24px,calc((100vw - 1440px)/2));display:flex;align-items:center;justify-content:space-between;gap:28px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--brand-2);color:#fff;font-weight:800;letter-spacing:.04em}
+.brand strong,.brand small{display:block}.brand strong{font-size:16px}.brand small{font-size:12px;color:var(--muted);margin-top:1px}
+nav{display:flex;gap:24px;align-items:center}
+nav a{text-decoration:none;color:var(--muted);font-weight:650;font-size:14px}
+nav a:hover{color:var(--brand)}
+main{max-width:1440px;margin:auto;padding:0 24px 56px}
+.hero{padding:54px 0 30px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:36px;align-items:end}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:800;color:var(--brand);margin-bottom:8px}
+.hero h1{font-size:clamp(30px,4vw,50px);line-height:1.06;letter-spacing:-.035em;margin-bottom:14px;max-width:900px}
+.lede{font-size:18px;color:var(--muted);max-width:860px;margin-bottom:0}
+.live-note{min-width:220px;display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 14px rgba(16,24,40,.04)}
+.live-note strong,.live-note small{display:block}.live-note small{color:var(--muted);font-size:12px;margin-top:2px}
+.pulse{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 5px rgba(24,121,78,.12)}
+.viewer-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.viewer-toolbar{min-height:80px;padding:16px 18px;display:flex;align-items:end;gap:16px;border-bottom:1px solid var(--line)}
+.viewer-toolbar label{display:grid;gap:5px;font-size:12px;font-weight:750;color:var(--muted);min-width:220px}
+.viewer-toolbar select{font:inherit;font-size:15px;color:var(--ink);padding:10px 12px;border:1px solid #cfd6df;border-radius:10px;background:#fff}
+.territory-badge{margin-left:auto;align-self:center;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:750;background:var(--off-bg);color:var(--off)}
+.territory-badge.green{background:var(--ok-bg);color:var(--ok)}
+.territory-badge.blue{background:var(--info-bg);color:var(--info)}
+.territory-badge.yellow{background:var(--warn-bg);color:var(--warn)}
+.territory-badge.red{background:var(--danger-bg);color:var(--danger)}
+.viewer-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;min-height:640px}
+#map{min-height:640px;background:#dce6ef}
+.map-panel{padding:20px;border-left:1px solid var(--line);background:#fff;overflow:auto}
+.summary{display:grid;gap:14px}
+.summary-title h2{font-size:22px;line-height:1.15;margin:0 0 5px}.summary-title p{color:var(--muted);margin:0}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd}
+.stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:750}
+.stat strong{display:block;font-size:18px;margin-top:3px;font-variant-numeric:tabular-nums}
+.info-card{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.info-card h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.detail-empty{color:var(--muted)}
+.district-title{font-size:19px;font-weight:800;margin:0 0 10px}
+.detail-list{margin:0;display:grid;grid-template-columns:1fr auto;gap:7px 12px}
+.detail-list dt{color:var(--muted)}.detail-list dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.legend ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}.legend li{display:grid;grid-template-columns:16px 1fr;gap:8px;align-items:center;font-size:13px}.legend-swatch{width:16px;height:12px;border:1px solid rgba(20,32,51,.18);border-radius:3px}
+.map-message{color:var(--muted);font-size:12px;margin:18px 0 0}
+.project-section,.method-section{padding-top:70px}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:24px}.section-heading h2{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin-bottom:0}.section-heading>p{max-width:520px;color:var(--muted);margin:0}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.kpi span{color:var(--muted);font-size:12px;font-weight:700}.kpi strong{display:block;font-size:28px;margin:4px 0 2px}.kpi small{color:var(--muted)}
+.territory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.territory-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 15px;display:grid;grid-template-columns:12px 1fr;gap:10px;align-items:start}
+.territory-card .dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:#98a2b3}.territory-card.green .dot{background:var(--ok)}.territory-card.blue .dot{background:var(--info)}.territory-card.yellow .dot{background:#eaaa08}.territory-card.red .dot{background:var(--danger)}
+.territory-card strong{display:block}.territory-card small{display:block;color:var(--muted);margin-top:2px}
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.method-grid article{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}.method-grid article>span{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--brand-2);color:#fff;font-weight:800;margin-bottom:16px}.method-grid h3{font-size:18px;margin-bottom:8px}.method-grid p{color:var(--muted);margin:0}
+footer{max-width:1440px;margin:auto;padding:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted)}
+.maplibregl-popup-content{padding:10px 12px;font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;border-radius:10px}
+@media(max-width:1000px){nav{display:none}.viewer-layout{grid-template-columns:1fr}.map-panel{border-left:0;border-top:1px solid var(--line)}#map{min-height:540px;height:58vh}.territory-grid{grid-template-columns:repeat(2,1fr)}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){main{padding:0 14px 40px}.site-header{padding:0 14px}.hero{grid-template-columns:1fr;padding-top:32px}.live-note{width:100%}.viewer-toolbar{display:grid;grid-template-columns:1fr}.viewer-toolbar label{min-width:0}.territory-badge{margin-left:0;justify-self:start}.viewer-layout{min-height:0}#map{height:54vh;min-height:420px}.section-heading{display:block}.section-heading>p{margin-top:10px}.territory-grid,.method-grid,.kpi-grid{grid-template-columns:1fr}.project-section,.method-section{padding-top:50px}footer{display:block;padding:20px 14px}footer span{display:block;margin-top:4px}}
