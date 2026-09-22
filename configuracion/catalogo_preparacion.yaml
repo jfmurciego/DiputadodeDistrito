@@ -248,16 +248,16 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: false
       electoral_product_available: false
-      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
+      preparation_evidence:
+        run_id: 35755043806
+        artifact_name: ddd-source-package-extremadura-2025-35755043806
+        artifact_sha256: fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347
+        package_sha256: edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07
         run_id: 35699856547
         stage: M06
-      preparation_evidence:
-        run_id: 35699856547
-        artifact_name: ddd-source-package-extremadura-2025-35699856547
-        artifact_sha256: 783d3fc2a52fb230e6d85eb42ff57c80798df2bcd0cc09e702ae54fe9cd6b5e1
-        package_sha256: 2adc888855af3682a672d003bded8b349f983959597b14b3811833295ffb26cd
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
 - territory_id: galicia
