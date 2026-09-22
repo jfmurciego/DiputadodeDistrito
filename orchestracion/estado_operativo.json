@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-22T09:45:40.110555+00:00",
+  "generated_at": "2026-09-22T12:25:12.726468+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -336,7 +336,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35622073641,
+      "run_id": 35716459467,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -354,10 +354,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 35622073641,
-          "artifact_name": "ddd-state-35622073641-M06",
-          "artifact_sha256": "fdb7e6aed796b660390a432105cfc67b61af5ea6a21ecbeaa44218acad221622",
-          "source_commit": "611b09050318d21d36203a047554473b0a4aad3f",
+          "run_id": 35716459467,
+          "artifact_name": "ddd-state-35716459467-M06",
+          "artifact_sha256": "2603879d90102ae2c30f845560446d4da70023656e78cb1e53c1838e21bf1302",
+          "source_commit": "a23eb3b177c016391a50b19258c1165ae4ba31ae",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -380,10 +380,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 35622073641,
-          "artifact_name": "ddd-state-35622073641-M08",
-          "artifact_sha256": "ea3397ace18017ccd5eef3e6106dbec37cafda76ab3fefe1fde99867456c9e9b",
-          "source_commit": "611b09050318d21d36203a047554473b0a4aad3f",
+          "run_id": 35716459467,
+          "artifact_name": "ddd-state-35716459467-M08",
+          "artifact_sha256": "124836794a2a3945084734583342b4cd8c9595377c9175c7c8af16f3f55e7a11",
+          "source_commit": "a23eb3b177c016391a50b19258c1165ae4ba31ae",
           "stage": "M08"
         }
       }
@@ -580,9 +580,9 @@
     ]
   },
   "latest_validated": {
-    "territory_id": "aragon",
-    "name": "Aragón",
-    "run_id": 35710908574,
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "run_id": 35716459467,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
