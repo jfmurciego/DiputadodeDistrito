@@ -1,98 +1,127 @@
-/* PROYECTO: Diputado de Distrito
- * VERSIÓN: 1.4.0
- * NOMBRE: visor técnico con leyendas por tipo de resultado
- * QUÉ HACE: visualiza resultados certificados, con simbología M06/M08 y estado verificable.
- * ANTERIOR: visor/app.js v1.3.1
- */
-let RESULTS=[];
-const map=new maplibregl.Map({container:"map",style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm"}]},center:[-2.5,41.5],zoom:5.2});
+/* DDD visor v2.0.0 — experiencia pública ejecutiva con datos vivos. */
+const RAW_BASE="https://raw.githubusercontent.com/jfmurciego/DiputadodeDistrito/main/";
+const LIVE_CATALOG="publicado/visor/catalogo.json";
+const LIVE_STATE="orchestracion/estado_operativo.json";
+let CATALOG={territories:[]}, PROJECT_STATE={territories:[],kpis:{}}, CURRENT=null;
+
+const $=s=>document.querySelector(s);
+const territorySelect=$("#territory-select"), resultSelect=$("#result-select"), summary=$("#summary"),
+      detail=$("#detail"), legend=$("#legend"), mapMessage=$("#map-message"),
+      territoryBadge=$("#territory-badge"), freshness=$("#freshness"),
+      kpiGrid=$("#kpi-grid"), territoryStatusGrid=$("#territory-status-grid");
+
+const map=new maplibregl.Map({
+  container:"map",
+  style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm"}]},
+  center:[-3.5,40.2],zoom:5
+});
 map.addControl(new maplibregl.NavigationControl(),"top-right");
-const territorySelect=document.querySelector("#territory-select"),resultSelect=document.querySelector("#result-select"),status=document.querySelector("#status"),summary=document.querySelector("#summary"),detail=document.querySelector("#detail"),legend=document.querySelector("#legend"),sourceLink=document.querySelector("#source-link"),useStatus=document.querySelector("#use-status");
-const scalar=(props,names)=>{for(const n of names){if(props[n]!==undefined&&props[n]!==null&&props[n]!=="")return props[n]}return null};
-const formatNumber=v=>typeof v==="number"?new Intl.NumberFormat("es-ES",{maximumFractionDigits:2}).format(v):String(v??"—");
-const formatPercent=v=>{if(v===null||v===undefined||v==="")return"—";const n=Number(v);if(!Number.isFinite(n))return String(v);const pct=Math.abs(n)<=1?n*100:n;return pct.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" %"};
+
 const M06_BINS=[
-  {label:"Menos de −10 %",color:"#2166ac"},
-  {label:"−10 % a −5 %",color:"#67a9cf"},
-  {label:"−5 % a +5 %",color:"#f7f7f7"},
-  {label:"+5 % a +10 %",color:"#ef8a62"},
-  {label:"Más de +10 %",color:"#b2182b"},
+  {label:"Más de 10 % por debajo del objetivo",color:"#2166ac"},
+  {label:"Entre 5 % y 10 % por debajo",color:"#67a9cf"},
+  {label:"Dentro de ±5 %",color:"#f7f7f7"},
+  {label:"Entre 5 % y 10 % por encima",color:"#ef8a62"},
+  {label:"Más de 10 % por encima del objetivo",color:"#b2182b"}
 ];
 const PARTY_PALETTE=["#0072B2","#D55E00","#009E73","#CC79A7","#E69F00","#56B4E9","#6A3D9A","#8C564B","#2F4B7C","#7F7F7F"];
-function utmToWgs84(x,y){const a=6378137,e=0.081819191,e1=(1-Math.sqrt(1-e*e))/(1+Math.sqrt(1-e*e)),k0=.9996,x1=x-500000,M=y/k0,mu=M/(a*(1-e*e/4-3*Math.pow(e,4)/64-5*Math.pow(e,6)/256));const phi1=mu+(3*e1/2-27*Math.pow(e1,3)/32)*Math.sin(2*mu)+(21*e1*e1/16-55*Math.pow(e1,4)/32)*Math.sin(4*mu)+(151*Math.pow(e1,3)/96)*Math.sin(6*mu);const ep=e*e/(1-e*e),C1=ep*Math.cos(phi1)**2,T1=Math.tan(phi1)**2,N1=a/Math.sqrt(1-e*e*Math.sin(phi1)**2),R1=a*(1-e*e)/Math.pow(1-e*e*Math.sin(phi1)**2,1.5),D=x1/(N1*k0);const lat=phi1-(N1*Math.tan(phi1)/R1)*(D*D/2-(5+3*T1+10*C1-4*C1*C1-9*ep)*D**4/24+(61+90*T1+298*C1+45*T1*T1-252*ep-3*C1*C1)*D**6/720);const lon=(-3*Math.PI/180)+(D-(1+2*T1+C1)*D**3/6+(5-2*C1+28*T1-3*C1*C1+8*ep+24*T1*T1)*D**5/120)/Math.cos(phi1);return[lon*180/Math.PI,lat*180/Math.PI]}
-function transformCoordinates(v){if(typeof v[0]==="number")return Math.abs(v[0])<=180&&Math.abs(v[1])<=90?v:utmToWgs84(v[0],v[1]);return v.map(transformCoordinates)}
-function normalize(data){return{...data,features:data.features.map(f=>({...f,geometry:{...f.geometry,coordinates:transformCoordinates(f.geometry.coordinates)}}))}}
-function boundsFor(data){const b=new maplibregl.LngLatBounds();data.features.forEach(f=>{const visit=c=>typeof c[0]==="number"?b.extend(c):c.forEach(visit);visit(f.geometry.coordinates)});return b}
+
+function scalar(props,names){for(const n of names){const v=props?.[n];if(v!==undefined&&v!==null&&v!=="")return v}return null}
+function num(v){const n=Number(v);return Number.isFinite(n)?n:null}
+function fmt(v,d=0){const n=num(v);return n===null?"—":new Intl.NumberFormat("es-ES",{maximumFractionDigits:d}).format(n)}
+function pct(v){const n=num(v);if(n===null)return"—";const x=Math.abs(n)<=1?n*100:n;return x.toLocaleString("es-ES",{minimumFractionDigits:1,maximumFractionDigits:1})+" %"}
+function year(p){if(p?.election_date)return String(p.election_date).slice(0,4);return String(p?.election_id||"").match(/20\d{2}/)?.[0]||null}
+function productLabel(p){return p.kind==="electoral"?`Electoral · elecciones ${year(p)||"vigentes"}`:"Territorial y censal"}
+function productSubtitle(p){return p.kind==="electoral"?"Resultados electorales incorporados después de fijar los distritos.":"Distribución territorial y población por distrito."}
+function rawUrl(path){return /^https?:\/\//.test(path)?path:RAW_BASE+String(path).replace(/^\/+/ ,"")}
+async function fetchJson(primary,fallback){
+  const v=Date.now();
+  try{const r=await fetch(rawUrl(primary)+`?v=${v}`,{cache:"no-store"});if(!r.ok)throw new Error(`HTTP ${r.status}`);return await r.json()}
+  catch(e){if(!fallback)throw e;const r=await fetch(`${fallback}?v=${v}`,{cache:"no-store"});if(!r.ok)throw e;return await r.json()}
+}
+function projectRow(id){return PROJECT_STATE.territories?.find(r=>r.territory_id===id)||null}
+function publicStatus(r){
+  if(!r)return{className:"gray",label:"Estado pendiente"};
+  if(r.re==="green")return{className:"green",label:"Territorio y resultados electorales disponibles"};
+  if(r.g==="green")return{className:"blue",label:"Distritos territoriales disponibles"};
+  if(r.ft==="green"||r.g==="yellow")return{className:"yellow",label:"En preparación"};
+  if(r.ft==="red"||r.g==="red")return{className:"red",label:"No incorporado"};
+  return{className:"gray",label:"Pendiente"};
+}
+function removeLayers(){["district-fill","district-line","district-hit"].forEach(id=>map.getLayer(id)&&map.removeLayer(id));if(map.getSource("districts"))map.removeSource("districts")}
+function boundsFor(data){const b=new maplibregl.LngLatBounds(),visit=c=>{if(!Array.isArray(c)||!c.length)return;if(typeof c[0]==="number")b.extend(c);else c.forEach(visit)};data.features.forEach(f=>visit(f.geometry?.coordinates));return b}
 function partyEntries(data){
-  const parties=[...new Set(data.features.map(f=>String(f.properties?.winner_party??"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es"));
-  const used=new Set();
-  return parties.map(party=>{
-    let hash=2166136261;
-    for(const ch of party){hash^=ch.codePointAt(0);hash=Math.imul(hash,16777619)>>>0}
-    let index=hash%PARTY_PALETTE.length;
-    while(used.has(index)&&used.size<PARTY_PALETTE.length)index=(index+1)%PARTY_PALETTE.length;
-    used.add(index);
-    return{party,color:PARTY_PALETTE[index]};
-  });
+  const parties=[...new Set(data.features.map(f=>String(f.properties?.winner_party??"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"es")),used=new Set();
+  return parties.map(p=>{let h=2166136261;for(const ch of p){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0}let i=h%PARTY_PALETTE.length;while(used.has(i)&&used.size<PARTY_PALETTE.length)i=(i+1)%PARTY_PALETTE.length;used.add(i);return{party:p,color:PARTY_PALETTE[i]}})
 }
-function fillPaint(spec,data){
-  if(spec.kind==="canonical_m06")return["case",
-    ["<",["to-number",["get","relative_deviation"]],-0.10],M06_BINS[0].color,
-    ["<",["to-number",["get","relative_deviation"]],-0.05],M06_BINS[1].color,
-    ["<=",["to-number",["get","relative_deviation"]],0.05],M06_BINS[2].color,
-    ["<=",["to-number",["get","relative_deviation"]],0.10],M06_BINS[3].color,
-    M06_BINS[4].color];
-  if(spec.kind==="canonical_m08"){
-    const entries=partyEntries(data),match=["match",["to-string",["get","winner_party"]]];
-    entries.forEach(({party,color})=>match.push(party,color));
-    match.push("#6b7280");
-    return match;
-  }
-  return"#0b5cab";
+function fillPaint(p,data){
+  if(p.kind==="territorial")return["case",["<",["to-number",["get","relative_deviation"]],-0.10],M06_BINS[0].color,["<",["to-number",["get","relative_deviation"]],-0.05],M06_BINS[1].color,["<=",["to-number",["get","relative_deviation"]],0.05],M06_BINS[2].color,["<=",["to-number",["get","relative_deviation"]],0.10],M06_BINS[3].color,M06_BINS[4].color];
+  const entries=partyEntries(data),match=["match",["to-string",["get","winner_party"]]];entries.forEach(({party,color})=>match.push(party,color));match.push("#7b8794");return match
 }
-function renderLegend(spec,data){
-  legend.replaceChildren();legend.hidden=true;
-  let title="",entries=[];
-  if(spec.kind==="canonical_m06"){
-    title="Desviación respecto a la población objetivo";
-    entries=M06_BINS.map(({label,color})=>({label,color}));
-  }else if(spec.kind==="canonical_m08"){
-    title="Partido ganador";
-    entries=partyEntries(data).map(({party,color})=>({label:party,color}));
-  }
+function renderLegend(p,data){
+  legend.replaceChildren();legend.hidden=true;let title="",entries=[];
+  if(p.kind==="territorial"){title="Equilibrio de población";entries=M06_BINS}
+  else{title="Partido más votado";entries=partyEntries(data).map(({party,color})=>({label:party,color}))}
   if(!entries.length)return;
-  const heading=document.createElement("h2");heading.textContent=title;legend.appendChild(heading);
-  const list=document.createElement("ul");
-  entries.forEach(({label,color})=>{const item=document.createElement("li"),swatch=document.createElement("span"),text=document.createElement("span");swatch.className="legend-swatch";swatch.style.backgroundColor=color;text.textContent=label;item.append(swatch,text);list.appendChild(item)});
-  legend.appendChild(list);legend.hidden=false;
+  const h=document.createElement("h2");h.textContent=title;const ul=document.createElement("ul");
+  entries.forEach(({label,color})=>{const li=document.createElement("li"),sw=document.createElement("span"),tx=document.createElement("span");sw.className="legend-swatch";sw.style.backgroundColor=color;tx.textContent=label;li.append(sw,tx);ul.appendChild(li)});
+  legend.append(h,ul);legend.hidden=false
 }
-function districtHtml(props,spec){
-  const id=scalar(props,["district_id","DISTRICT_ID","id"]),pop=scalar(props,["population","district_pop","POPULATION"]),target=scalar(props,["target_population","target","TARGET"]),dev=scalar(props,["relative_deviation","population_target_ratio"]),mun=scalar(props,["municipalities","municipality_names","MUNICIPALITIES"]);
-  let extra="";
-  if(spec?.kind==="canonical_m08"){
-    const winner=scalar(props,["winner_party"]),winnerVotes=scalar(props,["winner_votes"]),winnerShare=scalar(props,["winner_share"]),totalVotes=scalar(props,["total_votes"]);
-    extra=`<dt>Partido ganador</dt><dd>${formatNumber(winner)}</dd><dt>Votos del ganador</dt><dd>${formatNumber(winnerVotes)}</dd><dt>Porcentaje del ganador</dt><dd>${formatPercent(winnerShare)}</dd><dt>Votos totales</dt><dd>${formatNumber(totalVotes)}</dd>`;
-  }
-  return`<p class="district-title">Distrito ${formatNumber(id)}</p><dl class="detail-list"><dt>Población</dt><dd>${formatNumber(pop)}</dd><dt>Objetivo</dt><dd>${formatNumber(target)}</dd><dt>Desviación</dt><dd>${dev===null?"—":formatPercent(dev)}</dd><dt>Municipios</dt><dd>${formatNumber(mun)}</dd>${extra}</dl>`;
+function districtHtml(props,p){
+  const id=scalar(props,["district_id","DISTRICT_ID","id"]),pop=scalar(props,["population","district_pop","POPULATION"]),
+        target=scalar(props,["target_population","target","TARGET"]),dev=scalar(props,["relative_deviation","population_target_ratio"]),
+        mun=scalar(props,["municipalities","municipality_names","MUNICIPALITIES"]);
+  let rows=[["Población",fmt(pop)],["Objetivo de población",fmt(target)],["Desviación",pct(dev)],["Municipios",mun??"—"]];
+  if(p.kind==="electoral")rows=[["Partido más votado",scalar(props,["winner_party"])??"—"],["Porcentaje",pct(scalar(props,["winner_share"]))],["Votos del ganador",fmt(scalar(props,["winner_votes"]))],["Votos totales",fmt(scalar(props,["total_votes"]))],["Población",fmt(pop)]];
+  return `<p class="district-title">Distrito ${id??"—"}</p><dl class="detail-list">${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl>`
 }
-function removeDistrictLayers(){["district-fill","district-line","district-hit"].forEach(id=>map.getLayer(id)&&map.removeLayer(id));if(map.getSource("districts"))map.removeSource("districts")}
-async function loadResult(id){
-  const spec=RESULTS.find(r=>r.id===id);if(!spec)return;
-  status.textContent=`Cargando ${spec.label}…`;detail.textContent="Pulsa un distrito para ver su ficha.";summary.hidden=true;legend.hidden=true;removeDistrictLayers();
+function stats(data,p,edition){
+  const pops=data.features.map(f=>num(scalar(f.properties,["population","district_pop","POPULATION"]))).filter(v=>v!==null),
+        devs=data.features.map(f=>num(scalar(f.properties,["relative_deviation","population_target_ratio"]))).filter(v=>v!==null),
+        votes=data.features.map(f=>num(scalar(f.properties,["total_votes"]))).filter(v=>v!==null);
+  const out=[["Distritos",fmt(data.features.length)],["Población",pops.length?fmt(pops.reduce((a,b)=>a+b,0)):"—"]];
+  if(p.kind==="electoral")out.push(["Votos contabilizados",votes.length?fmt(votes.reduce((a,b)=>a+b,0)):"—"],["Elecciones",year(p)||"Vigentes"]);
+  else out.push(["Desviación máxima",devs.length?pct(Math.max(...devs.map(v=>Math.abs(v)))):"—"],["Edición",edition||"2025"]);
+  return out
+}
+function renderSummary(t,p,data){
+  summary.innerHTML=`<div class="summary-title"><h2>${t.name}</h2><p>${productSubtitle(p)}</p></div><div class="stat-grid">${stats(data,p,t.edition).map(([a,b])=>`<div class="stat"><span>${a}</span><strong>${b}</strong></div>`).join("")}</div>`;
+  const r=projectRow(t.territory_id),s=publicStatus(r);territoryBadge.className=`territory-badge ${s.className}`;territoryBadge.textContent=r?.status||s.label
+}
+async function loadResult(key){
+  const t=CATALOG.territories.find(x=>x.territory_id===territorySelect.value),p=t?.products.find(x=>`${t.territory_id}:${x.kind}`===key);if(!t||!p)return;
+  mapMessage.textContent=`Cargando ${productLabel(p).toLowerCase()}…`;detail.innerHTML='<span class="detail-empty">Pulsa un distrito para ver sus datos.</span>';legend.hidden=true;removeLayers();
   try{
-    const response=await fetch(spec.viewer_path,{cache:"no-cache"});if(!response.ok)throw new Error(`HTTP ${response.status}`);
-    const data=normalize(await response.json());if(data.type!=="FeatureCollection")throw new Error("El recurso no es un FeatureCollection.");if(spec.expected_districts&&data.features.length!==Number(spec.expected_districts))throw new Error(`Esperados ${spec.expected_districts} distritos; recibidos ${data.features.length}.`);
-    map.addSource("districts",{type:"geojson",data});map.addLayer({id:"district-fill",type:"fill",source:"districts",paint:{"fill-color":fillPaint(spec,data),"fill-opacity":.52}});map.addLayer({id:"district-line",type:"line",source:"districts",paint:{"line-color":"#ffffff","line-width":1.1}});map.addLayer({id:"district-hit",type:"fill",source:"districts",paint:{"fill-color":"#000000","fill-opacity":0}});
-    renderLegend(spec,data);map.fitBounds(boundsFor(data),{padding:36,maxZoom:8,duration:400});
-    const geo=spec.geometric_status||"NOT_AUDITED",technical=spec.technical_status||"UNKNOWN",certification=spec.certification_status||"NOT_CERTIFIED",certified=["CERTIFIED","CERTIFIED_WITH_GOVERNED_EXCEPTIONS"].includes(certification),technicalBlocked=certification==="BLOCKED"||technical==="BLOCK"||geo==="BLOCK",publication=spec.publication_status||"BLOCKED",reasons=(spec.status_reasons||[]).join(", ")||"—";
-    summary.innerHTML=`<dl><dt>Territorio</dt><dd>${spec.territory_label}</dd><dt>Resultado</dt><dd>${spec.kind}</dd><dt>Distritos</dt><dd>${data.features.length}</dd><dt>Estado técnico</dt><dd class="${technicalBlocked?'bad':'good'}">${technical}</dd><dt>Certificación técnica</dt><dd class="${technicalBlocked?'bad':'good'}">${certification}</dd><dt>Motivos de estado</dt><dd>${reasons}</dd><dt>Auditoría geométrica</dt><dd class="${geo==='BLOCK'?'bad':'good'}">${geo}</dd><dt>Publicabilidad política</dt><dd>${publication}</dd>${spec.run_id?`<dt>Run</dt><dd>${spec.run_id}</dd>`:""}</dl>${spec.geometric_gate?`<p class="gate">${spec.geometric_gate}</p>`:""}`;summary.hidden=false;
-    status.textContent=technicalBlocked?`${spec.label}: resultado técnico bloqueado.`:certified?`${spec.label}: ${certification}.`:`${spec.label}: resultado visible sin certificación consolidada.`;
-    useStatus.textContent=technicalBlocked?"Este resultado no supera las puertas de certificación técnica.":!certified?"No consta una certificación técnica consolidada para este resultado.":publication==="PUBLICABLE"?"Resultado autorizado para publicación según la política vigente.":"Resultado técnicamente certificado; la certificación no implica autorización política o electoral de publicación.";
-    if(spec.source_url){sourceLink.href=spec.source_url;sourceLink.hidden=false}else sourceLink.hidden=true;
-  }catch(error){legend.hidden=true;status.textContent=`No se pudo cargar ${spec.label}: ${error.message}`;console.error(error)}
+    const r=await fetch(rawUrl(p.source_path)+`?v=${Date.now()}`,{cache:"no-store"});if(!r.ok)throw new Error(`HTTP ${r.status}`);const data=await r.json();
+    if(data.type!=="FeatureCollection")throw new Error("El recurso no es un mapa de distritos.");
+    if(p.districts&&data.features.length!==Number(p.districts))throw new Error(`El mapa contiene ${data.features.length} distritos; se esperaban ${p.districts}.`);
+    CURRENT={data,product:p};map.addSource("districts",{type:"geojson",data});map.addLayer({id:"district-fill",type:"fill",source:"districts",paint:{"fill-color":fillPaint(p,data),"fill-opacity":.58}});map.addLayer({id:"district-line",type:"line",source:"districts",paint:{"line-color":"#fff","line-width":1.15}});map.addLayer({id:"district-hit",type:"fill",source:"districts",paint:{"fill-color":"#000","fill-opacity":0}});
+    const b=boundsFor(data);if(!b.isEmpty())map.fitBounds(b,{padding:38,maxZoom:8,duration:450});renderLegend(p,data);renderSummary(t,p,data);
+    mapMessage.textContent=p.kind==="electoral"?"Resultados incorporados después de fijar los distritos.":"Datos territoriales y censales del producto vigente."
+  }catch(e){CURRENT=null;mapMessage.textContent=`No se pudo cargar esta vista: ${e.message}`;console.error(e)}
 }
-function refreshResults(){const filtered=RESULTS.filter(r=>r.territory_id===territorySelect.value);resultSelect.replaceChildren(...filtered.map(r=>new Option(r.label,r.id)));if(filtered.length){resultSelect.value=filtered[0].id;loadResult(filtered[0].id)}}
-async function bootstrap(){try{let response=await fetch("data/viewer-results.json",{cache:"no-cache"});if(!response.ok)throw new Error(`registro HTTP ${response.status}`);let registry=await response.json();RESULTS=registry.results||[]}catch(error){console.warn("Registro de ejecuciones no disponible; se intenta catálogo histórico.",error);const response=await fetch("data/public-products.json",{cache:"no-cache"});const registry=await response.json();RESULTS=registry.products.map(p=>({id:`static-${p.id}`,territory_id:p.id,territory_label:p.label,label:`${p.label} · producto histórico`,kind:"static",expected_districts:p.expected_districts,viewer_path:p.viewer_path,technical_status:p.technical_status||p.status,publication_status:p.publication_status||"BLOCKED",geometric_status:"LEGACY_OR_NOT_AUDITED"}))}const territories=[...new Map(RESULTS.map(r=>[r.territory_id,r.territory_label])).entries()];territorySelect.replaceChildren(...territories.map(([id,label])=>new Option(label,id)));territorySelect.addEventListener("change",refreshResults);resultSelect.addEventListener("change",()=>loadResult(resultSelect.value));refreshResults()}
-map.on("click",e=>{if(!map.getLayer("district-hit"))return;const features=map.queryRenderedFeatures(e.point,{layers:["district-hit"]});if(!features.length)return;const props=features[0].properties||{},spec=RESULTS.find(r=>r.id===resultSelect.value);detail.innerHTML=districtHtml(props,spec);new maplibregl.Popup().setLngLat(e.lngLat).setHTML(districtHtml(props,spec)).addTo(map)});
-map.on("mousemove",e=>{if(!map.getLayer("district-hit"))return;const f=map.queryRenderedFeatures(e.point,{layers:["district-hit"]});map.getCanvas().style.cursor=f.length?"pointer":""});
+function refreshProducts(){
+  const t=CATALOG.territories.find(x=>x.territory_id===territorySelect.value),products=t?.products||[];
+  resultSelect.replaceChildren(...products.map(p=>new Option(productLabel(p),`${t.territory_id}:${p.kind}`)));
+  const preferred=products.find(p=>p.kind==="electoral")||products.find(p=>p.kind==="territorial");
+  if(preferred){resultSelect.value=`${t.territory_id}:${preferred.kind}`;loadResult(resultSelect.value)}
+}
+function renderProjectState(){
+  const k=PROJECT_STATE.kpis||{},cards=[["Cadena completa",k.complete??0,"Territorio + elecciones"],["Distritos disponibles",k.territorial_validated??k.validated??0,"Generación territorial"],["En preparación",k.ready??0,"Siguiente fase preparada"],["Pendientes",Number(k.pending??0)+Number(k.blocked??0),"Por completar"]];
+  kpiGrid.innerHTML=cards.map(([a,b,c])=>`<article class="kpi"><span>${a}</span><strong>${fmt(b)}</strong><small>${c}</small></article>`).join("");
+  territoryStatusGrid.innerHTML=(PROJECT_STATE.territories||[]).map(r=>{const s=publicStatus(r);return `<article class="territory-card ${s.className}"><span class="dot" aria-hidden="true"></span><div><strong>${r.name}</strong><small>${r.status||s.label}</small></div></article>`}).join("")
+}
+function legacyCatalog(registry){
+  const g=new Map();for(const x of registry.results||[]){if(!["canonical_m06","canonical_m08","static"].includes(x.kind))continue;const id=x.territory_id;if(!g.has(id))g.set(id,{territory_id:id,name:x.territory_label||id,edition:"2025",products:[]});g.get(id).products.push({kind:x.kind==="canonical_m08"?"electoral":"territorial",source_path:x.viewer_path,districts:x.expected_districts})}return{schema:"legacy",territories:[...g.values()]}
+}
+async function loadCatalog(){try{return await fetchJson(LIVE_CATALOG,"data/catalogo.json")}catch(e){console.warn("Catálogo vivo no disponible; usando snapshot legado.",e);const r=await fetch("data/viewer-results.json",{cache:"no-store"});if(!r.ok)throw e;return legacyCatalog(await r.json())}}
+async function loadState(){try{return await fetchJson(LIVE_STATE,"data/estado-operativo.json")}catch(e){console.warn("Estado vivo no disponible.",e);return{territories:[],kpis:{}}}}
+async function bootstrap(){
+  [CATALOG,PROJECT_STATE]=await Promise.all([loadCatalog(),loadState()]);
+  const d=PROJECT_STATE.generated_at?new Date(PROJECT_STATE.generated_at):null;freshness.textContent=d&&!Number.isNaN(d.getTime())?`Estado actualizado ${new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}).format(d)}`:"Estado consultado al abrir la página";
+  renderProjectState();const available=CATALOG.territories.filter(t=>(t.products||[]).length);territorySelect.replaceChildren(...available.map(t=>new Option(t.name,t.territory_id)));territorySelect.addEventListener("change",refreshProducts);resultSelect.addEventListener("change",()=>loadResult(resultSelect.value));
+  if(available.length){const preferred=available.find(t=>t.territory_id==="galicia")||available[0];territorySelect.value=preferred.territory_id;refreshProducts()}else{territoryBadge.textContent="Sin territorios publicados";mapMessage.textContent="Todavía no hay productos disponibles en el catálogo público."}
+}
+map.on("click",e=>{if(!CURRENT||!map.getLayer("district-hit"))return;const f=map.queryRenderedFeatures(e.point,{layers:["district-hit"]});if(!f.length)return;const html=districtHtml(f[0].properties||{},CURRENT.product);detail.innerHTML=html;new maplibregl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map)});
+map.on("mousemove",e=>{if(!map.getLayer("district-hit"))return;map.getCanvas().style.cursor=map.queryRenderedFeatures(e.point,{layers:["district-hit"]}).length?"pointer":""});
 map.on("load",bootstrap);
