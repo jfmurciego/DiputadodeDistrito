@@ -302,16 +302,26 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
         contract_path=root/str(contract_raw)
         if contract_path.is_file():
             contract=json.loads(contract_path.read_text(encoding="utf-8"))
+            contract_tid=str(contract.get("territory_id") or "")
+            contract_election_id=str(contract.get("election_id") or "")
+            contract_election_date=str(contract.get("election_date") or "")
+            identity_matches=(
+                contract_tid == territory_id
+                and bool(contract_election_id)
+                and bool(contract_election_date)
+                and (expected_election_id is None or contract_election_id == expected_election_id)
+                and (expected_election_date is None or contract_election_date == expected_election_date)
+            )
             sources=contract.get("sources") or []
-            if len(sources)==1:
+            if identity_matches and len(sources)==1:
                 s=sources[0]; src=root/str(s.get("path") or "")
                 expected=str(s.get("sha256") or "").lower()
                 if src.is_file() and expected and sha(src).lower()==expected:
                     meta={"origin_url":s.get("source_url"),"publisher":s.get("publisher"),"acquired_at":s.get("retrieved_at"),"source_mode":"existing_contract","contract":str(contract_raw)}
                     return _write_package(
                         package_out,"REUSE",territory_id,edition,src,meta,{
-                            "election_id":contract.get("election_id"),
-                            "election_date":contract.get("election_date"),
+                            "election_id":contract_election_id,
+                            "election_date":contract_election_date,
                         },
                     )
     decl=declaration
