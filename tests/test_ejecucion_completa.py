@@ -150,14 +150,16 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         ):
             self.assertIn("workflow_call", triggers(WF / name), name)
 
-    def test_from_start_disables_checkpoint_reuse_but_keeps_prepared_sources_reusable(self):
+    def test_from_start_disables_checkpoint_and_prepared_package_reuse(self):
         generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
         preparation = (WF / "preparacion-fuentes.yml").read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" == from_start ]]', generation)
         self.assertIn('echo "from_stage=M01"', generation)
         self.assertIn("reutilizar_si_ya_preparada", preparation)
-        orchestrator = ORCH.read_text(encoding="utf-8")
-        self.assertIn("reutilizar_si_ya_preparada: true", orchestrator)
+        data = load(ORCH)
+        expected = "${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}"
+        self.assertEqual(data["jobs"]["preparar_territorial"]["with"]["reutilizar_si_ya_preparada"], expected)
+        self.assertEqual(data["jobs"]["preparar_electoral"]["with"]["reutilizar_si_ya_preparada"], expected)
 
     def test_current_run_artifacts_can_feed_next_phase(self):
         orchestration = ORCH.read_text(encoding="utf-8")
