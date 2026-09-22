@@ -65,16 +65,16 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
+      preparation_evidence:
+        run_id: 35728626894
+        artifact_name: ddd-source-package-principado_de_asturias-2025-35728626894
+        artifact_sha256: fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5
+        package_sha256: 3f7c26eba473524e41e6d4bf9c66cb154b7bfba9a29056d93c04e5a39956c7a5
         run_id: 35661268397
         stage: M06
-      preparation_evidence:
-        run_id: 35575723511
-        artifact_name: ddd-source-package-principado_de_asturias-2025-35575723511
-        artifact_sha256: 15718423c4b6e17c5d9bbdaa8db7343ef36e108d4353ebce1d24d22194161a52
-        package_sha256: 77aefe9e7766fb649f2ff0afcfd6ca0b785507f5d5c01dfbef9a84b0f8a5171b
       evidence:
         territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/principado_de_asturias/evidencia/catalogo/electoral_source_2025.json
