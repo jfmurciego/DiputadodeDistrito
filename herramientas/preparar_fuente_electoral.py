@@ -37,7 +37,36 @@ def _raw_code(value: object) -> str:
     return str(value).strip()
 
 
-def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,source_decl:dict)->dict:
+def _load_special_crosswalk(root:Path, transform:dict)->list[dict]:
+    raw=str(transform.get("special_row_crosswalk") or "").strip()
+    if not raw:
+        return []
+    path=(root/raw).resolve()
+    data=json.loads(path.read_text(encoding="utf-8"))
+    if data.get("schema")!="ddd-election-special-row-crosswalk/1.0":
+        raise ValueError(f"Crosswalk especial con schema inválido: {path}")
+    rows=data.get("rows") or []
+    if not rows:
+        raise ValueError(f"Crosswalk especial vacío: {path}")
+    return rows
+
+
+def _largest_remainder(total:int, weights:list[tuple[str,float]])->dict[str,int]:
+    if total < 0:
+        raise ValueError("No se pueden repartir votos negativos")
+    denom=sum(max(0.0,float(w)) for _,w in weights)
+    if denom <= 0:
+        raise ValueError("Pesos de reconciliación sin masa positiva")
+    raw=[(key,total*max(0.0,float(w))/denom) for key,w in weights]
+    base={key:int(value//1) for key,value in raw}
+    remaining=total-sum(base.values())
+    order=sorted(raw,key=lambda kv:(-(kv[1]-int(kv[1]//1)),kv[0]))
+    for key,_ in order[:remaining]:
+        base[key]+=1
+    return base
+
+
+def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,source_decl:dict,root:Path)->dict:
     try:
         import openpyxl
     except Exception as exc:
@@ -55,6 +84,7 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
         "year":{"year","anyo","ano"}, "province":{"cod_prov","codigo_provincia","provincia"},
         "municipality":{"cod_mun","codigo_municipio","municipio"}, "district":{"distrito","codigo_distrito"},
         "section":{"seccion","codigo_seccion"}, "polling":{"mesa","codigo_mesa"},
+        "census":{"censo_total","censo","censo_ine"},
         "total_votes":{"votos","votos_totales"}, "blank":{"blancos","votos_blancos"}, "null":{"nulos","votos_nulos"},
     }
     positions={}
@@ -62,7 +92,7 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
         for idx,name in enumerate(headers):
             if name in names:
                 positions[key]=idx; break
-    required={"province","municipality","district","section","total_votes","blank","null"}
+    required={"province","municipality","district","section","census","total_votes","blank","null"}
     missing=sorted(required-set(positions))
     if missing: raise ValueError(f"XLSX electoral sin columnas estructurales: {missing}; cabecera={headers}")
     party_start=max(positions["total_votes"],positions["blank"],positions["null"])+1
@@ -71,7 +101,13 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
         raw=str(headers_raw[idx] or "").strip()
         if raw: party_headers.append((idx,raw))
     if not party_headers: raise ValueError("XLSX electoral sin columnas de candidaturas")
-    expected_year=str((source_decl.get("transform") or {}).get("election_year") or str(declaration.get("election_date") or "")[:4])
+    transform=source_decl.get("transform") or {}
+    expected_year=str(transform.get("election_year") or str(declaration.get("election_date") or "")[:4])
+    special_crosswalk=_load_special_crosswalk(root,transform)
+    special_pos=0
+    aliases={str(x["from"]):str(x["to"]) for x in ((declaration.get("section_reconciliation") or {}).get("aliases") or [])}
+    all_party_totals={}
+    cera_party_totals={}
     out_dir.mkdir(parents=True,exist_ok=True)
     normalized=out_dir/"resultados_electorales_normalizados.csv"
     parties=set(); records=0; sections=set()
@@ -91,24 +127,75 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
             sec_raw=_raw_code(values[positions["section"]])
             sec=_normalise_code(values[positions["section"]],3)
             if not (prov and mun and dist and sec_raw): continue
-            # CERA codificada como municipio 991/992/993 queda fuera de la cartografía,
-            # pero no se mezcla con secciones ordinarias.
-            if mun in {"991","992","993","999"}: continue
-            # Códigos especiales de sección (0, negativos o alfanuméricos) no son CUSEC.
-            # Se preservan como identificadores explícitos para que reconciliación los
-            # contabilice como result_only; nunca deben colisionar con una sección real.
-            special_section = (
-                not re.fullmatch(r"\d+", sec_raw)
-                or int(sec_raw) <= 0
-            )
-            cusec=(f"SPECIAL:{prov}:{mun}:{dist}:{sec_raw}" if special_section else f"{prov}{mun}{dist}{sec}")
-            sections.add(cusec)
+
+            row_party_votes={}
             for idx,party in party_headers:
                 votes=_as_int(values[idx] if idx < len(values) else 0)
+                row_party_votes[party]=votes
+                all_party_totals[party]=all_party_totals.get(party,0)+votes
+
+            # CERA se verifica contra el escrutinio oficial pero no se geocodifica.
+            if mun in {"991","992","993","999"}:
+                for party,votes in row_party_votes.items():
+                    cera_party_totals[party]=cera_party_totals.get(party,0)+votes
+                continue
+
+            special_section=(not re.fullmatch(r"\d+",sec_raw) or int(sec_raw)<=0)
+            if special_section:
+                if not special_crosswalk:
+                    raise ValueError(f"Registro especial sin crosswalk gobernado: {prov}/{mun}/{dist}/{sec_raw}")
+                if special_pos >= len(special_crosswalk):
+                    raise ValueError("Hay más registros especiales que filas declaradas en el crosswalk")
+                expected=special_crosswalk[special_pos]
+                special_pos+=1
+                if str(expected.get("special_code")) != sec_raw:
+                    raise ValueError(
+                        f"Crosswalk especial fuera de secuencia ordinal={special_pos}: "
+                        f"esperado={expected.get('special_code')} observado={sec_raw}"
+                    )
+                census_value=_as_int(values[positions["census"]])
+                if census_value != int(expected.get("expected_autonomic_census") or -1):
+                    raise ValueError(
+                        f"Crosswalk especial no reproduce censo ordinal={special_pos}: "
+                        f"esperado={expected.get('expected_autonomic_census')} observado={census_value}"
+                    )
+                cusec=str(expected["target_cusec"])
+                if len(cusec) != 10 or cusec[:2] != prov or cusec[2:5] != mun or cusec[5:7] != dist:
+                    raise ValueError(
+                        f"Crosswalk especial no reproduce identidad territorial ordinal={special_pos}: "
+                        f"fuente={prov}/{mun}/{dist}/{sec_raw} destino={cusec}"
+                    )
+            else:
+                cusec=f"{prov}{mun}{dist}{sec}"
+
+            cusec=aliases.get(cusec,cusec)
+            sections.add(cusec)
+            for party,votes in row_party_votes.items():
                 parties.add(party)
                 writer.writerow({"CUSEC_KEY":cusec,"party":party,"votes":votes})
                 records+=1
     wb.close()
+    if special_crosswalk and special_pos != len(special_crosswalk):
+        raise ValueError(f"Crosswalk especial incompleto: usados={special_pos} declarados={len(special_crosswalk)}")
+    verification=declaration.get("verification") or {}
+    official={str(k):int(v) for k,v in (verification.get("official_party_totals") or {}).items()}
+    if official:
+        observed={str(k):int(all_party_totals.get(k,0)) for k in official}
+        delta={k:observed[k]-official[k] for k in official}
+        extras={k:v for k,v in all_party_totals.items() if k not in official and int(v)!=0}
+        if any(delta.values()) or extras:
+            raise ValueError(
+                "Mirror electoral no coincide con totales oficiales por candidatura: "
+                f"delta={delta}; extras={extras}"
+            )
+    official_total=int(verification.get("official_candidate_votes") or sum(official.values()) or sum(all_party_totals.values()))
+    cera_total=sum(cera_party_totals.values())
+    expected_cera=verification.get("expected_cera_candidate_votes")
+    if expected_cera is not None and cera_total != int(expected_cera):
+        raise ValueError(
+            f"CERA no coincide con total esperado: observado={cera_total} esperado={int(expected_cera)}"
+        )
+    excluded_pct=(100.0*cera_total/official_total) if official_total else 0.0
     if not records or not sections: raise ValueError("La transformación electoral no produjo registros censales")
     dictionary=out_dir/"party_dictionary.json"
     dictionary_payload={
@@ -130,17 +217,40 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
         }],
         "party_dictionary":{"path":dictionary.as_posix(),"sha256":sha(dictionary)},
         "reconciliation":declaration.get("reconciliation") or {"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
+        "section_reconciliation":declaration.get("section_reconciliation") or {},
+        "source_verification":{
+            "status":"VERIFIED_EXACT" if official else "NOT_CONFIGURED",
+            "official_candidate_votes":official_total,
+            "observed_candidate_votes":sum(all_party_totals.values()),
+            "party_totals_match":bool(official),
+        },
+        "non_geocodable_votes":{
+            "policy":"exclude_from_geographic_district_allocation",
+            "kind":"CERA",
+            "candidate_votes":cera_total,
+            "official_candidate_votes":official_total,
+            "percentage_of_candidate_votes":excluded_pct,
+            "party_totals":cera_party_totals,
+        },
     }
     contract.write_text(json.dumps(contract_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-    return {"source":normalized,"contract":contract,"dictionary":dictionary,"records":records,"sections":len(sections),"parties":len(parties)}
+    return {
+        "source":normalized,"contract":contract,"dictionary":dictionary,
+        "records":records,"sections":len(sections),"parties":len(parties),
+        "source_verification_status":"VERIFIED_EXACT" if official else "NOT_CONFIGURED",
+        "official_candidate_votes":official_total,
+        "cera_candidate_votes":cera_total,
+        "cera_percentage":excluded_pct,
+        "special_rows_reconciled":special_pos,
+    }
 
 
-def _transform_selected_source(src:Path,tmp:Path,declaration:dict,source_decl:dict)->dict|None:
+def _transform_selected_source(src:Path,tmp:Path,declaration:dict,source_decl:dict,root:Path)->dict|None:
     transform=source_decl.get("transform") or {}
     kind=str(transform.get("kind") or "")
     if not kind: return None
     if kind=="gipeyop_polling_xlsx":
-        return transform_gipeyop_polling_xlsx(src,tmp/"normalized",declaration,source_decl)
+        return transform_gipeyop_polling_xlsx(src,tmp/"normalized",declaration,source_decl,root)
     raise ValueError(f"Transformación electoral no soportada: {kind}")
 
 def sha(path:Path)->str:
@@ -372,12 +482,20 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 raise ValueError("READY sin fuente electoral seleccionada")
             src=tmp/str(sel["artifact_path"])
             declared_source=next((s for s in (d.get("sources") or []) if str(s.get("id") or "")==str(sel.get("id") or "")),{})
-            transformed=_transform_selected_source(src,tmp,d,declared_source)
+            transformed=_transform_selected_source(src,tmp,d,declared_source,root)
             selected_src=transformed["source"] if transformed else src
             source_mode="verified_mirror_transformed" if transformed and str(declared_source.get("source_class") or "")=="verified_mirror" else ("official_acquisition_transformed" if transformed else "official_acquisition")
             meta={"origin_url":sel.get("url"),"publisher":sel.get("publisher"),"acquired_at":datetime.now(timezone.utc).isoformat(),"source_mode":source_mode,"declaration":str(decl),"source_class":declared_source.get("source_class","official")}
             if transformed:
-                meta["transform"]={"kind":str((declared_source.get("transform") or {}).get("kind") or ""),"records":transformed["records"],"sections":transformed["sections"],"parties":transformed["parties"]}
+                meta["transform"]={
+                    "kind":str((declared_source.get("transform") or {}).get("kind") or ""),
+                    "records":transformed["records"],"sections":transformed["sections"],"parties":transformed["parties"],
+                    "source_verification_status":transformed.get("source_verification_status"),
+                    "official_candidate_votes":transformed.get("official_candidate_votes"),
+                    "cera_candidate_votes":transformed.get("cera_candidate_votes"),
+                    "cera_percentage":transformed.get("cera_percentage"),
+                    "special_rows_reconciled":transformed.get("special_rows_reconciled"),
+                }
             manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,selected_src,meta,election_extra)
             if transformed:
                 contract_dir=package_out/"contract"; contract_dir.mkdir(exist_ok=True)
