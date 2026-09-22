@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 1.0.0
-# NOMBRE: Publicador interno de GitHub Pages
+# VERSIÓN: 1.1.0
+# NOMBRE: Publicador del shell del visor con snapshot de respaldo
 # ESTADO: activo
 # QUÉ HACE: despliega el sitio completo preservando el snapshot publicado del dashboard.
 name: _Publicador Interno del Sitio
@@ -96,6 +96,10 @@ jobs:
           fi
           [[ -n "$ENSEMBLE_RELEASE_TAG" ]] && args+=(--ensemble-root /tmp/ensemble/unpacked)
           python herramientas/preparar_visor_ejecucion.py "${args[@]}"
+          cp publicado/dashboard/status.json site/data/estado-operativo.json
+          if [[ -f publicado/visor/catalogo.json ]]; then
+            cp publicado/visor/catalogo.json site/data/catalogo.json
+          fi
       - name: Acreditar resultado realmente cargado
         shell: bash
         run: |
