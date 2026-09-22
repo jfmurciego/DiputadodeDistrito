@@ -38,18 +38,19 @@ territories:
       electoral_source_prepared: true
       electoral_product_available: true
       evidence:
-        territorial_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/PRODUCTOS.json
+        territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M07/PRODUCTOS.json
         electoral_product: territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M08/PRODUCTOS.json
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-      preparation_evidence:
         run_id: 35699814855
+        stage: M06
+      preparation_evidence:
+        run_id: 35010122795
         artifact_name: ddd-source-package-aragon-2025-35699814855
         artifact_sha256: 98214652711299c1476395d978253feaedfae8fac6b74affe96897b5f12ebafc
         package_sha256: 25beafe5247ff59d558fbe3467fc9a780ada18b1ba1e19c77510be0d6c0da919
-        run_id: 35010122795
         stage: M06
 - territory_id: principado_de_asturias
   name: Principado de Asturias
