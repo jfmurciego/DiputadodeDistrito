@@ -4,6 +4,7 @@ import hashlib
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from email.message import Message
 from pathlib import Path
 
@@ -13,6 +14,7 @@ from herramientas.comprobar_fuente_electoral_oficial import check_declaration
 from herramientas.materializar_contrato_electoral_runtime import materialize
 from herramientas.resolver_eleccion_vigente import resolve
 from herramientas.validar_paquete_electoral import validate_package
+from herramientas.preparar_fuente_electoral import prepare, validate_previous
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -45,11 +47,139 @@ class ResolverIndustrialTests(unittest.TestCase):
         self.assertEqual(row["election_date"], "2023-05-28")
         self.assertEqual(row["resolution_mode"], "auto_discovered_declaration")
 
+    def test_aragon_resolves_from_materialized_contract_without_source_declaration(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        aragon = next(r for r in catalog["territories"] if r["territory_id"] == "aragon")
+        self.assertIsNone(aragon["editions"]["2025"]["electoral_source_declaration"])
+        row = resolve("Aragón", root_dir=ROOT, edition="2025")
+        self.assertEqual(row["territory_id"], "aragon")
+        self.assertEqual(row["election_id"], "aragon_cortes_2026-02-08")
+        self.assertEqual(row["election_date"], "2026-02-08")
+        self.assertEqual(row["declaration"], "")
+        self.assertEqual(row["resolution_mode"], "materialized_election_contract")
+        self.assertEqual(
+            row["election_contract"],
+            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+        )
+
     def test_galicia_governed_override_is_preserved(self):
         row = resolve("Galicia", root_dir=ROOT, edition="2025")
         self.assertEqual(row["election_id"], "galicia_parlamento_2024")
         self.assertEqual(row["resolution_mode"], "governed_override")
 
+
+class StaticContractPreparationTests(unittest.TestCase):
+    @staticmethod
+    def sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def test_static_contract_package_records_election_identity_and_rejects_stale_reuse(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            source=root/"results.json"
+            source.write_text(json.dumps({"mapa":{"zonas":[]}}),encoding="utf-8")
+            contract=root/"election.json"
+            contract.write_text(json.dumps({
+                "schema_family":"ddd-election",
+                "schema_version":"1.0.0",
+                "election_id":"demo_2026",
+                "territory_id":"demo",
+                "election_date":"2026-02-08",
+                "sources":[{
+                    "path":"results.json",
+                    "sha256":self.sha(source),
+                    "publisher":"Demo",
+                    "source_url":"https://example.invalid/results",
+                    "retrieved_at":"2026-09-22",
+                }],
+            }),encoding="utf-8")
+            params=root/"params.yaml"
+            params.write_text(yaml.safe_dump({
+                "meta":{"territory_id":"demo","year":2025},
+                "modulos":{"modulo_07_agregar_resultados_electorales":{"election_contract":"election.json"}},
+            },sort_keys=False),encoding="utf-8")
+            out=root/"package"
+            manifest=prepare(
+                territory_id="demo",edition="2025",package_out=out,root=root,params=params
+            )
+            self.assertEqual(manifest["election_id"],"demo_2026")
+            self.assertEqual(manifest["election_date"],"2026-02-08")
+            self.assertIsNotNone(validate_previous(
+                out,"demo","2025",
+                expected_election_id="demo_2026",
+                expected_election_date="2026-02-08",
+            ))
+            self.assertIsNone(validate_previous(
+                out,"demo","2025",
+                expected_election_id="demo_2027",
+                expected_election_date="2027-02-08",
+            ))
+
+    def test_new_declaration_wins_over_stale_static_contract(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            old_source=root/"old.json"
+            old_source.write_text(json.dumps({"mapa":{"zonas":[{"old":1}]}}),encoding="utf-8")
+            contract=root/"election_old.json"
+            contract.write_text(json.dumps({
+                "schema_family":"ddd-election",
+                "schema_version":"1.0.0",
+                "election_id":"demo_2024",
+                "territory_id":"demo",
+                "election_date":"2024-01-01",
+                "sources":[{
+                    "path":"old.json",
+                    "sha256":self.sha(old_source),
+                    "publisher":"Old",
+                    "source_url":"https://old.example/results",
+                    "retrieved_at":"2024-01-02",
+                }],
+            }),encoding="utf-8")
+            declaration=root/"current.yaml"
+            declaration.write_text(yaml.safe_dump({
+                "schema":"ddd-election-official-source-declaration/1.0",
+                "territory_id":"demo",
+                "election_id":"demo_2026",
+                "election_date":"2026-02-08",
+                "minimum_resolution":"section",
+                "allowed_official_hosts":["official.example"],
+                "sources":[{
+                    "id":"current","publisher":"Official",
+                    "url":"https://official.example/current.json",
+                    "required":True,"declared_resolution":"section",
+                    "granularity_markers":["seccion"],
+                }],
+            },sort_keys=False),encoding="utf-8")
+            params=root/"params.yaml"
+            params.write_text(yaml.safe_dump({
+                "meta":{"territory_id":"demo","year":2025},
+                "modulos":{"modulo_07_agregar_resultados_electorales":{"election_contract":"election_old.json"}},
+            },sort_keys=False),encoding="utf-8")
+            def fake_check(data,tmp):
+                tmp=Path(tmp); tmp.mkdir(parents=True,exist_ok=True)
+                current=tmp/"current.json"
+                current.write_text(json.dumps({"mapa":{"zonas":[{"new":1}]}}),encoding="utf-8")
+                return {
+                    "decision":"READY",
+                    "selected_source":{
+                        "id":"current","artifact_path":"current.json",
+                        "url":"https://official.example/current.json",
+                        "publisher":"Official",
+                        "sha256":self.sha(current),"bytes":current.stat().st_size,
+                    },
+                    "selected_sources":[],
+                    "checks":[],
+                }
+            out=root/"package"
+            with patch("herramientas.preparar_fuente_electoral.check_declaration",side_effect=fake_check):
+                manifest=prepare(
+                    territory_id="demo",edition="2025",package_out=out,root=root,
+                    params=params,declaration=declaration,
+                )
+            self.assertEqual(manifest["election_id"],"demo_2026")
+            self.assertEqual(manifest["election_date"],"2026-02-08")
+            self.assertEqual(manifest["decision"],"ACQUIRE")
+            self.assertNotEqual(manifest["selected_source"]["sha256"],self.sha(old_source))
 
 class VerifiedMirrorPolicyTests(unittest.TestCase):
     def base_declaration(self):

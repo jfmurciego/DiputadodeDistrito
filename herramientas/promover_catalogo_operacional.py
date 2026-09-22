@@ -86,14 +86,47 @@ def promote(
         evidence["territorial_product"] = str(Path(rel).relative_to(root))
 
     elif kind == "electoral_source":
-        if not declaration:
-            raise ValueError("Fuente electoral sin declaración")
-        declaration_path = root / declaration
-        if not declaration_path.is_file():
-            raise ValueError(f"Declaración electoral inexistente: {declaration}")
+        receipt_payload = {**common, "election_id": election_id}
+        if declaration:
+            declaration_path = root / declaration
+            if not declaration_path.is_file():
+                raise ValueError(f"Declaración electoral inexistente: {declaration}")
+            receipt_payload["declaration"] = declaration
+            state["electoral_source_declaration"] = declaration
+        else:
+            contract_raw = state.get("contract_path")
+            if not contract_raw:
+                raise ValueError("Fuente electoral sin declaración ni contrato territorial")
+            params_path = root / str(contract_raw)
+            if not params_path.is_file():
+                raise ValueError(f"Contrato territorial inexistente: {contract_raw}")
+            params = _load_yaml(params_path)
+            m07 = (params.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+            election_contract_raw = m07.get("election_contract")
+            if not election_contract_raw:
+                raise ValueError("Fuente electoral sin declaración ni election_contract materializado")
+            election_contract_path = root / str(election_contract_raw)
+            if not election_contract_path.is_file():
+                raise ValueError(f"Contrato electoral inexistente: {election_contract_raw}")
+            election_contract = json.loads(election_contract_path.read_text(encoding="utf-8"))
+            if str(election_contract.get("territory_id") or "") != territory_id:
+                raise ValueError("Contrato electoral pertenece a otro territorio")
+            contract_election_id = str(election_contract.get("election_id") or "")
+            if not contract_election_id or (election_id and contract_election_id != election_id):
+                raise ValueError(
+                    f"Contrato electoral no corresponde a la elección promovida: "
+                    f"{contract_election_id!r} != {election_id!r}"
+                )
+            receipt_payload.update({
+                "declaration": None,
+                "election_contract": str(election_contract_raw),
+                "election_contract_sha256": __import__("hashlib").sha256(
+                    election_contract_path.read_bytes()
+                ).hexdigest(),
+            })
+            state["electoral_source_declaration"] = None
         receipt = _receipt_path(root, territory_id, kind, edition)
-        rel = _write_receipt(receipt, {**common, "declaration": declaration, "election_id": election_id})
-        state["electoral_source_declaration"] = declaration
+        rel = _write_receipt(receipt, receipt_payload)
         state["electoral_source_prepared"] = True
         evidence["electoral_source"] = str(Path(rel).relative_to(root))
 
