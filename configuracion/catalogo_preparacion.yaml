@@ -66,9 +66,11 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 35728626894
+        stage: M06
       preparation_evidence:
         run_id: 35661268397
         artifact_name: ddd-source-package-principado_de_asturias-2025-35728626894
