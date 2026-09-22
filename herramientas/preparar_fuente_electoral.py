@@ -218,11 +218,38 @@ def _write_package(out:Path,decision:str,territory_id:str,edition:str,source:Pat
     (out/"decision.json").write_text(json.dumps({"decision":decision,"territory_id":territory_id,"edition":str(edition),"selected_source":selected},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     return manifest
 
-def validate_previous(package:Path,territory_id:str,edition:str)->dict|None:
+def _expected_election_identity(root:Path,cfg:dict,declaration:Path|None)->tuple[str|None,str|None]:
+    decl=declaration
+    if decl is None:
+        raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")
+        if raw:
+            decl=root/str(raw)
+    if decl and decl.is_file():
+        data=load_declaration(decl)
+        return (
+            str(data.get("election_id") or "") or None,
+            str(data.get("election_date") or "") or None,
+        )
+    m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+    contract_raw=m07.get("election_contract")
+    if contract_raw:
+        contract_path=root/str(contract_raw)
+        if contract_path.is_file():
+            data=json.loads(contract_path.read_text(encoding="utf-8"))
+            return (
+                str(data.get("election_id") or "") or None,
+                str(data.get("election_date") or "") or None,
+            )
+    return None,None
+
+
+def validate_previous(package:Path,territory_id:str,edition:str,expected_election_id:str|None=None,expected_election_date:str|None=None)->dict|None:
     try:
         m=json.loads((package/"manifest.json").read_text(encoding="utf-8"))
         if m.get("schema")!="ddd-electoral-package/1.0" or m.get("decision") not in {"REUSE","ACQUIRE"}: return None
         if m.get("territory_id")!=territory_id or str(m.get("edition"))!=str(edition): return None
+        if expected_election_id is not None and str(m.get("election_id") or "")!=str(expected_election_id): return None
+        if expected_election_date is not None and str(m.get("election_date") or "")!=str(expected_election_date): return None
         s=m.get("selected_source") or {}; p=package/str(s.get("path") or "")
         if not p.is_file() or sha(p)!=str(s.get("sha256") or "") or p.stat().st_size!=int(s.get("bytes") or -1): return None
         records,_=count_records(p)
@@ -232,8 +259,15 @@ def validate_previous(package:Path,territory_id:str,edition:str)->dict|None:
 
 def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Path|None=None,declaration:Path|None=None,previous:Path|None=None,previous_run_id:str|None=None,previous_artifact_name:str|None=None)->dict:
     root=root.resolve()
+    cfg={}
+    if params and params.is_file(): cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+    expected_election_id,expected_election_date=_expected_election_identity(root,cfg,declaration)
     if previous and previous.is_dir():
-        m=validate_previous(previous,territory_id,edition)
+        m=validate_previous(
+            previous,territory_id,edition,
+            expected_election_id=expected_election_id,
+            expected_election_date=expected_election_date,
+        )
         if m and previous_run_id and previous_artifact_name:
             source=previous/m["selected_source"]["path"]
             meta={k:v for k,v in m["selected_source"].items() if k not in {"path","sha256","bytes","records","record_count_method"}}
@@ -262,8 +296,6 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 }
                 (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
             return manifest
-    cfg={}
-    if params and params.is_file(): cfg=yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
     contract_raw=m07.get("election_contract")
     if contract_raw:
@@ -276,7 +308,12 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 expected=str(s.get("sha256") or "").lower()
                 if src.is_file() and expected and sha(src).lower()==expected:
                     meta={"origin_url":s.get("source_url"),"publisher":s.get("publisher"),"acquired_at":s.get("retrieved_at"),"source_mode":"existing_contract","contract":str(contract_raw)}
-                    return _write_package(package_out,"REUSE",territory_id,edition,src,meta)
+                    return _write_package(
+                        package_out,"REUSE",territory_id,edition,src,meta,{
+                            "election_id":contract.get("election_id"),
+                            "election_date":contract.get("election_date"),
+                        },
+                    )
     decl=declaration
     if decl is None:
         raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")
