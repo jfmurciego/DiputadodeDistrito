@@ -162,7 +162,16 @@ def transform_minsait_polling_long_csv(source:Path,out_dir:Path,declaration:dict
     section_field=resolve_field("section_field",["codigo_seccion","seccion"])
     polling_field=resolve_field("polling_station_field",["codigo_mesa","mesa"],required=False)
     votes_field=resolve_field("votes_field",["votos","votes"])
-    party_field=resolve_field("party_fields",["recode","partido","siglas","denominacion"])
+    party_candidates=transform.get("party_fields") or ["recode","partido","siglas","denominacion"]
+    if not isinstance(party_candidates,list):
+        party_candidates=[party_candidates]
+    party_fields=[]
+    for candidate in [*party_candidates,"recode","partido","siglas","denominacion"]:
+        raw=clean_to_raw.get(_clean_header(candidate))
+        if raw and raw not in party_fields:
+            party_fields.append(raw)
+    if not party_fields:
+        raise ValueError(f"CSV Minsait sin campo de partido; cabecera={fields}")
     ccaa_field=resolve_field("autonomous_community_field",["codigo_ccaa"],required=False)
 
     expected_ccaa=str(transform.get("autonomous_community_code") or "").strip()
@@ -185,7 +194,7 @@ def transform_minsait_polling_long_csv(source:Path,out_dir:Path,declaration:dict
         dist=_normalise_code(row.get(district_field),district_width)
         sec_raw=_raw_code(row.get(section_field))
         sec=_normalise_code(row.get(section_field),section_width)
-        party=str(row.get(party_field) or "").strip()
+        party=next((str(row.get(field) or "").strip() for field in party_fields if str(row.get(field) or "").strip()),"")
         if not (prov and mun and dist and sec_raw and party):
             skipped+=1
             continue
