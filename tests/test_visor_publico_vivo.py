@@ -123,6 +123,54 @@ class LiveViewerCatalogTests(unittest.TestCase):
             self.assertTrue((root / products["territorial"]["source_path"]).is_file())
             self.assertTrue((root / products["electoral"]["source_path"]).is_file())
 
+    def test_durable_web_copy_survives_artifact_expiration(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            stable = root / "publicado/visor/data/demo/territorial.geojson"
+            stable.parent.mkdir(parents=True)
+            stable.write_text(json.dumps({"type": "FeatureCollection", "features": []}), encoding="utf-8")
+            catalog_path = root / "publicado/visor/catalogo.json"
+            catalog_path.write_text(json.dumps({
+                "schema": "ddd.public-viewer-catalog/1.0",
+                "territories": [{
+                    "territory_id": "demo",
+                    "name": "Demo",
+                    "edition": "2025",
+                    "products": [{
+                        "kind": "territorial",
+                        "source_path": "publicado/visor/data/demo/territorial.geojson",
+                        "districts": 2,
+                        "source_run_id": 100,
+                    }],
+                }],
+            }), encoding="utf-8")
+            state = {
+                "edition": "2025",
+                "generated_at": "2026-09-22T10:00:00+00:00",
+                "territories": [{
+                    "territory_id": "demo",
+                    "name": "Demo",
+                    "edition": "2025",
+                    "phase_evidence": {
+                        "territorial_product": {"run_id": 100, "artifact_name": "ddd-state-100-M06"},
+                        "electoral_source": None,
+                        "electoral_product": None,
+                    },
+                }],
+            }
+            catalog = sync_territory_from_artifact_roots(
+                root=root,
+                state=state,
+                territory_id="demo",
+                m06_root=None,
+                m08_root=None,
+                catalog_path=catalog_path,
+                output_root=root / "publicado/visor/data",
+            )
+            demo = next(row for row in catalog["territories"] if row["territory_id"] == "demo")
+            self.assertEqual(demo["products"][0]["source_run_id"], 100)
+            self.assertTrue(stable.is_file())
+
     def test_public_ui_reads_live_json_and_hides_internal_run_language(self):
         app = (ROOT / "visor/app.js").read_text(encoding="utf-8")
         html = (ROOT / "visor/index.html").read_text(encoding="utf-8")
