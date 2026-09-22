@@ -114,6 +114,11 @@ class ExtremaduraDeclarativeReadiness(unittest.TestCase):
         self.assertIn("rtve", forbidden)
         urls = " ".join(str(s["url"]).lower() for s in self.election_sources["sources"])
         self.assertNotIn("rtve", urls)
+        mirror = next(s for s in self.election_sources["sources"] if s["id"] == "eleccionesdb_minsait_extremadura")
+        self.assertEqual(mirror["source_class"], "verified_mirror")
+        self.assertEqual(mirror["declared_resolution"], "polling_station")
+        self.assertEqual(mirror["transform"]["kind"], "minsait_polling_long_csv")
+        self.assertGreaterEqual(len(self.election_sources["official_reference_urls"]), 2)
         electoral = self.readiness["business_steps"]["electoral_results"]
         self.assertFalse(electoral["ready"])
         self.assertTrue(electoral["automated_check"])
