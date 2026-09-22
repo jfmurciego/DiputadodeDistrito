@@ -1,3 +1,12 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Aragón
+# VERSIÓN: 7.14.0
+# NOMBRE DE VERSIÓN: Contrato Aragón con GerryChain y comarcas explícitas
+# FECHA: 2026-09-22
+# ESTADO: vigente
+# CAMBIOS: conserva el contrato 7.14.0 y restaura su cabecera de gobernanza versionada.
+# MOTIVO: permitir que la suite de invariantes valide la trazabilidad del contrato activo.
+# ANTERIOR: legacy/configuracion/aragon_2025_v7.13.1.yaml
 meta:
   procedure_name: Diputado de Distrito
   run_name: aragon_2025
