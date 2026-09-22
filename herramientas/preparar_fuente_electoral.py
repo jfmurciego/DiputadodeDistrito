@@ -135,12 +135,135 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
     return {"source":normalized,"contract":contract,"dictionary":dictionary,"records":records,"sections":len(sections),"parties":len(parties)}
 
 
+def transform_minsait_polling_long_csv(source:Path,out_dir:Path,declaration:dict,source_decl:dict)->dict:
+    transform=source_decl.get("transform") or {}
+    fields,rows=_read_delimited(source)
+    clean_to_raw={_clean_header(name):name for name in fields}
+
+    def resolve_field(config_key:str,defaults:list[str],required:bool=True)->str|None:
+        configured=transform.get(config_key)
+        candidates=[]
+        if isinstance(configured,list):
+            candidates.extend(str(x) for x in configured)
+        elif configured:
+            candidates.append(str(configured))
+        candidates.extend(defaults)
+        for candidate in candidates:
+            raw=clean_to_raw.get(_clean_header(candidate))
+            if raw:
+                return raw
+        if required:
+            raise ValueError(f"CSV Minsait sin campo {config_key}; cabecera={fields}")
+        return None
+
+    province_field=resolve_field("province_field",["codigo_provincia","provincia"])
+    municipality_field=resolve_field("municipality_field",["codigo_municipio","municipio"])
+    district_field=resolve_field("district_field",["codigo_distrito","distrito"])
+    section_field=resolve_field("section_field",["codigo_seccion","seccion"])
+    polling_field=resolve_field("polling_station_field",["codigo_mesa","mesa"],required=False)
+    votes_field=resolve_field("votes_field",["votos","votes"])
+    party_candidates=transform.get("party_fields") or ["recode","partido","siglas","denominacion"]
+    if not isinstance(party_candidates,list):
+        party_candidates=[party_candidates]
+    party_fields=[]
+    for candidate in [*party_candidates,"recode","partido","siglas","denominacion"]:
+        raw=clean_to_raw.get(_clean_header(candidate))
+        if raw and raw not in party_fields:
+            party_fields.append(raw)
+    if not party_fields:
+        raise ValueError(f"CSV Minsait sin campo de partido; cabecera={fields}")
+    ccaa_field=resolve_field("autonomous_community_field",["codigo_ccaa"],required=False)
+
+    expected_ccaa=str(transform.get("autonomous_community_code") or "").strip()
+    province_width=int(transform.get("province_width",2))
+    municipality_width=int(transform.get("municipality_width",3))
+    district_width=int(transform.get("district_width",2))
+    section_width=int(transform.get("section_width",3))
+
+    aggregated={}
+    sections=set()
+    polling_stations=set()
+    skipped=0
+    for row in rows:
+        if ccaa_field and expected_ccaa:
+            raw_ccaa=_normalise_code(row.get(ccaa_field),len(expected_ccaa))
+            if raw_ccaa and raw_ccaa!=expected_ccaa.zfill(len(expected_ccaa)):
+                continue
+        prov=_normalise_code(row.get(province_field),province_width)
+        mun=_normalise_code(row.get(municipality_field),municipality_width)
+        dist=_normalise_code(row.get(district_field),district_width)
+        sec_raw=_raw_code(row.get(section_field))
+        sec=_normalise_code(row.get(section_field),section_width)
+        party=next((str(row.get(field) or "").strip() for field in party_fields if str(row.get(field) or "").strip()),"")
+        if not (prov and mun and dist and sec_raw and party):
+            skipped+=1
+            continue
+        if mun in {"991","992","993","999"}:
+            skipped+=1
+            continue
+        special_section=(
+            not re.fullmatch(r"\d+",sec_raw)
+            or int(sec_raw)<=0
+            or int(sec_raw) >= 10**section_width
+        )
+        cusec=(f"SPECIAL:{prov}:{mun}:{dist}:{sec_raw}" if special_section else f"{prov}{mun}{dist}{sec}")
+        votes=_as_int(row.get(votes_field))
+        key=(cusec,party)
+        aggregated[key]=aggregated.get(key,0)+votes
+        sections.add(cusec)
+        if polling_field:
+            mesa=str(row.get(polling_field) or "").strip()
+            if mesa:
+                polling_stations.add((cusec,mesa))
+
+    if not aggregated or not sections:
+        raise ValueError("La transformación Minsait no produjo votos por sección")
+    out_dir.mkdir(parents=True,exist_ok=True)
+    normalized=out_dir/"resultados_electorales_normalizados.csv"
+    with normalized.open("w",encoding="utf-8",newline="") as fh:
+        writer=csv.DictWriter(fh,fieldnames=["CUSEC_KEY","party","votes"],delimiter=";")
+        writer.writeheader()
+        for (cusec,party),votes in sorted(aggregated.items()):
+            writer.writerow({"CUSEC_KEY":cusec,"party":party,"votes":votes})
+
+    parties=sorted({party for _,party in aggregated})
+    dictionary=out_dir/"party_dictionary.json"
+    dictionary_payload={
+        "schema_family":"ddd-party-dictionary","schema_version":"1.0.0","unknown_party_policy":"reject",
+        "parties":[{"canonical_id":p,"display_name":p,"aliases":[],"classification":""} for p in parties],
+    }
+    dictionary.write_text(json.dumps(dictionary_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    contract=out_dir/"election_contract.json"
+    contract_payload={
+        "schema_family":"ddd-election","schema_version":"1.0.0",
+        "election_id":str(declaration["election_id"]),"territory_id":str(declaration["territory_id"]),
+        "title":str(declaration.get("title") or declaration["election_id"]),
+        "election_date":str(declaration["election_date"]),"input_mode":"verifiable_file","boundary_independence":True,
+        "sources":[{
+            "path":normalized.as_posix(),"sha256":sha(normalized),
+            "publisher":str(source_decl.get("publisher") or ""),"source_url":str(source_decl.get("url") or ""),
+            "retrieved_at":datetime.now(timezone.utc).date().isoformat(),
+            "adapter":{"kind":"long_csv","separator":";","section_field":"CUSEC_KEY","party_field":"party","votes_field":"votes"},
+        }],
+        "party_dictionary":{"path":dictionary.as_posix(),"sha256":sha(dictionary)},
+        "reconciliation":declaration.get("reconciliation") or {"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
+    }
+    contract.write_text(json.dumps(contract_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return {
+        "source":normalized,"contract":contract,"dictionary":dictionary,
+        "records":len(aggregated),"sections":len(sections),"parties":len(parties),
+        "polling_stations":len(polling_stations),"raw_rows":len(rows),"skipped_rows":skipped,
+    }
+
+
 def _transform_selected_source(src:Path,tmp:Path,declaration:dict,source_decl:dict)->dict|None:
     transform=source_decl.get("transform") or {}
     kind=str(transform.get("kind") or "")
     if not kind: return None
     if kind=="gipeyop_polling_xlsx":
         return transform_gipeyop_polling_xlsx(src,tmp/"normalized",declaration,source_decl)
+    if kind=="minsait_polling_long_csv":
+        return transform_minsait_polling_long_csv(src,tmp/"normalized",declaration,source_decl)
     raise ValueError(f"Transformación electoral no soportada: {kind}")
 
 def sha(path:Path)->str:
@@ -377,7 +500,13 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
             source_mode="verified_mirror_transformed" if transformed and str(declared_source.get("source_class") or "")=="verified_mirror" else ("official_acquisition_transformed" if transformed else "official_acquisition")
             meta={"origin_url":sel.get("url"),"publisher":sel.get("publisher"),"acquired_at":datetime.now(timezone.utc).isoformat(),"source_mode":source_mode,"declaration":str(decl),"source_class":declared_source.get("source_class","official")}
             if transformed:
-                meta["transform"]={"kind":str((declared_source.get("transform") or {}).get("kind") or ""),"records":transformed["records"],"sections":transformed["sections"],"parties":transformed["parties"]}
+                meta["transform"]={
+                    "kind":str((declared_source.get("transform") or {}).get("kind") or ""),
+                    "records":transformed["records"],"sections":transformed["sections"],"parties":transformed["parties"],
+                }
+                for key in ("polling_stations","raw_rows","skipped_rows"):
+                    if key in transformed:
+                        meta["transform"][key]=transformed[key]
             manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,selected_src,meta,election_extra)
             if transformed:
                 contract_dir=package_out/"contract"; contract_dir.mkdir(exist_ok=True)
