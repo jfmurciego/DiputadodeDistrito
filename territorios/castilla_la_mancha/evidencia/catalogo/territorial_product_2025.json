@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "run_id": 35744494489,
+  "artifact_name": "ddd-state-35744494489-M06",
+  "artifact_sha256": "e5118c43f280775e1032d055df8a5f2352162fc094031374ddacdc117b4bab31",
+  "source_commit": "4e3f8210bb326bfdb902cb4c30b35749706dbb39",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06"
+}

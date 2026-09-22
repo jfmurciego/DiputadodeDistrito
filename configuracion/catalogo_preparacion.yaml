@@ -148,17 +148,21 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: false
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 35744494489
+        stage: M06
       preparation_evidence:
         run_id: 35744494489
         artifact_name: ddd-source-package-castilla_la_mancha-2025-35744494489
         artifact_sha256: 3317a19b68d5fa341b8066d1d5927884912fe981de1b803e67388d573f010e57
         package_sha256: 0d8aa7038c52254f7a3cefea284ecc03559e3411b1e3f04d57c3875bab4772ad
+      evidence:
+        territorial_product: territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json
 - territory_id: castilla_y_leon
   name: Castilla y León
   editions:
