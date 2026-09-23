@@ -13,8 +13,6 @@ from typing import Any
 
 import yaml
 
-from ddd_ensemble.gallery import _write_web_geojson
-
 CONFIRMATION = "EXECUTE_CAMPAIGN_CONFIRMED"
 ENTRYPOINT = "gerrychain_50"
 EXPECTED_FIELDS = {
@@ -467,6 +465,8 @@ def package_campaign_gallery(
     campaign_instance: str,
     expected_districts: int,
 ) -> dict[str, Any]:
+    from ddd_ensemble.gallery import _write_web_geojson
+
     status_path = _single(bundle_root, "campaign_status.json")
     portfolio_path = _single(bundle_root, "portfolio.json")
     status = json.loads(status_path.read_text(encoding="utf-8"))
