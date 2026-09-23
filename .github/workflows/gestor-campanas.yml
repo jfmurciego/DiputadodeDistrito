@@ -130,6 +130,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
           python -m unittest tests.test_gestor_campana
           python herramientas/gestor_campana.py validate --manifest configuracion/campanas/campana_cinco_territorios_v1.json
 
