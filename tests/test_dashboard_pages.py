@@ -32,7 +32,8 @@ class DashboardPages(unittest.TestCase):
 
     def test_produccion_automatica_preserva_dashboard_promovido(self):
         reusable=REUSABLE.read_text(encoding="utf-8")
-        self.assertIn("cp -R publicado/dashboard/. site/dashboard/",reusable)
+        self.assertIn("cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/",reusable)
+        self.assertIn("with: {path: /tmp/site-candidate}",reusable)
         self.assertNotIn("cp dashboard/index.html",reusable)
 
     def test_promocion_dashboard_es_explicita_y_trazable(self):

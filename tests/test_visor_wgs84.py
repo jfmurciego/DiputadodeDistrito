@@ -122,12 +122,12 @@ class ViewerWgs84Tests(unittest.TestCase):
             results = []
             add_ensemble(root, output, results)
 
-            copied = json.loads((output / "data/ensemble/balanced-01.geojson").read_text(encoding="utf-8"))
+            copied = json.loads((output / "data/ensemble/aragon/ensemble/balanced-01.geojson").read_text(encoding="utf-8"))
             self.assertEqual(copied["features"][0]["properties"]["source"], "web")
             self.assertNotIn("crs", copied)
             assert_wgs84(self, copied)
             self.assertEqual(len(results), 1)
-            self.assertEqual(results[0]["viewer_path"], "data/ensemble/balanced-01.geojson")
+            self.assertEqual(results[0]["viewer_path"], "data/ensemble/aragon/ensemble/balanced-01.geojson")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.3.0
+VERSIÓN: 1.5.0
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -187,7 +187,7 @@ def add_production(
         if not src:
             continue
         rid = run_id or "desconocido"
-        dst = site / "data" / "results" / f"{stage.lower()}-{rid}.geojson"
+        dst = site / "data" / "results" / metadata["territory_id"] / rid / f"{stage.lower()}.geojson"
         count = write_geojson_from_zip(src, dst)
         technical_status = recorded_status or (
             "BLOCK" if geometric_status == "BLOCK" else "UNKNOWN"
@@ -205,7 +205,7 @@ def add_production(
         if technical_status == "BLOCK":
             certified = "BLOCKED"
         results.append({
-            "id": f"{stage.lower()}-{rid}",
+            "id": f"{stage.lower()}-{metadata['territory_id']}-{rid}",
             "territory_id": metadata["territory_id"],
             "territory_label": metadata["territory_label"],
             "label": f"{label} · run {rid}",
@@ -224,7 +224,7 @@ def add_production(
         })
 
 
-def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
+def add_ensemble(root: Path | None, site: Path, results: list[dict], ensemble_id: str | None = None) -> None:
     if root is None or not root.exists():
         return
     preferred = sorted(root.rglob("site/data/summary.json"))
@@ -237,6 +237,10 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
         territory_id, territory_id or "Territorio no identificado"
     )
     base = summary_path.parent.parent if summary_path.parent.name == "data" else summary_path.parent
+    ensemble_id = str(ensemble_id or summary.get("ensemble_id") or summary.get("prepared_bundle_id") or "ensemble")
+    gallery_dst = site / "galleries" / str(territory_id) / ensemble_id
+    if base.is_dir():
+        shutil.copytree(base, gallery_dst, dirs_exist_ok=True)
     for candidate in summary.get("candidates", []):
         asset = candidate.get("asset") or candidate.get("geojson")
         if not asset:
@@ -248,16 +252,18 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
                 continue
             src = matches[0]
         candidate_id = str(candidate.get("candidate_id") or src.stem)
-        dst = site / "data" / "ensemble" / f"{candidate_id}.geojson"
+        dst = site / "data" / "ensemble" / str(territory_id) / ensemble_id / f"{candidate_id}.geojson"
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
         results.append({
-            "id": f"ensemble-{candidate_id}",
+            "id": f"ensemble-{territory_id}-{ensemble_id}-{candidate_id}",
             "territory_id": territory_id,
             "territory_label": territory_label,
             "label": f"Ensemble {candidate_id} · {candidate.get('profile', 'sin perfil')}",
             "kind": "ensemble_candidate",
             "candidate_id": candidate_id,
+            "ensemble_id": ensemble_id,
+            "gallery_path": str(gallery_dst.relative_to(site)).replace("\\", "/") + "/",
             "profile": candidate.get("profile"),
             "seed": candidate.get("seed"),
             "expected_districts": int(
@@ -271,6 +277,84 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict]) -> None:
         })
 
 
+
+def _materialized_asset(materialized_root: Path, entry: dict) -> Path:
+    asset = materialized_root / str(entry["id"]) / "asset"
+    if not asset.is_file():
+        raise FileNotFoundError(f"Activo registrado no materializado: {entry['id']} -> {asset}")
+    return asset
+
+
+def add_registered_product(entry: dict, repository_root: Path, materialized_root: Path, site: Path, results: list[dict]) -> None:
+    del repository_root  # el sitio sólo consume activos ya resueltos y verificados por hash
+    kind = entry.get("kind")
+    territory_id = str(entry["territory_id"])
+    src = _materialized_asset(materialized_root, entry)
+
+    if kind == "static":
+        dst = site / "data" / "static" / f"{territory_id}.geojson"
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        payload = json.loads(dst.read_text(encoding="utf-8"))
+        if payload.get("type") != "FeatureCollection":
+            raise ValueError(f"{entry['id']}: activo histórico no es FeatureCollection")
+        observed = len(payload.get("features", []))
+    elif kind in {"canonical_m06", "canonical_m08"}:
+        run_id = str(entry["run_id"])
+        stage = "m06" if kind == "canonical_m06" else "m08"
+        dst = site / "data" / "results" / territory_id / run_id / f"{stage}.geojson"
+        observed = write_geojson_from_zip(src, dst)
+    else:
+        raise ValueError(f"{entry['id']}: kind no soportado para producto: {kind}")
+
+    expected = int(entry.get("expected_districts") or observed)
+    if observed != expected:
+        raise ValueError(f"{entry['id']}: distritos observados {observed} != {expected}")
+    item = dict(entry)
+    item["observed_districts"] = observed
+    item["viewer_path"] = str(dst.relative_to(site)).replace("\\", "/")
+    results.append(item)
+
+
+def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, results: list[dict]) -> None:
+    archive = _materialized_asset(materialized_root, entry)
+    root = materialized_root / str(entry["id"]) / "unpacked"
+    if root.exists():
+        shutil.rmtree(root)
+    root.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(archive) as bundle:
+        bundle.extractall(root)
+    start = len(results)
+    add_ensemble(root, site, results, ensemble_id=str(entry["ensemble_id"]))
+    produced = results[start:]
+    expected = int(entry.get("candidate_count_valid") or 0)
+    if expected and len(produced) != expected:
+        raise ValueError(
+            f"{entry['id']}: candidatos materializados {len(produced)} != {expected}"
+        )
+    for item in produced:
+        item["publication_status"] = entry.get("publication_status", item.get("publication_status", "BLOCKED"))
+        item["ensemble_release_tag"] = entry.get("release_tag")
+        item["ensemble_asset_sha256"] = entry.get("sha256")
+
+
+def build_from_publication_registry(
+    registry_path: Path,
+    repository_root: Path,
+    materialized_root: Path,
+    site: Path,
+) -> list[dict]:
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    if registry.get("schema") != "ddd.viewer-publication-registry/2.0":
+        raise ValueError(f"Registro durable no soportado: {registry.get('schema')}")
+    results: list[dict] = []
+    for entry in registry.get("products", []):
+        add_registered_product(entry, repository_root, materialized_root, site, results)
+    for entry in registry.get("ensembles", []):
+        add_registered_ensemble(entry, materialized_root, site, results)
+    return results
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--site", type=Path, required=True)
@@ -279,25 +363,36 @@ def main() -> None:
     parser.add_argument("--production-audit", type=Path)
     parser.add_argument("--ensemble-root", type=Path)
     parser.add_argument("--static-registry", type=Path)
+    parser.add_argument("--publication-registry", type=Path)
+    parser.add_argument("--materialized-root", type=Path, default=Path("/tmp/publications"))
+    parser.add_argument("--repository-root", type=Path, default=Path("."))
     args = parser.parse_args()
 
     args.site.mkdir(parents=True, exist_ok=True)
-    results: list[dict] = []
-    add_production(
-        args.production_root,
-        args.site,
-        args.production_run_id,
-        results,
-        external_audit=args.production_audit,
-    )
-    add_ensemble(args.ensemble_root, args.site, results)
-    add_static(args.static_registry, args.site, results)
+    if args.publication_registry:
+        results = build_from_publication_registry(
+            args.publication_registry,
+            args.repository_root,
+            args.materialized_root,
+            args.site,
+        )
+    else:
+        results: list[dict] = []
+        add_production(
+            args.production_root,
+            args.site,
+            args.production_run_id,
+            results,
+            external_audit=args.production_audit,
+        )
+        add_ensemble(args.ensemble_root, args.site, results)
+        add_static(args.static_registry, args.site, results)
     if not results:
         raise SystemExit("No se encontró ningún resultado visualizable")
 
     priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
     results.sort(key=lambda item: (priority.get(item["kind"], 9), item["label"]))
-    payload = {"schema": "ddd.viewer-results/1.0", "results": results}
+    payload = {"schema": "ddd.viewer-results/1.1", "results": results}
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

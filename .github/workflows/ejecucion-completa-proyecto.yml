@@ -1,10 +1,10 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: orquestador principal
-# VERSIÓN: 1.2.0
+# VERSIÓN: 1.3.0
 # NOMBRE DE VERSIÓN: Oleada B completa con puertas y estrategia 02.5
 # ESTADO: candidato — smoke pre-merge obligatorio
-# QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas
-# conserva un manifiesto único, valida cada transición y hereda la estrategia de optimización de 02.
+# QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
+# conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
 name: 00 · Ejecución Completa del Proyecto
 
@@ -336,7 +336,7 @@ jobs:
   actualizar_estado:
     name: Actualizar estado operativo único
     needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.puerta_04.result == 'success' }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && (needs.puerta_04.result == 'success' || needs.puerta_03.result != 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -389,13 +389,13 @@ jobs:
 
   publicar:
     name: 05 · Publicar visor
-    needs: [planificar, puerta_04, actualizar_estado, incorporar]
-    if: ${{ always() && needs.planificar.outputs.publish_result == 'true' && needs.puerta_04.result == 'success' && needs.actualizar_estado.result == 'success' }}
+    needs: [planificar, puerta_02, puerta_04, actualizar_estado]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
       pagina_publicar: Sitio completo
-      production_run_id: ${{ needs.puerta_04.outputs.run_id }}
+      production_run_id: ${{ needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id }}
 
   manifestar:
     name: Registrar manifiesto de ejecución completa
