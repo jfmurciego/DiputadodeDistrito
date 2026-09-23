@@ -140,10 +140,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
+          python herramientas/registro_publicaciones_visor.py describe-production \
+            --production-root /tmp/production \
+            --run-id "$PRODUCTION_RUN_ID" \
+            --output /tmp/product-descriptors.json
 
           printf '[]\n' > /tmp/new-entries.json
-          mkdir -p /tmp/promotion-assets /tmp/promotion-verify
+          mkdir -p /tmp/promotion-assets /tmp/promotion-verify /tmp/promotion-results
           while IFS= read -r row; do
             [[ -n "$row" ]] || continue
             id="$(jq -r '.id' <<<"$row")"
@@ -156,32 +159,38 @@ jobs:
             durable="/tmp/promotion-assets/$asset_name"
             cp "$source" "$durable"
 
-            if ! gh release view "$tag" >/dev/null 2>&1; then
-              gh release create "$tag" --draft --target "$GITHUB_SHA" --title "$tag"                 --notes 'Activo persistente e inmutable del visor DDD; no sustituir ni clobber.'
-            fi
+            promotion="/tmp/promotion-results/$id.json"
+            python herramientas/promover_release_asset.py \
+              --repository "$GITHUB_REPOSITORY" \
+              --tag "$tag" \
+              --target-commit "$GITHUB_SHA" \
+              --asset-name "$asset_name" \
+              --source "$durable" \
+              --verify-path "/tmp/promotion-verify/$id" \
+              --output "$promotion"
 
-            asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
-            [[ "$asset_count" =~ ^[0-9]+$ ]] || { echo "::error::$id: cardinalidad de asset inválida"; exit 54; }
-            if [[ "$asset_count" == "0" ]]; then
-              gh release upload "$tag" "$durable"
-              asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"                 --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
-            fi
-            [[ "$asset_count" == "1" ]] || {
-              echo "::error::$id: esperaba exactamente un release asset $asset_name; encontrados=$asset_count"; exit 54;
+            release_id="$(jq -r '.release_id' "$promotion")"
+            release_tag="$(jq -r '.release_tag' "$promotion")"
+            asset_id="$(jq -r '.asset_id' "$promotion")"
+            verified_sha="$(jq -r '.sha256' "$promotion")"
+            [[ "$release_id" =~ ^[0-9]+$ && "$asset_id" =~ ^[0-9]+$ ]] || {
+              echo "::error::$id: identidad persistente inválida"; exit 54;
             }
-            asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq ".assets[] | select(.name==\"$asset_name\") | .id")"
-            [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: no se resolvió asset_id persistente"; exit 54; }
-
-            persisted="/tmp/promotion-verify/$id"
-            gh api -H 'Accept: application/octet-stream'               "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
-            persisted_sha="$(sha256sum "$persisted" | awk '{print $1}')"
-            [[ "$persisted_sha" == "$sha" ]] || {
-              echo "::error::$id: el release asset no coincide con la fuente promovida"; exit 55;
+            [[ "$release_tag" == "$tag" && "$verified_sha" == "$sha" ]] || {
+              echo "::error::$id: release/tag/hash no coincide con la promoción verificada"; exit 55;
             }
 
-            entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg release_tag "$tag"               --arg asset_name "$asset_name"               --arg asset_id "$asset_id"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
+            entry="$(jq \
+              --arg repository "$GITHUB_REPOSITORY" \
+              --arg release_id "$release_id" \
+              --arg release_tag "$release_tag" \
+              --arg asset_name "$asset_name" \
+              --arg asset_id "$asset_id" \
+              --arg sha256 "$verified_sha" \
+              '. | del(.local_source,.stage) + {
                 source_type:"release_asset",
                 repository:$repository,
+                release_id:($release_id|tonumber),
                 release_tag:$release_tag,
                 asset_name:$asset_name,
                 asset_id:($asset_id|tonumber),
