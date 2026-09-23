@@ -345,7 +345,7 @@ def build_from_publication_registry(
     site: Path,
 ) -> list[dict]:
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
-    if registry.get("schema") != "ddd.viewer-publication-registry/1.0":
+    if registry.get("schema") != "ddd.viewer-publication-registry/2.0":
         raise ValueError(f"Registro durable no soportado: {registry.get('schema')}")
     results: list[dict] = []
     for entry in registry.get("products", []):
