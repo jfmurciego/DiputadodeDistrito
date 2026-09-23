@@ -138,6 +138,65 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
                 artifact_digest=digest,expected_digest=digest)
             self.assertEqual(legacy["decision"],"VALIDADO")
 
+    def test_electoral_audit_progression_requires_final_accreditation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)/"state"; initial=Path(td)/"audit-initial"; final=Path(td)/"audit-final"
+            for name in ("cache","run","sources"): (root/name).mkdir(parents=True,exist_ok=True)
+            initial.mkdir(); final.mkdir()
+            (root/"run/CHAIN_STATE.json").write_text(json.dumps({"completed_stage":8}),encoding="utf-8")
+            base={"territory_id":"demo","decision":"PASS_WITH_EXCEPTIONS","scope_through_stage":"M06"}
+            (initial/"production_status.json").write_text(json.dumps(base),encoding="utf-8")
+            accredited=dict(base)
+            accredited["electoral_application"]=True
+            (final/"production_status.json").write_text(json.dumps(accredited),encoding="utf-8")
+            params=Path(td)/"demo.yaml"
+            params.write_text(yaml.safe_dump({"meta":{"year":2025}}),encoding="utf-8")
+            initial_result=validate_gate(
+                phase="electoral_product",artifact_root=root,audit_root=initial,params=params,
+                territory_id="demo",edition="2025",run_id="123",
+                artifact_name="ddd-state-123-M08",artifact_digest="a"*64)
+            self.assertEqual(initial_result["decision"],"BLOQUEADO")
+            self.assertIn("INCORPORACION_ELECTORAL_NO_ACREDITADA",initial_result["reasons"])
+            final_result=validate_gate(
+                phase="electoral_product",artifact_root=root,audit_root=final,params=params,
+                territory_id="demo",edition="2025",run_id="123",
+                artifact_name="ddd-state-123-M08",artifact_digest="a"*64)
+            self.assertEqual(final_result["decision"],"VALIDADO")
+
+    def test_electoral_audit_artifact_cardinality_zero_one_two(self):
+        root=Path(__file__).resolve().parents[1]
+        gate_path=root/".github/workflows/_reutilizable-puerta-validacion.yml"
+        incorporation_path=root/".github/workflows/_reutilizable-incorporacion-electoral.yml"
+        gate_text=gate_path.read_text(encoding="utf-8")
+        incorporation_text=incorporation_path.read_text(encoding="utf-8")
+        for path in (gate_path,incorporation_path):
+            parsed=yaml.load(path.read_text(encoding="utf-8"),Loader=yaml.BaseLoader)
+            self.assertIsInstance(parsed,dict)
+        self.assertIn('audit_name="ddd-audit-electoral-$resolved_run_id"',gate_text)
+        self.assertIn('audit_name="ddd-audit-$resolved_run_id"',gate_text)
+        self.assertIn("name: ddd-audit-electoral-${{ github.run_id }}".replace("\\$","$"),incorporation_text)
+        self.assertNotIn("name: ddd-audit-${{ github.run_id }}\n          path: .ddd-audit".replace("\\$","$"),incorporation_text)
+        jq_filter='[.artifacts[]|select(.name==$n and (.expired|not))]|length'
+        self.assertIn(jq_filter,gate_text)
+        audit_name="ddd-audit-electoral-123"
+        historical_only={"artifacts":[{"name":"ddd-audit-123","expired":False,"id":99}]}
+        historical_count=len([
+            row for row in historical_only["artifacts"]
+            if row.get("name")==audit_name and not row.get("expired",False)
+        ])
+        self.assertEqual(historical_count,0)
+        for count in (0,1,2):
+            payload={"artifacts":[
+                {"name":audit_name,"expired":False,"id":idx+1}
+                for idx in range(count)
+            ]}
+            observed=len([
+                row for row in payload["artifacts"]
+                if row.get("name")==audit_name and not row.get("expired",False)
+            ])
+            self.assertEqual(observed,count)
+            self.assertEqual(observed==1,count==1)
+
     def test_product_gate_rejects_contract_from_other_edition(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)/"state"; audit=Path(td)/"audit"

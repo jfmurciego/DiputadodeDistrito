@@ -225,7 +225,7 @@ jobs:
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         name: Conservar certificación consumible por publicación
         with:
-          name: ddd-audit-${{ github.run_id }}
+          name: ddd-audit-electoral-${{ github.run_id }}
           path: .ddd-audit
           include-hidden-files: true
           if-no-files-found: error

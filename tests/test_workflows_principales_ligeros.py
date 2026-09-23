@@ -78,7 +78,7 @@ class LightweightBusinessWorkflows(unittest.TestCase):
         reusable=(WF/"_reutilizable-incorporacion-electoral.yml").read_text(encoding="utf-8")
         publisher=(WF/"desplegar-visor-publico.yml").read_text(encoding="utf-8")
         self.assertIn("Conservar certificación consumible por publicación",reusable)
-        self.assertIn("name: ddd-audit-${{ github.run_id }}",reusable)
+        self.assertIn("name: ddd-audit-electoral-${{ github.run_id }}",reusable)
         self.assertIn('payload["workflow_run_id"]=int(run_id)',reusable)
         self.assertIn('payload["source_territorial_run_id"]',reusable)
         self.assertIn("latest_validated.run_id",publisher)
