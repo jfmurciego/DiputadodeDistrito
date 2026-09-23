@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -38,6 +39,14 @@ def _read(path: Path) -> dict[str, Any]:
 def _write(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def load_config(path: str) -> tuple[dict[str, Any], Path]:
@@ -98,9 +107,23 @@ def plan_path(output: Path) -> Path:
     return output / "plan.json"
 
 
-def ensure_plan(config: dict[str, Any], output: Path, count_override: int | None = None) -> dict[str, Any]:
-    count = count_override or int(config.get("ensemble", {}).get("candidate_count", 50))
-    expected = build_plan(config["territory_id"], config["prepared_bundle_id"], count)
+def ensure_plan(
+    config: dict[str, Any],
+    output: Path,
+    count_override: int | None = None,
+    seed_override: int | None = None,
+) -> dict[str, Any]:
+    ensemble = config.get("ensemble", {})
+    count = count_override or int(ensemble.get("candidate_count", 50))
+    seed = seed_override if seed_override is not None else ensemble.get("seed")
+    require_unique_hashes = ensemble.get("require_unique_hashes")
+    expected = build_plan(
+        config["territory_id"],
+        config["prepared_bundle_id"],
+        count,
+        seed=None if seed is None else int(seed),
+        require_unique_hashes=None if require_unique_hashes is None else bool(require_unique_hashes),
+    )
     path = plan_path(output)
     if path.exists():
         current = _read(path)
@@ -165,10 +188,12 @@ def _sampling_policy(config: dict[str, Any]) -> StatisticalSamplingPolicy:
 
 
 def _valid_existing(report_path: Path, candidate_id: str) -> bool:
-    if not report_path.is_file():
+    manifest_path = report_path.parent / "candidate-manifest.json"
+    if not report_path.is_file() or not manifest_path.is_file():
         return False
     try:
         report = _read(report_path)
+        manifest = _read(manifest_path)
     except (OSError, json.JSONDecodeError):
         return False
     geojson = Path(report.get("geojson", ""))
@@ -176,12 +201,18 @@ def _valid_existing(report_path: Path, candidate_id: str) -> bool:
         geojson = report_path.parent / geojson
     chain_quality = report.get("engine_run", {}).get("chain_quality", {})
     statistical_path = report_path.parent / "statistical-states.jsonl"
+    assignment_hash = str(report.get("assignment_hash") or "")
     return (
         report.get("candidate_id") == candidate_id
+        and manifest.get("candidate_id") == candidate_id
+        and manifest.get("assignment_hash") == assignment_hash
+        and assignment_hash
         and report.get("hard_constraints", {}).get("all_pass") is True
         and chain_quality.get("all_pass") is True
         and statistical_path.is_file()
         and geojson.is_file()
+        and manifest.get("geojson_sha256") == _sha256_file(geojson)
+        and manifest.get("report_sha256") == _sha256_file(report_path)
     )
 
 
@@ -191,6 +222,7 @@ def _clear_candidate_outputs(candidate_dir: Path) -> None:
         "engine-report.json",
         "statistical-states.jsonl",
         "report.json",
+        "candidate-manifest.json",
         "failure.json",
     ):
         (candidate_dir / name).unlink(missing_ok=True)
@@ -259,10 +291,33 @@ def run_candidates(
             )
             # Ruta portable entre artifacts/jobs de GitHub Actions.
             measured["geojson"] = "candidate.geojson"
+            measured["territory_id"] = config["territory_id"]
+            measured["prepared_bundle_id"] = config["prepared_bundle_id"]
+            measured["assignment_hash"] = str(
+                engine_report["selected_metrics"]["assignment_sha256"]
+            )
             measured["metrics"]["stability"]["assignment_delta"] = float(
                 engine_report["selected_metrics"]["assignment_churn"]
             )
             _write(report_path, measured)
+            _write(candidate_dir / "candidate-manifest.json", {
+                "schema": "ddd.candidate-manifest/1.0",
+                "territory_id": config["territory_id"],
+                "prepared_bundle_id": config["prepared_bundle_id"],
+                "plan_sha256": plan["plan_sha256"],
+                "candidate_id": candidate["candidate_id"],
+                "profile": candidate["profile"],
+                "seed": int(candidate["seed"]),
+                "assignment_hash": measured["assignment_hash"],
+                "k": int(ddd_contract.k),
+                "section_count": int(measured["metrics"]["universe"]["section_count"]),
+                "population_total": float(engine_report["selected_metrics"]["population_total"]),
+                "hard_constraints_pass": True,
+                "geojson": "candidate.geojson",
+                "geojson_sha256": _sha256_file(geojson_path),
+                "report": "report.json",
+                "report_sha256": _sha256_file(report_path),
+            })
             executed += 1
         except ChainQualityError as exc:
             _write(candidate_dir / "engine-report.json", exc.report)
@@ -315,6 +370,7 @@ def main() -> None:
     parser.add_argument("--mode", choices=("plan", "run", "assemble", "all"), default="all")
     parser.add_argument("--profile", choices=tuple(PROFILES))
     parser.add_argument("--count", type=int)
+    parser.add_argument("--seed", type=int)
     parser.add_argument("--output")
     parser.add_argument("--allow-partial", action="store_true")
     args = parser.parse_args()
@@ -324,7 +380,7 @@ def main() -> None:
     resolve_prepared_bundle_id(config, base)
     output = Path(args.output).resolve() if args.output else _path(base, config.get("output", "ensemble-output"))
     output.mkdir(parents=True, exist_ok=True)
-    plan = ensure_plan(config, output, args.count)
+    plan = ensure_plan(config, output, args.count, args.seed)
     result: dict[str, Any] = {"mode": args.mode, "output": str(output), "plan_sha256": plan["plan_sha256"]}
     if args.mode in ("run", "all"):
         result["run"] = run_candidates(config, base, output, plan, args.profile)

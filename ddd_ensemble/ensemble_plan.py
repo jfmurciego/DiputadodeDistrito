@@ -21,11 +21,22 @@ def _seed(*parts: str) -> int:
     return int.from_bytes(digest[:4], "big") & 0x7FFFFFFF
 
 
-def build_plan(territory_id: str, prepared_bundle_id: str, count: int = 50) -> dict[str, Any]:
+def build_plan(
+    territory_id: str,
+    prepared_bundle_id: str,
+    count: int = 50,
+    *,
+    seed: int | None = None,
+    require_unique_hashes: bool | None = None,
+) -> dict[str, Any]:
     if not territory_id or not prepared_bundle_id:
         raise ValueError("territory_id y prepared_bundle_id son obligatorios")
     if count < 5 or count % 5:
         raise ValueError("El tamaño debe ser múltiplo de cinco y al menos cinco")
+    if seed is not None and isinstance(seed, bool):
+        raise ValueError("seed debe ser entero")
+    if require_unique_hashes is None:
+        require_unique_hashes = count == 50
 
     per_profile = count // len(PROFILES)
     candidates: list[dict[str, Any]] = []
@@ -39,23 +50,34 @@ def build_plan(territory_id: str, prepared_bundle_id: str, count: int = 50) -> d
                 parameters["shape"] = round(0.45 + 0.10 * ((ordinal - 1) % 6), 2)
                 parameters["comarca"] = round(0.35 + 0.15 * ((ordinal + 1) % 6), 2)
                 parameters["comarca_surcharge"] = round(0.10 + 0.15 * ((ordinal - 1) % 5), 2)
+            seed_parts = [territory_id, prepared_bundle_id, candidate_id]
+            if seed is not None:
+                seed_parts.insert(0, str(int(seed)))
             candidate = {
                 "candidate_id": candidate_id,
                 "profile": profile,
                 "ordinal": ordinal,
-                "seed": _seed(territory_id, prepared_bundle_id, candidate_id),
+                "seed": _seed(*seed_parts),
                 "parameters": parameters,
             }
             candidates.append(candidate)
             shard_ids.append(candidate_id)
         shards.append({"shard": shard_index, "profile": profile, "candidate_ids": shard_ids})
 
-    canonical = json.dumps(candidates, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    requirements = {"unique_assignment_hashes": bool(require_unique_hashes)}
+    canonical = json.dumps(
+        {"seed": seed, "requirements": requirements, "candidates": candidates},
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
     return {
         "schema": SCHEMA,
         "territory_id": territory_id,
         "prepared_bundle_id": prepared_bundle_id,
         "candidate_count": count,
+        "seed": seed,
+        "requirements": requirements,
         "profiles": list(PROFILES),
         "plan_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
         "candidates": candidates,

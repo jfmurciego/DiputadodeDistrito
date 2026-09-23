@@ -54,12 +54,25 @@ def assemble(plan_path: str, results_dir: str, shortlist_size: int = 10) -> dict
     if unknown:
         raise ValueError(f"Resultados no previstos: {', '.join(unknown)}")
 
-    valid: list[dict[str, Any]] = []
+    provisional: list[dict[str, Any]] = []
     invalid: list[str] = []
+    require_unique_hashes = bool(
+        (plan.get("requirements") or {}).get("unique_assignment_hashes", False)
+    )
     for candidate_id, (report, report_path) in reports.items():
         hard = report.get("hard_constraints", {})
         all_pass = hard is True or (isinstance(hard, dict) and hard.get("all_pass") is True)
         if not all_pass:
+            invalid.append(candidate_id)
+            continue
+        assignment_hash = report.get("assignment_hash")
+        if assignment_hash is None:
+            assignment_hash = (
+                report.get("engine_run", {})
+                .get("selected_metrics", {})
+                .get("assignment_sha256")
+            )
+        if require_unique_hashes and not assignment_hash:
             invalid.append(candidate_id)
             continue
         objective = _objective(report)
@@ -67,17 +80,38 @@ def assemble(plan_path: str, results_dir: str, shortlist_size: int = 10) -> dict
         geojson_path = Path(geojson_value) if geojson_value else None
         if geojson_path is not None and not geojson_path.is_absolute():
             geojson_path = (report_path.parent / geojson_path).resolve()
-        valid.append({
+        provisional.append({
             "candidate_id": candidate_id,
             "profile": expected[candidate_id]["profile"],
             "seed": expected[candidate_id]["seed"],
             "parameters": expected[candidate_id]["parameters"],
+            "assignment_hash": str(assignment_hash) if assignment_hash else None,
             "metrics": report["metrics"],
             "fields": report.get("fields", {}),
             "objectives": objective,
             "report_path": str(report_path.resolve()),
             "geojson": str(geojson_path) if geojson_path is not None else None,
         })
+
+    hash_groups: dict[str, list[str]] = {}
+    for candidate in provisional:
+        digest = candidate.get("assignment_hash")
+        if digest:
+            hash_groups.setdefault(str(digest), []).append(candidate["candidate_id"])
+    duplicate_hashes = {
+        digest: sorted(candidate_ids)
+        for digest, candidate_ids in hash_groups.items()
+        if len(candidate_ids) > 1
+    }
+    duplicate_ids: set[str] = set()
+    if require_unique_hashes:
+        for candidate_ids in duplicate_hashes.values():
+            duplicate_ids.update(sorted(candidate_ids)[1:])
+        invalid.extend(sorted(duplicate_ids))
+    valid = [
+        candidate for candidate in provisional
+        if candidate["candidate_id"] not in duplicate_ids
+    ]
 
     pareto_ids = {
         candidate["candidate_id"]
@@ -107,6 +141,7 @@ def assemble(plan_path: str, results_dir: str, shortlist_size: int = 10) -> dict
             break
 
     missing = sorted(set(expected) - set(reports))
+    invalid = sorted(set(invalid))
     retry = sorted(set(missing) | set(invalid))
     retry_shards = []
     for shard in plan["shards"]:
@@ -122,9 +157,18 @@ def assemble(plan_path: str, results_dir: str, shortlist_size: int = 10) -> dict
         "candidate_count_expected": len(expected),
         "candidate_count_received": len(reports),
         "candidate_count_valid": len(valid),
-        "complete": not retry,
+        "unique_candidate_hash_count": len({
+            candidate["assignment_hash"] for candidate in valid
+            if candidate.get("assignment_hash")
+        }),
+        "require_unique_assignment_hashes": require_unique_hashes,
+        "duplicate_assignment_hashes": duplicate_hashes,
+        "complete": not retry and (
+            not require_unique_hashes
+            or len(valid) == len(expected)
+        ),
         "missing_candidates": missing,
-        "invalid_candidates": sorted(invalid),
+        "invalid_candidates": invalid,
         "retry_matrix": {"include": retry_shards},
         "pareto_candidates": sorted(pareto_ids),
         "shortlist": shortlist[:shortlist_size],
