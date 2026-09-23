@@ -180,7 +180,7 @@ jobs:
                 repository:$repository,
                 blob_sha:$blob_sha,
                 sha256:$sha256,
-                immutable_location:("github-repository-blob://" + $repository + "/" + $blob_sha)
+                immutable_location:("github-git-blob://" + $repository + "/" + $blob_sha)
               }' <<<"$row")"
             tmp="$(mktemp)"
             jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
