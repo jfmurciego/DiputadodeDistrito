@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Prepara el registro verificable y los GeoJSON que consume el visor DDD.
 
-VERSIÓN: 1.4.0
+VERSIÓN: 1.5.0
 La identidad, K y estado de una ejecución proceden de su contrato y de
 ``production_status.json``; nunca se infiere PASS porque exista un ZIP.
 Las copias destinadas al visor se publican en WGS84 sin alterar los artefactos analíticos.
@@ -278,30 +278,34 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict], ensemble_id
 
 
 
+def _materialized_asset(materialized_root: Path, entry: dict) -> Path:
+    asset = materialized_root / str(entry["id"]) / "asset"
+    if not asset.is_file():
+        raise FileNotFoundError(f"Activo registrado no materializado: {entry['id']} -> {asset}")
+    return asset
+
+
 def add_registered_product(entry: dict, repository_root: Path, materialized_root: Path, site: Path, results: list[dict]) -> None:
-    source_type = entry.get("source_type")
+    del repository_root  # el sitio sólo consume activos ya resueltos y verificados por hash
     kind = entry.get("kind")
     territory_id = str(entry["territory_id"])
-    if source_type == "repository":
-        src = repository_root / str(entry["source_path"])
-        if not src.is_file():
-            raise FileNotFoundError(f"Producto registrado ausente: {src}")
+    src = _materialized_asset(materialized_root, entry)
+
+    if kind == "static":
         dst = site / "data" / "static" / f"{territory_id}.geojson"
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
-        observed = len(json.loads(dst.read_text(encoding="utf-8")).get("features", []))
-    elif source_type == "workflow_artifact":
-        root = materialized_root / str(entry["id"])
-        pattern = "*_m06_distritos.geojson.zip" if kind == "canonical_m06" else "*_m08_distritos_resultados.geojson.zip"
-        src = first(root, pattern)
-        if not src:
-            raise FileNotFoundError(f"Artefacto registrado sin {pattern}: {entry['id']}")
+        payload = json.loads(dst.read_text(encoding="utf-8"))
+        if payload.get("type") != "FeatureCollection":
+            raise ValueError(f"{entry['id']}: activo histórico no es FeatureCollection")
+        observed = len(payload.get("features", []))
+    elif kind in {"canonical_m06", "canonical_m08"}:
         run_id = str(entry["run_id"])
         stage = "m06" if kind == "canonical_m06" else "m08"
         dst = site / "data" / "results" / territory_id / run_id / f"{stage}.geojson"
         observed = write_geojson_from_zip(src, dst)
     else:
-        raise ValueError(f"source_type no soportado para producto: {source_type}")
+        raise ValueError(f"{entry['id']}: kind no soportado para producto: {kind}")
 
     expected = int(entry.get("expected_districts") or observed)
     if observed != expected:
@@ -313,12 +317,25 @@ def add_registered_product(entry: dict, repository_root: Path, materialized_root
 
 
 def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, results: list[dict]) -> None:
-    root = materialized_root / str(entry["id"])
+    archive = _materialized_asset(materialized_root, entry)
+    root = materialized_root / str(entry["id"]) / "unpacked"
+    if root.exists():
+        shutil.rmtree(root)
+    root.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(archive) as bundle:
+        bundle.extractall(root)
     start = len(results)
     add_ensemble(root, site, results, ensemble_id=str(entry["ensemble_id"]))
-    for item in results[start:]:
+    produced = results[start:]
+    expected = int(entry.get("candidate_count_valid") or 0)
+    if expected and len(produced) != expected:
+        raise ValueError(
+            f"{entry['id']}: candidatos materializados {len(produced)} != {expected}"
+        )
+    for item in produced:
         item["publication_status"] = entry.get("publication_status", item.get("publication_status", "BLOCKED"))
         item["ensemble_release_tag"] = entry.get("release_tag")
+        item["ensemble_asset_sha256"] = entry.get("sha256")
 
 
 def build_from_publication_registry(
