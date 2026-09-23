@@ -6,6 +6,9 @@ from typing import Any
 
 
 SCHEMA = "ddd.ensemble-plan/1.0"
+GERRYCHAIN50_ENTRYPOINT = "gerrychain_50"
+GERRYCHAIN50_CANDIDATE_COUNT = 50
+GERRYCHAIN50_MANAGER_CONTRACT_SCHEMA = "ddd.gerrychain50-manager-contract/1.0"
 
 PROFILES: dict[str, dict[str, float]] = {
     "balanced": {"population": 1.00, "shape": 0.55, "comarca": 0.20, "comarca_surcharge": 0.00},
@@ -84,3 +87,57 @@ def build_plan(
         "shards": shards,
         "github_matrix": {"include": shards},
     }
+
+
+
+def gerrychain50_manager_contract(*, seed: int) -> dict[str, Any]:
+    """Contrato estricto que debe consumir el gestor para GerryChain 50."""
+    if isinstance(seed, bool) or not isinstance(seed, int):
+        raise ValueError("GerryChain 50 requiere una semilla entera")
+    return {
+        "schema": GERRYCHAIN50_MANAGER_CONTRACT_SCHEMA,
+        "entrypoint": GERRYCHAIN50_ENTRYPOINT,
+        "candidate_count": GERRYCHAIN50_CANDIDATE_COUNT,
+        "seed": int(seed),
+        "require_unique_hashes": True,
+    }
+
+
+def build_gerrychain50_plan(
+    territory_id: str,
+    prepared_bundle_id: str,
+    *,
+    seed: int,
+    candidate_count: int = GERRYCHAIN50_CANDIDATE_COUNT,
+    require_unique_hashes: bool = True,
+) -> dict[str, Any]:
+    """Punto de entrada estricto: exactamente 50 candidatos y 50 hashes únicos."""
+    if candidate_count != GERRYCHAIN50_CANDIDATE_COUNT:
+        raise ValueError(
+            f"GerryChain 50 exige candidate_count={GERRYCHAIN50_CANDIDATE_COUNT}"
+        )
+    if require_unique_hashes is not True:
+        raise ValueError("GerryChain 50 exige require_unique_hashes=true")
+    manager = gerrychain50_manager_contract(seed=seed)
+    plan = build_plan(
+        territory_id,
+        prepared_bundle_id,
+        GERRYCHAIN50_CANDIDATE_COUNT,
+        seed=seed,
+        require_unique_hashes=True,
+    )
+    plan["entrypoint"] = GERRYCHAIN50_ENTRYPOINT
+    plan["manager_contract"] = manager
+    plan["requirements"]["candidate_count_exact"] = GERRYCHAIN50_CANDIDATE_COUNT
+    strict_canonical = json.dumps(
+        {
+            "entrypoint": GERRYCHAIN50_ENTRYPOINT,
+            "manager_contract": manager,
+            "base_plan_sha256": plan["plan_sha256"],
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    plan["plan_sha256"] = hashlib.sha256(strict_canonical.encode("utf-8")).hexdigest()
+    return plan

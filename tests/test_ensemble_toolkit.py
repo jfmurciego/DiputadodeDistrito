@@ -9,7 +9,12 @@ from pathlib import Path
 
 from ddd_ensemble.candidate_metrics import measure_candidate
 from ddd_ensemble.ensemble_assembler import assemble
-from ddd_ensemble.ensemble_plan import build_plan
+from ddd_ensemble.ensemble_plan import (
+    GERRYCHAIN50_ENTRYPOINT,
+    build_gerrychain50_plan,
+    build_plan,
+    gerrychain50_manager_contract,
+)
 from ddd_ensemble.gallery import build_gallery
 from ddd_ensemble.prepared_bundle import BundleValidationError, validate_prepared_bundle
 
@@ -115,6 +120,51 @@ class PlanTests(unittest.TestCase):
             [item["seed"] for item in other["candidates"]],
         )
 
+    def test_gerrychain50_rejects_count_55(self):
+        with self.assertRaisesRegex(ValueError, "candidate_count=50"):
+            build_gerrychain50_plan(
+                "synthetic",
+                "bundle-1",
+                seed=12345,
+                candidate_count=55,
+            )
+
+    def test_gerrychain50_rejects_unique_hashes_false(self):
+        with self.assertRaisesRegex(ValueError, "require_unique_hashes=true"):
+            build_gerrychain50_plan(
+                "synthetic",
+                "bundle-1",
+                seed=12345,
+                require_unique_hashes=False,
+            )
+
+    def test_gerrychain50_accepts_exactly_fifty_deterministic_seeds(self):
+        first = build_gerrychain50_plan("synthetic", "bundle-1", seed=12345)
+        second = build_gerrychain50_plan("synthetic", "bundle-1", seed=12345)
+        self.assertEqual(first, second)
+        self.assertEqual(first["entrypoint"], GERRYCHAIN50_ENTRYPOINT)
+        self.assertEqual(first["candidate_count"], 50)
+        self.assertEqual(len(first["candidates"]), 50)
+        self.assertEqual(len({item["seed"] for item in first["candidates"]}), 50)
+        self.assertTrue(first["requirements"]["unique_assignment_hashes"])
+        self.assertEqual(first["requirements"]["candidate_count_exact"], 50)
+        self.assertEqual(
+            first["manager_contract"],
+            gerrychain50_manager_contract(seed=12345),
+        )
+
+    def test_generic_constructor_still_accepts_25_candidates(self):
+        plan = build_plan(
+            "synthetic",
+            "bundle-25",
+            25,
+            seed=12345,
+            require_unique_hashes=False,
+        )
+        self.assertEqual(plan["candidate_count"], 25)
+        self.assertEqual(len(plan["candidates"]), 25)
+        self.assertFalse(plan["requirements"]["unique_assignment_hashes"])
+
     def test_invalid_size_rejected(self):
         with self.assertRaises(ValueError):
             build_plan("synthetic", "bundle-1", 12)
@@ -124,7 +174,7 @@ class EndToEndTests(unittest.TestCase):
     def test_complete_fifty_candidate_assembly(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            plan = build_plan("synthetic", "bundle-50")
+            plan = build_gerrychain50_plan("synthetic", "bundle-50", seed=20260923)
             plan_path = root / "plan.json"
             plan_path.write_text(json.dumps(plan), encoding="utf-8")
             results = root / "results"
@@ -163,7 +213,7 @@ class EndToEndTests(unittest.TestCase):
     def test_duplicate_assignment_hash_makes_fifty_contract_incomplete(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            plan = build_plan("synthetic", "bundle-duplicate")
+            plan = build_gerrychain50_plan("synthetic", "bundle-duplicate", seed=20260923)
             plan_path = root / "plan.json"
             plan_path.write_text(json.dumps(plan), encoding="utf-8")
             results = root / "results"

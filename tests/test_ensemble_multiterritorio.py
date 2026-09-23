@@ -14,7 +14,11 @@ from pathlib import Path
 
 import yaml
 
-from ddd_ensemble.ensemble_plan import build_plan
+from ddd_ensemble.ensemble_plan import (
+    GERRYCHAIN50_ENTRYPOINT,
+    build_gerrychain50_plan,
+    gerrychain50_manager_contract,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -80,6 +84,7 @@ def structural_binding(territory_id: str, cfg: dict) -> dict:
                 m02.get("min_shared_border_m", 1.0),
             )
         ),
+        "gerrychain50": gerrychain50_manager_contract(seed=20260923),
     }
 
 
@@ -110,23 +115,29 @@ class MultiTerritoryEnsembleContractTests(unittest.TestCase):
                 self.assertTrue(binding["province_field"])
                 self.assertTrue(binding["atomic_unit_field"])
                 self.assertGreater(binding["min_shared_border_m"], 0.0)
+                self.assertEqual(
+                    binding["gerrychain50"],
+                    {
+                        "schema": "ddd.gerrychain50-manager-contract/1.0",
+                        "entrypoint": GERRYCHAIN50_ENTRYPOINT,
+                        "candidate_count": 50,
+                        "seed": 20260923,
+                        "require_unique_hashes": True,
+                    },
+                )
 
     def test_fifty_candidate_plan_is_deterministic_for_each_territory(self):
         for territory_id in TERRITORIES:
             with self.subTest(territory=territory_id):
-                first = build_plan(
+                first = build_gerrychain50_plan(
                     territory_id,
                     "fixture-bundle",
-                    50,
                     seed=20260923,
-                    require_unique_hashes=True,
                 )
-                second = build_plan(
+                second = build_gerrychain50_plan(
                     territory_id,
                     "fixture-bundle",
-                    50,
                     seed=20260923,
-                    require_unique_hashes=True,
                 )
                 self.assertEqual(first, second)
                 self.assertEqual(first["candidate_count"], 50)

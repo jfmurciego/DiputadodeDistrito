@@ -16,7 +16,12 @@ from ddd_core.m05_gerrychain_engine import (
 )
 from ddd_ensemble.candidate_metrics import measure_candidate
 from ddd_ensemble.ensemble_assembler import assemble
-from ddd_ensemble.ensemble_plan import PROFILES, build_plan
+from ddd_ensemble.ensemble_plan import (
+    GERRYCHAIN50_ENTRYPOINT,
+    PROFILES,
+    build_gerrychain50_plan,
+    build_plan,
+)
 from ddd_ensemble.gallery import build_gallery
 from ddd_ensemble.prepared_bundle import validate_prepared_bundle
 from ddd_ensemble.statistical_quality import (
@@ -114,16 +119,32 @@ def ensure_plan(
     seed_override: int | None = None,
 ) -> dict[str, Any]:
     ensemble = config.get("ensemble", {})
-    count = count_override or int(ensemble.get("candidate_count", 50))
+    count = count_override if count_override is not None else int(ensemble.get("candidate_count", 50))
     seed = seed_override if seed_override is not None else ensemble.get("seed")
     require_unique_hashes = ensemble.get("require_unique_hashes")
-    expected = build_plan(
-        config["territory_id"],
-        config["prepared_bundle_id"],
-        count,
-        seed=None if seed is None else int(seed),
-        require_unique_hashes=None if require_unique_hashes is None else bool(require_unique_hashes),
-    )
+    entrypoint = str(ensemble.get("entrypoint") or "generic")
+    if entrypoint == GERRYCHAIN50_ENTRYPOINT:
+        if seed is None:
+            raise ValueError("GerryChain 50 requiere ensemble.seed o --seed")
+        expected = build_gerrychain50_plan(
+            config["territory_id"],
+            config["prepared_bundle_id"],
+            seed=int(seed),
+            candidate_count=count,
+            require_unique_hashes=(
+                True if require_unique_hashes is None else require_unique_hashes
+            ),
+        )
+    elif entrypoint == "generic":
+        expected = build_plan(
+            config["territory_id"],
+            config["prepared_bundle_id"],
+            count,
+            seed=None if seed is None else int(seed),
+            require_unique_hashes=None if require_unique_hashes is None else bool(require_unique_hashes),
+        )
+    else:
+        raise ValueError(f"ensemble.entrypoint desconocido: {entrypoint}")
     path = plan_path(output)
     if path.exists():
         current = _read(path)
