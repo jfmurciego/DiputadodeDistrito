@@ -1,7 +1,7 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
 # QUÉ HACE: valida un manifiesto versionado y lanza cinco territorios en paralelo desde el mismo commit.
-# NO HACE: reintentos, dispatch indirecto ni publicación de Pages.
+# NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: Gestor de campañas
 
 on:
@@ -207,3 +207,154 @@ jobs:
             echo "::error::La campaña conserva uno o más fallos territoriales; consulte el resumen agregado."
             exit 2
           }
+
+  promover_galerias:
+    name: Promover cinco galerías a releases inmutables
+    if: ${{ github.event_name == 'workflow_dispatch' && needs.resumen.result == 'success' }}
+    needs: [preparar, resumen]
+    runs-on: ubuntu-24.04
+    outputs:
+      publication_matrix: ${{ steps.release.outputs.publication_matrix }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      CAMPAIGN_INSTANCE: ${{ needs.preparar.outputs.campaign_instance }}
+      CAMPAIGN_MATRIX: ${{ needs.preparar.outputs.matrix }}
+      SOURCE_SHA: ${{ needs.preparar.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ needs.preparar.outputs.source_sha }}
+      - run: python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
+      - name: Recuperar resumen agregado
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
+          path: .ddd-campaign/summary
+      - name: Recuperar cinco bundles territoriales
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          pattern: ddd-campaign-territory-*
+          path: .ddd-campaign/reports
+          merge-multiple: false
+      - id: release
+        name: Empaquetar, promover y verificar cinco releases
+        shell: bash
+        run: |
+          set -euo pipefail
+          summary=".ddd-campaign/summary/campaign-summary.json"
+          test -f "$summary"
+          python - "$summary" <<'PY'
+          import json,sys
+          from herramientas.gestor_campana import validate_campaign_summary_for_promotion
+          data=json.load(open(sys.argv[1],encoding="utf-8"))
+          validate_campaign_summary_for_promotion(data)
+          PY
+
+          rm -rf .ddd-campaign/releases
+          mkdir -p .ddd-campaign/releases/descriptors .ddd-campaign/releases/assets .ddd-campaign/releases/verified
+          printf '[]\n' > .ddd-campaign/releases/releases.json
+
+          while IFS= read -r status_path; do
+            row="$(cat "$status_path")"
+            territory_id="$(jq -r .territory_id <<<"$row")"
+            slot="$(jq -r .slot <<<"$row")"
+            namespace="$(jq -r .namespace <<<"$row")"
+            expected_districts="$(jq -r --arg t "$territory_id" '.include[]|select(.territory_id==$t)|.expected_district_count' <<<"$CAMPAIGN_MATRIX")"
+            bundle_root="$(dirname "$(dirname "$status_path")")"
+            temp_zip=".ddd-campaign/releases/assets/$territory_id.tmp.zip"
+            descriptor=".ddd-campaign/releases/descriptors/$territory_id.json"
+
+            python herramientas/gestor_campana.py package-ensemble \
+              --bundle-root "$bundle_root" \
+              --output-zip "$temp_zip" \
+              --campaign-instance "$CAMPAIGN_INSTANCE" \
+              --expected-districts "$expected_districts" \
+              --output-json "$descriptor"
+
+            tag="$(jq -r .release_tag "$descriptor")"
+            asset_name="$tag.zip"
+            expected_sha="$(jq -r .sha256 "$descriptor")"
+            durable=".ddd-campaign/releases/assets/$asset_name"
+            mv "$temp_zip" "$durable"
+            test "$(sha256sum "$durable" | awk '{print $1}')" = "$expected_sha"
+
+            if gh release view "$tag" >/dev/null 2>&1; then
+              asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq "[.assets[]|select(.name==\"$asset_name\")]|length")"
+              if [[ "$asset_count" == 0 ]]; then
+                gh release upload "$tag" "$durable"
+              elif [[ "$asset_count" != 1 ]]; then
+                echo "::error::$territory_id: release $tag contiene $asset_count assets con nombre $asset_name"
+                exit 61
+              fi
+            else
+              gh release create "$tag" "$durable" --draft --target "$SOURCE_SHA" --title "$tag" \
+                --notes "Galería DDD inmutable de $territory_id para $CAMPAIGN_INSTANCE."
+            fi
+
+            release_json="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag")"
+            asset_count="$(jq --arg n "$asset_name" '[.assets[]|select(.name==$n)]|length' <<<"$release_json")"
+            test "$asset_count" = 1 || { echo "::error::$territory_id: asset no único tras promoción"; exit 62; }
+            asset_id="$(jq -r --arg n "$asset_name" '.assets[]|select(.name==$n)|.id' <<<"$release_json")"
+            persisted=".ddd-campaign/releases/verified/$territory_id.zip"
+            gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
+            observed_sha="$(sha256sum "$persisted" | awk '{print $1}')"
+            test "$observed_sha" = "$expected_sha" || {
+              echo "::error::$territory_id: SHA-256 del release asset no coincide"; exit 63;
+            }
+
+            entry="$(jq \
+              --arg namespace "$namespace" \
+              --arg asset_id "$asset_id" \
+              '. + {namespace:$namespace,asset_id:($asset_id|tonumber)}' "$descriptor")"
+            tmp="$(mktemp)"
+            jq --argjson entry "$entry" '. + [$entry]' .ddd-campaign/releases/releases.json > "$tmp"
+            mv "$tmp" .ddd-campaign/releases/releases.json
+          done < <(find .ddd-campaign/reports -name campaign_status.json -type f | sort)
+
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          from herramientas.gestor_campana import publication_matrix
+          releases=json.loads(Path(".ddd-campaign/releases/releases.json").read_text(encoding="utf-8"))
+          matrix=publication_matrix(releases)
+          print("publication_matrix="+json.dumps(matrix,separators=(",",":"),ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-campaign-releases-${{ needs.preparar.outputs.campaign_instance }}
+          path: |
+            .ddd-campaign/releases/descriptors
+            .ddd-campaign/releases/releases.json
+          if-no-files-found: error
+          retention-days: 90
+
+  publicar_galerias:
+    name: Publicar ${{ matrix.territory_id }}
+    if: ${{ github.event_name == 'workflow_dispatch' && needs.promover_galerias.result == 'success' }}
+    needs: [preparar, promover_galerias]
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.promover_galerias.outputs.publication_matrix) }}
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      ensemble_release_tag: ${{ matrix.release_tag }}
+      source_ref: ${{ needs.preparar.outputs.source_sha }}
+      target_page: Visor territorial
+
+  resultado_publicacion:
+    name: Resultado global de campaña y publicación
+    if: ${{ always() && github.event_name == 'workflow_dispatch' }}
+    needs: [preparar, resumen, promover_galerias, publicar_galerias]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Exigir promoción y cinco despliegues correctos
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ needs.preparar.result }}" = success
+          test "${{ needs.resumen.result }}" = success
+          test "${{ needs.promover_galerias.result }}" = success
+          test "${{ needs.publicar_galerias.result }}" = success
+
