@@ -341,6 +341,7 @@ jobs:
     secrets: inherit
     with:
       ensemble_release_tag: ${{ matrix.release_tag }}
+      ensemble_sha256: ${{ matrix.sha256 }}
       source_ref: ${{ needs.preparar.outputs.source_sha }}
       target_page: Visor territorial
 

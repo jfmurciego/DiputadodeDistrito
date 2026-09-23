@@ -409,6 +409,16 @@ class CampaignManagerTests(unittest.TestCase):
         self.assertIn("github.event_name == 'workflow_dispatch'", manager)
         self.assertIn("test \"${{ needs.publicar_galerias.result }}\" = success", manager)
 
+    def test_campaign_propagates_accredited_ensemble_sha_to_common_publisher(self):
+        manager = WORKFLOW.read_text(encoding="utf-8")
+        publisher = (
+            ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn('expected_sha="$(jq -r .sha256 "$descriptor")"', manager)
+        self.assertIn("ensemble_sha256: ${{ matrix.sha256 }}", manager)
+        self.assertIn("ensemble_sha256:", publisher)
+        self.assertIn("ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}", publisher)
+
     def test_workflows_parse(self):
         for path in (
             WORKFLOW,
