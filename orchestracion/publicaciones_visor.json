@@ -1,0 +1,32 @@
+{
+  "schema": "ddd.viewer-publication-registry/1.0",
+  "products": [
+    {
+      "id": "static-aragon",
+      "source_type": "repository",
+      "kind": "static",
+      "territory_id": "aragon",
+      "territory_label": "Aragón",
+      "label": "Aragón · producto histórico",
+      "expected_districts": 67,
+      "source_path": "resultados/finales/aragon/distritos.geojson",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED",
+      "geometric_status": "LEGACY_OR_NOT_AUDITED"
+    },
+    {
+      "id": "static-castilla_y_leon",
+      "source_type": "repository",
+      "kind": "static",
+      "territory_id": "castilla_y_leon",
+      "territory_label": "Castilla y León",
+      "label": "Castilla y León · producto histórico",
+      "expected_districts": 82,
+      "source_path": "resultados/finales/castilla_y_leon/distritos.geojson",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED",
+      "geometric_status": "LEGACY_OR_NOT_AUDITED"
+    }
+  ],
+  "ensembles": []
+}
