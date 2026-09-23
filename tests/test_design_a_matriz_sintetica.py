@@ -39,7 +39,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
         self.assertEqual(sorted(dispatch),["desplegar-visor-publico.yml","ejecucion-completa-proyecto.yml","incorporacion-resultados-electorales.yml","preparacion-fuentes.yml","preparacion-resultados-electorales.yml","produccion-distritos.yml","prueba-fuentes-oficiales.yml","prueba-openai.yml","publicar-version-mapa.yml","smoke-gerrychain-galicia.yml"])
 
-    def test_preparation_supports_every_registered_territory_without_making_it_producible(self):
+    def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected=[r["name"] for r in territories()]
         generable=[r["name"] for r in rows_for("generation",CAT)]
@@ -48,7 +48,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertIn("La Rioja",prep_options)
         self.assertIn("Ceuta",prep_options)
         self.assertIn("Melilla",prep_options)
-        self.assertNotIn("La Rioja",generable)
+        self.assertIn("La Rioja",generable)
         self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
@@ -68,7 +68,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_catalog_lookup_does_not_require_preparation_status_ready(self):
         row=lookup("La Rioja","2025",CAT)
         self.assertEqual(row["territory_id"],"la_rioja")
-        self.assertEqual(row["preparation_status"],"PENDING_INCORPORATION")
+        self.assertEqual(row["preparation_status"],"READY")
 
     def test_preparations_are_separate_and_never_execute_m01_m08(self):
         territorial=load(PREP)
