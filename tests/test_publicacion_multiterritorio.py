@@ -187,8 +187,9 @@ class MultiterritoryPublicationTests(unittest.TestCase):
 
     def test_full_orchestrator_can_publish_certified_m06_without_electoral_gate(self):
         workflow = FULL.read_text(encoding="utf-8")
-        self.assertIn("needs: [planificar, puerta_02, puerta_04]", workflow)
+        self.assertIn("needs: [planificar, puerta_02, puerta_04, actualizar_estado]", workflow)
         self.assertIn("needs.puerta_02.result == 'success'", workflow)
+        self.assertIn("needs.actualizar_estado.result == 'success'", workflow)
         self.assertIn("needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id", workflow)
 
 
