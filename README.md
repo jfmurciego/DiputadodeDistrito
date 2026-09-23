@@ -10,17 +10,17 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-22T13:29:15.318662+00:00 · Edición: **2025**
+Actualizado: 2026-09-23T12:23:45.746226+00:00 · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
 | **Cadena completa validada** | 🟢 **3** | Aragón · Galicia · Principado de Asturias |
-| **Generación territorial validada** | 🟢 **4** | Aragón · Extremadura · Galicia · Principado de Asturias |
-| **Preparados para continuar** | 🔵 **3** | Andalucía · Castilla y León · Cataluña |
-| **Validación pendiente** | 🟡 **1** | La Rioja |
-| **Pendientes o no incorporados** | ⚪/🔴 **11** | Canarias · Cantabria · Castilla-La Mancha · Ceuta · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · Islas Baleares · Melilla · País Vasco · Región de Murcia |
+| **Generación territorial validada** | 🟢 **5** | Aragón · Castilla-La Mancha · Extremadura · Galicia · Principado de Asturias |
+| **Preparados para continuar** | 🔵 **9** | Andalucía · Cantabria · Castilla y León · Cataluña · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · La Rioja · País Vasco |
+| **Validación pendiente** | 🟡 **0** | — |
+| **Pendientes o no incorporados** | ⚪/🔴 **5** | Canarias · Ceuta · Islas Baleares · Melilla · Región de Murcia |
 
 ## Estado actual por territorio
 
@@ -31,20 +31,20 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **Andalucía** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **Canarias** | 🔴 | 🔴 | 🔴 | 🔴 | No incorporado |
-| **Cantabria** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **Cantabria** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Castilla y León** | 🟢 | 🟡 | 🟡 | 🟡 | Fuentes territoriales preparadas |
-| **Castilla-La Mancha** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **Castilla-La Mancha** | 🟢 | 🟢 | ⚪ | ⚪ | Generación territorial validada |
 | **Cataluña** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Ceuta** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **Comunidad de Madrid** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **Comunidad Foral de Navarra** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **Comunidad Valenciana** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **Comunidad de Madrid** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
+| **Comunidad Foral de Navarra** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
+| **Comunidad Valenciana** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |
 | **Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **Islas Baleares** | 🔴 | 🔴 | 🔴 | 🔴 | No incorporado |
-| **La Rioja** | ⚪ | 🟡 | ⚪ | ⚪ | Puerta de validación pendiente |
+| **La Rioja** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Melilla** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
-| **País Vasco** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **País Vasco** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **Región de Murcia** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
 
