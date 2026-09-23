@@ -37,8 +37,11 @@ on:
       - '.github/workflows/_reutilizable-puerta-validacion.yml'
 
 permissions:
-  contents: read
+  contents: write
   actions: read
+  issues: write
+  pages: write
+  id-token: write
 
 jobs:
   preparar:
