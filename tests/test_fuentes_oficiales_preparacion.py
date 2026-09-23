@@ -89,6 +89,10 @@ class SimulatedINE:
 class OfficialSourcesTests(unittest.TestCase):
     def materialize(self, territory: str, fetcher=None):
         dec = copy.deepcopy(declaration(territory))
+        test_modes = list((dec.setdefault("environment_policy", {}).get("test") or []))
+        if "simulated" not in test_modes:
+            test_modes.append("simulated")
+        dec["environment_policy"]["test"] = test_modes
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         evidence = root / "evidence"
