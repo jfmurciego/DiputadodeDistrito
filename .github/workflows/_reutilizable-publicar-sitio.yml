@@ -127,6 +127,12 @@ jobs:
           test -n "$(find /tmp/production -type f -print -quit)" || {
             echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43;
           }
+
+      - name: Acreditar identidad de la ejecución descargada
+        if: ${{ inputs.production_run_id != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
           python herramientas/evaluar_publicacion_visor.py             --requested-run-id "$PRODUCTION_RUN_ID"             --production-root /tmp/production             --phase source             --output .ddd-publication/publicacion_visor.json             --strict-request
 
       - name: Promover productos a release persistente
