@@ -131,6 +131,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "puerta_04",
                 "actualizar_estado",
                 "publicar",
+                "campaign_status",
                 "manifestar",
             ],
         )
@@ -303,7 +304,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "needs.planificar.outputs.run_generate == 'true' && needs.puerta_02.result == 'success'",
             orchestration,
         )
-        self.assertIn("name: ddd-state-${{ github.run_id }}-M06", orchestration)
+        self.assertIn("name: ${{ needs.puerta_02.outputs.artifact_name }}", orchestration)
         self.assertIn("run-id: ${{ github.run_id }}", orchestration)
 
     def test_manifest_cli_integrates_effective_optimization_evidence(self):

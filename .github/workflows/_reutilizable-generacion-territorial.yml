@@ -24,6 +24,9 @@ on:
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
       optimization_algorithm: {required: false, type: string, default: Canónico}
+      artifact_namespace: {required: false, type: string, default: ''}
+      gerrychain_entrypoint: {required: false, type: string, default: ''}
+      require_unique_hashes: {required: false, type: boolean, default: false}
 
 permissions:
   contents: write
@@ -115,7 +118,7 @@ jobs:
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: ddd-decision-${{ github.run_id }}
+          name: ddd-decision-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: decision.json
           if-no-files-found: error
           retention-days: 14
@@ -239,7 +242,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-fuentes-${{ github.run_id }}
+          name: ddd-fuentes-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: |
             .ddd-sources/inventario_fuentes.json
             .ddd-sources/manifiesto_procedencia.json
@@ -254,7 +257,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-official-inputs-${{ github.run_id }}
+          name: ddd-official-inputs-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-sources/materialized
           include-hidden-files: true
           if-no-files-found: warn
@@ -263,7 +266,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-source-package-${{ github.run_id }}
+          name: ddd-source-package-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-source-package
           include-hidden-files: true
           if-no-files-found: error
@@ -318,12 +321,17 @@ jobs:
           set -euo pipefail
           if [[ "$PREVIOUS_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::No hay run anterior utilizable.'; exit 22; }
-          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+          artifact_suffix=''
+          if [[ "$state_run_id" == "$GITHUB_RUN_ID" && -n '${{ inputs.artifact_namespace }}' ]]; then artifact_suffix='-${{ inputs.artifact_namespace }}'; fi
+          {
+            echo "run_id=$state_run_id"
+            echo "artifact_suffix=$artifact_suffix"
+          } >> "$GITHUB_OUTPUT"
       - name: Recuperar estado acumulado anterior
         if: ${{ env.PREVIOUS_STAGE != '' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}
+          name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -347,13 +355,13 @@ jobs:
         if: ${{ env.STAGE == 'M01' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-official-inputs-${{ github.run_id }}
+          name: ddd-official-inputs-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-sources/materialized
       - name: Recuperar paquete durable para M01
         if: ${{ env.STAGE == 'M01' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-source-package-${{ github.run_id }}
+          name: ddd-source-package-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-source-package
       - name: Instalar fuentes en sus rutas contractuales
         if: ${{ env.STAGE == 'M01' }}
@@ -379,6 +387,8 @@ jobs:
           -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
           -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"
           -e DDD_OPTIMIZATION_ALGORITHM="${{ inputs.optimization_algorithm }}"
+          -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.gerrychain_entrypoint }}"
+          -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.require_unique_hashes }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
       - name: Empaquetar checkpoint acumulado del módulo
         shell: bash
@@ -397,7 +407,7 @@ jobs:
           fi
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
+          name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state/out
           include-hidden-files: true
           if-no-files-found: error
@@ -455,11 +465,16 @@ jobs:
           set -euo pipefail
           if [[ "$M03_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Preparar unidades internas requiere M03 actual o checkpoint previo.'; exit 22; }
-          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+          artifact_suffix=''
+          if [[ "$state_run_id" == "$GITHUB_RUN_ID" && -n '${{ inputs.artifact_namespace }}' ]]; then artifact_suffix='-${{ inputs.artifact_namespace }}'; fi
+          {
+            echo "run_id=$state_run_id"
+            echo "artifact_suffix=$artifact_suffix"
+          } >> "$GITHUB_OUTPUT"
       - name: Recuperar entrada M03
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-state-${{ steps.state.outputs.run_id }}-M03
+          name: ddd-state-${{ steps.state.outputs.run_id }}-M03${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -506,7 +521,7 @@ jobs:
           cp -a .ddd-source-package/. .ddd-state/out/sources/
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-M03U
+          name: ddd-state-${{ github.run_id }}-M03U${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state/out
           include-hidden-files: true
           if-no-files-found: error
@@ -515,7 +530,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-internal-units-${{ github.run_id }}
+          name: ddd-internal-units-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-internal-units
           include-hidden-files: true
           if-no-files-found: error
@@ -584,11 +599,16 @@ jobs:
           set -euo pipefail
           if [[ "$M06_RESULT" == success ]]; then state_run_id="$GITHUB_RUN_ID"; else state_run_id="$CHECKPOINT_RUN_ID"; fi
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Auditoría M06 requiere estado M06 actual o checkpoint previo.'; exit 22; }
-          echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
+          artifact_suffix=''
+          if [[ "$state_run_id" == "$GITHUB_RUN_ID" && -n '${{ inputs.artifact_namespace }}' ]]; then artifact_suffix='-${{ inputs.artifact_namespace }}'; fi
+          {
+            echo "run_id=$state_run_id"
+            echo "artifact_suffix=$artifact_suffix"
+          } >> "$GITHUB_OUTPUT"
       - name: Recuperar estado M06
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-state-${{ steps.state.outputs.run_id }}-M06
+          name: ddd-state-${{ steps.state.outputs.run_id }}-M06${{ steps.state.outputs.artifact_suffix }}
           path: .ddd-state/in
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -685,7 +705,7 @@ jobs:
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: always()
         with:
-          name: ddd-audit-${{ github.run_id }}
+          name: ddd-audit-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-audit
           include-hidden-files: true
           if-no-files-found: error
@@ -713,6 +733,7 @@ jobs:
     env:
       PARAMS: ${{ needs.resolve.outputs.params }}
       TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+      ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -731,9 +752,11 @@ jobs:
           PY
           )"
           test -n "$edition" || { echo "::error::No se pudo resolver edición desde el contrato."; exit 48; }
-          artifact_name="ddd-state-$GITHUB_RUN_ID-M06"
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M06$suffix"
           rm -rf .ddd-audit-promote && mkdir .ddd-audit-promote
-          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID" --dir .ddd-audit-promote >/dev/null
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$GITHUB_RUN_ID$suffix" --dir .ddd-audit-promote >/dev/null
           status="$(find .ddd-audit-promote -name production_status.json -type f -print -quit)"
           test -n "$status" || { echo "::error::Falta production_status.json del run."; exit 48; }
           decision="$(jq -r '.decision // empty' "$status")"

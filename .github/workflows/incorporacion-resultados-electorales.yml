@@ -17,6 +17,9 @@ on:
       electoral_package_artifact_name: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      territorial_product_artifact_name: {required: false, type: string, default: ''}
+      territorial_audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -67,6 +70,8 @@ jobs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
       params: ${{ steps.resolve.outputs.params }}
       territorial_run_id: ${{ steps.territorial.outputs.run_id }}
+      territorial_product_artifact_name: ${{ steps.territorial.outputs.product_artifact_name }}
+      territorial_audit_artifact_name: ${{ steps.territorial.outputs.audit_artifact_name }}
       electoral_package_run_id: ${{ steps.electoral.outputs.run_id }}
       electoral_package_artifact_name: ${{ steps.electoral.outputs.artifact_name }}
     steps:
@@ -101,6 +106,8 @@ jobs:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           PARAMS: ${{ steps.resolve.outputs.params }}
           OVERRIDE_RUN_ID: ${{ inputs.territorial_run_id }}
+          OVERRIDE_PRODUCT_ARTIFACT_NAME: ${{ inputs.territorial_product_artifact_name }}
+          OVERRIDE_AUDIT_ARTIFACT_NAME: ${{ inputs.territorial_audit_artifact_name }}
         run: |
           set -euo pipefail
           if [[ -n "$OVERRIDE_RUN_ID" ]]; then
@@ -110,10 +117,14 @@ jobs:
           fi
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            jq -e --arg n "ddd-state-$run_id-M06" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
-            jq -e --arg n "ddd-audit-$run_id" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            product_name="ddd-state-$run_id-M06"
+            audit_name="ddd-audit-$run_id"
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_PRODUCT_ARTIFACT_NAME" ]]; then product_name="$OVERRIDE_PRODUCT_ARTIFACT_NAME"; fi
+            if [[ "$run_id" == "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_AUDIT_ARTIFACT_NAME" ]]; then audit_name="$OVERRIDE_AUDIT_ARTIFACT_NAME"; fi
+            jq -e --arg n "$product_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
+            jq -e --arg n "$audit_name" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$artifacts" >/dev/null || continue
             tmp="$(mktemp -d)"
-            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-state-$run_id-M06" --dir "$tmp/state" >/dev/null 2>&1; then
+            if ! gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$product_name" --dir "$tmp/state" >/dev/null 2>&1; then
               rm -rf "$tmp"; continue
             fi
             source_dir="$(find "$tmp/state" -type f -path '*/sources/manifest.json' -printf '%h\n' | head -1)"
@@ -131,12 +142,16 @@ jobs:
                 rm -rf "$tmp"
                 continue
               fi
-              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "ddd-audit-$run_id" --dir "$tmp/audit" >/dev/null 2>&1; then
+              if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir "$tmp/audit" >/dev/null 2>&1; then
                 status="$(find "$tmp/audit" -name production_status.json -type f -print -quit)"
                 decision="$(test -n "$status" && jq -r '.decision // empty' "$status" || true)"
                 certified="$(test -n "$status" && jq -r '.territory_id // empty' "$status" || true)"
                 if [[ "$certified" == "$TERRITORY_ID" && "$decision" =~ ^PASS(_WITH_EXCEPTIONS)?$ ]]; then
-                  echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+                  {
+                    echo "run_id=$run_id"
+                    echo "product_artifact_name=$product_name"
+                    echo "audit_artifact_name=$audit_name"
+                  } >> "$GITHUB_OUTPUT"
                   rm -rf "$tmp"
                   exit 0
                 fi
@@ -199,7 +214,10 @@ jobs:
       territory_id: ${{ needs.preparar.outputs.territory_id }}
       data_edition: ${{ inputs.data_edition }}
       territorial_run_id: ${{ needs.preparar.outputs.territorial_run_id }}
+      territorial_product_artifact_name: ${{ needs.preparar.outputs.territorial_product_artifact_name }}
+      territorial_audit_artifact_name: ${{ needs.preparar.outputs.territorial_audit_artifact_name }}
       electoral_package_run_id: ${{ needs.preparar.outputs.electoral_package_run_id }}
       electoral_package_artifact_name: ${{ needs.preparar.outputs.electoral_package_artifact_name }}
       source_ref: ${{ inputs.source_ref }}
       persist_state: ${{ inputs.persist_state }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}

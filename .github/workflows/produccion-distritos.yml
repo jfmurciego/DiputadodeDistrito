@@ -22,6 +22,9 @@ on:
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
       invocation_context: {required: false, type: string, default: reusable}
+      artifact_namespace: {required: false, type: string, default: ''}
+      gerrychain_entrypoint: {required: false, type: string, default: ''}
+      require_unique_hashes: {required: false, type: boolean, default: false}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -298,7 +301,7 @@ jobs:
         if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-M04
+          name: ddd-state-${{ github.run_id }}-M04${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-derived-checkpoint
           include-hidden-files: true
           if-no-files-found: error
@@ -371,7 +374,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-checkpoint-selection-${{ github.run_id }}
+          name: ddd-checkpoint-selection-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-checkpoint-selection
           include-hidden-files: true
           if-no-files-found: error
@@ -394,4 +397,7 @@ jobs:
       source_ref: ${{ inputs.source_ref }}
       persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
+      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ inputs.require_unique_hashes }}
 

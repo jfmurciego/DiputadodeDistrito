@@ -1,0 +1,111 @@
+{
+  "schema": "ddd.campaign-manifest/1.1",
+  "campaign_id": "campana_cinco_territorios_v1",
+  "data_edition": "2025",
+  "execution_mode": "Reutilizar fuente explícita",
+  "optimization_algorithm": "GerryChain 50",
+  "entrypoint": "gerrychain_50",
+  "candidate_count": 50,
+  "require_unique_hashes": true,
+  "fail_fast": false,
+  "max_parallel": 5,
+  "retry_failed": false,
+  "campaign_confirmation": "EXECUTE_CAMPAIGN_CONFIRMED",
+  "territories": [
+    {
+      "slot": "01",
+      "territory_id": "aragon",
+      "territory_name": "Aragón",
+      "publication_mode": "electoral",
+      "reuse": {
+        "run_id": 35728613828,
+        "checkpoint_stage": "SOURCE_PACKAGE",
+        "artifact_name": "ddd-source-package-aragon-2025-35728613828",
+        "artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+        "source_sha": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+        "m01_artifact_name": "ddd-state-35728613828-M01",
+        "m01_artifact_sha256": "91244a3c8d8af366b6c668dee55a6b0ec9c1dbe466f6d0b78ea3490c11717c2d",
+        "expected_population_total": 1364621,
+        "expected_section_count": 1463,
+        "expected_district_count": 67,
+        "expected_certification": "READY"
+      }
+    },
+    {
+      "slot": "02",
+      "territory_id": "principado_de_asturias",
+      "territory_name": "Principado de Asturias",
+      "publication_mode": "electoral",
+      "reuse": {
+        "run_id": 35728626894,
+        "checkpoint_stage": "SOURCE_PACKAGE",
+        "artifact_name": "ddd-source-package-principado_de_asturias-2025-35728626894",
+        "artifact_sha256": "fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5",
+        "source_sha": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+        "m01_artifact_name": "ddd-state-35728626894-M01",
+        "m01_artifact_sha256": "b383b60604948837c5316f5bf2bb207ed8f4a2af383b2f4aa57de66964b65189",
+        "expected_population_total": 1015128,
+        "expected_section_count": 826,
+        "expected_district_count": 45,
+        "expected_certification": "READY"
+      }
+    },
+    {
+      "slot": "03",
+      "territory_id": "galicia",
+      "territory_name": "Galicia",
+      "publication_mode": "electoral",
+      "reuse": {
+        "run_id": 35586097396,
+        "checkpoint_stage": "SOURCE_PACKAGE",
+        "artifact_name": "ddd-source-package-galicia-2025-35586097396",
+        "artifact_sha256": "40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
+        "source_sha": "47a4e9ddc0ef769fdfb401c5fe9a913b84f22eec",
+        "m01_artifact_name": "ddd-state-35586097396-M01",
+        "m01_artifact_sha256": "798ff26c3a7dd0459496a6b7f46cd7cea384ae96c00d9199d60a0d43c35043d7",
+        "expected_population_total": 2714741,
+        "expected_section_count": 2134,
+        "expected_district_count": 75,
+        "expected_certification": "READY"
+      }
+    },
+    {
+      "slot": "04",
+      "territory_id": "castilla_y_leon",
+      "territory_name": "Castilla y León",
+      "publication_mode": "electoral",
+      "reuse": {
+        "run_id": 35610439734,
+        "checkpoint_stage": "SOURCE_PACKAGE",
+        "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+        "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+        "source_sha": "0c516d79e2eaa36966deb016bcf57aafff9c4409",
+        "m01_artifact_name": "ddd-state-35610439734-M01",
+        "m01_artifact_sha256": "e2141a43846142c9dba7d15f202e08d5cdc1a748088037217bef6c73a770a079",
+        "expected_population_total": 2401221,
+        "expected_section_count": 3506,
+        "expected_district_count": 82,
+        "expected_certification": "READY"
+      }
+    },
+    {
+      "slot": "05",
+      "territory_id": "extremadura",
+      "territory_name": "Extremadura",
+      "publication_mode": "territorial_only",
+      "reuse": {
+        "run_id": 35755043806,
+        "checkpoint_stage": "SOURCE_PACKAGE",
+        "artifact_name": "ddd-source-package-extremadura-2025-35755043806",
+        "artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+        "source_sha": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+        "m01_artifact_name": "ddd-state-35755043806-M01",
+        "m01_artifact_sha256": "8097568c59577921e814a274249266768ec582ecf2d1ddb5a50350c6fee0c463",
+        "expected_population_total": 1053345,
+        "expected_section_count": 964,
+        "expected_district_count": 65,
+        "expected_certification": "READY"
+      }
+    }
+  ]
+}
