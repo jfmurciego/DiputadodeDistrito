@@ -108,6 +108,47 @@ class DraftReleasePromotionTests(unittest.TestCase):
         self.assertNotIn("preparacion-fuentes.yml", text)
         self.assertNotIn("incorporacion-resultados-electorales.yml", text)
 
+
+    def test_ensemble_requires_accredited_sha_before_registry_entry(self):
+        text = PUBLISHER.read_text(encoding="utf-8")
+        self.assertIn("ensemble_sha256:", text)
+        self.assertIn("ENSEMBLE_SHA256:", text)
+        self.assertIn('[[ -n "$expected_sha" ]]', text)
+        self.assertIn('[[ "$expected_sha" =~ ^[0-9a-f]{64}$ ]]', text)
+        download = text.index('repos/$GITHUB_REPOSITORY/releases/assets/$asset_id')
+        compare = text.index('[[ "$sha" == "$expected_sha" ]]')
+        describe = text.index("describe-ensemble")
+        registry_entry = text.index('source_type:"release_asset"', describe)
+        self.assertLess(download, compare)
+        self.assertLess(compare, describe)
+        self.assertLess(describe, registry_entry)
+
+    def test_correct_ensemble_hash_is_accepted(self):
+        expected = "a" * 64
+        validate_downloaded_sha(expected, expected)
+
+    def test_external_ensemble_asset_substitution_is_blocked(self):
+        accredited = "a" * 64
+        substituted = "b" * 64
+        with self.assertRaisesRegex(ValueError, "SHA-256 distinto"):
+            validate_downloaded_sha(accredited, substituted)
+
+    def test_ensemble_zero_or_multiple_assets_remain_blocked(self):
+        empty = release(201, "ensemble-tag", draft=True, assets=[])
+        with self.assertRaisesRegex(ValueError, "activo inexistente"):
+            require_asset(empty, "ensemble-tag.zip")
+        duplicate = release(
+            201,
+            "ensemble-tag",
+            draft=True,
+            assets=[
+                {"id": 301, "name": "ensemble-tag.zip"},
+                {"id": 302, "name": "ensemble-tag.zip"},
+            ],
+        )
+        with self.assertRaisesRegex(ValueError, "encontrados=2"):
+            require_asset(duplicate, "ensemble-tag.zip")
+
     def test_workflows_parse(self):
         for path in (PUBLISHER, MANUAL):
             parsed = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
