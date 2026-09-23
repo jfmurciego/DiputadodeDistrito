@@ -25,6 +25,8 @@ on:
       persist_state: {required: false, type: boolean, default: true}
       optimization_algorithm: {required: false, type: string, default: Canónico}
       artifact_namespace: {required: false, type: string, default: ''}
+      gerrychain_entrypoint: {required: false, type: string, default: ''}
+      require_unique_hashes: {required: false, type: boolean, default: false}
 
 permissions:
   contents: write
@@ -385,6 +387,8 @@ jobs:
           -e DDD_FROM_STAGE="$STAGE" -e DDD_TO_STAGE="$STAGE"
           -e DDD_CHAIN_STATE="$RUNS_DIR/CHAIN_STATE.json"
           -e DDD_OPTIMIZATION_ALGORITHM="${{ inputs.optimization_algorithm }}"
+          -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.gerrychain_entrypoint }}"
+          -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.require_unique_hashes }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
       - name: Empaquetar checkpoint acumulado del módulo
         shell: bash
