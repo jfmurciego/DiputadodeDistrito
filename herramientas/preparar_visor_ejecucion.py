@@ -314,7 +314,11 @@ def add_registered_product(entry: dict, repository_root: Path, materialized_root
 
 def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, results: list[dict]) -> None:
     root = materialized_root / str(entry["id"])
+    start = len(results)
     add_ensemble(root, site, results, ensemble_id=str(entry["ensemble_id"]))
+    for item in results[start:]:
+        item["publication_status"] = entry.get("publication_status", item.get("publication_status", "BLOCKED"))
+        item["ensemble_release_tag"] = entry.get("release_tag")
 
 
 def build_from_publication_registry(
