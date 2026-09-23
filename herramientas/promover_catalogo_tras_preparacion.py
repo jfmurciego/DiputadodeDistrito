@@ -157,7 +157,18 @@ def _set_catalog_state(
 
     state_indent = _catalog_state_indent(lines, start, end)
     child_indent = state_indent + "  "
-    insert_at = next((i + 1 for i in range(start, end) if lines[i].startswith(state_indent + "last_valid_checkpoint:")), end)
+    checkpoint_start = next(
+        (i for i in range(start, end) if lines[i].startswith(state_indent + "last_valid_checkpoint:")),
+        None,
+    )
+    if checkpoint_start is None:
+        insert_at = end
+    else:
+        insert_at = checkpoint_start + 1
+        while insert_at < end and (
+            lines[insert_at].startswith(child_indent) or not lines[insert_at].strip()
+        ):
+            insert_at += 1
     evidence = [
         f"{state_indent}preparation_evidence:",
         f"{child_indent}run_id: {run_id}",
