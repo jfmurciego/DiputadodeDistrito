@@ -147,6 +147,20 @@ ejecutar(){
     profile="$(resolver_perfil_m05)"
     strategy="${profile%%|*}"
     candidate_count="${profile#*|}"
+    if [[ "${DDD_OPTIMIZATION_ALGORITHM:-}" == "GerryChain 50" ]]; then
+      [[ "${DDD_GERRYCHAIN_ENTRYPOINT:-}" == "gerrychain_50" ]] || {
+        echo "[FATAL] GerryChain 50 exige DDD_GERRYCHAIN_ENTRYPOINT=gerrychain_50." >&2
+        exit 43
+      }
+      [[ "${DDD_REQUIRE_UNIQUE_HASHES:-}" == "true" ]] || {
+        echo "[FATAL] GerryChain 50 exige DDD_REQUIRE_UNIQUE_HASHES=true." >&2
+        exit 43
+      }
+      [[ "$candidate_count" == "50" ]] || {
+        echo "[FATAL] GerryChain 50 exige exactamente 50 candidatos." >&2
+        exit 43
+      }
+    fi
     echo "===== MÓDULO 5: Estrategia de optimización — $strategy; candidatos=$candidate_count ====="
     case "$strategy" in
       canonical)
