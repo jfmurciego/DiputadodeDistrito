@@ -139,7 +139,7 @@ jobs:
           set -euo pipefail
           python herramientas/evaluar_publicacion_visor.py             --requested-run-id "$PRODUCTION_RUN_ID"             --production-root /tmp/production             --phase source             --output .ddd-publication/publicacion_visor.json             --strict-request
 
-      - name: Promover productos a release persistente
+      - name: Promover productos a blob persistente verificable
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
@@ -147,83 +147,40 @@ jobs:
           python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
 
           printf '[]\n' > /tmp/new-entries.json
-          mkdir -p /tmp/promotion-assets /tmp/promotion-verify /tmp/release-resolution
+          mkdir -p /tmp/promotion-verify
           while IFS= read -r row; do
             [[ -n "$row" ]] || continue
             id="$(jq -r '.id' <<<"$row")"
             source="$(jq -r '.local_source' <<<"$row")"
-            territory="$(jq -r '.territory_id' <<<"$row")"
-            stage="$(jq -r '.stage | ascii_downcase' <<<"$row")"
             sha="$(sha256sum "$source" | awk '{print $1}')"
-            tag="viewer-$territory-$PRODUCTION_RUN_ID-$stage-${sha:0:12}"
-            asset_name="$territory-$PRODUCTION_RUN_ID-$stage.geojson.zip"
-            durable="/tmp/promotion-assets/$asset_name"
-            cp "$source" "$durable"
 
-            releases_json="/tmp/release-resolution/$id-releases.json"
-            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > "$releases_json"
-            set +e
-            python herramientas/resolver_release_asset.py release --releases "$releases_json" --tag "$tag" > "/tmp/release-resolution/$id-release.json"
-            release_rc=$?
-            set -e
-            if [[ "$release_rc" == "3" ]]; then
-              gh api --method POST "repos/$GITHUB_REPOSITORY/releases" \
-                -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$tag" \
-                -f body='Activo persistente e inmutable del visor DDD; no sustituir ni clobber.' \
-                -F draft=true > "/tmp/release-resolution/$id-created.json"
-              gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > "$releases_json"
-              python herramientas/resolver_release_asset.py release --releases "$releases_json" --tag "$tag" > "/tmp/release-resolution/$id-release.json"
-            elif [[ "$release_rc" != "0" ]]; then
-              echo "::error::$id: no se pudo resolver de forma unívoca el release $tag"
-              exit 54
-            fi
-
-            release_id="$(jq -r '.id' "/tmp/release-resolution/$id-release.json")"
-            release_tag="$(jq -r '.tag_name' "/tmp/release-resolution/$id-release.json")"
-            [[ "$release_id" =~ ^[0-9]+$ && "$release_tag" == "$tag" ]] || {
-              echo "::error::$id: release id/tag incoherentes"; exit 54;
+            # El registro ya admite repository_blob como fuente durable. Usarlo evita
+            # depender de api.uploads.github.com y mantiene el activo inmutable por SHA.
+            blob_payload="$(base64 -w 0 "$source")"
+            blob_json="$(jq -n --arg content "$blob_payload" '{content:$content,encoding:"base64"}')"
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/blobs" --input - <<<"$blob_json" > "/tmp/$id-blob.json"
+            blob_sha="$(jq -r '.sha' "/tmp/$id-blob.json")"
+            [[ "$blob_sha" =~ ^[0-9a-f]{40}$ ]] || {
+              echo "::error::$id: blob_sha persistente inválido"; exit 54;
             }
-
-            gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > "/tmp/release-resolution/$id-release-current.json"
-            set +e
-            python herramientas/resolver_release_asset.py asset \
-              --release "/tmp/release-resolution/$id-release-current.json" --name "$asset_name" \
-              > "/tmp/release-resolution/$id-asset.json"
-            asset_rc=$?
-            set -e
-            if [[ "$asset_rc" == "3" ]]; then
-              gh api --method POST --hostname uploads.github.com \
-                -H 'Accept: application/vnd.github+json' \
-                -H 'Content-Type: application/zip' \
-                "repos/$GITHUB_REPOSITORY/releases/$release_id/assets?name=$asset_name" \
-                --input "$durable" > "/tmp/release-resolution/$id-uploaded.json"
-              gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > "/tmp/release-resolution/$id-release-current.json"
-              python herramientas/resolver_release_asset.py asset \
-                --release "/tmp/release-resolution/$id-release-current.json" --name "$asset_name" \
-                > "/tmp/release-resolution/$id-asset.json"
-            elif [[ "$asset_rc" != "0" ]]; then
-              echo "::error::$id: cardinalidad inválida para asset $asset_name"
-              exit 54
-            fi
-
-            asset_id="$(jq -r '.id' "/tmp/release-resolution/$id-asset.json")"
-            [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: asset_id persistente inválido"; exit 54; }
 
             persisted="/tmp/promotion-verify/$id"
-            gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
+            gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha" > "/tmp/$id-blob-verify.json"
+            [[ "$(jq -r '.encoding' "/tmp/$id-blob-verify.json")" == "base64" ]] || {
+              echo "::error::$id: blob persistente sin codificación base64"; exit 55;
+            }
+            jq -r '.content' "/tmp/$id-blob-verify.json" | tr -d '\n' | base64 --decode > "$persisted"
             persisted_sha="$(sha256sum "$persisted" | awk '{print $1}')"
             [[ "$persisted_sha" == "$sha" ]] || {
-              echo "::error::$id: SHA-256 del asset persistente no coincide; no se permite clobber"; exit 55;
+              echo "::error::$id: SHA-256 del blob persistente no coincide"; exit 55;
             }
 
-            entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg release_tag "$tag"               --arg asset_name "$asset_name"               --arg asset_id "$asset_id"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
-                source_type:"release_asset",
+            entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg blob_sha "$blob_sha"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
+                source_type:"repository_blob",
                 repository:$repository,
-                release_tag:$release_tag,
-                asset_name:$asset_name,
-                asset_id:($asset_id|tonumber),
+                blob_sha:$blob_sha,
                 sha256:$sha256,
-                immutable_location:("github-release-asset://" + $repository + "/" + $asset_id)
+                immutable_location:("github-git-blob://" + $repository + "/" + $blob_sha)
               }' <<<"$row")"
             tmp="$(mktemp)"
             jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
