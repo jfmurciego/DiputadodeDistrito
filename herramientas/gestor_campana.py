@@ -188,6 +188,27 @@ def build_matrix(
     return {"include": include}
 
 
+def validate_reuse_metadata(
+    reuse: dict[str, Any],
+    *,
+    run_head_sha: str,
+    artifact_name: str,
+    artifact_digest: str,
+    m01_artifact_name: str,
+    m01_artifact_digest: str,
+) -> None:
+    if run_head_sha != reuse["source_sha"]:
+        raise ValueError("SHA de procedencia distinto del manifiesto")
+    if artifact_name != reuse["artifact_name"]:
+        raise ValueError("Artefacto reutilizado distinto del manifiesto")
+    if artifact_digest.removeprefix("sha256:") != reuse["artifact_sha256"]:
+        raise ValueError("Digest del producto reutilizado distinto del manifiesto")
+    if m01_artifact_name != reuse["m01_artifact_name"]:
+        raise ValueError("Artefacto M01 distinto del manifiesto")
+    if m01_artifact_digest.removeprefix("sha256:") != reuse["m01_artifact_sha256"]:
+        raise ValueError("Digest M01 distinto del manifiesto")
+
+
 def _catalog_entry(root: Path, territory_id: str, edition: str) -> dict[str, Any]:
     catalog = yaml.safe_load(
         (root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
