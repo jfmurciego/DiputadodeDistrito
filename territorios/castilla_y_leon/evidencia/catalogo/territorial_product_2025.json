@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "castilla_y_leon",
+  "territory_name": "Castilla y León",
+  "edition": "2025",
+  "run_id": 35889595424,
+  "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
+  "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
+  "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06"
+}
