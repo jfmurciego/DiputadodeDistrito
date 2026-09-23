@@ -143,7 +143,7 @@ jobs:
           python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
 
           printf '[]\n' > /tmp/new-entries.json
-          mkdir -p /tmp/promotion-assets /tmp/promotion-verify
+          mkdir -p /tmp/promotion-assets /tmp/promotion-verify /tmp/release-resolution
           while IFS= read -r row; do
             [[ -n "$row" ]] || continue
             id="$(jq -r '.id' <<<"$row")"
@@ -156,27 +156,60 @@ jobs:
             durable="/tmp/promotion-assets/$asset_name"
             cp "$source" "$durable"
 
-            if ! gh release view "$tag" >/dev/null 2>&1; then
-              gh release create "$tag" --draft --target "$GITHUB_SHA" --title "$tag"                 --notes 'Activo persistente e inmutable del visor DDD; no sustituir ni clobber.'
+            releases_json="/tmp/release-resolution/$id-releases.json"
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > "$releases_json"
+            set +e
+            python herramientas/resolver_release_asset.py release --releases "$releases_json" --tag "$tag" > "/tmp/release-resolution/$id-release.json"
+            release_rc=$?
+            set -e
+            if [[ "$release_rc" == "3" ]]; then
+              gh api --method POST "repos/$GITHUB_REPOSITORY/releases" \
+                -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" -f name="$tag" \
+                -f body='Activo persistente e inmutable del visor DDD; no sustituir ni clobber.' \
+                -F draft=true > "/tmp/release-resolution/$id-created.json"
+              gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > "$releases_json"
+              python herramientas/resolver_release_asset.py release --releases "$releases_json" --tag "$tag" > "/tmp/release-resolution/$id-release.json"
+            elif [[ "$release_rc" != "0" ]]; then
+              echo "::error::$id: no se pudo resolver de forma unívoca el release $tag"
+              exit 54
             fi
 
-            asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
-            [[ "$asset_count" =~ ^[0-9]+$ ]] || { echo "::error::$id: cardinalidad de asset inválida"; exit 54; }
-            if [[ "$asset_count" == "0" ]]; then
-              gh release upload "$tag" "$durable"
-              asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"                 --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
-            fi
-            [[ "$asset_count" == "1" ]] || {
-              echo "::error::$id: esperaba exactamente un release asset $asset_name; encontrados=$asset_count"; exit 54;
+            release_id="$(jq -r '.id' "/tmp/release-resolution/$id-release.json")"
+            release_tag="$(jq -r '.tag_name' "/tmp/release-resolution/$id-release.json")"
+            [[ "$release_id" =~ ^[0-9]+$ && "$release_tag" == "$tag" ]] || {
+              echo "::error::$id: release id/tag incoherentes"; exit 54;
             }
-            asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq ".assets[] | select(.name==\"$asset_name\") | .id")"
-            [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: no se resolvió asset_id persistente"; exit 54; }
+
+            gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > "/tmp/release-resolution/$id-release-current.json"
+            set +e
+            python herramientas/resolver_release_asset.py asset \
+              --release "/tmp/release-resolution/$id-release-current.json" --name "$asset_name" \
+              > "/tmp/release-resolution/$id-asset.json"
+            asset_rc=$?
+            set -e
+            if [[ "$asset_rc" == "3" ]]; then
+              gh api --method POST --hostname uploads.github.com \
+                -H 'Accept: application/vnd.github+json' \
+                -H 'Content-Type: application/zip' \
+                "repos/$GITHUB_REPOSITORY/releases/$release_id/assets?name=$asset_name" \
+                --input "$durable" > "/tmp/release-resolution/$id-uploaded.json"
+              gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > "/tmp/release-resolution/$id-release-current.json"
+              python herramientas/resolver_release_asset.py asset \
+                --release "/tmp/release-resolution/$id-release-current.json" --name "$asset_name" \
+                > "/tmp/release-resolution/$id-asset.json"
+            elif [[ "$asset_rc" != "0" ]]; then
+              echo "::error::$id: cardinalidad inválida para asset $asset_name"
+              exit 54
+            fi
+
+            asset_id="$(jq -r '.id' "/tmp/release-resolution/$id-asset.json")"
+            [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: asset_id persistente inválido"; exit 54; }
 
             persisted="/tmp/promotion-verify/$id"
-            gh api -H 'Accept: application/octet-stream'               "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
+            gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
             persisted_sha="$(sha256sum "$persisted" | awk '{print $1}')"
             [[ "$persisted_sha" == "$sha" ]] || {
-              echo "::error::$id: el release asset no coincide con la fuente promovida"; exit 55;
+              echo "::error::$id: SHA-256 del asset persistente no coincide; no se permite clobber"; exit 55;
             }
 
             entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg release_tag "$tag"               --arg asset_name "$asset_name"               --arg asset_id "$asset_id"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
@@ -201,11 +234,21 @@ jobs:
           [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
           tag="$ENSEMBLE_RELEASE_TAG"
           asset_name="$tag.zip"
-          asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
-          [[ "$asset_count" == "1" ]] || {
-            echo "::error::Ensemble requiere exactamente un release asset: $tag/$asset_name; encontrados=$asset_count"; exit 56;
-          }
-          asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq ".assets[] | select(.name==\"$asset_name\") | .id")"
+          mkdir -p /tmp/release-resolution
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > /tmp/release-resolution/ensemble-releases.json
+          python herramientas/resolver_release_asset.py release \
+            --releases /tmp/release-resolution/ensemble-releases.json --tag "$tag" \
+            > /tmp/release-resolution/ensemble-release.json || {
+              echo "::error::Ensemble requiere exactamente un release, draft o publicado: $tag"; exit 56;
+            }
+          release_id="$(jq -r '.id' /tmp/release-resolution/ensemble-release.json)"
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > /tmp/release-resolution/ensemble-release-current.json
+          python herramientas/resolver_release_asset.py asset \
+            --release /tmp/release-resolution/ensemble-release-current.json --name "$asset_name" \
+            > /tmp/release-resolution/ensemble-asset.json || {
+              echo "::error::Ensemble requiere exactamente un release asset: $tag/$asset_name"; exit 56;
+            }
+          asset_id="$(jq -r '.id' /tmp/release-resolution/ensemble-asset.json)"
           [[ "$asset_id" =~ ^[0-9]+$ ]] || {
             echo "::error::Ensemble sin asset_id persistente: $tag/$asset_name"; exit 56;
           }
