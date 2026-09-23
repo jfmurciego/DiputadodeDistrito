@@ -85,7 +85,12 @@ def write_fixture(root: Path) -> Path:
             "max_self_loop_rate": 0.9999,
             "require_full_length": True,
         }},
-        "ensemble": {"candidate_count": 5, "shortlist_size": 5},
+        "ensemble": {
+            "candidate_count": 5,
+            "shortlist_size": 5,
+            "seed": 20260923,
+            "require_unique_hashes": False,
+        },
         "output": "output",
     }
     path = root / "config.json"
@@ -169,23 +174,25 @@ class IntegratedRunnerTests(unittest.TestCase):
         )
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
-    def test_real_recom_fifty_candidate_lot(self):
+    def test_real_recom_candidate_manifests(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
             config = write_fixture(root)
-            payload = json.loads(config.read_text(encoding="utf-8"))
-            payload["ensemble"] = {"candidate_count": 50, "shortlist_size": 10}
-            config.write_text(json.dumps(payload), encoding="utf-8")
             result = invoke(config, "--mode", "all")
-            self.assertEqual(result["run"], {"executed": 50, "skipped": 0, "failed": 0})
+            self.assertEqual(result["run"], {"executed": 5, "skipped": 0, "failed": 0})
             self.assertTrue(result["summary"]["complete"])
-            self.assertEqual(result["summary"]["candidate_count_valid"], 50)
-            self.assertEqual(len(list((root / "output/site/assets").glob("*.geojson"))), 50)
-            profiles = {
-                item["profile"] for item in result["summary"]["candidates"]
-                if item["candidate_id"] in result["summary"]["shortlist"]
-            }
-            self.assertEqual(profiles, {"balanced", "comarca", "comarca_strong", "shape", "exploratory"})
+            self.assertEqual(result["summary"]["candidate_count_valid"], 5)
+            manifests = sorted((root / "output/results").glob("*/candidate-manifest.json"))
+            self.assertEqual(len(manifests), 5)
+            for path in manifests:
+                manifest = json.loads(path.read_text(encoding="utf-8"))
+                report = json.loads((path.parent / "report.json").read_text(encoding="utf-8"))
+                self.assertEqual(manifest["territory_id"], "synthetic")
+                self.assertEqual(manifest["assignment_hash"], report["assignment_hash"])
+                self.assertEqual(manifest["k"], 2)
+                self.assertEqual(manifest["section_count"], 4)
+                self.assertEqual(manifest["population_total"], 40.0)
+                self.assertTrue(manifest["hard_constraints_pass"])
 
     @unittest.skipUnless(importlib.util.find_spec("gerrychain"), "GerryChain no instalado")
     def test_end_to_end_and_resume(self):

@@ -143,6 +143,14 @@ class ContractTests(unittest.TestCase):
         self.assertIn("gerrychain_recom 50", procedure)
         self.assertIn('--seed-count "$candidate_count"', procedure)
 
+    def test_gerrychain_one_and_25_seed_profiles_remain_valid(self):
+        one = StrategyConfig(seed_base=1000, seed_count=1)
+        twenty_five = StrategyConfig(seed_base=1000, seed_count=25)
+        self.assertEqual(one.seeds(), [1001])
+        self.assertEqual(len(twenty_five.seeds()), 25)
+        self.assertEqual(twenty_five.seeds()[0], 1001)
+        self.assertEqual(twenty_five.seeds()[-1], 1025)
+
     def test_gerrychain_failure_falls_back_to_canonical_without_aborting_generation(self):
         procedure = (ROOT / "procedimiento.sh").read_text(encoding="utf-8")
         self.assertIn("gerry_rc=${PIPESTATUS[0]}", procedure)

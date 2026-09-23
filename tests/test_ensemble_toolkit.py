@@ -9,7 +9,12 @@ from pathlib import Path
 
 from ddd_ensemble.candidate_metrics import measure_candidate
 from ddd_ensemble.ensemble_assembler import assemble
-from ddd_ensemble.ensemble_plan import build_plan
+from ddd_ensemble.ensemble_plan import (
+    GERRYCHAIN50_ENTRYPOINT,
+    build_gerrychain50_plan,
+    build_plan,
+    gerrychain50_manager_contract,
+)
 from ddd_ensemble.gallery import build_gallery
 from ddd_ensemble.prepared_bundle import BundleValidationError, validate_prepared_bundle
 
@@ -99,8 +104,66 @@ class PlanTests(unittest.TestCase):
         second = build_plan("synthetic", "bundle-1")
         self.assertEqual(first, second)
         self.assertEqual(first["candidate_count"], 50)
+        self.assertTrue(first["requirements"]["unique_assignment_hashes"])
         self.assertEqual([len(item["candidate_ids"]) for item in first["shards"]], [10] * 5)
         self.assertEqual(len({item["seed"] for item in first["candidates"]}), 50)
+
+    def test_explicit_seed_is_deterministic_and_part_of_the_plan(self):
+        first = build_plan("synthetic", "bundle-1", 50, seed=12345)
+        second = build_plan("synthetic", "bundle-1", 50, seed=12345)
+        other = build_plan("synthetic", "bundle-1", 50, seed=12346)
+        self.assertEqual(first, second)
+        self.assertEqual(first["seed"], 12345)
+        self.assertNotEqual(first["plan_sha256"], other["plan_sha256"])
+        self.assertNotEqual(
+            [item["seed"] for item in first["candidates"]],
+            [item["seed"] for item in other["candidates"]],
+        )
+
+    def test_gerrychain50_rejects_count_55(self):
+        with self.assertRaisesRegex(ValueError, "candidate_count=50"):
+            build_gerrychain50_plan(
+                "synthetic",
+                "bundle-1",
+                seed=12345,
+                candidate_count=55,
+            )
+
+    def test_gerrychain50_rejects_unique_hashes_false(self):
+        with self.assertRaisesRegex(ValueError, "require_unique_hashes=true"):
+            build_gerrychain50_plan(
+                "synthetic",
+                "bundle-1",
+                seed=12345,
+                require_unique_hashes=False,
+            )
+
+    def test_gerrychain50_accepts_exactly_fifty_deterministic_seeds(self):
+        first = build_gerrychain50_plan("synthetic", "bundle-1", seed=12345)
+        second = build_gerrychain50_plan("synthetic", "bundle-1", seed=12345)
+        self.assertEqual(first, second)
+        self.assertEqual(first["entrypoint"], GERRYCHAIN50_ENTRYPOINT)
+        self.assertEqual(first["candidate_count"], 50)
+        self.assertEqual(len(first["candidates"]), 50)
+        self.assertEqual(len({item["seed"] for item in first["candidates"]}), 50)
+        self.assertTrue(first["requirements"]["unique_assignment_hashes"])
+        self.assertEqual(first["requirements"]["candidate_count_exact"], 50)
+        self.assertEqual(
+            first["manager_contract"],
+            gerrychain50_manager_contract(seed=12345),
+        )
+
+    def test_generic_constructor_still_accepts_25_candidates(self):
+        plan = build_plan(
+            "synthetic",
+            "bundle-25",
+            25,
+            seed=12345,
+            require_unique_hashes=False,
+        )
+        self.assertEqual(plan["candidate_count"], 25)
+        self.assertEqual(len(plan["candidates"]), 25)
+        self.assertFalse(plan["requirements"]["unique_assignment_hashes"])
 
     def test_invalid_size_rejected(self):
         with self.assertRaises(ValueError):
@@ -111,7 +174,7 @@ class EndToEndTests(unittest.TestCase):
     def test_complete_fifty_candidate_assembly(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            plan = build_plan("synthetic", "bundle-50")
+            plan = build_gerrychain50_plan("synthetic", "bundle-50", seed=20260923)
             plan_path = root / "plan.json"
             plan_path.write_text(json.dumps(plan), encoding="utf-8")
             results = root / "results"
@@ -125,6 +188,7 @@ class EndToEndTests(unittest.TestCase):
                     "profile": candidate["profile"],
                     "seed": candidate["seed"],
                     "hard_constraints": {"all_pass": True},
+                    "assignment_hash": f"assignment-{index:02d}",
                     "metrics": {
                         "population": {"max_deviation": 0.04 + quality},
                         "shape": {"polsby_popper_median": 0.30 + quality, "corridor_alerts": []},
@@ -136,12 +200,46 @@ class EndToEndTests(unittest.TestCase):
             summary = assemble(str(plan_path), str(results), shortlist_size=10)
             self.assertTrue(summary["complete"])
             self.assertEqual(summary["candidate_count_valid"], 50)
+            self.assertEqual(summary["unique_candidate_hash_count"], 50)
+            self.assertTrue(summary["require_unique_assignment_hashes"])
+            self.assertEqual(summary["duplicate_assignment_hashes"], {})
             self.assertEqual(summary["retry_matrix"], {"include": []})
             shortlisted_profiles = {
                 next(item["profile"] for item in plan["candidates"] if item["candidate_id"] == candidate_id)
                 for candidate_id in summary["shortlist"]
             }
             self.assertEqual(shortlisted_profiles, set(plan["profiles"]))
+
+    def test_duplicate_assignment_hash_makes_fifty_contract_incomplete(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            plan = build_gerrychain50_plan("synthetic", "bundle-duplicate", seed=20260923)
+            plan_path = root / "plan.json"
+            plan_path.write_text(json.dumps(plan), encoding="utf-8")
+            results = root / "results"
+            for index, candidate in enumerate(plan["candidates"]):
+                candidate_dir = results / candidate["candidate_id"]
+                candidate_dir.mkdir(parents=True)
+                report = {
+                    "candidate_id": candidate["candidate_id"],
+                    "hard_constraints": {"all_pass": True},
+                    "assignment_hash": "duplicate" if index < 2 else f"hash-{index}",
+                    "metrics": {
+                        "population": {"max_deviation": 0.01},
+                        "shape": {"polsby_popper_median": 0.5, "corridor_alerts": []},
+                        "comarca": {"retention_ratio": 1.0, "split_count": 0},
+                        "stability": {"assignment_delta": 0.0},
+                    },
+                }
+                (candidate_dir / "report.json").write_text(json.dumps(report), encoding="utf-8")
+            summary = assemble(str(plan_path), str(results), shortlist_size=10)
+            self.assertFalse(summary["complete"])
+            self.assertEqual(summary["candidate_count_valid"], 49)
+            self.assertEqual(summary["unique_candidate_hash_count"], 49)
+            self.assertEqual(summary["duplicate_assignment_hashes"], {
+                "duplicate": ["balanced-01", "balanced-02"],
+            })
+            self.assertIn("balanced-02", summary["invalid_candidates"])
 
     def test_metrics_assembler_resume_pareto_and_gallery(self):
         with tempfile.TemporaryDirectory() as tmp:
