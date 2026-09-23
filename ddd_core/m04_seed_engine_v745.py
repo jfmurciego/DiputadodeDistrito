@@ -10,7 +10,7 @@ FUNCIÓN: construir exactamente K distritos dentro de sus provincias, preservand
 ENTRADAS: grafo M03, geometría M01, configuración territorial y topology_bridges declarados en M02.
 SALIDAS: GeoJSON M04 con district_id, ddd_unit_id y ddd_closed_urban; informe M04.
 ESTADO: candidato CYL-03.
-CAMBIOS: mantiene la búsqueda de núcleo cerrado, pero cuando ésta no puede conservar una salida territorial busca directamente un residuo conexo desde las secciones-puerta y acepta su complemento como núcleo si ambos lados son conexos y el núcleo cae en ±12 %. Registra el modo residual_first_complement.
+CAMBIOS: mantiene la búsqueda de núcleo cerrado y el fallback residual-first, pero separa las cotas duras de población (suelo/techo contractuales) de la banda ±tolerancia, que queda exclusivamente como objetivo de calidad.
 MOTIVO: CYL-03 v7.4.4 identificó correctamente dos puertas reales de Aranda de Duero, pero el BFS orientado al núcleo no encontró una solución aunque el problema natural es pequeño: reservar un residuo de borde y cerrar el complemento urbano.
 ANTERIOR: legacy/modulo04/04_generar_semillas_v7.4.4.py
 """
@@ -165,8 +165,8 @@ def find_residual_complement(rem,desired,lo,hi,adj,w,protected=None,residual_gat
             for v in nbrs:seen.add(v);q.append(v)
     return (best[1],best[2]) if best else (None,None)
 
-def split_sequential(nodes,target,tol,adj,w,label='',protected=None,residual_gateways=None):
-    rem=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ());mp=sum(w[n] for n in rem);lo=target-tol;hi=target+tol;n_closed=max(1,int(math.ceil(max(0.0,mp-hi)/hi)));closed=[];mode='sequential_core_residual'
+def split_sequential(nodes,target,floor,cap,tol,adj,w,label='',protected=None,residual_gateways=None):
+    rem=set(nodes);protected=set(protected or ());residual_gateways=set(residual_gateways or ());mp=sum(w[n] for n in rem);lo=floor;hi=cap;n_closed=max(1,int(math.ceil(max(0.0,mp-hi)/hi)));closed=[];mode='sequential_core_residual'
     for idx in range(n_closed):
         left_after=n_closed-idx-1;rp=sum(w[n] for n in rem);need_remove=max(0.0,rp-hi);core_min=max(lo,need_remove-left_after*hi);core_max=min(hi,rp-left_after*lo)
         if core_min>core_max+1e-9:raise SystemExit(f'M04: rango municipal imposible {label}: rem={rp} core_min={core_min:.2f} core_max={core_max:.2f}')
@@ -183,8 +183,8 @@ def split_sequential(nodes,target,tol,adj,w,label='',protected=None,residual_gat
     if sum(w[n] for n in rem)>hi+1e-9:raise SystemExit(f'M04: residuo municipal excede tolerancia superior {label}')
     return closed,rem,mode
 
-def partition_oversized_municipality(nodes,target,tol,adj,w,label='',protected=None):
-    nodes=set(nodes);protected=set(protected or ());residual_gateways={n for n in nodes if any(nb not in nodes for nb in adj.get(n,set()))};mp=sum(w[n] for n in nodes);lo=target-tol;hi=target+tol;q=max(2,int(round(mp/target)));avg=mp/q
+def partition_oversized_municipality(nodes,target,floor,cap,tol,adj,w,label='',protected=None):
+    nodes=set(nodes);protected=set(protected or ());residual_gateways={n for n in nodes if any(nb not in nodes for nb in adj.get(n,set()))};mp=sum(w[n] for n in nodes);lo=floor;hi=cap;q=max(2,int(round(mp/target)));avg=mp/q
     if lo<=avg<=hi and q<=len(nodes):
         parts=hybrid_partition(nodes,q,adj,w,label=f'municipio {label}');parts,pvals,obj=rebalance(parts,adj,w,target,lo,hi,tol,50000)
         if all(lo<=x<=hi for x in pvals):
@@ -197,7 +197,7 @@ def partition_oversized_municipality(nodes,target,tol,adj,w,label='',protected=N
                 residual_i=max(eligible,key=lambda i:(sum(1 for n in parts[i] for nb in adj[n] if nb not in nodes),len(parts[i]&residual_gateways),-abs(pvals[i]-target),-i))
                 closed=[set(p) for i,p in enumerate(parts) if i!=residual_i];residual=set(parts[residual_i])
                 return closed,residual,'global_q_partition',residual_gateways
-    closed,residual,mode=split_sequential(nodes,target,tol,adj,w,label,protected,residual_gateways)
+    closed,residual,mode=split_sequential(nodes,target,floor,cap,tol,adj,w,label,protected,residual_gateways)
     return closed,residual,mode,residual_gateways
 
 def main():
@@ -229,10 +229,10 @@ def main():
             if not connected(nodes,adj):raise SystemExit(f'M04: municipio {prov}/{mun} no conexo en M03')
             mp=sum(pop[n] for n in nodes);mname=str(meta[next(iter(nodes))].get(munname,'')) if munname in g.columns else ''
             if mp<=atomic_limit:units.append((f'{prov}:{mun}:M',set(nodes),False,mun));continue
-            label=f'{prov}/{mun}/{mname}';protected=bridge_nodes&set(nodes);cores,residual,mode,residual_gateways=partition_oversized_municipality(nodes,target,tol,adj,pop,label,protected)
+            label=f'{prov}/{mun}/{mname}';protected=bridge_nodes&set(nodes);cores,residual,mode,residual_gateways=partition_oversized_municipality(nodes,target,floor,cap,tol,adj,pop,label,protected)
             for i,p in enumerate(cores,1):
                 pp=sum(pop[n] for n in p)
-                if not(target-tol<=pp<=target+tol):raise SystemExit(f'M04: núcleo {label}/U{i} fuera de tolerancia: {pp}')
+                if not(floor<=pp<=cap):raise SystemExit(f'M04: núcleo {label}/U{i} fuera de suelo/techo: {pp}')
                 units.append((f'{prov}:{mun}:U{i}',set(p),True,mun))
             if residual:units.append((f'{prov}:{mun}:R',set(residual),False,mun))
             oversized_report.append({'municipality':mun,'municipality_name':mname,'population':mp,'partition_mode':mode,'protected_gateway_nodes':sorted(protected),'municipal_boundary_gateways':sorted(residual_gateways),'residual_boundary_gateways':sorted(set(residual)&set(residual_gateways)),'closed_cores':len(cores),'closed_core_populations':[sum(pop[n] for n in p) for p in cores],'residual_population':sum(pop[n] for n in residual),'atomic_limit':atomic_limit})

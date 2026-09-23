@@ -135,11 +135,13 @@ def main():
                     ))
             return keep
 
-        def patched(nodes, target, tolerance, adjacency_arg, weights, label="", protected=None):
+        def patched(nodes, target, floor, cap, tolerance, adjacency_arg, weights, label="", protected=None):
             expanded = set(protected or ()) | protected_gateways(nodes)
             return original(
                 nodes,
                 target,
+                floor,
+                cap,
                 tolerance,
                 adjacency_arg,
                 weights,
