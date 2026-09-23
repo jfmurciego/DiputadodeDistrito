@@ -56,7 +56,7 @@ class ProductionContractAdmission(unittest.TestCase):
             "aragon": ("AUTHORIZED", True),
             "castilla_y_leon": ("AUTHORIZED", True),
             "extremadura": ("AUTHORIZED", True),
-            "la_rioja": ("PREFLIGHT", False),
+            "la_rioja": ("AUTHORIZED", True),
         }
         for territory, (authorization, authorized) in expected.items():
             path = ROOT / "territorios" / territory / "config" / f"{territory}_2025.yaml"

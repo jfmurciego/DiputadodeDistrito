@@ -11,6 +11,7 @@ import yaml
 from herramientas.catalogo_preparacion import lookup
 from herramientas.resolver_fuentes_territorio import territories
 from herramientas.promover_catalogo_tras_preparacion import (
+    _set_catalog_state,
     contract_is_generation_complete,
 )
 from herramientas.promover_catalogo_operacional import promote
@@ -55,15 +56,20 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertTrue(row["territorial_contract_complete"])
         self.assertEqual(row["production_authorization"], "AUTHORIZED")
         evidence = row["preparation_evidence"]
-        self.assertEqual(evidence["run_id"], 35475119597)
+        self.assertEqual(evidence["run_id"], 35755043806)
         self.assertEqual(
             evidence["artifact_name"],
-            "ddd-source-package-extremadura-2025-35475119597",
+            "ddd-source-package-extremadura-2025-35755043806",
         )
         self.assertEqual(
             evidence["artifact_sha256"],
-            "f115ec74a9241e796fcef231a0400121d218b22dbeb8d22d467665c671d94c1a",
+            "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
         )
+        self.assertEqual(
+            evidence["package_sha256"],
+            "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07",
+        )
+        self.assertNotIn("stage", evidence)
 
     def test_extremadura_contract_is_generation_complete(self):
         complete, reasons = contract_is_generation_complete(EXT)
@@ -90,6 +96,58 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         block = lines[start:end]
         self.assertTrue(any(line.strip() == "preparation_status: READY" for line in block))
         self.assertTrue(any(line.strip() == "contract_path: territorios/galicia/config/galicia_2025.yaml" for line in block))
+
+    def test_preparation_evidence_is_inserted_after_complete_checkpoint_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "catalogo.yaml"
+            path.write_text(
+                """schema: ddd-preparation-catalog/1.1
+territories:
+- territory_id: demo
+  name: Demo
+  editions:
+    '2025':
+      territory_declared: true
+      preparation_status: READY
+      contract_path: territorios/demo/config/demo_2025.yaml
+      territorial_source_declaration: territorios/demo/config/fuentes_oficiales.yaml
+      electoral_source_declaration: null
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
+      territorial_product_available: true
+      electoral_source_prepared: false
+      electoral_product_available: false
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      production_authorization: AUTHORIZED
+      last_valid_checkpoint:
+        run_id: 111
+        stage: M06
+""",
+                encoding="utf-8",
+            )
+            _set_catalog_state(
+                path,
+                territory_id="demo",
+                edition="2025",
+                source_declaration="territorios/demo/config/fuentes_oficiales.yaml",
+                contract_complete=True,
+                run_id=222,
+                artifact_name="ddd-source-package-demo-2025-222",
+                artifact_sha256="a" * 64,
+                package_sha256="b" * 64,
+                contract_path="territorios/demo/config/demo_2025.yaml",
+            )
+            state = yaml.safe_load(path.read_text(encoding="utf-8"))["territories"][0]["editions"]["2025"]
+            self.assertEqual(state["last_valid_checkpoint"], {"run_id": 111, "stage": "M06"})
+            self.assertEqual(
+                state["preparation_evidence"],
+                {
+                    "run_id": 222,
+                    "artifact_name": "ddd-source-package-demo-2025-222",
+                    "artifact_sha256": "a" * 64,
+                    "package_sha256": "b" * 64,
+                },
+            )
 
     def test_electoral_source_can_be_promoted_from_materialized_contract_without_declaration(self):
         with tempfile.TemporaryDirectory() as td:

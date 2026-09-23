@@ -254,11 +254,10 @@ territories:
         run_id: 35755043806
         stage: M06
       preparation_evidence:
-        run_id: 35699856547
+        run_id: 35755043806
         artifact_name: ddd-source-package-extremadura-2025-35755043806
         artifact_sha256: fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347
         package_sha256: edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07
-        stage: M06
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
 - territory_id: galicia

@@ -32,6 +32,11 @@ from herramientas.evaluar_preparacion_territorial import evaluate, readable_repo
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))
 
+SYNTHETIC_EXPECTED_SECTIONS = {
+    "aragon": 1463,
+    "extremadura": 964,
+}
+
 
 def declaration(territory: str) -> dict:
     return yaml.safe_load((ROOT / "territorios" / territory / "config" / "fuentes_oficiales.yaml").read_text(encoding="utf-8"))
@@ -42,13 +47,14 @@ def sha256(path: Path) -> str:
 
 
 class SimulatedINE:
-    def __init__(self, declaration_data: dict, *, edition: int | None = None, omit_population_province: str | None = None, unexpected_section_province: str | None = None, html_population: bool = False):
+    def __init__(self, declaration_data: dict, *, expected_sections: int | None = None, edition: int | None = None, omit_population_province: str | None = None, unexpected_section_province: str | None = None, html_population: bool = False):
         self.declaration = declaration_data
         self.edition = edition if edition is not None else int(declaration_data["territory"]["edition"])
         self.omit_population_province = omit_population_province
         self.unexpected_section_province = unexpected_section_province
         self.html_population = html_population
-        expected = int(declaration_data["coverage_checks"]["expected_sections"])
+        territory_id = str(declaration_data["territory"]["id"])
+        expected = expected_sections if expected_sections is not None else SYNTHETIC_EXPECTED_SECTIONS[territory_id]
         divisions = declaration_data["territory"]["territorial_codes"]
         base, remainder = divmod(expected, len(divisions))
         self.counts = {str(row["code"]).zfill(2): base + (1 if index < remainder else 0) for index, row in enumerate(divisions)}
@@ -97,7 +103,7 @@ class OfficialSourcesTests(unittest.TestCase):
         counts: dict[str, int] = {}
         for territory in ("aragon", "extremadura"):
             dec = declaration(territory)
-            expected = int(dec["coverage_checks"]["expected_sections"])
+            expected = SYNTHETIC_EXPECTED_SECTIONS[territory]
             divisions = dec["territory"]["territorial_codes"]
             base, remainder = divmod(expected, len(divisions))
             for index, row in enumerate(divisions):
@@ -124,10 +130,18 @@ class OfficialSourcesTests(unittest.TestCase):
 
     def verified_declaration(self, territory: str, snapshots: dict[str, Path]) -> dict:
         dec = copy.deepcopy(declaration(territory))
+        edition = int(dec["territory"]["edition"])
         for source_id, binding in dec["source_bindings"].items():
             path = snapshots[source_id]
-            binding["snapshot"]["path"] = str(path)
-            binding["snapshot"]["expected_sha256"] = sha256(path)
+            source = CATALOG["sources"][source_id]
+            official_origin_url = source.get("url") or str(source["endpoint_template"]).format(edition=edition)
+            binding["snapshot"] = {
+                "path": str(path),
+                "expected_sha256": sha256(path),
+                "official_origin_url": official_origin_url,
+                "edition": edition,
+                "acquired_at": "2026-09-17",
+            }
         dec["environment_policy"]["production"] = ["verified_snapshot"]
         dec["default_mode"]["production"] = "verified_snapshot"
         return dec
@@ -136,7 +150,7 @@ class OfficialSourcesTests(unittest.TestCase):
         dec = declaration("aragon")
         self.assertEqual(dec["territory"]["id"], "aragon")
         self.assertEqual([row["code"] for row in dec["territory"]["territorial_codes"]], ["22", "44", "50"])
-        self.assertEqual(dec["coverage_checks"]["expected_sections"], 1463)
+        self.assertEqual(dec["coverage_checks"]["required_territorial_codes"], ["22", "44", "50"])
 
     def test_simulation_is_rejected_outside_test(self):
         dec = declaration("extremadura")
@@ -217,7 +231,8 @@ class OfficialSourcesTests(unittest.TestCase):
     def test_verified_snapshot_never_falls_back_to_network(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            dec = copy.deepcopy(declaration("extremadura"))
+            snapshots = self.make_shared_national_snapshots(root)
+            dec = self.verified_declaration("extremadura", snapshots)
             dec["required_sources"] = ["poblacion_por_sexo_y_edad"]
             binding = dec["source_bindings"]["poblacion_por_sexo_y_edad"]
             del binding["snapshot"]["path"]
