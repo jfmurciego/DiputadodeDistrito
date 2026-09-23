@@ -53,8 +53,10 @@ class WorkflowSafety(unittest.TestCase):
         viewer_triggers=viewer.get(True,viewer.get("on",{})) or {}
         self.assertEqual(set(viewer_triggers),{"workflow_call","workflow_dispatch"})
         manual_inputs=viewer_triggers["workflow_dispatch"]["inputs"]
-        self.assertEqual(set(manual_inputs),{"pagina_publicar"})
+        self.assertEqual(set(manual_inputs),{"pagina_publicar","production_run_id"})
         self.assertEqual(manual_inputs["pagina_publicar"]["type"],"choice")
+        self.assertEqual(manual_inputs["production_run_id"]["type"],"string")
+        self.assertFalse(manual_inputs["production_run_id"]["required"])
         self.assertEqual(
             manual_inputs["pagina_publicar"]["options"],
             ["Dashboard operativo","Visor territorial","Sitio completo"],
