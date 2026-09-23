@@ -41,9 +41,11 @@ class DashboardPages(unittest.TestCase):
             self.assertIn(token,manual)
         self.assertIn('git commit -m "chore: sincronizar estado operativo antes de publicar"',manual)
 
-    def test_visor_enlaza_dashboard(self):
+    def test_visor_integra_estado_publico_sin_obligar_a_navegar_al_dashboard(self):
         html=(ROOT/"visor/index.html").read_text(encoding="utf-8")
-        self.assertIn('href="dashboard/"',html)
+        self.assertIn('id="estado-proyecto"',html)
+        self.assertIn('id="kpi-grid"',html)
+        self.assertIn('id="territory-status-grid"',html)
 
     def test_evidencia_oculta_de_publicacion_se_sube(self):
         reusable=REUSABLE.read_text(encoding="utf-8")
