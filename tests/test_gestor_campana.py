@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 import yaml
 
+from herramientas.registro_publicaciones_visor import make_candidate
 from herramientas.gestor_campana import (
     CONFIRMATION,
     aggregate,
@@ -16,6 +18,10 @@ from herramientas.gestor_campana import (
     validate_manifest,
     validate_portfolio_contract,
     validate_reuse_metadata,
+    validate_campaign_summary_for_promotion,
+    release_identity,
+    publication_matrix,
+    package_campaign_gallery,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -216,6 +222,192 @@ class CampaignManagerTests(unittest.TestCase):
         self.assertIn('p["execution_mode"]="from_start"', orchestration)
         self.assertIn('p["run_prepare_territorial"]=False', orchestration)
         self.assertIn('p["run_generate"]=True', orchestration)
+
+    def _strict_status(self, row: dict, *, status: str = "PASS") -> dict:
+        return {
+            **row,
+            "status": status,
+            "entrypoint": "gerrychain_50",
+            "require_unique_hashes": True,
+            "candidate_count_expected": 50,
+            "candidate_count_valid": 50,
+            "unique_candidate_hash_count": 50,
+            "missing_candidate_hash_count": 0,
+            "duplicate_candidate_hash_count": 0,
+        }
+
+    def test_promotion_requires_five_pass_and_one_failure_blocks_it(self):
+        rows = build_matrix(
+            MANIFEST,
+            source_sha="d" * 40,
+            campaign_instance="campaign-five",
+            confirmation=CONFIRMATION,
+        )["include"]
+        summary = {
+            "status": "PASS",
+            "territories": [self._strict_status(row) for row in rows],
+        }
+        self.assertEqual(len(validate_campaign_summary_for_promotion(summary)), 5)
+        summary["territories"][3]["status"] = "FAIL"
+        with self.assertRaisesRegex(ValueError, "no promocionable"):
+            validate_campaign_summary_for_promotion(summary)
+
+    def test_five_releases_namespaces_and_galleries_are_distinct(self):
+        rows = build_matrix(
+            MANIFEST,
+            source_sha="e" * 40,
+            campaign_instance="campaign-five",
+            confirmation=CONFIRMATION,
+        )["include"]
+        releases = []
+        for index, row in enumerate(rows, start=1):
+            release = release_identity(
+                campaign_instance="campaign-five",
+                slot=row["slot"],
+                territory_id=row["territory_id"],
+                asset_sha256=f"{index:064x}",
+            )
+            release["namespace"] = row["namespace"]
+            release["gallery"] = f"{row['territory_id']}/{release['release_tag']}"
+            releases.append(release)
+        matrix = publication_matrix(releases)["include"]
+        self.assertEqual(len(matrix), 5)
+        self.assertEqual(len({row["release_tag"] for row in matrix}), 5)
+        self.assertEqual(len({row["namespace"] for row in matrix}), 5)
+        self.assertEqual(len({row["gallery"] for row in matrix}), 5)
+
+    def test_publishing_one_ensemble_preserves_existing_territories(self):
+        def entry(territory: str, ensemble: str, asset_id: int) -> dict:
+            return {
+                "id": f"ensemble-{territory}-{ensemble}",
+                "asset_type": "ensemble_archive",
+                "source_type": "release_asset",
+                "immutable_location": f"github-release-asset://jfmurciego/DiputadodeDistrito/{asset_id}",
+                "repository": "jfmurciego/DiputadodeDistrito",
+                "asset_id": asset_id,
+                "asset_name": f"{ensemble}.zip",
+                "release_tag": ensemble,
+                "sha256": f"{asset_id:064x}"[-64:],
+                "kind": "ensemble",
+                "territory_id": territory,
+                "territory_label": territory,
+                "ensemble_id": ensemble,
+                "candidate_count_expected": 50,
+                "candidate_count_valid": 50,
+                "publication_status": "PUBLICABLE",
+            }
+
+        first = entry("aragon", "ensemble-aragon", 1001)
+        second = entry("galicia", "ensemble-galicia", 1002)
+        base = {
+            "schema": "ddd.viewer-publication-registry/2.0",
+            "products": [],
+            "ensembles": [first],
+        }
+        candidate = make_candidate(base, [second])
+        self.assertEqual(
+            {row["territory_id"] for row in candidate["ensembles"]},
+            {"aragon", "galicia"},
+        )
+
+    def test_synthetic_gallery_packages_in_existing_ensemble_format(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            bundle = root / "bundle"
+            candidate_dir = bundle / "candidates"
+            summary_dir = bundle / "summary"
+            gallery_dir = bundle / "gallery"
+            candidate_dir.mkdir(parents=True)
+            summary_dir.mkdir(parents=True)
+            gallery_dir.mkdir(parents=True)
+            gallery_dir.joinpath("index.html").write_text(
+                "<!doctype html><title>synthetic</title>", encoding="utf-8"
+            )
+            candidates = []
+            for index in range(1, 51):
+                seed = 1000 + index
+                name = f"candidate_{index:03d}_seed_{seed}.geojson.zip"
+                geo = {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "properties": {"district_id": "1"},
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [[[-3.0, 40.0], [-2.9, 40.0], [-2.9, 40.1], [-3.0, 40.0]]],
+                        },
+                    }],
+                }
+                with zipfile.ZipFile(candidate_dir / name, "w", zipfile.ZIP_DEFLATED) as archive:
+                    archive.writestr("candidate.geojson", json.dumps(geo))
+                candidates.append({
+                    "index": index,
+                    "seed": seed,
+                    "assignment_hash": f"{index:064x}",
+                    "geojson": name,
+                })
+            (candidate_dir / "portfolio.json").write_text(
+                json.dumps({
+                    "candidate_count": 50,
+                    "unique_candidate_count": 50,
+                    "candidates": candidates,
+                }),
+                encoding="utf-8",
+            )
+            (summary_dir / "campaign_status.json").write_text(
+                json.dumps({
+                    "campaign_instance": "campaign-synthetic",
+                    "slot": "01",
+                    "territory_id": "aragon",
+                    "territory_name": "Aragón",
+                    "status": "PASS",
+                    "entrypoint": "gerrychain_50",
+                    "require_unique_hashes": True,
+                    "candidate_count_expected": 50,
+                    "candidate_count_valid": 50,
+                    "unique_candidate_hash_count": 50,
+                    "missing_candidate_hash_count": 0,
+                    "duplicate_candidate_hash_count": 0,
+                }),
+                encoding="utf-8",
+            )
+            output = root / "ensemble.zip"
+            descriptor = package_campaign_gallery(
+                bundle,
+                output,
+                campaign_instance="campaign-synthetic",
+                expected_districts=67,
+            )
+            self.assertTrue(output.is_file())
+            self.assertEqual(descriptor["candidate_count_valid"], 50)
+            with zipfile.ZipFile(output) as archive:
+                names = set(archive.namelist())
+                self.assertIn("site/data/summary.json", names)
+                self.assertIn("site/index.html", names)
+                self.assertEqual(
+                    len([name for name in names if name.startswith("site/assets/") and name.endswith(".geojson")]),
+                    50,
+                )
+                summary = json.loads(archive.read("site/data/summary.json"))
+                self.assertEqual(summary["territory_id"], "aragon")
+                self.assertEqual(summary["candidate_count_valid"], 50)
+                self.assertEqual(len(summary["candidates"]), 50)
+
+    def test_publication_jobs_are_after_five_pass_and_skipped_on_pull_request(self):
+        manager = WORKFLOW.read_text(encoding="utf-8")
+        summary_pos = manager.index("  resumen:")
+        promote_pos = manager.index("  promover_galerias:")
+        publish_pos = manager.index("  publicar_galerias:")
+        self.assertLess(summary_pos, promote_pos)
+        self.assertLess(promote_pos, publish_pos)
+        self.assertIn("needs: [preparar, resumen]", manager)
+        self.assertIn("needs.resumen.result == 'success'", manager)
+        self.assertIn("validate_campaign_summary_for_promotion", manager)
+        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
+        self.assertIn("group: ddd-pages-prod", (ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml").read_text(encoding="utf-8"))
+        self.assertNotIn("actions/deploy-pages@", manager)
+        self.assertIn("github.event_name == 'workflow_dispatch'", manager)
+        self.assertIn("test \"${{ needs.publicar_galerias.result }}\" = success", manager)
 
     def test_workflows_parse(self):
         for path in (
