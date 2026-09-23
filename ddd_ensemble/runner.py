@@ -123,6 +123,10 @@ def ensure_plan(
     seed = seed_override if seed_override is not None else ensemble.get("seed")
     require_unique_hashes = ensemble.get("require_unique_hashes")
     entrypoint = str(ensemble.get("entrypoint") or "generic")
+    if count == 50 and entrypoint != GERRYCHAIN50_ENTRYPOINT:
+        raise ValueError(
+            "candidate_count=50 requiere ensemble.entrypoint=gerrychain_50"
+        )
     if entrypoint == GERRYCHAIN50_ENTRYPOINT:
         if seed is None:
             raise ValueError("GerryChain 50 requiere ensemble.seed o --seed")
