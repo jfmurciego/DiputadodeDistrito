@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import tempfile
 import unittest
@@ -7,13 +8,21 @@ import zipfile
 from pathlib import Path
 
 from herramientas.preparar_visor_ejecucion import build_from_publication_registry
-from herramientas.registro_publicaciones_visor import SCHEMA, upsert
+from herramientas.registro_publicaciones_visor import (
+    SCHEMA,
+    make_candidate,
+    sha256_file,
+    validate_registry,
+    verify_materialized_registry,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLISHER = ROOT / ".github/workflows/_reutilizable-publicar-sitio.yml"
-ENSEMBLE = ROOT / ".github/workflows/generar-alternativas-territoriales.yml"
-FULL = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
+WORKFLOWS = ROOT / ".github" / "workflows"
+PUBLISHER = WORKFLOWS / "_reutilizable-publicar-sitio.yml"
+ENSEMBLE = WORKFLOWS / "generar-alternativas-territoriales.yml"
+FULL = WORKFLOWS / "ejecucion-completa-proyecto.yml"
 REGISTRY = ROOT / "orchestracion/publicaciones_visor.json"
+REPOSITORY = "jfmurciego/DiputadodeDistrito"
 
 
 def geojson(*, marker: str, electoral: bool = False) -> dict:
@@ -39,16 +48,30 @@ def write_zip(path: Path, payload: dict, member: str) -> None:
         archive.writestr(member, json.dumps(payload))
 
 
-def product(territory: str, run_id: str) -> dict:
+def release_product(root: Path, territory: str, run_id: str, marker: str, *, electoral: bool = False) -> dict:
+    stage = "m08" if electoral else "m06"
+    kind = "canonical_m08" if electoral else "canonical_m06"
+    asset_type = "electoral_product" if electoral else "territorial_product"
+    entry_id = f"{stage}-{territory}-{run_id}"
+    asset = root / entry_id / "asset"
+    write_zip(asset, geojson(marker=marker, electoral=electoral), f"{territory}_{stage}.geojson")
+    digest = sha256_file(asset)
+    asset_id = int(run_id) * 10 + (8 if electoral else 6)
     return {
-        "id": f"m06-{territory}-{run_id}",
-        "source_type": "workflow_artifact",
-        "kind": "canonical_m06",
+        "id": entry_id,
+        "asset_type": asset_type,
+        "source_type": "release_asset",
+        "immutable_location": f"github-release-asset://{REPOSITORY}/{asset_id}",
+        "repository": REPOSITORY,
+        "asset_id": asset_id,
+        "asset_name": f"{territory}-{run_id}-{stage}.geojson.zip",
+        "release_tag": f"viewer-{territory}-{run_id}-{stage}-{digest[:12]}",
+        "sha256": digest,
+        "kind": kind,
         "territory_id": territory,
         "territory_label": territory.title(),
-        "label": f"M06 territorial · run {run_id}",
+        "label": f"{stage.upper()} · run {run_id}",
         "run_id": run_id,
-        "artifact_name": f"ddd-state-{run_id}-M06",
         "expected_districts": 1,
         "technical_status": "PASS",
         "certification_status": "CERTIFIED",
@@ -58,37 +81,18 @@ def product(territory: str, run_id: str) -> dict:
     }
 
 
-def ensemble_entry(territory: str, ensemble_id: str) -> dict:
-    return {
-        "id": f"ensemble-{territory}-{ensemble_id}",
-        "source_type": "release",
-        "kind": "ensemble",
-        "territory_id": territory,
-        "territory_label": territory.title(),
-        "ensemble_id": ensemble_id,
-        "release_tag": ensemble_id,
-        "candidate_count_expected": 1,
-        "candidate_count_valid": 1,
-        "publication_status": "PUBLICABLE",
-    }
-
-
-def materialize_product(root: Path, entry: dict, marker: str) -> None:
-    target = root / entry["id"] / f"{entry['territory_id']}_2025_m06_distritos.geojson.zip"
-    write_zip(target, geojson(marker=marker), f"{entry['territory_id']}_m06.geojson")
-
-
-def materialize_ensemble(root: Path, entry: dict, candidate_id: str = "candidate-01") -> None:
-    base = root / entry["id"] / "site"
-    asset = base / "assets" / f"{candidate_id}.geojson"
+def release_ensemble(root: Path, territory: str, ensemble_id: str, candidate_id: str = "candidate-01") -> dict:
+    entry_id = f"ensemble-{territory}-{ensemble_id}"
+    staging = root / "_staging" / entry_id / "site"
+    asset = staging / "assets" / f"{candidate_id}.geojson"
     asset.parent.mkdir(parents=True, exist_ok=True)
-    asset.write_text(json.dumps(geojson(marker=entry["territory_id"])), encoding="utf-8")
-    (base / "index.html").write_text("<!doctype html><title>gallery</title>", encoding="utf-8")
-    summary = base / "data" / "summary.json"
+    asset.write_text(json.dumps(geojson(marker=territory)), encoding="utf-8")
+    (staging / "index.html").write_text("<!doctype html><title>gallery</title>", encoding="utf-8")
+    summary = staging / "data" / "summary.json"
     summary.parent.mkdir(parents=True, exist_ok=True)
     summary.write_text(json.dumps({
-        "territory_id": entry["territory_id"],
-        "territory_label": entry["territory_label"],
+        "territory_id": territory,
+        "territory_label": territory.title(),
         "complete": True,
         "candidate_count_expected": 1,
         "candidate_count_valid": 1,
@@ -101,33 +105,100 @@ def materialize_ensemble(root: Path, entry: dict, candidate_id: str = "candidate
         }],
     }), encoding="utf-8")
 
+    archive = root / entry_id / "asset"
+    archive.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as bundle:
+        for path in sorted((staging.parent).rglob("*")):
+            if path.is_file():
+                bundle.write(path, path.relative_to(staging.parent))
+    digest = sha256_file(archive)
+    asset_id = abs(hash((territory, ensemble_id))) % 1000000 + 1000
+    return {
+        "id": entry_id,
+        "asset_type": "ensemble_archive",
+        "source_type": "release_asset",
+        "immutable_location": f"github-release-asset://{REPOSITORY}/{asset_id}",
+        "repository": REPOSITORY,
+        "asset_id": asset_id,
+        "asset_name": f"{ensemble_id}.zip",
+        "release_tag": ensemble_id,
+        "sha256": digest,
+        "kind": "ensemble",
+        "territory_id": territory,
+        "territory_label": territory.title(),
+        "ensemble_id": ensemble_id,
+        "candidate_count_expected": 1,
+        "candidate_count_valid": 1,
+        "publication_status": "PUBLICABLE",
+    }
+
 
 class MultiterritoryPublicationTests(unittest.TestCase):
-    def test_publish_a_then_b_and_republish_a_preserve_b(self):
-        registry = {"schema": SCHEMA, "products": [], "ensembles": []}
-        a = product("territorio_a", "101")
-        b = product("territorio_b", "202")
-        self.assertTrue(upsert(registry["products"], a))
-        self.assertTrue(upsert(registry["products"], b))
-        self.assertEqual({row["id"] for row in registry["products"]}, {a["id"], b["id"]})
+    def test_workflow_artifact_can_never_be_definitive_registry_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            entry = release_product(root, "territorio_a", "101", "A")
+            entry["source_type"] = "workflow_artifact"
+            registry = {"schema": SCHEMA, "products": [entry], "ensembles": []}
+            with self.assertRaisesRegex(ValueError, "workflow_artifact"):
+                validate_registry(registry)
 
-        updated_a = dict(a, label="A republicado")
-        self.assertTrue(upsert(registry["products"], updated_a))
-        self.assertEqual(len(registry["products"]), 2)
-        self.assertEqual(next(row for row in registry["products"] if row["id"] == b["id"]), b)
+    def test_incorrect_hash_blocks_before_registry_change_and_keeps_previous_registry(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            materialized = root / "assets"
+            good = release_product(materialized, "territorio_a", "101", "A")
+            base = {"schema": SCHEMA, "products": [good], "ensembles": []}
+            registry_path = root / "publicaciones_visor.json"
+            registry_path.write_text(json.dumps(base, sort_keys=True), encoding="utf-8")
+            before = registry_path.read_bytes()
 
-    def test_complete_registry_materializes_both_territories_and_m06_has_no_fake_electoral_fields(self):
+            candidate_entry = release_product(materialized, "territorio_b", "202", "B")
+            candidate_entry["sha256"] = "0" * 64
+            candidate = make_candidate(base, [candidate_entry])
+            with self.assertRaisesRegex(ValueError, "SHA-256 no coincide"):
+                verify_materialized_registry(candidate, materialized)
+
+            self.assertEqual(registry_path.read_bytes(), before)
+
+    def test_missing_persistent_asset_blocks_before_registry_change(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            materialized = root / "assets"
+            existing = release_product(materialized, "territorio_a", "101", "A")
+            base = {"schema": SCHEMA, "products": [existing], "ensembles": []}
+            registry_path = root / "publicaciones_visor.json"
+            registry_path.write_text(json.dumps(base, sort_keys=True), encoding="utf-8")
+            before = registry_path.read_bytes()
+
+            missing = dict(existing)
+            missing.update({
+                "id": "m06-territorio_b-202",
+                "territory_id": "territorio_b",
+                "territory_label": "Territorio B",
+                "run_id": "202",
+                "asset_id": 2026,
+                "asset_name": "territorio_b-202-m06.geojson.zip",
+                "release_tag": "viewer-territorio_b-202-m06-deadbeefdead",
+                "immutable_location": f"github-release-asset://{REPOSITORY}/2026",
+            })
+            candidate = make_candidate(base, [missing])
+            with self.assertRaises(FileNotFoundError):
+                verify_materialized_registry(candidate, materialized)
+
+            self.assertEqual(registry_path.read_bytes(), before)
+
+    def test_two_persistent_products_reconstruct_together_without_fake_electoral_fields(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             materialized = root / "materialized"
             site = root / "site"
-            a = product("territorio_a", "101")
-            b = product("territorio_b", "202")
+            a = release_product(materialized, "territorio_a", "101", "A")
+            b = release_product(materialized, "territorio_b", "202", "B")
             registry = {"schema": SCHEMA, "products": [a, b], "ensembles": []}
+            verify_materialized_registry(registry, materialized)
             registry_path = root / "registry.json"
             registry_path.write_text(json.dumps(registry), encoding="utf-8")
-            materialize_product(materialized, a, "A")
-            materialize_product(materialized, b, "B")
 
             results = build_from_publication_registry(registry_path, ROOT, materialized, site)
 
@@ -139,22 +210,42 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             props = json.loads(a_path.read_text(encoding="utf-8"))["features"][0]["properties"]
             self.assertNotIn("winner_party", props)
             self.assertNotIn("winner_votes", props)
-            self.assertEqual(next(row for row in results if row["territory_id"] == "territorio_a")["kind"], "canonical_m06")
 
-    def test_same_candidate_id_in_different_territories_does_not_collide_and_gallery_keeps_general_viewer(self):
+    def test_republishing_same_identity_replaces_only_that_entry(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            assets = root / "assets"
+            a = release_product(assets, "territorio_a", "101", "A")
+            b = release_product(assets, "territorio_b", "202", "B")
+            base = {"schema": SCHEMA, "products": [a, b], "ensembles": []}
+            replacement = dict(a, label="A republicado")
+            candidate = make_candidate(base, [replacement])
+            self.assertEqual(len(candidate["products"]), 2)
+            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "territorio_b"), b)
+            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "territorio_a")["label"], "A republicado")
+
+    def test_duplicate_publication_identity_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            entry = release_product(root, "territorio_a", "101", "A")
+            duplicate = dict(entry, id="otro-id", asset_id=99999,
+                             immutable_location=f"github-release-asset://{REPOSITORY}/99999")
+            registry = {"schema": SCHEMA, "products": [entry, duplicate], "ensembles": []}
+            with self.assertRaisesRegex(ValueError, "Identidad de publicación duplicada"):
+                validate_registry(registry)
+
+    def test_same_candidate_id_in_different_territories_does_not_collide(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             materialized = root / "materialized"
             site = root / "site"
-            p = product("territorio_a", "101")
-            e1 = ensemble_entry("territorio_a", "ensemble-one")
-            e2 = ensemble_entry("territorio_b", "ensemble-two")
+            p = release_product(materialized, "territorio_a", "101", "A")
+            e1 = release_ensemble(materialized, "territorio_a", "ensemble-one", candidate_id="shared")
+            e2 = release_ensemble(materialized, "territorio_b", "ensemble-two", candidate_id="shared")
             registry = {"schema": SCHEMA, "products": [p], "ensembles": [e1, e2]}
+            verify_materialized_registry(registry, materialized)
             registry_path = root / "registry.json"
             registry_path.write_text(json.dumps(registry), encoding="utf-8")
-            materialize_product(materialized, p, "A")
-            materialize_ensemble(materialized, e1, candidate_id="shared")
-            materialize_ensemble(materialized, e2, candidate_id="shared")
 
             results = build_from_publication_registry(registry_path, ROOT, materialized, site)
 
@@ -162,28 +253,43 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             second = site / "data/ensemble/territorio_b/ensemble-two/shared.geojson"
             self.assertTrue(first.is_file())
             self.assertTrue(second.is_file())
-            self.assertNotEqual(first, second)
             self.assertTrue((site / "galleries/territorio_a/ensemble-one/index.html").is_file())
             self.assertTrue((site / "galleries/territorio_b/ensemble-two/index.html").is_file())
             self.assertIn("canonical_m06", {row["kind"] for row in results})
             self.assertEqual(sum(row["kind"] == "ensemble_candidate" for row in results), 2)
 
-    def test_pages_has_one_deployer_and_one_global_mutex(self):
+    def test_pages_has_exactly_one_deployer_and_one_global_mutex(self):
+        active = sorted(WORKFLOWS.glob("*.yml"))
+        deployers = []
+        for path in active:
+            text = path.read_text(encoding="utf-8")
+            if "actions/deploy-pages@" in text:
+                deployers.append(path.name)
+        self.assertEqual(deployers, ["_reutilizable-publicar-sitio.yml"])
         publisher = PUBLISHER.read_text(encoding="utf-8")
         ensemble = ENSEMBLE.read_text(encoding="utf-8")
+        self.assertEqual(publisher.count("actions/deploy-pages@"), 1)
         self.assertIn("group: ddd-pages-prod", publisher)
-        self.assertIn("actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e", publisher)
-        self.assertNotIn("actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e", ensemble)
-        self.assertNotIn("actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b", ensemble)
+        self.assertNotIn("actions/upload-pages-artifact@", ensemble)
         self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", ensemble)
 
-    def test_existing_aragon_and_castilla_y_leon_are_preserved(self):
+    def test_registry_pins_aragon_and_castilla_y_leon_by_blob_and_sha256(self):
         registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        validate_registry(registry)
         products = {row["id"]: row for row in registry["products"]}
-        self.assertIn("static-aragon", products)
-        self.assertIn("static-castilla_y_leon", products)
-        for key in ("static-aragon", "static-castilla_y_leon"):
-            self.assertTrue((ROOT / products[key]["source_path"]).is_file())
+        expected = {
+            "static-aragon": "902f3b5d79f1cda8bf90c84589612342e393aa9561c572fa8ea8ef2fc9851512",
+            "static-castilla_y_leon": "493f0d9c09ed2c41562469cb7ad8490667166c3a9d02745ce73fbcb865bccc2f",
+        }
+        for key, digest in expected.items():
+            row = products[key]
+            self.assertEqual(row["source_type"], "repository_blob")
+            self.assertEqual(row["sha256"], digest)
+            self.assertRegex(row["blob_sha"], r"^[0-9a-f]{40}$")
+            path = ROOT / row["source_path"]
+            self.assertTrue(path.is_file())
+            observed = hashlib.sha256(path.read_bytes()).hexdigest()
+            self.assertEqual(observed, digest)
 
     def test_full_orchestrator_can_publish_certified_m06_without_electoral_gate(self):
         workflow = FULL.read_text(encoding="utf-8")
@@ -191,6 +297,18 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         self.assertIn("needs.puerta_02.result == 'success'", workflow)
         self.assertIn("needs.actualizar_estado.result == 'success'", workflow)
         self.assertIn("needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id", workflow)
+
+    def test_publisher_preflights_current_and_candidate_before_registry_copy_or_pages(self):
+        text = PUBLISHER.read_text(encoding="utf-8")
+        current = text.index("Preflight completo del registro vigente")
+        candidate = text.index("Preflight completo del registro candidato")
+        persist = text.index("Persistir registro sólo después del preflight")
+        deploy = text.index("actions/deploy-pages@")
+        self.assertLess(current, candidate)
+        self.assertLess(candidate, persist)
+        self.assertLess(persist, deploy)
+        self.assertIn("release_asset", text)
+        self.assertIn("repos/$GITHUB_REPOSITORY/releases/assets/$asset_id", text)
 
 
 if __name__ == "__main__":
