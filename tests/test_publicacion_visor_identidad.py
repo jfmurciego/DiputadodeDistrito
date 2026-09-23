@@ -127,7 +127,7 @@ class PublicationIdentityTests(unittest.TestCase):
         self.assertIn('gh run download "$PRODUCTION_RUN_ID"', text)
         self.assertNotIn("se publicará el registro estático", text)
         self.assertIn("Acreditar identidad de la ejecución descargada", text)
-        self.assertIn("Acreditar resultado realmente cargado", text)
+        self.assertIn("Validar sitio candidato completo", text)
         self.assertIn("--strict-request", text)
         self.assertIn("publicacion_visor.json", text)
 
