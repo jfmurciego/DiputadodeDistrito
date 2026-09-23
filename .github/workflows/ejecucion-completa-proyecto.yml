@@ -512,6 +512,8 @@ jobs:
       CAMPAIGN_NAMESPACE: ${{ inputs.campaign_namespace }}
       MANIFEST_SHA256: ${{ inputs.campaign_manifest_sha256 }}
       CANDIDATE_COUNT: ${{ inputs.candidate_count }}
+      GERRYCHAIN_ENTRYPOINT: ${{ inputs.gerrychain_entrypoint }}
+      REQUIRE_UNIQUE_HASHES: ${{ inputs.require_unique_hashes }}
       SOURCE_SHA: ${{ needs.planificar.outputs.source_ref }}
       TERRITORIAL_GATE_RESULT: ${{ needs.puerta_02.result }}
       ELECTORAL_GATE_RESULT: ${{ needs.puerta_04.result }}
@@ -529,7 +531,11 @@ jobs:
           set -uo pipefail
           root=".ddd-campaign/bundle/$CAMPAIGN_SLOT/$TERRITORY_ID"
           mkdir -p "$root/candidates" "$root/gallery" "$root/summary"
-          candidate_count_actual=0
+          candidate_count_valid=0
+          unique_candidate_hash_count=0
+          missing_candidate_hash_count=50
+          duplicate_candidate_hash_count=0
+          portfolio_valid=false
           reason=""
           if [[ "$TERRITORIAL_GATE_RESULT" == success && -n "$TERRITORIAL_ARTIFACT" ]]; then
             mkdir -p .ddd-campaign/m06
@@ -538,7 +544,19 @@ jobs:
               if [[ -n "$portfolio" ]]; then
                 portfolio_dir="$(dirname "$portfolio")"
                 cp -a "$portfolio_dir/." "$root/candidates/"
-                candidate_count_actual="$(jq -r '.candidate_count // 0' "$portfolio")"
+                python - "$portfolio" "$root/summary/portfolio_validation.json" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from herramientas.gestor_campana import validate_portfolio_contract
+          src=Path(sys.argv[1]); dst=Path(sys.argv[2])
+          result=validate_portfolio_contract(json.loads(src.read_text(encoding="utf-8")))
+          dst.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+                candidate_count_valid="$(jq -r '.candidate_count_valid' "$root/summary/portfolio_validation.json")"
+                unique_candidate_hash_count="$(jq -r '.unique_candidate_hash_count' "$root/summary/portfolio_validation.json")"
+                missing_candidate_hash_count="$(jq -r '.missing_candidate_hash_count' "$root/summary/portfolio_validation.json")"
+                duplicate_candidate_hash_count="$(jq -r '.duplicate_candidate_hash_count' "$root/summary/portfolio_validation.json")"
+                portfolio_valid="$(jq -r '.valid' "$root/summary/portfolio_validation.json")"
                 python - "$portfolio" "$root/gallery/index.html" "$CAMPAIGN_NAMESPACE" <<'PY'
           import html,json,sys
           from pathlib import Path
@@ -560,9 +578,13 @@ jobs:
             reason="producto territorial no validado"
           fi
           status=PASS
-          if [[ "$candidate_count_actual" != "$CANDIDATE_COUNT" ]]; then
+          if [[ "$GERRYCHAIN_ENTRYPOINT" != gerrychain_50 || "$REQUIRE_UNIQUE_HASHES" != true ]]; then
             status=FAIL
-            reason="${reason:+$reason; }candidatos=$candidate_count_actual/$CANDIDATE_COUNT"
+            reason="${reason:+$reason; }contrato GerryChain 50 no propagado"
+          fi
+          if [[ "$portfolio_valid" != true || "$CANDIDATE_COUNT" != 50 || "$candidate_count_valid" != 50 || "$unique_candidate_hash_count" != 50 || "$missing_candidate_hash_count" != 0 || "$duplicate_candidate_hash_count" != 0 ]]; then
+            status=FAIL
+            reason="${reason:+$reason; }portfolio inválido valid=$candidate_count_valid unique=$unique_candidate_hash_count missing_hashes=$missing_candidate_hash_count duplicate_hashes=$duplicate_candidate_hash_count"
           fi
           if [[ "$PUBLICATION_MODE" == electoral && "$ELECTORAL_GATE_RESULT" != success ]]; then
             status=FAIL
@@ -572,7 +594,21 @@ jobs:
             status=FAIL
             reason="${reason:+$reason; }producto territorial no validado"
           fi
-          jq -n             --arg campaign_instance "$CAMPAIGN_INSTANCE" --arg slot "$CAMPAIGN_SLOT"             --arg territory_id "$TERRITORY_ID" --arg territory_name "$TERRITORY_NAME"             --arg namespace "$CAMPAIGN_NAMESPACE" --arg artifact_namespace "$ARTIFACT_NAMESPACE"             --arg source_sha "$SOURCE_SHA" --arg manifest_sha256 "$MANIFEST_SHA256"             --arg publication_mode "$PUBLICATION_MODE" --arg status "$status" --arg reason "$reason"             --arg territorial_run_id "$TERRITORIAL_RUN_ID" --arg territorial_artifact "$TERRITORIAL_ARTIFACT"             --arg electoral_run_id "$ELECTORAL_RUN_ID" --arg electoral_artifact "$ELECTORAL_ARTIFACT"             --argjson candidate_count_expected "$CANDIDATE_COUNT" --argjson candidate_count_actual "$candidate_count_actual"             '{schema:"ddd.campaign-territory-status/1.0",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,candidate_count_expected:$candidate_count_expected,candidate_count_actual:$candidate_count_actual,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact}}'             > "$root/summary/campaign_status.json"
+          jq -n \
+            --arg campaign_instance "$CAMPAIGN_INSTANCE" --arg slot "$CAMPAIGN_SLOT" \
+            --arg territory_id "$TERRITORY_ID" --arg territory_name "$TERRITORY_NAME" \
+            --arg namespace "$CAMPAIGN_NAMESPACE" --arg artifact_namespace "$ARTIFACT_NAMESPACE" \
+            --arg source_sha "$SOURCE_SHA" --arg manifest_sha256 "$MANIFEST_SHA256" \
+            --arg publication_mode "$PUBLICATION_MODE" --arg status "$status" --arg reason "$reason" \
+            --arg entrypoint "$GERRYCHAIN_ENTRYPOINT" --argjson require_unique_hashes "$REQUIRE_UNIQUE_HASHES" \
+            --arg territorial_run_id "$TERRITORIAL_RUN_ID" --arg territorial_artifact "$TERRITORIAL_ARTIFACT" \
+            --arg electoral_run_id "$ELECTORAL_RUN_ID" --arg electoral_artifact "$ELECTORAL_ARTIFACT" \
+            --argjson candidate_count_expected "$CANDIDATE_COUNT" --argjson candidate_count_valid "$candidate_count_valid" \
+            --argjson unique_candidate_hash_count "$unique_candidate_hash_count" \
+            --argjson missing_candidate_hash_count "$missing_candidate_hash_count" \
+            --argjson duplicate_candidate_hash_count "$duplicate_candidate_hash_count" \
+            '{schema:"ddd.campaign-territory-status/1.1",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,entrypoint:$entrypoint,require_unique_hashes:$require_unique_hashes,candidate_count_expected:$candidate_count_expected,candidate_count_valid:$candidate_count_valid,unique_candidate_hash_count:$unique_candidate_hash_count,missing_candidate_hash_count:$missing_candidate_hash_count,duplicate_candidate_hash_count:$duplicate_candidate_hash_count,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact}}' \
+            > "$root/summary/campaign_status.json"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-campaign-territory-${{ inputs.artifact_namespace }}
