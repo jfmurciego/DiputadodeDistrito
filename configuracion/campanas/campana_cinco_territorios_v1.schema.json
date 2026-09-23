@@ -1,20 +1,157 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "ddd.campaign-manifest/1.0",
+  "$id": "ddd.campaign-manifest/1.1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema","campaign_id","data_edition","execution_mode","optimization_algorithm","candidate_count","fail_fast","max_parallel","retry_failed","campaign_confirmation","territories"],
+  "required": [
+    "schema",
+    "campaign_id",
+    "data_edition",
+    "execution_mode",
+    "optimization_algorithm",
+    "entrypoint",
+    "candidate_count",
+    "require_unique_hashes",
+    "fail_fast",
+    "max_parallel",
+    "retry_failed",
+    "campaign_confirmation",
+    "territories"
+  ],
   "properties": {
-    "schema": {"const":"ddd.campaign-manifest/1.0"},
-    "campaign_id": {"type":"string","minLength":1},
-    "data_edition": {"const":"2025"},
-    "execution_mode": {"const":"Reutilizar progreso existente"},
-    "optimization_algorithm": {"const":"GerryChain 50"},
-    "candidate_count": {"const":50},
-    "fail_fast": {"const":false},
-    "max_parallel": {"const":5},
-    "retry_failed": {"const":false},
-    "campaign_confirmation": {"const":"EXECUTE_CAMPAIGN_CONFIRMED"},
-    "territories": {"type":"array","minItems":5,"maxItems":5,"items":{"type":"object","additionalProperties":false,"required":["slot","territory_id","territory_name","publication_mode"],"properties":{"slot":{"type":"string","pattern":"^0[1-5]$"},"territory_id":{"type":"string","minLength":1},"territory_name":{"type":"string","minLength":1},"publication_mode":{"enum":["electoral","territorial_only"]}}}}
+    "schema": {
+      "const": "ddd.campaign-manifest/1.1"
+    },
+    "campaign_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "data_edition": {
+      "const": "2025"
+    },
+    "execution_mode": {
+      "const": "Reutilizar fuente explícita"
+    },
+    "optimization_algorithm": {
+      "const": "GerryChain 50"
+    },
+    "entrypoint": {
+      "const": "gerrychain_50"
+    },
+    "candidate_count": {
+      "const": 50
+    },
+    "require_unique_hashes": {
+      "const": true
+    },
+    "fail_fast": {
+      "const": false
+    },
+    "max_parallel": {
+      "const": 5
+    },
+    "retry_failed": {
+      "const": false
+    },
+    "campaign_confirmation": {
+      "const": "EXECUTE_CAMPAIGN_CONFIRMED"
+    },
+    "territories": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot",
+          "territory_id",
+          "territory_name",
+          "publication_mode",
+          "reuse"
+        ],
+        "properties": {
+          "slot": {
+            "type": "string",
+            "pattern": "^0[1-5]$"
+          },
+          "territory_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "territory_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publication_mode": {
+            "enum": [
+              "electoral",
+              "territorial_only"
+            ]
+          },
+          "reuse": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "run_id",
+              "checkpoint_stage",
+              "artifact_name",
+              "artifact_sha256",
+              "source_sha",
+              "m01_artifact_name",
+              "m01_artifact_sha256",
+              "expected_population_total",
+              "expected_section_count",
+              "expected_district_count",
+              "expected_certification"
+            ],
+            "properties": {
+              "run_id": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "checkpoint_stage": {
+                "const": "SOURCE_PACKAGE"
+              },
+              "artifact_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "artifact_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "source_sha": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              "m01_artifact_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "m01_artifact_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "expected_population_total": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "expected_section_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "expected_district_count": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "expected_certification": {
+                "const": "READY"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
