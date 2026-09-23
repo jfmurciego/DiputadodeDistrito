@@ -11,9 +11,11 @@ from __future__ import annotations
 
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import yaml
 
+from ddd_ensemble.runner import ensure_plan
 from ddd_ensemble.ensemble_plan import (
     GERRYCHAIN50_ENTRYPOINT,
     build_gerrychain50_plan,
@@ -144,6 +146,37 @@ class MultiTerritoryEnsembleContractTests(unittest.TestCase):
                 self.assertEqual(len(first["candidates"]), 50)
                 self.assertEqual(len({row["seed"] for row in first["candidates"]}), 50)
                 self.assertTrue(first["requirements"]["unique_assignment_hashes"])
+
+
+    def test_runner_rejects_fifty_candidates_without_strict_entrypoint(self):
+        config = {
+            "territory_id": "fixture",
+            "prepared_bundle_id": "fixture-bundle",
+            "ensemble": {
+                "candidate_count": 50,
+                "seed": 20260923,
+                "require_unique_hashes": True,
+            },
+        }
+        with TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(
+                ValueError, "candidate_count=50 requiere ensemble.entrypoint=gerrychain_50"
+            ):
+                ensure_plan(config, Path(tmp))
+
+    def test_gerrychain50_entrypoint_rejects_missing_seed(self):
+        config = {
+            "territory_id": "fixture",
+            "prepared_bundle_id": "fixture-bundle",
+            "ensemble": {
+                "entrypoint": GERRYCHAIN50_ENTRYPOINT,
+                "candidate_count": 50,
+                "require_unique_hashes": True,
+            },
+        }
+        with TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError, "requiere ensemble.seed"):
+                ensure_plan(config, Path(tmp))
 
 
 if __name__ == "__main__":
