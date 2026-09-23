@@ -83,6 +83,7 @@ def materialize_ensemble(root: Path, entry: dict, candidate_id: str = "candidate
     asset = base / "assets" / f"{candidate_id}.geojson"
     asset.parent.mkdir(parents=True, exist_ok=True)
     asset.write_text(json.dumps(geojson(marker=entry["territory_id"])), encoding="utf-8")
+    (base / "index.html").write_text("<!doctype html><title>gallery</title>", encoding="utf-8")
     summary = base / "data" / "summary.json"
     summary.parent.mkdir(parents=True, exist_ok=True)
     summary.write_text(json.dumps({
