@@ -5,11 +5,15 @@ import argparse
 import copy
 import hashlib
 import json
+import shutil
+import tempfile
 import zipfile
 from pathlib import Path
 from typing import Any
 
 import yaml
+
+from ddd_ensemble.gallery import _write_web_geojson
 
 CONFIRMATION = "EXECUTE_CAMPAIGN_CONFIRMED"
 ENTRYPOINT = "gerrychain_50"
@@ -366,6 +370,246 @@ def validate_portfolio_contract(portfolio: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+
+def validate_campaign_summary_for_promotion(summary: dict[str, Any]) -> list[dict[str, Any]]:
+    territories = summary.get("territories")
+    if summary.get("status") != "PASS":
+        raise ValueError("La campaña no está en PASS; promoción prohibida")
+    if not isinstance(territories, list) or len(territories) != 5:
+        raise ValueError("La promoción exige exactamente cinco estados territoriales")
+    required = {
+        "candidate_count_expected": 50,
+        "candidate_count_valid": 50,
+        "unique_candidate_hash_count": 50,
+        "missing_candidate_hash_count": 0,
+        "duplicate_candidate_hash_count": 0,
+        "entrypoint": ENTRYPOINT,
+        "require_unique_hashes": True,
+        "status": "PASS",
+    }
+    seen: set[str] = set()
+    for row in territories:
+        territory_id = str(row.get("territory_id") or "")
+        if not territory_id or territory_id in seen:
+            raise ValueError("Territorio ausente o duplicado en el resumen de campaña")
+        seen.add(territory_id)
+        mismatches = [
+            key for key, expected in required.items()
+            if row.get(key) != expected
+        ]
+        if mismatches:
+            raise ValueError(
+                f"{territory_id}: estado no promocionable: {', '.join(mismatches)}"
+            )
+    return territories
+
+
+def release_identity(
+    *,
+    campaign_instance: str,
+    slot: str,
+    territory_id: str,
+    asset_sha256: str,
+) -> dict[str, str]:
+    digest = _hex(asset_sha256, 64, "asset_sha256")
+    safe_campaign = artifact_namespace(campaign_instance, slot, territory_id)
+    release_tag = f"ensemble-{safe_campaign}-{digest[:16]}"
+    return {
+        "territory_id": territory_id,
+        "slot": slot,
+        "namespace": f"{campaign_instance}/{slot}/{territory_id}",
+        "release_tag": release_tag,
+        "asset_name": f"{release_tag}.zip",
+        "sha256": digest,
+    }
+
+
+def publication_matrix(releases: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    if len(releases) != 5:
+        raise ValueError("La publicación exige cinco releases")
+    tags = [str(row.get("release_tag") or "") for row in releases]
+    namespaces = [str(row.get("namespace") or "") for row in releases]
+    territories = [str(row.get("territory_id") or "") for row in releases]
+    if len(set(tags)) != 5 or not all(tags):
+        raise ValueError("Los cinco releases deben ser distintos")
+    if len(set(namespaces)) != 5 or not all(namespaces):
+        raise ValueError("Los cinco namespaces deben ser distintos")
+    if len(set(territories)) != 5 or not all(territories):
+        raise ValueError("Los cinco territorios deben ser distintos")
+    return {"include": releases}
+
+
+def _single(root: Path, name: str) -> Path:
+    matches = sorted(root.rglob(name))
+    if len(matches) != 1:
+        raise ValueError(f"{name}: esperaba exactamente uno bajo {root}; encontrados={len(matches)}")
+    return matches[0]
+
+
+def _extract_single_geojson(archive_path: Path, destination: Path) -> None:
+    if not zipfile.is_zipfile(archive_path):
+        raise ValueError(f"Candidato no es ZIP: {archive_path}")
+    with zipfile.ZipFile(archive_path) as archive:
+        members = [
+            name for name in archive.namelist()
+            if name.lower().endswith((".geojson", ".json")) and not name.endswith("/")
+        ]
+        if len(members) != 1:
+            raise ValueError(f"{archive_path}: esperaba un único GeoJSON; encontrados={members}")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(archive.read(members[0]))
+
+
+def package_campaign_gallery(
+    bundle_root: Path,
+    output_zip: Path,
+    *,
+    campaign_instance: str,
+    expected_districts: int,
+) -> dict[str, Any]:
+    status_path = _single(bundle_root, "campaign_status.json")
+    portfolio_path = _single(bundle_root, "portfolio.json")
+    status = json.loads(status_path.read_text(encoding="utf-8"))
+    portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
+    strict = validate_portfolio_contract(portfolio)
+    required_status = {
+        "status": "PASS",
+        "entrypoint": ENTRYPOINT,
+        "require_unique_hashes": True,
+        "candidate_count_expected": 50,
+        "candidate_count_valid": 50,
+        "unique_candidate_hash_count": 50,
+        "missing_candidate_hash_count": 0,
+        "duplicate_candidate_hash_count": 0,
+    }
+    mismatches = [
+        key for key, expected in required_status.items()
+        if status.get(key) != expected
+    ]
+    if mismatches or not strict["valid"]:
+        raise ValueError(
+            f"{status.get('territory_id')}: bundle no promocionable; "
+            f"status={mismatches}, portfolio_valid={strict['valid']}"
+        )
+    if status.get("campaign_instance") != campaign_instance:
+        raise ValueError("campaign_instance del bundle no coincide")
+
+    territory_id = str(status["territory_id"])
+    territory_name = str(status.get("territory_name") or territory_id)
+    slot = str(status["slot"])
+    candidates = portfolio.get("candidates") or []
+    if len(candidates) != 50:
+        raise ValueError(f"{territory_id}: portfolio debe contener 50 candidatos")
+
+    output_zip.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as raw:
+        stage = Path(raw) / "ensemble"
+        site = stage / "site"
+        assets = site / "assets"
+        data_dir = site / "data"
+        assets.mkdir(parents=True, exist_ok=True)
+        data_dir.mkdir(parents=True, exist_ok=True)
+
+        portable_candidates = []
+        for ordinal, row in enumerate(candidates, start=1):
+            candidate_id = f"candidate-{ordinal:03d}"
+            source_name = str(row.get("file") or row.get("geojson") or "")
+            source = None
+            if source_name:
+                matches = sorted(bundle_root.rglob(Path(source_name).name))
+                if len(matches) == 1:
+                    source = matches[0]
+            if source is None:
+                seed = row.get("seed")
+                pattern = f"candidate_{ordinal:03d}_seed_{seed}.geojson.zip"
+                matches = sorted(bundle_root.rglob(pattern))
+                if len(matches) != 1:
+                    raise ValueError(
+                        f"{territory_id}/{candidate_id}: candidato ZIP no inequívoco"
+                    )
+                source = matches[0]
+
+            analytical = stage / "_analytical" / f"{candidate_id}.geojson"
+            _extract_single_geojson(source, analytical)
+            web_asset = assets / f"{candidate_id}.geojson"
+            _write_web_geojson(analytical, web_asset)
+            portable_candidates.append({
+                "candidate_id": candidate_id,
+                "profile": "gerrychain_50",
+                "seed": row.get("seed"),
+                "assignment_hash": row.get("assignment_hash"),
+                "asset": f"assets/{candidate_id}.geojson",
+                "metrics": {"population": {"district_count": int(expected_districts)}},
+            })
+
+        summary = {
+            "schema": "ddd.campaign-ensemble-summary/1.0",
+            "territory_id": territory_id,
+            "territory_label": territory_name,
+            "ensemble_id": f"{campaign_instance}-{slot}-{territory_id}",
+            "campaign_instance": campaign_instance,
+            "slot": slot,
+            "complete": True,
+            "entrypoint": ENTRYPOINT,
+            "require_unique_hashes": True,
+            "candidate_count_expected": 50,
+            "candidate_count_valid": 50,
+            "unique_candidate_hash_count": 50,
+            "candidates": portable_candidates,
+        }
+        (data_dir / "summary.json").write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+        source_gallery = sorted(bundle_root.rglob("gallery/index.html"))
+        if len(source_gallery) == 1:
+            shutil.copy2(source_gallery[0], site / "index.html")
+        else:
+            (site / "index.html").write_text(
+                "<!doctype html><meta charset=utf-8>"
+                f"<title>{territory_name}</title><h1>{territory_name}</h1>"
+                "<p>Campaña GerryChain 50: 50 alternativas territoriales.</p>",
+                encoding="utf-8",
+            )
+
+        manifest = {
+            "schema": "ddd.ensemble-artifact/1.0",
+            "campaign_instance": campaign_instance,
+            "territory_id": territory_id,
+            "slot": slot,
+            "complete": True,
+            "entrypoint": ENTRYPOINT,
+            "candidate_count_expected": 50,
+            "candidate_count_valid": 50,
+            "unique_candidate_hash_count": 50,
+        }
+        (stage / "artifact-manifest.json").write_text(
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+        with zipfile.ZipFile(output_zip, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+            for path in sorted(stage.rglob("*")):
+                if path.is_file() and "_analytical" not in path.parts:
+                    archive.write(path, path.relative_to(stage))
+
+    digest = sha256(output_zip)
+    identity = release_identity(
+        campaign_instance=campaign_instance,
+        slot=slot,
+        territory_id=territory_id,
+        asset_sha256=digest,
+    )
+    return {
+        **identity,
+        "candidate_count_expected": 50,
+        "candidate_count_valid": 50,
+        "unique_candidate_hash_count": 50,
+        "gallery": f"{territory_id}/{identity['release_tag']}",
+    }
+
+
 def aggregate(
     path: Path,
     reports_root: Path,
@@ -484,6 +728,12 @@ def _parser() -> argparse.ArgumentParser:
     reuse.add_argument("--m01-dir", type=Path, required=True)
     portfolio = commands.add_parser("validate-portfolio")
     portfolio.add_argument("--portfolio", type=Path, required=True)
+    package = commands.add_parser("package-ensemble")
+    package.add_argument("--bundle-root", type=Path, required=True)
+    package.add_argument("--output-zip", type=Path, required=True)
+    package.add_argument("--campaign-instance", required=True)
+    package.add_argument("--expected-districts", type=int, required=True)
+    package.add_argument("--output-json", type=Path)
     aggregate_parser = commands.add_parser("aggregate")
     aggregate_parser.add_argument("--manifest", type=Path, required=True)
     aggregate_parser.add_argument("--reports-root", type=Path, required=True)
@@ -511,6 +761,21 @@ def main() -> None:
         result = validate_portfolio_contract(_load(args.portfolio))
         print(json.dumps(result, ensure_ascii=False, sort_keys=True))
         raise SystemExit(0 if result["valid"] else 2)
+    if args.command == "package-ensemble":
+        result = package_campaign_gallery(
+            args.bundle_root,
+            args.output_zip,
+            campaign_instance=args.campaign_instance,
+            expected_districts=args.expected_districts,
+        )
+        if args.output_json:
+            args.output_json.parent.mkdir(parents=True, exist_ok=True)
+            args.output_json.write_text(
+                json.dumps(result, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+        return
 
     summary = aggregate(args.manifest, args.reports_root, campaign_instance=args.campaign_instance, source_sha=args.source_sha)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
