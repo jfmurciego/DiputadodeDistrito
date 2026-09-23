@@ -336,7 +336,7 @@ jobs:
   actualizar_estado:
     name: Actualizar estado operativo único
     needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.puerta_04.result == 'success' }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && (needs.puerta_04.result == 'success' || needs.puerta_03.result != 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -389,8 +389,8 @@ jobs:
 
   publicar:
     name: 05 · Publicar visor
-    needs: [planificar, puerta_02, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' }}
+    needs: [planificar, puerta_02, puerta_04, actualizar_estado]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
