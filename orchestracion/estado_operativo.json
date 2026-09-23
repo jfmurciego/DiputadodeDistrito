@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-23T17:28:55.139005+00:00",
+  "generated_at": "2026-09-23T22:58:39.675610+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -153,13 +153,13 @@
       "territory_id": "castilla_y_leon",
       "name": "Castilla y León",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "yellow",
       "re": "yellow",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
-      "stage": null,
+      "status": "Generación territorial validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 35889595424,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
@@ -170,7 +170,19 @@
           "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "castilla_y_leon",
+          "territory_name": "Castilla y León",
+          "edition": "2025",
+          "run_id": 35889595424,
+          "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
+          "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
+          "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06"
+        },
         "electoral_source": null,
         "electoral_product": null
       }
@@ -613,27 +625,28 @@
       "Galicia",
       "Principado de Asturias"
     ],
-    "territorial_validated": 5,
+    "territorial_validated": 6,
     "territorial_validated_names": [
       "Aragón",
+      "Castilla y León",
       "Castilla-La Mancha",
       "Extremadura",
       "Galicia",
       "Principado de Asturias"
     ],
-    "validated": 5,
+    "validated": 6,
     "validated_names": [
       "Aragón",
+      "Castilla y León",
       "Castilla-La Mancha",
       "Extremadura",
       "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 9,
+    "ready": 8,
     "ready_names": [
       "Andalucía",
       "Cantabria",
-      "Castilla y León",
       "Cataluña",
       "Comunidad de Madrid",
       "Comunidad Foral de Navarra",
@@ -705,7 +718,7 @@
     },
     {
       "territory": "Castilla y León",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Castilla-La Mancha",
