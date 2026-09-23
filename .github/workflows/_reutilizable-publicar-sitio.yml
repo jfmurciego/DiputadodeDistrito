@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 3.0.0
+# VERSIÓN: 3.0.1
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
 # QUÉ HACE: promueve a activos persistentes, preflight completo, registro atómico y despliegue único.
@@ -241,6 +241,53 @@ jobs:
           set -euo pipefail
           .ddd-publication/materializar_registro.sh             /tmp/publicaciones_visor.candidate.json             /tmp/publications-candidate
 
+      - name: Construir sitio candidato completo
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/site-candidate && mkdir -p /tmp/site-candidate/dashboard
+          cp visor/index.html visor/app.js visor/styles.css /tmp/site-candidate/
+          cp -R publicado/dashboard/. /tmp/site-candidate/dashboard/
+          python herramientas/preparar_visor_ejecucion.py             --site /tmp/site-candidate             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
+
+      - name: Validar sitio candidato completo
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s /tmp/site-candidate/data/viewer-results.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          registry = json.loads(Path("/tmp/publicaciones_visor.candidate.json").read_text(encoding="utf-8"))
+          viewer = json.loads(Path("/tmp/site-candidate/data/viewer-results.json").read_text(encoding="utf-8"))
+          if viewer.get("schema") != "ddd.viewer-results/1.1":
+              raise SystemExit("viewer-results.json: schema inesperado")
+          expected_products = {row["id"] for row in registry.get("products", [])}
+          observed_products = {
+              row["id"] for row in viewer.get("results", [])
+              if row.get("kind") in {"static", "canonical_m06", "canonical_m08"}
+          }
+          if observed_products != expected_products:
+              raise SystemExit(
+                  f"viewer/registro inconsistentes: products expected={sorted(expected_products)} observed={sorted(observed_products)}"
+              )
+          for row in viewer.get("results", []):
+              path = row.get("viewer_path")
+              if not path:
+                  raise SystemExit(f"{row.get('id')}: viewer_path ausente")
+              payload_path = Path("/tmp/site-candidate") / path
+              payload = json.loads(payload_path.read_text(encoding="utf-8"))
+              if payload.get("type") != "FeatureCollection":
+                  raise SystemExit(f"{row.get('id')}: GeoJSON no es FeatureCollection")
+              expected = int(row.get("expected_districts") or 0)
+              observed = len(payload.get("features", []))
+              if expected and observed != expected:
+                  raise SystemExit(f"{row.get('id')}: distritos observados {observed} != {expected}")
+          PY
+          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json)
+          [[ -n "$PRODUCTION_RUN_ID" ]] && args+=(--production-root /tmp/production --strict-request)
+          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
+
       - name: Persistir registro sólo después del preflight
         shell: bash
         run: |
@@ -265,27 +312,10 @@ jobs:
             sleep $((attempt * 2))
           done
 
-      - name: Empaquetar sitio completo desde activos verificados
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf site && mkdir -p site/dashboard
-          cp visor/index.html visor/app.js visor/styles.css site/
-          cp -R publicado/dashboard/. site/dashboard/
-          python herramientas/preparar_visor_ejecucion.py             --site site             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
-
-      - name: Acreditar resultado realmente cargado
-        shell: bash
-        run: |
-          set -euo pipefail
-          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry site/data/viewer-results.json --phase prepared --output .ddd-publication/publicacion_visor.json)
-          [[ -n "$PRODUCTION_RUN_ID" ]] && args+=(--production-root /tmp/production --strict-request)
-          python herramientas/evaluar_publicacion_visor.py "${args[@]}"
-
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
         with: {enablement: true}
       - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
-        with: {path: site}
+        with: {path: /tmp/site-candidate}
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 
@@ -298,7 +328,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-publication
-          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry site/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
+          args=(--requested-run-id "$PRODUCTION_RUN_ID" --registry /tmp/site-candidate/data/viewer-results.json --viewer-url "$PAGE_URL" --deployment-outcome "$DEPLOYMENT_OUTCOME" --phase final --output .ddd-publication/publicacion_visor.json)
           [[ -n "$PRODUCTION_RUN_ID" && -d /tmp/production ]] && args+=(--production-root /tmp/production)
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
           case "$TARGET_PAGE" in "Dashboard operativo") rel="dashboard/";; *) rel="";; esac
