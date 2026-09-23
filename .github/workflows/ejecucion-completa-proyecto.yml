@@ -291,7 +291,7 @@ jobs:
   puerta_03:
     name: Puerta de validación · 03 → 04
     needs: [planificar, puerta_02, preparar_electoral]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:

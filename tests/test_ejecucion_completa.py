@@ -187,6 +187,17 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         for name in ("puerta_01", "puerta_02", "puerta_03", "puerta_04"):
             self.assertEqual(jobs[name]["uses"], "./.github/workflows/_reutilizable-puerta-validacion.yml")
 
+    def test_pull_request_smoke_stops_after_territorial_product_gate(self):
+        data = load(ORCH)
+        jobs = data["jobs"]
+        puerta_03_if = jobs["puerta_03"]["if"]
+        self.assertIn("github.event_name != 'pull_request'", puerta_03_if)
+        self.assertIn("needs.puerta_03.result == 'success'", jobs["incorporar"]["if"])
+        self.assertIn("needs.puerta_03.result == 'success'", jobs["puerta_04"]["if"])
+        gate = (WF / "_reutilizable-puerta-validacion.yml").read_text(encoding="utf-8")
+        self.assertIn('audit_name="ddd-audit-electoral-$resolved_run_id"', gate)
+        self.assertNotIn('audit_name="ddd-audit-$resolved_run_id"\n              audit_name="ddd-audit-electoral-', gate)
+
     def test_validation_gate_contract_exposes_digest_and_spanish_decision(self):
         gate = (WF / "_reutilizable-puerta-validacion.yml").read_text(encoding="utf-8")
         validator = (ROOT / "herramientas/validar_puerta_ejecucion.py").read_text(encoding="utf-8")
