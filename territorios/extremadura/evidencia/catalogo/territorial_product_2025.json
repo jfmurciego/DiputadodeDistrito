@@ -4,10 +4,10 @@
   "territory_id": "extremadura",
   "territory_name": "Extremadura",
   "edition": "2025",
-  "run_id": 35755043806,
-  "artifact_name": "ddd-state-35755043806-M06",
-  "artifact_sha256": "ef339f0331ff355880517a87cedc7007e3f72ed027de1dd7d9ab56b43d95e756",
-  "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+  "run_id": 35859241320,
+  "artifact_name": "ddd-state-35859241320-M06",
+  "artifact_sha256": "745660acdd92bd3c6b689d4b7c98f7cd473915a0e42e354ca81c79869fe33bb0",
+  "source_commit": "f7e081780826e9c7c9ba3c4a1aac08e158bfda4f",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06"
 }
