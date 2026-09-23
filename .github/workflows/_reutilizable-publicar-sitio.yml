@@ -15,6 +15,9 @@ on:
       ensemble_release_tag:
         required: false
         type: string
+      ensemble_sha256:
+        required: false
+        type: string
       source_ref:
         required: false
         type: string
@@ -43,6 +46,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       PRODUCTION_RUN_ID: ${{ inputs.production_run_id || '' }}
       ENSEMBLE_RELEASE_TAG: ${{ inputs.ensemble_release_tag || '' }}
+      ENSEMBLE_SHA256: ${{ inputs.ensemble_sha256 || '' }}
       TARGET_PAGE: ${{ inputs.target_page || 'Visor territorial' }}
       PYTHONPATH: ${{ github.workspace }}
       PUBLICATION_REGISTRY: orchestracion/publicaciones_visor.json
@@ -234,6 +238,13 @@ jobs:
           [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
           tag="$ENSEMBLE_RELEASE_TAG"
           asset_name="$tag.zip"
+          expected_sha="$ENSEMBLE_SHA256"
+          [[ -n "$expected_sha" ]] || {
+            echo "::error::Ensemble $tag sin ensemble_sha256 acreditado"; exit 56;
+          }
+          [[ "$expected_sha" =~ ^[0-9a-f]{64}$ ]] || {
+            echo "::error::ensemble_sha256 mal formado para $tag"; exit 56;
+          }
           mkdir -p /tmp/release-resolution
           gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > /tmp/release-resolution/ensemble-releases.json
           python herramientas/resolver_release_asset.py release \
@@ -256,6 +267,9 @@ jobs:
           mkdir -p /tmp/ensemble/unpacked
           gh api -H 'Accept: application/octet-stream'             "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > /tmp/ensemble/asset
           sha="$(sha256sum /tmp/ensemble/asset | awk '{print $1}')"
+          [[ "$sha" == "$expected_sha" ]] || {
+            echo "::error::Ensemble $tag: SHA-256 observado $sha != acreditado $expected_sha"; exit 57;
+          }
           unzip -q /tmp/ensemble/asset -d /tmp/ensemble/unpacked
           python herramientas/registro_publicaciones_visor.py describe-ensemble             --ensemble-root /tmp/ensemble/unpacked             --release-tag "$tag"             --output /tmp/ensemble-descriptor.json
           entry="$(jq             --arg repository "$GITHUB_REPOSITORY"             --arg release_tag "$tag"             --arg asset_name "$asset_name"             --arg asset_id "$asset_id"             --arg sha256 "$sha"             '. + {
