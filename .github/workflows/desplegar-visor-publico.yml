@@ -7,6 +7,10 @@
 name: 05 · Publicación del Visor
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/desplegar-visor-publico.yml
   workflow_call:
     inputs:
       pagina_publicar: {required: false, type: string, default: Sitio completo}
