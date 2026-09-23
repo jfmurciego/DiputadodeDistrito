@@ -157,18 +157,7 @@ jobs:
             # El registro ya admite repository_blob como fuente durable. Usarlo evita
             # depender de api.uploads.github.com y mantiene el activo inmutable por SHA.
             blob_request="/tmp/$id-blob-request.json"
-            python - "$source" "$blob_request" <<'PY'
-import base64
-import json
-import sys
-from pathlib import Path
-
-source = Path(sys.argv[1])
-target = Path(sys.argv[2])
-with source.open("rb") as handle:
-    encoded = base64.b64encode(handle.read()).decode("ascii")
-target.write_text(json.dumps({"content": encoded, "encoding": "base64"}), encoding="utf-8")
-PY
+            python -c 'import base64,json,sys; from pathlib import Path; source=Path(sys.argv[1]); target=Path(sys.argv[2]); target.write_text(json.dumps({"content":base64.b64encode(source.read_bytes()).decode("ascii"),"encoding":"base64"}), encoding="utf-8")' "$source" "$blob_request"
             gh api --method POST "repos/$GITHUB_REPOSITORY/git/blobs" --input "$blob_request" > "/tmp/$id-blob.json"
             blob_sha="$(jq -r '.sha' "/tmp/$id-blob.json")"
             [[ "$blob_sha" =~ ^[0-9a-f]{40}$ ]] || {
