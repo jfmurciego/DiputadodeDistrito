@@ -160,11 +160,16 @@ jobs:
               gh release create "$tag" --draft --target "$GITHUB_SHA" --title "$tag"                 --notes 'Activo persistente e inmutable del visor DDD; no sustituir ni clobber.'
             fi
 
-            asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
-            if [[ -z "$asset_id" ]]; then
+            asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
+            [[ "$asset_count" =~ ^[0-9]+$ ]] || { echo "::error::$id: cardinalidad de asset inválida"; exit 54; }
+            if [[ "$asset_count" == "0" ]]; then
               gh release upload "$tag" "$durable"
-              asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"                 --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
+              asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"                 --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
             fi
+            [[ "$asset_count" == "1" ]] || {
+              echo "::error::$id: esperaba exactamente un release asset $asset_name; encontrados=$asset_count"; exit 54;
+            }
+            asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq ".assets[] | select(.name==\"$asset_name\") | .id")"
             [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: no se resolvió asset_id persistente"; exit 54; }
 
             persisted="/tmp/promotion-verify/$id"
@@ -196,9 +201,13 @@ jobs:
           [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
           tag="$ENSEMBLE_RELEASE_TAG"
           asset_name="$tag.zip"
-          asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
+          asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq "[.assets[] | select(.name==\"$asset_name\")] | length")"
+          [[ "$asset_count" == "1" ]] || {
+            echo "::error::Ensemble requiere exactamente un release asset: $tag/$asset_name; encontrados=$asset_count"; exit 56;
+          }
+          asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq ".assets[] | select(.name==\"$asset_name\") | .id")"
           [[ "$asset_id" =~ ^[0-9]+$ ]] || {
-            echo "::error::Ensemble sin release asset persistente: $tag/$asset_name"; exit 56;
+            echo "::error::Ensemble sin asset_id persistente: $tag/$asset_name"; exit 56;
           }
           rm -rf /tmp/ensemble
           mkdir -p /tmp/ensemble/unpacked
