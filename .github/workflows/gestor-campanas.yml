@@ -37,11 +37,8 @@ on:
       - '.github/workflows/_reutilizable-puerta-validacion.yml'
 
 permissions:
-  contents: write
+  contents: read
   actions: read
-  issues: write
-  pages: write
-  id-token: write
 
 jobs:
   preparar:
@@ -82,7 +79,50 @@ jobs:
             echo "manifest_sha256=$manifest_sha256"
             echo "manifest_path=$manifest_path"
           } >> "$GITHUB_OUTPUT"
-      - name: Smoke E2E sintético sin territorio
+      - name: Validar reutilización fija por contenido
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from herramientas.gestor_campana import assert_productive_launch
+          assert_productive_launch("workflow_dispatch", "main", "EXECUTE_CAMPAIGN_CONFIRMED")
+          PY
+          matrix='${{ steps.plan.outputs.matrix }}'
+          mkdir -p .ddd-campaign/preflight
+          jq -c '.include[]' <<<"$matrix" | while read -r row; do
+            slot="$(jq -r .slot <<<"$row")"
+            run_id="$(jq -r .reuse_run_id <<<"$row")"
+            source_sha="$(jq -r .reuse_source_sha <<<"$row")"
+            artifact_name="$(jq -r .reuse_artifact_name <<<"$row")"
+            artifact_digest="$(jq -r .reuse_artifact_sha256 <<<"$row")"
+            m01_name="$(jq -r .m01_artifact_name <<<"$row")"
+            m01_digest="$(jq -r .m01_artifact_sha256 <<<"$row")"
+
+            run_meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id")"
+            test "$(jq -r .head_sha <<<"$run_meta")" = "$source_sha" || {
+              echo "::error::Procedencia distinta para slot $slot"; exit 31;
+            }
+
+            artifact_meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            source_matches="$(jq --arg n "$artifact_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$artifact_meta")"
+            m01_matches="$(jq --arg n "$m01_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$artifact_meta")"
+            test "$source_matches" = 1 || { echo "::error::Artefacto fuente no único para slot $slot"; exit 32; }
+            test "$m01_matches" = 1 || { echo "::error::Evidencia M01 no única para slot $slot"; exit 33; }
+            actual_source_digest="$(jq -r --arg n "$artifact_name" '.artifacts[]|select(.name==$n and (.expired|not))|.digest|sub("^sha256:";"")' <<<"$artifact_meta")"
+            actual_m01_digest="$(jq -r --arg n "$m01_name" '.artifacts[]|select(.name==$n and (.expired|not))|.digest|sub("^sha256:";"")' <<<"$artifact_meta")"
+            test "$actual_source_digest" = "$artifact_digest" || { echo "::error::Digest fuente distinto para slot $slot"; exit 34; }
+            test "$actual_m01_digest" = "$m01_digest" || { echo "::error::Digest M01 distinto para slot $slot"; exit 35; }
+
+            root=".ddd-campaign/preflight/$slot"
+            mkdir -p "$root/source" "$root/m01"
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$root/source"
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$m01_name" --dir "$root/m01"
+            python herramientas/gestor_campana.py validate-reuse               --manifest "${{ steps.plan.outputs.manifest_path }}"               --slot "$slot" --root-dir .               --source-dir "$root/source" --m01-dir "$root/m01"
+          done
+      - name: E2E sintético de campaña sin ejecutar territorios
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash
         run: |
@@ -115,6 +155,16 @@ jobs:
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
       candidate_count: ${{ matrix.candidate_count }}
+      gerrychain_entrypoint: ${{ matrix.entrypoint }}
+      require_unique_hashes: ${{ matrix.require_unique_hashes }}
+      reuse_run_id: ${{ matrix.reuse_run_id }}
+      reuse_artifact_name: ${{ matrix.reuse_artifact_name }}
+      reuse_artifact_sha256: ${{ matrix.reuse_artifact_sha256 }}
+      reuse_source_sha: ${{ matrix.reuse_source_sha }}
+      expected_population_total: ${{ matrix.expected_population_total }}
+      expected_section_count: ${{ matrix.expected_section_count }}
+      expected_district_count: ${{ matrix.expected_district_count }}
+      expected_certification: ${{ matrix.expected_certification }}
 
   resumen:
     name: Resumen agregado de campaña
