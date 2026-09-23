@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: reutilizable interno
-# VERSIÓN: 2.0.0
+# VERSIÓN: 3.0.0
 # NOMBRE: Publicador interno multiterritorio de GitHub Pages
 # ESTADO: candidato
-# QUÉ HACE: registra promociones durables y reconstruye el sitio completo desde todas ellas.
+# QUÉ HACE: promueve a activos persistentes, preflight completo, registro atómico y despliegue único.
 name: _Publicador Interno del Sitio
 
 on:
@@ -51,7 +51,16 @@ jobs:
         with:
           ref: ${{ inputs.source_ref || github.sha }}
           token: ${{ github.token }}
-      - name: Preparar dependencias y validar activos
+
+      - name: Sincronizar registro durable actual
+        if: ${{ github.ref_name == 'main' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git reset --hard origin/main
+
+      - name: Preparar dependencias y materializador verificable
         shell: bash
         run: |
           set -euo pipefail
@@ -63,99 +72,192 @@ jobs:
           test -f publicado/dashboard/status.json
           test -f "$PUBLICATION_REGISTRY"
           python -m py_compile herramientas/preparar_visor_ejecucion.py herramientas/evaluar_publicacion_visor.py herramientas/registro_publicaciones_visor.py
+          mkdir -p .ddd-publication
+          cat > .ddd-publication/materializar_registro.sh <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          registry="$1"
+          target="$2"
+          rm -rf "$target"
+          mkdir -p "$target"
+          python herramientas/registro_publicaciones_visor.py validate --registry "$registry"
+          while IFS= read -r row; do
+            [[ -n "$row" ]] || continue
+            id="$(jq -r '.id' <<<"$row")"
+            source_type="$(jq -r '.source_type' <<<"$row")"
+            mkdir -p "$target/$id"
+            case "$source_type" in
+              release_asset)
+                asset_id="$(jq -r '.asset_id' <<<"$row")"
+                [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: asset_id inválido"; exit 51; }
+                gh api -H 'Accept: application/octet-stream'                   "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$target/$id/asset"
+                ;;
+              repository_blob)
+                blob_sha="$(jq -r '.blob_sha' <<<"$row")"
+                gh api "repos/$GITHUB_REPOSITORY/git/blobs/$blob_sha" > "$target/$id/blob.json"
+                [[ "$(jq -r '.encoding' "$target/$id/blob.json")" == "base64" ]] || {
+                  echo "::error::$id: blob sin codificación base64"; exit 52;
+                }
+                jq -r '.content' "$target/$id/blob.json" | tr -d '\n' | base64 --decode > "$target/$id/asset"
+                rm "$target/$id/blob.json"
+                ;;
+              *)
+                echo "::error::$id: fuente definitiva no permitida: $source_type"
+                exit 53
+                ;;
+            esac
+          done < <(jq -c '.products[]?, .ensembles[]?' "$registry")
+          python herramientas/registro_publicaciones_visor.py verify             --registry "$registry" --materialized-root "$target"
+          SH
+          chmod +x .ddd-publication/materializar_registro.sh
 
-      - name: Recuperar ejecución territorial solicitada
+      - name: Preflight completo del registro vigente
+        shell: bash
+        run: |
+          set -euo pipefail
+          .ddd-publication/materializar_registro.sh "$PUBLICATION_REGISTRY" /tmp/publications-current
+
+      - name: Recuperar ejecución solicitada como fuente transitoria
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
           rm -rf /tmp/production && mkdir -p /tmp/production
           gh run download "$PRODUCTION_RUN_ID" --pattern 'ddd-*' --dir /tmp/production
-          test -n "$(find /tmp/production -type f -print -quit)" || { echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43; }
+          test -n "$(find /tmp/production -type f -print -quit)" || {
+            echo '::error::La ejecución solicitada no contiene artefactos DDD.'; exit 43;
+          }
+          python herramientas/evaluar_publicacion_visor.py             --requested-run-id "$PRODUCTION_RUN_ID"             --production-root /tmp/production             --phase source             --output .ddd-publication/publicacion_visor.json             --strict-request
 
-      - name: Acreditar identidad de la ejecución descargada
+      - name: Promover productos a release persistente
         if: ${{ inputs.production_run_id != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          python herramientas/evaluar_publicacion_visor.py --requested-run-id "$PRODUCTION_RUN_ID" --production-root /tmp/production --phase source --output .ddd-publication/publicacion_visor.json --strict-request
+          python herramientas/registro_publicaciones_visor.py describe-production             --production-root /tmp/production             --run-id "$PRODUCTION_RUN_ID"             --output /tmp/product-descriptors.json
 
-      - name: Recuperar ensemble solicitado
+          printf '[]\n' > /tmp/new-entries.json
+          mkdir -p /tmp/promotion-assets /tmp/promotion-verify
+          while IFS= read -r row; do
+            [[ -n "$row" ]] || continue
+            id="$(jq -r '.id' <<<"$row")"
+            source="$(jq -r '.local_source' <<<"$row")"
+            territory="$(jq -r '.territory_id' <<<"$row")"
+            stage="$(jq -r '.stage | ascii_downcase' <<<"$row")"
+            sha="$(sha256sum "$source" | awk '{print $1}')"
+            tag="viewer-$territory-$PRODUCTION_RUN_ID-$stage-${sha:0:12}"
+            asset_name="$territory-$PRODUCTION_RUN_ID-$stage.geojson.zip"
+            durable="/tmp/promotion-assets/$asset_name"
+            cp "$source" "$durable"
+
+            if ! gh release view "$tag" >/dev/null 2>&1; then
+              gh release create "$tag" --draft --target "$GITHUB_SHA" --title "$tag"                 --notes 'Activo persistente e inmutable del visor DDD; no sustituir ni clobber.'
+            fi
+
+            asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"               --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
+            if [[ -z "$asset_id" ]]; then
+              gh release upload "$tag" "$durable"
+              asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"                 --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
+            fi
+            [[ "$asset_id" =~ ^[0-9]+$ ]] || { echo "::error::$id: no se resolvió asset_id persistente"; exit 54; }
+
+            persisted="/tmp/promotion-verify/$id"
+            gh api -H 'Accept: application/octet-stream'               "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
+            persisted_sha="$(sha256sum "$persisted" | awk '{print $1}')"
+            [[ "$persisted_sha" == "$sha" ]] || {
+              echo "::error::$id: el release asset no coincide con la fuente promovida"; exit 55;
+            }
+
+            entry="$(jq               --arg repository "$GITHUB_REPOSITORY"               --arg release_tag "$tag"               --arg asset_name "$asset_name"               --arg asset_id "$asset_id"               --arg sha256 "$sha"               '. | del(.local_source,.stage) + {
+                source_type:"release_asset",
+                repository:$repository,
+                release_tag:$release_tag,
+                asset_name:$asset_name,
+                asset_id:($asset_id|tonumber),
+                sha256:$sha256,
+                immutable_location:("github-release-asset://" + $repository + "/" + $asset_id)
+              }' <<<"$row")"
+            tmp="$(mktemp)"
+            jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
+            mv "$tmp" /tmp/new-entries.json
+          done < <(jq -c '.[]' /tmp/product-descriptors.json)
+
+      - name: Resolver ensemble persistente solicitado
         if: ${{ inputs.ensemble_release_tag != '' }}
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/ensemble && mkdir -p /tmp/ensemble/download /tmp/ensemble/unpacked
-          gh release download "$ENSEMBLE_RELEASE_TAG" --pattern "$ENSEMBLE_RELEASE_TAG.zip" --dir /tmp/ensemble/download
-          archive="$(find /tmp/ensemble/download -name '*.zip' -print -quit)"; test -n "$archive"
-          unzip -q "$archive" -d /tmp/ensemble/unpacked
+          [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
+          tag="$ENSEMBLE_RELEASE_TAG"
+          asset_name="$tag.zip"
+          asset_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag"             --jq ".assets[] | select(.name==\"$asset_name\") | .id" | head -1)"
+          [[ "$asset_id" =~ ^[0-9]+$ ]] || {
+            echo "::error::Ensemble sin release asset persistente: $tag/$asset_name"; exit 56;
+          }
+          rm -rf /tmp/ensemble
+          mkdir -p /tmp/ensemble/unpacked
+          gh api -H 'Accept: application/octet-stream'             "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > /tmp/ensemble/asset
+          sha="$(sha256sum /tmp/ensemble/asset | awk '{print $1}')"
+          unzip -q /tmp/ensemble/asset -d /tmp/ensemble/unpacked
+          python herramientas/registro_publicaciones_visor.py describe-ensemble             --ensemble-root /tmp/ensemble/unpacked             --release-tag "$tag"             --output /tmp/ensemble-descriptor.json
+          entry="$(jq             --arg repository "$GITHUB_REPOSITORY"             --arg release_tag "$tag"             --arg asset_name "$asset_name"             --arg asset_id "$asset_id"             --arg sha256 "$sha"             '. + {
+              source_type:"release_asset",
+              repository:$repository,
+              release_tag:$release_tag,
+              asset_name:$asset_name,
+              asset_id:($asset_id|tonumber),
+              sha256:$sha256,
+              immutable_location:("github-release-asset://" + $repository + "/" + $asset_id)
+            }' /tmp/ensemble-descriptor.json)"
+          tmp="$(mktemp)"
+          jq --argjson entry "$entry" '. + [$entry]' /tmp/new-entries.json > "$tmp"
+          mv "$tmp" /tmp/new-entries.json
 
-      - name: Promover solicitud al registro durable
+      - name: Construir candidato sin tocar el registro durable
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -n "$PRODUCTION_RUN_ID" ]]; then
-            python herramientas/registro_publicaciones_visor.py --registry "$PUBLICATION_REGISTRY" promote-production               --production-root /tmp/production --run-id "$PRODUCTION_RUN_ID"
-          fi
-          if [[ -n "$ENSEMBLE_RELEASE_TAG" ]]; then
-            python herramientas/registro_publicaciones_visor.py --registry "$PUBLICATION_REGISTRY" promote-ensemble               --ensemble-root /tmp/ensemble/unpacked --release-tag "$ENSEMBLE_RELEASE_TAG"
-          fi
+          [[ -f /tmp/new-entries.json ]] || printf '[]\n' > /tmp/new-entries.json
+          python herramientas/registro_publicaciones_visor.py candidate             --registry "$PUBLICATION_REGISTRY"             --entries /tmp/new-entries.json             --output /tmp/publicaciones_visor.candidate.json
 
-      - name: Persistir registro durable antes del despliegue
+      - name: Preflight completo del registro candidato
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- "$PUBLICATION_REGISTRY"; then
-            exit 0
-          fi
-          [[ "$GITHUB_REF_NAME" == "main" ]] || { echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45; }
+          .ddd-publication/materializar_registro.sh             /tmp/publicaciones_visor.candidate.json             /tmp/publications-candidate
+
+      - name: Persistir registro sólo después del preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp -s "$PUBLICATION_REGISTRY" /tmp/publicaciones_visor.candidate.json && exit 0
+          [[ "$GITHUB_REF_NAME" == "main" ]] || {
+            echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
+          }
+          cp /tmp/publicaciones_visor.candidate.json "$PUBLICATION_REGISTRY"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add "$PUBLICATION_REGISTRY"
-          git commit -m "chore: registrar publicación del visor"
+          git commit -m "chore: registrar activos persistentes del visor"
           for attempt in 1 2 3; do
             if git pull --rebase origin main && git push origin HEAD:main; then
               break
             fi
             git rebase --abort >/dev/null 2>&1 || true
-            [[ "$attempt" == 3 ]] && { echo "::error::No se pudo persistir el registro de publicaciones."; exit 48; }
+            [[ "$attempt" == 3 ]] && {
+              echo "::error::No se pudo persistir el registro de publicaciones."; exit 48;
+            }
             sleep $((attempt * 2))
           done
 
-      - name: Recuperar todos los productos promovidos
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf /tmp/publications && mkdir -p /tmp/publications
-          while IFS= read -r row; do
-            [[ -n "$row" ]] || continue
-            id="$(jq -r .id <<<"$row")"
-            run_id="$(jq -r .run_id <<<"$row")"
-            artifact="$(jq -r .artifact_name <<<"$row")"
-            mkdir -p "/tmp/publications/$id"
-            gh run download "$run_id" --name "$artifact" --dir "/tmp/publications/$id"
-          done < <(jq -c '.products[]? | select(.source_type=="workflow_artifact")' "$PUBLICATION_REGISTRY")
-          while IFS= read -r row; do
-            [[ -n "$row" ]] || continue
-            id="$(jq -r .id <<<"$row")"
-            tag="$(jq -r .release_tag <<<"$row")"
-            mkdir -p "/tmp/publications/$id/download" "/tmp/publications/$id/unpacked"
-            gh release download "$tag" --pattern "$tag.zip" --dir "/tmp/publications/$id/download"
-            archive="$(find "/tmp/publications/$id/download" -name '*.zip' -print -quit)"; test -n "$archive"
-            unzip -q "$archive" -d "/tmp/publications/$id/unpacked"
-            shopt -s dotglob nullglob
-            mv "/tmp/publications/$id/unpacked"/* "/tmp/publications/$id/" || true
-            rmdir "/tmp/publications/$id/unpacked" 2>/dev/null || true
-          done < <(jq -c '.ensembles[]? | select(.source_type=="release")' "$PUBLICATION_REGISTRY")
-
-      - name: Empaquetar sitio completo
+      - name: Empaquetar sitio completo desde activos verificados
         shell: bash
         run: |
           set -euo pipefail
           rm -rf site && mkdir -p site/dashboard
           cp visor/index.html visor/app.js visor/styles.css site/
           cp -R publicado/dashboard/. site/dashboard/
-          python herramientas/preparar_visor_ejecucion.py             --site site             --publication-registry "$PUBLICATION_REGISTRY"             --materialized-root /tmp/publications             --repository-root .
+          python herramientas/preparar_visor_ejecucion.py             --site site             --publication-registry /tmp/publicaciones_visor.candidate.json             --materialized-root /tmp/publications-candidate             --repository-root .
 
       - name: Acreditar resultado realmente cargado
         shell: bash
@@ -185,7 +287,7 @@ jobs:
           [[ -n "$PRODUCTION_RUN_ID" && -d /tmp/production ]] && args+=(--production-root /tmp/production)
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
           case "$TARGET_PAGE" in "Dashboard operativo") rel="dashboard/";; *) rel="";; esac
-          jq -n --arg pagina "$TARGET_PAGE" --arg url "$PAGE_URL$rel" --arg pages_root "$PAGE_URL" --arg run_id "$GITHUB_RUN_ID" '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id}' > .ddd-publication/pagina_publicada.json
+          jq -n --arg pagina "$TARGET_PAGE" --arg url "$PAGE_URL$rel" --arg pages_root "$PAGE_URL" --arg run_id "$GITHUB_RUN_ID"             '{pagina_solicitada:$pagina,url_objetivo:$url,pages_root:$pages_root,workflow_run_id:$run_id}'             > .ddd-publication/pagina_publicada.json
 
       - name: Publicar evidencia
         if: always()
