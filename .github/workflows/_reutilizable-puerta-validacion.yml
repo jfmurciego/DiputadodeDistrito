@@ -14,6 +14,8 @@ on:
       artifact_name: {required: true, type: string}
       expected_digest: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
+      audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
     outputs:
       decision:
         value: ${{ jobs.validar.outputs.decision }}
@@ -56,6 +58,7 @@ jobs:
           SOURCE_RUN_ID: ${{ inputs.run_id }}
           ARTIFACT_NAME: ${{ inputs.artifact_name }}
           EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+          AUDIT_ARTIFACT_NAME: ${{ inputs.audit_artifact_name }}
         run: |
           set -u -o pipefail
           rm -rf .ddd-gate && mkdir -p .ddd-gate/artifact .ddd-gate/audit
@@ -89,13 +92,18 @@ jobs:
           gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$ARTIFACT_NAME" --dir .ddd-gate/artifact || emit_blocked "No se pudo descargar $ARTIFACT_NAME" 42
           audit_args=()
           if [[ "$PHASE" == territorial_product || "$PHASE" == electoral_product ]]; then
-            if [[ "$PHASE" == electoral_product ]]; then
+            if [[ -n "$AUDIT_ARTIFACT_NAME" ]]; then
+              audit_name="$AUDIT_ARTIFACT_NAME"
+            elif [[ "$PHASE" == electoral_product ]]; then
               audit_name="ddd-audit-electoral-$resolved_run_id"
+            else
+              audit_name="ddd-audit-$resolved_run_id"
+            fi
+            if [[ "$PHASE" == electoral_product ]]; then
+              [[ "$audit_name" == ddd-audit-electoral-* ]] || emit_blocked "La puerta electoral exige acreditación electoral final, nunca certificación territorial: $audit_name" 43
               audit_metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$resolved_run_id/artifacts?per_page=100")"
               audit_count="$(jq --arg n "$audit_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$audit_metadata")"
               [[ "$audit_count" == "1" ]] || emit_blocked "La evidencia electoral final debe ser única: $audit_name ($audit_count artefactos)" 43
-            else
-              audit_name="ddd-audit-$resolved_run_id"
             fi
             gh run download "$resolved_run_id" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-gate/audit || emit_blocked "Falta certificación $audit_name" 43
             audit_args=(--audit-root .ddd-gate/audit)
@@ -115,7 +123,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-puerta-${{ inputs.phase }}-${{ github.run_id }}
+          name: ddd-puerta-${{ inputs.phase }}-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-gate/puerta.json
           if-no-files-found: error
           retention-days: 90

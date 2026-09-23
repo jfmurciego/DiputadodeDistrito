@@ -18,6 +18,9 @@ on:
       electoral_package_artifact_name: {required: true, type: string}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      territorial_product_artifact_name: {required: false, type: string, default: ''}
+      territorial_audit_artifact_name: {required: false, type: string, default: ''}
+      artifact_namespace: {required: false, type: string, default: ''}
 
 permissions:
   contents: write
@@ -50,7 +53,7 @@ jobs:
       - name: Recuperar producto territorial consolidado
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-state-${{ inputs.territorial_run_id }}-M06
+          name: ${{ inputs.territorial_product_artifact_name != '' && inputs.territorial_product_artifact_name || format('ddd-state-{0}-M06', inputs.territorial_run_id) }}
           path: .ddd-territorial-product
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -59,7 +62,7 @@ jobs:
       - name: Recuperar certificación territorial existente
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-audit-${{ inputs.territorial_run_id }}
+          name: ${{ inputs.territorial_audit_artifact_name != '' && inputs.territorial_audit_artifact_name || format('ddd-audit-{0}', inputs.territorial_run_id) }}
           path: .ddd-territorial-certification
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -174,7 +177,7 @@ jobs:
       - name: Conservar resultado agregado
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-M07
+          name: ddd-state-${{ github.run_id }}-M07${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state-electoral
           include-hidden-files: true
           if-no-files-found: error
@@ -195,7 +198,7 @@ jobs:
         name: Conservar producto electoral territorial
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-M08
+          name: ddd-state-${{ github.run_id }}-M08${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state-product
           include-hidden-files: true
           if-no-files-found: error
@@ -225,7 +228,7 @@ jobs:
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         name: Conservar certificación consumible por publicación
         with:
-          name: ddd-audit-electoral-${{ github.run_id }}
+          name: ddd-audit-electoral-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-audit
           include-hidden-files: true
           if-no-files-found: error
@@ -260,7 +263,7 @@ jobs:
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-electoral-application-report-${{ github.run_id }}
+          name: ddd-electoral-application-report-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: |
             .ddd-electoral-report
             .ddd-electoral-evidence
@@ -280,6 +283,7 @@ jobs:
       TERRITORY_ID: ${{ inputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
       PRODUCT_DIGEST: ${{ needs.incorporar.outputs.product_digest }}
+      ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -290,7 +294,9 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$PRODUCT_DIGEST" || { echo "::error::El producto electoral no tiene digest."; exit 49; }
-          artifact_name="ddd-state-$GITHUB_RUN_ID-M08"
+          suffix=''
+          [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
+          artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
           python herramientas/promover_catalogo_operacional.py             --kind electoral_product             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$artifact_name"             --artifact-sha256 "$PRODUCT_DIGEST"             --source-commit "$GITHUB_SHA"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions

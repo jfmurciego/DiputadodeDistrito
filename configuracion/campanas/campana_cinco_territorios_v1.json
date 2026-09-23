@@ -1,0 +1,19 @@
+{
+  "schema": "ddd.campaign-manifest/1.0",
+  "campaign_id": "campana_cinco_territorios_v1",
+  "data_edition": "2025",
+  "execution_mode": "Reutilizar progreso existente",
+  "optimization_algorithm": "GerryChain 50",
+  "candidate_count": 50,
+  "fail_fast": false,
+  "max_parallel": 5,
+  "retry_failed": false,
+  "campaign_confirmation": "EXECUTE_CAMPAIGN_CONFIRMED",
+  "territories": [
+    {"slot":"01","territory_id":"aragon","territory_name":"Aragón","publication_mode":"electoral"},
+    {"slot":"02","territory_id":"principado_de_asturias","territory_name":"Principado de Asturias","publication_mode":"electoral"},
+    {"slot":"03","territory_id":"galicia","territory_name":"Galicia","publication_mode":"electoral"},
+    {"slot":"04","territory_id":"castilla_y_leon","territory_name":"Castilla y León","publication_mode":"electoral"},
+    {"slot":"05","territory_id":"extremadura","territory_name":"Extremadura","publication_mode":"territorial_only"}
+  ]
+}

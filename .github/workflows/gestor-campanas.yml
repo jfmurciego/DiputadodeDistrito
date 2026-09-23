@@ -1,0 +1,156 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz humana de campaña
+# QUÉ HACE: valida un manifiesto versionado y lanza cinco territorios en paralelo desde el mismo commit.
+# NO HACE: reintentos, dispatch indirecto ni publicación de Pages.
+name: Gestor de campañas
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: Manifiesto de campaña
+        required: true
+        type: choice
+        default: campana_cinco_territorios_v1
+        options:
+          - campana_cinco_territorios_v1
+      confirmacion:
+        description: Confirmación explícita
+        required: true
+        type: choice
+        default: NO_EJECUTAR
+        options:
+          - NO_EJECUTAR
+          - EXECUTE_CAMPAIGN_CONFIRMED
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gestor-campanas.yml'
+      - 'configuracion/campanas/**'
+      - 'herramientas/gestor_campana.py'
+      - 'tests/test_gestor_campana.py'
+      - '.github/workflows/ejecucion-completa-proyecto.yml'
+      - '.github/workflows/produccion-distritos.yml'
+      - '.github/workflows/incorporacion-resultados-electorales.yml'
+      - '.github/workflows/_reutilizable-generacion-territorial.yml'
+      - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
+      - '.github/workflows/_reutilizable-puerta-validacion.yml'
+
+permissions:
+  contents: write
+  actions: read
+  issues: write
+  pages: write
+  id-token: write
+
+jobs:
+  preparar:
+    name: Validar manifiesto y fijar campaña
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      campaign_instance: ${{ steps.plan.outputs.campaign_instance }}
+      source_sha: ${{ steps.plan.outputs.source_sha }}
+      manifest_sha256: ${{ steps.plan.outputs.manifest_sha256 }}
+      manifest_path: ${{ steps.plan.outputs.manifest_path }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+      - id: plan
+        name: Construir matrix inmutable
+        shell: bash
+        env:
+          MANIFEST_ID: ${{ github.event_name == 'pull_request' && 'campana_cinco_territorios_v1' || inputs.manifest }}
+          CONFIRMATION_INPUT: ${{ github.event_name == 'pull_request' && 'EXECUTE_CAMPAIGN_CONFIRMED' || inputs.confirmacion }}
+        run: |
+          set -euo pipefail
+          manifest_path="configuracion/campanas/$MANIFEST_ID.json"
+          test -f "$manifest_path" || { echo "::error::Manifiesto no permitido: $MANIFEST_ID"; exit 20; }
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            test "$GITHUB_REF_NAME" = main || { echo "::error::Las campañas sólo se lanzan desde main."; exit 21; }
+            test "$CONFIRMATION_INPUT" = EXECUTE_CAMPAIGN_CONFIRMED || { echo "::error::Falta confirmación explícita."; exit 22; }
+          fi
+          source_sha="$GITHUB_SHA"
+          campaign_instance="campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          matrix="$(python herramientas/gestor_campana.py matrix --manifest "$manifest_path" --source-sha "$source_sha" --campaign-instance "$campaign_instance" --confirmation "$CONFIRMATION_INPUT")"
+          manifest_sha256="$(sha256sum "$manifest_path" | awk '{print $1}')"
+          {
+            echo "matrix=$matrix"
+            echo "campaign_instance=$campaign_instance"
+            echo "source_sha=$source_sha"
+            echo "manifest_sha256=$manifest_sha256"
+            echo "manifest_path=$manifest_path"
+          } >> "$GITHUB_OUTPUT"
+      - name: Smoke E2E sintético sin territorio
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest tests.test_gestor_campana
+          python herramientas/gestor_campana.py validate --manifest configuracion/campanas/campana_cinco_territorios_v1.json
+
+  territorios:
+    name: ${{ matrix.slot }} · ${{ matrix.territory_name }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: preparar
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.preparar.outputs.matrix) }}
+    uses: ./.github/workflows/ejecucion-completa-proyecto.yml
+    secrets: inherit
+    with:
+      territory_id: ${{ matrix.territory_name }}
+      data_edition: ${{ matrix.data_edition }}
+      execution_mode: ${{ matrix.execution_mode }}
+      optimization_algorithm: ${{ matrix.optimization_algorithm }}
+      publish_result: false
+      source_ref: ${{ matrix.source_sha }}
+      persist_state: false
+      publication_mode: ${{ matrix.publication_mode }}
+      artifact_namespace: ${{ matrix.artifact_namespace }}
+      campaign_instance: ${{ matrix.campaign_instance }}
+      campaign_slot: ${{ matrix.slot }}
+      campaign_namespace: ${{ matrix.namespace }}
+      campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
+      candidate_count: ${{ matrix.candidate_count }}
+
+  resumen:
+    name: Resumen agregado de campaña
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && needs.preparar.result == 'success' }}
+    needs: [preparar, territorios]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ needs.preparar.outputs.source_sha }}
+      - name: Recuperar todos los resultados territoriales
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          pattern: ddd-campaign-territory-*
+          path: .ddd-campaign/reports
+          merge-multiple: false
+      - id: aggregate
+        name: Conservar todos los fallos individuales
+        shell: bash
+        run: |
+          set +e
+          mkdir -p .ddd-campaign/summary
+          python herramientas/gestor_campana.py aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --campaign-instance "${{ needs.preparar.outputs.campaign_instance }}"             --source-sha "${{ needs.preparar.outputs.source_sha }}"             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
+          rc=$?
+          echo "aggregate_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
+          path: .ddd-campaign/summary
+          if-no-files-found: error
+          retention-days: 90
+      - name: Aplicar estado agregado
+        shell: bash
+        run: |
+          test "${{ steps.aggregate.outputs.aggregate_rc }}" = 0 || {
+            echo "::error::La campaña conserva uno o más fallos territoriales; consulte el resumen agregado."
+            exit 2
+          }

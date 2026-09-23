@@ -18,6 +18,13 @@ on:
       publish_result: {required: false, type: boolean, default: false}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      publication_mode: {required: false, type: string, default: electoral}
+      artifact_namespace: {required: false, type: string, default: ''}
+      campaign_instance: {required: false, type: string, default: ''}
+      campaign_slot: {required: false, type: string, default: ''}
+      campaign_namespace: {required: false, type: string, default: ''}
+      campaign_manifest_sha256: {required: false, type: string, default: ''}
+      candidate_count: {required: false, type: number, default: 0}
   pull_request:
     branches: [main]
     paths:
@@ -116,6 +123,8 @@ jobs:
       source_ref: ${{ steps.plan.outputs.source_ref }}
       persist_state: ${{ steps.plan.outputs.persist_state }}
       publish_result: ${{ steps.plan.outputs.publish_result }}
+      publication_mode: ${{ steps.plan.outputs.publication_mode }}
+      artifact_suffix: ${{ steps.plan.outputs.artifact_suffix }}
       run_prepare_territorial: ${{ steps.plan.outputs.run_prepare_territorial }}
       run_generate: ${{ steps.plan.outputs.run_generate }}
       run_prepare_electoral: ${{ steps.plan.outputs.run_prepare_electoral }}
@@ -148,6 +157,13 @@ jobs:
           SOURCE_REF: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.source_ref || github.ref_name }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
+          PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode }}
+          ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+          CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
+          CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
+          CAMPAIGN_NAMESPACE: ${{ inputs.campaign_namespace }}
+          CAMPAIGN_MANIFEST_SHA256: ${{ inputs.campaign_manifest_sha256 }}
+          CANDIDATE_COUNT: ${{ inputs.candidate_count }}
         run: |
           set -euo pipefail
           case "$UI_MODE" in
@@ -162,6 +178,21 @@ jobs:
             extra_plan_args+=(--reuse-existing-optimization)
           fi
           python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --optimization-algorithm "$UI_ALGORITHM" "${extra_plan_args[@]}"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
+          python - "$PUBLICATION_MODE" "$CAMPAIGN_INSTANCE" "$CAMPAIGN_SLOT" "$CAMPAIGN_NAMESPACE" "$CAMPAIGN_MANIFEST_SHA256" "$CANDIDATE_COUNT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          path=Path(".ddd-full-run/plan.json")
+          p=json.loads(path.read_text(encoding="utf-8"))
+          publication_mode,campaign_instance,slot,namespace,manifest_sha,candidate_count=sys.argv[1:]
+          if publication_mode not in {"electoral","territorial_only"}:
+              raise SystemExit("publication_mode inválido: "+publication_mode)
+          p["publication_mode"]=publication_mode
+          p["campaign"]={"campaign_instance":campaign_instance or None,"slot":slot or None,"namespace":namespace or None,"manifest_sha256":manifest_sha or None,"candidate_count":int(candidate_count or 0)}
+          if publication_mode=="territorial_only":
+              p["run_prepare_electoral"]=False
+              p["run_incorporate"]=False
+          path.write_text(json.dumps(p,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           p=json.load(open(".ddd-full-run/plan.json",encoding="utf-8"))
@@ -177,6 +208,7 @@ jobs:
           out("execution_mode_internal",p["execution_mode"])
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
+          out("publication_mode",p.get("publication_mode","electoral"))
           for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate"):
               out(key,p[key])
           existing=p["existing"]
@@ -209,10 +241,11 @@ jobs:
             echo "source_ref=$SOURCE_REF"
             echo "persist_state=$persist"
             echo "publish_result=$publish"
+            echo "artifact_suffix=$([[ -n "$ARTIFACT_NAMESPACE" ]] && printf -- "-%s" "$ARTIFACT_NAMESPACE" || true)"
           } >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-full-run-plan-${{ github.run_id }}
+          name: ddd-full-run-plan-${{ github.run_id }}${{ steps.plan.outputs.artifact_suffix }}
           path: .ddd-full-run/plan.json
           if-no-files-found: error
           retention-days: 30
@@ -260,6 +293,7 @@ jobs:
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
 
   puerta_02:
     name: Puerta de validación · 02 → 03
@@ -272,7 +306,9 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.generar.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_product_run_id }}
-      artifact_name: ${{ needs.generar.result == 'success' && format('ddd-state-{0}-M06', github.run_id) || needs.planificar.outputs.existing_territorial_product_artifact }}
+      artifact_name: ${{ needs.generar.result == 'success' && format('ddd-state-{0}-M06{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || needs.planificar.outputs.existing_territorial_product_artifact }}
+      audit_artifact_name: ${{ needs.generar.result == 'success' && format('ddd-audit-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
       expected_digest: ${{ needs.generar.result != 'success' && needs.planificar.outputs.existing_territorial_product_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
@@ -291,7 +327,7 @@ jobs:
   puerta_03:
     name: Puerta de validación · 03 → 04
     needs: [planificar, puerta_02, preparar_electoral]
-    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    if: ${{ always() && github.event_name != 'pull_request' && inputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -302,6 +338,7 @@ jobs:
       artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
       expected_digest: ${{ needs.preparar_electoral.result != 'success' && needs.planificar.outputs.existing_electoral_source_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
 
   incorporar:
     name: 04 · Incorporar resultados electorales
@@ -313,15 +350,18 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       territorial_run_id: ${{ needs.puerta_02.outputs.run_id }}
+      territorial_product_artifact_name: ${{ needs.puerta_02.outputs.artifact_name }}
+      territorial_audit_artifact_name: ${{ needs.generar.result == 'success' && format('ddd-audit-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
 
   puerta_04:
     name: Puerta de validación · 04 → estado operativo
     needs: [planificar, puerta_02, puerta_03, incorporar]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    if: ${{ always() && inputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -329,7 +369,9 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       run_id: ${{ needs.incorporar.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_product_run_id }}
-      artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-state-{0}-M08', github.run_id) || needs.planificar.outputs.existing_electoral_product_artifact }}
+      artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-state-{0}-M08{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || needs.planificar.outputs.existing_electoral_product_artifact }}
+      audit_artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-audit-electoral-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
+      artifact_namespace: ${{ inputs.artifact_namespace }}
       expected_digest: ${{ needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
 
@@ -379,7 +421,7 @@ jobs:
           echo "source_ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-estado-operativo-${{ github.run_id }}
+          name: ddd-estado-operativo-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}
           path: |
             orchestracion/estado_operativo.json
             publicado/dashboard/status.json
@@ -396,6 +438,91 @@ jobs:
     with:
       pagina_publicar: Sitio completo
       production_run_id: ${{ needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id }}
+
+  campaign_status:
+    name: Evidencia aislada de campaña
+    needs: [planificar, generar, puerta_02, preparar_electoral, puerta_03, incorporar, puerta_04]
+    if: ${{ always() && inputs.campaign_instance != '' && needs.planificar.result == 'success' }}
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
+      TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
+      PUBLICATION_MODE: ${{ inputs.publication_mode }}
+      ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
+      CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
+      CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
+      CAMPAIGN_NAMESPACE: ${{ inputs.campaign_namespace }}
+      MANIFEST_SHA256: ${{ inputs.campaign_manifest_sha256 }}
+      CANDIDATE_COUNT: ${{ inputs.candidate_count }}
+      SOURCE_SHA: ${{ needs.planificar.outputs.source_ref }}
+      TERRITORIAL_GATE_RESULT: ${{ needs.puerta_02.result }}
+      ELECTORAL_GATE_RESULT: ${{ needs.puerta_04.result }}
+      TERRITORIAL_RUN_ID: ${{ needs.puerta_02.outputs.run_id }}
+      TERRITORIAL_ARTIFACT: ${{ needs.puerta_02.outputs.artifact_name }}
+      ELECTORAL_RUN_ID: ${{ needs.puerta_04.outputs.run_id }}
+      ELECTORAL_ARTIFACT: ${{ needs.puerta_04.outputs.artifact_name }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ needs.planificar.outputs.source_ref }}
+      - name: Materializar candidatos, galería y resumen territoriales
+        shell: bash
+        run: |
+          set -uo pipefail
+          root=".ddd-campaign/bundle/$CAMPAIGN_SLOT/$TERRITORY_ID"
+          mkdir -p "$root/candidates" "$root/gallery" "$root/summary"
+          candidate_count_actual=0
+          reason=""
+          if [[ "$TERRITORIAL_GATE_RESULT" == success && -n "$TERRITORIAL_ARTIFACT" ]]; then
+            mkdir -p .ddd-campaign/m06
+            if gh run download "$TERRITORIAL_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$TERRITORIAL_ARTIFACT" --dir .ddd-campaign/m06 >/dev/null 2>&1; then
+              portfolio="$(find .ddd-campaign/m06 -name portfolio.json -type f -print -quit)"
+              if [[ -n "$portfolio" ]]; then
+                portfolio_dir="$(dirname "$portfolio")"
+                cp -a "$portfolio_dir/." "$root/candidates/"
+                candidate_count_actual="$(jq -r '.candidate_count // 0' "$portfolio")"
+                python - "$portfolio" "$root/gallery/index.html" "$CAMPAIGN_NAMESPACE" <<'PY'
+          import html,json,sys
+          from pathlib import Path
+          portfolio=Path(sys.argv[1]); output=Path(sys.argv[2]); namespace=sys.argv[3]
+          data=json.loads(portfolio.read_text(encoding="utf-8"))
+          items=[]
+          for row in data.get("candidates",[]):
+              name=Path(str(row.get("geojson",""))).name
+              items.append("<li>%03d · seed %s · %s</li>" % (int(row.get("index",0)),html.escape(str(row.get("seed",""))),html.escape(name)))
+          output.write_text("<!doctype html><meta charset=utf-8><title>DDD campaña</title><h1>"+html.escape(namespace)+"</h1><p>Candidatos GerryChain 50</p><ol>"+"".join(items)+"</ol>",encoding="utf-8")
+          PY
+              else
+                reason="portfolio.json ausente en producto territorial"
+              fi
+            else
+              reason="no se pudo recuperar el producto territorial"
+            fi
+          else
+            reason="producto territorial no validado"
+          fi
+          status=PASS
+          if [[ "$candidate_count_actual" != "$CANDIDATE_COUNT" ]]; then
+            status=FAIL
+            reason="${reason:+$reason; }candidatos=$candidate_count_actual/$CANDIDATE_COUNT"
+          fi
+          if [[ "$PUBLICATION_MODE" == electoral && "$ELECTORAL_GATE_RESULT" != success ]]; then
+            status=FAIL
+            reason="${reason:+$reason; }producto electoral no validado"
+          fi
+          if [[ "$PUBLICATION_MODE" == territorial_only && "$TERRITORIAL_GATE_RESULT" != success ]]; then
+            status=FAIL
+            reason="${reason:+$reason; }producto territorial no validado"
+          fi
+          jq -n             --arg campaign_instance "$CAMPAIGN_INSTANCE" --arg slot "$CAMPAIGN_SLOT"             --arg territory_id "$TERRITORY_ID" --arg territory_name "$TERRITORY_NAME"             --arg namespace "$CAMPAIGN_NAMESPACE" --arg artifact_namespace "$ARTIFACT_NAMESPACE"             --arg source_sha "$SOURCE_SHA" --arg manifest_sha256 "$MANIFEST_SHA256"             --arg publication_mode "$PUBLICATION_MODE" --arg status "$status" --arg reason "$reason"             --arg territorial_run_id "$TERRITORIAL_RUN_ID" --arg territorial_artifact "$TERRITORIAL_ARTIFACT"             --arg electoral_run_id "$ELECTORAL_RUN_ID" --arg electoral_artifact "$ELECTORAL_ARTIFACT"             --argjson candidate_count_expected "$CANDIDATE_COUNT" --argjson candidate_count_actual "$candidate_count_actual"             '{schema:"ddd.campaign-territory-status/1.0",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,candidate_count_expected:$candidate_count_expected,candidate_count_actual:$candidate_count_actual,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact}}'             > "$root/summary/campaign_status.json"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-campaign-territory-${{ inputs.artifact_namespace }}
+          path: .ddd-campaign/bundle
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
 
   manifestar:
     name: Registrar manifiesto de ejecución completa
@@ -428,7 +555,7 @@ jobs:
         if: ${{ needs.planificar.outputs.run_generate == 'true' && needs.generar.result == 'success' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-state-${{ github.run_id }}-M06
+          name: ${{ needs.puerta_02.outputs.artifact_name }}
           path: .ddd-optimization-state
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
@@ -455,7 +582,7 @@ jobs:
           python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --output .ddd-full-run/manifest.json
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-full-run-manifest-${{ github.run_id }}
+          name: ddd-full-run-manifest-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}
           path: .ddd-full-run/manifest.json
           if-no-files-found: error
           retention-days: 90
