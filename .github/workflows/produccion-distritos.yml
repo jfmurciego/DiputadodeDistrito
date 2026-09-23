@@ -23,6 +23,8 @@ on:
       persist_state: {required: false, type: boolean, default: true}
       invocation_context: {required: false, type: string, default: reusable}
       artifact_namespace: {required: false, type: string, default: ''}
+      gerrychain_entrypoint: {required: false, type: string, default: ''}
+      require_unique_hashes: {required: false, type: boolean, default: false}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -396,4 +398,6 @@ jobs:
       persist_state: ${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}
       optimization_algorithm: ${{ inputs.optimization_algorithm }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
+      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
+      require_unique_hashes: ${{ inputs.require_unique_hashes }}
 
