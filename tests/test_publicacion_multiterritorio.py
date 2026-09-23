@@ -298,6 +298,65 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         self.assertIn("needs.actualizar_estado.result == 'success'", workflow)
         self.assertIn("needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id", workflow)
 
+    def test_valid_geojson_with_wrong_district_count_blocks_candidate_and_preserves_registry_bytes(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            materialized = root / "materialized"
+            site = root / "site-candidate"
+            existing = release_product(materialized, "territorio_a", "101", "A")
+            base = {"schema": SCHEMA, "products": [existing], "ensembles": []}
+            registry_path = root / "publicaciones_visor.json"
+            registry_path.write_bytes((json.dumps(base, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+            before = registry_path.read_bytes()
+
+            mismatched = release_product(materialized, "territorio_b", "202", "B")
+            mismatched["expected_districts"] = 2
+            candidate = make_candidate(base, [mismatched])
+            candidate_path = root / "publicaciones_visor.candidate.json"
+            candidate_path.write_text(
+                json.dumps(candidate, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            # El activo existe, su SHA es correcto y el GeoJSON es sintácticamente válido.
+            verify_materialized_registry(candidate, materialized)
+            self.assertEqual(
+                json.loads(
+                    zipfile.ZipFile(materialized / mismatched["id"] / "asset")
+                    .read("territorio_b_m06.geojson")
+                    .decode("utf-8")
+                )["type"],
+                "FeatureCollection",
+            )
+
+            commit_marker = root / "registry-committed"
+            deploy_marker = root / "pages-deployed"
+            with self.assertRaisesRegex(ValueError, "distritos observados 1 != 2"):
+                build_from_publication_registry(candidate_path, ROOT, materialized, site)
+                commit_marker.touch()
+                deploy_marker.touch()
+
+            self.assertEqual(registry_path.read_bytes(), before)
+            self.assertFalse(commit_marker.exists())
+            self.assertFalse(deploy_marker.exists())
+
+    def test_publisher_order_is_preflight_candidate_build_validation_persist_deploy(self):
+        text = PUBLISHER.read_text(encoding="utf-8")
+        preflight = text.index("Preflight completo del registro candidato")
+        build = text.index("Construir sitio candidato completo")
+        validate = text.index("Validar sitio candidato completo")
+        persist = text.index("Persistir registro sólo después del preflight")
+        upload = text.index("actions/upload-pages-artifact@")
+        deploy = text.index("actions/deploy-pages@")
+        self.assertLess(preflight, build)
+        self.assertLess(build, validate)
+        self.assertLess(validate, persist)
+        self.assertLess(persist, upload)
+        self.assertLess(upload, deploy)
+        self.assertIn("with: {path: /tmp/site-candidate}", text)
+        self.assertEqual(text.count("--site /tmp/site-candidate"), 1)
+        self.assertNotIn("--site site ", text)
+
     def test_publisher_preflights_current_and_candidate_before_registry_copy_or_pages(self):
         text = PUBLISHER.read_text(encoding="utf-8")
         current = text.index("Preflight completo del registro vigente")
