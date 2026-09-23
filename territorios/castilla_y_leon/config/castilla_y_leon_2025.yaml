@@ -119,8 +119,9 @@ modulos:
     in_geojson: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
     out_edges_jsonl: territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
-    predicate: touches
+    predicate: contact
     min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
     buffer_m: 0.0
     simplify_m: 0.0
     max_candidates: 0

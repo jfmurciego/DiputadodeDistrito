@@ -2,8 +2,17 @@
 # -*- coding: utf-8 -*-
 """Pruebas sintéticas reutilizables del preflight topológico territorial."""
 import unittest
+import importlib.util
+from pathlib import Path
+from shapely.geometry import Polygon
 
 from ddd_core.topology_preflight import evaluate_topology_preflight
+
+
+_M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).resolve().parents[1] / "modulos" / "02_construir_adyacencias.py")
+_M02 = importlib.util.module_from_spec(_M02_SPEC)
+_M02_SPEC.loader.exec_module(_M02)
+_relation_ok = _M02._relation_ok
 
 
 def unit(province="01", municipality="001", multipart=False):
@@ -147,6 +156,29 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         )
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("declared scope municipality:00001", r["bridges"]["rejected"][0]["rejection_reason"])
+
+
+class ContactPredicateSyntheticCases(unittest.TestCase):
+    def test_micro_overlap_with_shared_border_is_edge(self):
+        a=Polygon([(0,0),(10,0),(10,10),(0,10)])
+        # Comparte 9 m de borde, pero una cuña de 0,005 m² invade A: no es touches.
+        b=Polygon([(10,0),(20,0),(20,10),(10,10),(10,6),(9.99,5.5),(10,5),(10,0)])
+        self.assertFalse(a.touches(b))
+        self.assertGreaterEqual(a.boundary.intersection(b.boundary).length,1.0)
+        self.assertLess(a.intersection(b).area,1.0)
+        self.assertTrue(_relation_ok(a,b,"contact",1.0,1.0))
+
+    def test_overlap_above_precision_budget_is_rejected(self):
+        a=Polygon([(0,0),(10,0),(10,10),(0,10)]); b=Polygon([(9,0),(20,0),(20,10),(9,10)])
+        self.assertFalse(_relation_ok(a,b,"contact",1.0,1.0))
+
+    def test_point_contact_is_rejected(self):
+        a=Polygon([(0,0),(10,0),(10,10),(0,10)]); b=Polygon([(10,10),(20,10),(20,20),(10,20)])
+        self.assertFalse(_relation_ok(a,b,"contact",1.0,1.0))
+
+    def test_shared_border_below_one_metre_is_rejected(self):
+        a=Polygon([(0,0),(10,0),(10,10),(0,10)]); b=Polygon([(10,9.5),(20,9.5),(20,10),(10,10)])
+        self.assertFalse(_relation_ok(a,b,"contact",1.0,1.0))
 
 
 if __name__ == "__main__":
