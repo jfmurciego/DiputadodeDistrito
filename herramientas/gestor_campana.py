@@ -575,7 +575,10 @@ def package_campaign_gallery(
     portfolio_path = _single(bundle_root, "portfolio.json")
     status = json.loads(status_path.read_text(encoding="utf-8"))
     portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
-    strict = validate_portfolio_contract(portfolio)
+    strict = validate_portfolio_bundle(
+        bundle_root,
+        expected_districts=int(expected_districts),
+    )
     required_status = {
         "status": "PASS",
         "entrypoint": ENTRYPOINT,
