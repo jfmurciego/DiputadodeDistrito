@@ -9,7 +9,7 @@ import unicodedata
 from pathlib import Path
 import yaml
 
-from herramientas.catalogo_territorios import load_master, normalize_territory_input
+try:\n    from herramientas.catalogo_territorios import load_master, normalize_territory_input\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import load_master, normalize_territory_input
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "fuentes/territorios_espana.yaml"
