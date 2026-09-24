@@ -62,6 +62,15 @@ class TerritoryCatalogOrderingTests(unittest.TestCase):
         ids = [row["territory_id"] for row in self.rows]
         self.assertLess(ids.index("castilla_y_leon"), ids.index("castilla_la_mancha"))
 
+    def test_source_registry_mirrors_master_identity_but_not_code_authority(self):
+        registry = yaml.safe_load((ROOT / "fuentes/territorios_espana.yaml").read_text(encoding="utf-8"))
+        rows = registry["territories"]
+        self.assertEqual(
+            [(row["id"], row["name"]) for row in rows],
+            [(row["territory_id"], row["name"]) for row in self.rows],
+        )
+        self.assertTrue(all("autonomous_community_code_ine" not in row for row in rows))
+
     def test_all_workflow_choices_match_master_and_order(self):
         for filename in FORM_WORKFLOWS:
             with self.subTest(workflow=filename):
