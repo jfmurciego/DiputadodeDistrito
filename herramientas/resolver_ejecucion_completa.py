@@ -5,9 +5,38 @@ import json
 import re
 from pathlib import Path
 
+import yaml
+
 from herramientas.catalogo_preparacion import lookup
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
+
+
+def generation_enablement(*, root_dir: Path, contract_path: str | None, territory_id: str) -> dict:
+    """Determine generation readiness from the effective territorial contract."""
+    path = root_dir / contract_path if contract_path else None
+    if path is None or not path.is_file():
+        return {"allowed": False, "reason": "contrato territorial efectivo ausente"}
+    try:
+        contract = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError):
+        return {"allowed": False, "reason": "contrato territorial efectivo ilegible"}
+    if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
+        return {"allowed": False, "reason": "identidad del contrato territorial no coincide"}
+    meta = contract["meta"]
+    status = (contract.get("territory_contract") or {}).get("status")
+    if meta.get("status") == status == "generation_ready":
+        return {"allowed": True, "route": "declared_generation_ready"}
+    partitioning = contract.get("partitioning") or {}
+    m04 = (contract.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
+    if (partitioning.get("enabled") is True
+            and partitioning.get("strategy") == "connected_internal_units"
+            and partitioning.get("output_geojson")
+            and partitioning["output_geojson"] == m04.get("in_geojson")
+            and partitioning.get("partition_unit_field")
+            and partitioning["partition_unit_field"] == m04.get("municipality_field")):
+        return {"allowed": True, "route": "linked_internal_partitioning"}
+    return {"allowed": False, "reason": f"contrato territorial sin generación habilitada: {status or 'sin estado'}"}
 
 
 def _load_json(path: str | None, root: Path) -> dict:
@@ -98,7 +127,12 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     # En ejecución manual, 00 expone una elección explícita de algoritmo y 02 debe
     # ejecutarse. El smoke de pull request puede desactivar esta fuerza para validar
     # la orquestación sin recalcular un territorio ya certificado.
-    run_generate = bool(from_start or run_prepare_territorial or not territorial_product_ready or optimization_algorithm != "Canónico" or force_selected_algorithm)
+    generation_gate = generation_enablement(root_dir=root_dir, contract_path=row.get("contract_path"),
+                                            territory_id=row["territory_id"])
+    proposed_generate = bool(from_start or run_prepare_territorial or not territorial_product_ready or optimization_algorithm != "Canónico" or force_selected_algorithm)
+    if proposed_generate and not generation_gate["allowed"]:
+        raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
+    run_generate = proposed_generate
     run_prepare_electoral = from_start or not electoral_source_ready
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
 
@@ -144,6 +178,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 "decision": "VALIDADO" if electoral_product_ready else None,
             },
         },
+        "generation_gate": generation_gate,
         "catalog_state": {
             "territorial_sources_prepared": territorial_sources_ready,
             "territorial_product_available": territorial_product_ready,
@@ -163,6 +198,62 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     if not run_incorporate and not plan["existing"]["electoral_product"]["run_id"]:
         raise ValueError("El catálogo marca producto electoral disponible pero no existe evidencia durable con run_id")
 
+    return plan
+
+
+def apply_explicit_territorial_source(
+    plan: dict,
+    *,
+    root_dir: Path = Path("."),
+    reuse_run_id: str = "",
+    reuse_artifact_name: str = "",
+    reuse_artifact_sha256: str = "",
+    reuse_source_sha: str = "",
+    campaign_instance: str = "",
+    expected_population: str = "",
+    expected_sections: str = "",
+    expected_districts: str = "",
+    expected_certification: str = "",
+) -> dict:
+    """Fix the preflight-approved source, regardless of campaign status reporting."""
+    fields = (reuse_run_id, reuse_artifact_name, reuse_artifact_sha256, reuse_source_sha)
+    if not any(fields):
+        if campaign_instance:
+            raise ValueError("Procedencia explícita incompleta")
+        return plan
+    if not all(fields):
+        raise ValueError("Procedencia explícita incompleta")
+    if not reuse_run_id.isdecimal() or int(reuse_run_id) <= 0:
+        raise ValueError("reuse_run_id inválido")
+    if not re.fullmatch(r"[0-9a-f]{64}", reuse_artifact_sha256):
+        raise ValueError("reuse_artifact_sha256 inválido")
+    if not re.fullmatch(r"[0-9a-f]{40}", reuse_source_sha):
+        raise ValueError("reuse_source_sha inválido")
+    gate = generation_enablement(root_dir=root_dir, contract_path=plan.get("contract_path"),
+                                 territory_id=plan.get("territory_id", ""))
+    if not gate["allowed"]:
+        raise ValueError(f"GENERATION_CONTRACT_BLOCK: Fuente explícita no habilita generación: {gate['reason']}")
+
+    plan["execution_mode"] = "from_start"
+    plan["run_prepare_territorial"] = False
+    plan["run_generate"] = True
+    plan["existing"]["territorial_source"] = {
+        "run_id": int(reuse_run_id),
+        "artifact_name": reuse_artifact_name,
+        "artifact_sha256": reuse_artifact_sha256,
+        "source_commit": reuse_source_sha,
+    }
+    if campaign_instance:
+        plan["campaign"]["reuse"] = {
+            "run_id": int(reuse_run_id),
+            "artifact_name": reuse_artifact_name,
+            "artifact_sha256": reuse_artifact_sha256,
+            "source_sha": reuse_source_sha,
+            "expected_population_total": int(expected_population),
+            "expected_section_count": int(expected_sections),
+            "expected_district_count": int(expected_districts),
+            "expected_certification": expected_certification,
+        }
     return plan
 
 

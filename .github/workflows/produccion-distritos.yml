@@ -346,8 +346,12 @@ jobs:
             return 1
           }
 
-          if validate_candidate "$OVERRIDE_SOURCE_RUN_ID" "$OVERRIDE_SOURCE_ARTIFACT_NAME"; then
-            exit 0
+          if [[ -n "$OVERRIDE_SOURCE_RUN_ID" || -n "$OVERRIDE_SOURCE_ARTIFACT_NAME" ]]; then
+            if validate_candidate "$OVERRIDE_SOURCE_RUN_ID" "$OVERRIDE_SOURCE_ARTIFACT_NAME"; then
+              exit 0
+            fi
+            echo "::error::El paquete territorial explícito no es válido; se prohíbe sustituirlo por el catálogo."
+            exit 46
           fi
           if validate_candidate "$PREPARED_SOURCE_RUN_ID" "$PREPARED_SOURCE_ARTIFACT_NAME"; then
             exit 0
@@ -400,4 +404,3 @@ jobs:
       artifact_namespace: ${{ inputs.artifact_namespace }}
       gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
       require_unique_hashes: ${{ inputs.require_unique_hashes }}
-

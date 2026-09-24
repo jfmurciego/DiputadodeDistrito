@@ -202,6 +202,7 @@ jobs:
           python - "$PUBLICATION_MODE" "$CAMPAIGN_INSTANCE" "$CAMPAIGN_SLOT" "$CAMPAIGN_NAMESPACE" "$CAMPAIGN_MANIFEST_SHA256" "$CANDIDATE_COUNT" "$GERRYCHAIN_ENTRYPOINT" "$REQUIRE_UNIQUE_HASHES" "$REUSE_RUN_ID" "$REUSE_ARTIFACT_NAME" "$REUSE_ARTIFACT_SHA256" "$REUSE_SOURCE_SHA" "$EXPECTED_POPULATION_TOTAL" "$EXPECTED_SECTION_COUNT" "$EXPECTED_DISTRICT_COUNT" "$EXPECTED_CERTIFICATION" <<'PY'
           import json,sys
           from pathlib import Path
+          from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source
           path=Path(".ddd-full-run/plan.json")
           p=json.loads(path.read_text(encoding="utf-8"))
           (publication_mode,campaign_instance,slot,namespace,manifest_sha,candidate_count,
@@ -222,27 +223,16 @@ jobs:
           if campaign_instance:
               if entrypoint!="gerrychain_50" or require_unique.lower()!="true" or int(candidate_count or 0)!=50:
                   raise SystemExit("Contrato GerryChain 50 incompleto en el caller")
-              if not (reuse_run_id and reuse_artifact and reuse_digest and reuse_source_sha):
-                  raise SystemExit("Procedencia explícita incompleta")
-              p["execution_mode"]="from_start"
-              p["run_prepare_territorial"]=False
-              p["run_generate"]=True
-              p["existing"]["territorial_source"]={
-                  "run_id":int(reuse_run_id),
-                  "artifact_name":reuse_artifact,
-                  "artifact_sha256":reuse_digest,
-                  "source_commit":reuse_source_sha,
-              }
-              p["campaign"]["reuse"]={
-                  "run_id":int(reuse_run_id),
-                  "artifact_name":reuse_artifact,
-                  "artifact_sha256":reuse_digest,
-                  "source_sha":reuse_source_sha,
-                  "expected_population_total":int(expected_population),
-                  "expected_section_count":int(expected_sections),
-                  "expected_district_count":int(expected_districts),
-                  "expected_certification":expected_certification,
-              }
+          try:
+              apply_explicit_territorial_source(
+                  p, reuse_run_id=reuse_run_id, reuse_artifact_name=reuse_artifact,
+                  reuse_artifact_sha256=reuse_digest, reuse_source_sha=reuse_source_sha,
+                  campaign_instance=campaign_instance, expected_population=expected_population,
+                  expected_sections=expected_sections, expected_districts=expected_districts,
+                  expected_certification=expected_certification,
+              )
+          except ValueError as exc:
+              raise SystemExit(str(exc)) from exc
           if publication_mode=="territorial_only":
               p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
@@ -519,6 +509,7 @@ jobs:
       ELECTORAL_GATE_RESULT: ${{ needs.puerta_04.result }}
       TERRITORIAL_RUN_ID: ${{ needs.puerta_02.outputs.run_id }}
       TERRITORIAL_ARTIFACT: ${{ needs.puerta_02.outputs.artifact_name }}
+      EXPECTED_DISTRICT_COUNT: ${{ inputs.expected_district_count }}
       ELECTORAL_RUN_ID: ${{ needs.puerta_04.outputs.run_id }}
       ELECTORAL_ARTIFACT: ${{ needs.puerta_04.outputs.artifact_name }}
     steps:
@@ -538,18 +529,24 @@ jobs:
           portfolio_valid=false
           reason=""
           if [[ "$TERRITORIAL_GATE_RESULT" == success && -n "$TERRITORIAL_ARTIFACT" ]]; then
-            mkdir -p .ddd-campaign/m06
-            if gh run download "$TERRITORIAL_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$TERRITORIAL_ARTIFACT" --dir .ddd-campaign/m06 >/dev/null 2>&1; then
-              portfolio="$(find .ddd-campaign/m06 -name portfolio.json -type f -print -quit)"
+            mkdir -p .ddd-campaign/m05
+            portfolio_artifact="$(python - "$TERRITORIAL_RUN_ID" "$ARTIFACT_NAMESPACE" <<'PY'
+          import sys
+          from herramientas.gestor_campana import portfolio_artifact_name
+          print(portfolio_artifact_name(sys.argv[1], sys.argv[2]))
+          PY
+            )"
+            if gh run download "$TERRITORIAL_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$portfolio_artifact" --dir .ddd-campaign/m05 >/dev/null 2>&1; then
+              portfolio="$(find .ddd-campaign/m05 -name portfolio.json -type f -print -quit)"
               if [[ -n "$portfolio" ]]; then
                 portfolio_dir="$(dirname "$portfolio")"
                 cp -a "$portfolio_dir/." "$root/candidates/"
-                python - "$portfolio" "$root/summary/portfolio_validation.json" <<'PY'
+                python - "$root/candidates" "$root/summary/portfolio_validation.json" "$EXPECTED_DISTRICT_COUNT" <<'PY'
           import json,sys
           from pathlib import Path
-          from herramientas.gestor_campana import validate_portfolio_contract
-          src=Path(sys.argv[1]); dst=Path(sys.argv[2])
-          result=validate_portfolio_contract(json.loads(src.read_text(encoding="utf-8")))
+          from herramientas.gestor_campana import validate_portfolio_bundle
+          root=Path(sys.argv[1]); dst=Path(sys.argv[2]); expected=int(sys.argv[3])
+          result=validate_portfolio_bundle(root, expected_districts=expected)
           dst.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
                 candidate_count_valid="$(jq -r '.candidate_count_valid' "$root/summary/portfolio_validation.json")"
@@ -569,10 +566,10 @@ jobs:
           output.write_text("<!doctype html><meta charset=utf-8><title>DDD campaña</title><h1>"+html.escape(namespace)+"</h1><p>Candidatos GerryChain 50</p><ol>"+"".join(items)+"</ol>",encoding="utf-8")
           PY
               else
-                reason="portfolio.json ausente en producto territorial"
+                reason="portfolio.json ausente en artefacto M05 de portfolio"
               fi
             else
-              reason="no se pudo recuperar el producto territorial"
+              reason="no se pudo recuperar el artefacto M05 de portfolio"
             fi
           else
             reason="producto territorial no validado"

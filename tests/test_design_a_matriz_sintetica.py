@@ -34,7 +34,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             "04 · Incorporación de Resultados Electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
             "05 · Publicación del Visor":WF/"desplegar-visor-publico.yml",
-            "Gestor de campañas":WF/"gestor-campanas.yml",
+            "0 · Gestor de Campañas":WF/"gestor-campanas.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]

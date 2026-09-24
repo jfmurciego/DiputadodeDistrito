@@ -9,6 +9,9 @@ from pathlib import Path
 import yaml
 
 from herramientas.registro_publicaciones_visor import make_candidate
+from herramientas.resolver_ejecucion_completa import (
+    build_plan, apply_explicit_territorial_source, generation_enablement,
+)
 from herramientas.gestor_campana import (
     CONFIRMATION,
     aggregate,
@@ -17,6 +20,10 @@ from herramientas.gestor_campana import (
     sha256,
     validate_manifest,
     validate_portfolio_contract,
+    validate_portfolio_bundle,
+    validate_portfolio_artifact_identity,
+    portfolio_artifact_name,
+    campaign_strategy,
     validate_reuse_metadata,
     validate_campaign_summary_for_promotion,
     release_identity,
@@ -73,6 +80,25 @@ class CampaignManagerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "require_unique_hashes"):
                 validate_manifest(self.write_manifest(data, Path(raw)))
 
+    def test_campaign_strategy_selects_canonical_and_gerry_variants(self):
+        expected = {
+            "Canónico": ("Canónico", "", 0, False),
+            "GerryChain": ("GerryChain", "", 1, False),
+            "GerryChain 25": ("GerryChain 25", "", 25, False),
+            "GerryChain 50": ("GerryChain 50", "gerrychain_50", 50, True),
+        }
+        for name, contract in expected.items():
+            selected = campaign_strategy(name)
+            self.assertEqual(
+                (
+                    selected["optimization_algorithm"],
+                    selected["entrypoint"],
+                    selected["candidate_count"],
+                    selected["require_unique_hashes"],
+                ),
+                contract,
+            )
+
     def test_matrix_propagates_strict_contract_and_fixed_reuse(self):
         source_sha = "a" * 40
         rows = build_matrix(
@@ -94,6 +120,23 @@ class CampaignManagerTests(unittest.TestCase):
             self.assertGreater(row["reuse_run_id"], 0)
             self.assertEqual(len(row["reuse_artifact_sha256"]), 64)
             self.assertEqual(len(row["reuse_source_sha"]), 40)
+
+    def test_matrix_overrides_execution_strategy_without_weakening_manifest_reuse(self):
+        for strategy in ("Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"):
+            rows = build_matrix(
+                MANIFEST,
+                source_sha="c" * 40,
+                campaign_instance="campaign-strategy",
+                confirmation=CONFIRMATION,
+                strategy=strategy,
+            )["include"]
+            selected = campaign_strategy(strategy)
+            for row in rows:
+                self.assertEqual(row["optimization_algorithm"], selected["optimization_algorithm"])
+                self.assertEqual(row["entrypoint"], selected["entrypoint"])
+                self.assertEqual(row["candidate_count"], selected["candidate_count"])
+                self.assertEqual(row["require_unique_hashes"], selected["require_unique_hashes"])
+                self.assertGreater(row["reuse_run_id"], 0)
 
     def test_wrong_confirmation_is_rejected(self):
         with self.assertRaises(ValueError):
@@ -185,7 +228,8 @@ class CampaignManagerTests(unittest.TestCase):
     def test_pull_request_never_schedules_productive_campaign_or_pages(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        self.assertIn("if: ${{ github.event_name == 'workflow_dispatch' }}", manager)
+        self.assertIn("inputs.operacion == 'Ejecutar campaña'", manager)
+        self.assertIn("github.event_name == 'pull_request'", manager)
         self.assertIn("publish_result: false", manager)
         self.assertIn("E2E sintético de campaña sin ejecutar territorios", manager)
         self.assertIn("github.event_name != 'pull_request'", orchestration)
@@ -215,13 +259,166 @@ class CampaignManagerTests(unittest.TestCase):
     def test_no_implicit_latest_checkpoint_in_campaign_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
+        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("reuse_run_id:", manager)
         self.assertIn("reuse_artifact_name:", manager)
         self.assertIn("reuse_artifact_sha256:", manager)
         self.assertIn("reuse_source_sha:", manager)
-        self.assertIn('p["execution_mode"]="from_start"', orchestration)
-        self.assertIn('p["run_prepare_territorial"]=False', orchestration)
-        self.assertIn('p["run_generate"]=True', orchestration)
+        self.assertIn("apply_explicit_territorial_source(", orchestration)
+        self.assertIn('if [[ -n "$OVERRIDE_SOURCE_RUN_ID" || -n "$OVERRIDE_SOURCE_ARTIFACT_NAME" ]]', production)
+        self.assertLess(production.index("se prohíbe sustituirlo por el catálogo"),
+                        production.index('validate_candidate "$PREPARED_SOURCE_RUN_ID"'))
+
+    def test_fixed_manifest_source_a_wins_over_live_catalog_b_for_three_strategies(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            contract = root / "territorios/principado_de_asturias/config/contract.yaml"
+            contract.parent.mkdir(parents=True)
+            contract.write_text(yaml.safe_dump({
+                "meta": {"territory_id": "principado_de_asturias", "status": "generation_ready"},
+                "territory_contract": {"status": "generation_ready"},
+            }), encoding="utf-8")
+            catalog = root / "catalog.yaml"
+            catalog.write_text(yaml.safe_dump({
+                "schema": "ddd-preparation-catalog/1.1",
+                "default_edition": "2025",
+                "territories": [{
+                    "territory_id": "principado_de_asturias",
+                    "name": "Principado de Asturias",
+                    "editions": {"2025": {
+                        "territory_declared": True,
+                        "preparation_status": "READY",
+                        "contract_path": "territorios/principado_de_asturias/config/contract.yaml",
+                        "territorial_source_declaration": "sources.yaml",
+                        "electoral_source_declaration": None,
+                        "territorial_contract_complete": True,
+                        "territorial_sources_prepared": True,
+                        "territorial_product_available": False,
+                        "electoral_source_prepared": False,
+                        "electoral_product_available": False,
+                        "territorial_certification": "NOT_CERTIFIED",
+                        "production_authorization": "AUTHORIZED",
+                        "last_valid_checkpoint": None,
+                        "preparation_evidence": {"run_id": 999999, "artifact_name": "source-B", "artifact_sha256": "b" * 64},
+                    }},
+                }],
+            }, allow_unicode=True), encoding="utf-8")
+            for strategy in ("Canónico", "GerryChain", "GerryChain 25"):
+                with self.subTest(strategy=strategy):
+                    row = build_matrix(MANIFEST, source_sha="c" * 40,
+                                       campaign_instance="campaign-test", confirmation=CONFIRMATION,
+                                       strategy=strategy)["include"][1]
+                    self.assertNotEqual(row["reuse_run_id"], 999999)
+                    plan = build_plan(territory="Principado de Asturias", edition="2025",
+                                      execution_mode="reuse", catalog=catalog, root_dir=root,
+                                      optimization_algorithm=strategy, force_selected_algorithm=True)
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], "source-B")
+                    apply_explicit_territorial_source(
+                        plan, root_dir=root, reuse_run_id=str(row["reuse_run_id"]),
+                        reuse_artifact_name=row["reuse_artifact_name"],
+                        reuse_artifact_sha256=row["reuse_artifact_sha256"],
+                        reuse_source_sha=row["reuse_source_sha"],
+                    )
+                    self.assertEqual(plan["existing"]["territorial_source"]["run_id"], row["reuse_run_id"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], row["reuse_artifact_name"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_sha256"], row["reuse_artifact_sha256"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["source_commit"], row["reuse_source_sha"])
+                    self.assertEqual(plan["execution_mode"], "from_start")
+                    self.assertFalse(plan["run_prepare_territorial"])
+                    self.assertTrue(plan["run_generate"])
+            for mode in ("reuse", "from_start"):
+                with self.subTest(manual_mode=mode):
+                    manual = build_plan(territory="Principado de Asturias", edition="2025",
+                                        execution_mode=mode, catalog=catalog, root_dir=root,
+                                        force_selected_algorithm=True)
+                    unchanged = json.loads(json.dumps(manual))
+                    self.assertEqual(apply_explicit_territorial_source(manual), unchanged)
+                    self.assertEqual(manual["existing"]["territorial_source"]["artifact_name"], "source-B")
+                    self.assertEqual(manual["run_prepare_territorial"], mode == "from_start")
+
+    def test_partial_fixed_source_blocks_and_manual_plan_keeps_catalog_behavior(self):
+        plan = {"execution_mode": "reuse", "run_prepare_territorial": False,
+                "run_generate": True, "existing": {"territorial_source": {"run_id": 999, "artifact_name": "source-B"}}}
+        before = json.loads(json.dumps(plan))
+        self.assertEqual(apply_explicit_territorial_source(plan), before)
+        with self.assertRaisesRegex(ValueError, "Procedencia explícita incompleta"):
+            apply_explicit_territorial_source(plan, reuse_run_id="123", reuse_artifact_name="source-A")
+        self.assertEqual(plan, before)
+        with self.assertRaisesRegex(ValueError, "Procedencia explícita incompleta"):
+            apply_explicit_territorial_source(plan, campaign_instance="campaign-test")
+        self.assertEqual(plan, before)
+
+    def test_generation_gate_four_real_territories_even_with_old_authorized_flags(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
+        manifest_rows = build_matrix(MANIFEST, source_sha="c" * 40,
+                                     campaign_instance="campaign-test", confirmation=CONFIRMATION)["include"]
+        fixed_by_territory = {row["territory_id"]: row for row in manifest_rows}
+        for name, territory_id, route in (
+            ("Galicia", "galicia", "declared_generation_ready"),
+            ("Principado de Asturias", "principado_de_asturias", "linked_internal_partitioning"),
+        ):
+            with self.subTest(territory=name):
+                plan = build_plan(territory=name, edition="2025", execution_mode="reuse",
+                                  catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                                  root_dir=ROOT, force_selected_algorithm=True)
+                self.assertEqual(plan["generation_gate"], {"allowed": True, "route": route})
+                row = fixed_by_territory[territory_id]
+                apply_explicit_territorial_source(
+                    plan, root_dir=ROOT, reuse_run_id=str(row["reuse_run_id"]),
+                    reuse_artifact_name=row["reuse_artifact_name"],
+                    reuse_artifact_sha256=row["reuse_artifact_sha256"],
+                    reuse_source_sha=row["reuse_source_sha"],
+                )
+                self.assertTrue(plan["run_generate"])
+                self.assertEqual(plan["existing"]["territorial_source"]["run_id"], row["reuse_run_id"])
+
+        fixed = fixed_by_territory["galicia"]
+        for name, territory_id in (("Cantabria", "cantabria"), ("Andalucía", "andalucia")):
+            with self.subTest(territory=name):
+                row = rows[territory_id]
+                self.assertEqual(row["production_authorization"], "AUTHORIZED")
+                contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
+                self.assertEqual(contract["meta"]["production_authorization"], "AUTHORIZED")
+                self.assertEqual(contract["territory_contract"]["status"], "topology_contract_candidate")
+                with self.assertRaisesRegex(ValueError, "sin generación habilitada"):
+                    build_plan(territory=name, edition="2025", execution_mode="reuse",
+                               catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                               root_dir=ROOT, force_selected_algorithm=True)
+                gate = generation_enablement(root_dir=ROOT, contract_path=row["contract_path"],
+                                             territory_id=territory_id)
+                self.assertFalse(gate["allowed"])
+                plan = {"generation_gate": {"allowed": True}, "territory_id": territory_id,
+                        "contract_path": row["contract_path"], "execution_mode": "reuse", "run_generate": False,
+                        "run_prepare_territorial": False,
+                        "existing": {"territorial_source": {"run_id": 999, "artifact_name": "source-B"}}}
+                before = json.loads(json.dumps(plan))
+                with self.assertRaisesRegex(ValueError, "Fuente explícita no habilita generación"):
+                    apply_explicit_territorial_source(
+                        plan, root_dir=ROOT, reuse_run_id=str(fixed["reuse_run_id"]),
+                        reuse_artifact_name=fixed["reuse_artifact_name"],
+                        reuse_artifact_sha256=fixed["reuse_artifact_sha256"],
+                        reuse_source_sha=fixed["reuse_source_sha"],
+                    )
+                self.assertEqual(plan, before)
+
+    def test_generation_enablement_requires_both_declarations_or_matching_partition_links(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            path = root / "contract.yaml"
+            for territory_id, alteration, break_contract in (
+                ("galicia", "meta status", lambda c: c["meta"].update(status="bootstrap")),
+                ("principado_de_asturias", "partition field", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(municipality_field="CUMUN")),
+                ("principado_de_asturias", "partition input", lambda c: c["modulos"]["modulo_04_generar_semillas"].update(in_geojson="source-B")),
+            ):
+                with self.subTest(territory=territory_id, alteration=alteration):
+                    original = ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml"
+                    contract = yaml.safe_load(original.read_text(encoding="utf-8"))
+                    break_contract(contract)
+                    path.write_text(yaml.safe_dump(contract), encoding="utf-8")
+                    gate = generation_enablement(root_dir=root, contract_path="contract.yaml",
+                                                 territory_id=territory_id)
+                    self.assertFalse(gate["allowed"])
 
     def _strict_status(self, row: dict, *, status: str = "PASS") -> dict:
         return {
@@ -338,13 +535,15 @@ class CampaignManagerTests(unittest.TestCase):
                         },
                     }],
                 }
-                with zipfile.ZipFile(candidate_dir / name, "w", zipfile.ZIP_DEFLATED) as archive:
+                candidate_path = candidate_dir / name
+                with zipfile.ZipFile(candidate_path, "w", zipfile.ZIP_DEFLATED) as archive:
                     archive.writestr("candidate.geojson", json.dumps(geo))
                 candidates.append({
                     "index": index,
                     "seed": seed,
                     "assignment_hash": f"{index:064x}",
                     "geojson": name,
+                    "sha256": sha256(candidate_path),
                 })
             (candidate_dir / "portfolio.json").write_text(
                 json.dumps({
@@ -376,7 +575,7 @@ class CampaignManagerTests(unittest.TestCase):
                 bundle,
                 output,
                 campaign_instance="campaign-synthetic",
-                expected_districts=67,
+                expected_districts=1,
             )
             self.assertTrue(output.is_file())
             self.assertEqual(descriptor["candidate_count_valid"], 50)
@@ -392,6 +591,141 @@ class CampaignManagerTests(unittest.TestCase):
                 self.assertEqual(summary["territory_id"], "aragon")
                 self.assertEqual(summary["candidate_count_valid"], 50)
                 self.assertEqual(len(summary["candidates"]), 50)
+
+    def _make_portfolio_bundle(self, root: Path, *, count: int = 50, duplicate_hash: bool = False) -> Path:
+        candidate_dir = root / "portfolio"
+        candidate_dir.mkdir(parents=True, exist_ok=True)
+        candidates = []
+        for index in range(1, count + 1):
+            seed = 20260000 + index
+            name = f"candidate_{index:03d}_seed_{seed}.geojson.zip"
+            geo = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "properties": {"district_id": "1"},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[[-5.9, 43.1], [-5.8, 43.1], [-5.8, 43.2], [-5.9, 43.1]]],
+                    },
+                }],
+            }
+            path = candidate_dir / name
+            with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("candidate.geojson", json.dumps(geo))
+            assignment = f"{index:064x}"
+            if duplicate_hash and index == count:
+                assignment = f"{1:064x}"
+            candidates.append({
+                "index": index,
+                "seed": seed,
+                "assignment_hash": assignment,
+                "geojson": name,
+                "sha256": sha256(path),
+            })
+        (candidate_dir / "portfolio.json").write_text(
+            json.dumps({
+                "schema": "ddd.m05-gerrychain-portfolio/1.0",
+                "candidate_count": count,
+                "unique_candidate_count": len({row["assignment_hash"] for row in candidates}),
+                "candidates": candidates,
+            }),
+            encoding="utf-8",
+        )
+        return candidate_dir
+
+    def test_portfolio_artifact_identity_rejects_different_or_corrupt_source(self):
+        metadata = {
+            "id": 10765532132,
+            "name": "ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias",
+            "digest": "sha256:" + "a" * 64,
+            "expired": False,
+            "workflow_run": {
+                "id": 35889595424,
+                "head_sha": "b" * 40,
+            },
+        }
+        validate_portfolio_artifact_identity(
+            metadata,
+            run_id=35889595424,
+            artifact_id=10765532132,
+            artifact_name=metadata["name"],
+            artifact_sha256="a" * 64,
+            source_sha="b" * 40,
+        )
+        wrong = dict(metadata)
+        wrong["name"] = "ddd-state-35889595424-M06-wrong"
+        with self.assertRaisesRegex(ValueError, "Identidad del portfolio histórico no coincide"):
+            validate_portfolio_artifact_identity(
+                wrong,
+                run_id=35889595424,
+                artifact_id=10765532132,
+                artifact_name=metadata["name"],
+                artifact_sha256="a" * 64,
+                source_sha="b" * 40,
+            )
+        corrupt = dict(metadata)
+        corrupt["digest"] = "sha256:" + "0" * 64
+        with self.assertRaisesRegex(ValueError, "artifact_sha256"):
+            validate_portfolio_artifact_identity(
+                corrupt,
+                run_id=35889595424,
+                artifact_id=10765532132,
+                artifact_name=metadata["name"],
+                artifact_sha256="a" * 64,
+                source_sha="b" * 40,
+            )
+
+    def test_historical_false_fail_is_avoided_by_reading_m05_portfolio_not_m06(self):
+        namespace = "campaign-35889595424-1--02--principado_de_asturias"
+        self.assertEqual(
+            portfolio_artifact_name(35889595424, namespace),
+            "ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias",
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            m05 = self._make_portfolio_bundle(root / "m05")
+            (root / "m06").mkdir()
+            result = validate_portfolio_bundle(m05, expected_districts=1)
+            self.assertTrue(result["valid"])
+            self.assertEqual(result["verified_candidate_zip_count"], 50)
+            self.assertFalse(any((root / "m06").rglob("portfolio.json")))
+
+    def test_portfolio_bundle_blocks_incomplete_and_duplicate_hashes(self):
+        with tempfile.TemporaryDirectory() as raw:
+            incomplete = self._make_portfolio_bundle(Path(raw) / "incomplete", count=49)
+            with self.assertRaisesRegex(ValueError, "portfolio GerryChain 50 inválido"):
+                validate_portfolio_bundle(incomplete, expected_districts=1)
+        with tempfile.TemporaryDirectory() as raw:
+            duplicate = self._make_portfolio_bundle(Path(raw) / "duplicate", duplicate_hash=True)
+            with self.assertRaisesRegex(ValueError, "portfolio GerryChain 50 inválido"):
+                validate_portfolio_bundle(duplicate, expected_districts=1)
+
+    def test_portfolio_bundle_blocks_zip_sha_mismatch(self):
+        with tempfile.TemporaryDirectory() as raw:
+            bundle = self._make_portfolio_bundle(Path(raw))
+            portfolio_path = bundle / "portfolio.json"
+            portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
+            portfolio["candidates"][0]["sha256"] = "0" * 64
+            portfolio_path.write_text(json.dumps(portfolio), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "SHA-256 del ZIP no coincide"):
+                validate_portfolio_bundle(bundle, expected_districts=1)
+
+    def test_existing_campaign_manager_recovers_portfolio_without_recalculation(self):
+        manager = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("name: 0 · Gestor de Campañas", manager)
+        self.assertIn("Recuperar portfolio existente", manager)
+        self.assertIn("portfolio_artifact_id:", manager)
+        self.assertIn("portfolio_artifact_sha256:", manager)
+        self.assertIn("validate_portfolio_artifact_identity", manager)
+        self.assertIn("validate_portfolio_bundle", manager)
+        self.assertIn("resolver_release_asset.py release", manager)
+        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
+        self.assertIn("ensemble_release_tag:", manager)
+        recovery = manager[manager.index("  recuperar_portfolio:"):manager.index("  resumen:")]
+        self.assertNotIn("ejecucion-completa-proyecto.yml", recovery)
+        self.assertNotIn("produccion-distritos.yml", recovery)
+        self.assertNotIn("actions/deploy-pages@", recovery)
 
     def test_publication_jobs_are_after_five_pass_and_skipped_on_pull_request(self):
         manager = WORKFLOW.read_text(encoding="utf-8")

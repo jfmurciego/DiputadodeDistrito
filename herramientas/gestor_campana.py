@@ -28,6 +28,41 @@ EXPECTED_FIELDS = {
     "retry_failed": False,
     "campaign_confirmation": CONFIRMATION,
 }
+CAMPAIGN_STRATEGIES = {
+    "Canónico": {
+        "optimization_algorithm": "Canónico",
+        "entrypoint": "",
+        "candidate_count": 0,
+        "require_unique_hashes": False,
+    },
+    "GerryChain": {
+        "optimization_algorithm": "GerryChain",
+        "entrypoint": "",
+        "candidate_count": 1,
+        "require_unique_hashes": False,
+    },
+    "GerryChain 25": {
+        "optimization_algorithm": "GerryChain 25",
+        "entrypoint": "",
+        "candidate_count": 25,
+        "require_unique_hashes": False,
+    },
+    "GerryChain 50": {
+        "optimization_algorithm": "GerryChain 50",
+        "entrypoint": ENTRYPOINT,
+        "candidate_count": 50,
+        "require_unique_hashes": True,
+    },
+}
+
+
+def campaign_strategy(value: str) -> dict[str, Any]:
+    try:
+        return dict(CAMPAIGN_STRATEGIES[value])
+    except KeyError as exc:
+        raise ValueError(f"Estrategia de campaña no permitida: {value}") from exc
+
+
 EXPECTED_TERRITORIES = [
     ("01", "aragon", "Aragón", "electoral"),
     ("02", "principado_de_asturias", "Principado de Asturias", "electoral"),
@@ -144,8 +179,10 @@ def build_matrix(
     source_sha: str,
     campaign_instance: str,
     confirmation: str,
+    strategy: str = "GerryChain 50",
 ) -> dict[str, Any]:
     data = validate_manifest(path)
+    selected = campaign_strategy(strategy)
     if confirmation != CONFIRMATION:
         raise ValueError("Confirmación explícita incorrecta")
     code_sha = _hex(source_sha, 40, "source_sha")
@@ -168,10 +205,10 @@ def build_matrix(
                 "manifest_sha256": digest,
                 "data_edition": data["data_edition"],
                 "execution_mode": data["execution_mode"],
-                "optimization_algorithm": data["optimization_algorithm"],
-                "entrypoint": data["entrypoint"],
-                "candidate_count": data["candidate_count"],
-                "require_unique_hashes": data["require_unique_hashes"],
+                "optimization_algorithm": selected["optimization_algorithm"],
+                "entrypoint": selected["entrypoint"],
+                "candidate_count": selected["candidate_count"],
+                "require_unique_hashes": selected["require_unique_hashes"],
                 "publication_mode": territory["publication_mode"],
                 "campaign_confirmation": confirmation,
                 "retry_failed": data["retry_failed"],
@@ -369,6 +406,159 @@ def validate_portfolio_contract(portfolio: dict[str, Any]) -> dict[str, Any]:
 
 
 
+
+def validate_portfolio_artifact_identity(
+    metadata: dict[str, Any],
+    *,
+    run_id: int | str,
+    artifact_id: int | str,
+    artifact_name: str,
+    artifact_sha256: str,
+    source_sha: str,
+) -> dict[str, Any]:
+    expected_run = str(run_id).strip()
+    expected_id = str(artifact_id).strip()
+    expected_name = str(artifact_name or "").strip()
+    expected_digest = _hex(artifact_sha256, 64, "portfolio_artifact_sha256")
+    expected_source = _hex(source_sha, 40, "portfolio_source_sha")
+    if not expected_run.isdigit() or int(expected_run) <= 0:
+        raise ValueError("portfolio_run_id inválido")
+    if not expected_id.isdigit() or int(expected_id) <= 0:
+        raise ValueError("portfolio_artifact_id inválido")
+    if "-M05" not in expected_name:
+        raise ValueError("El portfolio histórico debe ser un artefacto M05")
+    observed_digest = str(metadata.get("digest") or "").removeprefix("sha256:")
+    workflow_run = metadata.get("workflow_run") or {}
+    mismatches = []
+    if str(metadata.get("id") or "") != expected_id:
+        mismatches.append("artifact_id")
+    if str(metadata.get("name") or "") != expected_name:
+        mismatches.append("artifact_name")
+    if str(workflow_run.get("id") or "") != expected_run:
+        mismatches.append("run_id")
+    if str(workflow_run.get("head_sha") or "") != expected_source:
+        mismatches.append("source_sha")
+    if observed_digest != expected_digest:
+        mismatches.append("artifact_sha256")
+    if metadata.get("expired") is True:
+        mismatches.append("expired")
+    if mismatches:
+        raise ValueError(
+            "Identidad del portfolio histórico no coincide: " + ", ".join(mismatches)
+        )
+    return {
+        "run_id": int(expected_run),
+        "artifact_id": int(expected_id),
+        "artifact_name": expected_name,
+        "artifact_sha256": expected_digest,
+        "source_sha": expected_source,
+        "status": "VALID",
+    }
+
+
+def portfolio_artifact_name(run_id: int | str, artifact_namespace: str) -> str:
+    run_text = str(run_id).strip()
+    namespace = str(artifact_namespace or "").strip()
+    if not run_text.isdigit() or int(run_text) <= 0:
+        raise ValueError("run_id de portfolio inválido")
+    return f"ddd-state-{run_text}-M05" + (f"-{namespace}" if namespace else "")
+
+
+def _iter_coordinate_pairs(value: Any):
+    if isinstance(value, list) and len(value) >= 2 and all(isinstance(v, (int, float)) for v in value[:2]):
+        yield float(value[0]), float(value[1])
+        return
+    if isinstance(value, list):
+        for item in value:
+            yield from _iter_coordinate_pairs(item)
+
+
+def validate_portfolio_bundle(bundle_root: Path, *, expected_districts: int) -> dict[str, Any]:
+    portfolio_path = _single(bundle_root, "portfolio.json")
+    portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
+    strict = validate_portfolio_contract(portfolio)
+    if not strict["valid"]:
+        raise ValueError(
+            "portfolio GerryChain 50 inválido: "
+            f"valid={strict['candidate_count_valid']} "
+            f"unique={strict['unique_candidate_hash_count']} "
+            f"missing={strict['missing_candidate_hash_count']} "
+            f"duplicates={strict['duplicate_candidate_hash_count']}"
+        )
+
+    verified = []
+    for ordinal, row in enumerate(portfolio.get("candidates") or [], start=1):
+        source_name = Path(str(row.get("geojson") or row.get("file") or "")).name
+        if not source_name:
+            seed = row.get("seed")
+            source_name = f"candidate_{ordinal:03d}_seed_{seed}.geojson.zip"
+        matches = sorted(bundle_root.rglob(source_name))
+        if len(matches) != 1:
+            raise ValueError(
+                f"candidate-{ordinal:03d}: ZIP no inequívoco para {source_name}; encontrados={len(matches)}"
+            )
+        source = matches[0]
+        expected_sha = _hex(row.get("sha256"), 64, f"candidate-{ordinal:03d}.sha256")
+        observed_sha = sha256(source)
+        if observed_sha != expected_sha:
+            raise ValueError(
+                f"candidate-{ordinal:03d}: SHA-256 del ZIP no coincide "
+                f"observado={observed_sha} esperado={expected_sha}"
+            )
+        if not zipfile.is_zipfile(source):
+            raise ValueError(f"candidate-{ordinal:03d}: candidato no es ZIP")
+        with zipfile.ZipFile(source) as archive:
+            members = [
+                name for name in archive.namelist()
+                if name.lower().endswith((".geojson", ".json")) and not name.endswith("/")
+            ]
+            if len(members) != 1:
+                raise ValueError(
+                    f"candidate-{ordinal:03d}: esperaba un único GeoJSON; encontrados={members}"
+                )
+            payload = json.loads(archive.read(members[0]).decode("utf-8"))
+        if payload.get("type") != "FeatureCollection":
+            raise ValueError(f"candidate-{ordinal:03d}: GeoJSON no es FeatureCollection")
+        features = payload.get("features") or []
+        if not features:
+            raise ValueError(f"candidate-{ordinal:03d}: GeoJSON sin features")
+        districts = set()
+        for feature in features:
+            geometry = feature.get("geometry")
+            if not isinstance(geometry, dict) or not geometry.get("type"):
+                raise ValueError(f"candidate-{ordinal:03d}: geometría ausente")
+            coords = list(_iter_coordinate_pairs(geometry.get("coordinates")))
+            if not coords:
+                raise ValueError(f"candidate-{ordinal:03d}: geometría sin coordenadas")
+            if any(not (-180.0 <= x <= 180.0 and -90.0 <= y <= 90.0) for x, y in coords):
+                raise ValueError(f"candidate-{ordinal:03d}: geometría no está en WGS84/CRS84")
+            district = str((feature.get("properties") or {}).get("district_id") or "")
+            if not district:
+                raise ValueError(f"candidate-{ordinal:03d}: feature sin district_id")
+            districts.add(district)
+        if len(districts) != int(expected_districts):
+            raise ValueError(
+                f"candidate-{ordinal:03d}: distritos observados={len(districts)} "
+                f"esperados={int(expected_districts)}"
+            )
+        verified.append({
+            "candidate_index": ordinal,
+            "seed": row.get("seed"),
+            "assignment_hash": row.get("assignment_hash"),
+            "zip_sha256": observed_sha,
+            "feature_count": len(features),
+            "district_count": len(districts),
+        })
+    return {
+        **strict,
+        "portfolio_path": str(portfolio_path),
+        "verified_candidate_zip_count": len(verified),
+        "verified_wgs84_candidate_count": len(verified),
+        "expected_districts": int(expected_districts),
+        "candidates": verified,
+    }
+
+
 def validate_campaign_summary_for_promotion(summary: dict[str, Any]) -> list[dict[str, Any]]:
     territories = summary.get("territories")
     if summary.get("status") != "PASS":
@@ -471,7 +661,10 @@ def package_campaign_gallery(
     portfolio_path = _single(bundle_root, "portfolio.json")
     status = json.loads(status_path.read_text(encoding="utf-8"))
     portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
-    strict = validate_portfolio_contract(portfolio)
+    strict = validate_portfolio_bundle(
+        bundle_root,
+        expected_districts=int(expected_districts),
+    )
     required_status = {
         "status": "PASS",
         "entrypoint": ENTRYPOINT,
@@ -720,6 +913,11 @@ def _parser() -> argparse.ArgumentParser:
     matrix.add_argument("--source-sha", required=True)
     matrix.add_argument("--campaign-instance", required=True)
     matrix.add_argument("--confirmation", required=True)
+    matrix.add_argument(
+        "--strategy",
+        choices=tuple(CAMPAIGN_STRATEGIES),
+        default="GerryChain 50",
+    )
     reuse = commands.add_parser("validate-reuse")
     reuse.add_argument("--manifest", type=Path, required=True)
     reuse.add_argument("--slot", required=True)
@@ -751,7 +949,7 @@ def main() -> None:
         print(json.dumps({"status": "VALID", "campaign_id": data["campaign_id"], "manifest_sha256": sha256(args.manifest)}, ensure_ascii=False))
         return
     if args.command == "matrix":
-        print(json.dumps(build_matrix(args.manifest, source_sha=args.source_sha, campaign_instance=args.campaign_instance, confirmation=args.confirmation), ensure_ascii=False, separators=(",", ":")))
+        print(json.dumps(build_matrix(args.manifest, source_sha=args.source_sha, campaign_instance=args.campaign_instance, confirmation=args.confirmation, strategy=args.strategy), ensure_ascii=False, separators=(",", ":")))
         return
     if args.command == "validate-reuse":
         result = validate_materialized_reuse(args.manifest, slot=args.slot, root_dir=args.root_dir, source_dir=args.source_dir, m01_dir=args.m01_dir)
