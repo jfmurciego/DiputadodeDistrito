@@ -18,7 +18,7 @@ import yaml
 from pyproj import Transformer
 
 from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
-from herramientas.catalogo_territorios import format_territory_label, master_index
+try:\n    from herramientas.catalogo_territorios import format_territory_label, master_index\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import format_territory_label, master_index
 
 
 
