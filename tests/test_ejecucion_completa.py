@@ -375,6 +375,12 @@ class FullProjectOrchestratorTests(unittest.TestCase):
     def test_reuse_plan_reruns_generation_for_selected_algorithm(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
+            contract = root / "territorios/demo/config/demo_2025.yaml"
+            contract.parent.mkdir(parents=True)
+            contract.write_text(yaml.safe_dump({
+                "meta": {"territory_id": "demo", "status": "generation_ready"},
+                "territory_contract": {"status": "generation_ready"},
+            }), encoding="utf-8")
             evidence = root / "evidence"
             evidence.mkdir()
             digest = "a" * 64
@@ -500,6 +506,12 @@ class FullProjectOrchestratorTests(unittest.TestCase):
     def test_gerrychain_50_is_preserved_in_plan(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
+            contract = root / "territorios/demo/config/demo_2025.yaml"
+            contract.parent.mkdir(parents=True)
+            contract.write_text(yaml.safe_dump({
+                "meta": {"territory_id": "demo", "status": "generation_ready"},
+                "territory_contract": {"status": "generation_ready"},
+            }), encoding="utf-8")
             catalog = root / "catalog.yaml"
             catalog.write_text(
                 yaml.safe_dump({
@@ -540,7 +552,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertTrue(plan["run_generate"])
             self.assertTrue(plan["run_incorporate"])
 
-    def test_from_start_runs_all_business_phases(self):
+    def test_from_start_without_generation_contract_blocks_before_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             catalog = root / "catalog.yaml"
@@ -578,17 +590,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            plan = build_plan(
-                territory="Demo",
-                edition="2025",
-                execution_mode="from_start",
-                catalog=catalog,
-                root_dir=root,
-            )
-            self.assertTrue(plan["run_prepare_territorial"])
-            self.assertTrue(plan["run_generate"])
-            self.assertTrue(plan["run_prepare_electoral"])
-            self.assertTrue(plan["run_incorporate"])
+            with self.assertRaisesRegex(ValueError, "contrato territorial efectivo ausente"):
+                build_plan(
+                    territory="Demo",
+                    edition="2025",
+                    execution_mode="from_start",
+                    catalog=catalog,
+                    root_dir=root,
+                )
 
 
 if __name__ == "__main__":
