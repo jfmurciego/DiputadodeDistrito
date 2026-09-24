@@ -246,8 +246,7 @@ def render_readme_block(state: dict) -> str:
         "01 Preparación territorial → **Puerta de validación** → 02 Generación territorial → **Puerta de validación** → 03 Preparación electoral → **Puerta de validación** → 04 Incorporación electoral → **Puerta de validación** → 05 Publicación opcional", "",
         "**Regla estructural:** la geometría de los distritos nunca depende de los resultados electorales.", "", END,
     ]
-    return "
-".join(rows)
+    return "\n".join(rows)
 
 
 def update_readme(path: Path, state: dict) -> None:
@@ -259,8 +258,7 @@ def update_readme(path: Path, state: dict) -> None:
 
 
 def write_state(state: dict, *paths: Path) -> None:
-    payload = json.dumps(state, ensure_ascii=False, indent=2) + "
-"
+    payload = json.dumps(state, ensure_ascii=False, indent=2) + "\n"
     for path in paths:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(payload, encoding="utf-8")
