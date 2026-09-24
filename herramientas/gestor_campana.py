@@ -13,7 +13,7 @@ from typing import Any
 
 import yaml
 
-from herramientas.catalogo_territorios import format_territory_label, master_index
+try:\n    from herramientas.catalogo_territorios import format_territory_label, master_index\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import format_territory_label, master_index
 
 CONFIRMATION = "EXECUTE_CAMPAIGN_CONFIRMED"
 ENTRYPOINT = "gerrychain_50"
