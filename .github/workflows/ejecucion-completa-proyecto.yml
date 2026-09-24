@@ -349,8 +349,8 @@ jobs:
       source_ref: ${{ needs.planificar.outputs.source_ref }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
-      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint }}
-      require_unique_hashes: ${{ inputs.require_unique_hashes }}
+      gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}
+      require_unique_hashes: ${{ inputs.require_unique_hashes == true }}
 
   puerta_02:
     name: Puerta de validación · 02 → 03
