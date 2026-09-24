@@ -380,7 +380,7 @@ class CampaignManagerTests(unittest.TestCase):
                 bundle,
                 output,
                 campaign_instance="campaign-synthetic",
-                expected_districts=67,
+                expected_districts=1,
             )
             self.assertTrue(output.is_file())
             self.assertEqual(descriptor["candidate_count_valid"], 50)
