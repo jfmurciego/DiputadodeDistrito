@@ -111,6 +111,17 @@ class TerritoryCatalogOrderingTests(unittest.TestCase):
         self.assertEqual(ordered[0]["territory_display_name"], "02 · Aragón")
         self.assertEqual(ordered[2]["territory_display_name"], "07 · Castilla y León")
 
+    def test_dashboard_and_viewer_render_canonical_display_labels(self):
+        dashboard = (ROOT / "dashboard/app.js").read_text(encoding="utf-8")
+        published_dashboard = (ROOT / "publicado/dashboard/app.js").read_text(encoding="utf-8")
+        viewer = (ROOT / "visor/app.js").read_text(encoding="utf-8")
+        for text in (dashboard, published_dashboard):
+            self.assertIn("display_name", text)
+            self.assertIn("autonomous_community_code_ine", text)
+        self.assertIn("territory_display_name", viewer)
+        self.assertIn("autonomous_community_code_ine", viewer)
+        self.assertIn("code.localeCompare", viewer)
+
     def test_campaign_contract_order_and_slots_remain_unchanged(self):
         manifest = yaml.safe_load((ROOT / "configuracion/campanas/campana_cinco_territorios_v1.json").read_text(encoding="utf-8"))
         self.assertEqual(
