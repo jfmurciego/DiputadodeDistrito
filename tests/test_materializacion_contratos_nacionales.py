@@ -153,6 +153,20 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             finally:
                 td.cleanup()
 
+    def test_archipelagos_remain_unprepared_and_unauthorized_in_live_catalog(self):
+        catalog = yaml.safe_load(
+            (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
+        )
+        rows = {row["territory_id"]: row for row in catalog["territories"]}
+        for territory_id in ("illes_balears", "canarias"):
+            state = rows[territory_id]["editions"]["2025"]
+            self.assertEqual("PENDING_INCORPORATION", state["preparation_status"])
+            self.assertFalse(state["territorial_sources_prepared"])
+            self.assertFalse(state["territorial_contract_complete"])
+            self.assertEqual("NONE", state["production_authorization"])
+            self.assertIsNone(state["contract_path"])
+            self.assertIsNone(state["territorial_source_declaration"])
+
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
         for territory_id, expected_k in (("illes_balears", 59), ("canarias", 70)):
