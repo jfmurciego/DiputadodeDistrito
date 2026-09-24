@@ -82,7 +82,7 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         data = yaml.safe_load(GEN.read_text(encoding="utf-8"))
         triggers = data.get("on") or data.get(True)
         options = triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected = [r["name"] for r in territories()]
+        expected = [f"{r['autonomous_community_code_ine']} · {r['name']}" for r in territories()]
         self.assertEqual(options, expected)
         self.assertIn("11 · Extremadura", options)
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
