@@ -59,6 +59,7 @@ jobs:
           ARTIFACT_NAME: ${{ inputs.artifact_name }}
           EXPECTED_DIGEST: ${{ inputs.expected_digest }}
           AUDIT_ARTIFACT_NAME: ${{ inputs.audit_artifact_name }}
+          ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
         run: |
           set -u -o pipefail
           rm -rf .ddd-gate && mkdir -p .ddd-gate/artifact .ddd-gate/audit
@@ -112,7 +113,7 @@ jobs:
           params_args=()
           [[ -n "$params" ]] && params_args=(--params "$params" --root-dir .)
           rc=0
-          python -m herramientas.validar_puerta_ejecucion --phase "$PHASE" --artifact-root .ddd-gate/artifact             "${audit_args[@]}" "${params_args[@]}" --territory-id "$TERRITORY_ID" --edition "$EDITION"             --run-id "$resolved_run_id" --artifact-name "$ARTIFACT_NAME" --artifact-digest "$digest"             --expected-digest "$EXPECTED_DIGEST" --output .ddd-gate/puerta.json || rc=$?
+          python -m herramientas.validar_puerta_ejecucion --phase "$PHASE" --artifact-root .ddd-gate/artifact             "${audit_args[@]}" "${params_args[@]}" --territory-id "$TERRITORY_ID" --edition "$EDITION"             --run-id "$resolved_run_id" --artifact-name "$ARTIFACT_NAME" --artifact-digest "$digest"             --expected-digest "$EXPECTED_DIGEST" --artifact-namespace "$ARTIFACT_NAMESPACE" --output .ddd-gate/puerta.json || rc=$?
           echo "decision=$(jq -r .decision .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"
           echo "artifact_digest=$(jq -r '.artifact_digest // empty' .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"
           echo "phase_decision=$(jq -r '.phase_decision // empty' .ddd-gate/puerta.json)" >> "$GITHUB_OUTPUT"

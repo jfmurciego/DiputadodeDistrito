@@ -13,6 +13,9 @@ from herramientas.validar_paquete_electoral import validate_package as validate_
 
 PASS_DECISIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 ELECTORAL_SOURCE_DECISIONS = {"REUSE", "ACQUIRE"}
+CAMPAIGN_ARTIFACT_NAMESPACE_RE = re.compile(
+    r"^campaign-(?P<run_id>[0-9]+)-(?P<attempt>[1-9][0-9]*)--(?P<slot>[0-9]{2})--(?P<territory>[A-Za-z0-9_.-]+)$"
+)
 
 
 def _read_json(path: Path | None) -> dict:
@@ -39,13 +42,46 @@ def _normalise_digest(value: str | None) -> str | None:
     return raw.removeprefix("sha256:").lower()
 
 
-def _artifact_name_is_consistent(phase: str, territory_id: str, edition: str, run_id: str, artifact_name: str) -> bool:
+def _campaign_namespace_is_consistent(
+    artifact_namespace: str | None,
+    *,
+    territory_id: str,
+    run_id: str,
+) -> bool:
+    namespace = str(artifact_namespace or "").strip()
+    match = CAMPAIGN_ARTIFACT_NAMESPACE_RE.fullmatch(namespace)
+    if not match:
+        return False
+    return (
+        match.group("run_id") == str(run_id)
+        and match.group("slot") != "00"
+        and match.group("territory") == territory_id
+    )
+
+
+def _artifact_name_is_consistent(
+    phase: str,
+    territory_id: str,
+    edition: str,
+    run_id: str,
+    artifact_name: str,
+    artifact_namespace: str | None = None,
+) -> bool:
     if phase == "territorial_source":
         return artifact_name == f"ddd-source-package-{territory_id}-{edition}-{run_id}"
     if phase == "electoral_source":
         return artifact_name == f"ddd-electoral-package-{territory_id}-{edition}-{run_id}"
     if phase == "territorial_product":
-        return artifact_name == f"ddd-state-{run_id}-M06"
+        canonical = f"ddd-state-{run_id}-M06"
+        if artifact_name == canonical:
+            return True
+        if not _campaign_namespace_is_consistent(
+            artifact_namespace,
+            territory_id=territory_id,
+            run_id=run_id,
+        ):
+            return False
+        return artifact_name == f"{canonical}-{artifact_namespace}"
     if phase == "electoral_product":
         return artifact_name == f"ddd-state-{run_id}-M08"
     return False
@@ -69,6 +105,7 @@ def validate_gate(
     artifact_name: str,
     artifact_digest: str,
     expected_digest: str | None = None,
+    artifact_namespace: str | None = None,
     audit_root: Path | None = None,
     params: Path | None = None,
     root_dir: Path = Path("."),
@@ -80,7 +117,14 @@ def validate_gate(
         reasons.append("RUN_ID_INVALIDO")
     if not artifact_name:
         reasons.append("ARTEFACTO_SIN_NOMBRE")
-    elif str(run_id).isdigit() and not _artifact_name_is_consistent(phase, territory_id, str(edition), str(run_id), artifact_name):
+    elif str(run_id).isdigit() and not _artifact_name_is_consistent(
+        phase,
+        territory_id,
+        str(edition),
+        str(run_id),
+        artifact_name,
+        artifact_namespace,
+    ):
         reasons.append("NOMBRE_ARTEFACTO_NO_COINCIDE_CON_RUN")
     actual_digest = _normalise_digest(artifact_digest)
     expected = _normalise_digest(expected_digest)
@@ -185,6 +229,7 @@ def main() -> int:
     ap.add_argument("--artifact-name", required=True)
     ap.add_argument("--artifact-digest", required=True)
     ap.add_argument("--expected-digest")
+    ap.add_argument("--artifact-namespace")
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
 
@@ -200,6 +245,7 @@ def main() -> int:
         artifact_name=args.artifact_name,
         artifact_digest=args.artifact_digest,
         expected_digest=args.expected_digest,
+        artifact_namespace=args.artifact_namespace,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
