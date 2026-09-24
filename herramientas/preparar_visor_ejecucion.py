@@ -392,8 +392,7 @@ def main() -> None:
     payload = {"schema": "ddd.viewer-results/1.1", "results": results}
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "
-", encoding="utf-8")
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"[VISOR] resultados={len(results)} registry={output}")
 
 
