@@ -115,6 +115,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             "${{ inputs.invocation_context != 'reusable' || inputs.persist_state }}",
         )
 
+    def test_manual_generation_does_not_require_gerrychain_contract(self):
+        orchestration = ORCH.read_text(encoding="utf-8")
+        self.assertIn("gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}", orchestration)
+        self.assertIn("require_unique_hashes: ${{ inputs.require_unique_hashes == true }}", orchestration)
+        dispatch_inputs = triggers(ORCH)["workflow_dispatch"]["inputs"]
+        self.assertNotIn("gerrychain_entrypoint", dispatch_inputs)
+        self.assertNotIn("require_unique_hashes", dispatch_inputs)
+
     def test_orchestrator_calls_business_phases_in_order(self):
         data = load(ORCH)
         jobs = data["jobs"]
