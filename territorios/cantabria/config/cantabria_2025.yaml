@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: production_ready_auto_materialized
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -43,11 +43,11 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '39'
-  status: topology_contract_candidate
+  status: generation_ready
   notes:
   - R022 congeló 458 secciones y 593623 habitantes sin faltantes.
   - R023 justificó 1 pasarelas; no se añade ninguna excepción no auditada.
-  - K y M04 permanecen pendientes.
+  - K y la cadena M04-M06 están materializados bajo el contrato productivo común.
   k_districts: 35
   k_source: norma
   k_rationale: K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla

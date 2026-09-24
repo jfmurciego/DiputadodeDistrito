@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: production_contract_candidate
+  status: generation_ready
 io:
   project_root:
     path: ../../..
@@ -43,6 +43,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes:
   - '26'
+  status: generation_ready
   k_districts: 33
   k_source: norma
   k_rationale: K=33 conserva el número legal vigente de diputados del Parlamento de
