@@ -4,7 +4,10 @@ import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
-try:\n    from herramientas.catalogo_territorios import load_master, normalize_territory_input\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import load_master, normalize_territory_input
+try:
+    from herramientas.catalogo_territorios import load_master, normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import load_master, normalize_territory_input
 
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -176,7 +179,8 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                                         errors.append(f"{tid}/{edition}: SHA-256 electoral no coincide: {src_raw}")
                             except Exception as exc:
                                 errors.append(f"{tid}/{edition}: election_contract inválido: {exc}")
-    if errors: raise ValueError("\n".join(errors))
+    if errors: raise ValueError("
+".join(errors))
     return []
 
 def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
