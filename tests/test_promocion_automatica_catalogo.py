@@ -84,7 +84,7 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         options = triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         expected = [r["name"] for r in territories()]
         self.assertEqual(options, expected)
-        self.assertIn("Extremadura", options)
+        self.assertIn("11 · Extremadura", options)
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
         self.assertNotIn(".github/workflows/produccion-distritos.yml", promoter)
 
