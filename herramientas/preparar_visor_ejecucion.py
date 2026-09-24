@@ -18,6 +18,7 @@ import yaml
 from pyproj import Transformer
 
 from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
+from herramientas.catalogo_territorios import format_territory_label, master_index
 
 
 TERRITORY_LABELS = {
@@ -338,6 +339,24 @@ def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, re
         item["ensemble_asset_sha256"] = entry.get("sha256")
 
 
+def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]:
+    catalog = master_index(repository_root / "configuracion/catalogo_territorios_espana_2025.yaml")
+    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
+    for item in results:
+        canonical = catalog.get(str(item.get("territory_id") or ""))
+        if canonical is None:
+            raise ValueError(f"Resultado visual sin territorio canónico: {item.get('territory_id')}")
+        item["territory_label"] = canonical["name"]
+        item["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+        item["territory_display_name"] = format_territory_label(canonical)
+    results.sort(key=lambda item: (
+        item["autonomous_community_code_ine"],
+        priority.get(item["kind"], 9),
+        item["label"],
+    ))
+    return results
+
+
 def build_from_publication_registry(
     registry_path: Path,
     repository_root: Path,
@@ -352,7 +371,7 @@ def build_from_publication_registry(
         add_registered_product(entry, repository_root, materialized_root, site, results)
     for entry in registry.get("ensembles", []):
         add_registered_ensemble(entry, materialized_root, site, results)
-    return results
+    return _decorate_and_sort(results, repository_root)
 
 
 def main() -> None:
@@ -390,8 +409,7 @@ def main() -> None:
     if not results:
         raise SystemExit("No se encontró ningún resultado visualizable")
 
-    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
-    results.sort(key=lambda item: (priority.get(item["kind"], 9), item["label"]))
+    results = _decorate_and_sort(results, args.repository_root)
     payload = {"schema": "ddd.viewer-results/1.1", "results": results}
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)
