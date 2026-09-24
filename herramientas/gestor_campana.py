@@ -369,6 +369,110 @@ def validate_portfolio_contract(portfolio: dict[str, Any]) -> dict[str, Any]:
 
 
 
+
+def portfolio_artifact_name(run_id: int | str, artifact_namespace: str) -> str:
+    run_text = str(run_id).strip()
+    namespace = str(artifact_namespace or "").strip()
+    if not run_text.isdigit() or int(run_text) <= 0:
+        raise ValueError("run_id de portfolio inválido")
+    return f"ddd-state-{run_text}-M05" + (f"-{namespace}" if namespace else "")
+
+
+def _iter_coordinate_pairs(value: Any):
+    if isinstance(value, list) and len(value) >= 2 and all(isinstance(v, (int, float)) for v in value[:2]):
+        yield float(value[0]), float(value[1])
+        return
+    if isinstance(value, list):
+        for item in value:
+            yield from _iter_coordinate_pairs(item)
+
+
+def validate_portfolio_bundle(bundle_root: Path, *, expected_districts: int) -> dict[str, Any]:
+    portfolio_path = _single(bundle_root, "portfolio.json")
+    portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
+    strict = validate_portfolio_contract(portfolio)
+    if not strict["valid"]:
+        raise ValueError(
+            "portfolio GerryChain 50 inválido: "
+            f"valid={strict['candidate_count_valid']} "
+            f"unique={strict['unique_candidate_hash_count']} "
+            f"missing={strict['missing_candidate_hash_count']} "
+            f"duplicates={strict['duplicate_candidate_hash_count']}"
+        )
+
+    verified = []
+    for ordinal, row in enumerate(portfolio.get("candidates") or [], start=1):
+        source_name = Path(str(row.get("geojson") or row.get("file") or "")).name
+        if not source_name:
+            seed = row.get("seed")
+            source_name = f"candidate_{ordinal:03d}_seed_{seed}.geojson.zip"
+        matches = sorted(bundle_root.rglob(source_name))
+        if len(matches) != 1:
+            raise ValueError(
+                f"candidate-{ordinal:03d}: ZIP no inequívoco para {source_name}; encontrados={len(matches)}"
+            )
+        source = matches[0]
+        expected_sha = _hex(row.get("sha256"), 64, f"candidate-{ordinal:03d}.sha256")
+        observed_sha = sha256(source)
+        if observed_sha != expected_sha:
+            raise ValueError(
+                f"candidate-{ordinal:03d}: SHA-256 del ZIP no coincide "
+                f"observado={observed_sha} esperado={expected_sha}"
+            )
+        if not zipfile.is_zipfile(source):
+            raise ValueError(f"candidate-{ordinal:03d}: candidato no es ZIP")
+        with zipfile.ZipFile(source) as archive:
+            members = [
+                name for name in archive.namelist()
+                if name.lower().endswith((".geojson", ".json")) and not name.endswith("/")
+            ]
+            if len(members) != 1:
+                raise ValueError(
+                    f"candidate-{ordinal:03d}: esperaba un único GeoJSON; encontrados={members}"
+                )
+            payload = json.loads(archive.read(members[0]).decode("utf-8"))
+        if payload.get("type") != "FeatureCollection":
+            raise ValueError(f"candidate-{ordinal:03d}: GeoJSON no es FeatureCollection")
+        features = payload.get("features") or []
+        if not features:
+            raise ValueError(f"candidate-{ordinal:03d}: GeoJSON sin features")
+        districts = set()
+        for feature in features:
+            geometry = feature.get("geometry")
+            if not isinstance(geometry, dict) or not geometry.get("type"):
+                raise ValueError(f"candidate-{ordinal:03d}: geometría ausente")
+            coords = list(_iter_coordinate_pairs(geometry.get("coordinates")))
+            if not coords:
+                raise ValueError(f"candidate-{ordinal:03d}: geometría sin coordenadas")
+            if any(not (-180.0 <= x <= 180.0 and -90.0 <= y <= 90.0) for x, y in coords):
+                raise ValueError(f"candidate-{ordinal:03d}: geometría no está en WGS84/CRS84")
+            district = str((feature.get("properties") or {}).get("district_id") or "")
+            if not district:
+                raise ValueError(f"candidate-{ordinal:03d}: feature sin district_id")
+            districts.add(district)
+        if len(districts) != int(expected_districts):
+            raise ValueError(
+                f"candidate-{ordinal:03d}: distritos observados={len(districts)} "
+                f"esperados={int(expected_districts)}"
+            )
+        verified.append({
+            "candidate_index": ordinal,
+            "seed": row.get("seed"),
+            "assignment_hash": row.get("assignment_hash"),
+            "zip_sha256": observed_sha,
+            "feature_count": len(features),
+            "district_count": len(districts),
+        })
+    return {
+        **strict,
+        "portfolio_path": str(portfolio_path),
+        "verified_candidate_zip_count": len(verified),
+        "verified_wgs84_candidate_count": len(verified),
+        "expected_districts": int(expected_districts),
+        "candidates": verified,
+    }
+
+
 def validate_campaign_summary_for_promotion(summary: dict[str, Any]) -> list[dict[str, Any]]:
     territories = summary.get("territories")
     if summary.get("status") != "PASS":
