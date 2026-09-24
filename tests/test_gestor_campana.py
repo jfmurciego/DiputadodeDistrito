@@ -18,7 +18,9 @@ from herramientas.gestor_campana import (
     validate_manifest,
     validate_portfolio_contract,
     validate_portfolio_bundle,
+    validate_portfolio_artifact_identity,
     portfolio_artifact_name,
+    campaign_strategy,
     validate_reuse_metadata,
     validate_campaign_summary_for_promotion,
     release_identity,
@@ -75,6 +77,25 @@ class CampaignManagerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "require_unique_hashes"):
                 validate_manifest(self.write_manifest(data, Path(raw)))
 
+    def test_campaign_strategy_selects_canonical_and_gerry_variants(self):
+        expected = {
+            "Canónico": ("Canónico", "", 0, False),
+            "GerryChain": ("GerryChain", "", 1, False),
+            "GerryChain 25": ("GerryChain 25", "", 25, False),
+            "GerryChain 50": ("GerryChain 50", "gerrychain_50", 50, True),
+        }
+        for name, contract in expected.items():
+            selected = campaign_strategy(name)
+            self.assertEqual(
+                (
+                    selected["optimization_algorithm"],
+                    selected["entrypoint"],
+                    selected["candidate_count"],
+                    selected["require_unique_hashes"],
+                ),
+                contract,
+            )
+
     def test_matrix_propagates_strict_contract_and_fixed_reuse(self):
         source_sha = "a" * 40
         rows = build_matrix(
@@ -96,6 +117,23 @@ class CampaignManagerTests(unittest.TestCase):
             self.assertGreater(row["reuse_run_id"], 0)
             self.assertEqual(len(row["reuse_artifact_sha256"]), 64)
             self.assertEqual(len(row["reuse_source_sha"]), 40)
+
+    def test_matrix_overrides_execution_strategy_without_weakening_manifest_reuse(self):
+        for strategy in ("Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"):
+            rows = build_matrix(
+                MANIFEST,
+                source_sha="c" * 40,
+                campaign_instance="campaign-strategy",
+                confirmation=CONFIRMATION,
+                strategy=strategy,
+            )["include"]
+            selected = campaign_strategy(strategy)
+            for row in rows:
+                self.assertEqual(row["optimization_algorithm"], selected["optimization_algorithm"])
+                self.assertEqual(row["entrypoint"], selected["entrypoint"])
+                self.assertEqual(row["candidate_count"], selected["candidate_count"])
+                self.assertEqual(row["require_unique_hashes"], selected["require_unique_hashes"])
+                self.assertGreater(row["reuse_run_id"], 0)
 
     def test_wrong_confirmation_is_rejected(self):
         with self.assertRaises(ValueError):
@@ -187,7 +225,8 @@ class CampaignManagerTests(unittest.TestCase):
     def test_pull_request_never_schedules_productive_campaign_or_pages(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
-        self.assertIn("if: ${{ github.event_name == 'workflow_dispatch' }}", manager)
+        self.assertIn("inputs.operacion == 'Ejecutar campaña'", manager)
+        self.assertIn("github.event_name == 'pull_request'", manager)
         self.assertIn("publish_result: false", manager)
         self.assertIn("E2E sintético de campaña sin ejecutar territorios", manager)
         self.assertIn("github.event_name != 'pull_request'", orchestration)
@@ -439,6 +478,48 @@ class CampaignManagerTests(unittest.TestCase):
         )
         return candidate_dir
 
+    def test_portfolio_artifact_identity_rejects_different_or_corrupt_source(self):
+        metadata = {
+            "id": 10765532132,
+            "name": "ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias",
+            "digest": "sha256:" + "a" * 64,
+            "expired": False,
+            "workflow_run": {
+                "id": 35889595424,
+                "head_sha": "b" * 40,
+            },
+        }
+        validate_portfolio_artifact_identity(
+            metadata,
+            run_id=35889595424,
+            artifact_id=10765532132,
+            artifact_name=metadata["name"],
+            artifact_sha256="a" * 64,
+            source_sha="b" * 40,
+        )
+        wrong = dict(metadata)
+        wrong["name"] = "ddd-state-35889595424-M06-wrong"
+        with self.assertRaisesRegex(ValueError, "Identidad del portfolio histórico no coincide"):
+            validate_portfolio_artifact_identity(
+                wrong,
+                run_id=35889595424,
+                artifact_id=10765532132,
+                artifact_name=metadata["name"],
+                artifact_sha256="a" * 64,
+                source_sha="b" * 40,
+            )
+        corrupt = dict(metadata)
+        corrupt["digest"] = "sha256:" + "0" * 64
+        with self.assertRaisesRegex(ValueError, "artifact_sha256"):
+            validate_portfolio_artifact_identity(
+                corrupt,
+                run_id=35889595424,
+                artifact_id=10765532132,
+                artifact_name=metadata["name"],
+                artifact_sha256="a" * 64,
+                source_sha="b" * 40,
+            )
+
     def test_historical_false_fail_is_avoided_by_reading_m05_portfolio_not_m06(self):
         namespace = "campaign-35889595424-1--02--principado_de_asturias"
         self.assertEqual(
@@ -474,17 +555,20 @@ class CampaignManagerTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "SHA-256 del ZIP no coincide"):
                 validate_portfolio_bundle(bundle, expected_districts=1)
 
-    def test_recovery_workflow_is_isolated_and_routes_to_common_publisher(self):
-        recovery = (
-            ROOT / ".github/workflows/recuperar-galeria-asturias-35889595424.yml"
-        ).read_text(encoding="utf-8")
-        self.assertIn('PORTFOLIO_ARTIFACT_ID: "10765532132"', recovery)
-        self.assertIn("validate_portfolio_bundle", recovery)
-        self.assertIn("resolver_release_asset.py release", recovery)
-        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", recovery)
-        self.assertIn("ensemble_release_tag:", recovery)
-        self.assertNotIn("produccion-distritos.yml", recovery)
+    def test_existing_campaign_manager_recovers_portfolio_without_recalculation(self):
+        manager = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("name: 0 · Gestor de Campañas", manager)
+        self.assertIn("Recuperar portfolio existente", manager)
+        self.assertIn("portfolio_artifact_id:", manager)
+        self.assertIn("portfolio_artifact_sha256:", manager)
+        self.assertIn("validate_portfolio_artifact_identity", manager)
+        self.assertIn("validate_portfolio_bundle", manager)
+        self.assertIn("resolver_release_asset.py release", manager)
+        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", manager)
+        self.assertIn("ensemble_release_tag:", manager)
+        recovery = manager[manager.index("  recuperar_portfolio:"):manager.index("  resumen:")]
         self.assertNotIn("ejecucion-completa-proyecto.yml", recovery)
+        self.assertNotIn("produccion-distritos.yml", recovery)
         self.assertNotIn("actions/deploy-pages@", recovery)
 
     def test_publication_jobs_are_after_five_pass_and_skipped_on_pull_request(self):
@@ -522,7 +606,6 @@ class CampaignManagerTests(unittest.TestCase):
             ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml",
             ROOT / ".github/workflows/_reutilizable-incorporacion-electoral.yml",
             ROOT / ".github/workflows/_reutilizable-puerta-validacion.yml",
-            ROOT / ".github/workflows/recuperar-galeria-asturias-35889595424.yml",
         ):
             parsed = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
             self.assertIsInstance(parsed, dict, path)

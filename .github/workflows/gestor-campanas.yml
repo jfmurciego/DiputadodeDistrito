@@ -2,11 +2,29 @@
 # CLASE: interfaz humana de campaña
 # QUÉ HACE: valida un manifiesto versionado y lanza cinco territorios en paralelo desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
-name: Gestor de campañas
+name: 0 · Gestor de Campañas
 
 on:
   workflow_dispatch:
     inputs:
+      operacion:
+        description: Operación
+        required: true
+        type: choice
+        default: Ejecutar campaña
+        options:
+          - Ejecutar campaña
+          - Recuperar portfolio existente
+      estrategia:
+        description: Estrategia territorial
+        required: true
+        type: choice
+        default: GerryChain 50
+        options:
+          - Canónico
+          - GerryChain
+          - GerryChain 25
+          - GerryChain 50
       manifest:
         description: Manifiesto de campaña
         required: true
@@ -22,6 +40,56 @@ on:
         options:
           - NO_EJECUTAR
           - EXECUTE_CAMPAIGN_CONFIRMED
+      portfolio_run_id:
+        description: Run que contiene el portfolio M05 ya calculado
+        required: false
+        default: '35889595424'
+        type: string
+      portfolio_artifact_id:
+        description: Artifact ID exacto del portfolio M05
+        required: false
+        default: '10765532132'
+        type: string
+      portfolio_artifact_name:
+        description: Nombre exacto del artefacto M05
+        required: false
+        default: ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias
+        type: string
+      portfolio_artifact_sha256:
+        description: Digest SHA-256 del artefacto Actions
+        required: false
+        default: a3986d56eab54d2f6ba53e0440520e9d823903ce5eff7a9cc76995af20b73a73
+        type: string
+      portfolio_source_sha:
+        description: Commit de procedencia del portfolio
+        required: false
+        default: a041e5bd154c3bf2b01c0accf999771d17127644
+        type: string
+      portfolio_campaign_instance:
+        description: Identidad original de campaña
+        required: false
+        default: campaign-35889595424-1
+        type: string
+      portfolio_slot:
+        description: Slot original de campaña
+        required: false
+        default: '02'
+        type: string
+      portfolio_territory_id:
+        description: Identificador territorial
+        required: false
+        default: principado_de_asturias
+        type: string
+      portfolio_territory_name:
+        description: Nombre territorial
+        required: false
+        default: Principado de Asturias
+        type: string
+      portfolio_expected_districts:
+        description: Número esperado de distritos
+        required: false
+        default: '45'
+        type: string
   pull_request:
     branches: [main]
     paths:
@@ -45,7 +113,8 @@ permissions:
 
 jobs:
   preparar:
-    name: Validar manifiesto y fijar campaña
+    name: 0 · Gestor de Campañas · Preparar
+    if: ${{ github.event_name == 'pull_request' || inputs.operacion == 'Ejecutar campaña' }}
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
@@ -53,6 +122,7 @@ jobs:
       source_sha: ${{ steps.plan.outputs.source_sha }}
       manifest_sha256: ${{ steps.plan.outputs.manifest_sha256 }}
       manifest_path: ${{ steps.plan.outputs.manifest_path }}
+      strategy: ${{ steps.plan.outputs.strategy }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -63,6 +133,7 @@ jobs:
         env:
           MANIFEST_ID: ${{ github.event_name == 'pull_request' && 'campana_cinco_territorios_v1' || inputs.manifest }}
           CONFIRMATION_INPUT: ${{ github.event_name == 'pull_request' && 'EXECUTE_CAMPAIGN_CONFIRMED' || inputs.confirmacion }}
+          STRATEGY_INPUT: ${{ github.event_name == 'pull_request' && 'GerryChain 50' || inputs.estrategia }}
         run: |
           set -euo pipefail
           manifest_path="configuracion/campanas/$MANIFEST_ID.json"
@@ -73,7 +144,7 @@ jobs:
           fi
           source_sha="$GITHUB_SHA"
           campaign_instance="campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          matrix="$(python herramientas/gestor_campana.py matrix --manifest "$manifest_path" --source-sha "$source_sha" --campaign-instance "$campaign_instance" --confirmation "$CONFIRMATION_INPUT")"
+          matrix="$(python herramientas/gestor_campana.py matrix --manifest "$manifest_path" --source-sha "$source_sha" --campaign-instance "$campaign_instance" --confirmation "$CONFIRMATION_INPUT" --strategy "$STRATEGY_INPUT")"
           manifest_sha256="$(sha256sum "$manifest_path" | awk '{print $1}')"
           {
             echo "matrix=$matrix"
@@ -81,6 +152,7 @@ jobs:
             echo "source_sha=$source_sha"
             echo "manifest_sha256=$manifest_sha256"
             echo "manifest_path=$manifest_path"
+            echo "strategy=$STRATEGY_INPUT"
           } >> "$GITHUB_OUTPUT"
       - name: Validar reutilización fija por contenido
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -136,7 +208,7 @@ jobs:
 
   territorios:
     name: ${{ matrix.slot }} · ${{ matrix.territory_name }}
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' }}
     needs: preparar
     strategy:
       fail-fast: false
@@ -154,7 +226,7 @@ jobs:
       persist_state: false
       publication_mode: ${{ matrix.publication_mode }}
       artifact_namespace: ${{ matrix.artifact_namespace }}
-      campaign_instance: ${{ matrix.campaign_instance }}
+      campaign_instance: ${{ matrix.entrypoint == 'gerrychain_50' && matrix.campaign_instance || '' }}
       campaign_slot: ${{ matrix.slot }}
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
@@ -170,9 +242,153 @@ jobs:
       expected_district_count: ${{ matrix.expected_district_count }}
       expected_certification: ${{ matrix.expected_certification }}
 
+  recuperar_portfolio:
+    name: Recuperar portfolio existente sin recalcular
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Recuperar portfolio existente' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      release_tag: ${{ steps.release.outputs.release_tag }}
+      ensemble_sha256: ${{ steps.release.outputs.ensemble_sha256 }}
+      source_ref: ${{ steps.identity.outputs.source_ref }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PORTFOLIO_RUN_ID: ${{ inputs.portfolio_run_id }}
+      PORTFOLIO_ARTIFACT_ID: ${{ inputs.portfolio_artifact_id }}
+      PORTFOLIO_ARTIFACT_NAME: ${{ inputs.portfolio_artifact_name }}
+      PORTFOLIO_ARTIFACT_SHA256: ${{ inputs.portfolio_artifact_sha256 }}
+      PORTFOLIO_SOURCE_SHA: ${{ inputs.portfolio_source_sha }}
+      CAMPAIGN_INSTANCE: ${{ inputs.portfolio_campaign_instance }}
+      CAMPAIGN_SLOT: ${{ inputs.portfolio_slot }}
+      TERRITORY_ID: ${{ inputs.portfolio_territory_id }}
+      TERRITORY_NAME: ${{ inputs.portfolio_territory_name }}
+      EXPECTED_DISTRICTS: ${{ inputs.portfolio_expected_districts }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+      - run: python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
+      - id: identity
+        name: Exigir identidad y digest explícitos del portfolio M05
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = main || { echo "::error::La recuperación sólo puede ejecutarse desde main."; exit 70; }
+          test "${{ inputs.confirmacion }}" = EXECUTE_CAMPAIGN_CONFIRMED || { echo "::error::Falta confirmación explícita."; exit 70; }
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$PORTFOLIO_ARTIFACT_ID" > /tmp/portfolio-artifact.json
+          python - <<'PY'
+          import json, os
+          from herramientas.gestor_campana import validate_portfolio_artifact_identity
+          metadata=json.load(open("/tmp/portfolio-artifact.json",encoding="utf-8"))
+          validate_portfolio_artifact_identity(
+              metadata,
+              run_id=os.environ["PORTFOLIO_RUN_ID"],
+              artifact_id=os.environ["PORTFOLIO_ARTIFACT_ID"],
+              artifact_name=os.environ["PORTFOLIO_ARTIFACT_NAME"],
+              artifact_sha256=os.environ["PORTFOLIO_ARTIFACT_SHA256"],
+              source_sha=os.environ["PORTFOLIO_SOURCE_SHA"],
+          )
+          PY
+          echo "source_ref=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+      - name: Descargar sólo el portfolio M05 acreditado
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-campaign/recovery
+          mkdir -p .ddd-campaign/recovery/portfolio
+          gh run download "$PORTFOLIO_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$PORTFOLIO_ARTIFACT_NAME" --dir .ddd-campaign/recovery/portfolio
+      - name: Validar y preparar bundle sin ejecutar generación
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          from herramientas.gestor_campana import validate_portfolio_bundle
+          source=Path(".ddd-campaign/recovery/portfolio")
+          result=validate_portfolio_bundle(source, expected_districts=int(os.environ["EXPECTED_DISTRICTS"]))
+          portfolio=next(source.rglob("portfolio.json"))
+          portfolio_dir=portfolio.parent
+          target=Path(".ddd-campaign/recovery/bundle") / os.environ["CAMPAIGN_SLOT"] / os.environ["TERRITORY_ID"]
+          candidates=target/"candidates"
+          summary=target/"summary"
+          candidates.mkdir(parents=True, exist_ok=True)
+          summary.mkdir(parents=True, exist_ok=True)
+          for path in portfolio_dir.iterdir():
+              if path.is_file():
+                  shutil.copy2(path, candidates/path.name)
+          (summary/"portfolio_validation.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          status={
+              "schema":"ddd.campaign-territory-status/1.1",
+              "campaign_instance":os.environ["CAMPAIGN_INSTANCE"],
+              "slot":os.environ["CAMPAIGN_SLOT"],
+              "territory_id":os.environ["TERRITORY_ID"],
+              "territory_name":os.environ["TERRITORY_NAME"],
+              "namespace":f"{os.environ['CAMPAIGN_INSTANCE']}/{os.environ['CAMPAIGN_SLOT']}/{os.environ['TERRITORY_ID']}",
+              "entrypoint":"gerrychain_50",
+              "require_unique_hashes":True,
+              "candidate_count_expected":50,
+              "candidate_count_valid":result["candidate_count_valid"],
+              "unique_candidate_hash_count":result["unique_candidate_hash_count"],
+              "missing_candidate_hash_count":result["missing_candidate_hash_count"],
+              "duplicate_candidate_hash_count":result["duplicate_candidate_hash_count"],
+              "status":"PASS",
+              "reason":"",
+          }
+          (summary/"campaign_status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+      - id: release
+        name: Empaquetar y resolver draft release por id + tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle=".ddd-campaign/recovery/bundle/$CAMPAIGN_SLOT/$TERRITORY_ID"
+          mkdir -p .ddd-campaign/recovery/release
+          python herramientas/gestor_campana.py package-ensemble             --bundle-root "$bundle"             --output-zip .ddd-campaign/recovery/release/ensemble.tmp.zip             --campaign-instance "$CAMPAIGN_INSTANCE"             --expected-districts "$EXPECTED_DISTRICTS"             --output-json .ddd-campaign/recovery/release/descriptor.json
+          tag="$(jq -r .release_tag .ddd-campaign/recovery/release/descriptor.json)"
+          expected_sha="$(jq -r .sha256 .ddd-campaign/recovery/release/descriptor.json)"
+          asset_name="$tag.zip"
+          mv .ddd-campaign/recovery/release/ensemble.tmp.zip ".ddd-campaign/recovery/release/$asset_name"
+          test "$(sha256sum ".ddd-campaign/recovery/release/$asset_name" | awk '{print $1}')" = "$expected_sha"
+
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-campaign/recovery/release/releases.json
+          if python herramientas/resolver_release_asset.py release --releases .ddd-campaign/recovery/release/releases.json --tag "$tag" > .ddd-campaign/recovery/release/release.json 2>/dev/null; then
+            release_id="$(jq -r .id .ddd-campaign/recovery/release/release.json)"
+          else
+            gh release create "$tag" ".ddd-campaign/recovery/release/$asset_name" --draft --target "$PORTFOLIO_SOURCE_SHA" --title "$tag"               --notes "Recuperación aislada de portfolio M05 ya calculado."
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-campaign/recovery/release/releases.json
+            python herramientas/resolver_release_asset.py release --releases .ddd-campaign/recovery/release/releases.json --tag "$tag" > .ddd-campaign/recovery/release/release.json
+            release_id="$(jq -r .id .ddd-campaign/recovery/release/release.json)"
+          fi
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-campaign/recovery/release/release-current.json
+          if ! python herramientas/resolver_release_asset.py asset --release .ddd-campaign/recovery/release/release-current.json --name "$asset_name" > .ddd-campaign/recovery/release/asset.json 2>/dev/null; then
+            count="$(jq --arg n "$asset_name" '[.assets[]|select(.name==$n)]|length' .ddd-campaign/recovery/release/release-current.json)"
+            test "$count" = 0 || { echo "::error::Asset de ensemble no único: $count"; exit 72; }
+            gh release upload "$tag" ".ddd-campaign/recovery/release/$asset_name"
+            gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-campaign/recovery/release/release-current.json
+            python herramientas/resolver_release_asset.py asset --release .ddd-campaign/recovery/release/release-current.json --name "$asset_name" > .ddd-campaign/recovery/release/asset.json
+          fi
+          asset_id="$(jq -r .id .ddd-campaign/recovery/release/asset.json)"
+          gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > .ddd-campaign/recovery/release/persisted.zip
+          observed_sha="$(sha256sum .ddd-campaign/recovery/release/persisted.zip | awk '{print $1}')"
+          test "$observed_sha" = "$expected_sha" || { echo "::error::SHA-256 del release asset no coincide"; exit 73; }
+          echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "ensemble_sha256=$expected_sha" >> "$GITHUB_OUTPUT"
+
+  publicar_recuperacion:
+    name: Registrar ensemble recuperado y publicar
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Recuperar portfolio existente' && needs.recuperar_portfolio.result == 'success' }}
+    needs: recuperar_portfolio
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      ensemble_release_tag: ${{ needs.recuperar_portfolio.outputs.release_tag }}
+      ensemble_sha256: ${{ needs.recuperar_portfolio.outputs.ensemble_sha256 }}
+      source_ref: ${{ needs.recuperar_portfolio.outputs.source_ref }}
+      target_page: Visor territorial
+
   resumen:
     name: Resumen agregado de campaña
-    if: ${{ always() && github.event_name == 'workflow_dispatch' && needs.preparar.result == 'success' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.strategy == 'GerryChain 50' && needs.preparar.result == 'success' }}
     needs: [preparar, territorios]
     runs-on: ubuntu-24.04
     steps:
@@ -211,7 +427,7 @@ jobs:
 
   promover_galerias:
     name: Promover cinco galerías a releases inmutables
-    if: ${{ github.event_name == 'workflow_dispatch' && needs.resumen.result == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.strategy == 'GerryChain 50' && needs.resumen.result == 'success' }}
     needs: [preparar, resumen]
     runs-on: ubuntu-24.04
     outputs:
@@ -352,7 +568,7 @@ jobs:
 
   publicar_galerias:
     name: Publicar ${{ matrix.territory_id }}
-    if: ${{ github.event_name == 'workflow_dispatch' && needs.promover_galerias.result == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.strategy == 'GerryChain 50' && needs.promover_galerias.result == 'success' }}
     needs: [preparar, promover_galerias]
     strategy:
       fail-fast: false
@@ -368,7 +584,7 @@ jobs:
 
   resultado_publicacion:
     name: Resultado global de campaña y publicación
-    if: ${{ always() && github.event_name == 'workflow_dispatch' }}
+    if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.strategy == 'GerryChain 50' }}
     needs: [preparar, resumen, promover_galerias, publicar_galerias]
     runs-on: ubuntu-24.04
     steps:
