@@ -340,34 +340,53 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             self.assertFalse(commit_marker.exists())
             self.assertFalse(deploy_marker.exists())
 
-    def test_publisher_order_is_preflight_candidate_build_validation_persist_deploy(self):
+    def test_publisher_order_is_preflight_build_validation_pages_deploy_then_persist(self):
         text = PUBLISHER.read_text(encoding="utf-8")
         preflight = text.index("Preflight completo del registro candidato")
         build = text.index("Construir sitio candidato completo")
         validate = text.index("Validar sitio candidato completo")
-        persist = text.index("Persistir registro sólo después del preflight")
+        pages_preflight = text.index("Verificar Pages habilitado para GitHub Actions")
+        configure = text.index("actions/configure-pages@")
         upload = text.index("actions/upload-pages-artifact@")
         deploy = text.index("actions/deploy-pages@")
+        persist = text.index("Persistir registro sólo después del despliegue")
         self.assertLess(preflight, build)
         self.assertLess(build, validate)
-        self.assertLess(validate, persist)
-        self.assertLess(persist, upload)
+        self.assertLess(validate, pages_preflight)
+        self.assertLess(pages_preflight, configure)
+        self.assertLess(configure, upload)
         self.assertLess(upload, deploy)
+        self.assertLess(deploy, persist)
         self.assertIn("with: {path: /tmp/site-candidate}", text)
         self.assertEqual(text.count("--site /tmp/site-candidate"), 1)
         self.assertNotIn("--site site ", text)
 
-    def test_publisher_preflights_current_and_candidate_before_registry_copy_or_pages(self):
+    def test_publisher_preflights_pages_and_never_self_enables_with_github_token(self):
         text = PUBLISHER.read_text(encoding="utf-8")
         current = text.index("Preflight completo del registro vigente")
         candidate = text.index("Preflight completo del registro candidato")
-        persist = text.index("Persistir registro sólo después del preflight")
+        pages = text.index("Verificar Pages habilitado para GitHub Actions")
         deploy = text.index("actions/deploy-pages@")
+        persist = text.index("Persistir registro sólo después del despliegue")
         self.assertLess(current, candidate)
-        self.assertLess(candidate, persist)
-        self.assertLess(persist, deploy)
+        self.assertLess(candidate, pages)
+        self.assertLess(pages, deploy)
+        self.assertLess(deploy, persist)
+        self.assertIn('gh api "repos/$GITHUB_REPOSITORY/pages"', text)
+        self.assertIn('build_type="$(jq -r', text)
+        self.assertNotIn("enablement: true", text)
+        self.assertIn("el GITHUB_TOKEN no puede crear el sitio", text)
+        self.assertIn('steps.deployment.outcome', text)
         self.assertIn("release_asset", text)
         self.assertIn("repos/$GITHUB_REPOSITORY/releases/assets/$asset_id", text)
+
+    def test_publication_workflow_and_job_names_remain_stable(self):
+        wrapper = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
+        publisher = PUBLISHER.read_text(encoding="utf-8")
+        self.assertIn("name: 05 · Publicación del Visor", wrapper)
+        self.assertIn("name: Preparar promoción web", wrapper)
+        self.assertIn("name: Desplegar página seleccionada", wrapper)
+        self.assertIn("name: _Publicador Interno del Sitio", publisher)
 
 
 if __name__ == "__main__":

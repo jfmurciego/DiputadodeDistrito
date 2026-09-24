@@ -302,10 +302,33 @@ jobs:
           [[ -n "$PRODUCTION_RUN_ID" ]] && args+=(--production-root /tmp/production --strict-request)
           python herramientas/evaluar_publicacion_visor.py "${args[@]}"
 
-      - name: Persistir registro sólo después del preflight
+      - name: Verificar Pages habilitado para GitHub Actions
         shell: bash
         run: |
           set -euo pipefail
+          if ! gh api "repos/$GITHUB_REPOSITORY/pages" > /tmp/pages-site.json; then
+            echo "::error::GitHub Pages no está habilitado para este repositorio. Debe habilitarse una sola vez en Settings > Pages con Source = GitHub Actions; el GITHUB_TOKEN no puede crear el sitio."
+            exit 58
+          fi
+          build_type="$(jq -r '.build_type // empty' /tmp/pages-site.json)"
+          [[ "$build_type" == "workflow" ]] || {
+            echo "::error::GitHub Pages está configurado con build_type=$build_type; se requiere Source = GitHub Actions."
+            exit 58
+          }
+
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
+        with: {path: /tmp/site-candidate}
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+
+      - name: Persistir registro sólo después del despliegue
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "${{ steps.deployment.outcome }}" == "success" ]] || {
+            echo "::error::No se persiste el registro porque Pages no se desplegó correctamente."; exit 49;
+          }
           cmp -s "$PUBLICATION_REGISTRY" /tmp/publicaciones_visor.candidate.json && exit 0
           [[ "$GITHUB_REF_NAME" == "main" ]] || {
             echo "::error::Las promociones publicables sólo pueden persistirse desde main."; exit 45;
@@ -325,13 +348,6 @@ jobs:
             }
             sleep $((attempt * 2))
           done
-
-      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
-        with: {enablement: true}
-      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4.0.0
-        with: {path: /tmp/site-candidate}
-      - id: deployment
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
 
       - name: Registrar evidencia
         if: always()
