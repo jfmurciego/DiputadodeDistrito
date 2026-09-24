@@ -49,7 +49,7 @@ esac
             )
             fake_git.chmod(0o755)
             fake_sleep = bin_dir / "sleep"
-            fake_sleep.write_text("#!/usr/bin/env bash\\nexit 0\\n", encoding="utf-8")
+            fake_sleep.write_text("#!/usr/bin/env bash\nexit 0\n", encoding="utf-8")
             fake_sleep.chmod(0o755)
             env = os.environ.copy()
             env.update({
