@@ -61,6 +61,27 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/1ea8c6faecd558d77a30fc9ab43c2982e3e5a421"
     },
     {
+      "id": "m06-galicia-35978568807",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "galicia",
+      "territory_label": "Galicia",
+      "run_id": "35978568807",
+      "expected_districts": 75,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "75 distritos evaluados / 63 PASS / 12 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 35978568807",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "243f13316888f2e41c8e8d17449378e937d04b45",
+      "sha256": "ea12ec2c0e721e7343e69be78e3bb2be07733a3f9b6229123387615fbe817269",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/243f13316888f2e41c8e8d17449378e937d04b45"
+    },
+    {
       "id": "m06-principado_de_asturias-35728626894",
       "asset_type": "territorial_product",
       "kind": "canonical_m06",
