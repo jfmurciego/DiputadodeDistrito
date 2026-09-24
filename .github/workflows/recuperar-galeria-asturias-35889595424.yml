@@ -1,0 +1,161 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: recuperación aislada de galería histórica
+# QUÉ HACE: reutiliza exclusivamente el portfolio M05 ya calculado de Asturias en la campaña 35889595424.
+# NO HACE: no ejecuta formación inicial, optimización, generación territorial ni incorporación electoral.
+name: Recuperar galería Asturias · campaña 35889595424
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmar:
+        description: Confirmación explícita
+        required: true
+        type: choice
+        default: NO
+        options:
+          - NO
+          - RECUPERAR_GALERIA_EXISTENTE
+
+permissions:
+  contents: write
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  preparar_y_promover:
+    name: Acreditar portfolio M05 y promover ensemble
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirmar == 'RECUPERAR_GALERIA_EXISTENTE' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      release_tag: ${{ steps.promote.outputs.release_tag }}
+      ensemble_sha256: ${{ steps.promote.outputs.ensemble_sha256 }}
+      source_ref: ${{ steps.identity.outputs.source_ref }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PORTFOLIO_RUN_ID: "35889595424"
+      PORTFOLIO_ARTIFACT_ID: "10765532132"
+      PORTFOLIO_ARTIFACT_NAME: "ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias"
+      PORTFOLIO_ARTIFACT_DIGEST: "a3986d56eab54d2f6ba53e0440520e9d823903ce5eff7a9cc76995af20b73a73"
+      SOURCE_SHA: "a041e5bd154c3bf2b01c0accf999771d17127644"
+      CAMPAIGN_INSTANCE: "campaign-35889595424-1"
+      SLOT: "02"
+      TERRITORY_ID: "principado_de_asturias"
+      TERRITORY_NAME: "Principado de Asturias"
+      EXPECTED_DISTRICTS: "45"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+      - run: python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
+      - id: identity
+        name: Verificar identidad inmutable del portfolio histórico
+        shell: bash
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$PORTFOLIO_ARTIFACT_ID")"
+          test "$(jq -r .name <<<"$meta")" = "$PORTFOLIO_ARTIFACT_NAME" || { echo "::error::artifact name no coincide"; exit 71; }
+          test "$(jq -r '.workflow_run.id' <<<"$meta")" = "$PORTFOLIO_RUN_ID" || { echo "::error::artifact run no coincide"; exit 71; }
+          test "$(jq -r '.workflow_run.head_sha' <<<"$meta")" = "$SOURCE_SHA" || { echo "::error::artifact source SHA no coincide"; exit 71; }
+          test "$(jq -r '.digest|sub("^sha256:";"")' <<<"$meta")" = "$PORTFOLIO_ARTIFACT_DIGEST" || { echo "::error::artifact digest no coincide"; exit 71; }
+          echo "source_ref=$SOURCE_SHA" >> "$GITHUB_OUTPUT"
+      - name: Descargar exclusivamente el portfolio M05
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-recovery/portfolio
+          gh run download "$PORTFOLIO_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$PORTFOLIO_ARTIFACT_NAME" --dir .ddd-recovery/portfolio
+      - name: Acreditar 50 candidatos, hashes, ZIP y geometrías
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from herramientas.gestor_campana import validate_portfolio_bundle
+          root=Path(".ddd-recovery/portfolio")
+          result=validate_portfolio_bundle(root, expected_districts=45)
+          out=Path(".ddd-recovery/bundle/02/principado_de_asturias")
+          (out/"candidates").mkdir(parents=True, exist_ok=True)
+          portfolio=next(root.rglob("portfolio.json"))
+          source_dir=portfolio.parent
+          for path in source_dir.iterdir():
+              if path.is_file():
+                  (out/"candidates"/path.name).write_bytes(path.read_bytes())
+          (out/"summary").mkdir(parents=True, exist_ok=True)
+          (out/"summary"/"portfolio_validation.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          status={
+            "schema":"ddd.campaign-territory-status/1.1",
+            "campaign_instance":"campaign-35889595424-1",
+            "slot":"02",
+            "territory_id":"principado_de_asturias",
+            "territory_name":"Principado de Asturias",
+            "namespace":"campaign-35889595424-1/02/principado_de_asturias",
+            "artifact_namespace":"campaign-35889595424-1--02--principado_de_asturias",
+            "source_sha":"a041e5bd154c3bf2b01c0accf999771d17127644",
+            "publication_mode":"electoral",
+            "entrypoint":"gerrychain_50",
+            "require_unique_hashes":True,
+            "candidate_count_expected":50,
+            "candidate_count_valid":result["candidate_count_valid"],
+            "unique_candidate_hash_count":result["unique_candidate_hash_count"],
+            "missing_candidate_hash_count":result["missing_candidate_hash_count"],
+            "duplicate_candidate_hash_count":result["duplicate_candidate_hash_count"],
+            "status":"PASS",
+            "reason":"",
+            "portfolio":{
+              "run_id":"35889595424",
+              "artifact_id":10765532132,
+              "artifact":"ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias"
+            }
+          }
+          (out/"summary"/"campaign_status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          PY
+      - id: promote
+        name: Empaquetar y promover release draft por id + tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle=".ddd-recovery/bundle/02/principado_de_asturias"
+          mkdir -p .ddd-recovery/release
+          python herramientas/gestor_campana.py package-ensemble             --bundle-root "$bundle"             --output-zip .ddd-recovery/release/ensemble.tmp.zip             --campaign-instance "$CAMPAIGN_INSTANCE"             --expected-districts "$EXPECTED_DISTRICTS"             --output-json .ddd-recovery/release/descriptor.json
+          tag="$(jq -r .release_tag .ddd-recovery/release/descriptor.json)"
+          expected_sha="$(jq -r .sha256 .ddd-recovery/release/descriptor.json)"
+          asset_name="$tag.zip"
+          mv .ddd-recovery/release/ensemble.tmp.zip ".ddd-recovery/release/$asset_name"
+          test "$(sha256sum ".ddd-recovery/release/$asset_name" | awk '{print $1}')" = "$expected_sha"
+
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-recovery/release/releases.json
+          if python herramientas/resolver_release_asset.py release --releases .ddd-recovery/release/releases.json --tag "$tag" > .ddd-recovery/release/release.json 2>/dev/null; then
+            release_id="$(jq -r .id .ddd-recovery/release/release.json)"
+          else
+            gh release create "$tag" ".ddd-recovery/release/$asset_name" --draft --target "$SOURCE_SHA" --title "$tag"               --notes "Recuperación aislada de la galería GerryChain 50 de Principado de Asturias, campaña 35889595424."
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-recovery/release/releases.json
+            python herramientas/resolver_release_asset.py release --releases .ddd-recovery/release/releases.json --tag "$tag" > .ddd-recovery/release/release.json
+            release_id="$(jq -r .id .ddd-recovery/release/release.json)"
+          fi
+          gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-recovery/release/release-current.json
+          if ! python herramientas/resolver_release_asset.py asset --release .ddd-recovery/release/release-current.json --name "$asset_name" > .ddd-recovery/release/asset.json 2>/dev/null; then
+            count="$(jq --arg n "$asset_name" '[.assets[]|select(.name==$n)]|length' .ddd-recovery/release/release-current.json)"
+            test "$count" = 0 || { echo "::error::asset $asset_name no único"; exit 72; }
+            gh release upload "$tag" ".ddd-recovery/release/$asset_name"
+            gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-recovery/release/release-current.json
+            python herramientas/resolver_release_asset.py asset --release .ddd-recovery/release/release-current.json --name "$asset_name" > .ddd-recovery/release/asset.json
+          fi
+          asset_id="$(jq -r .id .ddd-recovery/release/asset.json)"
+          gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > .ddd-recovery/release/persisted.zip
+          observed="$(sha256sum .ddd-recovery/release/persisted.zip | awk '{print $1}')"
+          test "$observed" = "$expected_sha" || { echo "::error::SHA-256 del release asset no coincide"; exit 73; }
+          echo "release_tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "ensemble_sha256=$expected_sha" >> "$GITHUB_OUTPUT"
+
+  publicar:
+    name: Registrar ensemble y desplegar visor
+    needs: preparar_y_promover
+    uses: ./.github/workflows/_reutilizable-publicar-sitio.yml
+    secrets: inherit
+    with:
+      ensemble_release_tag: ${{ needs.preparar_y_promover.outputs.release_tag }}
+      ensemble_sha256: ${{ needs.preparar_y_promover.outputs.ensemble_sha256 }}
+      source_ref: ${{ github.sha }}
+      target_page: Visor territorial
