@@ -519,6 +519,7 @@ jobs:
       ELECTORAL_GATE_RESULT: ${{ needs.puerta_04.result }}
       TERRITORIAL_RUN_ID: ${{ needs.puerta_02.outputs.run_id }}
       TERRITORIAL_ARTIFACT: ${{ needs.puerta_02.outputs.artifact_name }}
+      EXPECTED_DISTRICT_COUNT: ${{ inputs.expected_district_count }}
       ELECTORAL_RUN_ID: ${{ needs.puerta_04.outputs.run_id }}
       ELECTORAL_ARTIFACT: ${{ needs.puerta_04.outputs.artifact_name }}
     steps:
@@ -538,18 +539,24 @@ jobs:
           portfolio_valid=false
           reason=""
           if [[ "$TERRITORIAL_GATE_RESULT" == success && -n "$TERRITORIAL_ARTIFACT" ]]; then
-            mkdir -p .ddd-campaign/m06
-            if gh run download "$TERRITORIAL_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$TERRITORIAL_ARTIFACT" --dir .ddd-campaign/m06 >/dev/null 2>&1; then
-              portfolio="$(find .ddd-campaign/m06 -name portfolio.json -type f -print -quit)"
+            mkdir -p .ddd-campaign/m05
+            portfolio_artifact="$(python - "$TERRITORIAL_RUN_ID" "$ARTIFACT_NAMESPACE" <<'PY'
+          import sys
+          from herramientas.gestor_campana import portfolio_artifact_name
+          print(portfolio_artifact_name(sys.argv[1], sys.argv[2]))
+          PY
+            )"
+            if gh run download "$TERRITORIAL_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$portfolio_artifact" --dir .ddd-campaign/m05 >/dev/null 2>&1; then
+              portfolio="$(find .ddd-campaign/m05 -name portfolio.json -type f -print -quit)"
               if [[ -n "$portfolio" ]]; then
                 portfolio_dir="$(dirname "$portfolio")"
                 cp -a "$portfolio_dir/." "$root/candidates/"
-                python - "$portfolio" "$root/summary/portfolio_validation.json" <<'PY'
+                python - "$root/candidates" "$root/summary/portfolio_validation.json" "$EXPECTED_DISTRICT_COUNT" <<'PY'
           import json,sys
           from pathlib import Path
-          from herramientas.gestor_campana import validate_portfolio_contract
-          src=Path(sys.argv[1]); dst=Path(sys.argv[2])
-          result=validate_portfolio_contract(json.loads(src.read_text(encoding="utf-8")))
+          from herramientas.gestor_campana import validate_portfolio_bundle
+          root=Path(sys.argv[1]); dst=Path(sys.argv[2]); expected=int(sys.argv[3])
+          result=validate_portfolio_bundle(root, expected_districts=expected)
           dst.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
                 candidate_count_valid="$(jq -r '.candidate_count_valid' "$root/summary/portfolio_validation.json")"
@@ -569,10 +576,10 @@ jobs:
           output.write_text("<!doctype html><meta charset=utf-8><title>DDD campaña</title><h1>"+html.escape(namespace)+"</h1><p>Candidatos GerryChain 50</p><ol>"+"".join(items)+"</ol>",encoding="utf-8")
           PY
               else
-                reason="portfolio.json ausente en producto territorial"
+                reason="portfolio.json ausente en artefacto M05 de portfolio"
               fi
             else
-              reason="no se pudo recuperar el producto territorial"
+              reason="no se pudo recuperar el artefacto M05 de portfolio"
             fi
           else
             reason="producto territorial no validado"
