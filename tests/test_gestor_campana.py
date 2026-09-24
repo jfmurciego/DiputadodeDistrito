@@ -17,6 +17,8 @@ from herramientas.gestor_campana import (
     sha256,
     validate_manifest,
     validate_portfolio_contract,
+    validate_portfolio_bundle,
+    portfolio_artifact_name,
     validate_reuse_metadata,
     validate_campaign_summary_for_promotion,
     release_identity,
@@ -338,13 +340,15 @@ class CampaignManagerTests(unittest.TestCase):
                         },
                     }],
                 }
-                with zipfile.ZipFile(candidate_dir / name, "w", zipfile.ZIP_DEFLATED) as archive:
+                candidate_path = candidate_dir / name
+                with zipfile.ZipFile(candidate_path, "w", zipfile.ZIP_DEFLATED) as archive:
                     archive.writestr("candidate.geojson", json.dumps(geo))
                 candidates.append({
                     "index": index,
                     "seed": seed,
                     "assignment_hash": f"{index:064x}",
                     "geojson": name,
+                    "sha256": sha256(candidate_path),
                 })
             (candidate_dir / "portfolio.json").write_text(
                 json.dumps({
@@ -393,6 +397,96 @@ class CampaignManagerTests(unittest.TestCase):
                 self.assertEqual(summary["candidate_count_valid"], 50)
                 self.assertEqual(len(summary["candidates"]), 50)
 
+    def _make_portfolio_bundle(self, root: Path, *, count: int = 50, duplicate_hash: bool = False) -> Path:
+        candidate_dir = root / "portfolio"
+        candidate_dir.mkdir(parents=True, exist_ok=True)
+        candidates = []
+        for index in range(1, count + 1):
+            seed = 20260000 + index
+            name = f"candidate_{index:03d}_seed_{seed}.geojson.zip"
+            geo = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "properties": {"district_id": "1"},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[[-5.9, 43.1], [-5.8, 43.1], [-5.8, 43.2], [-5.9, 43.1]]],
+                    },
+                }],
+            }
+            path = candidate_dir / name
+            with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("candidate.geojson", json.dumps(geo))
+            assignment = f"{index:064x}"
+            if duplicate_hash and index == count:
+                assignment = f"{1:064x}"
+            candidates.append({
+                "index": index,
+                "seed": seed,
+                "assignment_hash": assignment,
+                "geojson": name,
+                "sha256": sha256(path),
+            })
+        (candidate_dir / "portfolio.json").write_text(
+            json.dumps({
+                "schema": "ddd.m05-gerrychain-portfolio/1.0",
+                "candidate_count": count,
+                "unique_candidate_count": len({row["assignment_hash"] for row in candidates}),
+                "candidates": candidates,
+            }),
+            encoding="utf-8",
+        )
+        return candidate_dir
+
+    def test_historical_false_fail_is_avoided_by_reading_m05_portfolio_not_m06(self):
+        namespace = "campaign-35889595424-1--02--principado_de_asturias"
+        self.assertEqual(
+            portfolio_artifact_name(35889595424, namespace),
+            "ddd-state-35889595424-M05-campaign-35889595424-1--02--principado_de_asturias",
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            m05 = self._make_portfolio_bundle(root / "m05")
+            (root / "m06").mkdir()
+            result = validate_portfolio_bundle(m05, expected_districts=1)
+            self.assertTrue(result["valid"])
+            self.assertEqual(result["verified_candidate_zip_count"], 50)
+            self.assertFalse(any((root / "m06").rglob("portfolio.json")))
+
+    def test_portfolio_bundle_blocks_incomplete_and_duplicate_hashes(self):
+        with tempfile.TemporaryDirectory() as raw:
+            incomplete = self._make_portfolio_bundle(Path(raw) / "incomplete", count=49)
+            with self.assertRaisesRegex(ValueError, "portfolio GerryChain 50 inválido"):
+                validate_portfolio_bundle(incomplete, expected_districts=1)
+        with tempfile.TemporaryDirectory() as raw:
+            duplicate = self._make_portfolio_bundle(Path(raw) / "duplicate", duplicate_hash=True)
+            with self.assertRaisesRegex(ValueError, "portfolio GerryChain 50 inválido"):
+                validate_portfolio_bundle(duplicate, expected_districts=1)
+
+    def test_portfolio_bundle_blocks_zip_sha_mismatch(self):
+        with tempfile.TemporaryDirectory() as raw:
+            bundle = self._make_portfolio_bundle(Path(raw))
+            portfolio_path = bundle / "portfolio.json"
+            portfolio = json.loads(portfolio_path.read_text(encoding="utf-8"))
+            portfolio["candidates"][0]["sha256"] = "0" * 64
+            portfolio_path.write_text(json.dumps(portfolio), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "SHA-256 del ZIP no coincide"):
+                validate_portfolio_bundle(bundle, expected_districts=1)
+
+    def test_recovery_workflow_is_isolated_and_routes_to_common_publisher(self):
+        recovery = (
+            ROOT / ".github/workflows/recuperar-galeria-asturias-35889595424.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn('PORTFOLIO_ARTIFACT_ID: "10765532132"', recovery)
+        self.assertIn("validate_portfolio_bundle", recovery)
+        self.assertIn("resolver_release_asset.py release", recovery)
+        self.assertIn("uses: ./.github/workflows/_reutilizable-publicar-sitio.yml", recovery)
+        self.assertIn("ensemble_release_tag:", recovery)
+        self.assertNotIn("produccion-distritos.yml", recovery)
+        self.assertNotIn("ejecucion-completa-proyecto.yml", recovery)
+        self.assertNotIn("actions/deploy-pages@", recovery)
+
     def test_publication_jobs_are_after_five_pass_and_skipped_on_pull_request(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         summary_pos = manager.index("  resumen:")
@@ -428,6 +522,7 @@ class CampaignManagerTests(unittest.TestCase):
             ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml",
             ROOT / ".github/workflows/_reutilizable-incorporacion-electoral.yml",
             ROOT / ".github/workflows/_reutilizable-puerta-validacion.yml",
+            ROOT / ".github/workflows/recuperar-galeria-asturias-35889595424.yml",
         ):
             parsed = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
             self.assertIsInstance(parsed, dict, path)
