@@ -497,7 +497,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
-      PUBLICATION_MODE: ${{ inputs.publication_mode }}
+      PUBLICATION_MODE: ${{ needs.planificar.outputs.publication_mode }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
       CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
       CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
