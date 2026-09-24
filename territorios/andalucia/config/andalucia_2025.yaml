@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: production_ready_auto_materialized
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -60,7 +60,7 @@ territory_contract:
     '23': 8
     '29': 22
     '41': 25
-  status: topology_contract_candidate
+  status: generation_ready
   notes:
   - AND-01 certificó 6.029 secciones y 8.676.713 habitantes sin faltantes de población.
   - Población observada: Almería 770.554; Cádiz 1.261.420; Córdoba 773.163; Granada
@@ -71,8 +71,8 @@ territory_contract:
       municipio más próximo auditado.
   - Vélez-Málaga: 2909401015 (886 hab.) queda a ~1.658 m de 2909403005, el nodo del
       mismo municipio más próximo auditado.
-  - K=109 y Hamilton 9/16/10/12/7/8/22/25 siguen siendo referencia estructural; esta
-    versión todavía no abre M04.
+  - K=109 y Hamilton 9/16/10/12/7/8/22/25 siguen siendo referencia estructural; la
+    cadena M04→M06 está declarada y la generación queda habilitada por contrato.
   - No se heredan tolerancias, suelo, techo ni atomicidad de otros territorios.
   k_districts: 109
   k_source: norma
