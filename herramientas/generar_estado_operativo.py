@@ -9,7 +9,7 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.catalogo_territorios import format_territory_label, load_master
+try:\n    from herramientas.catalogo_territorios import format_territory_label, load_master\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import format_territory_label, load_master
 
 START = "<!-- DDD:ESTADO:INICIO -->"
 END = "<!-- DDD:ESTADO:FIN -->"
