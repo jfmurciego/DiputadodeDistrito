@@ -7,7 +7,7 @@ WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-ALL_TERRITORIES=["Andalucía","Aragón","Principado de Asturias","Islas Baleares","Canarias","Cantabria","Castilla-La Mancha","Castilla y León","Cataluña","Comunidad Valenciana","Extremadura","Galicia","Comunidad de Madrid","Región de Murcia","Comunidad Foral de Navarra","País Vasco","La Rioja","Ceuta","Melilla"]
+ALL_TERRITORIES=["01 · Andalucía","02 · Aragón","03 · Principado de Asturias","04 · Islas Baleares","05 · Canarias","06 · Cantabria","07 · Castilla y León","08 · Castilla-La Mancha","09 · Cataluña","10 · Comunidad Valenciana","11 · Extremadura","12 · Galicia","13 · Comunidad de Madrid","14 · Región de Murcia","15 · Comunidad Foral de Navarra","16 · País Vasco","17 · La Rioja","18 · Ceuta","19 · Melilla"]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod

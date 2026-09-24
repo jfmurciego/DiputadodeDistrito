@@ -18,29 +18,11 @@ import yaml
 from pyproj import Transformer
 
 from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
+try:
+    from herramientas.catalogo_territorios import format_territory_label, master_index
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_territory_label, master_index
 
-
-TERRITORY_LABELS = {
-    "andalucia": "Andalucía",
-    "aragon": "Aragón",
-    "principado_de_asturias": "Principado de Asturias",
-    "illes_balears": "Islas Baleares",
-    "canarias": "Canarias",
-    "cantabria": "Cantabria",
-    "castilla_la_mancha": "Castilla-La Mancha",
-    "castilla_y_leon": "Castilla y León",
-    "cataluna": "Cataluña",
-    "comunidad_valenciana": "Comunidad Valenciana",
-    "extremadura": "Extremadura",
-    "galicia": "Galicia",
-    "madrid": "Comunidad de Madrid",
-    "region_de_murcia": "Región de Murcia",
-    "comunidad_foral_de_navarra": "Comunidad Foral de Navarra",
-    "pais_vasco": "País Vasco",
-    "la_rioja": "La Rioja",
-    "ceuta": "Ceuta",
-    "melilla": "Melilla",
-}
 
 
 def read_geojson_zip(path: Path) -> dict:
@@ -130,7 +112,7 @@ def production_metadata(root: Path) -> dict:
         raise ValueError(f"El contrato de {territory_id} no declara expected_districts")
     return {
         "territory_id": territory_id,
-        "territory_label": meta.get("territory") or TERRITORY_LABELS.get(territory_id, territory_id),
+        "territory_label": meta.get("territory") or territory_id,
         "expected_districts": int(expected),
         "production_status": status,
     }
@@ -233,9 +215,7 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict], ensemble_id
         return
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     territory_id = summary.get("territory_id")
-    territory_label = summary.get("territory_label") or TERRITORY_LABELS.get(
-        territory_id, territory_id or "Territorio no identificado"
-    )
+    territory_label = summary.get("territory_label") or territory_id or "Territorio no identificado"
     base = summary_path.parent.parent if summary_path.parent.name == "data" else summary_path.parent
     ensemble_id = str(ensemble_id or summary.get("ensemble_id") or summary.get("prepared_bundle_id") or "ensemble")
     gallery_dst = site / "galleries" / str(territory_id) / ensemble_id
@@ -338,6 +318,24 @@ def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, re
         item["ensemble_asset_sha256"] = entry.get("sha256")
 
 
+def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]:
+    catalog = master_index(repository_root / "configuracion/catalogo_territorios_espana_2025.yaml")
+    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
+    for item in results:
+        canonical = catalog.get(str(item.get("territory_id") or ""))
+        if canonical is None:
+            raise ValueError(f"Resultado visual sin territorio canónico: {item.get('territory_id')}")
+        item["territory_label"] = canonical["name"]
+        item["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+        item["territory_display_name"] = format_territory_label(canonical)
+    results.sort(key=lambda item: (
+        item["autonomous_community_code_ine"],
+        priority.get(item["kind"], 9),
+        item["label"],
+    ))
+    return results
+
+
 def build_from_publication_registry(
     registry_path: Path,
     repository_root: Path,
@@ -352,7 +350,7 @@ def build_from_publication_registry(
         add_registered_product(entry, repository_root, materialized_root, site, results)
     for entry in registry.get("ensembles", []):
         add_registered_ensemble(entry, materialized_root, site, results)
-    return results
+    return _decorate_and_sort(results, repository_root)
 
 
 def main() -> None:
@@ -390,8 +388,7 @@ def main() -> None:
     if not results:
         raise SystemExit("No se encontró ningún resultado visualizable")
 
-    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
-    results.sort(key=lambda item: (priority.get(item["kind"], 9), item["label"]))
+    results = _decorate_and_sort(results, args.repository_root)
     payload = {"schema": "ddd.viewer-results/1.1", "results": results}
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)

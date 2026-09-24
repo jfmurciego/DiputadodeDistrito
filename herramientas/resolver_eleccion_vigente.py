@@ -8,6 +8,11 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
+
 DEFAULT = Path("configuracion/elecciones_vigentes.yaml")
 PREPARATION_CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 DECLARATION_SCHEMA = "ddd-election-official-source-declaration/1.0"
@@ -33,7 +38,7 @@ def _catalog_preparation_row(root_dir: Path, territory: str, edition: str | None
     if not path.is_file():
         return None
     data = _load_yaml(path)
-    token = territory.strip()
+    token = normalize_territory_input(territory)
     rows = [
         row for row in (data.get("territories") or [])
         if token in {str(row.get("territory_id") or ""), str(row.get("name") or "")}
@@ -143,7 +148,7 @@ def resolve(
     edition: str | None = None,
 ) -> dict:
     root = root_dir.resolve()
-    token = territory.strip()
+    token = normalize_territory_input(territory)
 
     # 1) Override gobernado: conserva compatibilidad con elecciones_vigentes.yaml.
     override_path = path if path.is_absolute() else root / path

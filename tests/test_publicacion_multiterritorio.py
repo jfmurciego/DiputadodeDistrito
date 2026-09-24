@@ -137,7 +137,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
     def test_workflow_artifact_can_never_be_definitive_registry_source(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            entry = release_product(root, "territorio_a", "101", "A")
+            entry = release_product(root, "aragon", "101", "A")
             entry["source_type"] = "workflow_artifact"
             registry = {"schema": SCHEMA, "products": [entry], "ensembles": []}
             with self.assertRaisesRegex(ValueError, "workflow_artifact"):
@@ -147,13 +147,13 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             materialized = root / "assets"
-            good = release_product(materialized, "territorio_a", "101", "A")
+            good = release_product(materialized, "aragon", "101", "A")
             base = {"schema": SCHEMA, "products": [good], "ensembles": []}
             registry_path = root / "publicaciones_visor.json"
             registry_path.write_text(json.dumps(base, sort_keys=True), encoding="utf-8")
             before = registry_path.read_bytes()
 
-            candidate_entry = release_product(materialized, "territorio_b", "202", "B")
+            candidate_entry = release_product(materialized, "galicia", "202", "B")
             candidate_entry["sha256"] = "0" * 64
             candidate = make_candidate(base, [candidate_entry])
             with self.assertRaisesRegex(ValueError, "SHA-256 no coincide"):
@@ -165,7 +165,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             materialized = root / "assets"
-            existing = release_product(materialized, "territorio_a", "101", "A")
+            existing = release_product(materialized, "aragon", "101", "A")
             base = {"schema": SCHEMA, "products": [existing], "ensembles": []}
             registry_path = root / "publicaciones_visor.json"
             registry_path.write_text(json.dumps(base, sort_keys=True), encoding="utf-8")
@@ -173,13 +173,13 @@ class MultiterritoryPublicationTests(unittest.TestCase):
 
             missing = dict(existing)
             missing.update({
-                "id": "m06-territorio_b-202",
-                "territory_id": "territorio_b",
-                "territory_label": "Territorio B",
+                "id": "m06-galicia-202",
+                "territory_id": "galicia",
+                "territory_label": "Galicia",
                 "run_id": "202",
                 "asset_id": 2026,
-                "asset_name": "territorio_b-202-m06.geojson.zip",
-                "release_tag": "viewer-territorio_b-202-m06-deadbeefdead",
+                "asset_name": "galicia-202-m06.geojson.zip",
+                "release_tag": "viewer-galicia-202-m06-deadbeefdead",
                 "immutable_location": f"github-release-asset://{REPOSITORY}/2026",
             })
             candidate = make_candidate(base, [missing])
@@ -193,8 +193,8 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             root = Path(td)
             materialized = root / "materialized"
             site = root / "site"
-            a = release_product(materialized, "territorio_a", "101", "A")
-            b = release_product(materialized, "territorio_b", "202", "B")
+            a = release_product(materialized, "aragon", "101", "A")
+            b = release_product(materialized, "galicia", "202", "B")
             registry = {"schema": SCHEMA, "products": [a, b], "ensembles": []}
             verify_materialized_registry(registry, materialized)
             registry_path = root / "registry.json"
@@ -202,9 +202,9 @@ class MultiterritoryPublicationTests(unittest.TestCase):
 
             results = build_from_publication_registry(registry_path, ROOT, materialized, site)
 
-            self.assertEqual({row["territory_id"] for row in results}, {"territorio_a", "territorio_b"})
-            a_path = site / "data/results/territorio_a/101/m06.geojson"
-            b_path = site / "data/results/territorio_b/202/m06.geojson"
+            self.assertEqual({row["territory_id"] for row in results}, {"aragon", "galicia"})
+            a_path = site / "data/results/aragon/101/m06.geojson"
+            b_path = site / "data/results/galicia/202/m06.geojson"
             self.assertTrue(a_path.is_file())
             self.assertTrue(b_path.is_file())
             props = json.loads(a_path.read_text(encoding="utf-8"))["features"][0]["properties"]
@@ -215,19 +215,19 @@ class MultiterritoryPublicationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             assets = root / "assets"
-            a = release_product(assets, "territorio_a", "101", "A")
-            b = release_product(assets, "territorio_b", "202", "B")
+            a = release_product(assets, "aragon", "101", "A")
+            b = release_product(assets, "galicia", "202", "B")
             base = {"schema": SCHEMA, "products": [a, b], "ensembles": []}
             replacement = dict(a, label="A republicado")
             candidate = make_candidate(base, [replacement])
             self.assertEqual(len(candidate["products"]), 2)
-            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "territorio_b"), b)
-            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "territorio_a")["label"], "A republicado")
+            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "galicia"), b)
+            self.assertEqual(next(row for row in candidate["products"] if row["territory_id"] == "aragon")["label"], "A republicado")
 
     def test_duplicate_publication_identity_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            entry = release_product(root, "territorio_a", "101", "A")
+            entry = release_product(root, "aragon", "101", "A")
             duplicate = dict(entry, id="otro-id", asset_id=99999,
                              immutable_location=f"github-release-asset://{REPOSITORY}/99999")
             registry = {"schema": SCHEMA, "products": [entry, duplicate], "ensembles": []}
@@ -239,9 +239,9 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             root = Path(td)
             materialized = root / "materialized"
             site = root / "site"
-            p = release_product(materialized, "territorio_a", "101", "A")
-            e1 = release_ensemble(materialized, "territorio_a", "ensemble-one", candidate_id="shared")
-            e2 = release_ensemble(materialized, "territorio_b", "ensemble-two", candidate_id="shared")
+            p = release_product(materialized, "aragon", "101", "A")
+            e1 = release_ensemble(materialized, "aragon", "ensemble-one", candidate_id="shared")
+            e2 = release_ensemble(materialized, "galicia", "ensemble-two", candidate_id="shared")
             registry = {"schema": SCHEMA, "products": [p], "ensembles": [e1, e2]}
             verify_materialized_registry(registry, materialized)
             registry_path = root / "registry.json"
@@ -249,12 +249,12 @@ class MultiterritoryPublicationTests(unittest.TestCase):
 
             results = build_from_publication_registry(registry_path, ROOT, materialized, site)
 
-            first = site / "data/ensemble/territorio_a/ensemble-one/shared.geojson"
-            second = site / "data/ensemble/territorio_b/ensemble-two/shared.geojson"
+            first = site / "data/ensemble/aragon/ensemble-one/shared.geojson"
+            second = site / "data/ensemble/galicia/ensemble-two/shared.geojson"
             self.assertTrue(first.is_file())
             self.assertTrue(second.is_file())
-            self.assertTrue((site / "galleries/territorio_a/ensemble-one/index.html").is_file())
-            self.assertTrue((site / "galleries/territorio_b/ensemble-two/index.html").is_file())
+            self.assertTrue((site / "galleries/aragon/ensemble-one/index.html").is_file())
+            self.assertTrue((site / "galleries/galicia/ensemble-two/index.html").is_file())
             self.assertIn("canonical_m06", {row["kind"] for row in results})
             self.assertEqual(sum(row["kind"] == "ensemble_candidate" for row in results), 2)
 
@@ -303,13 +303,13 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             root = Path(td)
             materialized = root / "materialized"
             site = root / "site-candidate"
-            existing = release_product(materialized, "territorio_a", "101", "A")
+            existing = release_product(materialized, "aragon", "101", "A")
             base = {"schema": SCHEMA, "products": [existing], "ensembles": []}
             registry_path = root / "publicaciones_visor.json"
             registry_path.write_bytes((json.dumps(base, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
             before = registry_path.read_bytes()
 
-            mismatched = release_product(materialized, "territorio_b", "202", "B")
+            mismatched = release_product(materialized, "galicia", "202", "B")
             mismatched["expected_districts"] = 2
             candidate = make_candidate(base, [mismatched])
             candidate_path = root / "publicaciones_visor.candidate.json"
@@ -323,7 +323,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
             self.assertEqual(
                 json.loads(
                     zipfile.ZipFile(materialized / mismatched["id"] / "asset")
-                    .read("territorio_b_m06.geojson")
+                    .read("galicia_m06.geojson")
                     .decode("utf-8")
                 )["type"],
                 "FeatureCollection",

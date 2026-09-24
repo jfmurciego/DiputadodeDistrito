@@ -13,8 +13,8 @@ territories:
   - {id: illes_balears, name: Islas Baleares, province_codes: ['07']}
   - {id: canarias, name: Canarias, province_codes: ['35','38']}
   - {id: cantabria, name: Cantabria, province_codes: ['39']}
-  - {id: castilla_la_mancha, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45']}
   - {id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49']}
+  - {id: castilla_la_mancha, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45']}
   - {id: cataluna, name: Cataluña, province_codes: ['08','17','25','43']}
   - {id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46']}
   - {id: extremadura, name: Extremadura, province_codes: ['06','10']}

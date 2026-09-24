@@ -9,9 +9,15 @@ import unicodedata
 from pathlib import Path
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import load_master, normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import load_master, normalize_territory_input
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "fuentes/territorios_espana.yaml"
 DEFAULT_CATALOG = ROOT / "fuentes/catalogo_oficial.yaml"
+DEFAULT_MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 
 
 def load_yaml(path: Path) -> dict:
@@ -22,7 +28,8 @@ def load_yaml(path: Path) -> dict:
 
 
 def norm(value: str) -> str:
-    text = unicodedata.normalize("NFKD", str(value)).encode("ascii", "ignore").decode("ascii")
+    text = normalize_territory_input(str(value))
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     return " ".join(text.casefold().replace("_", " ").split())
 
 
@@ -30,7 +37,22 @@ def territories(registry_path: Path = DEFAULT_REGISTRY) -> list[dict]:
     rows = load_yaml(registry_path).get("territories") or []
     if not isinstance(rows, list) or not rows:
         raise ValueError("Registro territorial vacío")
-    return rows
+    by_id = {str(row.get("id") or ""): row for row in rows}
+    unknown = sorted(set(by_id) - {row["territory_id"] for row in load_master(DEFAULT_MASTER)})
+    if unknown:
+        raise ValueError(f"Registro de fuentes contiene territorios ajenos al catálogo maestro: {unknown}")
+    result = []
+    for canonical in load_master(DEFAULT_MASTER):
+        row = by_id.get(canonical["territory_id"])
+        if row is None:
+            continue
+        result.append({
+            **row,
+            "id": canonical["territory_id"],
+            "name": canonical["name"],
+            "autonomous_community_code_ine": canonical["autonomous_community_code_ine"],
+        })
+    return result
 
 
 def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dict:

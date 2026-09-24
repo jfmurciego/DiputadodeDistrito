@@ -13,6 +13,11 @@ from typing import Any
 
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import format_territory_label, master_index
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_territory_label, master_index
+
 CONFIRMATION = "EXECUTE_CAMPAIGN_CONFIRMED"
 ENTRYPOINT = "gerrychain_50"
 EXPECTED_FIELDS = {
@@ -64,12 +69,15 @@ def campaign_strategy(value: str) -> dict[str, Any]:
 
 
 EXPECTED_TERRITORIES = [
-    ("01", "aragon", "Aragón", "electoral"),
-    ("02", "principado_de_asturias", "Principado de Asturias", "electoral"),
-    ("03", "galicia", "Galicia", "electoral"),
-    ("04", "castilla_y_leon", "Castilla y León", "electoral"),
-    ("05", "extremadura", "Extremadura", "territorial_only"),
+    ("01", "aragon", "electoral"),
+    ("02", "principado_de_asturias", "electoral"),
+    ("03", "galicia", "electoral"),
+    ("04", "castilla_y_leon", "electoral"),
+    ("05", "extremadura", "territorial_only"),
 ]
+MASTER_TERRITORIES = master_index(
+    Path(__file__).resolve().parents[1] / "configuracion/catalogo_territorios_espana_2025.yaml"
+)
 REUSE_FIELDS = (
     "run_id",
     "checkpoint_stage",
@@ -138,7 +146,6 @@ def validate_manifest(path: Path) -> dict[str, Any]:
         (
             str(row.get("slot")),
             row.get("territory_id"),
-            row.get("territory_name"),
             row.get("publication_mode"),
         )
         for row in territories
@@ -151,6 +158,14 @@ def validate_manifest(path: Path) -> dict[str, Any]:
     if len({row[0] for row in observed}) != 5 or len({row[1] for row in observed}) != 5:
         raise ValueError("Slots o territorios duplicados")
     for row in territories:
+        canonical = MASTER_TERRITORIES.get(str(row.get("territory_id") or ""))
+        if canonical is None:
+            raise ValueError(f"Territorio de campaña ausente del catálogo maestro: {row.get('territory_id')}")
+        if row.get("territory_name") != canonical["name"]:
+            raise ValueError(
+                f"Nombre territorial no canónico para {row.get('territory_id')}: "
+                f"{row.get('territory_name')!r} != {canonical['name']!r}"
+            )
         _validate_reuse(row)
     return data
 
@@ -193,12 +208,15 @@ def build_matrix(
         territory_id = territory["territory_id"]
         namespace = f"{campaign_instance}/{slot}/{territory_id}"
         reuse = territory["reuse"]
+        canonical = MASTER_TERRITORIES[territory_id]
         include.append(
             {
                 "campaign_instance": campaign_instance,
                 "slot": slot,
                 "territory_id": territory_id,
-                "territory_name": territory["territory_name"],
+                "territory_name": canonical["name"],
+                "autonomous_community_code_ine": canonical["autonomous_community_code_ine"],
+                "territory_display_name": format_territory_label(canonical),
                 "namespace": namespace,
                 "artifact_namespace": artifact_namespace(campaign_instance, slot, territory_id),
                 "source_sha": code_sha,
