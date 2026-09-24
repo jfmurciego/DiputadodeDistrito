@@ -1,7 +1,7 @@
 from pathlib import Path
 import yaml
 
-from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
+from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement, resolve_publication_mode
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
@@ -53,3 +53,25 @@ def test_all_prepared_authorized_territories_pass_generation_preflight():
             certified_product_ready=False,
         )
         assert gate["allowed"] is False, (name, gate)
+
+
+def test_missing_election_downgrades_to_territorial_publication():
+    clm = build_plan(
+        territory="Castilla-La Mancha",
+        edition="2025",
+        execution_mode="reuse",
+        catalog=CATALOG,
+        root_dir=ROOT,
+        force_selected_algorithm=True,
+    )
+    assert resolve_publication_mode(clm, "electoral", root_dir=ROOT) == "territorial_only"
+
+    galicia = build_plan(
+        territory="Galicia",
+        edition="2025",
+        execution_mode="reuse",
+        catalog=CATALOG,
+        root_dir=ROOT,
+        force_selected_algorithm=True,
+    )
+    assert resolve_publication_mode(galicia, "electoral", root_dir=ROOT) == "electoral"
