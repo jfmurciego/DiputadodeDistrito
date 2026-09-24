@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.6.0
-# NOMBRE DE VERSIÓN: Identidad territorial canónica CODAUTO
-# FECHA: 2026-09-24
+# VERSIÓN: 1.5.0
+# NOMBRE DE VERSIÓN: Preparación de Extremadura
+# FECHA: 2026-09-17
 # ESTADO: vigente — R036/R040 preflight
-# QUÉ HACE: centraliza territory_id, nombre, CODAUTO INE, provincias y capacidad contractual de los 19 territorios.
-# CAMBIOS: añade autonomous_community_code_ine 01..19 y ordena el catálogo por CODAUTO, incluyendo Ceuta y Melilla.
-# MOTIVO: disponer de una única autoridad de identidad y orden territorial para formularios, dashboard y visor.
-# ANTERIOR: versión 1.5.0 en historial Git.
+# QUÉ HACE: conserva los niveles contractuales y declara separadamente si cada contrato puede ejecutar producción.
+# CAMBIOS: sustituye el estado activo de Extremadura por preparation_blocked sin alterar su autorización productiva.
+# MOTIVO: usar el nombre operativo Preparación de Extremadura y retirar preindustrialización de los estados activos.
+# ANTERIOR: versión 1.4.0 en historial Git.
 territories:
   - {territory_id: andalucia, autonomous_community_code_ine: '01', name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41'], batch: validated_or_active, status: generation_ready, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 109, k_source: norma, k_rationale: "K=109 conserva el tamaño vigente del Parlamento de Andalucía como regla institucional ex ante."}
   - {territory_id: aragon, autonomous_community_code_ine: '02', name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: generation_ready, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 67, k_source: historico_no_registrado, k_rationale: "K=67 es el baseline institucional heredado; su criterio original no quedó registrado y no se reconstruye retrospectivamente."}
