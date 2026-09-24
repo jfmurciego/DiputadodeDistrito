@@ -9,7 +9,10 @@ from pathlib import Path
 
 import yaml
 
-try:\n    from herramientas.catalogo_territorios import format_territory_label, load_master\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import format_territory_label, load_master
+try:
+    from herramientas.catalogo_territorios import format_territory_label, load_master
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_territory_label, load_master
 
 START = "<!-- DDD:ESTADO:INICIO -->"
 END = "<!-- DDD:ESTADO:FIN -->"
@@ -243,7 +246,8 @@ def render_readme_block(state: dict) -> str:
         "01 Preparación territorial → **Puerta de validación** → 02 Generación territorial → **Puerta de validación** → 03 Preparación electoral → **Puerta de validación** → 04 Incorporación electoral → **Puerta de validación** → 05 Publicación opcional", "",
         "**Regla estructural:** la geometría de los distritos nunca depende de los resultados electorales.", "", END,
     ]
-    return "\n".join(rows)
+    return "
+".join(rows)
 
 
 def update_readme(path: Path, state: dict) -> None:
@@ -255,7 +259,8 @@ def update_readme(path: Path, state: dict) -> None:
 
 
 def write_state(state: dict, *paths: Path) -> None:
-    payload = json.dumps(state, ensure_ascii=False, indent=2) + "\n"
+    payload = json.dumps(state, ensure_ascii=False, indent=2) + "
+"
     for path in paths:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(payload, encoding="utf-8")
