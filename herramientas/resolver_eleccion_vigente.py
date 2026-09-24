@@ -8,7 +8,10 @@ from pathlib import Path
 
 import yaml
 
-try:\n    from herramientas.catalogo_territorios import normalize_territory_input\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import normalize_territory_input
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
 
 DEFAULT = Path("configuracion/elecciones_vigentes.yaml")
 PREPARATION_CATALOG = Path("configuracion/catalogo_preparacion.yaml")
