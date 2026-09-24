@@ -279,23 +279,44 @@ jobs:
             mv "$temp_zip" "$durable"
             test "$(sha256sum "$durable" | awk '{print $1}')" = "$expected_sha"
 
-            if gh release view "$tag" >/dev/null 2>&1; then
-              asset_count="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag" --jq "[.assets[]|select(.name==\"$asset_name\")]|length")"
-              if [[ "$asset_count" == 0 ]]; then
-                gh release upload "$tag" "$durable"
-              elif [[ "$asset_count" != 1 ]]; then
-                echo "::error::$territory_id: release $tag contiene $asset_count assets con nombre $asset_name"
-                exit 61
-              fi
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-campaign/releases/all-releases.json
+            if python herramientas/resolver_release_asset.py release \
+              --releases .ddd-campaign/releases/all-releases.json --tag "$tag" \
+              > .ddd-campaign/releases/current-release.json 2>/dev/null; then
+              release_id="$(jq -r '.id' .ddd-campaign/releases/current-release.json)"
             else
               gh release create "$tag" "$durable" --draft --target "$SOURCE_SHA" --title "$tag" \
                 --notes "Galería DDD inmutable de $territory_id para $CAMPAIGN_INSTANCE."
+              gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases?per_page=100" | jq 'add' > .ddd-campaign/releases/all-releases.json
+              python herramientas/resolver_release_asset.py release \
+                --releases .ddd-campaign/releases/all-releases.json --tag "$tag" \
+                > .ddd-campaign/releases/current-release.json || {
+                  echo "::error::$territory_id: no se pudo resolver de forma única el release $tag"; exit 61;
+                }
+              release_id="$(jq -r '.id' .ddd-campaign/releases/current-release.json)"
             fi
 
-            release_json="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$tag")"
-            asset_count="$(jq --arg n "$asset_name" '[.assets[]|select(.name==$n)]|length' <<<"$release_json")"
-            test "$asset_count" = 1 || { echo "::error::$territory_id: asset no único tras promoción"; exit 62; }
-            asset_id="$(jq -r --arg n "$asset_name" '.assets[]|select(.name==$n)|.id' <<<"$release_json")"
+            gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-campaign/releases/release.json
+            if python herramientas/resolver_release_asset.py asset \
+              --release .ddd-campaign/releases/release.json --name "$asset_name" \
+              > .ddd-campaign/releases/current-asset.json 2>/dev/null; then
+              :
+            else
+              asset_count="$(jq --arg n "$asset_name" '[.assets[]|select(.name==$n)]|length' .ddd-campaign/releases/release.json)"
+              if [[ "$asset_count" == 0 ]]; then
+                gh release upload "$tag" "$durable"
+                gh api "repos/$GITHUB_REPOSITORY/releases/$release_id" > .ddd-campaign/releases/release.json
+                python herramientas/resolver_release_asset.py asset \
+                  --release .ddd-campaign/releases/release.json --name "$asset_name" \
+                  > .ddd-campaign/releases/current-asset.json || {
+                    echo "::error::$territory_id: asset no único tras promoción"; exit 62;
+                  }
+              else
+                echo "::error::$territory_id: release $tag contiene $asset_count assets con nombre $asset_name"
+                exit 62
+              fi
+            fi
+            asset_id="$(jq -r '.id' .ddd-campaign/releases/current-asset.json)"
             persisted=".ddd-campaign/releases/verified/$territory_id.zip"
             gh api -H 'Accept: application/octet-stream' "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id" > "$persisted"
             observed_sha="$(sha256sum "$persisted" | awk '{print $1}')"
