@@ -18,7 +18,10 @@ import yaml
 from pyproj import Transformer
 
 from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
-try:\n    from herramientas.catalogo_territorios import format_territory_label, master_index\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import format_territory_label, master_index
+try:
+    from herramientas.catalogo_territorios import format_territory_label, master_index
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_territory_label, master_index
 
 
 
@@ -389,7 +392,8 @@ def main() -> None:
     payload = {"schema": "ddd.viewer-results/1.1", "results": results}
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "
+", encoding="utf-8")
     print(f"[VISOR] resultados={len(results)} registry={output}")
 
 
