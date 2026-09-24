@@ -51,16 +51,24 @@ def generation_enablement(
         return {"allowed": True, "route": "linked_internal_partitioning"}
 
     k = territory_contract.get("k_districts")
-    if (certified_product_ready
-            and meta.get("contract_level") == "production_m01_m06"
-            and isinstance(k, int) and not isinstance(k, bool) and k > 0
-            and m04.get("k_districts") == k
-            and m06.get("expected_districts") == k
-            and m04.get("out_geojson")
-            and m04["out_geojson"] == m05.get("in_geojson")
-            and m05.get("out_geojson")
-            and m05["out_geojson"] == m06.get("in_geojson")):
+    production_chain_ready = bool(
+        meta.get("contract_level") == "production_m01_m06"
+        and meta.get("production_authorization") == "AUTHORIZED"
+        and isinstance(k, int) and not isinstance(k, bool) and k > 0
+        and m04.get("k_districts") == k
+        and m06.get("expected_districts") == k
+        and m04.get("in_graph_json")
+        and m04.get("in_geojson")
+        and m04.get("out_geojson")
+        and m04["out_geojson"] == m05.get("in_geojson")
+        and m05.get("out_geojson")
+        and m05["out_geojson"] == m06.get("in_geojson")
+    )
+    if certified_product_ready and production_chain_ready:
         return {"allowed": True, "route": "certified_product_lineage"}
+
+    if production_chain_ready:
+        return {"allowed": True, "route": "structural_generation_contract"}
 
     return {"allowed": False, "reason": f"contrato territorial sin generación habilitada: {status or 'sin estado'}"}
 
