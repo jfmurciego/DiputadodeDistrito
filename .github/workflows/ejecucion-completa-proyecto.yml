@@ -167,7 +167,7 @@ jobs:
           SOURCE_REF: ${{ github.event_name == 'pull_request' && github.head_ref || inputs.source_ref || github.ref_name }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
-          PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode }}
+          PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode || 'electoral' }}
           ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
           CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
           CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}

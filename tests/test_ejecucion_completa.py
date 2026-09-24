@@ -76,6 +76,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("github.event_name == 'pull_request' && '2025'", text)
         self.assertIn("github.event_name == 'pull_request' && 'Reutilizar progreso existente'", text)
         self.assertIn("github.event_name == 'pull_request' && 'Canónico'", text)
+        self.assertIn("inputs.publication_mode || 'electoral'", text)
         self.assertIn('if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]', text)
         self.assertIn("persist=false", text)
         self.assertIn("publish=false", text)
