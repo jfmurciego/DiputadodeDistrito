@@ -179,6 +179,48 @@ def component_hamilton(populations: dict[str, int], k: int, floor_ratio: float) 
         raise AssertionError("Reparto por componentes no conserva K")
     return q, exempt
 
+def component_apportionment_audit(
+    populations: dict[str, int],
+    quota: dict[str, int],
+    k: int,
+    floor_ratio: float,
+    floor_exempt: list[str],
+    *,
+    exception_policy: str | None,
+) -> dict[str, dict[str, Any]]:
+    """Explica el reparto DDD por componente sin atribuirlo a la norma electoral."""
+    total = sum(populations.values())
+    if total <= 0 or k <= 0:
+        raise ValueError("Población/K inválidos para auditar reparto por componentes")
+    target = total / k
+    floor = target * floor_ratio
+    exempt = set(floor_exempt)
+    out: dict[str, dict[str, Any]] = {}
+    for key in sorted(populations):
+        districts = int(quota[key])
+        population = int(populations[key])
+        average = population / districts
+        required = districts == 1 and population < floor - 1e-9
+        governed = (not required) or (
+            key in exempt and exception_policy == "one_contiguous_district_floor_exception"
+        )
+        if required and not governed:
+            raise ValueError(
+                f"{key}: excepción de suelo necesaria pero no gobernada por la política insular"
+            )
+        out[key] = {
+            "population": population,
+            "districts": districts,
+            "target_population": round(target, 6),
+            "average_population_per_district": round(average, 6),
+            "relative_deviation_from_target": round((average - target) / target, 9),
+            "population_floor": round(floor, 6),
+            "floor_exception_required": required,
+            "floor_exception_governed": governed,
+        }
+    return out
+
+
 
 def existing_or_bootstrap(root: Path, territory_id: str, territory_name: str, province_codes: list[str], edition: str) -> tuple[dict[str, Any], Path]:
     path = root / "territorios" / territory_id / "config" / f"{territory_id}_{edition}.yaml"
@@ -331,6 +373,7 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
     source_geo = modules["modulo_01_preparar_base_territorial"]["out_geojson"]
     quota: dict[str, int]
     floor_exempt: list[str] = []
+    partition_audit: dict[str, dict[str, Any]] = {}
 
     if partition_mode == "physical_components_hamilton":
         pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
@@ -351,6 +394,14 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
         if missing:
             raise ValueError(f"Partición insular incompleta: {len(missing)} secciones; ejemplo={missing[:5]}")
         quota, floor_exempt = component_hamilton(component_pop, k, float(defaults["population_floor_ratio"]))
+        partition_audit = component_apportionment_audit(
+            component_pop,
+            quota,
+            k,
+            float(defaults["population_floor_ratio"]),
+            floor_exempt,
+            exception_policy=(policy.get("archipelago") or {}).get("small_component_policy"),
+        )
         partition_field = "DDD_PARTITION"
         municipality_field = "DDD_MUNICIPALITY_PARTITION"
         partition_lookup = str(PARTITIONS)
@@ -362,6 +413,11 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
         "unit_id_role": "census_section", "admin_level_1_role": "province",
         "admin_level_2_role": "municipality", "province_codes": provinces,
         "k_districts": k, "k_source": pentry["k_source"], "k_rationale": pentry["rationale"],
+        "k_reference_scope": pentry.get("k_reference_scope", "institutional_or_contractual_reference"),
+        "k_reference_source": pentry.get("k_reference_source"),
+        "apportionment_source": pentry.get("apportionment_source", "ddd_design_policy"),
+        "legal_apportionment_reused": bool(pentry.get("legal_apportionment_reused", False)),
+        "legal_apportionment_context": pentry.get("legal_context"),
         "district_apportionment": "hamilton_components" if partition_mode == "physical_components_hamilton" else "hamilton",
         "population_floor_ratio": float(defaults["population_floor_ratio"]),
         "population_cap_ratio": float(defaults["population_cap_ratio"]),
@@ -447,6 +503,7 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
         "require_m06_population_conservation": True,
         "require_m06_assignment_identity_with_m05": True,
         "population_floor_exempt_partitions": floor_exempt,
+        "partition_apportionment_audit": partition_audit,
     })
     if partition_mode == "physical_components_hamilton":
         val.update({
@@ -476,7 +533,13 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
         "territory_id": territory_id, "edition": edition,
         "contract_path": str(contract_path.relative_to(root)),
         "k": k, "partition_mode": partition_mode,
-        "partition_districts": quota, "population_floor_exempt_partitions": floor_exempt,
+        "k_reference_scope": pentry.get("k_reference_scope", "institutional_or_contractual_reference"),
+        "apportionment_source": pentry.get("apportionment_source", "ddd_design_policy"),
+        "legal_apportionment_reused": bool(pentry.get("legal_apportionment_reused", False)),
+        "legal_apportionment_context": pentry.get("legal_context"),
+        "partition_districts": quota,
+        "partition_apportionment_audit": partition_audit,
+        "population_floor_exempt_partitions": floor_exempt,
         "contract_sha256": report["contract_sha256"], "status": "READY",
     }
 

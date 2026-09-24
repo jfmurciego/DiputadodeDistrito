@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: política nacional de generación territorial
-# VERSIÓN: 1.0.0
+# VERSIÓN: 1.1.0
 # FECHA: 2026-09-20
 # ESTADO: candidato
-# FUNCIÓN: materializar de forma uniforme contratos ejecutables de generación para todos los territorios.
+# FUNCIÓN: materializar de forma uniforme contratos ejecutables y distinguir tamaño institucional de K de la política DDD de reparto.
 schema: ddd-generation-policy/1.0
 edition: '2025'
 defaults:
@@ -21,8 +21,31 @@ territories:
   andalucia: {k: 109, k_source: norma, partition_mode: province_hamilton, rationale: "K=109 conserva el tamaño vigente del Parlamento de Andalucía como regla institucional ex ante."}
   aragon: {k: 67, k_source: historico_no_registrado, partition_mode: province_hamilton, rationale: "K=67 conserva el baseline institucional heredado y ya gobernado por el contrato de Aragón."}
   principado_de_asturias: {k: 45, k_source: norma, partition_mode: province_hamilton, rationale: "K=45 conserva el tamaño vigente de la Junta General del Principado de Asturias como regla institucional ex ante."}
-  illes_balears: {k: 59, k_source: norma, partition_mode: physical_components_hamilton, rationale: "K=59 conserva el tamaño vigente del Parlament de les Illes Balears; la geometría se reparte por componentes físicos sin puentes marítimos."}
-  canarias: {k: 70, k_source: norma, partition_mode: physical_components_hamilton, rationale: "K=70 conserva el tamaño vigente del Parlamento de Canarias; la geometría se reparte por componentes físicos sin puentes marítimos."}
+  illes_balears:
+    k: 59
+    k_source: norma
+    k_reference_scope: institutional_chamber_size_only
+    k_reference_source: https://www.boe.es/buscar/act.php?id=BOE-A-1987-2903
+    partition_mode: physical_components_hamilton
+    apportionment_source: ddd_design_policy
+    legal_apportionment_reused: false
+    rationale: "K=59 toma de la norma únicamente el tamaño institucional del Parlament; DDD redistribuye sus distritos uninominales entre componentes físicos por su propia política Hamilton y no reproduce el reparto electoral legal."
+    legal_context:
+      note: "Contexto solamente; no es el reparto producido por DDD."
+      constituencies: {Mallorca: 33, Menorca: 13, Ibiza: 12, Formentera: 1}
+  canarias:
+    k: 70
+    k_source: norma
+    k_reference_scope: institutional_chamber_size_only
+    k_reference_source: https://www.boe.es/buscar/act.php?id=BOE-A-2022-10043
+    partition_mode: physical_components_hamilton
+    apportionment_source: ddd_design_policy
+    legal_apportionment_reused: false
+    rationale: "K=70 toma de la norma únicamente el tamaño institucional del Parlamento de Canarias; DDD redistribuye sus distritos uninominales entre componentes físicos por su propia política Hamilton y no reproduce el reparto electoral legal."
+    legal_context:
+      note: "Contexto solamente; no es el reparto producido por DDD."
+      autonomous_constituency: 9
+      island_constituencies: {El_Hierro: 3, Fuerteventura: 8, Gran_Canaria: 15, La_Gomera: 4, Lanzarote: 8, La_Palma: 8, Tenerife: 15}
   cantabria: {k: 35, k_source: norma, partition_mode: province_hamilton, rationale: "K=35 conserva el tamaño vigente del Parlamento de Cantabria como regla institucional ex ante."}
   castilla_la_mancha: {k: 33, k_source: norma, partition_mode: province_hamilton, rationale: "K=33 conserva el tamaño vigente de las Cortes de Castilla-La Mancha como regla institucional ex ante."}
   castilla_y_leon: {k: 82, k_source: norma, partition_mode: province_hamilton, rationale: "K=82 conserva el tamaño vigente de las Cortes de Castilla y León como regla institucional ex ante."}
@@ -40,5 +63,7 @@ territories:
 archipelago:
   partition_lookup: configuracion/particiones_insulares_2025.json
   apportionment: hamilton_min_one_floor_feasible
+  apportionment_authority: ddd_design_policy
+  legal_apportionment_reused: false
   small_component_policy: one_contiguous_district_floor_exception
   small_component_rule: "Una componente física aislada cuya población total no alcanza el suelo global recibe exactamente un distrito, conserva contigüidad física y queda declarada como excepción poblacional; nunca se crea una arista marítima."

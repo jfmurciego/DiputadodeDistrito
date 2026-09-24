@@ -12,6 +12,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.materializar_contrato_generacion import (
+    component_apportionment_audit,
     component_hamilton,
     hamilton,
     materialize,
@@ -152,6 +153,80 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             finally:
                 td.cleanup()
 
+    def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
+        policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
+        for territory_id, expected_k in (("illes_balears", 59), ("canarias", 70)):
+            entry = policy["territories"][territory_id]
+            self.assertEqual(expected_k, entry["k"])
+            self.assertEqual("norma", entry["k_source"])
+            self.assertEqual("institutional_chamber_size_only", entry["k_reference_scope"])
+            self.assertEqual("ddd_design_policy", entry["apportionment_source"])
+            self.assertFalse(entry["legal_apportionment_reused"])
+            self.assertIn("Contexto solamente", entry["legal_context"]["note"])
+        self.assertEqual(
+            {"Mallorca":33,"Menorca":13,"Ibiza":12,"Formentera":1},
+            policy["territories"]["illes_balears"]["legal_context"]["constituencies"],
+        )
+        canary = policy["territories"]["canarias"]["legal_context"]
+        self.assertEqual(9, canary["autonomous_constituency"])
+        self.assertEqual(61, sum(canary["island_constituencies"].values()))
+
+    def test_r026_component_inventories_match_partition_registry_and_ddd_audit(self):
+        partitions = json.loads(PARTITIONS.read_text(encoding="utf-8"))
+        cases = {
+            "illes_balears": {
+                "k": 59,
+                "r026": ROOT/"resultados/archipielagos/gh-34688874092/illes_balears.json",
+                "population_by_partition": {
+                    "07-C01":971068,"07-C02":102821,"07-C03":11690,"07-C04":164265,
+                },
+                "quota": {"07-C01":44,"07-C02":6,"07-C03":1,"07-C04":8},
+                "exempt": ["07-C03"],
+            },
+            "canarias": {
+                "k": 70,
+                "r026": ROOT/"resultados/archipielagos/gh-34688874092/canarias.json",
+                "population_by_partition": {
+                    "35-C01":875589,"35-C02":129080,"35-C03":166146,"35-C04":732,
+                    "38-C01":966469,"38-C02":22560,"38-C03":86297,"38-C04":11993,
+                },
+                "quota": {
+                    "35-C01":25,"35-C02":5,"35-C03":6,"35-C04":1,
+                    "38-C01":28,"38-C02":1,"38-C03":3,"38-C04":1,
+                },
+                "exempt": ["35-C04","38-C02","38-C04"],
+            },
+        }
+        policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
+        for territory_id, case in cases.items():
+            r026 = json.loads(case["r026"].read_text(encoding="utf-8"))
+            registry = partitions["territories"][territory_id]["components"]
+            self.assertEqual(r026["sections"], sum(x["section_count"] for x in registry.values()))
+            self.assertEqual(r026["population"], sum(case["population_by_partition"].values()))
+            quota, exempt = component_hamilton(case["population_by_partition"], case["k"], 0.80)
+            self.assertEqual(case["quota"], quota)
+            self.assertEqual(case["exempt"], exempt)
+            audit = component_apportionment_audit(
+                case["population_by_partition"], quota, case["k"], 0.80, exempt,
+                exception_policy=policy["archipelago"]["small_component_policy"],
+            )
+            self.assertTrue(all(row["floor_exception_governed"] for row in audit.values()))
+            self.assertEqual(
+                set(exempt),
+                {key for key,row in audit.items() if row["floor_exception_required"]},
+            )
+
+    def test_ungoverned_archipelago_floor_exception_blocks(self):
+        with self.assertRaisesRegex(ValueError, "no gobernada"):
+            component_apportionment_audit(
+                {"A": 100000, "B": 1000},
+                {"A": 4, "B": 1},
+                5,
+                0.80,
+                ["B"],
+                exception_policy="different_policy",
+            )
+
     def test_materializes_canary_archipelago_without_marine_bridge(self):
         td = temp_root("canarias", "Canarias", ["35", "38"])
         try:
@@ -169,8 +244,16 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             result = materialize(root, "canarias", "2025", package)
             self.assertEqual(result["status"], "READY")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
-            self.assertEqual(sum(result["partition_districts"].values()), 70)
-            self.assertIn("35-C04", result["population_floor_exempt_partitions"])
+            self.assertEqual(
+                {"35-C01":25,"35-C02":5,"35-C03":6,"35-C04":1,
+                 "38-C01":28,"38-C02":1,"38-C03":3,"38-C04":1},
+                result["partition_districts"],
+            )
+            self.assertEqual("institutional_chamber_size_only", result["k_reference_scope"])
+            self.assertEqual("ddd_design_policy", result["apportionment_source"])
+            self.assertFalse(result["legal_apportionment_reused"])
+            self.assertEqual(["35-C04","38-C02","38-C04"], result["population_floor_exempt_partitions"])
+            self.assertTrue(all(x["floor_exception_governed"] for x in result["partition_apportionment_audit"].values()))
             self.assertIn("38-C04", result["population_floor_exempt_partitions"])
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["hard_partition_mode"], "physical_components")
@@ -191,8 +274,15 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             result = materialize(root, "illes_balears", "2025", package)
             self.assertEqual(result["status"], "READY")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
-            self.assertEqual(sum(result["partition_districts"].values()), 59)
-            self.assertIn("07-C03", result["population_floor_exempt_partitions"])
+            self.assertEqual(
+                {"07-C01":44,"07-C02":6,"07-C03":1,"07-C04":8},
+                result["partition_districts"],
+            )
+            self.assertEqual("institutional_chamber_size_only", result["k_reference_scope"])
+            self.assertEqual("ddd_design_policy", result["apportionment_source"])
+            self.assertFalse(result["legal_apportionment_reused"])
+            self.assertEqual(["07-C03"], result["population_floor_exempt_partitions"])
+            self.assertTrue(all(x["floor_exception_governed"] for x in result["partition_apportionment_audit"].values()))
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["modulos"]["modulo_04_generar_semillas"]["province_field"], "DDD_PARTITION")
             self.assertEqual(cfg["validation"]["hard_partition_mode"], "physical_components")
