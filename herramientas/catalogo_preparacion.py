@@ -4,7 +4,7 @@ import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
-from herramientas.catalogo_territorios import load_master, normalize_territory_input
+try:\n    from herramientas.catalogo_territorios import load_master, normalize_territory_input\nexcept ModuleNotFoundError:  # ejecución directa como script\n    from catalogo_territorios import load_master, normalize_territory_input
 
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
