@@ -67,7 +67,11 @@ def generation_enablement(
     if certified_product_ready and production_chain_ready:
         return {"allowed": True, "route": "certified_product_lineage"}
 
-    if production_chain_ready:
+    legacy_first_generation_state = (
+        meta.get("status") in {"production_ready_auto_materialized", "production_contract_candidate"}
+        and partitioning.get("enabled") is not True
+    )
+    if production_chain_ready and legacy_first_generation_state:
         return {"allowed": True, "route": "structural_generation_contract"}
 
     return {"allowed": False, "reason": f"contrato territorial sin generación habilitada: {status or 'sin estado'}"}
