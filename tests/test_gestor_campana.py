@@ -9,6 +9,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.registro_publicaciones_visor import make_candidate
+from herramientas.resolver_ejecucion_completa import build_plan, apply_explicit_territorial_source
 from herramientas.gestor_campana import (
     CONFIRMATION,
     aggregate,
@@ -256,13 +257,88 @@ class CampaignManagerTests(unittest.TestCase):
     def test_no_implicit_latest_checkpoint_in_campaign_contract(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
         orchestration = ORCH.read_text(encoding="utf-8")
+        production = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
         self.assertIn("reuse_run_id:", manager)
         self.assertIn("reuse_artifact_name:", manager)
         self.assertIn("reuse_artifact_sha256:", manager)
         self.assertIn("reuse_source_sha:", manager)
-        self.assertIn('p["execution_mode"]="from_start"', orchestration)
-        self.assertIn('p["run_prepare_territorial"]=False', orchestration)
-        self.assertIn('p["run_generate"]=True', orchestration)
+        self.assertIn("apply_explicit_territorial_source(", orchestration)
+        self.assertIn('if [[ -n "$OVERRIDE_SOURCE_RUN_ID" || -n "$OVERRIDE_SOURCE_ARTIFACT_NAME" ]]', production)
+        self.assertLess(production.index("se prohíbe sustituirlo por el catálogo"),
+                        production.index('validate_candidate "$PREPARED_SOURCE_RUN_ID"'))
+
+    def test_fixed_manifest_source_a_wins_over_live_catalog_b_for_three_strategies(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            catalog = root / "catalog.yaml"
+            catalog.write_text(yaml.safe_dump({
+                "schema": "ddd-preparation-catalog/1.1",
+                "default_edition": "2025",
+                "territories": [{
+                    "territory_id": "principado_de_asturias",
+                    "name": "Principado de Asturias",
+                    "editions": {"2025": {
+                        "territory_declared": True,
+                        "preparation_status": "READY",
+                        "contract_path": "territorios/principado_de_asturias/config/contract.yaml",
+                        "territorial_source_declaration": "sources.yaml",
+                        "electoral_source_declaration": None,
+                        "territorial_contract_complete": True,
+                        "territorial_sources_prepared": True,
+                        "territorial_product_available": False,
+                        "electoral_source_prepared": False,
+                        "electoral_product_available": False,
+                        "territorial_certification": "NOT_CERTIFIED",
+                        "production_authorization": "AUTHORIZED",
+                        "last_valid_checkpoint": None,
+                        "preparation_evidence": {"run_id": 999999, "artifact_name": "source-B", "artifact_sha256": "b" * 64},
+                    }},
+                }],
+            }, allow_unicode=True), encoding="utf-8")
+            for strategy in ("Canónico", "GerryChain", "GerryChain 25"):
+                with self.subTest(strategy=strategy):
+                    row = build_matrix(MANIFEST, source_sha="c" * 40,
+                                       campaign_instance="campaign-test", confirmation=CONFIRMATION,
+                                       strategy=strategy)["include"][1]
+                    self.assertNotEqual(row["reuse_run_id"], 999999)
+                    plan = build_plan(territory="Principado de Asturias", edition="2025",
+                                      execution_mode="reuse", catalog=catalog, root_dir=root,
+                                      optimization_algorithm=strategy, force_selected_algorithm=True)
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], "source-B")
+                    apply_explicit_territorial_source(
+                        plan, reuse_run_id=str(row["reuse_run_id"]),
+                        reuse_artifact_name=row["reuse_artifact_name"],
+                        reuse_artifact_sha256=row["reuse_artifact_sha256"],
+                        reuse_source_sha=row["reuse_source_sha"],
+                    )
+                    self.assertEqual(plan["existing"]["territorial_source"]["run_id"], row["reuse_run_id"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], row["reuse_artifact_name"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_sha256"], row["reuse_artifact_sha256"])
+                    self.assertEqual(plan["existing"]["territorial_source"]["source_commit"], row["reuse_source_sha"])
+                    self.assertEqual(plan["execution_mode"], "from_start")
+                    self.assertFalse(plan["run_prepare_territorial"])
+                    self.assertTrue(plan["run_generate"])
+            for mode in ("reuse", "from_start"):
+                with self.subTest(manual_mode=mode):
+                    manual = build_plan(territory="Principado de Asturias", edition="2025",
+                                        execution_mode=mode, catalog=catalog, root_dir=root,
+                                        force_selected_algorithm=True)
+                    unchanged = json.loads(json.dumps(manual))
+                    self.assertEqual(apply_explicit_territorial_source(manual), unchanged)
+                    self.assertEqual(manual["existing"]["territorial_source"]["artifact_name"], "source-B")
+                    self.assertEqual(manual["run_prepare_territorial"], mode == "from_start")
+
+    def test_partial_fixed_source_blocks_and_manual_plan_keeps_catalog_behavior(self):
+        plan = {"execution_mode": "reuse", "run_prepare_territorial": False,
+                "run_generate": True, "existing": {"territorial_source": {"run_id": 999, "artifact_name": "source-B"}}}
+        before = json.loads(json.dumps(plan))
+        self.assertEqual(apply_explicit_territorial_source(plan), before)
+        with self.assertRaisesRegex(ValueError, "Procedencia explícita incompleta"):
+            apply_explicit_territorial_source(plan, reuse_run_id="123", reuse_artifact_name="source-A")
+        self.assertEqual(plan, before)
+        with self.assertRaisesRegex(ValueError, "Procedencia explícita incompleta"):
+            apply_explicit_territorial_source(plan, campaign_instance="campaign-test")
+        self.assertEqual(plan, before)
 
     def _strict_status(self, row: dict, *, status: str = "PASS") -> dict:
         return {

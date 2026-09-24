@@ -166,6 +166,57 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     return plan
 
 
+def apply_explicit_territorial_source(
+    plan: dict,
+    *,
+    reuse_run_id: str = "",
+    reuse_artifact_name: str = "",
+    reuse_artifact_sha256: str = "",
+    reuse_source_sha: str = "",
+    campaign_instance: str = "",
+    expected_population: str = "",
+    expected_sections: str = "",
+    expected_districts: str = "",
+    expected_certification: str = "",
+) -> dict:
+    """Fix the preflight-approved source, regardless of campaign status reporting."""
+    fields = (reuse_run_id, reuse_artifact_name, reuse_artifact_sha256, reuse_source_sha)
+    if not any(fields):
+        if campaign_instance:
+            raise ValueError("Procedencia explícita incompleta")
+        return plan
+    if not all(fields):
+        raise ValueError("Procedencia explícita incompleta")
+    if not reuse_run_id.isdecimal() or int(reuse_run_id) <= 0:
+        raise ValueError("reuse_run_id inválido")
+    if not re.fullmatch(r"[0-9a-f]{64}", reuse_artifact_sha256):
+        raise ValueError("reuse_artifact_sha256 inválido")
+    if not re.fullmatch(r"[0-9a-f]{40}", reuse_source_sha):
+        raise ValueError("reuse_source_sha inválido")
+
+    plan["execution_mode"] = "from_start"
+    plan["run_prepare_territorial"] = False
+    plan["run_generate"] = True
+    plan["existing"]["territorial_source"] = {
+        "run_id": int(reuse_run_id),
+        "artifact_name": reuse_artifact_name,
+        "artifact_sha256": reuse_artifact_sha256,
+        "source_commit": reuse_source_sha,
+    }
+    if campaign_instance:
+        plan["campaign"]["reuse"] = {
+            "run_id": int(reuse_run_id),
+            "artifact_name": reuse_artifact_name,
+            "artifact_sha256": reuse_artifact_sha256,
+            "source_sha": reuse_source_sha,
+            "expected_population_total": int(expected_population),
+            "expected_section_count": int(expected_sections),
+            "expected_district_count": int(expected_districts),
+            "expected_certification": expected_certification,
+        }
+    return plan
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory", required=True)
