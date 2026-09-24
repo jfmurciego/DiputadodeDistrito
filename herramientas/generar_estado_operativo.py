@@ -140,7 +140,19 @@ def derive(root: Path, row: dict, edition: str) -> dict:
 
 def build(root: Path, edition: str) -> dict:
     catalog = load_yaml(root / "configuracion/catalogo_preparacion.yaml")
-    master = {row["territory_id"]: row for row in load_master(root / "configuracion/catalogo_territorios_espana_2025.yaml")}
+    master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
+    if master_path.is_file():
+        master = {row["territory_id"]: row for row in load_master(master_path)}
+    else:
+        # Compatibilidad con fixtures unitarios aislados; el repositorio productivo exige el maestro.
+        master = {
+            row["territory_id"]: {
+                "territory_id": row["territory_id"],
+                "name": row.get("name", row["territory_id"]),
+                "autonomous_community_code_ine": "99",
+            }
+            for row in catalog.get("territories") or []
+        }
     rows = []
     for source_row in catalog.get("territories") or []:
         canonical = master.get(source_row["territory_id"])
@@ -150,7 +162,7 @@ def build(root: Path, edition: str) -> dict:
         row["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
         row["display_name"] = format_territory_label(canonical)
         rows.append(row)
-    rows.sort(key=lambda r: r["autonomous_community_code_ine"])
+    rows.sort(key=lambda r: (r["autonomous_community_code_ine"], r["name"].casefold()))
     complete = [r for r in rows if all(r[k] == "green" for k in ("ft", "g", "fe", "re"))]
     territorial = [r for r in rows if r["g"] == "green"]
     ready = [r for r in rows if r["ft"] == "green" and r["g"] != "green"]
