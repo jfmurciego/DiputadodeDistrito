@@ -12,8 +12,14 @@ from herramientas.catalogo_preparacion import lookup
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 
 
-def generation_enablement(*, root_dir: Path, contract_path: str | None, territory_id: str) -> dict:
-    """Determine generation readiness from the effective territorial contract."""
+def generation_enablement(
+    *,
+    root_dir: Path,
+    contract_path: str | None,
+    territory_id: str,
+    certified_product_ready: bool = False,
+) -> dict:
+    """Determine generation readiness from contract structure and durable product evidence."""
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return {"allowed": False, "reason": "contrato territorial efectivo ausente"}
@@ -23,12 +29,19 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return {"allowed": False, "reason": "contrato territorial efectivo ilegible"}
     if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
         return {"allowed": False, "reason": "identidad del contrato territorial no coincide"}
+
     meta = contract["meta"]
-    status = (contract.get("territory_contract") or {}).get("status")
+    territory_contract = contract.get("territory_contract") or {}
+    status = territory_contract.get("status")
+    modules = contract.get("modulos") or {}
+    m04 = modules.get("modulo_04_generar_semillas") or {}
+    m05 = modules.get("modulo_05_optimizar_distritos") or {}
+    m06 = modules.get("modulo_06_consolidar_distritos") or {}
+
     if meta.get("status") == status == "generation_ready":
         return {"allowed": True, "route": "declared_generation_ready"}
+
     partitioning = contract.get("partitioning") or {}
-    m04 = (contract.get("modulos") or {}).get("modulo_04_generar_semillas") or {}
     if (partitioning.get("enabled") is True
             and partitioning.get("strategy") == "connected_internal_units"
             and partitioning.get("output_geojson")
@@ -36,6 +49,19 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
             and partitioning.get("partition_unit_field")
             and partitioning["partition_unit_field"] == m04.get("municipality_field")):
         return {"allowed": True, "route": "linked_internal_partitioning"}
+
+    k = territory_contract.get("k_districts")
+    if (certified_product_ready
+            and meta.get("contract_level") == "production_m01_m06"
+            and isinstance(k, int) and not isinstance(k, bool) and k > 0
+            and m04.get("k_districts") == k
+            and m06.get("expected_districts") == k
+            and m04.get("out_geojson")
+            and m04["out_geojson"] == m05.get("in_geojson")
+            and m05.get("out_geojson")
+            and m05["out_geojson"] == m06.get("in_geojson")):
+        return {"allowed": True, "route": "certified_product_lineage"}
+
     return {"allowed": False, "reason": f"contrato territorial sin generación habilitada: {status or 'sin estado'}"}
 
 
@@ -127,8 +153,12 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     # En ejecución manual, 00 expone una elección explícita de algoritmo y 02 debe
     # ejecutarse. El smoke de pull request puede desactivar esta fuerza para validar
     # la orquestación sin recalcular un territorio ya certificado.
-    generation_gate = generation_enablement(root_dir=root_dir, contract_path=row.get("contract_path"),
-                                            territory_id=row["territory_id"])
+    generation_gate = generation_enablement(
+        root_dir=root_dir,
+        contract_path=row.get("contract_path"),
+        territory_id=row["territory_id"],
+        certified_product_ready=territorial_product_ready,
+    )
     proposed_generate = bool(from_start or run_prepare_territorial or not territorial_product_ready or optimization_algorithm != "Canónico" or force_selected_algorithm)
     if proposed_generate and not generation_gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
@@ -229,8 +259,14 @@ def apply_explicit_territorial_source(
         raise ValueError("reuse_artifact_sha256 inválido")
     if not re.fullmatch(r"[0-9a-f]{40}", reuse_source_sha):
         raise ValueError("reuse_source_sha inválido")
-    gate = generation_enablement(root_dir=root_dir, contract_path=plan.get("contract_path"),
-                                 territory_id=plan.get("territory_id", ""))
+    gate = generation_enablement(
+        root_dir=root_dir,
+        contract_path=plan.get("contract_path"),
+        territory_id=plan.get("territory_id", ""),
+        certified_product_ready=bool(
+            (plan.get("catalog_state") or {}).get("territorial_product_available")
+        ),
+    )
     if not gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: Fuente explícita no habilita generación: {gate['reason']}")
 
