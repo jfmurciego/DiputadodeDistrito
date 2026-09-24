@@ -40,6 +40,27 @@
       "geometric_status": "LEGACY_OR_NOT_AUDITED"
     },
     {
+      "id": "m06-extremadura-35859241320",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "extremadura",
+      "territory_label": "Extremadura",
+      "run_id": "35859241320",
+      "expected_districts": 65,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "65 distritos evaluados / 56 PASS / 9 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 35859241320",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "1ea8c6faecd558d77a30fc9ab43c2982e3e5a421",
+      "sha256": "fcbd89e46ef43a2a13ecb40e60251664d0829d6d5dfe50d84c7df4756f5ff4a3",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/1ea8c6faecd558d77a30fc9ab43c2982e3e5a421"
+    },
+    {
       "id": "m06-principado_de_asturias-35728626894",
       "asset_type": "territorial_product",
       "kind": "canonical_m06",
