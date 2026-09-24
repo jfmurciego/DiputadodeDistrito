@@ -4,6 +4,8 @@ import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
+from herramientas.catalogo_territorios import load_master, normalize_territory_input
+
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 REQUIRED=(
@@ -51,8 +53,7 @@ def load_catalog(path:Path=CATALOG)->dict:
 
 def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
     root=root_dir.resolve(); data=load_catalog(path if path.is_absolute() else root/path)
-    master=_yaml(root/MASTER)
-    master_rows={str(r.get("territory_id")):r for r in master.get("territories") or []}
+    master_rows={str(r.get("territory_id")):r for r in load_master(root/MASTER)}
     errors=[]
     for row in data["territories"]:
         tid=row["territory_id"]; name=row["name"]
@@ -205,14 +206,16 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
     return out
 
 def resolve(mode:str,territory:str,edition:str,path:Path=CATALOG)->dict:
-    matches=[r for r in rows_for(mode,path) if r["edition"]==str(edition) and territory.strip() in {r["name"],r["territory_id"]}]
+    territory=normalize_territory_input(territory)
+    matches=[r for r in rows_for(mode,path) if r["edition"]==str(edition) and territory in {r["name"],r["territory_id"]}]
     if len(matches)!=1: raise SystemExit(f"No existe opción {mode} única para territorio={territory!r}, edición={edition!r}")
     return matches[0]
 
 def lookup(territory:str,edition:str,path:Path=CATALOG)->dict:
+    territory=normalize_territory_input(territory)
     matches=[]
     for row in load_catalog(path)["territories"]:
-        if territory.strip() not in {row["name"],row["territory_id"]}: continue
+        if territory not in {row["name"],row["territory_id"]}: continue
         state=(row.get("editions") or {}).get(str(edition))
         if state is not None:
             matches.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})
