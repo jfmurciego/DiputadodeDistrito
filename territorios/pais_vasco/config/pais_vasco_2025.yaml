@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: production_ready_auto_materialized
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -45,11 +45,11 @@ territory_contract:
   - '01'
   - '20'
   - '48'
-  status: topology_contract_candidate
+  status: generation_ready
   notes:
   - R022 congeló 1707 secciones y 2242343 habitantes sin faltantes.
   - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
-  - K y M04 permanecen pendientes.
+  - K y la cadena M04-M06 están materializados bajo el contrato productivo común.
   k_districts: 75
   k_source: norma
   k_rationale: K=75 conserva el tamaño vigente del Parlamento Vasco como regla institucional
