@@ -83,6 +83,137 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
             self.assertTrue(text.endswith(END+"\ncola\n"))
             self.assertIn("Cadena completa validada",text)
 
+
+    def _synthetic_territorial_product_gate(
+        self,
+        root: Path,
+        *,
+        run_id: str = "123",
+        territory_id: str = "demo",
+        artifact_name: str,
+        artifact_namespace: str | None = None,
+        artifact_digest: str | None = None,
+        expected_digest: str | None = None,
+    ) -> dict:
+        state=root/"state"; audit=root/"audit"
+        for name in ("cache","run","sources"):
+            (state/name).mkdir(parents=True,exist_ok=True)
+        audit.mkdir(parents=True,exist_ok=True)
+        (state/"run/CHAIN_STATE.json").write_text(
+            json.dumps({"completed_stage":6}),encoding="utf-8"
+        )
+        (audit/"production_status.json").write_text(json.dumps({
+            "territory_id":territory_id,
+            "decision":"PASS",
+            "scope_through_stage":"M06",
+        }),encoding="utf-8")
+        params=root/"demo.yaml"
+        params.write_text(yaml.safe_dump({"meta":{"year":2025}}),encoding="utf-8")
+        digest=artifact_digest or ("a"*64)
+        return validate_gate(
+            phase="territorial_product",
+            artifact_root=state,
+            audit_root=audit,
+            params=params,
+            territory_id=territory_id,
+            edition="2025",
+            run_id=run_id,
+            artifact_name=artifact_name,
+            artifact_digest=digest,
+            expected_digest=expected_digest,
+            artifact_namespace=artifact_namespace,
+        )
+
+    def test_territorial_product_gate_accepts_canonical_and_declared_campaign_namespace(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            canonical=self._synthetic_territorial_product_gate(
+                root/"canonical",
+                artifact_name="ddd-state-123-M06",
+            )
+            self.assertEqual(canonical["decision"],"VALIDADO")
+
+            namespace="campaign-123-1--04--demo"
+            namespaced=self._synthetic_territorial_product_gate(
+                root/"campaign",
+                artifact_name=f"ddd-state-123-M06-{namespace}",
+                artifact_namespace=namespace,
+            )
+            self.assertEqual(namespaced["decision"],"VALIDADO")
+
+    def test_territorial_product_gate_rejects_unbound_or_arbitrary_campaign_names(self):
+        cases=(
+            (
+                "run-distinto",
+                "ddd-state-123-M06-campaign-999-1--04--demo",
+                "campaign-999-1--04--demo",
+            ),
+            (
+                "territorio-distinto",
+                "ddd-state-123-M06-campaign-123-1--04--otro",
+                "campaign-123-1--04--otro",
+            ),
+            (
+                "slot-invalido",
+                "ddd-state-123-M06-campaign-123-1--00--demo",
+                "campaign-123-1--00--demo",
+            ),
+            (
+                "namespace-no-declarado",
+                "ddd-state-123-M06-campaign-123-1--04--demo",
+                None,
+            ),
+            (
+                "sufijo-arbitrario",
+                "ddd-state-123-M06-campaign-123-1--04--demo-extra",
+                "campaign-123-1--04--demo",
+            ),
+        )
+        with tempfile.TemporaryDirectory() as td:
+            base=Path(td)
+            for label,artifact_name,artifact_namespace in cases:
+                with self.subTest(case=label):
+                    result=self._synthetic_territorial_product_gate(
+                        base/label,
+                        artifact_name=artifact_name,
+                        artifact_namespace=artifact_namespace,
+                    )
+                    self.assertEqual(result["decision"],"BLOQUEADO")
+                    self.assertIn(
+                        "NOMBRE_ARTEFACTO_NO_COINCIDE_CON_RUN",
+                        result["reasons"],
+                    )
+
+    def test_territorial_product_gate_keeps_digest_mismatch_blocking_for_campaign_name(self):
+        with tempfile.TemporaryDirectory() as td:
+            namespace="campaign-123-2--04--demo"
+            result=self._synthetic_territorial_product_gate(
+                Path(td),
+                artifact_name=f"ddd-state-123-M06-{namespace}",
+                artifact_namespace=namespace,
+                artifact_digest="a"*64,
+                expected_digest="b"*64,
+            )
+            self.assertEqual(result["decision"],"BLOQUEADO")
+            self.assertIn(
+                "DIGEST_NO_COINCIDE_CON_EVIDENCIA_DURABLE",
+                result["reasons"],
+            )
+
+    def test_reusable_gate_passes_declared_artifact_namespace_to_validator(self):
+        root=Path(__file__).resolve().parents[1]
+        gate=(root/".github/workflows/_reutilizable-puerta-validacion.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            "ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}".replace("\\$","$"),
+            gate,
+        )
+        self.assertIn(
+            '--artifact-namespace "$ARTIFACT_NAMESPACE"',
+            gate,
+        )
+
     def test_gate_rejects_artifact_name_from_another_run(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)/"artifact"; root.mkdir()
