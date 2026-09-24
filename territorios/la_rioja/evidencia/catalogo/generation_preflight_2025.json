@@ -1,0 +1,79 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "la_rioja",
+  "territory_name": "La Rioja",
+  "edition": "2025",
+  "run_id": 35754690537,
+  "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+  "artifact_name": "ddd-state-35754690537-M03U",
+  "artifact_sha256": "c524a939f2a36459287133c4e32aa558c93715729837aa800ec3ada37df8109a",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "stage": "M03U",
+  "source": {
+    "artifact_name": "ddd-source-package-la_rioja-2025-35754690537",
+    "artifact_sha256": "d04b89b21e2c3ef2ca0c6b8833de0f798062f1cc772437208c88a1e61badb389",
+    "package_sha256": "ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5"
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
+    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
+    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1,
+    "max_precision_overlap_area_m2": 1,
+    "buffer_m": 0,
+    "simplify_m": 0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-35754690537-M03",
+    "artifact_sha256": "8842e6f8c76a8160d03506fe83c1fbbeebfbf5040b123abf32d22d90c0b2616e",
+    "module_version": "7.4.1",
+    "nodes": 343,
+    "edges": 924,
+    "population": 326803,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-35754690537",
+    "job_artifact_sha256": "9e638a0cc9888e69a4db27beecae8fba01906c511d7c3e904dbb9e063cac971b",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025/la_rioja_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "k_districts": 33,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "closed_target_cores_plus_open_residual",
+    "municipality_atomicity_limit_ratio": 1.12,
+    "m01_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 33,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  }
+}

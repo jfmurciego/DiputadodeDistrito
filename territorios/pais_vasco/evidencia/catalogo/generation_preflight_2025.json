@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "pais_vasco",
+  "territory_name": "País Vasco",
+  "edition": "2025",
+  "run_id": 35755166499,
+  "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+  "artifact_name": "ddd-state-35755166499-M03U",
+  "artifact_sha256": "6c80123ddb1aa6ef4ebabfb4ffc232ae31dfe9079b44f488b16f279cb033c1b9",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "stage": "M03U",
+  "source": {
+    "artifact_name": "ddd-source-package-pais_vasco-2025-35755166499",
+    "artifact_sha256": "f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b",
+    "package_sha256": "02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a"
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
+    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
+    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1,
+    "max_precision_overlap_area_m2": 1,
+    "buffer_m": 0,
+    "simplify_m": 0,
+    "topology_bridges": [
+      {
+        "u": "4807401002",
+        "v": "4807501001",
+        "admin_scope": "province:48",
+        "edge_type": "administrative_exclave"
+      },
+      {
+        "u": "2006401001",
+        "v": "2006402001",
+        "admin_scope": "municipality:20064",
+        "edge_type": "municipal_discontinuity"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-35755166499-M03",
+    "artifact_sha256": "606a0beb0508dd91f93da1e49d8a961303f3eabfdc20cee220cd644917866132",
+    "module_version": "7.4.1",
+    "nodes": 1707,
+    "edges": 4667,
+    "population": 2242343,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-35755166499",
+    "job_artifact_sha256": "926b207a11e51967128fb4943eda86c9773964e97a30311283aaa96507d3d283",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/pais_vasco_2025/pais_vasco_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "k_districts": 75,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/pais_vasco/.cache/ddd/preparacion/{run_name}/pais_vasco_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 75,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  }
+}
