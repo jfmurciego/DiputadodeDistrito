@@ -769,8 +769,7 @@ def package_campaign_gallery(
             "candidates": portable_candidates,
         }
         (data_dir / "summary.json").write_text(
-            json.dumps(summary, ensure_ascii=False, indent=2) + "
-",
+            json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
 
@@ -797,8 +796,7 @@ def package_campaign_gallery(
             "unique_candidate_hash_count": 50,
         }
         (stage / "artifact-manifest.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2) + "
-",
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
 
@@ -920,9 +918,7 @@ def write_markdown(summary: dict[str, Any], path: Path) -> None:
             )
         )
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("
-".join(lines) + "
-", encoding="utf-8")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -991,8 +987,7 @@ def main() -> None:
         if args.output_json:
             args.output_json.parent.mkdir(parents=True, exist_ok=True)
             args.output_json.write_text(
-                json.dumps(result, ensure_ascii=False, indent=2) + "
-",
+                json.dumps(result, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
             )
         print(json.dumps(result, ensure_ascii=False, sort_keys=True))
@@ -1000,8 +995,7 @@ def main() -> None:
 
     summary = aggregate(args.manifest, args.reports_root, campaign_instance=args.campaign_instance, source_sha=args.source_sha)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
-    args.output_json.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "
-", encoding="utf-8")
+    args.output_json.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     write_markdown(summary, args.output_md)
     print(json.dumps(summary, ensure_ascii=False))
     raise SystemExit(0 if summary["status"] == "PASS" else 2)
