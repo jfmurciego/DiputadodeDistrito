@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-23T23:00:08.220257+00:00 · Edición: **2025**
+Actualizado: 2026-09-24T07:58:26.757897+00:00 · Edición: **2025**
 
 ## Resumen
 
