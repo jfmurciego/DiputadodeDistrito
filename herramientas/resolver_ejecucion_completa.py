@@ -239,6 +239,29 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     return plan
 
 
+def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path) -> str:
+    """Use territorial-only publication when electoral onboarding is genuinely absent."""
+    if requested_mode not in {"electoral", "territorial_only"}:
+        raise ValueError(f"publication_mode inválido: {requested_mode}")
+    if requested_mode == "territorial_only" or not plan.get("run_prepare_electoral"):
+        return requested_mode
+
+    from herramientas.resolver_eleccion_vigente import resolve as resolve_current_election
+
+    try:
+        resolve_current_election(
+            str(plan.get("territory_name") or plan.get("territory_id") or ""),
+            root_dir=root_dir,
+            edition=str(plan.get("edition") or ""),
+        )
+    except SystemExit as exc:
+        message = str(exc)
+        if message.startswith("No existe elección resoluble para territorio="):
+            return "territorial_only"
+        raise
+    return requested_mode
+
+
 def apply_explicit_territorial_source(
     plan: dict,
     *,
