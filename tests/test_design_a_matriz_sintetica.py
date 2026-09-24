@@ -42,13 +42,13 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
 
     def test_preparation_supports_every_registered_territory_and_catalog_gates_generation(self):
         prep_options=triggers(PREP)["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected=[r["name"] for r in territories()]
+        expected=[f"{r['autonomous_community_code_ine']} · {r['name']}" for r in territories()]
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
-        self.assertIn("La Rioja",prep_options)
-        self.assertIn("Ceuta",prep_options)
-        self.assertIn("Melilla",prep_options)
+        self.assertIn("17 · La Rioja",prep_options)
+        self.assertIn("18 · Ceuta",prep_options)
+        self.assertIn("19 · Melilla",prep_options)
         self.assertIn("La Rioja",generable)
         self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
