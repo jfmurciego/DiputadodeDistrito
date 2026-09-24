@@ -21,28 +21,6 @@ from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
 from herramientas.catalogo_territorios import format_territory_label, master_index
 
 
-TERRITORY_LABELS = {
-    "andalucia": "Andalucía",
-    "aragon": "Aragón",
-    "principado_de_asturias": "Principado de Asturias",
-    "illes_balears": "Islas Baleares",
-    "canarias": "Canarias",
-    "cantabria": "Cantabria",
-    "castilla_la_mancha": "Castilla-La Mancha",
-    "castilla_y_leon": "Castilla y León",
-    "cataluna": "Cataluña",
-    "comunidad_valenciana": "Comunidad Valenciana",
-    "extremadura": "Extremadura",
-    "galicia": "Galicia",
-    "madrid": "Comunidad de Madrid",
-    "region_de_murcia": "Región de Murcia",
-    "comunidad_foral_de_navarra": "Comunidad Foral de Navarra",
-    "pais_vasco": "País Vasco",
-    "la_rioja": "La Rioja",
-    "ceuta": "Ceuta",
-    "melilla": "Melilla",
-}
-
 
 def read_geojson_zip(path: Path) -> dict:
     with zipfile.ZipFile(path) as archive:
@@ -131,7 +109,7 @@ def production_metadata(root: Path) -> dict:
         raise ValueError(f"El contrato de {territory_id} no declara expected_districts")
     return {
         "territory_id": territory_id,
-        "territory_label": meta.get("territory") or TERRITORY_LABELS.get(territory_id, territory_id),
+        "territory_label": meta.get("territory") or territory_id,
         "expected_districts": int(expected),
         "production_status": status,
     }
@@ -234,9 +212,7 @@ def add_ensemble(root: Path | None, site: Path, results: list[dict], ensemble_id
         return
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
     territory_id = summary.get("territory_id")
-    territory_label = summary.get("territory_label") or TERRITORY_LABELS.get(
-        territory_id, territory_id or "Territorio no identificado"
-    )
+    territory_label = summary.get("territory_label") or territory_id or "Territorio no identificado"
     base = summary_path.parent.parent if summary_path.parent.name == "data" else summary_path.parent
     ensemble_id = str(ensemble_id or summary.get("ensemble_id") or summary.get("prepared_bundle_id") or "ensemble")
     gallery_dst = site / "galleries" / str(territory_id) / ensemble_id
