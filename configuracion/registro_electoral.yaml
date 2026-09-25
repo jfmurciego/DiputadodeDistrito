@@ -2,7 +2,7 @@ schema: ddd-election-registry/1.0
 edition: '2025'
 territories:
   andalucia: {name: Andalucía, election_id: andalucia_parlamento_2022, election_date: '2022-06-19', title: Parlamento de Andalucía 2022}
-  aragon: {name: Aragón, election_id: aragon_cortes_2023, election_date: '2023-05-28', title: Cortes de Aragón 2023}
+  aragon: {name: Aragón, election_id: aragon_cortes_2026-02-08, election_date: '2026-02-08', title: Cortes de Aragón 2026}
   principado_de_asturias: {name: Principado de Asturias, election_id: asturias_jgpa_2023, election_date: '2023-05-28', title: Junta General del Principado de Asturias 2023, declaration: territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml}
   illes_balears: {name: Islas Baleares, election_id: illes_balears_parlament_2023, election_date: '2023-05-28', title: Parlament de les Illes Balears 2023}
   canarias: {name: Canarias, election_id: canarias_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Canarias 2023}
