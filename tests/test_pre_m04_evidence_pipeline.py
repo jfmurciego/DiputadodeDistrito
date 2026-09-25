@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -178,6 +180,23 @@ def write_fixture(root: Path, *, partitioned: bool):
         }
     job.write_text(json.dumps(job_data), encoding="utf-8")
     return contract_path, m03, job
+
+
+class PreM04EntrypointTests(unittest.TestCase):
+    def test_materializer_module_entrypoint_is_importable_from_repository_root(self):
+        completed = subprocess.run(
+            [sys.executable, "-m", "herramientas.materializar_evidencia_pre_m04", "--help"],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+
+    def test_workflow_invokes_materializer_as_module(self):
+        workflow = (ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("python -m herramientas.materializar_evidencia_pre_m04", workflow)
+        self.assertNotIn("python herramientas/materializar_evidencia_pre_m04.py", workflow)
 
 
 class DurablePreM04EvidenceTests(unittest.TestCase):
