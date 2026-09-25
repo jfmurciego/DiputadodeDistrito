@@ -415,6 +415,39 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
         self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
 
+    def test_00_generation_handoff_reloads_durable_pre_m04_and_blocks_nonpersistent_plan(self):
+        full_text = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+        full = yaml.safe_load(full_text)
+        production_text = (ROOT / ".github/workflows/produccion-distritos.yml").read_text(encoding="utf-8")
+        production = yaml.safe_load(production_text)
+
+        plan_outputs = full["jobs"]["planificar"]["outputs"]
+        self.assertIn("pre_m04_accreditation_planned", plan_outputs)
+        self.assertIn(
+            "La acreditación pre-M04 planificada exige persist_state=true antes de habilitar generación.",
+            full_text,
+        )
+
+        generate = full["jobs"]["generar"]
+        self.assertEqual(generate["with"]["require_generation_gate"], True)
+        self.assertIn("pre_m04_accreditation_planned == 'true'", generate["with"]["source_ref"])
+        self.assertIn("'main'", generate["with"]["source_ref"])
+
+        call_inputs = production["on"]["workflow_call"]["inputs"]
+        self.assertIn("require_generation_gate", call_inputs)
+        resolver_steps = production["jobs"]["resolver_interfaz"]["steps"]
+        gate = next(step for step in resolver_steps if step.get("name") == "Validar puerta efectiva antes de Formación inicial")
+        self.assertEqual(gate["if"], "${{ inputs.require_generation_gate }}")
+        body = gate["run"]
+        self.assertIn("generation_enablement(", body)
+        self.assertIn("GENERATION_CONTRACT_BLOCK:", body)
+
+        names = [step.get("name") for step in resolver_steps]
+        self.assertLess(
+            names.index("Validar puerta efectiva antes de Formación inicial"),
+            names.index("Resolver paquete territorial preparado"),
+        )
+
     def test_preparation_workflow_persists_pre_m04_before_terminal_success_and_never_runs_m04(self):
         preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
