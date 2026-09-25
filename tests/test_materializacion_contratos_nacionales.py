@@ -154,18 +154,39 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 td.cleanup()
 
     def test_archipelagos_remain_unprepared_and_unauthorized_in_live_catalog(self):
+        from herramientas.resolver_ejecucion_completa import generation_enablement
+
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
         for territory_id in ("illes_balears", "canarias"):
             state = rows[territory_id]["editions"]["2025"]
-            self.assertEqual("PENDING_INCORPORATION", state["preparation_status"])
-            self.assertFalse(state["territorial_sources_prepared"])
-            self.assertFalse(state["territorial_contract_complete"])
-            self.assertEqual("NONE", state["production_authorization"])
-            self.assertIsNone(state["contract_path"])
-            self.assertIsNone(state["territorial_source_declaration"])
+
+            # La preparación territorial ya terminó: READY significa fuentes y
+            # contrato materializados, no que exista todavía una primera línea
+            # de generación habilitada.
+            self.assertEqual("READY", state["preparation_status"])
+            self.assertTrue(state["territorial_sources_prepared"])
+            self.assertTrue(state["territorial_contract_complete"])
+            self.assertIsNotNone(state["contract_path"])
+            self.assertIsNotNone(state["territorial_source_declaration"])
+            self.assertFalse(state["territorial_product_available"])
+            self.assertEqual("NOT_CERTIFIED", state["territorial_certification"])
+
+            # AUTHORIZED es la autorización administrativa del contrato. La
+            # puerta efectiva de primera generación exige además evidencia
+            # durable pre-M04; sin ella debe seguir bloqueada.
+            self.assertEqual("AUTHORIZED", state["production_authorization"])
+            gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=state["contract_path"],
+                territory_id=territory_id,
+                preparation_evidence=state["preparation_evidence"],
+                require_source=True,
+            )
+            self.assertFalse(gate["allowed"])
+            self.assertEqual("CAP_M04_INPUT", gate["capability"])
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
