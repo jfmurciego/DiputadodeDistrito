@@ -35,8 +35,8 @@ class M04EngineContract(unittest.TestCase):
             if isinstance(node,(ast.Import,ast.ImportFrom))
         ]
         self.assertTrue(imports)
-        self.assertIn("from ddd_core import m04_seed_engine_v746 as core",source)
-        self.assertIn("from ddd_core import m04_seed_engine_v749 as postprocess_engine",source)
+        self.assertIn("from ddd_core import m04_seed_engine_v7412 as core",source)
+        self.assertIn("from ddd_core import m04_seed_engine_v7411 as postprocess_engine",source)
 
 if __name__=="__main__":
     unittest.main()
