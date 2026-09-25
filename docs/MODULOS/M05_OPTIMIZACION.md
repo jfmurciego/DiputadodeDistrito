@@ -52,7 +52,7 @@ No debe interpretarse el número de outliers de manera aislada. Un estado con cu
 
 **Fase C — swap-polish determinista, opt-in:** si `swap_polish_max > 0`, enumera swaps 1×1 entre unidades frontera de distritos vecinos, descarta los que violan provincia, suelo/techo, cierre urbano o contigüidad, elige el mejor que reduzca lexicográficamente el objetivo y repite hasta mínimo local o hasta el límite configurado. No acepta pasos neutrales ni peores.
 
-**Fase D — reparación poblacional genérica, opt-in:** si `population_repair.enabled` está activo, explora transferencias, intercambios y cadenas acotadas sobre unidades completas, con presupuesto determinista y preservación de restricciones duras. Publica `REPAIRED`, `IMPROVED_NOT_REPAIRED` o `NO_FEASIBLE_REPAIR_FOUND`.
+**Fase D — reparación poblacional genérica:** si la salida de Optimización es estructuralmente válida y conserva violaciones duras de suelo/techo, la reparación se activa automáticamente con límites acotados por defecto. Un `population_repair.enabled: false` explícito la desactiva. Cuando no se ejecuta publica `DISABLED`; `NO_FEASIBLE_REPAIR_FOUND` queda reservado a una búsqueda realmente ejecutada y agotada.
 
 ## Evidencia validada previa — Aragón Run #9
 Primera factibilidad, iteración 9.038: `[0, 0.0, 0, 0.119431695687, 0.182704485064]`.

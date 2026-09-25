@@ -112,6 +112,18 @@ def _verify_final_constraints(state, units, adjacency, *, expected_districts, fl
     }
 
 
+def verify_partition_constraints(state, units, adjacency, *, floor, cap):
+    """Validate structural invariants of a partition and report hard population violations."""
+    return _verify_final_constraints(
+        state,
+        units,
+        adjacency,
+        expected_districts=set(state.values()),
+        floor=floor,
+        cap=cap,
+    )
+
+
 def _district_pops(state, units):
     out={}
     for u,d in state.items(): out[d]=out.get(d,0)+int(units[u]["population"])
