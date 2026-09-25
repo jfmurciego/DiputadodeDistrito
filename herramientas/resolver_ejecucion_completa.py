@@ -303,20 +303,22 @@ def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."),
     }
     catalog_state = plan.get("catalog_state") or {}
     certified_product_ready = bool(catalog_state.get("territorial_product_available"))
-    gate = generation_enablement(
-        root_dir=root_dir, contract_path=plan.get("contract_path"), territory_id=plan.get("territory_id", ""),
-        certified_product_ready=certified_product_ready,
-        first_generation_evidence=(None if certified_product_ready else catalog_state.get("generation_preflight_evidence") or None),
-        preparation_evidence=prep, require_source=True,
-    )
-    if not gate["allowed"]:
-        raise ValueError(f"GENERATION_CONTRACT_BLOCK: Fuente explícita no habilita generación: {gate['reason']}")
-    if gate.get("route") == "validated_pre_m04_topology":
-        first = catalog_state.get("generation_preflight_evidence") or {}
+    first = None if certified_product_ready else catalog_state.get("generation_preflight_evidence") or None
+    if first:
         source = first.get("source") or {}
         if (run_id != first.get("run_id") or reuse_artifact_name != source.get("artifact_name")
                 or reuse_artifact_sha256 != source.get("artifact_sha256") or reuse_source_sha != first.get("source_commit")):
             raise ValueError("GENERATION_CONTRACT_BLOCK: la fuente explícita no coincide con la procedencia validada para primera generación")
+        if source.get("package_sha256"):
+            prep["package_sha256"] = source["package_sha256"]
+    gate = generation_enablement(
+        root_dir=root_dir, contract_path=plan.get("contract_path"), territory_id=plan.get("territory_id", ""),
+        certified_product_ready=certified_product_ready,
+        first_generation_evidence=first,
+        preparation_evidence=prep, require_source=True,
+    )
+    if not gate["allowed"]:
+        raise ValueError(f"GENERATION_CONTRACT_BLOCK: Fuente explícita no habilita generación: {gate['reason']}")
     plan["execution_mode"] = "from_start"
     plan["run_prepare_territorial"] = False
     plan["run_generate"] = True
@@ -349,35 +351,12 @@ def main() -> None:
     ap.add_argument("--catalog", default="configuracion/catalogo_preparacion.yaml")
     ap.add_argument("--root-dir", default=".")
     ap.add_argument("--output")
-    ap.add_argument("--explicit-source-run-id", default="")
-    ap.add_argument("--explicit-source-artifact-name", default="")
-    ap.add_argument("--explicit-source-artifact-sha256", default="")
-    ap.add_argument("--explicit-source-commit", default="")
     ns = ap.parse_args()
-    explicit_values = (
-        ns.explicit_source_run_id, ns.explicit_source_artifact_name,
-        ns.explicit_source_artifact_sha256, ns.explicit_source_commit,
-    )
-    explicit = None
-    if any(explicit_values):
-        if not all(explicit_values):
-            raise SystemExit("Procedencia explícita incompleta")
-        try:
-            explicit_run_id = int(ns.explicit_source_run_id)
-        except ValueError as exc:
-            raise SystemExit("explicit-source-run-id inválido") from exc
-        explicit = {
-            "run_id": explicit_run_id,
-            "artifact_name": ns.explicit_source_artifact_name,
-            "artifact_sha256": ns.explicit_source_artifact_sha256,
-            "source_commit": ns.explicit_source_commit,
-        }
     root = Path(ns.root_dir)
     plan = build_plan(
         territory=ns.territory, edition=ns.edition, execution_mode=ns.execution_mode,
         catalog=root / ns.catalog, root_dir=root, optimization_algorithm=ns.optimization_algorithm,
         force_selected_algorithm=not ns.reuse_existing_optimization,
-        explicit_territorial_source=explicit,
     )
     text = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
     if ns.output:
