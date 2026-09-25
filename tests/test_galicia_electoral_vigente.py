@@ -31,16 +31,17 @@ class GaliciaElectoralVigente(unittest.TestCase):
         self.assertEqual(len(d["sources"]),4)
         self.assertTrue(all(s["required"] for s in d["sources"]))
 
-    def test_workflow_hides_year_and_uses_current_election_resolver(self):
+    def test_workflow_uses_common_territorial_edition_and_current_election_resolver(self):
         d=yaml.safe_load(WF.read_text(encoding="utf-8"))
         trigger=d.get("on") or d.get(True)
         inputs=trigger["workflow_dispatch"]["inputs"]
-        self.assertEqual(list(inputs),["territory_id","reutilizar_si_ya_preparada"])
+        self.assertEqual(list(inputs),["territory_id","data_edition","reutilizar_si_ya_preparada"])
+        self.assertEqual(inputs["data_edition"]["options"],["2025"])
         self.assertNotIn("confirmar_preparacion",inputs)
         text=WF.read_text(encoding="utf-8")
         self.assertIn("resolver_eleccion_vigente.py",text)
-        self.assertIn("needs.resolver.outputs.edition",text)
-        self.assertNotIn("inputs.data_edition",text)
+        self.assertIn("--edition \"$EDITION\"",text)
+        self.assertIn("inputs.data_edition",text)
 
     def test_all_required_files_must_be_ready(self):
         declaration={
