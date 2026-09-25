@@ -102,6 +102,14 @@ on:
           - GerryChain
           - GerryChain 25
           - GerryChain 50
+      publication_mode:
+        description: Alcance de la ejecución
+        required: true
+        default: electoral
+        type: choice
+        options:
+          - electoral
+          - territorial_only
       publish_result:
         description: Publicar el visor al terminar
         required: true
