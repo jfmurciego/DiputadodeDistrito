@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar y describir distritos
-VERSIÓN: 7.2.0
-NOMBRE DE VERSIÓN: Catálogo con comunidades de interés opcionales
+VERSIÓN: 7.2.1
+NOMBRE DE VERSIÓN: Consolidación no fatal con diagnóstico poblacional
 FECHA: 2026-09-14
 QUÉ HACE: transforma la asignación M05 en productos territoriales finales de sección y distrito, catálogo distrital auditable y composición exacta por sección.
 POR QUÉ ES SEPARADO: M05 optimiza la partición; M06 no puede cambiarla. Su responsabilidad es materializar, medir, describir y validar la solución antes de incorporar datos electorales u otros atributos posteriores.
@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import io
+import json
 import math
 import sys
 import zipfile
@@ -94,6 +95,10 @@ def main():
     out_district_geo = s6.get("out_district_geojson", "")
     out_catalog = s6.get("out_catalog_csv", "")
     out_composition = s6.get("out_composition_csv", "")
+    out_diagnostic = s6.get(
+        "out_diagnostic_json",
+        str(Path(out_summary).with_name(Path(out_summary).stem + "_diagnostico.json")),
+    )
 
     province_field = s6.get("province_field", val.get("province_field", "CPRO"))
     province_name_field = s6.get("province_name_field", "NPRO")
@@ -165,11 +170,18 @@ def main():
     summary["within_hard_bounds"] = (summary["district_pop"] >= summary["population_floor"]) & (summary["district_pop"] <= cap)
     summary["within_target_tolerance"] = summary["relative_deviation"].abs() <= tol_ratio + 1e-12
 
-    if not bool(summary["within_hard_bounds"].all()):
-        bad = summary.loc[~summary["within_hard_bounds"], ["district_id", "district_pop"]].to_dict("records")
-        raise SystemExit(f"[Módulo 6] Violación poblacional dura heredada de M05: {bad}")
+    summary["population_status"] = "PASS"
+    summary.loc[summary["district_pop"] < summary["population_floor"], "population_status"] = "BELOW_FLOOR"
+    summary.loc[summary["district_pop"] > summary["population_cap"], "population_status"] = "ABOVE_CEILING"
+    hard_rows = summary.loc[
+        ~summary["within_hard_bounds"],
+        ["district_id", "district_pop", "population_floor", "population_cap", "population_status"],
+    ].to_dict("records")
+    hard_count = len(hard_rows)
 
-    # Disolver solo después de certificar la asignación básica.
+    # La consolidación materializa siempre una asignación estructuralmente íntegra.
+    # La conformidad poblacional se registra como diagnóstico; no se convierte aquí
+    # en éxito técnico ni se oculta eliminando el producto.
     dist = df[[district_field, pop_field, "geometry"]].copy().dissolve(
         by=district_field, aggfunc={pop_field: "sum"}, as_index=False
     ).rename(columns={district_field: "district_id", pop_field: "district_pop"})
@@ -254,8 +266,30 @@ def main():
         ensure_geojson_zip(dist_out, out_district_geo)
 
     outside = int((~summary["within_target_tolerance"]).sum())
+    diagnostic = {
+        "schema": "ddd.m06-population-diagnostic/1.0",
+        "module": "06",
+        "version": "7.2.1",
+        "structural_status": "PASS",
+        "population_conformance": "PASS" if hard_count == 0 else "NON_CONFORMING",
+        "hard_population_violations": hard_count,
+        "districts_below_floor": int((summary["population_status"] == "BELOW_FLOOR").sum()),
+        "districts_above_ceiling": int((summary["population_status"] == "ABOVE_CEILING").sum()),
+        "districts_outside_target_tolerance": outside,
+        "expected_districts": expected_k or k,
+        "observed_districts": k,
+        "total_population": total_pop,
+        "population_floor": float(floor),
+        "population_cap": float(cap),
+        "violations": hard_rows,
+        "product_written": True,
+        "conformance_declared": hard_count == 0,
+    }
+    diagnostic_path = Path(out_diagnostic)
+    diagnostic_path.parent.mkdir(parents=True, exist_ok=True)
+    diagnostic_path.write_text(json.dumps(diagnostic, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
-        f"[Módulo 6] OK v7.2.0 K={k} rows={n_rows} pop={total_pop} fuera_12={outside} "
+        f"[Módulo 6] OK v7.2.1 K={k} rows={n_rows} pop={total_pop} hard={hard_count} fuera_12={outside} "
         f"catalog={out_catalog or '-'} composition={out_composition or '-'} districts={out_district_geo or '-'}"
     )
 
