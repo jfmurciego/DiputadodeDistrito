@@ -1,0 +1,41 @@
+{
+  "schema": "ddd.generation-preflight-evidence/1.0",
+  "kind": "first_generation_preflight",
+  "territory_id": "pais_vasco",
+  "edition": "2025",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "contract": {
+    "path": "territorios/pais_vasco/config/pais_vasco_2025.yaml",
+    "git_blob_sha1": "8c288f4ff1ee3f03278594fde8725be0c3d80070"
+  },
+  "source": {
+    "run_id": 35755166499,
+    "artifact_name": "ddd-source-package-pais_vasco-2025-35755166499",
+    "artifact_sha256": "f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b",
+    "package_sha256": "02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a",
+    "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466"
+  },
+  "graph": {
+    "run_id": 35755166499,
+    "artifact_name": "ddd-state-35755166499-M03",
+    "artifact_sha256": "606a0beb0508dd91f93da1e49d8a961303f3eabfdc20cee220cd644917866132",
+    "completed_stage": "M03",
+    "nodes": 1707,
+    "edges": 4667,
+    "population": 2242343,
+    "isolated": 0,
+    "global_components": 1,
+    "province_groups": 3,
+    "province_disconnected": 0,
+    "municipality_groups": 252,
+    "municipality_disconnected": 0,
+    "topology_bridges": 2
+  },
+  "partitioning": {
+    "mode": "none_required",
+    "artifact_name": "ddd-internal-units-35755166499",
+    "artifact_sha256": "926b207a11e51967128fb4943eda86c9773964e97a30311283aaa96507d3d283",
+    "enabled": false,
+    "status": "NOOP"
+  }
+}

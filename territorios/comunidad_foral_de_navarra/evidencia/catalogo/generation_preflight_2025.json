@@ -1,0 +1,41 @@
+{
+  "schema": "ddd.generation-preflight-evidence/1.0",
+  "kind": "first_generation_preflight",
+  "territory_id": "comunidad_foral_de_navarra",
+  "edition": "2025",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "contract": {
+    "path": "territorios/comunidad_foral_de_navarra/config/comunidad_foral_de_navarra_2025.yaml",
+    "git_blob_sha1": "7a071fed35f5dbf013dc4ecb3e4c6b2ef0d9faae"
+  },
+  "source": {
+    "run_id": 35755122526,
+    "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-35755122526",
+    "artifact_sha256": "9af4663e730cbcd15d79f37e38f77773f4f86b53079cb78323f1524c9fa6f243",
+    "package_sha256": "bfa629cc2b7f909b3222879aa84b5751c66625c147b49981573af00689c00305",
+    "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466"
+  },
+  "graph": {
+    "run_id": 35755122526,
+    "artifact_name": "ddd-state-35755122526-M03",
+    "artifact_sha256": "f96f9c8141d4f29c0655aa571e3f9307a202d08432d17ce4a3b14dcd9f802945",
+    "completed_stage": "M03",
+    "nodes": 582,
+    "edges": 1541,
+    "population": 683854,
+    "isolated": 0,
+    "global_components": 1,
+    "province_groups": 1,
+    "province_disconnected": 0,
+    "municipality_groups": 272,
+    "municipality_disconnected": 0,
+    "topology_bridges": 2
+  },
+  "partitioning": {
+    "mode": "none_required",
+    "artifact_name": "ddd-internal-units-35755122526",
+    "artifact_sha256": "7fb1437fda671ebe61e779da683cfabf5b997d9259559728bbaf1ea3040801b9",
+    "enabled": false,
+    "status": "NOOP"
+  }
+}

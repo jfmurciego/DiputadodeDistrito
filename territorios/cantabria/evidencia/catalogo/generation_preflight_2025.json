@@ -1,0 +1,41 @@
+{
+  "schema": "ddd.generation-preflight-evidence/1.0",
+  "kind": "first_generation_preflight",
+  "territory_id": "cantabria",
+  "edition": "2025",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "contract": {
+    "path": "territorios/cantabria/config/cantabria_2025.yaml",
+    "git_blob_sha1": "a4536105a8fd48939954556bf5754295f73644bb"
+  },
+  "source": {
+    "run_id": 36020676520,
+    "artifact_name": "ddd-source-package-cantabria-2025-36020676520",
+    "artifact_sha256": "ea58edc91018bcc4853d44051c3b582acf5d9ed236bb7ddd5fce7fcb230d8293",
+    "package_sha256": "8a388ec5b91f8e029740c2b0668b2706432f62ebb8c682d4fd416d9b6e6c9deb",
+    "source_commit": "45d005a7c4d40c23d17c477e0a10772f4054d60c"
+  },
+  "graph": {
+    "run_id": 36020676520,
+    "artifact_name": "ddd-state-36020676520-M03",
+    "artifact_sha256": "e1c741cb18cea8affead9438ca5461a2907b3a25d062c475944cf0d1bbb77cd7",
+    "completed_stage": "M03",
+    "nodes": 458,
+    "edges": 1233,
+    "population": 593623,
+    "isolated": 0,
+    "global_components": 1,
+    "province_groups": 1,
+    "province_disconnected": 0,
+    "municipality_groups": 102,
+    "municipality_disconnected": 0,
+    "topology_bridges": 1
+  },
+  "partitioning": {
+    "mode": "none_required",
+    "artifact_name": "ddd-internal-units-36020676520",
+    "artifact_sha256": "fb2087b97ed45242d2e27720ee8e733ad0e03be245f1fa8920950e40230f0ab4",
+    "enabled": false,
+    "status": "NOOP"
+  }
+}

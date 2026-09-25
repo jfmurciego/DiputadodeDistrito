@@ -1,15 +1,128 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
 
 import yaml
 
+from ddd_core.territory_contract import validate_production_contract
 from herramientas.catalogo_preparacion import lookup
 
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
+
+
+def _git_blob_sha1(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\x00" + data).hexdigest()
+
+
+def _validated_first_generation_preflight(
+    *,
+    root_dir: Path,
+    contract_path: str,
+    territory_id: str,
+    edition: str,
+    contract: dict,
+    preparation_evidence: dict | None,
+    generation_preflight: dict | None,
+) -> dict | None:
+    """Validate durable M03/topology evidence for a first territorial product."""
+    evidence = generation_preflight or {}
+    if not evidence:
+        return None
+
+    def blocked(reason: str) -> dict:
+        return {
+            "allowed": False,
+            "reason": f"preflight de primera generación inválido: {reason}",
+        }
+
+    if evidence.get("schema") != "ddd.generation-preflight-evidence/1.0":
+        return blocked("schema no soportado")
+    if evidence.get("decision") != "READY_FOR_FIRST_GENERATION":
+        return blocked("decisión distinta de READY_FOR_FIRST_GENERATION")
+    if evidence.get("territory_id") != territory_id or str(evidence.get("edition")) != str(edition):
+        return blocked("identidad territorio/edición no coincide")
+
+    path = root_dir / contract_path
+    contract_ref = evidence.get("contract") or {}
+    if contract_ref.get("path") != contract_path:
+        return blocked("ruta de contrato no coincide")
+    if contract_ref.get("git_blob_sha1") != _git_blob_sha1(path):
+        return blocked("huella del contrato vigente no coincide")
+
+    try:
+        admission = validate_production_contract(path, expected_territory=territory_id)
+    except Exception as exc:
+        return blocked(f"contrato no auditable: {exc}")
+    if admission.get("status") != "ADMITTED" or not admission.get("production_authorized"):
+        return blocked("contrato M01-M06 no admitido/autorizado estructuralmente")
+
+    prep = preparation_evidence or {}
+    source = evidence.get("source") or {}
+    source_fields = ("run_id", "artifact_name", "artifact_sha256", "package_sha256")
+    if any(source.get(key) != prep.get(key) for key in source_fields):
+        return blocked("fuente territorial durable no coincide con el catálogo")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(source.get("artifact_sha256") or "")):
+        return blocked("digest de fuente inválido")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(source.get("package_sha256") or "")):
+        return blocked("digest del paquete fuente inválido")
+
+    validation = contract.get("validation") or {}
+    modules = contract.get("modulos") or {}
+    m04 = modules.get("modulo_04_generar_semillas") or {}
+    graph = evidence.get("graph") or {}
+    if graph.get("run_id") != source.get("run_id"):
+        return blocked("M03 no pertenece al mismo run de fuente")
+    if graph.get("artifact_name") != f"ddd-state-{source.get('run_id')}-M03":
+        return blocked("nombre del checkpoint M03 no coincide")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(graph.get("artifact_sha256") or "")):
+        return blocked("digest del checkpoint M03 inválido")
+    if graph.get("completed_stage") != "M03":
+        return blocked("checkpoint no alcanza M03")
+    if graph.get("nodes") != validation.get("expected_sections_geometry"):
+        return blocked("número de secciones M03 no coincide con contrato")
+    if graph.get("population") != validation.get("expected_population_total_2025"):
+        return blocked("población M03 no coincide con contrato")
+    if graph.get("topology_bridges") != validation.get("expected_topology_bridges"):
+        return blocked("pasarelas M03 no coinciden con contrato")
+    if not isinstance(graph.get("edges"), int) or graph["edges"] <= 0:
+        return blocked("grafo M03 sin aristas acreditadas")
+    if graph.get("isolated") != 0 or graph.get("global_components") != 1:
+        return blocked("grafo M03 no es una única componente sin aislados")
+    if graph.get("province_disconnected") != 0:
+        return blocked("M03 mantiene provincias desconectadas")
+    if graph.get("municipality_disconnected") != 0:
+        return blocked("M03 mantiene municipios desconectados")
+
+    partitioning = evidence.get("partitioning") or {}
+    contract_partitioning = contract.get("partitioning") or {}
+    active_partitioning = bool(
+        isinstance(contract_partitioning, dict)
+        and contract_partitioning.get("enabled") is not False
+        and str(contract_partitioning.get("strategy") or "").strip()
+    )
+    if partitioning.get("mode") != "none_required":
+        return blocked("modo de particionado pre-M04 no soportado por esta evidencia")
+    if active_partitioning:
+        return blocked("el contrato exige particionado interno pero la evidencia declara NOOP")
+    if partitioning.get("enabled") is not False or partitioning.get("status") != "NOOP":
+        return blocked("particionado NOOP no acreditado")
+    if partitioning.get("artifact_name") != f"ddd-internal-units-{source.get('run_id')}":
+        return blocked("artefacto de particionado no coincide con el run")
+    if not re.fullmatch(r"[0-9a-f]{64}", str(partitioning.get("artifact_sha256") or "")):
+        return blocked("digest de particionado inválido")
+    if m04.get("municipality_field") != validation.get("municipality_field"):
+        return blocked("M04 no consume directamente el municipio validado")
+
+    expected_provinces = validation.get("expected_province_codes") or []
+    if graph.get("province_groups") != len(expected_provinces):
+        return blocked("grupos provinciales M03 no coinciden con contrato")
+
+    return {"allowed": True, "route": "validated_pre_m04_topology"}
 
 
 def generation_enablement(
@@ -17,9 +130,12 @@ def generation_enablement(
     root_dir: Path,
     contract_path: str | None,
     territory_id: str,
+    edition: str = "2025",
     certified_product_ready: bool = False,
+    preparation_evidence: dict | None = None,
+    generation_preflight: dict | None = None,
 ) -> dict:
-    """Determine generation readiness from contract structure and durable product evidence."""
+    """Determine generation readiness from structural contract and durable evidence."""
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return {"allowed": False, "reason": "contrato territorial efectivo ausente"}
@@ -37,9 +153,6 @@ def generation_enablement(
     m04 = modules.get("modulo_04_generar_semillas") or {}
     m05 = modules.get("modulo_05_optimizar_distritos") or {}
     m06 = modules.get("modulo_06_consolidar_distritos") or {}
-
-    if meta.get("status") == status == "generation_ready":
-        return {"allowed": True, "route": "declared_generation_ready"}
 
     partitioning = contract.get("partitioning") or {}
     if (partitioning.get("enabled") is True
@@ -61,6 +174,18 @@ def generation_enablement(
             and m05.get("out_geojson")
             and m05["out_geojson"] == m06.get("in_geojson")):
         return {"allowed": True, "route": "certified_product_lineage"}
+
+    preflight = _validated_first_generation_preflight(
+        root_dir=root_dir,
+        contract_path=contract_path,
+        territory_id=territory_id,
+        edition=str(edition),
+        contract=contract,
+        preparation_evidence=preparation_evidence,
+        generation_preflight=generation_preflight,
+    )
+    if preflight is not None:
+        return preflight
 
     return {"allowed": False, "reason": f"contrato territorial sin generación habilitada: {status or 'sin estado'}"}
 
@@ -96,6 +221,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     evidence = state.get("evidence") or {}
 
     territorial_evidence = _load_json(evidence.get("territorial_product"), root_dir)
+    generation_preflight = _load_json(evidence.get("generation_preflight"), root_dir)
     electoral_source_evidence = _load_json(evidence.get("electoral_source"), root_dir)
     electoral_product_evidence = _load_json(evidence.get("electoral_product"), root_dir)
     prep = state.get("preparation_evidence") or {}
@@ -157,7 +283,10 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         root_dir=root_dir,
         contract_path=row.get("contract_path"),
         territory_id=row["territory_id"],
+        edition=edition,
         certified_product_ready=territorial_product_ready,
+        preparation_evidence=prep,
+        generation_preflight=generation_preflight,
     )
     proposed_generate = bool(from_start or run_prepare_territorial or not territorial_product_ready or optimization_algorithm != "Canónico" or force_selected_algorithm)
     if proposed_generate and not generation_gate["allowed"]:
@@ -215,6 +344,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "electoral_source_prepared": electoral_source_ready,
             "electoral_product_available": electoral_product_ready,
             "territorial_certification": state.get("territorial_certification"),
+            "preparation_evidence": prep,
+            "generation_preflight": generation_preflight,
         },
     }
 
@@ -259,16 +390,36 @@ def apply_explicit_territorial_source(
         raise ValueError("reuse_artifact_sha256 inválido")
     if not re.fullmatch(r"[0-9a-f]{40}", reuse_source_sha):
         raise ValueError("reuse_source_sha inválido")
+    catalog_state = plan.get("catalog_state") or {}
     gate = generation_enablement(
         root_dir=root_dir,
         contract_path=plan.get("contract_path"),
         territory_id=plan.get("territory_id", ""),
-        certified_product_ready=bool(
-            (plan.get("catalog_state") or {}).get("territorial_product_available")
-        ),
+        edition=str(plan.get("edition") or "2025"),
+        certified_product_ready=bool(catalog_state.get("territorial_product_available")),
+        preparation_evidence=catalog_state.get("preparation_evidence"),
+        generation_preflight=catalog_state.get("generation_preflight"),
     )
     if not gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: Fuente explícita no habilita generación: {gate['reason']}")
+    if gate.get("route") == "validated_pre_m04_topology":
+        source = (catalog_state.get("generation_preflight") or {}).get("source") or {}
+        expected = (
+            str(source.get("run_id") or ""),
+            str(source.get("artifact_name") or ""),
+            str(source.get("artifact_sha256") or ""),
+            str(source.get("source_commit") or ""),
+        )
+        actual = (
+            reuse_run_id,
+            reuse_artifact_name,
+            reuse_artifact_sha256,
+            reuse_source_sha,
+        )
+        if actual != expected:
+            raise ValueError(
+                "GENERATION_CONTRACT_BLOCK: Fuente explícita no coincide con el preflight territorial validado"
+            )
 
     plan["execution_mode"] = "from_start"
     plan["run_prepare_territorial"] = False
