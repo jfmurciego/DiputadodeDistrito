@@ -17,6 +17,8 @@ SHA_B = "b" * 64
 SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
+ROOT = Path(__file__).resolve().parents[1]
+REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta", "melilla")
 
 
 def contract(*, partitioned: bool) -> dict:
@@ -260,6 +262,122 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
             self.assertFalse(gate["allowed"])
             self.assertEqual(gate["capability"], "CAP_PRE_M04_EVIDENCE")
             self.assertIn("particionado", gate["reason"])
+
+
+class RealTerritoryPreM04ContractTests(unittest.TestCase):
+    def _state_and_contract(self, territory_id: str):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+        row = next(r for r in catalog.get("territories") or [] if r.get("territory_id") == territory_id)
+        state = (row.get("editions") or {}).get("2025") or {}
+        contract_path = state.get("contract_path")
+        self.assertTrue(contract_path, territory_id)
+        contract = yaml.safe_load((ROOT / contract_path).read_text(encoding="utf-8")) or {}
+        return state, contract_path, contract
+
+    def _build_real_evidence(self, territory_id: str):
+        state, contract_path, contract = self._state_and_contract(territory_id)
+        prep = state.get("preparation_evidence") or {}
+        run_id = int(prep["run_id"])
+        validation = contract.get("validation") or {}
+        with tempfile.TemporaryDirectory() as td:
+            tmp = Path(td)
+            m03 = tmp / "m03"
+            m03.mkdir()
+            (m03 / "report.json").write_text(
+                json.dumps({
+                    "module": "03",
+                    "version": "7.4.1",
+                    "nodes": validation.get("expected_sections_geometry"),
+                    "edges": max(0, int(validation.get("expected_sections_geometry") or 1) - 1),
+                    "isolated": 0,
+                    "total_pop": validation.get("expected_population_total_2025"),
+                    "global_component_audit": {"components": 1},
+                    "province_component_audit": {"disconnected": 0},
+                    "municipality_component_audit": {"disconnected": 0},
+                }),
+                encoding="utf-8",
+            )
+            job = tmp / "job.json"
+            job.write_text(json.dumps({
+                "schema": "ddd.internal-units-job/1.0",
+                "status": "NOOP",
+                "strategy": None,
+            }), encoding="utf-8")
+            with patch("herramientas.materializar_evidencia_pre_m04._git_head", return_value=COMMIT):
+                evidence = build_evidence(
+                    root_dir=ROOT,
+                    territory_id=territory_id,
+                    edition="2025",
+                    run_id=run_id,
+                    contract_path=contract_path,
+                    m03_state_dir=m03,
+                    partition_job=job,
+                    m03_artifact_sha256=SHA_C,
+                    m03u_artifact_sha256=SHA_D,
+                    partition_artifact_sha256=SHA_A,
+                )
+        return state, contract_path, prep, evidence
+
+    def test_real_pending_territories_receive_pre_m04_accreditation_before_generation_gate(self):
+        for territory_id in REAL_TARGETS:
+            with self.subTest(territory=territory_id):
+                state, contract_path, prep, evidence = self._build_real_evidence(territory_id)
+                self.assertFalse(state.get("territorial_product_available"))
+                self.assertEqual(evidence["decision"], "READY_FOR_FIRST_GENERATION")
+                self.assertEqual(evidence["stage"], "M03U")
+                self.assertEqual(evidence["source"]["artifact_name"], prep["artifact_name"])
+                self.assertEqual(evidence["source"]["artifact_sha256"], str(prep["artifact_sha256"]).removeprefix("sha256:"))
+                self.assertEqual(evidence["source"]["package_sha256"], str(prep["package_sha256"]).removeprefix("sha256:"))
+                gate = generation_enablement(
+                    root_dir=ROOT,
+                    contract_path=contract_path,
+                    territory_id=territory_id,
+                    certified_product_ready=False,
+                    first_generation_evidence=evidence,
+                    preparation_evidence=prep,
+                    require_source=True,
+                )
+                self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
+
+    def test_missing_or_contradictory_pre_m04_accreditation_still_blocks_real_targets(self):
+        for territory_id in REAL_TARGETS:
+            with self.subTest(territory=territory_id, case="missing"):
+                state, contract_path, prep, evidence = self._build_real_evidence(territory_id)
+                missing = generation_enablement(
+                    root_dir=ROOT,
+                    contract_path=contract_path,
+                    territory_id=territory_id,
+                    certified_product_ready=False,
+                    first_generation_evidence=None,
+                    preparation_evidence=prep,
+                    require_source=True,
+                )
+                self.assertFalse(missing["allowed"])
+                self.assertEqual(missing["capability"], "CAP_PRE_M04_EVIDENCE")
+            with self.subTest(territory=territory_id, case="contradictory"):
+                evidence["graph"]["nodes"] = int(evidence["graph"]["nodes"]) + 1
+                contradictory = generation_enablement(
+                    root_dir=ROOT,
+                    contract_path=contract_path,
+                    territory_id=territory_id,
+                    certified_product_ready=False,
+                    first_generation_evidence=evidence,
+                    preparation_evidence=prep,
+                    require_source=True,
+                )
+                self.assertFalse(contradictory["allowed"])
+                self.assertEqual(contradictory["capability"], "CAP_PRE_M04_EVIDENCE")
+
+    def test_preparation_workflow_persists_pre_m04_before_terminal_success_and_never_runs_m04(self):
+        preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
+        reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
+        jobs = preparation["jobs"]
+        self.assertEqual(jobs["pre_m04"]["needs"], ["resolver", "territoriales", "registrar"])
+        self.assertTrue(jobs["pre_m04"]["with"]["preflight_only"])
+        self.assertIn("pre_m04", jobs["resultado"]["needs"])
+        self.assertIn("PRE_M04_RESULT", jobs["resultado"]["steps"][-1]["env"])
+        self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
+        self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
 
 
 if __name__ == "__main__":
