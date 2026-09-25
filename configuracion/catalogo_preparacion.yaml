@@ -137,6 +137,8 @@ territories:
         artifact_name: ddd-source-package-cantabria-2025-36020676520
         artifact_sha256: ea58edc91018bcc4853d44051c3b582acf5d9ed236bb7ddd5fce7fcb230d8293
         package_sha256: 8a388ec5b91f8e029740c2b0668b2706432f62ebb8c682d4fd416d9b6e6c9deb
+      evidence:
+        generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
   editions:
@@ -352,6 +354,8 @@ territories:
         artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-35755122526
         artifact_sha256: 9af4663e730cbcd15d79f37e38f77773f4f86b53079cb78323f1524c9fa6f243
         package_sha256: bfa629cc2b7f909b3222879aa84b5751c66625c147b49981573af00689c00305
+      evidence:
+        generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: pais_vasco
   name: País Vasco
   editions:
@@ -374,6 +378,8 @@ territories:
         artifact_name: ddd-source-package-pais_vasco-2025-35755166499
         artifact_sha256: f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b
         package_sha256: 02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a
+      evidence:
+        generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: la_rioja
   name: La Rioja
   editions:
@@ -396,6 +402,8 @@ territories:
         artifact_name: ddd-source-package-la_rioja-2025-35754690537
         artifact_sha256: d04b89b21e2c3ef2ca0c6b8833de0f798062f1cc772437208c88a1e61badb389
         package_sha256: ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5
+      evidence:
+        generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: ceuta
   name: Ceuta
   editions:
