@@ -110,6 +110,42 @@ class TechnicalCertificationTests(unittest.TestCase):
         self.assertIn("POPULATION_TARGET_NOT_MET", result["errors"])
         self.assertIn("POPULATION_OUTLIERS_REMAIN", result["errors"])
 
+    def test_repaired_zero_hard_limits_can_be_certified(self):
+        evidence = list(self.evidence(v2=True, geometric_decision="PASS"))
+        evidence[1] = copy.deepcopy(evidence[1])
+        evidence[1].update(
+            decision="PASS",
+            population_decision="TARGET_MET",
+            population_repair_result="REPAIRED",
+            population_hard_constraints_before=2,
+            population_hard_constraints_after=0,
+            population_outliers_before=2,
+            population_outliers_after=0,
+        )
+        result = self.certify_evidence(evidence)
+        self.assertEqual(result["decision"], "CERTIFIED")
+        self.assertEqual(result["errors"], [])
+
+    def test_structurally_integral_population_violation_is_blocked_and_not_publishable(self):
+        evidence = list(self.evidence(v2=True, geometric_decision="PASS"))
+        evidence[1] = copy.deepcopy(evidence[1])
+        evidence[1].update(
+            decision="PASS_WITH_EXCEPTIONS",
+            execution_outcome="success",
+            population_outcome="success",
+            population_decision="HARD_BLOCK",
+            population_repair_result="NO_FEASIBLE_REPAIR_FOUND",
+            population_hard_constraints_before=2,
+            population_hard_constraints_after=1,
+            population_outliers_before=2,
+            population_outliers_after=1,
+        )
+        result = self.certify_evidence(evidence)
+        self.assertEqual(result["decision"], "BLOCKED")
+        self.assertIn("POPULATION_HARD_BLOCK", result["errors"])
+        self.assertIn("POPULATION_HARD_CONSTRAINTS", result["errors"])
+        self.assertEqual(result["publication"]["status"], "BLOCKED")
+
     def test_population_hard_limit_is_blocked(self):
         evidence = list(self.evidence(v2=True))
         evidence[1] = copy.deepcopy(evidence[1])
