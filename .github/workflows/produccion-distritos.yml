@@ -25,6 +25,7 @@ on:
       artifact_namespace: {required: false, type: string, default: ''}
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
+      require_generation_gate: {required: false, type: boolean, default: false}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -306,6 +307,44 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 14
+
+      - name: Validar puerta efectiva antes de Formación inicial
+        if: ${{ inputs.require_generation_gate }}
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import yaml
+          from herramientas.resolver_ejecucion_completa import generation_enablement
+
+          root = Path(".")
+          catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+          territory_id = __import__("os").environ["TERRITORY_ID"]
+          edition = __import__("os").environ["EDITION"]
+          row = next(r for r in (catalog.get("territories") or []) if r.get("territory_id") == territory_id)
+          state = (row.get("editions") or {}).get(edition) or {}
+          evidence_path = ((state.get("evidence") or {}).get("generation_preflight"))
+          evidence = None
+          if evidence_path:
+              evidence = json.loads((root / evidence_path).read_text(encoding="utf-8"))
+          gate = generation_enablement(
+              root_dir=root,
+              contract_path=state.get("contract_path"),
+              territory_id=territory_id,
+              certified_product_ready=bool(state.get("territorial_product_available")),
+              first_generation_evidence=evidence,
+              preparation_evidence=state.get("preparation_evidence") or {},
+              require_source=True,
+          )
+          if not gate.get("allowed"):
+              raise SystemExit("GENERATION_CONTRACT_BLOCK: " + str(gate.get("reason") or gate))
+          print(json.dumps(gate, ensure_ascii=False))
+          PY
 
       - id: source_package
         name: Resolver paquete territorial preparado
