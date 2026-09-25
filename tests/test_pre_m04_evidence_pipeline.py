@@ -92,6 +92,7 @@ def contract(*, partitioned: bool) -> dict:
             "output_geojson": m04_in,
             "output_report": f"{base}/partition.json",
             "partition_unit_field": "CUMUN",
+            "municipality_field": "CUMUN",
             "atomicity_ratio": 1.75,
             "chunk_ratio": 0.25,
         }
