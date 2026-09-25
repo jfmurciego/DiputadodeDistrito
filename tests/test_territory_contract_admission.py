@@ -192,15 +192,15 @@ class PopulationRepairDeclarativeContract(unittest.TestCase):
         for key in ("in_graph_json", "province_field", "unit_id_field"):
             self.assertTrue(self.errors_after(lambda m, key=key: m.pop(key)))
 
-    def test_desactivado_conserva_el_camino_anterior(self):
+    def test_desactivacion_explicita_prevalece_sobre_activacion_automatica(self):
         source = (ROOT / "modulos/05_optimizar_distritos.py").read_text(encoding="utf-8")
         start = source.index("def _apply_population_repair")
-        disabled = source.index('if not rcfg.get("enabled",False):', start)
+        disabled = source.index('declared.get("enabled") is False', start)
         graph = source.index("graph=json.loads", disabled)
         prefix = source[disabled:graph]
-        self.assertIn('meta={"enabled":False', prefix)
+        self.assertIn('"activation":"EXPLICITLY_DISABLED"', prefix)
+        self.assertIn('"result":"DISABLED"', prefix)
         self.assertIn("return meta", prefix)
-        self.assertNotIn("write_geo", prefix)
         self.assertNotIn("repair(", prefix)
 
     def test_aragon_no_activa_ni_declara_esta_capacidad(self):
