@@ -145,6 +145,7 @@ class AutoPopulationRepairActivationTests(unittest.TestCase):
             root = Path(td)
             graph, report, out = self.make_files(root, [40, 160])
             broken = frame([40, 160])
+            broken["district_id"] = 1
             broken.loc[1, "CPRO"] = "02"
             with (
                 patch.object(m05, "load_geo", return_value=broken),
