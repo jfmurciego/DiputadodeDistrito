@@ -102,7 +102,7 @@ jobs:
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
           echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
+          current="$(python herramientas/resolver_eleccion_vigente.py --for-preparation --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
           edition="$(jq -r .territorial_edition <<<"$current")"
           [[ "$edition" == "$EDITION" ]] || { echo "::error::La elección vigente pertenece a la edición $edition, no $EDITION."; exit 41; }
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
