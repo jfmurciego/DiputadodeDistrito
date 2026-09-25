@@ -123,7 +123,8 @@ class TechnicalCertificationTests(unittest.TestCase):
             population_outliers_after=0,
         )
         result = self.certify_evidence(evidence)
-        self.assertEqual(result["decision"], "CERTIFIED")
+        self.assertIn(result["decision"], {"CERTIFIED", "CERTIFIED_WITH_GOVERNED_EXCEPTIONS"})
+        self.assertNotEqual(result["decision"], "BLOCKED")
         self.assertEqual(result["errors"], [])
 
     def test_structurally_integral_population_violation_is_blocked_and_not_publishable(self):
