@@ -23,13 +23,21 @@ class TestRegistroElectoralComun(unittest.TestCase):
             self.assertTrue(row["name"])
 
     def test_identified_election_without_acquirable_source_is_not_resolvable(self):
+        andalucia = self.registry["territories"]["andalucia"]
+        self.assertEqual(andalucia["election_id"], "andalucia_parlamento_2022")
+        self.assertFalse(andalucia.get("declaration"))
+        with self.assertRaisesRegex(SystemExit, "No existe elección resoluble"):
+            resolve("Andalucía", root_dir=ROOT, edition="2025")
+
+    def test_cantabria_is_now_identified_and_acquirable(self):
         cantabria = self.registry["territories"]["cantabria"]
         self.assertEqual(cantabria["election_id"], "cantabria_parlamento_2023")
-        self.assertFalse(cantabria.get("declaration"))
-        with self.assertRaisesRegex(SystemExit, "No existe elección resoluble"):
-            resolve("Cantabria", root_dir=ROOT, edition="2025")
+        self.assertTrue(cantabria.get("declaration"))
+        row = resolve("Cantabria", root_dir=ROOT, edition="2025")
+        self.assertEqual(row["election_id"], "cantabria_parlamento_2023")
+        self.assertTrue(row["declaration"])
 
-    def test_acquirable_source_is_resolvable(self):
+    def test_existing_acquirable_source_remains_resolvable(self):
         asturias = self.registry["territories"]["principado_de_asturias"]
         self.assertTrue(asturias.get("declaration"))
         row = resolve("Principado de Asturias", root_dir=ROOT, edition="2025")
