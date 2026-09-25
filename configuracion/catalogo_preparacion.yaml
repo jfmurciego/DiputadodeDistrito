@@ -108,18 +108,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
-      contract_path: null
-      territorial_source_declaration: null
+      preparation_status: READY
+      contract_path: territorios/canarias/config/canarias_2025.yaml
+      territorial_source_declaration: territorios/canarias/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 36133180822
+        artifact_name: ddd-source-package-canarias-2025-36133180822
+        artifact_sha256: cdba947af821d40711887499ed56ca4519216d8c5fbf0d7369e5d294f918780e
+        package_sha256: abeb53758e14b38f88631798f81660b32c5add7dcf1fc34d05a649401a332409
 - territory_id: cantabria
   name: Cantabria
   editions:

@@ -1,0 +1,282 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: canarias
+  territory: Canarias
+  run_name: canarias_2025
+  year: 2025
+  scope: provincial
+  schema_version: 1.0.0
+  status: production_ready_auto_materialized
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2025.zip
+      layer: ''
+      section_key_col: CUSEC
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+  cache:
+    dir: territorios/canarias/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/canarias/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: &id001
+  - '35'
+  - '38'
+  k_districts: 70
+  k_source: norma
+  k_rationale: K=70 toma de la norma únicamente el tamaño institucional del Parlamento
+    de Canarias; DDD redistribuye sus distritos uninominales entre componentes físicos
+    por su propia política Hamilton y no reproduce el reparto electoral legal.
+  k_reference_scope: institutional_chamber_size_only
+  k_reference_source: https://www.boe.es/buscar/act.php?id=BOE-A-2022-10043
+  apportionment_source: ddd_design_policy
+  legal_apportionment_reused: false
+  legal_apportionment_context:
+    note: Contexto solamente; no es el reparto producido por DDD.
+    autonomous_constituency: 9
+    island_constituencies:
+      El_Hierro: 3
+      Fuerteventura: 8
+      Gran_Canaria: 15
+      La_Gomera: 4
+      Lanzarote: 8
+      La_Palma: 8
+      Tenerife: 15
+  district_apportionment: hamilton_components
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.75
+  require_auditable_district_catalogue: true
+  population_floor_exempt_partitions: &id002
+  - 35-C04
+  - 38-C02
+  - 38-C04
+  small_component_exception_policy: one_contiguous_district_floor_exception
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: *id001
+    drop_missing_population: false
+    out_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    out_graph_json: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json
+    out_report: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json
+    in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_particiones.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    province_field: DDD_PARTITION
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    municipality_name_field: NMUN
+    district_apportionment: hamilton_components
+    k_districts: 70
+    municipality_atomicity_limit_ratio: 1.75
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_semillas.geojson.zip
+    out_report: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_informe.json
+    source_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip
+    hard_partition_lookup: configuracion/particiones_insulares_2025.json
+    hard_partition_territory_id: canarias
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json
+    in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    district_field: district_id
+    province_field: DDD_PARTITION
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_{year}
+    province_field: DDD_PARTITION
+    province_name_field: NPRO
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 70
+    strict_expected_k: true
+    out_summary_csv: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m06_composicion_distritos.csv
+    out_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m06_secciones.geojson.zip
+    out_district_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m06_distritos.geojson.zip
+validation:
+  expected_province_codes: *id001
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: DDD_PARTITION
+  municipality_field: DDD_MUNICIPALITY_PARTITION
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: false
+  require_connected_municipalities: false
+  partition_populations:
+    35-C01: 875589
+    35-C02: 129080
+    35-C03: 166146
+    35-C04: 732
+    38-C01: 966469
+    38-C02: 22560
+    38-C03: 86297
+    38-C04: 11993
+  expected_districts: 70
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton_components
+  province_districts:
+    35-C01: 25
+    35-C02: 5
+    35-C03: 6
+    35-C04: 1
+    38-C01: 28
+    38-C02: 1
+    38-C03: 3
+    38-C04: 1
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.75
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: *id002
+  partition_apportionment_audit:
+    35-C01:
+      population: 875589
+      districts: 25
+      target_population: 32269.514286
+      average_population_per_district: 35023.56
+      relative_deviation_from_target: 0.085345125
+      population_floor: 25815.611429
+      floor_exception_required: false
+      floor_exception_governed: true
+    35-C02:
+      population: 129080
+      districts: 5
+      target_population: 32269.514286
+      average_population_per_district: 25816.0
+      relative_deviation_from_target: -0.199987959
+      population_floor: 25815.611429
+      floor_exception_required: false
+      floor_exception_governed: true
+    35-C03:
+      population: 166146
+      districts: 6
+      target_population: 32269.514286
+      average_population_per_district: 27691.0
+      relative_deviation_from_target: -0.141883582
+      population_floor: 25815.611429
+      floor_exception_required: false
+      floor_exception_governed: true
+    35-C04:
+      population: 732
+      districts: 1
+      target_population: 32269.514286
+      average_population_per_district: 732.0
+      relative_deviation_from_target: -0.977316052
+      population_floor: 25815.611429
+      floor_exception_required: true
+      floor_exception_governed: true
+    38-C01:
+      population: 966469
+      districts: 28
+      target_population: 32269.514286
+      average_population_per_district: 34516.75
+      relative_deviation_from_target: 0.069639589
+      population_floor: 25815.611429
+      floor_exception_required: false
+      floor_exception_governed: true
+    38-C02:
+      population: 22560
+      districts: 1
+      target_population: 32269.514286
+      average_population_per_district: 22560.0
+      relative_deviation_from_target: -0.300888145
+      population_floor: 25815.611429
+      floor_exception_required: true
+      floor_exception_governed: true
+    38-C03:
+      population: 86297
+      districts: 3
+      target_population: 32269.514286
+      average_population_per_district: 28765.666667
+      relative_deviation_from_target: -0.108580736
+      population_floor: 25815.611429
+      floor_exception_required: false
+      floor_exception_governed: true
+    38-C04:
+      population: 11993
+      districts: 1
+      target_population: 32269.514286
+      average_population_per_district: 11993.0
+      relative_deviation_from_target: -0.628348915
+      population_floor: 25815.611429
+      floor_exception_required: true
+      floor_exception_governed: true
+  hard_partition_mode: physical_components
+  hard_partition_lookup: configuracion/particiones_insulares_2025.json
