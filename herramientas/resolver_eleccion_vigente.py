@@ -36,7 +36,11 @@ def _registry_row(root:Path,territory_id:str,name:str,edition:str)->dict|None:
     for key in ('election_id','election_date'):
         if not r.get(key): raise SystemExit(f'Registro electoral incompleto para {territory_id}: falta {key}')
     declaration=str(r.get('declaration') or '')
-    if declaration and not (root/declaration).is_file(): raise SystemExit(f'Declaración registrada inexistente: {declaration}')
+    # El registro común identifica la elección, pero sólo una declaración oficial
+    # materializada convierte esa identidad en una fuente adquirible por 03.
+    if not declaration:
+        return None
+    if not (root/declaration).is_file(): raise SystemExit(f'Declaración registrada inexistente: {declaration}')
     return {'territory_id':territory_id,'name':name,'territorial_edition':edition,'election_id':str(r['election_id']),'election_date':str(r['election_date']),'declaration':declaration,'resolution_mode':'common_election_registry'}
 
 def _declaration_candidates(root:Path,tid:str,state:dict)->list[Path]:
@@ -67,7 +71,7 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path('.'),edition:str|
     resolved=[_from_declaration(root,tid,name,ed,p) for p in _declaration_candidates(root,tid,state)]
     if resolved:
         resolved.sort(key=lambda r:date.fromisoformat(r['election_date']),reverse=True); return resolved[0]
-    raise SystemExit(f'No existe elección registrada para territorio={territory!r}')
+    raise SystemExit(f'No existe elección resoluble para territorio={territory!r}')
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--territory',required=True); ap.add_argument('--edition'); ap.add_argument('--catalog',type=Path,default=DEFAULT); ap.add_argument('--root-dir',type=Path,default=Path('.')); a=ap.parse_args()
