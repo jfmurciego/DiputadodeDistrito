@@ -118,6 +118,7 @@ def write_fixture(root: Path, *, partitioned: bool):
                             "territory_declared": True,
                             "preparation_status": "READY",
                             "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
+                            "electoral_source_declaration": None,
                             "territorial_sources_prepared": True,
                             "contract_path": "territorios/demo/config/demo_2025.yaml",
                             "territorial_contract_complete": True,
@@ -126,6 +127,7 @@ def write_fixture(root: Path, *, partitioned: bool):
                             "territorial_certification": "NOT_CERTIFIED",
                             "electoral_source_prepared": False,
                             "electoral_product_available": False,
+                            "last_valid_checkpoint": {"stage": "M00", "run_id": None},
                             "preparation_evidence": {
                                 "run_id": 123,
                                 "artifact_name": "ddd-source-package-demo-2025-123",
