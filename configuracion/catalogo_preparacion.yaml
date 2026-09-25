@@ -86,18 +86,23 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
-      contract_path: null
-      territorial_source_declaration: null
+      preparation_status: READY
+      contract_path: territorios/illes_balears/config/illes_balears_2025.yaml
+      territorial_source_declaration: territorios/illes_balears/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 36133164235
+        artifact_name: ddd-source-package-illes_balears-2025-36133164235
+        artifact_sha256: cac521b5faea0715fc5bcf01515f1cb40f45e82a03da7db5de8c9daab7c6c293
+        package_sha256: 2de18e550629cd906f34ef4e9184781c6cbcf1d64ba6576560e734448cc56b7e
 - territory_id: canarias
   name: Canarias
   editions:
