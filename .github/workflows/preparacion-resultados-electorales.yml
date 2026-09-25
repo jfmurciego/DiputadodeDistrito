@@ -12,6 +12,7 @@ on:
   workflow_call:
     inputs:
       territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
@@ -50,6 +51,12 @@ on:
           - La Rioja
           - Ceuta
           - Melilla
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: choice
+        options: ['2025']
       reutilizar_si_ya_preparada:
         description: Reutilizar resultados electorales ya preparados
         required: true
@@ -75,6 +82,9 @@ jobs:
       election_date: ${{ steps.resolve.outputs.election_date }}
       contract_path: ${{ steps.resolve.outputs.contract_path }}
       electoral_declaration: ${{ steps.resolve.outputs.electoral_declaration }}
+      registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
+      registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
+      registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -84,18 +94,24 @@ jobs:
       - id: resolve
         env:
           TERRITORY: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
         run: |
           set -euo pipefail
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY")"
+          current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
           edition="$(jq -r .territorial_edition <<<"$current")"
+          [[ "$edition" == "$EDITION" ]] || { echo "::error::La elección vigente pertenece a la edición $edition, no $EDITION."; exit 41; }
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
           echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "edition=$edition" >> "$GITHUB_OUTPUT"
           echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
+          preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY" --edition "$EDITION")"
           echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
           echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+          echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+          echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
 
   electorales:
     name: Preparar resultados electorales
@@ -117,26 +133,26 @@ jobs:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
       - id: previous
-        name: Recuperar último paquete electoral congelado
-        if: ${{ inputs.reutilizar_si_ya_preparada }}
+        name: Recuperar paquete electoral registrado
+        if: ${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}
         shell: bash
+        env:
+          REGISTERED_RUN_ID: ${{ needs.resolver.outputs.registered_run_id }}
+          REGISTERED_ARTIFACT_NAME: ${{ needs.resolver.outputs.registered_artifact_name }}
+          REGISTERED_ARTIFACT_SHA256: ${{ needs.resolver.outputs.registered_artifact_sha256 }}
         run: |
           set -euo pipefail
+          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"
+          match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$arts" | head -1)"
+          [[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
+          actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"
+          [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto electoral no coincide con el registro."; exit 45; }
+          rm -rf .ddd-electoral-previous
           mkdir -p .ddd-electoral-previous
-          prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
-          mapfile -t runs < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100" --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
-          for rid in "${runs[@]}"; do
-            arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$rid/artifacts?per_page=100")"
-            name="$(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$arts" | head -1)"
-            [[ -n "$name" ]] || continue
-            rm -rf .ddd-electoral-previous
-            mkdir -p .ddd-electoral-previous
-            if gh run download "$rid" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-electoral-previous >/dev/null 2>&1; then
-              echo "run_id=$rid" >> "$GITHUB_OUTPUT"
-              echo "artifact_name=$name" >> "$GITHUB_OUTPUT"
-              break
-            fi
-          done
+          gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-electoral-previous
+          test -s .ddd-electoral-previous/manifest.json
+          echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
       - id: prepare
         name: Resolver REUSE / ACQUIRE / BLOCK
         continue-on-error: true
