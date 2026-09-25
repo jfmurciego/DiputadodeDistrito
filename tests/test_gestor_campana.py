@@ -275,9 +275,48 @@ class CampaignManagerTests(unittest.TestCase):
             contract = root / "territorios/principado_de_asturias/config/contract.yaml"
             contract.parent.mkdir(parents=True)
             contract.write_text(yaml.safe_dump({
-                "meta": {"territory_id": "principado_de_asturias", "status": "generation_ready"},
-                "territory_contract": {"status": "generation_ready"},
-            }), encoding="utf-8")
+                "meta": {
+                    "territory_id": "principado_de_asturias",
+                    "status": "generation_ready",
+                    "contract_level": "production_m01_m06",
+                    "production_authorization": "AUTHORIZED",
+                },
+                "territory_contract": {
+                    "status": "generation_ready",
+                    "k_districts": 45,
+                    "population_floor_ratio": 0.8,
+                    "population_cap_ratio": 1.75,
+                    "target_tolerance_ratio": 0.12,
+                },
+                "modulos": {
+                    "modulo_01_preparar_base_territorial": {"out_geojson": "source.geojson"},
+                    "modulo_02_construir_adyacencias": {"out_edges_jsonl": "edges.jsonl"},
+                    "modulo_03_construir_grafo": {"out_graph_json": "graph.json"},
+                    "modulo_04_generar_semillas": {
+                        "in_graph_json": "graph.json",
+                        "in_geojson": "source.geojson",
+                        "out_geojson": "seeds.geojson",
+                        "municipality_field": "CUMUN",
+                        "k_districts": 45,
+                    },
+                    "modulo_05_optimizar_distritos": {
+                        "in_graph_json": "graph.json",
+                        "in_geojson": "seeds.geojson",
+                        "out_geojson": "optimized.geojson",
+                        "municipality_field": "CUMUN",
+                    },
+                    "modulo_06_consolidar_distritos": {
+                        "in_geojson": "optimized.geojson",
+                        "municipality_field": "CUMUN",
+                        "expected_districts": 45,
+                    },
+                },
+                "validation": {
+                    "municipality_field": "CUMUN",
+                    "require_municipality_discipline": True,
+                    "require_graph_contiguity": True,
+                },
+            }, allow_unicode=True), encoding="utf-8")
             catalog = root / "catalog.yaml"
             catalog.write_text(yaml.safe_dump({
                 "schema": "ddd-preparation-catalog/1.1",
