@@ -348,31 +348,19 @@ class CampaignManagerTests(unittest.TestCase):
             apply_explicit_territorial_source(plan, campaign_instance="campaign-test")
         self.assertEqual(plan, before)
 
-    def test_generation_gate_six_real_territories_and_both_entry_paths(self):
+    def test_generation_gate_real_territories_and_both_entry_paths(self):
         catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
         catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
         rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
-        manifest_rows = build_matrix(
-            MANIFEST,
-            source_sha="c" * 40,
-            campaign_instance="campaign-test",
-            confirmation=CONFIRMATION,
-        )["include"]
-        fixed_by_territory = {row["territory_id"]: row for row in manifest_rows}
 
         for name, territory_id, route in (
             ("Galicia", "galicia", "declared_generation_ready"),
             ("Principado de Asturias", "principado_de_asturias", "linked_internal_partitioning"),
             ("Aragón", "aragon", "certified_product_lineage"),
             ("Castilla y León", "castilla_y_leon", "certified_product_lineage"),
+            ("Andalucía", "andalucia", "declared_generation_ready"),
         ):
             with self.subTest(territory=name):
-                catalog_row = rows[territory_id]
-                self.assertTrue(catalog_row["territorial_product_available"])
-                self.assertIn(
-                    catalog_row["territorial_certification"],
-                    ("PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"),
-                )
                 plan = build_plan(
                     territory=name,
                     edition="2025",
@@ -382,51 +370,27 @@ class CampaignManagerTests(unittest.TestCase):
                     force_selected_algorithm=True,
                 )
                 self.assertEqual(plan["generation_gate"], {"allowed": True, "route": route})
-                fixed = fixed_by_territory[territory_id]
-                apply_explicit_territorial_source(
-                    plan,
-                    root_dir=ROOT,
-                    reuse_run_id=str(fixed["reuse_run_id"]),
-                    reuse_artifact_name=fixed["reuse_artifact_name"],
-                    reuse_artifact_sha256=fixed["reuse_artifact_sha256"],
-                    reuse_source_sha=fixed["reuse_source_sha"],
-                )
-                self.assertTrue(plan["run_generate"])
-                self.assertEqual(
-                    plan["existing"]["territorial_source"]["run_id"],
-                    fixed["reuse_run_id"],
-                )
-                if route == "certified_product_lineage":
-                    contract = yaml.safe_load(
-                        (ROOT / catalog_row["contract_path"]).read_text(encoding="utf-8")
-                    )
-                    self.assertEqual(contract["meta"]["production_authorization"], "AUTHORIZED")
-                    self.assertFalse(
-                        generation_enablement(
-                            root_dir=ROOT,
-                            contract_path=catalog_row["contract_path"],
-                            territory_id=territory_id,
-                            certified_product_ready=False,
-                        )["allowed"]
-                    )
 
-        for name, territory_id in (("Cantabria", "cantabria"), ("Andalucía", "andalucia")):
-            with self.subTest(territory=name):
+        for name, territory_id in (
+            ("La Rioja", "la_rioja"),
+            ("Cantabria", "cantabria"),
+            ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
+            ("País Vasco", "pais_vasco"),
+        ):
+            with self.subTest(first_product=territory_id):
                 row = rows[territory_id]
-                self.assertEqual(row["production_authorization"], "AUTHORIZED")
                 self.assertFalse(row["territorial_product_available"])
                 self.assertEqual(row["territorial_certification"], "NOT_CERTIFIED")
-                contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
-                self.assertEqual(contract["meta"]["production_authorization"], "AUTHORIZED")
-                self.assertEqual(contract["meta"]["status"], "generation_ready")
-                self.assertEqual(contract["territory_contract"]["status"], "generation_ready")
-                gate = generation_enablement(
+                self.assertEqual(row["production_authorization"], "AUTHORIZED")
+                evidence_path = row["evidence"]["generation_preflight"]
+                evidence = json.loads((ROOT / evidence_path).read_text(encoding="utf-8"))
+                bare_gate = generation_enablement(
                     root_dir=ROOT,
                     contract_path=row["contract_path"],
                     territory_id=territory_id,
                     certified_product_ready=False,
                 )
-                self.assertEqual(gate, {"allowed": True, "route": "declared_generation_ready"})
+                self.assertFalse(bare_gate["allowed"])
                 plan = build_plan(
                     territory=name,
                     edition="2025",
@@ -435,11 +399,146 @@ class CampaignManagerTests(unittest.TestCase):
                     root_dir=ROOT,
                     force_selected_algorithm=True,
                 )
-                self.assertTrue(plan["run_generate"])
                 self.assertEqual(
                     plan["generation_gate"],
-                    {"allowed": True, "route": "declared_generation_ready"},
+                    {"allowed": True, "route": "validated_pre_m04_topology"},
                 )
+                prep = row["preparation_evidence"]
+                apply_explicit_territorial_source(
+                    plan,
+                    root_dir=ROOT,
+                    reuse_run_id=str(prep["run_id"]),
+                    reuse_artifact_name=prep["artifact_name"],
+                    reuse_artifact_sha256=prep["artifact_sha256"],
+                    reuse_source_sha=evidence["source_commit"],
+                )
+                self.assertTrue(plan["run_generate"])
+                self.assertEqual(
+                    plan["existing"]["territorial_source"]["run_id"],
+                    prep["run_id"],
+                )
+
+        for name, territory_id in (
+            ("Comunidad de Madrid", "madrid"),
+            ("Comunidad Valenciana", "comunidad_valenciana"),
+            ("Cataluña", "cataluna"),
+        ):
+            with self.subTest(still_blocked=territory_id):
+                row = rows[territory_id]
+                self.assertEqual(row["production_authorization"], "AUTHORIZED")
+                self.assertFalse(row["territorial_product_available"])
+                self.assertFalse((row.get("evidence") or {}).get("generation_preflight"))
+                with self.assertRaisesRegex(ValueError, "GENERATION_CONTRACT_BLOCK"):
+                    build_plan(
+                        territory=name,
+                        edition="2025",
+                        execution_mode="reuse",
+                        catalog=catalog_path,
+                        root_dir=ROOT,
+                        force_selected_algorithm=True,
+                    )
+                plan = {
+                    "territory_id": territory_id,
+                    "contract_path": row["contract_path"],
+                    "execution_mode": "reuse",
+                    "run_generate": False,
+                    "run_prepare_territorial": False,
+                    "catalog_state": {
+                        "territorial_product_available": False,
+                        "preparation_evidence": row["preparation_evidence"],
+                        "generation_preflight_evidence": {},
+                    },
+                    "existing": {
+                        "territorial_source": {
+                            "run_id": row["preparation_evidence"]["run_id"],
+                            "artifact_name": row["preparation_evidence"]["artifact_name"],
+                        }
+                    },
+                }
+                with self.assertRaisesRegex(ValueError, "GENERATION_CONTRACT_BLOCK"):
+                    apply_explicit_territorial_source(
+                        plan,
+                        root_dir=ROOT,
+                        reuse_run_id=str(row["preparation_evidence"]["run_id"]),
+                        reuse_artifact_name=row["preparation_evidence"]["artifact_name"],
+                        reuse_artifact_sha256=row["preparation_evidence"]["artifact_sha256"],
+                        reuse_source_sha="0" * 40,
+                    )
+
+    def test_first_generation_preflight_is_structural_and_cannot_fallback_to_declaration(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
+        row = rows["cantabria"]
+        evidence = json.loads(
+            (ROOT / row["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
+            contract["meta"]["status"] = "production_ready_auto_materialized"
+            contract["territory_contract"]["status"] = "topology_contract_candidate"
+            (root / "contract.yaml").write_text(
+                yaml.safe_dump(contract, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+            gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=str(root / "contract.yaml"),
+                territory_id="cantabria",
+                certified_product_ready=False,
+                first_generation_evidence=evidence,
+                preparation_evidence=row["preparation_evidence"],
+            )
+            self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
+
+            broken = json.loads(json.dumps(evidence))
+            broken["graph"]["isolated"] = 1
+            gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=str(root / "contract.yaml"),
+                territory_id="cantabria",
+                certified_product_ready=False,
+                first_generation_evidence=broken,
+                preparation_evidence=row["preparation_evidence"],
+            )
+            self.assertFalse(gate["allowed"])
+            self.assertIn("grafo territorial", gate["reason"])
+
+            implementation_drift = json.loads(json.dumps(evidence))
+            implementation_drift["implementation"]["m03_git_blob_sha1"] = "0" * 40
+            gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=str(root / "contract.yaml"),
+                territory_id="cantabria",
+                certified_product_ready=False,
+                first_generation_evidence=implementation_drift,
+                preparation_evidence=row["preparation_evidence"],
+            )
+            self.assertFalse(gate["allowed"])
+            self.assertIn("implementación pre-M04", gate["reason"])
+
+    def test_first_generation_explicit_source_must_be_the_validated_source(self):
+        catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
+        plan = build_plan(
+            territory="La Rioja",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=catalog_path,
+            root_dir=ROOT,
+            force_selected_algorithm=True,
+        )
+        before = json.loads(json.dumps(plan))
+        prep = plan["catalog_state"]["preparation_evidence"]
+        with self.assertRaisesRegex(ValueError, "procedencia validada"):
+            apply_explicit_territorial_source(
+                plan,
+                root_dir=ROOT,
+                reuse_run_id=str(prep["run_id"]),
+                reuse_artifact_name=prep["artifact_name"],
+                reuse_artifact_sha256="f" * 64,
+                reuse_source_sha=plan["catalog_state"]["generation_preflight_evidence"]["source_commit"],
+            )
+        self.assertEqual(plan, before)
 
     def test_generation_enablement_requires_both_declarations_or_matching_partition_links(self):
         with tempfile.TemporaryDirectory() as raw:

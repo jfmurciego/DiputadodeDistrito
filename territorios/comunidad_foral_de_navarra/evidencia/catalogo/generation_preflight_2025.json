@@ -1,0 +1,92 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "comunidad_foral_de_navarra",
+  "territory_name": "Comunidad Foral de Navarra",
+  "edition": "2025",
+  "run_id": 35755122526,
+  "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+  "artifact_name": "ddd-state-35755122526-M03U",
+  "artifact_sha256": "fa236fcb4e644eec73c577704efd1074880342e024a749e1de25667210bc6ecb",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "stage": "M03U",
+  "source": {
+    "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-35755122526",
+    "artifact_sha256": "9af4663e730cbcd15d79f37e38f77773f4f86b53079cb78323f1524c9fa6f243",
+    "package_sha256": "bfa629cc2b7f909b3222879aa84b5751c66625c147b49981573af00689c00305"
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
+    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
+    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1,
+    "max_precision_overlap_area_m2": 1,
+    "buffer_m": 0,
+    "simplify_m": 0,
+    "topology_bridges": [
+      {
+        "u": "3120301001",
+        "v": "3113501001",
+        "admin_scope": "province:31",
+        "edge_type": "administrative_enclave"
+      },
+      {
+        "u": "3107601002",
+        "v": "3107601001",
+        "admin_scope": "municipality:31076",
+        "edge_type": "municipal_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-35755122526-M03",
+    "artifact_sha256": "f96f9c8141d4f29c0655aa571e3f9307a202d08432d17ce4a3b14dcd9f802945",
+    "module_version": "7.4.1",
+    "nodes": 582,
+    "edges": 1541,
+    "population": 683854,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-35755122526",
+    "job_artifact_sha256": "7fb1437fda671ebe61e779da683cfabf5b997d9259559728bbaf1ea3040801b9",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/comunidad_foral_de_navarra_2025/comunidad_foral_de_navarra_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "k_districts": 50,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/comunidad_foral_de_navarra_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/comunidad_foral_de_navarra_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/comunidad_foral_de_navarra_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/comunidad_foral_de_navarra/.cache/ddd/preparacion/{run_name}/comunidad_foral_de_navarra_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 50,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  }
+}
