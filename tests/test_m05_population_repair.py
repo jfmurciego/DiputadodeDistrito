@@ -115,7 +115,10 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertIn("ATOMIC_UNITS",x["constraints_verified"])
         self.assertIn("MUNICIPAL_INTEGRITY",x["constraints_verified"])
         signatures=[tuple(step["hard_signature_after"]) for step in x["repairs"]]
-        self.assertEqual(signatures,sorted(signatures))
+        previous=r._hard_population_signature(x["population_before"],floor=50,cap=150)
+        for signature in signatures:
+            self.assertLessEqual(signature,previous)
+            previous=signature
         self.assertLess(
             x["final_hard_violation_magnitude"],
             r._hard_population_signature(x["population_before"],floor=50,cap=150)[1],
