@@ -93,6 +93,39 @@ class PopulationRepairTests(unittest.TestCase):
         pops=x["population_after"]
         self.assertTrue(all(90 <= pops[d] <= 110 for d in ("A","B","C","D")))
 
+    def test_focal_allows_preparatory_move_between_conforming_districts(self):
+        # A está bajo suelo. x no puede pasar inicialmente B→A porque articula B.
+        # El paso previo y(C→B) ocurre entre distritos inicialmente conformes y crea
+        # una ruta alternativa que permite mover x sin romper contigüidad.
+        units={
+            "a":U(40),
+            "x":U(20),"b1":U(40),"b2":U(40),
+            "y":U(10),"c":U(90),
+        }
+        ass={"a":"A","x":"B","b1":"B","b2":"B","y":"C","c":"C"}
+        adj=A(
+            ("a","x"),("x","b1"),("x","b2"),
+            ("y","c"),("y","b1"),("y","b2"),
+        )
+        baseline_check=r.verify_partition_constraints(ass,units,adj,floor=50,cap=150)
+        self.assertTrue(baseline_check["valid"])
+        self.assertEqual(set(ass.values()), {"A","B","C"})
+        x=self.repair_case(
+            ass,units,adj,
+            limits=r.SearchLimits(max_depth=0,max_transfer_set=1,max_candidates=200,max_seconds=2,seed=5),
+        )
+        final_check=r.verify_partition_constraints(x["assignments"],units,adj,floor=50,cap=150)
+        self.assertTrue(final_check["valid"])
+        self.assertEqual(set(x["assignments"].values()), set(ass.values()))
+        self.assertTrue(x["hard_limits_met"])
+        self.assertEqual(x["final_hard_population_violations"],0)
+        self.assertGreaterEqual(len(x["repairs"]),2)
+        self.assertEqual(x["repairs"][0]["donor"],"C")
+        self.assertEqual(x["repairs"][0]["receiver"],"B")
+        self.assertTrue(90 <= x["population_before"]["B"] <= 110)
+        self.assertTrue(90 <= x["population_before"]["C"] <= 110)
+        self.assertTrue(x["controlled_improvement_verified"])
+
     def test_hard_population_repair_can_require_multiple_controlled_moves(self):
         units={
             "a":U(40),

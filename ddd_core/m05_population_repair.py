@@ -272,6 +272,7 @@ def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,rec
 def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limits,deadline,candidate_budget):
     """Beam search focal: presupuesto global, tiempo real y estados exclusivamente provinciales."""
     phase_start=time.monotonic()
+    hard_repair_mode=_hard_population_signature(_district_pops(state,units),floor=floor,cap=cap)[0] > 0
     working=dict(state); all_steps=[]; candidate_attempts=0; states_explored=0
     rejection_counts={}; province_reports=[]; termination="QUEUE_EMPTY"
     provinces=sorted({str(units[u].get("province")) for u in units},key=str)
@@ -288,6 +289,13 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         for u,d in local_base.items(): start_pops[d]+=int(units[u]["population"])
         start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance,floor,cap)
         if start_rank[0]==0 and not start_outliers: continue
+        hard_districts={d for d in districts if start_pops[d] < floor or start_pops[d] > cap}
+        district_neighbors=_district_neighbors(local_base,adjacency)
+        preparatory_districts=set(hard_districts); prep_frontier=set(hard_districts)
+        for _ in range(2):
+            nxt={n for d in prep_frontier for n in district_neighbors.get(d,())}-preparatory_districts
+            preparatory_districts |= nxt; prep_frontier=nxt
+            if not prep_frontier: break
         depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
         beam_width=min(64,max(24,8*len(start_outliers)))
         frontier=[(local_base,start_pops,[],start_rank)]
@@ -301,7 +309,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                 if time.monotonic()>=deadline:
                     termination="TIME_BUDGET_EXHAUSTED"; break
                 states_explored+=1; province_states+=1
-                if rank[0]==0 and rank[2]==0:
+                if (hard_repair_mode and rank[0]==0) or ((not hard_repair_mode) and rank[2]==0):
                     found=(current,pops,path,rank); break
                 if depth>=depth_limit:
                     depth_exhausted+=1; continue
@@ -316,12 +324,17 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                             termination="TIME_BUDGET_EXHAUSTED"; break
                         donor_high=donor in outliers and pops[donor] > target+tolerance
                         receiver_low=receiver in outliers and pops[receiver] < target-tolerance
-                        if not (donor_high or receiver_low): continue
-                        candidate_attempts+=1
+                        targeted=donor_high or receiver_low
+                        preparatory=(donor in preparatory_districts and receiver in preparatory_districts)
+                        if not (targeted or preparatory): continue
+                        if targeted:
+                            candidate_attempts+=1
                         ok,reason,checks=_focal_single_transfer(current,pops,province_units,units,adjacency,u,donor,receiver,floor=floor,cap=cap)
                         if not ok:
                             rejection_counts[reason]=rejection_counts.get(reason,0)+1
                             continue
+                        if not targeted:
+                            candidate_attempts+=1
                         trial_pops=dict(pops); delta=int(units[u]["population"])
                         trial_pops[donor]-=delta; trial_pops[receiver]+=delta
                         trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance,floor,cap)
@@ -338,7 +351,8 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
             frontier=[(row[2],row[3],row[4],row[0]) for row in next_frontier[:beam_width]]
             if not frontier: break
         rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
-        report={"province":province,"outliers_before":len(start_outliers),"depth_limit":depth_limit,
+        report={"province":province,"outliers_before":len(start_outliers),"hard_districts_before":len(hard_districts),
+                "preparatory_districts":sorted(preparatory_districts,key=str),"depth_limit":depth_limit,
                 "beam_width":beam_width,"states_explored":province_states,
                 "depth_exhausted_states":depth_exhausted,"repaired":found is not None}
         if found is not None:
@@ -356,7 +370,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         if termination.endswith("EXHAUSTED"): break
     final_pops=_district_pops(working,units)
     final_hard=_hard_population_signature(final_pops,floor=floor,cap=cap)
-    complete=final_hard[0]==0 and not _outliers(final_pops,target,tolerance)
+    complete=(final_hard[0]==0) if hard_repair_mode else (not _outliers(final_pops,target,tolerance))
     elapsed=time.monotonic()-phase_start
     classification={
         "contiguity": rejection_counts.get("DONOR_CONTIGUITY",0)+rejection_counts.get("RECEIVER_CONTIGUITY",0)+rejection_counts.get("TRANSFER_SET_DISCONNECTED",0),
