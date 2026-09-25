@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-24T15:20:40.984036+00:00",
+  "generated_at": "2026-09-25T10:32:04.895444+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -31,9 +31,9 @@
         "territorial_source": {
           "territory_id": "andalucia",
           "edition": "2025",
-          "run_id": 35746122811,
-          "artifact_name": "ddd-source-package-andalucia-2025-35746122811",
-          "artifact_sha256": "a9fe53ace05f6626696c0a8c45d6fb0cd2881875f43b8774e4aebe16b24ebffb",
+          "run_id": 36020646219,
+          "artifact_name": "ddd-source-package-andalucia-2025-36020646219",
+          "artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -139,9 +139,9 @@
         "territorial_source": {
           "territory_id": "cantabria",
           "edition": "2025",
-          "run_id": 35754920885,
-          "artifact_name": "ddd-source-package-cantabria-2025-35754920885",
-          "artifact_sha256": "13f8caec63e376c7446ffa61c216c566f76d6dc1c8a8f622a21353cc8772dae9",
+          "run_id": 36020676520,
+          "artifact_name": "ddd-source-package-cantabria-2025-36020676520",
+          "artifact_sha256": "ea58edc91018bcc4853d44051c3b582acf5d9ed236bb7ddd5fce7fcb230d8293",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
