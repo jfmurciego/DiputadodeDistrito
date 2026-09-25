@@ -160,7 +160,7 @@ jobs:
       existing_electoral_product_artifact: ${{ steps.plan.outputs.existing_electoral_product_artifact }}
       existing_electoral_product_digest: ${{ steps.plan.outputs.existing_electoral_product_digest }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -297,7 +297,7 @@ jobs:
             echo "publish_result=$publish"
             echo "artifact_suffix=$([[ -n "$ARTIFACT_NAMESPACE" ]] && printf -- "-%s" "$ARTIFACT_NAMESPACE" || true)"
           } >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-full-run-plan-${{ github.run_id }}${{ steps.plan.outputs.artifact_suffix }}
           path: .ddd-full-run/plan.json
@@ -443,7 +443,7 @@ jobs:
       group: ddd-catalog-promotion
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.planificar.outputs.persist_state == 'true' && 'main' || needs.planificar.outputs.source_ref }}
           token: ${{ github.token }}
@@ -476,7 +476,7 @@ jobs:
             fi
           fi
           echo "source_ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-estado-operativo-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}
           path: |
@@ -523,7 +523,7 @@ jobs:
       ELECTORAL_RUN_ID: ${{ needs.puerta_04.outputs.run_id }}
       ELECTORAL_ARTIFACT: ${{ needs.puerta_04.outputs.artifact_name }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.planificar.outputs.source_ref }}
       - name: Materializar candidatos, galería y resumen territoriales
@@ -616,7 +616,7 @@ jobs:
             --argjson duplicate_candidate_hash_count "$duplicate_candidate_hash_count" \
             '{schema:"ddd.campaign-territory-status/1.1",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,entrypoint:$entrypoint,require_unique_hashes:$require_unique_hashes,candidate_count_expected:$candidate_count_expected,candidate_count_valid:$candidate_count_valid,unique_candidate_hash_count:$unique_candidate_hash_count,missing_candidate_hash_count:$missing_candidate_hash_count,duplicate_candidate_hash_count:$duplicate_candidate_hash_count,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact}}' \
             > "$root/summary/campaign_status.json"
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-campaign-territory-${{ inputs.artifact_namespace }}
           path: .ddd-campaign/bundle
@@ -648,12 +648,12 @@ jobs:
       RUN_INC: ${{ needs.planificar.outputs.run_incorporate }}
       PUBLISH_REQUESTED: ${{ needs.planificar.outputs.publish_result }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.planificar.outputs.source_ref }}
       - name: Recuperar evidencia de optimización efectiva
         if: ${{ needs.planificar.outputs.run_generate == 'true' && needs.generar.result == 'success' }}
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ needs.puerta_02.outputs.artifact_name }}
           path: .ddd-optimization-state
@@ -680,7 +680,7 @@ jobs:
             optimization_evidence_args=(--optimization-evidence "$optimization_evidence")
           fi
           python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "$GITHUB_SHA"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --output .ddd-full-run/manifest.json
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-full-run-manifest-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}
           path: .ddd-full-run/manifest.json

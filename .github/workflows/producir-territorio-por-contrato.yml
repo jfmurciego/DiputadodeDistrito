@@ -60,7 +60,7 @@ jobs:
       SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
       DDD_RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validar lanzador común
         run: bash -n procedimiento.sh
       - id: resolve
@@ -113,7 +113,7 @@ jobs:
             echo "from_num=$from_num"
             echo "to_num=$to_num"
           } >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: ddd-decision-${{ github.run_id }}
@@ -136,15 +136,15 @@ jobs:
       SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
       SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Comprobar declaración de fuentes
         shell: bash
         run: |
           set -euo pipefail
           test -f "$SOURCE_DECLARATION" || { echo "::error::No existe declaración de fuentes: $SOURCE_DECLARATION"; exit 40; }
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Preparar entorno reproducible de fuentes
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           pull: true
@@ -236,7 +236,7 @@ jobs:
             --root-dir /app
       - name: Publicar evidencia de preparación
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-fuentes-${{ github.run_id }}
           path: |
@@ -251,7 +251,7 @@ jobs:
           retention-days: 14
       - name: Publicar entradas consumibles
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
@@ -260,7 +260,7 @@ jobs:
           retention-days: 14
       - name: Publicar paquete durable de fuentes
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-source-package-${{ github.run_id }}
           path: .ddd-source-package
@@ -296,10 +296,10 @@ jobs:
       PREVIOUS_RESULT: ''
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
     steps: &module_steps
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           pull: true
@@ -318,7 +318,7 @@ jobs:
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar estado acumulado anterior
         if: ${{ env.PREVIOUS_STAGE != '' }}
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-${{ env.PREVIOUS_STAGE }}
           path: .ddd-state/in
@@ -342,13 +342,13 @@ jobs:
           test -f "$RUNS_DIR/CHAIN_STATE.json"
       - name: Recuperar fuentes aprobadas para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-official-inputs-${{ github.run_id }}
           path: .ddd-sources/materialized
       - name: Recuperar paquete durable para M01
         if: ${{ env.STAGE == 'M01' }}
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-source-package-${{ github.run_id }}
           path: .ddd-source-package
@@ -370,7 +370,7 @@ jobs:
           PY
       - name: Recuperar fuente electoral oficial aprobada
         if: ${{ env.STAGE == 'M07' }}
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-electoral-source-${{ github.run_id }}
           path: .ddd-electoral-source
@@ -408,7 +408,7 @@ jobs:
             python herramientas/huella_checkpoint_m05.py --params "$PARAMS" --root-dir . \
               --output .ddd-state/out/compatibility/m05.json
           fi
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-state-${{ github.run_id }}-${{ env.STAGE }}
           path: .ddd-state/out
@@ -448,10 +448,10 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       M03_RESULT: ${{ needs.m03.result }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Preparar entorno reproducible
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           pull: true
@@ -468,7 +468,7 @@ jobs:
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Preparar unidades internas requiere M03 actual o checkpoint previo.'; exit 22; }
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar entrada M03
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-M03
           path: .ddd-state/in
@@ -515,7 +515,7 @@ jobs:
           cp -a "$CACHE_DIR/." .ddd-state/out/cache/
           cp -a "$RUNS_DIR/." .ddd-state/out/run/
           cp -a .ddd-source-package/. .ddd-state/out/sources/
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-state-${{ github.run_id }}-M03U
           path: .ddd-state/out
@@ -524,7 +524,7 @@ jobs:
           retention-days: 14
       - name: Publicar preparación de unidades internas
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-internal-units-${{ github.run_id }}
           path: .ddd-internal-units
@@ -575,10 +575,10 @@ jobs:
       CHECKPOINT_RUN_ID: ${{ inputs.checkpoint_run_id }}
       M06_RESULT: ${{ needs.m06.result }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - name: Preparar entorno reproducible con caché compartida
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           pull: true
@@ -595,7 +595,7 @@ jobs:
           [[ "$state_run_id" =~ ^[0-9]+$ ]] || { echo '::error::Auditoría M06 requiere estado M06 actual o checkpoint previo.'; exit 22; }
           echo "run_id=$state_run_id" >> "$GITHUB_OUTPUT"
       - name: Recuperar estado M06
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-state-${{ steps.state.outputs.run_id }}-M06
           path: .ddd-state/in
@@ -691,7 +691,7 @@ jobs:
             --geometric-audit "$audit" \
             --output .ddd-audit/production_status.json
           cp "$audit" .ddd-audit/
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: ddd-audit-${{ github.run_id }}
@@ -723,7 +723,7 @@ jobs:
       PACKAGE_RUN_ID: ${{ inputs.electoral_package_run_id }}
       PACKAGE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Exigir identidad del paquete electoral
         shell: bash
         run: |
@@ -731,7 +731,7 @@ jobs:
           [[ "$PACKAGE_RUN_ID" =~ ^[0-9]+$ ]] || { echo '::error::Falta run_id del paquete electoral preparado.'; exit 42; }
           [[ "$PACKAGE_ARTIFACT_NAME" == ddd-electoral-package-* ]] || { echo '::error::Falta nombre contractual del paquete electoral preparado.'; exit 42; }
       - name: Recuperar paquete electoral preparado
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ inputs.electoral_package_artifact_name }}
           path: .ddd-electoral-package
@@ -770,7 +770,7 @@ jobs:
           PY
       - name: Publicar decisión y procedencia electoral
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-electoral-source-${{ github.run_id }}
           path: .ddd-electoral-source

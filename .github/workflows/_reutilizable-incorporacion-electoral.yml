@@ -43,7 +43,7 @@ jobs:
       RUN_ID: production-${{ github.run_id }}-${{ github.run_attempt }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
 
@@ -51,7 +51,7 @@ jobs:
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
 
       - name: Recuperar producto territorial consolidado
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ inputs.territorial_product_artifact_name != '' && inputs.territorial_product_artifact_name || format('ddd-state-{0}-M06', inputs.territorial_run_id) }}
           path: .ddd-territorial-product
@@ -60,7 +60,7 @@ jobs:
           run-id: ${{ inputs.territorial_run_id }}
 
       - name: Recuperar certificación territorial existente
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ inputs.territorial_audit_artifact_name != '' && inputs.territorial_audit_artifact_name || format('ddd-audit-{0}', inputs.territorial_run_id) }}
           path: .ddd-territorial-certification
@@ -86,7 +86,7 @@ jobs:
           test "$completed" -ge 6 || { echo "::error::El producto territorial no alcanza la consolidación territorial."; exit 44; }
 
       - name: Recuperar resultados electorales preparados
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ inputs.electoral_package_artifact_name }}
           path: .ddd-electoral-package
@@ -151,10 +151,10 @@ jobs:
               p.write_text(json.dumps(state,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
 
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: Preparar entorno reproducible una sola vez
-        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           pull: true
@@ -175,7 +175,7 @@ jobs:
           cp -a .ddd-source-package/. .ddd-state-electoral/sources/
 
       - name: Conservar resultado agregado
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-state-${{ github.run_id }}-M07${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state-electoral
@@ -196,7 +196,7 @@ jobs:
 
       - id: upload_product
         name: Conservar producto electoral territorial
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-state-${{ github.run_id }}-M08${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-state-product
@@ -225,7 +225,7 @@ jobs:
           Path(dst).write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         name: Conservar certificación consumible por publicación
         with:
           name: ddd-audit-electoral-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
@@ -261,7 +261,7 @@ jobs:
           Path(".ddd-electoral-report/report.json").write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
 
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-electoral-application-report-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: |
@@ -285,7 +285,7 @@ jobs:
       PRODUCT_DIGEST: ${{ needs.incorporar.outputs.product_digest }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.ref_name }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2

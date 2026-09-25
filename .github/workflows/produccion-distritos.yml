@@ -104,7 +104,7 @@ jobs:
       source_package_run_id: ${{ steps.source_package.outputs.run_id }}
       source_package_artifact_name: ${{ steps.source_package.outputs.artifact_name }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - id: resolve
@@ -299,7 +299,7 @@ jobs:
 
       - name: Publicar checkpoint M04 derivado
         if: ${{ steps.checkpoint.outputs.derived_checkpoint == 'true' }}
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-state-${{ github.run_id }}-M04${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-derived-checkpoint
@@ -376,7 +376,7 @@ jobs:
 
       - name: Publicar decisión de reanudación
         if: always()
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-checkpoint-selection-${{ github.run_id }}${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
           path: .ddd-checkpoint-selection
