@@ -132,6 +132,8 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
       preparation_evidence:
         run_id: 36020676520
         artifact_name: ddd-source-package-cantabria-2025-36020676520
@@ -347,6 +349,8 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
       preparation_evidence:
         run_id: 35755122526
         artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-35755122526
@@ -369,6 +373,8 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
       preparation_evidence:
         run_id: 35755166499
         artifact_name: ddd-source-package-pais_vasco-2025-35755166499
@@ -391,6 +397,8 @@ territories:
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      evidence:
+        generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
       preparation_evidence:
         run_id: 35754690537
         artifact_name: ddd-source-package-la_rioja-2025-35754690537

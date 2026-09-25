@@ -1,0 +1,41 @@
+{
+  "schema": "ddd.generation-preflight-evidence/1.0",
+  "kind": "first_generation_preflight",
+  "territory_id": "la_rioja",
+  "edition": "2025",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "contract": {
+    "path": "territorios/la_rioja/config/la_rioja_2025.yaml",
+    "git_blob_sha1": "6d0b19c7e0ffb3711c637eb7f1193fc038ba42cc"
+  },
+  "source": {
+    "run_id": 35754690537,
+    "artifact_name": "ddd-source-package-la_rioja-2025-35754690537",
+    "artifact_sha256": "d04b89b21e2c3ef2ca0c6b8833de0f798062f1cc772437208c88a1e61badb389",
+    "package_sha256": "ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5",
+    "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466"
+  },
+  "graph": {
+    "run_id": 35754690537,
+    "artifact_name": "ddd-state-35754690537-M03",
+    "artifact_sha256": "8842e6f8c76a8160d03506fe83c1fbbeebfbf5040b123abf32d22d90c0b2616e",
+    "completed_stage": "M03",
+    "nodes": 343,
+    "edges": 924,
+    "population": 326803,
+    "isolated": 0,
+    "global_components": 1,
+    "province_groups": 1,
+    "province_disconnected": 0,
+    "municipality_groups": 174,
+    "municipality_disconnected": 0,
+    "topology_bridges": 0
+  },
+  "partitioning": {
+    "mode": "none_required",
+    "artifact_name": "ddd-internal-units-35754690537",
+    "artifact_sha256": "9e638a0cc9888e69a4db27beecae8fba01906c511d7c3e904dbb9e063cac971b",
+    "enabled": false,
+    "status": "NOOP"
+  }
+}
