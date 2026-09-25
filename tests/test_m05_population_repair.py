@@ -93,6 +93,51 @@ class PopulationRepairTests(unittest.TestCase):
         pops=x["population_after"]
         self.assertTrue(all(90 <= pops[d] <= 110 for d in ("A","B","C","D")))
 
+    def test_hard_population_repair_can_require_multiple_controlled_moves(self):
+        units={
+            "a":U(40),
+            "x1":U(10),"x2":U(10),
+            "x3":U(10),"x4":U(10),"x5":U(10),
+            "b":U(120),
+        }
+        ass={"a":"A", **{u:"B" for u in ("x1","x2","x3","x4","x5","b")}}
+        adj=A(("a","x1"),("x1","x2"),("x2","x3"),("x3","x4"),("x4","x5"),("x5","b"))
+        x=self.repair_case(
+            ass,units,adj,
+            limits=r.SearchLimits(max_depth=2,max_transfer_set=1,max_candidates=200,max_seconds=2,seed=11),
+        )
+        self.assertTrue(x["hard_limits_met"])
+        self.assertEqual(x["final_hard_population_violations"],0)
+        self.assertGreaterEqual(len(x["repairs"]),2)
+        self.assertTrue(x["controlled_improvement_verified"])
+        self.assertIn("PROVINCE",x["constraints_verified"])
+        self.assertIn("CONTIGUITY",x["constraints_verified"])
+        self.assertIn("ATOMIC_UNITS",x["constraints_verified"])
+        self.assertIn("MUNICIPAL_INTEGRITY",x["constraints_verified"])
+        signatures=[tuple(step["hard_signature_after"]) for step in x["repairs"]]
+        self.assertEqual(signatures,sorted(signatures))
+        self.assertLess(
+            x["final_hard_violation_magnitude"],
+            r._hard_population_signature(x["population_before"],floor=50,cap=150)[1],
+        )
+
+    def test_unsolved_hard_population_case_is_preserved_and_reported(self):
+        units={
+            "a":U(40),
+            "b1":U(80,group="municipio-indivisible"),
+            "b2":U(80,group="municipio-indivisible"),
+        }
+        ass={"a":"A","b1":"B","b2":"B"}
+        x=self.repair_case(
+            ass,units,A(("a","b1"),("b1","b2")),
+            limits=r.SearchLimits(max_depth=4,max_transfer_set=1,max_candidates=100,max_seconds=2,seed=3),
+        )
+        self.assertEqual(x["result"],r.RESULT_NONE)
+        self.assertFalse(x["hard_limits_met"])
+        self.assertEqual(x["assignments"],ass)
+        self.assertGreater(x["final_hard_population_violations"],0)
+        self.assertGreater(x["rejection_classification"]["municipal_integrity"],0)
+
     def test_global_candidate_budget_caps_primary_plus_focal_on_large_case(self):
         units={}; ass={}; edges=[]
         # Cuatro distritos, 160 unidades: A queda bajo tolerancia y D alto.
