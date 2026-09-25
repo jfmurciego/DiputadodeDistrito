@@ -144,6 +144,7 @@ jobs:
       publication_mode: ${{ steps.plan.outputs.publication_mode }}
       artifact_suffix: ${{ steps.plan.outputs.artifact_suffix }}
       run_prepare_territorial: ${{ steps.plan.outputs.run_prepare_territorial }}
+      pre_m04_accreditation_planned: ${{ steps.plan.outputs.pre_m04_accreditation_planned }}
       run_generate: ${{ steps.plan.outputs.run_generate }}
       run_prepare_electoral: ${{ steps.plan.outputs.run_prepare_electoral }}
       run_incorporate: ${{ steps.plan.outputs.run_incorporate }}
@@ -263,8 +264,8 @@ jobs:
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
           out("publication_mode",p.get("publication_mode","electoral"))
-          for key in ("run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate"):
-              out(key,p[key])
+          for key in ("run_prepare_territorial","pre_m04_accreditation_planned","run_generate","run_prepare_electoral","run_incorporate"):
+              out(key,p.get(key, False))
           existing=p["existing"]
           out("existing_territorial_source_run_id",existing["territorial_source"].get("run_id"))
           out("existing_territorial_source_artifact",existing["territorial_source"].get("artifact_name"))
@@ -290,6 +291,11 @@ jobs:
           if [[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]; then
             echo "::error::La persistencia durable sólo está permitida desde main; ref actual: $GITHUB_REF_NAME"
             exit 52
+          fi
+          pre_m04_planned="$(jq -r '.pre_m04_accreditation_planned // false' .ddd-full-run/plan.json)"
+          if [[ "$pre_m04_planned" == "true" && "$persist" != "true" ]]; then
+            echo "::error::La acreditación pre-M04 planificada exige persist_state=true antes de habilitar generación."
+            exit 56
           fi
           {
             echo "source_ref=$SOURCE_REF"
@@ -345,8 +351,9 @@ jobs:
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
-      source_ref: ${{ needs.planificar.outputs.source_ref }}
+      source_ref: ${{ needs.planificar.outputs.pre_m04_accreditation_planned == 'true' && 'main' || needs.planificar.outputs.source_ref }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
+      require_generation_gate: true
       artifact_namespace: ${{ inputs.artifact_namespace }}
       gerrychain_entrypoint: ${{ inputs.gerrychain_entrypoint || '' }}
       require_unique_hashes: ${{ inputs.require_unique_hashes == true }}
