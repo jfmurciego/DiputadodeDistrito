@@ -113,6 +113,7 @@ jobs:
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
           if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
+            [[ "$(jq -r '.persist_state|tostring' <<<"$persist_json")" == true ]] || { echo "::error::La recuperación durable exige persist_state=true."; exit 41; }
             [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }
             [[ "${{ inputs.reutilizar_si_ya_preparada }}" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
             [[ -n "$RECOVERY_RUN_ID" && -n "$RECOVERY_SHA256" ]] || { echo "::error::Recuperación requiere run y SHA-256 juntos."; exit 41; }
