@@ -1,233 +1,75 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-
-import argparse
-import json
+import argparse,json
 from datetime import date
 from pathlib import Path
-
 import yaml
 
-DEFAULT = Path("configuracion/elecciones_vigentes.yaml")
-PREPARATION_CATALOG = Path("configuracion/catalogo_preparacion.yaml")
-DECLARATION_SCHEMA = "ddd-election-official-source-declaration/1.0"
+DEFAULT=Path('configuracion/elecciones_vigentes.yaml')
+PREPARATION_CATALOG=Path('configuracion/catalogo_preparacion.yaml')
+ELECTION_REGISTRY=Path('configuracion/registro_electoral.yaml')
+DECLARATION_SCHEMA='ddd-election-official-source-declaration/1.0'
 
+def _load_yaml(path:Path)->dict:
+    if not path.is_file(): return {}
+    data=yaml.safe_load(path.read_text(encoding='utf-8')) or {}
+    return data if isinstance(data,dict) else {}
 
-def load_catalog(path: Path) -> dict:
-    if not path.is_file():
-        return {"territories": []}
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    rows = data.get("territories")
-    if not isinstance(rows, list):
-        raise ValueError("Catálogo de elecciones vigentes sin territories")
-    return data
+def load_catalog(path:Path)->dict:
+    data=_load_yaml(path); rows=data.get('territories',[])
+    if not isinstance(rows,list): raise ValueError('Catálogo de elecciones vigentes sin territories')
+    return {'territories':rows}
 
+def _catalog_preparation_row(root:Path,territory:str,edition:str|None):
+    data=_load_yaml(root/PREPARATION_CATALOG); token=territory.strip()
+    rows=[r for r in data.get('territories',[]) if token in {str(r.get('territory_id') or ''),str(r.get('name') or '')}]
+    if len(rows)!=1:return None
+    r=rows[0]; ed=str(edition or data.get('default_edition') or ''); state=(r.get('editions') or {}).get(ed)
+    if not isinstance(state,dict):return None
+    return str(r['territory_id']),str(r['name']),state,ed
 
-def _load_yaml(path: Path) -> dict:
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    return data if isinstance(data, dict) else {}
+def _registry_row(root:Path,territory_id:str,name:str,edition:str)->dict|None:
+    data=_load_yaml(root/ELECTION_REGISTRY)
+    if data.get('schema')!='ddd-election-registry/1.0': return None
+    r=(data.get('territories') or {}).get(territory_id)
+    if not isinstance(r,dict): return None
+    for key in ('election_id','election_date'):
+        if not r.get(key): raise SystemExit(f'Registro electoral incompleto para {territory_id}: falta {key}')
+    declaration=str(r.get('declaration') or '')
+    if declaration and not (root/declaration).is_file(): raise SystemExit(f'Declaración registrada inexistente: {declaration}')
+    return {'territory_id':territory_id,'name':name,'territorial_edition':edition,'election_id':str(r['election_id']),'election_date':str(r['election_date']),'declaration':declaration,'resolution_mode':'common_election_registry'}
 
-
-def _catalog_preparation_row(root_dir: Path, territory: str, edition: str | None) -> tuple[str, str, dict] | None:
-    path = root_dir / PREPARATION_CATALOG
-    if not path.is_file():
-        return None
-    data = _load_yaml(path)
-    token = territory.strip()
-    rows = [
-        row for row in (data.get("territories") or [])
-        if token in {str(row.get("territory_id") or ""), str(row.get("name") or "")}
-    ]
-    if len(rows) != 1:
-        return None
-    row = rows[0]
-    tid = str(row.get("territory_id") or "")
-    name = str(row.get("name") or "")
-    editions = row.get("editions") or {}
-    selected_edition = str(edition or data.get("default_edition") or "")
-    state = editions.get(selected_edition)
-    if not tid or not name or not isinstance(state, dict):
-        return None
-    return tid, name, state
-
-
-def _declaration_candidates(root_dir: Path, territory_id: str, state: dict) -> list[Path]:
-    result: list[Path] = []
-    explicit = state.get("electoral_source_declaration")
-    if explicit:
-        path = root_dir / str(explicit)
-        if path.is_file():
-            result.append(path)
-    folder = root_dir / "territorios" / territory_id / "config" / "elecciones"
+def _declaration_candidates(root:Path,tid:str,state:dict)->list[Path]:
+    out=[]; explicit=state.get('electoral_source_declaration')
+    if explicit and (root/str(explicit)).is_file(): out.append(root/str(explicit))
+    folder=root/'territorios'/tid/'config'/'elecciones'
     if folder.is_dir():
-        for path in sorted(folder.glob("*.yaml")):
-            if path not in result:
-                data = _load_yaml(path)
-                if data.get("schema") == DECLARATION_SCHEMA:
-                    result.append(path)
-    return result
+        for p in sorted(folder.glob('*.yaml')):
+            if p not in out and _load_yaml(p).get('schema')==DECLARATION_SCHEMA: out.append(p)
+    return out
 
+def _from_declaration(root:Path,tid:str,name:str,edition:str,p:Path)->dict:
+    d=_load_yaml(p)
+    if str(d.get('territory_id') or '')!=tid: raise SystemExit(f'Declaración electoral de otro territorio: {p}')
+    return {'territory_id':tid,'name':name,'territorial_edition':edition,'election_id':str(d['election_id']),'election_date':str(d['election_date']),'declaration':p.relative_to(root).as_posix(),'resolution_mode':'auto_discovered_declaration'}
 
-def _row_from_materialized_contract(
-    *,
-    territory_id: str,
-    name: str,
-    territorial_edition: str,
-    state: dict,
-    root_dir: Path,
-) -> dict | None:
-    contract_raw = state.get("contract_path")
-    if not contract_raw:
-        return None
-    params_path = root_dir / str(contract_raw)
-    if not params_path.is_file():
-        return None
-    params = _load_yaml(params_path)
-    m07 = (params.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
-    election_contract_raw = m07.get("election_contract")
-    if not election_contract_raw:
-        return None
-    election_contract = root_dir / str(election_contract_raw)
-    if not election_contract.is_file():
-        return None
-    try:
-        data = json.loads(election_contract.read_text(encoding="utf-8"))
-    except Exception:
-        return None
-    for key in ("territory_id", "election_id", "election_date"):
-        if data.get(key) in (None, ""):
-            return None
-    if str(data.get("territory_id")) != territory_id:
-        raise SystemExit(f"Contrato electoral de otro territorio: {election_contract}")
-    return {
-        "territory_id": territory_id,
-        "name": name,
-        "territorial_edition": territorial_edition,
-        "election_id": str(data["election_id"]),
-        "election_date": str(data["election_date"]),
-        "declaration": "",
-        "election_contract": election_contract.relative_to(root_dir).as_posix(),
-        "resolution_mode": "materialized_election_contract",
-    }
-
-
-def _row_from_declaration(
-    *,
-    territory_id: str,
-    name: str,
-    territorial_edition: str,
-    declaration: Path,
-    root_dir: Path,
-) -> dict:
-    data = _load_yaml(declaration)
-    for key in ("territory_id", "election_id", "election_date"):
-        if data.get(key) in (None, ""):
-            raise SystemExit(f"Declaración electoral incompleta: {declaration}; falta {key}")
-    if str(data.get("territory_id")) != territory_id:
-        raise SystemExit(f"Declaración electoral de otro territorio: {declaration}")
-    return {
-        "territory_id": territory_id,
-        "name": name,
-        "territorial_edition": territorial_edition,
-        "election_id": str(data["election_id"]),
-        "election_date": str(data["election_date"]),
-        "declaration": declaration.relative_to(root_dir).as_posix(),
-        "resolution_mode": "auto_discovered_declaration",
-    }
-
-
-def resolve(
-    territory: str,
-    path: Path = DEFAULT,
-    root_dir: Path = Path("."),
-    edition: str | None = None,
-) -> dict:
-    root = root_dir.resolve()
-    token = territory.strip()
-
-    # 1) Override gobernado: conserva compatibilidad con elecciones_vigentes.yaml.
-    override_path = path if path.is_absolute() else root / path
-    rows = [
-        row for row in load_catalog(override_path)["territories"]
-        if token in {str(row.get("territory_id") or ""), str(row.get("name") or "")}
-    ]
-    if len(rows) > 1:
-        raise SystemExit(f"Elección vigente ambigua para territorio={territory!r}")
-    if len(rows) == 1:
-        row = dict(rows[0])
-        for key in ("territory_id", "name", "territorial_edition", "election_id", "election_date", "declaration"):
-            if row.get(key) in (None, ""):
-                raise SystemExit(f"Elección vigente incompleta: falta {key}")
-        declaration = root / str(row["declaration"])
-        if not declaration.is_file():
-            raise SystemExit(f"Declaración electoral vigente inexistente: {declaration}")
-        declared = _load_yaml(declaration)
-        if declared.get("territory_id") != row["territory_id"]:
-            raise SystemExit("territory_id de declaración vigente no coincide")
-        if declared.get("election_id") != row["election_id"]:
-            raise SystemExit("election_id de declaración vigente no coincide")
-        if str(declared.get("election_date")) != str(row["election_date"]):
-            raise SystemExit("election_date de declaración vigente no coincide")
-        row["resolution_mode"] = "governed_override"
-        return row
-
-    # 2) Resolución industrial: catálogo territorial + declaraciones existentes.
-    found = _catalog_preparation_row(root, token, edition)
-    if found is None:
-        raise SystemExit(f"Territorio o edición no declarados: territorio={territory!r}, edición={edition!r}")
-    territory_id, name, state = found
-    territorial_edition = str(edition or _load_yaml(root / PREPARATION_CATALOG).get("default_edition") or "")
-    candidates = _declaration_candidates(root, territory_id, state)
-    resolved = []
-    for declaration in candidates:
-        try:
-            resolved.append(_row_from_declaration(
-                territory_id=territory_id,
-                name=name,
-                territorial_edition=territorial_edition,
-                declaration=declaration,
-                root_dir=root,
-            ))
-        except SystemExit:
-            raise
-        except Exception:
-            continue
-    if not resolved:
-        materialized = _row_from_materialized_contract(
-            territory_id=territory_id,
-            name=name,
-            territorial_edition=territorial_edition,
-            state=state,
-            root_dir=root,
-        )
-        if materialized is not None:
-            return materialized
-        raise SystemExit(
-            f"No existe elección resoluble para territorio={territory!r}: "
-            "no hay declaración de adquisición ni contrato electoral materializado."
-        )
-
-    # La elección más reciente declarada es la vigente. Empate de fecha = ambigüedad.
-    def parsed(row: dict) -> date:
-        return date.fromisoformat(str(row["election_date"]))
-    resolved.sort(key=parsed, reverse=True)
-    if len(resolved) > 1 and resolved[0]["election_date"] == resolved[1]["election_date"]:
-        raise SystemExit(
-            f"Elección vigente ambigua para territorio={territory!r}: "
-            f"{resolved[0]['election_id']} / {resolved[1]['election_id']}"
-        )
-    return resolved[0]
-
+def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path('.'),edition:str|None=None)->dict:
+    root=root_dir.resolve(); token=territory.strip(); override=path if path.is_absolute() else root/path
+    rows=[r for r in load_catalog(override)['territories'] if token in {str(r.get('territory_id') or ''),str(r.get('name') or '')}]
+    if len(rows)>1: raise SystemExit(f'Elección vigente ambigua para territorio={territory!r}')
+    if len(rows)==1:
+        r=dict(rows[0]); r['resolution_mode']='governed_override'; return r
+    found=_catalog_preparation_row(root,token,edition)
+    if found is None: raise SystemExit(f'Territorio o edición no declarados: territorio={territory!r}, edición={edition!r}')
+    tid,name,state,ed=found
+    registered=_registry_row(root,tid,name,ed)
+    if registered is not None: return registered
+    resolved=[_from_declaration(root,tid,name,ed,p) for p in _declaration_candidates(root,tid,state)]
+    if resolved:
+        resolved.sort(key=lambda r:date.fromisoformat(r['election_date']),reverse=True); return resolved[0]
+    raise SystemExit(f'No existe elección registrada para territorio={territory!r}')
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--territory", required=True)
-    ap.add_argument("--edition")
-    ap.add_argument("--catalog", type=Path, default=DEFAULT)
-    ap.add_argument("--root-dir", type=Path, default=Path("."))
-    a = ap.parse_args()
-    print(json.dumps(resolve(a.territory, a.catalog, a.root_dir, a.edition), ensure_ascii=False))
-
-
-if __name__ == "__main__":
-    main()
+    ap=argparse.ArgumentParser(); ap.add_argument('--territory',required=True); ap.add_argument('--edition'); ap.add_argument('--catalog',type=Path,default=DEFAULT); ap.add_argument('--root-dir',type=Path,default=Path('.')); a=ap.parse_args()
+    print(json.dumps(resolve(a.territory,a.catalog,a.root_dir,a.edition),ensure_ascii=False))
+if __name__=='__main__': main()
