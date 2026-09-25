@@ -85,6 +85,7 @@ jobs:
       registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
       registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
       registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
+      persist_state: ${{ steps.resolve.outputs.persist_state }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -95,8 +96,11 @@ jobs:
         env:
           TERRITORY: ${{ inputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
+          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
         run: |
           set -euo pipefail
+          persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
+          echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           current="$(python herramientas/resolver_eleccion_vigente.py --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
           edition="$(jq -r .territorial_edition <<<"$current")"
@@ -193,7 +197,7 @@ jobs:
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
-    if: ${{ needs.electorales.result == 'success' && inputs.persist_state }}
+    if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     concurrency:
       group: ddd-catalog-promotion
@@ -221,11 +225,40 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_source_$EDITION.json"
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"
-          for attempt in 1 2 3; do
-            git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH" && exit 0
-            git rebase --abort >/dev/null 2>&1 || true
-            sleep $((attempt * 2))
-          done
-          echo "::error::No se pudo registrar la preparación electoral tras tres intentos."; exit 47
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"
+            pushed=false
+            for attempt in 1 2 3; do
+              if git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH"; then pushed=true; break; fi
+              git rebase --abort >/dev/null 2>&1 || true
+              sleep $((attempt * 2))
+            done
+            [[ "$pushed" == true ]] || { echo "::error::No se pudo registrar la preparación electoral tras tres intentos."; exit 47; }
+          fi
+          git fetch origin "$TARGET_BRANCH"
+          git reset --hard "origin/$TARGET_BRANCH"
+          durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"
+          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"
+          [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro electoral durable no apunta al run actual."; exit 48; }
+          [[ "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" ]] || { echo "::error::El registro electoral durable no conserva el artefacto esperado."; exit 49; }
+          [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || { echo "::error::El registro electoral durable no conserva el SHA-256 esperado."; exit 50; }
+  resultado:
+    name: Verificar resultado durable de preparación
+    needs: [resolver, electorales, registrar]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - name: Exigir registro cuando la persistencia es obligatoria
+        env:
+          PREPARATION_RESULT: ${{ needs.electorales.result }}
+          REGISTRATION_RESULT: ${{ needs.registrar.result }}
+          PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
+        run: |
+          python herramientas/evaluar_persistencia_preparacion.py terminal \
+            --preparation-result "$PREPARATION_RESULT" \
+            --registration-result "$REGISTRATION_RESULT" \
+            --persist-state "$PERSIST_STATE"
+
