@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-# Fachada estable: la implementación histórica permanece en el módulo core y esta
-# capa corrige la interpretación genérica de la política administrativa de M04.
 from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
+
+# Compatibilidad de API interna usada por la regresión del planificador.
+_run_from_artifact = _core._run_from_artifact
 
 
 def _generation_capabilities(contract: dict) -> dict:
@@ -36,21 +37,25 @@ def _generation_capabilities(contract: dict) -> dict:
         return _core._blocked("CAP_POPULATION_LIMITS", "suelo, techo o tolerancia poblacional ausentes o inválidos")
 
     municipality_field = validation.get("municipality_field")
-    admin_policy_ok = (
-        validation.get("require_municipality_discipline") is True
-        and bool(municipality_field)
-        and m05.get("municipality_field") == municipality_field
-        and m06.get("municipality_field") == municipality_field
-    )
+    admin_policy_ok = validation.get("require_municipality_discipline") is True and bool(municipality_field)
     if partitioning.get("enabled") is True:
+        partition_field = partitioning.get("partition_unit_field")
+        downstream_field = m05.get("municipality_field")
         admin_policy_ok = (
             admin_policy_ok
             and partitioning.get("municipality_field") == municipality_field
-            and bool(partitioning.get("partition_unit_field"))
-            and m04.get("municipality_field") == partitioning.get("partition_unit_field")
+            and bool(partition_field)
+            and m04.get("municipality_field") == partition_field
+            and downstream_field in {municipality_field, partition_field}
+            and m06.get("municipality_field") == downstream_field
         )
     else:
-        admin_policy_ok = admin_policy_ok and m04.get("municipality_field") == municipality_field
+        admin_policy_ok = (
+            admin_policy_ok
+            and m04.get("municipality_field") == municipality_field
+            and m05.get("municipality_field") == municipality_field
+            and m06.get("municipality_field") == municipality_field
+        )
     if not admin_policy_ok:
         return _core._blocked("CAP_ADMIN_POLICY", "disciplina o campo administrativo de trabajo incompletos o incoherentes")
 
@@ -72,8 +77,6 @@ def _generation_capabilities(contract: dict) -> dict:
     return {"allowed": True}
 
 
-# generation_enablement vive en el módulo core; sustituir allí el predicado hace
-# que build_plan, la CLI y todos los consumidores compartan exactamente la misma puerta.
 _core._generation_capabilities = _generation_capabilities
 
 
