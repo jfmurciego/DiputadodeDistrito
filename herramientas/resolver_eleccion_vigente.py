@@ -216,14 +216,62 @@ def resolve(
     return resolved[0]
 
 
+ELECTION_REGISTRY = Path("configuracion/registro_electoral.yaml")
+
+
+def resolve_for_preparation(
+    territory: str,
+    path: Path = DEFAULT,
+    root_dir: Path = Path("."),
+    edition: str | None = None,
+) -> dict:
+    """Let a registered territory reach source acquisition without promising usable data.
+
+    The strict resolver remains in use for the complete run: an election identity
+    without an acquirable declaration must not turn on electoral incorporation.
+    """
+    try:
+        return resolve(territory, path, root_dir, edition)
+    except SystemExit as exc:
+        if not str(exc).startswith("No existe elección resoluble"):
+            raise
+    root = root_dir.resolve()
+    found = _catalog_preparation_row(root, territory, edition)
+    if found is None:
+        raise SystemExit(f"Territorio o edición no registrados: {territory!r}, {edition!r}")
+    territory_id, name, _state = found
+    registered = _load_yaml(root / ELECTION_REGISTRY)
+    selected_edition = str(edition or _load_yaml(root / PREPARATION_CATALOG).get("default_edition") or "")
+    if str(registered.get("edition") or "") != selected_edition:
+        raise SystemExit(f"Registro electoral sin edición {selected_edition}")
+    entry = (registered.get("territories") or {}).get(territory_id)
+    if not isinstance(entry, dict) or entry.get("name") != name:
+        raise SystemExit(f"Territorio no inscrito en el registro electoral: {territory_id}")
+    election_id, election_date = str(entry.get("election_id") or ""), str(entry.get("election_date") or "")
+    if not election_id or not election_date:
+        raise SystemExit(f"Elección registrada incompleta: {territory_id}")
+    date.fromisoformat(election_date)
+    return {
+        "territory_id": territory_id,
+        "name": name,
+        "territorial_edition": selected_edition,
+        "election_id": election_id,
+        "election_date": election_date,
+        "declaration": "",
+        "resolution_mode": "registered_identity_pending_source",
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory", required=True)
     ap.add_argument("--edition")
     ap.add_argument("--catalog", type=Path, default=DEFAULT)
     ap.add_argument("--root-dir", type=Path, default=Path("."))
+    ap.add_argument("--for-preparation", action="store_true")
     a = ap.parse_args()
-    print(json.dumps(resolve(a.territory, a.catalog, a.root_dir, a.edition), ensure_ascii=False))
+    resolver = resolve_for_preparation if a.for_preparation else resolve
+    print(json.dumps(resolver(a.territory, a.catalog, a.root_dir, a.edition), ensure_ascii=False))
 
 
 if __name__ == "__main__":
