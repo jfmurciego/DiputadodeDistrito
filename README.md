@@ -10,7 +10,7 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-25T12:08:36.485271+00:00 · Edición: **2025**
+Actualizado: 2026-09-25T12:53:54.813259+00:00 · Edición: **2025**
 
 ## Resumen
 
@@ -18,9 +18,9 @@ Actualizado: 2026-09-25T12:08:36.485271+00:00 · Edición: **2025**
 |---|---:|---|
 | **Cadena completa validada** | 🟢 **3** | Aragón · Galicia · Principado de Asturias |
 | **Generación territorial validada** | 🟢 **6** | Aragón · Castilla y León · Castilla-La Mancha · Extremadura · Galicia · Principado de Asturias |
-| **Preparados para continuar** | 🔵 **9** | Andalucía · Cantabria · Cataluña · Ceuta · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · La Rioja · País Vasco |
+| **Preparados para continuar** | 🔵 **13** | Andalucía · Canarias · Cantabria · Cataluña · Ceuta · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · Islas Baleares · La Rioja · Melilla · País Vasco · Región de Murcia |
 | **Validación pendiente** | 🟡 **0** | — |
-| **Pendientes o no incorporados** | ⚪/🔴 **4** | Canarias · Islas Baleares · Melilla · Región de Murcia |
+| **Pendientes o no incorporados** | ⚪/🔴 **0** | — |
 
 ## Estado actual por territorio
 
@@ -30,7 +30,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 |---|:---:|:---:|:---:|:---:|---|
 | **Andalucía** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **Canarias** | 🔴 | 🔴 | 🔴 | 🔴 | No incorporado |
+| **Canarias** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Cantabria** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
 | **Castilla-La Mancha** | 🟢 | 🟢 | ⚪ | ⚪ | Generación territorial validada |
@@ -41,12 +41,12 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **Comunidad Valenciana** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |
 | **Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **Islas Baleares** | 🔴 | 🔴 | 🔴 | 🔴 | No incorporado |
+| **Islas Baleares** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **La Rioja** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
-| **Melilla** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **Melilla** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **País Vasco** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **Región de Murcia** | ⚪ | ⚪ | ⚪ | ⚪ | Pendiente de preparación |
+| **Región de Murcia** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 
 ## Cadena automática
 
