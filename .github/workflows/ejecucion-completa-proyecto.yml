@@ -376,6 +376,7 @@ jobs:
     secrets: inherit
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: ${{ needs.planificar.outputs.edition }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
       source_ref: ${{ needs.planificar.outputs.source_ref }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
