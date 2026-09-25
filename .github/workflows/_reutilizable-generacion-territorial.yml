@@ -27,6 +27,7 @@ on:
       artifact_namespace: {required: false, type: string, default: ''}
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
+      preflight_only: {required: false, type: boolean, default: false}
 
 permissions:
   contents: write
@@ -536,10 +537,68 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  pre_m04_evidence:
+    name: Acreditar evidencia durable previa a Formación inicial
+    needs: [resolve, internal_units]
+    if: ${{ always() && inputs.preflight_only && inputs.persist_state && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+      SOURCE_REF: ${{ inputs.source_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ inputs.source_ref || github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar artefactos reales pre-M04
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-pre-m04-m03 .ddd-pre-m04-partition
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-state-$GITHUB_RUN_ID-M03" --dir .ddd-pre-m04-m03
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-internal-units-$GITHUB_RUN_ID" --dir .ddd-pre-m04-partition
+      - name: Vincular fuente, contrato, implementación, grafo y particionado
+        shell: bash
+        run: |
+          set -euo pipefail
+          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/artifacts?per_page=100")"
+          digest(){
+            jq -r --arg n "$1" '[.artifacts[]|select(.name==$n and (.expired|not))] | if length==1 then .[0].digest else empty end' <<<"$arts"
+          }
+          m03_digest="$(digest "ddd-state-$GITHUB_RUN_ID-M03")"
+          m03u_digest="$(digest "ddd-state-$GITHUB_RUN_ID-M03U")"
+          part_digest="$(digest "ddd-internal-units-$GITHUB_RUN_ID")"
+          [[ -n "$m03_digest" && -n "$m03u_digest" && -n "$part_digest" ]] || { echo "::error::Faltan artefactos pre-M04 identificables."; exit 52; }
+          edition="$(python - <<'PY'
+          import os,yaml
+          d=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((d.get("meta") or {}).get("year",""))
+          PY
+          )"
+          python herramientas/materializar_evidencia_pre_m04.py             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" --persist             > .ddd-pre-m04-evidence.json
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/catalogo"
+          git diff --cached --quiet && { echo "::error::La evidencia pre-M04 no produjo identidad durable nueva."; exit 53; }
+          git commit -m "chore: registrar evidencia pre-M04 de $TERRITORY_ID"
+          target_branch="$GITHUB_REF_NAME"
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            git rebase --abort >/dev/null 2>&1 || true
+            sleep $((attempt * 2))
+          done
+          echo "::error::No se pudo registrar la evidencia pre-M04."; exit 54
+
   m04:
     name: Formación inicial de distritos
     needs: [resolve, internal_units]
-    if: ${{ always() && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
+    if: ${{ always() && !inputs.preflight_only && needs.resolve.result == 'success' && needs.resolve.outputs.mode == 'execute' && fromJSON(needs.resolve.outputs.from_num) <= 4 && fromJSON(needs.resolve.outputs.to_num) >= 4 && needs.internal_units.result == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 240
     env: {PARAMS: "${{ needs.resolve.outputs.params }}", RUN_ID: "${{ needs.resolve.outputs.run_id }}", CACHE_DIR: "${{ needs.resolve.outputs.cache_dir }}", RUNS_DIR: "${{ needs.resolve.outputs.runs_dir }}", STAGE: M04, PREVIOUS_STAGE: M03U, PREVIOUS_RESULT: "${{ needs.internal_units.result }}", CHECKPOINT_RUN_ID: "${{ inputs.checkpoint_run_id }}"}

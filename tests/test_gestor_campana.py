@@ -76,15 +76,31 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
         ("Comunidad Valenciana", "comunidad_valenciana"),
         ("Cataluña", "cataluna"),
     ):
-        with self.subTest(still_blocked=territory_id):
+        with self.subTest(pre_m04_planned=territory_id):
             row = rows[territory_id]
             self.assertFalse(row["territorial_product_available"])
             self.assertFalse((row.get("evidence") or {}).get("generation_preflight"))
-            with self.assertRaisesRegex(ValueError, "GENERATION_CONTRACT_BLOCK"):
-                build_plan(
-                    territory=name, edition="2025", execution_mode="reuse",
-                    catalog=catalog_path, root_dir=ROOT, force_selected_algorithm=True,
-                )
+            direct_gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=row["contract_path"],
+                territory_id=territory_id,
+                certified_product_ready=False,
+                first_generation_evidence=None,
+                preparation_evidence=row["preparation_evidence"],
+                require_source=True,
+            )
+            self.assertFalse(direct_gate["allowed"])
+            self.assertEqual(direct_gate["capability"], "CAP_PRE_M04_EVIDENCE")
+            plan = build_plan(
+                territory=name, edition="2025", execution_mode="reuse",
+                catalog=catalog_path, root_dir=ROOT, force_selected_algorithm=True,
+            )
+            self.assertTrue(plan["pre_m04_accreditation_planned"])
+            self.assertTrue(plan["run_prepare_territorial"])
+            self.assertEqual(
+                plan["generation_gate"],
+                {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            )
 
 
 def _write_structural_fixture(root: Path, *, b_sha: str = "b" * 64, authorization=..., broken_k: bool = False) -> Path:
