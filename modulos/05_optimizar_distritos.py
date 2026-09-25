@@ -151,7 +151,7 @@ def _apply_population_repair(cfg,s5,out_path,report_path):
         raise SystemExit(f"M05 repair: baseline estructuralmente inválido: {baseline_check}")
 
     hard_before=int(baseline_check.get("hard_population_violations",0))
-    if hard_before == 0 and not (isinstance(declared,dict) and declared.get("enabled") is True):
+    if hard_before == 0:
         meta={
             "enabled":False,
             "activation":"NOT_NEEDED",
