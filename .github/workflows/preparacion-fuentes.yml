@@ -16,6 +16,8 @@ on:
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      recover_run_id: {required: false, type: string, default: ''}
+      recover_artifact_sha256: {required: false, type: string, default: ''}
     outputs:
       territory_id:
         value: ${{ jobs.resolver.outputs.territory_id }}
@@ -62,6 +64,14 @@ on:
         required: true
         default: true
         type: boolean
+      recover_run_id:
+        description: Run de preparación existente sin registrar (opcional)
+        required: false
+        type: string
+      recover_artifact_sha256:
+        description: SHA-256 del artefacto de ese run (obligatorio con run)
+        required: false
+        type: string
 
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
@@ -91,6 +101,8 @@ jobs:
           TERRITORY: ${{ inputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
           PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
+          RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
+          RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
         run: |
           set -euo pipefail
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
@@ -100,9 +112,22 @@ jobs:
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-          echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-          echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+          if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
+            [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }
+            [[ "${{ inputs.reutilizar_si_ya_preparada }}" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
+            [[ -n "$RECOVERY_RUN_ID" && -n "$RECOVERY_SHA256" ]] || { echo "::error::Recuperación requiere run y SHA-256 juntos."; exit 41; }
+            [[ "$RECOVERY_RUN_ID" =~ ^[1-9][0-9]*$ ]] || { echo "::error::Run de recuperación inválido."; exit 41; }
+            RECOVERY_SHA256="${RECOVERY_SHA256#sha256:}"
+            [[ "$RECOVERY_SHA256" =~ ^[a-fA-F0-9]{64}$ ]] || { echo "::error::SHA-256 de recuperación inválido."; exit 41; }
+            [[ "$(jq -r '.registered' <<<"$preflight")" == false ]] || { echo "::error::La fuente ya tiene registro durable; se rechaza la recuperación explícita."; exit 41; }
+            echo "registered_run_id=$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_name=ddd-source-package-$(jq -r .territory_id <<<"$row")-$EDITION-$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_sha256=${RECOVERY_SHA256,,}" >> "$GITHUB_OUTPUT"
+          else
+            echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+          fi
 
   territoriales:
     name: Preparar fuentes territoriales
@@ -146,7 +171,7 @@ jobs:
         run: |
           set -euo pipefail
           arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"
-          match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$arts" | head -1)"
+          match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '[.artifacts[]|select(.name==$n and (.expired|not))] | if length==1 then .[0] else empty end' <<<"$arts")"
           [[ -n "$match" ]] || { echo "::error::Artefacto territorial registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
           actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"
           [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
