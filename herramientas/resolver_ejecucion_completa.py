@@ -222,16 +222,9 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         state.get("electoral_product_available") and electoral_product_run_id
         and electoral_product_evidence.get("artifact_sha256")
     )
-    pre_m04_accreditation_planned = bool(
-        selected_explicit_source is None
-        and not from_start
-        and territorial_sources_ready
-        and not territorial_product_ready
-        and not generation_preflight_path
-    )
     run_prepare_territorial = from_start if selected_explicit_source is None else False
     if selected_explicit_source is None and not from_start:
-        run_prepare_territorial = (not territorial_sources_ready) or pre_m04_accreditation_planned
+        run_prepare_territorial = not territorial_sources_ready
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
@@ -243,8 +236,28 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         preparation_evidence=prep,
         require_source=True,
         source_acquisition_planned=source_acquisition_planned,
-        pre_m04_accreditation_planned=pre_m04_accreditation_planned,
     )
+    pre_m04_accreditation_planned = bool(
+        selected_explicit_source is None
+        and not from_start
+        and territorial_sources_ready
+        and not territorial_product_ready
+        and not generation_preflight_path
+        and not generation_gate.get("allowed")
+        and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+    )
+    if pre_m04_accreditation_planned:
+        run_prepare_territorial = True
+        generation_gate = generation_enablement(
+            root_dir=root_dir,
+            contract_path=row.get("contract_path"),
+            territory_id=row["territory_id"],
+            certified_product_ready=False,
+            first_generation_evidence=None,
+            preparation_evidence=prep,
+            require_source=True,
+            pre_m04_accreditation_planned=True,
+        )
     proposed_generate = bool(
         from_start or selected_explicit_source is not None or run_prepare_territorial or not territorial_product_ready
         or optimization_algorithm != "Canónico" or force_selected_algorithm
