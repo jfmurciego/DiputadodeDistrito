@@ -433,7 +433,8 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertIn("pre_m04_accreditation_planned == 'true'", generate["with"]["source_ref"])
         self.assertIn("'main'", generate["with"]["source_ref"])
 
-        call_inputs = production["on"]["workflow_call"]["inputs"]
+        triggers = production.get("on") or production.get(True) or {}
+        call_inputs = (triggers.get("workflow_call") or {}).get("inputs") or {}
         self.assertIn("require_generation_gate", call_inputs)
         resolver_steps = production["jobs"]["resolver_interfaz"]["steps"]
         gate = next(step for step in resolver_steps if step.get("name") == "Validar puerta efectiva antes de Formación inicial")
