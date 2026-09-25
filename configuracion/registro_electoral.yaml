@@ -1,0 +1,22 @@
+schema: ddd-election-registry/1.0
+edition: '2025'
+territories:
+  andalucia: {name: Andalucía, election_id: andalucia_parlamento_2022, election_date: '2022-06-19', title: Parlamento de Andalucía 2022}
+  aragon: {name: Aragón, election_id: aragon_cortes_2026-02-08, election_date: '2026-02-08', title: Cortes de Aragón 2026}
+  principado_de_asturias: {name: Principado de Asturias, election_id: asturias_jgpa_2023, election_date: '2023-05-28', title: Junta General del Principado de Asturias 2023, declaration: territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml}
+  illes_balears: {name: Islas Baleares, election_id: illes_balears_parlament_2023, election_date: '2023-05-28', title: Parlament de les Illes Balears 2023}
+  canarias: {name: Canarias, election_id: canarias_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Canarias 2023}
+  cantabria: {name: Cantabria, election_id: cantabria_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Cantabria 2023}
+  castilla_la_mancha: {name: Castilla-La Mancha, election_id: castilla_la_mancha_cortes_2023, election_date: '2023-05-28', title: Cortes de Castilla-La Mancha 2023}
+  castilla_y_leon: {name: Castilla y León, election_id: castilla_y_leon_cortes_2026-03-15, election_date: '2026-03-15', title: Cortes de Castilla y León 2026}
+  cataluna: {name: Cataluña, election_id: cataluna_parlament_2024, election_date: '2024-05-12', title: Parlament de Catalunya 2024}
+  comunidad_valenciana: {name: Comunidad Valenciana, election_id: comunidad_valenciana_corts_2023, election_date: '2023-05-28', title: Corts Valencianes 2023}
+  extremadura: {name: Extremadura, election_id: extremadura_asamblea_2025-12-21, election_date: '2025-12-21', title: Asamblea de Extremadura 2025, declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml}
+  galicia: {name: Galicia, election_id: galicia_parlamento_2024, election_date: '2024-02-18', title: Parlamento de Galicia 2024, declaration: territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml}
+  madrid: {name: Comunidad de Madrid, election_id: comunidad_madrid_asamblea_2023, election_date: '2023-05-28', title: Asamblea de Madrid 2023}
+  region_de_murcia: {name: Región de Murcia, election_id: region_murcia_asamblea_2023, election_date: '2023-05-28', title: Asamblea Regional de Murcia 2023}
+  comunidad_foral_de_navarra: {name: Comunidad Foral de Navarra, election_id: navarra_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Navarra 2023}
+  pais_vasco: {name: País Vasco, election_id: pais_vasco_parlamento_2024, election_date: '2024-04-21', title: Parlamento Vasco 2024}
+  la_rioja: {name: La Rioja, election_id: la_rioja_parlamento_2023, election_date: '2023-05-28', title: Parlamento de La Rioja 2023}
+  ceuta: {name: Ceuta, election_id: ceuta_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Ceuta — elecciones locales 2023}
+  melilla: {name: Melilla, election_id: melilla_asamblea_local_2023, election_date: '2023-05-28', title: Asamblea de Melilla — elecciones locales 2023}

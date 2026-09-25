@@ -15,9 +15,6 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         self.assertEqual(selector["type"], "choice")
         self.assertEqual(selector["default"], "electoral")
         self.assertEqual(selector["options"], ["electoral", "territorial_only"])
-
-        # El selector manual alimenta la lógica territorial_only ya existente en main;
-        # esta PR no sustituye puertas electorales ni implementa un segundo downgrade.
         self.assertIn(
             "PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode || 'electoral' }}",
             text,
@@ -37,7 +34,6 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
             "${{ needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id }}",
         )
 
-
     def test_electoral_mode_is_resolved_before_electoral_jobs(self):
         text = ORCH.read_text(encoding="utf-8")
         data = yaml.load(text, Loader=yaml.BaseLoader)
@@ -52,10 +48,15 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
             "${{ needs.planificar.outputs.publication_mode }}",
         )
 
-    def test_cantabria_without_resolvable_election_downgrades(self):
+    def test_identified_election_without_acquirable_source_downgrades(self):
+        from herramientas.resolver_ejecucion_completa import resolve_publication_mode
+        plan = {"territory_name": "Andalucía", "edition": "2025", "run_prepare_electoral": True}
+        self.assertEqual(resolve_publication_mode(plan, "electoral", root_dir=ROOT), "territorial_only")
+
+    def test_acquirable_source_keeps_electoral_mode(self):
         from herramientas.resolver_ejecucion_completa import resolve_publication_mode
         plan = {"territory_name": "Cantabria", "edition": "2025", "run_prepare_electoral": True}
-        self.assertEqual(resolve_publication_mode(plan, "electoral", root_dir=ROOT), "territorial_only")
+        self.assertEqual(resolve_publication_mode(plan, "electoral", root_dir=ROOT), "electoral")
 
 
 if __name__ == "__main__":
