@@ -6,7 +6,7 @@ territories:
   principado_de_asturias: {name: Principado de Asturias, election_id: asturias_jgpa_2023, election_date: '2023-05-28', title: Junta General del Principado de Asturias 2023, declaration: territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml}
   illes_balears: {name: Islas Baleares, election_id: illes_balears_parlament_2023, election_date: '2023-05-28', title: Parlament de les Illes Balears 2023}
   canarias: {name: Canarias, election_id: canarias_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Canarias 2023}
-  cantabria: {name: Cantabria, election_id: cantabria_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Cantabria 2023}
+  cantabria: {name: Cantabria, election_id: cantabria_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Cantabria 2023, declaration: territorios/cantabria/config/elecciones/cantabria_parlamento_2023_vigente.yaml}
   castilla_la_mancha: {name: Castilla-La Mancha, election_id: castilla_la_mancha_cortes_2023, election_date: '2023-05-28', title: Cortes de Castilla-La Mancha 2023}
   castilla_y_leon: {name: Castilla y León, election_id: castilla_y_leon_cortes_2026-03-15, election_date: '2026-03-15', title: Cortes de Castilla y León 2026}
   cataluna: {name: Cataluña, election_id: cataluna_parlament_2024, election_date: '2024-05-12', title: Parlament de Catalunya 2024}
