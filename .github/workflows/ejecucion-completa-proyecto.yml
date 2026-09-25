@@ -440,7 +440,7 @@ jobs:
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
     concurrency:
-      group: ddd-catalog-promotion
+      group: ddd-shared-operational-state
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -457,25 +457,13 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$PERSIST" == "true" ]]; then
-            git fetch origin main
-            git reset --hard origin/main
+            source_ref="$(python herramientas/persistir_estado_operativo_compartido.py \
+              --root-dir . --edition "$EDITION" --target-branch main)"
+          else
+            python -m herramientas.generar_estado_operativo --root-dir . --edition "$EDITION"
+            source_ref="$(git rev-parse HEAD)"
           fi
-          python -m herramientas.generar_estado_operativo --root-dir . --edition "$EDITION"
-          if [[ "$PERSIST" == "true" ]]; then
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add README.md orchestracion/estado_operativo.json publicado/dashboard/status.json
-            if ! git diff --cached --quiet; then
-              git commit -m "chore: actualizar estado operativo"
-              for attempt in 1 2 3; do
-                git pull --rebase origin main && git push origin HEAD:main && break
-                git rebase --abort >/dev/null 2>&1 || true
-                [[ "$attempt" == 3 ]] && { echo "::error::No se pudo persistir el estado operativo."; exit 48; }
-                sleep $((attempt * 2))
-              done
-            fi
-          fi
-          echo "source_ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-estado-operativo-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}

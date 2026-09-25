@@ -36,11 +36,12 @@ class DashboardPages(unittest.TestCase):
         self.assertIn("with: {path: /tmp/site-candidate}",reusable)
         self.assertNotIn("cp dashboard/index.html",reusable)
 
-    def test_promocion_dashboard_es_explicita_y_trazable(self):
+    def test_promocion_dashboard_serializa_solo_la_escritura_compartida(self):
         manual=MANUAL.read_text(encoding="utf-8")
-        for token in ("generar_estado_operativo","orchestracion/estado_operativo.json","README.md","cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/"):
-            self.assertIn(token,manual)
-        self.assertIn('git commit -m "chore: sincronizar estado operativo antes de publicar"',manual)
+        self.assertIn("ddd-shared-operational-state",manual)
+        self.assertIn("persistir_estado_operativo_compartido.py",manual)
+        self.assertIn("--sync-dashboard-assets",manual)
+        self.assertNotIn("git pull --rebase origin main",manual)
 
     def test_visor_enlaza_dashboard(self):
         html=(ROOT/"visor/index.html").read_text(encoding="utf-8")
