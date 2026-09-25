@@ -5,15 +5,16 @@ import argparse
 import json
 
 
-def resolve_persist_state(event_name: str, requested: str | bool | None) -> bool:
-    if event_name == "workflow_dispatch":
-        return True
+def resolve_persist_state(requested: str | bool | None) -> bool:
+    """Ausente en workflow_dispatch => persistencia obligatoria; workflow_call conserva bool explícito."""
     if isinstance(requested, bool):
         return requested
-    raw = str(requested or "").strip().lower()
+    raw = str(requested if requested is not None else "").strip().lower()
+    if raw in {"", "null", "none"}:
+        return True
     if raw in {"true", "1", "yes"}:
         return True
-    if raw in {"false", "0", "no", ""}:
+    if raw in {"false", "0", "no"}:
         return False
     raise ValueError(f"persist_state inválido: {requested!r}")
 
@@ -34,7 +35,6 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="command", required=True)
     r = sub.add_parser("resolve")
-    r.add_argument("--event-name", required=True)
     r.add_argument("--requested", default="")
     t = sub.add_parser("terminal")
     t.add_argument("--preparation-result", required=True)
@@ -43,12 +43,12 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.command == "resolve":
-        result = {"persist_state": resolve_persist_state(args.event_name, args.requested)}
+        result = {"persist_state": resolve_persist_state(args.requested)}
     else:
         result = terminal_decision(
             preparation_result=args.preparation_result,
             registration_result=args.registration_result,
-            persist_state=resolve_persist_state("workflow_call", args.persist_state),
+            persist_state=resolve_persist_state(args.persist_state),
         )
     print(json.dumps(result))
     return 0 if result.get("status", "SUCCESS") == "SUCCESS" else 2
