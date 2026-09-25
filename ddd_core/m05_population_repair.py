@@ -59,6 +59,59 @@ def objective(populations, *, target, tolerance, floor, cap, cohesion=0):
     return (hard,outside,round(maxdev,12),round(totaldev,12),int(cohesion))
 
 
+def _hard_population_signature(populations, *, floor, cap):
+    hard_count = 0
+    hard_magnitude = 0
+    for population in populations.values():
+        if population < floor:
+            hard_count += 1
+            hard_magnitude += floor - population
+        elif population > cap:
+            hard_count += 1
+            hard_magnitude += population - cap
+    return (int(hard_count), int(hard_magnitude))
+
+
+def _controlled_population_transition(before, after, *, floor, cap):
+    """Never worsen hard floor/cap compliance while a multi-step repair is in flight."""
+    before_sig = _hard_population_signature(before, floor=floor, cap=cap)
+    after_sig = _hard_population_signature(after, floor=floor, cap=cap)
+    return after_sig <= before_sig, before_sig, after_sig
+
+
+def _verify_final_constraints(state, units, adjacency, *, expected_districts, floor, cap):
+    districts = set(state.values())
+    if districts != set(expected_districts):
+        return {"valid": False, "reason": "DISTRICT_SET_CHANGED"}
+
+    for district in districts:
+        owned = {u for u, d in state.items() if d == district}
+        if not owned or not connected(owned, adjacency):
+            return {"valid": False, "reason": "DISTRICT_CONTIGUITY", "district": district}
+        provinces = {str(units[u].get("province")) for u in owned}
+        if len(provinces) != 1:
+            return {"valid": False, "reason": "CROSS_PROVINCE", "district": district}
+
+    municipality_groups = {}
+    for unit, row in units.items():
+        group = row.get("municipality_group")
+        if group:
+            municipality_groups.setdefault(group, set()).add(state[unit])
+    split_groups = sorted((str(group) for group, ds in municipality_groups.items() if len(ds) != 1))
+    if split_groups:
+        return {"valid": False, "reason": "MUNICIPAL_INTEGRITY", "groups": split_groups}
+
+    populations = _district_pops(state, units)
+    hard_count, hard_magnitude = _hard_population_signature(populations, floor=floor, cap=cap)
+    return {
+        "valid": True,
+        "hard_limits_met": hard_count == 0,
+        "hard_population_violations": hard_count,
+        "hard_violation_magnitude": hard_magnitude,
+        "populations": populations,
+    }
+
+
 def _district_pops(state, units):
     out={}
     for u,d in state.items(): out[d]=out.get(d,0)+int(units[u]["population"])
@@ -104,8 +157,12 @@ def _valid_transfer(state,units,adjacency,moved,donor,receiver,*,floor,cap):
     checks["receiver_contiguity_verified"]=True
     trial=dict(state)
     for u in moved: trial[u]=receiver
-    pops=_district_pops(trial,units)
-    if pops[donor]<floor or pops[donor]>cap or pops[receiver]<floor or pops[receiver]>cap: return False,"HARD_POPULATION_LIMIT",checks
+    before_pops=_district_pops(state,units); after_pops=_district_pops(trial,units)
+    controlled,before_sig,after_sig=_controlled_population_transition(before_pops,after_pops,floor=floor,cap=cap)
+    checks["population_transition_verified"]=controlled
+    checks["hard_signature_before"]=list(before_sig)
+    checks["hard_signature_after"]=list(after_sig)
+    if not controlled: return False,"POPULATION_REGRESSION",checks
     return True,"VALID",checks
 
 
@@ -160,15 +217,18 @@ def _churn(path):
 
 def _rank(state,path,units,adjacency,target,tolerance,floor,cap):
     pops=_district_pops(state,units); tm=territorial_metrics(state,adjacency); obj=objective(pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=tm["cut_boundary_edges"])
-    return (obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
+    hard_count,hard_magnitude=_hard_population_signature(pops,floor=floor,cap=cap)
+    return (hard_count,hard_magnitude,obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
-def _province_rank_from_pops(pops,districts,target,tolerance):
+def _province_rank_from_pops(pops,districts,target,tolerance,floor,cap):
+    selected={d:pops[d] for d in districts}
+    hard_count,hard_magnitude=_hard_population_signature(selected,floor=floor,cap=cap)
     outliers={d for d in districts if abs(pops[d]-target)>tolerance}
     distance=round(sum(max(0,abs(pops[d]-target)-tolerance) for d in districts)/target,12)
     maxdev=round(max((abs(pops[d]-target)/target for d in outliers),default=0.0),12)
     totaldev=round(sum(abs(pops[d]-target)/target for d in districts),12)
-    return (len(outliers),distance,maxdev,totaldev),outliers
+    return (hard_count,hard_magnitude,len(outliers),distance,maxdev,totaldev),outliers
 
 
 def _province_state_key(state,units,province):
@@ -187,8 +247,13 @@ def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,rec
     if not donor_nodes or not connected(donor_nodes,adjacency): return False,"DONOR_CONTIGUITY",checks
     checks["donor_contiguity_verified"]=True
     after_donor=pops[donor]-int(units[u]["population"]); after_receiver=pops[receiver]+int(units[u]["population"])
-    if after_donor<floor or after_donor>cap or after_receiver<floor or after_receiver>cap:
-        return False,"HARD_POPULATION_LIMIT",checks
+    trial_pops=dict(pops); trial_pops[donor]=after_donor; trial_pops[receiver]=after_receiver
+    controlled,before_sig,after_sig=_controlled_population_transition(pops,trial_pops,floor=floor,cap=cap)
+    checks["population_transition_verified"]=controlled
+    checks["hard_signature_before"]=list(before_sig)
+    checks["hard_signature_after"]=list(after_sig)
+    if not controlled:
+        return False,"POPULATION_REGRESSION",checks
     return True,"VALID",checks
 
 
@@ -209,7 +274,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         districts=sorted(set(local_base.values()),key=str)
         start_pops={d:0 for d in districts}
         for u,d in local_base.items(): start_pops[d]+=int(units[u]["population"])
-        start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance)
+        start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance,floor,cap)
         if not start_outliers: continue
         depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
         beam_width=min(64,max(24,8*len(start_outliers)))
@@ -224,11 +289,11 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                 if time.monotonic()>=deadline:
                     termination="TIME_BUDGET_EXHAUSTED"; break
                 states_explored+=1; province_states+=1
-                if rank[0]==0:
+                if rank[0]==0 and rank[2]==0:
                     found=(current,pops,path,rank); break
                 if depth>=depth_limit:
                     depth_exhausted+=1; continue
-                _,outliers=_province_rank_from_pops(pops,districts,target,tolerance)
+                _,outliers=_province_rank_from_pops(pops,districts,target,tolerance,floor,cap)
                 for u in province_units:
                     donor=current[u]
                     receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor},key=str)
@@ -247,7 +312,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                             continue
                         trial_pops=dict(pops); delta=int(units[u]["population"])
                         trial_pops[donor]-=delta; trial_pops[receiver]+=delta
-                        trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance)
+                        trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance,floor,cap)
                         if len(trial_outliers)>len(outliers)+1: continue
                         trial=current.copy(); trial[u]=receiver
                         key=_state_key(trial)
@@ -272,17 +337,18 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                 steps.append(_step_evidence(replay,trial,units,adjacency,(u,),donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap))
                 replay=trial
             for u,d in found_local.items(): working[u]=d
-            all_steps.extend(steps); report["outliers_after"]=final_rank[0]
+            all_steps.extend(steps); report["outliers_after"]=final_rank[2]
         else:
             report["outliers_after"]=start_rank[0]
         province_reports.append(report)
         if termination.endswith("EXHAUSTED"): break
     final_pops=_district_pops(working,units)
-    complete=not _outliers(final_pops,target,tolerance)
+    final_hard=_hard_population_signature(final_pops,floor=floor,cap=cap)
+    complete=final_hard[0]==0 and not _outliers(final_pops,target,tolerance)
     elapsed=time.monotonic()-phase_start
     classification={
         "contiguity": rejection_counts.get("DONOR_CONTIGUITY",0)+rejection_counts.get("RECEIVER_CONTIGUITY",0)+rejection_counts.get("TRANSFER_SET_DISCONNECTED",0),
-        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0),
+        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0)+rejection_counts.get("POPULATION_REGRESSION",0),
         "cross_province": rejection_counts.get("CROSS_PROVINCE",0),
         "municipal_integrity": rejection_counts.get("MUNICIPAL_INTEGRITY",0),
         "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
@@ -388,15 +454,26 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
     }
     final_pops=_district_pops(best_state,units); final_tm=territorial_metrics(best_state,adjacency,boundary_units_moved=sum(len(s["units"]) for s in best_path))
+    final_verification=_verify_final_constraints(
+        best_state,units,adjacency,
+        expected_districts=set(baseline.values()),
+        floor=floor,cap=cap,
+    )
+    if not final_verification.get("valid"):
+        raise RuntimeError(f"M05 repair produjo estado estructuralmente inválido: {final_verification}")
     affected=sorted({d for s in best_path for d in (s["donor"],s["receiver"])},key=str)
-    return {"schema":"ddd.m05-population-repair/1.4","result":status,"limits":asdict(limits),
+    return {"schema":"ddd.m05-population-repair/1.5","result":status,"limits":asdict(limits),
         "candidates_examined":total_candidates,"primary_candidates_examined":examined,
         "termination_reason":termination,"elapsed_seconds":round(elapsed,6),"queue_states_created":created,"queue_states_examined":examined,
         "primary_improvement_found":best_primary is not None,"secondary_only_candidates":secondary_only,"baseline_restored":baseline_restored,
         "objective_hierarchy":["hard_constraints","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
         "objective_before":list(baseline_obj),"objective_after":list(best_obj),"territorial_metrics_before":baseline_tm,"territorial_metrics_after":final_tm,
         "population_before":baseline_pops,"population_after":final_pops,"populations_before":baseline_pops,"populations_after":final_pops,"assignments":best_state,
-        "repairs":best_path,"districts_affected":affected,"constraints_verified":["EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY","HARD_POPULATION_LIMITS"],
+        "hard_limits_met":bool(final_verification["hard_limits_met"]),
+        "final_hard_population_violations":int(final_verification["hard_population_violations"]),
+        "final_hard_violation_magnitude":int(final_verification["hard_violation_magnitude"]),
+        "controlled_improvement_verified":all(bool(step.get("population_transition_verified",False)) for step in best_path),
+        "repairs":best_path,"districts_affected":affected,"constraints_verified":["EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY","HARD_POPULATION_LIMITS_FINAL"],
         "territorial_metric_availability":{"cut_boundary_edges":True,"boundary_units_moved":True,"corridor_penalty":False,"base_compactness":False},
         "focal_search":focal_meta,"rejection_counts":rejection_counts,"rejection_classification":rejection_classification,
         "rejections":rejected,"baseline_preserved":best_state==baseline}
