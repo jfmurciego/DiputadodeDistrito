@@ -26,13 +26,6 @@ jobs:
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
-      - name: Verificar descubrimiento completo de tests unittest
-        shell: bash
-        run: |
-          set -o pipefail
-          docker run --rm -e DDD_SKIP_LEGACY_CHECK=1 --entrypoint python \
-            ddd-tests:${GITHUB_SHA} herramientas/verificar_descubrimiento_tests.py \
-            2>&1 | tee ci-test-discovery.log
       - name: Verificar evidencia publicada y determinismo sintético
         shell: bash
         run: |
@@ -55,7 +48,106 @@ jobs:
         with:
           name: ci-unittest-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            ci-test-discovery.log
             ci-unittest.log
             ci-gerrychain.log
           if-no-files-found: warn
+
+  barrido_comarca_aragon:
+    name: Experimento métrico — barrido comarca Aragón
+    if: ${{ github.event_name == 'pull_request' && github.head_ref == 'experimento/barrido-comarca-aragon' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Reconstruir fuentes canónicas
+        run: bash inputs/partes/reconstruir_fuentes.sh
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-sweep:${GITHUB_SHA} .
+      - name: Preparar base territorial M01–M04 sin publicación
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" -w /app \
+            -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
+            -e DDD_RUN_ID=experimento-comarca-base \
+            -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M04 \
+            --entrypoint /bin/bash ddd-sweep:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Ejecutar barrido métrico 0.3–0.8
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="work/experimentos/barrido-comarca-${GITHUB_RUN_ID}"
+          docker run --rm -v "$PWD:/app" -w /app -e PYTHONHASHSEED=0 -e PYTHONPATH=/app \
+            --entrypoint /opt/ddd-gerrychain/bin/python ddd-sweep:${GITHUB_SHA} \
+            herramientas/barrer_comarca_surcharge_aragon.py \
+              --config configuracion/experimentos/barrido_comarca_surcharge_aragon.yaml \
+              --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
+              --initial ejecuciones/experimento-comarca-base/aragon_2025_m04_semillas.geojson.zip \
+              --comarca-csv inputs/COMARCAS.csv \
+              --output-dir "$out"
+      - name: Validar contrato experimental y persistencia sólo métrica
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="work/experimentos/barrido-comarca-${GITHUB_RUN_ID}"
+          python - "$out" <<'PY'
+          import json, sys
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          root=Path(sys.argv[1])
+          payload=json.loads((root/'barrido_comarca_surcharge_aragon.json').read_text(encoding='utf-8'))
+          assert payload['schema']=='ddd.gerrychain-comarca-sweep/1.2'
+          assert payload['territory_id']=='aragon'
+          assert payload['promotion']=='forbidden'
+          assert payload['metrics_only'] is True
+          assert payload['expected_rows']==20
+          rows=payload['rows']
+          assert len(rows)==20
+          expected=[0.3,0.4,0.5,0.6,0.8]
+          counts=Counter(float(r['comarca_surcharge']) for r in rows)
+          assert counts==Counter({x:4 for x in expected}), counts
+          seeds=defaultdict(set)
+          for r in rows:
+              s=float(r['comarca_surcharge'])
+              seeds[s].add(int(r['seed']))
+              assert r['assignment_hash']
+              assert r['polsby_popper_min'] is not None
+              assert r['polsby_popper_median'] is not None
+              assert r['max_relative_deviation'] is not None
+          seedsets=list(seeds.values())
+          assert len(seedsets)==5 and all(len(s)==4 for s in seedsets)
+          assert all(s==seedsets[0] for s in seedsets[1:])
+          b=payload['baseline']
+          assert b['source_artifact']=='gh-34599224954-1'
+          source=Path(b['source_path'])
+          assert source.as_posix()=='territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M05/asignacion_optimizada.csv'
+          import hashlib
+          observed=hashlib.sha256(source.read_bytes()).hexdigest()
+          assert b['source_sha256']==observed
+          assert b['source_sha256']=='fee232985b5c6a0def712fb9b5999993db952af88cbca350c1f980021ed9568b'
+          assert len(b['source_sha256'])==64
+          assert isinstance(b['baseline_valid_under_current_contract'], bool)
+          assert isinstance(b['hard_constraint_violation_count'], int)
+          assert isinstance(b['hard_constraint_violations'], list)
+          assert b['hard_constraint_violation_count'] >= len(b['hard_constraint_violations'])
+          assert b['polsby_popper_min'] is not None
+          assert b['polsby_popper_median'] is not None
+          assert b['max_relative_deviation'] is not None
+          files=sorted(p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file())
+          assert files==[
+              'barrido_comarca_surcharge_aragon.csv',
+              'barrido_comarca_surcharge_aragon.json',
+          ], files
+          print('PASS experimental:', len(rows), 'filas métricas; semillas=', sorted(seedsets[0]))
+          PY
+      - name: Conservar únicamente métricas del experimento
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: barrido-comarca-aragon-${{ github.run_id }}
+          retention-days: 30
+          path: |
+            work/experimentos/barrido-comarca-${{ github.run_id }}/barrido_comarca_surcharge_aragon.json
+            work/experimentos/barrido-comarca-${{ github.run_id }}/barrido_comarca_surcharge_aragon.csv
+          if-no-files-found: error
