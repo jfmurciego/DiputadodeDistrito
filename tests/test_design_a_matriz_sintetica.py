@@ -61,9 +61,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertTrue(inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")
         self.assertIn("resolver_fuentes_territorio.py declaration",text)
-        self.assertIn("Recuperar fuente territorial ya preparada",text)
+        self.assertIn("Recuperar fuente territorial registrada",text)
         self.assertIn("gh run download",text)
-        self.assertIn("ddd-source-package-$TERRITORY_ID-$EDITION-",text)
+        self.assertIn("REGISTERED_ARTIFACT_NAME",text)
         self.assertNotIn("Territorio pendiente de incorporación: falta declaración de fuentes territoriales.",text)
 
     def test_catalog_lookup_does_not_require_preparation_status_ready(self):
@@ -74,8 +74,8 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_preparations_are_separate_and_never_execute_m01_m08(self):
         territorial=load(PREP)
         electoral=load(ELECTORAL_PREP)
-        self.assertEqual(set(territorial["jobs"]),{"resolver","territoriales","registrar"})
-        self.assertEqual(set(electoral["jobs"]),{"resolver","electorales","registrar"})
+        self.assertEqual(set(territorial["jobs"]),{"resolver","territoriales","registrar","resultado"})
+        self.assertEqual(set(electoral["jobs"]),{"resolver","electorales","registrar","resultado"})
         territorial_text=PREP.read_text(encoding="utf-8")
         electoral_text=ELECTORAL_PREP.read_text(encoding="utf-8")
         self.assertNotIn("preparar_fuente_electoral",territorial_text)

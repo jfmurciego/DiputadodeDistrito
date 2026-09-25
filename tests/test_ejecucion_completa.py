@@ -93,8 +93,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         ):
             text = (WF / name).read_text(encoding="utf-8")
             self.assertIn("persist_state", text, name)
-        self.assertIn("inputs.persist_state", load(WF / "preparacion-fuentes.yml")["jobs"]["registrar"]["if"])
-        self.assertIn("inputs.persist_state", load(WF / "preparacion-resultados-electorales.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "preparacion-fuentes.yml")["jobs"]["registrar"]["if"])
+        self.assertIn("needs.resolver.outputs.persist_state", load(WF / "preparacion-resultados-electorales.yml")["jobs"]["registrar"]["if"])
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-generacion-territorial.yml")["jobs"]["registrar"]["if"])
         self.assertIn("inputs.persist_state", load(WF / "_reutilizable-incorporacion-electoral.yml")["jobs"]["registrar"]["if"])
 
