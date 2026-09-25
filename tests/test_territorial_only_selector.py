@@ -22,7 +22,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
             "PUBLICATION_MODE: ${{ github.event_name == 'pull_request' && 'electoral' || inputs.publication_mode || 'electoral' }}",
             text,
         )
-        self.assertIn('if publication_mode=="territorial_only":', text)
+        self.assertIn('if effective_mode=="territorial_only":', text)
         self.assertIn('p["run_prepare_electoral"]=False', text)
         self.assertIn('p["run_incorporate"]=False', text)
 
