@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-25T10:32:04.895444+00:00",
+  "generated_at": "2026-09-25T12:08:36.485271+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -254,17 +254,24 @@
     {
       "territory_id": "ceuta",
       "name": "Ceuta",
-      "ft": "gray",
-      "g": "gray",
+      "ft": "green",
+      "g": "yellow",
       "fe": "gray",
       "re": "gray",
-      "status": "Pendiente de preparación",
+      "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
       "run_id": null,
       "stage": null,
       "edition": "2025",
       "phase_evidence": {
-        "territorial_source": null,
+        "territorial_source": {
+          "territory_id": "ceuta",
+          "edition": "2025",
+          "run_id": 36133094103,
+          "artifact_name": "ddd-source-package-ceuta-2025-36133094103",
+          "artifact_sha256": "e5ad57f00e7f5c1a5c0e923aa7f3329916f4d5284cf9cc3646be57f41f3cb2eb",
+          "decision": "VALIDADO"
+        },
         "territorial_product": null,
         "electoral_source": null,
         "electoral_product": null
@@ -643,11 +650,12 @@
       "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 8,
+    "ready": 9,
     "ready_names": [
       "Andalucía",
       "Cantabria",
       "Cataluña",
+      "Ceuta",
       "Comunidad de Madrid",
       "Comunidad Foral de Navarra",
       "Comunidad Valenciana",
@@ -656,10 +664,9 @@
     ],
     "pending": 0,
     "pending_names": [],
-    "blocked": 5,
+    "blocked": 4,
     "blocked_names": [
       "Canarias",
-      "Ceuta",
       "Islas Baleares",
       "Melilla",
       "Región de Murcia"
@@ -695,15 +702,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
+      "territory": "Ceuta",
+      "action": "completar puerta de validación territorial"
+    },
+    {
       "territory": "Comunidad de Madrid",
       "action": "completar puerta de validación territorial"
     },
     {
       "territory": "Comunidad Foral de Navarra",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Comunidad Valenciana",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -729,15 +736,15 @@
       "action": "generar y validar distritos"
     },
     {
+      "territory": "Ceuta",
+      "action": "generar y validar distritos"
+    },
+    {
       "territory": "Comunidad de Madrid",
       "action": "generar y validar distritos"
     },
     {
       "territory": "Comunidad Foral de Navarra",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "Comunidad Valenciana",
       "action": "generar y validar distritos"
     }
   ]
