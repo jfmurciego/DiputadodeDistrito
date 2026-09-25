@@ -186,7 +186,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(gate["allowed"])
-            self.assertEqual("CAP_PRE_M04_EVIDENCE", gate["code"])
+            self.assertEqual("CAP_PRE_M04_EVIDENCE", gate["capability"])
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
