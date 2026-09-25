@@ -41,6 +41,7 @@ class DashboardPages(unittest.TestCase):
         for token in ("generar_estado_operativo","orchestracion/estado_operativo.json","README.md","cp dashboard/index.html dashboard/app.js dashboard/styles.css publicado/dashboard/"):
             self.assertIn(token,manual)
         self.assertIn('git commit -m "chore: sincronizar estado operativo antes de publicar"',manual)
+        self.assertIn("bash herramientas/sincronizar_estado_publicacion.sh",manual)
 
     def test_visor_enlaza_dashboard(self):
         html=(ROOT/"visor/index.html").read_text(encoding="utf-8")

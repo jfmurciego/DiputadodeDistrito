@@ -69,8 +69,7 @@ jobs:
           git add README.md orchestracion/estado_operativo.json publicado/dashboard
           if ! git diff --cached --quiet; then
             git commit -m "chore: sincronizar estado operativo antes de publicar"
-            git pull --rebase origin main
-            git push origin HEAD:main
+            bash herramientas/sincronizar_estado_publicacion.sh
           fi
           echo "source_ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           echo "production_run_id=$production_run_id" >> "$GITHUB_OUTPUT"
