@@ -422,9 +422,9 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 36131871913
-        artifact_name: ddd-source-package-ceuta-2025-36131871913
-        artifact_sha256: e3d7aa392d3a9a1d737639dfb80f7505a611942014970d6704e832ced265925e
+        run_id: 36133094103
+        artifact_name: ddd-source-package-ceuta-2025-36133094103
+        artifact_sha256: e5ad57f00e7f5c1a5c0e923aa7f3329916f4d5284cf9cc3646be57f41f3cb2eb
         package_sha256: 63a29080d7adf52d0b5156632cc71419ab262e0d30ea1a437c2f6746c64294da
 - territory_id: melilla
   name: Melilla
