@@ -127,7 +127,7 @@ def write_fixture(root: Path, *, partitioned: bool):
                             "territorial_certification": "NOT_CERTIFIED",
                             "electoral_source_prepared": False,
                             "electoral_product_available": False,
-                            "last_valid_checkpoint": {"stage": "M00", "run_id": None},
+                            "last_valid_checkpoint": {"stage": "M03", "run_id": 123},
                             "preparation_evidence": {
                                 "run_id": 123,
                                 "artifact_name": "ddd-source-package-demo-2025-123",
