@@ -61,6 +61,11 @@ def _render_output_path(params: Path, raw_cfg: dict, value: str, run_id: str | N
 
 
 def _m06_diagnostic_path(params: Path, run_id: str | None = None) -> Path | None:
+    """Resuelve sólo diagnósticos M06 declarados explícitamente por el contrato.
+
+    Los contratos anteriores a este campo siguen usando la evidencia M05; no se
+    les atribuye por inferencia un artefacto M06 obligatorio.
+    """
     params = params.expanduser().resolve()
     raw = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
     if not isinstance(raw, dict):
@@ -68,11 +73,7 @@ def _m06_diagnostic_path(params: Path, run_id: str | None = None) -> Path | None
     s6 = (raw.get("modulos", {}) or {}).get("modulo_06_consolidar_distritos") or raw.get("step6_export_final") or {}
     value = s6.get("out_diagnostic_json")
     if not value:
-        summary = s6.get("out_summary_csv")
-        if not summary:
-            return None
-        summary_path = _render_output_path(params, raw, summary, run_id)
-        return summary_path.with_name(summary_path.stem + "_diagnostico.json")
+        return None
     return _render_output_path(params, raw, value, run_id)
 
 
@@ -85,8 +86,14 @@ def _load_m06_population_evidence(params: Path, run_id: str) -> dict | None:
             "m06_population_diagnostic_path": None,
             "m06_population_diagnostic_error": f"{type(exc).__name__}: {exc}",
         }
-    if path is None or not path.exists():
+    if path is None:
         return None
+    if not path.exists():
+        return {
+            "m06_population_diagnostic_status": "MISSING",
+            "m06_population_diagnostic_path": path.as_posix(),
+            "m06_population_diagnostic_error": f"FileNotFoundError: diagnóstico M06 declarado y ausente: {path}",
+        }
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except Exception as exc:
@@ -124,10 +131,13 @@ def _merge_m06_population_evidence(population: dict, m06: dict | None) -> dict:
     merged = dict(population)
     merged.update(m06)
     if m06.get("m06_population_diagnostic_status") != "VALID":
+        diagnostic_status = str(m06.get("m06_population_diagnostic_status") or "INVALID_CONTENT")
         merged.update(
             population_outcome="failure",
             population_decision=HARD_BLOCK,
-            population_evidence_status="INVALID_CONTENT",
+            population_evidence_source="M06_DIAGNOSTIC",
+            population_evidence_status=diagnostic_status,
+            population_evidence_path=m06.get("m06_population_diagnostic_path"),
             population_evidence_error=m06.get("m06_population_diagnostic_error"),
         )
         return merged
@@ -352,6 +362,11 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
         return "BLOCK", "EXECUTION_FAILED"
     if population.get("population_outcome") != "success":
         evidence_status = population.get("population_evidence_status")
+        evidence_source = population.get("population_evidence_source")
+        if evidence_source == "M06_DIAGNOSTIC":
+            if evidence_status == "MISSING":
+                return "BLOCK", "M06_POPULATION_EVIDENCE_MISSING"
+            return "BLOCK", "M06_POPULATION_EVIDENCE_INVALID"
         if evidence_status == "MISSING":
             return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
         if evidence_status == "UNDECLARED":
