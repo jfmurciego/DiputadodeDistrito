@@ -275,7 +275,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         start_pops={d:0 for d in districts}
         for u,d in local_base.items(): start_pops[d]+=int(units[u]["population"])
         start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance,floor,cap)
-        if not start_outliers: continue
+        if start_rank[0]==0 and not start_outliers: continue
         depth_limit=min(12,max(int(limits.max_depth)+3,2*len(start_outliers)+5))
         beam_width=min(64,max(24,8*len(start_outliers)))
         frontier=[(local_base,start_pops,[],start_rank)]
@@ -339,7 +339,7 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
             for u,d in found_local.items(): working[u]=d
             all_steps.extend(steps); report["outliers_after"]=final_rank[2]
         else:
-            report["outliers_after"]=start_rank[0]
+            report["outliers_after"]=start_rank[2]
         province_reports.append(report)
         if termination.endswith("EXHAUSTED"): break
     final_pops=_district_pops(working,units)
@@ -448,7 +448,7 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         rejection_counts[reason]=rejection_counts.get(reason,0)+int(count)
     rejection_classification={
         "contiguity": rejection_counts.get("DONOR_CONTIGUITY",0)+rejection_counts.get("RECEIVER_CONTIGUITY",0)+rejection_counts.get("TRANSFER_SET_DISCONNECTED",0),
-        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0),
+        "population_limit": rejection_counts.get("HARD_POPULATION_LIMIT",0)+rejection_counts.get("POPULATION_REGRESSION",0),
         "cross_province": rejection_counts.get("CROSS_PROVINCE",0),
         "municipal_integrity": rejection_counts.get("MUNICIPAL_INTEGRITY",0),
         "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
