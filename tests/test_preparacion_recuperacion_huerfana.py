@@ -2,11 +2,52 @@ from pathlib import Path
 import unittest
 import yaml
 
+from herramientas.evaluar_persistencia_preparacion import resolve_persist_state
+
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
 
 
 class RecoverUnregisteredSourceContract(unittest.TestCase):
+    def test_recovery_requires_effective_persistence_for_manual_and_workflow_call(self):
+        self.assertTrue(resolve_persist_state(None))
+        self.assertFalse(resolve_persist_state(False))
+
+        def accepted(*, recovery_requested: bool, persist_requested):
+            effective = resolve_persist_state(persist_requested)
+            return (not recovery_requested) or effective
+
+        matrix = [
+            (True, None, True),
+            (True, False, False),
+            (True, True, True),
+            (False, False, True),
+        ]
+        for recovery_requested, persist_requested, expected in matrix:
+            with self.subTest(recovery_requested=recovery_requested, persist_requested=persist_requested):
+                self.assertEqual(
+                    accepted(
+                        recovery_requested=recovery_requested,
+                        persist_requested=persist_requested,
+                    ),
+                    expected,
+                )
+
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        resolver = next(
+            step for step in workflow["jobs"]["resolver"]["steps"] if step.get("id") == "resolve"
+        )
+        body = resolver["run"]
+        self.assertIn("La recuperación durable exige persist_state=true.", body)
+        self.assertIn(
+            "[[ \"$(jq -r '.persist_state|tostring' <<<\"$persist_json\")\" == true ]]",
+            body,
+        )
+        self.assertLess(
+            body.index("La recuperación durable exige persist_state=true."),
+            body.index("registered_run_id=$RECOVERY_RUN_ID"),
+        )
+
     def test_exact_recovery_never_uses_acquisition_or_unverified_history(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
         event = workflow.get("on") or workflow.get(True)
