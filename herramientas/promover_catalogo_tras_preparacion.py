@@ -292,12 +292,35 @@ def promote(
         contract_path=contract_rel,
     )
 
+    # La admisión del contrato no equivale a habilitación efectiva de generación.
+    # Se informa la misma puerta que consumirá 00/02; la evidencia pre-M04, cuando
+    # exista, debe superar CAP_PRE_M04_EVIDENCE y coincidir con la fuente durable.
+    from herramientas.resolver_ejecucion_completa import generation_enablement
+    refreshed = _yaml(catalog)
+    refreshed_row = next(r for r in refreshed.get("territories") or [] if r.get("territory_id") == territory_id)
+    refreshed_state = (refreshed_row.get("editions") or {}).get(str(edition)) or {}
+    generation_path = (refreshed_state.get("evidence") or {}).get("generation_preflight")
+    generation_evidence = {}
+    if generation_path and (root / str(generation_path)).is_file():
+        generation_evidence = json.loads((root / str(generation_path)).read_text(encoding="utf-8"))
+    prep = refreshed_state.get("preparation_evidence") or {}
+    effective_gate = generation_enablement(
+        root_dir=root,
+        contract_path=contract_rel,
+        territory_id=territory_id,
+        certified_product_ready=bool(refreshed_state.get("territorial_product_available")),
+        first_generation_evidence=generation_evidence or None,
+        preparation_evidence=prep,
+        require_source=True,
+    )
+
     return {
         "territory_id": territory_id,
         "edition": str(edition),
         "territorial_sources_prepared": True,
         "contract_complete": True,
-        "generation_enabled": True,
+        "generation_enabled": bool(effective_gate.get("allowed")),
+        "generation_gate": effective_gate,
         "contract_reasons": [],
         "admission_errors": [],
         "source_declaration": source_rel,
