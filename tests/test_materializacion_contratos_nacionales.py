@@ -179,7 +179,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
             self.assertFalse(gate["allowed"], territory_id)
             self.assertEqual("CAP_M04_INPUT", gate["capability"], territory_id)
-            self.assertIn("particionado interno", gate["reason"], territory_id)
+            self.assertIn("Formación inicial", gate["reason"], territory_id)
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
