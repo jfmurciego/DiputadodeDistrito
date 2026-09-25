@@ -4,10 +4,10 @@
   "territory_id": "galicia",
   "territory_name": "Galicia",
   "edition": "2025",
-  "run_id": 35533666934,
-  "artifact_name": "ddd-electoral-package-galicia-2025-35533666934",
-  "artifact_sha256": "dc23a91d1b391a75226ad71a0fea6ef886b68c630e59ab3bcff9263188bd6b4e",
-  "source_commit": "9ccc59829d36107948b71d6d61ea1d10184325f5",
-  "declaration": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml",
-  "election_id": "galicia_parlamento_2024"
+  "run_id": 36136559051,
+  "artifact_name": "ddd-electoral-package-galicia-2025-36136559051",
+  "artifact_sha256": "59392e194397ea965fde76a5a68fe97519d08e6c175f4328d3830fc72d102db2",
+  "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
+  "election_id": "galicia_parlamento_2024",
+  "declaration": "territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml"
 }
