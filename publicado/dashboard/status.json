@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-25T12:54:33.528323+00:00",
+  "generated_at": "2026-09-25T12:58:35.399081+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -68,10 +68,10 @@
           "territory_id": "aragon",
           "territory_name": "Aragón",
           "edition": "2025",
-          "run_id": 35889595424,
-          "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--01--aragon",
-          "artifact_sha256": "1758fff8157e44853a182880d86ef82b13a05b707c88e5b7229acda8e017b3e7",
-          "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+          "run_id": 36136846294,
+          "artifact_name": "ddd-state-36136846294-M06",
+          "artifact_sha256": "2abda94a2ca468f80f66eab67fd6dbecfaf38b1de5910dc0a456a0483aa3313a",
+          "source_commit": "b5051291377b1e1fcb7f198fd6eada8dd0a45b3f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -574,7 +574,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 35728626894,
+      "run_id": 36136837323,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -592,10 +592,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 36008469807,
-          "artifact_name": "ddd-state-36008469807-M06-campaign-36008469807-1--02--principado_de_asturias",
-          "artifact_sha256": "23f539292b9164f982cea2b563f1c034a81691adde567c795d8214fca481013e",
-          "source_commit": "105ac4df3c4200a8f29cb4644608f23f8f75c1a7",
+          "run_id": 36136837323,
+          "artifact_name": "ddd-state-36136837323-M06",
+          "artifact_sha256": "1f8b466aa77714e11403937e319107642bad72e3463b80ac4b39b0bb1654e110",
+          "source_commit": "b5051291377b1e1fcb7f198fd6eada8dd0a45b3f",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -618,10 +618,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 35728626894,
-          "artifact_name": "ddd-state-35728626894-M08",
-          "artifact_sha256": "19e5bac205f67fb49f985e4dbe5b56f5314dc37926382555d3e5b6a2617a206a",
-          "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+          "run_id": 36136837323,
+          "artifact_name": "ddd-state-36136837323-M08",
+          "artifact_sha256": "38fc92bdbd49d842bb331802b303de09e6318833e46b1ca057db40bd11d7fbca",
+          "source_commit": "b5051291377b1e1fcb7f198fd6eada8dd0a45b3f",
           "stage": "M08"
         }
       }
@@ -702,7 +702,7 @@
   "latest_validated": {
     "territory_id": "principado_de_asturias",
     "name": "Principado de Asturias",
-    "run_id": 35728626894,
+    "run_id": 36136837323,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
