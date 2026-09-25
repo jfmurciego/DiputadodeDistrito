@@ -280,7 +280,7 @@ jobs:
           [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::El registro territorial durable no conserva el SHA-256 esperado."; exit 50; }
   pre_m04:
     name: Acreditar contrato efectivo hasta la puerta de Formación inicial
-    needs: [resolver, territoriales, registrar, pre_m04]
+    needs: [resolver, territoriales, registrar]
     if: ${{ needs.territoriales.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
     with:
@@ -298,7 +298,7 @@ jobs:
 
   resultado:
     name: Verificar resultado durable de preparación
-    needs: [resolver, territoriales, registrar]
+    needs: [resolver, territoriales, registrar, pre_m04]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     steps:
