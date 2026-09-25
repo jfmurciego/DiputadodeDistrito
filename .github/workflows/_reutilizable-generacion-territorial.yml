@@ -580,7 +580,7 @@ jobs:
           print((d.get("meta") or {}).get("year",""))
           PY
           )"
-          python herramientas/materializar_evidencia_pre_m04.py             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" --persist             > .ddd-pre-m04-evidence.json
+          python -m herramientas.materializar_evidencia_pre_m04             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" --persist             > .ddd-pre-m04-evidence.json
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
