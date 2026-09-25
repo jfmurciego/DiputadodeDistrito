@@ -21,6 +21,7 @@ import geopandas as gpd
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
 from ddd_core.config import load_params_yaml,module_cfg,require, hard_limits
+from ddd_core.m04_partition_contract import validate_and_annotate_partition
 
 def load_geo(path):
     p=Path(path)
