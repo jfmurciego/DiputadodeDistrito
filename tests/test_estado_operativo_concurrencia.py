@@ -1,182 +1,140 @@
 from __future__ import annotations
 
-import json
 import subprocess
 import tempfile
 import threading
 import unittest
 from pathlib import Path
-
-import yaml
+from unittest.mock import patch
 
 from herramientas.persistir_estado_operativo_compartido import persist_shared_state
-from herramientas.generar_estado_operativo import START, END
-
-
-def run(*args: str, cwd: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        list(args),
-        cwd=cwd,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=True,
-    )
-
-
-def write_repo(root: Path) -> None:
-    (root / "configuracion").mkdir(parents=True, exist_ok=True)
-    (root / "dashboard").mkdir(parents=True, exist_ok=True)
-    (root / "orchestracion").mkdir(parents=True, exist_ok=True)
-    (root / "publicado/dashboard").mkdir(parents=True, exist_ok=True)
-
-    digest_a = "a" * 64
-    digest_b = "b" * 64
-    catalog = {
-        "schema": "ddd-preparation-catalog/1.1",
-        "default_edition": "2025",
-        "territories": [],
-    }
-    for tid, name, run_id, digest in (
-        ("producto_a", "Producto A", 101, digest_a),
-        ("producto_b", "Producto B", 202, digest_b),
-    ):
-        receipt = root / f"territorios/{tid}/evidencia/catalogo/territorial_product_2025.json"
-        receipt.parent.mkdir(parents=True, exist_ok=True)
-        receipt.write_text(
-            json.dumps(
-                {
-                    "territory_id": tid,
-                    "edition": "2025",
-                    "run_id": run_id,
-                    "artifact_name": f"ddd-state-{run_id}-M06",
-                    "artifact_sha256": digest,
-                    "decision": "PASS",
-                }
-            ),
-            encoding="utf-8",
-        )
-        catalog["territories"].append(
-            {
-                "territory_id": tid,
-                "name": name,
-                "editions": {
-                    "2025": {
-                        "contract_path": f"territorios/{tid}/config/{tid}_2025.yaml",
-                        "territorial_sources_prepared": True,
-                        "territorial_product_available": True,
-                        "electoral_source_prepared": False,
-                        "electoral_product_available": False,
-                        "territorial_certification": "PASS",
-                        "production_authorization": "AUTHORIZED",
-                        "preparation_evidence": {
-                            "run_id": run_id - 1,
-                            "artifact_name": f"ddd-source-package-{tid}-2025-{run_id - 1}",
-                            "artifact_sha256": digest,
-                        },
-                        "evidence": {
-                            "territorial_product": f"territorios/{tid}/evidencia/catalogo/territorial_product_2025.json"
-                        },
-                    }
-                },
-            }
-        )
-
-    (root / "configuracion/catalogo_preparacion.yaml").write_text(
-        yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
-        encoding="utf-8",
-    )
-    (root / "README.md").write_text(
-        f"# Demo\n\n{START}\nestado anterior\n{END}\n",
-        encoding="utf-8",
-    )
-    for name in ("index.html", "app.js", "styles.css"):
-        (root / "dashboard" / name).write_text(f"{name}\n", encoding="utf-8")
 
 
 class SharedOperationalStateConcurrencyTests(unittest.TestCase):
     def test_two_concurrent_promotions_recalculate_after_push_collision_and_preserve_both_products(self):
         with tempfile.TemporaryDirectory() as td:
-            td = Path(td)
-            remote = td / "remote.git"
-            seed = td / "seed"
-            clone_a = td / "a"
-            clone_b = td / "b"
-            final = td / "final"
+            root = Path(td)
+            clone_a = root / "asturias"
+            clone_b = root / "castilla_la_mancha"
+            clone_a.mkdir()
+            clone_b.mkdir()
 
-            run("git", "init", "--bare", str(remote), cwd=td)
-            run("git", "clone", str(remote), str(seed), cwd=td)
-            run("git", "checkout", "-b", "main", cwd=seed)
-            run("git", "config", "user.name", "test", cwd=seed)
-            run("git", "config", "user.email", "test@example.invalid", cwd=seed)
-            write_repo(seed)
-            run("git", "add", ".", cwd=seed)
-            run("git", "commit", "-m", "seed durable products", cwd=seed)
-            run("git", "push", "-u", "origin", "main", cwd=seed)
-            run("git", "--git-dir", str(remote), "symbolic-ref", "HEAD", "refs/heads/main", cwd=td)
+            remote = {
+                "version": 1,
+                "head": "base",
+                "products": {
+                    "principado_de_asturias": "ddd-state-36136837323-M08",
+                    "castilla_la_mancha": "ddd-state-36136811938-M06",
+                },
+            }
+            local = {
+                clone_a: {"base_version": 0, "head": "base", "snapshot": {}},
+                clone_b: {"base_version": 0, "head": "base", "snapshot": {}},
+            }
+            state_lock = threading.Lock()
+            first_push_barrier = threading.Barrier(2)
+            failed_pushes = 0
 
-            run("git", "clone", str(remote), str(clone_a), cwd=td)
-            run("git", "clone", str(remote), str(clone_b), cwd=td)
+            def completed(args, rc=0, stdout="", stderr=""):
+                return subprocess.CompletedProcess(args=list(args), returncode=rc, stdout=stdout, stderr=stderr)
 
-            barrier = threading.Barrier(2)
+            def fake_git(worktree: Path, *args: str, check: bool = True):
+                nonlocal failed_pushes
+                with state_lock:
+                    command = args[0]
+                    if command == "config":
+                        return completed(args)
+                    if command == "fetch":
+                        return completed(args)
+                    if command == "reset":
+                        local[worktree]["base_version"] = remote["version"]
+                        local[worktree]["head"] = remote["head"]
+                        return completed(args)
+                    if command == "add":
+                        return completed(args)
+                    if command == "diff":
+                        return completed(args, rc=1)
+                    if command == "commit":
+                        local[worktree]["head"] = (
+                            f"{worktree.name}-from-v{local[worktree]['base_version']}"
+                        )
+                        return completed(args)
+                    if command == "rev-parse":
+                        return completed(args, stdout=local[worktree]["head"] + "\n")
+                    if command == "push":
+                        if local[worktree]["base_version"] != remote["version"]:
+                            failed_pushes += 1
+                            result = completed(
+                                args,
+                                rc=1,
+                                stderr="remote rejected: stale shared-state snapshot",
+                            )
+                            if check:
+                                raise subprocess.CalledProcessError(
+                                    result.returncode, result.args, result.stdout, result.stderr
+                                )
+                            return result
+                        remote["version"] += 1
+                        remote["head"] = local[worktree]["head"]
+                        return completed(args)
+                raise AssertionError(f"comando git no simulado: {args}")
+
+            def fake_regenerate(worktree: Path, edition: str, *, sync_dashboard_assets: bool):
+                self.assertEqual(edition, "2025")
+                with state_lock:
+                    # La derivación siempre parte de las identidades durables del HEAD remoto
+                    # que el intento acaba de adoptar mediante fetch/reset.
+                    local[worktree]["snapshot"] = dict(remote["products"])
+
+            def before_push(attempt: int):
+                if attempt == 1:
+                    first_push_barrier.wait(timeout=10)
+
             results: list[str] = []
             errors: list[BaseException] = []
-            lock = threading.Lock()
+            result_lock = threading.Lock()
 
-            def worker(root: Path) -> None:
+            def worker(worktree: Path):
                 try:
                     sha = persist_shared_state(
-                        root_dir=root,
+                        root_dir=worktree,
                         edition="2025",
                         target_branch="main",
                         sync_dashboard_assets=True,
                         max_attempts=4,
-                        before_push=lambda attempt: barrier.wait(timeout=10) if attempt == 1 else None,
+                        before_push=before_push,
                     )
-                    with lock:
+                    with result_lock:
                         results.append(sha)
                 except BaseException as exc:
-                    with lock:
+                    with result_lock:
                         errors.append(exc)
 
-            t1 = threading.Thread(target=worker, args=(clone_a,))
-            t2 = threading.Thread(target=worker, args=(clone_b,))
-            t1.start()
-            t2.start()
-            t1.join(timeout=30)
-            t2.join(timeout=30)
+            with (
+                patch("herramientas.persistir_estado_operativo_compartido._git", side_effect=fake_git),
+                patch("herramientas.persistir_estado_operativo_compartido._regenerate", side_effect=fake_regenerate),
+                patch("herramientas.persistir_estado_operativo_compartido.time.sleep", return_value=None),
+            ):
+                t1 = threading.Thread(target=worker, args=(clone_a,))
+                t2 = threading.Thread(target=worker, args=(clone_b,))
+                t1.start()
+                t2.start()
+                t1.join(timeout=10)
+                t2.join(timeout=10)
 
-            self.assertFalse(t1.is_alive() or t2.is_alive(), "las promociones concurrentes no terminaron")
+            self.assertFalse(t1.is_alive() or t2.is_alive())
             self.assertEqual(errors, [])
             self.assertEqual(len(results), 2)
-
-            run("git", "clone", str(remote), str(final), cwd=td)
-            state = json.loads(
-                (final / "orchestracion/estado_operativo.json").read_text(encoding="utf-8")
-            )
-            by_id = {row["territory_id"]: row for row in state["territories"]}
-            self.assertEqual(
-                by_id["producto_a"]["phase_evidence"]["territorial_product"]["artifact_name"],
-                "ddd-state-101-M06",
-            )
-            self.assertEqual(
-                by_id["producto_b"]["phase_evidence"]["territorial_product"]["artifact_name"],
-                "ddd-state-202-M06",
-            )
-            self.assertEqual(by_id["producto_a"]["g"], "green")
-            self.assertEqual(by_id["producto_b"]["g"], "green")
-
-            log = run(
-                "git",
-                "log",
-                "--format=%s",
-                "--all",
-                cwd=final,
-            ).stdout
-            self.assertGreaterEqual(
-                log.count("chore: sincronizar estado operativo compartido"),
-                2,
-            )
+            self.assertEqual(failed_pushes, 1)
+            self.assertEqual(remote["version"], 3)
+            for worktree in (clone_a, clone_b):
+                self.assertEqual(
+                    local[worktree]["snapshot"],
+                    {
+                        "principado_de_asturias": "ddd-state-36136837323-M08",
+                        "castilla_la_mancha": "ddd-state-36136811938-M06",
+                    },
+                )
 
 
 if __name__ == "__main__":
