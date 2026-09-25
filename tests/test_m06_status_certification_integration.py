@@ -115,7 +115,7 @@ class ConsolidationStatusCertificationIntegration(unittest.TestCase):
         })
         return params, geometric
 
-    def run_chain(self, populations):
+    def run_chain(self, populations, *, diagnostic_mode="present"):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
         params, geometric = self.build_case(root, populations)
@@ -125,7 +125,18 @@ class ConsolidationStatusCertificationIntegration(unittest.TestCase):
             cwd=ROOT, text=True, capture_output=True, check=False,
         )
         self.assertEqual(m06.returncode, 0, m06.stdout + m06.stderr)
-        self.assertTrue((root / "m06_diagnostic.json").is_file())
+        diagnostic_path = root / "m06_diagnostic.json"
+        self.assertTrue(diagnostic_path.is_file())
+
+        if diagnostic_mode == "missing_declared":
+            diagnostic_path.unlink()
+        elif diagnostic_mode == "legacy_undeclared":
+            cfg = yaml.safe_load(params.read_text(encoding="utf-8"))
+            del cfg["modulos"]["modulo_06_consolidar_distritos"]["out_diagnostic_json"]
+            params.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+            diagnostic_path.unlink()
+        elif diagnostic_mode != "present":
+            raise AssertionError(f"diagnostic_mode desconocido: {diagnostic_mode}")
 
         status_path = root / "production_status.json"
         status = subprocess.run(
@@ -146,12 +157,24 @@ class ConsolidationStatusCertificationIntegration(unittest.TestCase):
         )
         self.assertEqual(status.returncode, 0, status.stdout + status.stderr)
         production_status = json.loads(status_path.read_text(encoding="utf-8"))
-        self.assertEqual(production_status["population_evidence_source"], "M06_DIAGNOSTIC")
-        self.assertEqual(production_status["m06_population_diagnostic_status"], "VALID")
-        self.assertEqual(
-            Path(production_status["m06_population_diagnostic_path"]),
-            (root / "m06_diagnostic.json").resolve(),
-        )
+        if diagnostic_mode == "present":
+            self.assertEqual(production_status["population_evidence_source"], "M06_DIAGNOSTIC")
+            self.assertEqual(production_status["m06_population_diagnostic_status"], "VALID")
+            self.assertEqual(
+                Path(production_status["m06_population_diagnostic_path"]),
+                (root / "m06_diagnostic.json").resolve(),
+            )
+        elif diagnostic_mode == "missing_declared":
+            self.assertEqual(production_status["population_evidence_source"], "M06_DIAGNOSTIC")
+            self.assertEqual(production_status["population_evidence_status"], "MISSING")
+            self.assertEqual(production_status["m06_population_diagnostic_status"], "MISSING")
+            self.assertEqual(
+                Path(production_status["population_evidence_path"]),
+                (root / "m06_diagnostic.json").resolve(),
+            )
+        else:
+            self.assertEqual(production_status["population_evidence_source"], "BASE_M05")
+            self.assertNotIn("m06_population_diagnostic_status", production_status)
 
         decision = root / "decision.json"
         manifest = root / "manifest.json"
@@ -218,6 +241,39 @@ class ConsolidationStatusCertificationIntegration(unittest.TestCase):
             self.assertIn("POPULATION_HARD_BLOCK", result["errors"])
             self.assertIn("POPULATION_HARD_CONSTRAINTS", result["errors"])
             self.assertEqual(result["publication"]["status"], "BLOCKED")
+        finally:
+            td.cleanup()
+
+    def test_declared_missing_m06_diagnostic_blocks_without_falling_back_to_conforming_m05(self):
+        td, root, status, certify, result = self.run_chain(
+            [100, 100],
+            diagnostic_mode="missing_declared",
+        )
+        try:
+            self.assertEqual(status["population_decision"], "HARD_BLOCK")
+            self.assertEqual(status["population_evidence_source"], "M06_DIAGNOSTIC")
+            self.assertEqual(status["population_evidence_status"], "MISSING")
+            self.assertEqual(status["decision"], "BLOCK")
+            self.assertEqual(status["block_cause"], "M06_POPULATION_EVIDENCE_MISSING")
+            self.assertNotEqual(certify.returncode, 0)
+            self.assertEqual(result["decision"], "BLOCKED")
+            self.assertIn("POPULATION_HARD_BLOCK", result["errors"])
+            self.assertEqual(result["publication"]["status"], "BLOCKED")
+        finally:
+            td.cleanup()
+
+    def test_legacy_contract_without_declared_m06_diagnostic_keeps_m05_evidence(self):
+        td, root, status, certify, result = self.run_chain(
+            [100, 100],
+            diagnostic_mode="legacy_undeclared",
+        )
+        try:
+            self.assertEqual(status["population_evidence_source"], "BASE_M05")
+            self.assertEqual(status["population_evidence_status"], "VALID")
+            self.assertNotEqual(status["population_decision"], "HARD_BLOCK")
+            self.assertIn(status["decision"], {"PASS", "PASS_WITH_EXCEPTIONS"})
+            self.assertEqual(certify.returncode, 0, certify.stdout + certify.stderr)
+            self.assertIn(result["decision"], {"CERTIFIED", "CERTIFIED_WITH_GOVERNED_EXCEPTIONS"})
         finally:
             td.cleanup()
 
