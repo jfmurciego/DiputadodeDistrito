@@ -95,28 +95,49 @@ class PreparedSourceReuseTests(unittest.TestCase):
             self.assertTrue(diagnostics[1]["valid"])
             self.assertTrue(any("tamaño incorrecto" in r or "checksum incorrecto" in r for r in diagnostics[0]["reasons"]))
 
-    def test_workflows_declare_runner_dependency_and_independent_reuse_switches(self):
-        data = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
-        electoral_data = yaml.safe_load(ELECTORAL_WORKFLOW.read_text(encoding="utf-8"))
-        jobs = data["jobs"]
-        territorial_steps = jobs["territoriales"]["steps"]
-        install_index = next(i for i, s in enumerate(territorial_steps) if s.get("name") == "Instalar dependencias de resolución territorial")
-        generate_index = next(i for i, s in enumerate(territorial_steps) if s.get("name") == "Generar declaración territorial desde fuentes oficiales")
-        self.assertLess(install_index, generate_index)
-        self.assertIn("PyYAML==6.0.2", territorial_steps[install_index]["run"])
+    def test_workflows_share_contract_and_recover_only_registered_artifact(self):
+        territorial = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        electoral = yaml.safe_load(ELECTORAL_WORKFLOW.read_text(encoding="utf-8"))
+        territorial_trigger = territorial.get("on") or territorial.get(True)
+        electoral_trigger = electoral.get("on") or electoral.get(True)
 
+        self.assertEqual(
+            list(territorial_trigger["workflow_dispatch"]["inputs"]),
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada"],
+        )
+        self.assertEqual(
+            list(electoral_trigger["workflow_dispatch"]["inputs"]),
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada"],
+        )
+        self.assertEqual(
+            list(territorial_trigger["workflow_call"]["inputs"]),
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state"],
+        )
+        self.assertEqual(
+            list(electoral_trigger["workflow_call"]["inputs"]),
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state"],
+        )
+
+        territorial_steps = territorial["jobs"]["territoriales"]["steps"]
+        electoral_steps = electoral["jobs"]["electorales"]["steps"]
         territorial_previous = next(s for s in territorial_steps if s.get("id") == "previous")
-        electoral_previous = next(s for s in electoral_data["jobs"]["electorales"]["steps"] if s.get("id") == "previous")
-        expected = "${{ inputs.reutilizar_si_ya_preparada }}"
-        self.assertEqual(territorial_previous["if"], expected)
-        self.assertEqual(electoral_previous["if"], expected)
-        self.assertNotIn("electorales", jobs)
-        self.assertNotIn("territoriales", electoral_data["jobs"])
+        electoral_previous = next(s for s in electoral_steps if s.get("id") == "previous")
 
-        script = territorial_previous["run"]
-        self.assertIn("herramientas.seleccionar_paquete_fuentes", script)
-        self.assertIn("se busca uno anterior", script)
-        self.assertIn("break 2", script)
+        for previous in (territorial_previous, electoral_previous):
+            self.assertIn("registered_run_id != ''", previous["if"])
+            self.assertIn("REGISTERED_RUN_ID", previous["run"])
+            self.assertIn("REGISTERED_ARTIFACT_NAME", previous["run"])
+            self.assertIn("REGISTERED_ARTIFACT_SHA256", previous["run"])
+            self.assertNotIn("actions/runs?status=completed", previous["run"])
+
+        acquire = next(s for s in territorial_steps if s.get("name") == "Adquirir y congelar fuentes")
+        self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' }}")
+        self.assertIn("herramientas.seleccionar_paquete_fuentes", territorial_previous["run"])
+
+        electoral_prepare = next(s for s in electoral_steps if s.get("id") == "prepare")
+        self.assertIn("--previous-package .ddd-electoral-previous", electoral_prepare["run"])
+        self.assertNotIn("electorales", territorial["jobs"])
+        self.assertNotIn("territoriales", electoral["jobs"])
 
 
 if __name__ == "__main__":
