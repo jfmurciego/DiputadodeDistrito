@@ -38,5 +38,25 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         )
 
 
+    def test_electoral_mode_is_resolved_before_electoral_jobs(self):
+        text = ORCH.read_text(encoding="utf-8")
+        data = yaml.load(text, Loader=yaml.BaseLoader)
+        self.assertIn("effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path(\".\"))", text)
+        self.assertIn('p["publication_mode"]=effective_mode', text)
+        for job_name in ("puerta_03", "puerta_04"):
+            condition = data["jobs"][job_name]["if"]
+            self.assertIn("needs.planificar.outputs.publication_mode == 'electoral'", condition)
+            self.assertNotIn("inputs.publication_mode", condition)
+        self.assertEqual(
+            data["jobs"]["campaign_status"]["env"]["PUBLICATION_MODE"],
+            "${{ needs.planificar.outputs.publication_mode }}",
+        )
+
+    def test_cantabria_without_resolvable_election_downgrades(self):
+        from herramientas.resolver_ejecucion_completa import resolve_publication_mode
+        plan = {"territory_name": "Cantabria", "edition": "2025", "run_prepare_electoral": True}
+        self.assertEqual(resolve_publication_mode(plan, "electoral", root_dir=ROOT), "territorial_only")
+
+
 if __name__ == "__main__":
     unittest.main()
