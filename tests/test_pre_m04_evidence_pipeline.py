@@ -9,7 +9,7 @@ from unittest.mock import patch
 import yaml
 
 from herramientas.materializar_evidencia_pre_m04 import build_evidence
-from herramientas.resolver_ejecucion_completa import generation_enablement
+from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 
 
 SHA_A = "a" * 64
@@ -367,6 +367,53 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
                 self.assertFalse(contradictory["allowed"])
                 self.assertEqual(contradictory["capability"], "CAP_PRE_M04_EVIDENCE")
+
+    def test_00_reuse_plan_schedules_pre_m04_before_first_generation_for_real_targets(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        for territory_id in REAL_TARGETS:
+            with self.subTest(territory=territory_id):
+                state, _, _ = self._state_and_contract(territory_id)
+                self.assertTrue(state.get("territorial_sources_prepared"))
+                self.assertFalse(state.get("territorial_product_available"))
+                self.assertFalse((state.get("evidence") or {}).get("generation_preflight"))
+                plan = build_plan(
+                    territory=territory_id,
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=ROOT,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
+                self.assertTrue(plan["pre_m04_accreditation_planned"])
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertTrue(plan["run_generate"])
+                self.assertEqual(
+                    plan["generation_gate"],
+                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                )
+                self.assertEqual(plan["existing"]["territorial_source"]["decision"], "VALIDADO")
+
+    def test_00_wiring_waits_for_validated_pre_m04_before_generation(self):
+        full = yaml.safe_load((ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
+        preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
+        reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
+        full_jobs = full["jobs"]
+        prep_jobs = preparation["jobs"]
+
+        self.assertEqual(full_jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
+        self.assertIn("preparar_territorial", full_jobs["puerta_01"]["needs"])
+        self.assertIn("puerta_01", full_jobs["generar"]["needs"])
+        self.assertIn("needs.puerta_01.result == 'success'", full_jobs["generar"]["if"])
+
+        self.assertIn("pre_m04", prep_jobs["resultado"]["needs"])
+        terminal = prep_jobs["resultado"]["steps"][-1]
+        self.assertIn("PRE_M04_RESULT", terminal["env"])
+        self.assertIn('[[ "$PERSIST_STATE" == true && "$PRE_M04_RESULT" != success ]]', terminal["run"])
+        self.assertTrue(prep_jobs["pre_m04"]["with"]["preflight_only"])
+
+        self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
+        self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
 
     def test_preparation_workflow_persists_pre_m04_before_terminal_success_and_never_runs_m04(self):
         preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
