@@ -102,6 +102,14 @@ on:
           - GerryChain
           - GerryChain 25
           - GerryChain 50
+      publication_mode:
+        description: Alcance de la ejecución
+        required: true
+        default: electoral
+        type: choice
+        options:
+          - electoral
+          - territorial_only
       publish_result:
         description: Publicar el visor al terminar
         required: true
@@ -202,7 +210,7 @@ jobs:
           python - "$PUBLICATION_MODE" "$CAMPAIGN_INSTANCE" "$CAMPAIGN_SLOT" "$CAMPAIGN_NAMESPACE" "$CAMPAIGN_MANIFEST_SHA256" "$CANDIDATE_COUNT" "$GERRYCHAIN_ENTRYPOINT" "$REQUIRE_UNIQUE_HASHES" "$REUSE_RUN_ID" "$REUSE_ARTIFACT_NAME" "$REUSE_ARTIFACT_SHA256" "$REUSE_SOURCE_SHA" "$EXPECTED_POPULATION_TOTAL" "$EXPECTED_SECTION_COUNT" "$EXPECTED_DISTRICT_COUNT" "$EXPECTED_CERTIFICATION" <<'PY'
           import json,sys
           from pathlib import Path
-          from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source
+          from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source, resolve_publication_mode
           path=Path(".ddd-full-run/plan.json")
           p=json.loads(path.read_text(encoding="utf-8"))
           (publication_mode,campaign_instance,slot,namespace,manifest_sha,candidate_count,
@@ -210,7 +218,6 @@ jobs:
            expected_population,expected_sections,expected_districts,expected_certification)=sys.argv[1:]
           if publication_mode not in {"electoral","territorial_only"}:
               raise SystemExit("publication_mode inválido: "+publication_mode)
-          p["publication_mode"]=publication_mode
           p["campaign"]={
               "campaign_instance":campaign_instance or None,
               "slot":slot or None,
@@ -233,7 +240,9 @@ jobs:
               )
           except ValueError as exc:
               raise SystemExit(str(exc)) from exc
-          if publication_mode=="territorial_only":
+          effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path("."))
+          p["publication_mode"]=effective_mode
+          if effective_mode=="territorial_only":
               p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
           path.write_text(json.dumps(p,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -374,7 +383,7 @@ jobs:
   puerta_03:
     name: Puerta de validación · 03 → 04
     needs: [planificar, puerta_02, preparar_electoral]
-    if: ${{ always() && github.event_name != 'pull_request' && inputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -408,7 +417,7 @@ jobs:
   puerta_04:
     name: Puerta de validación · 04 → estado operativo
     needs: [planificar, puerta_02, puerta_03, incorporar]
-    if: ${{ always() && inputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    if: ${{ always() && needs.planificar.outputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -495,7 +504,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
-      PUBLICATION_MODE: ${{ inputs.publication_mode }}
+      PUBLICATION_MODE: ${{ needs.planificar.outputs.publication_mode }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
       CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
       CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
