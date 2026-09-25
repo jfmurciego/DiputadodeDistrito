@@ -4,8 +4,8 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.1
-NOMBRE DE VERSIÓN: Reparación dura determinista tras topología métrica
+VERSIÓN: 7.6.2
+NOMBRE DE VERSIÓN: Baseline estructural no fatal con reparación poblacional
 FECHA: 2026-09-15
 FUNCIÓN: componer estáticamente el núcleo 7.4.6, el postproceso 7.4.9 y la política de puertas 7.5.4.
 CAMBIOS: sustituye el núcleo 7.4.5 por 7.4.6. El nuevo núcleo solo activa un crecimiento directo alternativo cuando la ruta primaria deja alguna violación dura de suelo/techo, y solo lo acepta si mejora la función objetivo.
@@ -19,12 +19,12 @@ import json
 import zipfile
 from pathlib import Path
 
-from ddd_core import m04_seed_engine_v746 as core
-from ddd_core import m04_seed_engine_v749 as postprocess_engine
+from ddd_core import m04_seed_engine_v7412 as core
+from ddd_core import m04_seed_engine_v7411 as postprocess_engine
 from ddd_core.config import load_params_yaml, module_cfg, require
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.1"
+ENGINE_VERSION = "7.6.2"
 partition_oversized_municipality = core.partition_oversized_municipality
 
 

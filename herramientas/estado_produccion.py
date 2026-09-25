@@ -41,11 +41,15 @@ def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
     value = s5.get("out_report")
     if not value:
         raise ValueError("M05 no declara out_report")
-    meta = raw.get("meta") or {}
+    return _render_output_path(params, raw, value, run_id)
+
+
+def _render_output_path(params: Path, raw_cfg: dict, value: str, run_id: str | None) -> Path:
+    meta = raw_cfg.get("meta") or {}
     run_name = meta.get("run_name", params.stem)
     year = int(meta.get("year", 2025))
     effective_run_id = run_id or meta.get("run_id") or "local"
-    io_cfg = raw.get("io", {}) or {}
+    io_cfg = raw_cfg.get("io", {}) or {}
     project_root = (io_cfg.get("project_root", {}) or {}).get("path", "")
     root = params.parent.resolve()
     if project_root:
@@ -54,6 +58,106 @@ def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
     rendered = str(value).format(year=year, run_name=run_name, run_id=effective_run_id)
     path = Path(rendered).expanduser()
     return path if path.is_absolute() else (root / path).resolve()
+
+
+def _m06_diagnostic_path(params: Path, run_id: str | None = None) -> Path | None:
+    """Resuelve sólo diagnósticos M06 declarados explícitamente por el contrato.
+
+    Los contratos anteriores a este campo siguen usando la evidencia M05; no se
+    les atribuye por inferencia un artefacto M06 obligatorio.
+    """
+    params = params.expanduser().resolve()
+    raw = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+    if not isinstance(raw, dict):
+        raise ValueError("El YAML debe tener un objeto raíz")
+    s6 = (raw.get("modulos", {}) or {}).get("modulo_06_consolidar_distritos") or raw.get("step6_export_final") or {}
+    value = s6.get("out_diagnostic_json")
+    if not value:
+        return None
+    return _render_output_path(params, raw, value, run_id)
+
+
+def _load_m06_population_evidence(params: Path, run_id: str) -> dict | None:
+    try:
+        path = _m06_diagnostic_path(params, run_id)
+    except Exception as exc:
+        return {
+            "m06_population_diagnostic_status": "INVALID_PATH",
+            "m06_population_diagnostic_path": None,
+            "m06_population_diagnostic_error": f"{type(exc).__name__}: {exc}",
+        }
+    if path is None:
+        return None
+    if not path.exists():
+        return {
+            "m06_population_diagnostic_status": "MISSING",
+            "m06_population_diagnostic_path": path.as_posix(),
+            "m06_population_diagnostic_error": f"FileNotFoundError: diagnóstico M06 declarado y ausente: {path}",
+        }
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {
+            "m06_population_diagnostic_status": "INVALID_CONTENT",
+            "m06_population_diagnostic_path": path.as_posix(),
+            "m06_population_diagnostic_error": f"{type(exc).__name__}: {exc}",
+        }
+    try:
+        hard = int(payload["hard_population_violations"])
+        if hard < 0:
+            raise ValueError("hard_population_violations negativo")
+        structural = str(payload.get("structural_status") or "")
+        conformance = str(payload.get("population_conformance") or "")
+    except Exception as exc:
+        return {
+            "m06_population_diagnostic_status": "INVALID_CONTENT",
+            "m06_population_diagnostic_path": path.as_posix(),
+            "m06_population_diagnostic_error": f"{type(exc).__name__}: {exc}",
+        }
+    return {
+        "m06_population_diagnostic_status": "VALID",
+        "m06_population_diagnostic_path": path.as_posix(),
+        "m06_population_diagnostic_error": None,
+        "m06_structural_status": structural,
+        "m06_population_conformance": conformance,
+        "m06_hard_population_violations": hard,
+        "m06_population_violations": payload.get("violations") or [],
+    }
+
+
+def _merge_m06_population_evidence(population: dict, m06: dict | None) -> dict:
+    if not m06:
+        return population
+    merged = dict(population)
+    merged.update(m06)
+    if m06.get("m06_population_diagnostic_status") != "VALID":
+        diagnostic_status = str(m06.get("m06_population_diagnostic_status") or "INVALID_CONTENT")
+        merged.update(
+            population_outcome="failure",
+            population_decision=HARD_BLOCK,
+            population_evidence_source="M06_DIAGNOSTIC",
+            population_evidence_status=diagnostic_status,
+            population_evidence_path=m06.get("m06_population_diagnostic_path"),
+            population_evidence_error=m06.get("m06_population_diagnostic_error"),
+        )
+        return merged
+    if m06.get("m06_structural_status") != "PASS":
+        merged.update(
+            population_outcome="failure",
+            population_decision=HARD_BLOCK,
+            population_evidence_status="INVALID_CONTENT",
+            population_evidence_error="M06 no declara integridad estructural PASS",
+        )
+        return merged
+
+    hard = int(m06.get("m06_hard_population_violations", 0))
+    merged["population_hard_constraints_after"] = hard
+    merged["population_evidence_source"] = "M06_DIAGNOSTIC"
+    merged["population_evidence_status"] = "VALID"
+    merged["population_evidence_error"] = None
+    if hard:
+        merged["population_decision"] = HARD_BLOCK
+    return merged
 
 
 def _objective_pair(container: dict, *, before_key: str, after_key: str, indexes: tuple[int, int, int]):
@@ -258,6 +362,11 @@ def certification_gate(*, execution_outcome: str, population: dict, geometric_ou
         return "BLOCK", "EXECUTION_FAILED"
     if population.get("population_outcome") != "success":
         evidence_status = population.get("population_evidence_status")
+        evidence_source = population.get("population_evidence_source")
+        if evidence_source == "M06_DIAGNOSTIC":
+            if evidence_status == "MISSING":
+                return "BLOCK", "M06_POPULATION_EVIDENCE_MISSING"
+            return "BLOCK", "M06_POPULATION_EVIDENCE_INVALID"
         if evidence_status == "MISSING":
             return "BLOCK", "M05_POPULATION_EVIDENCE_MISSING"
         if evidence_status == "UNDECLARED":
@@ -345,6 +454,8 @@ def main() -> None:
         raise ValueError("La auditoría geométrica no es un objeto JSON")
 
     population = _load_population_evidence(args.params, args.run_id)
+    m06_population = _load_m06_population_evidence(args.params, args.run_id)
+    population = _merge_m06_population_evidence(population, m06_population)
     params_cfg = load_params_yaml(str(args.params))
     population_target_required = bool(
         ((params_cfg.get("validation") or {}).get("require_zero_outside_tolerance_after_m05", False))

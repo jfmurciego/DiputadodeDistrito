@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 05 — Optimizar distritos
-VERSIÓN: 7.7.0
+VERSIÓN: 7.7.1
 NOMBRE DE VERSIÓN: Reparación poblacional focal por cadenas
 FECHA: 2026-09-16
 ESTADO: candidato multi-territorio; reparación poblacional opt-in pendiente de validación CI completa.
@@ -30,8 +30,8 @@ from ddd_core.config import load_params_yaml, hard_limits
 from ddd_core.m05_swap_polish import polish as swap_polish, load_geo, write_geo
 from ddd_core.m05_population_repair import repair, SearchLimits
 
-BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v740.py"
-WRAPPER_VERSION = "7.7.0"
+BASE_ENGINE = ROOT / "ddd_core" / "m05_opt_engine_v741.py"
+WRAPPER_VERSION = "7.7.1"
 
 def _load_base():
     spec=importlib.util.spec_from_file_location("ddd_m05_opt_engine_v740", BASE_ENGINE)

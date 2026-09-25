@@ -3,7 +3,7 @@
 **Versión documental:** 1.4.1
 **Nombre de versión:** Contrato de informe con motor y wrapper separados
 **Fecha:** 2026-09-11
-**Código activo:** M05 v7.7.0
+**Código activo:** M05 v7.7.1
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
 **Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.0.md`
@@ -14,17 +14,17 @@
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
 ## Separación wrapper / motor
-- `modulos/05_optimizar_distritos.py` v7.7.0 es la interfaz activa.
-- `ddd_core/m05_opt_engine_v740.py` sigue siendo la copia exacta del optimizador v7.4.0 validado.
+- `modulos/05_optimizar_distritos.py` v7.7.1 es la interfaz activa.
+- `ddd_core/m05_opt_engine_v741.py` es el motor activo de cálculo; conserva las guardas estructurales de v7.4.0 y deja de abortar únicamente por incumplimientos poblacionales remanentes.
 - `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.
 - `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica opt-in posterior al motor base y al pulido.
-- Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.0 sin transformar la entrada.
-- Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta exactamente el motor v7.4.0.
+- Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.1 sin transformar la entrada.
+- Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta el motor v7.4.1.
 - La configuración se resuelve siempre con `ddd_core.config.load_params_yaml`.
 
 ## Semántica del informe
-- `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual permanece `7.4.0`.
-- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.0`.
+- `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual es `7.4.1`.
+- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.1`.
 - `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.
 - `population_repair`: evidencia estructurada de la reparación cuando está habilitada, o de su desactivación cuando no lo está.
 - `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.
@@ -70,7 +70,7 @@ EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 s
 
 ## Estado de validación
 - La lógica base v7.4.0 permanece validada/promocionada por Run #9.
-- El wrapper v7.7.0 es **candidato**; la nueva reparación permanece opt-in.
+- El wrapper v7.7.1 es **candidato**; la nueva reparación permanece opt-in.
 - La fase C está **validada operativamente en EXT-06 pero sigue opt-in** porque quedan dos outliers en Extremadura.
 - La fase D requiere CI sintética completa antes de cualquier validación territorial.
 

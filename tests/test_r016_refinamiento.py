@@ -29,7 +29,7 @@ class M05RefinementAfterFeasible(unittest.TestCase):
             cfg, output, report = helper.make_case(Path(td), "r016")
             helper.run_case(cfg)
             rep = json.loads(report.read_text(encoding="utf-8"))
-            self.assertEqual(rep["version"], "7.4.0")
+            self.assertEqual(rep["version"], "7.4.1")
             self.assertIsNotNone(rep["first_feasible_iteration"])
             self.assertGreater(rep["post_feasible_iterations"], 0)
             self.assertEqual(rep["anneal_iterations_executed"], 500)
