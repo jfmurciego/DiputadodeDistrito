@@ -26,4 +26,4 @@ territories:
   - {territory_id: illes_balears, name: Islas Baleares, province_codes: ['07'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: canarias, name: Canarias, province_codes: ['35','38'], batch: insular, status: bootstrap_archipelago, contract_level: bootstrap_m01_m03}
   - {territory_id: ceuta, name: Ceuta, province_codes: ['51'], batch: ciudades_autonomas, status: generation_ready, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 25, k_source: norma, k_rationale: "K=25 conserva el tamaño de la Asamblea de Ceuta como regla institucional ex ante."}
-  - {territory_id: melilla, name: Melilla, province_codes: ['52'], batch: ciudades_autonomas, status: bootstrap, contract_level: bootstrap_m01_m03}
+  - {territory_id: melilla, name: Melilla, province_codes: ['52'], batch: ciudades_autonomas, status: generation_ready, contract_level: production_m01_m06, production_authorization: AUTHORIZED, k_districts: 25, k_source: norma, k_rationale: "K=25 conserva el tamaño de la Asamblea de Melilla como regla institucional ex ante."}

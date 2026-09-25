@@ -436,15 +436,20 @@ territories:
   editions:
     '2025':
       territory_declared: true
-      preparation_status: PENDING_INCORPORATION
+      preparation_status: READY
       contract_path: territorios/melilla/config/melilla_2025.yaml
-      territorial_source_declaration: null
+      territorial_source_declaration: territorios/melilla/config/fuentes_oficiales.yaml
       electoral_source_declaration: null
-      territorial_sources_prepared: false
-      territorial_contract_complete: false
+      territorial_sources_prepared: true
+      territorial_contract_complete: true
       territorial_product_available: false
       electoral_source_prepared: false
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
-      production_authorization: NONE
+      production_authorization: AUTHORIZED
       last_valid_checkpoint: null
+      preparation_evidence:
+        run_id: 36133119494
+        artifact_name: ddd-source-package-melilla-2025-36133119494
+        artifact_sha256: e6ec0fd13a31b657e04de658cffaf879460d5f4306b93667b15642d31bccc24a
+        package_sha256: dc0ba3cf4a9673202a5dbaddd87838772a9ef6ef43d975431da98960a6785d69
