@@ -4,10 +4,10 @@
   "territory_id": "principado_de_asturias",
   "territory_name": "Principado de Asturias",
   "edition": "2025",
-  "run_id": 35728626894,
-  "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-35728626894",
-  "artifact_sha256": "3dff251f7c22013af1c8d54b808aee6f1739b66b12809f7bbb39be4fda4216db",
-  "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+  "run_id": 36136631352,
+  "artifact_name": "ddd-electoral-package-principado_de_asturias-2025-36136631352",
+  "artifact_sha256": "981059cad011f32fbc3c8b22784782e2f6f844f53a98ade75b5c66d5d0690b0b",
+  "source_commit": "8bbab11a4cadf66568fe6eed3118c01ea6628fd8",
   "election_id": "asturias_jgpa_2023",
   "declaration": "territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml"
 }

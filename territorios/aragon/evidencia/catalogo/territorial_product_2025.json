@@ -4,10 +4,10 @@
   "territory_id": "aragon",
   "territory_name": "Aragón",
   "edition": "2025",
-  "run_id": 35889595424,
-  "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--01--aragon",
-  "artifact_sha256": "1758fff8157e44853a182880d86ef82b13a05b707c88e5b7229acda8e017b3e7",
-  "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+  "run_id": 36136846294,
+  "artifact_name": "ddd-state-36136846294-M06",
+  "artifact_sha256": "2abda94a2ca468f80f66eab67fd6dbecfaf38b1de5910dc0a456a0483aa3313a",
+  "source_commit": "b5051291377b1e1fcb7f198fd6eada8dd0a45b3f",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06"
 }

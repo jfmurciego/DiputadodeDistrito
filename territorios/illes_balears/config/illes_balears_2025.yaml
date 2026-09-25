@@ -1,0 +1,231 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: illes_balears
+  territory: Islas Baleares
+  run_name: illes_balears_2025
+  year: 2025
+  scope: provincial
+  schema_version: 1.0.0
+  status: production_ready_auto_materialized
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2025.zip
+      layer: ''
+      section_key_col: CUSEC
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+  cache:
+    dir: territorios/illes_balears/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/illes_balears/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: &id001
+  - '07'
+  k_districts: 59
+  k_source: norma
+  k_rationale: K=59 toma de la norma únicamente el tamaño institucional del Parlament;
+    DDD redistribuye sus distritos uninominales entre componentes físicos por su propia
+    política Hamilton y no reproduce el reparto electoral legal.
+  k_reference_scope: institutional_chamber_size_only
+  k_reference_source: https://www.boe.es/buscar/act.php?id=BOE-A-1987-2903
+  apportionment_source: ddd_design_policy
+  legal_apportionment_reused: false
+  legal_apportionment_context:
+    note: Contexto solamente; no es el reparto producido por DDD.
+    constituencies:
+      Mallorca: 33
+      Menorca: 13
+      Ibiza: 12
+      Formentera: 1
+  district_apportionment: hamilton_components
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: split_only_above_hard_cap
+  municipality_atomicity_limit_ratio: 1.75
+  require_auditable_district_catalogue: true
+  population_floor_exempt_partitions: &id002
+  - 07-C03
+  small_component_exception_policy: one_contiguous_district_floor_exception
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: *id001
+    drop_missing_population: false
+    out_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges: []
+  modulo_03_construir_grafo:
+    in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    out_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
+    out_report: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
+    in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_particiones.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    province_field: DDD_PARTITION
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    municipality_name_field: NMUN
+    district_apportionment: hamilton_components
+    k_districts: 59
+    municipality_atomicity_limit_ratio: 1.75
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip
+    out_report: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_informe.json
+    source_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip
+    hard_partition_lookup: configuracion/particiones_insulares_2025.json
+    hard_partition_territory_id: illes_balears
+  modulo_05_optimizar_distritos:
+    in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
+    in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_{year}
+    district_field: district_id
+    province_field: DDD_PARTITION
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    swap_polish_max: 0
+    out_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_{year}
+    province_field: DDD_PARTITION
+    province_name_field: NPRO
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 59
+    strict_expected_k: true
+    out_summary_csv: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m06_composicion_distritos.csv
+    out_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m06_secciones.geojson.zip
+    out_district_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m06_distritos.geojson.zip
+validation:
+  expected_province_codes: *id001
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: DDD_PARTITION
+  municipality_field: DDD_MUNICIPALITY_PARTITION
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: false
+  require_connected_municipalities: false
+  partition_populations:
+    07-C01: 971068
+    07-C02: 102821
+    07-C03: 11690
+    07-C04: 164265
+  expected_districts: 59
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton_components
+  province_districts:
+    07-C01: 44
+    07-C02: 6
+    07-C03: 1
+    07-C04: 8
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.75
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  population_floor_exempt_partitions: *id002
+  partition_apportionment_audit:
+    07-C01:
+      population: 971068
+      districts: 44
+      target_population: 21183.79661
+      average_population_per_district: 22069.727273
+      relative_deviation_from_target: 0.041821147
+      population_floor: 16947.037288
+      floor_exception_required: false
+      floor_exception_governed: true
+    07-C02:
+      population: 102821
+      districts: 6
+      target_population: 21183.79661
+      average_population_per_district: 17136.833333
+      relative_deviation_from_target: -0.191040509
+      population_floor: 16947.037288
+      floor_exception_required: false
+      floor_exception_governed: true
+    07-C03:
+      population: 11690
+      districts: 1
+      target_population: 21183.79661
+      average_population_per_district: 11690.0
+      relative_deviation_from_target: -0.448163131
+      population_floor: 16947.037288
+      floor_exception_required: true
+      floor_exception_governed: true
+    07-C04:
+      population: 164265
+      districts: 8
+      target_population: 21183.79661
+      average_population_per_district: 20533.125
+      relative_deviation_from_target: -0.030715533
+      population_floor: 16947.037288
+      floor_exception_required: false
+      floor_exception_governed: true
+  hard_partition_mode: physical_components
+  hard_partition_lookup: configuracion/particiones_insulares_2025.json
