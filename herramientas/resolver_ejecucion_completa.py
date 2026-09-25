@@ -10,7 +10,6 @@ import yaml
 from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
 
-# Compatibilidad de API interna usada por la regresión del planificador.
 _run_from_artifact = _core._run_from_artifact
 
 
@@ -29,8 +28,6 @@ def _generation_capabilities(contract: dict) -> dict:
 
     if meta.get("contract_level") != "production_m01_m06" or not all((m01, m02, m03, m04, m05, m06)):
         return _core._blocked("CAP_CONTRACT", "contrato M01-M06 ausente o incompleto")
-    # AUTHORIZED es metadato administrativo, no una capacidad positiva de generación.
-    # Solo un bloqueo explícito impide avanzar por esta dimensión.
     if meta.get("production_authorization") == "BLOCKED":
         return _core._blocked("CAP_CONTRACT", "contrato marcado explícitamente como BLOCKED")
     k = territorial.get("k_districts")
@@ -102,7 +99,6 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     capability_gate = _generation_capabilities(contract)
     if not capability_gate["allowed"]:
         return capability_gate
-
     prep = preparation_evidence or {}
     if require_source and not source_acquisition_planned:
         if (not isinstance(prep.get("run_id"), int) or isinstance(prep.get("run_id"), bool)
@@ -116,7 +112,6 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
             contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
             territory_id=territory_id, root_dir=root_dir,
         )
-
     meta = contract.get("meta") or {}
     territorial = contract.get("territory_contract") or {}
     modules = contract.get("modulos") or {}
@@ -137,9 +132,22 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
 
 def _explicit_source(values: dict | None) -> dict | None:
     if not values:
+        env = __import__("os").environ
+        env_values = {
+            "run_id": env.get("REUSE_RUN_ID", ""),
+            "artifact_name": env.get("REUSE_ARTIFACT_NAME", ""),
+            "artifact_sha256": env.get("REUSE_ARTIFACT_SHA256", ""),
+            "source_commit": env.get("REUSE_SOURCE_SHA", ""),
+        }
+        if any(env_values.values()):
+            values = env_values
+    if not values:
         return None
+    run_id = values.get("run_id")
+    if isinstance(run_id, str) and run_id.isdecimal():
+        run_id = int(run_id)
     return {
-        "run_id": values.get("run_id"),
+        "run_id": run_id,
         "artifact_name": values.get("artifact_name"),
         "artifact_sha256": values.get("artifact_sha256"),
         "source_commit": values.get("source_commit"),
@@ -160,7 +168,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     generation_preflight_evidence = _core._load_json(generation_preflight_path, root_dir)
     if generation_preflight_path and not generation_preflight_evidence:
         generation_preflight_evidence = {"_load_error": f"no se pudo leer {generation_preflight_path}"}
-
     catalog_prep = state.get("preparation_evidence") or {}
     selected_explicit_source = _explicit_source(explicit_territorial_source)
     prep = selected_explicit_source or catalog_prep
@@ -193,7 +200,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
     if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
-
     source_shape_ready = bool(
         source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
     )
@@ -213,9 +219,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         state.get("electoral_product_available") and electoral_product_run_id
         and electoral_product_evidence.get("artifact_sha256")
     )
-
-    # Una fuente explícita ya seleccionada es la fuente efectiva. Nunca se vuelve a B
-    # para decidir si hay que preparar o para comprobar procedencia.
     run_prepare_territorial = from_start if selected_explicit_source is None else False
     if selected_explicit_source is None and not from_start:
         run_prepare_territorial = not territorial_sources_ready
@@ -330,7 +333,6 @@ def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."),
     return plan
 
 
-# El núcleo conserva utilidades comunes; estas tres decisiones son la política vigente.
 _core._generation_capabilities = _generation_capabilities
 _core.generation_enablement = generation_enablement
 _core.build_plan = build_plan
