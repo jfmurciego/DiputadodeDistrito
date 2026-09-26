@@ -61,6 +61,27 @@
       "geometric_status": "LEGACY_OR_NOT_AUDITED"
     },
     {
+      "id": "m06-ceuta-36272095647",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "ceuta",
+      "territory_label": "Ceuta",
+      "run_id": "36272095647",
+      "expected_districts": 25,
+      "technical_status": "PASS",
+      "certification_status": "CERTIFIED",
+      "territorial_certification_status": "CERTIFIED",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS",
+      "geometric_gate": "25 distritos evaluados / 25 PASS / 0 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 36272095647",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "2c3bd660f3a7e0b663b8b25c98027c77afa876c3",
+      "sha256": "545c7cae8edc9b7cd0bc978b1d5900e9c08982d158e2bf68acd25561d4cc1d58",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/2c3bd660f3a7e0b663b8b25c98027c77afa876c3"
+    },
+    {
       "id": "m06-extremadura-35859241320",
       "asset_type": "territorial_product",
       "kind": "canonical_m06",
