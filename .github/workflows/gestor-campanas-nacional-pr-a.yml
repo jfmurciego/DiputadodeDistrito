@@ -1,0 +1,97 @@
+# PR A del gestor nacional: selección y manifiesto. NO ejecuta territorios.
+name: 0 · Gestor de Campañas · Selección nacional PR A
+
+on:
+  workflow_dispatch:
+    inputs:
+      edicion:
+        description: Edición de datos
+        required: true
+        type: choice
+        default: '2025'
+        options: ['2025']
+      modo_ejecucion:
+        description: Modo de ejecución
+        required: true
+        type: choice
+        default: Reutilizar progreso existente
+        options:
+          - Reutilizar progreso existente
+      estrategia:
+        description: Estrategia territorial
+        required: true
+        type: choice
+        default: GerryChain 50
+        options: [Canónico, GerryChain, GerryChain 25, GerryChain 50]
+      andalucia: {description: Andalucía, required: false, type: boolean, default: false}
+      aragon: {description: Aragón, required: false, type: boolean, default: false}
+      principado_de_asturias: {description: Principado de Asturias, required: false, type: boolean, default: false}
+      illes_balears: {description: Islas Baleares, required: false, type: boolean, default: false}
+      canarias: {description: Canarias, required: false, type: boolean, default: false}
+      cantabria: {description: Cantabria, required: false, type: boolean, default: false}
+      castilla_la_mancha: {description: Castilla-La Mancha, required: false, type: boolean, default: false}
+      castilla_y_leon: {description: Castilla y León, required: false, type: boolean, default: false}
+      cataluna: {description: Cataluña, required: false, type: boolean, default: false}
+      comunidad_valenciana: {description: Comunidad Valenciana, required: false, type: boolean, default: false}
+      extremadura: {description: Extremadura, required: false, type: boolean, default: false}
+      galicia: {description: Galicia, required: false, type: boolean, default: false}
+      madrid: {description: Comunidad de Madrid, required: false, type: boolean, default: false}
+      region_de_murcia: {description: Región de Murcia, required: false, type: boolean, default: false}
+      comunidad_foral_de_navarra: {description: Comunidad Foral de Navarra, required: false, type: boolean, default: false}
+      pais_vasco: {description: País Vasco, required: false, type: boolean, default: false}
+      la_rioja: {description: La Rioja, required: false, type: boolean, default: false}
+      ceuta: {description: Ceuta, required: false, type: boolean, default: false}
+      melilla: {description: Melilla, required: false, type: boolean, default: false}
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/gestor-campanas-nacional-pr-a.yml'
+      - 'herramientas/selector_campana_nacional.py'
+      - 'tests/test_selector_campana_nacional.py'
+      - 'configuracion/catalogo_preparacion.yaml'
+      - 'territorios/**/config/*.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar_pr_a:
+    name: Validar selección nacional sin ejecutar territorios
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ github.sha }}
+      - name: Instalar dependencia de catálogo
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Regresiones 0, 1, 5, 12 y 19
+        run: python -m unittest tests.test_selector_campana_nacional
+      - name: Construir manifiesto inmutable de la selección
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        shell: bash
+        env:
+          INPUTS_JSON: ${{ toJSON(inputs) }}
+        run: |
+          set -euo pipefail
+          selected="$(python - <<'PY'
+          import json, os
+          from herramientas.selector_campana_nacional import CANONICAL_IDS
+          inputs=json.loads(os.environ['INPUTS_JSON'])
+          print(' '.join(t for t in CANONICAL_IDS if inputs.get(t) is True))
+          PY
+          )"
+          # shellcheck disable=SC2086
+          python herramientas/selector_campana_nacional.py \
+            --selected $selected \
+            --edition '${{ inputs.edicion }}' \
+            --execution-mode '${{ inputs.modo_ejecucion }}' \
+            --strategy '${{ inputs.estrategia }}' \
+            --source-sha "$GITHUB_SHA" \
+            --campaign-instance "campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" \
+            --output-manifest .ddd-campaign/campaign-selection.json \
+            > .ddd-campaign/matrix.json
+      - name: Explicar bloqueo productivo de PR A
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo '::notice::PR A sólo prepara selección/manifiesto. No invoca 00, no agrega, no promueve y no publica.'
+          echo '::notice::Bloqueo: el cierre vigente del gestor productivo sigue limitado a cinco territorios; habilitar ejecución aquí mezclaría PR A con PR B/C.'
