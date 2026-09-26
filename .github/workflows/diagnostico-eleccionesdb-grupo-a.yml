@@ -3,21 +3,16 @@ name: Diagnóstico EleccionesDB · grupo A
 on:
   pull_request:
     branches: [main]
-
 permissions:
   contents: read
-
 jobs:
   diagnosticar:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
-
       - name: Descargar export upstream una sola vez
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
+        env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -28,24 +23,14 @@ jobs:
           if not arts:raise SystemExit('No hay artefacto eleccionesdb-descargas vigente')
           art=max(arts,key=lambda a:a['created_at']); print(f"artifact_id={art['id']} created_at={art['created_at']} size={art['size_in_bytes']}"); open('artifact_id.txt','w').write(str(art['id']))
           PY
-          aid="$(cat artifact_id.txt)"
-          curl --fail --location --retry 2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" --output eleccionesdb-descargas.zip "https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts/${aid}/zip"
-          unzip -q eleccionesdb-descargas.zip
-          sqlite_zip="$(find . -type f -name 'eleccionesdb_sqlite.zip' -print -quit)"; test -n "$sqlite_zip"
-          unzip -q "$sqlite_zip" -d sqlite-extract
-          db="$(find sqlite-extract -type f -name 'eleccionesdb.sqlite' -print -quit)"; test -n "$db"; mv "$db" eleccionesdb.sqlite
-
+          aid="$(cat artifact_id.txt)"; curl --fail --location --retry 2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" --output eleccionesdb-descargas.zip "https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts/${aid}/zip"
+          unzip -q eleccionesdb-descargas.zip; sqlite_zip="$(find . -type f -name 'eleccionesdb_sqlite.zip' -print -quit)"; test -n "$sqlite_zip"; unzip -q "$sqlite_zip" -d sqlite-extract; db="$(find sqlite-extract -type f -name 'eleccionesdb.sqlite' -print -quit)"; test -n "$db"; mv "$db" eleccionesdb.sqlite
       - name: Construir snapshot compacto verificado de las diez elecciones
         run: |
-          set -euo pipefail
           python herramientas/construir_snapshot_eleccionesdb.py --source eleccionesdb.sqlite --out ddd-eleccionesdb-snapshot.sqlite --meta ddd-eleccionesdb-snapshot.json
-          test -s ddd-eleccionesdb-snapshot.sqlite
-          test "$(jq '.election_ids|length' ddd-eleccionesdb-snapshot.json)" = 10
-
+          test -s ddd-eleccionesdb-snapshot.sqlite; test "$(jq '.election_ids|length' ddd-eleccionesdb-snapshot.json)" = 10
       - name: Probar el mismo adaptador sobre las diez elecciones
-        shell: bash
         run: |
-          set -euo pipefail
           mkdir -p .ddd-eleccionesdb-packages
           python - <<'PY'
           import csv
@@ -53,62 +38,31 @@ jobs:
           from herramientas.adaptador_eleccionesdb import ELECTIONS,build,sha256
           db=Path('ddd-eleccionesdb-snapshot.sqlite'); digest=sha256(db); rows=[]
           for election_id,(edb,ccaa,territory,date) in ELECTIONS.items():
-              out=Path('.ddd-eleccionesdb-packages')/territory
-              m=build(db,election_id,out,digest)
+              m=build(db,election_id,Path('.ddd-eleccionesdb-packages')/territory,digest)
               rows.append({'territorio':territory,'election_id':election_id,'eleccionesdb_id':edb,'fecha':date,'secciones':m['sections'],'filas_votos':m['records'],'partidos':m['parties'],'votos_candidaturas':m['candidate_votes'],'procedencia':' + '.join(x['fuente'] for x in m['provenance'] if x['fuente']),'snapshot_sha256':m['snapshot_sha256'],'package_source_sha256':m['source_sha256']})
-          with open('cobertura-adaptador-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:
-              w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+          with open('cobertura-adaptador-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
           with open('cobertura-adaptador-eleccionesdb.md','w',encoding='utf-8') as f:
               f.write('# Cobertura real adaptador EleccionesDB\n\n|Territorio|Elección|EDB|Secciones|Filas votos|Partidos|Procedencia|\n|---|---|---:|---:|---:|---:|---|\n')
               for r in rows:f.write(f"|{r['territorio']}|{r['election_id']}|{r['eleccionesdb_id']}|{r['secciones']}|{r['filas_votos']}|{r['partidos']}|{r['procedencia'].replace('|','/')}|\n")
           PY
           cat cobertura-adaptador-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
-
       - name: Comprobar paquete y registro durable en copia de trabajo para dos tamaños distintos
-        shell: bash
         run: |
-          set -euo pipefail
-          rm -rf .ddd-registry-copy; mkdir .ddd-registry-copy
-          cp -a configuracion territorios herramientas .ddd-registry-copy/
+          set -euo pipefail; rm -rf .ddd-registry-copy; mkdir .ddd-registry-copy; cp -a configuracion territorios herramientas .ddd-registry-copy/
           for spec in "illes_balears:illes_balears_parlament_2023" "madrid:comunidad_madrid_asamblea_2023"; do
-            territory="${spec%%:*}"; election="${spec##*:}"
-            decl=".ddd-registry-copy/declaration-${territory}.yaml"
-            printf 'election_id: %s\nterritory_id: %s\n' "$election" "$territory" > "$decl"
-            pkg=".ddd-eleccionesdb-packages/$territory"
-            digest="$(sha256sum "$pkg/manifest.json"|awk '{print $1}')"
-            artifact="ddd-electoral-package-${territory}-2025-147000"
-            (cd .ddd-registry-copy && python herramientas/promover_catalogo_operacional.py --kind electoral_source --territory-id "$territory" --edition 2025 --run-id 147000 --artifact-name "$artifact" --artifact-sha256 "$digest" --declaration "declaration-${territory}.yaml" --election-id "$election" --source-commit "$GITHUB_SHA")
+            territory="${spec%%:*}"; election="${spec##*:}"; pkg=".ddd-eleccionesdb-packages/$territory"; digest="$(sha256sum "$pkg/manifest.json"|awk '{print $1}')"; artifact="ddd-electoral-package-${territory}-2025-147000"
+            (cd .ddd-registry-copy && python herramientas/promover_catalogo_operacional.py --kind electoral_source --territory-id "$territory" --edition 2025 --run-id 147000 --artifact-name "$artifact" --artifact-sha256 "$digest" --election-id "$election" --source-commit "$GITHUB_SHA")
             durable="$(cd .ddd-registry-copy && python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$territory" --edition 2025)"
-            test "$(jq -r .registered <<<"$durable")" = true
-            test "$(jq -r .run_id <<<"$durable")" = 147000
-            test "$(jq -r .artifact_name <<<"$durable")" = "$artifact"
-            test "$(jq -r .artifact_sha256 <<<"$durable")" = "$digest"
-            test "$(jq -r .election_id <<<"$durable")" = "$election"
+            test "$(jq -r .registered <<<"$durable")" = true; test "$(jq -r .run_id <<<"$durable")" = 147000; test "$(jq -r .artifact_name <<<"$durable")" = "$artifact"; test "$(jq -r .artifact_sha256 <<<"$durable")" = "$digest"; test "$(jq -r .election_id <<<"$durable")" = "$election"
           done
-
       - name: Eliminar export upstream completo antes de publicar
         if: always()
         run: rm -rf eleccionesdb-descargas.zip artifact_id.txt eleccionesdb.sqlite sqlite-extract eleccionesdb_sqlite.zip eleccionesdb_parquet.zip eleccionesdb_csv.zip .ddd-eleccionesdb-packages .ddd-registry-copy
-
       - name: Publicar informe pequeño
         if: always()
         uses: actions/upload-artifact@v4
-        with:
-          name: diagnostico-eleccionesdb-grupo-a
-          path: |
-            cobertura-adaptador-eleccionesdb.csv
-            cobertura-adaptador-eleccionesdb.md
-            ddd-eleccionesdb-snapshot.json
-          if-no-files-found: error
-          retention-days: 7
-
+        with: {name: diagnostico-eleccionesdb-grupo-a, path: "cobertura-adaptador-eleccionesdb.csv\ncobertura-adaptador-eleccionesdb.md\nddd-eleccionesdb-snapshot.json", if-no-files-found: error, retention-days: 7}
       - name: Publicar snapshot común para reutilización por 03
         if: success()
         uses: actions/upload-artifact@v4
-        with:
-          name: ddd-eleccionesdb-snapshot
-          path: |
-            ddd-eleccionesdb-snapshot.sqlite
-            ddd-eleccionesdb-snapshot.json
-          if-no-files-found: error
-          retention-days: 30
+        with: {name: ddd-eleccionesdb-snapshot, path: "ddd-eleccionesdb-snapshot.sqlite\nddd-eleccionesdb-snapshot.json", if-no-files-found: error, retention-days: 90}
