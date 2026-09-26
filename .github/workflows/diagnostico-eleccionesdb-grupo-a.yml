@@ -48,7 +48,7 @@ jobs:
           set -euo pipefail
           mkdir -p .ddd-eleccionesdb-packages
           python - <<'PY'
-          import csv,json
+          import csv
           from pathlib import Path
           from herramientas.adaptador_eleccionesdb import ELECTIONS,build,sha256
           db=Path('ddd-eleccionesdb-snapshot.sqlite'); digest=sha256(db); rows=[]
@@ -76,10 +76,14 @@ jobs:
             printf 'election_id: %s\nterritory_id: %s\n' "$election" "$territory" > "$decl"
             pkg=".ddd-eleccionesdb-packages/$territory"
             digest="$(sha256sum "$pkg/manifest.json"|awk '{print $1}')"
-            (cd .ddd-registry-copy && python herramientas/promover_catalogo_operacional.py --kind electoral_source --territory-id "$territory" --edition 2025 --run-id 147000 --artifact-name "test-eleccionesdb-$territory" --artifact-sha256 "$digest" --declaration "declaration-${territory}.yaml" --election-id "$election" --source-commit "$GITHUB_SHA")
+            artifact="ddd-electoral-package-${territory}-2025-147000"
+            (cd .ddd-registry-copy && python herramientas/promover_catalogo_operacional.py --kind electoral_source --territory-id "$territory" --edition 2025 --run-id 147000 --artifact-name "$artifact" --artifact-sha256 "$digest" --declaration "declaration-${territory}.yaml" --election-id "$election" --source-commit "$GITHUB_SHA")
             durable="$(cd .ddd-registry-copy && python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$territory" --edition 2025)"
+            test "$(jq -r .registered <<<"$durable")" = true
             test "$(jq -r .run_id <<<"$durable")" = 147000
+            test "$(jq -r .artifact_name <<<"$durable")" = "$artifact"
             test "$(jq -r .artifact_sha256 <<<"$durable")" = "$digest"
+            test "$(jq -r .election_id <<<"$durable")" = "$election"
           done
 
       - name: Eliminar export upstream completo antes de publicar
