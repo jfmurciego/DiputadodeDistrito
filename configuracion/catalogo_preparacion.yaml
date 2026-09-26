@@ -226,6 +226,8 @@ territories:
         artifact_name: ddd-source-package-cataluna-2025-36260268529
         artifact_sha256: 5207fbe9743ff5142231f13076dc530fed4bc59ace313aa3a2cfd5d6e781966a
         package_sha256: a985c0d12384541b5245ca1c063b1e5f997424af8a22a69c06a27149130c1807
+      evidence:
+        generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
   editions:
@@ -325,6 +327,8 @@ territories:
         artifact_name: ddd-source-package-madrid-2025-36260293375
         artifact_sha256: f7449ee6cbbe89b051c4be98408c0f3b4d861a0a855862c19fad375f1ce42228
         package_sha256: b50817612f04c199d8c8748353dd71d9834b11e840cc29c1ffadd89df8582544
+      evidence:
+        generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: region_de_murcia
   name: Región de Murcia
   editions:
@@ -347,6 +351,8 @@ territories:
         artifact_name: ddd-source-package-region_de_murcia-2025-36260308371
         artifact_sha256: a079d29be6018b4051f3b2d246cd606c81ca117eae353405da7a7585348d2d87
         package_sha256: d855dfad0910b5913e6920a03e7cfbfdfa720584d1fa28f739fb906268e89240
+      evidence:
+        generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: comunidad_foral_de_navarra
   name: Comunidad Foral de Navarra
   editions:
