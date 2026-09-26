@@ -1,48 +1,37 @@
 # Auditoría de entrada electoral — 19 territorios
 
-Base de trabajo: PR #147, edición territorial `2025`.
+Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. Un check verde no acredita 19/19.
 
-La matriz mantiene tres estados independientes. **Elección identificada** sólo fija qué convocatoria corresponde al territorio. **Fuente adquirible** exige una ruta que `03 · Preparación de Resultados Electorales` pueda intentar realmente a la resolución requerida. **Paquete registrado** exige evidencia durable reutilizable; no se infiere de los dos estados anteriores.
+| Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
+|---|---|---|---|---|---|---|
+| Andalucía | Sí — Parlamento 2026, 2026-05-17 | No | No | No | No | Falta fuente 2026 definitiva, granular y verificable integrada en 03. |
+| Aragón | Sí — Cortes 2026, 2026-02-08 | Evidencia previa; no acreditada por el adaptador común de #147 | Vía materializada previa | No en esta prueba | Sí — evidencia existente | Falta reconciliar explícitamente la evidencia existente con la identidad 2026 en la ruta común. |
+| Principado de Asturias | Sí — Junta General 2023 | Sí | Sí — declaración propia | Sí, ruta real ya probada | Sí | — |
+| Islas Baleares | Sí — Parlament 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Canarias | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Cantabria | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Castilla-La Mancha | Sí — Cortes 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Castilla y León | Sí — Cortes 2026, 2026-03-15 | Sí — producto materializado gobernado | Sí — contrato materializado | Sí — REUSE verificado, sin adquisición externa | Sí — evidencia existente | — |
+| Cataluña | Sí — Parlament 2024, 2024-05-12 | No | No | No | No | EleccionesDB no aporta filas válidas para esta elección y falta otra fuente integrada. |
+| Comunidad Valenciana | Sí — Corts 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Extremadura | Sí — Asamblea 2025, 2025-12-21 | No | No utilizable | No | No | Las fuentes declaradas no superan adquisición + resolución requerida. |
+| Galicia | Sí — Parlamento 2024 | Sí | Sí — declaración propia | Evidencia real previa; no es una de las diez pruebas EleccionesDB | Sí | — |
+| Comunidad de Madrid | Sí — Asamblea 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Región de Murcia | Sí — Asamblea Regional 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Comunidad Foral de Navarra | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| País Vasco | Sí — Parlamento 2024 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| La Rioja | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
+| Ceuta | Sí — Asamblea de Ceuta, locales 2023 | No | No | No | No | Falta fuente/adaptador a resolución suficiente para DDD. |
+| Melilla | Sí — Asamblea de Melilla, locales 2023 | No | No | No | No | Falta fuente/adaptador a resolución suficiente para DDD. |
 
-| Territorio | Elección identificada | Fuente adquirible por `03` | Paquete registrado durable |
-|---|---|---|---|
-| Andalucía | Sí — Parlamento 2022 | No | No |
-| Aragón | Sí — Cortes 2023 | No declarada en el registro común | Sí — evidencia electoral existente en catálogo |
-| Principado de Asturias | Sí — Junta General 2023 | Sí — declaración GIPEYOP/mirror auditable con referencia oficial | Sí — evidencia electoral existente en catálogo |
-| Islas Baleares | Sí — Parlament 2023 | No acreditada todavía | No |
-| Canarias | Sí — Parlamento 2023 | No — la fuente autonómica localizada no alcanza todavía la resolución requerida | No |
-| Cantabria | Sí — Parlamento 2023 | **Pendiente de prueba real** — declaración añadida en #147 con adaptador `gipeyop_polling_xlsx` | No |
-| Castilla-La Mancha | Sí — Cortes 2023 | No | No |
-| Castilla y León | Sí — Cortes 2026 | No declarada en el registro común | Sí — evidencia electoral existente en catálogo; revisar compatibilidad con el registro común |
-| Cataluña | Sí — Parlament 2024 | No | No |
-| Comunidad Valenciana | Sí — Corts 2023 | No | No |
-| Extremadura | Sí — Asamblea 2025 | No utilizable todavía — declaración existente, pero las fuentes no superan adquisición + resolución | No |
-| Galicia | Sí — Parlamento 2024 | Sí — declaración existente y adquisición ya acreditada | Sí — evidencia electoral existente en catálogo |
-| Comunidad de Madrid | Sí — Asamblea 2023 | No | No |
-| Región de Murcia | Sí — Asamblea Regional 2023 | No | No |
-| Comunidad Foral de Navarra | Sí — Parlamento 2023 | No | No |
-| País Vasco | Sí — Parlamento 2024 | No | No |
-| La Rioja | Sí — Parlamento 2023 | No | No |
-| Ceuta | Sí — Asamblea de Ceuta, locales 2023 | No | No |
-| Melilla | Sí — Asamblea de Melilla, locales 2023 | No | No |
+## Snapshot común EleccionesDB
 
-## Interacción con `00 · Ejecución Completa del Proyecto`
+El adaptador común cubre exactamente diez elecciones: Islas Baleares, Canarias, Cantabria, Castilla-La Mancha, Comunidad de Madrid, Región de Murcia, Comunidad Foral de Navarra, La Rioja, Comunidad Valenciana y País Vasco. El workflow diagnóstico descarga el export upstream una sola vez, construye un SQLite compacto y publica `ddd-eleccionesdb-snapshot` durante 90 días. `03 · Preparación de Resultados Electorales` recupera ese artefacto y exige la huella interna declarada antes de usarlo.
 
-El registro común de 19 elecciones **no es una señal de disponibilidad electoral**. En el commit `61a011732debcd7ca2b77aa6b9309b81bfb35477`, Cantabria conserva `election_id=cantabria_parlamento_2023` pero no tiene declaración adquirible; la regresión exige que `resolve_publication_mode(..., "electoral")` degrade a `territorial_only`. El workflow ya convierte esa resolución en `run_prepare_electoral=false` y `run_incorporate=false`, por lo que los jobs electorales quedan omitidos y la cadena territorial puede continuar.
+Huella interna gobernada del SQLite: `ad0d1e3ea14c90c294e7bcf77ab9a3205a13491c859a1e393c49e15eeb257f32`.
 
-Tras esa prueba negativa, #147 añade para Cantabria una declaración separada que conecta el formato de mesa GIPEYOP con el adaptador compartido `gipeyop_polling_xlsx`. La mera presencia de `election_id` sigue sin ser suficiente: sólo la declaración materializada vuelve resoluble la entrada electoral.
+La prueba de CI debe construir los diez paquetes con el mismo snapshot y registrar cada uno exclusivamente en una copia de trabajo del catálogo. Ese registro de prueba **no es registro efectivo en producción**.
 
-## Cadena positiva exigida
+## Criterio de cierre
 
-Para cerrar Cantabria deben quedar acreditados, en este orden:
-
-1. adquisición real por `03` de `Cantabria2023_mesas.xlsx`;
-2. transformación mediante `gipeyop_polling_xlsx`;
-3. paquete `ddd-electoral-package/1.0` con `decision=ACQUIRE`, procedencia y SHA-256;
-4. registro durable en catálogo/evidencia;
-5. segunda ejecución que reutilice el paquete (`REUSE`) sin nueva adquisición;
-6. interacción final con `00`, demostrando que una fuente adquirible sí mantiene modo electoral y que una elección meramente identificada sigue degradando a ruta territorial.
-
-## Estado de cierre
-
-**NO-GO. PR #147 debe permanecer draft.** La separación de estados está implementada y las pruebas son descubribles por `unittest`, pero el cierre requiere CI verde y la adquisición real + registro durable + reutilización indicados arriba.
+#147 permanece **INCOMPLETA / NO FUSIONAR** hasta que los territorios pendientes dispongan de fuente utilizable y se acredite la cadena correspondiente. No ejecutar territorios ni promover los registros de copia a producción para cerrar esta prueba.
