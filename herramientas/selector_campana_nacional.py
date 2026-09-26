@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""PR A: selección nacional y manifiesto inmutable, sin ejecución productiva.
-
-Esta capa sólo transforma una selección humana en un manifiesto/matrix derivado del
-catálogo. No agrega, promueve, publica ni ejecuta territorios: el cierre productivo
-vigente sigue acoplado a cinco territorios y se mantiene aislado hasta PR B/C.
-"""
+"""PR A: selección nacional y manifiesto inmutable, sin ejecución productiva."""
 from __future__ import annotations
 
 import argparse
@@ -18,19 +13,17 @@ import yaml
 SCHEMA = "ddd.campaign-selection/2.0-pr-a"
 MAX_PARALLEL = 5
 CANONICAL_IDS = (
-    "andalucia", "aragon", "principado_de_asturias", "islas_baleares", "canarias",
+    "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_la_mancha", "castilla_y_leon", "cataluna",
-    "comunidad_valenciana", "extremadura", "galicia", "comunidad_de_madrid",
+    "comunidad_valenciana", "extremadura", "galicia", "madrid",
     "region_de_murcia", "comunidad_foral_de_navarra", "pais_vasco", "la_rioja",
     "ceuta", "melilla",
 )
 
 
 def _catalog(root: Path) -> dict[str, Any]:
-    path = root / "configuracion/catalogo_preparacion.yaml"
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    rows = data.get("territories")
-    if not isinstance(rows, list):
+    data = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+    if not isinstance(data.get("territories"), list):
         raise ValueError("Catálogo territorial inválido")
     return data
 
@@ -39,23 +32,15 @@ def _catalog_index(root: Path, edition: str) -> dict[str, dict[str, Any]]:
     index: dict[str, dict[str, Any]] = {}
     for row in _catalog(root)["territories"]:
         tid = row.get("territory_id")
-        editions = row.get("editions") or {}
-        edition_row = editions.get(str(edition))
+        edition_row = (row.get("editions") or {}).get(str(edition))
         if tid and isinstance(edition_row, dict):
             index[str(tid)] = {"name": row.get("name"), **edition_row}
     return index
 
 
-def build_selection_manifest(
-    root: Path,
-    selected_ids: list[str],
-    *,
-    edition: str,
-    execution_mode: str,
-    strategy: str,
-    source_sha: str,
-    campaign_instance: str,
-) -> dict[str, Any]:
+def build_selection_manifest(root: Path, selected_ids: list[str], *, edition: str,
+                             execution_mode: str, strategy: str, source_sha: str,
+                             campaign_instance: str) -> dict[str, Any]:
     selected = set(selected_ids)
     if len(selected) != len(selected_ids):
         raise ValueError("Selección territorial duplicada")
@@ -130,11 +115,9 @@ def main() -> int:
     parser.add_argument("--campaign-instance", required=True)
     parser.add_argument("--output-manifest", required=True)
     args = parser.parse_args()
-    manifest = build_selection_manifest(
-        Path(args.root), args.selected, edition=args.edition,
-        execution_mode=args.execution_mode, strategy=args.strategy,
-        source_sha=args.source_sha, campaign_instance=args.campaign_instance,
-    )
+    manifest = build_selection_manifest(Path(args.root), args.selected, edition=args.edition,
+        execution_mode=args.execution_mode, strategy=args.strategy, source_sha=args.source_sha,
+        campaign_instance=args.campaign_instance)
     output = Path(args.output_manifest)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
