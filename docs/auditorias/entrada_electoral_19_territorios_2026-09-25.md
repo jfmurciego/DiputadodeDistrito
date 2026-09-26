@@ -5,7 +5,7 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 | Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
 |---|---|---|---|---|---|---|
 | Andalucía | Sí — Parlamento 2026, 2026-05-17 | No | No | No | No | Falta fuente 2026 definitiva, granular y verificable integrada en 03. |
-| Aragón | Sí — Cortes 2026, 2026-02-08 | Evidencia previa; no acreditada por el adaptador común de #147 | Vía materializada previa | No en esta prueba | Sí — evidencia existente | Falta reconciliar explícitamente la evidencia existente con la identidad 2026 en la ruta común. |
+| Aragón | Sí — Cortes 2026, 2026-02-08 | Sí — fuente materializada RTVE 2026, sección censal, SHA gobernado | Sí — contrato electoral materializado 2026 | Sí — reutilización materializada verificable; no requiere readquisición | Sí — `electoral_source_2025.json` registra `aragon_cortes_2026-02-08` | — |
 | Principado de Asturias | Sí — Junta General 2023 | Sí | Sí — declaración propia | Sí, ruta real ya probada | Sí | — |
 | Islas Baleares | Sí — Parlament 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Canarias | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |

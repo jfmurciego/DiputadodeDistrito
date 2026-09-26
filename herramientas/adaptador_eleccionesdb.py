@@ -67,7 +67,12 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None)->dict:
                     WHERE r.eleccion_id=? AND t.tipo='seccion'
                       AND printf('%02d',CAST(t.codigo_ccaa AS INTEGER))=?
                     ORDER BY t.id''',(edb_id,ccaa)).fetchall()
- if not rows: raise ValueError('Elección con cero secciones')
+ if not rows:
+  observed=[str(r[0] or '').zfill(2) for r in con.execute("""SELECT DISTINCT t.codigo_ccaa
+    FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id
+    WHERE r.eleccion_id=? AND t.tipo='seccion' ORDER BY t.codigo_ccaa""",(edb_id,)).fetchall()]
+  if observed: raise ValueError(f'Territorio equivocado en elección {edb_id}: CCAA esperada={ccaa}, observadas={observed}')
+  raise ValueError('Elección con cero secciones')
  sections={}
  for r in rows:
   if str(r['codigo_ccaa'] or '').zfill(2)!=ccaa: raise ValueError(f'Territorio equivocado en elección {edb_id}: CCAA={r["codigo_ccaa"]}')
