@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 20
     env:
       PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
       - name: Instalar dependencias
@@ -37,10 +38,9 @@ jobs:
           test -s snapshot/ddd-eleccionesdb-snapshot.json
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"
           actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
-          [[ -n "$declared" && "$declared" == "$actual" ]] || { echo "::error::Huella declarada del snapshot no coincide"; exit 52; }
+          [[ -n "$declared" && "$declared" == "$actual" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot no coincide con la huella gobernada"; exit 52; }
           test "$(jq '.election_ids|length' snapshot/ddd-eleccionesdb-snapshot.json)" = 11
           test "$(jq '.logical_election_count' snapshot/ddd-eleccionesdb-snapshot.json)" = 12
-          echo "ELECCIONESDB_SNAPSHOT_SHA256=$actual" >> "$GITHUB_ENV"
           echo "snapshot_artifact_id=$aid" >> "$GITHUB_ENV"
           echo "snapshot_sha256=$actual" >> "$GITHUB_STEP_SUMMARY"
 

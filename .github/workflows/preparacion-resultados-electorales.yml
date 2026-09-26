@@ -29,7 +29,7 @@ concurrency:
 permissions: {contents: write, actions: read}
 
 env:
-  ELECCIONESDB_SNAPSHOT_SHA256: ad0d1e3ea14c90c294e7bcf77ab9a3205a13491c859a1e393c49e15eeb257f32
+  ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
 
 jobs:
   resolver:
