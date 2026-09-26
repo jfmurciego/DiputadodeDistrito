@@ -10,49 +10,175 @@ permissions:
 jobs:
   diagnosticar:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
 
-      - name: Comprobar endpoints oficiales candidatos
+      - name: Instalar lector XLSX
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+
+      - name: Probar fuentes oficiales, mirrors y endpoints concretos
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import csv, urllib.request, urllib.error
+          import csv, hashlib, html.parser, io, json, os, re, tempfile, urllib.parse, urllib.request, zipfile
+          from pathlib import Path
+          from openpyxl import load_workbook
 
-          # Diagnóstico deliberadamente conservador: una página informativa no cuenta como datos.
-          # Sólo PASS si el recurso candidato responde y parece un fichero de datos descargable.
-          candidates = [
+          UA={'User-Agent':'DDD-electoral-source-diagnostic/2.0'}
+          rows=[]
+
+          def add(territory,election,source_class,url,result,reason,**kw):
+              row={'territorio':territory,'election_id':election,'clase_fuente':source_class,'url':url,'resultado':result,'motivo':reason,
+                   'http':kw.get('http',''),'content_type':kw.get('content_type',''),'bytes':kw.get('bytes',''),
+                   'sha256':kw.get('sha256',''),'detalle':kw.get('detalle','')}
+              rows.append(row)
+
+          def fetch(url,limit=None,timeout=20,headers=None):
+              h=dict(UA); h.update(headers or {})
+              req=urllib.request.Request(url,headers=h)
+              with urllib.request.urlopen(req,timeout=timeout) as r:
+                  data=r.read() if limit is None else r.read(limit)
+                  return r.status,r.headers.get('Content-Type',''),data,r.geturl()
+
+          # 1) Cataluña: localizar enlace final y endpoint de envío/mesa documentado por Generalitat.
+          cat='cataluna'; eid='cataluna_parlament_2024'
+          page='https://www.gencat.cat/eleccions/resultatsparlament2024/es/descargas'
+          try:
+              http,ctype,data,final=fetch(page,limit=1024*1024)
+              text=data.decode('utf-8','ignore')
+              links=sorted(set(urllib.parse.urljoin(final,x) for x in re.findall(r'''(?:href|src)=["']([^"']+)''',text,re.I)))
+              data_links=[u for u in links if re.search(r'(csv|xlsx|xls|zip|descarg|download|escrutin)',u,re.I)]
+              add(cat,eid,'oficial_generalitat_descargas',page,'FOUND',
+                  'página oficial de descargas accesible; se inventarían cero URLs: se conservan sólo enlaces encontrados',
+                  http=http,content_type=ctype,bytes=len(data),detalle=' ; '.join(data_links[:20]))
+          except Exception as e:
+              add(cat,eid,'oficial_generalitat_descargas',page,'BLOCK',f'{type(e).__name__}: {e}')
+
+          envio=None; envio_base=None
+          bases=['https://www.gencat.cat/eleccions/resultatsparlament2024','https://gencat.cat/eleccions/resultatsparlament2024']
+          for base in bases:
+              for suffix in ['/descargas/csv/data/getEnvio/509','/es/descargas/csv/data/getEnvio/509']:
+                  url=base+suffix
+                  try:
+                      http,ctype,data,final=fetch(url,limit=65536)
+                      body=data.decode('utf-8','ignore').strip()
+                      nums=re.findall(r'(?<!\d)(\d{1,8})(?!\d)',body)
+                      add(cat,eid,'oficial_generalitat_getEnvio',url,'FOUND' if nums else 'BLOCK',
+                          'respuesta endpoint getEnvio' if nums else 'respuesta sin número de envío reconocible',
+                          http=http,content_type=ctype,bytes=len(data),detalle=body[:500])
+                      if nums and envio is None:
+                          envio=nums[-1]; envio_base=base
+                  except Exception as e:
+                      add(cat,eid,'oficial_generalitat_getEnvio',url,'BLOCK',f'{type(e).__name__}: {e}')
+          if envio and envio_base:
+              for prov in ('08','17','25','43'):
+                  url=f'{envio_base}/ficheros/csv/mesa/getEscrutinio/509/{prov}/{envio}'
+                  try:
+                      http,ctype,data,final=fetch(url,limit=262144)
+                      txt=data.decode('utf-8','ignore')
+                      lines=[x for x in txt.splitlines() if x.strip()]
+                      semis=sum(x.count(';') for x in lines[:20])
+                      result='FOUND' if lines and semis else 'BLOCK'
+                      add(cat,eid,'oficial_generalitat_mesas_provisional',url,result,
+                          'muestra de endpoint de mesa documentado por Generalitat; requiere distinguir provisional de descarga definitiva',
+                          http=http,content_type=ctype,bytes=len(data),detalle=f'envio={envio}; lineas_muestra={len(lines)}; separadores={semis}')
+                  except Exception as e:
+                      add(cat,eid,'oficial_generalitat_mesas_provisional',url,'BLOCK',f'{type(e).__name__}: {e}')
+
+          # 2) Ceuta/Melilla: distribución oficial estatal y mirror GVA derivado de Interior.
+          interior='https://descargas.interior.gob.es/datasets/resultados_electorales/Elecciones-a-municipios-de-mas-de-250-hab.xlsx'
+          try:
+              http,ctype,data,final=fetch(interior,timeout=45)
+              digest=hashlib.sha256(data).hexdigest()
+              tmp=Path(tempfile.gettempdir())/'municipios-mas-250.xlsx'; tmp.write_bytes(data)
+              wb=load_workbook(tmp,read_only=True,data_only=True)
+              detail=[]
+              for ws in wb.worksheets:
+                  found={'Ceuta':0,'Melilla':0}; headers=[]
+                  for i,row in enumerate(ws.iter_rows(values_only=True)):
+                      vals=['' if v is None else str(v) for v in row]
+                      if i<5: headers.extend(vals)
+                      joined=' | '.join(vals)
+                      for city in found:
+                          if city.lower() in joined.lower(): found[city]+=1
+                  detail.append(f'{ws.title}:Ceuta={found["Ceuta"]},Melilla={found["Melilla"]},headers={",".join(headers[:25])}')
+              wb.close()
+              det=' ; '.join(detail)
+              for city,tid in [('Ceuta','ceuta'),('Melilla','melilla')]:
+                  present=any(f'{city}=' in x and not f'{city}=0' in x for x in detail)
+                  granular=bool(re.search(r'mesa|secci[oó]n|distrito',det,re.I))
+                  add(tid,f'{tid}_asamblea_local_2023','oficial_interior_xlsx',interior,
+                      'CANDIDATE' if present else 'BLOCK',
+                      'fichero oficial descargado; presencia y granularidad se verifican en detalle, no se presupone mesa',
+                      http=http,content_type=ctype,bytes=len(data),sha256=digest,detalle=det[:1800])
+          except Exception as e:
+              for tid in ('ceuta','melilla'):
+                  add(tid,f'{tid}_asamblea_local_2023','oficial_interior_xlsx',interior,'BLOCK',f'{type(e).__name__}: {e}')
+
+          gva='https://dadesobertes.gva.es/dataset/99285778-0da9-48bb-be19-cde1630b8a45/resource/c05778c0-9ca4-4274-a5bb-fa48c514184d/download/resultados-elecciones-locales_2023.ods'
+          try:
+              http,ctype,data,final=fetch(gva,timeout=45)
+              digest=hashlib.sha256(data).hexdigest()
+              z=zipfile.ZipFile(io.BytesIO(data)); content=z.read('content.xml').decode('utf-8','ignore')
+              detail=f'Ceuta={content.lower().count("ceuta")}; Melilla={content.lower().count("melilla")}; mesa={content.lower().count("mesa")}; seccion={content.lower().count("secci")}'
+              for city,tid in [('Ceuta','ceuta'),('Melilla','melilla')]:
+                  present=city.lower() in content.lower()
+                  add(tid,f'{tid}_asamblea_local_2023','mirror_gva_desde_interior',gva,
+                      'CANDIDATE' if present else 'BLOCK',
+                      'dataset GVA a nivel de mesa derivado de Interior; sólo sirve si contiene la ciudad',
+                      http=http,content_type=ctype,bytes=len(data),sha256=digest,detalle=detail)
+          except Exception as e:
+              for tid in ('ceuta','melilla'):
+                  add(tid,f'{tid}_asamblea_local_2023','mirror_gva_desde_interior',gva,'BLOCK',f'{type(e).__name__}: {e}')
+
+          # 3) Andalucía/Extremadura/Aragón: mirrors públicos EleccionesDB/Minsait.
+          mirrors=[
+            ('andalucia','andalucia_parlamento_2026','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv'),
+            ('aragon','aragon_cortes_2026-02-08','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/02-aragon.csv'),
+            ('extremadura','extremadura_asamblea_2025-12-21','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv'),
+          ]
+          for tid,election,url in mirrors:
+              try:
+                  http,ctype,data,final=fetch(url,limit=524288,timeout=30,headers={'Range':'bytes=0-524287'})
+                  txt=data.decode('utf-8','ignore'); first=txt.splitlines()[0] if txt.splitlines() else ''
+                  expected=all(k in first.lower() for k in ('codigo_provincia','codigo_municipio','codigo_seccion','partido','votos'))
+                  add(tid,election,'mirror_eleccionesdb_minsait_provisional',url,'PROVISIONAL' if expected else 'BLOCK',
+                      'mirror público reproducible de datos Minsait; nunca equivale por sí solo a resultado definitivo',
+                      http=http,content_type=ctype,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),
+                      detalle=f'cabecera={first[:800]}')
+              except Exception as e:
+                  add(tid,election,'mirror_eleccionesdb_minsait_provisional',url,'BLOCK',f'{type(e).__name__}: {e}')
+
+          # 4) Páginas oficiales de contraste; HTML nunca se considera adquisición.
+          official_pages=[
             ('andalucia','andalucia_parlamento_2026','https://www.juntadeandalucia.es/institutodeestadisticaycartografia/elecciones/'),
-            ('cataluna','cataluna_parlament_2024','https://eleccions.gencat.cat/ca/resultats-i-eleccions-anteriors/'),
-            ('extremadura','extremadura_asamblea_2025-12-21','https://resultadoselecciones2025.juntaex.es/'),
+            ('aragon','aragon_cortes_2026-02-08','https://www.aragon.es/portal-de-elecciones/resultados/open-data'),
+            ('extremadura','extremadura_asamblea_2025-12-21','https://elecciones2025.juntaex.es/'),
             ('ceuta','ceuta_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
             ('melilla','melilla_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
           ]
-          rows=[]
-          for territory,election,url in candidates:
-            status='BLOCK'; http=''; ctype=''; size=''; reason=''
-            try:
-              req=urllib.request.Request(url,headers={'User-Agent':'DDD-electoral-source-diagnostic/1.0'})
-              with urllib.request.urlopen(req,timeout=20) as r:
-                http=str(r.status); ctype=r.headers.get('Content-Type',''); data=r.read(262144); size=str(len(data))
-              low=ctype.lower()
-              downloadable=any(x in low for x in ('text/csv','application/zip','application/json','application/octet-stream','application/vnd'))
-              if downloadable:
-                status='PASS'; reason='recurso de datos descargable; requiere inspección de granularidad antes de registrar'
-              else:
-                reason='endpoint oficial accesible pero devuelve página/documento, no fichero electoral adquirible'
-            except Exception as e:
-              reason=f'{type(e).__name__}: {e}'[:300]
-            rows.append(dict(territorio=territory,election_id=election,url=url,http=http,content_type=ctype,bytes_muestreados=size,resultado=status,motivo=reason))
+          for tid,election,url in official_pages:
+              try:
+                  http,ctype,data,final=fetch(url,limit=524288,timeout=15)
+                  txt=data.decode('utf-8','ignore')
+                  links=sorted(set(urllib.parse.urljoin(final,x) for x in re.findall(r'''(?:href|src)=["']([^"']+)''',txt,re.I)))
+                  data_links=[u for u in links if re.search(r'csv|xlsx|xls|json|xml|zip|download|descarg',u,re.I)]
+                  add(tid,election,'pagina_oficial_descubrimiento',url,'FOUND',
+                      'página oficial accesible; no se trata como datos',
+                      http=http,content_type=ctype,bytes=len(data),detalle=' ; '.join(data_links[:25]))
+              except Exception as e:
+                  add(tid,election,'pagina_oficial_descubrimiento',url,'BLOCK',f'{type(e).__name__}: {e}')
+
+          fields=['territorio','election_id','clase_fuente','url','resultado','motivo','http','content_type','bytes','sha256','detalle']
           with open('diagnostico-fuentes-pendientes.csv','w',newline='',encoding='utf-8') as f:
-            w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
           with open('diagnostico-fuentes-pendientes.md','w',encoding='utf-8') as f:
-            f.write('# Diagnóstico de fuentes electorales pendientes\n\n')
-            f.write('|Territorio|Elección|HTTP|Content-Type|Resultado|Motivo|\n|---|---|---:|---|---|---|\n')
-            for r in rows:
-              f.write(f"|{r['territorio']}|{r['election_id']}|{r['http']}|{r['content_type'].replace('|','/')}|{r['resultado']}|{r['motivo'].replace('|','/')}|\n")
+              f.write('# Diagnóstico ampliado de fuentes electorales\n\n')
+              f.write('|Territorio|Elección|Clase|Resultado|HTTP|Motivo|\n|---|---|---|---|---:|---|\n')
+              for r in rows:
+                  f.write(f"|{r['territorio']}|{r['election_id']}|{r['clase_fuente']}|{r['resultado']}|{r['http']}|{r['motivo'].replace('|','/')}|\n")
           PY
           cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
 
