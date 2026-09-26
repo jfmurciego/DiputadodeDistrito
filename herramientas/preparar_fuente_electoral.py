@@ -372,6 +372,45 @@ def _expected_election_identity(root:Path,cfg:dict,declaration:Path|None)->tuple
     return None,None
 
 
+def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:Path,manifest:dict)->dict|None:
+    contract=json.loads(source_contract.read_text(encoding="utf-8"))
+    sources=contract.get("sources") or []
+    if len(sources)!=1:
+        raise ValueError("Contrato electoral materializado sin fuente única")
+    selected=manifest.get("selected_source") or {}
+    selected_sha=str(selected.get("sha256") or "").lower()
+    if not selected_sha or str(sources[0].get("sha256") or "").lower()!=selected_sha:
+        raise ValueError("Contrato electoral embebido no coincide con la fuente seleccionada")
+
+    dictionary_decl=contract.get("party_dictionary") or {}
+    dictionary_raw=str(dictionary_decl.get("path") or "")
+    if not dictionary_raw:
+        return None
+    dictionary_expected=str(dictionary_decl.get("sha256") or "").lower()
+    dictionary_src=(root/dictionary_raw).resolve()
+    if not dictionary_src.is_file():
+        raise ValueError("Contrato electoral materializado perdió su diccionario de partidos")
+    if not dictionary_expected or sha(dictionary_src).lower()!=dictionary_expected:
+        raise ValueError("SHA-256 del diccionario de partidos no coincide con el contrato")
+
+    contract_dir=package_out/"contract"; contract_dir.mkdir(exist_ok=True)
+    contract_target=contract_dir/"election_contract.json"
+    dictionary_target=contract_dir/"party_dictionary.json"
+    shutil.copy2(dictionary_src,dictionary_target)
+
+    contract["sources"][0]["path"]=str(selected["path"])
+    contract["party_dictionary"]["path"]="contract/party_dictionary.json"
+    contract["party_dictionary"]["sha256"]=sha(dictionary_target)
+    contract_target.write_text(json.dumps(contract,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+
+    return {
+        "election_contract":"contract/election_contract.json",
+        "party_dictionary":"contract/party_dictionary.json",
+        "contract_sha256":sha(contract_target),
+        "party_dictionary_sha256":sha(dictionary_target),
+    }
+
+
 def validate_previous(package:Path,territory_id:str,edition:str,expected_election_id:str|None=None,expected_election_date:str|None=None)->dict|None:
     try:
         m=json.loads((package/"manifest.json").read_text(encoding="utf-8"))
@@ -447,12 +486,22 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 expected=str(s.get("sha256") or "").lower()
                 if src.is_file() and expected and sha(src).lower()==expected:
                     meta={"origin_url":s.get("source_url"),"publisher":s.get("publisher"),"acquired_at":s.get("retrieved_at"),"source_mode":"existing_contract","contract":str(contract_raw)}
-                    return _write_package(
+                    manifest=_write_package(
                         package_out,"REUSE",territory_id,edition,src,meta,{
                             "election_id":contract_election_id,
                             "election_date":contract_election_date,
                         },
                     )
+                    embedded=_materialize_embedded_contract(
+                        root=root,
+                        package_out=package_out,
+                        source_contract=contract_path,
+                        manifest=manifest,
+                    )
+                    if embedded:
+                        manifest["embedded_contract"]=embedded
+                        (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+                    return manifest
     decl=declaration
     if decl is None:
         raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")
