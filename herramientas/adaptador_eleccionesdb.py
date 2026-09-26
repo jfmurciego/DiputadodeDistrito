@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse,csv,hashlib,json,sqlite3
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 from pathlib import Path
 
 # Única configuración territorial: el algoritmo es común para todas las elecciones.
@@ -24,6 +24,18 @@ def sha256(path:Path)->str:
   for b in iter(lambda:f.read(1024*1024),b''): h.update(b)
  return h.hexdigest()
 
+def _normalize_date(value)->str:
+ """Normaliza ISO o serial Unix-days usado por el export SQLite de EleccionesDB."""
+ if value is None or value=='': return ''
+ if isinstance(value,(int,float)):
+  return (datetime(1970,1,1,tzinfo=timezone.utc)+timedelta(days=float(value))).date().isoformat()
+ text=str(value).strip()
+ try:
+  numeric=float(text)
+ except ValueError:
+  return text[:10]
+ return (datetime(1970,1,1,tzinfo=timezone.utc)+timedelta(days=numeric)).date().isoformat()
+
 def _columns(con,table): return {r[1] for r in con.execute(f'PRAGMA table_info({table})')}
 def _party_expr(con):
  cols=_columns(con,'partidos')
@@ -38,8 +50,9 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None)->dict:
  con=sqlite3.connect(db); con.row_factory=sqlite3.Row
  e=con.execute('SELECT * FROM elecciones WHERE id=?',(edb_id,)).fetchone()
  if not e: raise ValueError(f'Elección EleccionesDB ausente: {edb_id}')
- date=str(e['fecha'] or '') if 'fecha' in e.keys() else ''
- if date and date[:10]!=expected_date: raise ValueError(f'Fecha electoral incorrecta: {date} != {expected_date}')
+ raw_date=e['fecha'] if 'fecha' in e.keys() else None
+ date=_normalize_date(raw_date)
+ if date and date!=expected_date: raise ValueError(f'Fecha electoral incorrecta: {date} (raw={raw_date}) != {expected_date}')
  srcs=con.execute('SELECT * FROM elecciones_fuentes WHERE eleccion_id=?',(edb_id,)).fetchall()
  if not srcs: raise ValueError('Elección sin procedencia original verificable')
  publishers=[]
