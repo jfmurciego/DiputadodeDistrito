@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-25T12:58:35.399081+00:00",
+  "generated_at": "2026-09-26T21:19:59.111108+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -248,9 +248,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 35654748727,
-          "artifact_name": "ddd-source-package-cataluna-2025-35654748727",
-          "artifact_sha256": "888598400de6686e3581a5d90b43ea7bc278d3386dac832338bd4ad58c530675",
+          "run_id": 36260268529,
+          "artifact_name": "ddd-source-package-cataluna-2025-36260268529",
+          "artifact_sha256": "5207fbe9743ff5142231f13076dc530fed4bc59ace313aa3a2cfd5d6e781966a",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -262,24 +262,36 @@
       "territory_id": "ceuta",
       "name": "Ceuta",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "gray",
       "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
-      "stage": null,
+      "status": "Generación territorial validada",
+      "certification": "PASS",
+      "run_id": 36272095647,
+      "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "ceuta",
           "edition": "2025",
-          "run_id": 36133094103,
-          "artifact_name": "ddd-source-package-ceuta-2025-36133094103",
-          "artifact_sha256": "e5ad57f00e7f5c1a5c0e923aa7f3329916f4d5284cf9cc3646be57f41f3cb2eb",
+          "run_id": 36258940598,
+          "artifact_name": "ddd-source-package-ceuta-2025-36258940598",
+          "artifact_sha256": "c682bc36d11b91edc5016c78e4f55baeb1499e0b8dd1b1b58f6fa87086302529",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "ceuta",
+          "territory_name": "Ceuta",
+          "edition": "2025",
+          "run_id": 36272095647,
+          "artifact_name": "ddd-state-36272095647-M06",
+          "artifact_sha256": "2e6f861da3bccbb7b3b4d05bc946df5538fbaeb94e751b9c3fd8e6e50d927c7f",
+          "source_commit": "120dc5687eb10cffde8c1b65b33dd6f8b04c76d9",
+          "decision": "PASS",
+          "stage": "M06"
+        },
         "electoral_source": null,
         "electoral_product": null
       }
@@ -300,9 +312,9 @@
         "territorial_source": {
           "territory_id": "madrid",
           "edition": "2025",
-          "run_id": 35755083483,
-          "artifact_name": "ddd-source-package-madrid-2025-35755083483",
-          "artifact_sha256": "b5089003c79aed6d8048c2a0c0009839204b272909a3619891291cca11b049e1",
+          "run_id": 36260293375,
+          "artifact_name": "ddd-source-package-madrid-2025-36260293375",
+          "artifact_sha256": "f7449ee6cbbe89b051c4be98408c0f3b4d861a0a855862c19fad375f1ce42228",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -642,9 +654,9 @@
         "territorial_source": {
           "territory_id": "region_de_murcia",
           "edition": "2025",
-          "run_id": 36133140061,
-          "artifact_name": "ddd-source-package-region_de_murcia-2025-36133140061",
-          "artifact_sha256": "37cab93b6182a76c1cc816f3d0d0d8dbf4e19e20eb13401df8d3bc1974a4d2f0",
+          "run_id": 36260308371,
+          "artifact_name": "ddd-source-package-region_de_murcia-2025-36260308371",
+          "artifact_sha256": "a079d29be6018b4051f3b2d246cd606c81ca117eae353405da7a7585348d2d87",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -660,31 +672,32 @@
       "Galicia",
       "Principado de Asturias"
     ],
-    "territorial_validated": 6,
+    "territorial_validated": 7,
     "territorial_validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
+      "Ceuta",
       "Extremadura",
       "Galicia",
       "Principado de Asturias"
     ],
-    "validated": 6,
+    "validated": 7,
     "validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
+      "Ceuta",
       "Extremadura",
       "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 13,
+    "ready": 12,
     "ready_names": [
       "Andalucía",
       "Canarias",
       "Cantabria",
       "Cataluña",
-      "Ceuta",
       "Comunidad de Madrid",
       "Comunidad Foral de Navarra",
       "Comunidad Valenciana",
@@ -729,15 +742,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "Ceuta",
-      "action": "completar puerta de validación territorial"
-    },
-    {
       "territory": "Comunidad de Madrid",
       "action": "completar puerta de validación territorial"
     },
     {
       "territory": "Comunidad Foral de Navarra",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "Comunidad Valenciana",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -768,7 +781,7 @@
     },
     {
       "territory": "Ceuta",
-      "action": "generar y validar distritos"
+      "action": "preparar fuentes electorales"
     },
     {
       "territory": "Comunidad de Madrid",

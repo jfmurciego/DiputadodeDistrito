@@ -10,15 +10,15 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-09-25T12:58:35.399081+00:00 · Edición: **2025**
+Actualizado: 2026-09-26T21:19:59.111108+00:00 · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
 | **Cadena completa validada** | 🟢 **3** | Aragón · Galicia · Principado de Asturias |
-| **Generación territorial validada** | 🟢 **6** | Aragón · Castilla y León · Castilla-La Mancha · Extremadura · Galicia · Principado de Asturias |
-| **Preparados para continuar** | 🔵 **13** | Andalucía · Canarias · Cantabria · Cataluña · Ceuta · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · Islas Baleares · La Rioja · Melilla · País Vasco · Región de Murcia |
+| **Generación territorial validada** | 🟢 **7** | Aragón · Castilla y León · Castilla-La Mancha · Ceuta · Extremadura · Galicia · Principado de Asturias |
+| **Preparados para continuar** | 🔵 **12** | Andalucía · Canarias · Cantabria · Cataluña · Comunidad de Madrid · Comunidad Foral de Navarra · Comunidad Valenciana · Islas Baleares · La Rioja · Melilla · País Vasco · Región de Murcia |
 | **Validación pendiente** | 🟡 **0** | — |
 | **Pendientes o no incorporados** | ⚪/🔴 **0** | — |
 
@@ -35,7 +35,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
 | **Castilla-La Mancha** | 🟢 | 🟢 | ⚪ | ⚪ | Generación territorial validada |
 | **Cataluña** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
-| **Ceuta** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
+| **Ceuta** | 🟢 | 🟢 | ⚪ | ⚪ | Generación territorial validada |
 | **Comunidad de Madrid** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Comunidad Foral de Navarra** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
 | **Comunidad Valenciana** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
