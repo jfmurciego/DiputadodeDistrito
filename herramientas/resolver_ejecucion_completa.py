@@ -86,7 +86,8 @@ def _generation_capabilities(contract: dict) -> dict:
 def generation_enablement(*, root_dir: Path, contract_path: str | None, territory_id: str,
                           certified_product_ready: bool = False, first_generation_evidence: dict | None = None,
                           preparation_evidence: dict | None = None, require_source: bool = False,
-                          source_acquisition_planned: bool = False) -> dict:
+                          source_acquisition_planned: bool = False,
+                          pre_m04_accreditation_planned: bool = False) -> dict:
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
@@ -121,6 +122,8 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return {"allowed": True, "route": "certified_product_lineage"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
+    if pre_m04_accreditation_planned:
+        return {"allowed": True, "route": "planned_pre_m04_accreditation"}
     if meta.get("status") == territorial.get("status") == "generation_ready":
         return {"allowed": True, "route": "declared_generation_ready"}
     if (partitioning.get("enabled") is True and partitioning.get("strategy") == "connected_internal_units"
@@ -222,6 +225,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     run_prepare_territorial = from_start if selected_explicit_source is None else False
     if selected_explicit_source is None and not from_start:
         run_prepare_territorial = not territorial_sources_ready
+    source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
         certified_product_ready=territorial_product_ready,
@@ -229,8 +233,31 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             generation_preflight_evidence
             if territorial_sources_ready and not run_prepare_territorial and not territorial_product_ready else None
         ),
-        preparation_evidence=prep, require_source=True, source_acquisition_planned=run_prepare_territorial,
+        preparation_evidence=prep,
+        require_source=True,
+        source_acquisition_planned=source_acquisition_planned,
     )
+    pre_m04_accreditation_planned = bool(
+        selected_explicit_source is None
+        and not from_start
+        and territorial_sources_ready
+        and not territorial_product_ready
+        and not generation_preflight_path
+        and not generation_gate.get("allowed")
+        and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+    )
+    if pre_m04_accreditation_planned:
+        run_prepare_territorial = True
+        generation_gate = generation_enablement(
+            root_dir=root_dir,
+            contract_path=row.get("contract_path"),
+            territory_id=row["territory_id"],
+            certified_product_ready=False,
+            first_generation_evidence=None,
+            preparation_evidence=prep,
+            require_source=True,
+            pre_m04_accreditation_planned=True,
+        )
     proposed_generate = bool(
         from_start or selected_explicit_source is not None or run_prepare_territorial or not territorial_product_ready
         or optimization_algorithm != "Canónico" or force_selected_algorithm
@@ -244,6 +271,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
         "edition": edition, "contract_path": row.get("contract_path"), "execution_mode": execution_mode,
         "optimization_algorithm": optimization_algorithm, "run_prepare_territorial": run_prepare_territorial,
+        "pre_m04_accreditation_planned": pre_m04_accreditation_planned,
         "run_generate": run_generate, "run_prepare_electoral": run_prepare_electoral, "run_incorporate": run_incorporate,
         "existing": {
             "territorial_source": {

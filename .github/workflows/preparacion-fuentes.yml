@@ -278,9 +278,27 @@ jobs:
           [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro territorial durable no apunta al run actual."; exit 48; }
           [[ "$(jq -r .artifact_name <<<"$durable")" == "$ARTIFACT_NAME" ]] || { echo "::error::El registro territorial durable no conserva el artefacto esperado."; exit 49; }
           [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::El registro territorial durable no conserva el SHA-256 esperado."; exit 50; }
+  pre_m04:
+    name: Acreditar contrato efectivo hasta la puerta de Formación inicial
+    needs: [resolver, territoriales, registrar]
+    if: ${{ needs.territoriales.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
+    uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
+    with:
+      params: ${{ format('territorios/{0}/config/{0}_{1}.yaml', needs.resolver.outputs.territory_id, inputs.data_edition) }}
+      mode: execute
+      from_stage: M01
+      to_stage: M04
+      source_package_run_id: ${{ github.run_id }}
+      source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+      source_ref: ${{ github.ref_name }}
+      persist_state: true
+      preflight_only: true
+    secrets: inherit
+
   resultado:
     name: Verificar resultado durable de preparación
-    needs: [resolver, territoriales, registrar]
+    needs: [resolver, territoriales, registrar, pre_m04]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     steps:
@@ -292,7 +310,12 @@ jobs:
           PREPARATION_RESULT: ${{ needs.territoriales.result }}
           REGISTRATION_RESULT: ${{ needs.registrar.result }}
           PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
+          PRE_M04_RESULT: ${{ needs.pre_m04.result }}
         run: |
+          if [[ "$PERSIST_STATE" == true && "$PRE_M04_RESULT" != success ]]; then
+            echo "::error::La preparación durable no acreditó la puerta pre-M04: $PRE_M04_RESULT"
+            exit 55
+          fi
           python herramientas/evaluar_persistencia_preparacion.py terminal \
             --preparation-result "$PREPARATION_RESULT" \
             --registration-result "$REGISTRATION_RESULT" \
