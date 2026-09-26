@@ -83,27 +83,53 @@ jobs:
             --package-out .ddd-electoral-integration \
             --root-dir . \
             --declaration territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml
-          test -s .ddd-electoral-integration/manifest.json
-          test "$(jq -r .decision .ddd-electoral-integration/manifest.json)" = "ACQUIRE"
-          test "$(jq -r .election_id .ddd-electoral-integration/manifest.json)" = "asturias_jgpa_2023"
-          test -s .ddd-electoral-integration/resultados_normalizados.csv
           python - <<'PY'
           import csv
+          import json
           from pathlib import Path
-          path = Path('.ddd-electoral-integration/resultados_normalizados.csv')
-          with path.open(encoding='utf-8', newline='') as fh:
-              rows = sum(1 for _ in csv.DictReader(fh))
+
+          root = Path('.ddd-electoral-integration')
+          manifest_path = root / 'manifest.json'
+          csv_path = root / 'resultados_normalizados.csv'
+          if not manifest_path.is_file() or manifest_path.stat().st_size == 0:
+              raise SystemExit('manifest.json ausente o vacío')
+          if not csv_path.is_file() or csv_path.stat().st_size == 0:
+              raise SystemExit('resultados_normalizados.csv ausente o vacío')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          expected = {
+              'decision': 'ACQUIRE',
+              'election_id': 'asturias_jgpa_2023',
+          }
+          for key, value in expected.items():
+              if manifest.get(key) != value:
+                  raise SystemExit(f'{key} inesperado: {manifest.get(key)!r} != {value!r}')
+          selected = manifest.get('selected_source') or {}
+          transform = selected.get('transform') or {}
+          checks = {
+              'records': (selected.get('records'), 23385),
+              'sections': (transform.get('sections'), 824),
+              'parties': (transform.get('parties'), 15),
+              'source_verification_status': (transform.get('source_verification_status'), 'VERIFIED_EXACT'),
+          }
+          for key, (actual, wanted) in checks.items():
+              if actual != wanted:
+                  raise SystemExit(f'{key} inesperado: {actual!r} != {wanted!r}')
+          with csv_path.open(encoding='utf-8', newline='') as fh:
+              sample = fh.read(8192)
+              fh.seek(0)
+              try:
+                  dialect = csv.Sniffer().sniff(sample, delimiters=',;\t')
+              except csv.Error:
+                  dialect = csv.excel
+              rows = sum(1 for _ in csv.DictReader(fh, dialect=dialect))
           if rows != 23385:
-              raise SystemExit(f'registros normalizados inesperados: {rows} != 23385')
+              raise SystemExit(f'registros CSV inesperados: {rows} != 23385')
+          digest = selected.get('sha256') or ''
+          if len(digest) != 64 or any(ch not in '0123456789abcdef' for ch in digest.lower()):
+              raise SystemExit(f'SHA-256 inválido: {digest!r}')
+          (root / 'selected_source.sha256').write_text(digest + '\n', encoding='ascii')
+          print(f'VALIDATED election={manifest["election_id"]} records={rows} sections={transform["sections"]} parties={transform["parties"]} digest={digest}')
           PY
-          test "$(jq -r '.selected_source.transform.sections' .ddd-electoral-integration/manifest.json)" -eq 824
-          test "$(jq -r '.selected_source.transform.parties' .ddd-electoral-integration/manifest.json)" -eq 15
-          test "$(jq -r '.selected_source.transform.source_verification_status' .ddd-electoral-integration/manifest.json)" = "VERIFIED_EXACT"
-          digest="$(jq -r '.selected_source.sha256 // empty' .ddd-electoral-integration/manifest.json)"
-          test -n "$digest"
-          test "$digest" != "null"
-          test "${#digest}" -eq 64
-          printf '%s\n' "$digest" > .ddd-electoral-integration/selected_source.sha256
       - name: Verificar registro durable en copia de trabajo
         shell: bash
         run: |
