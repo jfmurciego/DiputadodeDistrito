@@ -222,9 +222,9 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35654748727
-        artifact_name: ddd-source-package-cataluna-2025-35654748727
-        artifact_sha256: 888598400de6686e3581a5d90b43ea7bc278d3386dac832338bd4ad58c530675
+        run_id: 36260268529
+        artifact_name: ddd-source-package-cataluna-2025-36260268529
+        artifact_sha256: 5207fbe9743ff5142231f13076dc530fed4bc59ace313aa3a2cfd5d6e781966a
         package_sha256: a985c0d12384541b5245ca1c063b1e5f997424af8a22a69c06a27149130c1807
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
