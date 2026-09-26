@@ -1,7 +1,8 @@
 name: Diagnóstico EleccionesDB · grupo A
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
@@ -26,9 +27,7 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           import csv, sqlite3
-          from pathlib import Path
 
-          # Elección esperada por #147. Andalucía se contrasta además con 2026.
           expected = {
               'Andalucía': ('A', '2022', '01'),
               'Islas Baleares': ('A', '2023', '04'),
@@ -102,12 +101,18 @@ jobs:
           PY
           cat eleccionesdb-grupo-a.md >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Eliminar export completo antes de publicar
+        if: always()
+        shell: bash
+        run: rm -f eleccionesdb_sqlite.zip eleccionesdb.sqlite
+
       - name: Publicar únicamente informe pequeño
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: diagnostico-eleccionesdb-grupo-a
           path: |
             eleccionesdb-grupo-a.csv
             eleccionesdb-grupo-a.md
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
