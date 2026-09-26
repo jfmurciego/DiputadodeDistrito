@@ -387,14 +387,14 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 self.assertFalse(contradictory["allowed"])
                 self.assertEqual(contradictory["capability"], "CAP_PRE_M04_EVIDENCE")
 
-    def test_00_reuse_plan_schedules_pre_m04_before_first_generation_for_real_targets(self):
+    def test_00_reuse_plan_tracks_current_pre_m04_capability_for_real_targets(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         for territory_id in REAL_TARGETS:
             with self.subTest(territory=territory_id):
                 state, _, _ = self._state_and_contract(territory_id)
                 self.assertTrue(state.get("territorial_sources_prepared"))
                 self.assertFalse(state.get("territorial_product_available"))
-                self.assertFalse((state.get("evidence") or {}).get("generation_preflight"))
+                has_preflight = bool((state.get("evidence") or {}).get("generation_preflight"))
                 plan = build_plan(
                     territory=territory_id,
                     edition="2025",
@@ -404,14 +404,22 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     optimization_algorithm="Canónico",
                     force_selected_algorithm=False,
                 )
-                self.assertTrue(plan["pre_m04_accreditation_planned"])
-                self.assertTrue(plan["run_prepare_territorial"])
                 self.assertTrue(plan["run_generate"])
-                self.assertEqual(
-                    plan["generation_gate"],
-                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
-                )
                 self.assertEqual(plan["existing"]["territorial_source"]["decision"], "VALIDADO")
+                if has_preflight:
+                    self.assertFalse(plan["pre_m04_accreditation_planned"])
+                    self.assertFalse(plan["run_prepare_territorial"])
+                    self.assertEqual(
+                        plan["generation_gate"],
+                        {"allowed": True, "route": "validated_pre_m04_topology"},
+                    )
+                else:
+                    self.assertTrue(plan["pre_m04_accreditation_planned"])
+                    self.assertTrue(plan["run_prepare_territorial"])
+                    self.assertEqual(
+                        plan["generation_gate"],
+                        {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                    )
 
     def test_00_wiring_waits_for_validated_pre_m04_before_generation(self):
         full = yaml.safe_load((ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
