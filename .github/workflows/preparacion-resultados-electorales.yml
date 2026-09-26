@@ -1,11 +1,3 @@
-# PROYECTO: Diputado de Distrito
-# CLASE: interfaz de negocio — preparación electoral
-# VERSIÓN: 1.2.0
-# NOMBRE DE VERSIÓN: Preparación durable de resultados electorales
-# FECHA: 2026-09-19
-# ESTADO: candidato
-# QUÉ HACE: resuelve automáticamente la convocatoria vigente para el territorio y prepara su paquete electoral; no ejecuta M01-M08.
-# MOTIVO: el usuario elige territorio; la plataforma determina la convocatoria vigente y su edición territorial asociada, sin exigir alta manual en elecciones_vigentes.yaml.
 name: 03 · Preparación de Resultados Electorales
 
 on:
@@ -17,59 +9,27 @@ on:
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
     outputs:
-      territory_id:
-        value: ${{ jobs.resolver.outputs.territory_id }}
-      edition:
-        value: ${{ jobs.resolver.outputs.edition }}
-      artifact_name:
-        value: ${{ jobs.electorales.outputs.artifact_name }}
-      artifact_digest:
-        value: ${{ jobs.electorales.outputs.artifact_digest }}
+      territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
+      edition: {value: '${{ jobs.resolver.outputs.edition }}'}
+      artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
+      artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
   workflow_dispatch:
     inputs:
       territory_id:
         description: Territorio
         required: true
         type: choice
-        options:
-          - Andalucía
-          - Aragón
-          - Principado de Asturias
-          - Islas Baleares
-          - Canarias
-          - Cantabria
-          - Castilla-La Mancha
-          - Castilla y León
-          - Cataluña
-          - Comunidad Valenciana
-          - Extremadura
-          - Galicia
-          - Comunidad de Madrid
-          - Región de Murcia
-          - Comunidad Foral de Navarra
-          - País Vasco
-          - La Rioja
-          - Ceuta
-          - Melilla
-      data_edition:
-        description: Edición de datos
-        required: true
-        default: '2025'
-        type: choice
-        options: ['2025']
-      reutilizar_si_ya_preparada:
-        description: Reutilizar resultados electorales ya preparados
-        required: true
-        default: true
-        type: boolean
+        options: [Andalucía, Aragón, Principado de Asturias, Islas Baleares, Canarias, Cantabria, Castilla-La Mancha, Castilla y León, Cataluña, Comunidad Valenciana, Extremadura, Galicia, Comunidad de Madrid, Región de Murcia, Comunidad Foral de Navarra, País Vasco, La Rioja, Ceuta, Melilla]
+      data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
+      reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
 
 concurrency:
   group: ddd-electoral-prod-${{ inputs.territory_id }}
   cancel-in-progress: false
+permissions: {contents: write, actions: read}
 
-permissions:
-  contents: write
-  actions: read
+env:
+  ELECCIONESDB_SNAPSHOT_SHA256: ad0d1e3ea14c90c294e7bcf77ab9a3205a13491c859a1e393c49e15eeb257f32
 
 jobs:
   resolver:
@@ -87,178 +47,125 @@ jobs:
       registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
       persist_state: ${{ steps.resolve.outputs.persist_state }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-        with:
-          ref: ${{ inputs.source_ref || github.sha }}
-          token: ${{ github.token }}
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with: {ref: '${{ inputs.source_ref || github.sha }}', token: '${{ github.token }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
-        env:
-          TERRITORY: ${{ inputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
-          PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
+        env: {TERRITORY: '${{ inputs.territory_id }}', EDITION: '${{ inputs.data_edition }}', PERSIST_INPUT: '${{ toJSON(inputs.persist_state) }}'}
         run: |
           set -euo pipefail
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
           echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           current="$(python herramientas/resolver_eleccion_vigente.py --for-preparation --root-dir . --territory "$TERRITORY" --edition "$EDITION")"
-          edition="$(jq -r .territorial_edition <<<"$current")"
-          [[ "$edition" == "$EDITION" ]] || { echo "::error::La elección vigente pertenece a la edición $edition, no $EDITION."; exit 41; }
+          edition="$(jq -r .territorial_edition <<<"$current")"; [[ "$edition" == "$EDITION" ]] || exit 41
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
           echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
-          echo "edition=$edition" >> "$GITHUB_OUTPUT"
-          echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"
-          echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "edition=$edition" >> "$GITHUB_OUTPUT"; echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"; echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY" --edition "$EDITION")"
-          echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"
-          echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
-          echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-          echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-          echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+          echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"; echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"; echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"; echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
 
   electorales:
     name: Preparar resultados electorales
     needs: resolver
     runs-on: ubuntu-24.04
-    outputs:
-      artifact_digest: ${{ steps.upload.outputs.artifact-digest }}
-      artifact_name: ${{ steps.meta.outputs.artifact_name }}
-    env:
-      GH_TOKEN: ${{ github.token }}
-      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ needs.resolver.outputs.edition }}
-      PARAMS: ${{ needs.resolver.outputs.contract_path }}
-      DECLARATION: ${{ needs.resolver.outputs.electoral_declaration }}
-      ELECTION_ID: ${{ needs.resolver.outputs.election_id }}
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}'}
+    env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}'}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-        with:
-          ref: ${{ inputs.source_ref || github.sha }}
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with: {ref: '${{ inputs.source_ref || github.sha }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
       - id: previous
         name: Recuperar paquete electoral registrado
         if: ${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}
-        shell: bash
-        env:
-          REGISTERED_RUN_ID: ${{ needs.resolver.outputs.registered_run_id }}
-          REGISTERED_ARTIFACT_NAME: ${{ needs.resolver.outputs.registered_artifact_name }}
-          REGISTERED_ARTIFACT_SHA256: ${{ needs.resolver.outputs.registered_artifact_sha256 }}
+        env: {REGISTERED_RUN_ID: '${{ needs.resolver.outputs.registered_run_id }}', REGISTERED_ARTIFACT_NAME: '${{ needs.resolver.outputs.registered_artifact_name }}', REGISTERED_ARTIFACT_SHA256: '${{ needs.resolver.outputs.registered_artifact_sha256 }}'}
         run: |
           set -euo pipefail
-          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"
-          match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$arts" | head -1)"
-          [[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible: $REGISTERED_ARTIFACT_NAME (run $REGISTERED_RUN_ID)"; exit 44; }
-          actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"
-          [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto electoral no coincide con el registro."; exit 45; }
-          rm -rf .ddd-electoral-previous
-          mkdir -p .ddd-electoral-previous
-          gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-electoral-previous
-          test -s .ddd-electoral-previous/manifest.json
-          echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
-          echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
-      - id: prepare
-        name: Resolver REUSE / ACQUIRE / BLOCK
-        continue-on-error: true
-        shell: bash
-        env:
-          PREVIOUS_RUN_ID: ${{ steps.previous.outputs.run_id }}
-          PREVIOUS_ARTIFACT_NAME: ${{ steps.previous.outputs.artifact_name }}
+          arts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REGISTERED_RUN_ID/artifacts?per_page=100")"; match="$(jq -c --arg n "$REGISTERED_ARTIFACT_NAME" '.artifacts[]|select(.name==$n and (.expired|not))' <<<"$arts" | head -1)"
+          [[ -n "$match" ]] || { echo "::error::Artefacto electoral registrado no disponible"; exit 44; }
+          actual_digest="$(jq -r '.digest // empty' <<<"$match" | sed 's/^sha256://')"; [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto electoral no coincide con el registro."; exit 45; }
+          mkdir -p .ddd-electoral-previous; gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-electoral-previous; test -s .ddd-electoral-previous/manifest.json
+          echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"; echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+      - id: mode
+        name: Identificar adaptador de adquisición
+        run: |
+          if python - "$ELECTION_ID" <<'PY'
+          import sys
+          from herramientas.adaptador_eleccionesdb import ELECTIONS
+          raise SystemExit(0 if sys.argv[1] in ELECTIONS else 1)
+          PY
+          then echo "eleccionesdb=true" >> "$GITHUB_OUTPUT"; else echo "eleccionesdb=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Recuperar snapshot EleccionesDB durable y verificar huella
+        if: ${{ steps.mode.outputs.eleccionesdb == 'true' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
+          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
+          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot EleccionesDB durable ausente"; exit 51; }
+          aid="$(jq -r .id <<<"$art")"; gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > snapshot.zip
+          mkdir snapshot; unzip -q snapshot.zip -d snapshot
+          test -s snapshot/ddd-eleccionesdb-snapshot.sqlite; test -s snapshot/ddd-eleccionesdb-snapshot.json
+          declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"; actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
+          [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+      - name: Preparar con adaptador EleccionesDB común
+        if: ${{ steps.mode.outputs.eleccionesdb == 'true' && steps.previous.outputs.run_id == '' }}
+        run: |
+          python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256"
+      - name: Reutilizar paquete EleccionesDB registrado
+        if: ${{ steps.mode.outputs.eleccionesdb == 'true' && steps.previous.outputs.run_id != '' }}
+        run: cp -a .ddd-electoral-previous .ddd-electoral-package
+      - name: Resolver REUSE / ACQUIRE / BLOCK para fuentes declaradas
+        if: ${{ steps.mode.outputs.eleccionesdb != 'true' }}
         run: |
           set -euo pipefail
           args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
-          [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS")
-          [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
-          if [[ -f .ddd-electoral-previous/manifest.json ]]; then
-            args+=(--previous-package .ddd-electoral-previous)
-            [[ -n "$PREVIOUS_RUN_ID" ]] && args+=(--previous-run-id "$PREVIOUS_RUN_ID")
-            [[ -n "$PREVIOUS_ARTIFACT_NAME" ]] && args+=(--previous-artifact-name "$PREVIOUS_ARTIFACT_NAME")
-          fi
+          [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS"); [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
+          [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous --previous-run-id "${{ steps.previous.outputs.run_id }}" --previous-artifact-name "${{ steps.previous.outputs.artifact_name }}")
           python -m herramientas.preparar_fuente_electoral "${args[@]}"
       - id: meta
-        name: Identificar paquete electoral
         run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        if: always()
-        with:
-          name: ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
-          path: .ddd-electoral-package
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 30
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with: {name: 'ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}', path: .ddd-electoral-package, include-hidden-files: true, if-no-files-found: error, retention-days: 30}
       - name: Aplicar decisión electoral
-        if: always()
         run: |
           test -f .ddd-electoral-package/manifest.json
-          decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"
-          case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
+          decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"; case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
 
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
     if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
-    concurrency:
-      group: ddd-catalog-promotion
-      cancel-in-progress: false
-    env:
-      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ needs.resolver.outputs.edition }}
-      DECLARATION: ${{ needs.resolver.outputs.electoral_declaration }}
-      ELECTION_ID: ${{ needs.resolver.outputs.election_id }}
-      ARTIFACT_DIGEST: ${{ needs.electorales.outputs.artifact_digest }}
-      TARGET_BRANCH: ${{ github.ref_name }}
+    concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
+    env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-        with:
-          ref: ${{ github.ref_name }}
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with: {ref: '${{ github.ref_name }}'}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - name: Registrar preparación electoral
-        shell: bash
         run: |
           set -euo pipefail
-          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"
-          test -n "$ARTIFACT_DIGEST" || { echo "::error::Paquete electoral sin digest."; exit 47; }
-          python herramientas/promover_catalogo_operacional.py             --kind electoral_source             --territory-id "$TERRITORY_ID" --edition "$EDITION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$ARTIFACT_DIGEST"             --declaration "$DECLARATION" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA"
+          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"; test -n "$ARTIFACT_DIGEST" || exit 47
+          args=(--kind electoral_source --territory-id "$TERRITORY_ID" --edition "$EDITION" --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$ARTIFACT_DIGEST" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA")
+          [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
+          python herramientas/promover_catalogo_operacional.py "${args[@]}"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_source_$EDITION.json"
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"
-            pushed=false
-            for attempt in 1 2 3; do
-              if git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH"; then pushed=true; break; fi
-              git rebase --abort >/dev/null 2>&1 || true
-              sleep $((attempt * 2))
-            done
-            [[ "$pushed" == true ]] || { echo "::error::No se pudo registrar la preparación electoral tras tres intentos."; exit 47; }
-          fi
-          git fetch origin "$TARGET_BRANCH"
-          git reset --hard "origin/$TARGET_BRANCH"
+          git config user.name github-actions; git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_source_$EDITION.json"
+          if ! git diff --cached --quiet; then git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"; git pull --rebase origin "$TARGET_BRANCH"; git push origin "HEAD:$TARGET_BRANCH"; fi
+          git fetch origin "$TARGET_BRANCH"; git reset --hard "origin/$TARGET_BRANCH"
           durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"
-          artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"
-          [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro electoral durable no apunta al run actual."; exit 48; }
-          [[ "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" ]] || { echo "::error::El registro electoral durable no conserva el artefacto esperado."; exit 49; }
-          [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || { echo "::error::El registro electoral durable no conserva el SHA-256 esperado."; exit 50; }
+          [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" && "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" && "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || exit 50
+
   resultado:
     name: Verificar resultado durable de preparación
     needs: [resolver, electorales, registrar]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
-        with:
-          ref: ${{ inputs.source_ref || github.sha }}
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with: {ref: '${{ inputs.source_ref || github.sha }}'}
       - name: Exigir registro cuando la persistencia es obligatoria
-        env:
-          PREPARATION_RESULT: ${{ needs.electorales.result }}
-          REGISTRATION_RESULT: ${{ needs.registrar.result }}
-          PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
-        run: |
-          python herramientas/evaluar_persistencia_preparacion.py terminal \
-            --preparation-result "$PREPARATION_RESULT" \
-            --registration-result "$REGISTRATION_RESULT" \
-            --persist-state "$PERSIST_STATE"
-
+        run: python herramientas/evaluar_persistencia_preparacion.py terminal --preparation-result "${{ needs.electorales.result }}" --registration-result "${{ needs.registrar.result }}" --persist-state "${{ needs.resolver.outputs.persist_state }}"
