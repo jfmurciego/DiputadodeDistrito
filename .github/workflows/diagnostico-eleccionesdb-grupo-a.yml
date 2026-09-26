@@ -25,6 +25,60 @@ jobs:
           PY
           aid="$(cat artifact_id.txt)"; curl --fail --location --retry 2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" --output eleccionesdb-descargas.zip "https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts/${aid}/zip"
           unzip -q eleccionesdb-descargas.zip; sqlite_zip="$(find . -type f -name 'eleccionesdb_sqlite.zip' -print -quit)"; test -n "$sqlite_zip"; unzip -q "$sqlite_zip" -d sqlite-extract; db="$(find sqlite-extract -type f -name 'eleccionesdb.sqlite' -print -quit)"; test -n "$db"; mv "$db" eleccionesdb.sqlite
+      - name: Medir cobertura de elecciones pendientes dentro del export completo
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json, sqlite3
+          from datetime import datetime, timezone, timedelta
+
+          TARGET_DATES={'2023-05-28','2024-05-12','2025-12-21','2026-02-08','2026-03-15','2026-05-17'}
+          TARGET_CCAA={'01':'andalucia','02':'aragon','07':'castilla_y_leon','09':'cataluna','11':'extremadura','18':'ceuta','19':'melilla'}
+
+          def norm(v):
+              if v is None or v=='': return ''
+              try:
+                  n=float(v)
+              except (TypeError,ValueError):
+                  return str(v)[:10]
+              return (datetime(1970,1,1,tzinfo=timezone.utc)+timedelta(days=n)).date().isoformat()
+
+          con=sqlite3.connect('eleccionesdb.sqlite'); con.row_factory=sqlite3.Row
+          election_cols=[r[1] for r in con.execute('PRAGMA table_info(elecciones)')]
+          rows=[]
+          for e in con.execute('SELECT * FROM elecciones ORDER BY id'):
+              d=dict(e); date=norm(d.get('fecha'))
+              if date not in TARGET_DATES: continue
+              eid=d.get('id')
+              for ccaa,territory in TARGET_CCAA.items():
+                  sec=con.execute("""SELECT COUNT(DISTINCT t.id)
+                    FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id
+                    WHERE r.eleccion_id=? AND t.tipo='seccion' AND printf('%02d',CAST(t.codigo_ccaa AS INTEGER))=?""",(eid,ccaa)).fetchone()[0]
+                  votes=con.execute("""SELECT COUNT(*),COALESCE(SUM(v.votos),0)
+                    FROM votos_territoriales v JOIN territorios t ON t.id=v.territorio_id
+                    WHERE v.eleccion_id=? AND t.tipo='seccion' AND printf('%02d',CAST(t.codigo_ccaa AS INTEGER))=?""",(eid,ccaa)).fetchone()
+                  if not sec and not votes[0]: continue
+                  srcs=[]
+                  try:
+                      srcs=[dict(x) for x in con.execute('SELECT * FROM elecciones_fuentes WHERE eleccion_id=?',(eid,))]
+                  except sqlite3.OperationalError:
+                      pass
+                  label=' + '.join(str(x.get('fuente') or x.get('url_fuente') or '') for x in srcs if x.get('fuente') or x.get('url_fuente'))
+                  rows.append({'territorio':territory,'ccaa':ccaa,'eleccionesdb_id':eid,'fecha':date,'secciones':sec,'filas_votos':votes[0],'votos':votes[1],'procedencia':label,'election_row':json.dumps({k:d.get(k) for k in election_cols},ensure_ascii=False,default=str)})
+          con.close()
+          rows.sort(key=lambda r:(r['territorio'],r['fecha'],int(r['eleccionesdb_id'])))
+          fields=['territorio','ccaa','eleccionesdb_id','fecha','secciones','filas_votos','votos','procedencia','election_row']
+          with open('cobertura-pendientes-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+          with open('cobertura-pendientes-eleccionesdb.md','w',encoding='utf-8') as f:
+              f.write('# Cobertura de pendientes encontrada en EleccionesDB completo\n\n')
+              f.write('|Territorio|EDB|Fecha|Secciones|Filas votos|Votos|Procedencia|\n|---|---:|---|---:|---:|---:|---|\n')
+              for r in rows:
+                  f.write(f"|{r['territorio']}|{r['eleccionesdb_id']}|{r['fecha']}|{r['secciones']}|{r['filas_votos']}|{r['votos']}|{r['procedencia'].replace('|','/')}|\n")
+          print(open('cobertura-pendientes-eleccionesdb.md',encoding='utf-8').read())
+          PY
+          cat cobertura-pendientes-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
+
       - name: Construir snapshot compacto verificado de las diez elecciones
         run: |
           python herramientas/construir_snapshot_eleccionesdb.py --source eleccionesdb.sqlite --out ddd-eleccionesdb-snapshot.sqlite --meta ddd-eleccionesdb-snapshot.json
@@ -61,7 +115,7 @@ jobs:
       - name: Publicar informe pequeño
         if: always()
         uses: actions/upload-artifact@v4
-        with: {name: diagnostico-eleccionesdb-grupo-a, path: "cobertura-adaptador-eleccionesdb.csv\ncobertura-adaptador-eleccionesdb.md\nddd-eleccionesdb-snapshot.json", if-no-files-found: error, retention-days: 7}
+        with: {name: diagnostico-eleccionesdb-grupo-a, path: "cobertura-adaptador-eleccionesdb.csv\ncobertura-adaptador-eleccionesdb.md\ncobertura-pendientes-eleccionesdb.csv\ncobertura-pendientes-eleccionesdb.md\nddd-eleccionesdb-snapshot.json", if-no-files-found: error, retention-days: 7}
       - name: Publicar snapshot común para reutilización por 03
         if: success()
         uses: actions/upload-artifact@v4
