@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,hashlib,json,sqlite3
+import argparse,hashlib,json,sqlite3,sys
 from pathlib import Path
+
+# Permite ejecutar este fichero directamente desde la raíz del repositorio en CI
+# sin depender de que el paquete herramientas esté instalado.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 from herramientas.adaptador_eleccionesdb import ELECTIONS,sha256
 
 def build(source:Path,out:Path,meta:Path):
@@ -12,7 +19,6 @@ def build(source:Path,out:Path,meta:Path):
  for table in tables:
   sql=src.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name=?",(table,)).fetchone()
   if not sql: raise ValueError(f'Tabla ausente en snapshot upstream: {table}')
-  # Esquema portable sin índices/constraints: copia columnas y datos seleccionados.
   cols=[r[1] for r in src.execute(f'PRAGMA table_info({table})')]
   decl=[]
   for r in src.execute(f'PRAGMA table_info({table})'):
