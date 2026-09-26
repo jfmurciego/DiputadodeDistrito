@@ -90,12 +90,16 @@ jobs:
 
           root = Path('.ddd-electoral-integration')
           manifest_path = root / 'manifest.json'
-          csv_path = root / 'resultados_normalizados.csv'
           if not manifest_path.is_file() or manifest_path.stat().st_size == 0:
               raise SystemExit('manifest.json ausente o vacío')
-          if not csv_path.is_file() or csv_path.stat().st_size == 0:
-              raise SystemExit('resultados_normalizados.csv ausente o vacío')
           manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          selected = manifest.get('selected_source') or {}
+          selected_path = selected.get('path') or ''
+          if not selected_path:
+              raise SystemExit('selected_source.path ausente')
+          csv_path = root / selected_path
+          if not csv_path.is_file() or csv_path.stat().st_size == 0:
+              raise SystemExit(f'CSV normalizado ausente o vacío: {selected_path}')
           expected = {
               'decision': 'ACQUIRE',
               'election_id': 'asturias_jgpa_2023',
@@ -103,7 +107,6 @@ jobs:
           for key, value in expected.items():
               if manifest.get(key) != value:
                   raise SystemExit(f'{key} inesperado: {manifest.get(key)!r} != {value!r}')
-          selected = manifest.get('selected_source') or {}
           transform = selected.get('transform') or {}
           checks = {
               'records': (selected.get('records'), 23385),
@@ -128,7 +131,7 @@ jobs:
           if len(digest) != 64 or any(ch not in '0123456789abcdef' for ch in digest.lower()):
               raise SystemExit(f'SHA-256 inválido: {digest!r}')
           (root / 'selected_source.sha256').write_text(digest + '\n', encoding='ascii')
-          print(f'VALIDATED election={manifest["election_id"]} records={rows} sections={transform["sections"]} parties={transform["parties"]} digest={digest}')
+          print(f'VALIDATED election={manifest["election_id"]} path={selected_path} records={rows} sections={transform["sections"]} parties={transform["parties"]} digest={digest}')
           PY
       - name: Verificar registro durable en copia de trabajo
         shell: bash
