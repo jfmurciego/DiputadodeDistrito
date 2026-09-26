@@ -1,0 +1,68 @@
+name: Diagnóstico fuentes electorales pendientes
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnosticar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+
+      - name: Comprobar endpoints oficiales candidatos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, urllib.request, urllib.error
+
+          # Diagnóstico deliberadamente conservador: una página informativa no cuenta como datos.
+          # Sólo PASS si el recurso candidato responde y parece un fichero de datos descargable.
+          candidates = [
+            ('andalucia','andalucia_parlamento_2026','https://www.juntadeandalucia.es/institutodeestadisticaycartografia/elecciones/'),
+            ('cataluna','cataluna_parlament_2024','https://eleccions.gencat.cat/ca/resultats-i-eleccions-anteriors/'),
+            ('extremadura','extremadura_asamblea_2025-12-21','https://resultadoselecciones2025.juntaex.es/'),
+            ('ceuta','ceuta_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
+            ('melilla','melilla_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
+          ]
+          rows=[]
+          for territory,election,url in candidates:
+            status='BLOCK'; http=''; ctype=''; size=''; reason=''
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'DDD-electoral-source-diagnostic/1.0'})
+              with urllib.request.urlopen(req,timeout=20) as r:
+                http=str(r.status); ctype=r.headers.get('Content-Type',''); data=r.read(262144); size=str(len(data))
+              low=ctype.lower()
+              downloadable=any(x in low for x in ('text/csv','application/zip','application/json','application/octet-stream','application/vnd'))
+              if downloadable:
+                status='PASS'; reason='recurso de datos descargable; requiere inspección de granularidad antes de registrar'
+              else:
+                reason='endpoint oficial accesible pero devuelve página/documento, no fichero electoral adquirible'
+            except Exception as e:
+              reason=f'{type(e).__name__}: {e}'[:300]
+            rows.append(dict(territorio=territory,election_id=election,url=url,http=http,content_type=ctype,bytes_muestreados=size,resultado=status,motivo=reason))
+          with open('diagnostico-fuentes-pendientes.csv','w',newline='',encoding='utf-8') as f:
+            w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+          with open('diagnostico-fuentes-pendientes.md','w',encoding='utf-8') as f:
+            f.write('# Diagnóstico de fuentes electorales pendientes\n\n')
+            f.write('|Territorio|Elección|HTTP|Content-Type|Resultado|Motivo|\n|---|---|---:|---|---|---|\n')
+            for r in rows:
+              f.write(f"|{r['territorio']}|{r['election_id']}|{r['http']}|{r['content_type'].replace('|','/')}|{r['resultado']}|{r['motivo'].replace('|','/')}|\n")
+          PY
+          cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar sólo informe pequeño
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-fuentes-electorales-pendientes
+          path: |
+            diagnostico-fuentes-pendientes.csv
+            diagnostico-fuentes-pendientes.md
+          if-no-files-found: error
+          retention-days: 7
