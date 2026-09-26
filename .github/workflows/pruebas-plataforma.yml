@@ -87,7 +87,15 @@ jobs:
           test "$(jq -r .decision .ddd-electoral-integration/manifest.json)" = "ACQUIRE"
           test "$(jq -r .election_id .ddd-electoral-integration/manifest.json)" = "asturias_jgpa_2023"
           test -s .ddd-electoral-integration/resultados_normalizados.csv
-          test "$(($(wc -l < .ddd-electoral-integration/resultados_normalizados.csv) - 1))" -eq 23385
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          path = Path('.ddd-electoral-integration/resultados_normalizados.csv')
+          with path.open(encoding='utf-8', newline='') as fh:
+              rows = sum(1 for _ in csv.DictReader(fh))
+          if rows != 23385:
+              raise SystemExit(f'registros normalizados inesperados: {rows} != 23385')
+          PY
           test "$(jq -r '.selected_source.transform.sections' .ddd-electoral-integration/manifest.json)" -eq 824
           test "$(jq -r '.selected_source.transform.parties' .ddd-electoral-integration/manifest.json)" -eq 15
           test "$(jq -r '.selected_source.transform.source_verification_status' .ddd-electoral-integration/manifest.json)" = "VERIFIED_EXACT"
