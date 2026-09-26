@@ -61,7 +61,7 @@ jobs:
           if-no-files-found: warn
 
   prueba_electoral_real_pr:
-    name: Probar adquisición electoral real en PR
+    name: Probar adquisición electoral real y registro durable en PR
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -87,11 +87,47 @@ jobs:
           test "$(jq -r .decision .ddd-electoral-integration/manifest.json)" = "ACQUIRE"
           test "$(jq -r .election_id .ddd-electoral-integration/manifest.json)" = "asturias_jgpa_2023"
           test -s .ddd-electoral-integration/resultados_normalizados.csv
-          test "$(($(wc -l < .ddd-electoral-integration/resultados_normalizados.csv) - 1))" -gt 0
-          digest="$(jq -r '.source_sha256 // .sha256 // empty' .ddd-electoral-integration/manifest.json)"
+          test "$(($(wc -l < .ddd-electoral-integration/resultados_normalizados.csv) - 1))" -eq 23385
+          test "$(jq -r '.selected_source.transform.sections' .ddd-electoral-integration/manifest.json)" -eq 824
+          test "$(jq -r '.selected_source.transform.parties' .ddd-electoral-integration/manifest.json)" -eq 15
+          test "$(jq -r '.selected_source.transform.source_verification_status' .ddd-electoral-integration/manifest.json)" = "VERIFIED_EXACT"
+          digest="$(jq -r '.selected_source.sha256 // empty' .ddd-electoral-integration/manifest.json)"
           test -n "$digest"
           test "$digest" != "null"
-      - name: Conservar paquete de prueba para revisión
+          test "${#digest}" -eq 64
+          printf '%s\n' "$digest" > .ddd-electoral-integration/selected_source.sha256
+      - name: Verificar registro durable en copia de trabajo
+        shell: bash
+        run: |
+          set -euo pipefail
+          digest="$(cat .ddd-electoral-integration/selected_source.sha256)"
+          run_id="$GITHUB_RUN_ID"
+          artifact_name="ddd-electoral-package-principado_de_asturias-2025-$run_id"
+          python herramientas/promover_catalogo_operacional.py \
+            --kind electoral_source \
+            --territory-id principado_de_asturias \
+            --edition 2025 \
+            --run-id "$run_id" \
+            --artifact-name "$artifact_name" \
+            --artifact-sha256 "$digest" \
+            --declaration territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml \
+            --election-id asturias_jgpa_2023 \
+            --source-commit "$GITHUB_SHA"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory principado_de_asturias --edition 2025)"
+          test "$(jq -r .registered <<<"$durable")" = "true"
+          test "$(jq -r .run_id <<<"$durable")" = "$run_id"
+          test "$(jq -r .artifact_name <<<"$durable")" = "$artifact_name"
+          test "$(jq -r .artifact_sha256 <<<"$durable")" = "$digest"
+          test "$(jq -r .election_id <<<"$durable")" = "asturias_jgpa_2023"
+          evidence="$(jq -r .evidence_path <<<"$durable")"
+          test -s "$evidence"
+          test "$(jq -r .territory_id "$evidence")" = "principado_de_asturias"
+          test "$(jq -r .edition "$evidence")" = "2025"
+          test "$(jq -r .election_id "$evidence")" = "asturias_jgpa_2023"
+          test "$(jq -r .artifact_sha256 "$evidence")" = "$digest"
+          cp "$evidence" .ddd-electoral-integration/registro_durable.json
+      - name: Conservar paquete y registro de prueba para revisión
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
