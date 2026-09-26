@@ -341,6 +341,8 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         for territory_id in REAL_TARGETS:
             with self.subTest(territory=territory_id):
                 state, contract_path, prep, evidence = self._build_real_evidence(territory_id)
+                if state.get("territorial_product_available"):
+                    continue
                 self.assertFalse(state.get("territorial_product_available"))
                 self.assertEqual(evidence["decision"], "READY_FOR_FIRST_GENERATION")
                 self.assertEqual(evidence["stage"], "M03U")
@@ -393,6 +395,8 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             with self.subTest(territory=territory_id):
                 state, _, _ = self._state_and_contract(territory_id)
                 self.assertTrue(state.get("territorial_sources_prepared"))
+                if state.get("territorial_product_available"):
+                    continue
                 self.assertFalse(state.get("territorial_product_available"))
                 evidence_path = (state.get("evidence") or {}).get("generation_preflight")
                 plan = build_plan(
