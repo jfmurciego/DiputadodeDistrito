@@ -1,0 +1,81 @@
+name: Verificar registro EleccionesDB · diez elecciones
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  ELECCIONESDB_SNAPSHOT_SHA256: ad0d1e3ea14c90c294e7bcf77ab9a3205a13491c859a1e393c49e15eeb257f32
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Instalar dependencias
+        run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar una sola vez el snapshot durable y verificar huella
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
+          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
+          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot EleccionesDB durable ausente"; exit 51; }
+          aid="$(jq -r .id <<<"$art")"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > snapshot.zip
+          mkdir snapshot; unzip -q snapshot.zip -d snapshot
+          test -s snapshot/ddd-eleccionesdb-snapshot.sqlite
+          test -s snapshot/ddd-eleccionesdb-snapshot.json
+          declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"
+          actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
+          [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+          echo "snapshot_artifact_id=$aid" >> "$GITHUB_ENV"
+      - name: Construir y registrar en copia las diez elecciones
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-eleccionesdb-packages .ddd-registry-copy
+          mkdir -p .ddd-eleccionesdb-packages .ddd-registry-copy
+          cp -a configuracion territorios herramientas .ddd-registry-copy/
+          python - <<'PY'
+          import csv, hashlib, json, subprocess
+          from pathlib import Path
+          from herramientas.adaptador_eleccionesdb import ELECTIONS, build, sha256
+
+          db=Path('snapshot/ddd-eleccionesdb-snapshot.sqlite')
+          snapshot_digest=sha256(db)
+          rows=[]
+          for election_id,(edb,ccaa,territory,date) in ELECTIONS.items():
+              pkg=Path('.ddd-eleccionesdb-packages')/territory
+              m=build(db,election_id,pkg,snapshot_digest)
+              manifest_sha=hashlib.sha256((pkg/'manifest.json').read_bytes()).hexdigest()
+              artifact=f'ddd-electoral-package-{territory}-2025-147000'
+              cmd=['python','herramientas/promover_catalogo_operacional.py','--kind','electoral_source','--territory-id',territory,'--edition','2025','--run-id','147000','--artifact-name',artifact,'--artifact-sha256',manifest_sha,'--election-id',election_id,'--source-commit',Path('.git/HEAD').read_text().strip()]
+              subprocess.run(cmd,cwd='.ddd-registry-copy',check=True,capture_output=True,text=True)
+              p=subprocess.run(['python','herramientas/preflight_preparacion_fuente.py','--root-dir','.','--kind','electoral','--territory',territory,'--edition','2025'],cwd='.ddd-registry-copy',check=True,capture_output=True,text=True)
+              durable=json.loads(p.stdout)
+              ok=(durable.get('registered') is True and str(durable.get('run_id'))=='147000' and durable.get('artifact_name')==artifact and durable.get('artifact_sha256')==manifest_sha and durable.get('election_id')==election_id)
+              if not ok: raise SystemExit(f'Registro en copia inválido para {territory}: {durable}')
+              rows.append({'territorio':territory,'election_id':election_id,'fecha':date,'secciones':m['sections'],'votos':m['candidate_votes'],'filas_votos':m['records'],'snapshot_sha256':m['snapshot_sha256'],'package_sha256':manifest_sha,'registro_copia':'PASS'})
+          with open('registro-copia-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+          with open('registro-copia-eleccionesdb.md','w',encoding='utf-8') as f:
+              f.write('# Paquete + registro en copia — diez elecciones EleccionesDB\n\n|Territorio|Elección|Fecha|Secciones|Votos|Hash paquete|Registro copia|\n|---|---|---|---:|---:|---|---|\n')
+              for r in rows:
+                  f.write(f"|{r['territorio']}|{r['election_id']}|{r['fecha']}|{r['secciones']}|{r['votos']}|`{r['package_sha256']}`|{r['registro_copia']}|\n")
+          PY
+          cat registro-copia-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publicar sólo informe pequeño
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: registro-copia-eleccionesdb-diez
+          path: |
+            registro-copia-eleccionesdb.csv
+            registro-copia-eleccionesdb.md
+          if-no-files-found: error
+          retention-days: 7
