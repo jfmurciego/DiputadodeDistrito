@@ -6,6 +6,7 @@ from pathlib import Path
 import yaml
 
 from ddd_core import m04_seed_engine_v745 as engine
+from ddd_core import m04_seed_engine_v7412 as repaired_engine
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "fixtures" / "m04_oversized_municipality"
@@ -102,6 +103,46 @@ class OversizedMunicipalityHardBounds(unittest.TestCase):
         self.assertEqual(payload["municipality"]["population"], sum(populations))
         self.assertEqual(sum(abs(pop - target) > tolerance for pop in populations), 1)
         self.assertEqual(canonical_hash(cores, residual), "0b3c3925fd648b20383c188134f8e03ddeefb7c2802e864faf1937acfa076be3")
+
+    def test_ceuta_real_m03_multistart_repairs_primary_hard_violation(self):
+        payload, nodes, weights, adjacency, target, floor, cap, tolerance = load_fixture(
+            "ceuta_run_36258940598.json"
+        )
+        k = payload["contract"]["k"]
+        primary = repaired_engine.previous.hybrid_partition(
+            nodes, k, adjacency, weights, label="Ceuta"
+        )
+        _, primary_pops, primary_obj = repaired_engine._ORIGINAL_REBALANCE(
+            primary, adjacency, weights, target, floor, cap, tolerance, 50000
+        )
+        self.assertGreater(primary_obj[0], 0)
+        self.assertIn(2376, primary_pops)
+
+        repaired_engine._FALLBACK_EVENTS.clear()
+        parts, populations, objective = repaired_engine.rebalance_with_direct_growth_fallback(
+            primary, adjacency, weights, target, floor, cap, tolerance, 50000
+        )
+        self.assertEqual(objective[0], 0)
+        self.assertEqual(len(parts), k)
+        self.assertEqual(sum(populations), payload["contract"]["territory_population"])
+        for part, population in zip(parts, populations):
+            self.assertTrue(engine.connected(part, adjacency))
+            self.assertGreaterEqual(population, floor)
+            self.assertLessEqual(population, cap)
+        self.assertTrue(repaired_engine._FALLBACK_EVENTS)
+        event = repaired_engine._FALLBACK_EVENTS[-1]
+        self.assertTrue(event["accepted"])
+        self.assertGreaterEqual(len(event["multistart_attempts"]), 2)
+        self.assertEqual(event["alternate_objective"][0], 0)
+
+        repaired_engine._FALLBACK_EVENTS.clear()
+        parts_2, populations_2, objective_2 = repaired_engine.rebalance_with_direct_growth_fallback(
+            primary, adjacency, weights, target, floor, cap, tolerance, 50000
+        )
+        canonical = lambda ps: sorted(sorted(part) for part in ps)
+        self.assertEqual(canonical(parts), canonical(parts_2))
+        self.assertEqual(populations, populations_2)
+        self.assertEqual(objective, objective_2)
 
     def test_aragon_profile_remains_hard_080_175_quality_012(self):
         cfg = yaml.safe_load((ROOT / "territorios/aragon/config/aragon_2025.yaml").read_text(encoding="utf-8"))
