@@ -12,14 +12,39 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Descargar export SQLite una sola vez
+      - name: Descargar export SQLite una sola vez desde ETL público
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          URL="https://data.spainelectoralproject.com/eleccionesdb-etl/descargas/eleccionesdb_sqlite.zip"
-          curl --fail --location --retry 2 --output eleccionesdb_sqlite.zip "$URL"
-          unzip -q eleccionesdb_sqlite.zip
-          test -f eleccionesdb.sqlite
+          python - <<'PY'
+          import json, os, urllib.request
+          req=urllib.request.Request(
+              'https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts?name=eleccionesdb-descargas&per_page=20',
+              headers={'Authorization':f"Bearer {os.environ['GH_TOKEN']}",'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+          with urllib.request.urlopen(req) as r: data=json.load(r)
+          arts=[a for a in data.get('artifacts',[]) if not a.get('expired')]
+          if not arts: raise SystemExit('No hay artefacto eleccionesdb-descargas vigente')
+          art=max(arts,key=lambda a:a['created_at'])
+          print(f"artifact_id={art['id']} created_at={art['created_at']} size={art['size_in_bytes']}")
+          open('artifact_id.txt','w').write(str(art['id']))
+          PY
+          aid="$(cat artifact_id.txt)"
+          curl --fail --location --retry 2 \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            --output eleccionesdb-descargas.zip \
+            "https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts/${aid}/zip"
+          unzip -l eleccionesdb-descargas.zip | sed -n '1,80p'
+          unzip -q eleccionesdb-descargas.zip
+          sqlite_zip="$(find . -type f -name 'eleccionesdb_sqlite.zip' -print -quit)"
+          test -n "$sqlite_zip"
+          unzip -q "$sqlite_zip" -d sqlite-extract
+          db="$(find sqlite-extract -type f -name 'eleccionesdb.sqlite' -print -quit)"
+          test -n "$db"
+          mv "$db" eleccionesdb.sqlite
 
       - name: Medir elecciones candidatas
         shell: bash
@@ -27,84 +52,53 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           import csv, sqlite3
-
           expected = {
-              'Andalucía': ('A', '2022', '01'),
-              'Islas Baleares': ('A', '2023', '04'),
-              'Canarias': ('A', '2023', '05'),
-              'Cantabria': ('A', '2023', '06'),
-              'Castilla-La Mancha': ('A', '2023', '08'),
-              'Cataluña': ('A', '2024', '09'),
-              'Comunidad Valenciana': ('A', '2023', '10'),
-              'Comunidad de Madrid': ('A', '2023', '13'),
-              'Región de Murcia': ('A', '2023', '14'),
-              'Navarra': ('A', '2023', '15'),
-              'País Vasco': ('A', '2024', '16'),
-              'La Rioja': ('A', '2023', '17'),
+              'Andalucía': ('A', '2022', '01'), 'Islas Baleares': ('A', '2023', '04'),
+              'Canarias': ('A', '2023', '05'), 'Cantabria': ('A', '2023', '06'),
+              'Castilla-La Mancha': ('A', '2023', '08'), 'Cataluña': ('A', '2024', '09'),
+              'Comunidad Valenciana': ('A', '2023', '10'), 'Comunidad de Madrid': ('A', '2023', '13'),
+              'Región de Murcia': ('A', '2023', '14'), 'Navarra': ('A', '2023', '15'),
+              'País Vasco': ('A', '2024', '16'), 'La Rioja': ('A', '2023', '17'),
           }
-          extra = [('Andalucía', 'A', '2026', '01')]
-          con = sqlite3.connect('eleccionesdb.sqlite')
-          con.row_factory = sqlite3.Row
-
-          def measure(name, kind, year, ccaa, expected147=True):
-              elections = con.execute('''
-                SELECT e.id,e.tipo_eleccion,e.fecha,e.year,e.mes,e.dia,e.codigo_ccaa,
-                       e.descripcion,e.ambito,e.slug,
-                       f.fuente,f.url_fuente,f.observaciones
-                FROM elecciones e
+          extra=[('Andalucía','A','2026','01')]
+          con=sqlite3.connect('eleccionesdb.sqlite'); con.row_factory=sqlite3.Row
+          def measure(name,kind,year,ccaa,expected147=True):
+              es=con.execute('''SELECT e.id,e.fecha,e.year,e.mes,e.dia,e.descripcion,
+                f.fuente,f.url_fuente,f.observaciones FROM elecciones e
                 LEFT JOIN elecciones_fuentes f ON f.eleccion_id=e.id
-                WHERE e.tipo_eleccion=? AND e.year=? AND e.codigo_ccaa=?
-                ORDER BY e.fecha,e.id
-              ''',(kind,year,ccaa)).fetchall()
-              if not elections:
-                  return [{'territorio':name,'esperada_147':expected147,'year_solicitado':year,
-                           'eleccion_id':'','fecha':'','descripcion':'NO DISPONIBLE','filas_resumen':0,
-                           'filas_votos':0,'territorios':0,'nivel_detalle':'ninguno','cobertura_ccaa':'',
-                           'fuente':'','url_fuente':'','observaciones':''}]
+                WHERE e.tipo_eleccion=? AND e.year=? AND e.codigo_ccaa=? ORDER BY e.fecha,e.id''',(kind,year,ccaa)).fetchall()
+              if not es:
+                  return [dict(territorio=name,esperada_147=expected147,year_solicitado=year,eleccion_id='',fecha='',descripcion='NO DISPONIBLE',filas_resumen=0,filas_votos=0,territorios=0,nivel_detalle='ninguno',cobertura_ccaa='',fuente='',url_fuente='',observaciones='')]
               out=[]
-              for e in elections:
+              for e in es:
                   eid=e['id']
-                  r=con.execute('''SELECT COUNT(*) n,COUNT(DISTINCT territorio_id) t
-                                   FROM resumen_territorial WHERE eleccion_id=?''',(eid,)).fetchone()
+                  r=con.execute('SELECT COUNT(*) n,COUNT(DISTINCT territorio_id) t FROM resumen_territorial WHERE eleccion_id=?',(eid,)).fetchone()
                   v=con.execute('SELECT COUNT(*) n FROM votos_territoriales WHERE eleccion_id=?',(eid,)).fetchone()
-                  levels=con.execute('''SELECT t.tipo,COUNT(DISTINCT t.id) n
-                                        FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id
-                                        WHERE r.eleccion_id=? GROUP BY t.tipo''',(eid,)).fetchall()
-                  level_counts={x['tipo']:x['n'] for x in levels}
-                  priority=['mesa','seccion','distrito','municipio','provincia','ccaa','comunidad_autonoma']
-                  detail=next((x for x in priority if x in level_counts),
-                              ','.join(sorted(level_counts)) if level_counts else 'ninguno')
-                  cov=con.execute('''SELECT GROUP_CONCAT(DISTINCT COALESCE(t.codigo_ccaa,'')) x
-                                     FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id
-                                     WHERE r.eleccion_id=?''',(eid,)).fetchone()['x'] or ''
-                  out.append({'territorio':name,'esperada_147':expected147,'year_solicitado':year,
-                              'eleccion_id':eid,'fecha':e['fecha'] or f"{e['year']}-{e['mes']}-{e['dia']}",
-                              'descripcion':e['descripcion'] or '','filas_resumen':r['n'],'filas_votos':v['n'],
-                              'territorios':r['t'],'nivel_detalle':detail,'cobertura_ccaa':cov,
-                              'fuente':e['fuente'] or '','url_fuente':e['url_fuente'] or '',
-                              'observaciones':e['observaciones'] or ''})
+                  levels=con.execute('''SELECT t.tipo,COUNT(DISTINCT t.id) n FROM resumen_territorial r
+                    JOIN territorios t ON t.id=r.territorio_id WHERE r.eleccion_id=? GROUP BY t.tipo''',(eid,)).fetchall()
+                  lc={x['tipo']:x['n'] for x in levels}; priority=['mesa','seccion','distrito','municipio','circunscripcion','provincia','ccaa','comunidad_autonoma']
+                  detail=next((x for x in priority if x in lc),','.join(sorted(lc)) if lc else 'ninguno')
+                  cov=con.execute("SELECT GROUP_CONCAT(DISTINCT COALESCE(t.codigo_ccaa,'')) x FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id WHERE r.eleccion_id=?",(eid,)).fetchone()['x'] or ''
+                  out.append(dict(territorio=name,esperada_147=expected147,year_solicitado=year,eleccion_id=eid,fecha=e['fecha'] or f"{e['year']}-{e['mes']}-{e['dia']}",descripcion=e['descripcion'] or '',filas_resumen=r['n'],filas_votos=v['n'],territorios=r['t'],nivel_detalle=detail,cobertura_ccaa=cov,fuente=e['fuente'] or '',url_fuente=e['url_fuente'] or '',observaciones=e['observaciones'] or ''))
               return out
-
           rows=[]
-          for name,(kind,year,ccaa) in expected.items(): rows += measure(name,kind,year,ccaa,True)
-          for name,kind,year,ccaa in extra: rows += measure(name,kind,year,ccaa,False)
-          fields=list(rows[0])
+          for n,(k,y,c) in expected.items(): rows += measure(n,k,y,c,True)
+          for n,k,y,c in extra: rows += measure(n,k,y,c,False)
+          fields=list(rows[0]);
           with open('eleccionesdb-grupo-a.csv','w',newline='',encoding='utf-8') as f:
               w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
           with open('eleccionesdb-grupo-a.md','w',encoding='utf-8') as f:
-              f.write('# Diagnóstico EleccionesDB · grupo A\n\n')
-              f.write('Export descargado una sola vez en el runner; no se registra ni habilita ningún territorio.\n\n')
-              f.write('|Territorio|#147|ID|Fecha|Resumen|Votos|Territorios|Detalle|Cobertura|Fuente|Observaciones|\n|---|---|---:|---|---:|---:|---:|---|---|---|---|\n')
-              for x in rows:
-                  clean=lambda s:str(s).replace('|','/').replace('\n',' ')
-                  f.write(f"|{clean(x['territorio'])}|{'sí' if x['esperada_147'] else 'contraste'}|{x['eleccion_id']}|{x['fecha']}|{x['filas_resumen']}|{x['filas_votos']}|{x['territorios']}|{clean(x['nivel_detalle'])}|{clean(x['cobertura_ccaa'])}|{clean(x['fuente'])}|{clean(x['observaciones'])}|\n")
+              f.write('# Diagnóstico EleccionesDB · grupo A\n\nUna descarga del export en runner; sin registro ni habilitación.\n\n')
+              f.write('|Territorio|#147|ID|Fecha|Resumen|Votos|Territorios|Detalle|Cobertura|Fuente|Observaciones|\n|---|---|---|---|---:|---:|---:|---|---|---|---|\n')
+              clean=lambda s:str(s).replace('|','/').replace('\n',' ')
+              for x in rows: f.write(f"|{clean(x['territorio'])}|{'sí' if x['esperada_147'] else 'contraste'}|{x['eleccion_id']}|{x['fecha']}|{x['filas_resumen']}|{x['filas_votos']}|{x['territorios']}|{clean(x['nivel_detalle'])}|{clean(x['cobertura_ccaa'])}|{clean(x['fuente'])}|{clean(x['observaciones'])}|\n")
           PY
           cat eleccionesdb-grupo-a.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Eliminar export completo antes de publicar
         if: always()
         shell: bash
-        run: rm -f eleccionesdb_sqlite.zip eleccionesdb.sqlite
+        run: rm -rf eleccionesdb-descargas.zip artifact_id.txt eleccionesdb.sqlite sqlite-extract descargas eleccionesdb_sqlite.zip eleccionesdb_parquet.zip eleccionesdb_csv.zip
 
       - name: Publicar únicamente informe pequeño
         if: always()
