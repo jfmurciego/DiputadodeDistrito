@@ -1,0 +1,83 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "ceuta",
+  "territory_name": "Ceuta",
+  "edition": "2025",
+  "run_id": 36258940598,
+  "source_commit": "a5516c72ea6d19b8ddc04dab727a6681f300aeea",
+  "artifact_name": "ddd-state-36258940598-M03U",
+  "artifact_sha256": "9732e41eacf2a7dbd83ad5f28786d297e201b79d6d639a364b0d0a060312f93c",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "stage": "M03U",
+  "source": {
+    "artifact_name": "ddd-source-package-ceuta-2025-36258940598",
+    "artifact_sha256": "c682bc36d11b91edc5016c78e4f55baeb1499e0b8dd1b1b58f6fa87086302529",
+    "package_sha256": "63a29080d7adf52d0b5156632cc71419ab262e0d30ea1a437c2f6746c64294da"
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
+    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
+    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-36258940598-M03",
+    "artifact_sha256": "43e63c7239baef2c67a5801a1e0b39b1461b5f3e697fb9f27fff68532c3128ae",
+    "module_version": "7.4.1",
+    "nodes": 56,
+    "edges": 135,
+    "population": 83567,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-36258940598",
+    "job_artifact_sha256": "cedcb42197e0b831fe3e33bc222e02221f7c845a2b75b42899d19aae68c520fe",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/ceuta/.cache/ddd/preparacion/ceuta_2025/ceuta_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "k_districts": 25,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/ceuta_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/ceuta_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/ceuta_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/ceuta/.cache/ddd/preparacion/{run_name}/ceuta_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 25,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
+  "effective_gate": {
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
+  }
+}

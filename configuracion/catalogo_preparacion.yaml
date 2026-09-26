@@ -441,6 +441,8 @@ territories:
         artifact_name: ddd-source-package-ceuta-2025-36258940598
         artifact_sha256: c682bc36d11b91edc5016c78e4f55baeb1499e0b8dd1b1b58f6fa87086302529
         package_sha256: 63a29080d7adf52d0b5156632cc71419ab262e0d30ea1a437c2f6746c64294da
+      evidence:
+        generation_preflight: territorios/ceuta/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: melilla
   name: Melilla
   editions:
