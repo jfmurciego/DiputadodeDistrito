@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.4.12
-NOMBRE DE VERSIÓN: Fallback determinista de crecimiento directo
+VERSIÓN: 7.4.13
+NOMBRE DE VERSIÓN: Fallback determinista multistart de crecimiento directo
 FECHA: 2026-09-15
 FUNCIÓN: conservar íntegramente el motor M04 v7.4.10 y añadir una segunda construcción determinista únicamente cuando el rebalanceo primario deja violaciones duras de suelo/techo.
 ENTRADAS: idénticas a v7.4.10.
@@ -23,7 +23,7 @@ from pathlib import Path
 from ddd_core import m04_seed_engine_v7410 as previous
 from ddd_core.config import load_params_yaml, module_cfg, require
 
-ENGINE_VERSION = "7.4.12"
+ENGINE_VERSION = "7.4.13"
 
 # API usada por el motor canónico ddd_core/m04_seed_engine.py.
 load_geo = previous.load_geo
@@ -31,6 +31,94 @@ partition_oversized_municipality = previous.partition_oversized_municipality
 
 _ORIGINAL_REBALANCE = previous.rebalance
 _FALLBACK_EVENTS = []
+
+
+def _grow_partition_from_seed(nodes, k, adj, w, first_seed):
+    """Replica grow_partition con semilla inicial explícita y orden determinista."""
+    import collections
+
+    nodes = set(nodes)
+    if k == 1:
+        return [nodes]
+    if first_seed not in nodes:
+        raise ValueError("first_seed debe pertenecer a nodes")
+
+    seeds = [first_seed]
+    dist = {node: 10**9 for node in nodes}
+
+    def update(seed):
+        queue = collections.deque([(seed, 0)])
+        seen = {seed}
+        while queue:
+            node, depth = queue.popleft()
+            if depth < dist[node]:
+                dist[node] = depth
+            for neighbor in adj.get(node, set()):
+                if neighbor in nodes and neighbor not in seen:
+                    seen.add(neighbor)
+                    queue.append((neighbor, depth + 1))
+
+    update(first_seed)
+    while len(seeds) < k:
+        seed = max(
+            nodes - set(seeds),
+            key=lambda node: (dist[node], w[node], str(node)),
+        )
+        seeds.append(seed)
+        update(seed)
+
+    owner = {seed: index for index, seed in enumerate(seeds)}
+    parts = [{seed} for seed in seeds]
+    populations = [w[seed] for seed in seeds]
+    unassigned = nodes - set(seeds)
+    local_target = sum(w[node] for node in nodes) / k
+
+    while unassigned:
+        best = None
+        for node in sorted(unassigned, key=str):
+            candidate_parts = sorted({
+                owner[neighbor]
+                for neighbor in adj.get(node, set())
+                if neighbor in owner
+            })
+            for part_index in candidate_parts:
+                score = (
+                    populations[part_index] / local_target,
+                    abs(populations[part_index] + w[node] - local_target),
+                    part_index,
+                    str(node),
+                )
+                candidate = (score, node, part_index)
+                if best is None or candidate < best:
+                    best = candidate
+        if best is None:
+            raise SystemExit("M04: crecimiento conexo multistart bloqueado")
+        _, node, part_index = best
+        owner[node] = part_index
+        parts[part_index].add(node)
+        populations[part_index] += w[node]
+        unassigned.remove(node)
+    return parts
+
+
+def _multistart_candidates(nodes, adj, w, limit=32):
+    nodes = set(nodes)
+    rankings = (
+        sorted(nodes, key=lambda node: (w[node], str(node))),
+        sorted(nodes, key=lambda node: (-w[node], str(node))),
+        sorted(nodes, key=lambda node: (len(adj.get(node, set())), w[node], str(node))),
+        sorted(nodes, key=lambda node: (-len(adj.get(node, set())), -w[node], str(node))),
+        sorted(nodes, key=str),
+    )
+    candidates = []
+    per_ranking = max(1, limit // len(rankings))
+    for ranking in rankings:
+        for node in ranking[:per_ranking]:
+            if node not in candidates:
+                candidates.append(node)
+                if len(candidates) >= limit:
+                    return candidates
+    return candidates
 
 
 def rebalance_with_direct_growth_fallback(parts, adj, w, target, floor, cap, tol, iters=30000):
@@ -48,24 +136,53 @@ def rebalance_with_direct_growth_fallback(parts, adj, w, target, floor, cap, tol
         return primary_parts, primary_pops, primary_obj
 
     nodes = set().union(*primary_parts)
-    alternate_seed = previous.grow_partition(nodes, len(primary_parts), adj, w)
-    alternate_parts, alternate_pops, alternate_obj = _ORIGINAL_REBALANCE(
-        alternate_seed, adj, w, target, floor, cap, tol, iters
+    best_parts = primary_parts
+    best_pops = primary_pops
+    best_obj = primary_obj
+    attempts = []
+
+    # Conserva primero exactamente el fallback histórico.
+    seeds = [max(nodes, key=lambda node: (w[node], str(node)))]
+    seeds.extend(
+        node for node in _multistart_candidates(nodes, adj, w)
+        if node not in seeds
     )
+
+    for seed in seeds:
+        alternate_seed = _grow_partition_from_seed(
+            nodes, len(primary_parts), adj, w, seed
+        )
+        alternate_parts, alternate_pops, alternate_obj = _ORIGINAL_REBALANCE(
+            alternate_seed, adj, w, target, floor, cap, tol, iters
+        )
+        attempts.append({
+            "seed": str(seed),
+            "objective": list(alternate_obj),
+            "populations": [int(x) for x in alternate_pops],
+        })
+        if alternate_obj < best_obj:
+            best_parts, best_pops, best_obj = (
+                alternate_parts,
+                alternate_pops,
+                alternate_obj,
+            )
+        if best_obj[0] == 0:
+            break
 
     event = {
         "nodes": len(nodes),
         "k": len(primary_parts),
         "primary_objective": list(primary_obj),
-        "alternate_objective": list(alternate_obj),
-        "accepted": bool(alternate_obj < primary_obj),
+        "alternate_objective": list(best_obj),
+        "accepted": bool(best_obj < primary_obj),
         "primary_populations": [int(x) for x in primary_pops],
-        "alternate_populations": [int(x) for x in alternate_pops],
+        "alternate_populations": [int(x) for x in best_pops],
+        "multistart_attempts": attempts,
     }
     _FALLBACK_EVENTS.append(event)
 
-    if alternate_obj < primary_obj:
-        return alternate_parts, alternate_pops, alternate_obj
+    if best_obj < primary_obj:
+        return best_parts, best_pops, best_obj
     return primary_parts, primary_pops, primary_obj
 
 
@@ -80,9 +197,10 @@ def _annotate_report(params_path: str) -> None:
         return
     report = json.loads(path.read_text(encoding="utf-8"))
     report["version"] = ENGINE_VERSION
-    report["hard_repair_strategy"] = "direct_growth_fallback_only_after_primary_hard_violation"
+    report["hard_repair_strategy"] = "deterministic_multistart_direct_growth_only_after_primary_hard_violation"
     report["hard_repair_fallbacks"] = list(_FALLBACK_EVENTS)
     report.setdefault("rules", {})["direct_growth_fallback_preserves_same_units_and_k"] = True
+    report["rules"]["direct_growth_multistart_is_bounded_and_deterministic"] = True
     report["rules"]["direct_growth_fallback_is_used_only_if_objective_improves"] = True
     path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
