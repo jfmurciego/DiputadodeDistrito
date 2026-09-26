@@ -72,27 +72,30 @@ jobs:
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
       - name: Instalar lector electoral
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
-      - name: Adquirir y normalizar Cantabria sin persistir estado
+      - name: Adquirir y normalizar Principado de Asturias sin recuperar paquete previo
         shell: bash
         run: |
           set -euo pipefail
           rm -rf .ddd-electoral-integration
           python -m herramientas.preparar_fuente_electoral \
-            --territory-id cantabria \
+            --territory-id principado_de_asturias \
             --edition 2025 \
             --package-out .ddd-electoral-integration \
             --root-dir . \
-            --declaration territorios/cantabria/config/elecciones/cantabria_parlamento_2023_vigente.yaml
+            --declaration territorios/principado_de_asturias/config/elecciones/asturias_jgpa_2023_vigente.yaml
           test -s .ddd-electoral-integration/manifest.json
           test "$(jq -r .decision .ddd-electoral-integration/manifest.json)" = "ACQUIRE"
-          test "$(jq -r .election_id .ddd-electoral-integration/manifest.json)" = "cantabria_parlamento_2023"
+          test "$(jq -r .election_id .ddd-electoral-integration/manifest.json)" = "asturias_jgpa_2023"
           test -s .ddd-electoral-integration/resultados_normalizados.csv
           test "$(($(wc -l < .ddd-electoral-integration/resultados_normalizados.csv) - 1))" -gt 0
+          digest="$(jq -r '.source_sha256 // .sha256 // empty' .ddd-electoral-integration/manifest.json)"
+          test -n "$digest"
+          test "$digest" != "null"
       - name: Conservar paquete de prueba para revisión
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ci-electoral-cantabria-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ci-electoral-asturias-${{ github.run_id }}-${{ github.run_attempt }}
           path: .ddd-electoral-integration
           include-hidden-files: true
           if-no-files-found: warn
