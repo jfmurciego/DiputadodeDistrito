@@ -1,4 +1,4 @@
-name: Verificar registro EleccionesDB · diez elecciones
+name: Verificar registro EleccionesDB · doce elecciones
 
 on:
   pull_request:
@@ -8,34 +8,43 @@ permissions:
   contents: read
   actions: read
 
-env:
-  ELECCIONESDB_SNAPSHOT_SHA256: ad0d1e3ea14c90c294e7bcf77ab9a3205a13491c859a1e393c49e15eeb257f32
-
 jobs:
   verificar:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
       - name: Instalar dependencias
         run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - name: Recuperar una sola vez el snapshot durable y verificar huella
+      - name: Recuperar snapshot de este HEAD y verificar identidad e integridad
         env: {GH_TOKEN: '${{ github.token }}'}
         run: |
           set -euo pipefail
-          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
-          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
-          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot EleccionesDB durable ausente"; exit 51; }
-          aid="$(jq -r .id <<<"$art")"
+          match=''
+          for n in $(seq 1 60); do
+            meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
+            match="$(jq -c --arg sha "$PR_HEAD_SHA" '.artifacts|map(select((.expired|not) and .workflow_run.head_sha==$sha))|sort_by(.created_at)|last' <<<"$meta")"
+            if [[ "$match" != "null" && -n "$match" ]]; then break; fi
+            sleep 5
+          done
+          [[ "$match" != "null" && -n "$match" ]] || { echo "::error::Snapshot EleccionesDB de este HEAD ausente"; exit 51; }
+          aid="$(jq -r .id <<<"$match")"
           gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > snapshot.zip
           mkdir snapshot; unzip -q snapshot.zip -d snapshot
           test -s snapshot/ddd-eleccionesdb-snapshot.sqlite
           test -s snapshot/ddd-eleccionesdb-snapshot.json
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"
           actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
-          [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+          [[ -n "$declared" && "$declared" == "$actual" ]] || { echo "::error::Huella declarada del snapshot no coincide"; exit 52; }
+          test "$(jq '.election_ids|length' snapshot/ddd-eleccionesdb-snapshot.json)" = 11
+          test "$(jq '.logical_election_count' snapshot/ddd-eleccionesdb-snapshot.json)" = 12
+          echo "ELECCIONESDB_SNAPSHOT_SHA256=$actual" >> "$GITHUB_ENV"
           echo "snapshot_artifact_id=$aid" >> "$GITHUB_ENV"
-      - name: Construir y registrar en copia las diez elecciones
+          echo "snapshot_sha256=$actual" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Construir y registrar en copia las doce elecciones
         run: |
           set -euo pipefail
           rm -rf .ddd-eleccionesdb-packages .ddd-registry-copy
@@ -48,6 +57,9 @@ jobs:
 
           db=Path('snapshot/ddd-eleccionesdb-snapshot.sqlite')
           snapshot_digest=sha256(db)
+          expected={'ceuta_asamblea_local_2023','melilla_asamblea_local_2023'}
+          if len(ELECTIONS)!=12 or not expected.issubset(ELECTIONS):
+              raise SystemExit(f'Cobertura lógica inesperada: {sorted(ELECTIONS)}')
           rows=[]
           for election_id,(edb,ccaa,territory,date) in ELECTIONS.items():
               pkg=Path('.ddd-eleccionesdb-packages')/territory
@@ -64,16 +76,17 @@ jobs:
           with open('registro-copia-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:
               w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
           with open('registro-copia-eleccionesdb.md','w',encoding='utf-8') as f:
-              f.write('# Paquete + registro en copia — diez elecciones EleccionesDB\n\n|Territorio|Elección|Fecha|Secciones|Votos|Hash paquete|Registro copia|\n|---|---|---|---:|---:|---|---|\n')
+              f.write('# Paquete + registro en copia — doce elecciones EleccionesDB\n\n|Territorio|Elección|Fecha|Secciones|Votos|Hash paquete|Registro copia|\n|---|---|---|---:|---:|---|---|\n')
               for r in rows:
-                  f.write(f"|{r['territorio']}|{r['election_id']}|{r['fecha']}|{r['secciones']}|{r['votos']}|`{r['package_sha256']}`|{r['registro_copia']}|\n")
+                  f.write(f"|{r['territorio']}|{r['election_id']}|{r['fecha']}|{r['secciones']}|{r['votos']}|{r['package_sha256']}|{r['registro_copia']}|\n")
           PY
           cat registro-copia-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
+
       - name: Publicar sólo informe pequeño
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: registro-copia-eleccionesdb-diez
+          name: registro-copia-eleccionesdb-doce
           path: |
             registro-copia-eleccionesdb.csv
             registro-copia-eleccionesdb.md

@@ -16,6 +16,8 @@ ELECTIONS={
  'la_rioja_parlamento_2023':(243,'17','la_rioja','2023-05-28'),
  'comunidad_valenciana_corts_2023':(244,'10','comunidad_valenciana','2023-05-28'),
  'pais_vasco_parlamento_2024':(250,'16','pais_vasco','2024-04-21'),
+ 'ceuta_asamblea_local_2023':(247,'18','ceuta','2023-05-28'),
+ 'melilla_asamblea_local_2023':(247,'19','melilla','2023-05-28'),
 }
 
 def sha256(path:Path)->str:
@@ -62,7 +64,9 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None)->dict:
  if not publishers: raise ValueError('Procedencia electoral vacía')
  rows=con.execute('''SELECT t.id,t.codigo_ccaa,t.codigo_provincia,t.codigo_municipio,t.codigo_distrito,t.codigo_seccion
                     FROM resumen_territorial r JOIN territorios t ON t.id=r.territorio_id
-                    WHERE r.eleccion_id=? AND t.tipo='seccion' ORDER BY t.id''',(edb_id,)).fetchall()
+                    WHERE r.eleccion_id=? AND t.tipo='seccion'
+                      AND printf('%02d',CAST(t.codigo_ccaa AS INTEGER))=?
+                    ORDER BY t.id''',(edb_id,ccaa)).fetchall()
  if not rows: raise ValueError('Elección con cero secciones')
  sections={}
  for r in rows:
@@ -76,7 +80,9 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None)->dict:
  pexpr=_party_expr(con)
  votes=con.execute(f'''SELECT v.territorio_id,{pexpr} party,v.votos FROM votos_territoriales v
                        JOIN territorios t ON t.id=v.territorio_id JOIN partidos p ON p.id=v.partido_id
-                       WHERE v.eleccion_id=? AND t.tipo='seccion' ORDER BY v.territorio_id,p.id''',(edb_id,)).fetchall()
+                       WHERE v.eleccion_id=? AND t.tipo='seccion'
+                         AND printf('%02d',CAST(t.codigo_ccaa AS INTEGER))=?
+                       ORDER BY v.territorio_id,p.id''',(edb_id,ccaa)).fetchall()
  if not votes: raise ValueError('Elección con cero votos por sección')
  out.mkdir(parents=True,exist_ok=True)
  csv_path=out/'resultados_electorales_normalizados.csv'; parties=set(); records=0; total_votes=0
