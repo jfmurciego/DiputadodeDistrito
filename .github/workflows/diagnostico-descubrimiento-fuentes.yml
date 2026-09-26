@@ -1,0 +1,129 @@
+name: Diagnóstico descubrimiento fuentes electorales
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  descubrir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+
+      - name: Descubrir recursos reales en portales oficiales y mapas de contraste
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, hashlib, json, re, subprocess, urllib.parse
+          from pathlib import Path
+
+          seeds=[
+            ('cataluna','cataluna_parlament_2024','oficial','https://www.gencat.cat/eleccions/resultatsparlament2024/es/descargas'),
+            ('cataluna','cataluna_parlament_2024','rtve_contraste','https://www.rtve.es/noticias/20240509/elecciones-catalanas-2024-mapa-resultados-calle-seccion-censal/16094900.shtml'),
+            ('andalucia','andalucia_parlamento_2026','oficial','https://www.juntadeandalucia.es/datosabiertos/portal/node/2587'),
+            ('andalucia','andalucia_parlamento_2026','rtve_contraste','https://www.rtve.es/noticias/20260518/elecciones-andalucia-2026-mapa-resultados-calle-seccion-censal/17063243.shtml'),
+            ('extremadura','extremadura_asamblea_2025-12-21','oficial','https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'),
+            ('extremadura','extremadura_asamblea_2025-12-21','rtve_contraste','https://www.rtve.es/noticias/20251222/elecciones-extremadura-2025-mapa-resultados-calle-seccion-censal/16859940.shtml'),
+          ]
+          markers=re.compile(r'(?:\.csv(?:\?|$)|\.xlsx?(?:\?|$)|\.json(?:\?|$)|\.zip(?:\?|$)|getEscrutinio|getEnvio|descarg|download|secci[oó]n|mesa|resultad)',re.I)
+          url_rx=re.compile(r'''(?:(?:https?:)?//[^"'<>\s\\]+|/[^"'<>\s\\]{3,})''')
+          tag_rx=re.compile(r'''(?:href|src)=["']([^"']+)["']''',re.I)
+          rows=[]
+          assets_seen=set()
+
+          def curl(url, cap=2500000, timeout=30):
+              cmd=['curl','-L','--compressed','--silent','--show-error','--fail',
+                   '--connect-timeout','10','--max-time',str(timeout),
+                   '-A','DDD-electoral-source-discovery/1.0',
+                   '-D','-','--range',f'0-{cap-1}',url]
+              p=subprocess.run(cmd,capture_output=True)
+              raw=p.stdout
+              if p.returncode:
+                  return {'ok':False,'error':p.stderr.decode('utf-8','ignore')[:500]}
+              # curl -D - ante redirects concatena cabeceras; el último bloque manda.
+              parts=raw.split(b'\r\n\r\n')
+              if len(parts)<2: parts=raw.split(b'\n\n')
+              header=parts[-2] if len(parts)>=2 else b''
+              body=parts[-1] if len(parts)>=2 else raw
+              hs=header.decode('iso-8859-1','ignore')
+              status=''
+              m=re.findall(r'HTTP/\S+\s+(\d+)',hs)
+              if m: status=m[-1]
+              ctype=''
+              mm=re.findall(r'(?im)^content-type:\s*([^\r\n]+)',hs)
+              if mm: ctype=mm[-1].strip()
+              return {'ok':True,'status':status,'ctype':ctype,'body':body,'sha256':hashlib.sha256(body).hexdigest()}
+
+          def candidates(base, text):
+              out=set()
+              for x in tag_rx.findall(text):
+                  out.add(urllib.parse.urljoin(base,x))
+              for x in url_rx.findall(text):
+                  if x.startswith('//'): x='https:'+x
+                  out.add(urllib.parse.urljoin(base,x))
+              return sorted(u for u in out if markers.search(u))
+
+          for territory,election,kind,url in seeds:
+              root=curl(url)
+              if not root['ok']:
+                  rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'seed','url':url,'http':'','content_type':'','bytes':'','sha256':'','hallazgo':'ERROR','detalle':root['error']})
+                  continue
+              text=root['body'].decode('utf-8','ignore')
+              found=candidates(url,text)
+              rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'seed','url':url,'http':root['status'],'content_type':root['ctype'],'bytes':len(root['body']),'sha256':root['sha256'],'hallazgo':'HTML','detalle':f'candidatos={len(found)}'})
+              # inspeccionar enlaces de datos y, además, JS del mismo host para descubrir endpoints dinámicos
+              all_urls=list(found)
+              script_urls=sorted(set(urllib.parse.urljoin(url,x) for x in tag_rx.findall(text) if re.search(r'\.js(?:\?|$)',x,re.I)))[:40]
+              host=urllib.parse.urlparse(url).netloc.lower()
+              for js in script_urls:
+                  if urllib.parse.urlparse(js).netloc.lower()!=host or js in assets_seen: continue
+                  assets_seen.add(js)
+                  jr=curl(js,cap=2000000,timeout=25)
+                  if not jr['ok']: continue
+                  jtxt=jr['body'].decode('utf-8','ignore')
+                  for u in candidates(js,jtxt):
+                      all_urls.append(u)
+              # evitar ruido y duplicados. Probar como máximo 80 recursos candidatos por seed.
+              uniq=[]
+              for u in all_urls:
+                  u=u.rstrip('),;')
+                  if u not in uniq and len(u)<1200: uniq.append(u)
+              for cand in uniq[:80]:
+                  cr=curl(cand,cap=524288,timeout=20)
+                  if not cr['ok']:
+                      rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'candidate','url':cand,'http':'','content_type':'','bytes':'','sha256':'','hallazgo':'ERROR','detalle':cr['error']})
+                      continue
+                  ctype=cr['ctype'].lower(); body=cr['body']; low=body[:1000].lower()
+                  is_html=('text/html' in ctype) or b'<html' in low or b'<!doctype html' in low
+                  data_like=any(x in ctype for x in ('csv','json','spreadsheet','excel','zip','octet-stream')) or (not is_html and markers.search(cand))
+                  rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'candidate','url':cand,'http':cr['status'],'content_type':cr['ctype'],'bytes':len(body),'sha256':cr['sha256'],'hallazgo':'DATA' if data_like else 'HTML','detalle':'muestra limitada a 512 KiB'})
+
+          fields=['territorio','election_id','origen','nivel','url','http','content_type','bytes','sha256','hallazgo','detalle']
+          with open('descubrimiento-fuentes.csv','w',newline='',encoding='utf-8') as f:
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+          interesting=[r for r in rows if r['hallazgo'] in ('DATA','ERROR') or (r['nivel']=='seed' and r['origen']=='oficial')]
+          with open('descubrimiento-fuentes.md','w',encoding='utf-8') as f:
+              f.write('# Descubrimiento reproducible de fuentes electorales\n\n')
+              f.write('|Territorio|Elección|Origen|Hallazgo|HTTP|Content-Type|URL|Detalle|\n|---|---|---|---|---:|---|---|---|\n')
+              for r in interesting:
+                  vals=[str(r[k]).replace('|','/') for k in ('territorio','election_id','origen','hallazgo','http','content_type','url','detalle')]
+                  f.write('|'+'|'.join(vals)+'|\n')
+          print(open('descubrimiento-fuentes.md',encoding='utf-8').read())
+          PY
+          cat descubrimiento-fuentes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar informe pequeño
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-descubrimiento-fuentes
+          path: |
+            descubrimiento-fuentes.csv
+            descubrimiento-fuentes.md
+          if-no-files-found: error
+          retention-days: 7
