@@ -436,12 +436,14 @@ territories:
       electoral_source_declaration: null
       territorial_sources_prepared: true
       territorial_contract_complete: true
-      territorial_product_available: false
+      territorial_product_available: true
       electoral_source_prepared: false
       electoral_product_available: false
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS
       production_authorization: AUTHORIZED
-      last_valid_checkpoint: null
+      last_valid_checkpoint:
+        run_id: 36272095647
+        stage: M06
       preparation_evidence:
         run_id: 36258940598
         artifact_name: ddd-source-package-ceuta-2025-36258940598
@@ -449,6 +451,7 @@ territories:
         package_sha256: 63a29080d7adf52d0b5156632cc71419ab262e0d30ea1a437c2f6746c64294da
       evidence:
         generation_preflight: territorios/ceuta/evidencia/catalogo/generation_preflight_2025.json
+        territorial_product: territorios/ceuta/evidencia/catalogo/territorial_product_2025.json
 - territory_id: melilla
   name: Melilla
   editions:
