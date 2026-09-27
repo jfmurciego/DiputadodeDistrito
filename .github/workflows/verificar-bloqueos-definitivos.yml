@@ -24,11 +24,11 @@ jobs:
           from pathlib import Path
 
           specs=[
-            ('andalucia','andalucia.csv',6044,4128575,4157539,'BOJA 115/2026','https://www.juntadeandalucia.es/boja/2026/115/1'),
-            ('extremadura','extremadura.csv',966,522418,524837,'DOE 8/2026','https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'),
+            ('andalucia','andalucia.csv',6044,4128575,4157539,'BOJA 115/2026','https://www.juntadeandalucia.es/boja/2026/115/1','PENDING_SIEL_SNAPSHOT'),
+            ('extremadura','extremadura.csv',966,522418,524837,'DOE 8/2026','https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001','BLOCKED_FINAL_GRANULAR_SOURCE'),
           ]
           out=[]
-          for territory,file,expected_sections,expected_provisional,definitive,reference,url in specs:
+          for territory,file,expected_sections,expected_provisional,definitive,reference,url,state in specs:
               p=Path(file); raw=p.read_bytes()
               text=raw.decode('utf-8-sig','replace')
               rows=list(csv.DictReader(text.splitlines()))
@@ -54,7 +54,7 @@ jobs:
                 'votos_candidaturas_provisional':votes,'votos_candidaturas_definitivo':definitive,
                 'delta_definitivo_menos_provisional':delta,'provisional_sha256':hashlib.sha256(raw).hexdigest(),
                 'referencia_definitiva':reference,'url_referencia':url,
-                'estado':'BLOCKED_FINAL_GRANULAR_SOURCE'
+                'estado':state
               })
           Path('bloqueos-definitivos.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
           with Path('bloqueos-definitivos.md').open('w',encoding='utf-8') as f:
