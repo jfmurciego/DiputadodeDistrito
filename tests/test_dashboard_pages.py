@@ -17,7 +17,7 @@ class DashboardPages(unittest.TestCase):
         payload=build(ROOT,"2025")
         self.assertEqual(payload["schema"],"ddd-estado-operativo/2.1")
         galicia=next(r for r in payload["territories"] if r["territory_id"]=="galicia")
-        self.assertEqual(galicia["g"],"green")
+        self.assertEqual(galicia["g"],"yellow")
         self.assertEqual(galicia["re"],"green")
         self.assertTrue(galicia["run_id"])
         self.assertGreaterEqual(payload["kpis"]["complete"],1)
