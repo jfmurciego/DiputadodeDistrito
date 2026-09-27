@@ -70,7 +70,6 @@ class WorkflowSafety(unittest.TestCase):
             "diagnostico-eleccionesdb-grupo-a.yml",
             "diagnostico-fuentes-electorales-pendientes.yml",
             "verificar-cataluna-2024.yml",
-            "verificar-bloqueos-definitivos.yml",
         ):
             data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
             triggers=data.get(True,data.get("on",{})) or {}
@@ -83,6 +82,10 @@ class WorkflowSafety(unittest.TestCase):
         self.assertFalse(
             (WORKFLOWS/"verificar-registro-eleccionesdb.yml").exists(),
             "El registro de las doce elecciones se valida dentro del productor del snapshot; no mantener polling cruzado.",
+        )
+        self.assertFalse(
+            (WORKFLOWS/"verificar-bloqueos-definitivos.yml").exists(),
+            "Los provisionales y estados pendientes se verifican junto a la muestra SIEL; no duplicar descargas de red.",
         )
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
