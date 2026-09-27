@@ -1,4 +1,4 @@
-name: Diagnóstico EleccionesDB · grupo A
+name: Verificar EleccionesDB · doce elecciones
 
 on:
   pull_request:
