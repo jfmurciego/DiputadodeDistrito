@@ -356,7 +356,7 @@ jobs:
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
       source_ref: ${{ needs.planificar.outputs.source_sha }}
       source_package_artifact_sha256: ${{ needs.puerta_01.outputs.artifact_digest }}
-      generation_preflight_artifact_name: ${{ needs.planificar.outputs.pre_m04_accreditation_planned == 'true' && format('ddd-generation-preflight-{0}-{1}', needs.planificar.outputs.territory_id, github.run_id) || '' }}
+      generation_preflight_artifact_name: ${{ needs.planificar.outputs.run_prepare_territorial == 'true' && needs.planificar.outputs.persist_state == 'true' && format('ddd-generation-preflight-{0}-{1}', needs.planificar.outputs.territory_id, github.run_id) || '' }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       require_generation_gate: true
       artifact_namespace: ${{ inputs.artifact_namespace }}
