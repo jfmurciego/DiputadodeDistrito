@@ -24,6 +24,8 @@ class SielAndaluciaWorkflowIntegrationTests(unittest.TestCase):
         self.assertNotIn("promover_catalogo_operacional", text)
         self.assertNotIn("git push", text)
         self.assertIn("include-hidden-files: true", text)
+        self.assertIn("ddd-siel-andalucia-2026-checkpoint", text)
+        self.assertIn("if: ${{ always() }}", text)
 
     def test_preparation_workflow_consumes_verified_siel_snapshot(self):
         text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
