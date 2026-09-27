@@ -68,7 +68,6 @@ class WorkflowSafety(unittest.TestCase):
     def test_electoral_network_ci_is_path_scoped(self):
         for name in (
             "diagnostico-eleccionesdb-grupo-a.yml",
-            "verificar-registro-eleccionesdb.yml",
             "diagnostico-fuentes-electorales-pendientes.yml",
             "verificar-cataluna-2024.yml",
             "verificar-bloqueos-definitivos.yml",
@@ -81,6 +80,10 @@ class WorkflowSafety(unittest.TestCase):
             self.assertTrue(paths,name)
             self.assertIn(f".github/workflows/{name}",paths,name)
 
+        self.assertFalse(
+            (WORKFLOWS/"verificar-registro-eleccionesdb.yml").exists(),
+            "El registro de las doce elecciones se valida dentro del productor del snapshot; no mantener polling cruzado.",
+        )
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
         self.assertFalse((WORKFLOWS/"g10-operar-lote.yml").exists())
