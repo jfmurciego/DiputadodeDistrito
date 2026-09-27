@@ -4,7 +4,7 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 
 | Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
 |---|---|---|---|---|---|---|
-| Andalucía | Sí — Parlamento 2026, 2026-05-17 | No | No | No | No | Falta fuente 2026 definitiva, granular y verificable integrada en 03. |
+| Andalucía | Sí — Parlamento 2026, 2026-05-17 | No — existe escrutinio provisional granular (6.044 secciones; 4.128.575 votos a candidaturas), pero no reconcilia con el definitivo | No definitiva | No | No | El provisional Minsait difiere en 28.964 votos del total definitivo BOJA (4.157.539). Falta fuente pública/reproducible definitiva a sección/mesa; SIEL se diagnostica aparte sin convertir un timeout en ausencia de datos. |
 | Aragón | Sí — Cortes 2026, 2026-02-08 | Sí — fuente materializada RTVE 2026, sección censal, SHA gobernado | Sí — contrato electoral materializado 2026 | Sí — reutilización materializada verificable; no requiere readquisición | Sí — `electoral_source_2025.json` registra `aragon_cortes_2026-02-08` | — |
 | Principado de Asturias | Sí — Junta General 2023 | Sí | Sí — declaración propia | Sí, ruta real ya probada | Sí | — |
 | Islas Baleares | Sí — Parlament 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
@@ -12,9 +12,9 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 | Cantabria | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Castilla-La Mancha | Sí — Cortes 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Castilla y León | Sí — Cortes 2026, 2026-03-15 | Sí — producto materializado gobernado | Sí — contrato materializado | Sí — REUSE verificado, sin adquisición externa | Sí — evidencia existente | — |
-| Cataluña | Sí — Parlament 2024, 2024-05-12 | No | No | No | No | EleccionesDB no aporta filas válidas para esta elección y falta otra fuente integrada. |
+| Cataluña | Sí — Parlament 2024, 2024-05-12 | Sí — mirror auditable del export Generalitat, 8.944 mesas / 5.121 secciones, reconciliación exacta | Sí — URL fijada a commit externo inmutable + referencias oficiales Generalitat | Sí — 5.121 secciones, 3.120.503 votos, paquete y registro en copia PASS | No | No se ha promovido en producción. |
 | Comunidad Valenciana | Sí — Corts 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
-| Extremadura | Sí — Asamblea 2025, 2025-12-21 | No | No utilizable | No | No | Las fuentes declaradas no superan adquisición + resolución requerida. |
+| Extremadura | Sí — Asamblea 2025, 2025-12-21 | No — existe escrutinio provisional granular (966 secciones; 522.418 votos a candidaturas), pero no reconcilia con el definitivo | No definitiva | No | No | El provisional Minsait difiere en 2.419 votos del total definitivo DOE (524.837). El DOE definitivo sólo publica circunscripción y el repositorio de prensa granular exige credenciales. |
 | Galicia | Sí — Parlamento 2024 | Sí | Sí — declaración propia | Evidencia real previa; no es una de las diez pruebas EleccionesDB | Sí | — |
 | Comunidad de Madrid | Sí — Asamblea 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Región de Murcia | Sí — Asamblea Regional 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
@@ -32,6 +32,14 @@ Huella interna gobernada del SQLite: `668f8eeefe0c19f427367ee2b44f0050c30b93d39f
 
 La prueba de CI construye los doce paquetes con el mismo snapshot y registra cada uno exclusivamente en una copia de trabajo del catálogo. Ese registro de prueba **no es registro efectivo en producción**.
 
+## Cataluña 2024
+
+La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y lo contrasta contra referencias oficiales de la Generalitat. El adaptador rechaza cualquier fichero que no reproduzca exactamente 8.944 mesas, 5.121 secciones, 3.183.137 votantes, 3.120.503 votos a candidaturas y los totales por candidatura declarados. La prueba real produce paquete y registro únicamente en copia de trabajo.
+
+## Bloqueos definitivos pendientes
+
+Andalucía y Extremadura no están bloqueadas por ausencia de datos provisionales: ambos ficheros granulares existen. Están bloqueadas porque esos ficheros **no son resultados definitivos** y sus totales difieren de las proclamaciones oficiales. La evidencia cuantitativa se mantiene en `docs/auditorias/bloqueos_fuentes_definitivas_2026-09-27.md`.
+
 ## Criterio de cierre
 
-#147 permanece **INCOMPLETA / NO FUSIONAR** hasta que los territorios pendientes dispongan de fuente utilizable y se acredite la cadena correspondiente. No ejecutar territorios ni promover los registros de copia a producción para cerrar esta prueba.
+#147 permanece **INCOMPLETA / NO FUSIONAR**. A fecha de esta evidencia, la cadena de entrada electoral queda cerrada hasta paquete+registro en copia para 17 territorios; Andalucía y Extremadura permanecen bloqueadas por falta de una fuente definitiva, granular y reproducible. Ningún registro de copia se considera producción. No ejecutar territorios ni promover registros para cerrar esta prueba.

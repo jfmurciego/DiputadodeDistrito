@@ -10,241 +10,77 @@ permissions:
 jobs:
   diagnosticar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
 
-      - name: Instalar lector XLSX
-        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
-
-      - name: Probar fuentes oficiales, mirrors y endpoints concretos
+      - name: SIEL Andalucía 2026 — prueba acotada, sin reintentos largos
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import csv, hashlib, html.parser, io, json, os, re, tempfile, urllib.parse, urllib.request, zipfile
+          import csv,io,json,urllib.parse,urllib.request
           from pathlib import Path
-          from openpyxl import load_workbook
 
-          UA={'User-Agent':'DDD-electoral-source-diagnostic/2.0'}
-          rows=[]
-
-          def add(territory,election,source_class,url,result,reason,**kw):
-              row={'territorio':territory,'election_id':election,'clase_fuente':source_class,'url':url,'resultado':result,'motivo':reason,
-                   'http':kw.get('http',''),'content_type':kw.get('content_type',''),'bytes':kw.get('bytes',''),
-                   'sha256':kw.get('sha256',''),'detalle':kw.get('detalle','')}
-              rows.append(row)
-
-          def fetch(url,limit=None,timeout=20,headers=None):
-              h=dict(UA); h.update(headers or {})
+          def fetch(url,timeout=8,headers=None):
+              h={'User-Agent':'DDD-electoral-source-diagnostic/3.0'}
+              h.update(headers or {})
               req=urllib.request.Request(url,headers=h)
               with urllib.request.urlopen(req,timeout=timeout) as r:
-                  data=r.read() if limit is None else r.read(limit)
-                  return r.status,r.headers.get('Content-Type',''),data,r.geturl()
+                  return r.status,r.headers.get('Content-Type',''),r.read(1024*1024)
 
-          # 0) Andalucía 2026: probar directamente la API oficial SIEL de la Junta
-          # y recorrer una única cadena provincia -> municipio -> distrito -> sección.
-          siel='https://ws040.juntadeandalucia.es/siel-api/v1'
+          result={'territorio':'andalucia','election_id':'andalucia_parlamento_2026','resultado':'BLOCK','motivo':'sin probar','detalle':{}}
+          base='https://ws040.juntadeandalucia.es/siel-api/v1'
           try:
-              conv_url=siel+'/opciones/fconvocatoria?'+urllib.parse.urlencode({'tconvocatoria':5})
-              http,ctype,data,final=fetch(conv_url,timeout=45)
+              u=base+'/opciones/fconvocatoria?'+urllib.parse.urlencode({'tconvocatoria':5})
+              st,ct,data=fetch(u)
               convocatorias=json.loads(data.decode('utf-8'))
-              matches=[x for x in convocatorias if '2026' in str(x.get('valor','')) or '17/05/2026' in str(x.get('valor',''))]
-              if not matches:
-                  add('andalucia','andalucia_parlamento_2026','oficial_siel_api',conv_url,'BLOCK',
-                      'API oficial accesible pero no expone convocatoria 2026',
-                      http=http,content_type=ctype,bytes=len(data),detalle=json.dumps(convocatorias,ensure_ascii=False)[:2000])
+              match=[x for x in convocatorias if '2026' in str(x.get('valor','')) or '17/05/2026' in str(x.get('valor',''))]
+              result['detalle']['convocatorias_http']=st
+              result['detalle']['convocatoria_2026']=match[-1] if match else None
+              if match:
+                  # Sólo una muestra del mirror provisional para obtener una identidad territorial real.
+                  mirror='https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv'
+                  _,_,sample=fetch(mirror,timeout=8,headers={'Range':'bytes=0-131071'})
+                  text=sample.decode('utf-8-sig','ignore')
+                  reader=csv.DictReader(io.StringIO(text))
+                  row=next(reader)
+                  p=row.get('codigo_provincia'); m=row.get('codigo_municipio'); d=row.get('codigo_distrito'); s=row.get('codigo_seccion')
+                  fconv=match[-1].get('clave')
+                  params={'cautonoma':1,'tconvocatoria':5,'provincia':p,'municipio':m,'distrito':d,'seccion':s,'fconvocatoria':fconv}
+                  endpoint=base+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode(params)
+                  try:
+                      eh,ec,edata=fetch(endpoint,timeout=8)
+                      payload=json.loads(edata.decode('utf-8'))
+                      votos=payload.get('votos') or []
+                      result['detalle']['muestra_endpoint']=endpoint
+                      result['detalle']['muestra_http']=eh
+                      result['detalle']['muestra_registros_votos']=len(votos)
+                      if votos:
+                          result['resultado']='FOUND_SAMPLE'
+                          result['motivo']='SIEL expone la convocatoria 2026 y devuelve una muestra granular; falta adquisición completa definitiva y reconciliación'
+                      else:
+                          result['motivo']='SIEL expone 2026 pero la muestra no devuelve votos'
+                  except Exception as e:
+                      result['motivo']=f'SIEL expone 2026 pero la muestra granular falla: {type(e).__name__}: {e}'
               else:
-                  conv=matches[-1]; fconv=conv.get('clave')
-                  add('andalucia','andalucia_parlamento_2026','oficial_siel_api',conv_url,'FOUND',
-                      'convocatoria 2026 identificada en API oficial SIEL',
-                      http=http,content_type=ctype,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),
-                      detalle=json.dumps(conv,ensure_ascii=False))
-                  prov_url=siel+'/opciones/provincia?'+urllib.parse.urlencode({'cautonoma':1})
-                  _,_,pdata,_=fetch(prov_url,timeout=45); provincias=json.loads(pdata.decode('utf-8'))
-                  sample=None; attempts=0
-                  for prov in provincias:
-                      if sample: break
-                      pkey=prov.get('clave')
-                      muni_url=siel+'/opciones/municipio?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv})
-                      _,_,mdata,_=fetch(muni_url,timeout=45); municipios=json.loads(mdata.decode('utf-8'))
-                      for muni in municipios[:20]:
-                          if sample: break
-                          mkey=muni.get('clave')
-                          dist_url=siel+'/opciones/distrito?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':mkey})
-                          _,_,ddata,_=fetch(dist_url,timeout=45); distritos=json.loads(ddata.decode('utf-8'))
-                          for dist in distritos[:10]:
-                              if sample: break
-                              dkey=dist.get('clave')
-                              sec_url=siel+'/opciones/seccion?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':mkey,'distrito':dkey})
-                              _,_,sdata,_=fetch(sec_url,timeout=45); secciones=json.loads(sdata.decode('utf-8'))
-                              for sec in secciones[:10]:
-                                  attempts+=1
-                                  sval=sec.get('valor') or sec.get('clave')
-                                  escr_url=siel+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode({'cautonoma':1,'tconvocatoria':5,'provincia':pkey,'municipio':mkey,'distrito':dkey,'seccion':sval,'fconvocatoria':fconv})
-                                  try:
-                                      eh,ec,edata,_=fetch(escr_url,timeout=45)
-                                      payload=json.loads(edata.decode('utf-8'))
-                                      votos=payload.get('votos') or []
-                                      total=0
-                                      for v in votos:
-                                          try: total+=int(v.get('votos') or v.get('voto') or 0)
-                                          except Exception: pass
-                                      if votos and total>0:
-                                          sample=(escr_url,eh,ec,edata,payload,total,prov,muni,dist,sec)
-                                          break
-                                  except Exception:
-                                      continue
-                  if sample:
-                      escr_url,eh,ec,edata,payload,total,prov,muni,dist,sec=sample
-                      add('andalucia','andalucia_parlamento_2026','oficial_siel_seccion',escr_url,'PASS',
-                          'API oficial devuelve escrutinio con votos para una sección de la convocatoria 2026',
-                          http=eh,content_type=ec,bytes=len(edata),sha256=hashlib.sha256(edata).hexdigest(),
-                          detalle=json.dumps({'convocatoria':conv,'provincia':prov,'municipio':muni,'distrito':dist,'seccion':sec,'votos_registros':len(payload.get('votos') or []),'votos_total_muestra':total,'intentos':attempts},ensure_ascii=False)[:3000])
-                  else:
-                      add('andalucia','andalucia_parlamento_2026','oficial_siel_seccion',siel+'/escrutinio/ambito/seccion','BLOCK',
-                          'convocatoria 2026 existe pero no se obtuvo una sección con votos en la muestra jerárquica',
-                          detalle=f'fconvocatoria={fconv}; intentos={attempts}')
+                  result['motivo']='SIEL respondió pero no se identificó la convocatoria 2026'
           except Exception as e:
-              add('andalucia','andalucia_parlamento_2026','oficial_siel_api',siel,'BLOCK',f'{type(e).__name__}: {e}')
+              result['motivo']=f'Prueba SIEL acotada no adquirible desde runner: {type(e).__name__}: {e}'
 
-          # 1) Cataluña: localizar enlace final y endpoint de envío/mesa documentado por Generalitat.
-          cat='cataluna'; eid='cataluna_parlament_2024'
-          page='https://www.gencat.cat/eleccions/resultatsparlament2024/es/descargas'
-          try:
-              http,ctype,data,final=fetch(page,limit=1024*1024)
-              text=data.decode('utf-8','ignore')
-              links=sorted(set(urllib.parse.urljoin(final,x) for x in re.findall(r'''(?:href|src)=["']([^"']+)''',text,re.I)))
-              data_links=[u for u in links if re.search(r'(csv|xlsx|xls|zip|descarg|download|escrutin)',u,re.I)]
-              add(cat,eid,'oficial_generalitat_descargas',page,'FOUND',
-                  'página oficial de descargas accesible; se inventarían cero URLs: se conservan sólo enlaces encontrados',
-                  http=http,content_type=ctype,bytes=len(data),detalle=' ; '.join(data_links[:20]))
-          except Exception as e:
-              add(cat,eid,'oficial_generalitat_descargas',page,'BLOCK',f'{type(e).__name__}: {e}')
-
-          envio=None; envio_base=None
-          bases=['https://www.gencat.cat/eleccions/resultatsparlament2024','https://gencat.cat/eleccions/resultatsparlament2024']
-          for base in bases:
-              for suffix in ['/descargas/csv/data/getEnvio/509','/es/descargas/csv/data/getEnvio/509']:
-                  url=base+suffix
-                  try:
-                      http,ctype,data,final=fetch(url,limit=65536)
-                      body=data.decode('utf-8','ignore').strip()
-                      nums=re.findall(r'(?<!\d)(\d{1,8})(?!\d)',body)
-                      add(cat,eid,'oficial_generalitat_getEnvio',url,'FOUND' if nums else 'BLOCK',
-                          'respuesta endpoint getEnvio' if nums else 'respuesta sin número de envío reconocible',
-                          http=http,content_type=ctype,bytes=len(data),detalle=body[:500])
-                      if nums and envio is None:
-                          envio=nums[-1]; envio_base=base
-                  except Exception as e:
-                      add(cat,eid,'oficial_generalitat_getEnvio',url,'BLOCK',f'{type(e).__name__}: {e}')
-          if envio and envio_base:
-              for prov in ('08','17','25','43'):
-                  url=f'{envio_base}/ficheros/csv/mesa/getEscrutinio/509/{prov}/{envio}'
-                  try:
-                      http,ctype,data,final=fetch(url,limit=262144)
-                      txt=data.decode('utf-8','ignore')
-                      lines=[x for x in txt.splitlines() if x.strip()]
-                      semis=sum(x.count(';') for x in lines[:20])
-                      result='FOUND' if lines and semis else 'BLOCK'
-                      add(cat,eid,'oficial_generalitat_mesas_provisional',url,result,
-                          'muestra de endpoint de mesa documentado por Generalitat; requiere distinguir provisional de descarga definitiva',
-                          http=http,content_type=ctype,bytes=len(data),detalle=f'envio={envio}; lineas_muestra={len(lines)}; separadores={semis}')
-                  except Exception as e:
-                      add(cat,eid,'oficial_generalitat_mesas_provisional',url,'BLOCK',f'{type(e).__name__}: {e}')
-
-          # 2) Ceuta/Melilla: distribución oficial estatal y mirror GVA derivado de Interior.
-          interior='https://descargas.interior.gob.es/datasets/resultados_electorales/Elecciones-a-municipios-de-mas-de-250-hab.xlsx'
-          try:
-              http,ctype,data,final=fetch(interior,timeout=45)
-              digest=hashlib.sha256(data).hexdigest()
-              tmp=Path(tempfile.gettempdir())/'municipios-mas-250.xlsx'; tmp.write_bytes(data)
-              wb=load_workbook(tmp,read_only=True,data_only=True)
-              detail=[]
-              for ws in wb.worksheets:
-                  found={'Ceuta':0,'Melilla':0}; headers=[]
-                  for i,row in enumerate(ws.iter_rows(values_only=True)):
-                      vals=['' if v is None else str(v) for v in row]
-                      if i<5: headers.extend(vals)
-                      joined=' | '.join(vals)
-                      for city in found:
-                          if city.lower() in joined.lower(): found[city]+=1
-                  detail.append(f'{ws.title}:Ceuta={found["Ceuta"]},Melilla={found["Melilla"]},headers={",".join(headers[:25])}')
-              wb.close()
-              det=' ; '.join(detail)
-              for city,tid in [('Ceuta','ceuta'),('Melilla','melilla')]:
-                  present=any(f'{city}=' in x and not f'{city}=0' in x for x in detail)
-                  granular=bool(re.search(r'mesa|secci[oó]n|distrito',det,re.I))
-                  add(tid,f'{tid}_asamblea_local_2023','oficial_interior_xlsx',interior,
-                      'CANDIDATE' if present else 'BLOCK',
-                      'fichero oficial descargado; presencia y granularidad se verifican en detalle, no se presupone mesa',
-                      http=http,content_type=ctype,bytes=len(data),sha256=digest,detalle=det[:1800])
-          except Exception as e:
-              for tid in ('ceuta','melilla'):
-                  add(tid,f'{tid}_asamblea_local_2023','oficial_interior_xlsx',interior,'BLOCK',f'{type(e).__name__}: {e}')
-
-          gva='https://dadesobertes.gva.es/dataset/99285778-0da9-48bb-be19-cde1630b8a45/resource/c05778c0-9ca4-4274-a5bb-fa48c514184d/download/resultados-elecciones-locales_2023.ods'
-          try:
-              http,ctype,data,final=fetch(gva,timeout=45)
-              digest=hashlib.sha256(data).hexdigest()
-              z=zipfile.ZipFile(io.BytesIO(data)); content=z.read('content.xml').decode('utf-8','ignore')
-              detail=f'Ceuta={content.lower().count("ceuta")}; Melilla={content.lower().count("melilla")}; mesa={content.lower().count("mesa")}; seccion={content.lower().count("secci")}'
-              for city,tid in [('Ceuta','ceuta'),('Melilla','melilla')]:
-                  present=city.lower() in content.lower()
-                  add(tid,f'{tid}_asamblea_local_2023','mirror_gva_desde_interior',gva,
-                      'CANDIDATE' if present else 'BLOCK',
-                      'dataset GVA a nivel de mesa derivado de Interior; sólo sirve si contiene la ciudad',
-                      http=http,content_type=ctype,bytes=len(data),sha256=digest,detalle=detail)
-          except Exception as e:
-              for tid in ('ceuta','melilla'):
-                  add(tid,f'{tid}_asamblea_local_2023','mirror_gva_desde_interior',gva,'BLOCK',f'{type(e).__name__}: {e}')
-
-          # 3) Andalucía/Extremadura/Aragón: mirrors públicos EleccionesDB/Minsait.
-          mirrors=[
-            ('andalucia','andalucia_parlamento_2026','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv'),
-            ('aragon','aragon_cortes_2026-02-08','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/02-aragon.csv'),
-            ('extremadura','extremadura_asamblea_2025-12-21','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv'),
-          ]
-          for tid,election,url in mirrors:
-              try:
-                  http,ctype,data,final=fetch(url,limit=524288,timeout=30,headers={'Range':'bytes=0-524287'})
-                  txt=data.decode('utf-8','ignore'); first=txt.splitlines()[0] if txt.splitlines() else ''
-                  expected=all(k in first.lower() for k in ('codigo_provincia','codigo_municipio','codigo_seccion','partido','votos'))
-                  add(tid,election,'mirror_eleccionesdb_minsait_provisional',url,'PROVISIONAL' if expected else 'BLOCK',
-                      'mirror público reproducible de datos Minsait; nunca equivale por sí solo a resultado definitivo',
-                      http=http,content_type=ctype,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),
-                      detalle=f'cabecera={first[:800]}')
-              except Exception as e:
-                  add(tid,election,'mirror_eleccionesdb_minsait_provisional',url,'BLOCK',f'{type(e).__name__}: {e}')
-
-          # 4) Páginas oficiales de contraste; HTML nunca se considera adquisición.
-          official_pages=[
-            ('andalucia','andalucia_parlamento_2026','https://www.juntadeandalucia.es/institutodeestadisticaycartografia/elecciones/'),
-            ('aragon','aragon_cortes_2026-02-08','https://www.aragon.es/portal-de-elecciones/resultados/open-data'),
-            ('extremadura','extremadura_asamblea_2025-12-21','https://elecciones2025.juntaex.es/'),
-            ('ceuta','ceuta_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
-            ('melilla','melilla_asamblea_local_2023','https://infoelectoral.interior.gob.es/es/elecciones-celebradas/area-de-descargas/'),
-          ]
-          for tid,election,url in official_pages:
-              try:
-                  http,ctype,data,final=fetch(url,limit=524288,timeout=15)
-                  txt=data.decode('utf-8','ignore')
-                  links=sorted(set(urllib.parse.urljoin(final,x) for x in re.findall(r'''(?:href|src)=["']([^"']+)''',txt,re.I)))
-                  data_links=[u for u in links if re.search(r'csv|xlsx|xls|json|xml|zip|download|descarg',u,re.I)]
-                  add(tid,election,'pagina_oficial_descubrimiento',url,'FOUND',
-                      'página oficial accesible; no se trata como datos',
-                      http=http,content_type=ctype,bytes=len(data),detalle=' ; '.join(data_links[:25]))
-              except Exception as e:
-                  add(tid,election,'pagina_oficial_descubrimiento',url,'BLOCK',f'{type(e).__name__}: {e}')
-
-          fields=['territorio','election_id','clase_fuente','url','resultado','motivo','http','content_type','bytes','sha256','detalle']
-          with open('diagnostico-fuentes-pendientes.csv','w',newline='',encoding='utf-8') as f:
-              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
-          with open('diagnostico-fuentes-pendientes.md','w',encoding='utf-8') as f:
-              f.write('# Diagnóstico ampliado de fuentes electorales\n\n')
-              f.write('|Territorio|Elección|Clase|Resultado|HTTP|Motivo|\n|---|---|---|---|---:|---|\n')
-              for r in rows:
-                  f.write(f"|{r['territorio']}|{r['election_id']}|{r['clase_fuente']}|{r['resultado']}|{r['http']}|{r['motivo'].replace('|','/')}|\n")
+          ext={
+            'territorio':'extremadura','election_id':'extremadura_asamblea_2025-12-21',
+            'resultado':'BLOCKED_FINAL_GRANULAR_SOURCE',
+            'motivo':'el granular público conocido es provisional (522418 votos) y no reconcilia con DOE definitivo (524837); el repositorio granular de prensa exige credenciales',
+            'detalle':{'delta':2419,'doe':'https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'}
+          }
+          payload=[result,ext]
+          Path('diagnostico-fuentes-pendientes.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n')
+          md=['# Diagnóstico acotado de fuentes pendientes','']
+          for x in payload:
+              md.append(f"- **{x['territorio']}** — {x['resultado']} — {x['motivo']}")
+          Path('diagnostico-fuentes-pendientes.md').write_text('\n'.join(md)+'\n')
+          print('\n'.join(md))
           PY
           cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
 
@@ -254,7 +90,7 @@ jobs:
         with:
           name: diagnostico-fuentes-electorales-pendientes
           path: |
-            diagnostico-fuentes-pendientes.csv
+            diagnostico-fuentes-pendientes.json
             diagnostico-fuentes-pendientes.md
           if-no-files-found: error
           retention-days: 7
