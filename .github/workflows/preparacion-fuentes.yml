@@ -226,6 +226,9 @@ jobs:
   registrar:
     name: Registrar fuentes territoriales preparadas
     needs: [resolver, territoriales]
+    outputs:
+      artifact_sha256: ${{ steps.register.outputs.artifact_sha256 }}
+      package_sha256: ${{ steps.register.outputs.package_sha256 }}
     if: ${{ needs.territoriales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     concurrency:
@@ -249,7 +252,8 @@ jobs:
         with:
           name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
           path: .ddd-source-package
-      - name: Registrar preparación territorial
+      - id: register
+        name: Registrar preparación territorial
         shell: bash
         run: |
           set -euo pipefail
@@ -258,6 +262,8 @@ jobs:
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
           python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
+          echo "artifact_sha256=$(jq -r .artifact_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
+          echo "package_sha256=$(jq -r .package_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
@@ -291,9 +297,13 @@ jobs:
       source_package_run_id: ${{ github.run_id }}
       source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
-      source_ref: ${{ github.ref_name }}
+      source_ref: ${{ inputs.source_ref || github.sha }}
       persist_state: true
       preflight_only: true
+      source_evidence_run_id: ${{ github.run_id }}
+      source_evidence_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
+      source_evidence_artifact_sha256: ${{ needs.registrar.outputs.artifact_sha256 }}
+      source_evidence_package_sha256: ${{ needs.registrar.outputs.package_sha256 }}
     secrets: inherit
 
   resultado:
