@@ -1,6 +1,7 @@
 import sqlite3,tempfile,unittest
 from pathlib import Path
 from herramientas.adaptador_eleccionesdb import build
+from herramientas.validar_paquete_electoral import validate_package
 
 class TestAdaptadorEleccionesDB(unittest.TestCase):
  def db(self,ccaa='06',with_votes=True):
@@ -33,7 +34,27 @@ class TestAdaptadorEleccionesDB(unittest.TestCase):
   melilla=build(p,'melilla_asamblea_local_2023',Path(td.name)/'melilla')
   self.assertEqual((ceuta['territory_id'],ceuta['sections'],ceuta['candidate_votes']),('ceuta',1,10))
   self.assertEqual((melilla['territory_id'],melilla['sections'],melilla['candidate_votes']),('melilla',1,20))
-  self.assertNotEqual(ceuta['source_sha256'],melilla['source_sha256'])
+  self.assertNotEqual(ceuta['selected_source']['sha256'],melilla['selected_source']['sha256'])
+ def test_paquete_comun_es_consumible_por_incorporacion(self):
+  td,p=self.db(); self.addCleanup(td.cleanup)
+  out=Path(td.name)/'package'
+  manifest=build(p,'cantabria_parlamento_2023',out,edition='2025')
+  self.assertEqual(manifest['schema'],'ddd-electoral-package/1.0')
+  self.assertEqual(manifest['decision'],'ACQUIRE')
+  self.assertEqual(manifest['edition'],'2025')
+  self.assertTrue((out/'contract/election_contract.json').is_file())
+  self.assertTrue((out/'contract/party_dictionary.json').is_file())
+  validation=validate_package(
+   package=out,
+   params=Path(__file__).resolve().parents[1]/'territorios/cantabria/config/cantabria_2025.yaml',
+   territory_id='cantabria',
+   edition='2025',
+   root=Path(__file__).resolve().parents[1],
+   materialize=False,
+  )
+  self.assertEqual(validation['decision'],'READY_PACKAGE')
+  self.assertEqual(validation['mode'],'embedded_runtime_contract')
+  self.assertEqual(validation['election_id'],'cantabria_parlamento_2023')
  def test_huella_incorrecta_bloquea(self):
   td,p=self.db(); self.addCleanup(td.cleanup)
   with self.assertRaisesRegex(ValueError,'Huella'): build(p,'cantabria_parlamento_2023',Path(td.name)/'o','0'*64)
