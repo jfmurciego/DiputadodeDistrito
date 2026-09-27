@@ -464,7 +464,7 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$PERSIST" == "true" ]]; then
-            source_ref="$(python herramientas/persistir_estado_operativo_compartido.py \
+            source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
               --root-dir . --edition "$EDITION" --target-branch main)"
           else
             python -m herramientas.generar_estado_operativo --root-dir . --edition "$EDITION"

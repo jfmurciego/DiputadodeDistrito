@@ -222,7 +222,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         jobs = data["jobs"]
         self.assertIn("actualizar_estado", jobs)
-        self.assertIn("persistir_estado_operativo_compartido.py", ORCH.read_text(encoding="utf-8"))
+        self.assertIn("python -m herramientas.persistir_estado_operativo_compartido", ORCH.read_text(encoding="utf-8"))
         self.assertEqual(jobs["actualizar_estado"]["concurrency"]["group"], "ddd-shared-operational-state")
         self.assertFalse(jobs["actualizar_estado"]["concurrency"]["cancel-in-progress"])
         self.assertIn("actualizar_estado", jobs["publicar"]["needs"])

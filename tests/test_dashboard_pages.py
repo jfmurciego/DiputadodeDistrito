@@ -39,7 +39,7 @@ class DashboardPages(unittest.TestCase):
     def test_promocion_dashboard_serializa_solo_la_escritura_compartida(self):
         manual=MANUAL.read_text(encoding="utf-8")
         self.assertIn("ddd-shared-operational-state",manual)
-        self.assertIn("persistir_estado_operativo_compartido.py",manual)
+        self.assertIn("python -m herramientas.persistir_estado_operativo_compartido",manual)
         self.assertIn("--sync-dashboard-assets",manual)
         self.assertNotIn("git pull --rebase origin main",manual)
 
