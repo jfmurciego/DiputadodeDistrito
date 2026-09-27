@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-27T19:32:35.394022+00:00",
+  "generated_at": "2026-09-27T19:33:19.157947+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -203,7 +203,7 @@
       "re": "gray",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36332474966,
+      "run_id": 36344350450,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -221,10 +221,10 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 36332474966,
-          "artifact_name": "ddd-state-36332474966-M06",
-          "artifact_sha256": "84851debe1b1d7be1ea36e2ef7d62b29a7660513003fb2583ada45702640777d",
-          "source_commit": "1ed53cd7a10c22317eee02d06d22a773d70f446f",
+          "run_id": 36344350450,
+          "artifact_name": "ddd-state-36344350450-M06",
+          "artifact_sha256": "df2938abb0265980037f27f970167cd026dbb43b57aabdd2d7d9d08f847da1a0",
+          "source_commit": "03e9cc322de80e0e10e00a422cef9bfed28f7321",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
