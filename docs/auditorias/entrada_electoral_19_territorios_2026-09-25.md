@@ -56,6 +56,14 @@ La prueba de CI construye los doce paquetes con el mismo snapshot y registra cad
 
 La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y lo contrasta contra referencias oficiales de la Generalitat. El adaptador rechaza cualquier fichero que no reproduzca exactamente 8.940 mesas geográficas, 5.117 secciones geográficas, 3.183.137 votantes totales, 3.120.503 votos a candidaturas totales y 20.490 votos CERA no geocodificables y los totales por candidatura declarados. La prueba real produce paquete y registro únicamente en copia de trabajo.
 
+## Detalle de los tres casos críticos
+
+| Territorio | Fuente usada / estado | Clasificación | Resolución | Cobertura / votos | SHA-256 | Paquete | Registro en copia |
+|---|---|---|---|---|---|---|---|
+| Cataluña | Export Parlament 2024 de la Generalitat, servido desde mirror GitHub fijado a commit | **verified_mirror** con referencias oficiales Generalitat; no se presenta como descarga oficial primaria | mesa → agregación a sección | 8.940 mesas geográficas; 5.117 secciones; 3.100.013 votos geográficos + 20.490 CERA = 3.120.503 | `511ed5cf4f7afa31063355614a7982e95943fe8fe67f707a3b4dbb810357a96a` | PASS / `ACQUIRE` | PASS |
+| Andalucía | SIEL Junta de Andalucía, convocatoria `202605`; snapshot completo pendiente | **fuente oficial primaria** para votos. Minsait se usa sólo como `SECTION_LOCATOR_ONLY`, `PROVISIONAL`, `votes_consumed=false` | sección + CERA provincial | objetivo: 6.044 secciones; total oficial 4.157.539; cobertura real completa pendiente del snapshot | secciones: **pendiente**; CERA: **pendiente**; localizador: `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21` | ruta técnica probada; paquete real pendiente | ruta técnica probada; registro real en copia pendiente |
+| Extremadura | Minsait/EleccionesDB granular + DOE definitivo de contraste | granular = **PROVISIONAL / no promocionable**; DOE = **fuente oficial definitiva de contraste**, pero sólo circunscripción | 966 secciones provisional; definitivo sólo circunscripción | 522.418 provisional vs 524.837 definitivo; delta +2.419 | provisional: `d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d` | NO | NO |
+
 ## Andalucía 2026
 
 La ruta técnica ya está integrada en `03 · Preparación de Resultados Electorales`: identifica `andalucia_parlamento_2026`, recupera un artefacto `ddd-siel-andalucia-2026-snapshot`, exige identidad electoral, SHA-256 de secciones y CERA, ocho controles provinciales reconciliados y total oficial 4.157.539. El adaptador genera contrato electoral común y paquete `ACQUIRE`. La promoción en copia mediante el registro electoral común está cubierta por prueba; esto **no acredita todavía datos reales completos ni registro en producción**. Si GitHub Actions no completa la adquisición, el procedimiento local canónico está documentado en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`.
