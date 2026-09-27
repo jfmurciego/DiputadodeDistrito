@@ -164,6 +164,22 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Índice SIEL incorrecto votes_consumed"):
                 self.adapter.build(snap, root / "package")
 
+    def test_false_province_reconciliation_flag_is_not_enough(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            manifest_path = snap / "manifest.json"
+            meta = json.loads(manifest_path.read_text(encoding="utf-8"))
+            first = PROVINCES[0]
+            meta["province_controls"][first]["candidate_votes_sections"] += 1
+            meta["province_controls"][first]["candidate_votes_geocodable_expected"] += 1
+            meta["province_controls"][first]["candidate_votes_total"] += 1
+            meta["province_controls"][first]["reconciles"] = True
+            manifest_path.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "votos geográficos"):
+                self.adapter.build(snap, root / "package")
+
+
     def test_broken_global_reconciliation_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
