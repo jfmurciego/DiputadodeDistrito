@@ -174,6 +174,7 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
   },
   'eleccionesdb_election_id':edb_id,
   'snapshot_sha256':actual_snapshot,
+  'source_sha256':selected_sha,
   'sections':len(set(sections.values())),
   'records':records,
   'parties':len(parties),
