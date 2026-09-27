@@ -478,9 +478,7 @@ def build(
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if checkpoint_dir.is_dir():
-        for path in checkpoint_dir.glob("*.json"):
-            path.unlink()
-        checkpoint_dir.rmdir()
+        shutil.rmtree(checkpoint_dir)
     if checkpoint_meta_path.exists():
         checkpoint_meta_path.unlink()
     return manifest
