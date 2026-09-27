@@ -11,6 +11,9 @@ TERRITORY_ID = "andalucia"
 ELECTION_ID = "andalucia_parlamento_2026"
 ELECTION_DATE = "2026-05-17"
 OFFICIAL_CANDIDATE_VOTES = 4_157_539
+EXPECTED_SECTIONS = 6_044
+SIEL_ELECTION_KEY = 202605
+LOCATOR_SHA256 = "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21"
 VALID_PROVINCES = {"04","11","14","18","21","23","29","41"}
 SIEL_BASE = "https://ws040.juntadeandalucia.es/siel-api/v1"
 
@@ -39,11 +42,25 @@ def _read_manifest(snapshot: Path) -> dict:
         "territory_id": TERRITORY_ID,
         "election_id": ELECTION_ID,
         "election_date": ELECTION_DATE,
+        "siel_election_key": SIEL_ELECTION_KEY,
+        "source_base": SIEL_BASE,
+        "sections": EXPECTED_SECTIONS,
         "candidate_votes_official": OFFICIAL_CANDIDATE_VOTES,
     }
     for key, value in expected.items():
         if data.get(key) != value:
             raise ValueError(f"Identidad SIEL incorrecta {key}: {data.get(key)!r} != {value!r}")
+    locator = data.get("section_locator") or {}
+    expected_locator = {
+        "role": "SECTION_LOCATOR_ONLY",
+        "source_class": "PROVISIONAL",
+        "sha256": LOCATOR_SHA256,
+        "sections": EXPECTED_SECTIONS,
+        "votes_consumed": False,
+    }
+    for key, value in expected_locator.items():
+        if locator.get(key) != value:
+            raise ValueError(f"Índice SIEL incorrecto {key}: {locator.get(key)!r} != {value!r}")
     return data
 
 
