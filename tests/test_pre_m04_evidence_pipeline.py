@@ -503,7 +503,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertEqual(generate["with"]["source_ref"], "${{ needs.planificar.outputs.source_sha }}")
         self.assertNotIn("'main'", generate["with"]["source_ref"])
         self.assertIn(
-            "pre_m04_accreditation_planned == 'true'",
+            "run_prepare_territorial == 'true'",
+            generate["with"]["generation_preflight_artifact_name"],
+        )
+        self.assertIn(
+            "persist_state == 'true'",
             generate["with"]["generation_preflight_artifact_name"],
         )
         self.assertEqual(
