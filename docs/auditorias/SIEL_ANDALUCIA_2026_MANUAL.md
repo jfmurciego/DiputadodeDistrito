@@ -1,5 +1,19 @@
 # Andalucía 2026 — adquisición SIEL manual reproducible
 
+## Vía preferente: descarga oficial desde el portal definitivo
+
+La Junta de Andalucía mantiene el portal oficial `https://resultadoseleccionesandalucia.es/` como acceso a datos definitivos de 2026. La documentación oficial indica que SIEL permite descargar tablas de resultados por **totales, municipios y mesas**.
+
+Por tanto, la vía preferente para cerrar Andalucía es:
+
+1. abrir `https://resultadoseleccionesandalucia.es/`;
+2. seleccionar Elecciones Autonómicas Andalucía / convocatoria 2026-05;
+3. usar **Centro de datos → CSV** y descargar la tabla de resultados por **mesas**;
+4. conservar el fichero sin modificar y calcular su SHA-256;
+5. adaptar ese CSV oficial al paquete DDD y reconciliarlo contra BOJA.
+
+No asumir el formato del CSV antes de inspeccionarlo. La adquisición masiva por API descrita debajo queda como **fallback reproducible** si el portal no permite obtener de una vez la tabla granular necesaria.
+
 Este procedimiento permite construir localmente el snapshot oficial de Andalucía 2026 sin ejecutar territorios, campañas ni registrar estado en producción.
 
 
