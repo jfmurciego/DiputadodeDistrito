@@ -36,6 +36,7 @@ jobs:
         with:
           name: ddd-siel-andalucia-2026-snapshot
           path: .ddd-siel-andalucia-2026
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
       - name: Publicar sólo informe pequeño
