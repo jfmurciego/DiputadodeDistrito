@@ -31,6 +31,8 @@ permissions: {contents: write, actions: read}
 
 env:
   ELECCIONESDB_SNAPSHOT_SHA256: 668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc
+  ANDALUCIA_PROVISIONAL_URL: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+  ANDALUCIA_PROVISIONAL_SHA256: 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
 
 jobs:
   resolver:
@@ -73,7 +75,7 @@ jobs:
     name: Preparar resultados electorales
     needs: resolver
     runs-on: ubuntu-24.04
-    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}'}
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}'}
     env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ELECTION_DATE: '${{ needs.resolver.outputs.election_date }}'}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -103,7 +105,7 @@ jobs:
           then
             adapter=eleccionesdb
           elif [[ "$ELECTION_ID" == "andalucia_parlamento_2026" ]]; then
-            adapter=siel_andalucia
+            adapter=minsait_provisional
           fi
           echo "adapter=$adapter" >> "$GITHUB_OUTPUT"
       - name: Recuperar snapshot EleccionesDB durable y verificar huella
@@ -118,61 +120,17 @@ jobs:
           test -s snapshot/ddd-eleccionesdb-snapshot.sqlite; test -s snapshot/ddd-eleccionesdb-snapshot.json
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"; actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
           [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
-      - name: Recuperar snapshot SIEL Andalucía durable y verificar identidad
-        if: ${{ steps.mode.outputs.adapter == 'siel_andalucia' && steps.previous.outputs.run_id == '' }}
+      - name: Recuperar CSV Minsait Andalucía gobernado
+        if: ${{ steps.mode.outputs.adapter == 'minsait_provisional' && steps.previous.outputs.run_id == '' }}
         run: |
           set -euo pipefail
-          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-siel-andalucia-2026-snapshot&per_page=100")"
-          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
-          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot SIEL Andalucía 2026 durable ausente"; exit 53; }
-          aid="$(jq -r .id <<<"$art")"
-          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > siel-snapshot.zip
-          mkdir -p siel-snapshot
-          unzip -q siel-snapshot.zip -d siel-snapshot
-          python - <<'PY'
-          import hashlib, json
-          from pathlib import Path
-          root=Path("siel-snapshot")
-          manifest=json.loads((root/"manifest.json").read_text(encoding="utf-8"))
-          expected={
-              "schema":"ddd-siel-andalucia-snapshot/1.0",
-              "territory_id":"andalucia",
-              "election_id":"andalucia_parlamento_2026",
-              "election_date":"2026-05-17",
-              "siel_election_key":202605,
-              "source_base":"https://ws040.juntadeandalucia.es/siel-api/v1",
-              "sections":6044,
-              "candidate_votes_official":4157539,
+          curl --fail --location --retry 2 --connect-timeout 10 --max-time 120 \
+            -o andalucia-provisional.csv "$ANDALUCIA_PROVISIONAL_URL"
+          actual="$(sha256sum andalucia-provisional.csv | awk '{print $1}')"
+          [[ "$actual" == "$ANDALUCIA_PROVISIONAL_SHA256" ]] || {
+            echo "::error::Huella del CSV provisional de Andalucía no coincide"
+            exit 53
           }
-          for key,value in expected.items():
-              if manifest.get(key)!=value:
-                  raise SystemExit(f"Snapshot SIEL inválido {key}: {manifest.get(key)!r} != {value!r}")
-          files=[
-              ("andalucia_2026_siel_secciones.csv","sections_sha256"),
-              ("andalucia_2026_siel_cera_provincias.csv","cera_sha256"),
-          ]
-          for name,key in files:
-              p=root/name
-              if not p.is_file():
-                  raise SystemExit(f"Snapshot SIEL incompleto: {name}")
-              digest=hashlib.sha256(p.read_bytes()).hexdigest()
-              if digest!=str(manifest.get(key) or ""):
-                  raise SystemExit(f"Huella SIEL no coincide para {name}")
-          controls=manifest.get("province_controls") or {}
-          if len(controls)!=8 or not all(bool(v.get("reconciles")) for v in controls.values()):
-              raise SystemExit("Controles provinciales SIEL incompletos o no reconciliados")
-          locator=manifest.get("section_locator") or {}
-          expected_locator={
-              "role":"SECTION_LOCATOR_ONLY",
-              "source_class":"PROVISIONAL",
-              "sha256":"13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21",
-              "sections":6044,
-              "votes_consumed":False,
-          }
-          for key,value in expected_locator.items():
-              if locator.get(key)!=value:
-                  raise SystemExit(f"Índice de secciones SIEL inválido {key}: {locator.get(key)!r} != {value!r}")
-          PY
       - id: prepare
         name: Preparar paquete electoral con contrato común
         run: |
@@ -184,13 +142,24 @@ jobs:
             else
               python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION"
             fi
-          elif [[ "$adapter" == "siel_andalucia" ]]; then
+          elif [[ "$adapter" == "minsait_provisional" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
             else
-              sections_sha="$(jq -r .sections_sha256 siel-snapshot/manifest.json)"
-              cera_sha="$(jq -r .cera_sha256 siel-snapshot/manifest.json)"
-              python herramientas/adaptador_siel_andalucia_2026.py --snapshot siel-snapshot --out .ddd-electoral-package --sections-sha256 "$sections_sha" --cera-sha256 "$cera_sha" --edition "$EDITION"
+              python herramientas/adaptador_minsait_csv.py \
+                --source andalucia-provisional.csv \
+                --out .ddd-electoral-package \
+                --territory-id andalucia \
+                --election-id "$ELECTION_ID" \
+                --election-date "$ELECTION_DATE" \
+                --edition "$EDITION" \
+                --expected-sha256 "$ANDALUCIA_PROVISIONAL_SHA256" \
+                --expected-ccaa 01 \
+                --expected-sections 6044 \
+                --expected-polling-stations 10403 \
+                --expected-candidate-votes 4128575 \
+                --source-url "$ANDALUCIA_PROVISIONAL_URL" \
+                --publisher "Minsait / EleccionesDB mirror"
             fi
           else
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
@@ -198,6 +167,12 @@ jobs:
             [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous --previous-run-id "${{ steps.previous.outputs.run_id }}" --previous-artifact-name "${{ steps.previous.outputs.artifact_name }}")
             python -m herramientas.preparar_fuente_electoral "${args[@]}"
           fi
+      - id: policy
+        name: Leer política de promoción del paquete
+        run: |
+          set -euo pipefail
+          echo "source_status=$(jq -r '.source_status // "UNKNOWN"' .ddd-electoral-package/manifest.json)" >> "$GITHUB_OUTPUT"
+          echo "production_eligible=$(jq -r '(.production_eligible // true)|tostring' .ddd-electoral-package/manifest.json)" >> "$GITHUB_OUTPUT"
       - name: Validar identidad vigente del paquete
         run: |
           set -euo pipefail
@@ -220,7 +195,7 @@ jobs:
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
-    if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
+    if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
     runs-on: ubuntu-24.04
     concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
     env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
