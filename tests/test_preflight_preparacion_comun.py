@@ -146,6 +146,73 @@ class CommonPreparationPreflightTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "registro electoral obsoleto"):
                 preflight(root, "electoral", "Demo", "2025")
 
+    def test_legacy_electoral_provenance_allows_contract_fallback_without_registered_artifact(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            receipt = root / "territorios/demo/evidencia/fuente_electoral_2026_procedencia.json"
+            receipt.parent.mkdir(parents=True)
+            receipt.write_text(json.dumps({
+                "schema": "ddd-election-source-provenance/1.0",
+                "territory_id": "demo",
+                "election_id": "demo_2026",
+                "source_sha256": "c" * 64,
+            }), encoding="utf-8")
+            write_catalog(root, {
+                "territorial_sources_prepared": True,
+                "electoral_source_prepared": True,
+                "evidence": {
+                    "electoral_source": "territorios/demo/evidencia/fuente_electoral_2026_procedencia.json"
+                },
+            })
+            (root / "configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2026",
+                        "election_date": "2026-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            result = preflight(root, "electoral", "Demo", "2025")
+            self.assertFalse(result["registered"])
+            self.assertTrue(result["legacy_provenance"])
+            self.assertEqual(result["election_id"], "demo_2026")
+            self.assertIsNone(result["run_id"])
+
+    def test_legacy_electoral_provenance_for_previous_election_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            receipt = root / "territorios/demo/evidencia/fuente_electoral_2026_procedencia.json"
+            receipt.parent.mkdir(parents=True)
+            receipt.write_text(json.dumps({
+                "schema": "ddd-election-source-provenance/1.0",
+                "territory_id": "demo",
+                "election_id": "demo_2024",
+                "source_sha256": "c" * 64,
+            }), encoding="utf-8")
+            write_catalog(root, {
+                "territorial_sources_prepared": True,
+                "electoral_source_prepared": True,
+                "evidence": {
+                    "electoral_source": "territorios/demo/evidencia/fuente_electoral_2026_procedencia.json"
+                },
+            })
+            (root / "configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2026",
+                        "election_date": "2026-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "procedencia electoral histórica obsoleta"):
+                preflight(root, "electoral", "Demo", "2025")
+
     def test_electoral_prepared_with_missing_receipt_blocks(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
