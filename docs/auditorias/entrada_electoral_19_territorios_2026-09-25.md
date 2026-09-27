@@ -18,9 +18,10 @@ Para la aceptación funcional de #147, `COMPLETE` es condición necesaria pero n
 ## Resumen de cierre
 
 - **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
-- **17/19** tienen cadena real acreditada hasta fuente durable + paquete + registro en copia.
-- **Andalucía**: `PENDING_SIEL_SNAPSHOT` — ruta SIEL completa implementada; falta adquirir el snapshot real completo de 6.044 secciones y reconciliarlo.
-- **Extremadura**: `BLOCKED_FINAL_GRANULAR_SOURCE` — existe granular provisional, pero no una fuente definitiva granular pública/reproducible.
+- Estado territorial actual: **17 PASS / 1 BLOCKED / 1 INCOMPLETE**.
+- **17 PASS** — cadena real acreditada hasta fuente durable + paquete + registro en copia.
+- **Andalucía = INCOMPLETE / `PENDING_SIEL_SNAPSHOT`** — ruta SIEL completa implementada; falta adquirir el snapshot real completo de 6.044 secciones y reconciliarlo.
+- **Extremadura = BLOCKED / `BLOCKED_FINAL_GRANULAR_SOURCE`** — existe granular provisional, pero no una fuente definitiva granular pública/reproducible.
 - **Registro efectivo en producción** no se infiere del registro en copia y no forma parte de las nuevas pruebas de #147.
 
 
