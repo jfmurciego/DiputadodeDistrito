@@ -4,6 +4,7 @@ from pathlib import Path
 import yaml
 from herramientas.resolver_eleccion_vigente import resolve, resolve_for_preparation
 from herramientas.preparar_fuente_electoral import prepare
+from herramientas.adaptador_eleccionesdb import ELECTIONS
 ROOT = Path(__file__).resolve().parents[1]
 
 class TestRegistroElectoralComun(unittest.TestCase):
@@ -17,6 +18,22 @@ class TestRegistroElectoralComun(unittest.TestCase):
             with self.subTest(territory=registry_id):
                 row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
                 self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["territorial_edition"],"2025")
+    def test_every_registered_election_has_a_technical_route_into_03(self):
+        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        unresolved=[]
+        for registry_id,entry in self.registry["territories"].items():
+            row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
+            mode=row["resolution_mode"]
+            election_id=entry["election_id"]
+            routed=(
+                election_id in ELECTIONS
+                or mode in {"governed_override","auto_discovered_declaration","materialized_election_contract"}
+                or (election_id=="andalucia_parlamento_2026" and "adapter=siel_andalucia" in workflow)
+            )
+            if not routed:
+                unresolved.append((registry_id,election_id,mode))
+        self.assertEqual(unresolved,[])
+
     def test_identified_election_without_source_reaches_acquisition_and_blocks(self):
         row=resolve_for_preparation("Andalucía",root_dir=ROOT,edition="2025")
         self.assertEqual(row["resolution_mode"],"registered_identity_pending_source")
