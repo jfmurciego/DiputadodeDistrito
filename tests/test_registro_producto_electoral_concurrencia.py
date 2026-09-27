@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import tempfile
 import threading
@@ -239,6 +240,7 @@ class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
         clone(remote, verify)
         return results, verify
 
+    @unittest.skipUnless(shutil.which("git"), "git executable required for real concurrent-push test")
     def test_two_concurrent_different_territories_preserve_both_registrations(self):
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
@@ -272,6 +274,7 @@ class ElectoralProductConcurrentRegistrationTests(unittest.TestCase):
                 self.assertEqual(receipt["run_id"], run_id)
                 self.assertEqual(receipt["source_commit"], SOURCE_COMMIT)
 
+    @unittest.skipUnless(shutil.which("git"), "git executable required for real concurrent-push test")
     def test_two_concurrent_same_territory_rederive_from_new_head_without_rebase(self):
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
