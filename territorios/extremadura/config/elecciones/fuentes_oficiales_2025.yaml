@@ -35,6 +35,9 @@ sources:
     format: csv_repository
     granularity_markers: [seccion, sección, mesa]
     role: candidate_data_source
+    data_status: provisional_only
+    promotion_allowed: false
+    official_documentation_url: https://www.juntaex.es/documents/77055/33212371/20251219%2BNP%2BAdministraci%C3%B3n%2BP%C3%BAblica-Centro%2BDifusi%C3%B3n%2BDatos%2B-Dossier_Elecciones_Asamblea_de_Extremadura%2B2025.pdf/b078313a-f326-f60c-0eaa-019324fe4062?t=1766143651457
   - id: doe_resultados_definitivos
     publisher: Junta Electoral de Extremadura / Diario Oficial de Extremadura
     url: https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
