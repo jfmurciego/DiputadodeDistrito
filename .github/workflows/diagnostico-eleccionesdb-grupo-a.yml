@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/diagnostico-eleccionesdb-grupo-a.yml'
-      - '.github/workflows/preparacion-resultados-electorales.yml'
       - 'configuracion/registro_electoral.yaml'
       - 'herramientas/adaptador_eleccionesdb.py'
       - 'herramientas/construir_snapshot_eleccionesdb.py'
