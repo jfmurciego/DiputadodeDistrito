@@ -1,0 +1,100 @@
+from __future__ import annotations
+
+import csv
+import importlib.util
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+ADAPTER = ROOT / "herramientas/adaptador_siel_andalucia_2026.py"
+
+
+def load_adapter():
+    spec = importlib.util.spec_from_file_location("ddd_siel_andalucia_adapter", ADAPTER)
+    module = importlib.util.module_from_spec(spec)
+    assert spec and spec.loader
+    spec.loader.exec_module(module)
+    return module
+
+
+class SielAndaluciaAdapterTests(unittest.TestCase):
+    def setUp(self):
+        self.adapter = load_adapter()
+
+    def _snapshot(self, root: Path) -> Path:
+        snap = root / "snapshot"
+        snap.mkdir()
+        sections = snap / "andalucia_2026_siel_secciones.csv"
+        with sections.open("w", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=["province","municipality","district","section","party","votes"])
+            w.writeheader()
+            w.writerow({"province":"4","municipality":"29","district":"1","section":"6","party":"PP","votes":4_000_000})
+            w.writerow({"province":"4","municipality":"29","district":"1","section":"6","party":"PSOE-A","votes":157_000})
+        cera = snap / "andalucia_2026_siel_cera_provincias.csv"
+        with cera.open("w", encoding="utf-8", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=["province","party","votes"])
+            w.writeheader()
+            w.writerow({"province":"4","party":"PP","votes":300})
+            w.writerow({"province":"4","party":"PSOE-A","votes":239})
+        controls = {}
+        for p in ("4","11","14","18","21","23","29","41"):
+            controls[p] = {
+                "candidate_votes_total": 0,
+                "candidate_votes_cera": 0,
+                "candidate_votes_geocodable_expected": 0,
+                "candidate_votes_sections": 0,
+                "reconciles": True,
+            }
+        controls["4"].update(
+            candidate_votes_total=4_157_539,
+            candidate_votes_cera=539,
+            candidate_votes_geocodable_expected=4_157_000,
+            candidate_votes_sections=4_157_000,
+        )
+        meta = {
+            "schema":"ddd-siel-andalucia-snapshot/1.0",
+            "territory_id":"andalucia",
+            "election_id":"andalucia_parlamento_2026",
+            "election_date":"2026-05-17",
+            "candidate_votes_official":4_157_539,
+            "candidate_votes_sections":4_157_000,
+            "candidate_votes_cera":539,
+            "sections":1,
+            "vote_rows":2,
+            "province_controls":controls,
+            "sections_sha256":self.adapter.sha256(sections),
+            "cera_sha256":self.adapter.sha256(cera),
+            "official_reference":"https://www.juntadeandalucia.es/boja/2026/115/1",
+        }
+        (snap / "manifest.json").write_text(json.dumps(meta), encoding="utf-8")
+        return snap
+
+    def test_builds_verified_package_and_excludes_cera_from_geography(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            out = root / "package"
+            m = self.adapter.build(snap, out)
+            self.assertEqual(m["decision"], "ACQUIRE")
+            self.assertEqual(m["source_status"], "VERIFIED_OFFICIAL_FINAL")
+            self.assertEqual(m["official_candidate_votes"], 4_157_539)
+            self.assertEqual(m["geographic_candidate_votes"], 4_157_000)
+            self.assertEqual(m["cera_candidate_votes"], 539)
+            rows = list(csv.DictReader((out / "data/resultados_electorales_normalizados.csv").open(encoding="utf-8"), delimiter=";"))
+            self.assertEqual({r["CUSEC_KEY"] for r in rows}, {"0402901006"})
+            contract = json.loads((out / "contract/election_contract.json").read_text(encoding="utf-8"))
+            self.assertEqual(contract["source_verification"]["status"], "VERIFIED_EXACT")
+            self.assertEqual(contract["non_geocodable_votes"]["candidate_votes"], 539)
+
+    def test_changed_snapshot_is_rejected_by_pinned_hash(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            with self.assertRaisesRegex(ValueError, "Huella gobernada"):
+                self.adapter.build(snap, root / "package", expected_sections_sha256="0" * 64)
+
+
+if __name__ == "__main__":
+    unittest.main()

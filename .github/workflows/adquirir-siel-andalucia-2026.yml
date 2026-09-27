@@ -1,8 +1,7 @@
-name: Adquirir SIEL Andalucía 2026 · temporal
+name: Adquirir SIEL Andalucía 2026 · snapshot
 
 on:
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
