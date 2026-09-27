@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-27T19:33:42.418931+00:00",
+  "generated_at": "2026-09-27T22:08:02.415286+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -203,7 +203,7 @@
       "re": "gray",
       "status": "Generación territorial validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36344350450,
+      "run_id": 36348991452,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -221,10 +221,10 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 36344350450,
-          "artifact_name": "ddd-state-36344350450-M06",
-          "artifact_sha256": "df2938abb0265980037f27f970167cd026dbb43b57aabdd2d7d9d08f847da1a0",
-          "source_commit": "03e9cc322de80e0e10e00a422cef9bfed28f7321",
+          "run_id": 36348991452,
+          "artifact_name": "ddd-state-36348991452-M06",
+          "artifact_sha256": "306c70a6d1b35f3d7e6c2acbc26ff8df28eed921ad8410f6d27d9f4c988e3421",
+          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -263,11 +263,11 @@
       "name": "Ceuta",
       "ft": "green",
       "g": "green",
-      "fe": "gray",
-      "re": "gray",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "yellow",
+      "status": "Listo para incorporar resultados electorales",
       "certification": "PASS",
-      "run_id": 36344302617,
+      "run_id": 36349042030,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -285,14 +285,28 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 36344302617,
-          "artifact_name": "ddd-state-36344302617-M06",
-          "artifact_sha256": "51bd29030be053ef0f2df46077d4f4e32ad252496d0817080edfe79c6cafc30c",
-          "source_commit": "03e9cc322de80e0e10e00a422cef9bfed28f7321",
+          "run_id": 36349042030,
+          "artifact_name": "ddd-state-36349042030-M06",
+          "artifact_sha256": "6b4141bcdbdab39499dcb2abe97d1cb0348c1c37b9aae8ebc484982a8b98b990",
+          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
           "decision": "PASS",
           "stage": "M06"
         },
-        "electoral_source": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "ceuta",
+          "territory_name": "Ceuta",
+          "edition": "2025",
+          "run_id": 36349042030,
+          "artifact_name": "ddd-electoral-package-ceuta-2025-36349042030",
+          "artifact_sha256": "aec5705a7fc342bc752e1f05ca3fe4f6c169b2bf71dca01bdac8e7a33274b6d9",
+          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
+          "election_id": "ceuta_asamblea_local_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
         "electoral_product": null
       }
     },
@@ -416,11 +430,11 @@
       "territory_id": "galicia",
       "name": "Galicia",
       "ft": "green",
-      "g": "green",
+      "g": "yellow",
       "fe": "green",
       "re": "green",
-      "status": "Cadena completa validada",
-      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "status": "Fuentes territoriales preparadas",
+      "certification": "NOT_CERTIFIED",
       "run_id": 35716459467,
       "stage": "M08",
       "edition": "2025",
@@ -428,9 +442,9 @@
         "territorial_source": {
           "territory_id": "galicia",
           "edition": "2025",
-          "run_id": 35586097396,
-          "artifact_name": "ddd-source-package-galicia-2025-35586097396",
-          "artifact_sha256": "40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7",
+          "run_id": 36345716757,
+          "artifact_name": "ddd-source-package-galicia-2025-36345716757",
+          "artifact_sha256": "367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -666,33 +680,30 @@
     }
   ],
   "kpis": {
-    "complete": 3,
+    "complete": 2,
     "complete_names": [
       "Aragón",
-      "Galicia",
       "Principado de Asturias"
     ],
-    "territorial_validated": 7,
+    "territorial_validated": 6,
     "territorial_validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
       "Ceuta",
       "Extremadura",
-      "Galicia",
       "Principado de Asturias"
     ],
-    "validated": 7,
+    "validated": 6,
     "validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
       "Ceuta",
       "Extremadura",
-      "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 12,
+    "ready": 13,
     "ready_names": [
       "Andalucía",
       "Canarias",
@@ -701,6 +712,7 @@
       "Comunidad de Madrid",
       "Comunidad Foral de Navarra",
       "Comunidad Valenciana",
+      "Galicia",
       "Islas Baleares",
       "La Rioja",
       "Melilla",
@@ -742,15 +754,15 @@
       "action": "completar puerta de validación territorial"
     },
     {
+      "territory": "Ceuta",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Comunidad de Madrid",
       "action": "completar puerta de validación territorial"
     },
     {
       "territory": "Comunidad Foral de Navarra",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Comunidad Valenciana",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -781,7 +793,7 @@
     },
     {
       "territory": "Ceuta",
-      "action": "preparar fuentes electorales"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Comunidad de Madrid",
