@@ -53,6 +53,7 @@ def build(
     *,
     expected_sections_sha256: str | None = None,
     expected_cera_sha256: str | None = None,
+    edition: str = "2025",
 ) -> dict:
     meta = _read_manifest(snapshot)
     sections_path = snapshot / "andalucia_2026_siel_secciones.csv"
@@ -235,11 +236,13 @@ def build(
     }
     contract.write_text(json.dumps(contract_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
+    normalized_sha = sha256(normalized)
     manifest = {
-        "schema": "ddd-siel-andalucia-package/1.0",
+        "schema": "ddd-electoral-package/1.0",
         "decision": "ACQUIRE",
         "adapter": "siel_andalucia_snapshot/1.0",
         "territory_id": TERRITORY_ID,
+        "edition": str(edition),
         "election_id": ELECTION_ID,
         "election_date": ELECTION_DATE,
         "source_status": "VERIFIED_OFFICIAL_FINAL",
@@ -247,7 +250,7 @@ def build(
             "sections_sha256": sections_sha,
             "cera_sha256": cera_sha,
         },
-        "source_sha256": sha256(normalized),
+        "source_sha256": normalized_sha,
         "sections": len(sections),
         "records": len(aggregates),
         "parties": len(parties),
@@ -255,10 +258,21 @@ def build(
         "cera_candidate_votes": cera_total,
         "official_candidate_votes": OFFICIAL_CANDIDATE_VOTES,
         "selected_source": {
+            "path": "data/resultados_electorales_normalizados.csv",
             "publisher": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
             "url": SIEL_BASE,
-            "sha256": sha256(normalized),
+            "sha256": normalized_sha,
+            "bytes": normalized.stat().st_size,
+            "records": len(aggregates),
+            "record_count_method": "csv_rows_excluding_header",
+            "source_class": "official_primary",
             "source_verification_status": "VERIFIED_EXACT",
+        },
+        "embedded_contract": {
+            "election_contract": "contract/election_contract.json",
+            "party_dictionary": "contract/party_dictionary.json",
+            "contract_sha256": sha256(contract),
+            "party_dictionary_sha256": sha256(dictionary),
         },
     }
     (out / "manifest.json").write_text(
@@ -273,6 +287,7 @@ def main() -> None:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--sections-sha256")
     ap.add_argument("--cera-sha256")
+    ap.add_argument("--edition", default="2025")
     args = ap.parse_args()
     print(
         json.dumps(
@@ -281,6 +296,7 @@ def main() -> None:
                 args.out,
                 expected_sections_sha256=args.sections_sha256,
                 expected_cera_sha256=args.cera_sha256,
+                edition=args.edition,
             ),
             ensure_ascii=False,
             indent=2,

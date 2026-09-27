@@ -77,8 +77,13 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             snap = self._snapshot(root)
             out = root / "package"
             m = self.adapter.build(snap, out)
+            self.assertEqual(m["schema"], "ddd-electoral-package/1.0")
             self.assertEqual(m["decision"], "ACQUIRE")
+            self.assertEqual(m["edition"], "2025")
             self.assertEqual(m["source_status"], "VERIFIED_OFFICIAL_FINAL")
+            self.assertEqual(m["selected_source"]["path"], "data/resultados_electorales_normalizados.csv")
+            self.assertEqual(m["selected_source"]["source_class"], "official_primary")
+            self.assertEqual(m["embedded_contract"]["election_contract"], "contract/election_contract.json")
             self.assertEqual(m["official_candidate_votes"], 4_157_539)
             self.assertEqual(m["geographic_candidate_votes"], 4_157_000)
             self.assertEqual(m["cera_candidate_votes"], 539)
