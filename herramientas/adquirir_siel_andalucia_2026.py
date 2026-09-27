@@ -5,6 +5,7 @@ import argparse
 import csv
 import hashlib
 import json
+import sys
 import time
 import urllib.parse
 import urllib.request
@@ -235,10 +236,18 @@ def build(
         votes, url = get_scope("escrutinio/ambito/seccion", p, m, d, s)
         return t, votes, url
 
+    completed = 0
     with ThreadPoolExecutor(max_workers=workers) as ex:
         futures = {ex.submit(one, t): t for t in tasks}
         for fut in as_completed(futures):
             t = futures[fut]
+            completed += 1
+            if completed % 250 == 0 or completed == len(tasks):
+                print(
+                    f"SIEL progreso: {completed}/{len(tasks)} secciones ({100.0*completed/len(tasks):.1f}%)",
+                    file=sys.stderr,
+                    flush=True,
+                )
             try:
                 (p,m,d,s), votes, url = fut.result()
                 for r in votes:
