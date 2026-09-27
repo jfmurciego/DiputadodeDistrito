@@ -13,8 +13,8 @@ Este documento separa disponibilidad de escrutinio provisional granular de valid
 - votos a candidaturas definitivos: **4.157.539**
 - delta definitivo - provisional: **28.964**
 - referencia: https://www.juntadeandalucia.es/boja/2026/115/1
-- API oficial granular conocida: SIEL, `https://ws040.juntadeandalucia.es/siel-api/v1`
-- estado DDD: **PENDING_SIEL_SNAPSHOT**. La fuente oficial granular está identificada y la ruta de `03`/adaptador está implementada; falta completar y fijar un snapshot de 6.044 secciones que reconcilie secciones + CERA = 4.157.539. Existe procedimiento local reproducible en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`.
+- decisión operativa de #147: usar el CSV granular ya disponible como fuente de trabajo, conservando su clasificación **PROVISIONAL**.
+- estado DDD para #147: **PACKAGEABLE_IN_COPY / PRODUCTION_BLOCKED**. El CSV está fijado por SHA-256, tiene 6.044 secciones y 10.403 mesas, y puede producir paquete + registro en copia. El paquete declara `production_eligible=false`; no sustituye ni pretende sustituir una fuente definitiva.
 
 ## Extremadura — Asamblea 2025
 
@@ -35,4 +35,4 @@ Este documento separa disponibilidad de escrutinio provisional granular de valid
 
 ## Regla
 
-No se sustituye una fuente definitiva por el provisional para obtener un PASS. Si aparece una fuente granular definitiva, el adaptador debe validar identidad, territorio, sección/mesa, votos, procedencia y huella y reconciliar exactamente contra los totales definitivos antes de producir un paquete registrable.
+Una fuente provisional puede cerrar la **prueba técnica de paquete + registro en copia** si su estado queda explícito y el paquete declara `production_eligible=false`. No puede usarse para registro productivo ni presentarse como definitiva. Si aparece una fuente granular definitiva, deberá validarse identidad, territorio, sección/mesa, votos, procedencia y huella antes de sustituir la provisional.
