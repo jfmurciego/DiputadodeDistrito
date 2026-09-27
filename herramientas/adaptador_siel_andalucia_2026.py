@@ -93,6 +93,7 @@ def build(
     sections: set[str] = set()
     parties: set[str] = set()
     geographic_votes = 0
+    geographic_by_province: dict[str, int] = {p: 0 for p in VALID_PROVINCES}
     vote_rows = 0
     with sections_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
@@ -120,6 +121,7 @@ def build(
             sections.add(cusec)
             parties.add(party)
             geographic_votes += votes
+            geographic_by_province[prov] = geographic_by_province.get(prov, 0) + votes
             vote_rows += 1
 
     if not sections or not aggregates or geographic_votes <= 0:
@@ -134,6 +136,7 @@ def build(
         )
 
     cera_party_totals: dict[str, int] = {}
+    cera_by_province: dict[str, int] = {p: 0 for p in VALID_PROVINCES}
     cera_total = 0
     with cera_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
@@ -152,6 +155,7 @@ def build(
                 raise ValueError(f"Votos CERA negativos: {row}")
             cera_party_totals[party] = cera_party_totals.get(party, 0) + votes
             parties.add(party)
+            cera_by_province[prov] = cera_by_province.get(prov, 0) + votes
             cera_total += votes
 
     if cera_total != int(meta.get("candidate_votes_cera") or 0):
@@ -164,6 +168,38 @@ def build(
     controls = meta.get("province_controls") or {}
     if len(controls) != 8 or not all(bool(x.get("reconciles")) for x in controls.values()):
         raise ValueError("Controles provinciales SIEL incompletos o no reconciliados")
+    normalized_controls: dict[str, dict] = {}
+    for raw_province, control in controls.items():
+        province = code(raw_province, 2)
+        if province in normalized_controls:
+            raise ValueError(f"Control provincial SIEL duplicado: {province}")
+        normalized_controls[province] = control
+    if set(normalized_controls) != VALID_PROVINCES:
+        raise ValueError(
+            f"Controles provinciales SIEL no cubren Andalucía: {sorted(normalized_controls)}"
+        )
+    for province in sorted(VALID_PROVINCES):
+        control = normalized_controls[province]
+        observed_geo = geographic_by_province.get(province, 0)
+        observed_cera = cera_by_province.get(province, 0)
+        observed_total = observed_geo + observed_cera
+        expected_geo = int(control.get("candidate_votes_geocodable_expected") or 0)
+        declared_sections = int(control.get("candidate_votes_sections") or 0)
+        expected_cera = int(control.get("candidate_votes_cera") or 0)
+        expected_total = int(control.get("candidate_votes_total") or 0)
+        if observed_geo != expected_geo or observed_geo != declared_sections:
+            raise ValueError(
+                f"Provincia {province}: votos geográficos={observed_geo} "
+                f"!= control geográfico={expected_geo}/{declared_sections}"
+            )
+        if observed_cera != expected_cera:
+            raise ValueError(
+                f"Provincia {province}: CERA={observed_cera} != control CERA={expected_cera}"
+            )
+        if observed_total != expected_total:
+            raise ValueError(
+                f"Provincia {province}: total={observed_total} != control total={expected_total}"
+            )
 
     data_dir = out / "data"
     contract_dir = out / "contract"
