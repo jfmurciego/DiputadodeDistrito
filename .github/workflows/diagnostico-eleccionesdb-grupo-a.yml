@@ -109,6 +109,43 @@ jobs:
               for r in rows:f.write(f"|{r['territorio']}|{r['election_id']}|{r['eleccionesdb_id']}|{r['secciones']}|{r['filas_votos']}|{r['partidos']}|{r['procedencia'].replace('|','/')}|\n")
           PY
           cat cobertura-adaptador-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Validar los doce paquetes contra la puerta real de incorporación
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import yaml
+          from pathlib import Path
+          from herramientas.adaptador_eleccionesdb import ELECTIONS
+          from herramientas.validar_paquete_electoral import validate_package
+
+          root=Path('.').resolve()
+          catalog=yaml.safe_load((root/'configuracion/catalogo_preparacion.yaml').read_text(encoding='utf-8')) or {}
+          by_id={row['territory_id']:row for row in catalog.get('territories') or []}
+          rows=[]
+          for election_id,(_edb,_ccaa,territory,_date) in ELECTIONS.items():
+              row=by_id.get(territory) or {}
+              state=(row.get('editions') or {}).get('2025') or {}
+              contract_path=str(state.get('contract_path') or '')
+              if not contract_path:
+                  raise SystemExit(f'{territory}: contrato territorial 2025 ausente')
+              result=validate_package(
+                  package=root/'.ddd-eleccionesdb-packages'/territory,
+                  params=root/contract_path,
+                  territory_id=territory,
+                  edition='2025',
+                  root=root,
+                  materialize=False,
+              )
+              if result.get('decision')!='READY_PACKAGE' or result.get('election_id')!=election_id:
+                  raise SystemExit(f'{territory}: paquete no consumible por incorporación: {result}')
+              rows.append((territory,election_id,result.get('mode')))
+          with open('validacion-incorporacion-eleccionesdb.md','w',encoding='utf-8') as fh:
+              fh.write('# Validación real de incorporación — doce paquetes EleccionesDB\n\n')
+              fh.write('|Territorio|Elección|Modo|Resultado|\n|---|---|---|---|\n')
+              for territory,election_id,mode in rows:
+                  fh.write(f'|{territory}|{election_id}|{mode}|READY_PACKAGE|\n')
+          PY
+          cat validacion-incorporacion-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
       - name: Registrar en copia las doce elecciones con el mismo snapshot
         run: |
           set -euo pipefail
