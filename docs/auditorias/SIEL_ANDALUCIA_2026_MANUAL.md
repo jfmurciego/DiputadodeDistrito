@@ -14,6 +14,12 @@ curl --fail --location --retry 1 --connect-timeout 10 --max-time 90 \
 echo "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21  andalucia-section-locator.csv" | sha256sum -c -
 ```
 
+En macOS, si `sha256sum` no está instalado:
+
+```bash
+test "$(shasum -a 256 andalucia-section-locator.csv | awk '{print $1}')" = "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21"
+```
+
 ## 2. Consultar SIEL y construir el snapshot
 
 ```bash
