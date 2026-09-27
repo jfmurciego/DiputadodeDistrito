@@ -101,6 +101,82 @@ def current_electoral_product_fingerprint(
     )
 
 
+def _catalog_state(root: Path, territory_id: str, edition: str) -> dict:
+    path = root / CATALOG
+    if not path.is_file():
+        return {}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+    for row in data.get("territories") or []:
+        if str(row.get("territory_id") or "") == territory_id:
+            state = (row.get("editions") or {}).get(str(edition))
+            return state if isinstance(state, dict) else {}
+    return {}
+
+
+def recovery_context_fingerprint(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+) -> str:
+    root = root_dir.resolve()
+    base = root / "territorios" / territory_id / "evidencia" / "catalogo"
+    payload = {
+        "territorial_product": _read_json(base / f"territorial_product_{edition}.json"),
+        "electoral_source": _read_json(base / f"electoral_source_{edition}.json"),
+        "electoral_product": _read_json(base / f"electoral_product_{edition}.json"),
+        "catalog_state": _catalog_state(root, territory_id, edition),
+    }
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def electoral_product_registration_accreditation(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+    run_id: int,
+    artifact_name: str,
+    artifact_sha256: str,
+    source_commit: str,
+) -> dict:
+    root = root_dir.resolve()
+    receipt = root / _receipt_path(territory_id, edition)
+    candidate = _candidate_identity(
+        territory_id=territory_id,
+        edition=edition,
+        run_id=run_id,
+        artifact_name=artifact_name,
+        artifact_sha256=artifact_sha256,
+        source_commit=source_commit,
+    )
+    current = current_electoral_product_identity(
+        root_dir=root,
+        territory_id=territory_id,
+        edition=edition,
+    )
+    receipt_accredited = (
+        electoral_product_fingerprint(current)
+        == electoral_product_fingerprint(candidate)
+    )
+    catalog_accredited = _catalog_registration_matches(
+        root=root,
+        territory_id=territory_id,
+        edition=edition,
+        run_id=run_id,
+        receipt=receipt,
+    )
+    return {
+        "receipt_accredited": receipt_accredited,
+        "catalog_accredited": catalog_accredited,
+        "accredited": receipt_accredited and catalog_accredited,
+    }
+
+
 def _candidate_identity(
     *,
     territory_id: str,
@@ -192,6 +268,7 @@ def persist_electoral_product(
     max_attempts: int = 4,
     before_push: Callable[[int], None] | None = None,
     expected_previous_fingerprint: str | None = None,
+    expected_context_fingerprint: str | None = None,
     result_json: Path | None = None,
 ) -> str:
     """
@@ -222,6 +299,10 @@ def persist_electoral_product(
             raise ValueError(
                 "expected_previous_fingerprint debe ser ABSENT o sha256 hexadecimal"
             )
+    if expected_context_fingerprint is not None:
+        expected_context_fingerprint = expected_context_fingerprint.strip()
+        if not re.fullmatch(r"[0-9a-f]{64}", expected_context_fingerprint):
+            raise ValueError("expected_context_fingerprint debe ser sha256 hexadecimal")
     if max_attempts < 1:
         raise ValueError("max_attempts debe ser >= 1")
 
@@ -286,6 +367,25 @@ def persist_electoral_product(
                 f"de {territory_id}/{edition} cambió durante la recuperación "
                 f"(esperado={expected_previous_fingerprint}, actual={current_fingerprint})"
             )
+
+        if expected_context_fingerprint is not None:
+            current_context = recovery_context_fingerprint(
+                root_dir=root,
+                territory_id=territory_id,
+                edition=edition,
+            )
+            if current_context != expected_context_fingerprint:
+                _write_result(
+                    result_json,
+                    status="RECOVERY_CONTEXT_CHANGED",
+                    head_sha=current_head,
+                    attempt=attempt,
+                )
+                raise RuntimeError(
+                    "ELECTORAL_RECOVERY_CONTEXT_CHANGE: cambió el contexto durable "
+                    f"de {territory_id}/{edition} durante la recuperación "
+                    f"(esperado={expected_context_fingerprint}, actual={current_context})"
+                )
 
         promote(
             root_dir=root,
@@ -354,6 +454,7 @@ def main() -> int:
     ap.add_argument("--target-branch", default="main")
     ap.add_argument("--max-attempts", type=int, default=4)
     ap.add_argument("--expected-previous-fingerprint")
+    ap.add_argument("--expected-context-fingerprint")
     ap.add_argument("--result-json", type=Path)
     args = ap.parse_args()
     sha = persist_electoral_product(
@@ -367,6 +468,7 @@ def main() -> int:
         target_branch=args.target_branch,
         max_attempts=args.max_attempts,
         expected_previous_fingerprint=args.expected_previous_fingerprint,
+        expected_context_fingerprint=args.expected_context_fingerprint,
         result_json=args.result_json,
     )
     print(sha)
