@@ -181,6 +181,44 @@ jobs:
             exit 45
           }
 
+          rm -rf .ddd-recovery-audit
+          mkdir -p .ddd-recovery-audit
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-recovery-audit
+          audit_status="$(find .ddd-recovery-audit -name production_status.json -type f -print -quit)"
+          [[ -n "$audit_status" ]] || { echo "::error::Falta production_status.json de la auditoría electoral"; exit 45; }
+
+          TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" SOURCE_RUN_ID="$SOURCE_RUN_ID" \
+          REPORT="$report" VALIDATION="$validation" AUDIT_STATUS="$audit_status" python - <<'PY'
+          import json,os
+          from pathlib import Path
+          import yaml
+          territory=os.environ["TERRITORY_ID"]; edition=os.environ["EDITION"]; run_id=int(os.environ["SOURCE_RUN_ID"])
+          root=Path(".")
+          def load_json(path):
+              return json.loads(Path(path).read_text(encoding="utf-8"))
+          territorial=load_json(root/f"territorios/{territory}/evidencia/catalogo/territorial_product_{edition}.json")
+          electoral_source=load_json(root/f"territorios/{territory}/evidencia/catalogo/electoral_source_{edition}.json")
+          report=load_json(os.environ["REPORT"])
+          validation=load_json(os.environ["VALIDATION"])
+          audit=load_json(os.environ["AUDIT_STATUS"])
+          registry=yaml.safe_load((root/"configuracion/registro_electoral.yaml").read_text(encoding="utf-8")) or {}
+          election=((registry.get("territories") or {}).get(territory) or {}).get("election_id")
+          checks={
+              "audit territory": audit.get("territory_id")==territory,
+              "audit run": audit.get("workflow_run_id")==run_id,
+              "audit territorial source": audit.get("source_territorial_run_id")==territorial.get("run_id"),
+              "audit electoral": audit.get("electoral_application") is True,
+              "report territorial source": report.get("territorial_source_run_id")==territorial.get("run_id"),
+              "report electoral source": report.get("electoral_package_run_id")==electoral_source.get("run_id"),
+              "registry election": bool(election),
+              "source election": electoral_source.get("election_id")==election,
+              "candidate election": validation.get("election_id")==election,
+          }
+          failed=[name for name,ok in checks.items() if not ok]
+          if failed:
+              raise SystemExit("RECOVERY_IDENTITY_CONTRADICTORY: "+", ".join(failed))
+          PY
+
           readarray -t fingerprints < <(
             TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" python - <<'PY'
           import os
