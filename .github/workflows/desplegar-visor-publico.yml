@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .ddd-publication
-          source_ref="$(python herramientas/persistir_estado_operativo_compartido.py \
+          source_ref="$(python -m herramientas.persistir_estado_operativo_compartido \
             --root-dir . --edition 2025 --target-branch main --sync-dashboard-assets)"
           cp orchestracion/estado_operativo.json .ddd-publication/status.json
           production_run_id="$PRODUCTION_RUN_ID_OVERRIDE"
