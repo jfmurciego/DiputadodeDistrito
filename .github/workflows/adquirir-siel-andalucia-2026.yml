@@ -1,0 +1,35 @@
+name: Adquirir SIEL Andalucía 2026 · temporal
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  adquirir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Construir snapshot final SIEL 2026
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-siel-andalucia-2026
+          python herramientas/adquirir_siel_andalucia_2026.py --out .ddd-siel-andalucia-2026 --workers 16 | tee siel-andalucia-2026-report.json
+          jq '{election_id,election_date,sections,vote_rows,candidate_votes_sections,candidate_votes_cera,candidate_votes_official,sections_sha256,cera_sha256}' .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Publicar snapshot durable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ddd-siel-andalucia-2026-snapshot
+          path: .ddd-siel-andalucia-2026
+          if-no-files-found: error
+          retention-days: 90
+      - name: Publicar sólo informe pequeño
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-siel-andalucia-2026
+          path: siel-andalucia-2026-report.json
+          if-no-files-found: error
+          retention-days: 7
