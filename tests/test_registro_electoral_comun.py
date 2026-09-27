@@ -11,29 +11,31 @@ class TestRegistroElectoralComun(unittest.TestCase):
     def setUp(self):
         self.registry=yaml.safe_load((ROOT/"configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
     def test_registry_follows_canonical_codauto_order(self):
+        expected=[
+            "andalucia",
+            "aragon",
+            "principado_de_asturias",
+            "illes_balears",
+            "canarias",
+            "cantabria",
+            "castilla_y_leon",
+            "castilla_la_mancha",
+            "cataluna",
+            "comunidad_valenciana",
+            "extremadura",
+            "galicia",
+            "madrid",
+            "region_de_murcia",
+            "comunidad_foral_de_navarra",
+            "pais_vasco",
+            "la_rioja",
+            "ceuta",
+            "melilla",
+        ]
+        self.assertEqual(list(self.registry["territories"]),expected)
         self.assertEqual(
-            list(self.registry["territories"]),
-            [
-                "andalucia",
-                "aragon",
-                "principado_de_asturias",
-                "illes_balears",
-                "canarias",
-                "cantabria",
-                "castilla_y_leon",
-                "castilla_la_mancha",
-                "cataluna",
-                "comunidad_valenciana",
-                "extremadura",
-                "galicia",
-                "madrid",
-                "region_de_murcia",
-                "comunidad_foral_de_navarra",
-                "pais_vasco",
-                "la_rioja",
-                "ceuta",
-                "melilla",
-            ],
+            [row["codauto"] for row in self.registry["territories"].values()],
+            [f"{i:02d}" for i in range(1,20)],
         )
 
     def test_workflow_selector_matches_registry_codauto_order(self):
