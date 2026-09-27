@@ -1,4 +1,4 @@
-name: Verificar registro EleccionesDB · doce elecciones
+name: Verificar registro EleccionesDB · trece elecciones
 
 on:
   pull_request:
@@ -39,8 +39,8 @@ jobs:
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"
           actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
           [[ -n "$declared" && "$declared" == "$actual" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot no coincide con la huella gobernada"; exit 52; }
-          test "$(jq '.election_ids|length' snapshot/ddd-eleccionesdb-snapshot.json)" = 11
-          test "$(jq '.logical_election_count' snapshot/ddd-eleccionesdb-snapshot.json)" = 12
+          test "$(jq '.election_ids|length' snapshot/ddd-eleccionesdb-snapshot.json)" = 12
+          test "$(jq '.logical_election_count' snapshot/ddd-eleccionesdb-snapshot.json)" = 13
           echo "snapshot_artifact_id=$aid" >> "$GITHUB_ENV"
           echo "snapshot_sha256=$actual" >> "$GITHUB_STEP_SUMMARY"
 
@@ -58,7 +58,7 @@ jobs:
           db=Path('snapshot/ddd-eleccionesdb-snapshot.sqlite')
           snapshot_digest=sha256(db)
           expected={'ceuta_asamblea_local_2023','melilla_asamblea_local_2023'}
-          if len(ELECTIONS)!=12 or not expected.issubset(ELECTIONS):
+          if len(ELECTIONS)!=13 or not expected.issubset(ELECTIONS):
               raise SystemExit(f'Cobertura lógica inesperada: {sorted(ELECTIONS)}')
           rows=[]
           for election_id,(edb,ccaa,territory,date) in ELECTIONS.items():
@@ -76,7 +76,7 @@ jobs:
           with open('registro-copia-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:
               w=csv.DictWriter(f,fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
           with open('registro-copia-eleccionesdb.md','w',encoding='utf-8') as f:
-              f.write('# Paquete + registro en copia — doce elecciones EleccionesDB\n\n|Territorio|Elección|Fecha|Secciones|Votos|Hash paquete|Registro copia|\n|---|---|---|---:|---:|---|---|\n')
+              f.write('# Paquete + registro en copia — trece elecciones EleccionesDB\n\n|Territorio|Elección|Fecha|Secciones|Votos|Hash paquete|Registro copia|\n|---|---|---|---:|---:|---|---|\n')
               for r in rows:
                   f.write(f"|{r['territorio']}|{r['election_id']}|{r['fecha']}|{r['secciones']}|{r['votos']}|{r['package_sha256']}|{r['registro_copia']}|\n")
           PY
@@ -86,7 +86,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: registro-copia-eleccionesdb-doce
+          name: registro-copia-eleccionesdb-trece
           path: |
             registro-copia-eleccionesdb.csv
             registro-copia-eleccionesdb.md

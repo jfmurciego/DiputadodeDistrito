@@ -18,6 +18,18 @@ ELECTIONS={
  'pais_vasco_parlamento_2024':(250,'16','pais_vasco','2024-04-21'),
  'ceuta_asamblea_local_2023':(247,'18','ceuta','2023-05-28'),
  'melilla_asamblea_local_2023':(247,'19','melilla','2023-05-28'),
+ 'extremadura_asamblea_2025-12-21':(253,'11','extremadura','2025-12-21'),
+}
+
+ELECTION_CONTROLS={
+ 'extremadura_asamblea_2025-12-21':{
+  'source_status':'PROVISIONAL_RECONCILED_WITH_DEFINITIVE_TOTAL',
+  'official_candidate_votes':524837,
+  'expected_non_geocodable_candidate_votes':2419,
+  'non_geocodable_kind':'CERA',
+  'official_reference_url':'https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001',
+  'note':'La fuente Minsait es escrutinio provisional a nivel de sección y excluye CERA; el total definitivo se usa sólo para reconciliar el hueco no geocodificable.',
+ },
 }
 
 def sha256(path:Path)->str:
@@ -101,7 +113,24 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None)->dict:
    if n<0: raise ValueError('Votos negativos')
    w.writerow({'CUSEC_KEY':sections[v['territorio_id']],'party':party,'votes':n}); parties.add(party); records+=1; total_votes+=n
  if records==0 or total_votes==0: raise ValueError('Paquete sin votos válidos')
- manifest={'schema':'ddd-eleccionesdb-package/1.0','decision':'ACQUIRE','adapter':'eleccionesdb_sqlite/1.0','election_id':election_id,'eleccionesdb_election_id':edb_id,'territory_id':territory,'election_date':expected_date,'snapshot_sha256':actual_snapshot,'source_sha256':sha256(csv_path),'sections':len(set(sections.values())),'records':records,'parties':len(parties),'candidate_votes':total_votes,'provenance':publishers,'generated_at':datetime.now(timezone.utc).isoformat()}
+ control=ELECTION_CONTROLS.get(election_id)
+ reconciliation=None
+ if control:
+  official=int(control['official_candidate_votes']); gap=official-total_votes
+  expected_gap=int(control['expected_non_geocodable_candidate_votes'])
+  if gap!=expected_gap:
+   raise ValueError(f'Reconciliación oficial no cuadra: oficial={official} geocodificable={total_votes} gap={gap} esperado={expected_gap}')
+  reconciliation={
+   'status':'PASS',
+   'source_status':control['source_status'],
+   'official_candidate_votes':official,
+   'geocodable_candidate_votes':total_votes,
+   'non_geocodable_candidate_votes':gap,
+   'non_geocodable_kind':control['non_geocodable_kind'],
+   'official_reference_url':control['official_reference_url'],
+   'note':control['note'],
+  }
+ manifest={'schema':'ddd-eleccionesdb-package/1.0','decision':'ACQUIRE','adapter':'eleccionesdb_sqlite/1.0','election_id':election_id,'eleccionesdb_election_id':edb_id,'territory_id':territory,'election_date':expected_date,'snapshot_sha256':actual_snapshot,'source_sha256':sha256(csv_path),'sections':len(set(sections.values())),'records':records,'parties':len(parties),'candidate_votes':total_votes,'provenance':publishers,'source_status':(control or {}).get('source_status','VERIFIED_SOURCE'),'official_reconciliation':reconciliation,'generated_at':datetime.now(timezone.utc).isoformat()}
  (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
  con.close(); return manifest
 

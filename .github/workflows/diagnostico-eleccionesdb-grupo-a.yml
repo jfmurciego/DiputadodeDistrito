@@ -82,7 +82,7 @@ jobs:
       - name: Construir snapshot compacto verificado de las doce elecciones
         run: |
           python herramientas/construir_snapshot_eleccionesdb.py --source eleccionesdb.sqlite --out ddd-eleccionesdb-snapshot.sqlite --meta ddd-eleccionesdb-snapshot.json
-          test -s ddd-eleccionesdb-snapshot.sqlite; test "$(jq '.election_ids|length' ddd-eleccionesdb-snapshot.json)" = 11; test "$(jq '.logical_election_count' ddd-eleccionesdb-snapshot.json)" = 12
+          test -s ddd-eleccionesdb-snapshot.sqlite; test "$(jq '.election_ids|length' ddd-eleccionesdb-snapshot.json)" = 12; test "$(jq '.logical_election_count' ddd-eleccionesdb-snapshot.json)" = 13
       - name: Probar el mismo adaptador sobre las doce elecciones
         run: |
           mkdir -p .ddd-eleccionesdb-packages
