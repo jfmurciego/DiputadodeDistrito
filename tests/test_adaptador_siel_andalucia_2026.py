@@ -128,7 +128,7 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             meta["cera_sha256"] = self.adapter.sha256(cera_path)
             meta["candidate_votes_cera"] = 538
             manifest_path.write_text(json.dumps(meta), encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "CERA SIEL"):
+            with self.assertRaisesRegex(ValueError, "Reconciliación SIEL/BOJA"):
                 self.adapter.build(snap, root / "package")
 
 
