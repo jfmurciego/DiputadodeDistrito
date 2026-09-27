@@ -3,6 +3,17 @@ name: Verificar registro EleccionesDB · doce elecciones
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.github/workflows/diagnostico-eleccionesdb-grupo-a.yml'
+      - '.github/workflows/verificar-registro-eleccionesdb.yml'
+      - '.github/workflows/preparacion-resultados-electorales.yml'
+      - 'configuracion/registro_electoral.yaml'
+      - 'herramientas/adaptador_eleccionesdb.py'
+      - 'herramientas/construir_snapshot_eleccionesdb.py'
+      - 'herramientas/promover_catalogo_operacional.py'
+      - 'herramientas/preflight_preparacion_fuente.py'
+      - 'tests/test_adaptador_eleccionesdb.py'
+      - 'tests/test_registro_electoral_comun.py'
 
 permissions:
   contents: read
