@@ -58,15 +58,26 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             "territory_id":"andalucia",
             "election_id":"andalucia_parlamento_2026",
             "election_date":"2026-05-17",
+            "siel_election_key":202605,
+            "source_base":"https://ws040.juntadeandalucia.es/siel-api/v1",
             "candidate_votes_official":4_157_539,
             "candidate_votes_sections":4_157_000,
             "candidate_votes_cera":539,
-            "sections":1,
+            "sections":6044,
             "vote_rows":2,
             "province_controls":controls,
             "sections_sha256":self.adapter.sha256(sections),
             "cera_sha256":self.adapter.sha256(cera),
             "official_reference":"https://www.juntadeandalucia.es/boja/2026/115/1",
+            "section_locator":{
+                "role":"SECTION_LOCATOR_ONLY",
+                "source_class":"PROVISIONAL",
+                "publisher":"Minsait / EleccionesDB mirror",
+                "url":"https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv",
+                "sha256":"13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21",
+                "sections":6044,
+                "votes_consumed":False,
+            },
         }
         (snap / "manifest.json").write_text(json.dumps(meta), encoding="utf-8")
         return snap
@@ -76,6 +87,12 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             root = Path(td)
             snap = self._snapshot(root)
             out = root / "package"
+            with self.assertRaisesRegex(ValueError, "Secciones SIEL"):
+                self.adapter.build(snap, out)
+            meta_path = snap / "manifest.json"
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            meta["sections"] = 1
+            meta_path.write_text(json.dumps(meta), encoding="utf-8")
             m = self.adapter.build(snap, out)
             self.assertEqual(m["schema"], "ddd-electoral-package/1.0")
             self.assertEqual(m["decision"], "ACQUIRE")
