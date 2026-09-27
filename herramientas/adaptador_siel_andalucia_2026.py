@@ -95,6 +95,7 @@ def build(
     parties: set[str] = set()
     geographic_votes = 0
     geographic_by_province: dict[str, int] = {p: 0 for p in VALID_PROVINCES}
+    geographic_party_by_province: dict[str, dict[str, int]] = {p: {} for p in VALID_PROVINCES}
     vote_rows = 0
     with sections_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
@@ -123,6 +124,8 @@ def build(
             parties.add(party)
             geographic_votes += votes
             geographic_by_province[prov] = geographic_by_province.get(prov, 0) + votes
+            party_bucket = geographic_party_by_province.setdefault(prov, {})
+            party_bucket[party] = party_bucket.get(party, 0) + votes
             vote_rows += 1
 
     if not sections or not aggregates or geographic_votes <= 0:
@@ -138,6 +141,7 @@ def build(
 
     cera_party_totals: dict[str, int] = {}
     cera_by_province: dict[str, int] = {p: 0 for p in VALID_PROVINCES}
+    cera_party_by_province: dict[str, dict[str, int]] = {p: {} for p in VALID_PROVINCES}
     cera_total = 0
     with cera_path.open(encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
@@ -157,6 +161,8 @@ def build(
             cera_party_totals[party] = cera_party_totals.get(party, 0) + votes
             parties.add(party)
             cera_by_province[prov] = cera_by_province.get(prov, 0) + votes
+            cera_bucket = cera_party_by_province.setdefault(prov, {})
+            cera_bucket[party] = cera_bucket.get(party, 0) + votes
             cera_total += votes
 
     if cera_total != int(meta.get("candidate_votes_cera") or 0):
@@ -200,6 +206,24 @@ def build(
         if observed_total != expected_total:
             raise ValueError(
                 f"Provincia {province}: total={observed_total} != control total={expected_total}"
+            )
+        expected_geo_by_party = {
+            str(k): int(v)
+            for k, v in (control.get("candidate_votes_geocodable_by_party") or {}).items()
+        }
+        observed_geo_by_party = geographic_party_by_province.get(province, {})
+        if expected_geo_by_party and observed_geo_by_party != expected_geo_by_party:
+            raise ValueError(
+                f"Provincia {province}: distribución geográfica por candidatura no reconcilia"
+            )
+        expected_cera_by_party = {
+            str(k): int(v)
+            for k, v in (control.get("candidate_votes_cera_by_party") or {}).items()
+        }
+        observed_cera_by_party = cera_party_by_province.get(province, {})
+        if expected_cera_by_party and observed_cera_by_party != expected_cera_by_party:
+            raise ValueError(
+                f"Provincia {province}: distribución CERA por candidatura no reconcilia"
             )
 
     data_dir = out / "data"
