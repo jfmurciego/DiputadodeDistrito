@@ -22,6 +22,7 @@ class SielAndaluciaWorkflowIntegrationTests(unittest.TestCase):
 
     def test_preparation_workflow_consumes_verified_siel_snapshot(self):
         text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}", text)
         self.assertIn('adapter=siel_andalucia', text)
         self.assertIn('ddd-siel-andalucia-2026-snapshot', text)
         self.assertIn('candidate_votes_official":4157539', text)
