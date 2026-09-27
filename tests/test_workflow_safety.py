@@ -67,7 +67,6 @@ class WorkflowSafety(unittest.TestCase):
 
     def test_electoral_network_ci_is_path_scoped(self):
         for name in (
-            "adquirir-siel-andalucia-2026.yml",
             "diagnostico-eleccionesdb-grupo-a.yml",
             "diagnostico-fuentes-electorales-pendientes.yml",
             "verificar-cataluna-2024.yml",
@@ -79,6 +78,11 @@ class WorkflowSafety(unittest.TestCase):
             paths=pr.get("paths") or []
             self.assertTrue(paths,name)
             self.assertIn(f".github/workflows/{name}",paths,name)
+
+        siel=yaml.safe_load((WORKFLOWS/"adquirir-siel-andalucia-2026.yml").read_text(encoding="utf-8")) or {}
+        siel_triggers=siel.get(True,siel.get("on",{})) or {}
+        self.assertEqual(set(siel_triggers),{"workflow_call"})
+        self.assertNotIn("workflow_dispatch",siel_triggers)
 
         self.assertFalse(
             (WORKFLOWS/"verificar-registro-eleccionesdb.yml").exists(),
