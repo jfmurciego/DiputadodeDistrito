@@ -297,17 +297,13 @@ jobs:
           suffix=''
           [[ -n "$ARTIFACT_NAMESPACE" ]] && suffix="-$ARTIFACT_NAMESPACE"
           artifact_name="ddd-state-$GITHUB_RUN_ID-M08$suffix"
-          python herramientas/promover_catalogo_operacional.py             --kind electoral_product             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$artifact_name"             --artifact-sha256 "$PRODUCT_DIGEST"             --source-commit "$GITHUB_SHA"
-          python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml             "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_product_$EDITION.json"
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: registrar producto electoral de $TERRITORY_ID"
-          target_branch="$GITHUB_REF_NAME"
-          for attempt in 1 2 3; do
-            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
-            git rebase --abort >/dev/null 2>&1 || true
-            sleep $((attempt * 2))
-          done
-          echo "::error::No se pudo registrar el producto electoral tras tres intentos."; exit 49
+          source_commit="$(git rev-parse HEAD)"
+          python -m herramientas.persistir_producto_electoral_operacional \
+            --root-dir . \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$EDITION" \
+            --run-id "$GITHUB_RUN_ID" \
+            --artifact-name "$artifact_name" \
+            --artifact-sha256 "$PRODUCT_DIGEST" \
+            --source-commit "$source_commit" \
+            --target-branch main
