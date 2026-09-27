@@ -15,6 +15,16 @@ Los estados terminales de una cadena territorial son `PASS`, `BLOCKED` y `FAIL`.
 
 Para la aceptación funcional de #147, `COMPLETE` es condición necesaria pero no suficiente: Work debe revisar separadamente cuántos territorios están en `PASS`, cuáles en `BLOCKED` y si algún `FAIL` permanece abierto.
 
+## Regla de procedencia al registrar
+
+La identidad de una fuente electoral se conserva con esta prioridad:
+
+1. **Declaración explícita** cuando el paquete fue producido por el camino genérico gobernado por esa declaración.
+2. **Contrato electoral materializado** cuando ya existe un contrato verificable en el territorio; este camino preserva la procedencia fuerte de Aragón y Castilla y León.
+3. **Registro electoral común** sólo como fallback para adaptadores compartidos que no dependen de una declaración ni de un contrato materializado, como EleccionesDB y SIEL.
+
+El adaptador realmente usado por `03` gobierna qué procedencia puede registrarse. Una declaración existente no se atribuye a un paquete producido por EleccionesDB/SIEL. El promotor rechaza además declaraciones cuyo `territory_id` o `election_id` no coincidan con la promoción.
+
 ## Resumen de cierre
 
 - **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
