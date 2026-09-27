@@ -110,6 +110,42 @@ class CommonPreparationPreflightTests(unittest.TestCase):
             self.assertEqual(result["run_id"], 456)
             self.assertEqual(result["election_id"], "demo_2024")
 
+    def test_electoral_receipt_for_previous_election_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            receipt = root / "territorios/demo/evidencia/catalogo/electoral_source_2025.json"
+            receipt.parent.mkdir(parents=True)
+            receipt.write_text(json.dumps({
+                "schema": "ddd.catalog-evidence/1.0",
+                "kind": "electoral_source",
+                "territory_id": "demo",
+                "edition": "2025",
+                "run_id": 456,
+                "artifact_name": "ddd-electoral-package-demo-2025-456",
+                "artifact_sha256": "b" * 64,
+                "election_id": "demo_2024",
+            }), encoding="utf-8")
+            write_catalog(root, {
+                "territorial_sources_prepared": True,
+                "electoral_source_prepared": True,
+                "evidence": {
+                    "electoral_source": "territorios/demo/evidencia/catalogo/electoral_source_2025.json"
+                },
+            })
+            (root / "configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2026",
+                        "election_date": "2026-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "registro electoral obsoleto"):
+                preflight(root, "electoral", "Demo", "2025")
+
     def test_electoral_prepared_with_missing_receipt_blocks(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
