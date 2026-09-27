@@ -144,12 +144,74 @@ def get_scope(endpoint: str, province, municipality=None, district=None, section
     return parse_votes(payload, expected), url
 
 
+
+def _checkpoint_path(checkpoint_dir: Path, task: tuple[str, str, str, str]) -> Path:
+    p, m, d, s = task
+    return checkpoint_dir / f"{int(p):02d}-{int(m):03d}-{int(d):02d}-{int(s):04d}.json"
+
+
+def _load_checkpoint(
+    checkpoint_dir: Path,
+    tasks: list[tuple[str, str, str, str]],
+) -> tuple[list[dict], set[tuple[str, str, str, str]]]:
+    expected = set(tasks)
+    rows: list[dict] = []
+    completed: set[tuple[str, str, str, str]] = set()
+    if not checkpoint_dir.is_dir():
+        return rows, completed
+    for path in sorted(checkpoint_dir.glob("*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        raw_task = payload.get("section")
+        votes = payload.get("votes")
+        if not isinstance(raw_task, list) or len(raw_task) != 4 or not isinstance(votes, list):
+            raise ValueError(f"Checkpoint SIEL inválido: {path}")
+        task = tuple(str(x) for x in raw_task)
+        if task not in expected:
+            raise ValueError(f"Checkpoint SIEL ajeno al índice actual: {task}")
+        if task in completed:
+            raise ValueError(f"Checkpoint SIEL duplicado: {task}")
+        p, m, d, s = task
+        parsed = []
+        for vote in votes:
+            party = str((vote or {}).get("party") or "").strip()
+            n = int((vote or {}).get("votes") or 0)
+            if not party or n < 0:
+                raise ValueError(f"Checkpoint SIEL con voto inválido: {path}")
+            parsed.append({
+                "province": p,
+                "municipality": m,
+                "district": d,
+                "section": s,
+                "party": party,
+                "votes": n,
+            })
+        if not parsed:
+            raise ValueError(f"Checkpoint SIEL sin candidaturas: {path}")
+        rows.extend(parsed)
+        completed.add(task)
+    return rows, completed
+
+
+def _write_checkpoint(
+    checkpoint_dir: Path,
+    task: tuple[str, str, str, str],
+    votes: list[dict],
+) -> None:
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    target = _checkpoint_path(checkpoint_dir, task)
+    tmp = target.with_suffix(".tmp")
+    payload = {"section": list(task), "votes": votes}
+    tmp.write_text(json.dumps(payload, ensure_ascii=False) + "\n", encoding="utf-8")
+    tmp.replace(target)
+
+
 def build(
     out_dir: Path,
     workers: int = 16,
     *,
     section_index: Path | None = None,
     expected_locator_sha256: str | None = None,
+    resume: bool = False,
 ) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     convocatorias = options("fconvocatoria", {"tconvocatoria": 5})
@@ -229,28 +291,34 @@ def build(
     if not tasks:
         raise ValueError("SIEL no produjo secciones 2026")
 
-    rows = []
+    checkpoint_dir = out_dir / ".checkpoint-sections"
+    rows: list[dict] = []
+    completed_tasks: set[tuple[str, str, str, str]] = set()
+    if resume:
+        rows, completed_tasks = _load_checkpoint(checkpoint_dir, tasks)
+        if completed_tasks:
+            print(
+                f"SIEL reanudación: {len(completed_tasks)}/{len(tasks)} secciones ya disponibles",
+                file=sys.stderr,
+                flush=True,
+            )
+    pending_tasks = [t for t in tasks if t not in completed_tasks]
     errors = []
     def one(t):
         p,m,d,s = t
         votes, url = get_scope("escrutinio/ambito/seccion", p, m, d, s)
         return t, votes, url
 
-    completed = 0
+    completed = len(completed_tasks)
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        futures = {ex.submit(one, t): t for t in tasks}
+        futures = {ex.submit(one, t): t for t in pending_tasks}
         for fut in as_completed(futures):
             t = futures[fut]
-            completed += 1
-            if completed % 250 == 0 or completed == len(tasks):
-                print(
-                    f"SIEL progreso: {completed}/{len(tasks)} secciones ({100.0*completed/len(tasks):.1f}%)",
-                    file=sys.stderr,
-                    flush=True,
-                )
             try:
                 (p,m,d,s), votes, url = fut.result()
-                for r in votes:
+                normalized_votes = [{"party": r["party"], "votes": int(r["votes"])} for r in votes]
+                _write_checkpoint(checkpoint_dir, t, normalized_votes)
+                for r in normalized_votes:
                     rows.append({
                         "province": str(p),
                         "municipality": str(m),
@@ -259,6 +327,13 @@ def build(
                         "party": r["party"],
                         "votes": r["votes"],
                     })
+                completed += 1
+                if completed % 250 == 0 or completed == len(tasks):
+                    print(
+                        f"SIEL progreso: {completed}/{len(tasks)} secciones ({100.0*completed/len(tasks):.1f}%)",
+                        file=sys.stderr,
+                        flush=True,
+                    )
             except Exception as exc:
                 errors.append({"section": list(map(str,t)), "error": str(exc)})
                 if len(errors) >= 20:
@@ -266,7 +341,12 @@ def build(
                     break
 
     if errors:
-        raise ValueError(f"Fallos SIEL ({len(errors)} primeros): {errors}")
+        raise ValueError(
+            f"Fallos SIEL ({len(errors)} primeros): {errors}. "
+            f"Checkpoint conservado en {checkpoint_dir}; reanudar con --resume."
+        )
+    if completed != len(tasks):
+        raise ValueError(f"SIEL incompleto: {completed}/{len(tasks)} secciones")
     if not rows:
         raise ValueError("SIEL produjo cero filas de votos")
 
@@ -323,6 +403,10 @@ def build(
         manifest["section_locator"] = locator_meta
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if checkpoint_dir.is_dir():
+        for path in checkpoint_dir.glob("*.json"):
+            path.unlink()
+        checkpoint_dir.rmdir()
     return manifest
 
 
@@ -332,12 +416,14 @@ def main():
     ap.add_argument("--workers", type=int, default=16)
     ap.add_argument("--section-index", type=Path)
     ap.add_argument("--section-index-sha256")
+    ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
     print(json.dumps(build(
         args.out,
         args.workers,
         section_index=args.section_index,
         expected_locator_sha256=args.section_index_sha256,
+        resume=args.resume,
     ), ensure_ascii=False, indent=2))
 
 
