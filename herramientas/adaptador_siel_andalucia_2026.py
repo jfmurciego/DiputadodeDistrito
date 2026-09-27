@@ -280,8 +280,13 @@ def build(
                     "votes_field": "votes",
                 },
                 "upstream_snapshot": {
+                    "publisher": meta.get("publisher"),
+                    "source_base": meta.get("source_base"),
+                    "siel_election_key": meta.get("siel_election_key"),
+                    "official_reference": meta.get("official_reference"),
                     "sections_sha256": sections_sha,
                     "cera_sha256": cera_sha,
+                    "section_locator": meta.get("section_locator"),
                 },
             }
         ],
@@ -302,6 +307,7 @@ def build(
             "cera_candidate_votes": cera_total,
             "sections": len(sections),
             "province_controls_match": True,
+            "province_party_controls_match": True,
         },
         "non_geocodable_votes": {
             "policy": "exclude_from_geographic_district_allocation",
@@ -325,8 +331,13 @@ def build(
         "election_date": ELECTION_DATE,
         "source_status": "VERIFIED_OFFICIAL_FINAL",
         "snapshot": {
+            "publisher": meta.get("publisher"),
+            "source_base": meta.get("source_base"),
+            "siel_election_key": meta.get("siel_election_key"),
+            "official_reference": meta.get("official_reference"),
             "sections_sha256": sections_sha,
             "cera_sha256": cera_sha,
+            "section_locator": meta.get("section_locator"),
         },
         "source_sha256": normalized_sha,
         "sections": len(sections),
