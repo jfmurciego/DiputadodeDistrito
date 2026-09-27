@@ -190,6 +190,30 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
                 self.installer.install_from_artifact(params, artifact, root_dir=root, report_path=root / "report.json")
             self.assertFalse((root / "runtime/elections/results.csv").exists())
 
+    def test_explicitly_non_promotable_source_is_blocked_without_network(self):
+        declaration = self._base([{
+            "id": "provisional_only",
+            "publisher": "Official Authority",
+            "url": "https://official.example/results.csv",
+            "access": "public",
+            "declared_resolution": "section",
+            "granularity_markers": ["seccion"],
+            "promotion_allowed": False,
+        }])
+        called = False
+
+        def opener(request, timeout=0):
+            nonlocal called
+            called = True
+            return FakeResponse(b"seccion,votos\n001,10\n")
+
+        with tempfile.TemporaryDirectory() as td:
+            decision = self.checker.check_declaration(declaration, td, opener=opener)
+            self.assertEqual(decision["decision"], "BLOCK")
+            self.assertEqual(decision["checks"][0]["status"], "BLOCK_NOT_PROMOTABLE")
+            self.assertFalse(called)
+
+
     def test_credentials_and_insufficient_granularity_block(self):
         declaration = self._base([
             {
