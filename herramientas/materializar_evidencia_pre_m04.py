@@ -84,6 +84,7 @@ def build_evidence(
     m03_artifact_sha256: str,
     m03u_artifact_sha256: str,
     partition_artifact_sha256: str,
+    preparation_evidence: dict | None = None,
 ) -> dict:
     root = root_dir.resolve()
     contract_file = root / contract_path
@@ -92,7 +93,7 @@ def build_evidence(
         raise ValueError("CONTRACT_IDENTITY_MISMATCH")
 
     row = lookup(territory_id, str(edition), root / CATALOG)
-    prep = row.get("preparation_evidence") or {}
+    prep = preparation_evidence or row.get("preparation_evidence") or {}
     if prep.get("run_id") != run_id:
         raise ValueError(
             f"SOURCE_RUN_MISMATCH: preparation_evidence.run_id={prep.get('run_id')} run_id={run_id}"
@@ -225,11 +226,17 @@ def main() -> int:
     ap.add_argument("--m03-artifact-sha256", required=True)
     ap.add_argument("--m03u-artifact-sha256", required=True)
     ap.add_argument("--partition-artifact-sha256", required=True)
+    ap.add_argument("--preparation-evidence-json", type=Path)
     ap.add_argument("--output", type=Path)
     ap.add_argument("--persist", action="store_true")
     args = ap.parse_args()
 
     root = args.root_dir.resolve()
+    preparation_evidence = (
+        _json(args.preparation_evidence_json)
+        if args.preparation_evidence_json is not None
+        else None
+    )
     evidence = build_evidence(
         root_dir=root,
         territory_id=args.territory_id,
@@ -241,6 +248,7 @@ def main() -> int:
         m03_artifact_sha256=args.m03_artifact_sha256,
         m03u_artifact_sha256=args.m03u_artifact_sha256,
         partition_artifact_sha256=args.partition_artifact_sha256,
+        preparation_evidence=preparation_evidence,
     )
     out = args.output or (
         root
