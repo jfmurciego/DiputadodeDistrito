@@ -31,6 +31,17 @@ jobs:
             --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21 \
             | tee siel-andalucia-2026-report.json
           jq '{election_id,election_date,sections,vote_rows,candidate_votes_sections,candidate_votes_cera,candidate_votes_official,sections_sha256,cera_sha256,section_locator}' .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
+      - name: Conservar checkpoint para reanudación controlada
+        if: ${{ always() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-siel-andalucia-2026-checkpoint
+          path: |
+            .ddd-siel-andalucia-2026/.checkpoint-sections
+            .ddd-siel-andalucia-2026/.checkpoint-meta.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
       - name: Publicar snapshot durable
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
