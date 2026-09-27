@@ -71,13 +71,7 @@ jobs:
                   eh,ec,edata=fetch(endpoint,timeout=8)
                   payload=json.loads(edata.decode('utf-8'))
                   votos=payload.get('votos') or []
-                  total=0
-                  for v in votos:
-                      for key in ('numvotos','votos','voto','n_votos'):
-                          if key in v:
-                              try: total+=int(v.get(key) or 0)
-                              except (TypeError,ValueError): pass
-                              break
+                  total=sum(int(v.get('numvotos') or 0) for v in votos)
                   result['detalle'].update({
                       'nomenclator_provincia':prov,'nomenclator_municipio':muni,
                       'nomenclator_distrito':dist,'nomenclator_seccion':sec,
