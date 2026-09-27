@@ -1,7 +1,7 @@
 name: Adquirir SIEL Andalucía 2026 · snapshot
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
