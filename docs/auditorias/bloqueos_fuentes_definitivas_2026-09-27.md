@@ -14,7 +14,7 @@ Este documento separa disponibilidad de escrutinio provisional granular de valid
 - delta definitivo - provisional: **28.964**
 - referencia: https://www.juntadeandalucia.es/boja/2026/115/1
 - decisión operativa de #147: usar el CSV granular ya disponible como fuente de trabajo, conservando su clasificación **PROVISIONAL**.
-- estado DDD para #147: **PACKAGEABLE_IN_COPY / PRODUCTION_BLOCKED**. El CSV está fijado por SHA-256, tiene 6.044 secciones y 10.403 mesas, y puede producir paquete + registro en copia. El paquete declara `production_eligible=false`; no sustituye ni pretende sustituir una fuente definitiva.
+- estado DDD para #147: **PASS_IN_COPY / PRODUCTION_BLOCKED**. El CSV está fijado por SHA-256, tiene 6.044 secciones y 10.403 mesas. El run `36319863920` produjo paquete real y registro en copia PASS; SHA-256 del paquete: `a6aa80296d0ef5ecbddd3437d9e8d50a040d81271fe13ab9c1a8b21e5db21b30`. El paquete declara `production_eligible=false`; no sustituye ni pretende sustituir una fuente definitiva.
 
 ## Extremadura — Asamblea 2025
 
