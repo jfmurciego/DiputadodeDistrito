@@ -62,6 +62,32 @@ class ResolverIndustrialTests(unittest.TestCase):
             "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
         )
 
+    def test_aragon_prepares_from_materialized_contract_without_external_acquisition(self):
+        params = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+        contract_path = ROOT / "territorios/aragon/config/elecciones/aragon_cortes_2026.json"
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "package"
+            with patch(
+                "herramientas.preparar_fuente_electoral.check_declaration",
+                side_effect=AssertionError("Aragón no debe adquirir datos externos"),
+            ):
+                manifest = prepare(
+                    territory_id="aragon",
+                    edition="2025",
+                    package_out=out,
+                    root=ROOT,
+                    params=params,
+                    declaration=None,
+                    previous=None,
+                )
+        self.assertEqual(manifest["decision"], "REUSE")
+        self.assertEqual(manifest["election_id"], "aragon_cortes_2026-02-08")
+        self.assertEqual(
+            manifest["selected_source"]["sha256"],
+            contract["sources"][0]["sha256"],
+        )
+
     def test_galicia_governed_override_is_preserved(self):
         row = resolve("Galicia", root_dir=ROOT, edition="2025")
         self.assertEqual(row["election_id"], "galicia_parlamento_2024")
