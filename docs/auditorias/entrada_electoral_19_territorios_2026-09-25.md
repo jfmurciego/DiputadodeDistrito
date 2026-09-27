@@ -6,8 +6,8 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 
 Los estados terminales de una cadena territorial son `PASS`, `BLOCKED` y `FAIL`. `COMPLETE` / `INCOMPLETE` describen la cobertura del conjunto y **no sustituyen** al resultado territorial.
 
-- **PASS** — la elección está identificada; los datos reales exigidos por el contrato están adquiridos y validados; existe una fuente durable consumible por `03`; el paquete electoral termina en `ACQUIRE` o `REUSE`; y el mismo paquete puede registrarse correctamente en una copia de trabajo del catálogo. No exige registro efectivo en producción.
-- **BLOCKED** — la cadena no puede avanzar porque falta una condición externa o contractual conocida y verificable, no porque una validación haya sido ignorada. Debe existir un código/razón causal concreto y evidencia del requisito ausente. Un provisional no promocionable frente a un definitivo sin granularidad suficiente es `BLOCKED`, no `PASS`.
+- **PASS** — la elección está identificada; los datos reales usados por #147 están adquiridos y validados con su estado de fuente explícito; existe una fuente durable consumible por `03`; el paquete electoral termina en `ACQUIRE` o `REUSE`; y el mismo paquete puede registrarse correctamente en una copia de trabajo del catálogo. No implica que la fuente sea definitiva ni que el paquete sea elegible para producción; esa elegibilidad se declara por separado.
+- **BLOCKED** — la cadena no puede avanzar hasta paquete + registro en copia porque falta una condición externa o contractual conocida y verificable, no porque una validación haya sido ignorada. Debe existir un código/razón causal concreto y evidencia del requisito ausente. La no elegibilidad para producción se informa separadamente y no invalida por sí sola la prueba de copia de #147.
 - **FAIL** — se intentó ejecutar una fase que debía poder completarse y terminó por error de código, estructura, identidad, huella, reconciliación o contrato. Un HTTP fallido sólo es `FAIL` si el contrato exigía que esa adquisición fuese realizable en ese contexto; no se convierte en éxito ni en ausencia de datos por inferencia.
 - **COMPLETE** — los 19 territorios tienen exactamente un estado terminal verificable (`PASS`, `BLOCKED` o `FAIL`) y para cada uno existe evidencia suficiente para reproducir por qué terminó así. `COMPLETE` no implica que los 19 sean `PASS`.
 - **INCOMPLETE** — al menos un territorio carece todavía de estado terminal o su evidencia es insuficiente para sostenerlo. También aplica cuando existe una ruta técnica o una muestra parcial pero falta cerrar la cadena real exigida.
@@ -28,16 +28,16 @@ El adaptador realmente usado por `03` gobierna qué procedencia puede registrars
 ## Resumen de cierre
 
 - **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
-- Estado territorial actual: **17 PASS / 1 BLOCKED / 1 INCOMPLETE**.
-- **17 PASS** — cadena real acreditada hasta fuente durable + paquete + registro en copia.
-- **Andalucía = INCOMPLETE / `PENDING_SIEL_SNAPSHOT`** — ruta SIEL completa implementada; falta adquirir el snapshot real completo de 6.044 secciones y reconciliarlo.
-- **Extremadura = BLOCKED / `BLOCKED_FINAL_GRANULAR_SOURCE`** — existe granular provisional, pero no una fuente definitiva granular pública/reproducible.
+- Estado territorial objetivo tras el nuevo check real: **18 PASS / 1 BLOCKED**.
+- **17 PASS ya acreditados** — cadena real acreditada hasta fuente durable + paquete + registro en copia.
+- **Andalucía = pendiente únicamente del check real de esta rama** — fuente durable provisional ya fijada por SHA, adaptador común y ruta de `03` implementados; producción bloqueada por `production_eligible=false`.
+- **Extremadura = BLOCKED / `BLOCKED_FINAL_GRANULAR_SOURCE`** — existe granular provisional, pero no se ha integrado en esta PR como paquete registrable.
 - **Registro efectivo en producción** no se infiere del registro en copia y no forma parte de las nuevas pruebas de #147.
 
 
 | Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
 |---|---|---|---|---|---|---|
-| Andalucía | Sí — Parlamento 2026, 2026-05-17; SIEL `fconvocatoria=202605` acreditada | Parcial — SIEL oficial devuelve votos por candidatura en sección real; la adquisición completa de 6.044 secciones sigue pendiente. El provisional Minsait (4.128.575) no se usa como voto definitivo | No aún — `03` ya consume `ddd-siel-andalucia-2026-snapshot` y verifica identidad, dos huellas y ocho controles provinciales, pero falta producir el snapshot completo | Ruta técnica probada en sintético: paquete `ACQUIRE` + promoción en copia + preflight `registered=true`; paquete real todavía NO | No | Falta completar el snapshot SIEL y reconciliar secciones + CERA = BOJA 4.157.539. Procedimiento local reproducible en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`. |
+| Andalucía | Sí — Parlamento 2026, 2026-05-17 | Sí — CSV Minsait/EleccionesDB ya adquirido y fijado: 154.358 filas, 10.403 mesas, 6.044 secciones, 27 candidaturas, 4.128.575 votos | Sí — URL durable + SHA-256 `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21`; `03` usa adaptador `minsait_csv/1.0` | Check real de paquete + registro en copia añadido; pendiente sólo de resultado terminal de CI | No | Fuente marcada `PROVISIONAL` y `production_eligible=false`; no puede registrarse en producción. |
 | Aragón | Sí — Cortes 2026, 2026-02-08 | Sí — fuente materializada RTVE 2026, sección censal, SHA gobernado | Sí — contrato electoral materializado 2026 | Sí — reutilización materializada verificable; no requiere readquisición | Sí — `electoral_source_2025.json` registra `aragon_cortes_2026-02-08` | — |
 | Principado de Asturias | Sí — Junta General 2023 | Sí | Sí — declaración propia | Sí, ruta real ya probada | Sí | — |
 | Islas Baleares | Sí — Parlament 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
@@ -85,12 +85,12 @@ La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y 
 | Territorio | Fuente usada / estado | Clasificación | Resolución | Cobertura / votos | SHA-256 | Paquete | Registro en copia |
 |---|---|---|---|---|---|---|---|
 | Cataluña | Export Parlament 2024 de la Generalitat, servido desde mirror GitHub fijado a commit | **verified_mirror** con referencias oficiales Generalitat; no se presenta como descarga oficial primaria | mesa → agregación a sección | 8.940 mesas geográficas; 5.117 secciones; 3.100.013 votos geográficos + 20.490 CERA = 3.120.503 | `511ed5cf4f7afa31063355614a7982e95943fe8fe67f707a3b4dbb810357a96a` | PASS / `ACQUIRE` | PASS |
-| Andalucía | SIEL Junta de Andalucía, convocatoria `202605`; snapshot completo pendiente | **fuente oficial primaria** para votos. Minsait se usa sólo como `SECTION_LOCATOR_ONLY`, `PROVISIONAL`, `votes_consumed=false` | sección + CERA provincial | objetivo: 6.044 secciones; total oficial 4.157.539; cobertura real completa pendiente del snapshot | secciones: **pendiente**; CERA: **pendiente**; localizador: `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21` | ruta técnica probada; paquete real pendiente | ruta técnica probada; registro real en copia pendiente |
+| Andalucía | CSV Minsait/EleccionesDB ya disponible | **PROVISIONAL / provisional_mirror**, explícitamente no elegible para producción | mesa → agregación a sección | 154.358 filas; 10.403 mesas; 6.044 secciones; 27 candidaturas; 4.128.575 votos | `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21` | check real añadido | check real añadido; sólo copia |
 | Extremadura | Minsait/EleccionesDB granular + DOE definitivo de contraste | granular = **PROVISIONAL / no promocionable**; DOE = **fuente oficial definitiva de contraste**, pero sólo circunscripción | 966 secciones provisional; definitivo sólo circunscripción | 522.418 provisional vs 524.837 definitivo; delta +2.419 | provisional: `d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d` | NO | NO |
 
 ## Andalucía 2026
 
-La ruta técnica ya está integrada en `03 · Preparación de Resultados Electorales`: identifica `andalucia_parlamento_2026`, recupera un artefacto `ddd-siel-andalucia-2026-snapshot`, exige identidad electoral, SHA-256 de secciones y CERA, ocho controles provinciales reconciliados y total oficial 4.157.539. El adaptador genera contrato electoral común y paquete `ACQUIRE`. La promoción en copia mediante el registro electoral común está cubierta por prueba; esto **no acredita todavía datos reales completos ni registro en producción**. Si GitHub Actions no completa la adquisición, el procedimiento local canónico está documentado en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`.
+La ruta activa de `03 · Preparación de Resultados Electorales` usa el CSV Minsait/EleccionesDB ya disponible y gobernado por SHA-256. El adaptador común `minsait_csv/1.0` verifica CCAA 01, ocho provincias, 6.044 secciones, 10.403 mesas y 4.128.575 votos a candidaturas, agrega mesa→sección y genera contrato electoral común y paquete `ACQUIRE`. El paquete declara `source_status=PROVISIONAL` y `production_eligible=false`. Por tanto puede probarse y registrarse en una **copia de trabajo**, pero el job productivo de registro queda bloqueado por contrato.
 
 ## Bloqueos definitivos pendientes
 
@@ -98,4 +98,4 @@ Extremadura no está bloqueada por ausencia de datos provisionales: el fichero g
 
 ## Criterio de cierre
 
-#147 permanece **INCOMPLETA / NO FUSIONAR**. La cadena real queda cerrada hasta paquete+registro en copia para 17 territorios. Andalucía tiene ya ruta técnica completa y registro en copia probado de forma sintética, pero sigue pendiente el snapshot SIEL real completo; Extremadura permanece bloqueada por falta de fuente definitiva granular reproducible. Ningún registro de copia se considera producción. No ejecutar territorios ni promover registros para cerrar esta prueba.
+#147 permanece **NO FUSIONAR** hasta que termine la CI del HEAD actual. La cadena real está cerrada hasta paquete+registro en copia para 17 territorios y el check real de Andalucía provisional está añadido; si ese check termina en PASS, la matriz quedará en 18 PASS + Extremadura BLOCKED. Ningún registro de copia se considera producción y Andalucía permanece explícitamente no elegible para producción.
