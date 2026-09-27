@@ -2,6 +2,19 @@
 
 Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. Un check verde no acredita 19/19.
 
+## Estados verificables
+
+Los estados terminales de una cadena territorial son `PASS`, `BLOCKED` y `FAIL`. `COMPLETE` / `INCOMPLETE` describen la cobertura del conjunto y **no sustituyen** al resultado territorial.
+
+- **PASS** — la elección está identificada; los datos reales exigidos por el contrato están adquiridos y validados; existe una fuente durable consumible por `03`; el paquete electoral termina en `ACQUIRE` o `REUSE`; y el mismo paquete puede registrarse correctamente en una copia de trabajo del catálogo. No exige registro efectivo en producción.
+- **BLOCKED** — la cadena no puede avanzar porque falta una condición externa o contractual conocida y verificable, no porque una validación haya sido ignorada. Debe existir un código/razón causal concreto y evidencia del requisito ausente. Un provisional no promocionable frente a un definitivo sin granularidad suficiente es `BLOCKED`, no `PASS`.
+- **FAIL** — se intentó ejecutar una fase que debía poder completarse y terminó por error de código, estructura, identidad, huella, reconciliación o contrato. Un HTTP fallido sólo es `FAIL` si el contrato exigía que esa adquisición fuese realizable en ese contexto; no se convierte en éxito ni en ausencia de datos por inferencia.
+- **COMPLETE** — los 19 territorios tienen exactamente un estado terminal verificable (`PASS`, `BLOCKED` o `FAIL`) y para cada uno existe evidencia suficiente para reproducir por qué terminó así. `COMPLETE` no implica que los 19 sean `PASS`.
+- **INCOMPLETE** — al menos un territorio carece todavía de estado terminal o su evidencia es insuficiente para sostenerlo. También aplica cuando existe una ruta técnica o una muestra parcial pero falta cerrar la cadena real exigida.
+- **Falta de estado terminal** — si un job/run acaba cancelado, queda en cola, expira, no instancia la fase esperada o termina sin producir una decisión territorial explícita, el territorio es `INCOMPLETE`; no se infiere `PASS`, `BLOCKED` ni `FAIL` a partir del silencio.
+
+Para la aceptación funcional de #147, `COMPLETE` es condición necesaria pero no suficiente: Work debe revisar separadamente cuántos territorios están en `PASS`, cuáles en `BLOCKED` y si algún `FAIL` permanece abierto.
+
 ## Resumen de cierre
 
 - **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
