@@ -4,3 +4,6 @@ output/
 __pycache__/
 *.pyc
 .DS_Store
+.ddd-siel-andalucia-2026/
+andalucia-section-locator.csv
+siel-andalucia-2026.zip
