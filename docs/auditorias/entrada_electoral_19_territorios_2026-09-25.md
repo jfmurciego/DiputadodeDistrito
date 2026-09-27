@@ -33,6 +33,17 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 | Ceuta | Sí — Asamblea de Ceuta, locales 2023 | Sí — EleccionesDB / Ministerio del Interior | Sí — snapshot común verificado | Sí — 56 secciones, 33.753 votos, registro en copia PASS | No | No se ha promovido en producción. |
 | Melilla | Sí — Asamblea de Melilla, locales 2023 | Sí — EleccionesDB / Ministerio del Interior | Sí — snapshot común verificado | Sí — 44 secciones, 29.148 votos, registro en copia PASS | No | No se ha promovido en producción. |
 
+## Estado efectivo de producción
+
+En el catálogo operativo de esta rama sólo cuatro territorios tienen `electoral_source_prepared: true` con evidencia durable existente:
+
+- **Aragón** — `territorios/aragon/evidencia/catalogo/electoral_source_2025.json`, run `36136639133`, elección `aragon_cortes_2026-02-08`.
+- **Principado de Asturias** — `territorios/principado_de_asturias/evidencia/catalogo/electoral_source_2025.json`, run `36136631352`, elección `asturias_jgpa_2023`.
+- **Castilla y León** — `territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json`, elección `castilla_y_leon_cortes_2026-03-15`.
+- **Galicia** — `territorios/galicia/evidencia/catalogo/electoral_source_2025.json`, run `36136559051`, elección `galicia_parlamento_2024`.
+
+Para los otros quince territorios, cualquier paquete o registro producido por las pruebas de #147 es **registro en copia de trabajo**, no producción. La PR no debe alterar esa distinción.
+
 ## Snapshot común EleccionesDB
 
 El adaptador común cubre doce identidades electorales: Islas Baleares, Canarias, Cantabria, Castilla-La Mancha, Comunidad de Madrid, Región de Murcia, Comunidad Foral de Navarra, La Rioja, Comunidad Valenciana, País Vasco, Ceuta y Melilla. Ceuta y Melilla comparten físicamente la elección nacional de EleccionesDB 247 (Locales 2023), pero se aíslan por código de comunidad autónoma 18 y 19. El workflow diagnóstico descarga el export upstream una sola vez, construye un SQLite compacto y publica `ddd-eleccionesdb-snapshot` durante 90 días. `03 · Preparación de Resultados Electorales` recupera ese artefacto y exige la huella interna declarada antes de usarlo.
