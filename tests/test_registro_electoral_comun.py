@@ -36,6 +36,11 @@ class TestRegistroElectoralComun(unittest.TestCase):
             ],
         )
 
+    def test_workflow_selector_matches_registry_codauto_order(self):
+        names=[row["name"] for row in self.registry["territories"].values()]
+        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("options: [" + ", ".join(names) + "]", workflow)
+
     def test_registry_has_exactly_19_identified_elections(self):
         self.assertEqual(self.registry["schema"],"ddd-election-registry/1.0"); self.assertEqual(len(self.registry["territories"]),19)
         for row in self.registry["territories"].values(): self.assertTrue(row["election_id"] and row["election_date"] and row["name"])
