@@ -111,7 +111,11 @@ def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) ->
             or str(phase02.get("artifact") or "") != territorial_artifact
         ):
             continue
-        if current_electoral_run == run_id:
+        if (
+            isinstance(current_electoral_run, int)
+            and not isinstance(current_electoral_run, bool)
+            and run_id <= current_electoral_run
+        ):
             continue
         rows.append(
             {
