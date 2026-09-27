@@ -19,6 +19,10 @@ class SielAndaluciaWorkflowIntegrationTests(unittest.TestCase):
         self.assertIn("workflow_call:", text)
         self.assertNotIn("workflow_dispatch:", text)
         self.assertNotIn("pull_request:", text)
+        self.assertIn("contents: read", text)
+        self.assertNotIn("contents: write", text)
+        self.assertNotIn("promover_catalogo_operacional", text)
+        self.assertNotIn("git push", text)
 
     def test_preparation_workflow_consumes_verified_siel_snapshot(self):
         text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
