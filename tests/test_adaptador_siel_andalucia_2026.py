@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from herramientas.validar_paquete_electoral import validate_package
+
 ROOT = Path(__file__).resolve().parents[1]
 ADAPTER = ROOT / "herramientas/adaptador_siel_andalucia_2026.py"
 
@@ -152,6 +154,17 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             upstream = contract["sources"][0]["upstream_snapshot"]
             self.assertEqual(upstream["siel_election_key"], 202605)
             self.assertFalse(upstream["section_locator"]["votes_consumed"])
+            validation = validate_package(
+                package=out,
+                params=ROOT / "territorios/andalucia/config/andalucia_2025.yaml",
+                territory_id="andalucia",
+                edition="2025",
+                root=ROOT,
+                materialize=False,
+            )
+            self.assertEqual(validation["decision"], "READY_PACKAGE")
+            self.assertEqual(validation["mode"], "embedded_runtime_contract")
+            self.assertEqual(validation["election_id"], "andalucia_parlamento_2026")
 
     def test_changed_snapshot_is_rejected_by_pinned_hash(self):
         with tempfile.TemporaryDirectory() as td:
