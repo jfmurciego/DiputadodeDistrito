@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import subprocess
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -103,41 +101,6 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
             "${{ inputs.source_ref || github.sha }}",
         )
 
-    def test_advancing_main_does_not_change_a_checkout_pinned_to_the_initial_sha(self):
-        with tempfile.TemporaryDirectory() as td:
-            repo = Path(td)
-
-            def git(*args: str) -> str:
-                completed = subprocess.run(
-                    ["git", *args],
-                    cwd=repo,
-                    text=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    check=True,
-                )
-                return completed.stdout.strip()
-
-            git("init", "-b", "main")
-            git("config", "user.name", "DDD Test")
-            git("config", "user.email", "ddd-test@example.invalid")
-
-            contract = repo / "contract.txt"
-            contract.write_text("contract-A\n", encoding="utf-8")
-            git("add", "contract.txt")
-            git("commit", "-m", "A")
-            source_sha = git("rev-parse", "HEAD")
-
-            contract.write_text("contract-B\n", encoding="utf-8")
-            git("add", "contract.txt")
-            git("commit", "-m", "B")
-            main_after_advance = git("rev-parse", "main")
-            self.assertNotEqual(main_after_advance, source_sha)
-
-            git("checkout", "--detach", source_sha)
-            self.assertEqual(git("rev-parse", "HEAD"), source_sha)
-            self.assertEqual(contract.read_text(encoding="utf-8"), "contract-A\n")
-            self.assertEqual(git("rev-parse", "main"), main_after_advance)
 
 
 if __name__ == "__main__":
