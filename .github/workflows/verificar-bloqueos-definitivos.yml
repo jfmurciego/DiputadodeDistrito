@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
-      - name: Descargar una vez los provisionales granulares y probar el bloqueo
+      - name: Contrastar provisionales granulares y clasificar estados
         shell: bash
         run: |
           set -euo pipefail
@@ -58,7 +58,7 @@ jobs:
               })
           Path('bloqueos-definitivos.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
           with Path('bloqueos-definitivos.md').open('w',encoding='utf-8') as f:
-              f.write('# Bloqueos definitivos reproducidos\n\n|Territorio|Secciones provisional|Votos provisional|Votos definitivo|Delta|Estado|\n|---|---:|---:|---:|---:|---|\n')
+              f.write('# Estados de cierre electoral reproducidos\n\n|Territorio|Secciones provisional|Votos provisional|Votos definitivo|Delta|Estado|\n|---|---:|---:|---:|---:|---|\n')
               for r in out:
                   f.write(f"|{r['territorio']}|{r['secciones_provisional']}|{r['votos_candidaturas_provisional']}|{r['votos_candidaturas_definitivo']}|{r['delta_definitivo_menos_provisional']}|{r['estado']}|\n")
           PY
