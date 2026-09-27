@@ -1,4 +1,4 @@
-name: Diagnóstico fuentes electorales pendientes
+name: Verificar fuentes pendientes · Andalucía y Extremadura
 
 on:
   pull_request:
