@@ -19,6 +19,8 @@ on:
       optimization_algorithm: {required: false, type: string, default: Canónico}
       source_package_run_id: {required: false, type: string, default: ''}
       source_package_artifact_name: {required: false, type: string, default: ''}
+      source_package_artifact_sha256: {required: false, type: string, default: ''}
+      generation_preflight_artifact_name: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
       invocation_context: {required: false, type: string, default: reusable}
@@ -308,12 +310,23 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Recuperar evidencia pre-M04 explícita
+        if: ${{ inputs.generation_preflight_artifact_name != '' }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: ${{ inputs.generation_preflight_artifact_name }}
+          path: .ddd-generation-preflight
+
       - name: Validar puerta efectiva antes de Formación inicial
         if: ${{ inputs.require_generation_gate }}
         shell: bash
         env:
           TERRITORY_ID: ${{ steps.resolve.outputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
+          GENERATION_PREFLIGHT_ARTIFACT_NAME: ${{ inputs.generation_preflight_artifact_name }}
+          SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
+          SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+          SOURCE_PACKAGE_ARTIFACT_SHA256: ${{ inputs.source_package_artifact_sha256 }}
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -323,22 +336,47 @@ jobs:
           from herramientas.resolver_ejecucion_completa import generation_enablement
 
           root = Path(".")
+          env = __import__("os").environ
           catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
-          territory_id = __import__("os").environ["TERRITORY_ID"]
-          edition = __import__("os").environ["EDITION"]
+          territory_id = env["TERRITORY_ID"]
+          edition = env["EDITION"]
           row = next(r for r in (catalog.get("territories") or []) if r.get("territory_id") == territory_id)
           state = (row.get("editions") or {}).get(edition) or {}
-          evidence_path = ((state.get("evidence") or {}).get("generation_preflight"))
           evidence = None
-          if evidence_path:
-              evidence = json.loads((root / evidence_path).read_text(encoding="utf-8"))
+          preparation_evidence = state.get("preparation_evidence") or {}
+          explicit_name = env.get("GENERATION_PREFLIGHT_ARTIFACT_NAME", "")
+          if explicit_name:
+              candidates = sorted((root / ".ddd-generation-preflight").rglob("*.json"))
+              if len(candidates) != 1:
+                  raise SystemExit(f"GENERATION_CONTRACT_BLOCK: evidencia pre-M04 explícita no única: {len(candidates)}")
+              evidence = json.loads(candidates[0].read_text(encoding="utf-8"))
+              expected_run = env.get("SOURCE_PACKAGE_RUN_ID", "")
+              expected_artifact = env.get("SOURCE_PACKAGE_ARTIFACT_NAME", "")
+              expected_digest = env.get("SOURCE_PACKAGE_ARTIFACT_SHA256", "").removeprefix("sha256:")
+              source = evidence.get("source") or {}
+              if str(evidence.get("run_id") or "") != expected_run:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: run de evidencia pre-M04 no coincide con la fuente validada")
+              if str(source.get("artifact_name") or "") != expected_artifact:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: artefacto de evidencia pre-M04 no coincide con la fuente validada")
+              if str(source.get("artifact_sha256") or "").removeprefix("sha256:") != expected_digest:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: digest de evidencia pre-M04 no coincide con la fuente validada")
+              preparation_evidence = {
+                  "run_id": evidence.get("run_id"),
+                  "artifact_name": source.get("artifact_name"),
+                  "artifact_sha256": source.get("artifact_sha256"),
+                  "package_sha256": source.get("package_sha256"),
+              }
+          else:
+              evidence_path = ((state.get("evidence") or {}).get("generation_preflight"))
+              if evidence_path:
+                  evidence = json.loads((root / evidence_path).read_text(encoding="utf-8"))
           gate = generation_enablement(
               root_dir=root,
               contract_path=state.get("contract_path"),
               territory_id=territory_id,
               certified_product_ready=bool(state.get("territorial_product_available")),
               first_generation_evidence=evidence,
-              preparation_evidence=state.get("preparation_evidence") or {},
+              preparation_evidence=preparation_evidence,
               require_source=True,
           )
           if not gate.get("allowed"):
