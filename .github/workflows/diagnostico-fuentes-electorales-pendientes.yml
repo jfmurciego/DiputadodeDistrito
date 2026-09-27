@@ -5,9 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/diagnostico-fuentes-electorales-pendientes.yml'
-      - '.github/workflows/adquirir-siel-andalucia-2026.yml'
-      - 'herramientas/adquirir_siel_andalucia_2026.py'
-      - 'herramientas/adaptador_siel_andalucia_2026.py'
+      - '.github/workflows/verificar-andalucia-2026-provisional.yml'
+      - 'herramientas/adaptador_minsait_csv.py'
       - 'territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml'
       - 'territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json'
 
@@ -17,112 +16,43 @@ permissions:
 jobs:
   diagnosticar:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
 
-      - name: SIEL Andalucía 2026 — prueba acotada, sin reintentos largos
+      - name: Medir fuentes granulares ya disponibles
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --location --retry 1 --connect-timeout 10 --max-time 90 \
-            -o andalucia-provisional.csv \
-            https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
-          curl --fail --location --retry 1 --connect-timeout 10 --max-time 60 \
-            -o extremadura-provisional.csv \
-            https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 90             -o andalucia-provisional.csv             https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 60             -o extremadura-provisional.csv             https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
           python - <<'PY'
-          import csv,hashlib,json,urllib.parse,urllib.request
+          import csv,hashlib,json
           from pathlib import Path
 
-          def fetch(url,timeout=8,headers=None):
-              h={'User-Agent':'DDD-electoral-source-diagnostic/3.0'}
-              h.update(headers or {})
-              req=urllib.request.Request(url,headers=h)
-              with urllib.request.urlopen(req,timeout=timeout) as r:
-                  return r.status,r.headers.get('Content-Type',''),r.read(1024*1024)
-
-          result={'territorio':'andalucia','election_id':'andalucia_parlamento_2026','resultado':'PENDING_SIEL_SNAPSHOT','motivo':'snapshot SIEL completo pendiente','detalle':{}}
-          base='https://ws040.juntadeandalucia.es/siel-api/v1'
-          try:
-              u=base+'/opciones/fconvocatoria?'+urllib.parse.urlencode({'tconvocatoria':5})
-              st,ct,data=fetch(u)
-              convocatorias=json.loads(data.decode('utf-8'))
-              match=[x for x in convocatorias if '2026' in str(x.get('valor','')) or '17/05/2026' in str(x.get('valor',''))]
-              result['detalle']['convocatorias_http']=st
-              result['detalle']['convocatoria_2026']=match[-1] if match else None
-              if match:
-                  # La muestra se construye exclusivamente con los nomenclátores SIEL;
-                  # no se mezclan códigos de Minsait con los identificadores de la API oficial.
-                  fconv=match[-1].get('clave')
-                  def get_json(endpoint,params):
-                      url=base+'/'+endpoint+'?'+urllib.parse.urlencode(params)
-                      sh,sc,sd=fetch(url,timeout=8)
-                      return url,sh,json.loads(sd.decode('utf-8'))
-
-                  pu,ph,provincias=get_json('opciones/provincia',{'cautonoma':1})
-                  provincias=[x for x in provincias if str(x.get('clave') or '').strip()]
-                  if not provincias: raise ValueError('SIEL no devuelve provincias')
-                  prov=provincias[0]; p=prov.get('clave')
-
-                  mu,mh,municipios=get_json('opciones/municipio',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv})
-                  municipios=[x for x in municipios if str(x.get('clave') or '').strip()]
-                  if not municipios: raise ValueError('SIEL no devuelve municipios')
-                  muni=municipios[0]; m=muni.get('clave')
-
-                  du,dh,distritos=get_json('opciones/distrito',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':m})
-                  distritos=[x for x in distritos if str(x.get('clave') or '').strip()]
-                  if not distritos: raise ValueError('SIEL no devuelve distritos')
-                  dist=distritos[0]; d=dist.get('clave')
-
-                  su,sh,secciones=get_json('opciones/seccion',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':m,'distrito':d})
-                  secciones=[x for x in secciones if str(x.get('valor') or x.get('clave') or '').strip()]
-                  if not secciones: raise ValueError('SIEL no devuelve secciones')
-                  sec=secciones[0]; s=sec.get('valor') or sec.get('clave')
-
-                  endpoint=base+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode({'cautonoma':1,'tconvocatoria':5,'provincia':p,'municipio':m,'distrito':d,'seccion':s,'fconvocatoria':fconv})
-                  eh,ec,edata=fetch(endpoint,timeout=8)
-                  payload=json.loads(edata.decode('utf-8'))
-                  votos=payload.get('votos') or []
-                  total=sum(int(v.get('numvotos') or 0) for v in votos)
-                  result['detalle'].update({
-                      'nomenclator_provincia':prov,'nomenclator_municipio':muni,
-                      'nomenclator_distrito':dist,'nomenclator_seccion':sec,
-                      'muestra_endpoint':endpoint,'muestra_http':eh,
-                      'muestra_registros_votos':len(votos),'muestra_total_votos':total,
-                      'muestra_votos':votos[:3],
-                      'muestra_idescrutinio':payload.get('idescrutinio'),
-                  })
-                  if votos and total>0:
-                      result['detalle']['muestra_estado']='FOUND_SAMPLE'
-                      result['motivo']='SIEL 2026 devuelve escrutinio granular usando su propia jerarquía de nomenclátores; falta adquisición completa y reconciliación definitiva'
-                  else:
-                      result['motivo']='SIEL expone 2026 pero la muestra jerárquica no devuelve votos positivos'
-              else:
-                  result['motivo']='SIEL respondió pero no se identificó la convocatoria 2026'
-          except Exception as e:
-              result['motivo']=f'Prueba SIEL acotada no adquirible desde runner: {type(e).__name__}: {e}'
-
-          def measure_provisional(path,expected_sha,expected_sections,expected_votes,definitive):
+          def measure(path,expected_sha,expected_sections,expected_votes,definitive):
               raw=Path(path).read_bytes()
               digest=hashlib.sha256(raw).hexdigest()
               if digest!=expected_sha:
                   raise SystemExit(f'{path}: SHA-256 {digest} != {expected_sha}')
               rows=list(csv.DictReader(raw.decode('utf-8-sig','replace').splitlines()))
-              required={'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion','partido','votos'}
+              required={'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion','codigo_mesa','partido','votos'}
               if not rows or not required.issubset(rows[0]):
                   raise SystemExit(f'{path}: estructura Minsait no reconocible')
-              sections=set()
-              votes=0
+              sections=set(); mesas=set(); votes=0; parties=set()
               for row in rows:
-                  if not str(row.get('partido') or '').strip():
+                  party=str(row.get('partido') or '').strip()
+                  if not party:
                       continue
                   key=tuple(str(row.get(k) or '').strip() for k in (
                       'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion'
                   ))
                   if not all(key):
                       raise SystemExit(f'{path}: sección no identificable')
-                  sections.add(key)
+                  mesa=str(row.get('codigo_mesa') or '').strip()
+                  if not mesa:
+                      raise SystemExit(f'{path}: mesa no identificable')
+                  sections.add(key); mesas.add((*key,mesa)); parties.add(party)
                   votes+=int(float(str(row.get('votos') or 0).replace(',','.')))
               if len(sections)!=expected_sections:
                   raise SystemExit(f'{path}: secciones={len(sections)} != {expected_sections}')
@@ -130,39 +60,53 @@ jobs:
                   raise SystemExit(f'{path}: votos={votes} != {expected_votes}')
               return {
                   'sha256':digest,
+                  'filas':len(rows),
                   'secciones':len(sections),
-                  'votos_candidaturas_provisional':votes,
-                  'votos_candidaturas_definitivo':definitive,
-                  'delta_definitivo_menos_provisional':definitive-votes,
+                  'mesas':len(mesas),
+                  'candidaturas':len(parties),
+                  'votos_candidaturas':votes,
+                  'referencia_definitiva':definitive,
+                  'delta_definitivo_menos_fuente':definitive-votes,
               }
 
-          andalucia_provisional=measure_provisional(
+          andalucia=measure(
               'andalucia-provisional.csv',
               '13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21',
               6044,4128575,4157539,
           )
-          result['detalle']['provisional']=andalucia_provisional
-
-          extremadura_provisional=measure_provisional(
+          extremadura=measure(
               'extremadura-provisional.csv',
               'd09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d',
               966,522418,524837,
           )
-          ext={
-            'territorio':'extremadura',
-            'election_id':'extremadura_asamblea_2025-12-21',
-            'resultado':'BLOCKED_FINAL_GRANULAR_SOURCE',
-            'motivo':'el granular público conocido es provisional (522418 votos) y no reconcilia con DOE definitivo (524837); el repositorio granular de prensa exige credenciales',
-            'detalle':{
-                **extremadura_provisional,
-                'doe':'https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001',
+          payload=[
+            {
+              'territorio':'andalucia',
+              'election_id':'andalucia_parlamento_2026',
+              'resultado':'PACKAGEABLE_IN_COPY',
+              'source_status':'PROVISIONAL',
+              'production_eligible':False,
+              'motivo':'fuente granular durable fijada por SHA; paquete y registro sólo en copia',
+              'detalle':andalucia,
             },
-          }
-          payload=[result,ext]
+            {
+              'territorio':'extremadura',
+              'election_id':'extremadura_asamblea_2025-12-21',
+              'resultado':'BLOCKED_FINAL_GRANULAR_SOURCE',
+              'source_status':'PROVISIONAL',
+              'production_eligible':False,
+              'motivo':'granular disponible pero no integrado en #147 como paquete registrable; permanece bloqueado',
+              'detalle':extremadura,
+            },
+          ]
           Path('diagnostico-fuentes-pendientes.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n')
           md=['# Diagnóstico acotado de fuentes pendientes','']
           for x in payload:
-              md.append(f"- **{x['territorio']}** — {x['resultado']} — {x['motivo']}")
+              d=x['detalle']
+              md.append(
+                  f"- **{x['territorio']}** — {x['resultado']} — "
+                  f"{d['secciones']} secciones, {d['mesas']} mesas, {d['votos_candidaturas']} votos"
+              )
           Path('diagnostico-fuentes-pendientes.md').write_text('\n'.join(md)+'\n')
           print('\n'.join(md))
           PY
@@ -170,7 +114,6 @@ jobs:
           cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publicar sólo informe pequeño
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: diagnostico-fuentes-electorales-pendientes
