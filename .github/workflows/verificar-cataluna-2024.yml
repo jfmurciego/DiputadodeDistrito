@@ -3,6 +3,14 @@ name: Verificar Cataluña 2024 · paquete y registro en copia
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.github/workflows/verificar-cataluna-2024.yml'
+      - 'territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml'
+      - 'herramientas/preparar_fuente_electoral.py'
+      - 'herramientas/comprobar_fuente_electoral_oficial.py'
+      - 'herramientas/promover_catalogo_operacional.py'
+      - 'herramientas/preflight_preparacion_fuente.py'
+      - 'tests/test_cataluna_electoral_vigente.py'
 
 permissions:
   contents: read
