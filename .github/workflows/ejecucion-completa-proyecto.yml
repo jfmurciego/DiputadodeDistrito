@@ -328,7 +328,7 @@ jobs:
   detectar_recuperacion_electoral:
     name: Detectar M08 electoral materializado sin registro
     needs: planificar
-    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
+    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.persist_state == 'true' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
     runs-on: ubuntu-24.04
     outputs:
       recover: ${{ steps.detect.outputs.recover }}
