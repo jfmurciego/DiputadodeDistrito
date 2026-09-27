@@ -39,6 +39,7 @@ def _read_manifest(snapshot: Path) -> dict:
         raise ValueError("Snapshot SIEL sin manifest.json")
     data = json.loads(path.read_text(encoding="utf-8"))
     expected = {
+        "schema": "ddd-siel-andalucia-snapshot/1.0",
         "territory_id": TERRITORY_ID,
         "election_id": ELECTION_ID,
         "election_date": ELECTION_DATE,
