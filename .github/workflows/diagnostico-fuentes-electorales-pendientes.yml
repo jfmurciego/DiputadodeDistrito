@@ -73,7 +73,7 @@ jobs:
                   votos=payload.get('votos') or []
                   total=0
                   for v in votos:
-                      for key in ('votos','voto','n_votos'):
+                      for key in ('numvotos','votos','voto','n_votos'):
                           if key in v:
                               try: total+=int(v.get(key) or 0)
                               except (TypeError,ValueError): pass
