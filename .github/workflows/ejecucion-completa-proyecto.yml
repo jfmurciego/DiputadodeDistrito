@@ -143,6 +143,8 @@ jobs:
       persist_state: ${{ steps.plan.outputs.persist_state }}
       publish_result: ${{ steps.plan.outputs.publish_result }}
       publication_mode: ${{ steps.plan.outputs.publication_mode }}
+      publication_mode_requested: ${{ steps.plan.outputs.publication_mode_requested }}
+      publication_mode_effective: ${{ steps.plan.outputs.publication_mode_effective }}
       artifact_suffix: ${{ steps.plan.outputs.artifact_suffix }}
       run_prepare_territorial: ${{ steps.plan.outputs.run_prepare_territorial }}
       pre_m04_accreditation_planned: ${{ steps.plan.outputs.pre_m04_accreditation_planned }}
@@ -243,7 +245,12 @@ jobs:
               )
           except ValueError as exc:
               raise SystemExit(str(exc)) from exc
-          effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path("."))
+          try:
+              effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path("."))
+          except ValueError as exc:
+              raise SystemExit(str(exc)) from exc
+          p["publication_mode_requested"]=publication_mode
+          p["publication_mode_effective"]=effective_mode
           p["publication_mode"]=effective_mode
           if effective_mode=="territorial_only":
               p["run_prepare_electoral"]=False
@@ -265,7 +272,9 @@ jobs:
           out("execution_mode_internal",p["execution_mode"])
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
-          out("publication_mode",p.get("publication_mode","electoral"))
+          out("publication_mode_requested",p.get("publication_mode_requested","electoral"))
+          out("publication_mode_effective",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
+          out("publication_mode",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
           for key in ("run_prepare_territorial","pre_m04_accreditation_planned","run_generate","run_prepare_electoral","run_incorporate"):
               out(key,p.get(key, False))
           existing=p["existing"]
@@ -396,7 +405,7 @@ jobs:
   puerta_03:
     name: Puerta de validación · 03 → 04
     needs: [planificar, puerta_02, preparar_electoral]
-    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -430,7 +439,7 @@ jobs:
   puerta_04:
     name: Puerta de validación · 04 → estado operativo
     needs: [planificar, puerta_02, puerta_03, incorporar]
-    if: ${{ always() && needs.planificar.outputs.publication_mode == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -447,7 +456,7 @@ jobs:
   actualizar_estado:
     name: Actualizar estado operativo único
     needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && (needs.puerta_04.result == 'success' || needs.puerta_03.result != 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.puerta_04.result == 'success')) }}
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -489,7 +498,7 @@ jobs:
   publicar:
     name: 05 · Publicar visor
     needs: [planificar, puerta_02, puerta_04, actualizar_estado]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.puerta_04.result == 'success')) }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
@@ -505,7 +514,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
       TERRITORY_NAME: ${{ needs.planificar.outputs.territory_name }}
-      PUBLICATION_MODE: ${{ needs.planificar.outputs.publication_mode }}
+      PUBLICATION_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
       ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
       CAMPAIGN_INSTANCE: ${{ inputs.campaign_instance }}
       CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
@@ -647,6 +656,8 @@ jobs:
       RUN_PREP_E: ${{ needs.planificar.outputs.run_prepare_electoral }}
       RUN_INC: ${{ needs.planificar.outputs.run_incorporate }}
       PUBLISH_REQUESTED: ${{ needs.planificar.outputs.publish_result }}
+      PUBLICATION_MODE_REQUESTED: ${{ needs.planificar.outputs.publication_mode_requested }}
+      PUBLICATION_MODE_EFFECTIVE: ${{ needs.planificar.outputs.publication_mode_effective }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -679,7 +690,7 @@ jobs:
             test -n "$optimization_evidence" || { echo "::error::La generación completó correctamente pero no dejó evidencia de estrategia efectiva."; exit 51; }
             optimization_evidence_args=(--optimization-evidence "$optimization_evidence")
           fi
-          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "${{ needs.planificar.outputs.source_sha }}"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --output .ddd-full-run/manifest.json
+          python herramientas/escribir_manifest_ejecucion_completa.py             --territory-id "$TERRITORY_ID" --territory-name "$TERRITORY_NAME"             --edition "${{ needs.planificar.outputs.edition }}" --execution-mode "$MODE"             --optimization-algorithm "$OPTIMIZATION_ALGORITHM" "${optimization_evidence_args[@]}" --workflow-run-id "$GITHUB_RUN_ID" --source-sha "${{ needs.planificar.outputs.source_sha }}"             --publication-mode-requested "$PUBLICATION_MODE_REQUESTED" --publication-mode-effective "$PUBLICATION_MODE_EFFECTIVE"             --publish-requested "$PUBLISH_REQUESTED"             --prepare-territorial-result "$PREP_T_RESULT" --generate-result "$GEN_RESULT"             --prepare-electoral-result "$PREP_E_RESULT" --incorporate-result "$INC_RESULT"             --publish-result "$PUB_RESULT"             --prepare-territorial-executed "$RUN_PREP_T" --generate-executed "$RUN_GEN"             --prepare-electoral-executed "$RUN_PREP_E" --incorporate-executed "$RUN_INC"             --territorial-source-run-id "$terr_source_run" --territorial-source-artifact "$terr_source_artifact"             --territorial-product-run-id "$terr_product_run" --territorial-product-artifact "$terr_product_artifact"             --electoral-source-run-id "$elec_source_run" --electoral-source-artifact "$elec_source_artifact"             --electoral-product-run-id "$elec_product_run" --electoral-product-artifact "$elec_product_artifact"             --territorial-source-digest "${{ needs.puerta_01.outputs.artifact_digest }}"             --territorial-product-digest "${{ needs.puerta_02.outputs.artifact_digest }}"             --electoral-source-digest "${{ needs.puerta_03.outputs.artifact_digest }}"             --electoral-product-digest "${{ needs.puerta_04.outputs.artifact_digest }}"             --territorial-source-validation "${{ needs.puerta_01.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-product-validation "${{ needs.puerta_02.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-source-validation "${{ needs.puerta_03.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --electoral-product-validation "${{ needs.puerta_04.result == 'success' && 'VALIDADO' || 'BLOQUEADO' }}"             --territorial-source-phase-decision "${{ needs.puerta_01.outputs.phase_decision }}"             --territorial-product-phase-decision "${{ needs.puerta_02.outputs.phase_decision }}"             --electoral-source-phase-decision "${{ needs.puerta_03.outputs.phase_decision }}"             --electoral-product-phase-decision "${{ needs.puerta_04.outputs.phase_decision }}"             --output .ddd-full-run/manifest.json
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-full-run-manifest-${{ github.run_id }}${{ needs.planificar.outputs.artifact_suffix }}

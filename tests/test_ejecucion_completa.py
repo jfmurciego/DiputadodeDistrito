@@ -349,6 +349,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "--optimization-evidence", str(evidence),
                 "--workflow-run-id", "123",
                 "--source-sha", "a" * 40,
+                "--publication-mode-requested", "territorial_only",
+                "--publication-mode-effective", "territorial_only",
                 "--publish-requested", "false",
                 "--prepare-territorial-result", "success",
                 "--generate-result", "success",
@@ -370,6 +372,52 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(manifest["optimization_algorithm_effective"], "Canónico")
             self.assertTrue(manifest["optimization_fallback"])
             self.assertEqual(manifest["optimization_evidence_status"], "VALID")
+            self.assertEqual(manifest["publication_mode_requested"], "territorial_only")
+            self.assertEqual(manifest["publication_mode_effective"], "territorial_only")
+            self.assertFalse(manifest["publication_mode_scope_mismatch"])
+
+    def test_manifest_marks_failed_electoral_preparation_as_explicit_block(self):
+        import subprocess
+        import sys
+        with tempfile.TemporaryDirectory() as td:
+            output = Path(td) / "manifest.json"
+            cmd = [
+                sys.executable,
+                str(ROOT / "herramientas" / "escribir_manifest_ejecucion_completa.py"),
+                "--territory-id", "extremadura",
+                "--territory-name", "Extremadura",
+                "--edition", "2025",
+                "--execution-mode", "reuse",
+                "--optimization-algorithm", "Canónico",
+                "--workflow-run-id", "456",
+                "--source-sha", "b" * 40,
+                "--publication-mode-requested", "electoral",
+                "--publication-mode-effective", "electoral",
+                "--publish-requested", "false",
+                "--prepare-territorial-result", "skipped",
+                "--generate-result", "skipped",
+                "--prepare-electoral-result", "failure",
+                "--incorporate-result", "skipped",
+                "--publish-result", "skipped",
+                "--prepare-territorial-executed", "false",
+                "--generate-executed", "false",
+                "--prepare-electoral-executed", "true",
+                "--incorporate-executed", "false",
+                "--territorial-source-validation", "VALIDADO",
+                "--territorial-product-validation", "VALIDADO",
+                "--electoral-source-validation", "BLOQUEADO",
+                "--electoral-product-validation", "BLOQUEADO",
+                "--output", str(output),
+            ]
+            completed = subprocess.run(cmd, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            manifest = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(manifest["publication_mode_requested"], "electoral")
+            self.assertEqual(manifest["publication_mode_effective"], "electoral")
+            self.assertFalse(manifest["publication_mode_scope_mismatch"])
+            self.assertEqual(manifest["status"], "FAILED")
+            self.assertIn("03 · Preparación de Resultados Electorales", manifest["failed_phases"])
+            self.assertIn("03 · Preparación de Resultados Electorales", manifest["blocked_phases"])
 
     def test_manifest_treats_skipped_scheduled_phase_as_failure(self):
         writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
