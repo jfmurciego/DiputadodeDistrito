@@ -32,6 +32,12 @@ jobs:
           test "$(jq -r .selected_source.transform.official_candidate_votes .ddd-cataluna-package/manifest.json)" = 3120503
           test "$(jq -r .selected_source.transform.cera_candidate_votes .ddd-cataluna-package/manifest.json)" = 20490
           test -s .ddd-cataluna-package/contract/election_contract.json
+          python herramientas/validar_paquete_electoral.py \
+            --package .ddd-cataluna-package \
+            --params territorios/cataluna/config/cataluna_2025.yaml \
+            --territory-id cataluna --edition 2025 --root-dir . \
+            --output .ddd-cataluna-validacion.json
+          test "$(jq -r .decision .ddd-cataluna-validacion.json)" = READY_PACKAGE
       - name: Registrar sólo en copia de trabajo
         run: |
           set -euo pipefail
