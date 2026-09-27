@@ -32,14 +32,14 @@ jobs:
             | tee siel-andalucia-2026-report.json
           jq '{election_id,election_date,sections,vote_rows,candidate_votes_sections,candidate_votes_cera,candidate_votes_official,sections_sha256,cera_sha256,section_locator}' .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
       - name: Publicar snapshot durable
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-siel-andalucia-2026-snapshot
           path: .ddd-siel-andalucia-2026
           if-no-files-found: error
           retention-days: 90
       - name: Publicar sólo informe pequeño
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: evidencia-siel-andalucia-2026
           path: siel-andalucia-2026-report.json
