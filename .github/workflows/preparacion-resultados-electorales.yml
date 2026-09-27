@@ -90,14 +90,21 @@ jobs:
       - id: mode
         name: Identificar adaptador de adquisición
         run: |
+          set -euo pipefail
+          adapter=generic
           if python - "$ELECTION_ID" <<'PY'
           import sys
           from herramientas.adaptador_eleccionesdb import ELECTIONS
           raise SystemExit(0 if sys.argv[1] in ELECTIONS else 1)
           PY
-          then echo "eleccionesdb=true" >> "$GITHUB_OUTPUT"; else echo "eleccionesdb=false" >> "$GITHUB_OUTPUT"; fi
+          then
+            adapter=eleccionesdb
+          elif [[ "$ELECTION_ID" == "andalucia_parlamento_2026" ]]; then
+            adapter=siel_andalucia
+          fi
+          echo "adapter=$adapter" >> "$GITHUB_OUTPUT"
       - name: Recuperar snapshot EleccionesDB durable y verificar huella
-        if: ${{ steps.mode.outputs.eleccionesdb == 'true' && steps.previous.outputs.run_id == '' }}
+        if: ${{ steps.mode.outputs.adapter == 'eleccionesdb' && steps.previous.outputs.run_id == '' }}
         run: |
           set -euo pipefail
           meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-eleccionesdb-snapshot&per_page=100")"
@@ -108,15 +115,65 @@ jobs:
           test -s snapshot/ddd-eleccionesdb-snapshot.sqlite; test -s snapshot/ddd-eleccionesdb-snapshot.json
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"; actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
           [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+      - name: Recuperar snapshot SIEL Andalucía durable y verificar identidad
+        if: ${{ steps.mode.outputs.adapter == 'siel_andalucia' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=ddd-siel-andalucia-2026-snapshot&per_page=100")"
+          art="$(jq -c '.artifacts|map(select(.expired|not))|sort_by(.created_at)|last' <<<"$meta")"
+          [[ "$art" != "null" && -n "$art" ]] || { echo "::error::Snapshot SIEL Andalucía 2026 durable ausente"; exit 53; }
+          aid="$(jq -r .id <<<"$art")"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$aid/zip" > siel-snapshot.zip
+          mkdir -p siel-snapshot
+          unzip -q siel-snapshot.zip -d siel-snapshot
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root=Path("siel-snapshot")
+          manifest=json.loads((root/"manifest.json").read_text(encoding="utf-8"))
+          expected={
+              "schema":"ddd-siel-andalucia-snapshot/1.0",
+              "territory_id":"andalucia",
+              "election_id":"andalucia_parlamento_2026",
+              "election_date":"2026-05-17",
+              "candidate_votes_official":4157539,
+          }
+          for key,value in expected.items():
+              if manifest.get(key)!=value:
+                  raise SystemExit(f"Snapshot SIEL inválido {key}: {manifest.get(key)!r} != {value!r}")
+          files=[
+              ("andalucia_2026_siel_secciones.csv","sections_sha256"),
+              ("andalucia_2026_siel_cera_provincias.csv","cera_sha256"),
+          ]
+          for name,key in files:
+              p=root/name
+              if not p.is_file():
+                  raise SystemExit(f"Snapshot SIEL incompleto: {name}")
+              digest=hashlib.sha256(p.read_bytes()).hexdigest()
+              if digest!=str(manifest.get(key) or ""):
+                  raise SystemExit(f"Huella SIEL no coincide para {name}")
+          controls=manifest.get("province_controls") or {}
+          if len(controls)!=8 or not all(bool(v.get("reconciles")) for v in controls.values()):
+              raise SystemExit("Controles provinciales SIEL incompletos o no reconciliados")
+          PY
       - id: prepare
         name: Preparar paquete electoral con contrato común
         run: |
           set -euo pipefail
-          if [[ "${{ steps.mode.outputs.eleccionesdb }}" == "true" ]]; then
+          adapter="${{ steps.mode.outputs.adapter }}"
+          if [[ "$adapter" == "eleccionesdb" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
             else
               python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256"
+            fi
+          elif [[ "$adapter" == "siel_andalucia" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              sections_sha="$(jq -r .sections_sha256 siel-snapshot/manifest.json)"
+              cera_sha="$(jq -r .cera_sha256 siel-snapshot/manifest.json)"
+              python herramientas/adaptador_siel_andalucia_2026.py --snapshot siel-snapshot --out .ddd-electoral-package --sections-sha256 "$sections_sha" --cera-sha256 "$cera_sha" --edition "$EDITION"
             fi
           else
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
