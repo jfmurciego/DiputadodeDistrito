@@ -328,6 +328,8 @@ def promote(
         "generation_contract": materialized,
         "run_id": run_id,
         "artifact_name": artifact_name,
+        "artifact_sha256": artifact_sha256.removeprefix("sha256:"),
+        "package_sha256": package_sha256,
     }
 
 def main() -> int:
