@@ -10,6 +10,7 @@ on:
       persist_state: {required: false, type: boolean, default: true}
     outputs:
       territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
+      codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}
       edition: {value: '${{ jobs.resolver.outputs.edition }}'}
       artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
       artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
@@ -37,6 +38,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
+      codauto: ${{ steps.resolve.outputs.codauto }}
       edition: ${{ steps.resolve.outputs.edition }}
       election_id: ${{ steps.resolve.outputs.election_id }}
       election_date: ${{ steps.resolve.outputs.election_date }}
@@ -61,6 +63,7 @@ jobs:
           edition="$(jq -r .territorial_edition <<<"$current")"; [[ "$edition" == "$EDITION" ]] || exit 41
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$edition")"
           echo "territory_id=$(jq -r .territory_id <<<"$current")" >> "$GITHUB_OUTPUT"
+          echo "codauto=$(jq -r .codauto <<<"$current")" >> "$GITHUB_OUTPUT"
           echo "edition=$edition" >> "$GITHUB_OUTPUT"; echo "election_id=$(jq -r .election_id <<<"$current")" >> "$GITHUB_OUTPUT"; echo "election_date=$(jq -r .election_date <<<"$current")" >> "$GITHUB_OUTPUT"
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY" --edition "$EDITION")"
           echo "contract_path=$(jq -r '.contract_path // empty' <<<"$row")" >> "$GITHUB_OUTPUT"; echo "electoral_declaration=$(jq -r .declaration <<<"$current")" >> "$GITHUB_OUTPUT"
