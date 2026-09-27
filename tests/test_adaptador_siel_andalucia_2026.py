@@ -101,5 +101,36 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
                 self.adapter.build(snap, root / "package", expected_sections_sha256="0" * 64)
 
 
+    def test_wrong_snapshot_identity_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            manifest_path = snap / "manifest.json"
+            meta = json.loads(manifest_path.read_text(encoding="utf-8"))
+            meta["election_id"] = "otra_eleccion"
+            manifest_path.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Identidad SIEL incorrecta election_id"):
+                self.adapter.build(snap, root / "package")
+
+    def test_broken_global_reconciliation_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            cera_path = snap / "andalucia_2026_siel_cera_provincias.csv"
+            rows = list(csv.DictReader(cera_path.open(encoding="utf-8", newline="")))
+            rows[0]["votes"] = "299"
+            with cera_path.open("w", encoding="utf-8", newline="") as fh:
+                writer = csv.DictWriter(fh, fieldnames=["province","party","votes"])
+                writer.writeheader()
+                writer.writerows(rows)
+            manifest_path = snap / "manifest.json"
+            meta = json.loads(manifest_path.read_text(encoding="utf-8"))
+            meta["cera_sha256"] = self.adapter.sha256(cera_path)
+            meta["candidate_votes_cera"] = 538
+            manifest_path.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "CERA SIEL"):
+                self.adapter.build(snap, root / "package")
+
+
 if __name__ == "__main__":
     unittest.main()
