@@ -89,6 +89,8 @@ def main() -> None:
     ap.add_argument("--optimization-evidence")
     ap.add_argument("--workflow-run-id", required=True)
     ap.add_argument("--source-sha", required=True)
+    ap.add_argument("--publication-mode-requested", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--publication-mode-effective", choices=["electoral", "territorial_only"], required=True)
     ap.add_argument("--publish-requested", choices=["true", "false"], required=True)
     ap.add_argument("--prepare-territorial-result", required=True)
     ap.add_argument("--generate-result", required=True)
@@ -146,6 +148,7 @@ def main() -> None:
         generate_result=ns.generate_result,
         evidence_path=ns.optimization_evidence,
     )
+    scope_mismatch = ns.publication_mode_requested != ns.publication_mode_effective
 
     payload = {
         "schema": "ddd.full-run-manifest/2.1",
@@ -156,8 +159,11 @@ def main() -> None:
         **optimization,
         "workflow_run_id": int(ns.workflow_run_id),
         "source_sha": ns.source_sha,
+        "publication_mode_requested": ns.publication_mode_requested,
+        "publication_mode_effective": ns.publication_mode_effective,
+        "publication_mode_scope_mismatch": scope_mismatch,
         "publish_requested": ns.publish_requested == "true",
-        "status": "SUCCESS" if not failed and not blocked else "FAILED",
+        "status": "SUCCESS" if not failed and not blocked and not scope_mismatch else "FAILED",
         "failed_phases": failed,
         "blocked_phases": blocked,
         "phases": phases,
