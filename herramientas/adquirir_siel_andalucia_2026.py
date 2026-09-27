@@ -234,8 +234,9 @@ def build(
         total_by_party = {r["party"]: int(r["votes"]) for r in total_votes}
         cera_by_party = {r["party"]: int(r["votes"]) for r in cera_votes}
         geocodable_by_party = {
-            party: int(total_by_party.get(party, 0)) - int(cera_by_party.get(party, 0))
+            party: diff
             for party in set(total_by_party) | set(cera_by_party)
+            if (diff := int(total_by_party.get(party, 0)) - int(cera_by_party.get(party, 0))) != 0
         }
         if any(v < 0 for v in geocodable_by_party.values()):
             raise ValueError(f"Provincia {p}: CERA supera total para alguna candidatura")
@@ -374,10 +375,15 @@ def build(
     for p, ctrl in province_controls.items():
         observed = section_sum_by_province.get(p, 0)
         expected = int(ctrl["candidate_votes_geocodable_expected"])
-        observed_by_party = section_party_by_province.get(p, {})
+        observed_by_party = {
+            str(k): int(v)
+            for k, v in section_party_by_province.get(p, {}).items()
+            if int(v) != 0
+        }
         expected_by_party = {
             str(k): int(v)
             for k, v in (ctrl.get("candidate_votes_geocodable_by_party") or {}).items()
+            if int(v) != 0
         }
         ctrl["candidate_votes_sections"] = observed
         ctrl["candidate_votes_sections_by_party"] = observed_by_party
