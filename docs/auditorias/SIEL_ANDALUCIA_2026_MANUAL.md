@@ -2,6 +2,40 @@
 
 Este procedimiento permite construir localmente el snapshot oficial de Andalucía 2026 sin ejecutar territorios, campañas ni registrar estado en producción.
 
+
+## Windows PowerShell
+
+Desde la raíz del repositorio:
+
+```powershell
+git checkout fix/electoral-input-19-territories
+git pull
+
+curl.exe -L `
+  -o andalucia-section-locator.csv `
+  "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv"
+
+$expected = "13FFB00BBBA4403B9E8D072E766E3979C29AC63CFB5CDCDB7B5E91348484AC21"
+$actual = (Get-FileHash .\andalucia-section-locator.csv -Algorithm SHA256).Hash
+if ($actual -ne $expected) { throw "SHA-256 incorrecto: $actual" }
+
+Remove-Item -Recurse -Force .\.ddd-siel-andalucia-2026 -ErrorAction SilentlyContinue
+
+py .\herramientas\adquirir_siel_andalucia_2026.py `
+  --out .\.ddd-siel-andalucia-2026 `
+  --workers 32 `
+  --section-index .\andalucia-section-locator.csv `
+  --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
+```
+
+El extractor muestra progreso cada 250 secciones. Si la red local devuelve demasiados timeouts, repetir con `--workers 16`. No modificar las validaciones.
+
+Para comprimir el resultado:
+
+```powershell
+Compress-Archive -Path .\.ddd-siel-andalucia-2026 -DestinationPath .\siel-andalucia-2026.zip -Force
+```
+
 ## 1. Preparar el índice de coordenadas
 
 El fichero Minsait/EleccionesDB se usa exclusivamente como localizador de las 6.044 secciones. Sus votos no se consumen.
@@ -32,7 +66,7 @@ python herramientas/adquirir_siel_andalucia_2026.py \
   --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
 ```
 
-Si la red local penaliza 32 workers, reducir a 16 u 8. No modificar las validaciones.
+El extractor informa del progreso cada 250 secciones. Si la red local penaliza 32 workers, reducir a 16 u 8. No modificar las validaciones.
 
 ## 3. Ficheros que deben existir
 
