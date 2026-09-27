@@ -1,7 +1,11 @@
 name: Adquirir SIEL Andalucía 2026 · snapshot
 
 on:
-  workflow_call:
+  pull_request:
+    branches: [main]
+    paths:
+      - herramientas/adquirir_siel_andalucia_2026.py
+      - .github/workflows/adquirir-siel-andalucia-2026.yml
 
 permissions:
   contents: read
@@ -26,7 +30,7 @@ jobs:
           rm -rf .ddd-siel-andalucia-2026
           python herramientas/adquirir_siel_andalucia_2026.py \
             --out .ddd-siel-andalucia-2026 \
-            --workers 16 \
+            --workers 32 \
             --section-index andalucia-section-locator.csv \
             --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21 \
             | tee siel-andalucia-2026-report.json
