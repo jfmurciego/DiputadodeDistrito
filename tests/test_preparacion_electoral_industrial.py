@@ -140,6 +140,28 @@ class StaticContractPreparationTests(unittest.TestCase):
                 expected_election_id="demo_2027",
                 expected_election_date="2027-02-08",
             ))
+            validated = validate_package(
+                package=out,
+                params=params,
+                territory_id="demo",
+                edition="2025",
+                root=root,
+                materialize=False,
+            )
+            self.assertEqual(validated["decision"], "READY_PACKAGE")
+            manifest_path = out / "manifest.json"
+            tampered = json.loads(manifest_path.read_text(encoding="utf-8"))
+            tampered["election_id"] = "demo_2027"
+            manifest_path.write_text(json.dumps(tampered), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "election_id del contrato electoral estático"):
+                validate_package(
+                    package=out,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
 
     def test_new_declaration_wins_over_stale_static_contract(self):
         with tempfile.TemporaryDirectory() as td:
@@ -298,6 +320,7 @@ class EmbeddedContractTests(unittest.TestCase):
                 "territory_id": "demo",
                 "edition": "2025",
                 "election_id": "demo_2023",
+                "election_date": "2023-05-28",
                 "selected_source": {
                     "path": "data/results.csv",
                     "sha256": self.sha(source),
@@ -342,6 +365,20 @@ class EmbeddedContractTests(unittest.TestCase):
             self.assertEqual(m07["election_contract"], payload["runtime_contract_path"])
             self.assertEqual(m07["in_geojson"], cfg["modulos"]["modulo_06_consolidar_distritos"]["out_geojson"])
             self.assertEqual(m08["in_district_geojson"], cfg["modulos"]["modulo_06_consolidar_distritos"]["out_district_geojson"])
+
+            manifest_path = package / "manifest.json"
+            tampered = json.loads(manifest_path.read_text(encoding="utf-8"))
+            tampered["election_date"] = "2024-01-01"
+            manifest_path.write_text(json.dumps(tampered), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "election_date del contrato electoral embebido"):
+                validate_package(
+                    package=package,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
 
 
 class WorkflowContractTests(unittest.TestCase):
