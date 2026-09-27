@@ -2,7 +2,7 @@
   "$schema": "../../../../configuracion/esquemas/contrato_electoral.schema.json",
   "schema_family": "ddd-election",
   "schema_version": "1.0.0",
-  "election_id": "galicia_parlamento_2024-02-18",
+  "election_id": "galicia_parlamento_2024",
   "territory_id": "galicia",
   "title": "Elecciones al Parlamento de Galicia 2024",
   "election_date": "2024-02-18",
