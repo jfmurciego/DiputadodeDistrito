@@ -130,6 +130,16 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             self.assertEqual(m["geographic_candidate_votes"], GEOGRAPHIC_VOTES)
             self.assertEqual(m["cera_candidate_votes"], CERA_VOTES)
             self.assertEqual(m["sections"], SECTIONS)
+            self.assertEqual(m["snapshot"]["siel_election_key"], 202605)
+            self.assertEqual(
+                m["snapshot"]["source_base"],
+                "https://ws040.juntadeandalucia.es/siel-api/v1",
+            )
+            self.assertEqual(
+                m["snapshot"]["official_reference"],
+                "https://www.juntadeandalucia.es/boja/2026/115/1",
+            )
+            self.assertFalse(m["snapshot"]["section_locator"]["votes_consumed"])
             rows = list(csv.DictReader(
                 (out / "data/resultados_electorales_normalizados.csv").open(encoding="utf-8"),
                 delimiter=";",
@@ -137,7 +147,11 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             self.assertEqual(len({r["CUSEC_KEY"] for r in rows}), SECTIONS)
             contract = json.loads((out / "contract/election_contract.json").read_text(encoding="utf-8"))
             self.assertEqual(contract["source_verification"]["status"], "VERIFIED_EXACT")
+            self.assertTrue(contract["source_verification"]["province_party_controls_match"])
             self.assertEqual(contract["non_geocodable_votes"]["candidate_votes"], CERA_VOTES)
+            upstream = contract["sources"][0]["upstream_snapshot"]
+            self.assertEqual(upstream["siel_election_key"], 202605)
+            self.assertFalse(upstream["section_locator"]["votes_consumed"])
 
     def test_changed_snapshot_is_rejected_by_pinned_hash(self):
         with tempfile.TemporaryDirectory() as td:
