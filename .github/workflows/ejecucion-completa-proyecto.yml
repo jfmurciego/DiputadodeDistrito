@@ -116,7 +116,7 @@ on:
       publish_result:
         description: Publicar el visor al terminar
         required: true
-        default: true
+        default: false
         type: boolean
 
 permissions:
