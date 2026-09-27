@@ -131,6 +131,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             list(jobs),
             [
                 "planificar",
+                "detectar_recuperacion_electoral",
                 "preparar_territorial",
                 "puerta_01",
                 "generar",
@@ -138,6 +139,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "preparar_electoral",
                 "puerta_03",
                 "incorporar",
+                "recuperar_electoral",
                 "puerta_04",
                 "actualizar_estado",
                 "publicar",
@@ -149,6 +151,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
+        self.assertEqual(jobs["recuperar_electoral"]["uses"], "./.github/workflows/recuperar-producto-electoral-durable.yml")
         self.assertEqual(jobs["publicar"]["uses"], "./.github/workflows/desplegar-visor-publico.yml")
 
     def test_business_phases_are_reusable(self):
