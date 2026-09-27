@@ -84,6 +84,61 @@ class TestRegistroElectoralComun(unittest.TestCase):
     def test_ceuta_melilla_keep_their_own_identified_assembly_elections(self):
         self.assertEqual(self.registry["territories"]["ceuta"]["election_id"],"ceuta_asamblea_local_2023")
         self.assertEqual(self.registry["territories"]["melilla"]["election_id"],"melilla_asamblea_local_2023")
+    def test_governed_override_rejects_mismatched_declaration_identity(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/"configuracion").mkdir()
+            declaration=root/"territorios/prueba/config/elecciones/prueba.yaml"
+            declaration.parent.mkdir(parents=True)
+            declaration.write_text(yaml.safe_dump({
+                "schema":"ddd-election-official-source-declaration/1.0",
+                "territory_id":"prueba",
+                "election_id":"otra_eleccion",
+                "election_date":"2025-01-01",
+                "minimum_resolution":"section",
+                "allowed_official_hosts":["example.test"],
+                "sources":[{"id":"x","url":"https://example.test/x.csv","access":"public","declared_resolution":"section"}],
+            },sort_keys=False),encoding="utf-8")
+            (root/"configuracion/elecciones_vigentes.yaml").write_text(yaml.safe_dump({
+                "territories":[{
+                    "territory_id":"prueba",
+                    "name":"Prueba",
+                    "territorial_edition":"2025",
+                    "election_id":"eleccion_gobernada",
+                    "election_date":"2025-01-01",
+                    "declaration":"territorios/prueba/config/elecciones/prueba.yaml",
+                }]
+            },sort_keys=False),encoding="utf-8")
+            with self.assertRaisesRegex(SystemExit,"election_id de declaración vigente no coincide"):
+                resolve("Prueba",root_dir=root,edition="2025")
+
+    def test_same_date_auto_discovered_declarations_are_ambiguous(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            (root/"configuracion").mkdir()
+            (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({
+                "default_edition":"2025",
+                "territories":[{
+                    "territory_id":"prueba",
+                    "name":"Prueba",
+                    "editions":{"2025":{}},
+                }],
+            },sort_keys=False),encoding="utf-8")
+            folder=root/"territorios/prueba/config/elecciones"
+            folder.mkdir(parents=True)
+            for election_id,name in (("eleccion_a","a.yaml"),("eleccion_b","b.yaml")):
+                (folder/name).write_text(yaml.safe_dump({
+                    "schema":"ddd-election-official-source-declaration/1.0",
+                    "territory_id":"prueba",
+                    "election_id":election_id,
+                    "election_date":"2025-01-01",
+                    "minimum_resolution":"section",
+                    "allowed_official_hosts":["example.test"],
+                    "sources":[{"id":"x","url":"https://example.test/x.csv","access":"public","declared_resolution":"section"}],
+                },sort_keys=False),encoding="utf-8")
+            with self.assertRaisesRegex(SystemExit,"Elección vigente ambigua"):
+                resolve("Prueba",root_dir=root,edition="2025")
+
     def test_unregistered_territory_cannot_enter_preparation(self):
         with self.assertRaises(SystemExit): resolve_for_preparation("Territorio inexistente",root_dir=ROOT,edition="2025")
 if __name__=="__main__": unittest.main()
