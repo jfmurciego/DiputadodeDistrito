@@ -4,10 +4,10 @@
   "territory_id": "ceuta",
   "territory_name": "Ceuta",
   "edition": "2025",
-  "run_id": 36321863916,
-  "artifact_name": "ddd-state-36321863916-M06",
-  "artifact_sha256": "c2879451219876f4a81ec4c3726e83ccf86be4261948d43922bcb7cff5cefffd",
-  "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+  "run_id": 36329852696,
+  "artifact_name": "ddd-state-36329852696-M06",
+  "artifact_sha256": "496e65b12e203767542958053e94b71319ae94b5b37ad460e72749ec7bbd1a7a",
+  "source_commit": "36efca2ee7a025dee93f179d3b9caa2799eada4b",
   "decision": "PASS",
   "stage": "M06"
 }
