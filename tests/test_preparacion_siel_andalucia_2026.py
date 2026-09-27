@@ -45,6 +45,11 @@ class SielAndaluciaWorkflowIntegrationTests(unittest.TestCase):
             root = Path(td)
             (root / "configuracion").mkdir()
             (root / "territorios/andalucia/evidencia/catalogo").mkdir(parents=True)
+            (root / "territorios/andalucia/config").mkdir(parents=True)
+            (root / "territorios/andalucia/config/andalucia_2025.yaml").write_text(
+                yaml.safe_dump({"modulos": {}}, sort_keys=False),
+                encoding="utf-8",
+            )
             catalog = {
                 "schema": "ddd-preparation-catalog/1.1",
                 "default_edition": "2025",
