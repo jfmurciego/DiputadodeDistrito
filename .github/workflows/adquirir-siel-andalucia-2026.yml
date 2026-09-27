@@ -2,6 +2,10 @@ name: Adquirir SIEL Andalucía 2026 · snapshot
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - herramientas/adquirir_siel_andalucia_2026.py
 
 permissions:
   contents: read
@@ -12,12 +16,25 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Preparar índice provisional sólo de coordenadas
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 90 \
+            -o andalucia-section-locator.csv \
+            https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+          echo "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21  andalucia-section-locator.csv" | sha256sum -c -
       - name: Construir snapshot final SIEL 2026
         run: |
           set -euo pipefail
           rm -rf .ddd-siel-andalucia-2026
-          python herramientas/adquirir_siel_andalucia_2026.py --out .ddd-siel-andalucia-2026 --workers 16 | tee siel-andalucia-2026-report.json
-          jq '{election_id,election_date,sections,vote_rows,candidate_votes_sections,candidate_votes_cera,candidate_votes_official,sections_sha256,cera_sha256}' .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
+          python herramientas/adquirir_siel_andalucia_2026.py \
+            --out .ddd-siel-andalucia-2026 \
+            --workers 16 \
+            --section-index andalucia-section-locator.csv \
+            --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21 \
+            | tee siel-andalucia-2026-report.json
+          jq '{election_id,election_date,sections,vote_rows,candidate_votes_sections,candidate_votes_cera,candidate_votes_official,sections_sha256,cera_sha256,section_locator}' .ddd-siel-andalucia-2026/manifest.json >> "$GITHUB_STEP_SUMMARY"
       - name: Publicar snapshot durable
         uses: actions/upload-artifact@v4
         with:

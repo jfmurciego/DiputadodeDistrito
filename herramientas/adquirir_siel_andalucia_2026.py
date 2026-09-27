@@ -15,6 +15,9 @@ BASE = "https://ws040.juntadeandalucia.es/siel-api/v1"
 ELECTION_KEY = 202605
 OFFICIAL_CANDIDATE_VOTES = 4_157_539
 UA = {"User-Agent": "DDD-SIEL-Andalucia-2026/1.0"}
+SECTION_LOCATOR_URL = "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv"
+SECTION_LOCATOR_SHA256 = "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21"
+EXPECTED_SECTIONS = 6044
 
 
 def sha256(path: Path) -> str:
@@ -47,6 +50,56 @@ def options(endpoint: str, params: dict):
     if not isinstance(payload, list):
         raise ValueError(f"Nomenclátor {endpoint} no es lista")
     return [x for x in payload if isinstance(x, dict) and str(x.get("clave") or "").strip()]
+
+
+def _api_code(value: object, *, section: bool = False) -> str:
+    raw = str(value or "").strip()
+    if not raw:
+        raise ValueError("Código vacío en índice de secciones")
+    try:
+        code = str(int(float(raw.replace(",", "."))))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Código no numérico en índice de secciones: {value!r}") from exc
+    return code.zfill(4) if section else code
+
+
+def load_section_locator(
+    path: Path,
+    *,
+    expected_sha256: str | None = None,
+    expected_sections: int = EXPECTED_SECTIONS,
+) -> tuple[list[tuple[str, str, str, str]], dict]:
+    if not path.is_file():
+        raise ValueError(f"Índice de secciones ausente: {path}")
+    actual_sha = sha256(path)
+    if expected_sha256 and actual_sha != expected_sha256:
+        raise ValueError("Huella gobernada del índice provisional de secciones modificada")
+    sections: set[tuple[str, str, str, str]] = set()
+    with path.open(encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh)
+        required = {"codigo_provincia", "codigo_municipio", "codigo_distrito", "codigo_seccion"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError(f"Índice provisional sin coordenadas de sección: {reader.fieldnames}")
+        for row in reader:
+            sections.add((
+                _api_code(row["codigo_provincia"]),
+                _api_code(row["codigo_municipio"]),
+                _api_code(row["codigo_distrito"]),
+                _api_code(row["codigo_seccion"], section=True),
+            ))
+    if len(sections) != expected_sections:
+        raise ValueError(f"Índice provisional: secciones={len(sections)} != {expected_sections}")
+    tasks = sorted(sections, key=lambda x: tuple(int(v) for v in x))
+    meta = {
+        "role": "SECTION_LOCATOR_ONLY",
+        "source_class": "PROVISIONAL",
+        "publisher": "Minsait / EleccionesDB mirror",
+        "url": SECTION_LOCATOR_URL,
+        "sha256": actual_sha,
+        "sections": len(tasks),
+        "votes_consumed": False,
+    }
+    return tasks, meta
 
 
 def parse_votes(payload: dict, expected: dict) -> list[dict]:
@@ -90,7 +143,13 @@ def get_scope(endpoint: str, province, municipality=None, district=None, section
     return parse_votes(payload, expected), url
 
 
-def build(out_dir: Path, workers: int = 16) -> dict:
+def build(
+    out_dir: Path,
+    workers: int = 16,
+    *,
+    section_index: Path | None = None,
+    expected_locator_sha256: str | None = None,
+) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     convocatorias = options("fconvocatoria", {"tconvocatoria": 5})
     if not any(int(x.get("clave") or 0) == ELECTION_KEY for x in convocatorias):
@@ -122,38 +181,49 @@ def build(out_dir: Path, workers: int = 16) -> dict:
         for r in cera_votes:
             cera_rows.append({"province": str(p), **r})
 
-    tasks = []
-    section_meta = {}
-    for prov in provinces:
-        p = prov["clave"]
-        municipalities = options("municipio", {
-            "cautonoma": 1, "provincia": p, "tconvocatoria": 5, "fconvocatoria": ELECTION_KEY
-        })
-        for muni in municipalities:
-            m = muni["clave"]
-            districts = options("distrito", {
-                "cautonoma": 1, "provincia": p, "tconvocatoria": 5,
-                "fconvocatoria": ELECTION_KEY, "municipio": m
+    locator_meta = None
+    if section_index is not None:
+        tasks, locator_meta = load_section_locator(
+            section_index,
+            expected_sha256=expected_locator_sha256,
+        )
+        province_keys = {str(int(str(x["clave"]))) for x in provinces}
+        locator_provinces = {p for p, _, _, _ in tasks}
+        unknown = sorted(locator_provinces - province_keys, key=int)
+        if unknown:
+            raise ValueError(f"Índice de secciones contiene provincias ajenas a SIEL: {unknown}")
+        if locator_provinces != province_keys:
+            missing = sorted(province_keys - locator_provinces, key=int)
+            raise ValueError(f"Índice de secciones no cubre todas las provincias SIEL: {missing}")
+    else:
+        tasks = []
+        seen_sections: set[tuple[str, str, str, str]] = set()
+        for prov in provinces:
+            p = prov["clave"]
+            municipalities = options("municipio", {
+                "cautonoma": 1, "provincia": p, "tconvocatoria": 5, "fconvocatoria": ELECTION_KEY
             })
-            for dist in districts:
-                d = dist["clave"]
-                sections = options("seccion", {
+            for muni in municipalities:
+                m = muni["clave"]
+                districts = options("distrito", {
                     "cautonoma": 1, "provincia": p, "tconvocatoria": 5,
-                    "fconvocatoria": ELECTION_KEY, "municipio": m, "distrito": d
+                    "fconvocatoria": ELECTION_KEY, "municipio": m
                 })
-                for sec in sections:
-                    s = str(sec.get("valor") or sec.get("clave") or "").strip()
-                    if not s:
-                        raise ValueError(f"Sección vacía: {prov} {muni} {dist} {sec}")
-                    key = (str(p), str(m), str(d), s)
-                    if key in section_meta:
-                        raise ValueError(f"Sección duplicada: {key}")
-                    section_meta[key] = {
-                        "province_name": prov.get("valor"),
-                        "municipality_name": muni.get("valor"),
-                        "district_name": dist.get("valor"),
-                    }
-                    tasks.append((p, m, d, s))
+                for dist in districts:
+                    d = dist["clave"]
+                    sections = options("seccion", {
+                        "cautonoma": 1, "provincia": p, "tconvocatoria": 5,
+                        "fconvocatoria": ELECTION_KEY, "municipio": m, "distrito": d
+                    })
+                    for sec in sections:
+                        s = str(sec.get("valor") or sec.get("clave") or "").strip()
+                        if not s:
+                            raise ValueError(f"Sección vacía: {prov} {muni} {dist} {sec}")
+                        key = (str(p), str(m), str(d), s)
+                        if key in seen_sections:
+                            raise ValueError(f"Sección duplicada: {key}")
+                        seen_sections.add(key)
+                        tasks.append(key)
 
     if not tasks:
         raise ValueError("SIEL no produjo secciones 2026")
@@ -231,7 +301,7 @@ def build(out_dir: Path, workers: int = 16) -> dict:
         "publisher": "Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)",
         "source_base": BASE,
         "official_reference": "https://www.juntadeandalucia.es/boja/2026/115/1",
-        "sections": len(section_meta),
+        "sections": len(set(tasks)),
         "vote_rows": len(rows),
         "candidate_votes_sections": section_total,
         "candidate_votes_cera": cera_total,
@@ -240,6 +310,8 @@ def build(out_dir: Path, workers: int = 16) -> dict:
         "sections_sha256": sha256(csv_path),
         "cera_sha256": sha256(cera_path),
     }
+    if locator_meta is not None:
+        manifest["section_locator"] = locator_meta
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return manifest
@@ -249,8 +321,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=16)
+    ap.add_argument("--section-index", type=Path)
+    ap.add_argument("--section-index-sha256")
     args = ap.parse_args()
-    print(json.dumps(build(args.out, args.workers), ensure_ascii=False, indent=2))
+    print(json.dumps(build(
+        args.out,
+        args.workers,
+        section_index=args.section_index,
+        expected_locator_sha256=args.section_index_sha256,
+    ), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
