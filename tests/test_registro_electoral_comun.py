@@ -10,6 +10,32 @@ ROOT = Path(__file__).resolve().parents[1]
 class TestRegistroElectoralComun(unittest.TestCase):
     def setUp(self):
         self.registry=yaml.safe_load((ROOT/"configuracion/registro_electoral.yaml").read_text(encoding="utf-8"))
+    def test_registry_follows_canonical_codauto_order(self):
+        self.assertEqual(
+            list(self.registry["territories"]),
+            [
+                "andalucia",
+                "aragon",
+                "principado_de_asturias",
+                "illes_balears",
+                "canarias",
+                "cantabria",
+                "castilla_y_leon",
+                "castilla_la_mancha",
+                "cataluna",
+                "comunidad_valenciana",
+                "extremadura",
+                "galicia",
+                "madrid",
+                "region_de_murcia",
+                "comunidad_foral_de_navarra",
+                "pais_vasco",
+                "la_rioja",
+                "ceuta",
+                "melilla",
+            ],
+        )
+
     def test_registry_has_exactly_19_identified_elections(self):
         self.assertEqual(self.registry["schema"],"ddd-election-registry/1.0"); self.assertEqual(len(self.registry["territories"]),19)
         for row in self.registry["territories"].values(): self.assertTrue(row["election_id"] and row["election_date"] and row["name"])
