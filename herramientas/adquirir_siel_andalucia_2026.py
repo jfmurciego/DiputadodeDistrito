@@ -5,6 +5,7 @@ import argparse
 import csv
 import hashlib
 import json
+import shutil
 import sys
 import time
 import urllib.parse
@@ -205,6 +206,40 @@ def _write_checkpoint(
     tmp.replace(target)
 
 
+
+def _prepare_checkpoint(
+    out_dir: Path,
+    locator_meta: dict | None,
+    *,
+    resume: bool,
+) -> tuple[Path, Path]:
+    checkpoint_dir = out_dir / ".checkpoint-sections"
+    meta_path = out_dir / ".checkpoint-meta.json"
+    if locator_meta is None:
+        if resume:
+            raise ValueError("--resume requiere --section-index gobernado")
+        return checkpoint_dir, meta_path
+    expected = {
+        "schema": "ddd-siel-checkpoint/1.0",
+        "source_base": BASE,
+        "siel_election_key": ELECTION_KEY,
+        "section_locator_sha256": locator_meta.get("sha256"),
+        "sections": locator_meta.get("sections"),
+    }
+    if resume and checkpoint_dir.exists():
+        if not meta_path.is_file():
+            raise ValueError("Checkpoint SIEL sin identidad gobernada")
+        observed = json.loads(meta_path.read_text(encoding="utf-8"))
+        if observed != expected:
+            raise ValueError("Checkpoint SIEL pertenece a otra identidad o índice")
+    if not resume:
+        shutil.rmtree(checkpoint_dir, ignore_errors=True)
+        if meta_path.exists():
+            meta_path.unlink()
+    meta_path.write_text(json.dumps(expected, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return checkpoint_dir, meta_path
+
+
 def build(
     out_dir: Path,
     workers: int = 16,
@@ -303,7 +338,11 @@ def build(
     if not tasks:
         raise ValueError("SIEL no produjo secciones 2026")
 
-    checkpoint_dir = out_dir / ".checkpoint-sections"
+    checkpoint_dir, checkpoint_meta_path = _prepare_checkpoint(
+        out_dir,
+        locator_meta,
+        resume=resume,
+    )
     rows: list[dict] = []
     completed_tasks: set[tuple[str, str, str, str]] = set()
     if resume:
@@ -442,6 +481,8 @@ def build(
         for path in checkpoint_dir.glob("*.json"):
             path.unlink()
         checkpoint_dir.rmdir()
+    if checkpoint_meta_path.exists():
+        checkpoint_meta_path.unlink()
     return manifest
 
 
