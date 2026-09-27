@@ -74,6 +74,15 @@ def promote(
         if declaration:
             declaration_path = root / declaration
             if not declaration_path.is_file(): raise ValueError(f"Declaración electoral inexistente: {declaration}")
+            declared = _load_yaml(declaration_path)
+            if str(declared.get("territory_id") or "") != territory_id:
+                raise ValueError("Declaración electoral pertenece a otro territorio")
+            declared_election_id = str(declared.get("election_id") or "")
+            if not declared_election_id or (election_id and declared_election_id != election_id):
+                raise ValueError(
+                    f"Declaración electoral no corresponde a la elección promovida: "
+                    f"{declared_election_id!r} != {election_id!r}"
+                )
             receipt_payload["declaration"] = declaration; state["electoral_source_declaration"] = declaration
         else:
             registered=_registered_election(root,territory_id,election_id)
