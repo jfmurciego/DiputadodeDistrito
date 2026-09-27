@@ -1,11 +1,7 @@
 name: Adquirir SIEL Andalucía 2026 · snapshot
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - herramientas/adquirir_siel_andalucia_2026.py
-      - .github/workflows/adquirir-siel-andalucia-2026.yml
+  workflow_call:
 
 permissions:
   contents: read
