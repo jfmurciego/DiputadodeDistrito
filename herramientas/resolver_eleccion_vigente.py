@@ -93,18 +93,24 @@ def resolve_for_preparation(territory:str,path:Path=DEFAULT,root_dir:Path=Path("
         if token in {str(tid),str((row or {}).get("name") or "")}:
             reg_id=str(tid); entry=row; break
     if not isinstance(entry,dict): raise SystemExit(f"Territorio no inscrito en el registro electoral: {territory}")
+    codauto=str(entry.get("codauto") or "")
+    if len(codauto)!=2 or not codauto.isdigit():
+        raise SystemExit(f"CODAUTO electoral inválido para {reg_id}: {codauto!r}")
     # Resolve catalog through canonical name, avoiding id aliases that differ historically (e.g. Madrid).
     found=_catalog_preparation_row(root,str(entry.get("name") or ""),selected)
     if found is None: raise SystemExit(f"Territorio o edición no registrados: {territory!r}, {selected!r}")
     tid,name,_state=found
     if tid!=reg_id: raise SystemExit(f"Registro electoral y catálogo territorial discrepan: {reg_id} != {tid}")
-    try: return resolve(name,path,root,selected)
+    try:
+        resolved=resolve(name,path,root,selected)
+        resolved["codauto"]=codauto
+        return resolved
     except SystemExit as exc:
         if not (str(exc).startswith("No existe elección resoluble") or str(exc).startswith("Elección vigente incompleta")): raise
     eid=str(entry.get("election_id") or ""); edate=str(entry.get("election_date") or "")
     if not eid or not edate: raise SystemExit(f"Elección registrada incompleta: {tid}")
     date.fromisoformat(edate)
-    return {"territory_id":tid,"name":name,"territorial_edition":selected,"election_id":eid,"election_date":edate,"declaration":"","resolution_mode":"registered_identity_pending_source"}
+    return {"territory_id":tid,"name":name,"codauto":codauto,"territorial_edition":selected,"election_id":eid,"election_date":edate,"declaration":"","resolution_mode":"registered_identity_pending_source"}
 
 
 def main():
