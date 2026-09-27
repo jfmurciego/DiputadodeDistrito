@@ -264,12 +264,116 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
     }
 
 
+def transform_gencat_polling_csv(source:Path,out_dir:Path,declaration:dict,source_decl:dict,root:Path)->dict:
+    fields,rows=_read_delimited(source)
+    required={"Nivell","Codi circumscripció","Codi municipi","Districte","Secció","Mesa","Votants","Vots a candidatures"}
+    missing=sorted(required-set(fields))
+    if missing:
+        raise ValueError(f"CSV Generalitat sin columnas estructurales: {missing}")
+    excluded={"Vots nuls","Vots en blanc","Vots a candidatures","Vots vàlids"}
+    party_fields=[f for f in fields if f.startswith("Vots ") and f not in excluded]
+    if not party_fields:
+        raise ValueError("CSV Generalitat sin columnas de candidaturas")
+    sections=set(); polling=set(); aggregates={}; party_totals={p.replace("Vots ","",1).strip():0 for p in party_fields}
+    candidate_votes=0; voters=0; mesa_rows=0
+    for row in rows:
+        if str(row.get("Nivell") or "").strip()!="ME":
+            continue
+        prov=_normalise_code(row.get("Codi circumscripció"),2)
+        mun=_normalise_code(row.get("Codi municipi"),3)
+        dist=_normalise_code(row.get("Districte"),2)
+        sec=_normalise_code(row.get("Secció"),3)
+        mesa=str(row.get("Mesa") or "").strip()
+        if not (prov and mun and dist and sec and mesa):
+            raise ValueError(f"Mesa no identificable en CSV Generalitat: {row}")
+        cusec=prov+mun+dist+sec
+        if len(cusec)!=10:
+            raise ValueError(f"CUSEC inválido en CSV Generalitat: {cusec}")
+        sections.add(cusec); polling.add(cusec+"-"+mesa); mesa_rows+=1
+        row_candidate=_as_int(row.get("Vots a candidatures"))
+        row_party=0
+        for field in party_fields:
+            party=field.replace("Vots ","",1).strip()
+            n=_as_int(row.get(field))
+            if n<0: raise ValueError("Votos negativos en CSV Generalitat")
+            aggregates[(cusec,party)]=aggregates.get((cusec,party),0)+n
+            party_totals[party]=party_totals.get(party,0)+n
+            row_party+=n
+        if row_party!=row_candidate:
+            raise ValueError(f"Votos por candidatura no cuadran en mesa {cusec}-{mesa}: partidos={row_party} candidaturas={row_candidate}")
+        candidate_votes+=row_candidate
+        voters+=_as_int(row.get("Votants"))
+    if not mesa_rows or not sections or not candidate_votes:
+        raise ValueError("CSV Generalitat no produjo mesas/secciones/votos")
+    verification=declaration.get("verification") or {}
+    checks={
+        "official_candidate_votes":candidate_votes==int(verification.get("official_candidate_votes") or candidate_votes),
+        "official_voters":voters==int(verification.get("official_voters") or voters),
+        "expected_polling_stations":mesa_rows==int(verification.get("expected_polling_stations") or mesa_rows),
+        "expected_sections":len(sections)==int(verification.get("expected_sections") or len(sections)),
+    }
+    official_party={str(k):int(v) for k,v in (verification.get("official_party_totals") or {}).items()}
+    if official_party:
+        checks["official_party_totals"]=all(party_totals.get(k,0)==v for k,v in official_party.items()) and not any(v for k,v in party_totals.items() if k not in official_party)
+    if not all(checks.values()):
+        raise ValueError(f"CSV Generalitat no reconcilia con controles oficiales: {checks}; votos={candidate_votes}; votantes={voters}; mesas={mesa_rows}; secciones={len(sections)}")
+    out_dir.mkdir(parents=True,exist_ok=True)
+    normalized=out_dir/"resultados_electorales_normalizados.csv"
+    with normalized.open("w",encoding="utf-8",newline="") as fh:
+        writer=csv.DictWriter(fh,fieldnames=["CUSEC_KEY","party","votes"],delimiter=";")
+        writer.writeheader()
+        for (cusec,party),votes in sorted(aggregates.items()):
+            writer.writerow({"CUSEC_KEY":cusec,"party":party,"votes":votes})
+    dictionary=out_dir/"party_dictionary.json"
+    dictionary_payload={
+        "schema_family":"ddd-party-dictionary","schema_version":"1.0.0","unknown_party_policy":"reject",
+        "parties":[{"canonical_id":p,"display_name":p,"aliases":[],"classification":""} for p in sorted(party_totals)],
+    }
+    dictionary.write_text(json.dumps(dictionary_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    contract=out_dir/"election_contract.json"
+    contract_payload={
+        "schema_family":"ddd-election","schema_version":"1.0.0",
+        "election_id":str(declaration["election_id"]),"territory_id":str(declaration["territory_id"]),
+        "title":str(declaration.get("title") or declaration["election_id"]),
+        "election_date":str(declaration["election_date"]),"input_mode":"verifiable_file","boundary_independence":True,
+        "sources":[{
+            "path":normalized.as_posix(),"sha256":sha(normalized),
+            "publisher":str(source_decl.get("publisher") or ""),"source_url":str(source_decl.get("url") or ""),
+            "retrieved_at":datetime.now(timezone.utc).date().isoformat(),
+            "adapter":{"kind":"long_csv","separator":";","section_field":"CUSEC_KEY","party_field":"party","votes_field":"votes"},
+        }],
+        "party_dictionary":{"path":dictionary.as_posix(),"sha256":sha(dictionary)},
+        "reconciliation":declaration.get("reconciliation") or {"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
+        "source_verification":{
+            "status":"VERIFIED_EXACT",
+            "official_candidate_votes":int(verification.get("official_candidate_votes") or candidate_votes),
+            "observed_candidate_votes":candidate_votes,
+            "official_voters":int(verification.get("official_voters") or voters),
+            "observed_voters":voters,
+            "polling_stations":mesa_rows,
+            "sections":len(sections),
+            "party_totals_match":checks.get("official_party_totals",True),
+        },
+    }
+    contract.write_text(json.dumps(contract_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return {
+        "source":normalized,"contract":contract,"dictionary":dictionary,
+        "records":len(aggregates),"sections":len(sections),"parties":len(party_totals),
+        "source_verification_status":"VERIFIED_EXACT",
+        "official_candidate_votes":candidate_votes,
+        "cera_candidate_votes":0,"cera_percentage":0.0,"special_rows_reconciled":0,
+        "polling_stations":mesa_rows,"voters":voters,
+    }
+
+
 def _transform_selected_source(src:Path,tmp:Path,declaration:dict,source_decl:dict,root:Path)->dict|None:
     transform=source_decl.get("transform") or {}
     kind=str(transform.get("kind") or "")
     if not kind: return None
     if kind=="gipeyop_polling_xlsx":
         return transform_gipeyop_polling_xlsx(src,tmp/"normalized",declaration,source_decl,root)
+    if kind=="gencat_polling_csv":
+        return transform_gencat_polling_csv(src,tmp/"normalized",declaration,source_decl,root)
     raise ValueError(f"Transformación electoral no soportada: {kind}")
 
 def sha(path:Path)->str:

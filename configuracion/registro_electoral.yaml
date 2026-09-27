@@ -9,7 +9,7 @@ territories:
   cantabria: {name: Cantabria, election_id: cantabria_parlamento_2023, election_date: '2023-05-28', title: Parlamento de Cantabria 2023}
   castilla_la_mancha: {name: Castilla-La Mancha, election_id: castilla_la_mancha_cortes_2023, election_date: '2023-05-28', title: Cortes de Castilla-La Mancha 2023}
   castilla_y_leon: {name: Castilla y León, election_id: castilla_y_leon_cortes_2026-03-15, election_date: '2026-03-15', title: Cortes de Castilla y León 2026}
-  cataluna: {name: Cataluña, election_id: cataluna_parlament_2024, election_date: '2024-05-12', title: Parlament de Catalunya 2024}
+  cataluna: {name: Cataluña, election_id: cataluna_parlament_2024, election_date: '2024-05-12', title: Parlament de Catalunya 2024, declaration: territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml}
   comunidad_valenciana: {name: Comunidad Valenciana, election_id: comunidad_valenciana_corts_2023, election_date: '2023-05-28', title: Corts Valencianes 2023}
   extremadura: {name: Extremadura, election_id: extremadura_asamblea_2025-12-21, election_date: '2025-12-21', title: Asamblea de Extremadura 2025, declaration: territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml}
   galicia: {name: Galicia, election_id: galicia_parlamento_2024, election_date: '2024-02-18', title: Parlamento de Galicia 2024, declaration: territorios/galicia/config/elecciones/galicia_parlamento_vigente.yaml}

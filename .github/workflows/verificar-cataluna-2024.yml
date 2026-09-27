@@ -1,0 +1,69 @@
+name: Verificar Cataluña 2024 · paquete y registro en copia
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2 openpyxl==3.1.5
+      - name: Adquirir, reconciliar y construir paquete real
+        run: |
+          set -euo pipefail
+          python -m herramientas.preparar_fuente_electoral             --territory-id cataluna --edition 2025             --declaration territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml             --package-out .ddd-cataluna-package --root-dir .
+          test "$(jq -r .decision .ddd-cataluna-package/manifest.json)" = ACQUIRE
+          test "$(jq -r .election_id .ddd-cataluna-package/manifest.json)" = cataluna_parlament_2024
+          test "$(jq -r .selected_source.transform.source_verification_status .ddd-cataluna-package/manifest.json)" = VERIFIED_EXACT
+          test "$(jq -r .selected_source.transform.official_candidate_votes .ddd-cataluna-package/manifest.json)" = 3120503
+          test -s .ddd-cataluna-package/contract/election_contract.json
+      - name: Registrar sólo en copia de trabajo
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-registry-copy; mkdir .ddd-registry-copy
+          cp -a configuracion territorios herramientas .ddd-registry-copy/
+          digest="$(sha256sum .ddd-cataluna-package/manifest.json|awk '{print $1}')"
+          artifact="ddd-electoral-package-cataluna-2025-147024"
+          (cd .ddd-registry-copy && python herramientas/promover_catalogo_operacional.py             --kind electoral_source --territory-id cataluna --edition 2025 --run-id 147024             --artifact-name "$artifact" --artifact-sha256 "$digest"             --election-id cataluna_parlament_2024 --source-commit "$GITHUB_SHA"             --declaration territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml)
+          durable="$(cd .ddd-registry-copy && python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory cataluna --edition 2025)"
+          test "$(jq -r .registered <<<"$durable")" = true
+          python - <<'PY'
+          import csv,hashlib,json
+          from pathlib import Path
+          pkg=Path('.ddd-cataluna-package')
+          m=json.loads((pkg/'manifest.json').read_text())
+          c=json.loads((pkg/'contract/election_contract.json').read_text())
+          rows=list(csv.DictReader((pkg/'data/resultados_electorales_normalizados.csv').open(encoding='utf-8'),delimiter=';'))
+          sections=len({r['CUSEC_KEY'] for r in rows})
+          votes=sum(int(r['votes']) for r in rows)
+          report={
+            'territorio':'cataluna','election_id':m['election_id'],'election_date':m['election_date'],
+            'sections':sections,'candidate_votes':votes,
+            'source_sha256':m['selected_source']['sha256'],
+            'package_sha256':hashlib.sha256((pkg/'manifest.json').read_bytes()).hexdigest(),
+            'verification':c['source_verification'],'registro_copia':'PASS'
+          }
+          Path('cataluna-2024-evidencia.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+          Path('cataluna-2024-evidencia.md').write_text(
+            '# Cataluña 2024 — evidencia real\n\n'
+            f"- elección: `{report['election_id']}` ({report['election_date']})\n"
+            f"- secciones: **{sections}**\n- votos a candidaturas: **{votes}**\n"
+            f"- SHA-256 fuente normalizada: `{report['source_sha256']}`\n"
+            f"- SHA-256 paquete: `{report['package_sha256']}`\n- registro en copia: **PASS**\n")
+          PY
+          cat cataluna-2024-evidencia.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publicar sólo evidencia pequeña
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-cataluna-2024
+          path: |
+            cataluna-2024-evidencia.json
+            cataluna-2024-evidencia.md
+          if-no-files-found: error
+          retention-days: 7

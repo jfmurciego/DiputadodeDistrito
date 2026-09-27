@@ -1,0 +1,61 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Cataluña
+# COMPONENTE: fuente electoral 12-M 2024 con mirror auditable y reconciliación exacta
+schema: ddd-election-official-source-declaration/1.0
+territory_id: cataluna
+title: Elecciones al Parlament de Catalunya 2024
+election_id: cataluna_parlament_2024
+election_date: '2024-05-12'
+selection_mode: first_ready
+minimum_resolution: polling_station
+max_download_bytes: 5000000
+allowed_source_hosts:
+  - raw.githubusercontent.com
+forbidden_substitutes:
+  - rtve.es
+  - resultados-elecciones.rtve.es
+  - Corporación RTVE
+official_reference_urls:
+  - https://www.gencat.cat/eleccions/resultatsparlament2024/es/descargas
+  - https://www.gencat.cat/eleccions/parlament2024/web/.content/comunicacio/repositori-fitxers/mitjans/epc2024_fichero_descargas.pdf
+verification:
+  mode: exact_official_totals
+  official_voters: 3183137
+  official_candidate_votes: 3120503
+  expected_polling_stations: 8944
+  expected_sections: 5121
+  official_party_totals:
+    PSC: 882589
+    CAT-JUNTS+: 681470
+    ERC: 431128
+    PP: 347170
+    VOX: 251096
+    COMUNS SUMAR: 184297
+    CUP - DT: 129059
+    ALIANÇA.CAT: 119149
+    PACMA: 34493
+    Cs: 22947
+    ALHORA: 14104
+    FO: 10118
+    PCTC: 4212
+    RECORTES CERO: 3487
+    PUM+J: 2760
+    IZQP - UNIDOS - DEf: 1892
+    F.N.C: 269
+    CNV: 263
+sources:
+  - id: gencat_2024_mesas_verified_mirror
+    publisher: Generalitat de Catalunya / mirror auditable GitHub
+    url: https://raw.githubusercontent.com/amejosecar/ELECEUROPEAS2024/c78e87b32b0813cf3940a68473054a5134c7941f/Proyecto%20en%20contruccion/daniel/Revisar%20datos%20elecciones%20DA/Elecciones/Elecciones%20Aut%20Catalu%C3%B1a%202024/epc_2024.csv
+    access: public
+    required: true
+    source_class: verified_mirror
+    declared_resolution: polling_station
+    format: csv
+    granularity_markers: [Mesa, Secció]
+    transform:
+      kind: gencat_polling_csv
+reconciliation:
+  policy: fail_unless_declared
+  allowed_result_only_sections: []
+  allowed_map_only_sections: []
