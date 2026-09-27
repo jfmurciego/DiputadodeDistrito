@@ -136,6 +136,9 @@ jobs:
               "territory_id":"andalucia",
               "election_id":"andalucia_parlamento_2026",
               "election_date":"2026-05-17",
+              "siel_election_key":202605,
+              "source_base":"https://ws040.juntadeandalucia.es/siel-api/v1",
+              "sections":6044,
               "candidate_votes_official":4157539,
           }
           for key,value in expected.items():
@@ -155,6 +158,17 @@ jobs:
           controls=manifest.get("province_controls") or {}
           if len(controls)!=8 or not all(bool(v.get("reconciles")) for v in controls.values()):
               raise SystemExit("Controles provinciales SIEL incompletos o no reconciliados")
+          locator=manifest.get("section_locator") or {}
+          expected_locator={
+              "role":"SECTION_LOCATOR_ONLY",
+              "source_class":"PROVISIONAL",
+              "sha256":"13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21",
+              "sections":6044,
+              "votes_consumed":False,
+          }
+          for key,value in expected_locator.items():
+              if locator.get(key)!=value:
+                  raise SystemExit(f"Índice de secciones SIEL inválido {key}: {locator.get(key)!r} != {value!r}")
           PY
       - id: prepare
         name: Preparar paquete electoral con contrato común
