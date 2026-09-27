@@ -50,7 +50,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
         for registry_id,entry in self.registry["territories"].items():
             with self.subTest(territory=registry_id):
                 row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
-                self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["territorial_edition"],"2025")
+                self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry["codauto"]); self.assertEqual(row["territorial_edition"],"2025")
     def test_every_registered_election_has_a_technical_route_into_03(self):
         workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
         unresolved=[]
