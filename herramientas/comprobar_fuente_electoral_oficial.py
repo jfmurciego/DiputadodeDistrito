@@ -139,6 +139,7 @@ def check_declaration(
         resolution = str(source.get("declared_resolution") or "none")
         access = str(source.get("access") or "public")
         source_class = str(source.get("source_class") or "official")
+        promotion_allowed = source.get("promotion_allowed", True)
         item = {
             "id": sid,
             "publisher": publisher,
@@ -147,7 +148,12 @@ def check_declaration(
             "access": access,
             "required": bool(source.get("required", True)),
             "source_class": source_class,
+            "promotion_allowed": promotion_allowed,
         }
+        if promotion_allowed is False:
+            item.update(status="BLOCK_NOT_PROMOTABLE", reason="La declaración marca la fuente como no promocionable")
+            results.append(item)
+            continue
         if source_class not in {"official", "verified_mirror"}:
             item.update(status="BLOCK_SOURCE_CLASS", reason=f"source_class no soportada: {source_class}")
             results.append(item)
