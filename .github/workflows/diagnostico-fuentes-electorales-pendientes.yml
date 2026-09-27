@@ -3,6 +3,15 @@ name: Diagnóstico fuentes electorales pendientes
 on:
   pull_request:
     branches: [main]
+    paths:
+      - '.github/workflows/diagnostico-fuentes-electorales-pendientes.yml'
+      - '.github/workflows/adquirir-siel-andalucia-2026.yml'
+      - '.github/workflows/preparacion-resultados-electorales.yml'
+      - 'configuracion/registro_electoral.yaml'
+      - 'herramientas/adquirir_siel_andalucia_2026.py'
+      - 'herramientas/adaptador_siel_andalucia_2026.py'
+      - 'territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml'
+      - 'territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json'
 
 permissions:
   contents: read
