@@ -2,6 +2,15 @@
 
 Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. Un check verde no acredita 19/19.
 
+## Resumen de cierre
+
+- **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
+- **17/19** tienen cadena real acreditada hasta fuente durable + paquete + registro en copia.
+- **Andalucía**: `PENDING_SIEL_SNAPSHOT` — ruta SIEL completa implementada; falta adquirir el snapshot real completo de 6.044 secciones y reconciliarlo.
+- **Extremadura**: `BLOCKED_FINAL_GRANULAR_SOURCE` — existe granular provisional, pero no una fuente definitiva granular pública/reproducible.
+- **Registro efectivo en producción** no se infiere del registro en copia y no forma parte de las nuevas pruebas de #147.
+
+
 | Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
 |---|---|---|---|---|---|---|
 | Andalucía | Sí — Parlamento 2026, 2026-05-17; SIEL `fconvocatoria=202605` acreditada | Parcial — SIEL oficial devuelve votos por candidatura en sección real; la adquisición completa de 6.044 secciones sigue pendiente. El provisional Minsait (4.128.575) no se usa como voto definitivo | No aún — `03` ya consume `ddd-siel-andalucia-2026-snapshot` y verifica identidad, dos huellas y ocho controles provinciales, pero falta producir el snapshot completo | Ruta técnica probada en sintético: paquete `ACQUIRE` + promoción en copia + preflight `registered=true`; paquete real todavía NO | No | Falta completar el snapshot SIEL y reconciliar secciones + CERA = BOJA 4.157.539. Procedimiento local reproducible en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`. |
