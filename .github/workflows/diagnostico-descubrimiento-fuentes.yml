@@ -27,7 +27,9 @@ jobs:
             ('cataluna','cataluna_parlament_2024','rtve_contraste','https://www.rtve.es/noticias/20240509/elecciones-catalanas-2024-mapa-resultados-calle-seccion-censal/16094900.shtml'),
             ('andalucia','andalucia_parlamento_2026','oficial','https://www.juntadeandalucia.es/datosabiertos/portal/node/2587'),
             ('andalucia','andalucia_parlamento_2026','rtve_contraste','https://www.rtve.es/noticias/20260518/elecciones-andalucia-2026-mapa-resultados-calle-seccion-censal/17063243.shtml'),
-            ('extremadura','extremadura_asamblea_2025-12-21','oficial','https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'),
+            ('extremadura','extremadura_asamblea_2025-12-21','oficial_resultados','https://resultados.elecciones2025.juntaex.es/es/inicio'),
+            ('extremadura','extremadura_asamblea_2025-12-21','oficial_prensa','https://prensa.elecciones2025.juntaex.es'),
+            ('extremadura','extremadura_asamblea_2025-12-21','oficial_doe','https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'),
             ('extremadura','extremadura_asamblea_2025-12-21','rtve_contraste','https://www.rtve.es/noticias/20251222/elecciones-extremadura-2025-mapa-resultados-calle-seccion-censal/16859940.shtml'),
           ]
           markers=re.compile(r'(?:\.csv(?:\?|$)|\.xlsx?(?:\?|$)|\.json(?:\?|$)|\.zip(?:\?|$)|getEscrutinio|getEnvio|descarg|download|secci[oó]n|mesa|resultad)',re.I)
@@ -110,12 +112,16 @@ jobs:
                   jtxt=jr['body'].decode('utf-8','ignore')
                   for u in candidates(js,jtxt):
                       all_urls.append(u)
-              # evitar ruido y duplicados. Probar como máximo 80 recursos candidatos por seed.
-              uniq=[]
+              # evitar ruido y duplicados. Explorar en anchura hasta 120 recursos, incluyendo
+              # URLs/endpoints descubiertos dentro de JSON/JS cargados por la aplicación.
+              queue=[]; seen=set()
               for u in all_urls:
                   u=u.rstrip('),;')
-                  if u not in uniq and len(u)<1200: uniq.append(u)
-              for cand in uniq[:80]:
+                  if u not in queue and len(u)<1200: queue.append(u)
+              while queue and len(seen)<120:
+                  cand=queue.pop(0)
+                  if cand in seen: continue
+                  seen.add(cand)
                   cr=curl(cand,cap=524288,timeout=20)
                   if not cr['ok']:
                       rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'candidate','url':cand,'http':'','content_type':'','bytes':'','sha256':'','hallazgo':'ERROR','detalle':cr['error']})
@@ -123,7 +129,32 @@ jobs:
                   ctype=cr['ctype'].lower(); body=cr['body']; low=body[:1000].lower()
                   is_html=('text/html' in ctype) or b'<html' in low or b'<!doctype html' in low
                   data_like=any(x in ctype for x in ('csv','json','spreadsheet','excel','zip','octet-stream')) or (not is_html and markers.search(cand))
-                  rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'candidate','url':cand,'http':cr['status'],'content_type':cr['ctype'],'bytes':len(body),'sha256':cr['sha256'],'hallazgo':'DATA' if data_like else 'HTML','detalle':'muestra limitada a 512 KiB'})
+                  detail='muestra limitada a 512 KiB'
+                  text_body=body.decode('utf-8','ignore')
+                  discovered=[]
+                  if 'json' in ctype or cand.lower().split('?',1)[0].endswith('.json'):
+                      try:
+                          obj=json.loads(text_body)
+                          strings=[]
+                          def walk(x):
+                              if isinstance(x,dict):
+                                  for v in x.values(): walk(v)
+                              elif isinstance(x,list):
+                                  for v in x: walk(v)
+                              elif isinstance(x,str): strings.append(x)
+                          walk(obj)
+                          for raw in strings:
+                              u=_safe_join(cand,raw)
+                              if u and markers.search(u): discovered.append(u)
+                          detail=f'json_strings={len(strings)}; endpoints={len(set(discovered))}'
+                      except Exception as e:
+                          detail=f'JSON no parseable: {type(e).__name__}: {e}'[:500]
+                  elif 'javascript' in ctype or cand.lower().split('?',1)[0].endswith('.js'):
+                      discovered.extend(candidates(cand,text_body))
+                      detail=f'js_endpoints={len(set(discovered))}'
+                  for u in sorted(set(discovered)):
+                      if u not in seen and u not in queue and len(u)<1200: queue.append(u)
+                  rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'candidate','url':cand,'http':cr['status'],'content_type':cr['ctype'],'bytes':len(body),'sha256':cr['sha256'],'hallazgo':'DATA' if data_like else 'HTML','detalle':detail})
 
           fields=['territorio','election_id','origen','nivel','url','http','content_type','bytes','sha256','hallazgo','detalle']
           with open('descubrimiento-fuentes.csv','w',newline='',encoding='utf-8') as f:

@@ -42,6 +42,72 @@ jobs:
                   data=r.read() if limit is None else r.read(limit)
                   return r.status,r.headers.get('Content-Type',''),data,r.geturl()
 
+          # 0) Andalucía 2026: probar directamente la API oficial SIEL de la Junta
+          # y recorrer una única cadena provincia -> municipio -> distrito -> sección.
+          siel='https://ws040.juntadeandalucia.es/siel-api/v1'
+          try:
+              conv_url=siel+'/opciones/fconvocatoria?'+urllib.parse.urlencode({'tconvocatoria':5})
+              http,ctype,data,final=fetch(conv_url,timeout=45)
+              convocatorias=json.loads(data.decode('utf-8'))
+              matches=[x for x in convocatorias if '2026' in str(x.get('valor','')) or '17/05/2026' in str(x.get('valor',''))]
+              if not matches:
+                  add('andalucia','andalucia_parlamento_2026','oficial_siel_api',conv_url,'BLOCK',
+                      'API oficial accesible pero no expone convocatoria 2026',
+                      http=http,content_type=ctype,bytes=len(data),detalle=json.dumps(convocatorias,ensure_ascii=False)[:2000])
+              else:
+                  conv=matches[-1]; fconv=conv.get('clave')
+                  add('andalucia','andalucia_parlamento_2026','oficial_siel_api',conv_url,'FOUND',
+                      'convocatoria 2026 identificada en API oficial SIEL',
+                      http=http,content_type=ctype,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),
+                      detalle=json.dumps(conv,ensure_ascii=False))
+                  prov_url=siel+'/opciones/provincia?'+urllib.parse.urlencode({'cautonoma':1})
+                  _,_,pdata,_=fetch(prov_url,timeout=45); provincias=json.loads(pdata.decode('utf-8'))
+                  sample=None; attempts=0
+                  for prov in provincias:
+                      if sample: break
+                      pkey=prov.get('clave')
+                      muni_url=siel+'/opciones/municipio?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv})
+                      _,_,mdata,_=fetch(muni_url,timeout=45); municipios=json.loads(mdata.decode('utf-8'))
+                      for muni in municipios[:20]:
+                          if sample: break
+                          mkey=muni.get('clave')
+                          dist_url=siel+'/opciones/distrito?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':mkey})
+                          _,_,ddata,_=fetch(dist_url,timeout=45); distritos=json.loads(ddata.decode('utf-8'))
+                          for dist in distritos[:10]:
+                              if sample: break
+                              dkey=dist.get('clave')
+                              sec_url=siel+'/opciones/seccion?'+urllib.parse.urlencode({'cautonoma':1,'provincia':pkey,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':mkey,'distrito':dkey})
+                              _,_,sdata,_=fetch(sec_url,timeout=45); secciones=json.loads(sdata.decode('utf-8'))
+                              for sec in secciones[:10]:
+                                  attempts+=1
+                                  sval=sec.get('valor') or sec.get('clave')
+                                  escr_url=siel+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode({'cautonoma':1,'tconvocatoria':5,'provincia':pkey,'municipio':mkey,'distrito':dkey,'seccion':sval,'fconvocatoria':fconv})
+                                  try:
+                                      eh,ec,edata,_=fetch(escr_url,timeout=45)
+                                      payload=json.loads(edata.decode('utf-8'))
+                                      votos=payload.get('votos') or []
+                                      total=0
+                                      for v in votos:
+                                          try: total+=int(v.get('votos') or v.get('voto') or 0)
+                                          except Exception: pass
+                                      if votos and total>0:
+                                          sample=(escr_url,eh,ec,edata,payload,total,prov,muni,dist,sec)
+                                          break
+                                  except Exception:
+                                      continue
+                  if sample:
+                      escr_url,eh,ec,edata,payload,total,prov,muni,dist,sec=sample
+                      add('andalucia','andalucia_parlamento_2026','oficial_siel_seccion',escr_url,'PASS',
+                          'API oficial devuelve escrutinio con votos para una sección de la convocatoria 2026',
+                          http=eh,content_type=ec,bytes=len(edata),sha256=hashlib.sha256(edata).hexdigest(),
+                          detalle=json.dumps({'convocatoria':conv,'provincia':prov,'municipio':muni,'distrito':dist,'seccion':sec,'votos_registros':len(payload.get('votos') or []),'votos_total_muestra':total,'intentos':attempts},ensure_ascii=False)[:3000])
+                  else:
+                      add('andalucia','andalucia_parlamento_2026','oficial_siel_seccion',siel+'/escrutinio/ambito/seccion','BLOCK',
+                          'convocatoria 2026 existe pero no se obtuvo una sección con votos en la muestra jerárquica',
+                          detalle=f'fconvocatoria={fconv}; intentos={attempts}')
+          except Exception as e:
+              add('andalucia','andalucia_parlamento_2026','oficial_siel_api',siel,'BLOCK',f'{type(e).__name__}: {e}')
+
           # 1) Cataluña: localizar enlace final y endpoint de envío/mesa documentado por Generalitat.
           cat='cataluna'; eid='cataluna_parlament_2024'
           page='https://www.gencat.cat/eleccions/resultatsparlament2024/es/descargas'
