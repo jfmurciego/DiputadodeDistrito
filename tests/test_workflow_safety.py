@@ -65,6 +65,33 @@ class WorkflowSafety(unittest.TestCase):
         reusable_triggers=reusable.get(True,reusable.get("on",{})) or {}
         self.assertEqual(set(reusable_triggers),{"workflow_call"})
 
+    def test_electoral_network_ci_is_path_scoped(self):
+        for name in (
+            "diagnostico-eleccionesdb-grupo-a.yml",
+            "diagnostico-fuentes-electorales-pendientes.yml",
+            "verificar-cataluna-2024.yml",
+        ):
+            data=yaml.safe_load((WORKFLOWS/name).read_text(encoding="utf-8")) or {}
+            triggers=data.get(True,data.get("on",{})) or {}
+            self.assertNotIn("workflow_dispatch",triggers,name)
+            pr=triggers.get("pull_request") or {}
+            paths=pr.get("paths") or []
+            self.assertTrue(paths,name)
+            self.assertIn(f".github/workflows/{name}",paths,name)
+
+        siel=yaml.safe_load((WORKFLOWS/"adquirir-siel-andalucia-2026.yml").read_text(encoding="utf-8")) or {}
+        siel_triggers=siel.get(True,siel.get("on",{})) or {}
+        self.assertEqual(set(siel_triggers),{"workflow_call"})
+        self.assertNotIn("workflow_dispatch",siel_triggers)
+
+        self.assertFalse(
+            (WORKFLOWS/"verificar-registro-eleccionesdb.yml").exists(),
+            "El registro de las doce elecciones se valida dentro del productor del snapshot; no mantener polling cruzado.",
+        )
+        self.assertFalse(
+            (WORKFLOWS/"verificar-bloqueos-definitivos.yml").exists(),
+            "Los provisionales y estados pendientes se verifican junto a la muestra SIEL; no duplicar descargas de red.",
+        )
     def test_orquestacion_no_expone_boton_manual_y_conserva_ci(self):
         self.assertFalse((WORKFLOWS/"g10-control.yml").exists())
         self.assertFalse((WORKFLOWS/"g10-operar-lote.yml").exists())

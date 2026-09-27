@@ -7,6 +7,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.promover_catalogo_operacional import promote
+from herramientas.catalogo_preparacion import validate_repository
 
 
 class CatalogOperationalPromotionTests(unittest.TestCase):
@@ -37,7 +38,12 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             }],
         }, sort_keys=False), encoding="utf-8")
         decl = root / "territorios/demo/config/elecciones/demo.yaml"
-        decl.write_text("schema: ddd-election-official-source-declaration/1.0\n", encoding="utf-8")
+        decl.write_text(yaml.safe_dump({
+            "schema": "ddd-election-official-source-declaration/1.0",
+            "territory_id": "demo",
+            "election_id": "demo_2025",
+            "election_date": "2025-01-01",
+        }, sort_keys=False), encoding="utf-8")
         return decl
 
     def test_territorial_plus_electoral_source_enables_incorporation(self):
@@ -65,6 +71,20 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             payload = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(payload["artifact_name"], "ddd-electoral-package-demo-2025-101")
             self.assertFalse((root / ".github").exists())
+
+    def test_electoral_source_rejects_mismatched_declaration_identity(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            decl = self.fixture(root)
+            data = yaml.safe_load(decl.read_text(encoding="utf-8"))
+            data["election_id"] = "otra_eleccion"
+            decl.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "no corresponde a la elección promovida"):
+                promote(
+                    root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                    run_id=101, artifact_name="ddd-electoral-package-demo-2025-101", artifact_sha256="b" * 64,
+                    declaration=str(decl.relative_to(root)), election_id="demo_2025", source_commit="2" * 40,
+                )
 
     def test_electoral_source_alone_does_not_enable_incorporation(self):
         with tempfile.TemporaryDirectory() as raw:
@@ -102,6 +122,113 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             self.assertTrue(state["electoral_source_prepared"])
             self.assertTrue(state["territorial_product_available"])
             self.assertFalse((root / ".github").exists())
+
+    def test_materialized_election_contract_precedes_common_registry(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            self.fixture(root)
+            params = root / "territorios/demo/config/demo_2025.yaml"
+            contract = root / "territorios/demo/config/elecciones/materialized.json"
+            contract.write_text(json.dumps({
+                "territory_id": "demo",
+                "election_id": "demo_2025",
+                "election_date": "2025-01-01",
+            }), encoding="utf-8")
+            params.write_text(yaml.safe_dump({
+                "modulos": {
+                    "modulo_07_agregar_resultados_electorales": {
+                        "election_contract": "territorios/demo/config/elecciones/materialized.json",
+                    }
+                }
+            }, sort_keys=False), encoding="utf-8")
+            (root / "configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2025",
+                        "election_date": "2025-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            promote(
+                root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                run_id=101, artifact_name="ddd-electoral-package-demo-2025-101",
+                artifact_sha256="b" * 64, declaration=None,
+                election_id="demo_2025", source_commit="2" * 40,
+            )
+            catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+            state = catalog["territories"][0]["editions"]["2025"]
+            receipt = json.loads((root / state["evidence"]["electoral_source"]).read_text(encoding="utf-8"))
+            self.assertEqual(
+                receipt["election_contract"],
+                "territorios/demo/config/elecciones/materialized.json",
+            )
+            self.assertIn("election_contract_sha256", receipt)
+            self.assertNotIn("election_registry", receipt)
+
+    def test_common_registry_receipt_passes_full_catalog_validation(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            self.fixture(root)
+            (root / "configuracion/catalogo_territorios_espana_2025.yaml").write_text(
+                yaml.safe_dump({
+                    "territories": [{"territory_id": "demo", "name": "Demo"}],
+                }, sort_keys=False),
+                encoding="utf-8",
+            )
+            (root / "territorios/demo/config/fuentes_oficiales.yaml").write_text(
+                yaml.safe_dump({
+                    "territory": {"id": "demo", "edition": "2025"},
+                }, sort_keys=False),
+                encoding="utf-8",
+            )
+            (root / "territorios/demo/config/demo_2025.yaml").write_text(
+                yaml.safe_dump({
+                    "meta": {
+                        "territory_id": "demo",
+                        "year": 2025,
+                        "production_authorization": "AUTHORIZED",
+                        "contract_level": "production_m01_m06",
+                    },
+                    "modulos": {},
+                }, sort_keys=False),
+                encoding="utf-8",
+            )
+            (root / "configuracion/registro_electoral.yaml").write_text(
+                yaml.safe_dump({
+                    "schema": "ddd-election-registry/1.0",
+                    "edition": "2025",
+                    "territories": {
+                        "demo": {
+                            "name": "Demo",
+                            "election_id": "demo_2025",
+                            "election_date": "2025-01-01",
+                        }
+                    },
+                }, sort_keys=False),
+                encoding="utf-8",
+            )
+            promote(
+                root_dir=root,
+                kind="electoral_source",
+                territory_id="demo",
+                edition="2025",
+                run_id=101,
+                artifact_name="ddd-electoral-package-demo-2025-101",
+                artifact_sha256="b" * 64,
+                declaration=None,
+                election_id="demo_2025",
+                source_commit="2" * 40,
+            )
+            self.assertEqual(
+                validate_repository(
+                    root / "configuracion/catalogo_preparacion.yaml",
+                    root,
+                ),
+                [],
+            )
 
     def test_electoral_product_closes_catalog_state(self):
         with tempfile.TemporaryDirectory() as raw:

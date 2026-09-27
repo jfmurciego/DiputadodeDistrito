@@ -1,0 +1,109 @@
+name: Verificar Andalucía 2026 · provisional en copia
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/verificar-andalucia-2026-provisional.yml'
+      - 'herramientas/adaptador_minsait_csv.py'
+      - 'herramientas/promover_catalogo_operacional.py'
+      - 'herramientas/preflight_preparacion_fuente.py'
+      - 'herramientas/validar_paquete_electoral.py'
+      - 'tests/test_adaptador_minsait_csv.py'
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SOURCE_URL: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+      SOURCE_SHA256: 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Descargar fuente gobernada y construir paquete provisional
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 2 --connect-timeout 10 --max-time 120             -o andalucia-2026-provisional.csv "$SOURCE_URL"
+          actual="$(sha256sum andalucia-2026-provisional.csv | awk '{print $1}')"
+          test "$actual" = "$SOURCE_SHA256"
+          python herramientas/adaptador_minsait_csv.py             --source andalucia-2026-provisional.csv             --out .ddd-andalucia-provisional-package             --territory-id andalucia             --election-id andalucia_parlamento_2026             --election-date 2026-05-17             --edition 2025             --expected-sha256 "$SOURCE_SHA256"             --expected-ccaa 01             --expected-sections 6044             --expected-polling-stations 10403             --expected-candidate-votes 4128575             --source-url "$SOURCE_URL"             --publisher "Minsait / EleccionesDB mirror"
+          test "$(jq -r .decision .ddd-andalucia-provisional-package/manifest.json)" = ACQUIRE
+          test "$(jq -r .source_status .ddd-andalucia-provisional-package/manifest.json)" = PROVISIONAL
+          test "$(jq -r '.production_eligible|tostring' .ddd-andalucia-provisional-package/manifest.json)" = false
+          test "$(jq -r .sections .ddd-andalucia-provisional-package/manifest.json)" = 6044
+          test "$(jq -r .polling_stations .ddd-andalucia-provisional-package/manifest.json)" = 10403
+          test "$(jq -r .candidate_votes .ddd-andalucia-provisional-package/manifest.json)" = 4128575
+          python herramientas/validar_paquete_electoral.py             --package .ddd-andalucia-provisional-package             --params territorios/andalucia/config/andalucia_2025.yaml             --territory-id andalucia --edition 2025 --root-dir .             --output .ddd-andalucia-provisional-validacion.json
+          test "$(jq -r .decision .ddd-andalucia-provisional-validacion.json)" = READY_PACKAGE
+
+      - name: Registrar sólo en copia de trabajo
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-registry-copy
+          mkdir .ddd-registry-copy
+          cp -a configuracion territorios herramientas .ddd-registry-copy/
+          digest="$(sha256sum .ddd-andalucia-provisional-package/manifest.json | awk '{print $1}')"
+          artifact="ddd-electoral-package-andalucia-2025-provisional-147"
+          (
+            cd .ddd-registry-copy
+            python herramientas/promover_catalogo_operacional.py               --kind electoral_source --territory-id andalucia --edition 2025               --run-id 1472026 --artifact-name "$artifact" --artifact-sha256 "$digest"               --election-id andalucia_parlamento_2026 --source-commit "$GITHUB_SHA"
+          )
+          durable="$(cd .ddd-registry-copy && python herramientas/preflight_preparacion_fuente.py             --root-dir . --kind electoral --territory andalucia --edition 2025)"
+          test "$(jq -r .registered <<<"$durable")" = true
+          test "$(jq -r .artifact_name <<<"$durable")" = "$artifact"
+
+      - name: Emitir evidencia pequeña
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('.ddd-andalucia-provisional-package')
+          m=json.loads((root/'manifest.json').read_text(encoding='utf-8'))
+          report={
+            'territorio':'andalucia',
+            'election_id':m['election_id'],
+            'election_date':m['election_date'],
+            'source_status':m['source_status'],
+            'production_eligible':m['production_eligible'],
+            'source_sha256':m['source_sha256'],
+            'sections':m['sections'],
+            'polling_stations':m['polling_stations'],
+            'raw_rows':m['raw_rows'],
+            'parties':m['parties'],
+            'candidate_votes':m['candidate_votes'],
+            'package_sha256':hashlib.sha256((root/'manifest.json').read_bytes()).hexdigest(),
+            'registro_copia':'PASS',
+          }
+          Path('andalucia-2026-provisional-evidencia.json').write_text(
+            json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'
+          )
+          Path('andalucia-2026-provisional-evidencia.md').write_text(
+            '# Andalucía 2026 — evidencia provisional gobernada\n\n'
+            f"- elección: `{report['election_id']}` ({report['election_date']})\n"
+            f"- estado de fuente: **{report['source_status']}**\n"
+            f"- elegible para producción: **{report['production_eligible']}**\n"
+            f"- secciones: **{report['sections']}**\n"
+            f"- mesas: **{report['polling_stations']}**\n"
+            f"- filas fuente: **{report['raw_rows']}**\n"
+            f"- candidaturas: **{report['parties']}**\n"
+            f"- votos a candidaturas: **{report['candidate_votes']}**\n"
+            f"- SHA-256 fuente: `{report['source_sha256']}`\n"
+            f"- SHA-256 paquete: `{report['package_sha256']}`\n"
+            f"- registro en copia: **PASS**\n",
+            encoding='utf-8'
+          )
+          PY
+          cat andalucia-2026-provisional-evidencia.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidencia-andalucia-2026-provisional
+          path: |
+            andalucia-2026-provisional-evidencia.json
+            andalucia-2026-provisional-evidencia.md
+          if-no-files-found: error
+          retention-days: 7

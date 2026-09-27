@@ -1,0 +1,124 @@
+name: Verificar fuentes pendientes · Andalucía y Extremadura
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/diagnostico-fuentes-electorales-pendientes.yml'
+      - '.github/workflows/verificar-andalucia-2026-provisional.yml'
+      - 'herramientas/adaptador_minsait_csv.py'
+      - 'territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml'
+      - 'territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json'
+
+permissions:
+  contents: read
+
+jobs:
+  diagnosticar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+
+      - name: Medir fuentes granulares ya disponibles
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 90             -o andalucia-provisional.csv             https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 60             -o extremadura-provisional.csv             https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
+          python - <<'PY'
+          import csv,hashlib,json
+          from pathlib import Path
+
+          def measure(path,expected_sha,expected_sections,expected_votes,definitive):
+              raw=Path(path).read_bytes()
+              digest=hashlib.sha256(raw).hexdigest()
+              if digest!=expected_sha:
+                  raise SystemExit(f'{path}: SHA-256 {digest} != {expected_sha}')
+              rows=list(csv.DictReader(raw.decode('utf-8-sig','replace').splitlines()))
+              required={'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion','codigo_mesa','partido','votos'}
+              if not rows or not required.issubset(rows[0]):
+                  raise SystemExit(f'{path}: estructura Minsait no reconocible')
+              sections=set(); mesas=set(); votes=0; parties=set()
+              for row in rows:
+                  party=str(row.get('partido') or '').strip()
+                  if not party:
+                      continue
+                  key=tuple(str(row.get(k) or '').strip() for k in (
+                      'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion'
+                  ))
+                  if not all(key):
+                      raise SystemExit(f'{path}: sección no identificable')
+                  mesa=str(row.get('codigo_mesa') or '').strip()
+                  if not mesa:
+                      raise SystemExit(f'{path}: mesa no identificable')
+                  sections.add(key); mesas.add((*key,mesa)); parties.add(party)
+                  votes+=int(float(str(row.get('votos') or 0).replace(',','.')))
+              if len(sections)!=expected_sections:
+                  raise SystemExit(f'{path}: secciones={len(sections)} != {expected_sections}')
+              if votes!=expected_votes:
+                  raise SystemExit(f'{path}: votos={votes} != {expected_votes}')
+              return {
+                  'sha256':digest,
+                  'filas':len(rows),
+                  'secciones':len(sections),
+                  'mesas':len(mesas),
+                  'candidaturas':len(parties),
+                  'votos_candidaturas':votes,
+                  'referencia_definitiva':definitive,
+                  'delta_definitivo_menos_fuente':definitive-votes,
+              }
+
+          andalucia=measure(
+              'andalucia-provisional.csv',
+              '13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21',
+              6044,4128575,4157539,
+          )
+          extremadura=measure(
+              'extremadura-provisional.csv',
+              'd09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d',
+              966,522418,524837,
+          )
+          payload=[
+            {
+              'territorio':'andalucia',
+              'election_id':'andalucia_parlamento_2026',
+              'resultado':'PACKAGEABLE_IN_COPY',
+              'source_status':'PROVISIONAL',
+              'production_eligible':False,
+              'motivo':'fuente granular durable fijada por SHA; paquete y registro sólo en copia',
+              'detalle':andalucia,
+            },
+            {
+              'territorio':'extremadura',
+              'election_id':'extremadura_asamblea_2025-12-21',
+              'resultado':'BLOCKED_FINAL_GRANULAR_SOURCE',
+              'source_status':'PROVISIONAL',
+              'production_eligible':False,
+              'motivo':'granular disponible pero no integrado en #147 como paquete registrable; permanece bloqueado',
+              'detalle':extremadura,
+            },
+          ]
+          Path('diagnostico-fuentes-pendientes.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n')
+          md=['# Diagnóstico acotado de fuentes pendientes','']
+          for x in payload:
+              d=x['detalle']
+              md.append(
+                  f"- **{x['territorio']}** — {x['resultado']} — "
+                  f"{d['secciones']} secciones, {d['mesas']} mesas, {d['votos_candidaturas']} votos"
+              )
+          Path('diagnostico-fuentes-pendientes.md').write_text('\n'.join(md)+'\n')
+          print('\n'.join(md))
+          PY
+          rm -f andalucia-provisional.csv extremadura-provisional.csv
+          cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publicar sólo informe pequeño
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-fuentes-electorales-pendientes
+          path: |
+            diagnostico-fuentes-pendientes.json
+            diagnostico-fuentes-pendientes.md
+          if-no-files-found: error
+          retention-days: 7

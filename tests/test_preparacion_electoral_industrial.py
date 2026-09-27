@@ -62,6 +62,27 @@ class ResolverIndustrialTests(unittest.TestCase):
             "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
         )
 
+    def test_aragon_materialized_contract_is_pinned_for_reuse(self):
+        params = ROOT / "territorios/aragon/config/aragon_2025.yaml"
+        cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+        m07 = (cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
+        self.assertEqual(
+            m07.get("election_contract"),
+            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+        )
+        self.assertFalse((cfg.get("meta") or {}).get("electoral_sources_declaration"))
+        contract_path = ROOT / m07["election_contract"]
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        self.assertEqual(contract["territory_id"], "aragon")
+        self.assertEqual(contract["election_id"], "aragon_cortes_2026-02-08")
+        self.assertEqual(contract["election_date"], "2026-02-08")
+        source = contract["sources"][0]
+        manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
+        self.assertIn(
+            f'{source["sha256"]}  {source["path"]}',
+            manifest,
+        )
+
     def test_galicia_governed_override_is_preserved(self):
         row = resolve("Galicia", root_dir=ROOT, edition="2025")
         self.assertEqual(row["election_id"], "galicia_parlamento_2024")
@@ -114,6 +135,41 @@ class StaticContractPreparationTests(unittest.TestCase):
                 expected_election_id="demo_2027",
                 expected_election_date="2027-02-08",
             ))
+            validated = validate_package(
+                package=out,
+                params=params,
+                territory_id="demo",
+                edition="2025",
+                root=root,
+                materialize=False,
+            )
+            self.assertEqual(validated["decision"], "READY_PACKAGE")
+            self.assertEqual(validated["election_identity_mode"], "exact")
+            legacy_contract = json.loads(contract.read_text(encoding="utf-8"))
+            legacy_contract["election_id"] = "demo_2026-2026-02-08"
+            contract.write_text(json.dumps(legacy_contract), encoding="utf-8")
+            legacy_validated = validate_package(
+                package=out,
+                params=params,
+                territory_id="demo",
+                edition="2025",
+                root=root,
+                materialize=False,
+            )
+            self.assertEqual(legacy_validated["election_identity_mode"], "legacy_date_suffix_alias")
+            manifest_path = out / "manifest.json"
+            tampered = json.loads(manifest_path.read_text(encoding="utf-8"))
+            tampered["election_id"] = "demo_2027"
+            manifest_path.write_text(json.dumps(tampered), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "election_id del contrato electoral estático"):
+                validate_package(
+                    package=out,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
 
     def test_new_declaration_wins_over_stale_static_contract(self):
         with tempfile.TemporaryDirectory() as td:
@@ -272,6 +328,7 @@ class EmbeddedContractTests(unittest.TestCase):
                 "territory_id": "demo",
                 "edition": "2025",
                 "election_id": "demo_2023",
+                "election_date": "2023-05-28",
                 "selected_source": {
                     "path": "data/results.csv",
                     "sha256": self.sha(source),
@@ -316,6 +373,20 @@ class EmbeddedContractTests(unittest.TestCase):
             self.assertEqual(m07["election_contract"], payload["runtime_contract_path"])
             self.assertEqual(m07["in_geojson"], cfg["modulos"]["modulo_06_consolidar_distritos"]["out_geojson"])
             self.assertEqual(m08["in_district_geojson"], cfg["modulos"]["modulo_06_consolidar_distritos"]["out_district_geojson"])
+
+            manifest_path = package / "manifest.json"
+            tampered = json.loads(manifest_path.read_text(encoding="utf-8"))
+            tampered["election_date"] = "2024-01-01"
+            manifest_path.write_text(json.dumps(tampered), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "election_date del contrato electoral embebido"):
+                validate_package(
+                    package=package,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
 
 
 class WorkflowContractTests(unittest.TestCase):

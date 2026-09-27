@@ -446,6 +446,84 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(plan["optimization_algorithm"], "Canónico")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
+    def test_reuse_reschedules_electoral_when_registered_election_changed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract = root / "territorios/demo/config/demo_2025.yaml"
+            contract.parent.mkdir(parents=True)
+            contract.write_text(yaml.safe_dump({
+                "meta": {"territory_id": "demo", "status": "generation_ready"},
+                "territory_contract": {"status": "generation_ready"},
+            }), encoding="utf-8")
+            evidence = root / "evidence"
+            evidence.mkdir()
+            digest = "d" * 64
+            (evidence / "territorial.json").write_text(json.dumps({
+                "run_id": 101, "artifact_name": "m06", "artifact_sha256": digest, "decision": "PASS"
+            }), encoding="utf-8")
+            (evidence / "source.json").write_text(json.dumps({
+                "run_id": 102,
+                "artifact_name": "ddd-electoral-package-demo-2025-102",
+                "artifact_sha256": digest,
+                "election_id": "demo_2024",
+            }), encoding="utf-8")
+            catalog = root / "catalog.yaml"
+            catalog.write_text(yaml.safe_dump({
+                "schema": "ddd-preparation-catalog/1.1",
+                "default_edition": "2025",
+                "territories": [{
+                    "territory_id": "demo",
+                    "name": "Demo",
+                    "editions": {"2025": {
+                        "territory_declared": True,
+                        "preparation_status": "READY",
+                        "contract_path": "territorios/demo/config/demo_2025.yaml",
+                        "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
+                        "electoral_source_declaration": None,
+                        "territorial_contract_complete": True,
+                        "production_authorization": "AUTHORIZED",
+                        "last_valid_checkpoint": {"run_id": 101, "stage": "M06"},
+                        "territorial_sources_prepared": True,
+                        "territorial_product_available": True,
+                        "electoral_source_prepared": True,
+                        "electoral_product_available": False,
+                        "territorial_certification": "PASS",
+                        "preparation_evidence": {
+                            "run_id": 100,
+                            "artifact_name": "source-package",
+                            "artifact_sha256": digest,
+                        },
+                        "evidence": {
+                            "territorial_product": "evidence/territorial.json",
+                            "electoral_source": "evidence/source.json",
+                        },
+                    }},
+                }],
+            }, allow_unicode=True, sort_keys=False), encoding="utf-8")
+            registry = root / "configuracion/registro_electoral.yaml"
+            registry.parent.mkdir(parents=True)
+            registry.write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2026",
+                        "election_date": "2026-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            plan = build_plan(
+                territory="Demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=root,
+            )
+            self.assertTrue(plan["run_prepare_electoral"])
+            self.assertTrue(plan["run_incorporate"])
+            self.assertIsNone(plan["existing"]["electoral_source"]["decision"])
+
     def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)

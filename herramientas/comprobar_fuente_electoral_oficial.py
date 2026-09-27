@@ -139,6 +139,7 @@ def check_declaration(
         resolution = str(source.get("declared_resolution") or "none")
         access = str(source.get("access") or "public")
         source_class = str(source.get("source_class") or "official")
+        promotion_allowed = source.get("promotion_allowed", True)
         item = {
             "id": sid,
             "publisher": publisher,
@@ -147,7 +148,12 @@ def check_declaration(
             "access": access,
             "required": bool(source.get("required", True)),
             "source_class": source_class,
+            "promotion_allowed": promotion_allowed,
         }
+        if promotion_allowed is False:
+            item.update(status="BLOCK_NOT_PROMOTABLE", reason="La declaración marca la fuente como no promocionable")
+            results.append(item)
+            continue
         if source_class not in {"official", "verified_mirror"}:
             item.update(status="BLOCK_SOURCE_CLASS", reason=f"source_class no soportada: {source_class}")
             results.append(item)
@@ -219,8 +225,19 @@ def check_declaration(
 
         name = _filename(source, content_type)
         target = downloads / name
-        target.write_bytes(data)
         sha = hashlib.sha256(data).hexdigest()
+        expected_sha = str(source.get("expected_sha256") or "").strip().lower()
+        if expected_sha and sha.lower() != expected_sha:
+            item.update(
+                status="BLOCK_CHECKSUM",
+                sha256=sha,
+                expected_sha256=expected_sha,
+                reason="SHA-256 de la fuente no coincide con la huella gobernada",
+            )
+            results.append(item)
+            continue
+        # Un contenido rechazado por huella no se congela ni queda reutilizable.
+        target.write_bytes(data)
         checksum = downloads / f"{name}.sha256"
         checksum.write_text(f"{sha}  {name}\n", encoding="utf-8")
         item.update(

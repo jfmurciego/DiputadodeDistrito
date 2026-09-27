@@ -113,6 +113,29 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
             persisted = json.loads((Path(td) / "decision_fuente_electoral.json").read_text(encoding="utf-8"))
             self.assertFalse(persisted["rtve_allowed_as_substitute"])
 
+    def test_expected_checksum_blocks_changed_source(self):
+        original = b"seccion,mesa,candidatura,votos\n001,01,A,10\n"
+        changed = b"seccion,mesa,candidatura,votos\n001,01,A,11\n"
+        declaration = self._base([{
+            "id": "official_csv",
+            "publisher": "Official Authority",
+            "url": "https://official.example/results.csv",
+            "access": "public",
+            "declared_resolution": "section",
+            "granularity_markers": ["seccion", "mesa"],
+            "expected_sha256": hashlib.sha256(original).hexdigest(),
+        }])
+
+        def opener(request, timeout=0):
+            return FakeResponse(changed)
+
+        with tempfile.TemporaryDirectory() as td:
+            decision = self.checker.check_declaration(declaration, td, opener=opener)
+            self.assertEqual(decision["decision"], "BLOCK")
+            self.assertEqual(decision["checks"][0]["status"], "BLOCK_CHECKSUM")
+            self.assertEqual(decision["checks"][0]["sha256"], hashlib.sha256(changed).hexdigest())
+            self.assertFalse(list((Path(td) / "downloads").glob("*.csv")))
+
     def test_end_to_end_download_artifact_recovery_contract_path_and_processing_enabled(self):
         data = b"seccion,mesa,candidatura,votos\n001,01,A,10\n002,01,B,20\n"
         expected = hashlib.sha256(data).hexdigest()
@@ -166,6 +189,30 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.installer.install_from_artifact(params, artifact, root_dir=root, report_path=root / "report.json")
             self.assertFalse((root / "runtime/elections/results.csv").exists())
+
+    def test_explicitly_non_promotable_source_is_blocked_without_network(self):
+        declaration = self._base([{
+            "id": "provisional_only",
+            "publisher": "Official Authority",
+            "url": "https://official.example/results.csv",
+            "access": "public",
+            "declared_resolution": "section",
+            "granularity_markers": ["seccion"],
+            "promotion_allowed": False,
+        }])
+        called = False
+
+        def opener(request, timeout=0):
+            nonlocal called
+            called = True
+            return FakeResponse(b"seccion,votos\n001,10\n")
+
+        with tempfile.TemporaryDirectory() as td:
+            decision = self.checker.check_declaration(declaration, td, opener=opener)
+            self.assertEqual(decision["decision"], "BLOCK")
+            self.assertEqual(decision["checks"][0]["status"], "BLOCK_NOT_PROMOTABLE")
+            self.assertFalse(called)
+
 
     def test_credentials_and_insufficient_granularity_block(self):
         declaration = self._base([

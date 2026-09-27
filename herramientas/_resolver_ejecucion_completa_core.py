@@ -20,6 +20,18 @@ def _sha256_value(value: object) -> bool:
     return bool(re.fullmatch(r"[0-9a-f]{64}", str(value or "")))
 
 
+def _registered_election_id(root_dir: Path, territory_id: str) -> str | None:
+    path = root_dir / "configuracion" / "registro_electoral.yaml"
+    if not path.is_file():
+        return None
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    row = (data.get("territories") or {}).get(territory_id)
+    if not isinstance(row, dict):
+        return None
+    election_id = str(row.get("election_id") or "")
+    return election_id or None
+
+
 def _git_blob_sha1(path: Path) -> str | None:
     try:
         payload = path.read_bytes()
@@ -311,7 +323,18 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
     territorial_sources_ready = bool(state.get("territorial_sources_prepared") and source_run_id and prep.get("artifact_name") and prep.get("artifact_sha256"))
     territorial_product_ready = bool(state.get("territorial_product_available") and state.get("territorial_certification") in PASS_CERTIFICATIONS and territorial_product_run_id and territorial_evidence.get("artifact_sha256"))
-    electoral_source_ready = bool(state.get("electoral_source_prepared") and electoral_source_run_id and electoral_source_evidence.get("artifact_name") and electoral_source_evidence.get("artifact_sha256"))
+    expected_election_id = _registered_election_id(root_dir, row["territory_id"])
+    electoral_source_identity_ready = (
+        expected_election_id is None
+        or str(electoral_source_evidence.get("election_id") or "") == expected_election_id
+    )
+    electoral_source_ready = bool(
+        state.get("electoral_source_prepared")
+        and electoral_source_run_id
+        and electoral_source_evidence.get("artifact_name")
+        and electoral_source_evidence.get("artifact_sha256")
+        and electoral_source_identity_ready
+    )
     electoral_product_ready = bool(state.get("electoral_product_available") and electoral_product_run_id and electoral_product_evidence.get("artifact_sha256"))
     run_prepare_territorial = from_start or not territorial_sources_ready
     generation_gate = generation_enablement(

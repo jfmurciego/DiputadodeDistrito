@@ -264,12 +264,79 @@ def transform_gipeyop_polling_xlsx(source:Path,out_dir:Path,declaration:dict,sou
     }
 
 
+def transform_gencat_polling_csv(source:Path,out_dir:Path,declaration:dict,source_decl:dict,root:Path)->dict:
+    fields,rows=_read_delimited(source)
+    required={"Nivell","Codi circumscripció","Codi municipi","Districte","Secció","Mesa","Votants","Vots a candidatures"}
+    missing=sorted(required-set(fields))
+    if missing: raise ValueError(f"CSV Generalitat sin columnas estructurales: {missing}")
+    excluded={"Vots nuls","Vots en blanc","Vots a candidatures","Vots vàlids"}
+    party_fields=[f for f in fields if f.startswith("Vots ") and f not in excluded]
+    if not party_fields: raise ValueError("CSV Generalitat sin columnas de candidaturas")
+    geo_sections=set(); geo_polling=set(); aggregates={}
+    all_party_totals={p.replace("Vots ","",1).strip():0 for p in party_fields}
+    cera_party_totals={p.replace("Vots ","",1).strip():0 for p in party_fields}
+    total_candidate_votes=0; total_voters=0; geo_mesa_rows=0; cera_rows=0; cera_candidate_votes=0
+    for row in rows:
+        if str(row.get("Nivell") or "").strip()!="ME": continue
+        prov=_normalise_code(row.get("Codi circumscripció"),2); mun=_normalise_code(row.get("Codi municipi"),3)
+        dist=_normalise_code(row.get("Districte"),2); sec=_normalise_code(row.get("Secció"),3); mesa=str(row.get("Mesa") or "").strip()
+        if not (prov and mun and dist and sec and mesa): raise ValueError(f"Mesa no identificable en CSV Generalitat: {row}")
+        row_candidate=_as_int(row.get("Vots a candidatures")); row_party=0; party_values={}
+        for field in party_fields:
+            party=field.replace("Vots ","",1).strip(); n=_as_int(row.get(field))
+            if n<0: raise ValueError("Votos negativos en CSV Generalitat")
+            party_values[party]=n; all_party_totals[party]=all_party_totals.get(party,0)+n; row_party+=n
+        if row_party!=row_candidate: raise ValueError(f"Votos por candidatura no cuadran en mesa {prov}/{mun}/{dist}/{sec}-{mesa}: partidos={row_party} candidaturas={row_candidate}")
+        total_candidate_votes+=row_candidate; total_voters+=_as_int(row.get("Votants"))
+        if mun=="998":
+            cera_rows+=1; cera_candidate_votes+=row_candidate
+            for party,n in party_values.items(): cera_party_totals[party]=cera_party_totals.get(party,0)+n
+            continue
+        cusec=prov+mun+dist+sec
+        if len(cusec)!=10: raise ValueError(f"CUSEC inválido en CSV Generalitat: {cusec}")
+        geo_sections.add(cusec); geo_polling.add(cusec+"-"+mesa); geo_mesa_rows+=1
+        for party,n in party_values.items(): aggregates[(cusec,party)]=aggregates.get((cusec,party),0)+n
+    if not geo_mesa_rows or not geo_sections or not total_candidate_votes: raise ValueError("CSV Generalitat no produjo mesas/secciones/votos")
+    verification=declaration.get("verification") or {}
+    checks={
+        "official_candidate_votes":total_candidate_votes==int(verification.get("official_candidate_votes") or total_candidate_votes),
+        "official_voters":total_voters==int(verification.get("official_voters") or total_voters),
+        "expected_polling_stations":geo_mesa_rows==int(verification.get("expected_polling_stations") or geo_mesa_rows),
+        "expected_sections":len(geo_sections)==int(verification.get("expected_sections") or len(geo_sections)),
+        "expected_cera_rows":cera_rows==int(verification.get("expected_cera_rows") or cera_rows),
+        "expected_cera_candidate_votes":cera_candidate_votes==int(verification.get("expected_cera_candidate_votes") or cera_candidate_votes),
+    }
+    official_party={str(k):int(v) for k,v in (verification.get("official_party_totals") or {}).items()}
+    if official_party:
+        checks["official_party_totals"]=all(all_party_totals.get(k,0)==v for k,v in official_party.items()) and not any(v for k,v in all_party_totals.items() if k not in official_party)
+    if not all(checks.values()): raise ValueError(f"CSV Generalitat no reconcilia con controles oficiales: {checks}; votos={total_candidate_votes}; votantes={total_voters}; mesas_geo={geo_mesa_rows}; secciones_geo={len(geo_sections)}; cera_rows={cera_rows}; cera_votos={cera_candidate_votes}")
+    out_dir.mkdir(parents=True,exist_ok=True); normalized=out_dir/"resultados_electorales_normalizados.csv"
+    with normalized.open("w",encoding="utf-8",newline="") as fh:
+        writer=csv.DictWriter(fh,fieldnames=["CUSEC_KEY","party","votes"],delimiter=";"); writer.writeheader()
+        for (cusec,party),votes in sorted(aggregates.items()): writer.writerow({"CUSEC_KEY":cusec,"party":party,"votes":votes})
+    dictionary=out_dir/"party_dictionary.json"
+    dictionary.write_text(json.dumps({"schema_family":"ddd-party-dictionary","schema_version":"1.0.0","unknown_party_policy":"reject","parties":[{"canonical_id":p,"display_name":p,"aliases":[],"classification":""} for p in sorted(all_party_totals)]},ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    geographic_candidate_votes=sum(aggregates.values())
+    if geographic_candidate_votes!=total_candidate_votes-cera_candidate_votes: raise ValueError(f"Descuadre geográfico/CERA: geo={geographic_candidate_votes} total={total_candidate_votes} cera={cera_candidate_votes}")
+    contract=out_dir/"election_contract.json"
+    contract_payload={
+        "schema_family":"ddd-election","schema_version":"1.0.0","election_id":str(declaration["election_id"]),"territory_id":str(declaration["territory_id"]),"title":str(declaration.get("title") or declaration["election_id"]),"election_date":str(declaration["election_date"]),"input_mode":"verifiable_file","boundary_independence":True,
+        "sources":[{"path":normalized.as_posix(),"sha256":sha(normalized),"publisher":str(source_decl.get("publisher") or ""),"source_url":str(source_decl.get("url") or ""),"retrieved_at":datetime.now(timezone.utc).date().isoformat(),"adapter":{"kind":"long_csv","separator":";","section_field":"CUSEC_KEY","party_field":"party","votes_field":"votes"}}],
+        "party_dictionary":{"path":dictionary.as_posix(),"sha256":sha(dictionary)},"reconciliation":declaration.get("reconciliation") or {"policy":"fail_unless_declared","allowed_result_only_sections":[],"allowed_map_only_sections":[]},
+        "source_verification":{"status":"VERIFIED_EXACT","official_candidate_votes":int(verification.get("official_candidate_votes") or total_candidate_votes),"observed_candidate_votes":total_candidate_votes,"official_voters":int(verification.get("official_voters") or total_voters),"observed_voters":total_voters,"geographic_polling_stations":geo_mesa_rows,"geographic_sections":len(geo_sections),"party_totals_match":checks.get("official_party_totals",True)},
+        "non_geocodable_votes":{"policy":"exclude_from_geographic_district_allocation","kind":"CERA","rows":cera_rows,"candidate_votes":cera_candidate_votes,"party_totals":cera_party_totals},
+    }
+    contract.write_text(json.dumps(contract_payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return {"source":normalized,"contract":contract,"dictionary":dictionary,"records":len(aggregates),"sections":len(geo_sections),"parties":len(all_party_totals),"source_verification_status":"VERIFIED_EXACT","official_candidate_votes":total_candidate_votes,"geographic_candidate_votes":geographic_candidate_votes,"cera_candidate_votes":cera_candidate_votes,"cera_percentage":(100.0*cera_candidate_votes/total_candidate_votes) if total_candidate_votes else 0.0,"special_rows_reconciled":cera_rows,"polling_stations":geo_mesa_rows,"voters":total_voters}
+
 def _transform_selected_source(src:Path,tmp:Path,declaration:dict,source_decl:dict,root:Path)->dict|None:
     transform=source_decl.get("transform") or {}
     kind=str(transform.get("kind") or "")
     if not kind: return None
     if kind=="gipeyop_polling_xlsx":
         return transform_gipeyop_polling_xlsx(src,tmp/"normalized",declaration,source_decl,root)
+    if kind=="gencat_polling_csv":
+        return transform_gencat_polling_csv(src,tmp/"normalized",declaration,source_decl,root)
     raise ValueError(f"Transformación electoral no soportada: {kind}")
 
 def sha(path:Path)->str:
@@ -372,6 +439,45 @@ def _expected_election_identity(root:Path,cfg:dict,declaration:Path|None)->tuple
     return None,None
 
 
+def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:Path,manifest:dict)->dict|None:
+    contract=json.loads(source_contract.read_text(encoding="utf-8"))
+    sources=contract.get("sources") or []
+    if len(sources)!=1:
+        raise ValueError("Contrato electoral materializado sin fuente única")
+    selected=manifest.get("selected_source") or {}
+    selected_sha=str(selected.get("sha256") or "").lower()
+    if not selected_sha or str(sources[0].get("sha256") or "").lower()!=selected_sha:
+        raise ValueError("Contrato electoral embebido no coincide con la fuente seleccionada")
+
+    dictionary_decl=contract.get("party_dictionary") or {}
+    dictionary_raw=str(dictionary_decl.get("path") or "")
+    if not dictionary_raw:
+        return None
+    dictionary_expected=str(dictionary_decl.get("sha256") or "").lower()
+    dictionary_src=(root/dictionary_raw).resolve()
+    if not dictionary_src.is_file():
+        raise ValueError("Contrato electoral materializado perdió su diccionario de partidos")
+    if not dictionary_expected or sha(dictionary_src).lower()!=dictionary_expected:
+        raise ValueError("SHA-256 del diccionario de partidos no coincide con el contrato")
+
+    contract_dir=package_out/"contract"; contract_dir.mkdir(exist_ok=True)
+    contract_target=contract_dir/"election_contract.json"
+    dictionary_target=contract_dir/"party_dictionary.json"
+    shutil.copy2(dictionary_src,dictionary_target)
+
+    contract["sources"][0]["path"]=str(selected["path"])
+    contract["party_dictionary"]["path"]="contract/party_dictionary.json"
+    contract["party_dictionary"]["sha256"]=sha(dictionary_target)
+    contract_target.write_text(json.dumps(contract,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+
+    return {
+        "election_contract":"contract/election_contract.json",
+        "party_dictionary":"contract/party_dictionary.json",
+        "contract_sha256":sha(contract_target),
+        "party_dictionary_sha256":sha(dictionary_target),
+    }
+
+
 def validate_previous(package:Path,territory_id:str,edition:str,expected_election_id:str|None=None,expected_election_date:str|None=None)->dict|None:
     try:
         m=json.loads((package/"manifest.json").read_text(encoding="utf-8"))
@@ -447,12 +553,22 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 expected=str(s.get("sha256") or "").lower()
                 if src.is_file() and expected and sha(src).lower()==expected:
                     meta={"origin_url":s.get("source_url"),"publisher":s.get("publisher"),"acquired_at":s.get("retrieved_at"),"source_mode":"existing_contract","contract":str(contract_raw)}
-                    return _write_package(
+                    manifest=_write_package(
                         package_out,"REUSE",territory_id,edition,src,meta,{
                             "election_id":contract_election_id,
                             "election_date":contract_election_date,
                         },
                     )
+                    embedded=_materialize_embedded_contract(
+                        root=root,
+                        package_out=package_out,
+                        source_contract=contract_path,
+                        manifest=manifest,
+                    )
+                    if embedded:
+                        manifest["embedded_contract"]=embedded
+                        (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+                    return manifest
     decl=declaration
     if decl is None:
         raw=(cfg.get("meta") or {}).get("electoral_sources_declaration")

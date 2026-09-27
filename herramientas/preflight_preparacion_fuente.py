@@ -126,12 +126,45 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             data = json.loads(receipt.read_text(encoding="utf-8"))
         except Exception as exc:
             raise ValueError(f"{tid}/{edition}: registro electoral ilegible: {evidence_rel}") from exc
+        if data.get("schema") == "ddd-election-source-provenance/1.0":
+            if str(data.get("territory_id") or "") != tid:
+                raise ValueError(f"{tid}/{edition}: procedencia electoral histórica pertenece a otro territorio")
+            registry_path = root / "configuracion" / "registro_electoral.yaml"
+            if registry_path.is_file():
+                registry = yaml.safe_load(registry_path.read_text(encoding="utf-8")) or {}
+                registered_election = (registry.get("territories") or {}).get(tid)
+                if isinstance(registered_election, dict):
+                    expected_election_id = str(registered_election.get("election_id") or "")
+                    observed_election_id = str(data.get("election_id") or "")
+                    if not expected_election_id or observed_election_id != expected_election_id:
+                        raise ValueError(
+                            f"{tid}/{edition}: procedencia electoral histórica obsoleta: "
+                            f"{observed_election_id!r} != {expected_election_id!r}"
+                        )
+            common.update(
+                evidence_path=str(evidence_rel),
+                election_id=data.get("election_id"),
+                legacy_provenance=True,
+            )
+            return common
         if data.get("schema") != "ddd.catalog-evidence/1.0":
             raise ValueError(f"{tid}/{edition}: schema electoral no soportado")
         if data.get("kind") != "electoral_source":
             raise ValueError(f"{tid}/{edition}: registro no es electoral_source")
         if str(data.get("territory_id") or "") != tid or str(data.get("edition") or "") != str(edition):
             raise ValueError(f"{tid}/{edition}: identidad del registro electoral no coincide")
+        registry_path = root / "configuracion" / "registro_electoral.yaml"
+        if registry_path.is_file():
+            registry = yaml.safe_load(registry_path.read_text(encoding="utf-8")) or {}
+            registered_election = (registry.get("territories") or {}).get(tid)
+            if isinstance(registered_election, dict):
+                expected_election_id = str(registered_election.get("election_id") or "")
+                receipt_election_id = str(data.get("election_id") or "")
+                if not expected_election_id or receipt_election_id != expected_election_id:
+                    raise ValueError(
+                        f"{tid}/{edition}: registro electoral obsoleto: "
+                        f"{receipt_election_id!r} != {expected_election_id!r}"
+                    )
         prefix = f"ddd-electoral-package-{tid}-{edition}-"
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             data, expected_prefix=prefix, label=f"{tid}/{edition} registro electoral"

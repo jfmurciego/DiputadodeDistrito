@@ -131,25 +131,52 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                     if str(receipt.get("declaration") or "")!=str(ed_raw or ""):
                         errors.append(f"{tid}/{edition}: evidencia electoral y declaración no coinciden")
                     if not ed_raw:
-                        election_contract_raw=str(receipt.get("election_contract") or "")
-                        election_contract_hash=str(receipt.get("election_contract_sha256") or "").lower()
-                        if not election_contract_raw or not re.fullmatch(r"[0-9a-f]{64}",election_contract_hash):
-                            errors.append(f"{tid}/{edition}: evidencia electoral sin contrato materializado verificable")
-                        else:
-                            election_contract_path=root/election_contract_raw
-                            if not election_contract_path.is_file():
-                                errors.append(f"{tid}/{edition}: contrato electoral de evidencia inexistente: {election_contract_raw}")
-                            elif _sha256(election_contract_path).lower()!=election_contract_hash:
-                                errors.append(f"{tid}/{edition}: SHA-256 del contrato electoral de evidencia no coincide")
+                        registry_raw=str(receipt.get("election_registry") or "")
+                        if registry_raw:
+                            if registry_raw!="configuracion/registro_electoral.yaml":
+                                errors.append(f"{tid}/{edition}: registro electoral de evidencia no autorizado: {registry_raw}")
                             else:
-                                try:
-                                    election_contract=json.loads(election_contract_path.read_text(encoding="utf-8"))
-                                    if str(election_contract.get("territory_id") or "")!=tid:
-                                        errors.append(f"{tid}/{edition}: contrato electoral de evidencia pertenece a otro territorio")
-                                    if str(election_contract.get("election_id") or "")!=str(receipt.get("election_id") or ""):
-                                        errors.append(f"{tid}/{edition}: election_id de evidencia no coincide con contrato electoral")
-                                except Exception as exc:
-                                    errors.append(f"{tid}/{edition}: contrato electoral de evidencia inválido: {exc}")
+                                registry_path=root/registry_raw
+                                if not registry_path.is_file():
+                                    errors.append(f"{tid}/{edition}: registro electoral común inexistente")
+                                else:
+                                    try:
+                                        registry=_yaml(registry_path)
+                                        if registry.get("schema")!="ddd-election-registry/1.0":
+                                            errors.append(f"{tid}/{edition}: schema de registro electoral común inválido")
+                                        if str(registry.get("edition") or "")!=str(edition):
+                                            errors.append(f"{tid}/{edition}: edición de registro electoral común no coincide")
+                                        registry_row=(registry.get("territories") or {}).get(tid)
+                                        if not isinstance(registry_row,dict):
+                                            errors.append(f"{tid}/{edition}: territorio ausente del registro electoral común")
+                                        else:
+                                            if str(registry_row.get("election_id") or "")!=str(receipt.get("election_id") or ""):
+                                                errors.append(f"{tid}/{edition}: election_id de evidencia no coincide con registro electoral común")
+                                            receipt_date=str(receipt.get("election_date") or "")
+                                            if receipt_date and str(registry_row.get("election_date") or "")!=receipt_date:
+                                                errors.append(f"{tid}/{edition}: election_date de evidencia no coincide con registro electoral común")
+                                    except Exception as exc:
+                                        errors.append(f"{tid}/{edition}: registro electoral común inválido: {exc}")
+                        else:
+                            election_contract_raw=str(receipt.get("election_contract") or "")
+                            election_contract_hash=str(receipt.get("election_contract_sha256") or "").lower()
+                            if not election_contract_raw or not re.fullmatch(r"[0-9a-f]{64}",election_contract_hash):
+                                errors.append(f"{tid}/{edition}: evidencia electoral sin contrato materializado ni registro común verificable")
+                            else:
+                                election_contract_path=root/election_contract_raw
+                                if not election_contract_path.is_file():
+                                    errors.append(f"{tid}/{edition}: contrato electoral de evidencia inexistente: {election_contract_raw}")
+                                elif _sha256(election_contract_path).lower()!=election_contract_hash:
+                                    errors.append(f"{tid}/{edition}: SHA-256 del contrato electoral de evidencia no coincide")
+                                else:
+                                    try:
+                                        election_contract=json.loads(election_contract_path.read_text(encoding="utf-8"))
+                                        if str(election_contract.get("territory_id") or "")!=tid:
+                                            errors.append(f"{tid}/{edition}: contrato electoral de evidencia pertenece a otro territorio")
+                                        if str(election_contract.get("election_id") or "")!=str(receipt.get("election_id") or ""):
+                                            errors.append(f"{tid}/{edition}: election_id de evidencia no coincide con contrato electoral")
+                                    except Exception as exc:
+                                        errors.append(f"{tid}/{edition}: contrato electoral de evidencia inválido: {exc}")
                 else:
                     # Compatibilidad con evidencias históricas ya certificadas de Aragón/Castilla y León.
                     if cfg is None:

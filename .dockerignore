@@ -8,8 +8,14 @@
 .git
 inputs/*
 !inputs/MANIFEST.sha256
+# Regresión electoral materializada: verifica REUSE real de Castilla y León sin red.
+!inputs/cyl_2026_secciones_partidos.csv
 .cache
 ejecuciones
 legacy
 __pycache__
 *.pyc
+.ddd-siel-andalucia-2026
+andalucia-section-locator.csv
+siel-andalucia-2026.zip
+.ddd-electoral-package
