@@ -83,6 +83,8 @@ jobs:
                       'nomenclator_distrito':dist,'nomenclator_seccion':sec,
                       'muestra_endpoint':endpoint,'muestra_http':eh,
                       'muestra_registros_votos':len(votos),'muestra_total_votos':total,
+                      'muestra_votos':votos[:3],
+                      'muestra_idescrutinio':payload.get('idescrutinio'),
                   })
                   if votos and total>0:
                       result['resultado']='FOUND_SAMPLE'
