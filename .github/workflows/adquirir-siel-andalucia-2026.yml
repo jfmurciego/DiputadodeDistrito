@@ -9,7 +9,7 @@ permissions:
 jobs:
   adquirir:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
       - name: Preparar índice provisional sólo de coordenadas
