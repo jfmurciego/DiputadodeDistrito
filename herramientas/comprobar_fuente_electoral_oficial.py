@@ -219,7 +219,6 @@ def check_declaration(
 
         name = _filename(source, content_type)
         target = downloads / name
-        target.write_bytes(data)
         sha = hashlib.sha256(data).hexdigest()
         expected_sha = str(source.get("expected_sha256") or "").strip().lower()
         if expected_sha and sha.lower() != expected_sha:
@@ -231,6 +230,8 @@ def check_declaration(
             )
             results.append(item)
             continue
+        # Un contenido rechazado por huella no se congela ni queda reutilizable.
+        target.write_bytes(data)
         checksum = downloads / f"{name}.sha256"
         checksum.write_text(f"{sha}  {name}\n", encoding="utf-8")
         item.update(
