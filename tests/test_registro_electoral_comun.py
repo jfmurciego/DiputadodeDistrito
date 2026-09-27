@@ -53,6 +53,9 @@ class TestRegistroElectoralComun(unittest.TestCase):
                 self.assertTrue(row["territory_id"]); self.assertEqual(row["election_id"],entry["election_id"]); self.assertEqual(row["codauto"],entry["codauto"]); self.assertEqual(row["territorial_edition"],"2025")
     def test_every_registered_election_has_a_technical_route_into_03(self):
         workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("adapter=minsait_provisional",workflow)
+        self.assertNotIn("adapter=siel_andalucia",workflow)
+        self.assertIn("needs.electorales.outputs.production_eligible == 'true'",workflow)
         unresolved=[]
         for registry_id,entry in self.registry["territories"].items():
             row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
@@ -61,7 +64,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
             routed=(
                 election_id in ELECTIONS
                 or mode in {"governed_override","auto_discovered_declaration","materialized_election_contract"}
-                or (election_id=="andalucia_parlamento_2026" and "adapter=siel_andalucia" in workflow)
+                or (election_id=="andalucia_parlamento_2026" and "adapter=minsait_provisional" in workflow)
             )
             if not routed:
                 unresolved.append((registry_id,election_id,mode))
