@@ -32,7 +32,7 @@ jobs:
             -o extremadura-provisional.csv \
             https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
           python - <<'PY'
-          import csv,hashlib,io,json,urllib.parse,urllib.request
+          import csv,hashlib,json,urllib.parse,urllib.request
           from pathlib import Path
 
           def fetch(url,timeout=8,headers=None):
@@ -102,25 +102,6 @@ jobs:
                   result['motivo']='SIEL respondió pero no se identificó la convocatoria 2026'
           except Exception as e:
               result['motivo']=f'Prueba SIEL acotada no adquirible desde runner: {type(e).__name__}: {e}'
-
-          # Contraste pequeño de los exports provinciales/CERA de SIEL conservados por EleccionesDB.
-          # Ambos ficheros fueron actualizados después del 17-M y son pequeños; sólo se publica resumen.
-          for label,url in [
-              ('provincias','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/01-andalucia/escrutinio_provincias.csv'),
-              ('provincias_cera','https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/01-andalucia/escrutinio_provincias_cera.csv'),
-          ]:
-              try:
-                  _,_,raw=fetch(url,timeout=8)
-                  txt=raw.decode('utf-8-sig','replace')
-                  rr=list(csv.DictReader(io.StringIO(txt)))
-                  sel=[x for x in rr if str(x.get('fconvocatoria_clave') or x.get('fconvocatoria') or '').strip()=='202605']
-                  result['detalle'][label]={
-                      'filas_202605':len(sel),
-                      'columnas':list(rr[0]) if rr else [],
-                      'muestra':sel[:3],
-                  }
-              except Exception as e:
-                  result['detalle'][label]={'error':f'{type(e).__name__}: {e}'}
 
           def measure_provisional(path,expected_sha,expected_sections,expected_votes,definitive):
               raw=Path(path).read_bytes()
