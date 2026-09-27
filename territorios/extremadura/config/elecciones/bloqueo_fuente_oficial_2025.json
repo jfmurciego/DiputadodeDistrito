@@ -4,9 +4,12 @@
   "territory_id": "extremadura",
   "election_id": "extremadura_asamblea_2025-12-21",
   "election_date": "2025-12-21",
-  "status": "BLOCKED_NO_PUBLIC_OFFICIAL_SECTION_FILE",
-  "checked_at": "2026-09-17",
-  "required_resolution": ["section", "polling_station"],
+  "status": "BLOCKED_FINAL_GRANULAR_SOURCE",
+  "checked_at": "2026-09-27",
+  "required_resolution": [
+    "section",
+    "polling_station"
+  ],
   "public_official_sources_checked": [
     {
       "publisher": "Junta de Extremadura",
@@ -40,12 +43,23 @@
     "publisher": "Junta Electoral de Extremadura / DOE",
     "publication_date": "2026-01-14",
     "resolution": "constituency",
-    "url": "https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001"
+    "url": "https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001",
+    "candidate_votes": 524837
   },
   "contract_created": false,
   "party_dictionary_created": false,
   "reconciliation_created": false,
   "rtve_allowed_as_substitute": false,
   "decision": "BLOCKED",
-  "reason": "No se ha localizado una descarga oficial pública a nivel de sección o mesa. Sin fichero oficial desagregado no se congela copia, no se fabrica checksum, no se crea contrato electoral operativo ni se utiliza RTVE como sustituto."
+  "reason": "Existe granular provisional (966 secciones; 522418 votos a candidaturas), pero no reconcilia con el definitivo DOE (524837). El repositorio granular oficial de prensa es provisional y exige credenciales; el DOE definitivo sólo publica circunscripción. Falta una fuente definitiva granular pública/reproducible.",
+  "provisional_granular_evidence": {
+    "publisher": "Minsait / EleccionesDB mirror",
+    "url": "https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv",
+    "sha256": "d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d",
+    "resolution": "section",
+    "sections": 966,
+    "candidate_votes": 522418,
+    "promotion_allowed": false
+  },
+  "delta_definitive_minus_provisional": 2419
 }
