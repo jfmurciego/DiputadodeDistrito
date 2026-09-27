@@ -72,7 +72,15 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|
     if len(rows)>1: raise SystemExit(f"Elección vigente ambigua para territorio={territory!r}")
     if len(rows)==1:
         row=dict(rows[0]); declaration=root/str(row.get("declaration") or "")
-        if any(row.get(k) in (None,"") for k in ("territory_id","name","territorial_edition","election_id","election_date","declaration")) or not declaration.is_file(): raise SystemExit("Elección vigente incompleta")
+        if any(row.get(k) in (None,"") for k in ("territory_id","name","territorial_edition","election_id","election_date","declaration")) or not declaration.is_file():
+            raise SystemExit("Elección vigente incompleta")
+        declared=_load_yaml(declaration)
+        if declared.get("territory_id")!=row["territory_id"]:
+            raise SystemExit("territory_id de declaración vigente no coincide")
+        if declared.get("election_id")!=row["election_id"]:
+            raise SystemExit("election_id de declaración vigente no coincide")
+        if str(declared.get("election_date"))!=str(row["election_date"]):
+            raise SystemExit("election_date de declaración vigente no coincide")
         row["resolution_mode"]="governed_override"; return row
     found=_catalog_preparation_row(root,token,edition)
     if found is None: raise SystemExit(f"Territorio o edición no declarados: territorio={territory!r}, edición={edition!r}")
@@ -82,7 +90,13 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|
         materialized=_row_from_materialized_contract(territory_id=tid,name=name,territorial_edition=ed,state=state,root_dir=root)
         if materialized is not None:return materialized
         raise SystemExit(f"No existe elección resoluble para territorio={territory!r}: no hay declaración de adquisición ni contrato electoral materializado.")
-    resolved.sort(key=lambda r:date.fromisoformat(str(r["election_date"])),reverse=True); return resolved[0]
+    resolved.sort(key=lambda r:date.fromisoformat(str(r["election_date"])),reverse=True)
+    if len(resolved)>1 and resolved[0]["election_date"]==resolved[1]["election_date"]:
+        raise SystemExit(
+            f"Elección vigente ambigua para territorio={territory!r}: "
+            f"{resolved[0]['election_id']} / {resolved[1]['election_id']}"
+        )
+    return resolved[0]
 
 
 def resolve_for_preparation(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|None=None)->dict:
