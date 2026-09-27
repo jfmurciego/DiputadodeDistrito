@@ -28,7 +28,18 @@ py .\herramientas\adquirir_siel_andalucia_2026.py `
   --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
 ```
 
-El extractor muestra progreso cada 250 secciones. Si la red local devuelve demasiados timeouts, repetir con `--workers 16`. No modificar las validaciones.
+El extractor muestra progreso cada 250 secciones. Si se interrumpe o falla después de haber descargado parte de las secciones, **no borres** `.ddd-siel-andalucia-2026`; reanuda así:
+
+```powershell
+py .\herramientas\adquirir_siel_andalucia_2026.py `
+  --out .\.ddd-siel-andalucia-2026 `
+  --workers 16 `
+  --section-index .\andalucia-section-locator.csv `
+  --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21 `
+  --resume
+```
+
+`--resume` sólo reutiliza secciones SIEL previamente guardadas cuyo identificador pertenece al mismo índice gobernado; cualquier checkpoint ajeno o inválido bloquea la ejecución. No modificar las validaciones.
 
 Para comprimir el resultado:
 
@@ -66,7 +77,7 @@ python herramientas/adquirir_siel_andalucia_2026.py \
   --section-index-sha256 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
 ```
 
-El extractor informa del progreso cada 250 secciones. Si la red local penaliza 32 workers, reducir a 16 u 8. No modificar las validaciones.
+El extractor informa del progreso cada 250 secciones. Si la red local penaliza 32 workers, reducir a 16 u 8. Si la ejecución se interrumpe, conservar `.ddd-siel-andalucia-2026/.checkpoint-sections` y repetir el mismo comando añadiendo `--resume`. No modificar las validaciones.
 
 ## 3. Ficheros que deben existir
 
