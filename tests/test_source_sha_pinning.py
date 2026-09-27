@@ -37,13 +37,20 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
             "preparar_electoral",
             "puerta_03",
             "incorporar",
-            "puerta_04",
         ):
             with self.subTest(job=name):
                 self.assertEqual(
                     jobs[name]["with"]["source_ref"],
                     "${{ needs.planificar.outputs.source_sha }}",
                 )
+        self.assertIn(
+            "needs.recuperar_electoral.outputs.source_commit",
+            jobs["puerta_04"]["with"]["source_ref"],
+        )
+        self.assertIn(
+            "needs.planificar.outputs.source_sha",
+            jobs["puerta_04"]["with"]["source_ref"],
+        )
 
         self.assertNotIn(
             "pre_m04_accreditation_planned == 'true' && 'main'",
