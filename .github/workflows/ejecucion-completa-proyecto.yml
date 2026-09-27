@@ -51,6 +51,9 @@ on:
       - 'herramientas/validar_puerta_ejecucion.py'
       - 'herramientas/generar_estado_operativo.py'
       - '.github/workflows/_reutilizable-puerta-validacion.yml'
+      - '.github/workflows/recuperar-producto-electoral-durable.yml'
+      - 'herramientas/detectar_producto_electoral_huerfano.py'
+      - 'herramientas/persistir_producto_electoral_operacional.py'
   workflow_dispatch:
     inputs:
       territory_id:
@@ -321,6 +324,117 @@ jobs:
           path: .ddd-full-run/plan.json
           if-no-files-found: error
           retention-days: 30
+
+  detectar_recuperacion_electoral:
+    name: Detectar M08 electoral materializado sin registro
+    needs: planificar
+    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      recover: ${{ steps.detect.outputs.recover }}
+      status: ${{ steps.detect.outputs.status }}
+      reason: ${{ steps.detect.outputs.reason }}
+      source_run_id: ${{ steps.detect.outputs.source_run_id }}
+      artifact_name: ${{ steps.detect.outputs.artifact_name }}
+      artifact_digest: ${{ steps.detect.outputs.artifact_digest }}
+      source_commit: ${{ steps.detect.outputs.source_commit }}
+      audit_artifact_name: ${{ steps.detect.outputs.audit_artifact_name }}
+      report_artifact_name: ${{ steps.detect.outputs.report_artifact_name }}
+      context_fingerprint: ${{ steps.detect.outputs.context_fingerprint }}
+      origin_manifest: ${{ steps.detect.outputs.origin_manifest }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: detect
+        name: Resolver y acreditar candidato huérfano
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ needs.planificar.outputs.territory_id }}
+          EDITION: ${{ needs.planificar.outputs.edition }}
+        run: |
+          set -uo pipefail
+          mkdir -p .ddd-orphan-recovery/evidence/audit .ddd-orphan-recovery/evidence/report
+          scan=.ddd-orphan-recovery/scan.json
+          candidate=.ddd-orphan-recovery/candidate.json
+          python -m herramientas.detectar_producto_electoral_huerfano scan \
+            --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION" --output "$scan"
+          scan_rc=$?
+          status="$(jq -r '.status // "BLOCKED"' "$scan")"
+          reason="$(jq -r '.reason // empty' "$scan")"
+          if [[ "$scan_rc" -ne 0 ]]; then
+            {
+              echo "recover=false"
+              echo "status=$status"
+              echo "reason=$reason"
+            } >> "$GITHUB_OUTPUT"
+            exit "$scan_rc"
+          fi
+          if [[ "$status" == NONE ]]; then
+            {
+              echo "recover=false"
+              echo "status=NONE"
+              echo "reason=$reason"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          run_id="$(jq -r '.candidate.run_id' "$scan")"
+          source_commit="$(jq -r '.candidate.source_commit' "$scan")"
+          m08="ddd-state-$run_id-M08"
+          audit="ddd-audit-electoral-$run_id"
+          report="ddd-electoral-application-report-$run_id"
+
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > .ddd-orphan-recovery/evidence/run.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" > .ddd-orphan-recovery/evidence/artifacts.initial.json
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit" --dir .ddd-orphan-recovery/evidence/audit || true
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$report" --dir .ddd-orphan-recovery/evidence/report || true
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" > .ddd-orphan-recovery/evidence/artifacts.confirm.json
+
+          python -m herramientas.detectar_producto_electoral_huerfano validate \
+            --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION" \
+            --candidate-json "$scan" --evidence-root .ddd-orphan-recovery/evidence \
+            --output "$candidate"
+          validate_rc=$?
+          status="$(jq -r '.status // "BLOCKED"' "$candidate")"
+          reason="$(jq -r '.reason // empty' "$candidate")"
+          if [[ "$validate_rc" -ne 0 ]]; then
+            {
+              echo "recover=false"
+              echo "status=$status"
+              echo "reason=$reason"
+            } >> "$GITHUB_OUTPUT"
+            exit "$validate_rc"
+          fi
+
+          context_fingerprint="$(
+            TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" python - <<'PY'
+          import os
+          from pathlib import Path
+          from herramientas.persistir_producto_electoral_operacional import recovery_context_fingerprint
+          print(recovery_context_fingerprint(
+              root_dir=Path("."),
+              territory_id=os.environ["TERRITORY_ID"],
+              edition=os.environ["EDITION"],
+          ))
+          PY
+          )"
+          {
+            echo "recover=true"
+            echo "status=VALID"
+            echo "reason="
+            echo "source_run_id=$(jq -r .source_run_id "$candidate")"
+            echo "artifact_name=$(jq -r .artifact_name "$candidate")"
+            echo "artifact_digest=$(jq -r .artifact_sha256 "$candidate")"
+            echo "source_commit=$(jq -r .source_commit "$candidate")"
+            echo "audit_artifact_name=$(jq -r .audit_artifact_name "$candidate")"
+            echo "report_artifact_name=$(jq -r .report_artifact_name "$candidate")"
+            echo "context_fingerprint=$context_fingerprint"
+            echo "origin_manifest=$(jq -r .origin_manifest "$candidate")"
+          } >> "$GITHUB_OUTPUT"
 
   preparar_territorial:
     name: 01 · Preparar datos territoriales
