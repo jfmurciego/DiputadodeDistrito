@@ -49,6 +49,33 @@ class SielSectionLocatorTests(unittest.TestCase):
             self.assertFalse(meta["votes_consumed"])
             self.assertEqual(meta["sections"], 2)
 
+    def test_checkpoint_identity_allows_same_locator_resume(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            locator = {
+                "sha256": "a" * 64,
+                "sections": 2,
+            }
+            checkpoint, meta = self.module._prepare_checkpoint(root, locator, resume=False)
+            checkpoint.mkdir(parents=True, exist_ok=True)
+            checkpoint2, meta2 = self.module._prepare_checkpoint(root, locator, resume=True)
+            self.assertEqual(checkpoint2, checkpoint)
+            self.assertEqual(meta2, meta)
+
+    def test_checkpoint_identity_rejects_other_locator(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            first = {"sha256": "a" * 64, "sections": 2}
+            checkpoint, _ = self.module._prepare_checkpoint(root, first, resume=False)
+            checkpoint.mkdir(parents=True, exist_ok=True)
+            with self.assertRaisesRegex(ValueError, "otra identidad o índice"):
+                self.module._prepare_checkpoint(
+                    root,
+                    {"sha256": "b" * 64, "sections": 2},
+                    resume=True,
+                )
+
+
     def test_checkpoint_roundtrip_and_resume_rows(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
