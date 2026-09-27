@@ -50,6 +50,7 @@ sources:
     access: public
     required: true
     source_class: verified_mirror
+    expected_sha256: 511ed5cf4f7afa31063355614a7982e95943fe8fe67f707a3b4dbb810357a96a
     declared_resolution: polling_station
     format: csv
     granularity_markers: [Mesa, Secció]

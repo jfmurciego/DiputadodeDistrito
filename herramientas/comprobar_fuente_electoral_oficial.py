@@ -221,6 +221,16 @@ def check_declaration(
         target = downloads / name
         target.write_bytes(data)
         sha = hashlib.sha256(data).hexdigest()
+        expected_sha = str(source.get("expected_sha256") or "").strip().lower()
+        if expected_sha and sha.lower() != expected_sha:
+            item.update(
+                status="BLOCK_CHECKSUM",
+                sha256=sha,
+                expected_sha256=expected_sha,
+                reason="SHA-256 de la fuente no coincide con la huella gobernada",
+            )
+            results.append(item)
+            continue
         checksum = downloads / f"{name}.sha256"
         checksum.write_text(f"{sha}  {name}\n", encoding="utf-8")
         item.update(
