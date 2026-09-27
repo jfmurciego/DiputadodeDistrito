@@ -12,7 +12,7 @@ Base: PR #147. Esta matriz separa cinco evidencias; ninguna se infiere de otra. 
 | Cantabria | Sí — Parlamento 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Castilla-La Mancha | Sí — Cortes 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Castilla y León | Sí — Cortes 2026, 2026-03-15 | Sí — producto materializado gobernado | Sí — contrato materializado | Sí — REUSE verificado, sin adquisición externa | Sí — evidencia existente | — |
-| Cataluña | Sí — Parlament 2024, 2024-05-12 | Sí — mirror auditable del export Generalitat, 8.944 mesas / 5.121 secciones, reconciliación exacta | Sí — URL fijada a commit externo inmutable + referencias oficiales Generalitat | Sí — 5.121 secciones, 3.120.503 votos, paquete y registro en copia PASS | No | No se ha promovido en producción. |
+| Cataluña | Sí — Parlament 2024, 2024-05-12 | Sí — mirror auditable del export Generalitat, 8.940 mesas geográficas / 5.117 secciones; 4 filas CERA reconciliadas aparte, reconciliación exacta | Sí — URL fijada a commit externo inmutable + referencias oficiales Generalitat | Sí — 5.117 secciones, 3.100.013 votos geográficos; 20.490 CERA reconciliados; paquete y registro en copia PASS | No | No se ha promovido en producción. |
 | Comunidad Valenciana | Sí — Corts 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
 | Extremadura | Sí — Asamblea 2025, 2025-12-21 | No — existe escrutinio provisional granular (966 secciones; 522.418 votos a candidaturas), pero no reconcilia con el definitivo | No definitiva | No | No | El provisional Minsait difiere en 2.419 votos del total definitivo DOE (524.837). El DOE definitivo sólo publica circunscripción y el repositorio de prensa granular exige credenciales. |
 | Galicia | Sí — Parlamento 2024 | Sí | Sí — declaración propia | Evidencia real previa; no es una de las diez pruebas EleccionesDB | Sí | — |
@@ -34,7 +34,7 @@ La prueba de CI construye los doce paquetes con el mismo snapshot y registra cad
 
 ## Cataluña 2024
 
-La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y lo contrasta contra referencias oficiales de la Generalitat. El adaptador rechaza cualquier fichero que no reproduzca exactamente 8.944 mesas, 5.121 secciones, 3.183.137 votantes, 3.120.503 votos a candidaturas y los totales por candidatura declarados. La prueba real produce paquete y registro únicamente en copia de trabajo.
+La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y lo contrasta contra referencias oficiales de la Generalitat. El adaptador rechaza cualquier fichero que no reproduzca exactamente 8.940 mesas geográficas, 5.117 secciones geográficas, 3.183.137 votantes totales, 3.120.503 votos a candidaturas totales y 20.490 votos CERA no geocodificables y los totales por candidatura declarados. La prueba real produce paquete y registro únicamente en copia de trabajo.
 
 ## Bloqueos definitivos pendientes
 

@@ -22,6 +22,7 @@ jobs:
           test "$(jq -r .election_id .ddd-cataluna-package/manifest.json)" = cataluna_parlament_2024
           test "$(jq -r .selected_source.transform.source_verification_status .ddd-cataluna-package/manifest.json)" = VERIFIED_EXACT
           test "$(jq -r .selected_source.transform.official_candidate_votes .ddd-cataluna-package/manifest.json)" = 3120503
+          test "$(jq -r .selected_source.transform.cera_candidate_votes .ddd-cataluna-package/manifest.json)" = 20490
           test -s .ddd-cataluna-package/contract/election_contract.json
       - name: Registrar sólo en copia de trabajo
         run: |
@@ -44,7 +45,8 @@ jobs:
           votes=sum(int(r['votes']) for r in rows)
           report={
             'territorio':'cataluna','election_id':m['election_id'],'election_date':m['election_date'],
-            'sections':sections,'candidate_votes':votes,
+            'sections':sections,'geographic_candidate_votes':votes,
+            'official_candidate_votes':c['source_verification']['official_candidate_votes'],'cera_candidate_votes':c['non_geocodable_votes']['candidate_votes'],
             'source_sha256':m['selected_source']['sha256'],
             'package_sha256':hashlib.sha256((pkg/'manifest.json').read_bytes()).hexdigest(),
             'verification':c['source_verification'],'registro_copia':'PASS'
@@ -53,7 +55,9 @@ jobs:
           Path('cataluna-2024-evidencia.md').write_text(
             '# Cataluña 2024 — evidencia real\n\n'
             f"- elección: `{report['election_id']}` ({report['election_date']})\n"
-            f"- secciones: **{sections}**\n- votos a candidaturas: **{votes}**\n"
+            f"- secciones geográficas: **{sections}**\n- votos geográficos a candidaturas: **{votes}**\n"
+            f"- votos oficiales a candidaturas (incl. CERA): **{report['official_candidate_votes']}**\n"
+            f"- votos CERA no geocodificables: **{report['cera_candidate_votes']}**\n"
             f"- SHA-256 fuente normalizada: `{report['source_sha256']}`\n"
             f"- SHA-256 paquete: `{report['package_sha256']}`\n- registro en copia: **PASS**\n")
           PY

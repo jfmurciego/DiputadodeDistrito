@@ -22,8 +22,10 @@ verification:
   mode: exact_official_totals
   official_voters: 3183137
   official_candidate_votes: 3120503
-  expected_polling_stations: 8944
-  expected_sections: 5121
+  expected_polling_stations: 8940
+  expected_sections: 5117
+  expected_cera_rows: 4
+  expected_cera_candidate_votes: 20490
   official_party_totals:
     PSC: 882589
     CAT-JUNTS+: 681470
