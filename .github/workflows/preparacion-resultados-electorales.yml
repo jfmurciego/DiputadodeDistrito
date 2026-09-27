@@ -73,7 +73,7 @@ jobs:
     name: Preparar resultados electorales
     needs: resolver
     runs-on: ubuntu-24.04
-    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}'}
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}'}
     env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}'}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
@@ -214,7 +214,7 @@ jobs:
     if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
-    env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
+    env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with: {ref: '${{ github.ref_name }}'}
@@ -224,7 +224,7 @@ jobs:
           set -euo pipefail
           artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"; test -n "$ARTIFACT_DIGEST" || exit 47
           args=(--kind electoral_source --territory-id "$TERRITORY_ID" --edition "$EDITION" --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$ARTIFACT_DIGEST" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA")
-          [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
+          [[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
           python herramientas/promover_catalogo_operacional.py "${args[@]}"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions; git config user.email github-actions@github.com
