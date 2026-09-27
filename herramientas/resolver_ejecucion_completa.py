@@ -214,9 +214,15 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         and state.get("territorial_certification") in _core.PASS_CERTIFICATIONS
         and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
     )
+    expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
+    electoral_source_identity_ready = (
+        expected_election_id is None
+        or str(electoral_source_evidence.get("election_id") or "") == expected_election_id
+    )
     electoral_source_ready = bool(
         state.get("electoral_source_prepared") and electoral_source_run_id
         and electoral_source_evidence.get("artifact_name") and electoral_source_evidence.get("artifact_sha256")
+        and electoral_source_identity_ready
     )
     electoral_product_ready = bool(
         state.get("electoral_product_available") and electoral_product_run_id
