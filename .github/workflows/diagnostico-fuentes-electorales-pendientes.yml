@@ -19,7 +19,7 @@ permissions:
 jobs:
   diagnosticar:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
 
@@ -27,8 +27,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 90 \
+            -o andalucia-provisional.csv \
+            https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+          curl --fail --location --retry 1 --connect-timeout 10 --max-time 60 \
+            -o extremadura-provisional.csv \
+            https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
           python - <<'PY'
-          import csv,io,json,urllib.parse,urllib.request
+          import csv,hashlib,io,json,urllib.parse,urllib.request
           from pathlib import Path
 
           def fetch(url,timeout=8,headers=None):
@@ -118,11 +124,60 @@ jobs:
               except Exception as e:
                   result['detalle'][label]={'error':f'{type(e).__name__}: {e}'}
 
+          def measure_provisional(path,expected_sha,expected_sections,expected_votes,definitive):
+              raw=Path(path).read_bytes()
+              digest=hashlib.sha256(raw).hexdigest()
+              if digest!=expected_sha:
+                  raise SystemExit(f'{path}: SHA-256 {digest} != {expected_sha}')
+              rows=list(csv.DictReader(raw.decode('utf-8-sig','replace').splitlines()))
+              required={'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion','partido','votos'}
+              if not rows or not required.issubset(rows[0]):
+                  raise SystemExit(f'{path}: estructura Minsait no reconocible')
+              sections=set()
+              votes=0
+              for row in rows:
+                  if not str(row.get('partido') or '').strip():
+                      continue
+                  key=tuple(str(row.get(k) or '').strip() for k in (
+                      'codigo_provincia','codigo_municipio','codigo_distrito','codigo_seccion'
+                  ))
+                  if not all(key):
+                      raise SystemExit(f'{path}: sección no identificable')
+                  sections.add(key)
+                  votes+=int(float(str(row.get('votos') or 0).replace(',','.')))
+              if len(sections)!=expected_sections:
+                  raise SystemExit(f'{path}: secciones={len(sections)} != {expected_sections}')
+              if votes!=expected_votes:
+                  raise SystemExit(f'{path}: votos={votes} != {expected_votes}')
+              return {
+                  'sha256':digest,
+                  'secciones':len(sections),
+                  'votos_candidaturas_provisional':votes,
+                  'votos_candidaturas_definitivo':definitive,
+                  'delta_definitivo_menos_provisional':definitive-votes,
+              }
+
+          andalucia_provisional=measure_provisional(
+              'andalucia-provisional.csv',
+              '13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21',
+              6044,4128575,4157539,
+          )
+          result['detalle']['provisional']=andalucia_provisional
+
+          extremadura_provisional=measure_provisional(
+              'extremadura-provisional.csv',
+              'd09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d',
+              966,522418,524837,
+          )
           ext={
-            'territorio':'extremadura','election_id':'extremadura_asamblea_2025-12-21',
+            'territorio':'extremadura',
+            'election_id':'extremadura_asamblea_2025-12-21',
             'resultado':'BLOCKED_FINAL_GRANULAR_SOURCE',
             'motivo':'el granular público conocido es provisional (522418 votos) y no reconcilia con DOE definitivo (524837); el repositorio granular de prensa exige credenciales',
-            'detalle':{'delta':2419,'doe':'https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001'}
+            'detalle':{
+                **extremadura_provisional,
+                'doe':'https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001',
+            },
           }
           payload=[result,ext]
           Path('diagnostico-fuentes-pendientes.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n')
@@ -132,6 +187,7 @@ jobs:
           Path('diagnostico-fuentes-pendientes.md').write_text('\n'.join(md)+'\n')
           print('\n'.join(md))
           PY
+          rm -f andalucia-provisional.csv extremadura-provisional.csv
           cat diagnostico-fuentes-pendientes.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publicar sólo informe pequeño
