@@ -534,8 +534,8 @@ jobs:
 
   incorporar:
     name: 04 · Incorporar resultados electorales
-    needs: [planificar, puerta_02, puerta_03]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' }}
+    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -550,22 +550,38 @@ jobs:
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
+  recuperar_electoral:
+    name: Reanudar · registrar M08 durable existente
+    needs: [planificar, detectar_recuperacion_electoral, puerta_02, puerta_03]
+    if: ${{ always() && needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' }}
+    uses: ./.github/workflows/recuperar-producto-electoral-durable.yml
+    secrets: inherit
+    with:
+      territory_id: ${{ needs.planificar.outputs.territory_id }}
+      data_edition: ${{ needs.planificar.outputs.edition }}
+      source_run_id: ${{ needs.detectar_recuperacion_electoral.outputs.source_run_id }}
+      artifact_name: ${{ needs.detectar_recuperacion_electoral.outputs.artifact_name }}
+      artifact_sha256: ${{ needs.detectar_recuperacion_electoral.outputs.artifact_digest }}
+      source_commit: ${{ needs.detectar_recuperacion_electoral.outputs.source_commit }}
+      expected_context_fingerprint: ${{ needs.detectar_recuperacion_electoral.outputs.context_fingerprint }}
+      confirm_recovery: true
+
   puerta_04:
     name: Puerta de validación · 04 → estado operativo
-    needs: [planificar, puerta_02, puerta_03, incorporar]
-    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false') }}
+    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
+    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
       phase: electoral_product
       territory_id: ${{ needs.planificar.outputs.territory_id }}
       data_edition: ${{ needs.planificar.outputs.edition }}
-      run_id: ${{ needs.incorporar.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_product_run_id }}
-      artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-state-{0}-M08{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || needs.planificar.outputs.existing_electoral_product_artifact }}
-      audit_artifact_name: ${{ needs.incorporar.result == 'success' && format('ddd-audit-electoral-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
-      artifact_namespace: ${{ inputs.artifact_namespace }}
-      expected_digest: ${{ needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      run_id: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_run_id || needs.incorporar.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_product_run_id }}
+      artifact_name: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.artifact_name || needs.incorporar.result == 'success' && format('ddd-state-{0}-M08{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || needs.planificar.outputs.existing_electoral_product_artifact }}
+      audit_artifact_name: ${{ needs.recuperar_electoral.result == 'success' && format('ddd-audit-electoral-{0}', needs.recuperar_electoral.outputs.source_run_id) || needs.incorporar.result == 'success' && format('ddd-audit-electoral-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
+      artifact_namespace: ${{ needs.recuperar_electoral.result == 'success' && '' || inputs.artifact_namespace }}
+      expected_digest: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.artifact_digest || needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
+      source_ref: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_commit || needs.planificar.outputs.source_sha }}
 
   actualizar_estado:
     name: Actualizar estado operativo único
