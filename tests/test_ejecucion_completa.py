@@ -61,6 +61,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         )
         self.assertEqual(inputs["optimization_algorithm"]["options"], ["Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"])
         self.assertEqual(inputs["publication_mode"]["options"], ["electoral", "territorial_only"])
+        self.assertFalse(inputs["publish_result"]["default"])
         dumped = yaml.safe_dump(inputs, allow_unicode=True)
         for forbidden in ("checkpoint_run_id:", "from_stage:", "to_stage:", "product:"):
             self.assertNotIn(forbidden, dumped)
