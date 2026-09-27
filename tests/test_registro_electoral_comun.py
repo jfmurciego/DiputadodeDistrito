@@ -84,6 +84,14 @@ class TestRegistroElectoralComun(unittest.TestCase):
     def test_ceuta_melilla_keep_their_own_identified_assembly_elections(self):
         self.assertEqual(self.registry["territories"]["ceuta"]["election_id"],"ceuta_asamblea_local_2023")
         self.assertEqual(self.registry["territories"]["melilla"]["election_id"],"melilla_asamblea_local_2023")
+    def test_cantabria_eleccionesdb_registration_does_not_claim_generic_declaration(self):
+        entry=self.registry["territories"]["cantabria"]
+        self.assertIn(entry["election_id"],ELECTIONS)
+        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        self.assertIn("adapter: '${{ steps.mode.outputs.adapter }}'",workflow)
+        self.assertIn("ADAPTER: '${{ needs.electorales.outputs.adapter }}'",workflow)
+        self.assertIn('[[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]]',workflow)
+
     def test_governed_override_rejects_mismatched_declaration_identity(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td)
