@@ -67,6 +67,7 @@ class WorkflowSafety(unittest.TestCase):
 
     def test_electoral_network_ci_is_path_scoped(self):
         for name in (
+            "adquirir-siel-andalucia-2026.yml",
             "diagnostico-eleccionesdb-grupo-a.yml",
             "diagnostico-fuentes-electorales-pendientes.yml",
             "verificar-cataluna-2024.yml",
