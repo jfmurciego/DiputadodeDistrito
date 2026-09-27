@@ -231,11 +231,22 @@ def build(
         cera_votes, cera_url = get_scope("escrutinio/ambito/rausentes/provincia", p)
         total = sum(x["votes"] for x in total_votes)
         cera = sum(x["votes"] for x in cera_votes)
+        total_by_party = {r["party"]: int(r["votes"]) for r in total_votes}
+        cera_by_party = {r["party"]: int(r["votes"]) for r in cera_votes}
+        geocodable_by_party = {
+            party: int(total_by_party.get(party, 0)) - int(cera_by_party.get(party, 0))
+            for party in set(total_by_party) | set(cera_by_party)
+        }
+        if any(v < 0 for v in geocodable_by_party.values()):
+            raise ValueError(f"Provincia {p}: CERA supera total para alguna candidatura")
         province_controls[str(p)] = {
             "province_name": prov.get("valor"),
             "candidate_votes_total": total,
             "candidate_votes_cera": cera,
             "candidate_votes_geocodable_expected": total - cera,
+            "candidate_votes_total_by_party": total_by_party,
+            "candidate_votes_cera_by_party": cera_by_party,
+            "candidate_votes_geocodable_by_party": geocodable_by_party,
             "province_endpoint": total_url,
             "cera_endpoint": cera_url,
         }
@@ -351,16 +362,34 @@ def build(
         raise ValueError("SIEL produjo cero filas de votos")
 
     section_sum_by_province = {}
+    section_party_by_province: dict[str, dict[str, int]] = {}
     for r in rows:
-        section_sum_by_province[r["province"]] = section_sum_by_province.get(r["province"], 0) + int(r["votes"])
+        p = r["province"]
+        party = r["party"]
+        votes = int(r["votes"])
+        section_sum_by_province[p] = section_sum_by_province.get(p, 0) + votes
+        bucket = section_party_by_province.setdefault(p, {})
+        bucket[party] = bucket.get(party, 0) + votes
 
     for p, ctrl in province_controls.items():
         observed = section_sum_by_province.get(p, 0)
         expected = int(ctrl["candidate_votes_geocodable_expected"])
+        observed_by_party = section_party_by_province.get(p, {})
+        expected_by_party = {
+            str(k): int(v)
+            for k, v in (ctrl.get("candidate_votes_geocodable_by_party") or {}).items()
+        }
         ctrl["candidate_votes_sections"] = observed
-        ctrl["reconciles"] = observed == expected
+        ctrl["candidate_votes_sections_by_party"] = observed_by_party
+        ctrl["reconciles_total"] = observed == expected
+        ctrl["reconciles_parties"] = observed_by_party == expected_by_party
+        ctrl["reconciles"] = ctrl["reconciles_total"] and ctrl["reconciles_parties"]
         if observed != expected:
             raise ValueError(f"Provincia {p}: secciones={observed} != total-CERA={expected}")
+        if observed_by_party != expected_by_party:
+            raise ValueError(
+                f"Provincia {p}: distribución por candidatura no reconcilia con total provincial-CERA"
+            )
 
     official_total = sum(int(x["candidate_votes_total"]) for x in province_controls.values())
     cera_total = sum(int(x["candidate_votes_cera"]) for x in province_controls.values())
