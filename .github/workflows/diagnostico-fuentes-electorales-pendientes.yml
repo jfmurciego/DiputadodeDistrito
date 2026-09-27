@@ -39,30 +39,56 @@ jobs:
               result['detalle']['convocatorias_http']=st
               result['detalle']['convocatoria_2026']=match[-1] if match else None
               if match:
-                  # Sólo una muestra del mirror provisional para obtener una identidad territorial real.
-                  mirror='https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv'
-                  _,_,sample=fetch(mirror,timeout=8,headers={'Range':'bytes=0-131071'})
-                  text=sample.decode('utf-8-sig','ignore')
-                  reader=csv.DictReader(io.StringIO(text))
-                  row=next(reader)
-                  p=row.get('codigo_provincia'); m=row.get('codigo_municipio'); d=row.get('codigo_distrito'); s=row.get('codigo_seccion')
+                  # La muestra se construye exclusivamente con los nomenclátores SIEL;
+                  # no se mezclan códigos de Minsait con los identificadores de la API oficial.
                   fconv=match[-1].get('clave')
-                  params={'cautonoma':1,'tconvocatoria':5,'provincia':p,'municipio':m,'distrito':d,'seccion':s,'fconvocatoria':fconv}
-                  endpoint=base+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode(params)
-                  try:
-                      eh,ec,edata=fetch(endpoint,timeout=8)
-                      payload=json.loads(edata.decode('utf-8'))
-                      votos=payload.get('votos') or []
-                      result['detalle']['muestra_endpoint']=endpoint
-                      result['detalle']['muestra_http']=eh
-                      result['detalle']['muestra_registros_votos']=len(votos)
-                      if votos:
-                          result['resultado']='FOUND_SAMPLE'
-                          result['motivo']='SIEL expone la convocatoria 2026 y devuelve una muestra granular; falta adquisición completa definitiva y reconciliación'
-                      else:
-                          result['motivo']='SIEL expone 2026 pero la muestra no devuelve votos'
-                  except Exception as e:
-                      result['motivo']=f'SIEL expone 2026 pero la muestra granular falla: {type(e).__name__}: {e}'
+                  def get_json(endpoint,params):
+                      url=base+'/'+endpoint+'?'+urllib.parse.urlencode(params)
+                      sh,sc,sd=fetch(url,timeout=8)
+                      return url,sh,json.loads(sd.decode('utf-8'))
+
+                  pu,ph,provincias=get_json('opciones/provincia',{'cautonoma':1})
+                  provincias=[x for x in provincias if str(x.get('clave') or '').strip()]
+                  if not provincias: raise ValueError('SIEL no devuelve provincias')
+                  prov=provincias[0]; p=prov.get('clave')
+
+                  mu,mh,municipios=get_json('opciones/municipio',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv})
+                  municipios=[x for x in municipios if str(x.get('clave') or '').strip()]
+                  if not municipios: raise ValueError('SIEL no devuelve municipios')
+                  muni=municipios[0]; m=muni.get('clave')
+
+                  du,dh,distritos=get_json('opciones/distrito',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':m})
+                  distritos=[x for x in distritos if str(x.get('clave') or '').strip()]
+                  if not distritos: raise ValueError('SIEL no devuelve distritos')
+                  dist=distritos[0]; d=dist.get('clave')
+
+                  su,sh,secciones=get_json('opciones/seccion',{'cautonoma':1,'provincia':p,'tconvocatoria':5,'fconvocatoria':fconv,'municipio':m,'distrito':d})
+                  secciones=[x for x in secciones if str(x.get('valor') or x.get('clave') or '').strip()]
+                  if not secciones: raise ValueError('SIEL no devuelve secciones')
+                  sec=secciones[0]; s=sec.get('valor') or sec.get('clave')
+
+                  endpoint=base+'/escrutinio/ambito/seccion?'+urllib.parse.urlencode({'cautonoma':1,'tconvocatoria':5,'provincia':p,'municipio':m,'distrito':d,'seccion':s,'fconvocatoria':fconv})
+                  eh,ec,edata=fetch(endpoint,timeout=8)
+                  payload=json.loads(edata.decode('utf-8'))
+                  votos=payload.get('votos') or []
+                  total=0
+                  for v in votos:
+                      for key in ('votos','voto','n_votos'):
+                          if key in v:
+                              try: total+=int(v.get(key) or 0)
+                              except (TypeError,ValueError): pass
+                              break
+                  result['detalle'].update({
+                      'nomenclator_provincia':prov,'nomenclator_municipio':muni,
+                      'nomenclator_distrito':dist,'nomenclator_seccion':sec,
+                      'muestra_endpoint':endpoint,'muestra_http':eh,
+                      'muestra_registros_votos':len(votos),'muestra_total_votos':total,
+                  })
+                  if votos and total>0:
+                      result['resultado']='FOUND_SAMPLE'
+                      result['motivo']='SIEL 2026 devuelve escrutinio granular usando su propia jerarquía de nomenclátores; falta adquisición completa y reconciliación definitiva'
+                  else:
+                      result['motivo']='SIEL expone 2026 pero la muestra jerárquica no devuelve votos positivos'
               else:
                   result['motivo']='SIEL respondió pero no se identificó la convocatoria 2026'
           except Exception as e:
