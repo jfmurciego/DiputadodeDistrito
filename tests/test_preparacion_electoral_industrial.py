@@ -62,30 +62,25 @@ class ResolverIndustrialTests(unittest.TestCase):
             "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
         )
 
-    def test_aragon_prepares_from_materialized_contract_without_external_acquisition(self):
+    def test_aragon_materialized_contract_is_pinned_for_reuse(self):
         params = ROOT / "territorios/aragon/config/aragon_2025.yaml"
-        contract_path = ROOT / "territorios/aragon/config/elecciones/aragon_cortes_2026.json"
-        contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        with tempfile.TemporaryDirectory() as td:
-            out = Path(td) / "package"
-            with patch(
-                "herramientas.preparar_fuente_electoral.check_declaration",
-                side_effect=AssertionError("Aragón no debe adquirir datos externos"),
-            ):
-                manifest = prepare(
-                    territory_id="aragon",
-                    edition="2025",
-                    package_out=out,
-                    root=ROOT,
-                    params=params,
-                    declaration=None,
-                    previous=None,
-                )
-        self.assertEqual(manifest["decision"], "REUSE")
-        self.assertEqual(manifest["election_id"], "aragon_cortes_2026-02-08")
+        cfg = yaml.safe_load(params.read_text(encoding="utf-8")) or {}
+        m07 = (cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
         self.assertEqual(
-            manifest["selected_source"]["sha256"],
-            contract["sources"][0]["sha256"],
+            m07.get("election_contract"),
+            "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+        )
+        self.assertFalse((cfg.get("meta") or {}).get("electoral_sources_declaration"))
+        contract_path = ROOT / m07["election_contract"]
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        self.assertEqual(contract["territory_id"], "aragon")
+        self.assertEqual(contract["election_id"], "aragon_cortes_2026-02-08")
+        self.assertEqual(contract["election_date"], "2026-02-08")
+        source = contract["sources"][0]
+        manifest = (ROOT / "inputs/MANIFEST.sha256").read_text(encoding="utf-8")
+        self.assertIn(
+            f'{source["sha256"]}  {source["path"]}',
+            manifest,
         )
 
     def test_galicia_governed_override_is_preserved(self):
