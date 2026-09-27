@@ -76,6 +76,10 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
                 "candidate_votes_cera": cera,
                 "candidate_votes_geocodable_expected": geo,
                 "candidate_votes_sections": geo,
+                "candidate_votes_total_by_party": {"PP": geo + cera},
+                "candidate_votes_cera_by_party": ({"PP": cera} if cera else {}),
+                "candidate_votes_geocodable_by_party": {"PP": geo},
+                "candidate_votes_sections_by_party": {"PP": geo},
                 "reconciles": True,
             }
 
@@ -163,6 +167,28 @@ class SielAndaluciaAdapterTests(unittest.TestCase):
             manifest_path.write_text(json.dumps(meta), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Índice SIEL incorrecto votes_consumed"):
                 self.adapter.build(snap, root / "package")
+
+    def test_party_redistribution_with_same_total_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            snap = self._snapshot(root)
+            sections_path = snap / "andalucia_2026_siel_secciones.csv"
+            rows = list(csv.DictReader(sections_path.open(encoding="utf-8", newline="")))
+            rows[0]["party"] = "PSOE-A"
+            with sections_path.open("w", encoding="utf-8", newline="") as fh:
+                writer = csv.DictWriter(
+                    fh,
+                    fieldnames=["province","municipality","district","section","party","votes"],
+                )
+                writer.writeheader()
+                writer.writerows(rows)
+            manifest_path = snap / "manifest.json"
+            meta = json.loads(manifest_path.read_text(encoding="utf-8"))
+            meta["sections_sha256"] = self.adapter.sha256(sections_path)
+            manifest_path.write_text(json.dumps(meta), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "distribución geográfica por candidatura"):
+                self.adapter.build(snap, root / "package")
+
 
     def test_false_province_reconciliation_flag_is_not_enough(self):
         with tempfile.TemporaryDirectory() as td:
