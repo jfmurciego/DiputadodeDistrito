@@ -28,16 +28,16 @@ El adaptador realmente usado por `03` gobierna qué procedencia puede registrars
 ## Resumen de cierre
 
 - **19/19** territorios tienen identidad electoral registrada y una ruta técnica explícita hacia `03 · Preparación de Resultados Electorales`.
-- Estado territorial objetivo tras el nuevo check real: **18 PASS / 1 BLOCKED**.
-- **17 PASS ya acreditados** — cadena real acreditada hasta fuente durable + paquete + registro en copia.
-- **Andalucía = pendiente únicamente del check real de esta rama** — fuente durable provisional ya fijada por SHA, adaptador común y ruta de `03` implementados; producción bloqueada por `production_eligible=false`.
+- Estado territorial actual: **18 PASS / 1 BLOCKED**.
+- **18 PASS** — cadena real acreditada hasta fuente durable + paquete + registro en copia.
+- **Andalucía = PASS en copia / producción bloqueada** — fuente `PROVISIONAL`, paquete real y registro en copia PASS; `production_eligible=false`.
 - **Extremadura = BLOCKED / `BLOCKED_FINAL_GRANULAR_SOURCE`** — existe granular provisional, pero no se ha integrado en esta PR como paquete registrable.
 - **Registro efectivo en producción** no se infiere del registro en copia y no forma parte de las nuevas pruebas de #147.
 
 
 | Territorio | Elección correcta identificada | Datos reales adquiridos y validados | Fuente durable consumible por 03 | Paquete + registro probado en copia | Registro efectivo en producción | Bloqueo si falta |
 |---|---|---|---|---|---|---|
-| Andalucía | Sí — Parlamento 2026, 2026-05-17 | Sí — CSV Minsait/EleccionesDB ya adquirido y fijado: 154.358 filas, 10.403 mesas, 6.044 secciones, 27 candidaturas, 4.128.575 votos | Sí — URL durable + SHA-256 `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21`; `03` usa adaptador `minsait_csv/1.0` | Check real de paquete + registro en copia añadido; pendiente sólo de resultado terminal de CI | No | Fuente marcada `PROVISIONAL` y `production_eligible=false`; no puede registrarse en producción. |
+| Andalucía | Sí — Parlamento 2026, 2026-05-17 | Sí — CSV Minsait/EleccionesDB: 154.358 filas, 10.403 mesas, 6.044 secciones, 27 candidaturas, 4.128.575 votos | Sí — URL durable + SHA-256 `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21`; `03` usa `minsait_csv/1.0` | Sí — run `36319863920`; paquete SHA-256 `a6aa80296d0ef5ecbddd3437d9e8d50a040d81271fe13ab9c1a8b21e5db21b30`; registro en copia PASS | No | Fuente `PROVISIONAL`, `production_eligible=false`; registro productivo bloqueado por contrato. |
 | Aragón | Sí — Cortes 2026, 2026-02-08 | Sí — fuente materializada RTVE 2026, sección censal, SHA gobernado | Sí — contrato electoral materializado 2026 | Sí — reutilización materializada verificable; no requiere readquisición | Sí — `electoral_source_2025.json` registra `aragon_cortes_2026-02-08` | — |
 | Principado de Asturias | Sí — Junta General 2023 | Sí | Sí — declaración propia | Sí, ruta real ya probada | Sí | — |
 | Islas Baleares | Sí — Parlament 2023 | Sí — EleccionesDB | Sí — snapshot común verificado | Sí | No | No se ha promovido en producción. |
@@ -85,7 +85,7 @@ La CI de #147 adquiere el CSV de mesas desde un mirror GitHub fijado a commit y 
 | Territorio | Fuente usada / estado | Clasificación | Resolución | Cobertura / votos | SHA-256 | Paquete | Registro en copia |
 |---|---|---|---|---|---|---|---|
 | Cataluña | Export Parlament 2024 de la Generalitat, servido desde mirror GitHub fijado a commit | **verified_mirror** con referencias oficiales Generalitat; no se presenta como descarga oficial primaria | mesa → agregación a sección | 8.940 mesas geográficas; 5.117 secciones; 3.100.013 votos geográficos + 20.490 CERA = 3.120.503 | `511ed5cf4f7afa31063355614a7982e95943fe8fe67f707a3b4dbb810357a96a` | PASS / `ACQUIRE` | PASS |
-| Andalucía | CSV Minsait/EleccionesDB ya disponible | **PROVISIONAL / provisional_mirror**, explícitamente no elegible para producción | mesa → agregación a sección | 154.358 filas; 10.403 mesas; 6.044 secciones; 27 candidaturas; 4.128.575 votos | `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21` | check real añadido | check real añadido; sólo copia |
+| Andalucía | CSV Minsait/EleccionesDB ya disponible | **PROVISIONAL / provisional_mirror**, explícitamente no elegible para producción | mesa → agregación a sección | 154.358 filas; 10.403 mesas; 6.044 secciones; 27 candidaturas; 4.128.575 votos | fuente `13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21`; paquete `a6aa80296d0ef5ecbddd3437d9e8d50a040d81271fe13ab9c1a8b21e5db21b30` | PASS / `ACQUIRE` | PASS — run `36319863920`, sólo copia |
 | Extremadura | Minsait/EleccionesDB granular + DOE definitivo de contraste | granular = **PROVISIONAL / no promocionable**; DOE = **fuente oficial definitiva de contraste**, pero sólo circunscripción | 966 secciones provisional; definitivo sólo circunscripción | 522.418 provisional vs 524.837 definitivo; delta +2.419 | provisional: `d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d` | NO | NO |
 
 ## Andalucía 2026
@@ -98,4 +98,4 @@ Extremadura no está bloqueada por ausencia de datos provisionales: el fichero g
 
 ## Criterio de cierre
 
-#147 permanece **NO FUSIONAR** hasta que termine la CI del HEAD actual. La cadena real está cerrada hasta paquete+registro en copia para 17 territorios y el check real de Andalucía provisional está añadido; si ese check termina en PASS, la matriz quedará en 18 PASS + Extremadura BLOCKED. Ningún registro de copia se considera producción y Andalucía permanece explícitamente no elegible para producción.
+#147 permanece **NO FUSIONAR** hasta que Work autorice y se compruebe la CI terminal del HEAD final. La cadena real queda cerrada hasta paquete+registro en copia para **18 territorios**; Extremadura permanece BLOCKED. Andalucía está acreditada en copia mediante run `36319863920`, pero sigue explícitamente no elegible para producción. Ningún registro de copia se considera producción.
