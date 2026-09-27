@@ -14,7 +14,7 @@ Este documento separa disponibilidad de escrutinio provisional granular de valid
 - delta definitivo - provisional: **28.964**
 - referencia: https://www.juntadeandalucia.es/boja/2026/115/1
 - API oficial granular conocida: SIEL, `https://ws040.juntadeandalucia.es/siel-api/v1`
-- estado DDD: **BLOCKED_FINAL_GRANULAR_SOURCE** mientras no se adquiera de forma reproducible una extracción definitiva a sección/mesa que reconcilie con 4.157.539.
+- estado DDD: **PENDING_SIEL_SNAPSHOT**. La fuente oficial granular está identificada y la ruta de `03`/adaptador está implementada; falta completar y fijar un snapshot de 6.044 secciones que reconcilie secciones + CERA = 4.157.539. Existe procedimiento local reproducible en `docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md`.
 
 ## Extremadura — Asamblea 2025
 
@@ -29,8 +29,9 @@ Este documento separa disponibilidad de escrutinio provisional granular de valid
 - total definitivo: **524.837**
 - delta definitivo - provisional: **2.419**
 - referencia: https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
-- repositorio granular descrito por la Junta: `https://prensa.elecciones2025.juntaex.es`, con acceso mediante credenciales
-- estado DDD: **BLOCKED_FINAL_GRANULAR_SOURCE** mientras no exista una adquisición pública/reproducible a sección/mesa que reconcilie con 524.837.
+- repositorio granular descrito por la Junta: `https://prensa.elecciones2025.juntaex.es`, con acceso mediante credenciales; la documentación oficial lo describe como repositorio de **resultados provisionales**
+- gobierno DDD del repositorio de prensa: `data_status: provisional_only`, `promotion_allowed: false`; el checker común lo bloquea antes de red con `BLOCK_NOT_PROMOTABLE`
+- estado DDD: **BLOCKED_FINAL_GRANULAR_SOURCE** mientras no exista una adquisición pública/reproducible definitiva a sección/mesa que reconcilie con 524.837.
 
 ## Regla
 
