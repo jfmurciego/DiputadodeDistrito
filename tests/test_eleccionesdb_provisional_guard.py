@@ -39,5 +39,25 @@ class EleccionesDBProvisionalGuard(unittest.TestCase):
         self.assertNotIn(evidence["url"], selectable_urls)
 
 
+    def test_extremadura_has_no_public_granular_definitive_source(self):
+        declaration = yaml.safe_load(
+            (ROOT / "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml").read_text(encoding="utf-8")
+        )
+        granular = {"section", "polling_station"}
+        public_granular = [
+            source for source in declaration.get("sources") or []
+            if source.get("access") == "public"
+            and source.get("declared_resolution") in granular
+            and source.get("promotion_allowed", True)
+            and source.get("data_status") != "provisional_only"
+        ]
+        self.assertEqual(public_granular, [])
+        press = next(source for source in declaration["sources"] if source["id"] == "junta_repositorio_prensa")
+        self.assertEqual(press["data_status"], "provisional_only")
+        self.assertFalse(press["promotion_allowed"])
+        self.assertEqual(press["access"], "credentials_required")
+        self.assertIn("Dossier_Elecciones_Asamblea_de_Extremadura", press["official_documentation_url"])
+
+
 if __name__ == "__main__":
     unittest.main()
