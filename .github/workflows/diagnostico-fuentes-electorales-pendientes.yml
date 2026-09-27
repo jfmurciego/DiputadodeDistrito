@@ -29,7 +29,7 @@ jobs:
               with urllib.request.urlopen(req,timeout=timeout) as r:
                   return r.status,r.headers.get('Content-Type',''),r.read(1024*1024)
 
-          result={'territorio':'andalucia','election_id':'andalucia_parlamento_2026','resultado':'BLOCK','motivo':'sin probar','detalle':{}}
+          result={'territorio':'andalucia','election_id':'andalucia_parlamento_2026','resultado':'PENDING_SIEL_SNAPSHOT','motivo':'snapshot SIEL completo pendiente','detalle':{}}
           base='https://ws040.juntadeandalucia.es/siel-api/v1'
           try:
               u=base+'/opciones/fconvocatoria?'+urllib.parse.urlencode({'tconvocatoria':5})
@@ -87,7 +87,7 @@ jobs:
                       'muestra_idescrutinio':payload.get('idescrutinio'),
                   })
                   if votos and total>0:
-                      result['resultado']='FOUND_SAMPLE'
+                      result['detalle']['muestra_estado']='FOUND_SAMPLE'
                       result['motivo']='SIEL 2026 devuelve escrutinio granular usando su propia jerarquía de nomenclátores; falta adquisición completa y reconciliación definitiva'
                   else:
                       result['motivo']='SIEL expone 2026 pero la muestra jerárquica no devuelve votos positivos'
