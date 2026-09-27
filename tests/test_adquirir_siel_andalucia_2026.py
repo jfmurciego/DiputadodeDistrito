@@ -49,6 +49,34 @@ class SielSectionLocatorTests(unittest.TestCase):
             self.assertFalse(meta["votes_consumed"])
             self.assertEqual(meta["sections"], 2)
 
+    def test_checkpoint_roundtrip_and_resume_rows(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            checkpoint = root / ".checkpoint-sections"
+            task1 = ("4", "29", "1", "0006")
+            task2 = ("11", "1", "2", "0012")
+            votes = [{"party": "PP", "votes": 10}, {"party": "PSOE-A", "votes": 7}]
+            self.module._write_checkpoint(checkpoint, task1, votes)
+            rows, completed = self.module._load_checkpoint(checkpoint, [task1, task2])
+            self.assertEqual(completed, {task1})
+            self.assertEqual(
+                rows,
+                [
+                    {"province":"4","municipality":"29","district":"1","section":"0006","party":"PP","votes":10},
+                    {"province":"4","municipality":"29","district":"1","section":"0006","party":"PSOE-A","votes":7},
+                ],
+            )
+
+    def test_checkpoint_from_other_locator_is_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            checkpoint = root / ".checkpoint-sections"
+            foreign = ("4", "99", "1", "0001")
+            self.module._write_checkpoint(checkpoint, foreign, [{"party":"PP","votes":1}])
+            with self.assertRaisesRegex(ValueError, "ajeno al índice actual"):
+                self.module._load_checkpoint(checkpoint, [("4","29","1","0006")])
+
+
     def test_changed_locator_hash_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             path = Path(td) / "locator.csv"
