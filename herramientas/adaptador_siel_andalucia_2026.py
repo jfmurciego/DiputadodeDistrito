@@ -210,8 +210,13 @@ def build(
         expected_geo_by_party = {
             str(k): int(v)
             for k, v in (control.get("candidate_votes_geocodable_by_party") or {}).items()
+            if int(v) != 0
         }
-        observed_geo_by_party = geographic_party_by_province.get(province, {})
+        observed_geo_by_party = {
+            str(k): int(v)
+            for k, v in geographic_party_by_province.get(province, {}).items()
+            if int(v) != 0
+        }
         if expected_geo_by_party and observed_geo_by_party != expected_geo_by_party:
             raise ValueError(
                 f"Provincia {province}: distribución geográfica por candidatura no reconcilia"
@@ -219,8 +224,13 @@ def build(
         expected_cera_by_party = {
             str(k): int(v)
             for k, v in (control.get("candidate_votes_cera_by_party") or {}).items()
+            if int(v) != 0
         }
-        observed_cera_by_party = cera_party_by_province.get(province, {})
+        observed_cera_by_party = {
+            str(k): int(v)
+            for k, v in cera_party_by_province.get(province, {}).items()
+            if int(v) != 0
+        }
         if expected_cera_by_party and observed_cera_by_party != expected_cera_by_party:
             raise ValueError(
                 f"Provincia {province}: distribución CERA por candidatura no reconcilia"
