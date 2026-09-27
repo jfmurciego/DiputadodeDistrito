@@ -64,6 +64,10 @@ def _materialize_embedded_contract(
         raise ValueError("contrato electoral embebido con schema inválido")
     if str(contract.get("territory_id") or "") != territory_id:
         raise ValueError("contrato electoral embebido pertenece a otro territorio")
+    if str(contract.get("election_id") or "") != str(manifest.get("election_id") or ""):
+        raise ValueError("election_id del contrato electoral embebido no coincide con el paquete")
+    if str(contract.get("election_date") or "") != str(manifest.get("election_date") or ""):
+        raise ValueError("election_date del contrato electoral embebido no coincide con el paquete")
     sources = contract.get("sources") or []
     if len(sources) != 1 or str(sources[0].get("sha256") or "").lower() != source_hash:
         raise ValueError("contrato electoral embebido no referencia la fuente congelada")
@@ -129,6 +133,14 @@ def validate_package(
     if contract_raw:
         contract_path = root / str(contract_raw)
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        if contract.get("schema_family") != "ddd-election" or contract.get("schema_version") != "1.0.0":
+            raise ValueError("contrato electoral estático con schema inválido")
+        if str(contract.get("territory_id") or "") != territory_id:
+            raise ValueError("contrato electoral estático pertenece a otro territorio")
+        if str(contract.get("election_id") or "") != str(manifest.get("election_id") or ""):
+            raise ValueError("election_id del contrato electoral estático no coincide con el paquete")
+        if str(contract.get("election_date") or "") != str(manifest.get("election_date") or ""):
+            raise ValueError("election_date del contrato electoral estático no coincide con el paquete")
         matches = [s for s in (contract.get("sources") or []) if str(s.get("sha256") or "").lower() == actual]
         if len(matches) != 1:
             raise ValueError("hash de procedencia electoral distinto del hash contractual")
