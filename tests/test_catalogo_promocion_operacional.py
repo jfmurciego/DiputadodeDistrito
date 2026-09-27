@@ -37,7 +37,12 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             }],
         }, sort_keys=False), encoding="utf-8")
         decl = root / "territorios/demo/config/elecciones/demo.yaml"
-        decl.write_text("schema: ddd-election-official-source-declaration/1.0\n", encoding="utf-8")
+        decl.write_text(yaml.safe_dump({
+            "schema": "ddd-election-official-source-declaration/1.0",
+            "territory_id": "demo",
+            "election_id": "demo_2025",
+            "election_date": "2025-01-01",
+        }, sort_keys=False), encoding="utf-8")
         return decl
 
     def test_territorial_plus_electoral_source_enables_incorporation(self):
@@ -65,6 +70,20 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             payload = json.loads(receipt.read_text(encoding="utf-8"))
             self.assertEqual(payload["artifact_name"], "ddd-electoral-package-demo-2025-101")
             self.assertFalse((root / ".github").exists())
+
+    def test_electoral_source_rejects_mismatched_declaration_identity(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            decl = self.fixture(root)
+            data = yaml.safe_load(decl.read_text(encoding="utf-8"))
+            data["election_id"] = "otra_eleccion"
+            decl.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "no corresponde a la elección promovida"):
+                promote(
+                    root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                    run_id=101, artifact_name="ddd-electoral-package-demo-2025-101", artifact_sha256="b" * 64,
+                    declaration=str(decl.relative_to(root)), election_id="demo_2025", source_commit="2" * 40,
+                )
 
     def test_electoral_source_alone_does_not_enable_incorporation(self):
         with tempfile.TemporaryDirectory() as raw:
