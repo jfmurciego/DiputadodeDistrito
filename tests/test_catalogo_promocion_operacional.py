@@ -122,6 +122,51 @@ class CatalogOperationalPromotionTests(unittest.TestCase):
             self.assertTrue(state["territorial_product_available"])
             self.assertFalse((root / ".github").exists())
 
+    def test_materialized_election_contract_precedes_common_registry(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            self.fixture(root)
+            params = root / "territorios/demo/config/demo_2025.yaml"
+            contract = root / "territorios/demo/config/elecciones/materialized.json"
+            contract.write_text(json.dumps({
+                "territory_id": "demo",
+                "election_id": "demo_2025",
+                "election_date": "2025-01-01",
+            }), encoding="utf-8")
+            params.write_text(yaml.safe_dump({
+                "modulos": {
+                    "modulo_07_agregar_resultados_electorales": {
+                        "election_contract": "territorios/demo/config/elecciones/materialized.json",
+                    }
+                }
+            }, sort_keys=False), encoding="utf-8")
+            (root / "configuracion/registro_electoral.yaml").write_text(yaml.safe_dump({
+                "schema": "ddd-election-registry/1.0",
+                "edition": "2025",
+                "territories": {
+                    "demo": {
+                        "name": "Demo",
+                        "election_id": "demo_2025",
+                        "election_date": "2025-01-01",
+                    }
+                },
+            }, sort_keys=False), encoding="utf-8")
+            promote(
+                root_dir=root, kind="electoral_source", territory_id="demo", edition="2025",
+                run_id=101, artifact_name="ddd-electoral-package-demo-2025-101",
+                artifact_sha256="b" * 64, declaration=None,
+                election_id="demo_2025", source_commit="2" * 40,
+            )
+            catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+            state = catalog["territories"][0]["editions"]["2025"]
+            receipt = json.loads((root / state["evidence"]["electoral_source"]).read_text(encoding="utf-8"))
+            self.assertEqual(
+                receipt["election_contract"],
+                "territorios/demo/config/elecciones/materialized.json",
+            )
+            self.assertIn("election_contract_sha256", receipt)
+            self.assertNotIn("election_registry", receipt)
+
     def test_electoral_product_closes_catalog_state(self):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
