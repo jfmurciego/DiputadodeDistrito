@@ -18,6 +18,22 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
+def _static_election_identity_mode(contract: dict, manifest: dict) -> str:
+    contract_id = str(contract.get("election_id") or "")
+    contract_date = str(contract.get("election_date") or "")
+    package_id = str(manifest.get("election_id") or "")
+    package_date = str(manifest.get("election_date") or "")
+    if not contract_id or not contract_date or not package_id or not package_date:
+        raise ValueError("identidad electoral incompleta entre contrato estático y paquete")
+    if contract_date != package_date:
+        raise ValueError("election_date del contrato electoral estático no coincide con el paquete")
+    if contract_id == package_id:
+        return "exact"
+    if contract_id == f"{package_id}-{package_date}":
+        return "legacy_date_suffix_alias"
+    raise ValueError("election_id del contrato electoral estático no coincide con el paquete")
+
+
 def _validate_selected_source(package: Path, manifest: dict) -> tuple[dict, Path, str]:
     selected = manifest.get("selected_source") or {}
     source = package / str(selected.get("path") or "")
@@ -101,6 +117,9 @@ def _materialize_embedded_contract(
         "runtime_contract_path": runtime_contract.relative_to(root).as_posix(),
         "contract_sha256": expected_contract_hash,
         "party_dictionary_sha256": expected_dictionary_hash,
+        "election_identity_mode": "exact",
+        "contract_election_id": contract.get("election_id"),
+        "package_election_id": manifest.get("election_id"),
     }
 
 
@@ -137,10 +156,7 @@ def validate_package(
             raise ValueError("contrato electoral estático con schema inválido")
         if str(contract.get("territory_id") or "") != territory_id:
             raise ValueError("contrato electoral estático pertenece a otro territorio")
-        if str(contract.get("election_id") or "") != str(manifest.get("election_id") or ""):
-            raise ValueError("election_id del contrato electoral estático no coincide con el paquete")
-        if str(contract.get("election_date") or "") != str(manifest.get("election_date") or ""):
-            raise ValueError("election_date del contrato electoral estático no coincide con el paquete")
+        election_identity_mode = _static_election_identity_mode(contract, manifest)
         matches = [s for s in (contract.get("sources") or []) if str(s.get("sha256") or "").lower() == actual]
         if len(matches) != 1:
             raise ValueError("hash de procedencia electoral distinto del hash contractual")
@@ -162,6 +178,9 @@ def validate_package(
             "contract_sha256": actual,
             "contract_source_path": str(target_raw),
             "party_dictionary_sha256": None,
+            "election_identity_mode": election_identity_mode,
+            "contract_election_id": contract.get("election_id"),
+            "package_election_id": manifest.get("election_id"),
         }
     else:
         contract_info = _materialize_embedded_contract(
