@@ -149,6 +149,19 @@ class StaticContractPreparationTests(unittest.TestCase):
                 materialize=False,
             )
             self.assertEqual(validated["decision"], "READY_PACKAGE")
+            self.assertEqual(validated["election_identity_mode"], "exact")
+            legacy_contract = json.loads(contract.read_text(encoding="utf-8"))
+            legacy_contract["election_id"] = "demo_2026-2026-02-08"
+            contract.write_text(json.dumps(legacy_contract), encoding="utf-8")
+            legacy_validated = validate_package(
+                package=out,
+                params=params,
+                territory_id="demo",
+                edition="2025",
+                root=root,
+                materialize=False,
+            )
+            self.assertEqual(legacy_validated["election_identity_mode"], "legacy_date_suffix_alias")
             manifest_path = out / "manifest.json"
             tampered = json.loads(manifest_path.read_text(encoding="utf-8"))
             tampered["election_id"] = "demo_2027"
