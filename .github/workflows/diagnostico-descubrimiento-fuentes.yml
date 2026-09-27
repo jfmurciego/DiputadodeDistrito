@@ -59,13 +59,26 @@ jobs:
               if mm: ctype=mm[-1].strip()
               return {'ok':True,'status':status,'ctype':ctype,'body':body,'sha256':hashlib.sha256(body).hexdigest()}
 
+          def _safe_join(base, raw):
+              try:
+                  x=(raw or '').strip().replace('&amp;','&')
+                  if not x or len(x)>1200: return None
+                  if x.startswith('//'): x='https:'+x
+                  u=urllib.parse.urljoin(base,x)
+                  p=urllib.parse.urlparse(u)
+                  if p.scheme not in ('http','https') or not p.netloc: return None
+                  return u
+              except (ValueError, UnicodeError):
+                  return None
+
           def candidates(base, text):
               out=set()
               for x in tag_rx.findall(text):
-                  out.add(urllib.parse.urljoin(base,x))
+                  u=_safe_join(base,x)
+                  if u: out.add(u)
               for x in url_rx.findall(text):
-                  if x.startswith('//'): x='https:'+x
-                  out.add(urllib.parse.urljoin(base,x))
+                  u=_safe_join(base,x)
+                  if u: out.add(u)
               return sorted(u for u in out if markers.search(u))
 
           for territory,election,kind,url in seeds:
@@ -74,11 +87,20 @@ jobs:
                   rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'seed','url':url,'http':'','content_type':'','bytes':'','sha256':'','hallazgo':'ERROR','detalle':root['error']})
                   continue
               text=root['body'].decode('utf-8','ignore')
-              found=candidates(url,text)
+              try:
+                  found=candidates(url,text)
+              except Exception as e:
+                  rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'seed','url':url,'http':root['status'],'content_type':root['ctype'],'bytes':len(root['body']),'sha256':root['sha256'],'hallazgo':'ERROR','detalle':f'descubrimiento seed: {type(e).__name__}: {e}'[:500]})
+                  found=[]
               rows.append({'territorio':territory,'election_id':election,'origen':kind,'nivel':'seed','url':url,'http':root['status'],'content_type':root['ctype'],'bytes':len(root['body']),'sha256':root['sha256'],'hallazgo':'HTML','detalle':f'candidatos={len(found)}'})
               # inspeccionar enlaces de datos y, además, JS del mismo host para descubrir endpoints dinámicos
               all_urls=list(found)
-              script_urls=sorted(set(urllib.parse.urljoin(url,x) for x in tag_rx.findall(text) if re.search(r'\.js(?:\?|$)',x,re.I)))[:40]
+              script_urls=[]
+              for x in tag_rx.findall(text):
+                  if not re.search(r'\.js(?:\?|$)',x,re.I): continue
+                  u=_safe_join(url,x)
+                  if u: script_urls.append(u)
+              script_urls=sorted(set(script_urls))[:40]
               host=urllib.parse.urlparse(url).netloc.lower()
               for js in script_urls:
                   if urllib.parse.urlparse(js).netloc.lower()!=host or js in assets_seen: continue
