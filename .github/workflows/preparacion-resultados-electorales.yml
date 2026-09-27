@@ -74,7 +74,7 @@ jobs:
     needs: resolver
     runs-on: ubuntu-24.04
     outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}'}
-    env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}'}
+    env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ELECTION_DATE: '${{ needs.resolver.outputs.election_date }}'}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with: {ref: '${{ inputs.source_ref || github.sha }}'}
@@ -182,7 +182,7 @@ jobs:
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
             else
-              python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256"
+              python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION"
             fi
           elif [[ "$adapter" == "siel_andalucia" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
@@ -198,6 +198,15 @@ jobs:
             [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous --previous-run-id "${{ steps.previous.outputs.run_id }}" --previous-artifact-name "${{ steps.previous.outputs.artifact_name }}")
             python -m herramientas.preparar_fuente_electoral "${args[@]}"
           fi
+      - name: Validar identidad vigente del paquete
+        run: |
+          set -euo pipefail
+          test -s .ddd-electoral-package/manifest.json
+          manifest=.ddd-electoral-package/manifest.json
+          [[ "$(jq -r '.territory_id // empty' "$manifest")" == "$TERRITORY_ID" ]] || { echo "::error::Paquete electoral de otro territorio"; exit 46; }
+          [[ "$(jq -r '.edition // empty' "$manifest")" == "$EDITION" ]] || { echo "::error::Paquete electoral de otra edición"; exit 46; }
+          [[ "$(jq -r '.election_id // empty' "$manifest")" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
+          [[ "$(jq -r '.election_date // empty' "$manifest")" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
       - id: meta
         run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
