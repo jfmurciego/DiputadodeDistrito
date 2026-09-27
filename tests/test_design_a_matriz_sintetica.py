@@ -189,7 +189,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_electoral_package_hash_equals_contract_and_corruption_blocks(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td); data=b"mesa;votos\n1;10\n"; digest=hashlib.sha256(data).hexdigest()
-            contract=root/"election.json"; contract.write_text(json.dumps({"sources":[{"path":"inputs/election.csv","sha256":digest}]}),encoding="utf-8")
+            contract=root/"election.json"; contract.write_text(json.dumps({
+                "schema_family":"ddd-election",
+                "schema_version":"1.0.0",
+                "territory_id":"fixture",
+                "election_id":"fixture_2025",
+                "election_date":"2025-01-01",
+                "sources":[{"path":"inputs/election.csv","sha256":digest}],
+            }),encoding="utf-8")
             params=root/"params.yaml"; params.write_text(yaml.safe_dump({
                 "meta":{"territory_id":"fixture","year":2025},
                 "modulos":{"modulo_07_agregar_resultados_electorales":{"election_contract":"election.json"}}
@@ -197,6 +204,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
             package=root/"package"; (package/"data").mkdir(parents=True)
             source=package/"data/election.csv"; source.write_bytes(data)
             manifest={"schema":"ddd-electoral-package/1.0","decision":"ACQUIRE","territory_id":"fixture","edition":"2025",
+                      "election_id":"fixture_2025","election_date":"2025-01-01",
                       "selected_source":{"path":"data/election.csv","sha256":digest,"bytes":len(data)}}
             (package/"manifest.json").write_text(json.dumps(manifest),encoding="utf-8")
             ok=validate_package(package=package,params=params,territory_id="fixture",edition="2025",root=root)
