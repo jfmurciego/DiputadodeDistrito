@@ -30,7 +30,7 @@ jobs:
           with urllib.request.urlopen(req) as r:data=json.load(r)
           arts=[a for a in data.get('artifacts',[]) if not a.get('expired')]
           if not arts:raise SystemExit('No hay artefacto eleccionesdb-descargas vigente')
-          art=max(arts,key=lambda a:a['created_at']); print(f"artifact_id={art['id']} created_at={art['created_at']} size={art['size_in_bytes']}"); open('artifact_id.txt','w').write(str(art['id']))
+          art=max(arts,key=lambda a:a['created_at']); print(f"artifact_id={art['id']} created_at={art['created_at']} size={art['size_in_bytes']}"); open('artifact_id.txt','w').write(str(art['id'])); open('artifact_created_at.txt','w').write(str(art['created_at']))
           PY
           aid="$(cat artifact_id.txt)"; curl --fail --location --retry 2 -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" --output eleccionesdb-descargas.zip "https://api.github.com/repos/hmeleiro/eleccionesdb-etl/actions/artifacts/${aid}/zip"
           unzip -q eleccionesdb-descargas.zip; sqlite_zip="$(find . -type f -name 'eleccionesdb_sqlite.zip' -print -quit)"; test -n "$sqlite_zip"; unzip -q "$sqlite_zip" -d sqlite-extract; db="$(find sqlite-extract -type f -name 'eleccionesdb.sqlite' -print -quit)"; test -n "$db"; mv "$db" eleccionesdb.sqlite
@@ -90,18 +90,20 @@ jobs:
 
       - name: Construir snapshot compacto verificado de las doce elecciones
         run: |
-          python herramientas/construir_snapshot_eleccionesdb.py --source eleccionesdb.sqlite --out ddd-eleccionesdb-snapshot.sqlite --meta ddd-eleccionesdb-snapshot.json
+          python herramientas/construir_snapshot_eleccionesdb.py --source eleccionesdb.sqlite --out ddd-eleccionesdb-snapshot.sqlite --meta ddd-eleccionesdb-snapshot.json --retrieved-at "$(cat artifact_created_at.txt)"
           test -s ddd-eleccionesdb-snapshot.sqlite; test "$(jq '.election_ids|length' ddd-eleccionesdb-snapshot.json)" = 11; test "$(jq '.logical_election_count' ddd-eleccionesdb-snapshot.json)" = 12
       - name: Probar el mismo adaptador sobre las doce elecciones
         run: |
           mkdir -p .ddd-eleccionesdb-packages
           python - <<'PY'
-          import csv
+          import csv,json
           from pathlib import Path
           from herramientas.adaptador_eleccionesdb import ELECTIONS,build,sha256
           db=Path('ddd-eleccionesdb-snapshot.sqlite'); digest=sha256(db); rows=[]
+          snapshot_meta=json.loads(Path('ddd-eleccionesdb-snapshot.json').read_text(encoding='utf-8'))
+          retrieved_at=snapshot_meta['retrieved_at']
           for election_id,(edb,ccaa,territory,date) in ELECTIONS.items():
-              m=build(db,election_id,Path('.ddd-eleccionesdb-packages')/territory,digest)
+              m=build(db,election_id,Path('.ddd-eleccionesdb-packages')/territory,digest,retrieved_at=retrieved_at)
               rows.append({'territorio':territory,'election_id':election_id,'eleccionesdb_id':edb,'fecha':date,'secciones':m['sections'],'filas_votos':m['records'],'partidos':m['parties'],'votos_candidaturas':m['candidate_votes'],'procedencia':' + '.join(x['fuente'] for x in m['provenance'] if x['fuente']),'snapshot_sha256':m['snapshot_sha256'],'package_source_sha256':m['source_sha256']})
           with open('cobertura-adaptador-eleccionesdb.csv','w',newline='',encoding='utf-8') as f:w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
           with open('cobertura-adaptador-eleccionesdb.md','w',encoding='utf-8') as f:
@@ -221,7 +223,7 @@ jobs:
           cat registro-copia-eleccionesdb.md >> "$GITHUB_STEP_SUMMARY"
       - name: Eliminar export upstream completo antes de publicar
         if: always()
-        run: rm -rf eleccionesdb-descargas.zip artifact_id.txt eleccionesdb.sqlite sqlite-extract eleccionesdb_sqlite.zip eleccionesdb_parquet.zip eleccionesdb_csv.zip .ddd-eleccionesdb-packages .ddd-registry-copy
+        run: rm -rf eleccionesdb-descargas.zip artifact_id.txt artifact_created_at.txt eleccionesdb.sqlite sqlite-extract eleccionesdb_sqlite.zip eleccionesdb_parquet.zip eleccionesdb_csv.zip .ddd-eleccionesdb-packages .ddd-registry-copy
       - name: Publicar informe pequeño
         if: always()
         uses: actions/upload-artifact@v4
