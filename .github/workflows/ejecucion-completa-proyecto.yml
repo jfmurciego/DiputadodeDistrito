@@ -47,6 +47,7 @@ on:
       - '.github/workflows/_reutilizable-generacion-territorial.yml'
       - '.github/workflows/_reutilizable-incorporacion-electoral.yml'
       - 'herramientas/resolver_ejecucion_completa.py'
+      - 'herramientas/resolver_activos_durables.py'
       - 'herramientas/escribir_manifest_ejecucion_completa.py'
       - 'herramientas/validar_puerta_ejecucion.py'
       - 'herramientas/generar_estado_operativo.py'
@@ -205,7 +206,7 @@ jobs:
           source_sha="$(git rev-parse HEAD)"
           [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::SHA de origen inválido: $source_sha"; exit 57; }
           case "$UI_MODE" in
-            "Reutilizar progreso existente") mode=reuse ;;
+            "Reutilizar progreso existente"|"Continuar desde el último resultado válido") mode=reuse ;;
             "Reutilizar fuente explícita") mode=reuse ;;
             "Generar desde fuente territorial acreditada") mode=catalog_source ;;
             "Ejecutar desde el principio") mode=from_start ;;
@@ -214,7 +215,7 @@ jobs:
           mkdir -p .ddd-full-run
           python herramientas/catalogo_preparacion.py --root-dir . validate
           extra_plan_args=()
-          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+          if [[ "$mode" == "reuse" ]]; then
             extra_plan_args+=(--reuse-existing-optimization)
           fi
           python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --optimization-algorithm "$UI_ALGORITHM" "${extra_plan_args[@]}"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
