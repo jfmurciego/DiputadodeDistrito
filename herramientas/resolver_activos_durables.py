@@ -118,6 +118,31 @@ def _same_phase_asset(phase: dict, asset: dict, *, label: str) -> None:
         _block("DURABLE_LINEAGE_INCOMPATIBLE", f"{label}: el manifiesto no enlaza el activo durable vigente")
 
 
+def _producer_phase_asset(
+    phase: dict,
+    asset: dict,
+    *,
+    label: str,
+    require_phase_decision: bool = False,
+) -> None:
+    _same_phase_asset(phase, asset, label=label)
+    if phase.get("executed") is not True or str(phase.get("result") or "") != "success":
+        _block(
+            "DURABLE_PRODUCER_PHASE_INVALID",
+            f"{label}: la fase productora no terminó correctamente",
+        )
+    if str(phase.get("validation_decision") or "") != "VALIDADO":
+        _block(
+            "DURABLE_PRODUCER_PHASE_INVALID",
+            f"{label}: la fase productora no quedó validada",
+        )
+    if require_phase_decision and str(phase.get("phase_decision") or "") not in PASS_CERTIFICATIONS:
+        _block(
+            "DURABLE_PRODUCER_PHASE_INVALID",
+            f"{label}: la decisión de la fase productora no certifica el producto",
+        )
+
+
 def validate_durable_assets(
     *,
     root_dir: Path,
@@ -160,7 +185,12 @@ def validate_durable_assets(
             require_decision=True,
         )
         manifest = _manifest(root, territory_id, edition, territorial_product["run_id"])
-        _same_phase_asset(_phase(manifest, "02 ·"), territorial_product, label="territorial_product")
+        _producer_phase_asset(
+            _phase(manifest, "02 ·"),
+            territorial_product,
+            label="territorial_product",
+            require_phase_decision=True,
+        )
         if source:
             _same_phase_asset(_phase(manifest, "01 ·"), source, label="territorial_source→territorial_product")
 
@@ -188,7 +218,11 @@ def validate_durable_assets(
             stage="M08",
         )
         manifest = _manifest(root, territory_id, edition, electoral_product["run_id"])
-        _same_phase_asset(_phase(manifest, "04 ·"), electoral_product, label="electoral_product")
+        _producer_phase_asset(
+            _phase(manifest, "04 ·"),
+            electoral_product,
+            label="electoral_product",
+        )
         if territorial_product:
             _same_phase_asset(_phase(manifest, "02 ·"), territorial_product, label="territorial_product→electoral_product")
         if electoral_source:
