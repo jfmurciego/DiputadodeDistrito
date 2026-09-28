@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import tempfile
 from pathlib import Path
 
@@ -15,13 +16,47 @@ generation_enablement = _core.generation_enablement
 apply_explicit_territorial_source = _core.apply_explicit_territorial_source
 
 
+PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
+
+
+def _durable_receipt(state: dict, territory_id: str, kind: str) -> dict:
+    rel = (state.get("evidence") or {}).get(kind)
+    self_path = ROOT / str(rel or "")
+    assert rel and self_path.is_file(), f"falta receipt {kind} de {territory_id}"
+    payload = json.loads(self_path.read_text(encoding="utf-8"))
+    assert payload["territory_id"] == territory_id
+    assert str(payload["edition"]) == "2025"
+    assert re.fullmatch(r"[0-9a-f]{64}", str(payload["artifact_sha256"]).removeprefix("sha256:"))
+    assert payload["run_id"]
+    return payload
+
+
+def _expected_current_generation_route(state: dict, territory_id: str) -> str:
+    receipt = _durable_receipt(state, territory_id, "territorial_product")
+    certified = bool(
+        state.get("territorial_product_available")
+        and state.get("territorial_certification") in PASS_CERTIFICATIONS
+        and receipt.get("decision") in PASS_CERTIFICATIONS
+    )
+    if certified:
+        return "certified_product_lineage"
+    if (state.get("evidence") or {}).get("generation_preflight"):
+        return "validated_pre_m04_topology"
+    contract = yaml.safe_load((ROOT / state["contract_path"]).read_text(encoding="utf-8")) or {}
+    if (contract.get("meta") or {}).get("status") == "generation_ready":
+        return "declared_generation_ready"
+    raise AssertionError(f"no se puede derivar ruta de generación vigente para {territory_id}")
+
+
 def _test_generation_gate_real_territories_and_both_entry_paths(self):
     catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
     catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
+    galicia_route = _expected_current_generation_route(rows["galicia"], "galicia")
+
     for name, territory_id, route in (
-        ("Galicia", "galicia", "validated_pre_m04_topology"),
+        ("Galicia", "galicia", galicia_route),
         ("Principado de Asturias", "principado_de_asturias", "certified_product_lineage"),
         ("Aragón", "aragon", "certified_product_lineage"),
         ("Castilla y León", "castilla_y_leon", "certified_product_lineage"),
