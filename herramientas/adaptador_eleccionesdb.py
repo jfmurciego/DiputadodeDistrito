@@ -38,15 +38,27 @@ def _normalize_date(value)->str:
   return text[:10]
  return (datetime(1970,1,1,tzinfo=timezone.utc)+timedelta(days=numeric)).date().isoformat()
 
+def _verified_retrieved_at(value:str|None)->str:
+ text=str(value or '').strip()
+ if not text: raise ValueError('retrieved_at verificable ausente para EleccionesDB')
+ try:
+  parsed=datetime.fromisoformat(text.replace('Z','+00:00'))
+ except ValueError as exc:
+  raise ValueError(f'retrieved_at EleccionesDB inválido: {text!r}') from exc
+ if parsed.tzinfo is None:
+  raise ValueError('retrieved_at EleccionesDB debe incluir zona horaria')
+ return parsed.astimezone(timezone.utc).isoformat().replace('+00:00','Z')
+
 def _columns(con,table): return {r[1] for r in con.execute(f'PRAGMA table_info({table})')}
 def _party_expr(con):
  cols=_columns(con,'partidos')
  if 'siglas' in cols: return "COALESCE(NULLIF(p.siglas,''),NULLIF(p.denominacion,''),CAST(p.id AS TEXT))"
  return 'CAST(p.id AS TEXT)'
 
-def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition:str='2025')->dict:
+def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition:str='2025',retrieved_at:str|None=None)->dict:
  if election_id not in ELECTIONS: raise ValueError(f'Elección no autorizada para adaptador EleccionesDB: {election_id}')
  edb_id,ccaa,territory,expected_date=ELECTIONS[election_id]
+ verified_retrieved_at=_verified_retrieved_at(retrieved_at)
  actual_snapshot=sha256(db)
  if snapshot_sha256 and actual_snapshot!=snapshot_sha256: raise ValueError('Huella del snapshot EleccionesDB no coincide')
  con=sqlite3.connect(db); con.row_factory=sqlite3.Row
@@ -114,8 +126,6 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
 
  source_url=next((str(x.get('url') or '').strip() for x in publishers if str(x.get('url') or '').strip()),'')
  publisher=' + '.join(str(x.get('fuente') or '').strip() for x in publishers if str(x.get('fuente') or '').strip()) or 'EleccionesDB'
- generated_at=datetime.now(timezone.utc).isoformat()
- retrieved_at=generated_at[:10]
  contract=contract_dir/'election_contract.json'
  contract_payload={
   'schema_family':'ddd-election',
@@ -131,14 +141,14 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
    'sha256':sha256(csv_path),
    'publisher':publisher,
    'source_url':source_url,
-   'retrieved_at':retrieved_at,
-   'retrieved_at_basis':'verified_snapshot_materialization',
+   'retrieved_at':verified_retrieved_at,
    'adapter':{'kind':'long_csv','separator':';','section_field':'CUSEC_KEY','party_field':'party','votes_field':'votes'},
    'upstream_snapshot':{
     'adapter':'eleccionesdb_sqlite/1.0',
     'eleccionesdb_election_id':edb_id,
     'codigo_ccaa':ccaa,
     'snapshot_sha256':actual_snapshot,
+    'retrieved_at':verified_retrieved_at,
     'provenance':publishers,
    },
   }],
@@ -178,18 +188,19 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
   },
   'eleccionesdb_election_id':edb_id,
   'snapshot_sha256':actual_snapshot,
+  'retrieved_at':verified_retrieved_at,
   'source_sha256':selected_sha,
   'sections':len(set(sections.values())),
   'records':records,
   'parties':len(parties),
   'candidate_votes':total_votes,
   'provenance':publishers,
-  'generated_at':generated_at,
+  'generated_at':datetime.now(timezone.utc).isoformat(),
  }
  (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
  con.close(); return manifest
 
 def main():
- ap=argparse.ArgumentParser(); ap.add_argument('--sqlite',type=Path,required=True); ap.add_argument('--election-id',required=True); ap.add_argument('--out',type=Path,required=True); ap.add_argument('--snapshot-sha256'); ap.add_argument('--edition',default='2025')
- a=ap.parse_args(); print(json.dumps(build(a.sqlite,a.election_id,a.out,a.snapshot_sha256,a.edition),ensure_ascii=False,indent=2))
+ ap=argparse.ArgumentParser(); ap.add_argument('--sqlite',type=Path,required=True); ap.add_argument('--election-id',required=True); ap.add_argument('--out',type=Path,required=True); ap.add_argument('--snapshot-sha256'); ap.add_argument('--edition',default='2025'); ap.add_argument('--retrieved-at',required=True)
+ a=ap.parse_args(); print(json.dumps(build(a.sqlite,a.election_id,a.out,a.snapshot_sha256,a.edition,a.retrieved_at),ensure_ascii=False,indent=2))
 if __name__=='__main__': main()
