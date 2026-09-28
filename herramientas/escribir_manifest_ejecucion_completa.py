@@ -15,9 +15,11 @@ def phase(
     digest: str | None = None,
     validation_decision: str | None = None,
     phase_decision: str | None = None,
+    scope: str = "IN_SCOPE",
 ) -> dict:
     return {
         "name": name,
+        "scope": scope,
         "executed": executed,
         "result": result,
         "run_id": int(run_id) if run_id and str(run_id).isdigit() else None,
@@ -138,11 +140,33 @@ def main() -> None:
     def b(v: str) -> bool:
         return v == "true"
 
+    territorial_only = ns.publication_mode_effective == "territorial_only"
+    electoral_scope = "OUT_OF_SCOPE" if territorial_only else "IN_SCOPE"
     phases = [
         phase("01 · Preparación de Datos Territoriales", ns.prepare_territorial_result, b(ns.prepare_territorial_executed), ns.territorial_source_run_id, ns.territorial_source_artifact, ns.territorial_source_digest, ns.territorial_source_validation, ns.territorial_source_phase_decision),
         phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.territorial_product_run_id, ns.territorial_product_artifact, ns.territorial_product_digest, ns.territorial_product_validation, ns.territorial_product_phase_decision),
-        phase("03 · Preparación de Resultados Electorales", ns.prepare_electoral_result, b(ns.prepare_electoral_executed), ns.electoral_source_run_id, ns.electoral_source_artifact, ns.electoral_source_digest, ns.electoral_source_validation, ns.electoral_source_phase_decision),
-        phase("04 · Incorporación de Resultados Electorales", ns.incorporate_result, b(ns.incorporate_executed), ns.electoral_product_run_id, ns.electoral_product_artifact, ns.electoral_product_digest, ns.electoral_product_validation, ns.electoral_product_phase_decision),
+        phase(
+            "03 · Preparación de Resultados Electorales",
+            ns.prepare_electoral_result,
+            b(ns.prepare_electoral_executed),
+            ns.electoral_source_run_id,
+            ns.electoral_source_artifact,
+            ns.electoral_source_digest,
+            None if territorial_only else ns.electoral_source_validation,
+            None if territorial_only else ns.electoral_source_phase_decision,
+            scope=electoral_scope,
+        ),
+        phase(
+            "04 · Incorporación de Resultados Electorales",
+            ns.incorporate_result,
+            b(ns.incorporate_executed),
+            ns.electoral_product_run_id,
+            ns.electoral_product_artifact,
+            ns.electoral_product_digest,
+            None if territorial_only else ns.electoral_product_validation,
+            None if territorial_only else ns.electoral_product_phase_decision,
+            scope=electoral_scope,
+        ),
         phase(
             "05 · Publicación del Visor",
             ns.publish_result,
@@ -151,8 +175,15 @@ def main() -> None:
             None,
         ),
     ]
-    failed = [p["name"] for p in phases if p["executed"] and p["result"] != "success"]
-    blocked = [p["name"] for p in phases[:4] if p.get("validation_decision") not in {None, "VALIDADO"}]
+    failed = [
+        p["name"] for p in phases
+        if p["scope"] == "IN_SCOPE" and p["executed"] and p["result"] != "success"
+    ]
+    blocked = [
+        p["name"] for p in phases[:4]
+        if p["scope"] == "IN_SCOPE" and p.get("validation_decision") not in {None, "VALIDADO"}
+    ]
+    out_of_scope = [p["name"] for p in phases if p["scope"] == "OUT_OF_SCOPE"]
     optimization = optimization_lineage(
         ns.optimization_algorithm,
         generate_executed=b(ns.generate_executed),
@@ -222,6 +253,7 @@ def main() -> None:
         "resumption": resumption,
         "failed_phases": failed,
         "blocked_phases": blocked,
+        "out_of_scope_phases": out_of_scope,
         "phases": phases,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
