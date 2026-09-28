@@ -401,6 +401,10 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 },
             }, sort_keys=False), encoding="utf-8")
 
+            source_properties = [feature["properties"] for feature in geojson["features"]]
+            self.assertTrue(all("DDD_PARTITION" not in props for props in source_properties))
+            self.assertTrue(all("DDD_MUNICIPALITY_PARTITION" not in props for props in source_properties))
+
             job = prepare_physical_m04_input(params, "123", root_dir=root)
             self.assertTrue(target.is_file())
             self.assertEqual("PREPARED", job["status"])
@@ -408,6 +412,30 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertEqual({"A": 1, "B": 2}, job["component_sections"])
             self.assertEqual({"A": 1, "B": 1}, job["component_districts"])
             self.assertEqual(hashlib.sha256(lookup.read_bytes()).hexdigest(), job["hard_partition_lookup_sha256"])
+
+            with zipfile.ZipFile(target, "r") as zf:
+                member = next(name for name in zf.namelist() if name.lower().endswith(".geojson"))
+                materialized = json.loads(zf.read(member))
+            materialized_properties = [feature["properties"] for feature in materialized["features"]]
+            self.assertTrue(all("DDD_PARTITION" in props for props in materialized_properties))
+            self.assertTrue(all("DDD_MUNICIPALITY_PARTITION" in props for props in materialized_properties))
+
+    def test_real_archipelago_contracts_separate_m02_source_fields_from_m04_partition_fields(self):
+        for territory_id in ("illes_balears", "canarias"):
+            with self.subTest(territory=territory_id):
+                contract = yaml.safe_load(
+                    (ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(
+                        encoding="utf-8"
+                    )
+                )
+                hard = _hard_partition_spec(contract, ROOT)
+                m01 = contract["modulos"]["modulo_01_preparar_base_territorial"]
+                m04 = contract["modulos"]["modulo_04_generar_semillas"]
+                self.assertEqual("DDD_PARTITION", hard["partition_field"])
+                self.assertEqual("DDD_MUNICIPALITY_PARTITION", hard["municipality_field"])
+                self.assertEqual(m04["in_geojson"], hard["input_geojson"])
+                self.assertEqual(m01["out_geojson"], hard["source_geojson"])
+                self.assertNotEqual(hard["source_geojson"], hard["input_geojson"])
 
     def test_m03_uses_source_admin_fields_before_physical_partitions_exist(self):
         source = (ROOT/"modulos/03_construir_grafo.py").read_text(encoding="utf-8")
