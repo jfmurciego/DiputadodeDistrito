@@ -169,7 +169,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             state["territorial_certification"] = (
                 "PASS_WITH_EXCEPTIONS" if certified else "NOT_CERTIFIED"
             )
-            state["electoral_product_available"] = True
+            state["electoral_product_available"] = certified
             state["last_valid_checkpoint"] = {
                 "run_id": electoral_run if certified else territorial_run,
                 "stage": "M08" if certified else "M06",
@@ -182,15 +182,31 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                 yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
                 encoding="utf-8",
             )
-            plan = build_plan(
-                territory="Galicia",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=isolated_catalog,
-                root_dir=ROOT,
-                optimization_algorithm="Canónico",
-                force_selected_algorithm=False,
-            )
+            electoral_source_path = ROOT / state["evidence"]["electoral_source"]
+            electoral_source = json.loads(electoral_source_path.read_text(encoding="utf-8"))
+            durable = {
+                "territorial_source": state.get("preparation_evidence") or None,
+                "territorial_product": (
+                    json.loads(territorial.read_text(encoding="utf-8")) if certified else None
+                ),
+                "electoral_source": electoral_source,
+                "electoral_product": (
+                    json.loads(electoral.read_text(encoding="utf-8")) if certified else None
+                ),
+            }
+            with patch(
+                "herramientas.resolver_ejecucion_completa.validate_durable_assets",
+                return_value=durable,
+            ):
+                plan = build_plan(
+                    territory="Galicia",
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=isolated_catalog,
+                    root_dir=ROOT,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
             plan["_fixture"] = {
                 "territorial_run": territorial_run,
                 "electoral_run": electoral_run,
