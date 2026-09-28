@@ -245,6 +245,70 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
     }
 
 
+def _territorial_product_reuse_validation(*, row: dict, state: dict, edition: str, evidence: dict) -> dict:
+    """Validate a durable M06 receipt before allowing reuse.
+
+    The catalog availability flag is advisory only. Reuse requires a receipt
+    bound to the same territory/edition, canonical artifact identity, SHA-256,
+    passing certification and a syntactically valid source commit. For an M06
+    last checkpoint, the checkpoint run must be the same receipt run.
+    """
+    territory_id = str(row.get("territory_id") or "")
+    if state.get("territorial_product_available") is not True:
+        return {"valid": False, "reason": "CATALOG_FLAG_FALSE"}
+    if not isinstance(evidence, dict) or not evidence:
+        return {"valid": False, "reason": "MISSING_RECEIPT"}
+    if evidence.get("schema") != "ddd.catalog-evidence/1.0" or evidence.get("kind") != "territorial_product":
+        return {"valid": False, "reason": "RECEIPT_SCHEMA_OR_KIND"}
+    if str(evidence.get("territory_id") or "") != territory_id or str(evidence.get("edition") or "") != str(edition):
+        return {"valid": False, "reason": "RECEIPT_IDENTITY"}
+    run_id = evidence.get("run_id")
+    if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
+        return {"valid": False, "reason": "RECEIPT_RUN_ID"}
+    if evidence.get("artifact_name") != f"ddd-state-{run_id}-M06":
+        return {"valid": False, "reason": "RECEIPT_ARTIFACT_IDENTITY"}
+    digest = str(evidence.get("artifact_sha256") or "").removeprefix("sha256:").lower()
+    if not _core._sha256_value(digest):
+        return {"valid": False, "reason": "RECEIPT_DIGEST"}
+    source_commit = str(evidence.get("source_commit") or "")
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        return {"valid": False, "reason": "RECEIPT_SOURCE_COMMIT"}
+    if evidence.get("stage") != "M06":
+        return {"valid": False, "reason": "RECEIPT_STAGE"}
+    decision = str(evidence.get("decision") or "")
+    catalog_certification = str(state.get("territorial_certification") or "")
+    if decision not in _core.PASS_CERTIFICATIONS or catalog_certification not in _core.PASS_CERTIFICATIONS:
+        return {"valid": False, "reason": "RECEIPT_CERTIFICATION"}
+    if decision != catalog_certification and not (
+        decision == "PASS_WITH_EXCEPTIONS" and catalog_certification == "PASS_WITH_GOVERNED_EXCEPTIONS"
+    ):
+        return {"valid": False, "reason": "CATALOG_RECEIPT_CERTIFICATION_MISMATCH"}
+    last = state.get("last_valid_checkpoint") or {}
+    try:
+        last_stage = int(str(last.get("stage") or "").removeprefix("M"))
+    except ValueError:
+        last_stage = 0
+    if last_stage < 6:
+        return {"valid": False, "reason": "CHECKPOINT_BEFORE_M06"}
+    if last_stage == 6:
+        try:
+            checkpoint_run = int(last.get("run_id"))
+        except (TypeError, ValueError):
+            checkpoint_run = 0
+        if checkpoint_run != run_id:
+            return {"valid": False, "reason": "CHECKPOINT_RECEIPT_LINEAGE"}
+    return {
+        "valid": True,
+        "reason": "VALIDATED_M06_RECEIPT",
+        "run_id": run_id,
+        "artifact_name": evidence.get("artifact_name"),
+        "artifact_sha256": digest,
+        "source_commit": source_commit,
+        "decision": decision,
+    }
+
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
@@ -304,11 +368,13 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         source_shape_ready
         and (catalog_source_mode or selected_explicit_source is not None or state.get("territorial_sources_prepared"))
     )
-    territorial_product_ready = bool(
-        state.get("territorial_product_available")
-        and state.get("territorial_certification") in _core.PASS_CERTIFICATIONS
-        and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
+    territorial_product_reuse = _territorial_product_reuse_validation(
+        row=row,
+        state=state,
+        edition=edition,
+        evidence=territorial_evidence,
     )
+    territorial_product_ready = bool(territorial_product_reuse.get("valid"))
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
     electoral_source_identity_ready = (
         expected_election_id is None
@@ -370,10 +436,13 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             require_source=True,
             pre_m04_accreditation_planned=True,
         )
+    algorithm_requires_generation = optimization_algorithm != "Canónico"
+    if execution_mode != "reuse":
+        algorithm_requires_generation = algorithm_requires_generation or force_selected_algorithm
     proposed_generate = bool(
         catalog_source_mode or from_start or selected_explicit_source is not None
         or run_prepare_territorial or not territorial_product_ready
-        or optimization_algorithm != "Canónico" or force_selected_algorithm
+        or algorithm_requires_generation
     )
     if proposed_generate and not generation_gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
@@ -402,6 +471,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         "catalog_state": {
             "territorial_sources_prepared": territorial_sources_ready,
             "territorial_product_available": territorial_product_ready,
+            "territorial_product_reuse_validation": territorial_product_reuse,
             "electoral_source_prepared": electoral_source_ready,
             "electoral_product_available": electoral_product_ready,
             "territorial_certification": state.get("territorial_certification"),
