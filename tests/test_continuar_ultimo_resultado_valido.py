@@ -240,6 +240,7 @@ def prepare_root(
         "preparation_status": "READY",
         "contract_path": "territorios/demo/config/demo_2025.yaml",
         "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
+        "electoral_source_declaration": None,
         "territorial_sources_prepared": source,
         "territorial_contract_complete": True,
         "territorial_product_available": m06,
@@ -247,6 +248,7 @@ def prepare_root(
         "electoral_product_available": m08,
         "territorial_certification": "PASS" if m06 else "NOT_CERTIFIED",
         "production_authorization": "AUTHORIZED",
+        "last_valid_checkpoint": None,
         "preparation_evidence": prep,
         "evidence": evidence,
     }
