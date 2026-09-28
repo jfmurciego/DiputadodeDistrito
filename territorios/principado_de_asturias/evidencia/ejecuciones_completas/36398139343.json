@@ -1,0 +1,77 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "execution_mode": "reuse",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 36398139343,
+  "source_sha": "edfeb54cc3c1806719fff3be7eedaf956b31a185",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": false,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 35728626894,
+      "artifact": "ddd-source-package-principado_de_asturias-2025-35728626894",
+      "artifact_digest": "sha256:fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 36398139343,
+      "artifact": "ddd-state-36398139343-M06",
+      "artifact_digest": "sha256:1bea77193ef6fa5ff2b3f53bccaa3f1311eae739e66450f119640e74bfabfd89",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36136631352,
+      "artifact": "ddd-electoral-package-principado_de_asturias-2025-36136631352",
+      "artifact_digest": "sha256:981059cad011f32fbc3c8b22784782e2f6f844f53a98ade75b5c66d5d0690b0b",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "REUSE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 36398139343,
+      "artifact": "ddd-state-36398139343-M08",
+      "artifact_digest": "sha256:4bc18b3a0244c0132b5275f1271ad7343b86d38527e54ec974c778954c247901",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-28T08:46:34.228070+00:00"
+}
