@@ -21,6 +21,18 @@ SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
 REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta", "melilla")
+FROM_START_PRE_M04_TARGETS = {
+    "illes_balears",
+    "canarias",
+    "cataluna",
+    "comunidad_valenciana",
+    "madrid",
+    "region_de_murcia",
+    "comunidad_foral_de_navarra",
+    "pais_vasco",
+    "la_rioja",
+    "melilla",
+}
 
 
 def contract(*, partitioned: bool) -> dict:
@@ -458,6 +470,143 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                         plan["generation_gate"],
                         {"allowed": True, "route": "planned_pre_m04_accreditation"},
                     )
+
+    def test_00_from_start_national_matrix_plans_required_pre_m04_accreditation(self):
+        catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
+        catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
+        rows = {
+            row["territory_id"]: (row.get("editions") or {}).get("2025") or {}
+            for row in catalog.get("territories") or []
+        }
+        self.assertEqual(19, len(rows))
+
+        planned = set()
+        for territory_id, state in rows.items():
+            with self.subTest(territory=territory_id):
+                plan = build_plan(
+                    territory=territory_id,
+                    edition="2025",
+                    execution_mode="from_start",
+                    catalog=catalog_path,
+                    root_dir=ROOT,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertTrue(plan["run_generate"])
+                self.assertEqual("from_start", plan["generation_execution_mode"])
+                self.assertTrue(plan["generation_gate"]["allowed"])
+                if plan["pre_m04_accreditation_planned"]:
+                    planned.add(territory_id)
+                    self.assertFalse(state.get("territorial_product_available"))
+                    self.assertEqual(
+                        {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                        plan["generation_gate"],
+                    )
+
+        self.assertEqual(FROM_START_PRE_M04_TARGETS, planned)
+
+    def test_00_from_start_archipelagos_and_continental_pre_m04_family_use_01_then_generation(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        families = {
+            "physical_components": ("illes_balears", "canarias"),
+            "continental_pre_m04": (
+                "cataluna",
+                "comunidad_valenciana",
+                "madrid",
+                "region_de_murcia",
+                "comunidad_foral_de_navarra",
+                "pais_vasco",
+                "la_rioja",
+                "melilla",
+            ),
+        }
+        for family, territories in families.items():
+            for territory_id in territories:
+                with self.subTest(family=family, territory=territory_id):
+                    plan = build_plan(
+                        territory=territory_id,
+                        edition="2025",
+                        execution_mode="from_start",
+                        catalog=catalog,
+                        root_dir=ROOT,
+                    )
+                    self.assertTrue(plan["run_prepare_territorial"])
+                    self.assertTrue(plan["pre_m04_accreditation_planned"])
+                    self.assertTrue(plan["run_generate"])
+                    self.assertEqual(
+                        {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                        plan["generation_gate"],
+                    )
+
+    def test_00_from_start_does_not_authorize_contract_without_resolvable_m04_input(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract_path, _, _ = write_fixture(root, partitioned=False)
+            broken = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            broken["modulos"]["modulo_04_generar_semillas"]["in_geojson"] = "unreachable.geojson"
+            contract_path.write_text(
+                yaml.safe_dump(broken, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"GENERATION_CONTRACT_BLOCK: Demo: CAP_M04_INPUT:",
+            ):
+                build_plan(
+                    territory="demo",
+                    edition="2025",
+                    execution_mode="from_start",
+                    catalog=root / "configuracion/catalogo_preparacion.yaml",
+                    root_dir=root,
+                )
+
+    def test_reuse_catalog_source_and_declared_continental_route_remain_unchanged(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+
+        reuse = build_plan(
+            territory="illes_balears",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=catalog,
+            root_dir=ROOT,
+        )
+        self.assertTrue(reuse["run_prepare_territorial"])
+        self.assertTrue(reuse["pre_m04_accreditation_planned"])
+        self.assertEqual(
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            reuse["generation_gate"],
+        )
+
+        accredited_source = build_plan(
+            territory="illes_balears",
+            edition="2025",
+            execution_mode="catalog_source",
+            catalog=catalog,
+            root_dir=ROOT,
+        )
+        self.assertFalse(accredited_source["run_prepare_territorial"])
+        self.assertFalse(accredited_source["pre_m04_accreditation_planned"])
+        self.assertTrue(accredited_source["run_generate"])
+        self.assertEqual(
+            {"allowed": True, "route": "accredited_source_recalculation"},
+            accredited_source["generation_gate"],
+        )
+
+        continental = build_plan(
+            territory="andalucia",
+            edition="2025",
+            execution_mode="from_start",
+            catalog=catalog,
+            root_dir=ROOT,
+        )
+        self.assertTrue(continental["run_prepare_territorial"])
+        self.assertFalse(continental["pre_m04_accreditation_planned"])
+        self.assertTrue(continental["run_generate"])
+        self.assertEqual(
+            {"allowed": True, "route": "declared_generation_ready"},
+            continental["generation_gate"],
+        )
 
     def test_00_wiring_waits_for_validated_pre_m04_before_generation(self):
         full = yaml.safe_load((ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
