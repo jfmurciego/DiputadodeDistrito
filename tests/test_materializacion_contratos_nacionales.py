@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import ast
 import csv
+import hashlib
+import copy
 import io
 import json
 import shutil
@@ -17,7 +20,14 @@ from herramientas.materializar_contrato_generacion import (
     hamilton,
     materialize,
 )
-from herramientas.resolver_ejecucion_completa import generation_enablement
+from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
+from herramientas.preparar_particiones_fisicas_m04 import prepare as prepare_physical_m04_input
+from herramientas._resolver_ejecucion_completa_core import (
+    _bridge_signature,
+    _contract_generation_binding,
+    _hard_partition_spec,
+    _pre_m04_implementation_binding,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "configuracion/politica_generacion_territorial_2025.yaml"
@@ -154,19 +164,34 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             finally:
                 td.cleanup()
 
-    def test_archipelagos_live_catalog_reports_real_capabilities_before_first_generation(self):
+    def test_archipelagos_plan_physical_input_then_require_durable_pre_m04_evidence(self):
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
-        for territory_id in ("illes_balears", "canarias"):
+        expected = {
+            "illes_balears": {"k": 59, "sections": 674, "components": 4},
+            "canarias": {"k": 70, "sections": 1407, "components": 8},
+        }
+        for territory_id, target in expected.items():
             state = rows[territory_id]["editions"]["2025"]
             self.assertEqual("READY", state["preparation_status"], territory_id)
             self.assertTrue(state["territorial_sources_prepared"], territory_id)
             self.assertTrue(state["territorial_contract_complete"], territory_id)
             self.assertEqual("AUTHORIZED", state["production_authorization"], territory_id)
-            self.assertTrue(state["contract_path"], territory_id)
-            self.assertTrue(state["territorial_source_declaration"], territory_id)
+            self.assertFalse(state["territorial_product_available"], territory_id)
+            self.assertEqual("NOT_CERTIFIED", state["territorial_certification"], territory_id)
+
+            contract = yaml.safe_load((ROOT/state["contract_path"]).read_text(encoding="utf-8"))
+            hard = _hard_partition_spec(contract, ROOT)
+            self.assertEqual(target["k"], sum(hard["component_districts"].values()), territory_id)
+            self.assertEqual(target["sections"], hard["expected_graph_nodes"], territory_id)
+            self.assertEqual(target["components"], hard["expected_global_components"], territory_id)
+            self.assertEqual(
+                contract["modulos"]["modulo_04_generar_semillas"]["in_geojson"],
+                hard["input_geojson"],
+                territory_id,
+            )
 
             gate = generation_enablement(
                 root_dir=ROOT,
@@ -178,8 +203,250 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(gate["allowed"], territory_id)
-            self.assertEqual("CAP_M04_INPUT", gate["capability"], territory_id)
-            self.assertIn("Formación inicial", gate["reason"], territory_id)
+            self.assertEqual("CAP_PRE_M04_EVIDENCE", gate["capability"], territory_id)
+
+            plan = build_plan(
+                territory=territory_id,
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+            )
+            self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertTrue(plan["run_prepare_territorial"], territory_id)
+            self.assertTrue(plan["run_generate"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"], territory_id)
+            self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
+            self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
+
+    def test_archipelago_complete_durable_preflight_opens_only_first_generation_gate(self):
+        catalog = yaml.safe_load(
+            (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
+        )
+        rows = {row["territory_id"]: row for row in catalog["territories"]}
+        for territory_id in ("illes_balears", "canarias"):
+            state = rows[territory_id]["editions"]["2025"]
+            contract = yaml.safe_load((ROOT/state["contract_path"]).read_text(encoding="utf-8"))
+            hard = _hard_partition_spec(contract, ROOT)
+            run_id = state["preparation_evidence"]["run_id"]
+            m02 = contract["modulos"]["modulo_02_construir_adyacencias"]
+            evidence = {
+                "schema": "ddd.catalog-evidence/1.0",
+                "kind": "generation_preflight",
+                "territory_id": territory_id,
+                "territory_name": rows[territory_id]["name"],
+                "edition": "2025",
+                "run_id": run_id,
+                "source_commit": "1" * 40,
+                "artifact_name": f"ddd-state-{run_id}-M03U",
+                "artifact_sha256": "a" * 64,
+                "decision": "READY_FOR_FIRST_GENERATION",
+                "stage": "M03U",
+                "source": dict(state["preparation_evidence"]),
+                "implementation": _pre_m04_implementation_binding(ROOT, contract),
+                "adjacency": {
+                    "predicate": m02.get("predicate"),
+                    "working_crs": m02.get("working_crs"),
+                    "min_shared_border_m": m02.get("min_shared_border_m"),
+                    "max_precision_overlap_area_m2": m02.get("max_precision_overlap_area_m2"),
+                    "buffer_m": m02.get("buffer_m"),
+                    "simplify_m": m02.get("simplify_m"),
+                    "topology_bridges": _bridge_signature(m02.get("topology_bridges") or []),
+                },
+                "graph": {
+                    "artifact_name": f"ddd-state-{run_id}-M03",
+                    "artifact_sha256": "b" * 64,
+                    "nodes": hard["expected_graph_nodes"],
+                    "population": hard["expected_graph_population"],
+                    "isolated": hard["expected_isolated"],
+                    "global_components": hard["expected_global_components"],
+                    "province_disconnected": hard["expected_province_disconnected"],
+                    "municipality_disconnected": hard["expected_municipality_disconnected"],
+                },
+                "partitioning": {
+                    "job_artifact_name": f"ddd-internal-units-{run_id}",
+                    "job_artifact_sha256": "c" * 64,
+                    "status": "PREPARED",
+                    "strategy": "physical_components",
+                    "contract_output_geojson": hard["input_geojson"],
+                    "resolved_output_geojson": f"/tmp/{territory_id}_m03_particiones.geojson.zip",
+                    "hard_partition_lookup": hard["lookup"],
+                    "hard_partition_lookup_sha256": hard["lookup_sha256"],
+                    "partition_field": hard["partition_field"],
+                    "municipality_field": hard["municipality_field"],
+                    "component_sections": hard["component_sections"],
+                    "component_districts": hard["component_districts"],
+                },
+                "contract_binding": _contract_generation_binding(contract),
+            }
+            gate = generation_enablement(
+                root_dir=ROOT,
+                contract_path=state["contract_path"],
+                territory_id=territory_id,
+                certified_product_ready=False,
+                first_generation_evidence=evidence,
+                preparation_evidence=state["preparation_evidence"],
+                require_source=True,
+            )
+            self.assertEqual(
+                {"allowed": True, "route": "validated_pre_m04_topology"},
+                gate,
+                territory_id,
+            )
+            self.assertFalse(state["territorial_product_available"], territory_id)
+            self.assertEqual("NOT_CERTIFIED", state["territorial_certification"], territory_id)
+
+            bad_digest = copy.deepcopy(evidence)
+            bad_digest["partitioning"]["hard_partition_lookup_sha256"] = "d" * 64
+            blocked = generation_enablement(
+                root_dir=ROOT,
+                contract_path=state["contract_path"],
+                territory_id=territory_id,
+                certified_product_ready=False,
+                first_generation_evidence=bad_digest,
+                preparation_evidence=state["preparation_evidence"],
+                require_source=True,
+            )
+            self.assertFalse(blocked["allowed"], territory_id)
+            self.assertEqual("CAP_PRE_M04_EVIDENCE", blocked["capability"], territory_id)
+
+    def test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment(self):
+        contract = yaml.safe_load(
+            (ROOT/"territorios/illes_balears/config/illes_balears_2025.yaml").read_text(encoding="utf-8")
+        )
+        missing = copy.deepcopy(contract)
+        missing["validation"]["hard_partition_lookup"] = "configuracion/no-existe.json"
+        with self.assertRaisesRegex(ValueError, "lookup"):
+            _hard_partition_spec(missing, ROOT)
+
+        inconsistent = copy.deepcopy(contract)
+        inconsistent["validation"]["province_districts"]["07-C01"] += 1
+        with self.assertRaisesRegex(ValueError, "K"):
+            _hard_partition_spec(inconsistent, ROOT)
+
+        incomplete = copy.deepcopy(contract)
+        incomplete["validation"]["partition_apportionment_audit"].pop("07-C04")
+        with self.assertRaisesRegex(ValueError, "cubren exactamente"):
+            _hard_partition_spec(incomplete, ROOT)
+
+    def test_physical_preparer_materializes_verifiable_m04_input_without_running_seed_engine(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root/"modulos").mkdir()
+            (root/"configuracion").mkdir()
+            (root/"modulos/04_generar_semillas.py").symlink_to(
+                ROOT/"modulos/04_generar_semillas.py"
+            )
+
+            source = root/"source.geojson.zip"
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {"type": "Feature", "properties": {"CUSEC_KEY": "0700101001", "CUMUN": "07001"}, "geometry": {"type": "Point", "coordinates": [1, 1]}},
+                    {"type": "Feature", "properties": {"CUSEC_KEY": "0700201001", "CUMUN": "07002"}, "geometry": {"type": "Point", "coordinates": [2, 2]}},
+                    {"type": "Feature", "properties": {"CUSEC_KEY": "0700201002", "CUMUN": "07002"}, "geometry": {"type": "Point", "coordinates": [2.1, 2.1]}},
+                ],
+            }
+            with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as zf:
+                zf.writestr("source.geojson", json.dumps(geojson))
+
+            lookup = root/"configuracion/particiones.json"
+            lookup.write_text(json.dumps({
+                "schema": "ddd-archipelago-partitions/1.1",
+                "edition": 2025,
+                "territories": {
+                    "demo": {
+                        "partition_mode": "physical_components",
+                        "components": {
+                            "A": {"province_code": "07", "section_count": 1},
+                            "B": {"province_code": "07", "section_count": 2},
+                        },
+                        "municipality_to_partition": {"07001": "A", "07002": "B"},
+                        "section_overrides": {},
+                    }
+                },
+            }), encoding="utf-8")
+            target = root/"m03_particiones.geojson.zip"
+            params = root/"demo.yaml"
+            params.write_text(yaml.safe_dump({
+                "meta": {"territory_id": "demo", "run_name": "demo_2025", "year": 2025},
+                "territory_contract": {"k_districts": 2},
+                "modulos": {
+                    "modulo_01_preparar_base_territorial": {"out_geojson": str(source)},
+                    "modulo_02_construir_adyacencias": {"topology_bridges": []},
+                    "modulo_04_generar_semillas": {
+                        "source_geojson": str(source),
+                        "in_geojson": str(target),
+                        "id_field": "CUSEC_KEY",
+                        "province_field": "DDD_PARTITION",
+                        "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                        "district_apportionment": "hamilton_components",
+                        "hard_partition_lookup": str(lookup),
+                        "hard_partition_territory_id": "demo",
+                    },
+                },
+                "validation": {
+                    "hard_partition_mode": "physical_components",
+                    "hard_partition_lookup": str(lookup),
+                    "province_apportionment": "hamilton_components",
+                    "province_field": "DDD_PARTITION",
+                    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                    "province_districts": {"A": 1, "B": 1},
+                    "partition_populations": {"A": 100, "B": 200},
+                    "partition_apportionment_audit": {
+                        "A": {"population": 100, "districts": 1, "floor_exception_required": False, "floor_exception_governed": True},
+                        "B": {"population": 200, "districts": 1, "floor_exception_required": False, "floor_exception_governed": True},
+                    },
+                    "population_floor_exempt_partitions": [],
+                },
+            }, sort_keys=False), encoding="utf-8")
+
+            job = prepare_physical_m04_input(params, "123", root_dir=root)
+            self.assertTrue(target.is_file())
+            self.assertEqual("PREPARED", job["status"])
+            self.assertEqual("physical_components", job["strategy"])
+            self.assertEqual({"A": 1, "B": 2}, job["component_sections"])
+            self.assertEqual({"A": 1, "B": 1}, job["component_districts"])
+            self.assertEqual(hashlib.sha256(lookup.read_bytes()).hexdigest(), job["hard_partition_lookup_sha256"])
+
+    def test_m03_uses_source_admin_fields_before_physical_partitions_exist(self):
+        source = (ROOT/"modulos/03_construir_grafo.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        function = next(
+            node for node in tree.body
+            if isinstance(node, ast.FunctionDef) and node.name == "graph_admin_fields"
+        )
+        namespace = {}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), "<graph_admin_fields>", "exec"), namespace)
+        resolve = namespace["graph_admin_fields"]
+        self.assertEqual(
+            ("CPRO", "CUMUN", "NMUN"),
+            resolve({
+                "hard_partition_mode": "physical_components",
+                "province_field": "DDD_PARTITION",
+                "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+            }),
+        )
+        self.assertEqual(
+            ("CPRO", "CUMUN", "NMUN"),
+            resolve({"province_field": "CPRO", "municipality_field": "CUMUN"}),
+        )
+
+        workflow = (ROOT/".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
+        self.assertIn("hard_partition_mode", workflow)
+        self.assertIn("preparar_particiones_fisicas_m04.py", workflow)
+        self.assertIn("preparar_unidades_internas.py", workflow)
+
+    def test_non_insular_preflight_behavior_is_unchanged(self):
+        plan = build_plan(
+            territory="cantabria",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        self.assertFalse(plan["pre_m04_accreditation_planned"])
+        self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"])
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
