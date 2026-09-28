@@ -581,6 +581,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["hard_partition_mode"], "physical_components")
             self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["topology_bridges"], [])
+            self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["bridge_admin_level_1_field"], "CPRO")
+            self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["bridge_admin_level_2_field"], "CUMUN")
         finally:
             td.cleanup()
 
@@ -609,6 +611,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["modulos"]["modulo_04_generar_semillas"]["province_field"], "DDD_PARTITION")
             self.assertEqual(cfg["validation"]["hard_partition_mode"], "physical_components")
+            self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["bridge_admin_level_1_field"], "CPRO")
+            self.assertEqual(cfg["modulos"]["modulo_02_construir_adyacencias"]["bridge_admin_level_2_field"], "CUMUN")
         finally:
             td.cleanup()
 
