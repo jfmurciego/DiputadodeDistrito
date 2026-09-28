@@ -4,10 +4,10 @@
   "territory_id": "castilla_la_mancha",
   "territory_name": "Castilla-La Mancha",
   "edition": "2025",
-  "run_id": 36348991452,
-  "artifact_name": "ddd-state-36348991452-M06",
-  "artifact_sha256": "306c70a6d1b35f3d7e6c2acbc26ff8df28eed921ad8410f6d27d9f4c988e3421",
-  "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
+  "run_id": 36402139263,
+  "artifact_name": "ddd-state-36402139263-M06",
+  "artifact_sha256": "b3bc5c1164631b2796c4a10b650a9419168f125bdade4391ff2d6583c6a38e00",
+  "source_commit": "f8fe4df2c82972a9b9d177c24c5cafde2adf6f57",
   "decision": "PASS_WITH_EXCEPTIONS",
   "stage": "M06"
 }
