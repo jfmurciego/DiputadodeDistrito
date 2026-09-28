@@ -339,6 +339,47 @@ class ContinueFromLastValidTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*LINEAGE_INCOMPATIBLE"):
             self.case(source=True, m06=True, electoral_source=True, m08=True, incompatible=True)
 
+    def test_failed_m06_producer_phase_blocks_reuse(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            catalog = prepare_root(root, m06=True)
+            manifest_path = root / "territorios/demo/evidencia/ejecuciones_completas/201.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            producer = next(p for p in manifest["phases"] if p["name"].startswith("02 ·"))
+            producer["result"] = "failure"
+            producer["executed"] = True
+            write_json(manifest_path, manifest)
+            with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*PRODUCER_PHASE_INVALID"):
+                build_plan(
+                    territory="Demo",
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=root,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
+
+    def test_contradictory_m06_producer_validation_blocks_reuse(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            catalog = prepare_root(root, m06=True)
+            manifest_path = root / "territorios/demo/evidencia/ejecuciones_completas/201.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            producer = next(p for p in manifest["phases"] if p["name"].startswith("02 ·"))
+            producer["validation_decision"] = "BLOQUEADO"
+            write_json(manifest_path, manifest)
+            with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*PRODUCER_PHASE_INVALID"):
+                build_plan(
+                    territory="Demo",
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=root,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
+
     def test_castilla_la_mancha_current_state_plans_only_electoral_incorporation(self):
         p = build_plan(
             territory="Castilla-La Mancha",
@@ -347,7 +388,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
             catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
             root_dir=ROOT,
             optimization_algorithm="Canónico",
-            force_selected_algorithm=False,
+            force_selected_algorithm=True,
         )
         self.assert_phases(p, (False, False, False, True))
         self.assertTrue(p["existing"]["territorial_product"]["run_id"])
