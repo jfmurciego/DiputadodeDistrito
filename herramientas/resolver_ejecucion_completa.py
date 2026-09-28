@@ -265,7 +265,12 @@ def _territorial_product_reuse_validation(*, row: dict, state: dict, edition: st
     run_id = evidence.get("run_id")
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
         return {"valid": False, "reason": "RECEIPT_RUN_ID"}
-    if evidence.get("artifact_name") != f"ddd-state-{run_id}-M06":
+    artifact_name = str(evidence.get("artifact_name") or "")
+    canonical_artifact = f"ddd-state-{run_id}-M06"
+    if not (
+        artifact_name == canonical_artifact
+        or re.fullmatch(re.escape(canonical_artifact) + r"-[A-Za-z0-9][A-Za-z0-9._-]*", artifact_name)
+    ):
         return {"valid": False, "reason": "RECEIPT_ARTIFACT_IDENTITY"}
     digest = str(evidence.get("artifact_sha256") or "").removeprefix("sha256:").lower()
     if not _core._sha256_value(digest):
@@ -301,7 +306,7 @@ def _territorial_product_reuse_validation(*, row: dict, state: dict, edition: st
         "valid": True,
         "reason": "VALIDATED_M06_RECEIPT",
         "run_id": run_id,
-        "artifact_name": evidence.get("artifact_name"),
+        "artifact_name": artifact_name,
         "artifact_sha256": digest,
         "source_commit": source_commit,
         "decision": decision,
