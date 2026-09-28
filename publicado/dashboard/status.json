@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-27T22:08:02.415286+00:00",
+  "generated_at": "2026-09-28T08:46:14.133779+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -600,7 +600,7 @@
       "re": "green",
       "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36321743580,
+      "run_id": 36398139343,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -618,10 +618,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 36329864649,
-          "artifact_name": "ddd-state-36329864649-M06",
-          "artifact_sha256": "cee89580c175fb8fb380eff199fcb2bf405b4c1a75a54aa639bc2d896ea81d5f",
-          "source_commit": "36efca2ee7a025dee93f179d3b9caa2799eada4b",
+          "run_id": 36398139343,
+          "artifact_name": "ddd-state-36398139343-M06",
+          "artifact_sha256": "1bea77193ef6fa5ff2b3f53bccaa3f1311eae739e66450f119640e74bfabfd89",
+          "source_commit": "edfeb54cc3c1806719fff3be7eedaf956b31a185",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -644,10 +644,10 @@
           "territory_id": "principado_de_asturias",
           "territory_name": "Principado de Asturias",
           "edition": "2025",
-          "run_id": 36321743580,
-          "artifact_name": "ddd-state-36321743580-M08",
-          "artifact_sha256": "6f0473a6c237a3c965b8b150fe67bb0fa188886b3d66e0323bb90469fa921b06",
-          "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+          "run_id": 36398139343,
+          "artifact_name": "ddd-state-36398139343-M08",
+          "artifact_sha256": "4bc18b3a0244c0132b5275f1271ad7343b86d38527e54ec974c778954c247901",
+          "source_commit": "edfeb54cc3c1806719fff3be7eedaf956b31a185",
           "stage": "M08"
         }
       }
@@ -727,7 +727,7 @@
   "latest_validated": {
     "territory_id": "principado_de_asturias",
     "name": "Principado de Asturias",
-    "run_id": 36321743580,
+    "run_id": 36398139343,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
