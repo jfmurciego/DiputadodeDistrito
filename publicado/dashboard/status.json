@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-28T08:48:46.352785+00:00",
+  "generated_at": "2026-09-28T09:41:14.253645+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -199,11 +199,11 @@
       "name": "Castilla-La Mancha",
       "ft": "green",
       "g": "green",
-      "fe": "gray",
-      "re": "gray",
-      "status": "Generación territorial validada",
+      "fe": "green",
+      "re": "yellow",
+      "status": "Listo para incorporar resultados electorales",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36348991452,
+      "run_id": 36402139263,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -221,14 +221,28 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 36348991452,
-          "artifact_name": "ddd-state-36348991452-M06",
-          "artifact_sha256": "306c70a6d1b35f3d7e6c2acbc26ff8df28eed921ad8410f6d27d9f4c988e3421",
-          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
+          "run_id": 36402139263,
+          "artifact_name": "ddd-state-36402139263-M06",
+          "artifact_sha256": "b3bc5c1164631b2796c4a10b650a9419168f125bdade4391ff2d6583c6a38e00",
+          "source_commit": "f8fe4df2c82972a9b9d177c24c5cafde2adf6f57",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
-        "electoral_source": null,
+        "electoral_source": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_source",
+          "territory_id": "castilla_la_mancha",
+          "territory_name": "Castilla-La Mancha",
+          "edition": "2025",
+          "run_id": 36402139263,
+          "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          "artifact_sha256": "24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+          "source_commit": "f8fe4df2c82972a9b9d177c24c5cafde2adf6f57",
+          "election_id": "castilla_la_mancha_cortes_2023",
+          "declaration": null,
+          "election_registry": "configuracion/registro_electoral.yaml",
+          "election_date": "2023-05-28"
+        },
         "electoral_product": null
       }
     },
@@ -430,12 +444,12 @@
       "territory_id": "galicia",
       "name": "Galicia",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "green",
       "re": "green",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": 35716459467,
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 36403519566,
       "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
@@ -453,10 +467,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 36321835203,
-          "artifact_name": "ddd-state-36321835203-M06",
-          "artifact_sha256": "e54c9fd277234f6f4d02a67a90afe0d5443c795e709f7ccd031da39dfbb51036",
-          "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+          "run_id": 36403519566,
+          "artifact_name": "ddd-state-36403519566-M06",
+          "artifact_sha256": "12529f8c76eb46e661a28d546d09cd5d33e8e9db331c1f435d72d6adbbdc3733",
+          "source_commit": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -479,10 +493,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 35716459467,
-          "artifact_name": "ddd-state-35716459467-M08",
-          "artifact_sha256": "124836794a2a3945084734583342b4cd8c9595377c9175c7c8af16f3f55e7a11",
-          "source_commit": "a23eb3b177c016391a50b19258c1165ae4ba31ae",
+          "run_id": 36403519566,
+          "artifact_name": "ddd-state-36403519566-M08",
+          "artifact_sha256": "c0fd18457e228aaf1d63f4e832f1601a02ae30e31512e90971b6812562b5c513",
+          "source_commit": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
           "stage": "M08"
         }
       }
@@ -680,30 +694,33 @@
     }
   ],
   "kpis": {
-    "complete": 2,
+    "complete": 3,
     "complete_names": [
       "Aragón",
+      "Galicia",
       "Principado de Asturias"
     ],
-    "territorial_validated": 6,
+    "territorial_validated": 7,
     "territorial_validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
       "Ceuta",
       "Extremadura",
+      "Galicia",
       "Principado de Asturias"
     ],
-    "validated": 6,
+    "validated": 7,
     "validated_names": [
       "Aragón",
       "Castilla y León",
       "Castilla-La Mancha",
       "Ceuta",
       "Extremadura",
+      "Galicia",
       "Principado de Asturias"
     ],
-    "ready": 13,
+    "ready": 12,
     "ready_names": [
       "Andalucía",
       "Canarias",
@@ -712,7 +729,6 @@
       "Comunidad de Madrid",
       "Comunidad Foral de Navarra",
       "Comunidad Valenciana",
-      "Galicia",
       "Islas Baleares",
       "La Rioja",
       "Melilla",
@@ -725,9 +741,9 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "principado_de_asturias",
-    "name": "Principado de Asturias",
-    "run_id": 36398139343,
+    "territory_id": "galicia",
+    "name": "Galicia",
+    "run_id": 36403519566,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -750,6 +766,10 @@
       "action": "incorporar resultados electorales"
     },
     {
+      "territory": "Castilla-La Mancha",
+      "action": "incorporar resultados electorales"
+    },
+    {
       "territory": "Cataluña",
       "action": "completar puerta de validación territorial"
     },
@@ -759,10 +779,6 @@
     },
     {
       "territory": "Comunidad de Madrid",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "Comunidad Foral de Navarra",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -785,7 +801,7 @@
     },
     {
       "territory": "Castilla-La Mancha",
-      "action": "preparar fuentes electorales"
+      "action": "incorporar resultados electorales"
     },
     {
       "territory": "Cataluña",
