@@ -14,6 +14,7 @@ PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEP
 FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
 FIRST_GENERATION_EVIDENCE_KIND = "generation_preflight"
 FIRST_GENERATION_DECISION = "READY_FOR_FIRST_GENERATION"
+PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1 = "c2c928d1e21d3b486ee3e9975eace18364bd3176"
 
 
 def _sha256_value(value: object) -> bool:
@@ -41,14 +42,22 @@ def _git_blob_sha1(path: Path) -> str | None:
     return hashlib.sha1(header + payload).hexdigest()
 
 
-def _pre_m04_implementation_binding(root_dir: Path) -> dict:
-    return {
+def _pre_m04_implementation_binding(root_dir: Path, contract: dict | None = None) -> dict:
+    binding = {
         "m01_git_blob_sha1": _git_blob_sha1(root_dir / "modulos/01_preparar_base_territorial.py"),
         "m02_git_blob_sha1": _git_blob_sha1(root_dir / "modulos/02_construir_adyacencias.py"),
         "m03_git_blob_sha1": _git_blob_sha1(root_dir / "modulos/03_construir_grafo.py"),
         "partition_preparer_git_blob_sha1": _git_blob_sha1(root_dir / "herramientas/preparar_unidades_internas.py"),
         "partition_builder_git_blob_sha1": _git_blob_sha1(root_dir / "herramientas/construir_unidades_internas_m04.py"),
     }
+    if contract and ((contract.get("validation") or {}).get("hard_partition_mode") == "physical_components"):
+        binding.update({
+            "physical_partition_preparer_git_blob_sha1": _git_blob_sha1(
+                root_dir / "herramientas/preparar_particiones_fisicas_m04.py"
+            ),
+            "m04_entrypoint_git_blob_sha1": _git_blob_sha1(root_dir / "modulos/04_generar_semillas.py"),
+        })
+    return binding
 
 
 def _bridge_signature(rows: object) -> list[dict]:
@@ -56,6 +65,138 @@ def _bridge_signature(rows: object) -> list[dict]:
         return []
     keys = ("u", "v", "admin_scope", "edge_type")
     return [{key: row.get(key) for key in keys} for row in rows if isinstance(row, dict)]
+
+
+def _pre_m04_implementation_matches(observed: object, expected: dict, *, hard_partition: bool) -> bool:
+    if observed == expected:
+        return True
+    if hard_partition or not isinstance(observed, dict):
+        return False
+    legacy = dict(expected)
+    legacy["m03_git_blob_sha1"] = PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1
+    return observed == legacy
+
+
+def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
+    """Resolve and validate the durable physical-component input declared for M04."""
+    modules = contract.get("modulos") or {}
+    m01 = modules.get("modulo_01_preparar_base_territorial") or {}
+    m02 = modules.get("modulo_02_construir_adyacencias") or {}
+    m04 = modules.get("modulo_04_generar_semillas") or {}
+    validation = contract.get("validation") or {}
+    mode = validation.get("hard_partition_mode")
+    if not mode:
+        return None
+    if mode != "physical_components":
+        raise ValueError(f"hard_partition_mode no soportado: {mode!r}")
+    partitioning = contract.get("partitioning") or {}
+    if partitioning.get("enabled") is True:
+        raise ValueError("particionado físico y unidades internas no pueden estar activos simultáneamente")
+
+    territory_id = str((contract.get("meta") or {}).get("territory_id") or "")
+    source_geojson = m04.get("source_geojson")
+    input_geojson = m04.get("in_geojson")
+    lookup_raw = m04.get("hard_partition_lookup")
+    if (not territory_id or not source_geojson or source_geojson != m01.get("out_geojson")
+            or not input_geojson or input_geojson == source_geojson):
+        raise ValueError("la derivación física no enlaza fuente territorial y entrada de Formación inicial")
+    if (not lookup_raw or lookup_raw != validation.get("hard_partition_lookup")
+            or m04.get("hard_partition_territory_id") != territory_id):
+        raise ValueError("lookup físico ausente o no enlazado con el territorio efectivo")
+    if (m04.get("district_apportionment") != "hamilton_components"
+            or validation.get("province_apportionment") != "hamilton_components"):
+        raise ValueError("reparto DDD por componentes no está declarado como Hamilton")
+    if (m04.get("province_field") != validation.get("province_field")
+            or m04.get("municipality_field") != validation.get("municipality_field")):
+        raise ValueError("campos físicos de Formación inicial no coinciden con validación")
+    if m02.get("topology_bridges") not in ([], None):
+        raise ValueError("un contrato de componentes físicos no puede introducir puentes topológicos")
+
+    lookup_path = root_dir / str(lookup_raw)
+    if not lookup_path.is_file():
+        raise ValueError("lookup físico durable inexistente")
+    try:
+        payload = json.loads(lookup_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("lookup físico durable ilegible") from exc
+    territory = (payload.get("territories") or {}).get(territory_id)
+    if not isinstance(territory, dict) or territory.get("partition_mode") != "physical_components":
+        raise ValueError("lookup físico no contiene el territorio/modo esperados")
+    components = territory.get("components") or {}
+    if not isinstance(components, dict) or not components:
+        raise ValueError("lookup físico sin componentes")
+    section_counts = {}
+    provinces_by_component = {}
+    for key, row in components.items():
+        if not isinstance(row, dict):
+            raise ValueError(f"componente física inválida: {key}")
+        count = row.get("section_count")
+        province = str(row.get("province_code") or "")
+        if not isinstance(count, int) or isinstance(count, bool) or count <= 0 or not province:
+            raise ValueError(f"componente física sin inventario durable válido: {key}")
+        section_counts[str(key)] = count
+        provinces_by_component[str(key)] = province
+
+    component_ids = set(section_counts)
+    municipality_map = {str(k): str(v) for k, v in (territory.get("municipality_to_partition") or {}).items()}
+    overrides = {str(k): str(v) for k, v in (territory.get("section_overrides") or {}).items()}
+    if not municipality_map or any(v not in component_ids for v in municipality_map.values()):
+        raise ValueError("lookup físico contiene mapeo municipal incompleto o ajeno a sus componentes")
+    if any(v not in component_ids for v in overrides.values()):
+        raise ValueError("lookup físico contiene override de sección ajeno a sus componentes")
+
+    quotas = validation.get("province_districts") or {}
+    populations = validation.get("partition_populations") or {}
+    audit = validation.get("partition_apportionment_audit") or {}
+    if set(map(str, quotas)) != component_ids or set(map(str, populations)) != component_ids or set(map(str, audit)) != component_ids:
+        raise ValueError("particiones, poblaciones, reparto DDD y auditoría no cubren exactamente las componentes físicas")
+    k = (contract.get("territory_contract") or {}).get("k_districts")
+    if (not isinstance(k, int) or isinstance(k, bool)
+            or any(not isinstance(v, int) or isinstance(v, bool) or v <= 0 for v in quotas.values())
+            or sum(quotas.values()) != k):
+        raise ValueError("reparto DDD por componentes no conserva K")
+
+    required_exempt = set()
+    for key in component_ids:
+        row = audit.get(key) or {}
+        if row.get("population") != populations.get(key) or row.get("districts") != quotas.get(key):
+            raise ValueError(f"auditoría de reparto inconsistente para {key}")
+        if row.get("floor_exception_required") is True:
+            required_exempt.add(key)
+            if row.get("floor_exception_governed") is not True:
+                raise ValueError(f"excepción de suelo no gobernada para {key}")
+    if set(validation.get("population_floor_exempt_partitions") or []) != required_exempt:
+        raise ValueError("excepciones de suelo no coinciden con la auditoría de componentes")
+
+    province_groups = {}
+    for key, province in provinces_by_component.items():
+        province_groups.setdefault(province, set()).add(key)
+    expected_province_disconnected = sum(1 for values in province_groups.values() if len(values) > 1)
+    municipality_components = {mun: {component} for mun, component in municipality_map.items()}
+    for section, component in overrides.items():
+        municipality = section[:5]
+        municipality_components.setdefault(municipality, set()).add(component)
+    expected_municipality_disconnected = sum(1 for values in municipality_components.values() if len(values) > 1)
+
+    return {
+        "mode": "physical_components",
+        "lookup": str(lookup_raw),
+        "lookup_sha256": hashlib.sha256(lookup_path.read_bytes()).hexdigest(),
+        "territory_id": territory_id,
+        "source_geojson": source_geojson,
+        "input_geojson": input_geojson,
+        "partition_field": m04.get("province_field"),
+        "municipality_field": m04.get("municipality_field"),
+        "component_sections": section_counts,
+        "component_populations": {str(k): int(v) for k, v in populations.items()},
+        "component_districts": {str(k): int(v) for k, v in quotas.items()},
+        "expected_graph_nodes": sum(section_counts.values()),
+        "expected_graph_population": sum(int(v) for v in populations.values()),
+        "expected_global_components": len(component_ids),
+        "expected_isolated": sum(1 for v in section_counts.values() if v == 1),
+        "expected_province_disconnected": expected_province_disconnected,
+        "expected_municipality_disconnected": expected_municipality_disconnected,
+    }
 
 
 def _contract_generation_binding(contract: dict) -> dict:
@@ -67,7 +208,7 @@ def _contract_generation_binding(contract: dict) -> dict:
     m06 = modules.get("modulo_06_consolidar_distritos") or {}
     territorial = contract.get("territory_contract") or {}
     validation = contract.get("validation") or {}
-    return {
+    binding = {
         "contract_level": (contract.get("meta") or {}).get("contract_level"),
         "k_districts": territorial.get("k_districts"),
         "population_floor_ratio": territorial.get("population_floor_ratio"),
@@ -92,13 +233,29 @@ def _contract_generation_binding(contract: dict) -> dict:
         "require_graph_contiguity": validation.get("require_graph_contiguity"),
         "require_municipality_discipline": validation.get("require_municipality_discipline"),
     }
+    if validation.get("hard_partition_mode") == "physical_components":
+        binding["hard_partition_input"] = {
+            "mode": validation.get("hard_partition_mode"),
+            "lookup": validation.get("hard_partition_lookup"),
+            "partition_populations": validation.get("partition_populations"),
+            "component_districts": validation.get("province_districts"),
+            "partition_apportionment_audit": validation.get("partition_apportionment_audit"),
+            "population_floor_exempt_partitions": validation.get("population_floor_exempt_partitions"),
+            "source_geojson": m04.get("source_geojson"),
+            "input_geojson": m04.get("in_geojson"),
+            "partition_field": m04.get("province_field"),
+            "municipality_field": m04.get("municipality_field"),
+            "district_apportionment": m04.get("district_apportionment"),
+            "hard_partition_territory_id": m04.get("hard_partition_territory_id"),
+        }
+    return binding
 
 
 def _blocked(capability: str, detail: str) -> dict:
     return {"allowed": False, "capability": capability, "reason": f"{capability}: {detail}"}
 
 
-def _generation_capabilities(contract: dict) -> dict:
+def _generation_capabilities(contract: dict, root_dir: Path | None = None) -> dict:
     meta = contract.get("meta") or {}
     territorial = contract.get("territory_contract") or {}
     modules = contract.get("modulos") or {}
@@ -132,7 +289,14 @@ def _generation_capabilities(contract: dict) -> dict:
             or validation.get("require_graph_contiguity") is not True):
         return _blocked("CAP_GRAPH", "grafo contractual o control de contigüidad incompletos")
     partitioning = contract.get("partitioning") or {}
-    if partitioning.get("enabled") is True:
+    if (validation.get("hard_partition_mode") == "physical_components"):
+        if root_dir is None:
+            return _blocked("CAP_M04_INPUT", "la entrada física requiere resolver su evidencia durable")
+        try:
+            _hard_partition_spec(contract, root_dir)
+        except ValueError as exc:
+            return _blocked("CAP_M04_INPUT", str(exc))
+    elif partitioning.get("enabled") is True:
         if (partitioning.get("strategy") != "connected_internal_units"
                 or not partitioning.get("output_geojson")
                 or partitioning.get("output_geojson") != m04.get("in_geojson")
@@ -171,7 +335,11 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("SHA-256 de fuente inválido")
     if not re.fullmatch(r"[0-9a-f]{40}", str(evidence.get("source_commit") or "")):
         return blocked("source_commit inválido")
-    if evidence.get("implementation") != _pre_m04_implementation_binding(root_dir):
+    expected_implementation = _pre_m04_implementation_binding(root_dir, contract)
+    hard_partition_declared = ((contract.get("validation") or {}).get("hard_partition_mode") == "physical_components")
+    if not _pre_m04_implementation_matches(
+        evidence.get("implementation"), expected_implementation, hard_partition=hard_partition_declared
+    ):
         return blocked("la implementación pre-M04 cambió respecto a la evidencia")
     if evidence.get("contract_binding") != _contract_generation_binding(contract):
         return blocked("el contrato de generación cambió respecto a la evidencia")
@@ -191,13 +359,35 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
     graph = evidence.get("graph") or {}
     if graph.get("artifact_name") != f"ddd-state-{run_id}-M03" or not _sha256_value(graph.get("artifact_sha256")):
         return blocked("artefacto M03 no es identificable")
-    if graph.get("nodes") != validation.get("expected_sections_geometry"):
-        return blocked("número de secciones del grafo no coincide")
-    if graph.get("population") != validation.get("expected_population_total_2025"):
-        return blocked("población del grafo no coincide")
-    if (graph.get("isolated") != 0 or graph.get("global_components") != 1
-            or graph.get("province_disconnected") != 0 or graph.get("municipality_disconnected") != 0):
-        return blocked("grafo territorial no supera conectividad administrativa")
+    try:
+        hard_partition = _hard_partition_spec(contract, root_dir)
+    except ValueError as exc:
+        return blocked(str(exc))
+    if hard_partition:
+        if graph.get("nodes") != hard_partition["expected_graph_nodes"]:
+            return blocked("número de secciones del grafo no coincide con las componentes físicas")
+        if graph.get("population") != hard_partition["expected_graph_population"]:
+            return blocked("población del grafo no coincide con el reparto físico acreditado")
+        expected_graph = (
+            hard_partition["expected_isolated"],
+            hard_partition["expected_global_components"],
+            hard_partition["expected_province_disconnected"],
+            hard_partition["expected_municipality_disconnected"],
+        )
+        actual_graph = (
+            graph.get("isolated"), graph.get("global_components"),
+            graph.get("province_disconnected"), graph.get("municipality_disconnected"),
+        )
+        if actual_graph != expected_graph:
+            return blocked("componentes físicas del grafo no coinciden con el lookup durable")
+    else:
+        if graph.get("nodes") != validation.get("expected_sections_geometry"):
+            return blocked("número de secciones del grafo no coincide")
+        if graph.get("population") != validation.get("expected_population_total_2025"):
+            return blocked("población del grafo no coincide")
+        if (graph.get("isolated") != 0 or graph.get("global_components") != 1
+                or graph.get("province_disconnected") != 0 or graph.get("municipality_disconnected") != 0):
+            return blocked("grafo territorial no supera conectividad administrativa")
     partitioning = evidence.get("partitioning") or {}
     if evidence.get("artifact_name") != f"ddd-state-{run_id}-M03U" or not _sha256_value(evidence.get("artifact_sha256")):
         return blocked("artefacto M03U no es identificable")
@@ -205,7 +395,19 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
             or not _sha256_value(partitioning.get("job_artifact_sha256"))):
         return blocked("evidencia del paso de particionado no es identificable")
     policy = contract.get("partitioning") or {}
-    if partitioning.get("status") == "NOOP":
+    if hard_partition:
+        if (partitioning.get("status") != "PREPARED"
+                or partitioning.get("strategy") != "physical_components"
+                or partitioning.get("contract_output_geojson") != m04.get("in_geojson")
+                or partitioning.get("resolved_output_geojson") is None
+                or partitioning.get("hard_partition_lookup") != hard_partition["lookup"]
+                or partitioning.get("hard_partition_lookup_sha256") != hard_partition["lookup_sha256"]
+                or partitioning.get("partition_field") != hard_partition["partition_field"]
+                or partitioning.get("municipality_field") != hard_partition["municipality_field"]
+                or partitioning.get("component_sections") != hard_partition["component_sections"]
+                or partitioning.get("component_districts") != hard_partition["component_districts"]):
+            return blocked("particionado físico materializado no coincide con contrato, lookup y reparto DDD")
+    elif partitioning.get("status") == "NOOP":
         m01 = modules.get("modulo_01_preparar_base_territorial") or {}
         if (policy and policy.get("enabled") is not False and str(policy.get("strategy") or "").strip()):
             return blocked("la evidencia dice NOOP pero el contrato declara particionado")
@@ -237,7 +439,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
     if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
         return _blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
-    capability_gate = _generation_capabilities(contract)
+    capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:
         return capability_gate
     prep = preparation_evidence or {}

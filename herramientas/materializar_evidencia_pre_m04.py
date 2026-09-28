@@ -17,6 +17,7 @@ from herramientas.promover_catalogo_tras_preparacion import (
 from herramientas._resolver_ejecucion_completa_core import (
     _bridge_signature,
     _contract_generation_binding,
+    _hard_partition_spec,
     _pre_m04_implementation_binding,
 )
 from herramientas.resolver_ejecucion_completa import generation_enablement
@@ -123,15 +124,34 @@ def build_evidence(
             "resolved_output_geojson": _resolved(m04.get("in_geojson"), contract, run_id),
         }
     else:
-        partitioning = {
-            "job_artifact_name": f"ddd-internal-units-{run_id}",
-            "job_artifact_sha256": partition_artifact_sha256.removeprefix("sha256:"),
-            "status": "PREPARED",
-            "strategy": job.get("strategy"),
-            "contract_output_geojson": policy.get("output_geojson"),
-            "resolved_output_geojson": job.get("output_geojson"),
-            "partition_unit_field": policy.get("partition_unit_field"),
-        }
+        hard_partition = _hard_partition_spec(contract, root)
+        if job.get("strategy") == "physical_components":
+            if not hard_partition:
+                raise ValueError("PARTITION_STRATEGY_MISMATCH: physical_components sin contrato físico")
+            partitioning = {
+                "job_artifact_name": f"ddd-internal-units-{run_id}",
+                "job_artifact_sha256": partition_artifact_sha256.removeprefix("sha256:"),
+                "status": "PREPARED",
+                "strategy": "physical_components",
+                "contract_output_geojson": m04.get("in_geojson"),
+                "resolved_output_geojson": job.get("output_geojson"),
+                "hard_partition_lookup": job.get("hard_partition_lookup"),
+                "hard_partition_lookup_sha256": job.get("hard_partition_lookup_sha256"),
+                "partition_field": job.get("partition_field"),
+                "municipality_field": job.get("municipality_field"),
+                "component_sections": job.get("component_sections"),
+                "component_districts": job.get("component_districts"),
+            }
+        else:
+            partitioning = {
+                "job_artifact_name": f"ddd-internal-units-{run_id}",
+                "job_artifact_sha256": partition_artifact_sha256.removeprefix("sha256:"),
+                "status": "PREPARED",
+                "strategy": job.get("strategy"),
+                "contract_output_geojson": policy.get("output_geojson"),
+                "resolved_output_geojson": job.get("output_geojson"),
+                "partition_unit_field": policy.get("partition_unit_field"),
+            }
 
     evidence = {
         "schema": "ddd.catalog-evidence/1.0",
@@ -150,7 +170,7 @@ def build_evidence(
             "artifact_sha256": str(prep["artifact_sha256"]).removeprefix("sha256:"),
             "package_sha256": str(prep["package_sha256"]).removeprefix("sha256:"),
         },
-        "implementation": _pre_m04_implementation_binding(root),
+        "implementation": _pre_m04_implementation_binding(root, contract),
         "adjacency": {
             "predicate": m02.get("predicate"),
             "working_crs": m02.get("working_crs"),

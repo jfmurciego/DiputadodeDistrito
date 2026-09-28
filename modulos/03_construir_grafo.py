@@ -88,6 +88,21 @@ def component_sets(nodes,adj):
         comps.append(seen)
     return sorted(comps,key=lambda c:(-len(c),sorted(c)[0] if c else ""))
 
+def graph_admin_fields(validation):
+    """Use source administrative fields before physical M04 partitions exist."""
+    if validation.get("hard_partition_mode") == "physical_components":
+        return (
+            str(validation.get("source_province_field") or "CPRO"),
+            str(validation.get("source_municipality_field") or "CUMUN"),
+            str(validation.get("source_municipality_name_field") or "NMUN"),
+        )
+    return (
+        str(validation.get("province_field", "CPRO")),
+        str(validation.get("municipality_field", "CUMUN")),
+        str(validation.get("municipality_name_field", "NMUN")),
+    )
+
+
 def audit_group_components(gdf,id_field,group_fields,adj,name_field=None):
     cols=list(group_fields)+[id_field]+([name_field] if name_field and name_field in gdf.columns else [])
     x=gdf[cols].copy();x[id_field]=x[id_field].astype(str)
@@ -118,7 +133,7 @@ def main():
     for e in edges_f:
         adj[e["u"]].add(e["v"]);adj[e["v"]].add(e["u"])
     isolated=sum(1 for n in pop_map if not adj[n]);total_pop=int(sum(pop_map.values()))
-    province_field=str(val.get("province_field","CPRO"));municipality_field=str(val.get("municipality_field","CUMUN"));municipality_name_field=str(val.get("municipality_name_field","NMUN"))
+    province_field,municipality_field,municipality_name_field=graph_admin_fields(val)
     audit_global=bool(val.get("audit_graph_components",True))
     audit_province=bool(val.get("audit_admin_level_1_components",val.get("require_one_graph_component_per_province",False)))
     audit_municipality=bool(val.get("audit_admin_level_2_components",val.get("require_connected_municipalities",False)))

@@ -13,7 +13,7 @@ from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
 _run_from_artifact = _core._run_from_artifact
 
 
-def _generation_capabilities(contract: dict) -> dict:
+def _generation_capabilities(contract: dict, root_dir: Path | None = None) -> dict:
     meta = contract.get("meta") or {}
     territorial = contract.get("territory_contract") or {}
     modules = contract.get("modulos") or {}
@@ -69,7 +69,14 @@ def _generation_capabilities(contract: dict) -> dict:
     if (not graph or graph != m04.get("in_graph_json") or graph != m05.get("in_graph_json")
             or validation.get("require_graph_contiguity") is not True):
         return _core._blocked("CAP_GRAPH", "grafo contractual o control de contigüidad incompletos")
-    if partitioning.get("enabled") is True:
+    if validation.get("hard_partition_mode") == "physical_components":
+        if root_dir is None:
+            return _core._blocked("CAP_M04_INPUT", "la entrada física requiere resolver su evidencia durable")
+        try:
+            _core._hard_partition_spec(contract, root_dir)
+        except ValueError as exc:
+            return _core._blocked("CAP_M04_INPUT", str(exc))
+    elif partitioning.get("enabled") is True:
         if (partitioning.get("strategy") != "connected_internal_units"
                 or not partitioning.get("output_geojson")
                 or partitioning.get("output_geojson") != m04.get("in_geojson")
@@ -98,7 +105,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
     if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
         return _core._blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
-    capability_gate = _generation_capabilities(contract)
+    capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:
         return capability_gate
     prep = preparation_evidence or {}
