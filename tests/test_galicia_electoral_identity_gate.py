@@ -210,6 +210,11 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         self.assertEqual(result["phase_decision"], "ACQUIRE")
         self.assertEqual(result["reasons"], [])
 
+    def _assert_active_certification(self, state: dict, receipt: dict) -> None:
+        self.assertTrue(state["territorial_product_available"])
+        self.assertIn(state["territorial_certification"], PASS_CERTIFICATIONS)
+        self.assertIn(receipt["decision"], PASS_CERTIFICATIONS)
+
     def _assert_manifest_phase_matches_receipt(self, manifest: dict, receipt: dict, name: str) -> None:
         phases = [phase for phase in manifest["phases"] if phase["name"].startswith(name)]
         self.assertEqual(len(phases), 1)
@@ -228,6 +233,7 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
 
     def test_current_catalog_and_receipts_are_identity_and_digest_coherent(self):
         state, territorial, electoral_source, electoral_product = self._current_identities()
+        self._assert_active_certification(state, territorial)
         checkpoint = state.get("last_valid_checkpoint") or {}
         self.assertEqual(checkpoint.get("stage"), "M08")
         self.assertEqual(checkpoint.get("run_id"), electoral_product["run_id"])
@@ -315,9 +321,13 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
                     self._assert_manifest_phase_matches_receipt(
                         manifest, corrupted, "02 · Generación de Distritos"
                     )
-        self.assertIn(territorial["decision"], PASS_CERTIFICATIONS)
-        with self.assertRaises(AssertionError):
-            self.assertIn("BLOCKED", PASS_CERTIFICATIONS)
+        self._assert_active_certification(state, territorial)
+        for bad_state, bad_receipt in (
+            ({**state, "territorial_certification": "NOT_CERTIFIED"}, territorial),
+            (state, {**territorial, "decision": "BLOCKED"}),
+        ):
+            with self.assertRaises(AssertionError):
+                self._assert_active_certification(bad_state, bad_receipt)
 
     def test_isolated_certified_product_reuses_without_generation_or_incorporation(self):
         plan = self._isolated_plan(certified=True)
