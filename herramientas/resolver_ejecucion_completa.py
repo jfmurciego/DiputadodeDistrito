@@ -262,13 +262,19 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     catalog_prep = state.get("preparation_evidence") or {}
     selected_explicit_source = _explicit_source(explicit_territorial_source)
     catalog_source_mode = execution_mode == "catalog_source"
+    automatic_continue = bool(
+        execution_mode == "reuse"
+        and selected_explicit_source is None
+        and optimization_algorithm == "Canónico"
+        and not force_selected_algorithm
+    )
     if catalog_source_mode and selected_explicit_source is not None:
         raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
     if catalog_source_mode:
         prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
     elif selected_explicit_source is not None:
         prep = selected_explicit_source
-    elif execution_mode == "reuse" and state.get("territorial_sources_prepared"):
+    elif automatic_continue and state.get("territorial_sources_prepared"):
         prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
     else:
         prep = catalog_prep
@@ -284,7 +290,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
-    if execution_mode == "reuse" and selected_explicit_source is None:
+    if automatic_continue:
         try:
             durable = validate_durable_assets(
                 root_dir=root_dir,
