@@ -125,7 +125,9 @@ jobs:
           mkdir snapshot; unzip -q snapshot.zip -d snapshot
           test -s snapshot/ddd-eleccionesdb-snapshot.sqlite; test -s snapshot/ddd-eleccionesdb-snapshot.json
           declared="$(jq -r .snapshot_sha256 snapshot/ddd-eleccionesdb-snapshot.json)"; actual="$(sha256sum snapshot/ddd-eleccionesdb-snapshot.sqlite|awk '{print $1}')"
+          retrieved_at="$(jq -r '.retrieved_at // empty' snapshot/ddd-eleccionesdb-snapshot.json)"
           [[ "$declared" == "$ELECCIONESDB_SNAPSHOT_SHA256" && "$actual" == "$ELECCIONESDB_SNAPSHOT_SHA256" ]] || { echo "::error::Huella del snapshot EleccionesDB ausente o modificada"; exit 52; }
+          [[ "$retrieved_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.*(Z|[+-][0-9]{2}:[0-9]{2})$ ]] || { echo "::error::retrieved_at verificable ausente o inválido en snapshot EleccionesDB"; exit 54; }
       - name: Recuperar CSV Minsait provisional gobernado
         if: ${{ steps.mode.outputs.adapter == 'minsait_provisional' && steps.previous.outputs.run_id == '' }}
         run: |
@@ -149,7 +151,8 @@ jobs:
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
             else
-              python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION"
+              retrieved_at="$(jq -r .retrieved_at snapshot/ddd-eleccionesdb-snapshot.json)"
+              python herramientas/adaptador_eleccionesdb.py --sqlite snapshot/ddd-eleccionesdb-snapshot.sqlite --election-id "$ELECTION_ID" --out .ddd-electoral-package --snapshot-sha256 "$ELECCIONESDB_SNAPSHOT_SHA256" --edition "$EDITION" --retrieved-at "$retrieved_at"
             fi
           elif [[ "$adapter" == "minsait_provisional" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
