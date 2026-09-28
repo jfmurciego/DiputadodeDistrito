@@ -64,30 +64,41 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             package = root / "package"
+            upstream_created_at = "2026-09-28T12:34:56Z"
             manifest = build(
                 fixture_db(root),
                 "cantabria_parlamento_2023",
                 package,
                 edition="2025",
+                retrieved_at=upstream_created_at,
             )
             contract_path = package / "contract/election_contract.json"
             contract = json.loads(contract_path.read_text(encoding="utf-8"))
             source = contract["sources"][0]
-            self.assertEqual(source["retrieved_at"], manifest["generated_at"][:10])
-            self.assertEqual(source["retrieved_at_basis"], "verified_snapshot_materialization")
+            self.assertEqual(source["retrieved_at"], upstream_created_at)
+            self.assertEqual(source["upstream_snapshot"]["retrieved_at"], upstream_created_at)
+            self.assertEqual(manifest["retrieved_at"], upstream_created_at)
             loaded, _ = load_election_contract(contract_path, project_root=package)
-            self.assertEqual(loaded["sources"][0]["retrieved_at"], manifest["generated_at"][:10])
+            self.assertEqual(loaded["sources"][0]["retrieved_at"], upstream_created_at)
 
     def _legacy_package(self, root: Path, *, drop_generated_at: bool = False) -> tuple[Path, Path]:
         package = root / "package"
-        build(fixture_db(root), "cantabria_parlamento_2023", package, edition="2025")
+        build(
+            fixture_db(root),
+            "cantabria_parlamento_2023",
+            package,
+            edition="2025",
+            retrieved_at="2026-09-28T12:34:56Z",
+        )
         contract_path = package / "contract/election_contract.json"
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
         contract["sources"][0].pop("retrieved_at", None)
         contract["sources"][0].pop("retrieved_at_basis", None)
+        (contract["sources"][0].get("upstream_snapshot") or {}).pop("retrieved_at", None)
         contract_path.write_text(json.dumps(contract, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         manifest_path = package / "manifest.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest.pop("retrieved_at", None)
         manifest["embedded_contract"]["contract_sha256"] = sha(contract_path)
         if drop_generated_at:
             manifest.pop("generated_at", None)
@@ -134,6 +145,33 @@ class EleccionesDBRetrievedAtTests(unittest.TestCase):
                     root=root,
                     materialize=True,
                 )
+
+
+    def test_snapshot_carries_upstream_artifact_created_at(self):
+        builder = (ROOT / "herramientas/construir_snapshot_eleccionesdb.py").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/diagnostico-eleccionesdb-grupo-a.yml").read_text(encoding="utf-8")
+        self.assertIn("ap.add_argument('--retrieved-at',required=True)", builder)
+        self.assertIn("'retrieved_at':str(retrieved_at).strip()", builder)
+        self.assertIn("artifact_created_at.txt", workflow)
+        self.assertIn("--retrieved-at \"$(cat artifact_created_at.txt)\"", workflow)
+        self.assertIn("retrieved_at=snapshot_meta['retrieved_at']", workflow)
+
+    def test_production_preparation_uses_validated_snapshot_retrieved_at(self):
+        workflow = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            "retrieved_at=\"$(jq -r '.retrieved_at // empty' snapshot/ddd-eleccionesdb-snapshot.json)\"",
+            workflow,
+        )
+        self.assertIn("retrieved_at verificable ausente o inválido", workflow)
+        self.assertIn("--retrieved-at \"$retrieved_at\"", workflow)
+
+    def test_adapter_requires_verified_retrieved_at(self):
+        adapter = (ROOT / "herramientas/adaptador_eleccionesdb.py").read_text(encoding="utf-8")
+        self.assertIn("def _verified_retrieved_at", adapter)
+        self.assertIn("'retrieved_at':verified_retrieved_at", adapter)
+        self.assertIn("ap.add_argument('--retrieved-at',required=True)", adapter)
 
 
 if __name__ == "__main__":
