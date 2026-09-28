@@ -1,4 +1,8 @@
+import json
+import re
 import unittest
+
+import yaml
 from pathlib import Path
 from herramientas.generar_estado_dashboard import build
 
@@ -17,9 +21,38 @@ class DashboardPages(unittest.TestCase):
         payload=build(ROOT,"2025")
         self.assertEqual(payload["schema"],"ddd-estado-operativo/2.1")
         galicia=next(r for r in payload["territories"] if r["territory_id"]=="galicia")
-        self.assertEqual(galicia["g"],"green")
-        self.assertEqual(galicia["re"],"green")
-        self.assertTrue(galicia["run_id"])
+
+        catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        row=next(r for r in catalog["territories"] if r["territory_id"]=="galicia")
+        state=row["editions"]["2025"]
+
+        def receipt(kind):
+            rel=(state.get("evidence") or {}).get(kind)
+            self.assertTrue(rel)
+            data=json.loads((ROOT/rel).read_text(encoding="utf-8"))
+            self.assertEqual(data["territory_id"],"galicia")
+            self.assertEqual(str(data["edition"]),"2025")
+            self.assertRegex(str(data["artifact_sha256"]).removeprefix("sha256:"),r"^[0-9a-f]{64}$")
+            self.assertTrue(data["run_id"])
+            return data
+
+        territorial=receipt("territorial_product")
+        electoral=receipt("electoral_product")
+        pass_cert={"PASS","PASS_WITH_EXCEPTIONS","PASS_WITH_GOVERNED_EXCEPTIONS"}
+        expected_g="green" if (
+            state.get("territorial_product_available")
+            and state.get("territorial_certification") in pass_cert
+            and territorial.get("decision") in pass_cert
+        ) else "yellow" if (
+            state.get("territorial_product_available")
+            or state.get("production_authorization") in {"AUTHORIZED","PREFLIGHT"}
+        ) else "gray"
+        expected_re="green" if state.get("electoral_product_available") and electoral else "yellow"
+
+        self.assertEqual(galicia["g"],expected_g)
+        self.assertEqual(galicia["re"],expected_re)
+        expected_run=electoral["run_id"] if expected_re=="green" else territorial["run_id"]
+        self.assertEqual(galicia["run_id"],expected_run)
         self.assertGreaterEqual(payload["kpis"]["complete"],1)
         self.assertTrue(payload["latest_validated"]["run_id"])
 
