@@ -9,7 +9,8 @@ if str(REPO_ROOT) not in sys.path:
 
 from herramientas.adaptador_eleccionesdb import ELECTIONS,sha256
 
-def build(source:Path,out:Path,meta:Path):
+def build(source:Path,out:Path,meta:Path,retrieved_at:str):
+ if not str(retrieved_at or '').strip(): raise ValueError('retrieved_at verificable ausente para snapshot EleccionesDB')
  specs=sorted({(v[0],v[1]) for v in ELECTIONS.values()})
  ids=sorted({eid for eid,_ in specs})
  src=sqlite3.connect(source); src.row_factory=sqlite3.Row
@@ -63,6 +64,7 @@ def build(source:Path,out:Path,meta:Path):
   'snapshot_sha256':sha256(out),
   'election_ids':ids,
   'logical_election_count':len(ELECTIONS),
+  'retrieved_at':str(retrieved_at).strip(),
   'territory_slices':[{'eleccionesdb_election_id':eid,'codigo_ccaa':ccaa} for eid,ccaa in specs],
   'elections':sorted(ELECTIONS),
   'counts':counts
@@ -75,7 +77,8 @@ def main():
  ap.add_argument('--source',type=Path,required=True)
  ap.add_argument('--out',type=Path,required=True)
  ap.add_argument('--meta',type=Path,required=True)
+ ap.add_argument('--retrieved-at',required=True)
  a=ap.parse_args()
- print(json.dumps(build(a.source,a.out,a.meta),ensure_ascii=False,indent=2))
+ print(json.dumps(build(a.source,a.out,a.meta,a.retrieved_at),ensure_ascii=False,indent=2))
 
 if __name__=='__main__': main()
