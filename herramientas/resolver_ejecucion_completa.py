@@ -345,12 +345,23 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         state.get("electoral_product_available") and electoral_product_run_id
         and electoral_product_evidence.get("artifact_sha256")
     )
+    recompute_requested = bool(
+        optimization_algorithm != "Canónico" or force_selected_algorithm
+    )
+    generation_requested = bool(
+        catalog_source_mode or from_start or selected_explicit_source is not None
+        or not territorial_product_ready or recompute_requested
+    )
     if catalog_source_mode:
         run_prepare_territorial = False
+    elif selected_explicit_source is not None:
+        run_prepare_territorial = False
+    elif from_start:
+        run_prepare_territorial = True
     else:
-        run_prepare_territorial = from_start if selected_explicit_source is None else False
-        if selected_explicit_source is None and not from_start:
-            run_prepare_territorial = not territorial_sources_ready
+        # "Continuar": una fuente anterior no es necesaria si ya existe un M06
+        # certificado compatible. Sólo se prepara 01 cuando 02 deba ejecutarse.
+        run_prepare_territorial = bool(generation_requested and not territorial_sources_ready)
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
@@ -361,7 +372,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             and not catalog_source_mode and not territorial_product_ready else None
         ),
         preparation_evidence=prep,
-        require_source=True,
+        require_source=generation_requested,
         source_acquisition_planned=source_acquisition_planned,
         source_recalculation_planned=catalog_source_mode,
     )
@@ -392,15 +403,17 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             require_source=True,
             pre_m04_accreditation_planned=True,
         )
-    proposed_generate = bool(
-        catalog_source_mode or from_start or selected_explicit_source is not None
-        or run_prepare_territorial or not territorial_product_ready
-        or optimization_algorithm != "Canónico" or force_selected_algorithm
-    )
+    proposed_generate = bool(generation_requested or run_prepare_territorial)
     if proposed_generate and not generation_gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
     run_generate = proposed_generate
-    run_prepare_electoral = from_start or not electoral_source_ready
+    run_prepare_electoral = bool(
+        from_start
+        or (
+            not electoral_source_ready
+            and (run_generate or not electoral_product_ready)
+        )
+    )
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
     plan = {
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
