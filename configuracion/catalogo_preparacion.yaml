@@ -293,10 +293,10 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: NOT_CERTIFIED
+      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 36321835203
+        run_id: 36403519566
         stage: M06
       preparation_evidence:
         run_id: 36345716757
