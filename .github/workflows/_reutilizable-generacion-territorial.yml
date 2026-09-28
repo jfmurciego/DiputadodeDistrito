@@ -506,7 +506,7 @@ jobs:
           )"
           if [[ "$hard_mode" == "physical_components" ]]; then
             docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-              /app/herramientas/preparar_particiones_fisicas_m04.py \
+              -m herramientas.preparar_particiones_fisicas_m04 \
               --params "/app/$PARAMS" --run-id "$RUN_ID" \
               --job-report /app/.ddd-internal-units/job.json
           else
