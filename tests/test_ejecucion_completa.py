@@ -435,7 +435,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
         self.assertIn('p["executed"] and p["result"] != "success"',writer)
 
-    def test_reuse_plan_reruns_generation_for_selected_algorithm(self):
+    def test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             contract = root / "territorios/demo/config/demo_2025.yaml"
@@ -497,13 +497,14 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 execution_mode="reuse",
                 catalog=catalog,
                 root_dir=root,
+                optimization_algorithm="GerryChain 50",
                 force_selected_algorithm=True,
             )
             self.assertFalse(plan["run_prepare_territorial"])
             self.assertTrue(plan["run_generate"])
             self.assertFalse(plan["run_prepare_electoral"])
             self.assertTrue(plan["run_incorporate"])
-            self.assertEqual(plan["optimization_algorithm"], "Canónico")
+            self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
     def test_reuse_reschedules_electoral_when_registered_election_changed(self):
