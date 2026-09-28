@@ -192,7 +192,31 @@ def validate_durable_assets(
             require_phase_decision=True,
         )
         if source:
-            _same_phase_asset(_phase(manifest, "01 ·"), source, label="territorial_source→territorial_product")
+            source_phase = _phase(manifest, "01 ·")
+            phase_artifact = str(source_phase.get("artifact") or "")
+            phase_digest = str(source_phase.get("artifact_digest") or "").removeprefix("sha256:").lower()
+            if (
+                phase_artifact != str(source["artifact_name"])
+                or phase_digest != str(source["artifact_sha256"])
+            ):
+                _block(
+                    "DURABLE_LINEAGE_INCOMPATIBLE",
+                    "territorial_source→territorial_product: artefacto o SHA contradice el manifiesto productor",
+                )
+            if str(source_phase.get("validation_decision") or "") != "VALIDADO":
+                _block(
+                    "DURABLE_LINEAGE_INCOMPATIBLE",
+                    "territorial_source→territorial_product: la fuente del manifiesto no quedó validada",
+                )
+            phase_run = _run_id(source_phase.get("run_id"), label="territorial_source→territorial_product")
+            if int(source["run_id"]) != phase_run:
+                source["catalog_run_id"] = source["run_id"]
+                source["run_id"] = phase_run
+            _same_phase_asset(
+                source_phase,
+                source,
+                label="territorial_source→territorial_product",
+            )
 
     electoral_source = None
     if state.get("electoral_source_prepared"):
