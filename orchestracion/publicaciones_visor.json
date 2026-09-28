@@ -229,6 +229,27 @@
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/56738e84d2aa28ed4c423d8ae7dbe02e29ba7c7f"
     },
     {
+      "id": "m06-principado_de_asturias-36398139343",
+      "asset_type": "territorial_product",
+      "kind": "canonical_m06",
+      "territory_id": "principado_de_asturias",
+      "territory_label": "Principado de Asturias",
+      "run_id": "36398139343",
+      "expected_districts": 45,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "45 distritos evaluados / 44 PASS / 1 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M06 territorial · run 36398139343",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "eca92406c5fb5c6fb07d65125a1acdf4986c4db5",
+      "sha256": "970570118b3fae8f34678ecb894fd1390c4edc7360b61c7ff5eea87e8141255f",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/eca92406c5fb5c6fb07d65125a1acdf4986c4db5"
+    },
+    {
       "id": "m08-principado_de_asturias-35728626894",
       "asset_type": "electoral_product",
       "kind": "canonical_m08",
@@ -269,6 +290,27 @@
       "blob_sha": "8fa11807c1b3fb8e949ff955d477b2ecb7342eb8",
       "sha256": "9bce55d54ebdd95d450ff7d769f02ed246a77ecce861f6666cb2c84d799d1fb7",
       "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/8fa11807c1b3fb8e949ff955d477b2ecb7342eb8"
+    },
+    {
+      "id": "m08-principado_de_asturias-36398139343",
+      "asset_type": "electoral_product",
+      "kind": "canonical_m08",
+      "territory_id": "principado_de_asturias",
+      "territory_label": "Principado de Asturias",
+      "run_id": "36398139343",
+      "expected_districts": 45,
+      "technical_status": "PASS_WITH_EXCEPTIONS",
+      "certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "territorial_certification_status": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+      "publication_status": "PUBLICABLE",
+      "geometric_status": "PASS_WITH_EXCEPTIONS",
+      "geometric_gate": "45 distritos evaluados / 44 PASS / 1 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "label": "M08 electoral · run 36398139343",
+      "source_type": "repository_blob",
+      "repository": "jfmurciego/DiputadodeDistrito",
+      "blob_sha": "7f8f67a7b14b185356fbf4f3ad5fd3d2a8d3a29d",
+      "sha256": "9a3ee09d01485f2b292005f9cdbac15b76f6eafc1019427399055e92cc97477f",
+      "immutable_location": "github-git-blob://jfmurciego/DiputadodeDistrito/7f8f67a7b14b185356fbf4f3ad5fd3d2a8d3a29d"
     }
   ],
   "ensembles": []
