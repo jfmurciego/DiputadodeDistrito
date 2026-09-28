@@ -4,6 +4,9 @@
 import unittest
 import importlib.util
 from pathlib import Path
+
+import pandas as pd
+import yaml
 from shapely.geometry import Polygon
 
 from ddd_core.topology_preflight import evaluate_topology_preflight
@@ -13,6 +16,9 @@ _M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).res
 _M02 = importlib.util.module_from_spec(_M02_SPEC)
 _M02_SPEC.loader.exec_module(_M02)
 _relation_ok = _M02._relation_ok
+_bridge_admin_fields = _M02._bridge_admin_fields
+_validate_declared_bridges = _M02._validate_declared_bridges
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def unit(province="01", municipality="001", multipart=False):
@@ -156,6 +162,55 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         )
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("declared scope municipality:00001", r["bridges"]["rejected"][0]["rejection_reason"])
+
+
+class M02InputPhaseContractCases(unittest.TestCase):
+    def test_archipelagos_use_source_admin_fields_before_physical_partitioning(self):
+        for territory_id in ("illes_balears", "canarias"):
+            with self.subTest(territory=territory_id):
+                cfg = yaml.safe_load(
+                    (ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(
+                        encoding="utf-8"
+                    )
+                )
+                s2 = cfg["modulos"]["modulo_02_construir_adyacencias"]
+                s4 = cfg["modulos"]["modulo_04_generar_semillas"]
+                validation = cfg["validation"]
+                self.assertEqual("physical_components", validation["hard_partition_mode"])
+                self.assertEqual(("CPRO", "CUMUN"), _bridge_admin_fields(s2, validation, s4))
+                self.assertEqual("DDD_PARTITION", s4["province_field"])
+                self.assertEqual("DDD_MUNICIPALITY_PARTITION", s4["municipality_field"])
+
+    def test_declared_bridge_validation_is_not_bypassed(self):
+        gdf = pd.DataFrame({
+            "CUSEC_KEY": ["a", "b"],
+            "CPRO": ["01", "01"],
+            "CUMUN": ["01001", "01002"],
+        })
+        s2 = {
+            "topology_bridges": [
+                {
+                    "u": "a",
+                    "v": "b",
+                    "admin_scope": "province:01",
+                    "edge_type": "administrative_exclave",
+                    "reason": "synthetic diagnosed disconnection",
+                    "source": "synthetic fixture",
+                }
+            ]
+        }
+        validation = {"province_field": "CPRO", "municipality_field": "CUMUN"}
+        accepted = _validate_declared_bridges(
+            gdf, "CUSEC_KEY", s2, validation, {"province_field": "CPRO"}, []
+        )
+        self.assertEqual(1, len(accepted))
+
+        broken = dict(s2)
+        broken["topology_bridges"] = [dict(s2["topology_bridges"][0], v="missing")]
+        with self.assertRaisesRegex(SystemExit, "M02 pasarela inválida"):
+            _validate_declared_bridges(
+                gdf, "CUSEC_KEY", broken, validation, {"province_field": "CPRO"}, []
+            )
 
 
 class ContactPredicateSyntheticCases(unittest.TestCase):
