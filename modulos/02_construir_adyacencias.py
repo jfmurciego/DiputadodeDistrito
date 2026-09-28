@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.3.1
+VERSIÓN: 7.3.2
 NOMBRE DE VERSIÓN: Política topológica declarativa por ámbito
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
 POR QUÉ ES SEPARADO: M02 define la relación territorial elemental; M03 solo audita el grafo resultante y los módulos posteriores no deben compensar una adyacencia mal construida.
-CAMBIOS: reutiliza la validación común de pasarelas y evalúa necesidad/eficacia dentro del subgrafo inducido por admin_scope.
+CAMBIOS: separa los campos administrativos fuente usados por M02 de los campos de partición física que sólo existen al entrar en Formación inicial; mantiene la validación común de pasarelas.
 MOTIVO: evitar interpretaciones divergentes entre M02 y el preflight topológico.
 ANTERIOR: legacy/modulo02/02_construir_adyacencias_v7.1.0.py
 """
@@ -167,6 +167,43 @@ def write_edges_jsonl(geometric_edges, bridges, out_path):
     return len(geom) + len(bridge_map), len(geom), len(bridge_map)
 
 
+def _bridge_admin_fields(s2, validation, s4):
+    """Resolve administrative fields that exist on the M01 input consumed by M02."""
+    if str(validation.get("hard_partition_mode") or "") == "physical_components":
+        return (
+            str(s2.get("bridge_admin_level_1_field", validation.get("source_province_field", "CPRO"))),
+            str(s2.get("bridge_admin_level_2_field", validation.get("source_municipality_field", "CUMUN"))),
+        )
+    return (
+        str(s2.get("bridge_admin_level_1_field", validation.get("province_field", s4.get("province_field", "CPRO")))),
+        str(s2.get("bridge_admin_level_2_field", validation.get("municipality_field", "CUMUN"))),
+    )
+
+
+def _validate_declared_bridges(gdf, id_field, s2, validation, s4, geometric):
+    province_field, municipality_field = _bridge_admin_fields(s2, validation, s4)
+    for field in (province_field, municipality_field):
+        if field not in gdf.columns:
+            raise SystemExit(f"M02: campo administrativo para pasarelas ausente: {field}")
+
+    units = {
+        str(row[id_field]): {
+            "province": str(row[province_field]).zfill(2),
+            "municipality": str(row[municipality_field]),
+        }
+        for _, row in gdf.iterrows()
+    }
+    bridges, rejected, _ = validate_topology_bridges(
+        units=units,
+        bridges=s2.get("topology_bridges", []) or [],
+        base_edges=geometric,
+    )
+    if rejected:
+        first = rejected[0]
+        raise SystemExit(f"M02 pasarela inválida: {first.get('rejection_reason', 'error de política')}")
+    return bridges
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
@@ -210,34 +247,15 @@ def main():
     )
 
     validation = cfg.get("validation") or {}
-    # M02 opera sobre la base censal previa a cualquier partición interna de M04.
-    # Las pasarelas deben validarse con los campos administrativos originales,
-    # nunca con un identificador derivado que aún no existe en esta fase.
-    province_field = str(s2.get("bridge_admin_level_1_field", validation.get("province_field", s4.get("province_field", "CPRO"))))
-    municipality_field = str(s2.get("bridge_admin_level_2_field", validation.get("municipality_field", "CUMUN")))
-    for field in (province_field, municipality_field):
-        if field not in gdf.columns:
-            raise SystemExit(f"M02: campo administrativo para pasarelas ausente: {field}")
-
-    units = {
-        str(row[id_field]): {
-            "province": str(row[province_field]).zfill(2),
-            "municipality": str(row[municipality_field]),
-        }
-        for _, row in gdf.iterrows()
-    }
-    bridges, rejected, _ = validate_topology_bridges(
-        units=units,
-        bridges=s2.get("topology_bridges", []) or [],
-        base_edges=geometric,
-    )
-    if rejected:
-        first = rejected[0]
-        raise SystemExit(f"M02 pasarela inválida: {first.get('rejection_reason', 'error de política')}")
+    # M02 consume la base M01. En contratos con partición física, los campos
+    # DDD_PARTITION / DDD_MUNICIPALITY_PARTITION aún no existen: aparecen en
+    # la entrada pre-M04. Las pasarelas se validan aquí contra la administración
+    # fuente, y la partición DDD se valida después de materializarse.
+    bridges = _validate_declared_bridges(gdf, id_field, s2, validation, s4, geometric)
 
     n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
     print(
-        f"[Módulo 2] OK v7.3.1 edges={n} geometric={ng} bridges={nb} "
+        f"[Módulo 2] OK v7.3.2 edges={n} geometric={ng} bridges={nb} "
         f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 
