@@ -848,19 +848,33 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 )
 
 
-class CastillaLaManchaReuseAfter36402139263Tests(unittest.TestCase):
-    def test_plan_is_no_no_no_yes_and_uses_36402139263_products(self):
+class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
+    def test_plan_is_no_no_no_yes_and_uses_current_receipts(self):
         data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
         row = next(r for r in data["territories"] if r["territory_id"] == "castilla_la_mancha")
         state = row["editions"]["2025"]
+
+        territorial_path = ROOT / "territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json"
+        electoral_source_path = ROOT / "territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json"
+        territorial = json.loads(territorial_path.read_text(encoding="utf-8"))
+        electoral_source = json.loads(electoral_source_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(territorial["territory_id"], "castilla_la_mancha")
+        self.assertEqual(electoral_source["territory_id"], "castilla_la_mancha")
+        self.assertEqual(str(territorial["edition"]), "2025")
+        self.assertEqual(str(electoral_source["edition"]), "2025")
+        self.assertRegex(str(territorial["artifact_sha256"]).removeprefix("sha256:"), r"^[0-9a-f]{64}$")
+        self.assertRegex(str(electoral_source["artifact_sha256"]).removeprefix("sha256:"), r"^[0-9a-f]{64}$")
+
+        # Escenario aislado: M06 y fuente electoral durables disponibles, sin M08.
         state["territorial_product_available"] = True
         state["electoral_source_prepared"] = True
         state["electoral_product_available"] = False
         state["territorial_certification"] = "PASS_WITH_GOVERNED_EXCEPTIONS"
-        state["last_valid_checkpoint"] = {"run_id": 36402139263, "stage": "M06"}
+        state["last_valid_checkpoint"] = {"run_id": int(territorial["run_id"]), "stage": "M06"}
         state["evidence"] = {
-            "territorial_product": "territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json",
-            "electoral_source": "territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json",
+            "territorial_product": str(territorial_path.relative_to(ROOT)),
+            "electoral_source": str(electoral_source_path.relative_to(ROOT)),
         }
         with tempfile.TemporaryDirectory() as td:
             catalog = Path(td) / "catalog.yaml"
@@ -872,17 +886,17 @@ class CastillaLaManchaReuseAfter36402139263Tests(unittest.TestCase):
                 catalog=catalog,
                 root_dir=ROOT,
             )
+
         self.assertFalse(plan["run_prepare_territorial"])
         self.assertFalse(plan["run_generate"])
         self.assertFalse(plan["run_prepare_electoral"])
         self.assertTrue(plan["run_incorporate"])
-        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 36402139263)
-        self.assertEqual(plan["existing"]["electoral_source"]["run_id"], 36402139263)
-        self.assertEqual(plan["existing"]["territorial_product"]["artifact_name"], "ddd-state-36402139263-M06")
-        self.assertEqual(
-            plan["existing"]["electoral_source"]["artifact_name"],
-            "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
-        )
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
+        self.assertEqual(plan["existing"]["territorial_product"]["artifact_name"], territorial["artifact_name"])
+        self.assertEqual(plan["existing"]["territorial_product"]["artifact_sha256"], territorial["artifact_sha256"])
+        self.assertEqual(plan["existing"]["electoral_source"]["run_id"], electoral_source["run_id"])
+        self.assertEqual(plan["existing"]["electoral_source"]["artifact_name"], electoral_source["artifact_name"])
+        self.assertEqual(plan["existing"]["electoral_source"]["artifact_sha256"], electoral_source["artifact_sha256"])
 
 
 if __name__ == "__main__":
