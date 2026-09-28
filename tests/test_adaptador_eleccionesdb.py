@@ -17,7 +17,7 @@ class TestAdaptadorEleccionesDB(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'Territorio equivocado'): build(p,'cantabria_parlamento_2023',Path(td.name)/'o',retrieved_at=RETRIEVED_AT)
  def test_cero_votos_bloquea(self):
   td,p=self.db(with_votes=False); self.addCleanup(td.cleanup)
-  with self.assertRaisesRegex(ValueError,'cero votos'): build(p,'cantabria_parlamento_2023',Path(td.name)/'o')
+  with self.assertRaisesRegex(ValueError,'cero votos'): build(p,'cantabria_parlamento_2023',Path(td.name)/'o',retrieved_at=RETRIEVED_AT)
  def test_ceuta_y_melilla_separan_eleccion_fisica_247_por_ccaa(self):
   td=tempfile.TemporaryDirectory(); self.addCleanup(td.cleanup)
   p=Path(td.name)/'shared.sqlite'; con=sqlite3.connect(p)
