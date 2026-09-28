@@ -59,7 +59,12 @@
     "resolution": "section",
     "sections": 966,
     "candidate_votes": 522418,
-    "promotion_allowed": false
+    "promotion_allowed": false,
+    "provinces": 2,
+    "polling_stations": 1400
   },
-  "delta_definitive_minus_provisional": 2419
+  "delta_definitive_minus_provisional": 2419,
+  "provisional_contract_created": true,
+  "provisional_packageable_in_copy": true,
+  "provisional_contract": "configuracion/contratos_minsait_provisionales.yaml#extremadura_asamblea_2025-12-21"
 }

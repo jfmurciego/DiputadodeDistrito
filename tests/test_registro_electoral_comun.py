@@ -56,6 +56,9 @@ class TestRegistroElectoralComun(unittest.TestCase):
         self.assertIn("adapter=minsait_provisional",workflow)
         self.assertNotIn("adapter=siel_andalucia",workflow)
         self.assertIn("needs.electorales.outputs.production_eligible == 'true'",workflow)
+        minsait_contracts=yaml.safe_load(
+            (ROOT/"configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8")
+        )["contracts"]
         unresolved=[]
         for registry_id,entry in self.registry["territories"].items():
             row=resolve_for_preparation(entry["name"],root_dir=ROOT,edition="2025")
@@ -64,11 +67,13 @@ class TestRegistroElectoralComun(unittest.TestCase):
             routed=(
                 election_id in ELECTIONS
                 or mode in {"governed_override","auto_discovered_declaration","materialized_election_contract"}
-                or (election_id=="andalucia_parlamento_2026" and "adapter=minsait_provisional" in workflow)
+                or election_id in minsait_contracts
             )
             if not routed:
                 unresolved.append((registry_id,election_id,mode))
         self.assertEqual(unresolved,[])
+        self.assertIn("andalucia_parlamento_2026",minsait_contracts)
+        self.assertIn("extremadura_asamblea_2025-12-21",minsait_contracts)
 
     def test_identified_election_without_source_reaches_acquisition_and_blocks(self):
         row=resolve_for_preparation("Andalucía",root_dir=ROOT,edition="2025")

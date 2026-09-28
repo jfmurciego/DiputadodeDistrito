@@ -41,12 +41,17 @@ def build(
     edition: str,
     expected_sha256: str,
     expected_ccaa: str,
+    expected_provinces: int,
     expected_sections: int,
     expected_polling_stations: int,
     expected_candidate_votes: int,
     source_url: str,
     publisher: str,
     source_status: str = "PROVISIONAL",
+    definitive_reference_publisher: str = "",
+    definitive_reference_url: str = "",
+    definitive_candidate_votes: int | None = None,
+    expected_delta_definitive_minus_provisional: int | None = None,
 ) -> dict:
     actual_sha = sha256(source)
     if actual_sha.lower() != expected_sha256.lower():
@@ -110,8 +115,40 @@ def build(
         raise ValueError(
             f"Votos a candidaturas Minsait: {candidate_votes} != {expected_candidate_votes}"
         )
-    if len(provinces) != 8:
-        raise ValueError(f"Provincias Minsait: {len(provinces)} != 8")
+    if len(provinces) != expected_provinces:
+        raise ValueError(
+            f"Provincias Minsait: {len(provinces)} != {expected_provinces}"
+        )
+
+    reconciliation: dict[str, object] = {
+        "policy": "provisional_source_only",
+        "status": "PROVISIONAL_ONLY",
+        "allowed_result_only_sections": [],
+        "allowed_map_only_sections": [],
+    }
+    if definitive_candidate_votes is not None:
+        delta = definitive_candidate_votes - candidate_votes
+        if (
+            expected_delta_definitive_minus_provisional is not None
+            and delta != expected_delta_definitive_minus_provisional
+        ):
+            raise ValueError(
+                "Delta definitivo-provisional Minsait: "
+                f"{delta} != {expected_delta_definitive_minus_provisional}"
+            )
+        reconciliation = {
+            "policy": "provisional_vs_definitive_candidate_votes",
+            "status": "KNOWN_PROVISIONAL_DELTA",
+            "provisional_candidate_votes": candidate_votes,
+            "definitive_candidate_votes": definitive_candidate_votes,
+            "delta_definitive_minus_provisional": delta,
+            "definitive_reference": {
+                "publisher": definitive_reference_publisher,
+                "url": definitive_reference_url,
+            },
+            "allowed_result_only_sections": [],
+            "allowed_map_only_sections": [],
+        }
 
     out.mkdir(parents=True, exist_ok=True)
     data_dir = out / "data"
@@ -180,9 +217,13 @@ def build(
                     "votes_field": "votes",
                 },
                 "upstream_snapshot": {
-                    "adapter": "minsait_csv/1.0",
+                    "adapter": "minsait_csv/1.1",
                     "source_sha256": actual_sha,
                     "codigo_ccaa": expected_ccaa,
+                    "expected_provinces": expected_provinces,
+                    "expected_sections": expected_sections,
+                    "expected_polling_stations": expected_polling_stations,
+                    "expected_candidate_votes": expected_candidate_votes,
                 },
             }
         ],
@@ -190,14 +231,11 @@ def build(
             "path": "contract/party_dictionary.json",
             "sha256": sha256(dictionary),
         },
-        "reconciliation": {
-            "policy": "provisional_source_only",
-            "allowed_result_only_sections": [],
-            "allowed_map_only_sections": [],
-        },
+        "reconciliation": reconciliation,
         "source_verification": {
             "status": source_status,
             "production_eligible": False,
+            "provinces": len(provinces),
             "sections": len(sections),
             "polling_stations": len(polling_stations),
             "raw_rows": raw_rows,
@@ -214,7 +252,7 @@ def build(
     manifest = {
         "schema": "ddd-electoral-package/1.0",
         "decision": "ACQUIRE",
-        "adapter": "minsait_csv/1.0",
+        "adapter": "minsait_csv/1.1",
         "territory_id": territory_id,
         "edition": str(edition),
         "election_id": election_id,
@@ -236,12 +274,14 @@ def build(
             "party_dictionary_sha256": sha256(dictionary),
         },
         "source_sha256": actual_sha,
+        "provinces": len(provinces),
         "sections": len(sections),
         "polling_stations": len(polling_stations),
         "raw_rows": raw_rows,
         "records": len(aggregated),
         "parties": len(parties),
         "candidate_votes": candidate_votes,
+        "reconciliation": reconciliation,
         "provenance": {
             "publisher": publisher,
             "source_url": source_url,
@@ -266,12 +306,17 @@ def main() -> None:
     ap.add_argument("--edition", default="2025")
     ap.add_argument("--expected-sha256", required=True)
     ap.add_argument("--expected-ccaa", required=True)
+    ap.add_argument("--expected-provinces", type=int, required=True)
     ap.add_argument("--expected-sections", type=int, required=True)
     ap.add_argument("--expected-polling-stations", type=int, required=True)
     ap.add_argument("--expected-candidate-votes", type=int, required=True)
     ap.add_argument("--source-url", required=True)
     ap.add_argument("--publisher", required=True)
     ap.add_argument("--source-status", default="PROVISIONAL")
+    ap.add_argument("--definitive-reference-publisher", default="")
+    ap.add_argument("--definitive-reference-url", default="")
+    ap.add_argument("--definitive-candidate-votes", type=int)
+    ap.add_argument("--expected-delta-definitive-minus-provisional", type=int)
     args = ap.parse_args()
     print(
         json.dumps(
@@ -284,12 +329,17 @@ def main() -> None:
                 edition=args.edition,
                 expected_sha256=args.expected_sha256,
                 expected_ccaa=args.expected_ccaa,
+                expected_provinces=args.expected_provinces,
                 expected_sections=args.expected_sections,
                 expected_polling_stations=args.expected_polling_stations,
                 expected_candidate_votes=args.expected_candidate_votes,
                 source_url=args.source_url,
                 publisher=args.publisher,
                 source_status=args.source_status,
+                definitive_reference_publisher=args.definitive_reference_publisher,
+                definitive_reference_url=args.definitive_reference_url,
+                definitive_candidate_votes=args.definitive_candidate_votes,
+                expected_delta_definitive_minus_provisional=args.expected_delta_definitive_minus_provisional,
             ),
             ensure_ascii=False,
             indent=2,

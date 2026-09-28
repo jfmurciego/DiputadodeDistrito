@@ -1,0 +1,51 @@
+schema: ddd-minsait-provisional-contracts/1.0
+contracts:
+  andalucia_parlamento_2026:
+    territory_id: andalucia
+    canonical_codauto: '01'
+    election_date: '2026-05-17'
+    source_status: PROVISIONAL
+    production_eligible: false
+    promotion_allowed: false
+    publisher: Minsait / EleccionesDB mirror
+    source_url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/01-andalucia.csv
+    source_sha256: 13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21
+    expected:
+      ccaa: '01'
+      provinces: 8
+      sections: 6044
+      polling_stations: 10403
+      candidate_votes: 4128575
+    reconciliation:
+      policy: provisional_vs_definitive_candidate_votes
+      status: KNOWN_PROVISIONAL_DELTA
+      definitive:
+        publisher: Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)
+        url: https://ws040.juntadeandalucia.es/siel-api/v1
+        candidate_votes: 4157539
+      delta_definitive_minus_provisional: 28964
+
+  extremadura_asamblea_2025-12-21:
+    territory_id: extremadura
+    canonical_codauto: '11'
+    election_date: '2025-12-21'
+    source_status: PROVISIONAL
+    production_eligible: false
+    promotion_allowed: false
+    publisher: Minsait / EleccionesDB mirror
+    source_url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
+    source_sha256: d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d
+    expected:
+      ccaa: '10'
+      provinces: 2
+      sections: 966
+      polling_stations: 1400
+      candidate_votes: 522418
+    reconciliation:
+      policy: provisional_vs_definitive_candidate_votes
+      status: KNOWN_PROVISIONAL_DELTA
+      definitive:
+        publisher: Junta Electoral de Extremadura / Diario Oficial de Extremadura
+        url: https://doe.juntaex.es/otrosFormatos/html.php?anio=2026&doe=80o&xml=2026AC0001
+        candidate_votes: 524837
+      delta_definitive_minus_provisional: 2419
