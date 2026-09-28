@@ -240,7 +240,7 @@ jobs:
                 echo "::error::ELECTORAL_GATE_BLOCK: el paquete electoral no supera validación profunda."
                 exit 46
               }
-            python herramientas/validar_elegibilidad_incorporacion_electoral.py               --root-dir . --territory "$TERRITORY_ID" --edition "$EDITION"               --gate-evidence "$gate_file" --package-manifest "$manifest"               --expected-run-id "$OVERRIDE_RUN_ID"               --expected-artifact-name "$OVERRIDE_ARTIFACT_NAME"               --expected-artifact-digest "$OVERRIDE_ARTIFACT_DIGEST" >/dev/null || {
+            python -m herramientas.validar_elegibilidad_incorporacion_electoral               --root-dir . --territory "$TERRITORY_ID" --edition "$EDITION"               --gate-evidence "$gate_file" --package-manifest "$manifest"               --expected-run-id "$OVERRIDE_RUN_ID"               --expected-artifact-name "$OVERRIDE_ARTIFACT_NAME"               --expected-artifact-digest "$OVERRIDE_ARTIFACT_DIGEST" >/dev/null || {
                 rm -rf "$tmp"
                 echo "::error::ELECTORAL_GATE_BLOCK: evidencia 03→04 no acredita identidad electoral consumible."
                 exit 46

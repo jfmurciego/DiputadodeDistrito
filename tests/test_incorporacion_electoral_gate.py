@@ -1,5 +1,7 @@
 from __future__ import annotations
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -83,12 +85,44 @@ class ElectoralIncorporationEligibilityTests(unittest.TestCase):
                 resolve_eligibility(**{**base,"expected_artifact_digest":ed})
             gate.write_text(json.dumps(original_gate)); manifest.write_text(json.dumps(original_manifest))
 
+    def test_cli_real_from_repo_root_valid_and_invalid(self):
+        td,root,gate,manifest,digest=fixture(False); self.addCleanup(td.cleanup)
+        base=[
+          sys.executable,"-m","herramientas.validar_elegibilidad_incorporacion_electoral",
+          "--root-dir",str(root),
+          "--territory","Castilla-La Mancha",
+          "--edition","2025",
+          "--gate-evidence",str(gate),
+          "--package-manifest",str(manifest),
+          "--expected-run-id","36402139263",
+          "--expected-artifact-name","ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+        ]
+
+        valid=subprocess.run(
+          [*base,"--expected-artifact-digest",digest],
+          cwd=ROOT,text=True,capture_output=True,check=False,
+        )
+        self.assertEqual(valid.returncode,0,valid.stderr or valid.stdout)
+        valid_payload=json.loads(valid.stdout.strip())
+        self.assertEqual(valid_payload["decision"],"ELIGIBLE")
+        self.assertEqual(valid_payload["route"],"validated_gate_evidence")
+
+        invalid=subprocess.run(
+          [*base,"--expected-artifact-digest","0"*64],
+          cwd=ROOT,text=True,capture_output=True,check=False,
+        )
+        self.assertEqual(invalid.returncode,2,invalid.stderr or invalid.stdout)
+        invalid_payload=json.loads(invalid.stdout.strip())
+        self.assertEqual(invalid_payload["decision"],"BLOCKED")
+        self.assertIn("digest electoral de la puerta no coincide",invalid_payload["reason"])
+
     def test_workflow_carries_gate_digest_and_preserves_catalog_fallback(self):
         orch=ORCH.read_text(encoding="utf-8"); wf=WF04.read_text(encoding="utf-8")
         self.assertIn("needs.puerta_03.outputs.artifact_digest",orch)
         self.assertIn("electoral_package_artifact_digest:",wf)
         self.assertIn("ddd-puerta-electoral_source-$GITHUB_RUN_ID",wf)
-        self.assertIn("validar_elegibilidad_incorporacion_electoral.py",wf)
+        self.assertIn("python -m herramientas.validar_elegibilidad_incorporacion_electoral",wf)
+        self.assertNotIn("python herramientas/validar_elegibilidad_incorporacion_electoral.py",wf)
         self.assertIn("catalogo_preparacion.py lookup",wf)
         self.assertIn("resolve --mode electoral_application",wf)
 
