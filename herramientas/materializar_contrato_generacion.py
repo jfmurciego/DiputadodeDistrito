@@ -409,6 +409,12 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path) -> d
     else:
         quota = hamilton(province_pop, k)
 
+    if partition_mode == "physical_components_hamilton":
+        modules["modulo_02_construir_adyacencias"].update({
+            "bridge_admin_level_1_field": "CPRO",
+            "bridge_admin_level_2_field": "CUMUN",
+        })
+
     contract.update({
         "unit_id_role": "census_section", "admin_level_1_role": "province",
         "admin_level_2_role": "municipality", "province_codes": provinces,
