@@ -30,7 +30,7 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
         text = WORKFLOW.read_text(encoding="utf-8")
         data = yaml.safe_load(text)
         event = data.get("on") or data.get(True)
-        self.assertEqual(set(event), {"workflow_dispatch"})
+        self.assertEqual(set(event), {"workflow_call", "workflow_dispatch"})
 
         for forbidden in (
             "ejecucion-completa-proyecto.yml",
@@ -61,6 +61,8 @@ class DurableElectoralProductRecoveryWorkflowTests(unittest.TestCase):
             text,
         )
         self.assertIn("--expected-previous-fingerprint", text)
+        self.assertIn("--expected-context-fingerprint", text)
+        self.assertIn("Acreditar catálogo y receipt recuperados", text)
         self.assertNotIn("git pull --rebase", text)
 
     def test_manual_recovery_requires_explicit_confirmation(self):
