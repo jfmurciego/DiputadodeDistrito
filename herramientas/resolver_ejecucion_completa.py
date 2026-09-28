@@ -266,7 +266,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         execution_mode == "reuse"
         and selected_explicit_source is None
         and optimization_algorithm == "Canónico"
-        and not force_selected_algorithm
     )
     if catalog_source_mode and selected_explicit_source is not None:
         raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
@@ -352,7 +351,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         and electoral_product_evidence.get("artifact_sha256")
     )
     recompute_requested = bool(
-        optimization_algorithm != "Canónico" or force_selected_algorithm
+        optimization_algorithm != "Canónico"
+        or (force_selected_algorithm and execution_mode != "reuse")
     )
     generation_requested = bool(
         catalog_source_mode or from_start or selected_explicit_source is not None
