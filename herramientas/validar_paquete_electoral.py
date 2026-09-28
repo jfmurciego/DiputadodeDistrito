@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import shutil
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -46,6 +47,44 @@ def _validate_selected_source(package: Path, manifest: dict) -> tuple[dict, Path
     if source.stat().st_size != int(selected.get("bytes") or -1):
         raise ValueError("tamaño interno del paquete electoral no coincide")
     return selected, source, actual
+
+
+def _verified_eleccionesdb_retrieved_at(manifest: dict, source: dict) -> tuple[str, dict]:
+    """Derive legacy retrieved_at only from immutable, verifiable package provenance."""
+    if str(manifest.get("adapter") or "") != "eleccionesdb_sqlite/1.0":
+        raise ValueError("contrato electoral embebido sin retrieved_at")
+    if str(manifest.get("source_status") or "") != "VERIFIED_SOURCE_CHAIN":
+        raise ValueError("ELECCIONESDB_RETRIEVED_AT_BLOCK: cadena de procedencia no está verificada")
+    generated_at = str(manifest.get("generated_at") or "")
+    try:
+        instant = datetime.fromisoformat(generated_at.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: generated_at verificable ausente o inválido"
+        ) from exc
+    snapshot = str(manifest.get("snapshot_sha256") or "").lower()
+    upstream = source.get("upstream_snapshot") or {}
+    if (
+        len(snapshot) != 64
+        or any(ch not in "0123456789abcdef" for ch in snapshot)
+        or str(upstream.get("snapshot_sha256") or "").lower() != snapshot
+    ):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: snapshot SHA-256 no acredita la procedencia"
+        )
+    provenance = upstream.get("provenance") or manifest.get("provenance") or []
+    if not isinstance(provenance, list) or not any(
+        isinstance(row, dict) and (str(row.get("url") or "").strip() or str(row.get("fuente") or "").strip())
+        for row in provenance
+    ):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: procedencia upstream verificable ausente"
+        )
+    return instant.date().isoformat(), {
+        "mode": "derived_from_verified_package_generated_at",
+        "generated_at": generated_at,
+        "snapshot_sha256": snapshot,
+    }
 
 
 def _materialize_embedded_contract(
@@ -101,7 +140,12 @@ def _materialize_embedded_contract(
         shutil.copy2(dictionary_src, runtime_dictionary)
         runtime_contract_payload = dict(contract)
         runtime_contract_payload["sources"] = [dict(sources[0])]
-        runtime_contract_payload["sources"][0]["path"] = runtime_source.relative_to(root).as_posix()
+        runtime_source_contract = runtime_contract_payload["sources"][0]
+        if not str(runtime_source_contract.get("retrieved_at") or "").strip():
+            retrieved_at, provenance = _verified_eleccionesdb_retrieved_at(manifest, runtime_source_contract)
+            runtime_source_contract["retrieved_at"] = retrieved_at
+            runtime_source_contract["retrieved_at_provenance"] = provenance
+        runtime_source_contract["path"] = runtime_source.relative_to(root).as_posix()
         runtime_contract_payload["party_dictionary"] = dict(contract.get("party_dictionary") or {})
         runtime_contract_payload["party_dictionary"]["path"] = runtime_dictionary.relative_to(root).as_posix()
         runtime_contract_payload["party_dictionary"]["sha256"] = sha256(runtime_dictionary)
