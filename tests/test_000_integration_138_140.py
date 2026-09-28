@@ -52,12 +52,20 @@ def _catalog(root: Path, *, digest: str, with_evidence: bool) -> Path:
     return catalog
 
 
-def _test_reuse_plan_reruns_generation_for_selected_algorithm(self):
+def _test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm(self):
     with tempfile.TemporaryDirectory() as td:
         root = Path(td); _write_contract(root); catalog = _catalog(root, digest="a" * 64, with_evidence=True)
-        plan = build_plan(territory="Demo", edition="2025", execution_mode="reuse", catalog=catalog, root_dir=root, force_selected_algorithm=True)
+        plan = build_plan(
+            territory="Demo",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=catalog,
+            root_dir=root,
+            optimization_algorithm="GerryChain 50",
+            force_selected_algorithm=True,
+        )
         self.assertFalse(plan["run_prepare_territorial"]); self.assertTrue(plan["run_generate"]); self.assertFalse(plan["run_prepare_electoral"]); self.assertTrue(plan["run_incorporate"])
-        self.assertEqual(plan["optimization_algorithm"], "Canónico"); self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
+        self.assertEqual(plan["optimization_algorithm"], "GerryChain 50"); self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
 
 def _test_gerrychain_50_is_preserved_in_plan(self):
@@ -67,11 +75,11 @@ def _test_gerrychain_50_is_preserved_in_plan(self):
         self.assertEqual(plan["optimization_algorithm"], "GerryChain 50"); self.assertTrue(plan["run_generate"]); self.assertTrue(plan["run_incorporate"])
 
 
-_full.FullProjectOrchestratorTests.test_reuse_plan_reruns_generation_for_selected_algorithm = _test_reuse_plan_reruns_generation_for_selected_algorithm
+_full.FullProjectOrchestratorTests.test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm = _test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm
 _full.FullProjectOrchestratorTests.test_gerrychain_50_is_preserved_in_plan = _test_gerrychain_50_is_preserved_in_plan
 
 
 class IntegrationPatchDiscovery(_full.unittest.TestCase):
     def test_140_fixtures_keep_138_structural_gate(self):
-        self.assertIs(_full.FullProjectOrchestratorTests.test_reuse_plan_reruns_generation_for_selected_algorithm, _test_reuse_plan_reruns_generation_for_selected_algorithm)
+        self.assertIs(_full.FullProjectOrchestratorTests.test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm, _test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm)
         self.assertIs(_full.FullProjectOrchestratorTests.test_gerrychain_50_is_preserved_in_plan, _test_gerrychain_50_is_preserved_in_plan)

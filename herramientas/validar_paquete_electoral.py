@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import shutil
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -46,6 +47,135 @@ def _validate_selected_source(package: Path, manifest: dict) -> tuple[dict, Path
     if source.stat().st_size != int(selected.get("bytes") or -1):
         raise ValueError("tamaño interno del paquete electoral no coincide")
     return selected, source, actual
+
+
+def _hex64(value: object) -> bool:
+    text = str(value or "").lower()
+    return len(text) == 64 and all(ch in "0123456789abcdef" for ch in text)
+
+
+def _aware_timestamp(value: object, *, label: str) -> datetime:
+    text = str(value or "").strip()
+    try:
+        instant = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"ELECCIONESDB_RETRIEVED_AT_BLOCK: {label} ausente o inválido") from exc
+    if instant.tzinfo is None:
+        raise ValueError(f"ELECCIONESDB_RETRIEVED_AT_BLOCK: {label} debe incluir zona horaria")
+    return instant
+
+
+def _verified_eleccionesdb_retrieved_at(
+    manifest: dict,
+    source: dict,
+    *,
+    root: Path,
+) -> tuple[str, dict]:
+    """Resolve legacy retrieved_at only from durable upstream artifact evidence."""
+    if str(manifest.get("adapter") or "") != "eleccionesdb_sqlite/1.0":
+        raise ValueError("contrato electoral embebido sin retrieved_at")
+    if str(manifest.get("source_status") or "") != "VERIFIED_SOURCE_CHAIN":
+        raise ValueError("ELECCIONESDB_RETRIEVED_AT_BLOCK: cadena de procedencia no está verificada")
+
+    snapshot = str(manifest.get("snapshot_sha256") or "").lower()
+    upstream = source.get("upstream_snapshot") or {}
+    if not _hex64(snapshot) or str(upstream.get("snapshot_sha256") or "").lower() != snapshot:
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: snapshot SHA-256 no acredita la procedencia"
+        )
+    provenance = upstream.get("provenance") or manifest.get("provenance") or []
+    if not isinstance(provenance, list) or not any(
+        isinstance(row, dict) and (str(row.get("url") or "").strip() or str(row.get("fuente") or "").strip())
+        for row in provenance
+    ):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: procedencia upstream verificable ausente"
+        )
+
+    registry_path = root / "configuracion/procedencia_eleccionesdb_legacy.json"
+    if not registry_path.is_file():
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: evidencia temporal legacy durable ausente"
+        )
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    if registry.get("schema") != "ddd-eleccionesdb-legacy-provenance/1.0":
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: schema de procedencia legacy inválido"
+        )
+    entry = (registry.get("snapshots") or {}).get(snapshot)
+    if not isinstance(entry, dict):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: snapshot legacy sin procedencia temporal acreditada"
+        )
+    if str(entry.get("rule") or "") != "retrieved_at_equals_upstream_artifact_created_at":
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: regla temporal legacy no reconocida"
+        )
+
+    retrieved_at = str(entry.get("retrieved_at") or "").strip()
+    retrieved_instant = _aware_timestamp(retrieved_at, label="retrieved_at legacy")
+    upstream_artifact = entry.get("upstream_artifact") or {}
+    upstream_created_at = str(upstream_artifact.get("created_at") or "").strip()
+    upstream_instant = _aware_timestamp(
+        upstream_created_at,
+        label="created_at del artefacto upstream",
+    )
+    if retrieved_instant != upstream_instant:
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: retrieved_at no coincide con created_at upstream"
+        )
+    if (
+        str(upstream_artifact.get("repository") or "") != "hmeleiro/eleccionesdb-etl"
+        or str(upstream_artifact.get("name") or "") != "eleccionesdb-descargas"
+        or int(upstream_artifact.get("artifact_id") or 0) <= 0
+        or not _hex64(upstream_artifact.get("extracted_sqlite_sha256"))
+    ):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: identidad o digest del artefacto upstream inválidos"
+        )
+
+    snapshot_artifact = entry.get("snapshot_artifact") or {}
+    if (
+        str(snapshot_artifact.get("repository") or "") != "jfmurciego/DiputadodeDistrito"
+        or str(snapshot_artifact.get("name") or "") != "ddd-eleccionesdb-snapshot"
+        or int(snapshot_artifact.get("producer_run_id") or 0) <= 0
+        or int(snapshot_artifact.get("artifact_id") or 0) <= 0
+        or str(snapshot_artifact.get("snapshot_sha256") or "").lower() != snapshot
+        or not _hex64(snapshot_artifact.get("artifact_sha256"))
+    ):
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: identidad o digest del snapshot durable inválidos"
+        )
+    snapshot_created_at = str(snapshot_artifact.get("created_at") or "").strip()
+    snapshot_instant = _aware_timestamp(
+        snapshot_created_at,
+        label="created_at del snapshot durable",
+    )
+    if snapshot_instant < upstream_instant:
+        raise ValueError(
+            "ELECCIONESDB_RETRIEVED_AT_BLOCK: snapshot durable anterior al artefacto upstream"
+        )
+
+    return retrieved_at, {
+        "mode": "verified_legacy_snapshot_registry",
+        "rule": "retrieved_at_equals_upstream_artifact_created_at",
+        "snapshot_sha256": snapshot,
+        "upstream_artifact": {
+            "repository": upstream_artifact["repository"],
+            "name": upstream_artifact["name"],
+            "artifact_id": int(upstream_artifact["artifact_id"]),
+            "created_at": upstream_created_at,
+            "extracted_sqlite_sha256": str(
+                upstream_artifact["extracted_sqlite_sha256"]
+            ).lower(),
+        },
+        "snapshot_artifact": {
+            "producer_run_id": int(snapshot_artifact["producer_run_id"]),
+            "artifact_id": int(snapshot_artifact["artifact_id"]),
+            "created_at": snapshot_created_at,
+            "artifact_sha256": str(snapshot_artifact["artifact_sha256"]).lower(),
+        },
+    }
 
 
 def _materialize_embedded_contract(
@@ -94,14 +224,27 @@ def _materialize_embedded_contract(
     runtime_dictionary = runtime_dir / "party_dictionary.json"
     runtime_source = runtime_dir / "data" / source.name
 
+    runtime_source_contract = dict(sources[0])
+    if (
+        str(manifest.get("adapter") or "") == "eleccionesdb_sqlite/1.0"
+        and not str(runtime_source_contract.get("retrieved_at") or "").strip()
+    ):
+        retrieved_at, provenance = _verified_eleccionesdb_retrieved_at(
+            manifest,
+            runtime_source_contract,
+            root=root,
+        )
+        runtime_source_contract["retrieved_at"] = retrieved_at
+        runtime_source_contract["retrieved_at_provenance"] = provenance
+
     if materialize:
         runtime_source.parent.mkdir(parents=True, exist_ok=True)
         runtime_dictionary.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, runtime_source)
         shutil.copy2(dictionary_src, runtime_dictionary)
         runtime_contract_payload = dict(contract)
-        runtime_contract_payload["sources"] = [dict(sources[0])]
-        runtime_contract_payload["sources"][0]["path"] = runtime_source.relative_to(root).as_posix()
+        runtime_contract_payload["sources"] = [runtime_source_contract]
+        runtime_source_contract["path"] = runtime_source.relative_to(root).as_posix()
         runtime_contract_payload["party_dictionary"] = dict(contract.get("party_dictionary") or {})
         runtime_contract_payload["party_dictionary"]["path"] = runtime_dictionary.relative_to(root).as_posix()
         runtime_contract_payload["party_dictionary"]["sha256"] = sha256(runtime_dictionary)

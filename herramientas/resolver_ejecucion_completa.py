@@ -9,6 +9,7 @@ import yaml
 
 from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
+from herramientas.resolver_activos_durables import DurableAssetBlock, validate_durable_assets
 
 _run_from_artifact = _core._run_from_artifact
 
@@ -261,19 +262,59 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     catalog_prep = state.get("preparation_evidence") or {}
     selected_explicit_source = _explicit_source(explicit_territorial_source)
     catalog_source_mode = execution_mode == "catalog_source"
+    automatic_continue = bool(
+        execution_mode == "reuse"
+        and selected_explicit_source is None
+        and optimization_algorithm == "Canónico"
+        and (
+            not force_selected_algorithm
+            or state.get("territorial_product_available")
+            or state.get("electoral_product_available")
+        )
+    )
     if catalog_source_mode and selected_explicit_source is not None:
         raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
-    prep = (
-        _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
-        if catalog_source_mode
-        else (selected_explicit_source or catalog_prep)
-    )
+    if catalog_source_mode:
+        prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
+    elif selected_explicit_source is not None:
+        prep = selected_explicit_source
+    elif automatic_continue and state.get("territorial_sources_prepared"):
+        # En continuidad durable, si existe un producto M06/M08 el manifiesto
+        # productor es la autoridad de linaje para la fuente usada. El catálogo
+        # puede conservar un run_id histórico desfasado aunque artefacto y SHA
+        # sigan identificando la misma fuente.
+        prep = dict(catalog_prep)
+    else:
+        prep = catalog_prep
     last = state.get("last_valid_checkpoint") or {}
     last_run = last.get("run_id")
     try:
         last_num = int(str(last.get("stage") or "").removeprefix("M"))
     except ValueError:
         last_num = 0
+    from_start = execution_mode == "from_start"
+    if execution_mode not in {"reuse", "from_start", "catalog_source"}:
+        raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
+    if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
+        raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
+    expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
+    if automatic_continue:
+        try:
+            durable = validate_durable_assets(
+                root_dir=root_dir,
+                state=state,
+                territory_id=row["territory_id"],
+                edition=edition,
+                territorial_source=prep if state.get("territorial_sources_prepared") else None,
+                expected_election_id=expected_election_id,
+            )
+        except DurableAssetBlock as exc:
+            raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
+        prep = durable["territorial_source"] or {}
+        territorial_evidence = durable["territorial_product"] or {}
+        electoral_source_evidence = durable["electoral_source"] or {}
+        electoral_product_evidence = durable["electoral_product"] or {}
+
     source_run_id = _core._run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
     territorial_product_run_id = _core._run_from_artifact(
         territorial_evidence.get("artifact_name"),
@@ -292,11 +333,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
     )
-    from_start = execution_mode == "from_start"
-    if execution_mode not in {"reuse", "from_start", "catalog_source"}:
-        raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
-    if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
-        raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
+
     source_shape_ready = bool(
         source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
     )
@@ -309,7 +346,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         and state.get("territorial_certification") in _core.PASS_CERTIFICATIONS
         and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
     )
-    expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
     electoral_source_identity_ready = (
         expected_election_id is None
         or str(electoral_source_evidence.get("election_id") or "") == expected_election_id
@@ -323,12 +359,24 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         state.get("electoral_product_available") and electoral_product_run_id
         and electoral_product_evidence.get("artifact_sha256")
     )
+    recompute_requested = bool(
+        optimization_algorithm != "Canónico"
+        or (force_selected_algorithm and execution_mode != "reuse")
+    )
+    generation_requested = bool(
+        catalog_source_mode or from_start or selected_explicit_source is not None
+        or not territorial_product_ready or recompute_requested
+    )
     if catalog_source_mode:
         run_prepare_territorial = False
+    elif selected_explicit_source is not None:
+        run_prepare_territorial = False
+    elif from_start:
+        run_prepare_territorial = True
     else:
-        run_prepare_territorial = from_start if selected_explicit_source is None else False
-        if selected_explicit_source is None and not from_start:
-            run_prepare_territorial = not territorial_sources_ready
+        # "Continuar": una fuente anterior no es necesaria si ya existe un M06
+        # certificado compatible. Sólo se prepara 01 cuando 02 deba ejecutarse.
+        run_prepare_territorial = bool(generation_requested and not territorial_sources_ready)
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
@@ -339,7 +387,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             and not catalog_source_mode and not territorial_product_ready else None
         ),
         preparation_evidence=prep,
-        require_source=True,
+        require_source=generation_requested,
         source_acquisition_planned=source_acquisition_planned,
         source_recalculation_planned=catalog_source_mode,
     )
@@ -370,15 +418,17 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             require_source=True,
             pre_m04_accreditation_planned=True,
         )
-    proposed_generate = bool(
-        catalog_source_mode or from_start or selected_explicit_source is not None
-        or run_prepare_territorial or not territorial_product_ready
-        or optimization_algorithm != "Canónico" or force_selected_algorithm
-    )
+    proposed_generate = bool(generation_requested or run_prepare_territorial)
     if proposed_generate and not generation_gate["allowed"]:
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
     run_generate = proposed_generate
-    run_prepare_electoral = from_start or not electoral_source_ready
+    run_prepare_electoral = bool(
+        from_start
+        or (
+            not electoral_source_ready
+            and (run_generate or not electoral_product_ready)
+        )
+    )
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
     plan = {
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
@@ -499,7 +549,9 @@ def main() -> None:
     plan = build_plan(
         territory=ns.territory, edition=ns.edition, execution_mode=ns.execution_mode,
         catalog=root / ns.catalog, root_dir=root, optimization_algorithm=ns.optimization_algorithm,
-        force_selected_algorithm=not ns.reuse_existing_optimization,
+        force_selected_algorithm=(
+            False if ns.execution_mode == "reuse" else not ns.reuse_existing_optimization
+        ),
     )
     text = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
     if ns.output:
