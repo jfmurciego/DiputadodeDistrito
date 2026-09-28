@@ -435,7 +435,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         writer=(ROOT/"herramientas/escribir_manifest_ejecucion_completa.py").read_text(encoding="utf-8")
         self.assertIn('p["executed"] and p["result"] != "success"',writer)
 
-    def test_reuse_plan_reruns_generation_for_selected_algorithm(self):
+    def test_reuse_plan_does_not_regenerate_valid_canonical_m06_for_internal_force_flag(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             contract = root / "territorios/demo/config/demo_2025.yaml"
@@ -447,7 +447,18 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             evidence = root / "evidence"
             evidence.mkdir()
             digest = "a" * 64
-            (evidence / "territorial.json").write_text(json.dumps({"run_id": 101, "artifact_name": "m06", "artifact_sha256": digest, "decision": "PASS"}), encoding="utf-8")
+            (evidence / "territorial.json").write_text(json.dumps({
+                "schema": "ddd.catalog-evidence/1.0",
+                "kind": "territorial_product",
+                "territory_id": "demo",
+                "edition": "2025",
+                "run_id": 101,
+                "artifact_name": "ddd-state-101-M06",
+                "artifact_sha256": digest,
+                "source_commit": "1" * 40,
+                "decision": "PASS",
+                "stage": "M06",
+            }), encoding="utf-8")
             (evidence / "source.json").write_text(json.dumps({"run_id": 102, "artifact_name": "electoral-source", "artifact_sha256": digest}), encoding="utf-8")
             (evidence / "electoral.json").write_text(json.dumps({"run_id": 103, "artifact_name": "m08", "artifact_sha256": digest}), encoding="utf-8")
             catalog = root / "catalog.yaml"
@@ -474,7 +485,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                                         "territorial_product_available": True,
                                         "electoral_source_prepared": True,
                                         "electoral_product_available": True,
-                                        "territorial_certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+                                        "territorial_certification": "PASS",
                                         "preparation_evidence": {"run_id": 100, "artifact_name": "source-package", "artifact_sha256": digest},
                                         "evidence": {
                                             "territorial_product": "evidence/territorial.json",
@@ -500,11 +511,12 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 force_selected_algorithm=True,
             )
             self.assertFalse(plan["run_prepare_territorial"])
-            self.assertTrue(plan["run_generate"])
+            self.assertFalse(plan["run_generate"])
             self.assertFalse(plan["run_prepare_electoral"])
-            self.assertTrue(plan["run_incorporate"])
+            self.assertFalse(plan["run_incorporate"])
             self.assertEqual(plan["optimization_algorithm"], "Canónico")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
+            self.assertTrue(plan["catalog_state"]["territorial_product_reuse_validation"]["valid"])
 
     def test_reuse_reschedules_electoral_when_registered_election_changed(self):
         with tempfile.TemporaryDirectory() as td:
