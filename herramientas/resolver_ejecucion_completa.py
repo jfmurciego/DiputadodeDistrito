@@ -87,7 +87,8 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
                           certified_product_ready: bool = False, first_generation_evidence: dict | None = None,
                           preparation_evidence: dict | None = None, require_source: bool = False,
                           source_acquisition_planned: bool = False,
-                          pre_m04_accreditation_planned: bool = False) -> dict:
+                          pre_m04_accreditation_planned: bool = False,
+                          source_recalculation_planned: bool = False) -> dict:
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
@@ -108,6 +109,8 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
             return _core._blocked("CAP_SOURCE", "fuente territorial no acreditada por run, artefacto y SHA-256")
         if "source_commit" in prep and not re.fullmatch(r"[0-9a-f]{40}", str(prep.get("source_commit") or "")):
             return _core._blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
+    if source_recalculation_planned:
+        return {"allowed": True, "route": "accredited_source_recalculation"}
     if first_generation_evidence:
         return _core._validated_first_generation_preflight(
             contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
@@ -158,6 +161,83 @@ def _explicit_source(values: dict | None) -> dict | None:
     }
 
 
+
+def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_dir: Path) -> dict:
+    territory_id = str(row.get("territory_id") or "")
+    if state.get("territorial_sources_prepared") is not True:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "la fuente territorial no está marcada como preparada"
+        )
+    prep = state.get("preparation_evidence")
+    if not isinstance(prep, dict):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "falta preparation_evidence durable"
+        )
+    try:
+        run_id = int(prep.get("run_id"))
+    except Exception as exc:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: run_id de fuente inválido"
+        ) from exc
+    if run_id <= 0:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: run_id de fuente inválido"
+        )
+    artifact_name = str(prep.get("artifact_name") or "")
+    expected_name = f"ddd-source-package-{territory_id}-{edition}-{run_id}"
+    if artifact_name != expected_name:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            f"artefacto territorial no coincide con run/territorio/edición: {artifact_name!r}"
+        )
+    artifact_sha256 = str(prep.get("artifact_sha256") or "").removeprefix("sha256:").lower()
+    package_sha256 = str(prep.get("package_sha256") or "").removeprefix("sha256:").lower()
+    if not _core._sha256_value(artifact_sha256):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "digest durable del artefacto ausente o inválido"
+        )
+    if not _core._sha256_value(package_sha256):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "SHA-256 interno del paquete territorial ausente o inválido"
+        )
+    declaration_rel = str(state.get("territorial_source_declaration") or "")
+    declaration_path = root_dir / declaration_rel if declaration_rel else None
+    if declaration_path is None or not declaration_path.is_file():
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "declaración durable de procedencia territorial ausente"
+        )
+    try:
+        declaration = yaml.safe_load(declaration_path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError) as exc:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "declaración durable de procedencia territorial ilegible"
+        ) from exc
+    territory = declaration.get("territory") or {}
+    if (
+        not str(declaration.get("schema") or "").startswith("ddd-territory-sources/")
+        or str(territory.get("id") or "") != territory_id
+        or str(territory.get("edition") or "") != str(edition)
+    ):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "procedencia territorial no coincide con territorio/edición"
+        )
+    return {
+        **prep,
+        "run_id": run_id,
+        "artifact_name": artifact_name,
+        "artifact_sha256": artifact_sha256,
+        "package_sha256": package_sha256,
+        "source_declaration": declaration_rel,
+    }
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
@@ -173,7 +253,14 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         generation_preflight_evidence = {"_load_error": f"no se pudo leer {generation_preflight_path}"}
     catalog_prep = state.get("preparation_evidence") or {}
     selected_explicit_source = _explicit_source(explicit_territorial_source)
-    prep = selected_explicit_source or catalog_prep
+    catalog_source_mode = execution_mode == "catalog_source"
+    if catalog_source_mode and selected_explicit_source is not None:
+        raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
+    prep = (
+        _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
+        if catalog_source_mode
+        else (selected_explicit_source or catalog_prep)
+    )
     last = state.get("last_valid_checkpoint") or {}
     last_run = last.get("run_id")
     try:
@@ -199,7 +286,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
     )
     from_start = execution_mode == "from_start"
-    if execution_mode not in {"reuse", "from_start"}:
+    if execution_mode not in {"reuse", "from_start", "catalog_source"}:
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
     if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
@@ -207,7 +294,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
     )
     territorial_sources_ready = bool(
-        source_shape_ready and (selected_explicit_source is not None or state.get("territorial_sources_prepared"))
+        source_shape_ready
+        and (catalog_source_mode or selected_explicit_source is not None or state.get("territorial_sources_prepared"))
     )
     territorial_product_ready = bool(
         state.get("territorial_product_available")
@@ -228,23 +316,29 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         state.get("electoral_product_available") and electoral_product_run_id
         and electoral_product_evidence.get("artifact_sha256")
     )
-    run_prepare_territorial = from_start if selected_explicit_source is None else False
-    if selected_explicit_source is None and not from_start:
-        run_prepare_territorial = not territorial_sources_ready
+    if catalog_source_mode:
+        run_prepare_territorial = False
+    else:
+        run_prepare_territorial = from_start if selected_explicit_source is None else False
+        if selected_explicit_source is None and not from_start:
+            run_prepare_territorial = not territorial_sources_ready
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
-        certified_product_ready=territorial_product_ready,
+        certified_product_ready=territorial_product_ready and not catalog_source_mode,
         first_generation_evidence=(
             generation_preflight_evidence
-            if territorial_sources_ready and not run_prepare_territorial and not territorial_product_ready else None
+            if territorial_sources_ready and not run_prepare_territorial
+            and not catalog_source_mode and not territorial_product_ready else None
         ),
         preparation_evidence=prep,
         require_source=True,
         source_acquisition_planned=source_acquisition_planned,
+        source_recalculation_planned=catalog_source_mode,
     )
     pre_m04_accreditation_planned = bool(
-        selected_explicit_source is None
+        not catalog_source_mode
+        and selected_explicit_source is None
         and not from_start
         and territorial_sources_ready
         and not territorial_product_ready
@@ -265,7 +359,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             pre_m04_accreditation_planned=True,
         )
     proposed_generate = bool(
-        from_start or selected_explicit_source is not None or run_prepare_territorial or not territorial_product_ready
+        catalog_source_mode or from_start or selected_explicit_source is not None
+        or run_prepare_territorial or not territorial_product_ready
         or optimization_algorithm != "Canónico" or force_selected_algorithm
     )
     if proposed_generate and not generation_gate["allowed"]:
@@ -276,13 +371,15 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     plan = {
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
         "edition": edition, "contract_path": row.get("contract_path"), "execution_mode": execution_mode,
+        "generation_execution_mode": "from_start" if catalog_source_mode else execution_mode,
         "optimization_algorithm": optimization_algorithm, "run_prepare_territorial": run_prepare_territorial,
         "pre_m04_accreditation_planned": pre_m04_accreditation_planned,
         "run_generate": run_generate, "run_prepare_electoral": run_prepare_electoral, "run_incorporate": run_incorporate,
         "existing": {
             "territorial_source": {
                 "run_id": source_run_id, "artifact_name": prep.get("artifact_name"),
-                "artifact_sha256": prep.get("artifact_sha256"), "source_commit": prep.get("source_commit"),
+                "artifact_sha256": prep.get("artifact_sha256"), "package_sha256": prep.get("package_sha256"),
+                "source_commit": prep.get("source_commit"), "source_declaration": prep.get("source_declaration"),
                 "decision": "VALIDADO" if territorial_sources_ready else None,
             },
             "territorial_product": {"run_id": territorial_product_run_id, "artifact_name": territorial_product_artifact, "artifact_sha256": territorial_evidence.get("artifact_sha256"), "decision": territorial_evidence.get("decision")},
@@ -379,7 +476,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory", required=True)
     ap.add_argument("--edition", required=True)
-    ap.add_argument("--execution-mode", choices=["reuse", "from_start"], required=True)
+    ap.add_argument("--execution-mode", choices=["reuse", "from_start", "catalog_source"], required=True)
     ap.add_argument("--optimization-algorithm", default="Canónico", choices=["Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"])
     ap.add_argument("--reuse-existing-optimization", action="store_true")
     ap.add_argument("--catalog", default="configuracion/catalogo_preparacion.yaml")

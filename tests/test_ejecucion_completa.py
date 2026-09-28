@@ -57,7 +57,11 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertEqual(list(inputs), ["territory_id", "data_edition", "execution_mode", "optimization_algorithm", "publication_mode", "publish_result"])
         self.assertEqual(
             inputs["execution_mode"]["options"],
-            ["Reutilizar progreso existente", "Ejecutar desde el principio"],
+            [
+                "Reutilizar progreso existente",
+                "Generar desde fuente territorial acreditada",
+                "Ejecutar desde el principio",
+            ],
         )
         self.assertEqual(inputs["optimization_algorithm"]["options"], ["Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"])
         self.assertEqual(inputs["publication_mode"]["options"], ["electoral", "territorial_only"])
@@ -175,6 +179,10 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         expected = "${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}"
         self.assertEqual(data["jobs"]["preparar_territorial"]["with"]["reutilizar_si_ya_preparada"], expected)
         self.assertEqual(data["jobs"]["preparar_electoral"]["with"]["reutilizar_si_ya_preparada"], expected)
+        self.assertEqual(
+            data["jobs"]["generar"]["with"]["execution_mode"],
+            "${{ needs.planificar.outputs.generation_execution_mode }}",
+        )
 
     def test_current_run_artifacts_can_feed_next_phase(self):
         orchestration = ORCH.read_text(encoding="utf-8")
@@ -684,6 +692,113 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
             self.assertTrue(plan["run_generate"])
             self.assertTrue(plan["run_incorporate"])
+
+    def test_catalog_source_mode_forces_new_generation_and_preserves_electoral_reuse(self):
+        plan = build_plan(
+            territory="Ceuta",
+            edition="2025",
+            execution_mode="catalog_source",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        self.assertEqual(plan["execution_mode"], "catalog_source")
+        self.assertEqual(plan["generation_execution_mode"], "from_start")
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+        self.assertTrue(plan["existing"]["territorial_product"]["run_id"])
+        self.assertEqual(plan["existing"]["territorial_source"]["decision"], "VALIDADO")
+        self.assertEqual(plan["generation_gate"], {
+            "allowed": True,
+            "route": "accredited_source_recalculation",
+        })
+        self.assertEqual(
+            plan["existing"]["territorial_source"]["artifact_name"],
+            "ddd-source-package-ceuta-2025-36258940598",
+        )
+
+    def test_catalog_source_mode_prepares_electoral_only_when_missing(self):
+        plan = build_plan(
+            territory="Cantabria",
+            edition="2025",
+            execution_mode="catalog_source",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+
+    def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
+        original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        target = next(row for row in original["territories"] if row["territory_id"] == "cantabria")
+        base_state = target["editions"]["2025"]
+        mutations = {
+            "missing_evidence": lambda state: state.pop("preparation_evidence", None),
+            "run_artifact_mismatch": lambda state: state["preparation_evidence"].update(run_id=999),
+            "invalid_digest": lambda state: state["preparation_evidence"].update(artifact_sha256="bad"),
+            "missing_package_sha": lambda state: state["preparation_evidence"].pop("package_sha256", None),
+            "wrong_provenance": lambda state: state.update(
+                territorial_source_declaration="territorios/andalucia/config/fuentes_oficiales.yaml"
+            ),
+        }
+        for name, mutate in mutations.items():
+            with self.subTest(case=name), tempfile.TemporaryDirectory() as td:
+                data = json.loads(json.dumps(original))
+                row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
+                state = row["editions"]["2025"]
+                mutate(state)
+                catalog = Path(td) / "catalog.yaml"
+                catalog.write_text(
+                    yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
+                    build_plan(
+                        territory="Cantabria",
+                        edition="2025",
+                        execution_mode="catalog_source",
+                        catalog=catalog,
+                        root_dir=ROOT,
+                    )
+        self.assertTrue(base_state["preparation_evidence"]["package_sha256"])
+
+    def test_catalog_source_mode_uses_existing_source_gate_and_never_old_m06(self):
+        data = load(ORCH)
+        jobs = data["jobs"]
+        dispatch = triggers(ORCH)["workflow_dispatch"]["inputs"]
+        self.assertNotIn("reuse_run_id", dispatch)
+        self.assertNotIn("reuse_artifact_name", dispatch)
+        self.assertNotIn("reuse_artifact_sha256", dispatch)
+        self.assertNotIn("reuse_source_sha", dispatch)
+        self.assertEqual(
+            jobs["puerta_01"]["with"]["run_id"],
+            "${{ needs.preparar_territorial.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_source_run_id }}",
+        )
+        self.assertEqual(
+            jobs["puerta_01"]["with"]["expected_digest"],
+            "${{ needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || '' }}",
+        )
+        self.assertEqual(
+            jobs["puerta_02"]["with"]["run_id"],
+            "${{ needs.generar.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_product_run_id }}",
+        )
+        self.assertEqual(
+            jobs["incorporar"]["with"]["territorial_run_id"],
+            "${{ needs.puerta_02.outputs.run_id }}",
+        )
+        self.assertEqual(
+            jobs["preparar_electoral"]["with"]["reutilizar_si_ya_preparada"],
+            "${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}",
+        )
+        gate = (ROOT / "herramientas/validar_puerta_ejecucion.py").read_text(encoding="utf-8")
+        self.assertIn('phase == "territorial_source"', gate)
+        self.assertIn("validate_prepared_package(", gate)
+        generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
+        self.assertIn("SOURCE_RECALCULATION_PLANNED", generation)
+        self.assertIn("source_recalculation_planned=", generation)
 
     def test_from_start_without_generation_contract_blocks_before_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
