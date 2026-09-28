@@ -161,7 +161,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
@@ -175,6 +175,7 @@ territories:
         package_sha256: 0d8aa7038c52254f7a3cefea284ecc03559e3411b1e3f04d57c3875bab4772ad
       evidence:
         territorial_product: territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json
 - territory_id: castilla_y_leon
   name: Castilla y León
   editions:
