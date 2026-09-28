@@ -7,6 +7,8 @@ import copy
 import io
 import json
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
@@ -419,6 +421,153 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             materialized_properties = [feature["properties"] for feature in materialized["features"]]
             self.assertTrue(all("DDD_PARTITION" in props for props in materialized_properties))
             self.assertTrue(all("DDD_MUNICIPALITY_PARTITION" in props for props in materialized_properties))
+
+    def test_physical_preparer_production_module_invocation_works_for_both_archipelagos(self):
+        workflow = (ROOT/".github/workflows/_reutilizable-generacion-territorial.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(
+            "-m herramientas.preparar_particiones_fisicas_m04",
+            workflow,
+        )
+        self.assertNotIn(
+            "/app/herramientas/preparar_particiones_fisicas_m04.py",
+            workflow,
+        )
+
+        for territory_id in ("illes_balears", "canarias"):
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                source = root/"source.geojson.zip"
+                target = root/"m03_particiones.geojson.zip"
+                lookup = root/"particiones.json"
+                params = root/f"{territory_id}.yaml"
+                report = root/"job.json"
+
+                geojson = {
+                    "type": "FeatureCollection",
+                    "features": [
+                        {
+                            "type": "Feature",
+                            "properties": {"CUSEC_KEY": "0700101001", "CUMUN": "07001"},
+                            "geometry": {"type": "Point", "coordinates": [1, 1]},
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {"CUSEC_KEY": "0700201001", "CUMUN": "07002"},
+                            "geometry": {"type": "Point", "coordinates": [2, 2]},
+                        },
+                        {
+                            "type": "Feature",
+                            "properties": {"CUSEC_KEY": "0700201002", "CUMUN": "07002"},
+                            "geometry": {"type": "Point", "coordinates": [2.1, 2.1]},
+                        },
+                    ],
+                }
+                with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as zf:
+                    zf.writestr("source.geojson", json.dumps(geojson))
+
+                lookup.write_text(
+                    json.dumps({
+                        "schema": "ddd-archipelago-partitions/1.1",
+                        "edition": 2025,
+                        "territories": {
+                            territory_id: {
+                                "partition_mode": "physical_components",
+                                "components": {
+                                    "A": {"province_code": "07", "section_count": 1},
+                                    "B": {"province_code": "07", "section_count": 2},
+                                },
+                                "municipality_to_partition": {
+                                    "07001": "A",
+                                    "07002": "B",
+                                },
+                                "section_overrides": {},
+                            }
+                        },
+                    }),
+                    encoding="utf-8",
+                )
+                params.write_text(
+                    yaml.safe_dump({
+                        "meta": {
+                            "territory_id": territory_id,
+                            "run_name": f"{territory_id}_2025",
+                            "year": 2025,
+                        },
+                        "territory_contract": {"k_districts": 2},
+                        "modulos": {
+                            "modulo_01_preparar_base_territorial": {
+                                "out_geojson": str(source),
+                            },
+                            "modulo_02_construir_adyacencias": {
+                                "topology_bridges": [],
+                            },
+                            "modulo_04_generar_semillas": {
+                                "source_geojson": str(source),
+                                "in_geojson": str(target),
+                                "id_field": "CUSEC_KEY",
+                                "province_field": "DDD_PARTITION",
+                                "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                                "district_apportionment": "hamilton_components",
+                                "hard_partition_lookup": str(lookup),
+                                "hard_partition_territory_id": territory_id,
+                            },
+                        },
+                        "validation": {
+                            "hard_partition_mode": "physical_components",
+                            "hard_partition_lookup": str(lookup),
+                            "province_apportionment": "hamilton_components",
+                            "province_field": "DDD_PARTITION",
+                            "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                            "province_districts": {"A": 1, "B": 1},
+                            "partition_populations": {"A": 100, "B": 200},
+                            "partition_apportionment_audit": {
+                                "A": {
+                                    "population": 100,
+                                    "districts": 1,
+                                    "floor_exception_required": False,
+                                    "floor_exception_governed": True,
+                                },
+                                "B": {
+                                    "population": 200,
+                                    "districts": 1,
+                                    "floor_exception_required": False,
+                                    "floor_exception_governed": True,
+                                },
+                            },
+                            "population_floor_exempt_partitions": [],
+                        },
+                    }, sort_keys=False),
+                    encoding="utf-8",
+                )
+
+                result = subprocess.run(
+                    [
+                        sys.executable,
+                        "-m",
+                        "herramientas.preparar_particiones_fisicas_m04",
+                        "--params",
+                        str(params),
+                        "--run-id",
+                        f"test-{territory_id}",
+                        "--job-report",
+                        str(report),
+                    ],
+                    cwd=ROOT,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                self.assertEqual(
+                    0,
+                    result.returncode,
+                    f"{territory_id}: stdout={result.stdout}\nstderr={result.stderr}",
+                )
+                payload = json.loads(report.read_text(encoding="utf-8"))
+                self.assertEqual("PREPARED", payload["status"], territory_id)
+                self.assertEqual("physical_components", payload["strategy"], territory_id)
+                self.assertTrue(target.is_file(), territory_id)
 
     def test_real_archipelago_contracts_separate_m02_source_fields_from_m04_partition_fields(self):
         for territory_id in ("illes_balears", "canarias"):
