@@ -297,7 +297,7 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 36403519566
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 36345716757
         artifact_name: ddd-source-package-galicia-2025-36345716757
