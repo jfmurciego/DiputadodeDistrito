@@ -31,10 +31,13 @@ class EleccionesDBProvisionalGuard(unittest.TestCase):
         self.assertEqual(evidence["status"], "PROVISIONAL")
         self.assertFalse(evidence["promotion_allowed"])
         self.assertEqual(evidence["sha256"], "d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d")
+        self.assertEqual(evidence["provinces"], 2)
         self.assertEqual(evidence["sections"], 966)
+        self.assertEqual(evidence["polling_stations"], 1400)
         self.assertEqual(evidence["candidate_votes"], 522418)
         self.assertEqual(evidence["definitive_reference"]["candidate_votes"], 524837)
         self.assertEqual(evidence["delta_definitive_minus_provisional"], 2419)
+        self.assertIn("contratos_minsait_provisionales.yaml", evidence["contract"])
         selectable_urls = {str(x.get("url") or "") for x in declaration.get("sources") or []}
         self.assertNotIn(evidence["url"], selectable_urls)
 

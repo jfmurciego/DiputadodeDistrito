@@ -14,15 +14,27 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class AndaluciaProvisionalWorkflowIntegrationTests(unittest.TestCase):
-    def test_preparation_workflow_uses_governed_provisional_csv(self):
+    def test_preparation_workflow_uses_common_governed_minsait_contracts(self):
         text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
+        contracts = yaml.safe_load(
+            (ROOT / "configuracion/contratos_minsait_provisionales.yaml").read_text(encoding="utf-8")
+        )["contracts"]
+        self.assertIn("resolver_contrato_minsait_provisional.py", text)
         self.assertIn("adapter=minsait_provisional", text)
         self.assertIn("adaptador_minsait_csv.py", text)
-        self.assertIn("ANDALUCIA_PROVISIONAL_SHA256", text)
-        self.assertIn("13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21", text)
-        self.assertIn("--expected-sections 6044", text)
-        self.assertIn("--expected-polling-stations 10403", text)
-        self.assertIn("--expected-candidate-votes 4128575", text)
+        self.assertNotIn("ANDALUCIA_PROVISIONAL_SHA256", text)
+        self.assertNotIn('ELECTION_ID" == "andalucia_parlamento_2026', text)
+        self.assertEqual(contracts["andalucia_parlamento_2026"]["expected"]["provinces"], 8)
+        self.assertEqual(contracts["andalucia_parlamento_2026"]["expected"]["polling_stations"], 10403)
+        ext = contracts["extremadura_asamblea_2025-12-21"]
+        self.assertEqual(ext["canonical_codauto"], "11")
+        self.assertEqual(ext["expected"]["ccaa"], "10")
+        self.assertEqual(ext["expected"]["provinces"], 2)
+        self.assertEqual(ext["expected"]["sections"], 966)
+        self.assertEqual(ext["expected"]["polling_stations"], 1400)
+        self.assertEqual(ext["expected"]["candidate_votes"], 522418)
+        self.assertEqual(ext["reconciliation"]["definitive"]["candidate_votes"], 524837)
+        self.assertEqual(ext["reconciliation"]["delta_definitive_minus_provisional"], 2419)
 
     def test_provisional_package_cannot_register_in_production_path(self):
         text = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")

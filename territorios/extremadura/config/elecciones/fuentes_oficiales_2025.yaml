@@ -61,7 +61,10 @@ provisional_evidence:
   url: https://pub-36ce9aa148a348ae8d9b6686b7edf0c4.r2.dev/eleccionesdb-etl/data-raw/hechos/minsait/11-extremadura.csv
   sha256: d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d
   declared_resolution: section
+  contract: configuracion/contratos_minsait_provisionales.yaml#extremadura_asamblea_2025-12-21
+  provinces: 2
   sections: 966
+  polling_stations: 1400
   candidate_votes: 522418
   definitive_reference:
     publisher: Junta Electoral de Extremadura / Diario Oficial de Extremadura
