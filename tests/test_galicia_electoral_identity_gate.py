@@ -6,12 +6,15 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from herramientas.resolver_ejecucion_completa import build_plan
 from herramientas.validar_puerta_ejecucion import validate_gate
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PARAMS = ROOT / "territorios/galicia/config/galicia_2025.yaml"
 CONTRACT = ROOT / "territorios/galicia/config/elecciones/galicia_parlamento_2024.json"
+CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
+ORCHESTRATION = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
 
 DURABLE_RUN_ID = "36136559051"
 DURABLE_ARTIFACT_NAME = "ddd-electoral-package-galicia-2025-36136559051"
@@ -79,6 +82,63 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         self.assertEqual(result["decision"], "VALIDADO")
         self.assertEqual(result["phase_decision"], "ACQUIRE")
         self.assertEqual(result["reasons"], [])
+
+    def test_not_certified_current_m06_forces_regeneration_and_new_incorporation(self):
+        plan = build_plan(
+            territory="Galicia",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=CATALOG,
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=False,
+        )
+
+        self.assertEqual(plan["catalog_state"]["territorial_certification"], "NOT_CERTIFIED")
+        self.assertFalse(plan["catalog_state"]["territorial_product_available"])
+        self.assertEqual(
+            plan["generation_gate"]["route"],
+            "validated_pre_m04_topology",
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+
+        self.assertEqual(
+            plan["existing"]["electoral_source"]["election_id"],
+            "galicia_parlamento_2024",
+        )
+        self.assertEqual(
+            plan["existing"]["electoral_source"]["decision"],
+            "VALIDADO",
+        )
+        self.assertEqual(
+            plan["existing"]["electoral_product"]["run_id"],
+            35716459467,
+        )
+
+    def test_historical_m08_cannot_enter_orphan_recovery_when_regeneration_is_required(self):
+        plan = build_plan(
+            territory="Galicia",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=CATALOG,
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=False,
+        )
+        self.assertTrue(plan["run_generate"])
+
+        orchestration = ORCHESTRATION.read_text(encoding="utf-8")
+        self.assertIn(
+            "needs.planificar.outputs.run_generate == 'false'",
+            orchestration,
+        )
+        self.assertIn(
+            "needs.planificar.outputs.run_prepare_electoral == 'false'",
+            orchestration,
+        )
 
     def test_gate_rejects_a_different_galicia_election(self):
         result = self._gate(
