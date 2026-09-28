@@ -283,20 +283,8 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
     if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
-    source_shape_ready = bool(
-        source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
-    )
-    territorial_sources_ready = bool(
-        source_shape_ready
-        and (catalog_source_mode or selected_explicit_source is not None or state.get("territorial_sources_prepared"))
-    )
-    territorial_product_ready = bool(
-        state.get("territorial_product_available")
-        and state.get("territorial_certification") in _core.PASS_CERTIFICATIONS
-        and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
-    )
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
-    if execution_mode == "reuse":
+    if execution_mode == "reuse" and selected_explicit_source is None:
         try:
             durable = validate_durable_assets(
                 root_dir=root_dir,
@@ -332,6 +320,18 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
     )
 
+    source_shape_ready = bool(
+        source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
+    )
+    territorial_sources_ready = bool(
+        source_shape_ready
+        and (catalog_source_mode or selected_explicit_source is not None or state.get("territorial_sources_prepared"))
+    )
+    territorial_product_ready = bool(
+        state.get("territorial_product_available")
+        and state.get("territorial_certification") in _core.PASS_CERTIFICATIONS
+        and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
+    )
     electoral_source_identity_ready = (
         expected_election_id is None
         or str(electoral_source_evidence.get("election_id") or "") == expected_election_id
