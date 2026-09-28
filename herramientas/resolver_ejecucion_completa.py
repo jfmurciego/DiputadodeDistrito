@@ -266,6 +266,11 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         execution_mode == "reuse"
         and selected_explicit_source is None
         and optimization_algorithm == "Canónico"
+        and (
+            not force_selected_algorithm
+            or state.get("territorial_product_available")
+            or state.get("electoral_product_available")
+        )
     )
     if catalog_source_mode and selected_explicit_source is not None:
         raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
@@ -274,7 +279,11 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     elif selected_explicit_source is not None:
         prep = selected_explicit_source
     elif automatic_continue and state.get("territorial_sources_prepared"):
-        prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
+        # En continuidad durable, si existe un producto M06/M08 el manifiesto
+        # productor es la autoridad de linaje para la fuente usada. El catálogo
+        # puede conservar un run_id histórico desfasado aunque artefacto y SHA
+        # sigan identificando la misma fuente.
+        prep = dict(catalog_prep)
     else:
         prep = catalog_prep
     last = state.get("last_valid_checkpoint") or {}
