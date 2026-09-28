@@ -210,8 +210,45 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         self.assertEqual(result["phase_decision"], "ACQUIRE")
         self.assertEqual(result["reasons"], [])
 
+    def _assert_manifest_phase_matches_receipt(self, manifest: dict, receipt: dict, name: str) -> None:
+        phases = [phase for phase in manifest["phases"] if phase["name"].startswith(name)]
+        self.assertEqual(len(phases), 1)
+        phase = phases[0]
+        self.assertEqual(phase["run_id"], receipt["run_id"])
+        self.assertEqual(phase["artifact"], receipt["artifact_name"])
+        self.assertEqual(
+            str(phase["artifact_digest"]).removeprefix("sha256:"),
+            str(receipt["artifact_sha256"]).removeprefix("sha256:"),
+        )
+        if receipt.get("stage") in {"M06", "M08"}:
+            self.assertEqual(manifest["source_sha"], receipt["source_commit"])
+            self.assertEqual(phase["validation_decision"], "VALIDADO")
+        if receipt.get("decision"):
+            self.assertEqual(phase["phase_decision"], receipt["decision"])
+
     def test_current_catalog_and_receipts_are_identity_and_digest_coherent(self):
         state, territorial, electoral_source, electoral_product = self._current_identities()
+        checkpoint = state.get("last_valid_checkpoint") or {}
+        self.assertEqual(checkpoint.get("stage"), "M08")
+        self.assertEqual(checkpoint.get("run_id"), electoral_product["run_id"])
+        manifest_path = (
+            ROOT / "territorios/galicia/evidencia/ejecuciones_completas"
+            / f"{checkpoint['run_id']}.json"
+        )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["territory_id"], "galicia")
+        self.assertEqual(str(manifest["edition"]), "2025")
+        # A later recovery may preserve a FAILED historical manifest.
+        # Check phases whose durable identity was actually recorded there.
+        for receipt, name in (
+            (territorial, "02 · Generación de Distritos"),
+            (electoral_source, "03 · Preparación de Resultados"),
+            (electoral_product, "04 · Incorporación de Resultados"),
+        ):
+            phases = [p for p in manifest["phases"] if p["name"].startswith(name)]
+            if len(phases) == 1 and phases[0].get("artifact"):
+                self._assert_manifest_phase_matches_receipt(manifest, receipt, name)
+
         plan = build_plan(
             territory="Galicia",
             edition="2025",
@@ -254,6 +291,33 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
             plan["existing"]["electoral_product"]["artifact_sha256"],
             electoral_product["artifact_sha256"],
         )
+
+    def test_manifest_receipt_mismatches_are_detected(self):
+        state, territorial, _, _ = self._current_identities()
+        run_id = state["last_valid_checkpoint"]["run_id"]
+        manifest = json.loads((
+            ROOT / "territorios/galicia/evidencia/ejecuciones_completas"
+            / f"{run_id}.json"
+        ).read_text(encoding="utf-8"))
+        self._assert_manifest_phase_matches_receipt(
+            manifest, territorial, "02 · Generación de Distritos"
+        )
+        for field, bad_value in (
+            ("run_id", -1),
+            ("artifact_name", "ddd-state-other-M06"),
+            ("artifact_sha256", "0" * 64),
+            ("source_commit", "0" * 40),
+            ("decision", "BLOCKED"),
+        ):
+            with self.subTest(field=field):
+                corrupted = {**territorial, field: bad_value}
+                with self.assertRaises(AssertionError):
+                    self._assert_manifest_phase_matches_receipt(
+                        manifest, corrupted, "02 · Generación de Distritos"
+                    )
+        self.assertIn(territorial["decision"], PASS_CERTIFICATIONS)
+        with self.assertRaises(AssertionError):
+            self.assertIn("BLOCKED", PASS_CERTIFICATIONS)
 
     def test_isolated_certified_product_reuses_without_generation_or_incorporation(self):
         plan = self._isolated_plan(certified=True)
