@@ -99,9 +99,9 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 36456030229
-        artifact_name: ddd-source-package-illes_balears-2025-36456030229
-        artifact_sha256: 86cd3a1463971c7f0b8288c1742a7627f8147af25d31f445d694ca83d5a5bf90
+        run_id: 36478740125
+        artifact_name: ddd-source-package-illes_balears-2025-36478740125
+        artifact_sha256: 4bcffc0245d8ca91d43bb5d2d50a858238f62efb81da5af9d6ef277149c4142b
         package_sha256: 2de18e550629cd906f34ef4e9184781c6cbcf1d64ba6576560e734448cc56b7e
 - territory_id: canarias
   name: Canarias

@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Pruebas sintéticas reutilizables del preflight topológico territorial."""
+import json
+import sys
+import tempfile
 import unittest
 import importlib.util
 from pathlib import Path
+from unittest.mock import patch
+
+import geopandas as gpd
+import yaml
 from shapely.geometry import Polygon
 
 from ddd_core.topology_preflight import evaluate_topology_preflight
@@ -13,6 +20,7 @@ _M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).res
 _M02 = importlib.util.module_from_spec(_M02_SPEC)
 _M02_SPEC.loader.exec_module(_M02)
 _relation_ok = _M02._relation_ok
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def unit(province="01", municipality="001", multipart=False):
@@ -157,6 +165,94 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("declared scope municipality:00001", r["bridges"]["rejected"][0]["rejection_reason"])
 
+
+class M02ContractInputCases(unittest.TestCase):
+    def _write_two_section_geojson(self, path: Path, *, same_province: bool = True) -> None:
+        gdf = gpd.GeoDataFrame(
+            {
+                "CUSEC_KEY": ["a", "b"],
+                "CPRO": ["01", "01" if same_province else "02"],
+                "CUMUN": ["01001", "01002" if same_province else "02001"],
+            },
+            geometry=[
+                Polygon([(0, 0), (0.01, 0), (0.01, 0.01), (0, 0.01)]),
+                Polygon([(0.03, 0), (0.04, 0), (0.04, 0.01), (0.03, 0.01)]),
+            ],
+            crs="EPSG:4326",
+        )
+        gdf.to_file(path, driver="GeoJSON")
+
+    def test_archipelago_contracts_run_m02_from_source_fields_before_ddd_partitions_exist(self):
+        for territory_id in ("illes_balears", "canarias"):
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                source = root / "m01.geojson"
+                edges = root / "m02.jsonl"
+                self._write_two_section_geojson(source)
+
+                cfg = yaml.safe_load(
+                    (ROOT / f"territorios/{territory_id}/config/{territory_id}_2025.yaml").read_text(
+                        encoding="utf-8"
+                    )
+                )
+                s2 = cfg["modulos"]["modulo_02_construir_adyacencias"]
+                self.assertEqual("CPRO", s2["bridge_admin_level_1_field"])
+                self.assertEqual("CUMUN", s2["bridge_admin_level_2_field"])
+                self.assertEqual("DDD_PARTITION", cfg["validation"]["province_field"])
+                self.assertEqual("DDD_MUNICIPALITY_PARTITION", cfg["validation"]["municipality_field"])
+
+                s2["in_geojson"] = str(source)
+                s2["out_edges_jsonl"] = str(edges)
+                params = root / "params.yaml"
+                params.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+
+                with patch.object(sys, "argv", ["02_construir_adyacencias.py", "--params", str(params)]):
+                    _M02.main()
+                self.assertTrue(edges.is_file())
+
+    def test_declared_bridge_still_passes_through_m02_validation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            source = root / "m01.geojson"
+            edges = root / "m02.jsonl"
+            self._write_two_section_geojson(source)
+            cfg = {
+                "meta": {"contract_level": "production_m01_m06"},
+                "territory_contract": {"topology_mode": "land"},
+                "modulos": {
+                    "modulo_02_construir_adyacencias": {
+                        "in_geojson": str(source),
+                        "id_field": "CUSEC_KEY",
+                        "out_edges_jsonl": str(edges),
+                        "predicate": "contact",
+                        "working_crs": "EPSG:3035",
+                        "min_shared_border_m": 1.0,
+                        "max_precision_overlap_area_m2": 1.0,
+                        "buffer_m": 0.0,
+                        "simplify_m": 0.0,
+                        "max_candidates": 0,
+                        "log_every": 10000,
+                        "topology_bridges": [bridge("a", "b")],
+                        "bridge_admin_level_1_field": "CPRO",
+                        "bridge_admin_level_2_field": "CUMUN",
+                    },
+                    "modulo_04_generar_semillas": {
+                        "province_field": "DDD_PARTITION",
+                        "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                    },
+                },
+                "validation": {
+                    "province_field": "DDD_PARTITION",
+                    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                },
+            }
+            params = root / "params.yaml"
+            params.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+            with patch.object(sys, "argv", ["02_construir_adyacencias.py", "--params", str(params)]):
+                _M02.main()
+            rows = [json.loads(line) for line in edges.read_text(encoding="utf-8").splitlines()]
+            self.assertEqual(1, len(rows))
+            self.assertEqual("administrative_exclave", rows[0]["edge_type"])
 
 class ContactPredicateSyntheticCases(unittest.TestCase):
     def test_micro_overlap_with_shared_border_is_edge(self):
