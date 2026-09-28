@@ -64,8 +64,13 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     ):
         with self.subTest(territory=name):
             plan = build_plan(
-                territory=name, edition="2025", execution_mode="reuse",
-                catalog=catalog_path, root_dir=ROOT, force_selected_algorithm=True,
+                territory=name,
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog_path,
+                root_dir=ROOT,
+                optimization_algorithm="GerryChain 50",
+                force_selected_algorithm=True,
             )
             self.assertEqual(plan["generation_gate"], {"allowed": True, "route": route})
 
