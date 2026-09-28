@@ -99,6 +99,8 @@ modulos:
     max_candidates: 0
     log_every: 10000
     topology_bridges: []
+    bridge_admin_level_1_field: CPRO
+    bridge_admin_level_2_field: CUMUN
   modulo_03_construir_grafo:
     in_geojson: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m02_adyacencias.jsonl
