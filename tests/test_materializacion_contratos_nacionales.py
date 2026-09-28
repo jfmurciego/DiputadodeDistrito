@@ -611,7 +611,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
 
         workflow = (ROOT/".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("hard_partition_mode", workflow)
-        self.assertIn("preparar_particiones_fisicas_m04.py", workflow)
+        self.assertIn("-m herramientas.preparar_particiones_fisicas_m04", workflow)
         self.assertIn("preparar_unidades_internas.py", workflow)
 
     def test_non_insular_preflight_behavior_is_unchanged(self):
