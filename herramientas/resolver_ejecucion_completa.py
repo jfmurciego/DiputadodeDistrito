@@ -9,6 +9,7 @@ import yaml
 
 from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
+from herramientas.resolver_activos_durables import DurableAssetBlock, validate_durable_assets
 
 _run_from_artifact = _core._run_from_artifact
 
@@ -263,35 +264,20 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     catalog_source_mode = execution_mode == "catalog_source"
     if catalog_source_mode and selected_explicit_source is not None:
         raise ValueError("CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite procedencia reuse_* explícita")
-    prep = (
-        _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
-        if catalog_source_mode
-        else (selected_explicit_source or catalog_prep)
-    )
+    if catalog_source_mode:
+        prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
+    elif selected_explicit_source is not None:
+        prep = selected_explicit_source
+    elif execution_mode == "reuse" and state.get("territorial_sources_prepared"):
+        prep = _catalog_territorial_source(row=row, state=state, edition=edition, root_dir=root_dir)
+    else:
+        prep = catalog_prep
     last = state.get("last_valid_checkpoint") or {}
     last_run = last.get("run_id")
     try:
         last_num = int(str(last.get("stage") or "").removeprefix("M"))
     except ValueError:
         last_num = 0
-    source_run_id = _core._run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
-    territorial_product_run_id = _core._run_from_artifact(
-        territorial_evidence.get("artifact_name"),
-        territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None),
-    )
-    territorial_product_artifact = territorial_evidence.get("artifact_name") or (
-        f"ddd-state-{territorial_product_run_id}-M06" if territorial_product_run_id else None
-    )
-    electoral_source_run_id = _core._run_from_artifact(
-        electoral_source_evidence.get("artifact_name"), electoral_source_evidence.get("run_id")
-    )
-    electoral_product_run_id = _core._run_from_artifact(
-        electoral_product_evidence.get("artifact_name"),
-        electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None),
-    )
-    electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
-        f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
-    )
     from_start = execution_mode == "from_start"
     if execution_mode not in {"reuse", "from_start", "catalog_source"}:
         raise ValueError(f"Modo de ejecución inválido: {execution_mode}")
@@ -310,6 +296,42 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         and territorial_product_run_id and territorial_evidence.get("artifact_sha256")
     )
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
+    if execution_mode == "reuse":
+        try:
+            durable = validate_durable_assets(
+                root_dir=root_dir,
+                state=state,
+                territory_id=row["territory_id"],
+                edition=edition,
+                territorial_source=prep if state.get("territorial_sources_prepared") else None,
+                expected_election_id=expected_election_id,
+            )
+        except DurableAssetBlock as exc:
+            raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
+        prep = durable["territorial_source"] or {}
+        territorial_evidence = durable["territorial_product"] or {}
+        electoral_source_evidence = durable["electoral_source"] or {}
+        electoral_product_evidence = durable["electoral_product"] or {}
+
+    source_run_id = _core._run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
+    territorial_product_run_id = _core._run_from_artifact(
+        territorial_evidence.get("artifact_name"),
+        territorial_evidence.get("run_id") or (last_run if last_num >= 6 else None),
+    )
+    territorial_product_artifact = territorial_evidence.get("artifact_name") or (
+        f"ddd-state-{territorial_product_run_id}-M06" if territorial_product_run_id else None
+    )
+    electoral_source_run_id = _core._run_from_artifact(
+        electoral_source_evidence.get("artifact_name"), electoral_source_evidence.get("run_id")
+    )
+    electoral_product_run_id = _core._run_from_artifact(
+        electoral_product_evidence.get("artifact_name"),
+        electoral_product_evidence.get("run_id") or (last_run if last_num >= 8 else None),
+    )
+    electoral_product_artifact = electoral_product_evidence.get("artifact_name") or (
+        f"ddd-state-{electoral_product_run_id}-M08" if electoral_product_run_id else None
+    )
+
     electoral_source_identity_ready = (
         expected_election_id is None
         or str(electoral_source_evidence.get("election_id") or "") == expected_election_id
@@ -499,7 +521,9 @@ def main() -> None:
     plan = build_plan(
         territory=ns.territory, edition=ns.edition, execution_mode=ns.execution_mode,
         catalog=root / ns.catalog, root_dir=root, optimization_algorithm=ns.optimization_algorithm,
-        force_selected_algorithm=not ns.reuse_existing_optimization,
+        force_selected_algorithm=(
+            False if ns.execution_mode == "reuse" else not ns.reuse_existing_optimization
+        ),
     )
     text = json.dumps(plan, ensure_ascii=False, indent=2) + "\n"
     if ns.output:
