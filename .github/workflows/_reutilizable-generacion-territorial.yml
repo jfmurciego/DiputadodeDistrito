@@ -498,10 +498,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
-            /app/herramientas/preparar_unidades_internas.py \
-            --params "/app/$PARAMS" --run-id "$RUN_ID" \
-            --job-report /app/.ddd-internal-units/job.json
+          hard_mode="$(python - "$PARAMS" <<'PY'
+          import sys,yaml
+          cfg=yaml.safe_load(open(sys.argv[1],encoding="utf-8")) or {}
+          print((cfg.get("validation") or {}).get("hard_partition_mode") or "")
+          PY
+          )"
+          if [[ "$hard_mode" == "physical_components" ]]; then
+            docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+              /app/herramientas/preparar_particiones_fisicas_m04.py \
+              --params "/app/$PARAMS" --run-id "$RUN_ID" \
+              --job-report /app/.ddd-internal-units/job.json
+          else
+            docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+              /app/herramientas/preparar_unidades_internas.py \
+              --params "/app/$PARAMS" --run-id "$RUN_ID" \
+              --job-report /app/.ddd-internal-units/job.json
+          fi
           python - "$PARAMS" "$RUN_ID" <<'PY'
           import sys,yaml,shutil
           from pathlib import Path
