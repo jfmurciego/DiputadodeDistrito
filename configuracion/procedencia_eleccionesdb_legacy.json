@@ -1,0 +1,42 @@
+{
+  "schema": "ddd-eleccionesdb-legacy-provenance/1.0",
+  "semantics": {
+    "retrieved_at": "upstream_artifact.created_at",
+    "note": "retrieved_at acredita la instantánea upstream usada; nunca se deriva de generated_at del paquete electoral."
+  },
+  "snapshots": {
+    "668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc": {
+      "retrieved_at": "2026-09-27T05:22:04Z",
+      "rule": "retrieved_at_equals_upstream_artifact_created_at",
+      "upstream_artifact": {
+        "repository": "hmeleiro/eleccionesdb-etl",
+        "name": "eleccionesdb-descargas",
+        "artifact_id": 10924665843,
+        "created_at": "2026-09-27T05:22:04Z",
+        "size_in_bytes": 757077195,
+        "extracted_sqlite_sha256": "2f0a789e4a7f8dcbb94a6461f3beb692fc640c4891a12cb891563b61aced14c9"
+      },
+      "snapshot_artifact": {
+        "repository": "jfmurciego/DiputadodeDistrito",
+        "producer_run_id": 36397953355,
+        "producer_job_id": 108848731039,
+        "artifact_id": 10958803823,
+        "name": "ddd-eleccionesdb-snapshot",
+        "created_at": "2026-09-28T08:34:55Z",
+        "artifact_sha256": "6ff2fb43038e137b4bc6c29e67eb06d24b564a3c6820a5a3799e3f4529f26396",
+        "snapshot_sha256": "668f8eeefe0c19f427367ee2b44f0050c30b93d39f7300fad3d6f381966d91fc"
+      },
+      "observed_legacy_packages": [
+        {
+          "territory_id": "castilla_la_mancha",
+          "run_id": 36402139263,
+          "artifact_id": 10961251316,
+          "artifact_name": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+          "artifact_created_at": "2026-09-28T09:21:42Z",
+          "artifact_sha256": "24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+          "package_generated_at": "2026-09-28T09:21:41.832389+00:00"
+        }
+      ]
+    }
+  }
+}
