@@ -225,7 +225,10 @@ def _materialize_embedded_contract(
     runtime_source = runtime_dir / "data" / source.name
 
     runtime_source_contract = dict(sources[0])
-    if not str(runtime_source_contract.get("retrieved_at") or "").strip():
+    if (
+        str(manifest.get("adapter") or "") == "eleccionesdb_sqlite/1.0"
+        and not str(runtime_source_contract.get("retrieved_at") or "").strip()
+    ):
         retrieved_at, provenance = _verified_eleccionesdb_retrieved_at(
             manifest,
             runtime_source_contract,
