@@ -14,6 +14,9 @@ from herramientas.adaptador_eleccionesdb import build
 from herramientas.validar_paquete_electoral import validate_package
 
 
+ROOT = Path(__file__).resolve().parents[1]
+
+
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
