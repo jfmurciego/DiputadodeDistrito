@@ -343,13 +343,18 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         source_acquisition_planned=source_acquisition_planned,
         source_recalculation_planned=catalog_source_mode,
     )
-    pre_m04_accreditation_planned = bool(
+    pre_m04_producer_planned = bool(
         not catalog_source_mode
         and selected_explicit_source is None
-        and not from_start
+        and (
+            run_prepare_territorial
+            or (not from_start and territorial_sources_ready and not generation_preflight_path)
+        )
+    )
+    pre_m04_accreditation_planned = bool(
+        pre_m04_producer_planned
         and territorial_sources_ready
         and not territorial_product_ready
-        and not generation_preflight_path
         and not generation_gate.get("allowed")
         and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
     )
