@@ -1,0 +1,96 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "run_id": 36345716757,
+  "source_commit": "cae800a9fcfda638beff3a8a7f24b64e545e9691",
+  "artifact_name": "ddd-state-36345716757-M03U",
+  "artifact_sha256": "3c11a13cea85360027acd161ab1f6f431e793c3fa9156b5339b5bd578e2a67f2",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "stage": "M03U",
+  "source": {
+    "artifact_name": "ddd-source-package-galicia-2025-36345716757",
+    "artifact_sha256": "367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602",
+    "package_sha256": "e1bc47632f643b14d4a4fdcfd79fe7d7ef394749fceca4511245bd32f42d1e4d"
+  },
+  "implementation": {
+    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
+    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
+    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "3690101003",
+        "v": "3606103002",
+        "admin_scope": "province:36",
+        "edge_type": "island_administrative_bridge"
+      },
+      {
+        "u": "3600601002",
+        "v": "3600601001",
+        "admin_scope": "municipality:36006",
+        "edge_type": "municipal_discontinuity"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-36345716757-M03",
+    "artifact_sha256": "088522fabf623263ff3e735c63a12e81e3998fbe1f2f312a1911c5b1708c3b2c",
+    "module_version": "7.4.1",
+    "nodes": 2134,
+    "edges": 5773,
+    "population": 2714741,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-36345716757",
+    "job_artifact_sha256": "7e546f077697e8c9e27aefc21ef82c45ca43f0137583522d0f06c41e6de441dd",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/galicia/.cache/ddd/preparacion/galicia_2025/galicia_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "k_districts": 75,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "closed_target_cores_plus_open_residual",
+    "municipality_atomicity_limit_ratio": 1.12,
+    "m01_output_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 75,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
+  "effective_gate": {
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
+  }
+}

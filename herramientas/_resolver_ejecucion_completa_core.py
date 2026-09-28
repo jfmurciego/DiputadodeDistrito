@@ -380,16 +380,18 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
 def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path) -> str:
     if requested_mode not in {"electoral", "territorial_only"}:
         raise ValueError(f"publication_mode inválido: {requested_mode}")
-    if requested_mode == "territorial_only" or not plan.get("run_prepare_electoral"):
-        return requested_mode
-    from herramientas.resolver_eleccion_vigente import resolve as resolve_current_election
+    if requested_mode == "territorial_only":
+        return "territorial_only"
+    if not plan.get("run_prepare_electoral"):
+        return "electoral"
+    from herramientas.resolver_eleccion_vigente import resolve_for_preparation
+    territory = str(plan.get("territory_name") or plan.get("territory_id") or "")
+    edition = str(plan.get("edition") or "")
     try:
-        resolve_current_election(str(plan.get("territory_name") or plan.get("territory_id") or ""), root_dir=root_dir, edition=str(plan.get("edition") or ""))
+        resolve_for_preparation(territory, root_dir=root_dir, edition=edition)
     except SystemExit as exc:
-        if str(exc).startswith("No existe elección resoluble para territorio="):
-            return "territorial_only"
-        raise
-    return requested_mode
+        raise ValueError(f"ELECTORAL_IDENTITY_BLOCK: {exc}") from exc
+    return "electoral"
 
 
 def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."), reuse_run_id: str = "",

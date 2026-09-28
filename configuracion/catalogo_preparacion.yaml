@@ -69,8 +69,8 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 36329864649
-        stage: M06
+        run_id: 36398139343
+        stage: M08
       preparation_evidence:
         run_id: 35661268397
         artifact_name: ddd-source-package-principado_de_asturias-2025-35728626894
@@ -166,7 +166,7 @@ territories:
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 36321805558
+        run_id: 36348991452
         stage: M06
       preparation_evidence:
         run_id: 35744494489
@@ -292,21 +292,21 @@ territories:
       territorial_product_available: true
       electoral_source_prepared: true
       electoral_product_available: true
-      territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
+      territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 36321835203
         stage: M06
       preparation_evidence:
-        run_id: 35578239300
-        artifact_name: ddd-source-package-galicia-2025-35586097396
-        artifact_sha256: 40d3aa68480ada5717c42089de956f572efdf55f128b7b3e07e1dbac702259a7
-        package_sha256: 1675fbc37a1fd3e5e9233c766397f9ea591bfc764a501ac732912a7facbb2111
-        stage: M08
+        run_id: 36345716757
+        artifact_name: ddd-source-package-galicia-2025-36345716757
+        artifact_sha256: 367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602
+        package_sha256: e1bc47632f643b14d4a4fdcfd79fe7d7ef394749fceca4511245bd32f42d1e4d
       evidence:
         electoral_source: territorios/galicia/evidencia/catalogo/electoral_source_2025.json
         territorial_product: territorios/galicia/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/galicia/evidencia/catalogo/electoral_product_2025.json
+        generation_preflight: territorios/galicia/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: madrid
   name: Comunidad de Madrid
   editions:
@@ -439,12 +439,12 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: true
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: PASS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
-        run_id: 36329852696
+        run_id: 36349042030
         stage: M06
       preparation_evidence:
         run_id: 36258940598
@@ -454,6 +454,7 @@ territories:
       evidence:
         generation_preflight: territorios/ceuta/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/ceuta/evidencia/catalogo/territorial_product_2025.json
+        electoral_source: territorios/ceuta/evidencia/catalogo/electoral_source_2025.json
 - territory_id: melilla
   name: Melilla
   editions:

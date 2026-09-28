@@ -89,6 +89,8 @@ def main() -> None:
     ap.add_argument("--optimization-evidence")
     ap.add_argument("--workflow-run-id", required=True)
     ap.add_argument("--source-sha", required=True)
+    ap.add_argument("--publication-mode-requested", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--publication-mode-effective", choices=["electoral", "territorial_only"], required=True)
     ap.add_argument("--publish-requested", choices=["true", "false"], required=True)
     ap.add_argument("--prepare-territorial-result", required=True)
     ap.add_argument("--generate-result", required=True)
@@ -119,6 +121,17 @@ def main() -> None:
     ap.add_argument("--territorial-product-phase-decision")
     ap.add_argument("--electoral-source-phase-decision")
     ap.add_argument("--electoral-product-phase-decision")
+    ap.add_argument("--electoral-recovery-status", default="NONE")
+    ap.add_argument("--electoral-recovery-result", default="skipped")
+    ap.add_argument("--electoral-recovery-reason")
+    ap.add_argument("--electoral-recovery-source-run-id")
+    ap.add_argument("--electoral-recovery-artifact")
+    ap.add_argument("--electoral-recovery-digest")
+    ap.add_argument("--electoral-recovery-source-commit")
+    ap.add_argument("--electoral-recovery-origin-manifest")
+    ap.add_argument("--electoral-recovery-registration-status")
+    ap.add_argument("--electoral-recovery-receipt-accredited", choices=["true", "false"], default="false")
+    ap.add_argument("--electoral-recovery-catalog-accredited", choices=["true", "false"], default="false")
     ap.add_argument("--output", required=True)
     ns = ap.parse_args()
 
@@ -146,6 +159,50 @@ def main() -> None:
         generate_result=ns.generate_result,
         evidence_path=ns.optimization_evidence,
     )
+    scope_mismatch = ns.publication_mode_requested != ns.publication_mode_effective
+
+    recovery_status = str(ns.electoral_recovery_status or "NONE")
+    recovery_active = recovery_status not in {"", "NONE"}
+    recovery_receipt_ok = b(ns.electoral_recovery_receipt_accredited)
+    recovery_catalog_ok = b(ns.electoral_recovery_catalog_accredited)
+    recovery_ok = (
+        not recovery_active
+        or (
+            recovery_status == "VALID"
+            and ns.electoral_recovery_result == "success"
+            and ns.electoral_recovery_registration_status in {"REGISTERED", "NO_OP"}
+            and recovery_receipt_ok
+            and recovery_catalog_ok
+            and str(ns.electoral_recovery_source_run_id or "").isdigit()
+            and bool(ns.electoral_recovery_artifact)
+            and bool(ns.electoral_recovery_digest)
+            and bool(ns.electoral_recovery_source_commit)
+        )
+    )
+    if recovery_active and not recovery_ok:
+        failed.append("Reanudación de producto electoral durable")
+
+    successful = not failed and not blocked and not scope_mismatch and recovery_ok
+    resumption = None
+    if recovery_active:
+        resumption = {
+            "kind": "durable_electoral_product",
+            "status": recovery_status,
+            "result": ns.electoral_recovery_result,
+            "reason": ns.electoral_recovery_reason or None,
+            "origin_run_id": (
+                int(ns.electoral_recovery_source_run_id)
+                if str(ns.electoral_recovery_source_run_id or "").isdigit()
+                else None
+            ),
+            "origin_manifest": ns.electoral_recovery_origin_manifest or None,
+            "artifact": ns.electoral_recovery_artifact or None,
+            "artifact_digest": ns.electoral_recovery_digest or None,
+            "source_commit": ns.electoral_recovery_source_commit or None,
+            "registration_status": ns.electoral_recovery_registration_status or None,
+            "receipt_accredited": recovery_receipt_ok,
+            "catalog_accredited": recovery_catalog_ok,
+        }
 
     payload = {
         "schema": "ddd.full-run-manifest/2.1",
@@ -156,8 +213,13 @@ def main() -> None:
         **optimization,
         "workflow_run_id": int(ns.workflow_run_id),
         "source_sha": ns.source_sha,
+        "publication_mode_requested": ns.publication_mode_requested,
+        "publication_mode_effective": ns.publication_mode_effective,
+        "publication_mode_scope_mismatch": scope_mismatch,
         "publish_requested": ns.publish_requested == "true",
-        "status": "SUCCESS" if not failed and not blocked else "FAILED",
+        "status": "SUCCESS" if successful else "FAILED",
+        "completion_status": "COMPLETE" if successful else "INCOMPLETE",
+        "resumption": resumption,
         "failed_phases": failed,
         "blocked_phases": blocked,
         "phases": phases,

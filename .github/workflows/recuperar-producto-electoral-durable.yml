@@ -1,0 +1,385 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: recuperación operativa manual
+# VERSIÓN: 1.0.0
+# QUÉ HACE: acredita y registra un M08 durable ya producido sin ejecutar fases territoriales/electorales ni publicar.
+name: Recuperar producto electoral durable
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      data_edition: {required: true, type: string}
+      source_run_id: {required: true, type: string}
+      artifact_name: {required: true, type: string}
+      artifact_sha256: {required: true, type: string}
+      source_commit: {required: true, type: string}
+      expected_context_fingerprint: {required: false, type: string, default: ''}
+      confirm_recovery: {required: false, type: boolean, default: true}
+    outputs:
+      source_run_id:
+        value: ${{ jobs.acreditar_registro.outputs.source_run_id }}
+      artifact_name:
+        value: ${{ jobs.acreditar_registro.outputs.artifact_name }}
+      artifact_digest:
+        value: ${{ jobs.acreditar_registro.outputs.artifact_digest }}
+      source_commit:
+        value: ${{ jobs.acreditar_registro.outputs.source_commit }}
+      registration_status:
+        value: ${{ jobs.acreditar_registro.outputs.registration_status }}
+      receipt_accredited:
+        value: ${{ jobs.acreditar_registro.outputs.receipt_accredited }}
+      catalog_accredited:
+        value: ${{ jobs.acreditar_registro.outputs.catalog_accredited }}
+      main_head:
+        value: ${{ jobs.acreditar_registro.outputs.main_head }}
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Identificador canónico del territorio
+        required: true
+        type: string
+      data_edition:
+        description: Edición de datos
+        required: true
+        default: '2025'
+        type: string
+      source_run_id:
+        description: Run que produjo físicamente el M08
+        required: true
+        type: string
+      artifact_name:
+        description: Nombre exacto del artefacto M08
+        required: true
+        type: string
+      artifact_sha256:
+        description: Digest SHA-256 esperado del artefacto M08
+        required: true
+        type: string
+      source_commit:
+        description: SHA exacto sobre el que se produjo el M08
+        required: true
+        type: string
+      confirm_recovery:
+        description: Confirmar sólo el registro durable del producto ya existente
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  acreditar:
+    name: Acreditar M08 durable y producto previo
+    if: ${{ inputs.confirm_recovery }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      previous_fingerprint: ${{ steps.identity.outputs.previous_fingerprint }}
+      context_fingerprint: ${{ steps.identity.outputs.context_fingerprint }}
+      operational_head: ${{ steps.identity.outputs.operational_head }}
+    steps:
+      - name: Obtener main operativo
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: identity
+        name: Verificar run, SHA, artefactos y reporte de incorporación
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          ARTIFACT_NAME: ${{ inputs.artifact_name }}
+          EXPECTED_DIGEST: ${{ inputs.artifact_sha256 }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          EXPECTED_CONTEXT: ${{ inputs.expected_context_fingerprint || '' }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_RUN_ID" =~ ^[0-9]+$ ]] || { echo "::error::source_run_id inválido"; exit 41; }
+          source_commit="$(tr '[:upper:]' '[:lower:]' <<<"$SOURCE_COMMIT")"
+          [[ "$source_commit" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::source_commit inválido"; exit 41; }
+          expected="$(tr '[:upper:]' '[:lower:]' <<<"${EXPECTED_DIGEST#sha256:}")"
+          [[ "$expected" =~ ^[0-9a-f]{64}$ ]] || { echo "::error::artifact_sha256 inválido"; exit 41; }
+          canonical="ddd-state-$SOURCE_RUN_ID-M08"
+          [[ "$ARTIFACT_NAME" == "$canonical" ]] || {
+            echo "::error::Nombre M08 no canónico: $ARTIFACT_NAME (esperado $canonical)"
+            exit 41
+          }
+
+          run_json="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID")"
+          [[ "$(jq -r '.head_sha // empty' <<<"$run_json")" == "$source_commit" ]] || {
+            echo "::error::El SHA del run no coincide con source_commit"
+            exit 42
+          }
+          [[ "$(jq -r '.status // empty' <<<"$run_json")" == completed ]] || {
+            echo "::error::El run fuente todavía no está completado"
+            exit 42
+          }
+
+          metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100")"
+          m08_count="$(jq --arg n "$ARTIFACT_NAME" '[.artifacts[] | select(.name==$n and (.expired|not))] | length' <<<"$metadata")"
+          [[ "$m08_count" == 1 ]] || {
+            echo "::error::El M08 debe existir exactamente una vez y no estar expirado: $ARTIFACT_NAME ($m08_count)"
+            exit 43
+          }
+          actual="$(jq -r --arg n "$ARTIFACT_NAME" '.artifacts[] | select(.name==$n and (.expired|not)) | .digest // empty' <<<"$metadata" | sed 's/^sha256://' | tr '[:upper:]' '[:lower:]')"
+          [[ "$actual" == "$expected" ]] || {
+            echo "::error::Digest M08 distinto: esperado=$expected actual=$actual"
+            exit 43
+          }
+
+          audit_name="ddd-audit-electoral-$SOURCE_RUN_ID"
+          audit_count="$(jq --arg n "$audit_name" '[.artifacts[] | select(.name==$n and (.expired|not))] | length' <<<"$metadata")"
+          [[ "$audit_count" == 1 ]] || {
+            echo "::error::La auditoría electoral debe existir exactamente una vez y no estar expirada: $audit_name ($audit_count)"
+            exit 44
+          }
+
+          report_name="ddd-electoral-application-report-$SOURCE_RUN_ID"
+          report_count="$(jq --arg n "$report_name" '[.artifacts[] | select(.name==$n and (.expired|not))] | length' <<<"$metadata")"
+          [[ "$report_count" == 1 ]] || {
+            echo "::error::El reporte de incorporación debe existir exactamente una vez y no estar expirado: $report_name ($report_count)"
+            exit 45
+          }
+
+          rm -rf .ddd-recovery-report
+          mkdir -p .ddd-recovery-report
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$report_name" --dir .ddd-recovery-report
+          report="$(find .ddd-recovery-report -path '*/report.json' -type f -print -quit)"
+          [[ -n "$report" ]] || { echo "::error::Falta report.json de incorporación"; exit 45; }
+          [[ "$(jq -r '.status // empty' "$report")" == SUCCESS ]] || {
+            echo "::error::El reporte de incorporación no declara SUCCESS"
+            exit 45
+          }
+          [[ "$(jq -r '.territory_id // empty' "$report")" == "$TERRITORY_ID" ]] || {
+            echo "::error::El reporte de incorporación pertenece a otro territorio"
+            exit 45
+          }
+          [[ "$(jq -r '.workflow_run_id // empty | tostring' "$report")" == "$SOURCE_RUN_ID" ]] || {
+            echo "::error::El reporte de incorporación pertenece a otro run"
+            exit 45
+          }
+          validation="$(find .ddd-recovery-report -name validacion_paquete_electoral.json -type f -print -quit)"
+          [[ -n "$validation" ]] || { echo "::error::Falta validación electoral del run"; exit 45; }
+          [[ "$(jq -r '.decision // empty' "$validation")" == READY_PACKAGE ]] || {
+            echo "::error::La validación electoral del run no es READY_PACKAGE"
+            exit 45
+          }
+          [[ "$(jq -r '.territory_id // empty' "$validation")" == "$TERRITORY_ID" ]] || {
+            echo "::error::La validación electoral pertenece a otro territorio"
+            exit 45
+          }
+          [[ "$(jq -r '.edition // empty | tostring' "$validation")" == "$EDITION" ]] || {
+            echo "::error::La validación electoral pertenece a otra edición"
+            exit 45
+          }
+
+          rm -rf .ddd-recovery-audit
+          mkdir -p .ddd-recovery-audit
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$audit_name" --dir .ddd-recovery-audit
+          audit_status="$(find .ddd-recovery-audit -name production_status.json -type f -print -quit)"
+          [[ -n "$audit_status" ]] || { echo "::error::Falta production_status.json de la auditoría electoral"; exit 45; }
+
+          TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" SOURCE_RUN_ID="$SOURCE_RUN_ID" \
+          REPORT="$report" VALIDATION="$validation" AUDIT_STATUS="$audit_status" python - <<'PY'
+          import json,os
+          from pathlib import Path
+          import yaml
+          territory=os.environ["TERRITORY_ID"]; edition=os.environ["EDITION"]; run_id=int(os.environ["SOURCE_RUN_ID"])
+          root=Path(".")
+          def load_json(path):
+              return json.loads(Path(path).read_text(encoding="utf-8"))
+          territorial=load_json(root/f"territorios/{territory}/evidencia/catalogo/territorial_product_{edition}.json")
+          electoral_source=load_json(root/f"territorios/{territory}/evidencia/catalogo/electoral_source_{edition}.json")
+          report=load_json(os.environ["REPORT"])
+          validation=load_json(os.environ["VALIDATION"])
+          audit=load_json(os.environ["AUDIT_STATUS"])
+          registry=yaml.safe_load((root/"configuracion/registro_electoral.yaml").read_text(encoding="utf-8")) or {}
+          election=((registry.get("territories") or {}).get(territory) or {}).get("election_id")
+          checks={
+              "audit territory": audit.get("territory_id")==territory,
+              "audit run": audit.get("workflow_run_id")==run_id,
+              "audit territorial source": audit.get("source_territorial_run_id")==territorial.get("run_id"),
+              "audit electoral": audit.get("electoral_application") is True,
+              "report territorial source": report.get("territorial_source_run_id")==territorial.get("run_id"),
+              "report electoral source": report.get("electoral_package_run_id")==electoral_source.get("run_id"),
+              "registry election": bool(election),
+              "source election": electoral_source.get("election_id")==election,
+              "candidate election": validation.get("election_id")==election,
+          }
+          failed=[name for name,ok in checks.items() if not ok]
+          if failed:
+              raise SystemExit("RECOVERY_IDENTITY_CONTRADICTORY: "+", ".join(failed))
+          PY
+
+          readarray -t fingerprints < <(
+            TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" python - <<'PY'
+          import os
+          from pathlib import Path
+          from herramientas.persistir_producto_electoral_operacional import (
+              current_electoral_product_fingerprint,
+              recovery_context_fingerprint,
+          )
+          root=Path(".")
+          territory=os.environ["TERRITORY_ID"]
+          edition=os.environ["EDITION"]
+          print(current_electoral_product_fingerprint(
+              root_dir=root, territory_id=territory, edition=edition,
+          ))
+          print(recovery_context_fingerprint(
+              root_dir=root, territory_id=territory, edition=edition,
+          ))
+          PY
+          )
+          previous_fingerprint="${fingerprints[0]}"
+          context_fingerprint="${fingerprints[1]}"
+          if [[ -n "$EXPECTED_CONTEXT" && "$context_fingerprint" != "$EXPECTED_CONTEXT" ]]; then
+            echo "::error::ELECTORAL_RECOVERY_CONTEXT_CHANGE: el contexto durable cambió antes de registrar."
+            exit 47
+          fi
+          echo "previous_fingerprint=$previous_fingerprint" >> "$GITHUB_OUTPUT"
+          echo "context_fingerprint=$context_fingerprint" >> "$GITHUB_OUTPUT"
+          echo "operational_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  validar_m08:
+    name: Validar semántica del M08 y auditoría electoral
+    needs: acreditar
+    if: ${{ needs.acreditar.result == 'success' }}
+    uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
+    with:
+      phase: electoral_product
+      territory_id: ${{ inputs.territory_id }}
+      data_edition: ${{ inputs.data_edition }}
+      run_id: ${{ inputs.source_run_id }}
+      artifact_name: ${{ inputs.artifact_name }}
+      expected_digest: ${{ inputs.artifact_sha256 }}
+      source_ref: ${{ inputs.source_commit }}
+      audit_artifact_name: ${{ format('ddd-audit-electoral-{0}', inputs.source_run_id) }}
+
+  registrar:
+    name: Registrar producto electoral durable
+    needs: [acreditar, validar_m08]
+    if: ${{ needs.acreditar.result == 'success' && needs.validar_m08.result == 'success' && needs.validar_m08.outputs.decision == 'VALIDADO' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      registration_status: ${{ steps.persist.outputs.registration_status }}
+      written_head: ${{ steps.persist.outputs.written_head }}
+    concurrency:
+      group: ddd-electoral-product-recovery-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Obtener main operativo
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: persist
+        name: Registrar con CAS territorial
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          ARTIFACT_NAME: ${{ inputs.artifact_name }}
+          ARTIFACT_SHA256: ${{ inputs.artifact_sha256 }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          EXPECTED_PREVIOUS: ${{ needs.acreditar.outputs.previous_fingerprint }}
+          EXPECTED_CONTEXT: ${{ needs.acreditar.outputs.context_fingerprint }}
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-electoral-recovery
+          mkdir -p .ddd-electoral-recovery
+          python -m herramientas.persistir_producto_electoral_operacional \
+            --root-dir . \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$EDITION" \
+            --run-id "$SOURCE_RUN_ID" \
+            --artifact-name "$ARTIFACT_NAME" \
+            --artifact-sha256 "$ARTIFACT_SHA256" \
+            --source-commit "$SOURCE_COMMIT" \
+            --target-branch main \
+            --expected-previous-fingerprint "$EXPECTED_PREVIOUS" \
+            --expected-context-fingerprint "$EXPECTED_CONTEXT" \
+            --result-json .ddd-electoral-recovery/result.json
+          cat .ddd-electoral-recovery/result.json
+          echo "registration_status=$(jq -r .status .ddd-electoral-recovery/result.json)" >> "$GITHUB_OUTPUT"
+          echo "written_head=$(jq -r .head_sha .ddd-electoral-recovery/result.json)" >> "$GITHUB_OUTPUT"
+
+  acreditar_registro:
+    name: Acreditar catálogo y receipt recuperados
+    needs: [validar_m08, registrar]
+    if: ${{ needs.validar_m08.result == 'success' && needs.registrar.result == 'success' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      source_run_id: ${{ steps.verify.outputs.source_run_id }}
+      artifact_name: ${{ steps.verify.outputs.artifact_name }}
+      artifact_digest: ${{ steps.verify.outputs.artifact_digest }}
+      source_commit: ${{ steps.verify.outputs.source_commit }}
+      registration_status: ${{ steps.verify.outputs.registration_status }}
+      receipt_accredited: ${{ steps.verify.outputs.receipt_accredited }}
+      catalog_accredited: ${{ steps.verify.outputs.catalog_accredited }}
+      main_head: ${{ steps.verify.outputs.main_head }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: verify
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          EDITION: ${{ inputs.data_edition }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          ARTIFACT_NAME: ${{ inputs.artifact_name }}
+          ARTIFACT_SHA256: ${{ inputs.artifact_sha256 }}
+          SOURCE_COMMIT: ${{ inputs.source_commit }}
+          REGISTRATION_STATUS: ${{ needs.registrar.outputs.registration_status }}
+        run: |
+          set -euo pipefail
+          result="$(
+            TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" SOURCE_RUN_ID="$SOURCE_RUN_ID" \
+            ARTIFACT_NAME="$ARTIFACT_NAME" ARTIFACT_SHA256="$ARTIFACT_SHA256" SOURCE_COMMIT="$SOURCE_COMMIT" \
+            python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from herramientas.persistir_producto_electoral_operacional import electoral_product_registration_accreditation
+          result=electoral_product_registration_accreditation(
+              root_dir=Path("."),
+              territory_id=os.environ["TERRITORY_ID"],
+              edition=os.environ["EDITION"],
+              run_id=int(os.environ["SOURCE_RUN_ID"]),
+              artifact_name=os.environ["ARTIFACT_NAME"],
+              artifact_sha256=os.environ["ARTIFACT_SHA256"],
+              source_commit=os.environ["SOURCE_COMMIT"],
+          )
+          print(json.dumps(result,separators=(",",":")))
+          PY
+          )"
+          receipt="$(jq -r '.receipt_accredited' <<<"$result")"
+          catalog="$(jq -r '.catalog_accredited' <<<"$result")"
+          [[ "$receipt" == true && "$catalog" == true ]] || {
+            echo "::error::RECOVERY_REGISTRATION_NOT_ACCREDITED: catálogo/receipt no acreditan el M08 recuperado."
+            exit 48
+          }
+          {
+            echo "source_run_id=$SOURCE_RUN_ID"
+            echo "artifact_name=$ARTIFACT_NAME"
+            echo "artifact_digest=${ARTIFACT_SHA256#sha256:}"
+            echo "source_commit=$SOURCE_COMMIT"
+            echo "registration_status=$REGISTRATION_STATUS"
+            echo "receipt_accredited=$receipt"
+            echo "catalog_accredited=$catalog"
+            echo "main_head=$(git rev-parse HEAD)"
+          } >> "$GITHUB_OUTPUT"

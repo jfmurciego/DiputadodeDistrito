@@ -26,6 +26,12 @@ jobs:
         run: python -m unittest tests.test_r015_invariantes.GovernanceHeaders -v
       - name: Probar SHA inmutable frente a avance de main
         run: bash tests/test_source_sha_pinning_git.sh
+      - name: Probar registros electorales concurrentes sobre Git real
+        run: python -m unittest tests.test_registro_producto_electoral_concurrencia -v
+      - name: Probar recuperación durable de producto electoral
+        run: python -m unittest tests.test_recuperacion_producto_electoral -v
+      - name: Probar reanudación automática de M08 huérfano
+        run: python -m unittest tests.test_reanudacion_m08_huerfano -v
       - name: Construir entorno reproducible
         run: docker build --pull -t ddd-tests:${GITHUB_SHA} .
       - name: Verificar descubrimiento completo de tests unittest

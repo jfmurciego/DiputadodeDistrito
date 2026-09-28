@@ -21,7 +21,7 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
     for name, territory_id, route in (
-        ("Galicia", "galicia", "certified_product_lineage"),
+        ("Galicia", "galicia", "validated_pre_m04_topology"),
         ("Principado de Asturias", "principado_de_asturias", "certified_product_lineage"),
         ("Aragón", "aragon", "certified_product_lineage"),
         ("Castilla y León", "castilla_y_leon", "certified_product_lineage"),
