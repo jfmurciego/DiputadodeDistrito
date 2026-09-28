@@ -114,6 +114,8 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
 
  source_url=next((str(x.get('url') or '').strip() for x in publishers if str(x.get('url') or '').strip()),'')
  publisher=' + '.join(str(x.get('fuente') or '').strip() for x in publishers if str(x.get('fuente') or '').strip()) or 'EleccionesDB'
+ generated_at=datetime.now(timezone.utc).isoformat()
+ retrieved_at=generated_at[:10]
  contract=contract_dir/'election_contract.json'
  contract_payload={
   'schema_family':'ddd-election',
@@ -129,6 +131,8 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
    'sha256':sha256(csv_path),
    'publisher':publisher,
    'source_url':source_url,
+   'retrieved_at':retrieved_at,
+   'retrieved_at_basis':'verified_snapshot_materialization',
    'adapter':{'kind':'long_csv','separator':';','section_field':'CUSEC_KEY','party_field':'party','votes_field':'votes'},
    'upstream_snapshot':{
     'adapter':'eleccionesdb_sqlite/1.0',
@@ -180,7 +184,7 @@ def build(db:Path,election_id:str,out:Path,snapshot_sha256:str|None=None,edition
   'parties':len(parties),
   'candidate_votes':total_votes,
   'provenance':publishers,
-  'generated_at':datetime.now(timezone.utc).isoformat(),
+  'generated_at':generated_at,
  }
  (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
  con.close(); return manifest
