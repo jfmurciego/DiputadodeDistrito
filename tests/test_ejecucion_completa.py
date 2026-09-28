@@ -6,7 +6,7 @@ from pathlib import Path
 import unittest
 import yaml
 
-from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
+from herramientas.resolver_ejecucion_completa import _run_from_artifact, _territorial_product_reuse_validation, build_plan
 from herramientas.escribir_manifest_ejecucion_completa import optimization_lineage
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -584,65 +584,28 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertTrue(plan["run_incorporate"])
             self.assertIsNone(plan["existing"]["electoral_source"]["decision"])
 
-    def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td)
-            evidence = root / "evidence"
-            evidence.mkdir()
-            digest = "b" * 64
-            (evidence / "territorial.json").write_text(
-                json.dumps({"run_id": 500, "artifact_name": "m06", "artifact_sha256": digest, "decision": "PASS"}),
-                encoding="utf-8",
-            )
-            catalog = root / "catalog.yaml"
-            catalog.write_text(
-                yaml.safe_dump(
-                    {
-                        "schema": "ddd-preparation-catalog/1.1",
-                        "default_edition": "2025",
-                        "territories": [
-                            {
-                                "territory_id": "demo",
-                                "name": "Demo",
-                                "editions": {
-                                    "2025": {
-                                        "territory_declared": True,
-                                        "preparation_status": "READY",
-                                        "contract_path": "territorios/demo/config/demo_2025.yaml",
-                                        "territorial_source_declaration": "territorios/demo/config/fuentes_oficiales.yaml",
-                                        "electoral_source_declaration": "territorios/demo/config/elecciones/vigente.yaml",
-                                        "territorial_sources_prepared": True,
-                                        "territorial_contract_complete": True,
-                                        "territorial_product_available": True,
-                                        "electoral_source_prepared": True,
-                                        "electoral_product_available": False,
-                                        "territorial_certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-                                        "production_authorization": "AUTHORIZED",
-                                        "last_valid_checkpoint": {"run_id": 500, "stage": "M06"},
-                                        "preparation_evidence": {"run_id": 400, "artifact_name": "source-package", "artifact_sha256": digest},
-                                        "evidence": {"territorial_product": "evidence/territorial.json"},
-                                    }
-                                },
-                            }
-                        ],
-                    },
-                    allow_unicode=True,
-                    sort_keys=False,
-                ),
-                encoding="utf-8",
-            )
-            plan = build_plan(
-                territory="Demo",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=catalog,
-                root_dir=root,
-            )
-            self.assertFalse(plan["run_prepare_territorial"])
-            self.assertFalse(plan["run_generate"])
-            self.assertTrue(plan["run_prepare_electoral"])
-            self.assertTrue(plan["run_incorporate"])
-            self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 500)
+    def test_catalog_flag_alone_does_not_accredit_territorial_product_reuse(self):
+        state = {
+            "territorial_product_available": True,
+            "territorial_certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+            "last_valid_checkpoint": {"run_id": 500, "stage": "M06"},
+        }
+        result = _territorial_product_reuse_validation(
+            row={"territory_id": "demo", "name": "Demo"},
+            state=state,
+            edition="2025",
+            evidence={
+                "run_id": 500,
+                "artifact_name": "m06",
+                "artifact_sha256": "b" * 64,
+                "decision": "PASS",
+            },
+        )
+        self.assertFalse(result["valid"])
+        self.assertIn(
+            result["reason"],
+            {"RECEIPT_SCHEMA_OR_KIND", "RECEIPT_ARTIFACT_IDENTITY", "RECEIPT_SOURCE_COMMIT"},
+        )
 
     def test_gerrychain_50_is_preserved_in_plan(self):
         with tempfile.TemporaryDirectory() as td:
@@ -885,6 +848,7 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
                 execution_mode="reuse",
                 catalog=catalog,
                 root_dir=ROOT,
+                force_selected_algorithm=True,
             )
 
         self.assertFalse(plan["run_prepare_territorial"])
