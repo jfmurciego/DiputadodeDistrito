@@ -519,7 +519,16 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             evidence.mkdir()
             digest = "d" * 64
             (evidence / "territorial.json").write_text(json.dumps({
-                "run_id": 101, "artifact_name": "m06", "artifact_sha256": digest, "decision": "PASS"
+                "schema": "ddd.catalog-evidence/1.0",
+                "kind": "territorial_product",
+                "territory_id": "demo",
+                "edition": "2025",
+                "run_id": 101,
+                "artifact_name": "ddd-state-101-M06",
+                "artifact_sha256": digest,
+                "source_commit": "1" * 40,
+                "decision": "PASS",
+                "stage": "M06",
             }), encoding="utf-8")
             (evidence / "source.json").write_text(json.dumps({
                 "run_id": 102,
