@@ -848,5 +848,42 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 )
 
 
+class CastillaLaManchaReuseAfter36402139263Tests(unittest.TestCase):
+    def test_plan_is_no_no_no_yes_and_uses_36402139263_products(self):
+        data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        row = next(r for r in data["territories"] if r["territory_id"] == "castilla_la_mancha")
+        state = row["editions"]["2025"]
+        state["territorial_product_available"] = True
+        state["electoral_source_prepared"] = True
+        state["electoral_product_available"] = False
+        state["territorial_certification"] = "PASS_WITH_GOVERNED_EXCEPTIONS"
+        state["last_valid_checkpoint"] = {"run_id": 36402139263, "stage": "M06"}
+        state["evidence"] = {
+            "territorial_product": "territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json",
+            "electoral_source": "territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json",
+        }
+        with tempfile.TemporaryDirectory() as td:
+            catalog = Path(td) / "catalog.yaml"
+            catalog.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+            plan = build_plan(
+                territory="Castilla-La Mancha",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=ROOT,
+            )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], 36402139263)
+        self.assertEqual(plan["existing"]["electoral_source"]["run_id"], 36402139263)
+        self.assertEqual(plan["existing"]["territorial_product"]["artifact_name"], "ddd-state-36402139263-M06")
+        self.assertEqual(
+            plan["existing"]["electoral_source"]["artifact_name"],
+            "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
