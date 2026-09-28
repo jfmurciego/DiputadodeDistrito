@@ -94,6 +94,7 @@ on:
         type: choice
         options:
           - Reutilizar progreso existente
+          - Generar desde fuente territorial acreditada
           - Ejecutar desde el principio
       optimization_algorithm:
         description: Estrategia de optimización para 02
@@ -139,6 +140,7 @@ jobs:
       territory_name: ${{ steps.plan.outputs.territory_name }}
       contract_path: ${{ steps.plan.outputs.contract_path }}
       execution_mode_internal: ${{ steps.plan.outputs.execution_mode_internal }}
+      generation_execution_mode: ${{ steps.plan.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ steps.plan.outputs.optimization_algorithm }}
       edition: ${{ steps.plan.outputs.edition }}
       source_sha: ${{ steps.plan.outputs.source_sha }}
@@ -205,6 +207,7 @@ jobs:
           case "$UI_MODE" in
             "Reutilizar progreso existente") mode=reuse ;;
             "Reutilizar fuente explícita") mode=reuse ;;
+            "Generar desde fuente territorial acreditada") mode=catalog_source ;;
             "Ejecutar desde el principio") mode=from_start ;;
             *) echo "::error::Modo de ejecución no reconocido: $UI_MODE"; exit 2 ;;
           esac
@@ -239,13 +242,19 @@ jobs:
               if entrypoint!="gerrychain_50" or require_unique.lower()!="true" or int(candidate_count or 0)!=50:
                   raise SystemExit("Contrato GerryChain 50 incompleto en el caller")
           try:
-              apply_explicit_territorial_source(
-                  p, reuse_run_id=reuse_run_id, reuse_artifact_name=reuse_artifact,
-                  reuse_artifact_sha256=reuse_digest, reuse_source_sha=reuse_source_sha,
-                  campaign_instance=campaign_instance, expected_population=expected_population,
-                  expected_sections=expected_sections, expected_districts=expected_districts,
-                  expected_certification=expected_certification,
-              )
+              if p.get("execution_mode") == "catalog_source":
+                  if any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):
+                      raise ValueError(
+                          "CATALOG_SOURCE_BLOCK: el modo de fuente acreditada no admite reuse_* explícitos"
+                      )
+              else:
+                  apply_explicit_territorial_source(
+                      p, reuse_run_id=reuse_run_id, reuse_artifact_name=reuse_artifact,
+                      reuse_artifact_sha256=reuse_digest, reuse_source_sha=reuse_source_sha,
+                      campaign_instance=campaign_instance, expected_population=expected_population,
+                      expected_sections=expected_sections, expected_districts=expected_districts,
+                      expected_certification=expected_certification,
+                  )
           except ValueError as exc:
               raise SystemExit(str(exc)) from exc
           try:
@@ -273,6 +282,7 @@ jobs:
           out("territory_name",p["territory_name"])
           out("contract_path",p.get("contract_path"))
           out("execution_mode_internal",p["execution_mode"])
+          out("generation_execution_mode",p.get("generation_execution_mode",p["execution_mode"]))
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
           out("publication_mode_requested",p.get("publication_mode_requested","electoral"))
@@ -473,7 +483,7 @@ jobs:
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
-      execution_mode: ${{ needs.planificar.outputs.execution_mode_internal }}
+      execution_mode: ${{ needs.planificar.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
