@@ -556,6 +556,7 @@ jobs:
       territorial_audit_artifact_name: ${{ needs.generar.result == 'success' && format('ddd-audit-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
+      electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
       source_ref: ${{ needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}

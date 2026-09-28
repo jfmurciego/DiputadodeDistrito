@@ -15,6 +15,7 @@ on:
       territorial_run_id: {required: false, type: string, default: ''}
       electoral_package_run_id: {required: false, type: string, default: ''}
       electoral_package_artifact_name: {required: false, type: string, default: ''}
+      electoral_package_artifact_digest: {required: false, type: string, default: ''}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
       territorial_product_artifact_name: {required: false, type: string, default: ''}
@@ -88,15 +89,33 @@ jobs:
         env:
           UI_TERRITORY: ${{ inputs.territory_id }}
           UI_EDITION: ${{ inputs.data_edition }}
+          ELECTORAL_RUN_ID: ${{ inputs.electoral_package_run_id }}
+          ELECTORAL_ARTIFACT: ${{ inputs.electoral_package_artifact_name }}
+          ELECTORAL_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
         run: |
           set -euo pipefail
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          row="$(python herramientas/catalogo_preparacion.py resolve             --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+          explicit=0
+          [[ -n "$ELECTORAL_RUN_ID" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_ARTIFACT" ]] && explicit=$((explicit + 1))
+          [[ -n "$ELECTORAL_DIGEST" ]] && explicit=$((explicit + 1))
+          if (( explicit > 0 && explicit < 3 )); then
+            echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta; se requieren run, artefacto y digest."
+            exit 46
+          fi
+          if (( explicit == 3 )); then
+            row="$(python herramientas/catalogo_preparacion.py lookup --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=validated_gate_evidence
+          else
+            row="$(python herramientas/catalogo_preparacion.py resolve --mode electoral_application --territory "$UI_TERRITORY" --edition "$UI_EDITION")"
+            route=catalog_accredited
+          fi
           territory_id="$(jq -r '.territory_id' <<<"$row")"
           params="$(jq -r '.contract_path // empty' <<<"$row")"
           test -n "$params" && test -f "$params"
           echo "territory_id=$territory_id" >> "$GITHUB_OUTPUT"
           echo "params=$params" >> "$GITHUB_OUTPUT"
+          echo "eligibility_route=$route" >> "$GITHUB_OUTPUT"
 
       - id: territorial
         name: Localizar producto territorial certificado
@@ -174,21 +193,68 @@ jobs:
           PARAMS: ${{ steps.resolve.outputs.params }}
           OVERRIDE_RUN_ID: ${{ inputs.electoral_package_run_id }}
           OVERRIDE_ARTIFACT_NAME: ${{ inputs.electoral_package_artifact_name }}
+          OVERRIDE_ARTIFACT_DIGEST: ${{ inputs.electoral_package_artifact_digest }}
+          ARTIFACT_NAMESPACE: ${{ inputs.artifact_namespace }}
         run: |
           set -euo pipefail
           prefix="ddd-electoral-package-$TERRITORY_ID-$EDITION-"
-          if [[ -n "$OVERRIDE_RUN_ID" ]]; then
-            run_ids=("$OVERRIDE_RUN_ID")
-          else
-            mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100"               --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
+
+          if [[ -n "$OVERRIDE_RUN_ID" || -n "$OVERRIDE_ARTIFACT_NAME" || -n "$OVERRIDE_ARTIFACT_DIGEST" ]]; then
+            [[ -n "$OVERRIDE_RUN_ID" && -n "$OVERRIDE_ARTIFACT_NAME" && -n "$OVERRIDE_ARTIFACT_DIGEST" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia explícita incompleta."
+              exit 46
+            }
+            expected_digest="${OVERRIDE_ARTIFACT_DIGEST#sha256:}"
+            metadata="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$OVERRIDE_RUN_ID/artifacts?per_page=100")"
+            artifact_matches="$(jq --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|length' <<<"$metadata")"
+            [[ "$artifact_matches" == "1" ]] || {
+              echo "::error::ELECTORAL_GATE_BLOCK: run/artefacto/digest deben identificar exactamente un artefacto electoral durable; encontrados=$artifact_matches."
+              exit 46
+            }
+            artifact_row="$(jq -c --arg n "$OVERRIDE_ARTIFACT_NAME" --arg d "$expected_digest" '[.artifacts[]|select(.name==$n and (.expired|not))|select((((.digest//"")|sub("^sha256:";""))==$d))]|.[0]' <<<"$metadata")"
+
+            tmp="$(mktemp -d)"
+            gate_suffix=""
+            [[ -n "$ARTIFACT_NAMESPACE" ]] && gate_suffix="-$ARTIFACT_NAMESPACE"
+            gate_name="ddd-puerta-electoral_source-$GITHUB_RUN_ID$gate_suffix"
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$gate_name" --dir "$tmp/gate" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: falta evidencia durable de puerta 03→04: $gate_name"
+              exit 46
+            }
+            gh run download "$OVERRIDE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$OVERRIDE_ARTIFACT_NAME" --dir "$tmp/package" >/dev/null 2>&1 || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: no se pudo recuperar el paquete electoral acreditado."
+              exit 46
+            }
+            gate_file="$(find "$tmp/gate" -name puerta.json -type f -print -quit)"
+            manifest="$(find "$tmp/package" -name manifest.json -type f -print -quit)"
+            [[ -n "$gate_file" && -n "$manifest" ]] || {
+              rm -rf "$tmp"
+              echo "::error::ELECTORAL_GATE_BLOCK: evidencia de puerta o manifiesto electoral ausentes."
+              exit 46
+            }
+
+            python herramientas/validar_paquete_electoral.py               --package "$tmp/package" --params "$PARAMS" --territory-id "$TERRITORY_ID"               --edition "$EDITION" --root-dir . >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: el paquete electoral no supera validación profunda."
+                exit 46
+              }
+            python herramientas/validar_elegibilidad_incorporacion_electoral.py               --root-dir . --territory "$TERRITORY_ID" --edition "$EDITION"               --gate-evidence "$gate_file" --package-manifest "$manifest"               --expected-run-id "$OVERRIDE_RUN_ID"               --expected-artifact-name "$OVERRIDE_ARTIFACT_NAME"               --expected-artifact-digest "$OVERRIDE_ARTIFACT_DIGEST" >/dev/null || {
+                rm -rf "$tmp"
+                echo "::error::ELECTORAL_GATE_BLOCK: evidencia 03→04 no acredita identidad electoral consumible."
+                exit 46
+              }
+            echo "run_id=$OVERRIDE_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=$OVERRIDE_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+            rm -rf "$tmp"
+            exit 0
           fi
+
+          mapfile -t run_ids < <(gh api "repos/$GITHUB_REPOSITORY/actions/runs?status=completed&per_page=100"             --jq '.workflow_runs|sort_by(.created_at)|reverse|.[].id')
           for run_id in "${run_ids[@]}"; do
             artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            if [[ -n "$OVERRIDE_ARTIFACT_NAME" && "$run_id" == "$OVERRIDE_RUN_ID" ]]; then
-              names=("$OVERRIDE_ARTIFACT_NAME")
-            else
-              mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
-            fi
+            mapfile -t names < <(jq -r --arg p "$prefix" '.artifacts[]|select((.name|startswith($p)) and (.expired|not))|.name' <<<"$artifacts")
             for artifact_name in "${names[@]}"; do
               tmp="$(mktemp -d)"
               if gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$tmp" >/dev/null 2>&1 &&
