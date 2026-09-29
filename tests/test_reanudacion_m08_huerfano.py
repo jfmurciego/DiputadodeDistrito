@@ -339,12 +339,17 @@ class OrphanM08DetectionTests(unittest.TestCase):
         self.assertIn("detectar_producto_electoral_huerfano resolve", script)
         self.assertIn('evidence=".ddd-orphan-recovery/evidence/$run_id"', script)
 
-    def test_ambiguous_failed_lineage_blocks(self):
+    def test_multiple_failed_manifests_are_not_products_until_accredited(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             write_root(root, ambiguous=True)
-            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
-                scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+            result = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+            self.assertEqual(result["status"], "CANDIDATES")
+            self.assertEqual(result["candidate_count"], 2)
+            self.assertEqual(
+                [row["run_id"] for row in result["candidates"]],
+                [CANDIDATE_RUN, CANDIDATE_RUN + 1],
+            )
 
     def test_m08_absence_barrier_retires_only_older_failed_candidate(self):
         with tempfile.TemporaryDirectory() as td:
