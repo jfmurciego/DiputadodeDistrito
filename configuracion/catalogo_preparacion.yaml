@@ -127,6 +127,8 @@ territories:
         artifact_name: ddd-source-package-canarias-2025-36529404391
         artifact_sha256: 82bb8090edaf6d326aa285018d4b3839ec5b925d7eda2e4f5d381fa2e333ebda
         package_sha256: abeb53758e14b38f88631798f81660b32c5add7dcf1fc34d05a649401a332409
+      evidence:
+        generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: cantabria
   name: Cantabria
   editions:
