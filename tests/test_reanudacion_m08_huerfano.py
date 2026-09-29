@@ -152,6 +152,7 @@ def write_evidence(
     digest_confirmed: str | None = None,
     territorial_run: int = TERRITORIAL_RUN,
     election_id: str = "demo_election_2025",
+    decoy_count: int = 0,
 ) -> Path:
     evidence = root / "evidence"
     evidence.mkdir(parents=True, exist_ok=True)
@@ -162,8 +163,17 @@ def write_evidence(
     )
 
     def artifacts(digest: str) -> dict:
-        return {
-            "artifacts": [
+        rows = [
+            {
+                "id": 1000 + i,
+                "name": f"decoy-{i:03d}",
+                "expired": False,
+                "digest": "sha256:" + "6" * 64,
+            }
+            for i in range(decoy_count)
+        ]
+        rows.extend(
+            [
                 {
                     "id": 1,
                     "name": f"ddd-state-{run_id}-M08",
@@ -183,7 +193,8 @@ def write_evidence(
                     "digest": "sha256:" + "5" * 64,
                 },
             ]
-        }
+        )
+        return {"total_count": len(rows), "artifacts": rows}
 
     write_json(evidence / "artifacts.initial.json", artifacts(digest_initial))
     write_json(evidence / "artifacts.confirm.json", artifacts(digest_confirmed))
@@ -248,6 +259,7 @@ class OrphanM08DetectionTests(unittest.TestCase):
             evidence = write_evidence(root)
             data = json.loads((evidence / "artifacts.initial.json").read_text(encoding="utf-8"))
             data["artifacts"] = [row for row in data["artifacts"] if not row["name"].endswith("-M08")]
+            data["total_count"] = len(data["artifacts"])
             write_json(evidence / "artifacts.initial.json", data)
             write_json(evidence / "artifacts.confirm.json", data)
             result = validate_candidate(
@@ -259,6 +271,66 @@ class OrphanM08DetectionTests(unittest.TestCase):
             )
             self.assertEqual(result["status"], "NO_RECOVERY")
             self.assertEqual(result["reason"], "M08_ABSENT")
+
+    def test_m08_after_first_100_artifacts_is_found_from_complete_inventory(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_root(root)
+            candidate = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)["candidate"]
+            evidence = write_evidence(root, decoy_count=101)
+            initial = json.loads((evidence / "artifacts.initial.json").read_text(encoding="utf-8"))
+            self.assertGreater(initial["total_count"], 100)
+            self.assertGreater(
+                next(
+                    i
+                    for i, row in enumerate(initial["artifacts"])
+                    if row["name"] == f"ddd-state-{CANDIDATE_RUN}-M08"
+                ),
+                99,
+            )
+            result = validate_candidate(
+                root_dir=root,
+                territory_id=TERRITORY,
+                edition=EDITION,
+                candidate=candidate,
+                evidence_root=evidence,
+            )
+            self.assertEqual(result["status"], "VALID")
+
+    def test_incomplete_artifact_inventory_blocks_absence_decision(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_root(root)
+            candidate = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)["candidate"]
+            evidence = write_evidence(root)
+            for filename in ("artifacts.initial.json", "artifacts.confirm.json"):
+                path = evidence / filename
+                data = json.loads(path.read_text(encoding="utf-8"))
+                data["artifacts"] = []
+                data["total_count"] = 101
+                write_json(path, data)
+            with self.assertRaisesRegex(
+                RecoveryBlocked,
+                "RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE",
+            ):
+                validate_candidate(
+                    root_dir=root,
+                    territory_id=TERRITORY,
+                    edition=EDITION,
+                    candidate=candidate,
+                    evidence_root=evidence,
+                )
+
+    def test_workflow_paginates_both_artifact_inventory_reads(self):
+        jobs = yaml.safe_load(FULL.read_text(encoding="utf-8"))["jobs"]
+        detect_step = next(
+            step
+            for step in jobs["detectar_recuperacion_electoral"]["steps"]
+            if step.get("name") == "Resolver y acreditar candidato huérfano"
+        )
+        script = detect_step["run"]
+        self.assertEqual(script.count("gh api --paginate --slurp"), 2)
+        self.assertEqual(script.count("total_count:(.[0].total_count // 0)"), 2)
 
     def test_ambiguous_failed_lineage_blocks(self):
         with tempfile.TemporaryDirectory() as td:
@@ -294,6 +366,7 @@ class OrphanM08DetectionTests(unittest.TestCase):
                 duplicate = dict(m08)
                 duplicate["id"] = 99
                 data["artifacts"].append(duplicate)
+                data["total_count"] = len(data["artifacts"])
                 write_json(path, data)
             with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_ARTIFACT_AMBIGUOUS"):
                 validate_candidate(
@@ -402,8 +475,8 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
                 },
             )
             # Ausencia acreditada: dos lecturas independientes sin M08.
-            write_json(evidence / "artifacts.initial.json", {"artifacts": []})
-            write_json(evidence / "artifacts.confirm.json", {"artifacts": []})
+            write_json(evidence / "artifacts.initial.json", {"total_count": 0, "artifacts": []})
+            write_json(evidence / "artifacts.confirm.json", {"total_count": 0, "artifacts": []})
             validation = validate_candidate(
                 root_dir=ROOT,
                 territory_id=territory_id,
