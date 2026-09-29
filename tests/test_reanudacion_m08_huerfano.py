@@ -20,6 +20,7 @@ from herramientas.persistir_producto_electoral_operacional import (
     persist_electoral_product,
     recovery_context_fingerprint,
 )
+from herramientas.resolver_ejecucion_completa import build_plan
 from tests.test_registro_producto_electoral_concurrencia import (
     SOURCE_COMMIT,
     clone,
@@ -239,7 +240,7 @@ class OrphanM08DetectionTests(unittest.TestCase):
             self.assertEqual(result["territorial_run_id"], TERRITORIAL_RUN)
             self.assertEqual(result["election_id"], "demo_election_2025")
 
-    def test_absent_materialized_candidate_blocks_when_failed_lineage_exists(self):
+    def test_absent_m08_allows_fresh_incorporation_after_failed_history(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             write_root(root)
@@ -249,14 +250,15 @@ class OrphanM08DetectionTests(unittest.TestCase):
             data["artifacts"] = [row for row in data["artifacts"] if not row["name"].endswith("-M08")]
             write_json(evidence / "artifacts.initial.json", data)
             write_json(evidence / "artifacts.confirm.json", data)
-            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_ZERO"):
-                validate_candidate(
-                    root_dir=root,
-                    territory_id=TERRITORY,
-                    edition=EDITION,
-                    candidate=candidate,
-                    evidence_root=evidence,
-                )
+            result = validate_candidate(
+                root_dir=root,
+                territory_id=TERRITORY,
+                edition=EDITION,
+                candidate=candidate,
+                evidence_root=evidence,
+            )
+            self.assertEqual(result["status"], "NO_RECOVERY")
+            self.assertEqual(result["reason"], "M08_ABSENT")
 
     def test_ambiguous_failed_lineage_blocks(self):
         with tempfile.TemporaryDirectory() as td:
@@ -265,18 +267,41 @@ class OrphanM08DetectionTests(unittest.TestCase):
             with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
                 scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
 
-    def test_expired_m08_blocks(self):
+    def test_expired_m08_blocks_with_specific_cause(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             write_root(root)
             candidate = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)["candidate"]
-            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_ZERO"):
+            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_ARTIFACT_EXPIRED"):
                 validate_candidate(
                     root_dir=root,
                     territory_id=TERRITORY,
                     edition=EDITION,
                     candidate=candidate,
                     evidence_root=write_evidence(root, expired=True),
+                )
+
+    def test_duplicate_live_m08_blocks_as_ambiguous(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_root(root)
+            candidate = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)["candidate"]
+            evidence = write_evidence(root)
+            for filename in ("artifacts.initial.json", "artifacts.confirm.json"):
+                path = evidence / filename
+                data = json.loads(path.read_text(encoding="utf-8"))
+                m08 = next(row for row in data["artifacts"] if row["name"].endswith("-M08"))
+                duplicate = dict(m08)
+                duplicate["id"] = 99
+                data["artifacts"].append(duplicate)
+                write_json(path, data)
+            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_ARTIFACT_AMBIGUOUS"):
+                validate_candidate(
+                    root_dir=root,
+                    territory_id=TERRITORY,
+                    edition=EDITION,
+                    candidate=candidate,
+                    evidence_root=evidence,
                 )
 
     def test_digest_change_between_reads_blocks(self):
@@ -321,6 +346,112 @@ class OrphanM08DetectionTests(unittest.TestCase):
             result = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
             self.assertEqual(result["status"], "NONE")
             self.assertEqual(result["candidate_count"], 0)
+
+
+class RealFreshIncorporationRegressionTests(unittest.TestCase):
+    REAL_FAILURES = {
+        "castilla_la_mancha": [36488755336],
+        "ceuta": [36529371078, 36529371312],
+    }
+
+    def _assert_real_case(
+        self,
+        *,
+        territory_name: str,
+        territory_id: str,
+        failed_candidate_run: int,
+        persisted_false_runs: tuple[int, ...],
+    ) -> None:
+        plan = build_plan(
+            territory=territory_name,
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=True,
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+
+        scan_result = scan(
+            root_dir=ROOT,
+            territory_id=territory_id,
+            edition="2025",
+        )
+        self.assertEqual(scan_result["status"], "CANDIDATE")
+        self.assertEqual(scan_result["candidate_count"], 1)
+        self.assertEqual(scan_result["candidate"]["run_id"], failed_candidate_run)
+        for run_id in persisted_false_runs:
+            self.assertNotIn(
+                run_id,
+                [row["run_id"] for row in scan_result["candidates"]],
+            )
+
+        with tempfile.TemporaryDirectory() as td:
+            evidence = Path(td)
+            candidate = scan_result["candidate"]
+            write_json(
+                evidence / "run.json",
+                {
+                    "id": candidate["run_id"],
+                    "status": "completed",
+                    "head_sha": candidate["source_commit"],
+                },
+            )
+            # Ausencia acreditada: dos lecturas independientes sin M08.
+            write_json(evidence / "artifacts.initial.json", {"artifacts": []})
+            write_json(evidence / "artifacts.confirm.json", {"artifacts": []})
+            validation = validate_candidate(
+                root_dir=ROOT,
+                territory_id=territory_id,
+                edition="2025",
+                candidate=candidate,
+                evidence_root=evidence,
+            )
+        self.assertEqual(validation["status"], "NO_RECOVERY")
+        self.assertEqual(validation["reason"], "M08_ABSENT")
+
+        jobs = yaml.safe_load(FULL.read_text(encoding="utf-8"))["jobs"]
+        detect_step = next(
+            step
+            for step in jobs["detectar_recuperacion_electoral"]["steps"]
+            if step.get("name") == "Resolver y acreditar candidato huérfano"
+        )
+        detect_script = detect_step["run"]
+        self.assertIn('if [[ "$status" == NO_RECOVERY ]]', detect_script)
+        self.assertIn('echo "recover=false"', detect_script)
+
+        incorporate_if = str(jobs["incorporar"]["if"])
+        self.assertIn("needs.planificar.outputs.run_incorporate == 'true'", incorporate_if)
+        self.assertIn(
+            "needs.detectar_recuperacion_electoral.result == 'success'",
+            incorporate_if,
+        )
+        self.assertIn(
+            "needs.detectar_recuperacion_electoral.outputs.recover != 'true'",
+            incorporate_if,
+        )
+
+    def test_castilla_la_mancha_36488755336_reuses_01_03_and_reaches_new_04(self):
+        self._assert_real_case(
+            territory_name="Castilla-La Mancha",
+            territory_id="castilla_la_mancha",
+            failed_candidate_run=36444657976,
+            persisted_false_runs=(36488755336,),
+        )
+
+    def test_ceuta_36529371078_and_36529371312_reuse_01_03_and_reach_new_04(self):
+        # 36529371078 abortó antes de persistir manifiesto; 36529371312 sí lo
+        # persistió con 04 skipped. Ninguno debe convertirse en candidato.
+        self._assert_real_case(
+            territory_name="Ceuta",
+            territory_id="ceuta",
+            failed_candidate_run=36482903970,
+            persisted_false_runs=(36529371312,),
+        )
 
 
 @unittest.skipUnless(shutil.which("git"), "git executable required for semantic CAS test")
@@ -389,6 +520,8 @@ class FullRunRecoveryContractTests(unittest.TestCase):
         )
         publish_if = str(jobs["publicar"]["if"])
         self.assertIn("needs.planificar.outputs.publish_result == 'true'", publish_if)
+        self.assertIn("needs.puerta_04.result == 'success'", publish_if)
+        self.assertNotIn("NO_RECOVERY", publish_if)
 
     def _manifest(self, *, catalog_ok: bool, receipt_ok: bool) -> dict:
         with tempfile.TemporaryDirectory() as td:

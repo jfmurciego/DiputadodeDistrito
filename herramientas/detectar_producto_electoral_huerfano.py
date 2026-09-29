@@ -106,7 +106,7 @@ def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) ->
         phase04 = _phase(manifest, "04 ·")
         if (
             phase04.get("executed") is not True
-            or phase04.get("result") == "success"
+            or phase04.get("result") != "failure"
             or phase02.get("run_id") != territorial_run
             or str(phase02.get("artifact") or "") != territorial_artifact
         ):
@@ -167,6 +167,14 @@ def _artifact_rows(data: dict, name: str) -> list[dict]:
     ]
 
 
+def _artifact_named_rows(data: dict, name: str) -> list[dict]:
+    return [
+        row
+        for row in (data.get("artifacts") or [])
+        if str(row.get("name") or "") == name
+    ]
+
+
 def validate_candidate(
     *,
     root_dir: Path,
@@ -200,24 +208,64 @@ def validate_candidate(
     audit_name = f"ddd-audit-electoral-{run_id}"
     report_name = f"ddd-electoral-application-report-{run_id}"
 
+    first_m08_named = _artifact_named_rows(initial, m08_name)
+    second_m08_named = _artifact_named_rows(confirmed, m08_name)
+    if not first_m08_named and not second_m08_named:
+        return {
+            "schema": "ddd.orphan-electoral-product-candidate/1.0",
+            "status": "NO_RECOVERY",
+            "reason": "M08_ABSENT",
+            "territory_id": territory_id,
+            "edition": str(edition),
+            "source_run_id": run_id,
+            "origin_manifest": candidate.get("manifest_path"),
+        }
+
+    if any(row.get("expired") is True for row in first_m08_named + second_m08_named):
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_EXPIRED: M08 existe pero está expirado para run {run_id}"
+        )
+    if len(first_m08_named) != 1 or len(second_m08_named) != 1:
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_AMBIGUOUS: M08 existente ausente en una lectura "
+            f"o no único para run {run_id}"
+        )
+    if first_m08_named[0].get("id") != second_m08_named[0].get("id"):
+        raise RecoveryBlocked(
+            "RECOVERY_IDENTITY_CONTRADICTORY: M08 cambió durante la acreditación"
+        )
+
+    first_m08_rows = _artifact_rows(initial, m08_name)
+    second_m08_rows = _artifact_rows(confirmed, m08_name)
+    if len(first_m08_rows) != 1 or len(second_m08_rows) != 1:
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_CONTRADICTORY: M08 existe pero no es recuperable "
+            f"de forma estable para run {run_id}"
+        )
+
     for name, code in (
-        (m08_name, "M08"),
         (audit_name, "AUDIT"),
         (report_name, "REPORT"),
     ):
-        first = _artifact_rows(initial, name)
-        second = _artifact_rows(confirmed, name)
-        if len(first) != 1 or len(second) != 1:
+        first_named = _artifact_named_rows(initial, name)
+        second_named = _artifact_named_rows(confirmed, name)
+        if any(row.get("expired") is True for row in first_named + second_named):
             raise RecoveryBlocked(
-                f"RECOVERY_CANDIDATE_ZERO: {code} ausente, expirado o no único para run {run_id}"
+                f"RECOVERY_EVIDENCE_EXPIRED: {code} existe pero está expirado "
+                f"para M08 del run {run_id}"
             )
-        if first[0].get("id") != second[0].get("id"):
+        if len(first_named) != 1 or len(second_named) != 1:
+            raise RecoveryBlocked(
+                f"RECOVERY_EVIDENCE_AMBIGUOUS: {code} ausente o no único "
+                f"para M08 existente del run {run_id}"
+            )
+        if first_named[0].get("id") != second_named[0].get("id"):
             raise RecoveryBlocked(
                 f"RECOVERY_IDENTITY_CONTRADICTORY: {code} cambió durante la acreditación"
             )
 
-    first_m08 = _artifact_rows(initial, m08_name)[0]
-    second_m08 = _artifact_rows(confirmed, m08_name)[0]
+    first_m08 = first_m08_rows[0]
+    second_m08 = second_m08_rows[0]
     digest_initial = _digest(first_m08.get("digest"))
     digest_confirmed = _digest(second_m08.get("digest"))
     if not HEX64.fullmatch(digest_initial):

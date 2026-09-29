@@ -420,6 +420,23 @@ jobs:
             } >> "$GITHUB_OUTPUT"
             exit "$validate_rc"
           fi
+          if [[ "$status" == NO_RECOVERY ]]; then
+            {
+              echo "recover=false"
+              echo "status=NO_RECOVERY"
+              echo "reason=$reason"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$status" != VALID ]]; then
+            {
+              echo "recover=false"
+              echo "status=$status"
+              echo "reason=$reason"
+            } >> "$GITHUB_OUTPUT"
+            echo "::error::Estado inesperado del detector M08: $status"
+            exit 46
+          fi
 
           context_fingerprint="$(
             TERRITORY_ID="$TERRITORY_ID" EDITION="$EDITION" python - <<'PY'
