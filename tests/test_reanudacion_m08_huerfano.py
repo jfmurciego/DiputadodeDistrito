@@ -13,6 +13,7 @@ import yaml
 from herramientas.detectar_producto_electoral_huerfano import (
     RecoveryBlocked,
     scan,
+    structural_candidates,
     validate_candidate,
 )
 from herramientas.persistir_producto_electoral_operacional import (
@@ -339,6 +340,80 @@ class OrphanM08DetectionTests(unittest.TestCase):
             with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
                 scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
 
+    def test_m08_absence_barrier_retires_only_older_failed_candidate(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_root(root, ambiguous=True)
+            manifest_path = (
+                root
+                / "territorios"
+                / TERRITORY
+                / "evidencia"
+                / "ejecuciones_completas"
+                / f"{CANDIDATE_RUN + 1}.json"
+            )
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["execution_mode"] = "reuse"
+            manifest["publication_mode_effective"] = "electoral"
+            manifest["resumption"] = {
+                "kind": "durable_electoral_product",
+                "status": "NO_RECOVERY",
+                "result": "skipped",
+                "reason": "M08_ABSENT",
+                "origin_run_id": None,
+                "origin_manifest": None,
+                "artifact": None,
+                "artifact_digest": None,
+                "source_commit": None,
+                "registration_status": None,
+                "receipt_accredited": False,
+                "catalog_accredited": False,
+            }
+            write_json(manifest_path, manifest)
+
+            result = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+            self.assertEqual(result["status"], "CANDIDATE")
+            self.assertEqual(result["candidate"]["run_id"], CANDIDATE_RUN + 1)
+            self.assertEqual(result["absence_barrier_run_id"], CANDIDATE_RUN + 1)
+            self.assertEqual(
+                [row["run_id"] for row in result["retired_candidates"]],
+                [CANDIDATE_RUN],
+            )
+
+    def test_two_candidates_at_or_after_absence_barrier_still_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_root(root, ambiguous=True)
+            manifests = (
+                root
+                / "territorios"
+                / TERRITORY
+                / "evidencia"
+                / "ejecuciones_completas"
+            )
+            barrier_path = manifests / f"{CANDIDATE_RUN}.json"
+            barrier = json.loads(barrier_path.read_text(encoding="utf-8"))
+            barrier["execution_mode"] = "reuse"
+            barrier["publication_mode_effective"] = "electoral"
+            barrier["resumption"] = {
+                "kind": "durable_electoral_product",
+                "status": "NO_RECOVERY",
+                "result": "skipped",
+                "reason": "M08_ABSENT",
+                "origin_run_id": None,
+                "origin_manifest": None,
+                "artifact": None,
+                "artifact_digest": None,
+                "source_commit": None,
+                "registration_status": None,
+                "receipt_accredited": False,
+                "catalog_accredited": False,
+            }
+            write_json(barrier_path, barrier)
+
+            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
+                scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+
     def test_expired_m08_blocks_with_specific_cause(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -509,11 +584,33 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         )
 
     def test_castilla_la_mancha_36488755336_reuses_01_03_and_reaches_new_04(self):
+        # Nombre conservado para fijar la regresión que rompió Plataforma.
+        # El nuevo intento 36551586302 acredita M08_ABSENT respecto de la
+        # candidatura anterior y pasa a ser el único candidato estructural.
+        result = scan(
+            root_dir=ROOT,
+            territory_id="castilla_la_mancha",
+            edition="2025",
+        )
+        self.assertEqual(result["absence_barrier_run_id"], 36551586302)
+        self.assertEqual(
+            [row["run_id"] for row in result["retired_candidates"]],
+            [36444657976],
+        )
+        self.assertEqual(
+            [row["run_id"] for row in structural_candidates(
+                root_dir=ROOT,
+                territory_id="castilla_la_mancha",
+                edition="2025",
+            )],
+            [36551586302],
+        )
+
         self._assert_real_case(
             territory_name="Castilla-La Mancha",
             territory_id="castilla_la_mancha",
-            failed_candidate_run=36444657976,
-            persisted_false_runs=(36488755336,),
+            failed_candidate_run=36551586302,
+            persisted_false_runs=(36444657976, 36488755336),
         )
 
     def test_ceuta_36529371078_and_36529371312_reuse_01_03_and_reach_new_04(self):

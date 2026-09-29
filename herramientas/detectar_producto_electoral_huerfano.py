@@ -67,11 +67,70 @@ def _registered_election(root: Path, territory_id: str) -> str | None:
     return value or None
 
 
-def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) -> list[dict]:
+def _same_current_territorial_product(
+    manifest: dict,
+    *,
+    territorial_run: object,
+    territorial_artifact: str,
+) -> bool:
+    phase02 = _phase(manifest, "02 ·")
+    return (
+        phase02.get("run_id") == territorial_run
+        and str(phase02.get("artifact") or "") == territorial_artifact
+    )
+
+
+def _is_m08_absence_barrier(
+    manifest: dict,
+    *,
+    territorial_run: object,
+    territorial_artifact: str,
+) -> bool:
+    """A durable NO_RECOVERY/M08_ABSENT result retires only older candidates.
+
+    This is deliberately strict. The barrier is trusted only when it came from
+    the normal reuse/electoral recovery path for the same current M06 and the
+    manifest records that no M08 was accredited or registered.
+    """
+    if (
+        manifest.get("execution_mode") != "reuse"
+        or manifest.get("publication_mode_effective") != "electoral"
+        or not _same_current_territorial_product(
+            manifest,
+            territorial_run=territorial_run,
+            territorial_artifact=territorial_artifact,
+        )
+    ):
+        return False
+    resumption = manifest.get("resumption")
+    if not isinstance(resumption, dict):
+        return False
+    return (
+        resumption.get("kind") == "durable_electoral_product"
+        and resumption.get("status") == "NO_RECOVERY"
+        and resumption.get("result") == "skipped"
+        and resumption.get("reason") == "M08_ABSENT"
+        and resumption.get("origin_run_id") is None
+        and resumption.get("origin_manifest") is None
+        and resumption.get("artifact") is None
+        and resumption.get("artifact_digest") is None
+        and resumption.get("source_commit") is None
+        and resumption.get("registration_status") is None
+        and resumption.get("receipt_accredited") is False
+        and resumption.get("catalog_accredited") is False
+    )
+
+
+def _candidate_state(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+) -> tuple[list[dict], int | None, list[dict]]:
     root = root_dir.resolve()
     territorial = _receipt(root, territory_id, edition, "territorial_product")
     if not territorial:
-        return []
+        return [], None, []
     territorial_run = territorial.get("run_id")
     territorial_artifact = str(territorial.get("artifact_name") or "")
     current_electoral = _receipt(root, territory_id, edition, "electoral_product")
@@ -84,15 +143,16 @@ def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) ->
         / "evidencia"
         / "ejecuciones_completas"
     )
-    rows: list[dict] = []
     if not manifest_dir.is_dir():
-        return rows
+        return [], None, []
+
+    rows: list[dict] = []
+    absence_barrier_run_id: int | None = None
 
     for path in sorted(manifest_dir.glob("*.json")):
         manifest = _json(path)
         if (
-            manifest.get("status") != "FAILED"
-            or str(manifest.get("territory_id") or "") != territory_id
+            str(manifest.get("territory_id") or "") != territory_id
             or str(manifest.get("edition") or "") != str(edition)
         ):
             continue
@@ -102,14 +162,24 @@ def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) ->
         source_sha = str(manifest.get("source_sha") or "").lower()
         if not HEX40.fullmatch(source_sha):
             continue
-        phase02 = _phase(manifest, "02 ·")
-        phase04 = _phase(manifest, "04 ·")
-        if (
-            phase04.get("executed") is not True
-            or phase04.get("result") != "failure"
-            or phase02.get("run_id") != territorial_run
-            or str(phase02.get("artifact") or "") != territorial_artifact
+
+        same_territorial = _same_current_territorial_product(
+            manifest,
+            territorial_run=territorial_run,
+            territorial_artifact=territorial_artifact,
+        )
+        if same_territorial and _is_m08_absence_barrier(
+            manifest,
+            territorial_run=territorial_run,
+            territorial_artifact=territorial_artifact,
         ):
+            if absence_barrier_run_id is None or run_id > absence_barrier_run_id:
+                absence_barrier_run_id = run_id
+
+        if manifest.get("status") != "FAILED" or not same_territorial:
+            continue
+        phase04 = _phase(manifest, "04 ·")
+        if phase04.get("executed") is not True or phase04.get("result") != "failure":
             continue
         if (
             isinstance(current_electoral_run, int)
@@ -126,15 +196,35 @@ def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) ->
                 "territorial_artifact_name": territorial_artifact,
             }
         )
-    return rows
+
+    retired: list[dict] = []
+    if absence_barrier_run_id is not None:
+        retired = [row for row in rows if row["run_id"] < absence_barrier_run_id]
+        rows = [row for row in rows if row["run_id"] >= absence_barrier_run_id]
+
+    return rows, absence_barrier_run_id, retired
 
 
-def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
-    rows = structural_candidates(
+def structural_candidates(*, root_dir: Path, territory_id: str, edition: str) -> list[dict]:
+    rows, _, _ = _candidate_state(
         root_dir=root_dir,
         territory_id=territory_id,
         edition=edition,
     )
+    return rows
+
+
+def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
+    rows, absence_barrier_run_id, retired = _candidate_state(
+        root_dir=root_dir,
+        territory_id=territory_id,
+        edition=edition,
+    )
+    common = {
+        "absence_barrier_run_id": absence_barrier_run_id,
+        "retired_candidate_count": len(retired),
+        "retired_candidates": retired,
+    }
     if not rows:
         return {
             "schema": "ddd.orphan-electoral-product-scan/1.0",
@@ -142,6 +232,7 @@ def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
             "reason": "NO_PENDING_FAILED_INCORPORATION",
             "candidate_count": 0,
             "candidates": [],
+            **common,
         }
     if len(rows) != 1:
         raise RecoveryBlocked(
@@ -156,8 +247,8 @@ def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
         "candidate_count": 1,
         "candidate": rows[0],
         "candidates": rows,
+        **common,
     }
-
 
 def _complete_artifact_inventory(data: dict, *, label: str) -> list[dict]:
     artifacts = data.get("artifacts")
