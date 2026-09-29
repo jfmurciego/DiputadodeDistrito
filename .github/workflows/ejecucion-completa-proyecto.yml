@@ -393,25 +393,27 @@ jobs:
             exit 0
           fi
 
-          run_id="$(jq -r '.candidate.run_id' "$scan")"
-          source_commit="$(jq -r '.candidate.source_commit' "$scan")"
-          m08="ddd-state-$run_id-M08"
-          audit="ddd-audit-electoral-$run_id"
-          report="ddd-electoral-application-report-$run_id"
+          while IFS= read -r row; do
+            run_id="$(jq -r '.run_id' <<<"$row")"
+            evidence=".ddd-orphan-recovery/evidence/$run_id"
+            audit="ddd-audit-electoral-$run_id"
+            report="ddd-electoral-application-report-$run_id"
+            mkdir -p "$evidence/audit" "$evidence/report"
 
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > .ddd-orphan-recovery/evidence/run.json
-          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
-            | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
-            > .ddd-orphan-recovery/evidence/artifacts.initial.json
-          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit" --dir .ddd-orphan-recovery/evidence/audit || true
-          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$report" --dir .ddd-orphan-recovery/evidence/report || true
-          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
-            | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
-            > .ddd-orphan-recovery/evidence/artifacts.confirm.json
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > "$evidence/run.json"
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
+              | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
+              > "$evidence/artifacts.initial.json"
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit" --dir "$evidence/audit" || true
+            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$report" --dir "$evidence/report" || true
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
+              | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
+              > "$evidence/artifacts.confirm.json"
+          done < <(jq -c '.candidates[]' "$scan")
 
-          python -m herramientas.detectar_producto_electoral_huerfano validate \
+          python -m herramientas.detectar_producto_electoral_huerfano resolve \
             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION" \
-            --candidate-json "$scan" --evidence-root .ddd-orphan-recovery/evidence \
+            --scan-json "$scan" --evidence-root .ddd-orphan-recovery/evidence \
             --output "$candidate"
           validate_rc=$?
           status="$(jq -r '.status // "BLOCKED"' "$candidate")"

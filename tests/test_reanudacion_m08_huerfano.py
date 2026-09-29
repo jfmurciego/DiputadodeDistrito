@@ -12,6 +12,7 @@ import yaml
 
 from herramientas.detectar_producto_electoral_huerfano import (
     RecoveryBlocked,
+    resolve_candidates,
     scan,
     structural_candidates,
     validate_candidate,
@@ -154,13 +155,15 @@ def write_evidence(
     territorial_run: int = TERRITORIAL_RUN,
     election_id: str = "demo_election_2025",
     decoy_count: int = 0,
+    source_commit: str = CANDIDATE_SHA,
+    evidence_dir: Path | None = None,
 ) -> Path:
-    evidence = root / "evidence"
+    evidence = evidence_dir if evidence_dir is not None else root / "evidence"
     evidence.mkdir(parents=True, exist_ok=True)
     digest_confirmed = digest_initial if digest_confirmed is None else digest_confirmed
     write_json(
         evidence / "run.json",
-        {"id": run_id, "status": "completed", "head_sha": CANDIDATE_SHA},
+        {"id": run_id, "status": "completed", "head_sha": source_commit},
     )
 
     def artifacts(digest: str) -> dict:
@@ -332,13 +335,21 @@ class OrphanM08DetectionTests(unittest.TestCase):
         script = detect_step["run"]
         self.assertEqual(script.count("gh api --paginate --slurp"), 2)
         self.assertEqual(script.count("total_count:(.[0].total_count // 0)"), 2)
+        self.assertIn("jq -c '.candidates[]'", script)
+        self.assertIn("detectar_producto_electoral_huerfano resolve", script)
+        self.assertIn('evidence=".ddd-orphan-recovery/evidence/$run_id"', script)
 
-    def test_ambiguous_failed_lineage_blocks(self):
+    def test_multiple_failed_manifests_are_not_products_until_accredited(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             write_root(root, ambiguous=True)
-            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
-                scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+            result = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+            self.assertEqual(result["status"], "CANDIDATES")
+            self.assertEqual(result["candidate_count"], 2)
+            self.assertEqual(
+                [row["run_id"] for row in result["candidates"]],
+                [CANDIDATE_RUN, CANDIDATE_RUN + 1],
+            )
 
     def test_m08_absence_barrier_retires_only_older_failed_candidate(self):
         with tempfile.TemporaryDirectory() as td:
@@ -380,39 +391,139 @@ class OrphanM08DetectionTests(unittest.TestCase):
                 [CANDIDATE_RUN],
             )
 
-    def test_two_candidates_at_or_after_absence_barrier_still_block(self):
+    def _two_candidates_after_absence_barrier(self, root: Path) -> dict:
+        write_root(root, ambiguous=True)
+        manifests = (
+            root
+            / "territorios"
+            / TERRITORY
+            / "evidencia"
+            / "ejecuciones_completas"
+        )
+        barrier_path = manifests / f"{CANDIDATE_RUN}.json"
+        barrier = json.loads(barrier_path.read_text(encoding="utf-8"))
+        barrier["execution_mode"] = "reuse"
+        barrier["publication_mode_effective"] = "electoral"
+        barrier["resumption"] = {
+            "kind": "durable_electoral_product",
+            "status": "NO_RECOVERY",
+            "result": "skipped",
+            "reason": "M08_ABSENT",
+            "origin_run_id": None,
+            "origin_manifest": None,
+            "artifact": None,
+            "artifact_digest": None,
+            "source_commit": None,
+            "registration_status": None,
+            "receipt_accredited": False,
+            "catalog_accredited": False,
+        }
+        write_json(barrier_path, barrier)
+        result = scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+        self.assertEqual(result["status"], "CANDIDATES")
+        self.assertEqual(result["candidate_count"], 2)
+        return result
+
+    def test_two_structural_candidates_without_m08_allow_fresh_incorporation(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            write_root(root, ambiguous=True)
-            manifests = (
-                root
-                / "territorios"
-                / TERRITORY
-                / "evidencia"
-                / "ejecuciones_completas"
+            scan_result = self._two_candidates_after_absence_barrier(root)
+            evidence_root = root / "multi-evidence"
+            for candidate in scan_result["candidates"]:
+                run_id = candidate["run_id"]
+                evidence = write_evidence(
+                    root,
+                    run_id=run_id,
+                    source_commit=candidate["source_commit"],
+                    evidence_dir=evidence_root / str(run_id),
+                )
+                for filename in ("artifacts.initial.json", "artifacts.confirm.json"):
+                    path = evidence / filename
+                    payload = json.loads(path.read_text(encoding="utf-8"))
+                    payload["artifacts"] = [
+                        row for row in payload["artifacts"]
+                        if row["name"] != f"ddd-state-{run_id}-M08"
+                    ]
+                    payload["total_count"] = len(payload["artifacts"])
+                    write_json(path, payload)
+            resolved = resolve_candidates(
+                root_dir=root,
+                territory_id=TERRITORY,
+                edition=EDITION,
+                candidates=scan_result["candidates"],
+                evidence_root=evidence_root,
             )
-            barrier_path = manifests / f"{CANDIDATE_RUN}.json"
-            barrier = json.loads(barrier_path.read_text(encoding="utf-8"))
-            barrier["execution_mode"] = "reuse"
-            barrier["publication_mode_effective"] = "electoral"
-            barrier["resumption"] = {
-                "kind": "durable_electoral_product",
-                "status": "NO_RECOVERY",
-                "result": "skipped",
-                "reason": "M08_ABSENT",
-                "origin_run_id": None,
-                "origin_manifest": None,
-                "artifact": None,
-                "artifact_digest": None,
-                "source_commit": None,
-                "registration_status": None,
-                "receipt_accredited": False,
-                "catalog_accredited": False,
-            }
-            write_json(barrier_path, barrier)
+            self.assertEqual(resolved["status"], "NO_RECOVERY")
+            self.assertEqual(resolved["reason"], "M08_ABSENT")
+            self.assertEqual(
+                resolved["absent_run_ids"],
+                [CANDIDATE_RUN, CANDIDATE_RUN + 1],
+            )
 
-            with self.assertRaisesRegex(RecoveryBlocked, "RECOVERY_CANDIDATE_AMBIGUOUS"):
-                scan(root_dir=root, territory_id=TERRITORY, edition=EDITION)
+    def test_two_real_m08_products_after_barrier_still_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            scan_result = self._two_candidates_after_absence_barrier(root)
+            evidence_root = root / "multi-evidence"
+            for index, candidate in enumerate(scan_result["candidates"]):
+                write_evidence(
+                    root,
+                    run_id=candidate["run_id"],
+                    source_commit=candidate["source_commit"],
+                    digest_initial=("a" if index == 0 else "b") * 64,
+                    evidence_dir=evidence_root / str(candidate["run_id"]),
+                )
+            with self.assertRaisesRegex(
+                RecoveryBlocked,
+                "RECOVERY_CANDIDATE_AMBIGUOUS.*productos M08 recuperables múltiples",
+            ):
+                resolve_candidates(
+                    root_dir=root,
+                    territory_id=TERRITORY,
+                    edition=EDITION,
+                    candidates=scan_result["candidates"],
+                    evidence_root=evidence_root,
+                )
+
+    def test_multiple_candidates_with_incompatible_lineage_still_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            scan_result = self._two_candidates_after_absence_barrier(root)
+            evidence_root = root / "multi-evidence"
+            first, second = scan_result["candidates"]
+            first_evidence = write_evidence(
+                root,
+                run_id=first["run_id"],
+                source_commit=first["source_commit"],
+                evidence_dir=evidence_root / str(first["run_id"]),
+            )
+            for filename in ("artifacts.initial.json", "artifacts.confirm.json"):
+                path = first_evidence / filename
+                payload = json.loads(path.read_text(encoding="utf-8"))
+                payload["artifacts"] = [
+                    row for row in payload["artifacts"]
+                    if row["name"] != f"ddd-state-{first['run_id']}-M08"
+                ]
+                payload["total_count"] = len(payload["artifacts"])
+                write_json(path, payload)
+            write_evidence(
+                root,
+                run_id=second["run_id"],
+                source_commit=second["source_commit"],
+                territorial_run=999,
+                evidence_dir=evidence_root / str(second["run_id"]),
+            )
+            with self.assertRaisesRegex(
+                RecoveryBlocked,
+                "RECOVERY_TERRITORIAL_PRODUCT_INCOMPATIBLE",
+            ):
+                resolve_candidates(
+                    root_dir=root,
+                    territory_id=TERRITORY,
+                    edition=EDITION,
+                    candidates=scan_result["candidates"],
+                    evidence_root=evidence_root,
+                )
 
     def test_expired_m08_blocks_with_specific_cause(self):
         with tempfile.TemporaryDirectory() as td:
@@ -612,6 +723,42 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             failed_candidate_run=36551586302,
             persisted_false_runs=(36444657976, 36488755336),
         )
+
+    def test_baleares_36573474139_territorial_failure_never_becomes_m08_candidate(self):
+        manifest_path = (
+            ROOT
+            / "territorios"
+            / "illes_balears"
+            / "evidencia"
+            / "ejecuciones_completas"
+            / "36573474139.json"
+        )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["status"], "FAILED")
+        self.assertEqual(manifest["publication_mode_effective"], "territorial_only")
+
+        phase02 = next(
+            row
+            for row in manifest["phases"]
+            if row["name"].startswith("02 ·")
+        )
+        phase04 = next(
+            row
+            for row in manifest["phases"]
+            if row["name"].startswith("04 ·")
+        )
+        self.assertTrue(phase02["executed"])
+        self.assertEqual(phase02["result"], "failure")
+        self.assertEqual(phase04["scope"], "OUT_OF_SCOPE")
+        self.assertFalse(phase04["executed"])
+        self.assertEqual(phase04["result"], "skipped")
+
+        candidates = structural_candidates(
+            root_dir=ROOT,
+            territory_id="illes_balears",
+            edition="2025",
+        )
+        self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
 
     def test_ceuta_36529371078_and_36529371312_reuse_01_03_and_reach_new_04(self):
         # 36529371078 abortó antes de persistir manifiesto; 36529371312 sí lo
