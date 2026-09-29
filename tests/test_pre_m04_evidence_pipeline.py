@@ -739,10 +739,10 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertTrue(reuse["run_prepare_territorial"])
-        self.assertTrue(reuse["pre_m04_accreditation_planned"])
+        self.assertFalse(reuse["run_prepare_territorial"])
+        self.assertFalse(reuse["pre_m04_accreditation_planned"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             reuse["generation_gate"],
         )
 
