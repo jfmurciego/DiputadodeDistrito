@@ -230,6 +230,29 @@ def validate_candidate(
             "RECOVERY_IDENTITY_CONTRADICTORY: run/head_sha no coincide con el manifiesto durable"
         )
 
+    # Las contradicciones durables pueden bloquear antes de acreditar el inventario.
+    # La ausencia/recuperación positiva nunca: ambas requieren inventario completo.
+    territorial = _receipt(root, territory_id, edition, "territorial_product")
+    electoral_source = _receipt(root, territory_id, edition, "electoral_source")
+    if not territorial or not electoral_source:
+        raise RecoveryBlocked(
+            "RECOVERY_IDENTITY_CONTRADICTORY: faltan receipts territorial o electoral vigentes"
+        )
+    territorial_run = territorial.get("run_id")
+    electoral_source_run = electoral_source.get("run_id")
+    audit_path = _first(evidence / "audit", "production_status.json")
+    if audit_path is not None:
+        preliminary_audit = _json(audit_path)
+        declared_territorial_run = preliminary_audit.get("source_territorial_run_id")
+        if (
+            declared_territorial_run is not None
+            and declared_territorial_run != territorial_run
+        ):
+            raise RecoveryBlocked(
+                "RECOVERY_TERRITORIAL_PRODUCT_INCOMPATIBLE: auditoría M08 no corresponde "
+                "al producto territorial vigente"
+            )
+
     initial = _json(evidence / "artifacts.initial.json")
     confirmed = _json(evidence / "artifacts.confirm.json")
     _complete_artifact_inventory(initial, label="lectura inicial")
@@ -304,15 +327,6 @@ def validate_candidate(
         raise RecoveryBlocked(
             "RECOVERY_DIGEST_MISMATCH: el digest M08 cambió durante la acreditación"
         )
-
-    territorial = _receipt(root, territory_id, edition, "territorial_product")
-    electoral_source = _receipt(root, territory_id, edition, "electoral_source")
-    if not territorial or not electoral_source:
-        raise RecoveryBlocked(
-            "RECOVERY_IDENTITY_CONTRADICTORY: faltan receipts territorial o electoral vigentes"
-        )
-    territorial_run = territorial.get("run_id")
-    electoral_source_run = electoral_source.get("run_id")
 
     audit = _json(_first(evidence / "audit", "production_status.json") or Path())
     if (
