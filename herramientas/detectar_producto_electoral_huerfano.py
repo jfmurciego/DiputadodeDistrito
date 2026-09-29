@@ -159,6 +159,34 @@ def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
     }
 
 
+def _complete_artifact_inventory(data: dict, *, label: str) -> list[dict]:
+    artifacts = data.get("artifacts")
+    total_count = data.get("total_count")
+    if not isinstance(artifacts, list):
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE: {label} sin lista de artefactos"
+        )
+    if not isinstance(total_count, int) or isinstance(total_count, bool) or total_count < 0:
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE: {label} sin total_count acreditable"
+        )
+    if len(artifacts) != total_count:
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE: {label} recibió "
+            f"{len(artifacts)} de {total_count} artefactos"
+        )
+    ids = [row.get("id") for row in artifacts]
+    if any(not isinstance(value, int) or isinstance(value, bool) or value <= 0 for value in ids):
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE: {label} contiene ids inválidos"
+        )
+    if len(ids) != len(set(ids)):
+        raise RecoveryBlocked(
+            f"RECOVERY_ARTIFACT_INVENTORY_INCOMPLETE: {label} contiene ids duplicados"
+        )
+    return artifacts
+
+
 def _artifact_rows(data: dict, name: str) -> list[dict]:
     return [
         row
@@ -204,6 +232,8 @@ def validate_candidate(
 
     initial = _json(evidence / "artifacts.initial.json")
     confirmed = _json(evidence / "artifacts.confirm.json")
+    _complete_artifact_inventory(initial, label="lectura inicial")
+    _complete_artifact_inventory(confirmed, label="lectura de confirmación")
     m08_name = f"ddd-state-{run_id}-M08"
     audit_name = f"ddd-audit-electoral-{run_id}"
     report_name = f"ddd-electoral-application-report-{run_id}"
