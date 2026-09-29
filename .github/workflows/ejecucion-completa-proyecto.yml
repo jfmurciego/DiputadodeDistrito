@@ -400,10 +400,14 @@ jobs:
           report="ddd-electoral-application-report-$run_id"
 
           gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id" > .ddd-orphan-recovery/evidence/run.json
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" > .ddd-orphan-recovery/evidence/artifacts.initial.json
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
+            | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
+            > .ddd-orphan-recovery/evidence/artifacts.initial.json
           gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$audit" --dir .ddd-orphan-recovery/evidence/audit || true
           gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$report" --dir .ddd-orphan-recovery/evidence/report || true
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" > .ddd-orphan-recovery/evidence/artifacts.confirm.json
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100" \
+            | jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' \
+            > .ddd-orphan-recovery/evidence/artifacts.confirm.json
 
           python -m herramientas.detectar_producto_electoral_huerfano validate \
             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION" \
