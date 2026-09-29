@@ -1,7 +1,7 @@
 {
   "schema": "ddd-estado-operativo/2.1",
   "edition": "2025",
-  "generated_at": "2026-09-28T19:36:52.889291+00:00",
+  "generated_at": "2026-09-29T09:44:40.598014+00:00",
   "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -120,9 +120,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 36133180822,
-          "artifact_name": "ddd-source-package-canarias-2025-36133180822",
-          "artifact_sha256": "cdba947af821d40711887499ed56ca4519216d8c5fbf0d7369e5d294f918780e",
+          "run_id": 36529404391,
+          "artifact_name": "ddd-source-package-canarias-2025-36529404391",
+          "artifact_sha256": "82bb8090edaf6d326aa285018d4b3839ec5b925d7eda2e4f5d381fa2e333ebda",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -281,7 +281,7 @@
       "re": "yellow",
       "status": "Listo para incorporar resultados electorales",
       "certification": "PASS",
-      "run_id": 36349042030,
+      "run_id": 36482903970,
       "stage": "M06",
       "edition": "2025",
       "phase_evidence": {
@@ -299,10 +299,10 @@
           "territory_id": "ceuta",
           "territory_name": "Ceuta",
           "edition": "2025",
-          "run_id": 36349042030,
-          "artifact_name": "ddd-state-36349042030-M06",
-          "artifact_sha256": "6b4141bcdbdab39499dcb2abe97d1cb0348c1c37b9aae8ebc484982a8b98b990",
-          "source_commit": "7678375ed1a81ae8083711974c624767cc9b50e8",
+          "run_id": 36482903970,
+          "artifact_name": "ddd-state-36482903970-M06",
+          "artifact_sha256": "b4fb76e66c6267c157e07f3231adbfc96e39e437ca12ac4dcda1511f796a1c01",
+          "source_commit": "f07f5c8c7d5a9fcda98e625692c85e5122fc8a91",
           "decision": "PASS",
           "stage": "M06"
         },
@@ -517,9 +517,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 36456030229,
-          "artifact_name": "ddd-source-package-illes_balears-2025-36456030229",
-          "artifact_sha256": "86cd3a1463971c7f0b8288c1742a7627f8147af25d31f445d694ca83d5a5bf90",
+          "run_id": 36529385760,
+          "artifact_name": "ddd-source-package-illes_balears-2025-36529385760",
+          "artifact_sha256": "b6f0033b9b8447a18fe171aedcf9e0ac724c5804a9b190314b1f6c845f2d9c11",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
