@@ -608,8 +608,14 @@ jobs:
             jq -n --argjson run_id "$SOURCE_EVIDENCE_RUN_ID"               --arg artifact_name "$SOURCE_EVIDENCE_ARTIFACT_NAME"               --arg artifact_sha256 "${SOURCE_EVIDENCE_ARTIFACT_SHA256#sha256:}"               --arg package_sha256 "${SOURCE_EVIDENCE_PACKAGE_SHA256#sha256:}"               '{run_id:$run_id,artifact_name:$artifact_name,artifact_sha256:$artifact_sha256,package_sha256:$package_sha256}'               > .ddd-source-evidence.json
             source_args=(--preparation-evidence-json .ddd-source-evidence.json)
           fi
-          python -m herramientas.materializar_evidencia_pre_m04             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" "${source_args[@]}" --persist             > .ddd-pre-m04-evidence.json
+          evidence_path="territorios/$TERRITORY_ID/evidencia/catalogo/generation_preflight_$edition.json"
+          handoff="$RUNNER_TEMP/ddd-pre-m04-evidence-$GITHUB_RUN_ID.json"
+          handoff_meta="$RUNNER_TEMP/ddd-pre-m04-handoff-$GITHUB_RUN_ID.json"
+
+          python -m herramientas.materializar_evidencia_pre_m04             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" "${source_args[@]}" --persist
+          python -m herramientas.handoff_evidencia_pre_m04 stage             --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"             --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"             --source-commit "$SOURCE_REF"
           python herramientas/catalogo_preparacion.py --root-dir . validate
+
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/catalogo"
@@ -617,7 +623,10 @@ jobs:
           git commit -m "chore: registrar evidencia pre-M04 de $TERRITORY_ID"
           target_branch="$GITHUB_REF_NAME"
           for attempt in 1 2 3; do
-            git pull --rebase origin "$target_branch" && git push origin "HEAD:$target_branch" && exit 0
+            if git pull --rebase origin "$target_branch"; then
+              python -m herramientas.handoff_evidencia_pre_m04 verify                 --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"                 --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"                 --source-commit "$SOURCE_REF"                 || { echo "::error::El handoff pre-M04 no coincide con la evidencia persistida; no se publicará acreditación."; exit 57; }
+              git push origin "HEAD:$target_branch" && exit 0
+            fi
             git rebase --abort >/dev/null 2>&1 || true
             sleep $((attempt * 2))
           done
@@ -626,7 +635,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: ddd-generation-preflight-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
-          path: .ddd-pre-m04-evidence.json
+          path: ${{ runner.temp }}/ddd-pre-m04-evidence-${{ github.run_id }}.json
           if-no-files-found: error
           retention-days: 30
 

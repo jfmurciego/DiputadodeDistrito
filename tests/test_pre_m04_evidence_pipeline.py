@@ -10,6 +10,11 @@ from unittest.mock import patch
 
 import yaml
 
+from herramientas.handoff_evidencia_pre_m04 import (
+    PreM04HandoffError,
+    stage_handoff,
+    verify_handoff,
+)
 from herramientas.materializar_evidencia_pre_m04 import build_evidence
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 
@@ -329,6 +334,169 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
             self.assertIn("particionado", gate["reason"])
 
 
+class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
+    REAL_CASES = {
+        "illes_balears": {
+            "run_id": 36529385760,
+            "source_commit": "afe1ed53c6968e5abf7b8b2ca3726d3cc2cbca97",
+            "m03u_sha256": "4a13e0b169f02c1f323937bbc9fc9cbfe01ae9660cce668d26d37e8eef7abfc2",
+            "m03_sha256": "6e36edf7767522a5125e12a1b97f0da504f24866161649c708391ea4d73d0ee0",
+            "partition_sha256": "8344300cc7d7e2fc2d659f6a2cb20203ca7d5a6c53a5d95e6a2a3e347f9143ea",
+        },
+        "canarias": {
+            "run_id": 36529404391,
+            "source_commit": "afe1ed53c6968e5abf7b8b2ca3726d3cc2cbca97",
+            "m03u_sha256": "76b75f7bcb5016ce23e239f893240b4670a9254c67aa9111014fa8ebd40c2a31",
+            "m03_sha256": "f875c59f8e890ccdf60d2a7d2a1eb0a7bc1a6511d34e9d38f98bbec1dc419cf3",
+            "partition_sha256": "84e5134f8050ecbeb9b620bbb02900ebff05b3d41351ad0720cf2658e9866b94",
+        },
+    }
+
+    def _real_evidence(self, territory_id: str) -> Path:
+        return (
+            ROOT
+            / "territorios"
+            / territory_id
+            / "evidencia"
+            / "catalogo"
+            / "generation_preflight_2025.json"
+        )
+
+    def test_real_archipelago_handoff_survives_workspace_evidence_disappearance(self):
+        for territory_id, expected in self.REAL_CASES.items():
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+                temp = Path(td)
+                workspace = temp / "workspace"
+                persisted = (
+                    workspace
+                    / "territorios"
+                    / territory_id
+                    / "evidencia"
+                    / "catalogo"
+                    / "generation_preflight_2025.json"
+                )
+                persisted.parent.mkdir(parents=True, exist_ok=True)
+                original = self._real_evidence(territory_id).read_bytes()
+                persisted.write_bytes(original)
+
+                # Este era el handoff antiguo dentro del worktree: los runs reales
+                # 36529385760 y 36529404391 demostraron que desaparecía durante el rebase.
+                old_workspace_handoff = workspace / ".ddd-pre-m04-evidence.json"
+                old_workspace_handoff.write_bytes(original)
+
+                runner_temp = temp / "runner-temp"
+                handoff = runner_temp / f"ddd-pre-m04-evidence-{expected['run_id']}.json"
+                metadata = runner_temp / f"ddd-pre-m04-handoff-{expected['run_id']}.json"
+                meta = stage_handoff(
+                    persisted_evidence=persisted,
+                    handoff=handoff,
+                    metadata=metadata,
+                    territory_id=territory_id,
+                    edition="2025",
+                    run_id=expected["run_id"],
+                    source_commit=expected["source_commit"],
+                )
+
+                payload = json.loads(handoff.read_text(encoding="utf-8"))
+                self.assertEqual(payload["artifact_sha256"], expected["m03u_sha256"])
+                self.assertEqual(payload["graph"]["artifact_sha256"], expected["m03_sha256"])
+                self.assertEqual(
+                    payload["partitioning"]["job_artifact_sha256"],
+                    expected["partition_sha256"],
+                )
+                self.assertEqual(payload["source_commit"], expected["source_commit"])
+                self.assertEqual(payload["run_id"], expected["run_id"])
+
+                # Reproduce el límite destructivo observado: el temporal del workspace
+                # desaparece, pero RUNNER_TEMP está fuera del checkout mutable.
+                old_workspace_handoff.unlink()
+                self.assertFalse(old_workspace_handoff.exists())
+                self.assertTrue(handoff.is_file())
+
+                verified = verify_handoff(
+                    persisted_evidence=persisted,
+                    handoff=handoff,
+                    metadata=metadata,
+                    territory_id=territory_id,
+                    edition="2025",
+                    run_id=expected["run_id"],
+                    source_commit=expected["source_commit"],
+                )
+                self.assertEqual(verified["evidence_sha256"], meta["evidence_sha256"])
+                self.assertEqual(handoff.read_bytes(), persisted.read_bytes())
+
+    def test_handoff_blocks_if_preserved_bytes_do_not_match_persisted_evidence(self):
+        for territory_id, expected in self.REAL_CASES.items():
+            with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
+                temp = Path(td)
+                persisted = temp / "generation_preflight_2025.json"
+                persisted.write_bytes(self._real_evidence(territory_id).read_bytes())
+                handoff = temp / "runner-temp" / "evidence.json"
+                metadata = temp / "runner-temp" / "handoff.json"
+                stage_handoff(
+                    persisted_evidence=persisted,
+                    handoff=handoff,
+                    metadata=metadata,
+                    territory_id=territory_id,
+                    edition="2025",
+                    run_id=expected["run_id"],
+                    source_commit=expected["source_commit"],
+                )
+
+                payload = json.loads(persisted.read_text(encoding="utf-8"))
+                payload["artifact_sha256"] = "0" * 64
+                persisted.write_text(
+                    json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(
+                    PreM04HandoffError,
+                    "PRE_M04_HANDOFF_DIGEST_MISMATCH",
+                ):
+                    verify_handoff(
+                        persisted_evidence=persisted,
+                        handoff=handoff,
+                        metadata=metadata,
+                        territory_id=territory_id,
+                        edition="2025",
+                        run_id=expected["run_id"],
+                        source_commit=expected["source_commit"],
+                    )
+
+    def test_workflow_stages_before_rebase_verifies_before_push_and_uploads_runner_temp(self):
+        workflow_path = ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml"
+        workflow_text = workflow_path.read_text(encoding="utf-8")
+        workflow = yaml.safe_load(workflow_text)
+        job = workflow["jobs"]["pre_m04_evidence"]
+        bind = next(
+            step
+            for step in job["steps"]
+            if step.get("name") == "Vincular fuente, contrato, implementación, grafo y particionado"
+        )
+        body = bind["run"]
+        self.assertNotIn("> .ddd-pre-m04-evidence.json", body)
+        self.assertIn('handoff="$RUNNER_TEMP/ddd-pre-m04-evidence-$GITHUB_RUN_ID.json"', body)
+        self.assertIn("handoff_evidencia_pre_m04 stage", body)
+        self.assertIn("handoff_evidencia_pre_m04 verify", body)
+        self.assertLess(body.index("handoff_evidencia_pre_m04 stage"), body.index("git commit"))
+        self.assertLess(body.index("git pull --rebase"), body.index("handoff_evidencia_pre_m04 verify"))
+        self.assertLess(body.index("handoff_evidencia_pre_m04 verify"), body.index('git push origin "HEAD:$target_branch"'))
+        self.assertIn(
+            "no coincide con la evidencia persistida; no se publicará acreditación",
+            body,
+        )
+
+        upload = next(
+            step
+            for step in job["steps"]
+            if step.get("name") == "Publicar evidencia pre-M04 inmutable"
+        )
+        self.assertEqual(
+            upload["with"]["path"],
+            "${{ runner.temp }}/ddd-pre-m04-evidence-${{ github.run_id }}.json",
+        )
+
+
 class RealTerritoryPreM04ContractTests(unittest.TestCase):
     def _state_and_contract(self, territory_id: str):
         catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
@@ -571,10 +739,10 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertTrue(reuse["run_prepare_territorial"])
-        self.assertTrue(reuse["pre_m04_accreditation_planned"])
+        self.assertFalse(reuse["run_prepare_territorial"])
+        self.assertFalse(reuse["pre_m04_accreditation_planned"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             reuse["generation_gate"],
         )
 
