@@ -1,0 +1,60 @@
+{
+  "schema": "ddd.historical-territorial-accreditation/1.1",
+  "kind": "territorial_product",
+  "territory_id": "castilla_y_leon",
+  "edition": "2025",
+  "run_id": 35889595424,
+  "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+  "receipt_path": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json",
+  "original_artifact": {
+    "artifact_id": 10772774182,
+    "name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
+    "archive_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
+    "workflow_run_id": 35889595424,
+    "head_sha": "a041e5bd154c3bf2b01c0accf999771d17127644"
+  },
+  "sealed_evidence": {
+    "gate": {
+      "path": "territorios/castilla_y_leon/evidencia/acreditaciones_historicas/35889595424/originales/puerta.json",
+      "content_sha256": "f375aa583b98902ba68bf7c1bd45b8db8f1104af71962aad801872990f2e81b7",
+      "source": {
+        "workflow_run_id": 35889595424,
+        "artifact_id": 10773961795,
+        "name": "ddd-puerta-territorial_product-35889595424-campaign-35889595424-1--04--castilla_y_leon",
+        "head_sha": "a041e5bd154c3bf2b01c0accf999771d17127644",
+        "archive_sha256": "4d130b6a12494adf5fc5bca2a0bb46fdce2e253a561ebc831bfab4e650f60fca",
+        "member_name": "puerta.json",
+        "verified_at_materialization": true
+      }
+    },
+    "audit": {
+      "path": "territorios/castilla_y_leon/evidencia/acreditaciones_historicas/35889595424/originales/production_status.json",
+      "content_sha256": "74dfefb61c81e43515751718321515e2489222d5bb807ba2653159480ffe8b47",
+      "source": {
+        "workflow_run_id": 35889595424,
+        "artifact_id": 10772863961,
+        "name": "ddd-audit-35889595424-campaign-35889595424-1--04--castilla_y_leon",
+        "head_sha": "a041e5bd154c3bf2b01c0accf999771d17127644",
+        "archive_sha256": "1a155e24fafe6e948b36673cc68b99099f231297e94f1f36337cfd1614d7af2d",
+        "member_name": "production_status.json",
+        "verified_at_materialization": true
+      }
+    }
+  },
+  "historical_manifest": {
+    "mode": "legacy_campaign_namespace_false_rejection",
+    "path": "territorios/castilla_y_leon/evidencia/ejecuciones_completas/35889595424.json",
+    "artifact_namespace": "campaign-35889595424-1--04--castilla_y_leon",
+    "actions_artifact": {
+      "artifact_id": 10772924069,
+      "name": "ddd-full-run-manifest-35889595424-campaign-35889595424-1--04--castilla_y_leon",
+      "archive_sha256": "c765edf502f9904b05853e7f545e524e6a90e82b049d289bfa7c7696655ca656",
+      "workflow_run_id": 35889595424,
+      "head_sha": "a041e5bd154c3bf2b01c0accf999771d17127644"
+    }
+  },
+  "materialization": {
+    "schema": "ddd.historical-materialization-seal/1.0",
+    "seal_sha256": "66605f6c4583cf0b1b89d805e4acdce5a178b0be2d364f06325dcbb82a052553"
+  }
+}
