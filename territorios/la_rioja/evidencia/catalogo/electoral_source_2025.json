@@ -1,0 +1,15 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "la_rioja",
+  "territory_name": "La Rioja",
+  "edition": "2025",
+  "run_id": 36629352271,
+  "artifact_name": "ddd-electoral-package-la_rioja-2025-36629352271",
+  "artifact_sha256": "8ee7a245ea2ea601dcd6da7799bc2aa4b84e6c5324ebe169ded9db52cc08c2fc",
+  "source_commit": "ea782dc5833f6092a8532ef1f5bab213b38553d9",
+  "election_id": "la_rioja_parlamento_2023",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2023-05-28"
+}

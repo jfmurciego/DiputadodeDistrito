@@ -424,7 +424,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -436,6 +436,7 @@ territories:
         package_sha256: ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5
       evidence:
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
 - territory_id: ceuta
   name: Ceuta
   editions:
