@@ -234,21 +234,17 @@ def scan(*, root_dir: Path, territory_id: str, edition: str) -> dict:
             "candidates": [],
             **common,
         }
-    if len(rows) != 1:
-        raise RecoveryBlocked(
-            "RECOVERY_CANDIDATE_AMBIGUOUS: "
-            f"{territory_id}/{edition}: {len(rows)} manifiestos fallidos corresponden "
-            "al producto territorial vigente"
-        )
-    return {
+    payload = {
         "schema": "ddd.orphan-electoral-product-scan/1.0",
-        "status": "CANDIDATE",
-        "reason": None,
-        "candidate_count": 1,
-        "candidate": rows[0],
+        "status": "CANDIDATE" if len(rows) == 1 else "CANDIDATES",
+        "reason": None if len(rows) == 1 else "MULTIPLE_STRUCTURAL_CANDIDATES",
+        "candidate_count": len(rows),
         "candidates": rows,
         **common,
     }
+    if len(rows) == 1:
+        payload["candidate"] = rows[0]
+    return payload
 
 def _complete_artifact_inventory(data: dict, *, label: str) -> list[dict]:
     artifacts = data.get("artifacts")
@@ -483,6 +479,73 @@ def validate_candidate(
     }
 
 
+def resolve_candidates(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+    candidates: list[dict],
+    evidence_root: Path,
+) -> dict:
+    """Resolve structural candidates only after accrediting each artifact inventory."""
+    if not candidates:
+        return {
+            "schema": "ddd.orphan-electoral-product-candidate/1.0",
+            "status": "NO_RECOVERY",
+            "reason": "NO_PENDING_FAILED_INCORPORATION",
+            "territory_id": territory_id,
+            "edition": str(edition),
+            "assessed_run_ids": [],
+        }
+
+    results: list[dict] = []
+    for candidate in candidates:
+        run_id = candidate.get("run_id")
+        if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
+            raise RecoveryBlocked("RECOVERY_IDENTITY_CONTRADICTORY: run_id inválido")
+        result = validate_candidate(
+            root_dir=root_dir,
+            territory_id=territory_id,
+            edition=edition,
+            candidate=candidate,
+            evidence_root=evidence_root / str(run_id),
+        )
+        if result.get("status") not in {"VALID", "NO_RECOVERY"}:
+            raise RecoveryBlocked(
+                f"RECOVERY_STATUS_UNEXPECTED: run {run_id}: {result.get('status')}"
+            )
+        results.append(result)
+
+    valid = [row for row in results if row.get("status") == "VALID"]
+    if len(valid) > 1:
+        run_ids = sorted(int(row["source_run_id"]) for row in valid)
+        raise RecoveryBlocked(
+            "RECOVERY_CANDIDATE_AMBIGUOUS: "
+            f"{territory_id}/{edition}: productos M08 recuperables múltiples {run_ids}"
+        )
+    if len(valid) == 1:
+        resolved = dict(valid[0])
+        resolved["assessed_run_ids"] = sorted(
+            int(row["source_run_id"]) for row in results
+        )
+        resolved["absent_run_ids"] = sorted(
+            int(row["source_run_id"])
+            for row in results
+            if row.get("status") == "NO_RECOVERY"
+        )
+        return resolved
+
+    return {
+        "schema": "ddd.orphan-electoral-product-candidate/1.0",
+        "status": "NO_RECOVERY",
+        "reason": "M08_ABSENT",
+        "territory_id": territory_id,
+        "edition": str(edition),
+        "assessed_run_ids": sorted(int(row["source_run_id"]) for row in results),
+        "absent_run_ids": sorted(int(row["source_run_id"]) for row in results),
+    }
+
+
 def _write(path: Path | None, payload: dict) -> None:
     text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     if path is None:
@@ -511,6 +574,14 @@ def main() -> int:
     validate_p.add_argument("--evidence-root", type=Path, required=True)
     validate_p.add_argument("--output", type=Path)
 
+    resolve_p = sub.add_parser("resolve")
+    resolve_p.add_argument("--root-dir", type=Path, default=Path("."))
+    resolve_p.add_argument("--territory-id", required=True)
+    resolve_p.add_argument("--edition", required=True)
+    resolve_p.add_argument("--scan-json", type=Path, required=True)
+    resolve_p.add_argument("--evidence-root", type=Path, required=True)
+    resolve_p.add_argument("--output", type=Path)
+
     ns = ap.parse_args()
     try:
         if ns.command == "scan":
@@ -519,7 +590,7 @@ def main() -> int:
                 territory_id=ns.territory_id,
                 edition=ns.edition,
             )
-        else:
+        elif ns.command == "validate":
             candidate_payload = _json(ns.candidate_json)
             candidate = candidate_payload.get("candidate") or candidate_payload
             payload = validate_candidate(
@@ -527,6 +598,15 @@ def main() -> int:
                 territory_id=ns.territory_id,
                 edition=ns.edition,
                 candidate=candidate,
+                evidence_root=ns.evidence_root,
+            )
+        else:
+            scan_payload = _json(ns.scan_json)
+            payload = resolve_candidates(
+                root_dir=ns.root_dir,
+                territory_id=ns.territory_id,
+                edition=ns.edition,
+                candidates=scan_payload.get("candidates") or [],
                 evidence_root=ns.evidence_root,
             )
         _write(ns.output, payload)
