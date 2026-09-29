@@ -93,7 +93,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -105,6 +105,7 @@ territories:
         package_sha256: 2de18e550629cd906f34ef4e9184781c6cbcf1d64ba6576560e734448cc56b7e
       evidence:
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
 - territory_id: canarias
   name: Canarias
   editions:
