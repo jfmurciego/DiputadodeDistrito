@@ -326,7 +326,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -338,6 +338,7 @@ territories:
         package_sha256: b50817612f04c199d8c8748353dd71d9834b11e840cc29c1ffadd89df8582544
       evidence:
         generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/madrid/evidencia/catalogo/electoral_source_2025.json
 - territory_id: region_de_murcia
   name: Región de Murcia
   editions:
