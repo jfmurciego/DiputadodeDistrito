@@ -724,6 +724,42 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             persisted_false_runs=(36444657976, 36488755336),
         )
 
+    def test_baleares_36573474139_territorial_failure_never_becomes_m08_candidate(self):
+        manifest_path = (
+            ROOT
+            / "territorios"
+            / "illes_balears"
+            / "evidencia"
+            / "ejecuciones_completas"
+            / "36573474139.json"
+        )
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["status"], "FAILED")
+        self.assertEqual(manifest["publication_mode_effective"], "territorial_only")
+
+        phase02 = next(
+            row
+            for row in manifest["phases"]
+            if row["name"].startswith("02 ·")
+        )
+        phase04 = next(
+            row
+            for row in manifest["phases"]
+            if row["name"].startswith("04 ·")
+        )
+        self.assertTrue(phase02["executed"])
+        self.assertEqual(phase02["result"], "failure")
+        self.assertEqual(phase04["scope"], "OUT_OF_SCOPE")
+        self.assertFalse(phase04["executed"])
+        self.assertEqual(phase04["result"], "skipped")
+
+        candidates = structural_candidates(
+            root_dir=ROOT,
+            territory_id="illes_balears",
+            edition="2025",
+        )
+        self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
+
     def test_ceuta_36529371078_and_36529371312_reuse_01_03_and_reach_new_04(self):
         # 36529371078 abortó antes de persistir manifiesto; 36529371312 sí lo
         # persistió con 04 skipped. Ninguno debe convertirse en candidato.
