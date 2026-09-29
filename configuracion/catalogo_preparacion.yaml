@@ -103,6 +103,8 @@ territories:
         artifact_name: ddd-source-package-illes_balears-2025-36529385760
         artifact_sha256: b6f0033b9b8447a18fe171aedcf9e0ac724c5804a9b190314b1f6c845f2d9c11
         package_sha256: 2de18e550629cd906f34ef4e9184781c6cbcf1d64ba6576560e734448cc56b7e
+      evidence:
+        generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
 - territory_id: canarias
   name: Canarias
   editions:
