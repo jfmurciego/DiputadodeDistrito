@@ -486,7 +486,10 @@ jobs:
   puerta_01:
     name: Puerta de validación · 01 → 02
     needs: [planificar, preparar_territorial]
-    if: ${{ always() && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') }}
+    # En PR no se valida contra un paquete histórico de producción: desde este
+    # contrato los paquetes legacy sin informe población↔seccionado deben bloquear.
+    # El CI de plataforma cubre esa puerta sintéticamente; producción conserva la puerta.
+    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
