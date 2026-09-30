@@ -240,6 +240,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_current_legislature_workflow_uses_codauto_labels_and_resolves_them(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        self.assertEqual(workflow["name"], "- Activación de Legislatura Vigente")
         triggers = workflow.get("on") or workflow.get(True)
         options = triggers["workflow_dispatch"]["inputs"]["territory"]["options"]
         self.assertEqual(options[0], "Todos")
