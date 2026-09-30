@@ -136,7 +136,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             list(jobs),
             [
                 "planificar",
-                "verificar_par_preparado",
+                "verificar_fuentes_preparadas",
                 "detectar_recuperacion_electoral",
                 "preparar_territorial",
                 "puerta_01",
