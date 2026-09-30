@@ -130,6 +130,26 @@ def derive_declared_missing_districts(section_gdf, reconciliation_report, *, sec
     return sorted(allowed)
 
 
+def derive_source_missing_districts(section_gdf, reconciliation_report, *, section_field, district_field):
+    """Permite un distrito sin votos sólo si todas sus secciones carecen de resultado en la fuente aceptada."""
+    required={section_field,district_field}
+    missing_fields=sorted(required-set(section_gdf.columns))
+    if missing_fields:
+        raise ValueError(f"No se puede auditar cobertura distrital: faltan campos {missing_fields}")
+    map_only={str(item.get("section_id")) for item in (reconciliation_report.get("map_only_sections") or [])}
+    if not map_only:
+        return []
+    work=section_gdf[[section_field,district_field]].copy()
+    work[section_field]=work[section_field].astype(str)
+    work[district_field]=work[district_field].map(canonical_district_id)
+    allowed=[]
+    for district_id,group in work.groupby(district_field):
+        sections=set(group[section_field])
+        if sections and sections.issubset(map_only):
+            allowed.append(district_id)
+    return sorted(allowed)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--params", required=True)
@@ -148,24 +168,18 @@ def main():
     )
     out_geo = require(m08.get("out_districts_with_results_geojson"), "Falta M08 salida")
     allowed_missing=[]
-    if bool(m08.get("allow_declared_map_only_districts", False)):
-        section_geo=require(m06.get("out_geojson"), "Falta M06 secciones para auditar excepciones M08")
-        reconciliation_path=require(m07.get("out_reconciliation_report"), "Falta informe de reconciliación M07")
-        import json
-        reconciliation=json.loads(Path(reconciliation_path).read_text(encoding="utf-8"))
-        if reconciliation.get("status") not in {"PASS","PASS_WITH_DECLARED_EXCEPTIONS"}:
-            raise ValueError("M08 no puede usar excepciones de una reconciliación M07 no aprobada")
-        allowed_missing=derive_declared_missing_districts(
-            load_geojson_zip(section_geo),
-            reconciliation,
-            section_field=require(m07.get("section_id_field"), "Falta M07 section_id"),
-            district_field=require(m07.get("district_field"), "Falta M07 district_id"),
-            population_field=require(
-                m08.get("population_field") or m06.get("pop_field"),
-                "Falta campo de población para auditar map_only",
-            ),
-            max_map_only_population=m08.get("max_map_only_population"),
-        )
+    reconciliation_path=require(m07.get("out_reconciliation_report"), "Falta informe de reconciliación M07")
+    import json
+    reconciliation=json.loads(Path(reconciliation_path).read_text(encoding="utf-8"))
+    if reconciliation.get("status") not in {"PASS","PASS_WITH_DECLARED_EXCEPTIONS"}:
+        raise ValueError("M08 no puede consumir una reconciliación M07 no aprobada")
+    section_geo=require(m06.get("out_geojson"), "Falta M06 secciones para auditar cobertura M08")
+    allowed_missing=derive_source_missing_districts(
+        load_geojson_zip(section_geo),
+        reconciliation,
+        section_field=require(m07.get("section_id_field"), "Falta M07 section_id"),
+        district_field=require(m07.get("district_field"), "Falta M07 district_id"),
+    )
     output = integrate_results(
         load_geojson_zip(districts_geo),
         pd.read_csv(Path(results_csv)),
