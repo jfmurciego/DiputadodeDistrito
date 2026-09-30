@@ -143,7 +143,7 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: '2025'
       source_year: ${{ needs.planificar.outputs.source_year }}
-      reutilizar_si_ya_preparada: true
+      reutilizar_si_ya_preparada: false
       source_ref: ${{ github.sha }}
       persist_state: true
     secrets: inherit
@@ -156,7 +156,7 @@ jobs:
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: '2025'
-      reutilizar_si_ya_preparada: true
+      reutilizar_si_ya_preparada: false
       source_ref: ${{ github.sha }}
       persist_state: true
     secrets: inherit
