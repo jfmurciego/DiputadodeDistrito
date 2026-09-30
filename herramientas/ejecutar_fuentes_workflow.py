@@ -19,6 +19,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
+from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
 
 BUNDLE_NAME = "prepared_sources.zip"
@@ -183,7 +184,7 @@ def main() -> int:
         args.acquisition_evidence.mkdir(parents=True, exist_ok=True)
         catalog = load_yaml(args.root_dir / "fuentes/catalogo_oficial.yaml")
         declaration = load_yaml(args.declaration)
-        _, _, _, acquisition = acquire(
+        _, inventory, _, acquisition = acquire(
             catalog=catalog,
             declaration=declaration,
             evidence_dir=args.acquisition_evidence,
@@ -191,12 +192,26 @@ def main() -> int:
             acquisition_mode=args.acquisition_mode,
             root_dir=args.root_dir,
         )
-        if acquisition.get("decision") != "READY":
-            raise RuntimeError(
-                "Adquisición oficial bloqueada: "
-                + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
+        if acquisition.get("decision") == "READY":
+            compatibility = build_materialized_report(
+                evidence_dir=args.acquisition_evidence,
+                territory_id=territory_id,
+                edition=str(edition),
+                population_year=population_year,
+                section_year=section_year,
+                inventory=inventory,
             )
-        return _manifest_from_acquisition(
+            if compatibility.get("decision") != "READY":
+                acquisition["decision"] = "BLOCKED"
+                acquisition.setdefault("reasons", []).append({
+                    "source_id": "population_sectioning_compatibility",
+                    "reason": "; ".join(compatibility.get("causes") or ["COMPATIBILITY_BLOCKED"]),
+                })
+                (args.acquisition_evidence / "decision_adquisicion.json").write_text(
+                    json.dumps(acquisition, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+        manifest = _manifest_from_acquisition(
             args.acquisition_evidence,
             working,
             territory_id,
@@ -205,6 +220,12 @@ def main() -> int:
             section_year,
             expected_records,
         )
+        if acquisition.get("decision") != "READY":
+            raise RuntimeError(
+                "Adquisición oficial bloqueada: "
+                + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
+            )
+        return manifest
 
     evidence = execute_source_policy(
         requested_edition=edition,
