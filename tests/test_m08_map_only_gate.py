@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 import geopandas as gpd
+import pandas as pd
 from shapely.geometry import Point
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -54,6 +55,30 @@ class MapOnlyPopulationGateTests(unittest.TestCase):
             population_field="POP_2025",max_map_only_population=2200,
         )
         self.assertEqual(allowed,["39"])
+
+    def test_source_missing_district_is_allowed_without_population_threshold(self):
+        report={"map_only_sections":[{"section_id":"A","population":1200},{"section_id":"B","population":900}]}
+        allowed=m08.derive_source_missing_districts(
+            _sections(),report,
+            section_field="CUSEC_KEY",district_field="district_id",
+        )
+        self.assertEqual(allowed,["39"])
+
+    def test_source_missing_district_stays_on_map_without_fabricated_votes(self):
+        districts=gpd.GeoDataFrame(
+            {"district_id":[39,1],"population":[2100,1500]},
+            geometry=[Point(0,0),Point(2,0)],crs="EPSG:25830",
+        )
+        results=pd.DataFrame({"district_id":[1],"total_votes":[700]})
+        integrated=m08.integrate_results(
+            districts,results,allowed_missing_districts=["39"]
+        )
+        missing=integrated.loc[integrated["district_id"]=="39"].iloc[0]
+        self.assertEqual(missing["population"],2100)
+        self.assertTrue(pd.isna(missing["total_votes"]))
+        self.assertEqual(
+            missing["electoral_data_status"],"NO_MATCHING_ELECTION_SECTIONS"
+        )
 
     def test_runtime_materializer_does_not_enable_map_only_by_default(self):
         text=(ROOT/"herramientas/materializar_contrato_electoral_runtime.py").read_text(encoding="utf-8")
