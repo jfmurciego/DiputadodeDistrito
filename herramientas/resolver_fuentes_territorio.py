@@ -41,11 +41,20 @@ def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dic
     raise KeyError(f"Territorio no registrado: {value}")
 
 
-def build_declaration(territory: str, edition: int, *, source_year: int | None = None,
-                      registry_path: Path = DEFAULT_REGISTRY,
-                      catalog_path: Path = DEFAULT_CATALOG) -> dict:
+def build_declaration(
+    territory: str,
+    edition: int,
+    *,
+    source_year: int | None = None,
+    population_year: int | None = None,
+    section_year: int | None = None,
+    registry_path: Path = DEFAULT_REGISTRY,
+    catalog_path: Path = DEFAULT_CATALOG,
+) -> dict:
     row = resolve_territory(territory, registry_path)
-    source_year = int(source_year if source_year is not None else edition)
+    legacy_year = int(source_year) if source_year is not None else None
+    population_year = int(population_year if population_year is not None else (legacy_year or edition))
+    section_year = int(section_year if section_year is not None else (legacy_year or edition))
     catalog = load_yaml(catalog_path)
     sources = catalog.get("sources") or {}
     required = list(sources)
@@ -64,19 +73,23 @@ def build_declaration(territory: str, edition: int, *, source_year: int | None =
             }
         elif source.get("kind") == "ogc_features":
             bindings[source_id] = {
-                "materialized_path": f"inputs/seccionado_{source_year}.zip",
+                "materialized_path": f"inputs/seccionado_{section_year}.zip",
             }
         else:
             raise ValueError(f"Tipo de fuente no soportado por el test: {source.get('kind')}")
+    territory_block = {
+        "id": row["id"],
+        "business_name": row["name"],
+        "edition": int(edition),
+        "population_year": population_year,
+        "section_year": section_year,
+        "territorial_codes": [{"code": c, "business_name": c} for c in codes],
+    }
+    if population_year == section_year:
+        territory_block["source_year"] = population_year
     return {
-        "schema": "ddd-territory-sources/1.1",
-        "territory": {
-            "id": row["id"],
-            "business_name": row["name"],
-            "edition": int(edition),
-            "source_year": source_year,
-            "territorial_codes": [{"code": c, "business_name": c} for c in codes],
-        },
+        "schema": "ddd-territory-sources/1.2",
+        "territory": territory_block,
         "required_sources": required,
         "source_bindings": bindings,
         "population_validation": {
@@ -111,6 +124,8 @@ def main() -> int:
     ap.add_argument("--territory", default="Todos")
     ap.add_argument("--edition", default="2025")
     ap.add_argument("--source-year", type=int)
+    ap.add_argument("--population-year", type=int)
+    ap.add_argument("--section-year", type=int)
     ap.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     ap.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     ap.add_argument("--output", type=Path)
@@ -124,8 +139,13 @@ def main() -> int:
         return 0
 
     declaration = build_declaration(
-        args.territory, int(args.edition), source_year=args.source_year,
-        registry_path=args.registry, catalog_path=args.catalog
+        args.territory,
+        int(args.edition),
+        source_year=args.source_year,
+        population_year=args.population_year,
+        section_year=args.section_year,
+        registry_path=args.registry,
+        catalog_path=args.catalog,
     )
     rendered = yaml.safe_dump(declaration, allow_unicode=True, sort_keys=False)
     if args.output:
