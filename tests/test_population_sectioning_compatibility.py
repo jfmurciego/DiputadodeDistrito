@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 import unittest
 
 from shapely.geometry import box
 
+from herramientas.adquirir_fuentes_oficiales import _collect_live_sections
 from herramientas.compatibilidad_poblacion_seccionado import reconcile_population_sectioning
 
 
@@ -92,6 +94,27 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
         )
         self.assertIn("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE", report["causes"])
         self.assertTrue(any(x["kind"] == "FUSION" for x in report["correspondences"]))
+
+    def test_live_geometric_duplicate_is_rejected_before_deduplication(self):
+        source = {
+            "kind": "ogc_features",
+            "endpoint_template": "https://example.invalid/{edition}",
+            "territorial_filter_field": "CPRO",
+            "section_id_field": "CUSEC",
+        }
+        payload = json.dumps({
+            "features": [
+                {"properties": {"CPRO": "01", "CUSEC": "0100101001", "TIPO": "SECCION", "CSEC": "001"}},
+                {"properties": {"CPRO": "01", "CUSEC": "01 001 01 001", "TIPO": "SECCION", "CSEC": "001"}},
+            ]
+        }).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "Clave geométrica duplicada antes de materializar"):
+            _collect_live_sections(
+                source,
+                2025,
+                [{"code": "01", "business_name": "Demo"}],
+                lambda _url: payload,
+            )
 
     def test_duplicate_population_key_blocks_before_any_overwrite(self):
         geom = box(0, 0, 1, 1)
