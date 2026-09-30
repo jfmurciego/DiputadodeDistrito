@@ -155,7 +155,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             candidate["artifact_sha256"],
             "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
         )
-        self.assertEqual(candidate["reason"], "TERRITORIAL_SECTION_YEAR_MISMATCH")
+        self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "REUSE")
         state = next(
@@ -174,7 +174,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             candidate["artifact_name"],
             "ddd-source-package-castilla_y_leon-2025-35610439734",
         )
-        self.assertEqual(candidate["reason"], "TERRITORIAL_SECTION_YEAR_MISMATCH")
+        self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(
@@ -400,12 +400,14 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 }),
                 encoding="utf-8",
             )
+            compatibility_identity = "f" * 64
             territorial = territorial_identity(
                 territory_id="demo",
                 edition="2025",
                 population_year=2025,
                 section_year=2026,
                 package_sha256="a" * 64,
+                compatibility_identity_sha256=compatibility_identity,
             )
             synthetic_plan = {
                 "plans": [{
@@ -437,6 +439,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                         "declaration": "territorios/demo/config/fuentes.yaml",
                         "receipt_path": "territorios/demo/evidencia/fuentes/receipt.json",
                         "territorial_identity_sha256": territorial["territorial_identity_sha256"],
+                        "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+                        "compatibility_report_sha256": "e" * 64,
+                        "compatibility_identity_sha256": compatibility_identity,
                     },
                     "electoral_candidate": {
                         "run_id": 20,
