@@ -3,10 +3,14 @@ from __future__ import annotations
 import json
 import unittest
 
+import geopandas as gpd
 from shapely.geometry import box
 
 from herramientas.adquirir_fuentes_oficiales import _collect_live_sections
-from herramientas.compatibilidad_poblacion_seccionado import reconcile_population_sectioning
+from herramientas.compatibilidad_poblacion_seccionado import (
+    normalize_geometry_frames,
+    reconcile_population_sectioning,
+)
 
 
 def reconcile(population_rows, target_rows, origin_rows=None, *, population_year=2025, section_year=2025):
@@ -19,11 +23,50 @@ def reconcile(population_rows, target_rows, origin_rows=None, *, population_year
         target_geometry_rows=target_rows,
         origin_geometry_rows=origin_rows,
         input_identities={
-            "population": {"path": "population.zip", "sha256": "a" * 64},
-            "target_sectioning": {"path": "target.zip", "sha256": "b" * 64},
-            "origin_sectioning": (
-                {"path": "origin.zip", "sha256": "c" * 64} if origin_rows is not None else None
+            "population": {
+                "role": "population",
+                "source_id": "population",
+                "path": "population.zip",
+                "member": "materialized/population.zip",
+                "bytes": 1,
+                "sha256": "a" * 64,
+            },
+            "target_sectioning": {
+                "role": "target_sectioning",
+                "source_id": "sections",
+                "path": "target.zip",
+                "member": "materialized/target.zip",
+                "bytes": 1,
+                "sha256": "b" * 64,
+            },
+            **(
+                {
+                    "population_sectioning_origin": {
+                        "role": "population_sectioning_origin",
+                        "source_id": "sections_origin",
+                        "path": "origin.zip",
+                        "member": "materialized/origin.zip",
+                        "bytes": 1,
+                        "sha256": "c" * 64,
+                    }
+                }
+                if origin_rows is not None
+                else {}
             ),
+        },
+        crs_audit={
+            "target": {"original": "EPSG:4326", "original_wkt": "fixture"},
+            "origin": (
+                {"original": "EPSG:4326", "original_wkt": "fixture"}
+                if origin_rows is not None
+                else None
+            ),
+            "effective": {
+                "crs": "EPSG:4326",
+                "wkt": "fixture",
+                "policy": "target_sectioning_crs",
+                "origin_reprojected": False,
+            },
         },
     )
 
@@ -43,6 +86,95 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
         self.assertEqual(report["population"]["assigned_total"], 100)
         self.assertTrue(report["population"]["exact_conservation"])
         self.assertEqual(report["correspondences"][0]["kind"], "ONE_TO_ONE_CODE_CHANGE")
+
+    def test_equivalent_geometries_in_different_crs_are_compared_in_explicit_common_crs(self):
+        origin = gpd.GeoDataFrame(
+            {"CUSEC": ["0100101001"]},
+            geometry=[box(-3.8, 40.3, -3.7, 40.4)],
+            crs="EPSG:4326",
+        )
+        target = origin.to_crs("EPSG:3857")
+        target_rows, origin_rows, crs = normalize_geometry_frames(
+            target_gdf=target,
+            target_id_field="CUSEC",
+            origin_gdf=origin,
+            origin_id_field="CUSEC",
+            cross_year=True,
+        )
+        report = reconcile_population_sectioning(
+            territory_id="demo",
+            edition="2025",
+            population_year=2024,
+            section_year=2025,
+            population_rows=[("0100101001", 100)],
+            target_geometry_rows=target_rows,
+            origin_geometry_rows=origin_rows,
+            input_identities={},
+            crs_audit=crs,
+        )
+        self.assertEqual(report["decision"], "READY")
+        self.assertEqual(report["crs"]["target"]["original"], "EPSG:3857")
+        self.assertEqual(report["crs"]["origin"]["original"], "EPSG:4326")
+        self.assertEqual(report["crs"]["effective"]["crs"], "EPSG:3857")
+        self.assertTrue(report["crs"]["effective"]["origin_reprojected"])
+
+    def test_same_coordinates_with_different_crs_are_not_treated_as_same_place(self):
+        origin = gpd.GeoDataFrame(
+            {"CUSEC": ["0100101001"]},
+            geometry=[box(0, 0, 1, 1)],
+            crs="EPSG:4326",
+        )
+        target = gpd.GeoDataFrame(
+            {"CUSEC": ["0100101001"]},
+            geometry=[box(0, 0, 1, 1)],
+            crs="EPSG:3857",
+        )
+        target_rows, origin_rows, crs = normalize_geometry_frames(
+            target_gdf=target,
+            target_id_field="CUSEC",
+            origin_gdf=origin,
+            origin_id_field="CUSEC",
+            cross_year=True,
+        )
+        report = reconcile_population_sectioning(
+            territory_id="demo",
+            edition="2025",
+            population_year=2024,
+            section_year=2025,
+            population_rows=[("0100101001", 100)],
+            target_geometry_rows=target_rows,
+            origin_geometry_rows=origin_rows,
+            input_identities={},
+            crs_audit=crs,
+        )
+        self.assertEqual(report["decision"], "BLOCKED")
+        self.assertIn("SAME_CODE_BOUNDARY_CHANGED", report["causes"])
+
+    def test_missing_or_uninterpretable_crs_blocks_before_comparison(self):
+        no_crs = gpd.GeoDataFrame(
+            {"CUSEC": ["0100101001"]},
+            geometry=[box(0, 0, 1, 1)],
+        )
+        with self.assertRaisesRegex(ValueError, "CRS_MISSING"):
+            normalize_geometry_frames(
+                target_gdf=no_crs,
+                target_id_field="CUSEC",
+                origin_gdf=None,
+                origin_id_field=None,
+                cross_year=False,
+            )
+
+        class InvalidCRSFrame:
+            crs = "NOT_A_REAL_CRS"
+
+        with self.assertRaisesRegex(ValueError, "CRS_INVALID"):
+            normalize_geometry_frames(
+                target_gdf=InvalidCRSFrame(),
+                target_id_field="CUSEC",
+                origin_gdf=None,
+                origin_id_field=None,
+                cross_year=False,
+            )
 
     def test_same_code_with_changed_boundaries_is_blocked(self):
         report = reconcile(
