@@ -9,7 +9,10 @@ import shutil
 import tempfile
 import zipfile
 from pathlib import Path
-from herramientas.catalogo_territorios import format_country_label, format_territory_label, resolve_master
+try:
+    from herramientas.catalogo_territorios import format_country_label, format_territory_label, resolve_master
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_country_label, format_territory_label, resolve_master
 from typing import Any
 
 import yaml
