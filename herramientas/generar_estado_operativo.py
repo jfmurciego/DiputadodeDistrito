@@ -238,7 +238,7 @@ def render_readme_block(state: dict) -> str:
     rows = [
         START, "# Estado operativo del proyecto", "",
         "**Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**", "",
-        f"Actualizado: {state['generated_at']} · País: **{state['country']['display_name']}** · Edición: **{state['edition']}**", "",
+        f"Actualizado: {state['generated_at']} · País: **{(state.get('country') or country_identity())['display_name']}** · Edición: **{state['edition']}**", "",
         "## Resumen", "", "| Indicador | Estado | Territorios |", "|---|---:|---|",
         f"| **Cadena completa validada** | 🟢 **{k['complete']}** | {' · '.join(k['complete_names']) or '—'} |",
         f"| **Generación territorial validada** | 🟢 **{k['territorial_validated']}** | {' · '.join(k['territorial_validated_names']) or '—'} |",
