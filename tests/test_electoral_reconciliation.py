@@ -84,6 +84,50 @@ class ElectoralReconciliation(unittest.TestCase):
             [{"section_id": "3900201001", "population": 800}],
         )
 
+    def test_exactly_1_5_percent_is_accepted(self):
+        results = pd.DataFrame(
+            {
+                "section": ["3900101001", "3900101002", "3999901001"],
+                "party": ["P", "P", "P"],
+                "votes": [600, 385, 15],
+            }
+        )
+        _, report = reconcile_sections(
+            self.mapping(),
+            results,
+            section_field="section",
+            district_field="district",
+            population_field="population",
+            policy={},
+        )
+        self.assertEqual(report["source_votes"], 1000)
+        self.assertEqual(report["ddd_unassigned_votes"], 15)
+        self.assertEqual(report["status"], "PASS_WITH_DECLARED_EXCEPTIONS")
+        self.assertEqual(report["ddd_loss_ratio"], 0.015)
+
+    def test_one_vote_above_1_5_percent_is_rejected(self):
+        results = pd.DataFrame(
+            {
+                "section": ["3900101001", "3900101002", "3999901001"],
+                "party": ["P", "P", "P"],
+                "votes": [600, 384, 16],
+            }
+        )
+        _, report = reconcile_sections(
+            self.mapping(),
+            results,
+            section_field="section",
+            district_field="district",
+            population_field="population",
+            policy={},
+        )
+        self.assertEqual(report["source_votes"], 1000)
+        self.assertEqual(report["ddd_unassigned_votes"], 16)
+        self.assertEqual(report["status"], "FAIL")
+        self.assertTrue(
+            any("por encima del margen" in error for error in report["errors"])
+        )
+
     def test_ddd_loss_above_1_5_percent_blocks(self):
         results = pd.DataFrame(
             {
