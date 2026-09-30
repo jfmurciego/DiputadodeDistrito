@@ -67,8 +67,8 @@ jobs:
             echo "::error::prepare_one exige un territorio concreto; Todos es sólo lectura/planificación."
             exit 40
           fi
-          python herramientas/resolver_preparacion_legislatura.py             --root-dir . --territory "$TERRITORY"             --output .ddd-current-legislature-plan.json
-          jq -e '.ok == true and (.plans|length) >= 1' .ddd-current-legislature-plan.json >/dev/null
+          python herramientas/resolver_preparacion_legislatura.py             --root-dir . --territory "$TERRITORY"             --output ddd-current-legislature-plan.json
+          jq -e '.ok == true and (.plans|length) >= 1' ddd-current-legislature-plan.json >/dev/null
 
       - name: Acreditar paquete remoto antes de reutilizar
         if: ${{ inputs.operation == 'prepare_one' }}
@@ -79,17 +79,17 @@ jobs:
           verify_kind() {
             local kind="$1"
             local action candidate run_id artifact expected arts merged matches live digest count
-            action="$(jq -r ".plans[0].${kind}_action" .ddd-current-legislature-plan.json)"
+            action="$(jq -r ".plans[0].${kind}_action" ddd-current-legislature-plan.json)"
             case "$action" in
               REUSE|REUSE_TEMPORAL_SUBSTITUTION) ;;
               *) return 0 ;;
             esac
-            candidate="$(jq -c ".plans[0].${kind}_candidate" .ddd-current-legislature-plan.json)"
+            candidate="$(jq -c ".plans[0].${kind}_candidate" ddd-current-legislature-plan.json)"
             run_id="$(jq -r '.run_id // empty' <<<"$candidate")"
             artifact="$(jq -r '.artifact_name // empty' <<<"$candidate")"
             expected="$(jq -r '.artifact_sha256 // empty' <<<"$candidate" | sed 's/^sha256://')"
             [[ "$run_id" =~ ^[1-9][0-9]*$ && -n "$artifact" && "$expected" =~ ^[0-9a-f]{64}$ ]] || {
-              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_IDENTITY"; .plans[0][($k+"_remote_reason")]="run/artifact/digest incompletos"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_IDENTITY"; .plans[0][($k+"_remote_reason")]="run/artifact/digest incompletos"'                 ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             }
             arts="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
@@ -99,30 +99,30 @@ jobs:
             if [[ "$total" != "$received" ]]; then
               jq --arg k "$kind" \
                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_INVENTORY"; .plans[0][($k+"_remote_reason")]="inventario remoto de artefactos incompleto"' \
-                .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+                ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             fi
             matches="$(jq -c --arg n "$artifact" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
             count="$(jq 'length' <<<"$matches")"
             if [[ "$count" == 0 ]]; then
-              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete registrado no disponible; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete registrado no disponible; adquirir de nuevo"'                 ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             fi
             [[ "$count" == 1 ]] || {
-              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_AMBIGUITY"; .plans[0][($k+"_remote_reason")]="múltiples artefactos con la misma identidad"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_AMBIGUITY"; .plans[0][($k+"_remote_reason")]="múltiples artefactos con la misma identidad"'                 ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             }
             live="$(jq -c '.[0]' <<<"$matches")"
             if [[ "$(jq -r '.expired|tostring' <<<"$live")" == true ]]; then
-              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete expirado; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete expirado; adquirir de nuevo"'                 ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             fi
             digest="$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')"
             [[ "$digest" == "$expected" ]] || {
-              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_DIGEST"; .plans[0][($k+"_remote_reason")]="digest remoto contradice el registro durable"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_DIGEST"; .plans[0][($k+"_remote_reason")]="digest remoto contradice el registro durable"'                 ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
               return 0
             }
-            jq --arg k "$kind"               '.plans[0][($k+"_remote_verified")]=true'               .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+            jq --arg k "$kind"               '.plans[0][($k+"_remote_verified")]=true'               ddd-current-legislature-plan.json > .tmp && mv .tmp ddd-current-legislature-plan.json
           }
           verify_kind territorial
           verify_kind electoral
@@ -131,16 +131,16 @@ jobs:
         name: Exponer acciones de un territorio
         if: ${{ inputs.territory != 'Todos' }}
         run: |
-          echo "territory_name=$(jq -r '.plans[0].name' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
-          echo "population_year=$(jq -r '.plans[0].population_year_selected' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
-          echo "section_year=$(jq -r '.plans[0].section_year_selected' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
-          echo "territorial_action=$(jq -r '.plans[0].territorial_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
-          echo "electoral_action=$(jq -r '.plans[0].electoral_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "territory_name=$(jq -r '.plans[0].name' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "population_year=$(jq -r '.plans[0].population_year_selected' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "section_year=$(jq -r '.plans[0].section_year_selected' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "territorial_action=$(jq -r '.plans[0].territorial_action' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "electoral_action=$(jq -r '.plans[0].electoral_action' ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
         with:
           name: ddd-current-legislature-plan-${{ github.run_id }}
-          path: .ddd-current-legislature-plan.json
+          path: ddd-current-legislature-plan.json
           if-no-files-found: error
           retention-days: 90
 
