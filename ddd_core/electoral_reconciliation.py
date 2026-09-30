@@ -11,11 +11,12 @@ no se imputa a DDD y la pérdida adicional de transformación queda limitada al 
 """
 from __future__ import annotations
 
+from fractions import Fraction
 from typing import Any, Mapping
 
 import pandas as pd
 
-MAX_PROVISIONAL_DDD_LOSS_RATIO = 0.015
+MAX_PROVISIONAL_DDD_LOSS_RATIO = Fraction(3, 200)
 
 
 def _declared(items: Any) -> dict[str, Mapping[str, Any]]:
@@ -26,16 +27,16 @@ def _declared(items: Any) -> dict[str, Mapping[str, Any]]:
     return declared
 
 
-def _loss_limit(policy: Mapping[str, Any]) -> float:
+def _loss_limit(policy: Mapping[str, Any]) -> Fraction:
     raw = policy.get("max_ddd_loss_ratio", MAX_PROVISIONAL_DDD_LOSS_RATIO)
     try:
-        value = float(raw)
-    except (TypeError, ValueError) as exc:
+        value = raw if isinstance(raw, Fraction) else Fraction(str(raw))
+    except (TypeError, ValueError, ZeroDivisionError) as exc:
         raise ValueError("margen de pérdida DDD no medible") from exc
     if value < 0 or value > MAX_PROVISIONAL_DDD_LOSS_RATIO:
         raise ValueError(
             "margen de pérdida DDD fuera del máximo provisional: "
-            f"{value:.6f} > {MAX_PROVISIONAL_DDD_LOSS_RATIO:.6f}"
+            f"{float(value):.6f} > {float(MAX_PROVISIONAL_DDD_LOSS_RATIO):.6f}"
         )
     return value
 
@@ -180,10 +181,11 @@ def reconcile_sections(
     if sum(item["votes"] for item in unassigned_sections) != ddd_unassigned_votes:
         errors.append("desglose territorial de votos no asignados no reconcilia con el total")
     try:
-        max_loss_ratio = _loss_limit(policy)
+        max_loss_fraction = _loss_limit(policy)
     except ValueError as exc:
-        max_loss_ratio = MAX_PROVISIONAL_DDD_LOSS_RATIO
+        max_loss_fraction = MAX_PROVISIONAL_DDD_LOSS_RATIO
         errors.append(str(exc))
+    max_loss_ratio = float(max_loss_fraction)
 
     ddd_loss_ratio: float | None = None
     if source_votes <= 0:
@@ -195,11 +197,13 @@ def reconcile_sections(
             "la incorporación produjo más votos que la fuente electoral aceptada"
         )
     else:
-        ddd_loss_ratio = ddd_unassigned_votes / source_votes
-        if ddd_loss_ratio > max_loss_ratio + 1e-12:
+        loss_fraction = Fraction(ddd_unassigned_votes, source_votes)
+        ddd_loss_ratio = float(loss_fraction)
+        if loss_fraction > max_loss_fraction:
             errors.append(
                 "pérdida adicional atribuible a DDD por encima del margen: "
-                f"{ddd_unassigned_votes}/{source_votes}={ddd_loss_ratio:.6%} > {max_loss_ratio:.6%}"
+                f"{ddd_unassigned_votes}/{source_votes}={float(loss_fraction):.6%} > "
+                f"{float(max_loss_fraction):.6%}"
             )
 
     source_gap_votes: int | None = None
