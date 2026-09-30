@@ -147,7 +147,7 @@ def promote(
         receipt_payload["electoral_identity_sha256"] = identity["electoral_identity_sha256"]
         receipt = (
             root / "territorios" / territory_id / "evidencia" / "fuentes_electorales"
-            / str(edition) / f"{identity['electoral_identity_sha256']}.json"
+            / str(edition) / identity["electoral_identity_sha256"] / str(run_id) / "receipt.json"
         )
         rendered = json.dumps(receipt_payload, ensure_ascii=False, indent=2) + "\n"
         receipt.parent.mkdir(parents=True, exist_ok=True)
