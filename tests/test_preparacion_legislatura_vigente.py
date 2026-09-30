@@ -104,8 +104,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / "configuracion").mkdir()
-            shutil.copy2(MATRIX, root / MATRIX)
-            shutil.copy2(REGISTRY, root / REGISTRY)
+            shutil.copy2(MATRIX, root / "configuracion/preparacion_legislatura_vigente.yaml")
+            shutil.copy2(REGISTRY, root / "configuracion/registro_electoral.yaml")
             with self.assertRaisesRegex(ValueError, "TEMPORAL_EVIDENCE_MISSING"):
                 validate_matrix(root)
 
@@ -113,8 +113,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             (root / "configuracion").mkdir()
-            shutil.copy2(MATRIX, root / MATRIX)
-            shutil.copy2(REGISTRY, root / REGISTRY)
+            shutil.copy2(MATRIX, root / "configuracion/preparacion_legislatura_vigente.yaml")
+            shutil.copy2(REGISTRY, root / "configuracion/registro_electoral.yaml")
             evidence = json.loads(TEMPORAL.read_text(encoding="utf-8"))
             evidence["checks"]["population_by_section"]["preserved_response"] += " alterado"
             target = root / "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json"
