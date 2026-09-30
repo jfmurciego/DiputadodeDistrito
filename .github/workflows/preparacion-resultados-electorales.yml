@@ -20,7 +20,26 @@ on:
         description: Territorio
         required: true
         type: choice
-        options: [Andalucía, Aragón, Principado de Asturias, Islas Baleares, Canarias, Cantabria, Castilla y León, Castilla-La Mancha, Cataluña, Comunidad Valenciana, Extremadura, Galicia, Comunidad de Madrid, Región de Murcia, Comunidad Foral de Navarra, País Vasco, La Rioja, Ceuta, Melilla]
+        options:
+          - 01 · Andalucía
+          - 02 · Aragón
+          - 03 · Principado de Asturias
+          - 04 · Islas Baleares
+          - 05 · Canarias
+          - 06 · Cantabria
+          - 07 · Castilla y León
+          - 08 · Castilla-La Mancha
+          - 09 · Cataluña
+          - 10 · Comunidad Valenciana
+          - 11 · Extremadura
+          - 12 · Galicia
+          - 13 · Comunidad de Madrid
+          - 14 · Región de Murcia
+          - 15 · Comunidad Foral de Navarra
+          - 16 · País Vasco
+          - 17 · La Rioja
+          - 18 · Ceuta
+          - 19 · Melilla
       data_edition: {description: Edición de datos, required: true, default: '2025', type: choice, options: ['2025']}
       reutilizar_si_ya_preparada: {description: Reutilizar resultados electorales ya preparados, required: true, default: true, type: boolean}
 
