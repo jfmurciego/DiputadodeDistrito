@@ -238,6 +238,18 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         legacy_default = build_declaration("Comunidad de Madrid", 2025)
         self.assertEqual(legacy_default["territory"]["source_year"], 2025)
 
+    def test_current_legislature_workflow_uses_codauto_labels_and_resolves_them(self):
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        triggers = workflow.get("on") or workflow.get(True)
+        options = triggers["workflow_dispatch"]["inputs"]["territory"]["options"]
+        self.assertEqual(options[0], "Todos")
+        self.assertEqual(options[1], "01 · Andalucía")
+        self.assertEqual(options[7], "07 · Castilla y León")
+        self.assertEqual(options[-1], "19 · Melilla")
+        plain = resolve(ROOT, "Aragón")
+        coded = resolve(ROOT, "02 · Aragón")
+        self.assertEqual(coded, plain)
+
     def test_workflow_keeps_01_and_03_independent_and_never_runs_all_19(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("uses: ./.github/workflows/preparacion-fuentes.yml", workflow)
