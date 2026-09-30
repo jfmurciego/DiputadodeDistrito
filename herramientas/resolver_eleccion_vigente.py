@@ -8,6 +8,11 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
+
 DEFAULT = Path("configuracion/elecciones_vigentes.yaml")
 PREPARATION_CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 ELECTION_REGISTRY = Path("configuracion/registro_electoral.yaml")
@@ -67,7 +72,7 @@ def _row_from_declaration(*,territory_id,name,territorial_edition,declaration,ro
 
 
 def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|None=None)->dict:
-    root=root_dir.resolve(); token=territory.strip(); override=path if path.is_absolute() else root/path
+    root=root_dir.resolve(); token=normalize_territory_input(territory); override=path if path.is_absolute() else root/path
     rows=[r for r in load_catalog(override)["territories"] if token in {str(r.get("territory_id") or ""),str(r.get("name") or "")}]
     if len(rows)>1: raise SystemExit(f"Elección vigente ambigua para territorio={territory!r}")
     if len(rows)==1:
@@ -102,7 +107,7 @@ def resolve(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|
 def resolve_for_preparation(territory:str,path:Path=DEFAULT,root_dir:Path=Path("."),edition:str|None=None)->dict:
     """Identidad electoral permite iniciar 03; no implica fuente adquirible ni paquete."""
     root=root_dir.resolve(); registry=_load_yaml(root/ELECTION_REGISTRY); selected=str(edition or _load_yaml(root/PREPARATION_CATALOG).get("default_edition") or "")
-    entries=registry.get("territories") or {}; token=territory.strip(); reg_id=None; entry=None
+    entries=registry.get("territories") or {}; token=normalize_territory_input(territory); reg_id=None; entry=None
     for tid,row in entries.items():
         if token in {str(tid),str((row or {}).get("name") or "")}:
             reg_id=str(tid); entry=row; break

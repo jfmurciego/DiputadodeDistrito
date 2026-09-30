@@ -4,6 +4,11 @@ import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
+
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 REQUIRED=(
@@ -295,6 +300,7 @@ def resolve(mode:str,territory:str,edition:str,path:Path=CATALOG)->dict:
     return matches[0]
 
 def lookup(territory:str,edition:str,path:Path=CATALOG)->dict:
+    territory=normalize_territory_input(territory)
     matches=[]
     for row in load_catalog(path)["territories"]:
         if territory.strip() not in {row["name"],row["territory_id"]}: continue

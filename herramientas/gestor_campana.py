@@ -9,6 +9,10 @@ import shutil
 import tempfile
 import zipfile
 from pathlib import Path
+try:
+    from herramientas.catalogo_territorios import format_country_label, format_territory_label, resolve_master
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import format_country_label, format_territory_label, resolve_master
 from typing import Any
 
 import yaml
@@ -857,12 +861,17 @@ def aggregate(
             if mismatches:
                 item["status"] = "FAIL"
                 item["reason"] = "Contrato de campaña inconsistente: " + ", ".join(mismatches)
+        try:
+            item["territory_display_name"] = format_territory_label(resolve_master(territory_id))
+        except KeyError:
+            item["territory_display_name"] = item.get("territory_name", territory_id)
         rows.append(item)
         if item.get("status") != "PASS":
             failed.append(territory_id)
 
     return {
         "schema": "ddd.campaign-summary/1.1",
+        "country_display_name": format_country_label(),
         "campaign_id": data["campaign_id"],
         "campaign_instance": campaign_instance,
         "source_sha": source_sha,
@@ -881,6 +890,7 @@ def write_markdown(summary: dict[str, Any], path: Path) -> None:
     lines = [
         "# Campaña " + summary["campaign_instance"],
         "",
+        "- país: " + summary.get("country_display_name", format_country_label()),
         "- estado: " + summary["status"],
         "- source SHA: " + summary["source_sha"],
         "- manifest SHA-256: " + summary["manifest_sha256"],
@@ -894,7 +904,7 @@ def write_markdown(summary: dict[str, Any], path: Path) -> None:
         lines.append(
             "| {slot} | {territory} | {publication} | {status} |".format(
                 slot=row.get("slot", ""),
-                territory=row.get("territory_name", row.get("territory_id", "")),
+                territory=row.get("territory_display_name", row.get("territory_name", row.get("territory_id", ""))),
                 publication=row.get("publication_mode", ""),
                 status=row.get("status", ""),
             )
