@@ -383,7 +383,7 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
             if not is_section:
                 continue
             if section_id in seen_ids:
-                continue
+                raise ValueError(f"Clave geométrica duplicada antes de materializar: {section_id}")
             seen_ids.add(section_id)
             all_features.append(feature)
             count += 1
@@ -492,10 +492,77 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
 
             _, staged_meta = _write_materialized(evidence_dir, configured_path, payload_out)
-            core = _core(source_id, configured_path, payload_out, official_urls, effective_year)
+            role = "population" if source.get("kind") == "static_csv" else "target_sectioning"
+            core = {**_core(source_id, configured_path, payload_out, official_urls, effective_year), "role": role}
             resolved["sources"].append({**core, "staged_path": str(destination)})
             inventory["sources"].append({**core, "availability": "AVAILABLE", "content_checks": content_checks, **staged_meta})
             provenance["sources"].append({**core, "provider": source.get("provider"), "acquired_at_utc": datetime.now(timezone.utc).isoformat(), "mode": mode, **snapshot_meta, **staged_meta})
+
+            if source.get("kind") == "ogc_features" and population_year != section_year:
+                origin_path = f"inputs/seccionado_origen_poblacion_{population_year}.zip"
+                origin_urls = _source_urls(source, population_year, provinces)
+                origin_snapshot_meta: dict = {}
+                if mode == "verified_snapshot":
+                    origin_snapshot = binding.get("population_sectioning_snapshot")
+                    if not isinstance(origin_snapshot, dict):
+                        raise ValueError(
+                            "Años población/seccionado distintos sin seccionado de origen verificable"
+                        )
+                    origin_binding = dict(binding)
+                    origin_binding["snapshot"] = origin_snapshot
+                    origin_payload_raw, origin_snapshot_meta = _read_snapshot(
+                        root_dir, evidence_dir, origin_binding, origin_path, population_year
+                    )
+                    origin_features, origin_crs = _read_sections_from_snapshot(
+                        origin_payload_raw,
+                        str(source["territorial_filter_field"]),
+                        str(source["section_id_field"]),
+                        province_codes,
+                    )
+                    origin_checks = {
+                        "provinces": sorted({
+                            str((f.get("properties") or {}).get(source["territorial_filter_field"], "")).zfill(2)
+                            for f in origin_features
+                        }),
+                        "sections": len(origin_features),
+                    }
+                    origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
+                else:
+                    origin_features, origin_urls, origin_checks = _collect_live_sections(
+                        source, population_year, provinces, fetch
+                    )
+                    origin_payload = _write_shapefile_zip(origin_features, crs="EPSG:4326")
+                origin_destination, origin_staged = _write_materialized(
+                    evidence_dir, origin_path, origin_payload
+                )
+                origin_core = {
+                    **_core(
+                        source_id + "_origen_poblacion",
+                        origin_path,
+                        origin_payload,
+                        origin_urls,
+                        population_year,
+                    ),
+                    "role": "population_sectioning_origin",
+                }
+                resolved["sources"].append({
+                    **origin_core,
+                    "staged_path": str(origin_destination),
+                })
+                inventory["sources"].append({
+                    **origin_core,
+                    "availability": "AVAILABLE",
+                    "content_checks": origin_checks,
+                    **origin_staged,
+                })
+                provenance["sources"].append({
+                    **origin_core,
+                    "provider": source.get("provider"),
+                    "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
+                    "mode": mode,
+                    **origin_snapshot_meta,
+                    **origin_staged,
+                })
         except Exception as exc:
             core = _core(source_id, configured_path, payload_out, official_urls, effective_year)
             resolved["sources"].append(dict(core))
