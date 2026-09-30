@@ -9,6 +9,15 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import (
+        country_identity,
+        format_territory_label,
+        load_master,
+    )
+except ModuleNotFoundError:
+    from catalogo_territorios import country_identity, format_territory_label, load_master
+
 START = "<!-- DDD:ESTADO:INICIO -->"
 END = "<!-- DDD:ESTADO:FIN -->"
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
@@ -138,8 +147,18 @@ def derive(root: Path, row: dict, edition: str) -> dict:
 
 def build(root: Path, edition: str) -> dict:
     catalog = load_yaml(root / "configuracion/catalogo_preparacion.yaml")
-    rows = [derive(root, r, edition) for r in catalog.get("territories") or []]
-    rows.sort(key=lambda r: r["name"].casefold())
+    master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
+    master = {row["territory_id"]: row for row in load_master(master_path)}
+    rows = []
+    for source_row in catalog.get("territories") or []:
+        canonical = master.get(source_row["territory_id"])
+        if canonical is None:
+            raise ValueError(f"{source_row['territory_id']}: ausente del catálogo territorial maestro")
+        row = derive(root, {**source_row, "name": canonical["name"]}, edition)
+        row["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+        row["display_name"] = format_territory_label(canonical)
+        rows.append(row)
+    rows.sort(key=lambda r: (r["autonomous_community_code_ine"], r["name"].casefold()))
     complete = [r for r in rows if all(r[k] == "green" for k in ("ft", "g", "fe", "re"))]
     territorial = [r for r in rows if r["g"] == "green"]
     ready = [r for r in rows if r["ft"] == "green" and r["g"] != "green"]
@@ -151,23 +170,24 @@ def build(root: Path, edition: str) -> dict:
     alerts, next_actions = [], []
     for r in rows:
         if r["re"] == "yellow":
-            alerts.append({"territory": r["name"], "action": "incorporar resultados electorales"})
+            alerts.append({"territory": r["display_name"], "action": "incorporar resultados electorales"})
         elif r["g"] == "yellow":
-            alerts.append({"territory": r["name"], "action": "completar puerta de validación territorial"})
+            alerts.append({"territory": r["display_name"], "action": "completar puerta de validación territorial"})
         elif r["ft"] == "red":
-            alerts.append({"territory": r["name"], "action": "incorporación territorial pendiente"})
+            alerts.append({"territory": r["display_name"], "action": "incorporación territorial pendiente"})
         if r["ft"] == "green" and r["g"] != "green":
-            next_actions.append({"territory": r["name"], "action": "generar y validar distritos"})
+            next_actions.append({"territory": r["display_name"], "action": "generar y validar distritos"})
         elif r["g"] == "green" and r["fe"] != "green":
-            next_actions.append({"territory": r["name"], "action": "preparar fuentes electorales"})
+            next_actions.append({"territory": r["display_name"], "action": "preparar fuentes electorales"})
         elif r["g"] == "green" and r["re"] != "green":
-            next_actions.append({"territory": r["name"], "action": "incorporar resultados electorales"})
+            next_actions.append({"territory": r["display_name"], "action": "incorporar resultados electorales"})
 
     return {
         "schema": "ddd-estado-operativo/2.1",
         "edition": edition,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source_of_truth": "configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
+        "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
+        "country": country_identity(),
         "pipeline": [
             "01 · Preparación de Datos Territoriales", "Puerta de validación · 01 → 02",
             "02 · Generación de Distritos Autonómicos", "Puerta de validación · 02 → 03",
@@ -177,16 +197,19 @@ def build(root: Path, edition: str) -> dict:
         ],
         "territories": rows,
         "kpis": {
-            "complete": len(complete), "complete_names": [r["name"] for r in complete],
-            "territorial_validated": len(territorial), "territorial_validated_names": [r["name"] for r in territorial],
-            "validated": len(territorial), "validated_names": [r["name"] for r in territorial],
-            "ready": len(ready), "ready_names": [r["name"] for r in ready],
-            "pending": len(pending), "pending_names": [r["name"] for r in pending],
-            "blocked": len(blocked), "blocked_names": [r["name"] for r in blocked],
+            "complete": len(complete), "complete_names": [r["display_name"] for r in complete],
+            "territorial_validated": len(territorial), "territorial_validated_names": [r["display_name"] for r in territorial],
+            "validated": len(territorial), "validated_names": [r["display_name"] for r in territorial],
+            "ready": len(ready), "ready_names": [r["display_name"] for r in ready],
+            "pending": len(pending), "pending_names": [r["display_name"] for r in pending],
+            "blocked": len(blocked), "blocked_names": [r["display_name"] for r in blocked],
         },
         "latest_validated": None if latest is None else {
-            "territory_id": latest["territory_id"], "name": latest["name"], "run_id": latest["run_id"],
-            "stage": latest["stage"], "certification": latest["certification"], "edition": latest["edition"],
+            "territory_id": latest["territory_id"], "name": latest["name"],
+            "display_name": latest["display_name"],
+            "autonomous_community_code_ine": latest["autonomous_community_code_ine"],
+            "run_id": latest["run_id"], "stage": latest["stage"],
+            "certification": latest["certification"], "edition": latest["edition"],
         },
         "alerts": alerts[:8], "next_actions": next_actions[:8],
     }
@@ -200,7 +223,7 @@ def render_readme_block(state: dict) -> str:
     rows = [
         START, "# Estado operativo del proyecto", "",
         "**Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**", "",
-        f"Actualizado: {state['generated_at']} · Edición: **{state['edition']}**", "",
+        f"Actualizado: {state['generated_at']} · País: **{state['country']['display_name']}** · Edición: **{state['edition']}**", "",
         "## Resumen", "", "| Indicador | Estado | Territorios |", "|---|---:|---|",
         f"| **Cadena completa validada** | 🟢 **{k['complete']}** | {' · '.join(k['complete_names']) or '—'} |",
         f"| **Generación territorial validada** | 🟢 **{k['territorial_validated']}** | {' · '.join(k['territorial_validated_names']) or '—'} |",
@@ -212,7 +235,7 @@ def render_readme_block(state: dict) -> str:
         "| Territorio | FT | G | FE | RE | Estado |", "|---|:---:|:---:|:---:|:---:|---|",
     ]
     for r in state["territories"]:
-        rows.append(f"| **{r['name']}** | {ICON[r['ft']]} | {ICON[r['g']]} | {ICON[r['fe']]} | {ICON[r['re']]} | {r['status']} |")
+        rows.append(f"| **{r['display_name']}** | {ICON[r['ft']]} | {ICON[r['g']]} | {ICON[r['fe']]} | {ICON[r['re']]} | {r['status']} |")
     rows += [
         "", "## Cadena automática", "",
         "01 Preparación territorial → **Puerta de validación** → 02 Generación territorial → **Puerta de validación** → 03 Preparación electoral → **Puerta de validación** → 04 Incorporación electoral → **Puerta de validación** → 05 Publicación opcional", "",
