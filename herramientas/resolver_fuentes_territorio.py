@@ -9,6 +9,11 @@ import unicodedata
 from pathlib import Path
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import format_country_label, normalize_territory_input
+except ModuleNotFoundError:
+    from catalogo_territorios import format_country_label, normalize_territory_input
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "fuentes/territorios_espana.yaml"
 DEFAULT_CATALOG = ROOT / "fuentes/catalogo_oficial.yaml"
@@ -34,7 +39,7 @@ def territories(registry_path: Path = DEFAULT_REGISTRY) -> list[dict]:
 
 
 def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dict:
-    wanted = norm(value)
+    wanted = norm(normalize_territory_input(value))
     for row in territories(registry_path):
         if wanted in {norm(row.get("id", "")), norm(row.get("name", ""))}:
             return row
@@ -97,7 +102,7 @@ def build_declaration(territory: str, edition: int, *, registry_path: Path = DEF
 
 
 def matrix(territory: str, registry_path: Path = DEFAULT_REGISTRY) -> list[str]:
-    if norm(territory) == "todos":
+    if str(territory or "").strip() in {"Todos", format_country_label()}:
         return [row["name"] for row in territories(registry_path)]
     return [resolve_territory(territory, registry_path)["name"]]
 
