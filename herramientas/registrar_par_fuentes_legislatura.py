@@ -185,7 +185,17 @@ def build_pair(
         "section_reference_label": str(plan["section_reference_label"]),
         "temporal_evidence_sha256": temporal_sha,
         "territorial_identity_sha256": territorial_identity_sha,
+        "territorial_run_id": int(territorial["run_id"]),
+        "territorial_artifact_sha256": digest(
+            territorial.get("artifact_sha256"),
+            label="territorial.artifact_sha256",
+        ),
         "electoral_identity_sha256": electoral_identity_sha,
+        "electoral_run_id": int(electoral["run_id"]),
+        "electoral_artifact_sha256": digest(
+            electoral.get("artifact_sha256"),
+            label="electoral.artifact_sha256",
+        ),
     }
     pair_sha = canonical_sha256(canonical)
     return {
