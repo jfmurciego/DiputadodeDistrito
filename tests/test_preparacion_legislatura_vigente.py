@@ -127,7 +127,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2025)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
-        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_PROVENANCE_MISSING")
+        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
         self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
