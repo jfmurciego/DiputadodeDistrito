@@ -34,7 +34,8 @@ def _json_member(archive: zipfile.ZipFile, name: str) -> dict:
     return data
 
 
-def validate_prepared_package(package: Path, *, territory_id: str, edition: str | int) -> tuple[bool, list[str]]:
+def validate_prepared_package(package: Path, *, territory_id: str, edition: str | int,
+                              source_year: str | int | None = None) -> tuple[bool, list[str]]:
     reasons: list[str] = []
     manifest_path = package / "manifest.json"
     if not manifest_path.is_file():
@@ -46,9 +47,16 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
     if not isinstance(manifest, dict):
         return False, ["manifest.json no contiene un objeto"]
 
+    expected_source_year = int(source_year if source_year is not None else edition)
     valid_copy, copy_reasons = validate_frozen_copy(
         manifest, package, expected_edition=edition
     )
+    observed_manifest_source_year = int(manifest.get("source_year", manifest.get("edition")))
+    if observed_manifest_source_year != expected_source_year:
+        copy_reasons.append(
+            f"año de fuente distinto: {observed_manifest_source_year} != {expected_source_year}"
+        )
+        valid_copy = False
     reasons.extend(copy_reasons)
 
     declared_territory = str(manifest.get("territory_id") or "").strip()
@@ -84,6 +92,11 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
                     reasons.append(f"territorio en {label} distinto: {actual_territory or 'vacío'} != {territory_id}")
                 if str(document.get("edition")) != str(edition):
                     reasons.append(f"edición en {label} distinta: {document.get('edition')} != {edition}")
+                observed_source_year = int(document.get("source_year", document.get("edition")))
+                if observed_source_year != expected_source_year:
+                    reasons.append(
+                        f"año de fuente en {label} distinto: {observed_source_year} != {expected_source_year}"
+                    )
 
             if decision.get("decision") != "READY":
                 reasons.append(f"decisión de adquisición no reutilizable: {decision.get('decision')}")
@@ -97,6 +110,11 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
                         reasons.append("entrada de inventario inválida")
                         continue
                     source_id = str(source.get("source_id") or "desconocida")
+                    observed_source_year = int(source.get("edition", expected_source_year))
+                    if observed_source_year != expected_source_year:
+                        reasons.append(
+                            f"{source_id}: año de fuente distinto: {observed_source_year} != {expected_source_year}"
+                        )
                     rel = str(source.get("path") or "")
                     expected_bytes = source.get("bytes")
                     expected_sha = str(source.get("sha256") or "").lower()
@@ -119,12 +137,15 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
 
 
 def select_first_valid(candidates: list[Path], *, territory_id: str, edition: str | int,
+                       source_year: str | int | None = None,
                        reuse_enabled: bool = True) -> tuple[Path | None, list[dict]]:
     if not reuse_enabled:
         return None, []
     diagnostics: list[dict] = []
     for candidate in candidates:
-        valid, reasons = validate_prepared_package(candidate, territory_id=territory_id, edition=edition)
+        valid, reasons = validate_prepared_package(
+            candidate, territory_id=territory_id, edition=edition, source_year=source_year
+        )
         diagnostics.append({"package": str(candidate), "valid": valid, "reasons": reasons})
         if valid:
             return candidate, diagnostics
@@ -136,9 +157,11 @@ def main() -> int:
     ap.add_argument("--package", required=True, type=Path)
     ap.add_argument("--territory-id", required=True)
     ap.add_argument("--edition", required=True)
+    ap.add_argument("--source-year")
     args = ap.parse_args()
     valid, reasons = validate_prepared_package(
-        args.package, territory_id=args.territory_id, edition=args.edition
+        args.package, territory_id=args.territory_id, edition=args.edition,
+        source_year=args.source_year
     )
     print(json.dumps({"valid": valid, "reasons": reasons}, ensure_ascii=False))
     return 0 if valid else 2
