@@ -127,6 +127,29 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertNotIn("incorpor", workflow.lower())
         self.assertNotIn("publicar visor", workflow.lower())
 
+    def test_plan_exposes_package_state_and_precise_reason_for_all_19(self):
+        plans = resolve(ROOT, "Todos")["plans"]
+        self.assertEqual(len(plans), 19)
+        for plan in plans:
+            with self.subTest(territory=plan["territory_id"]):
+                self.assertIn(
+                    plan["territorial_package_state"],
+                    {"READY_REUSABLE", "ACQUIRE_REQUIRED"},
+                )
+                self.assertTrue(plan["territorial_reason"])
+                self.assertIn(
+                    plan["electoral_package_state"],
+                    {"READY_REUSABLE", "ACQUIRE_REQUIRED", "BLOCKED_PROVISIONAL"},
+                )
+                self.assertTrue(plan["electoral_reason"])
+
+    def test_remote_reuse_requires_complete_paginated_inventory(self):
+        workflow = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("gh api --paginate --slurp", workflow)
+        self.assertIn('total="$(jq -r '.total_count'', workflow)
+        self.assertIn('received="$(jq -r '.artifacts|length'', workflow)
+        self.assertIn("BLOCKED_DURABLE_INVENTORY", workflow)
+
     def test_matrix_does_not_invent_unknown_definitive_vote_gaps(self):
         matrix = yaml.safe_load(MATRIX.read_text(encoding="utf-8"))
         for row in matrix["territories"]:
