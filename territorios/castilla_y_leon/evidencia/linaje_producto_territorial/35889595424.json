@@ -10,7 +10,7 @@
     "receipt_path": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json"
   },
   "territorial_source": {
-    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/receipt.json",
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
     "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c",
     "run_id": 35610439734,
     "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
