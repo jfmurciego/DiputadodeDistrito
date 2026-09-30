@@ -14,11 +14,11 @@ function renderKpis(kpis) {
 function renderTerritories(rows) {
   document.querySelector("#territories").innerHTML=rows.map(r=>`
     <tr class="${r.g==="green"?"highlight":""}">
-      <td>${esc(r.name)}</td><td>${dot(r.ft)}</td><td>${dot(r.g)}</td><td>${dot(r.fe)}</td><td>${dot(r.re)}</td><td>${esc(r.status)}</td>
+      <td>${esc(r.display_name || r.name)}</td><td>${dot(r.ft)}</td><td>${dot(r.g)}</td><td>${dot(r.fe)}</td><td>${dot(r.re)}</td><td>${esc(r.status)}</td>
     </tr>`).join("");
 }
 function renderLatest(latest) {
-  document.querySelector("#latest-badge").textContent=latest?.name || "—";
+  document.querySelector("#latest-badge").textContent=latest?.display_name || latest?.name || "—";
   const items=latest ? [
     ["Run", latest.run_id ? `<a href="https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/${latest.run_id}">${latest.run_id}</a>` : "—"],
     ["Etapa",esc(latest.stage)],["Certificación",esc(latest.certification)],["Edición",esc(latest.edition)]
@@ -36,6 +36,7 @@ async function bootstrap(){
   document.querySelector("#snapshot").textContent=data.generated_at.slice(0,10);
   renderKpis(data.kpis); renderTerritories(data.territories); renderLatest(data.latest_validated);
   renderList("#alerts",data.alerts); renderList("#next",data.next_actions,true);
+  document.querySelector("#footer-country").textContent=data.country?.display_name || "ES · España";
   document.querySelector("#footer-territories").textContent=`${data.territories.length} territorios monitorizados`;
   document.querySelector("#footer-validated").textContent=`${data.kpis.complete} cadenas completas validadas`;
 }
