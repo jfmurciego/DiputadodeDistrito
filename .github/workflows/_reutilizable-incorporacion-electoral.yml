@@ -248,14 +248,31 @@ jobs:
           m08=(cfg.get("modulos") or {}).get("modulo_08_integrar_resultados") or {}
           vals={"run_name":(cfg.get("meta") or {}).get("run_name",""),"run_id":internal_run,"year":(cfg.get("meta") or {}).get("year","")}
           def fmt(v): return str(v).format(**vals) if v else None
+          reconciliation_path=fmt(m07.get("out_reconciliation_report"))
+          if not reconciliation_path or not Path(reconciliation_path).is_file():
+              raise SystemExit("Falta informe M07 de reconciliación electoral")
+          reconciliation=json.loads(Path(reconciliation_path).read_text(encoding="utf-8"))
+          accounting_keys=(
+              "population_total",
+              "source_votes",
+              "incorporated_votes",
+              "ddd_unassigned_votes",
+              "ddd_loss_ratio",
+              "max_ddd_loss_ratio",
+              "source_gap_to_definitive_votes",
+              "source_gap_to_definitive_ratio",
+              "unassigned_votes_breakdown",
+          )
           payload={
-            "schema":"ddd.electoral-application-report/1.0",
+            "schema":"ddd.electoral-application-report/2.0",
             "territory_id":territory,
             "territorial_source_run_id":int(territorial_run),
             "electoral_package_run_id":int(electoral_run),
             "workflow_run_id":int(__import__("os").environ["GITHUB_RUN_ID"]),
             "aggregation_output":fmt(m07.get("out_district_summary_csv")),
+            "reconciliation_output":reconciliation_path,
             "product_output":fmt(m08.get("out_districts_with_results_geojson")),
+            "electoral_accounting":{key:reconciliation.get(key) for key in accounting_keys},
             "status":"SUCCESS",
           }
           Path(".ddd-electoral-report/report.json").write_text(json.dumps(payload,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
