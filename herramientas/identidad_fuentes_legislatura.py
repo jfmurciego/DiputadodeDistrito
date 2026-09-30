@@ -36,6 +36,7 @@ def territorial_identity(
     population_year: int,
     section_year: int,
     package_sha256: str,
+    compatibility_identity_sha256: str | None = None,
 ) -> dict:
     payload = {
         "territory_id": str(territory_id),
@@ -44,6 +45,11 @@ def territorial_identity(
         "section_year": int(section_year),
         "package_sha256": digest(package_sha256, label="territorial.package_sha256"),
     }
+    if compatibility_identity_sha256 is not None:
+        payload["compatibility_identity_sha256"] = digest(
+            compatibility_identity_sha256,
+            label="territorial.compatibility_identity_sha256",
+        )
     return {
         **payload,
         "territorial_identity_sha256": canonical_sha256(payload),
