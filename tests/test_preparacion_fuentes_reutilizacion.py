@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import tempfile
 import unittest
 import zipfile
 from pathlib import Path
 
+import geopandas as gpd
 import yaml
+from shapely.geometry import box
 
 from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, SCHEMA
 from herramientas.seleccionar_paquete_fuentes import select_first_valid, validate_prepared_package
@@ -15,6 +18,23 @@ from herramientas.seleccionar_paquete_fuentes import select_first_valid, validat
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
 ELECTORAL_WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
+
+
+def _section_zip(*, crs: str = "EPSG:4326") -> bytes:
+    with tempfile.TemporaryDirectory(prefix="ddd_test_sections_") as td:
+        root = Path(td)
+        shp = root / "seccionado.shp"
+        gdf = gpd.GeoDataFrame(
+            {"CUSEC": ["0100101001"]},
+            geometry=[box(-3.8, 40.3, -3.7, 40.4)],
+            crs=crs,
+        )
+        gdf.to_file(shp, driver="ESRI Shapefile", index=False)
+        out = io.BytesIO()
+        with zipfile.ZipFile(out, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+            for path in sorted(root.glob("seccionado.*")):
+                archive.writestr(path.name, path.read_bytes())
+        return out.getvalue()
 
 
 def _canonical_report_identity(report: dict) -> str:
@@ -45,14 +65,16 @@ def build_package(
     population_year = source_year if population_year is None else population_year
     section_year = source_year if section_year is None else section_year
 
+    target_sectioning = _section_zip(crs="EPSG:4326")
+    origin_sectioning = _section_zip(crs="EPSG:4326")
     payloads = {
         "population": ("inputs/population.zip", b"official-population-bytes", population_year, "population"),
-        "target_sectioning": ("inputs/sections.zip", b"official-target-sectioning-bytes", section_year, "sections"),
+        "target_sectioning": ("inputs/sections.zip", target_sectioning, section_year, "sections"),
     }
     if population_year != section_year:
         payloads["population_sectioning_origin"] = (
             "inputs/sections-origin.zip",
-            b"official-origin-sectioning-bytes",
+            origin_sectioning,
             population_year,
             "sections_origin",
         )
