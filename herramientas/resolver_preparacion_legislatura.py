@@ -2,11 +2,17 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from pathlib import Path
 
 import yaml
+
+from herramientas.identidad_fuentes_legislatura import (
+    digest,
+    territorial_identity,
+)
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
@@ -30,9 +36,11 @@ def _json(path: Path) -> dict:
 
 
 def _document(path: Path) -> dict:
-    if path.suffix.lower() == ".json":
-        return _json(path)
-    return _yaml(path)
+    return _json(path) if path.suffix.lower() == ".json" else _yaml(path)
+
+
+def _sha256_bytes(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
 
 
 def _digest(value: object) -> str | None:
@@ -51,7 +59,67 @@ def _catalog_state(root: Path, territory_id: str, edition: str) -> tuple[dict, d
     return rows[0], state
 
 
-def _territorial_candidate(root: Path, territory_id: str, state: dict, selected_year: int) -> dict:
+def _temporal_evidence(root: Path, matrix: dict) -> dict:
+    policy = matrix.get("population_section_policy") or {}
+    rel = str(policy.get("availability_evidence") or "")
+    if not rel:
+        raise ValueError("TEMPORAL_EVIDENCE_MISSING: falta availability_evidence")
+    path = root / rel
+    if not path.is_file():
+        raise ValueError(f"TEMPORAL_EVIDENCE_MISSING: no existe {rel}")
+    data = _json(path)
+    if data.get("schema") != "ddd.official-temporal-availability-evidence/1.0":
+        raise ValueError("TEMPORAL_EVIDENCE_INVALID: schema no reconocido")
+    provider = str(data.get("provider") or "").strip()
+    checked_at = str(data.get("checked_at") or "").strip()
+    if not provider or not checked_at:
+        raise ValueError("TEMPORAL_EVIDENCE_INVALID: proveedor/fecha de consulta ausentes")
+    checks = data.get("checks") or {}
+    for kind in ("population_by_section", "census_sections"):
+        row = checks.get(kind)
+        if not isinstance(row, dict):
+            raise ValueError(f"TEMPORAL_EVIDENCE_INVALID: falta {kind}")
+        query = str(row.get("query") or "").strip()
+        response = str(row.get("preserved_response") or "")
+        declared = str(row.get("response_sha256") or "").lower()
+        years = row.get("available_years")
+        if not query or not response or not isinstance(years, list) or not years:
+            raise ValueError(f"TEMPORAL_EVIDENCE_INVALID: {kind} incompleto")
+        actual = _sha256_bytes(response.encode("utf-8"))
+        if declared != actual:
+            raise ValueError(
+                f"TEMPORAL_EVIDENCE_DIGEST_MISMATCH: {kind} {declared} != {actual}"
+            )
+        normalized = sorted({int(x) for x in years})
+        if int(row.get("latest_available_year")) != max(normalized):
+            raise ValueError(f"TEMPORAL_EVIDENCE_INVALID: latest_available_year incoherente en {kind}")
+        row["available_years"] = normalized
+    return {
+        "path": rel,
+        "sha256": _sha256_bytes(path.read_bytes()),
+        "provider": provider,
+        "checked_at": checked_at,
+        "checks": checks,
+    }
+
+
+def _years_from_declaration(declaration: dict, edition: str) -> tuple[int, int]:
+    territory = declaration.get("territory") or {}
+    legacy = int(territory.get("source_year", territory.get("edition", edition)))
+    return (
+        int(territory.get("population_year", legacy)),
+        int(territory.get("section_year", legacy)),
+    )
+
+
+def _territorial_candidate(
+    root: Path,
+    territory_id: str,
+    edition: str,
+    state: dict,
+    population_year: int,
+    section_year: int,
+) -> dict:
     prep = state.get("preparation_evidence")
     declaration_rel = state.get("territorial_source_declaration")
     if not state.get("territorial_sources_prepared") or not isinstance(prep, dict) or not declaration_rel:
@@ -63,23 +131,63 @@ def _territorial_candidate(root: Path, territory_id: str, state: dict, selected_
     territory = declaration.get("territory") or {}
     if str(territory.get("id") or "") != territory_id:
         return {"reusable": False, "reason": "TERRITORIAL_IDENTITY_MISMATCH"}
-    observed_year = int(territory.get("source_year", territory.get("edition", 0)) or 0)
-    if observed_year != selected_year:
-        return {
-            "reusable": False,
-            "reason": "TERRITORIAL_SOURCE_YEAR_MISMATCH",
-            "observed_source_year": observed_year,
-        }
+    observed_population_year, observed_section_year = _years_from_declaration(declaration, edition)
+
     run_id = prep.get("run_id")
     artifact_name = str(prep.get("artifact_name") or "")
     artifact_sha256 = _digest(prep.get("artifact_sha256"))
     package_sha256 = _digest(prep.get("package_sha256"))
     if not isinstance(run_id, int) or run_id <= 0:
         return {"reusable": False, "reason": "TERRITORIAL_RUN_INVALID"}
-    if artifact_name != f"ddd-source-package-{territory_id}-2025-{run_id}":
+    if artifact_name != f"ddd-source-package-{territory_id}-{edition}-{run_id}":
         return {"reusable": False, "reason": "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH"}
     if not artifact_sha256 or not package_sha256:
         return {"reusable": False, "reason": "TERRITORIAL_DIGEST_MISSING"}
+
+    identity = territorial_identity(
+        territory_id=territory_id,
+        edition=edition,
+        population_year=observed_population_year,
+        section_year=observed_section_year,
+        package_sha256=package_sha256,
+    )
+    receipt_rel = str(prep.get("receipt_path") or "")
+    if receipt_rel:
+        receipt_path = root / receipt_rel
+        if not receipt_path.is_file():
+            return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_MISSING"}
+        receipt = _json(receipt_path)
+        if (
+            receipt.get("schema") != "ddd.territorial-source-receipt/1.0"
+            or receipt.get("kind") != "territorial_source"
+            or str(receipt.get("territory_id") or "") != territory_id
+            or str(receipt.get("edition") or "") != edition
+            or int(receipt.get("run_id") or 0) != run_id
+            or str(receipt.get("artifact_name") or "") != artifact_name
+            or _digest(receipt.get("artifact_sha256")) != artifact_sha256
+            or _digest(receipt.get("package_sha256")) != package_sha256
+            or int(receipt.get("population_year") or 0) != observed_population_year
+            or int(receipt.get("section_year") or 0) != observed_section_year
+            or str(receipt.get("territorial_identity_sha256") or "") != identity["territorial_identity_sha256"]
+        ):
+            return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_CONTRADICTORY"}
+
+    if observed_population_year != population_year:
+        return {
+            "reusable": False,
+            "reason": "TERRITORIAL_POPULATION_YEAR_MISMATCH",
+            "observed_population_year": observed_population_year,
+            "observed_section_year": observed_section_year,
+            **identity,
+        }
+    if observed_section_year != section_year:
+        return {
+            "reusable": False,
+            "reason": "TERRITORIAL_SECTION_YEAR_MISMATCH",
+            "observed_population_year": observed_population_year,
+            "observed_section_year": observed_section_year,
+            **identity,
+        }
     return {
         "reusable": True,
         "reason": "TERRITORIAL_DURABLE_CANDIDATE",
@@ -87,8 +195,12 @@ def _territorial_candidate(root: Path, territory_id: str, state: dict, selected_
         "artifact_name": artifact_name,
         "artifact_sha256": artifact_sha256,
         "package_sha256": package_sha256,
-        "source_year": observed_year,
+        "population_year": observed_population_year,
+        "section_year": observed_section_year,
         "declaration": str(declaration_rel),
+        "receipt_path": receipt_rel or None,
+        "source_commit": prep.get("source_commit"),
+        **identity,
     }
 
 
@@ -132,10 +244,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if (
-                str(ref.get("territory_id") or "") != territory_id
-                or str(ref.get("election_id") or "") != election_id
-            ):
+            if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = declaration_rel
         elif registry_rel:
@@ -151,10 +260,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if not ref_path.is_file():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
             ref = _document(ref_path)
-            if (
-                str(ref.get("territory_id") or "") != territory_id
-                or str(ref.get("election_id") or "") != election_id
-            ):
+            if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = contract_rel
         else:
@@ -166,19 +272,22 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             "run_id": run_id,
             "artifact_name": artifact_name,
             "artifact_sha256": artifact_sha256,
+            "source_commit": source_commit,
+            "election_id": election_id,
+            "election_date": str(data.get("election_date") or ""),
             "receipt": str(rel),
             "provenance_reference": provenance_reference,
         }
 
     if schema == "ddd-election-source-provenance/1.0":
-        digest = _digest(data.get("normalized_sha256")) or _digest(data.get("source_sha256"))
-        if not digest or not data.get("publisher") or not data.get("source_url") or not data.get("retrieved_at"):
+        source_digest = _digest(data.get("normalized_sha256")) or _digest(data.get("source_sha256"))
+        if not source_digest or not data.get("publisher") or not data.get("source_url") or not data.get("retrieved_at"):
             return {"reusable": False, "reason": "ELECTORAL_LEGACY_PROVENANCE_INCOMPLETE"}
         return {
             "reusable": False,
             "legacy": True,
             "reason": "ELECTORAL_PACKAGE_IDENTITY_NOT_DURABLE",
-            "artifact_sha256": digest,
+            "artifact_sha256": source_digest,
             "receipt": str(rel),
         }
     return {"reusable": False, "reason": "ELECTORAL_RECEIPT_SCHEMA"}
@@ -187,6 +296,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
+    evidence = _temporal_evidence(root, matrix)
     rows = matrix.get("territories") or []
     registered = registry.get("territories") or {}
     if len(rows) != 19 or len(registered) != 19:
@@ -195,7 +305,10 @@ def validate_matrix(root: Path) -> list[dict]:
     if len(set(ids)) != 19 or set(ids) != set(registered):
         raise ValueError("La matriz no coincide exactamente con los 19 territorios del registro electoral")
 
-    latest = int((matrix.get("population_section_policy") or {}).get("latest_official_population_section_year"))
+    pop_available = set(evidence["checks"]["population_by_section"]["available_years"])
+    section_available = set(evidence["checks"]["census_sections"]["available_years"])
+    latest_pop = max(pop_available)
+    latest_section = max(section_available)
     for row in rows:
         tid = row["territory_id"]
         reg = registered[tid]
@@ -203,26 +316,41 @@ def validate_matrix(root: Path) -> list[dict]:
             raise ValueError(f"{tid}: identidad electoral de matriz no coincide con registro")
         election_year = int(str(row["election_date"])[:4])
         terr = row.get("territorial") or {}
-        required = int(terr.get("required_year"))
-        selected = int(terr.get("selected_source_year"))
-        lag = int(terr.get("lag_years", 0))
-        if required != election_year:
-            raise ValueError(f"{tid}: año territorial requerido debe ser el año de la elección")
-        if required <= latest:
-            if selected != required or lag != 0:
-                raise ValueError(f"{tid}: existe fuente oficial del año electoral y no admite sustitución")
+        pop_required = int(terr.get("population_required_year"))
+        pop_selected = int(terr.get("population_selected_year"))
+        section_required = int(terr.get("section_required_year"))
+        section_selected = int(terr.get("section_selected_year"))
+        if pop_required != election_year or section_required != election_year:
+            raise ValueError(f"{tid}: población y seccionado requeridos deben referir al año electoral")
+        if str(terr.get("temporal_evidence") or "") != evidence["path"]:
+            raise ValueError(f"{tid}: evidencia temporal no coincide con la fuente durable común")
+
+        if pop_required in pop_available:
+            if pop_selected != pop_required or int(terr.get("population_lag_years", 0)) != 0:
+                raise ValueError(f"{tid}: población oficial del año requerida existe y no admite sustitución")
         else:
-            if selected != latest or lag != required - latest or not str(terr.get("reason") or "").strip():
-                raise ValueError(f"{tid}: sustitución temporal no declarada correctamente")
-        if selected > latest:
-            raise ValueError(f"{tid}: source_year {selected} aún no publicado")
+            if pop_selected != latest_pop or int(terr.get("population_lag_years", 0)) != pop_required - latest_pop:
+                raise ValueError(f"{tid}: sustitución poblacional no acredita la última edición oficial")
+            if not str(terr.get("reason") or "").strip():
+                raise ValueError(f"{tid}: sustitución poblacional sin razón explícita")
+
+        if section_required in section_available:
+            if section_selected != section_required or int(terr.get("section_lag_years", 0)) != 0:
+                raise ValueError(f"{tid}: seccionado oficial del año requerido existe y no admite sustitución")
+        else:
+            if section_selected != latest_section or int(terr.get("section_lag_years", 0)) != section_required - latest_section:
+                raise ValueError(f"{tid}: sustitución de seccionado no acredita la última edición oficial")
+
+        if not str(terr.get("population_reference_date") or "") or not str(terr.get("section_reference_label") or ""):
+            raise ValueError(f"{tid}: faltan fechas/etiquetas de referencia territorial")
     return rows
 
 
 def resolve(root: Path, territory: str = "Todos") -> dict:
     root = root.resolve()
-    rows = validate_matrix(root)
     matrix = _yaml(root / MATRIX)
+    temporal = _temporal_evidence(root, matrix)
+    rows = validate_matrix(root)
     edition = str(matrix.get("project_edition") or "2025")
     wanted = territory.strip().casefold()
     selected_rows = rows if wanted in {"todos", "all"} else [
@@ -238,10 +366,23 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
         _, state = _catalog_state(root, tid, edition)
         terr = row["territorial"]
         electoral = row["electoral"]
-        selected_year = int(terr["selected_source_year"])
-        t_candidate = _territorial_candidate(root, tid, state, selected_year)
+        population_year = int(terr["population_selected_year"])
+        section_year = int(terr["section_selected_year"])
+        t_candidate = _territorial_candidate(
+            root,
+            tid,
+            edition,
+            state,
+            population_year,
+            section_year,
+        )
         if t_candidate.get("reusable"):
-            t_action = "REUSE_TEMPORAL_SUBSTITUTION" if int(terr["required_year"]) != selected_year else "REUSE"
+            t_action = (
+                "REUSE_TEMPORAL_SUBSTITUTION"
+                if int(terr["population_required_year"]) != population_year
+                or int(terr["section_required_year"]) != section_year
+                else "REUSE"
+            )
         else:
             t_action = "ACQUIRE"
 
@@ -252,11 +393,11 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             e_candidate = _electoral_candidate(root, tid, state, row["election_id"])
             e_action = "REUSE" if e_candidate.get("reusable") else "ACQUIRE"
 
-        current_year = int(
-            t_candidate.get(
-                "source_year",
-                t_candidate.get("observed_source_year", terr["current_package_year"]),
-            )
+        current_population_year = int(
+            t_candidate.get("population_year", t_candidate.get("observed_population_year", terr["population_current_year"]))
+        )
+        current_section_year = int(
+            t_candidate.get("section_year", t_candidate.get("observed_section_year", terr["section_current_year"]))
         )
         plans.append({
             "territory_id": tid,
@@ -264,14 +405,23 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "election_id": row["election_id"],
             "election_date": str(row["election_date"]),
             "project_edition": edition,
-            "population_year_required": int(terr["required_year"]),
-            "population_year_current": current_year,
-            "population_year_selected": selected_year,
-            "section_year_required": int(terr["required_year"]),
-            "section_year_current": current_year,
-            "section_year_selected": selected_year,
-            "temporal_lag_years": int(terr.get("lag_years", 0)),
+            "population_year_required": int(terr["population_required_year"]),
+            "population_year_current": current_population_year,
+            "population_year_selected": population_year,
+            "population_reference_date": str(terr["population_reference_date"]),
+            "section_year_required": int(terr["section_required_year"]),
+            "section_year_current": current_section_year,
+            "section_year_selected": section_year,
+            "section_reference_label": str(terr["section_reference_label"]),
+            "population_temporal_lag_years": int(terr.get("population_lag_years", 0)),
+            "section_temporal_lag_years": int(terr.get("section_lag_years", 0)),
             "temporal_reason": terr.get("reason"),
+            "temporal_evidence": {
+                "path": temporal["path"],
+                "sha256": temporal["sha256"],
+                "provider": temporal["provider"],
+                "checked_at": temporal["checked_at"],
+            },
             "territorial_action": t_action,
             "territorial_package_state": "READY_REUSABLE" if t_action.startswith("REUSE") else "ACQUIRE_REQUIRED",
             "territorial_reason": t_candidate.get("reason"),
@@ -294,9 +444,15 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "block_reason": e_candidate.get("reason") if e_action.startswith("BLOCKED") else None,
         })
     return {
-        "schema": "ddd-current-legislature-preparation-plan/1.0",
+        "schema": "ddd-current-legislature-preparation-plan/1.1",
         "project_edition": edition,
         "as_of": matrix.get("as_of"),
+        "temporal_evidence": {
+            "path": temporal["path"],
+            "sha256": temporal["sha256"],
+            "provider": temporal["provider"],
+            "checked_at": temporal["checked_at"],
+        },
         "plans": plans,
     }
 
