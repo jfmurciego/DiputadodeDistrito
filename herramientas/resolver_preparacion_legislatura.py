@@ -236,6 +236,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISSING"}
 
         provenance_reference = None
+        provenance_election_date = ""
         declaration_rel = str(data.get("declaration") or "").strip()
         registry_rel = str(data.get("election_registry") or "").strip()
         contract_rel = str(data.get("election_contract") or "").strip()
@@ -247,6 +248,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = declaration_rel
+            provenance_election_date = str(ref.get("election_date") or "")
         elif registry_rel:
             if registry_rel != REGISTRY.as_posix():
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
@@ -255,6 +257,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if str(registered.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = registry_rel
+            provenance_election_date = str(registered.get("election_date") or "")
         elif contract_rel:
             ref_path = root / contract_rel
             if not ref_path.is_file():
@@ -263,6 +266,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             if str(ref.get("territory_id") or "") != territory_id or str(ref.get("election_id") or "") != election_id:
                 return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
             provenance_reference = contract_rel
+            provenance_election_date = str(ref.get("election_date") or "")
         else:
             return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
 
@@ -274,7 +278,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             "artifact_sha256": artifact_sha256,
             "source_commit": source_commit,
             "election_id": election_id,
-            "election_date": str(data.get("election_date") or ""),
+            "election_date": str(data.get("election_date") or provenance_election_date),
             "receipt": str(rel),
             "provenance_reference": provenance_reference,
         }
