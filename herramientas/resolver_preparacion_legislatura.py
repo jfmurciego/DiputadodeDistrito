@@ -188,6 +188,15 @@ def _territorial_candidate(
             "observed_section_year": observed_section_year,
             **identity,
         }
+    source_commit = str(prep.get("source_commit") or "")
+    if not receipt_rel or not GIT_SHA.fullmatch(source_commit):
+        return {
+            "reusable": False,
+            "reason": "TERRITORIAL_PROVENANCE_MISSING",
+            "observed_population_year": observed_population_year,
+            "observed_section_year": observed_section_year,
+            **identity,
+        }
     return {
         "reusable": True,
         "reason": "TERRITORIAL_DURABLE_CANDIDATE",
@@ -199,7 +208,7 @@ def _territorial_candidate(
         "section_year": observed_section_year,
         "declaration": str(declaration_rel),
         "receipt_path": receipt_rel or None,
-        "source_commit": prep.get("source_commit"),
+        "source_commit": source_commit,
         **identity,
     }
 
