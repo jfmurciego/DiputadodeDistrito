@@ -16,29 +16,30 @@ WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
 ELECTORAL_WORKFLOW = ROOT / ".github/workflows/preparacion-resultados-electorales.yml"
 
 
-def build_package(root: Path, *, territory="la_rioja", edition=2025, corrupt=False) -> Path:
+def build_package(root: Path, *, territory="la_rioja", edition=2025, source_year=None, corrupt=False) -> Path:
     package = root
     package.mkdir(parents=True, exist_ok=True)
     source = b"official-source-bytes"
     source_sha = hashlib.sha256(source).hexdigest()
+    source_year = edition if source_year is None else source_year
     docs = {
         "declaracion_materializacion.json": {
-            "territory_id": territory, "territory": "La Rioja", "edition": edition,
+            "territory_id": territory, "territory": "La Rioja", "edition": edition, "source_year": source_year,
             "sources": [{"source_id": "population"}],
         },
         "inventario_fuentes.json": {
-            "territory_id": territory, "territory": "La Rioja", "edition": edition,
+            "territory_id": territory, "territory": "La Rioja", "edition": edition, "source_year": source_year,
             "sources": [{
                 "source_id": "population", "path": "inputs/population.zip",
-                "bytes": len(source), "sha256": source_sha,
+                "bytes": len(source), "sha256": source_sha, "edition": source_year,
             }],
         },
         "manifiesto_procedencia.json": {
-            "territory_id": territory, "territory": "La Rioja", "edition": edition,
+            "territory_id": territory, "territory": "La Rioja", "edition": edition, "source_year": source_year,
             "sources": [{"source_id": "population"}],
         },
         "decision_adquisicion.json": {
-            "territory_id": territory, "territory": "La Rioja", "edition": edition,
+            "territory_id": territory, "territory": "La Rioja", "edition": edition, "source_year": source_year,
             "decision": "READY",
         },
     }
@@ -51,6 +52,7 @@ def build_package(root: Path, *, territory="la_rioja", edition=2025, corrupt=Fal
         "source_id": "prepared-territorial-sources:population",
         "territory_id": territory,
         "edition": edition,
+        "source_year": source_year,
         "origin": "https://official.example/population",
         "path": "prepared_sources.zip",
         "bytes": bundle.stat().st_size,
@@ -72,6 +74,15 @@ class PreparedSourceReuseTests(unittest.TestCase):
             self.assertEqual(selected, package)
             self.assertTrue(diagnostics[0]["valid"])
             self.assertEqual(validate_prepared_package(package, territory_id="la_rioja", edition=2025), (True, []))
+
+    def test_source_year_mismatch_is_not_reusable(self):
+        with tempfile.TemporaryDirectory() as td:
+            package = build_package(Path(td) / "valid", edition=2025, source_year=2023)
+            valid, reasons = validate_prepared_package(
+                package, territory_id="la_rioja", edition=2025, source_year=2024
+            )
+            self.assertFalse(valid)
+            self.assertTrue(any("año de fuente distinto" in reason for reason in reasons))
 
     def test_reuse_disabled_selects_nothing(self):
         with tempfile.TemporaryDirectory() as td:
