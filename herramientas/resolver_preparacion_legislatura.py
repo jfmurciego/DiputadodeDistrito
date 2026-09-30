@@ -207,6 +207,12 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             e_candidate = _electoral_candidate(root, tid, state, row["election_id"])
             e_action = "REUSE" if e_candidate.get("reusable") else "ACQUIRE"
 
+        current_year = int(
+            t_candidate.get(
+                "source_year",
+                t_candidate.get("observed_source_year", terr["current_package_year"]),
+            )
+        )
         plans.append({
             "territory_id": tid,
             "name": row["name"],
@@ -214,10 +220,10 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "election_date": str(row["election_date"]),
             "project_edition": edition,
             "population_year_required": int(terr["required_year"]),
-            "population_year_current": int(terr["current_package_year"]),
+            "population_year_current": current_year,
             "population_year_selected": selected_year,
             "section_year_required": int(terr["required_year"]),
-            "section_year_current": int(terr["current_package_year"]),
+            "section_year_current": current_year,
             "section_year_selected": selected_year,
             "temporal_lag_years": int(terr.get("lag_years", 0)),
             "temporal_reason": terr.get("reason"),
