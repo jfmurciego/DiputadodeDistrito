@@ -57,7 +57,6 @@ territories:
         section_year: 2025
         territorial_identity_sha256: 4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0
         receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/receipt.json
-        stage: M08
 - territory_id: principado_de_asturias
   name: Principado de Asturias
   editions:
@@ -222,7 +221,6 @@ territories:
         section_year: 2025
         territorial_identity_sha256: 380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c
         receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/receipt.json
-        stage: M08
 - territory_id: cataluna
   name: Cataluña
   editions:
