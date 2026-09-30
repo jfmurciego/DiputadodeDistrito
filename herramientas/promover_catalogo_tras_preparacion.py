@@ -273,7 +273,7 @@ def promote(
     # materializa automáticamente el contrato completo que consumirá 02 y lo
     # somete a la misma puerta estructural R036. No hay alta manual por región.
     materialized = materialize_generation_contract(
-        root, territory_id, str(edition), package_abs
+        root, territory_id, str(edition), package_abs, str(source_year)
     )
     contract_rel = str(materialized["contract_path"])
     contract = root / contract_rel
