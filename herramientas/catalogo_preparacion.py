@@ -5,9 +5,9 @@ from pathlib import Path
 import yaml
 
 try:
-    from herramientas.catalogo_territorios import load_master, resolve_master
+    from herramientas.catalogo_territorios import normalize_territory_input, resolve_master
 except ModuleNotFoundError:
-    from catalogo_territorios import load_master, resolve_master
+    from catalogo_territorios import normalize_territory_input, resolve_master
 
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -236,15 +236,32 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
             if eligible: out.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})
     return out
 
+def _territory_identity(territory:str,path:Path)->tuple[str|None,str]:
+    text=normalize_territory_input(territory)
+    master=path.parent/"catalogo_territorios_espana_2025.yaml"
+    if master.is_file():
+        try:
+            canonical=resolve_master(territory,master)
+            return str(canonical["territory_id"]),str(canonical["name"])
+        except KeyError:
+            pass
+    return None,text
+
 def resolve(mode:str,territory:str,edition:str,path:Path=CATALOG)->dict:
-    matches=[r for r in rows_for(mode,path) if r["edition"]==str(edition) and territory.strip() in {r["name"],r["territory_id"]}]
+    territory_id,name=_territory_identity(territory,path)
+    matches=[
+        r for r in rows_for(mode,path)
+        if r["edition"]==str(edition)
+        and (r["territory_id"]==territory_id if territory_id else name in {r["name"],r["territory_id"]})
+    ]
     if len(matches)!=1: raise SystemExit(f"No existe opción {mode} única para territorio={territory!r}, edición={edition!r}")
     return matches[0]
 
 def lookup(territory:str,edition:str,path:Path=CATALOG)->dict:
+    territory_id,name=_territory_identity(territory,path)
     matches=[]
     for row in load_catalog(path)["territories"]:
-        if territory.strip() not in {row["name"],row["territory_id"]}: continue
+        if not (row["territory_id"]==territory_id if territory_id else name in {row["name"],row["territory_id"]}): continue
         state=(row.get("editions") or {}).get(str(edition))
         if state is not None:
             matches.append({"territory_id":row["territory_id"],"name":row["name"],"edition":str(edition),**state})
