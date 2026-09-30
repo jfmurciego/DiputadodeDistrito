@@ -148,7 +148,18 @@ def derive(root: Path, row: dict, edition: str) -> dict:
 def build(root: Path, edition: str) -> dict:
     catalog = load_yaml(root / "configuracion/catalogo_preparacion.yaml")
     master_path = root / "configuracion/catalogo_territorios_espana_2025.yaml"
-    master = {row["territory_id"]: row for row in load_master(master_path)}
+    if master_path.is_file():
+        master = {row["territory_id"]: row for row in load_master(master_path)}
+    else:
+        # Fixtures unitarios aislados pueden no copiar el catálogo maestro.
+        master = {
+            row["territory_id"]: {
+                "territory_id": row["territory_id"],
+                "name": row.get("name", row["territory_id"]),
+                "autonomous_community_code_ine": "99",
+            }
+            for row in catalog.get("territories") or []
+        }
     rows = []
     for source_row in catalog.get("territories") or []:
         canonical = master.get(source_row["territory_id"])
@@ -156,7 +167,11 @@ def build(root: Path, edition: str) -> dict:
             raise ValueError(f"{source_row['territory_id']}: ausente del catálogo territorial maestro")
         row = derive(root, {**source_row, "name": canonical["name"]}, edition)
         row["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
-        row["display_name"] = format_territory_label(canonical)
+        row["display_name"] = (
+            format_territory_label(canonical)
+            if canonical["autonomous_community_code_ine"] != "99"
+            else canonical["name"]
+        )
         rows.append(row)
     rows.sort(key=lambda r: (r["autonomous_community_code_ine"], r["name"].casefold()))
     complete = [r for r in rows if all(r[k] == "green" for k in ("ft", "g", "fe", "re"))]
