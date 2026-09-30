@@ -193,7 +193,11 @@ territories:
                 artifact_sha256="1"*64,declaration=None,election_id="demo_2026",source_commit="abc",
             )
             self.assertTrue(result["incorporation_enabled"] is False)
-            receipt=json.loads((root/"territorios/demo/evidencia/catalogo/electoral_source_2025.json").read_text(encoding="utf-8"))
+            promoted_catalog=yaml.safe_load((root/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+            promoted_state=promoted_catalog["territories"][0]["editions"]["2025"]
+            receipt_path=root/promoted_state["evidence"]["electoral_source"]
+            self.assertIn("territorios/demo/evidencia/fuentes_electorales/2025/", receipt_path.as_posix())
+            receipt=json.loads(receipt_path.read_text(encoding="utf-8"))
             self.assertIsNone(receipt["declaration"])
             self.assertEqual(receipt["election_contract"],"territorios/demo/config/elecciones/demo_2026.json")
             self.assertEqual(receipt["election_id"],"demo_2026")
