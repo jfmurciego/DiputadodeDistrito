@@ -199,6 +199,14 @@ def build_pair(
             territorial.get("artifact_sha256"),
             label="territorial.artifact_sha256",
         ),
+        "compatibility_report_sha256": digest(
+            territorial.get("compatibility_report_sha256"),
+            label="territorial.compatibility_report_sha256",
+        ),
+        "compatibility_identity_sha256": digest(
+            territorial.get("compatibility_identity_sha256"),
+            label="territorial.compatibility_identity_sha256",
+        ),
         "electoral_identity_sha256": electoral_identity_sha,
         "electoral_run_id": int(electoral["run_id"]),
         "electoral_artifact_sha256": digest(
@@ -251,6 +259,15 @@ def build_pair(
             "population_year": int(plan["population_year_selected"]),
             "section_year": int(plan["section_year_selected"]),
             "territorial_identity_sha256": territorial_identity_sha,
+            "compatibility_report_member": territorial.get("compatibility_report_member"),
+            "compatibility_report_sha256": digest(
+                territorial.get("compatibility_report_sha256"),
+                label="territorial.compatibility_report_sha256",
+            ),
+            "compatibility_identity_sha256": digest(
+                territorial.get("compatibility_identity_sha256"),
+                label="territorial.compatibility_identity_sha256",
+            ),
             "remote_verification": remote_territorial,
         },
         "electoral_source": {
