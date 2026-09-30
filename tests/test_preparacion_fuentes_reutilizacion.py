@@ -62,8 +62,7 @@ def build_package(
             zf.writestr(name, json.dumps(data))
         zf.writestr("materialized/inputs/population.zip", source if not corrupt else source + b"corrupt")
         if include_compatibility:
-            zf.writestr(REPORT_NAME, json.dumps({
-                "schema": SCHEMA,
+            compatibility = {
                 "territory_id": territory,
                 "edition": str(edition),
                 "population_year": population_year,
@@ -77,7 +76,19 @@ def build_package(
                 "population_without_destination": [],
                 "population": {"input_total": 1, "assigned_total": 1, "exact_conservation": True},
                 "causes": [],
-                "compatibility_identity_sha256": "f" * 64,
+            }
+            compatibility_identity = hashlib.sha256(
+                json.dumps(
+                    compatibility,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ).encode("utf-8")
+            ).hexdigest()
+            zf.writestr(REPORT_NAME, json.dumps({
+                "schema": SCHEMA,
+                **compatibility,
+                "compatibility_identity_sha256": compatibility_identity,
                 "decision": "READY",
             }))
     manifest = {
