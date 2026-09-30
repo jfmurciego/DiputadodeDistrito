@@ -1,0 +1,30 @@
+{
+  "schema": "ddd.territorial-product-source-lineage/1.0",
+  "territory_id": "castilla_y_leon",
+  "edition": "2025",
+  "territorial_product": {
+    "run_id": 35889595424,
+    "artifact_name": "ddd-state-35889595424-M06-campaign-35889595424-1--04--castilla_y_leon",
+    "artifact_sha256": "cfb818ef94bfcf35b64b78dc620a0eadd859c6f95aba1234b2d54898d556016b",
+    "source_commit": "a041e5bd154c3bf2b01c0accf999771d17127644",
+    "receipt_path": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "territorial_source": {
+    "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/receipt.json",
+    "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c",
+    "run_id": 35610439734,
+    "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+    "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+    "package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752"
+  },
+  "producer_observation": {
+    "workflow_run_id": 35889595424,
+    "job_id": 107279090210,
+    "job_name": "04 · Castilla y León / 02 · Generar distritos autonómicos / Generar y certificar distritos / Verificar datos territoriales preparados",
+    "observed_source_package_run_id": 35610439734,
+    "observed_source_package_artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+    "observed_source_execution_package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+    "preserved_response": "SOURCE_PACKAGE_RUN_ID: 35610439734\nSOURCE_PACKAGE_ARTIFACT_NAME: ddd-source-package-castilla_y_leon-2025-35610439734\nddd-source-execution/1.0 decision=REUSE sha256=37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+    "response_sha256": "ee1a90d1a29128d36bb44d3d7b9c12dcc3863768fc91f09547655b6019922ba1"
+  }
+}
