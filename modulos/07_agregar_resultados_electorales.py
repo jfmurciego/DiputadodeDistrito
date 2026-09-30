@@ -186,80 +186,81 @@ def apply_section_reconciliation(
     section_field: str,
     contract: dict,
 ) -> tuple[pd.DataFrame, dict]:
+    """Aplica únicamente equivalencias 1:1 demostradas; nunca reparte votos por población."""
     policy = contract.get("section_reconciliation") or {}
     aliases = policy.get("aliases") or []
     splits = policy.get("splits") or []
-    if not aliases and not splits:
-        return section_party, {"status": "NOT_REQUIRED", "aliases": [], "splits": [], "votes_before": int(section_party["votes"].sum()), "votes_after": int(section_party["votes"].sum())}
 
     out = section_party.copy()
     out[section_field] = out[section_field].astype(str)
     votes_before = int(out["votes"].sum())
-    evidence = {"status": "RECONCILED", "aliases": [], "splits": [], "votes_before": votes_before}
+    current_sections = set(gdf[section_field].astype(str))
+    exact_methods = {
+        "ine_geometry_exact_overlap_1_to_1",
+        "exact_1_to_1",
+        "exact_geometry_1_to_1",
+    }
+    evidence = {
+        "status": "NOT_REQUIRED" if not aliases and not splits else "GOVERNED_NO_REDISTRIBUTION",
+        "aliases_applied": [],
+        "aliases_not_applied": [],
+        "splits_not_applied": [],
+        "votes_before": votes_before,
+    }
 
-    alias_map = {}
+    alias_map: dict[str, str] = {}
+    source_sections = set(out[section_field].astype(str))
     for item in aliases:
         source = str(require(item.get("from"), "Alias electoral sin from"))
         target = str(require(item.get("to"), "Alias electoral sin to"))
-        if source in alias_map and alias_map[source] != target:
+        method = str(item.get("method") or "")
+        reason = None
+        if method not in exact_methods:
+            reason = "ALIAS_NOT_PROVEN_EXACT_1_TO_1"
+        elif source in current_sections:
+            reason = "SOURCE_SECTION_ALREADY_EXISTS_IN_CURRENT_MAP"
+        elif target not in current_sections:
+            reason = "TARGET_SECTION_NOT_IN_CURRENT_MAP"
+        elif source not in source_sections:
+            reason = "SOURCE_SECTION_NOT_IN_ACCEPTED_RESULTS"
+        elif source in alias_map and alias_map[source] != target:
             raise ValueError(f"Alias electoral ambiguo para {source}")
+        if reason:
+            evidence["aliases_not_applied"].append(
+                {"from": source, "to": target, "method": method, "reason": reason}
+            )
+            continue
         alias_map[source] = target
-        evidence["aliases"].append({"from": source, "to": target, "method": item.get("method")})
+        evidence["aliases_applied"].append(
+            {"from": source, "to": target, "method": method}
+        )
+
     if alias_map:
-        out[section_field] = out[section_field].map(lambda value: alias_map.get(str(value), str(value)))
+        out[section_field] = out[section_field].map(
+            lambda value: alias_map.get(str(value), str(value))
+        )
         out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
 
+    # Un split entre seccionados de años distintos no autoriza a DDD a inventar
+    # una distribución. Los votos permanecen en la sección de la fuente aceptada;
+    # si esa sección no existe en el mapa actual, M07 los contabiliza como
+    # ddd_unassigned_votes y aplica el presupuesto del 1,5 %.
     for rule in splits:
-        source = str(require(rule.get("source_section"), "Split electoral sin source_section"))
-        targets = [str(value) for value in require(rule.get("target_sections"), "Split electoral sin target_sections")]
-        if len(targets) < 2 or source not in targets:
-            raise ValueError(f"Split electoral inválido para {source}: {targets}")
-        if str(rule.get("weighting") or "") != "current_population":
-            raise ValueError(f"Weighting no soportado en split {source}: {rule.get('weighting')}")
-        population_field = str(require(rule.get("population_field"), f"Split {source} sin population_field"))
-        if population_field not in gdf.columns:
-            raise ValueError(f"Split {source}: falta {population_field} en geometría territorial")
-        map_rows = gdf[[section_field, population_field]].copy()
-        map_rows[section_field] = map_rows[section_field].astype(str)
-        if map_rows[section_field].duplicated().any():
-            raise ValueError("La geometría territorial contiene secciones duplicadas al reconciliar elecciones")
-        weights = {}
-        for target in targets:
-            rows = map_rows.loc[map_rows[section_field] == target, population_field]
-            if len(rows) != 1:
-                raise ValueError(f"Split {source}: target {target} ausente o duplicado")
-            weights[target] = float(pd.to_numeric(rows.iloc[0], errors="raise"))
-        source_rows = out.loc[out[section_field] == source].copy()
-        if source_rows.empty:
-            raise ValueError(f"Split declarado pero source_section ausente de resultados: {source}")
-        out = out.loc[out[section_field] != source].copy()
-        allocated = []
-        source_total = int(source_rows["votes"].sum())
-        for row in source_rows.itertuples(index=False):
-            party = getattr(row, "party")
-            votes = int(getattr(row, "votes"))
-            allocation = _largest_remainder(votes, [(target, weights[target]) for target in targets])
-            for target, amount in allocation.items():
-                allocated.append({section_field: target, "party": party, "votes": amount})
-        out = pd.concat([out, pd.DataFrame(allocated)], ignore_index=True)
-        out = out.groupby([section_field, "party"], as_index=False)["votes"].sum()
-        evidence["splits"].append({
-            "source_section": source,
-            "target_sections": targets,
-            "population_field": population_field,
-            "weights": weights,
-            "votes_reallocated": source_total,
-            "method": "current_population_largest_remainder",
-            "spatial_evidence": rule.get("spatial_evidence"),
-        })
+        evidence["splits_not_applied"].append(
+            {
+                "source_section": str(rule.get("source_section") or ""),
+                "target_sections": [str(v) for v in (rule.get("target_sections") or [])],
+                "declared_weighting": rule.get("weighting"),
+                "reason": "NO_VOTE_REDISTRIBUTION_BETWEEN_EDITIONS",
+                "spatial_evidence": rule.get("spatial_evidence"),
+            }
+        )
 
     votes_after = int(out["votes"].sum())
     if votes_after != votes_before:
         raise ValueError(f"Reconciliación electoral altera votos: {votes_before} -> {votes_after}")
     evidence["votes_after"] = votes_after
     return out, evidence
-
-
 
 def electoral_outputs(assigned, district_field, parties: PartyDictionary):
     by_party = assigned.groupby([district_field, "party"], as_index=False)["votes"].sum()
@@ -287,9 +288,15 @@ def main():
     args = parser.parse_args()
     config = load_params_yaml(args.params)
     m07 = module_cfg(config, "modulo_07_agregar_resultados_electorales", "step7_elections")
+    m06 = module_cfg(config, "modulo_06_consolidar_distritos", "step6_export_final")
+    m03 = module_cfg(config, "modulo_03_construir_grafo", "step3_graph")
     input_geo = require(m07.get("in_geojson"), "Falta M07 geometría")
     section_field = require(m07.get("section_id_field"), "Falta M07 section_id")
     district_field = require(m07.get("district_field"), "Falta M07 district_id")
+    population_field = require(
+        m07.get("population_field") or m06.get("pop_field") or m03.get("pop_field"),
+        "Falta M07 campo de población para informar cobertura electoral",
+    )
     contract_path = require(m07.get("election_contract"), "Falta M07 contrato electoral")
     report_path = require(
         m07.get("out_reconciliation_report"),
@@ -304,7 +311,7 @@ def main():
         expected_territory_id=territory_id,
     )
     gdf = load_geo(input_geo)
-    mapping = gdf[[section_field, district_field]].copy()
+    mapping = gdf[[section_field, district_field, population_field]].copy()
     result_batches = [
         read_results(source["resolved_path"], source["adapter"], section_field, parties)
         for source in contract["sources"]
@@ -319,13 +326,20 @@ def main():
         contract=contract,
     )
     result_section_ids = set(section_party[section_field].astype(str))
+    source_verification = contract.get("source_verification") or {}
+    reconciliation_policy = contract.get("reconciliation") or {}
+    definitive_candidate_votes = source_verification.get("official_candidate_votes")
+    if definitive_candidate_votes is None:
+        definitive_candidate_votes = reconciliation_policy.get("definitive_candidate_votes")
     assigned, report = reconcile_sections(
         mapping,
         section_party,
         section_field=section_field,
         district_field=district_field,
-        policy=contract["reconciliation"],
+        policy=reconciliation_policy,
         result_section_ids=result_section_ids,
+        population_field=population_field,
+        definitive_candidate_votes=definitive_candidate_votes,
     )
     report["section_reconciliation"] = section_reconciliation_report
     report["source_verification"] = contract.get("source_verification") or {}
@@ -373,6 +387,9 @@ def main():
         enriched[section_field] = enriched[section_field].astype(str)
         enriched = enriched.merge(section_totals, on=section_field, how="left")
         enriched = enriched.merge(section_winners, on=section_field, how="left")
+        enriched["electoral_data_status"] = enriched["section_total_votes"].map(
+            lambda value: "NO_RESULT_IN_ACCEPTED_SOURCE" if pd.isna(value) else "AVAILABLE"
+        )
         write_geo(enriched, out_enriched)
 
     print(
