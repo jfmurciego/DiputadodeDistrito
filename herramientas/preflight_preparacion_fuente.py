@@ -97,7 +97,8 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             evidence, expected_prefix=prefix, label=f"{tid}/{edition} registro territorial"
         )
         declaration_rel = state.get("territorial_source_declaration")
-        source_year = int(edition)
+        population_year = int(edition)
+        section_year = int(edition)
         if declaration_rel:
             declaration_path = root / str(declaration_rel)
             if not declaration_path.is_file():
@@ -106,13 +107,18 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
             territory = declaration.get("territory") or {}
             if str(territory.get("id") or "") != tid:
                 raise ValueError(f"{tid}/{edition}: declaración territorial pertenece a otro territorio")
-            source_year = int(territory.get("source_year", territory.get("edition", edition)))
+            legacy_year = int(territory.get("source_year", territory.get("edition", edition)))
+            population_year = int(territory.get("population_year", legacy_year))
+            section_year = int(territory.get("section_year", legacy_year))
         common.update(
             registered=True,
             run_id=run_id,
             artifact_name=artifact_name,
             artifact_sha256=artifact_sha256,
-            source_year=source_year,
+            population_year=population_year,
+            section_year=section_year,
+            source_year=population_year if population_year == section_year else None,
+            receipt_path=(state.get("preparation_evidence") or {}).get("receipt_path"),
             evidence_path="configuracion/catalogo_preparacion.yaml#preparation_evidence",
         )
         return common
