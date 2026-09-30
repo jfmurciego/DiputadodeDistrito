@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import shutil
@@ -223,6 +224,45 @@ def _promote_contract(path: Path) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _capture_territorial_product_guard(root: Path, state: dict) -> dict | None:
+    if not state.get("territorial_product_available"):
+        return None
+    evidence = state.get("evidence") or {}
+    rel = str(evidence.get("territorial_product") or "")
+    if not rel:
+        raise ValueError("Producto territorial histórico marcado disponible sin receipt")
+    path = root / rel
+    if not path.is_file():
+        raise ValueError(f"Receipt de producto territorial histórico inexistente: {rel}")
+    return {
+        "receipt_path": rel,
+        "receipt_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+    }
+
+
+def _assert_territorial_product_guard(
+    root: Path,
+    catalog_path: Path,
+    *,
+    territory_id: str,
+    edition: str,
+    guard: dict | None,
+) -> None:
+    if guard is None:
+        return
+    catalog = _yaml(catalog_path)
+    row = next(r for r in catalog.get("territories") or [] if r.get("territory_id") == territory_id)
+    state = (row.get("editions") or {}).get(str(edition)) or {}
+    if not state.get("territorial_product_available"):
+        raise ValueError("La promoción de fuente eliminó la disponibilidad del producto territorial histórico")
+    rel = str((state.get("evidence") or {}).get("territorial_product") or "")
+    if rel != guard["receipt_path"]:
+        raise ValueError("La promoción de fuente cambió el receipt del producto territorial histórico")
+    path = root / rel
+    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != guard["receipt_sha256"]:
+        raise ValueError("La promoción de fuente alteró el producto territorial histórico")
+
+
 def _promote_master(path: Path, territory_id: str, contract_complete: bool) -> None:
     if not contract_complete:
         return
@@ -263,6 +303,7 @@ def promote(
     state = (row.get("editions") or {}).get(str(edition))
     if not isinstance(state, dict):
         raise ValueError(f"Edición no registrada: {territory_id}/{edition}")
+    product_guard = _capture_territorial_product_guard(root, state)
 
     package_abs = package if package.is_absolute() else root / package
     source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
@@ -380,6 +421,13 @@ def promote(
     # Se informa la misma puerta que consumirá 00/02; la evidencia pre-M04, cuando
     # exista, debe superar CAP_PRE_M04_EVIDENCE y coincidir con la fuente durable.
     from herramientas.resolver_ejecucion_completa import generation_enablement
+    _assert_territorial_product_guard(
+        root,
+        catalog,
+        territory_id=territory_id,
+        edition=str(edition),
+        guard=product_guard,
+    )
     refreshed = _yaml(catalog)
     refreshed_row = next(r for r in refreshed.get("territories") or [] if r.get("territory_id") == territory_id)
     refreshed_state = (refreshed_row.get("editions") or {}).get(str(edition)) or {}
