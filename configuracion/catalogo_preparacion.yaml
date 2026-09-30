@@ -93,7 +93,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -105,6 +105,7 @@ territories:
         package_sha256: 2de18e550629cd906f34ef4e9184781c6cbcf1d64ba6576560e734448cc56b7e
       evidence:
         generation_preflight: territorios/illes_balears/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
 - territory_id: canarias
   name: Canarias
   editions:
@@ -141,7 +142,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -153,6 +154,7 @@ territories:
         package_sha256: 8a388ec5b91f8e029740c2b0668b2706432f62ebb8c682d4fd416d9b6e6c9deb
       evidence:
         generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/cantabria/evidencia/catalogo/electoral_source_2025.json
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
   editions:
@@ -324,7 +326,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -336,6 +338,7 @@ territories:
         package_sha256: b50817612f04c199d8c8748353dd71d9834b11e840cc29c1ffadd89df8582544
       evidence:
         generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/madrid/evidencia/catalogo/electoral_source_2025.json
 - territory_id: region_de_murcia
   name: Región de Murcia
   editions:
@@ -348,7 +351,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -360,6 +363,7 @@ territories:
         package_sha256: d855dfad0910b5913e6920a03e7cfbfdfa720584d1fa28f739fb906268e89240
       evidence:
         generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/region_de_murcia/evidencia/catalogo/electoral_source_2025.json
 - territory_id: comunidad_foral_de_navarra
   name: Comunidad Foral de Navarra
   editions:
@@ -420,7 +424,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -432,6 +436,7 @@ territories:
         package_sha256: ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5
       evidence:
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
 - territory_id: ceuta
   name: Ceuta
   editions:
