@@ -24,10 +24,10 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         self.assertIn('p["run_incorporate"]=False', text)
 
         jobs = data["jobs"]
-        self.assertIn(
-            "needs.planificar.outputs.run_prepare_electoral == 'true'",
-            jobs["preparar_electoral"]["if"],
-        )
+        self.assertEqual(jobs["preparar_electoral"]["if"], "${{ false }}")
+        self.assertEqual(jobs["preparar_territorial"]["if"], "${{ false }}")
+        self.assertEqual(jobs["generar"]["needs"], ["planificar", "puerta_01"])
+        self.assertNotIn("puerta_03", jobs["generar"]["needs"])
         self.assertIn("puerta_02", jobs["publicar"]["needs"])
         self.assertEqual(
             jobs["publicar"]["with"]["production_run_id"],
@@ -37,7 +37,11 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
     def test_electoral_mode_is_resolved_before_electoral_jobs(self):
         text = ORCH.read_text(encoding="utf-8")
         data = yaml.load(text, Loader=yaml.BaseLoader)
-        self.assertIn("effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path(\".\"))", text)
+        self.assertIn("effective=resolve_publication_mode(plan,requested,root_dir=Path(\".\"))", text)
+        self.assertLess(
+            text.index("effective=resolve_publication_mode(plan,requested,root_dir=Path(\".\"))"),
+            text.index("resolve-territorial"),
+        )
         self.assertIn('p["publication_mode_requested"]=publication_mode', text)
         self.assertIn('p["publication_mode_effective"]=effective_mode', text)
         self.assertIn('p["publication_mode"]=effective_mode', text)

@@ -12,6 +12,7 @@ try:
         digest,
         electoral_identity,
         geometric_reuse_compatible,
+        territorial_identity,
     )
     from herramientas.resolver_preparacion_legislatura import resolve
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
@@ -20,6 +21,7 @@ except ModuleNotFoundError:  # ejecución directa: python herramientas/...
         digest,
         electoral_identity,
         geometric_reuse_compatible,
+        territorial_identity,
     )
     from resolver_preparacion_legislatura import resolve
 
@@ -294,6 +296,147 @@ def build_pair(
         ),
         "pair_sha256": pair_sha,
     }
+
+
+
+def validate_pair_receipt(
+    *,
+    root_dir: Path,
+    pair_path: Path,
+    expected_territory_id: str | None = None,
+    expected_edition: str | None = None,
+) -> dict:
+    """Valida un receipt ya registrado sin reconstruirlo desde la matriz de preparación."""
+    root = root_dir.resolve()
+    path = pair_path if pair_path.is_absolute() else root / pair_path
+    pair = _json(path)
+    if pair.get("schema") != PAIR_SCHEMA:
+        raise PreparedSourcePairBlock("PAIR_BLOCK: schema de par preparado no reconocido")
+
+    territory_id = str(pair.get("territory_id") or "")
+    edition = str(pair.get("edition") or "")
+    if not territory_id or not edition:
+        raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial/edición incompleta")
+    if expected_territory_id is not None and territory_id != str(expected_territory_id):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: territorio del par no coincide")
+    if expected_edition is not None and edition != str(expected_edition):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: edición del par no coincide")
+
+    election = pair.get("election") or {}
+    references = pair.get("references") or {}
+    population = references.get("population") or {}
+    sectioning = references.get("sectioning") or {}
+    temporal = pair.get("temporal_evidence") or {}
+    territorial = pair.get("territorial_source") or {}
+    electoral = pair.get("electoral_source") or {}
+
+    temporal_rel = str(temporal.get("path") or "")
+    temporal_path = root / temporal_rel if temporal_rel else None
+    if temporal_path is None or not temporal_path.is_file():
+        raise PreparedSourcePairBlock("PAIR_BLOCK: evidencia temporal durable ausente")
+    temporal_sha = digest(temporal.get("sha256"), label="temporal_evidence.sha256")
+    import hashlib
+    if hashlib.sha256(temporal_path.read_bytes()).hexdigest() != temporal_sha:
+        raise PreparedSourcePairBlock("PAIR_BLOCK: evidencia temporal durable no coincide con el receipt")
+
+    territorial_id = territorial_identity(
+        territory_id=territory_id,
+        edition=edition,
+        population_year=int(population.get("year")),
+        section_year=int(sectioning.get("year")),
+        package_sha256=str(territorial.get("package_sha256") or ""),
+        compatibility_identity_sha256=str(territorial.get("compatibility_identity_sha256") or ""),
+    )
+    if territorial_id["territorial_identity_sha256"] != str(territorial.get("territorial_identity_sha256") or ""):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: identidad territorial del receipt no reconcilia")
+    if str(pair.get("geometric_compatibility_key") or "") != territorial_id["territorial_identity_sha256"]:
+        raise PreparedSourcePairBlock("PAIR_BLOCK: clave geométrica no coincide con la identidad territorial acreditada")
+
+    electoral_id = electoral_identity(
+        territory_id=territory_id,
+        edition=edition,
+        election_id=str(election.get("election_id") or ""),
+        election_date=str(election.get("election_date") or ""),
+        artifact_sha256=str(electoral.get("artifact_sha256") or ""),
+    )
+    if electoral_id["electoral_identity_sha256"] != str(electoral.get("electoral_identity_sha256") or ""):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: identidad electoral del receipt no reconcilia")
+    if str(pair.get("electoral_compatibility_key") or "") != electoral_id["electoral_identity_sha256"]:
+        raise PreparedSourcePairBlock("PAIR_BLOCK: clave electoral no coincide con la identidad acreditada")
+
+    def verify_side_receipt(side: dict, *, label: str) -> dict:
+        rel = str(side.get("receipt_path") or "")
+        if not rel:
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
+        side_path = root / rel
+        receipt = _json(side_path)
+        if str(receipt.get("territory_id") or "") != territory_id:
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")
+        if str(receipt.get("edition") or "") != edition:
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice edition")
+        for key in ("run_id", "artifact_name", "artifact_sha256"):
+            if str(receipt.get(key) or "") != str(side.get(key) or ""):
+                raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice {key}")
+        remote = side.get("remote_verification") or {}
+        if (
+            int(remote.get("run_id") or 0) != int(side.get("run_id") or 0)
+            or str(remote.get("artifact_name") or "") != str(side.get("artifact_name") or "")
+            or digest(remote.get("artifact_sha256"), label=f"{label}.remote.artifact_sha256")
+            != digest(side.get("artifact_sha256"), label=f"{label}.artifact_sha256")
+            or remote.get("expired") is not False
+            or not isinstance(remote.get("artifact_id"), int)
+            or int(remote.get("artifact_id")) <= 0
+        ):
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: verificación remota durable de {label} no reconcilia")
+        return receipt
+
+    territorial_receipt = verify_side_receipt(territorial, label="territorial")
+    if territorial_receipt.get("schema") != "ddd.territorial-source-receipt/1.0":
+        raise PreparedSourcePairBlock("PAIR_BLOCK: schema de receipt territorial no reconocido")
+    for key in ("package_sha256", "territorial_identity_sha256"):
+        if str(territorial_receipt.get(key) or "") != str(territorial.get(key) or ""):
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt territorial contradice {key}")
+
+    electoral_receipt = verify_side_receipt(electoral, label="electoral")
+    if str(electoral_receipt.get("election_id") or "") != str(election.get("election_id") or ""):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: receipt electoral contradice election_id")
+    receipt_date = str(electoral_receipt.get("election_date") or "")
+    if receipt_date and receipt_date != str(election.get("election_date") or ""):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: receipt electoral contradice election_date")
+
+    canonical = {
+        "territory_id": territory_id,
+        "edition": edition,
+        "election_id": str(election.get("election_id") or ""),
+        "election_date": str(election.get("election_date") or ""),
+        "population_year": int(population.get("year")),
+        "population_reference_date": str(population.get("reference_date") or ""),
+        "section_year": int(sectioning.get("year")),
+        "section_reference_label": str(sectioning.get("reference_label") or ""),
+        "temporal_evidence_sha256": temporal_sha,
+        "territorial_identity_sha256": territorial_id["territorial_identity_sha256"],
+        "territorial_run_id": int(territorial.get("run_id")),
+        "territorial_artifact_sha256": digest(
+            territorial.get("artifact_sha256"), label="territorial.artifact_sha256"
+        ),
+        "compatibility_report_sha256": digest(
+            territorial.get("compatibility_report_sha256"),
+            label="territorial.compatibility_report_sha256",
+        ),
+        "compatibility_identity_sha256": digest(
+            territorial.get("compatibility_identity_sha256"),
+            label="territorial.compatibility_identity_sha256",
+        ),
+        "electoral_identity_sha256": electoral_id["electoral_identity_sha256"],
+        "electoral_run_id": int(electoral.get("run_id")),
+        "electoral_artifact_sha256": digest(
+            electoral.get("artifact_sha256"), label="electoral.artifact_sha256"
+        ),
+    }
+    if canonical_sha256(canonical) != str(pair.get("pair_sha256") or ""):
+        raise PreparedSourcePairBlock("PAIR_BLOCK: pair_sha256 no reconcilia con el receipt")
+
+    return pair
 
 
 def _state_bounds(lines: list[str], territory_id: str, edition: str) -> tuple[int, int, str]:
