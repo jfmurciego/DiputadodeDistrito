@@ -63,10 +63,39 @@ def format_country_label(code: str = COUNTRY_CODE, name: str = COUNTRY_NAME) -> 
     return f"{COUNTRY_CODE} · {COUNTRY_NAME}"
 
 
-def normalize_territory_input(value: str) -> str:
+def normalize_territory_input(value: str, path: Path = MASTER) -> str:
     text = str(value or "").strip()
     match = TERRITORY_CODE_RE.fullmatch(text)
-    return match.group(2).strip() if match else text
+    if not match:
+        return text
+
+    code = match.group(1)
+    name_or_id = match.group(2).strip()
+    rows = load_master(path)
+    by_code = {str(row["autonomous_community_code_ine"]): row for row in rows}
+    coded = by_code.get(code)
+    if coded is None:
+        raise KeyError(
+            f"CODAUTO territorial fuera de 01..19: {code!r} en {value!r}"
+        )
+
+    named = [
+        row
+        for row in rows
+        if name_or_id in {str(row["name"]), str(row["territory_id"])}
+    ]
+    if len(named) != 1:
+        raise KeyError(
+            f"Nombre o identificador territorial no registrado en etiqueta: {name_or_id!r}"
+        )
+    if str(named[0]["territory_id"]) != str(coded["territory_id"]):
+        raise KeyError(
+            "Etiqueta territorial contradictoria: "
+            f"CODAUTO {code} identifica {coded['name']!r} "
+            f"({coded['territory_id']}), pero {name_or_id!r} identifica "
+            f"{named[0]['name']!r} ({named[0]['territory_id']})"
+        )
+    return str(coded["name"])
 
 
 def normalize_country_input(value: str) -> str:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import yaml
 
@@ -74,15 +75,59 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
             normalize_country_input("00 · España")
 
     def test_visible_label_resolves_to_existing_internal_identity(self):
-        self.assertEqual(normalize_territory_input("04 · Islas Baleares"), "Islas Baleares")
+        self.assertEqual(normalize_territory_input("01 · Andalucía", MASTER), "Andalucía")
+        self.assertEqual(normalize_territory_input("04 · Islas Baleares", MASTER), "Islas Baleares")
         self.assertEqual(resolve_master("04 · Islas Baleares", MASTER)["territory_id"], "illes_balears")
         self.assertEqual(resolve_master("03 · Principado de Asturias", MASTER)["territory_id"], "principado_de_asturias")
         self.assertEqual(resolve_master("19 · Melilla", MASTER)["territory_id"], "melilla")
+
+        rows = load_master(MASTER)
+        self.assertEqual(
+            [resolve_master(label, MASTER)["territory_id"] for label in EXPECTED],
+            [row["territory_id"] for row in rows],
+        )
 
         plain = lookup("Islas Baleares", "2025", CATALOG)
         visible = lookup("04 · Islas Baleares", "2025", CATALOG)
         self.assertEqual(visible, plain)
         self.assertEqual(visible["territory_id"], "illes_balears")
+
+    def test_historical_plain_names_and_internal_ids_keep_their_previous_treatment(self):
+        for value in ("Andalucía", "andalucia", "Islas Baleares", "illes_balears", "Comunidad de Madrid", "madrid"):
+            with self.subTest(value=value):
+                self.assertEqual(normalize_territory_input(value, MASTER), value)
+
+    def test_coded_label_rejects_mismatched_or_out_of_range_identity(self):
+        cases = [
+            ("04 · Andalucía", "Etiqueta territorial contradictoria"),
+            ("07 · Castilla-La Mancha", "Etiqueta territorial contradictoria"),
+            ("20 · Andalucía", "CODAUTO territorial fuera de 01..19"),
+            ("00 · España", "CODAUTO territorial fuera de 01..19"),
+        ]
+        for value, reason in cases:
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(KeyError, reason):
+                    normalize_territory_input(value, MASTER)
+        self.assertEqual(normalize_country_input("ES · España"), "ES")
+
+    def test_invalid_coded_label_is_rejected_before_planning_or_source_acquisition(self):
+        kwargs = dict(
+            edition="2025",
+            execution_mode="reuse",
+            catalog=CATALOG,
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=False,
+        )
+        with patch("herramientas.catalogo_preparacion.load_catalog") as load_catalog:
+            with self.assertRaisesRegex(KeyError, "Etiqueta territorial contradictoria"):
+                build_plan(territory="04 · Andalucía", **kwargs)
+            load_catalog.assert_not_called()
+
+        with patch("herramientas.resolver_fuentes_territorio.territories") as source_registry:
+            with self.assertRaisesRegex(KeyError, "Etiqueta territorial contradictoria"):
+                build_declaration("07 · Castilla-La Mancha", 2025)
+            source_registry.assert_not_called()
 
     def test_all_human_territory_selectors_use_same_labels_and_order(self):
         selectors = [
