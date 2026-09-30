@@ -151,6 +151,11 @@ def _territorial_candidate(
         return {"reusable": False, "reason": "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH"}
     if not artifact_sha256 or not package_sha256:
         return {"reusable": False, "reason": "TERRITORIAL_DIGEST_MISSING"}
+    compatibility_report_sha256 = _digest(prep.get("compatibility_report_sha256"))
+    compatibility_identity_sha256 = _digest(prep.get("compatibility_identity_sha256"))
+    compatibility_report_member = str(prep.get("compatibility_report_member") or "")
+    if not compatibility_report_sha256 or not compatibility_identity_sha256 or not compatibility_report_member:
+        return {"reusable": False, "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING"}
 
     identity = territorial_identity(
         territory_id=territory_id,
@@ -158,6 +163,7 @@ def _territorial_candidate(
         population_year=observed_population_year,
         section_year=observed_section_year,
         package_sha256=package_sha256,
+        compatibility_identity_sha256=compatibility_identity_sha256,
     )
     receipt_rel = str(prep.get("receipt_path") or "")
     if receipt_rel:
@@ -177,6 +183,9 @@ def _territorial_candidate(
             or int(receipt.get("population_year") or 0) != observed_population_year
             or int(receipt.get("section_year") or 0) != observed_section_year
             or str(receipt.get("territorial_identity_sha256") or "") != identity["territorial_identity_sha256"]
+            or _digest(receipt.get("compatibility_report_sha256")) != compatibility_report_sha256
+            or _digest(receipt.get("compatibility_identity_sha256")) != compatibility_identity_sha256
+            or str(receipt.get("compatibility_report_member") or "") != compatibility_report_member
         ):
             return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_CONTRADICTORY"}
 
@@ -188,6 +197,9 @@ def _territorial_candidate(
         "declaration": str(declaration_rel),
         "receipt_path": receipt_rel or None,
         "source_commit": prep.get("source_commit"),
+        "compatibility_report_sha256": compatibility_report_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
+        "compatibility_report_member": compatibility_report_member,
     }
     if observed_population_year != population_year:
         return {
