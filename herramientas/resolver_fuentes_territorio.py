@@ -41,9 +41,11 @@ def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dic
     raise KeyError(f"Territorio no registrado: {value}")
 
 
-def build_declaration(territory: str, edition: int, *, registry_path: Path = DEFAULT_REGISTRY,
+def build_declaration(territory: str, edition: int, *, source_year: int | None = None,
+                      registry_path: Path = DEFAULT_REGISTRY,
                       catalog_path: Path = DEFAULT_CATALOG) -> dict:
     row = resolve_territory(territory, registry_path)
+    source_year = int(source_year if source_year is not None else edition)
     catalog = load_yaml(catalog_path)
     sources = catalog.get("sources") or {}
     required = list(sources)
@@ -62,7 +64,7 @@ def build_declaration(territory: str, edition: int, *, registry_path: Path = DEF
             }
         elif source.get("kind") == "ogc_features":
             bindings[source_id] = {
-                "materialized_path": f"inputs/seccionado_{edition}.zip",
+                "materialized_path": f"inputs/seccionado_{source_year}.zip",
             }
         else:
             raise ValueError(f"Tipo de fuente no soportado por el test: {source.get('kind')}")
@@ -72,6 +74,7 @@ def build_declaration(territory: str, edition: int, *, registry_path: Path = DEF
             "id": row["id"],
             "business_name": row["name"],
             "edition": int(edition),
+            "source_year": source_year,
             "territorial_codes": [{"code": c, "business_name": c} for c in codes],
         },
         "required_sources": required,
@@ -107,6 +110,7 @@ def main() -> int:
     ap.add_argument("command", choices=["list", "matrix", "declaration"])
     ap.add_argument("--territory", default="Todos")
     ap.add_argument("--edition", default="2025")
+    ap.add_argument("--source-year", type=int)
     ap.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
     ap.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     ap.add_argument("--output", type=Path)
@@ -120,7 +124,8 @@ def main() -> int:
         return 0
 
     declaration = build_declaration(
-        args.territory, int(args.edition), registry_path=args.registry, catalog_path=args.catalog
+        args.territory, int(args.edition), source_year=args.source_year,
+        registry_path=args.registry, catalog_path=args.catalog
     )
     rendered = yaml.safe_dump(declaration, allow_unicode=True, sort_keys=False)
     if args.output:
