@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
-from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, read_report_from_package
+from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, validate_compatibility_package
 from herramientas.identidad_fuentes_legislatura import territorial_identity
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
@@ -335,11 +335,18 @@ def promote(
     package_sha256 = str(manifest.get("sha256") or "")
     if not package_sha256:
         raise ValueError("Paquete territorial sin SHA-256 interno")
-    compatibility, compatibility_report_sha256 = read_report_from_package(package_abs)
-    if compatibility.get("decision") != "READY":
+    compatibility, compatibility_report_sha256, compatibility_reasons = validate_compatibility_package(
+        package_abs,
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=population_year,
+        section_year=section_year,
+        require_ready=True,
+    )
+    if compatibility_reasons:
         raise ValueError(
             "Paquete territorial bloqueado por compatibilidad población↔seccionado: "
-            + "; ".join(compatibility.get("causes") or [])
+            + "; ".join(compatibility_reasons)
         )
     compatibility_identity_sha256 = str(
         compatibility.get("compatibility_identity_sha256") or ""
