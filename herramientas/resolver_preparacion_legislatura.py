@@ -130,9 +130,9 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
         if not digest or not data.get("publisher") or not data.get("source_url") or not data.get("retrieved_at"):
             return {"reusable": False, "reason": "ELECTORAL_LEGACY_PROVENANCE_INCOMPLETE"}
         return {
-            "reusable": True,
+            "reusable": False,
             "legacy": True,
-            "reason": "ELECTORAL_LEGACY_PROVENANCE_CANDIDATE",
+            "reason": "ELECTORAL_PACKAGE_IDENTITY_NOT_DURABLE",
             "artifact_sha256": digest,
             "receipt": str(rel),
         }
