@@ -39,6 +39,7 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/aragon/evidencia/catalogo/territorial_product_2025.json
+        territorial_product_source_lineage: territorios/aragon/evidencia/linaje_producto_territorial/36321736287.json
         electoral_source: territorios/aragon/evidencia/catalogo/electoral_source_2025.json
         electoral_product: territorios/aragon/evidencia/catalogo/electoral_product_2025.json
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
@@ -47,10 +48,15 @@ territories:
         run_id: 36321736287
         stage: M06
       preparation_evidence:
-        run_id: 35710908574
+        run_id: 35728613828
         artifact_name: ddd-source-package-aragon-2025-35728613828
         artifact_sha256: df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2
         package_sha256: f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2
+        source_commit: 7a37a00834d7614a21f02bb6d0f181d475aad5e2
+        population_year: 2025
+        section_year: 2025
+        territorial_identity_sha256: 4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0
+        receipt_path: territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/receipt.json
         stage: M08
 - territory_id: principado_de_asturias
   name: Principado de Asturias
@@ -198,6 +204,7 @@ territories:
       electoral_product_available: true
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
+        territorial_product_source_lineage: territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json
         electoral_source: territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
@@ -206,10 +213,15 @@ territories:
         run_id: 35889595424
         stage: M06
       preparation_evidence:
-        run_id: 35329341120
+        run_id: 35610439734
         artifact_name: ddd-source-package-castilla_y_leon-2025-35610439734
         artifact_sha256: c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d
         package_sha256: 37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752
+        source_commit: 0c516d79e2eaa36966deb016bcf57aafff9c4409
+        population_year: 2025
+        section_year: 2025
+        territorial_identity_sha256: 380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c
+        receipt_path: territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/receipt.json
         stage: M08
 - territory_id: cataluna
   name: Cataluña
