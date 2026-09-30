@@ -48,7 +48,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["required_year"], 2026)
                 self.assertEqual(territorial["selected_source_year"], 2025)
                 self.assertEqual(territorial["lag_years"], 1)
-                self.assertEqual(territorial["action"], "REUSE_TEMPORAL_SUBSTITUTION")
+                self.assertIn(
+                    territorial["action"],
+                    {"REUSE_TEMPORAL_SUBSTITUTION", "ACQUIRE_DURABLE_IDENTITY_MISMATCH"},
+                )
                 self.assertIn("2026", territorial["reason"])
                 self.assertIn("2025", territorial["reason"])
 
@@ -70,6 +73,17 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 4157539)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 28964)
 
+    def test_aragon_reacquires_incoherent_territorial_receipt_but_reuses_electoral(self):
+        plan = resolve(ROOT, "Aragón")["plans"][0]
+        self.assertEqual(plan["population_year_required"], 2026)
+        self.assertEqual(plan["population_year_selected"], 2025)
+        self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(
+            plan["territorial_candidate"]["reason"],
+            "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH",
+        )
+        self.assertEqual(plan["electoral_action"], "REUSE")
+
     def test_partial_acquisition_reuses_electoral_but_replaces_wrong_year_territorial(self):
         for territory in ("Comunidad de Madrid", "Galicia"):
             plan = resolve(ROOT, territory)["plans"][0]
@@ -84,7 +98,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
 
     def test_legacy_electoral_provenance_is_not_a_reusable_package(self):
         plan = resolve(ROOT, "Castilla y León")["plans"][0]
-        self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
+        self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(plan["territorial_candidate"]["reason"], "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH")
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(
             plan["electoral_candidate"]["reason"],
