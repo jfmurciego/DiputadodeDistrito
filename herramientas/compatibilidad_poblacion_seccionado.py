@@ -375,6 +375,42 @@ def _rows_from_frame(gdf: Any, id_field: str) -> list[tuple[str, Any]]:
     return [(normalize_section_key(row[id_field]), row.geometry) for _, row in gdf.iterrows()]
 
 
+def normalize_geometry_frames(
+    *,
+    target_gdf: Any,
+    target_id_field: str,
+    origin_gdf: Any | None,
+    origin_id_field: str | None,
+    cross_year: bool,
+) -> tuple[list[tuple[str, Any]], list[tuple[str, Any]] | None, dict]:
+    target_crs = _parse_crs(getattr(target_gdf, "crs", None), label="target_sectioning")
+    origin_crs = None
+    normalized_origin = origin_gdf
+    if cross_year:
+        if origin_gdf is None or origin_id_field is None:
+            raise ValueError("ORIGIN_SECTIONING_EVIDENCE_MISSING")
+        origin_crs = _parse_crs(getattr(origin_gdf, "crs", None), label="population_sectioning_origin")
+        if not origin_crs.equals(target_crs):
+            normalized_origin = origin_gdf.to_crs(target_crs)
+    elif origin_gdf is not None:
+        raise ValueError("CRS_UNEXPECTED: seccionado origen presente para la misma edición")
+
+    crs = _crs_audit(
+        target_original=target_crs,
+        origin_original=origin_crs,
+        cross_year=cross_year,
+    )
+    return (
+        _rows_from_frame(target_gdf, target_id_field),
+        (
+            _rows_from_frame(normalized_origin, origin_id_field)
+            if normalized_origin is not None and origin_id_field is not None
+            else None
+        ),
+        crs,
+    )
+
+
 def _expected_roles(population_year: int, section_year: int) -> tuple[str, ...]:
     roles = ["population", "target_sectioning"]
     if int(population_year) != int(section_year):
@@ -581,15 +617,18 @@ def build_materialized_report(
     )
 
     target_gdf, target_id = _geometry_frame_from_zip(target_path)
-    target_crs = _parse_crs(target_gdf.crs, label="target_sectioning")
     origin_gdf = None
     origin_id = None
-    origin_crs = None
     if origin_path is not None:
         origin_gdf, origin_id = _geometry_frame_from_zip(origin_path)
-        origin_crs = _parse_crs(origin_gdf.crs, label="population_sectioning_origin")
-        if not origin_crs.equals(target_crs):
-            origin_gdf = origin_gdf.to_crs(target_crs)
+
+    target_rows, origin_rows, crs = normalize_geometry_frames(
+        target_gdf=target_gdf,
+        target_id_field=target_id,
+        origin_gdf=origin_gdf,
+        origin_id_field=origin_id,
+        cross_year=population_year != section_year,
+    )
 
     identities: dict[str, dict] = {}
     for role, row in by_role.items():
@@ -604,23 +643,14 @@ def build_materialized_report(
             "sha256": _sha256_bytes(payload),
         }
 
-    crs = _crs_audit(
-        target_original=target_gdf.crs,
-        origin_original=origin_crs,
-        cross_year=population_year != section_year,
-    )
     report = reconcile_population_sectioning(
         territory_id=territory_id,
         edition=edition,
         population_year=population_year,
         section_year=section_year,
         population_rows=_population_rows_from_zip(population_path),
-        target_geometry_rows=_rows_from_frame(target_gdf, target_id),
-        origin_geometry_rows=(
-            _rows_from_frame(origin_gdf, origin_id)
-            if origin_gdf is not None and origin_id is not None
-            else None
-        ),
+        target_geometry_rows=target_rows,
+        origin_geometry_rows=origin_rows,
         input_identities=identities,
         crs_audit=crs,
     )
