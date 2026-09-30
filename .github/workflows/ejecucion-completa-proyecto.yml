@@ -220,77 +220,61 @@ jobs:
           esac
           mkdir -p .ddd-full-run
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          if [[ "$GITHUB_EVENT_NAME" != "pull_request" ]]; then
-            python -m herramientas.consumir_par_fuentes_legislatura \
-              --root-dir . resolve \
-              --territory "$TERRITORY" \
-              --edition "$EDITION" \
-              --output .ddd-full-run/prepared_pair.json
-            jq -e '.decision == "READY" and .pair.schema == "ddd.prepared-source-pair/1.0"' \
-              .ddd-full-run/prepared_pair.json >/dev/null
-          fi
           extra_plan_args=()
           if [[ "$mode" == "reuse" ]]; then
             extra_plan_args+=(--reuse-existing-optimization)
           fi
           python -m herramientas.resolver_ejecucion_completa             --territory "$TERRITORY" --edition "$EDITION" --execution-mode "$mode"             --optimization-algorithm "$UI_ALGORITHM" "${extra_plan_args[@]}"             --root-dir . --output .ddd-full-run/plan.json >/tmp/ddd-plan.json
+
+          # El modo efectivo se resuelve antes de exigir ninguna fuente.
+          python - "$PUBLICATION_MODE" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from herramientas.resolver_ejecucion_completa import resolve_publication_mode
+          plan=json.loads(Path(".ddd-full-run/plan.json").read_text(encoding="utf-8"))
+          requested=sys.argv[1]
+          effective=resolve_publication_mode(plan,requested,root_dir=Path("."))
+          Path(".ddd-full-run/publication_mode.json").write_text(
+              json.dumps({"requested":requested,"effective":effective},ensure_ascii=False,indent=2)+"\n",
+              encoding="utf-8",
+          )
+          PY
+
+          if [[ "$GITHUB_EVENT_NAME" != "pull_request" ]]; then
+            effective_mode="$(jq -r .effective .ddd-full-run/publication_mode.json)"
+            case "$effective_mode" in
+              electoral)
+                python -m herramientas.consumir_par_fuentes_legislatura \
+                  --root-dir . resolve \
+                  --territory "$TERRITORY" \
+                  --edition "$EDITION" \
+                  --output .ddd-full-run/prepared_pair.json
+                jq -e '.decision == "READY" and .pair.schema == "ddd.prepared-source-pair/1.0"' \
+                  .ddd-full-run/prepared_pair.json >/dev/null
+                ;;
+              territorial_only)
+                python -m herramientas.consumir_par_fuentes_legislatura \
+                  --root-dir . resolve-territorial \
+                  --territory "$TERRITORY" \
+                  --edition "$EDITION" \
+                  --output .ddd-full-run/prepared_territorial.json
+                jq -e '.decision == "READY" and .territorial_source.schema == "ddd.territorial-source-receipt/1.0"' \
+                  .ddd-full-run/prepared_territorial.json >/dev/null
+                ;;
+              *) echo "::error::publication_mode efectivo inválido: $effective_mode"; exit 58 ;;
+            esac
+          fi
           python - "$PUBLICATION_MODE" "$CAMPAIGN_INSTANCE" "$CAMPAIGN_SLOT" "$CAMPAIGN_NAMESPACE" "$CAMPAIGN_MANIFEST_SHA256" "$CANDIDATE_COUNT" "$GERRYCHAIN_ENTRYPOINT" "$REQUIRE_UNIQUE_HASHES" "$REUSE_RUN_ID" "$REUSE_ARTIFACT_NAME" "$REUSE_ARTIFACT_SHA256" "$REUSE_SOURCE_SHA" "$EXPECTED_POPULATION_TOTAL" "$EXPECTED_SECTION_COUNT" "$EXPECTED_DISTRICT_COUNT" "$EXPECTED_CERTIFICATION" <<'PY'
           import json,sys
           from pathlib import Path
-          from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source, resolve_publication_mode
+          from herramientas.resolver_ejecucion_completa import apply_explicit_territorial_source
           path=Path(".ddd-full-run/plan.json")
           p=json.loads(path.read_text(encoding="utf-8"))
+          mode_doc=json.loads(Path(".ddd-full-run/publication_mode.json").read_text(encoding="utf-8"))
+          effective_mode=mode_doc["effective"]
           pair_doc=None
           pair=None
-          pair_path=Path(".ddd-full-run/prepared_pair.json")
-          if pair_path.is_file():
-              pair_doc=json.loads(pair_path.read_text(encoding="utf-8"))
-              pair=pair_doc["pair"]
-              territorial=pair["territorial_source"]
-              electoral=pair["electoral_source"]
-              p["prepared_source_pair"]={
-                  "receipt_path":pair_doc["receipt_path"],
-                  "pair_sha256":pair["pair_sha256"],
-                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
-                  "electoral_identity_sha256":electoral["electoral_identity_sha256"],
-              }
-              p["run_prepare_territorial"]=False
-              p["run_prepare_electoral"]=False
-              p["pre_m04_accreditation_planned"]=False
-              p["existing"]["territorial_source"]={
-                  **p["existing"].get("territorial_source",{}),
-                  "run_id":territorial["run_id"],
-                  "artifact_name":territorial["artifact_name"],
-                  "artifact_sha256":territorial["artifact_sha256"],
-                  "package_sha256":territorial["package_sha256"],
-                  "source_commit":territorial.get("source_commit"),
-                  "source_declaration":territorial.get("source_declaration"),
-                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
-                  "decision":"VALIDADO",
-              }
-              p["existing"]["electoral_source"]={
-                  **p["existing"].get("electoral_source",{}),
-                  "run_id":electoral["run_id"],
-                  "artifact_name":electoral["artifact_name"],
-                  "artifact_sha256":electoral["artifact_sha256"],
-                  "election_id":electoral["election_id"],
-                  "decision":"VALIDADO",
-              }
-              reuse=pair_doc.get("geometric_reuse") or {}
-              if (
-                  p.get("execution_mode")=="reuse"
-                  and p.get("optimization_algorithm")=="Canónico"
-                  and reuse.get("compatible") is True
-              ):
-                  p["run_generate"]=False
-                  p["existing"]["territorial_product"]={
-                      "run_id":reuse.get("product_run_id"),
-                      "artifact_name":reuse.get("product_artifact_name"),
-                      "artifact_sha256":reuse.get("product_artifact_sha256"),
-                      "decision":"VALIDADO",
-                  }
-              elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
-                  p["run_generate"]=True
+          territorial_doc=None
           (publication_mode,campaign_instance,slot,namespace,manifest_sha,candidate_count,
            entrypoint,require_unique,reuse_run_id,reuse_artifact,reuse_digest,reuse_source_sha,
            expected_population,expected_sections,expected_districts,expected_certification)=sys.argv[1:]
@@ -324,17 +308,92 @@ jobs:
                   )
           except ValueError as exc:
               raise SystemExit(str(exc)) from exc
-          try:
-              effective_mode=resolve_publication_mode(p,publication_mode,root_dir=Path("."))
-          except ValueError as exc:
-              raise SystemExit(str(exc)) from exc
+          # Las fuentes acreditadas se aplican después de resolver modo y caller:
+          # nunca se reconstruye un par ni se permite que reuse_* sustituya su identidad.
+          pair_path=Path(".ddd-full-run/prepared_pair.json")
+          territorial_path=Path(".ddd-full-run/prepared_territorial.json")
+          if effective_mode=="electoral" and pair_path.is_file():
+              pair_doc=json.loads(pair_path.read_text(encoding="utf-8"))
+              pair=pair_doc["pair"]
+              territorial=pair["territorial_source"]
+              electoral=pair["electoral_source"]
+              p["prepared_source_pair"]={
+                  "receipt_path":pair_doc["receipt_path"],
+                  "pair_sha256":pair["pair_sha256"],
+                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
+                  "electoral_identity_sha256":electoral["electoral_identity_sha256"],
+              }
+              p["prepared_territorial_source"]={
+                  "receipt_path":territorial["receipt_path"],
+                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
+              }
+              p["existing"]["territorial_source"]={
+                  **p["existing"].get("territorial_source",{}),
+                  "run_id":territorial["run_id"],
+                  "artifact_name":territorial["artifact_name"],
+                  "artifact_sha256":territorial["artifact_sha256"],
+                  "package_sha256":territorial["package_sha256"],
+                  "source_commit":territorial.get("source_commit"),
+                  "source_declaration":territorial.get("source_declaration"),
+                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
+                  "decision":"VALIDADO",
+              }
+              p["existing"]["electoral_source"]={
+                  **p["existing"].get("electoral_source",{}),
+                  "run_id":electoral["run_id"],
+                  "artifact_name":electoral["artifact_name"],
+                  "artifact_sha256":electoral["artifact_sha256"],
+                  "election_id":electoral["election_id"],
+                  "decision":"VALIDADO",
+              }
+              reuse=pair_doc.get("geometric_reuse") or {}
+          elif effective_mode=="territorial_only" and territorial_path.is_file():
+              territorial_doc=json.loads(territorial_path.read_text(encoding="utf-8"))
+              territorial=territorial_doc["territorial_source"]
+              p["prepared_territorial_source"]={
+                  "receipt_path":territorial_doc["receipt_path"],
+                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
+              }
+              p["existing"]["territorial_source"]={
+                  **p["existing"].get("territorial_source",{}),
+                  "run_id":territorial["run_id"],
+                  "artifact_name":territorial["artifact_name"],
+                  "artifact_sha256":territorial["artifact_sha256"],
+                  "package_sha256":territorial["package_sha256"],
+                  "source_commit":territorial.get("source_commit"),
+                  "source_declaration":territorial.get("source_declaration"),
+                  "territorial_identity_sha256":territorial["territorial_identity_sha256"],
+                  "decision":"VALIDADO",
+              }
+              reuse=territorial_doc.get("geometric_reuse") or {}
+          else:
+              reuse={}
+
+          if reuse:
+              if (
+                  p.get("execution_mode")=="reuse"
+                  and p.get("optimization_algorithm")=="Canónico"
+                  and reuse.get("compatible") is True
+              ):
+                  p["run_generate"]=False
+                  p["existing"]["territorial_product"]={
+                      "run_id":reuse.get("product_run_id"),
+                      "artifact_name":reuse.get("product_artifact_name"),
+                      "artifact_sha256":reuse.get("product_artifact_sha256"),
+                      "decision":"VALIDADO",
+                  }
+              elif p.get("execution_mode")=="reuse" and reuse.get("available") is True:
+                  p["run_generate"]=True
+
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
           p["publication_mode"]=effective_mode
-          if pair is not None:
+          if pair is not None or territorial_doc is not None:
               p["run_prepare_territorial"]=False
               p["run_prepare_electoral"]=False
+              p["pre_m04_accreditation_planned"]=False
           if effective_mode=="territorial_only":
+              p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
           path.write_text(json.dumps(p,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
@@ -373,9 +432,11 @@ jobs:
           out("existing_electoral_product_artifact",existing["electoral_product"].get("artifact_name"))
           out("existing_electoral_product_digest",existing["electoral_product"].get("artifact_sha256"))
           prepared=p.get("prepared_source_pair") or {}
+          prepared_t=p.get("prepared_territorial_source") or {}
           out("prepared_source_pair_receipt",prepared.get("receipt_path"))
           out("prepared_source_pair_sha256",prepared.get("pair_sha256"))
-          out("prepared_territorial_identity_sha256",prepared.get("territorial_identity_sha256"))
+          out("prepared_territorial_receipt",prepared_t.get("receipt_path"))
+          out("prepared_territorial_identity_sha256",prepared_t.get("territorial_identity_sha256"))
           PY
           persist="$PERSIST_INPUT"
           publish="$PUBLISH_INPUT"
