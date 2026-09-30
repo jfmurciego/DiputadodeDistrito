@@ -342,6 +342,7 @@ def promote(
         / "fuentes_territoriales"
         / str(edition)
         / identity_sha
+        / str(run_id)
     )
     version_root.mkdir(parents=True, exist_ok=True)
     versioned_declaration = version_root / "fuentes_oficiales.yaml"
