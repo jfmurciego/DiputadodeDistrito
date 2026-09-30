@@ -18,7 +18,7 @@ territories:
     name: Aragón
     election_id: aragon_cortes_2026-02-08
     election_date: '2026-02-08'
-    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: REUSE_TEMPORAL_SUBSTITUTION, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible.'}
+    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: ACQUIRE_DURABLE_IDENTITY_MISMATCH, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible. El registro territorial actual no liga run_id y artifact_name de forma coherente y debe readquirirse.'}
     electoral: {source: 'Corporación RTVE — resultados 2026', granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: principado_de_asturias
     name: Principado de Asturias
@@ -48,7 +48,7 @@ territories:
     name: Castilla y León
     election_id: castilla_y_leon_cortes_2026-03-15
     election_date: '2026-03-15'
-    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: REUSE_TEMPORAL_SUBSTITUTION, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible.'}
+    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: ACQUIRE_DURABLE_IDENTITY_MISMATCH, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible. El registro territorial actual no liga run_id y artifact_name de forma coherente y debe readquirirse.'}
     electoral: {source: 'Junta de Castilla y León — Datos Abiertos', granularity: section_party, action: ACQUIRE, definitive_gap_status: OFFICIAL_SOURCE, reason: 'La procedencia legacy acredita fuente y digest normalizado, pero no identifica un paquete electoral durable reutilizable.'}
   - territory_id: castilla_la_mancha
     name: Castilla-La Mancha
