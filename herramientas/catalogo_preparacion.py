@@ -97,7 +97,65 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
             if ed_raw and not (root/ed_raw).is_file():
                 errors.append(f"{tid}/{edition}: declaración electoral inexistente: {ed_raw}")
 
+            prep=state.get("preparation_evidence") or {}
+            if state.get("territorial_sources_prepared") and isinstance(prep,dict):
+                receipt_raw=str(prep.get("receipt_path") or "")
+                if receipt_raw:
+                    receipt_path=root/receipt_raw
+                    if not receipt_path.is_file():
+                        errors.append(f"{tid}/{edition}: receipt territorial versionado inexistente: {receipt_raw}")
+                    else:
+                        try:
+                            receipt=json.loads(receipt_path.read_text(encoding="utf-8"))
+                            if receipt.get("schema")!="ddd.territorial-source-receipt/1.0":
+                                errors.append(f"{tid}/{edition}: schema de receipt territorial inválido")
+                            if str(receipt.get("territory_id") or "")!=tid or str(receipt.get("edition") or "")!=str(edition):
+                                errors.append(f"{tid}/{edition}: receipt territorial pertenece a otra identidad")
+                            for key in ("run_id","artifact_name","artifact_sha256","package_sha256","territorial_identity_sha256"):
+                                expected=prep.get(key)
+                                actual=receipt.get(key)
+                                if expected not in (None,"") and str(actual)!=str(expected):
+                                    errors.append(f"{tid}/{edition}: receipt territorial contradice preparation_evidence.{key}")
+                        except Exception as exc:
+                            errors.append(f"{tid}/{edition}: receipt territorial inválido: {exc}")
+
             evidence=state.get("evidence") or {}
+            pair_raw=str(evidence.get("prepared_source_pair") or "")
+            if pair_raw:
+                pair_path=root/pair_raw
+                if not pair_path.is_file():
+                    errors.append(f"{tid}/{edition}: par preparado durable inexistente: {pair_raw}")
+                else:
+                    try:
+                        pair=json.loads(pair_path.read_text(encoding="utf-8"))
+                        if pair.get("schema")!="ddd.prepared-source-pair/1.0":
+                            errors.append(f"{tid}/{edition}: schema de par preparado inválido")
+                        if str(pair.get("territory_id") or "")!=tid or str(pair.get("edition") or "")!=str(edition):
+                            errors.append(f"{tid}/{edition}: par preparado pertenece a otra identidad")
+                        if str(pair.get("geometric_compatibility_key") or "")!=str((pair.get("territorial_source") or {}).get("territorial_identity_sha256") or ""):
+                            errors.append(f"{tid}/{edition}: clave geométrica no coincide con identidad territorial del par")
+                        for side in ("territorial_source","electoral_source"):
+                            receipt_rel=str((pair.get(side) or {}).get("receipt_path") or "")
+                            if not receipt_rel or not (root/receipt_rel).is_file():
+                                errors.append(f"{tid}/{edition}: par preparado sin receipt durable de {side}")
+                    except Exception as exc:
+                        errors.append(f"{tid}/{edition}: par preparado inválido: {exc}")
+
+            lineage_raw=str(evidence.get("territorial_product_source_lineage") or "")
+            if lineage_raw:
+                lineage_path=root/lineage_raw
+                if not lineage_path.is_file():
+                    errors.append(f"{tid}/{edition}: linaje producto→fuente inexistente: {lineage_raw}")
+                else:
+                    try:
+                        lineage=json.loads(lineage_path.read_text(encoding="utf-8"))
+                        if lineage.get("schema")!="ddd.territorial-product-source-lineage/1.0":
+                            errors.append(f"{tid}/{edition}: schema de linaje producto→fuente inválido")
+                        if str(lineage.get("territory_id") or "")!=tid:
+                            errors.append(f"{tid}/{edition}: linaje producto→fuente pertenece a otro territorio")
+                    except Exception as exc:
+                        errors.append(f"{tid}/{edition}: linaje producto→fuente inválido: {exc}")
+
             def require_evidence(kind:str,flag:str)->Path|None:
                 if not state.get(flag): return None
                 raw=evidence.get(kind)
