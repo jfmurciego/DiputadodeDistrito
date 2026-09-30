@@ -347,7 +347,7 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         return features, crs
 
 
-def _collect_live_sections(source: dict, edition: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict]:
+def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict]:
     urls = _source_urls(source, source_year, provinces)
     filter_field = str(source["territorial_filter_field"])
     section_id_field = str(source["section_id_field"])
