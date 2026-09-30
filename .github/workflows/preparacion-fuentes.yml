@@ -136,9 +136,16 @@ jobs:
             echo "registered_artifact_name=ddd-source-package-$(jq -r .territory_id <<<"$row")-$EDITION-$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
             echo "registered_artifact_sha256=${RECOVERY_SHA256,,}" >> "$GITHUB_OUTPUT"
           else
-            echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-            echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-            echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            registered_year="$(jq -r '.source_year // empty' <<<"$preflight")"
+            if [[ "$(jq -r '.registered|tostring' <<<"$preflight")" == true && "$registered_year" == "$source_year" ]]; then
+              echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            else
+              echo "registered_run_id=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
   territoriales:
