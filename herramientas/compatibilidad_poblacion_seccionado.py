@@ -350,6 +350,14 @@ def _population_rows_from_zip(path: Path) -> list[tuple[str, int]]:
     return rows
 
 
+def _sectioning_crs_from_bytes(payload: bytes, *, label: str):
+    with tempfile.TemporaryDirectory(prefix="ddd_compat_crs_") as td:
+        path = Path(td) / "sectioning.zip"
+        path.write_bytes(payload)
+        gdf, _ = _geometry_frame_from_zip(path)
+        return _parse_crs(gdf.crs, label=label)
+
+
 def _geometry_frame_from_zip(path: Path):
     try:
         import geopandas as gpd
@@ -543,6 +551,7 @@ def validate_report_bindings(
     if unexpected:
         reasons.append("INPUT_BINDING_UNEXPECTED: " + ", ".join(unexpected))
 
+    payloads_by_role: dict[str, bytes] = {}
     for role in sorted(expected_roles & report_roles):
         inv = by_role[role]
         binding = inputs.get(role)
@@ -565,6 +574,7 @@ def validate_report_bindings(
         except Exception as exc:
             reasons.append(f"INPUT_MEMBER_MISSING: {role}: {expected_member}: {exc}")
             continue
+        payloads_by_role[role] = payload
         actual_sha = _sha256_bytes(payload)
         actual_bytes = len(payload)
         if not inv_sha or inv_sha != actual_sha:
@@ -583,6 +593,36 @@ def validate_report_bindings(
             reasons.append(f"INPUT_REPORT_SIZE_INVALID: {role}")
         if str(binding.get("source_id") or "") != str(inv.get("source_id") or ""):
             reasons.append(f"INPUT_BINDING_SOURCE_ID_MISMATCH: {role}")
+
+    crs_block = report.get("crs") or {}
+    try:
+        target_payload = payloads_by_role.get("target_sectioning")
+        if target_payload is not None:
+            actual_target_crs = _sectioning_crs_from_bytes(
+                target_payload,
+                label="package.target_sectioning",
+            )
+            declared_target_crs = _parse_crs(
+                (crs_block.get("target") or {}).get("original"),
+                label="report.target.original",
+            )
+            if not actual_target_crs.equals(declared_target_crs):
+                reasons.append("CRS_BINDING_MISMATCH: target_sectioning")
+        if int(population_year) != int(section_year):
+            origin_payload = payloads_by_role.get("population_sectioning_origin")
+            if origin_payload is not None:
+                actual_origin_crs = _sectioning_crs_from_bytes(
+                    origin_payload,
+                    label="package.population_sectioning_origin",
+                )
+                declared_origin_crs = _parse_crs(
+                    (crs_block.get("origin") or {}).get("original"),
+                    label="report.origin.original",
+                )
+                if not actual_origin_crs.equals(declared_origin_crs):
+                    reasons.append("CRS_BINDING_MISMATCH: population_sectioning_origin")
+    except ValueError as exc:
+        reasons.append(str(exc))
 
     population_audit = report.get("population") or {}
     if require_ready and population_audit.get("exact_conservation") is not True:
