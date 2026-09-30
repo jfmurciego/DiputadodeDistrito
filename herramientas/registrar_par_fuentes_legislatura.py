@@ -6,13 +6,22 @@ import json
 import re
 from pathlib import Path
 
-from herramientas.identidad_fuentes_legislatura import (
-    canonical_sha256,
-    digest,
-    electoral_identity,
-    geometric_reuse_compatible,
-)
-from herramientas.resolver_preparacion_legislatura import resolve
+try:
+    from herramientas.identidad_fuentes_legislatura import (
+        canonical_sha256,
+        digest,
+        electoral_identity,
+        geometric_reuse_compatible,
+    )
+    from herramientas.resolver_preparacion_legislatura import resolve
+except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from identidad_fuentes_legislatura import (
+        canonical_sha256,
+        digest,
+        electoral_identity,
+        geometric_reuse_compatible,
+    )
+    from resolver_preparacion_legislatura import resolve
 
 PAIR_SCHEMA = "ddd.prepared-source-pair/1.0"
 REMOTE_SCHEMA = "ddd.prepared-source-pair-artifact-verification/1.0"
