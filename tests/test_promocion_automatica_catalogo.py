@@ -9,6 +9,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.catalogo_preparacion import lookup
+from herramientas.catalogo_territorios import format_territory_label, load_master
 from herramientas.resolver_fuentes_territorio import territories
 from herramientas.promover_catalogo_tras_preparacion import (
     _set_catalog_state,
@@ -82,9 +83,9 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         data = yaml.safe_load(GEN.read_text(encoding="utf-8"))
         triggers = data.get("on") or data.get(True)
         options = triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected = [r["name"] for r in territories()]
+        expected = [format_territory_label(r) for r in load_master()]
         self.assertEqual(options, expected)
-        self.assertIn("Extremadura", options)
+        self.assertIn("11 · Extremadura", options)
         promoter = (ROOT / "herramientas/promover_catalogo_tras_preparacion.py").read_text(encoding="utf-8")
         self.assertNotIn(".github/workflows/produccion-distritos.yml", promoter)
 
