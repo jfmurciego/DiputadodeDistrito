@@ -32,6 +32,10 @@ def _declaration(path: Path) -> dict:
 def _edition(declaration: Path) -> int:
     return int((_declaration(declaration).get("territory") or {})["edition"])
 
+def _source_year(declaration: Path) -> int:
+    territory = _declaration(declaration).get("territory") or {}
+    return int(territory.get("source_year", territory["edition"]))
+
 
 def _territory_id(declaration: Path) -> str:
     return str((_declaration(declaration).get("territory") or {})["id"])
@@ -77,7 +81,7 @@ def _write_deterministic_bundle(evidence: Path, destination: Path) -> None:
 
 
 def _manifest_from_acquisition(evidence: Path, working: Path, territory_id: str, edition: int,
-                               expected_records: int | None) -> dict:
+                               source_year: int, expected_records: int | None) -> dict:
     inv_rows, prov_rows = _source_rows(evidence)
     working.mkdir(parents=True, exist_ok=True)
     frozen = working / BUNDLE_NAME
@@ -113,6 +117,7 @@ def _manifest_from_acquisition(evidence: Path, working: Path, territory_id: str,
         "source_id": "prepared-territorial-sources:" + ",".join(sorted(set(source_ids))),
         "territory_id": territory_id,
         "edition": edition,
+        "source_year": source_year,
         "origin": " | ".join(sorted(urls)) or "declared-official-sources",
         "path": frozen.name,
         "bytes": frozen.stat().st_size,
@@ -153,6 +158,7 @@ def main() -> int:
     ap.add_argument("--expected-records", type=int)
     args = ap.parse_args()
     edition = _edition(args.declaration)
+    source_year = _source_year(args.declaration)
     territory_id = _territory_id(args.declaration)
     expected_records = args.expected_records if args.expected_records is not None else _expected_records(args.declaration)
 
@@ -175,7 +181,7 @@ def main() -> int:
                 "Adquisición oficial bloqueada: "
                 + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
             )
-        return _manifest_from_acquisition(args.acquisition_evidence, working, territory_id, edition, expected_records)
+        return _manifest_from_acquisition(args.acquisition_evidence, working, territory_id, edition, source_year, expected_records)
 
     evidence = execute_source_policy(
         requested_edition=edition,
