@@ -123,7 +123,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -135,6 +135,7 @@ territories:
         package_sha256: abeb53758e14b38f88631798f81660b32c5add7dcf1fc34d05a649401a332409
       evidence:
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11/36789298682/receipt.json
 - territory_id: cantabria
   name: Cantabria
   editions:
