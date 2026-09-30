@@ -390,4 +390,20 @@ def read_report_from_package(package: Path) -> tuple[dict, str]:
     report = json.loads(raw.decode("utf-8"))
     if not isinstance(report, dict) or report.get("schema") != SCHEMA:
         raise ValueError("informe de compatibilidad población↔seccionado inválido")
+    declared_identity = str(report.get("compatibility_identity_sha256") or "")
+    canonical = {
+        key: value
+        for key, value in report.items()
+        if key not in {"schema", "compatibility_identity_sha256", "decision"}
+    }
+    actual_identity = _canonical_sha256(canonical)
+    if declared_identity != actual_identity:
+        raise ValueError(
+            "identidad del informe de compatibilidad población↔seccionado contradictoria"
+        )
+    expected_decision = "READY" if not (report.get("causes") or []) else "BLOCKED"
+    if report.get("decision") != expected_decision:
+        raise ValueError(
+            "decisión del informe de compatibilidad población↔seccionado contradictoria"
+        )
     return report, _sha256_bytes(raw)
