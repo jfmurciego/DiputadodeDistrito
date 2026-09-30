@@ -140,11 +140,10 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         ]
         decorated = _decorate_and_sort(rows, ROOT)
         self.assertEqual([row["id"] for row in decorated], ["m06-andalucia-1", "m06-asturias-1", "m06-balears-1"])
-        self.assertEqual([row["territory_label"] for row in decorated], EXPECTED[:4:3] if False else [
-            "01 · Andalucía",
-            "03 · Principado de Asturias",
-            "04 · Islas Baleares",
-        ])
+        self.assertEqual(
+            [row["territory_label"] for row in decorated],
+            ["01 · Andalucía", "03 · Principado de Asturias", "04 · Islas Baleares"],
+        )
         self.assertTrue(all(row["country_display_name"] == "ES · España" for row in decorated))
         self.assertEqual(decorated[2]["territory_id"], "illes_balears")
 
