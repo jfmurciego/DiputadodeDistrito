@@ -9,7 +9,7 @@ import json
 import zipfile
 from pathlib import Path
 
-from herramientas.compatibilidad_poblacion_seccionado import read_report_from_package
+from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
 from herramientas.politica_reutilizacion_fuentes import validate_frozen_copy
 
 REQUIRED_BUNDLE_FILES = {
@@ -168,30 +168,19 @@ def validate_prepared_package(
                     if _sha256(payload).lower() != expected_sha:
                         reasons.append(f"{source_id}: checksum incorrecto")
 
-            try:
-                compatibility, compatibility_sha = read_report_from_package(package)
-            except Exception as exc:
-                reasons.append(str(exc))
-            else:
-                if compatibility.get("decision") != "READY":
-                    reasons.append(
-                        "informe de compatibilidad población↔seccionado bloqueado: "
-                        + "; ".join(compatibility.get("causes") or [])
-                    )
-                if str(compatibility.get("territory_id") or "") != territory_id:
-                    reasons.append("informe de compatibilidad pertenece a otro territorio")
-                if str(compatibility.get("edition") or "") != str(edition):
-                    reasons.append("informe de compatibilidad pertenece a otra edición")
-                if int(compatibility.get("population_year") or 0) != expected_population_year:
-                    reasons.append("informe de compatibilidad usa otro año de población")
-                if int(compatibility.get("section_year") or 0) != expected_section_year:
-                    reasons.append("informe de compatibilidad usa otro año de seccionado")
+            compatibility, compatibility_sha, compatibility_reasons = validate_compatibility_package(
+                package,
+                territory_id=territory_id,
+                edition=edition,
+                population_year=expected_population_year,
+                section_year=expected_section_year,
+                require_ready=True,
+            )
+            reasons.extend(compatibility_reasons)
+            if not compatibility_reasons:
                 identity = str(compatibility.get("compatibility_identity_sha256") or "")
                 if len(identity) != 64 or any(ch not in "0123456789abcdef" for ch in identity):
                     reasons.append("informe de compatibilidad sin identidad SHA-256 válida")
-                population_audit = compatibility.get("population") or {}
-                if population_audit.get("exact_conservation") is not True:
-                    reasons.append("informe de compatibilidad no acredita conservación exacta de población")
                 if not compatibility_sha or len(compatibility_sha) != 64:
                     reasons.append("informe de compatibilidad sin digest durable")
     except Exception as exc:
