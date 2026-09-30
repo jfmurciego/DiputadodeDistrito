@@ -10,6 +10,7 @@ from pathlib import Path
 
 import geopandas as gpd
 import yaml
+from pyproj import CRS
 from shapely.geometry import box
 
 from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, SCHEMA
@@ -136,6 +137,7 @@ def build_package(
             "sha256": hashlib.sha256(payload).hexdigest(),
         }
 
+    crs_wkt = CRS.from_epsg(4326).to_wkt()
     compatibility = {
         "schema": SCHEMA,
         "territory_id": territory,
@@ -144,15 +146,15 @@ def build_package(
         "section_year": section_year,
         "inputs": inputs,
         "crs": {
-            "target": {"original": "EPSG:4326", "original_wkt": "fixture"},
+            "target": {"original": "EPSG:4326", "original_wkt": crs_wkt},
             "origin": (
-                {"original": "EPSG:4326", "original_wkt": "fixture"}
+                {"original": "EPSG:4326", "original_wkt": crs_wkt}
                 if population_year != section_year
                 else None
             ),
             "effective": {
                 "crs": "EPSG:4326",
-                "wkt": "fixture",
+                "wkt": crs_wkt,
                 "policy": "target_sectioning_crs",
                 "origin_reprojected": False,
             },
