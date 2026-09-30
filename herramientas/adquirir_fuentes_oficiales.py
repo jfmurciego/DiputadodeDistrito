@@ -382,9 +382,14 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
             is_section = ("SECC" in tipo) if tipo else bool(csec and csec != "000")
             if not is_section:
                 continue
-            if section_id in seen_ids:
-                raise ValueError(f"Clave geométrica duplicada antes de materializar: {section_id}")
-            seen_ids.add(section_id)
+            normalized_section_id = _normalize_section_id(section_id)
+            if not normalized_section_id:
+                raise ValueError(f"Clave geométrica no normalizable: {section_id!r}")
+            if normalized_section_id in seen_ids:
+                raise ValueError(
+                    f"Clave geométrica duplicada antes de materializar: {normalized_section_id}"
+                )
+            seen_ids.add(normalized_section_id)
             all_features.append(feature)
             count += 1
         coverage[code] = count
