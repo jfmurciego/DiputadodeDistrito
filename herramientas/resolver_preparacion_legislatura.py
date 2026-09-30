@@ -9,10 +9,16 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.identidad_fuentes_legislatura import (
-    digest,
-    territorial_identity,
-)
+try:
+    from herramientas.identidad_fuentes_legislatura import (
+        digest,
+        territorial_identity,
+    )
+except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from identidad_fuentes_legislatura import (
+        digest,
+        territorial_identity,
+    )
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
