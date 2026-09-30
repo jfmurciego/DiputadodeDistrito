@@ -1,0 +1,30 @@
+{
+  "schema": "ddd.territorial-product-source-lineage/1.0",
+  "territory_id": "aragon",
+  "edition": "2025",
+  "territorial_product": {
+    "run_id": 36321736287,
+    "artifact_name": "ddd-state-36321736287-M06",
+    "artifact_sha256": "1aa6889ae4e49e49ce2a6b469b6cfbc325d040b30639d5adb8326afde9c89394",
+    "source_commit": "2d4ab0f40e6461f9455155246a3238922179146f",
+    "receipt_path": "territorios/aragon/evidencia/catalogo/territorial_product_2025.json"
+  },
+  "territorial_source": {
+    "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/receipt.json",
+    "territorial_identity_sha256": "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0",
+    "run_id": 35728613828,
+    "artifact_name": "ddd-source-package-aragon-2025-35728613828",
+    "artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+    "package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2"
+  },
+  "producer_observation": {
+    "workflow_run_id": 36321736287,
+    "job_id": 108627038326,
+    "job_name": "02 · Generar distritos autonómicos / Generar y certificar distritos / Verificar datos territoriales preparados",
+    "observed_source_package_run_id": 35728613828,
+    "observed_source_package_artifact_name": "ddd-source-package-aragon-2025-35728613828",
+    "observed_source_execution_package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+    "preserved_response": "SOURCE_PACKAGE_RUN_ID: 35728613828\nSOURCE_PACKAGE_ARTIFACT_NAME: ddd-source-package-aragon-2025-35728613828\nddd-source-execution/1.0 decision=REUSE sha256=f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+    "response_sha256": "bec5c1066ac04aff75c4e52810604a4e0ae20b27d37d47bd27e69820045b8a2b"
+  }
+}
