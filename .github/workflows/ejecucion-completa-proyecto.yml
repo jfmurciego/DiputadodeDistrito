@@ -174,6 +174,7 @@ jobs:
       existing_electoral_product_digest: ${{ steps.plan.outputs.existing_electoral_product_digest }}
       prepared_source_pair_receipt: ${{ steps.plan.outputs.prepared_source_pair_receipt }}
       prepared_source_pair_sha256: ${{ steps.plan.outputs.prepared_source_pair_sha256 }}
+      prepared_territorial_receipt: ${{ steps.plan.outputs.prepared_territorial_receipt }}
       prepared_territorial_identity_sha256: ${{ steps.plan.outputs.prepared_territorial_identity_sha256 }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -469,8 +470,8 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-  verificar_par_preparado:
-    name: Verificar bytes del par preparado
+  verificar_fuentes_preparadas:
+    name: Verificar bytes de fuentes acreditadas
     needs: planificar
     if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' }}
     runs-on: ubuntu-24.04
@@ -482,29 +483,53 @@ jobs:
         with:
           ref: ${{ needs.planificar.outputs.source_sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
-      - name: Resolver receipt durable exacto
+      - name: Resolver acreditación exacta según modo
+        env:
+          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
         run: |
           set -euo pipefail
-          mkdir -p .ddd-pair
-          python -m herramientas.consumir_par_fuentes_legislatura \
-            --root-dir . resolve \
-            --territory "${{ needs.planificar.outputs.territory_name }}" \
-            --edition "${{ needs.planificar.outputs.edition }}" \
-            --output .ddd-pair/resolved.json
-          test "$(jq -r '.pair.pair_sha256' .ddd-pair/resolved.json)" = "${{ needs.planificar.outputs.prepared_source_pair_sha256 }}" || {
-            echo "::error::El receipt durable cambió entre planificación y verificación."; exit 70;
-          }
-      - name: Verificar identidad remota exacta de ambos artefactos
+          mkdir -p .ddd-source-check
+          case "$EFFECTIVE_MODE" in
+            electoral)
+              python -m herramientas.consumir_par_fuentes_legislatura \
+                --root-dir . resolve \
+                --territory "${{ needs.planificar.outputs.territory_name }}" \
+                --edition "${{ needs.planificar.outputs.edition }}" \
+                --output .ddd-source-check/resolved.json
+              test "$(jq -r '.pair.pair_sha256' .ddd-source-check/resolved.json)" = "${{ needs.planificar.outputs.prepared_source_pair_sha256 }}" || {
+                echo "::error::El receipt durable del par cambió entre planificación y verificación."; exit 70;
+              }
+              ;;
+            territorial_only)
+              python -m herramientas.consumir_par_fuentes_legislatura \
+                --root-dir . resolve-territorial \
+                --territory "${{ needs.planificar.outputs.territory_name }}" \
+                --edition "${{ needs.planificar.outputs.edition }}" \
+                --output .ddd-source-check/resolved.json
+              test "$(jq -r '.territorial_source.territorial_identity_sha256' .ddd-source-check/resolved.json)" = "${{ needs.planificar.outputs.prepared_territorial_identity_sha256 }}" || {
+                echo "::error::La identidad territorial cambió entre planificación y verificación."; exit 70;
+              }
+              ;;
+            *) echo "::error::Modo efectivo no soportado: $EFFECTIVE_MODE"; exit 70 ;;
+          esac
+      - name: Verificar identidad remota exacta de artefactos requeridos
         env:
           GH_TOKEN: ${{ github.token }}
+          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
         run: |
           set -euo pipefail
           verify_side() {
-            local side="$1" run_id name expected expected_id pages merged total received matches live
-            run_id="$(jq -r ".pair.${side}_source.run_id" .ddd-pair/resolved.json)"
-            name="$(jq -r ".pair.${side}_source.artifact_name" .ddd-pair/resolved.json)"
-            expected="$(jq -r ".pair.${side}_source.artifact_sha256" .ddd-pair/resolved.json | sed 's/^sha256://')"
-            expected_id="$(jq -r ".pair.${side}_source.remote_verification.artifact_id" .ddd-pair/resolved.json)"
+            local side="$1" source run_id name expected expected_id pages merged total received matches live live_id
+            if [[ "$EFFECTIVE_MODE" == electoral ]]; then
+              source="$(jq -c ".pair.${side}_source" .ddd-source-check/resolved.json)"
+            else
+              [[ "$side" == territorial ]] || return 0
+              source="$(jq -c '.territorial_source' .ddd-source-check/resolved.json)"
+            fi
+            run_id="$(jq -r '.run_id' <<<"$source")"
+            name="$(jq -r '.artifact_name' <<<"$source")"
+            expected="$(jq -r '.artifact_sha256' <<<"$source" | sed 's/^sha256://')"
+            expected_id="$(jq -r '.remote_verification.artifact_id // .artifact_id // empty' <<<"$source")"
             pages="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
             merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$pages")"
             total="$(jq -r '.total_count' <<<"$merged")"
@@ -513,43 +538,65 @@ jobs:
             matches="$(jq -c --arg n "$name" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
             [[ "$(jq 'length' <<<"$matches")" == 1 ]] || { echo "::error::Artefacto $side ausente o ambiguo"; exit 72; }
             live="$(jq -c '.[0]' <<<"$matches")"
-            [[ "$(jq -r '.id' <<<"$live")" == "$expected_id" ]] || { echo "::error::artifact_id $side cambió"; exit 73; }
+            live_id="$(jq -r '.id' <<<"$live")"
+            if [[ -n "$expected_id" && "$live_id" != "$expected_id" ]]; then
+              echo "::error::artifact_id $side contradice la acreditación"; exit 73
+            fi
             [[ "$(jq -r '.expired|tostring' <<<"$live")" == false ]] || { echo "::error::Artefacto $side expirado"; exit 74; }
             [[ "$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')" == "$expected" ]] || {
-              echo "::error::Digest remoto $side contradice el receipt"; exit 75;
+              echo "::error::Digest remoto $side contradice la acreditación"; exit 75;
             }
           }
           verify_side territorial
-          verify_side electoral
-      - name: Descargar exactamente las fuentes acreditadas
+          if [[ "$EFFECTIVE_MODE" == electoral ]]; then verify_side electoral; fi
+      - name: Descargar exactamente los artefactos acreditados
         env:
           GH_TOKEN: ${{ github.token }}
+          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
         run: |
           set -euo pipefail
-          t_run="$(jq -r '.pair.territorial_source.run_id' .ddd-pair/resolved.json)"
-          t_name="$(jq -r '.pair.territorial_source.artifact_name' .ddd-pair/resolved.json)"
-          e_run="$(jq -r '.pair.electoral_source.run_id' .ddd-pair/resolved.json)"
-          e_name="$(jq -r '.pair.electoral_source.artifact_name' .ddd-pair/resolved.json)"
-          rm -rf .ddd-pair/territorial .ddd-pair/electoral
-          gh run download "$t_run" --repo "$GITHUB_REPOSITORY" --name "$t_name" --dir .ddd-pair/territorial
-          gh run download "$e_run" --repo "$GITHUB_REPOSITORY" --name "$e_name" --dir .ddd-pair/electoral
-          test -s .ddd-pair/territorial/manifest.json
-          test -s .ddd-pair/electoral/manifest.json
+          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
+            t_run="$(jq -r '.pair.territorial_source.run_id' .ddd-source-check/resolved.json)"
+            t_name="$(jq -r '.pair.territorial_source.artifact_name' .ddd-source-check/resolved.json)"
+          else
+            t_run="$(jq -r '.territorial_source.run_id' .ddd-source-check/resolved.json)"
+            t_name="$(jq -r '.territorial_source.artifact_name' .ddd-source-check/resolved.json)"
+          fi
+          rm -rf .ddd-source-check/territorial .ddd-source-check/electoral
+          gh run download "$t_run" --repo "$GITHUB_REPOSITORY" --name "$t_name" --dir .ddd-source-check/territorial
+          test -s .ddd-source-check/territorial/manifest.json
+          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
+            e_run="$(jq -r '.pair.electoral_source.run_id' .ddd-source-check/resolved.json)"
+            e_name="$(jq -r '.pair.electoral_source.artifact_name' .ddd-source-check/resolved.json)"
+            gh run download "$e_run" --repo "$GITHUB_REPOSITORY" --name "$e_name" --dir .ddd-source-check/electoral
+            test -s .ddd-source-check/electoral/manifest.json
+          fi
       - id: verify
         name: Verificar bytes efectivos y contratos
+        env:
+          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
         run: |
           set -euo pipefail
-          receipt="$(jq -r '.receipt_path' .ddd-pair/resolved.json)"
-          python -m herramientas.consumir_par_fuentes_legislatura \
-            --root-dir . verify \
-            --pair-receipt "$receipt" \
-            --territorial-package .ddd-pair/territorial \
-            --electoral-package .ddd-pair/electoral \
-            --params "${{ needs.planificar.outputs.contract_path }}" \
-            --output .ddd-pair/validation.json
-          jq -e '.decision == "READY"' .ddd-pair/validation.json >/dev/null
-          echo "pair_sha256=$(jq -r '.pair_sha256' .ddd-pair/validation.json)" >> "$GITHUB_OUTPUT"
-          echo "territorial_identity_sha256=$(jq -r '.territorial_identity_sha256' .ddd-pair/validation.json)" >> "$GITHUB_OUTPUT"
+          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
+            receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
+            python -m herramientas.consumir_par_fuentes_legislatura \
+              --root-dir . verify \
+              --pair-receipt "$receipt" \
+              --territorial-package .ddd-source-check/territorial \
+              --electoral-package .ddd-source-check/electoral \
+              --params "${{ needs.planificar.outputs.contract_path }}" \
+              --output .ddd-source-check/validation.json
+          else
+            receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
+            python -m herramientas.consumir_par_fuentes_legislatura \
+              --root-dir . verify-territorial \
+              --territorial-receipt "$receipt" \
+              --territorial-package .ddd-source-check/territorial \
+              --output .ddd-source-check/validation.json
+          fi
+          jq -e '.decision == "READY"' .ddd-source-check/validation.json >/dev/null
+          echo "pair_sha256=$(jq -r '.pair_sha256 // empty' .ddd-source-check/validation.json)" >> "$GITHUB_OUTPUT"
+          echo "territorial_identity_sha256=$(jq -r '.territorial_identity_sha256' .ddd-source-check/validation.json)" >> "$GITHUB_OUTPUT"
 
   detectar_recuperacion_electoral:
     name: Detectar M08 electoral materializado sin registro
@@ -688,7 +735,8 @@ jobs:
   preparar_territorial:
     name: 01 · Preparar datos territoriales
     needs: planificar
-    if: ${{ needs.planificar.outputs.prepared_source_pair_sha256 != '' && needs.planificar.outputs.run_prepare_territorial == 'true' }}
+    # 00 nunca adquiere fuentes: la preparación es un proceso separado.
+    if: ${{ false }}
     uses: ./.github/workflows/preparacion-fuentes.yml
     secrets: inherit
     with:
@@ -700,11 +748,11 @@ jobs:
 
   puerta_01:
     name: Puerta de validación · 01 → 02
-    needs: [planificar, verificar_par_preparado, preparar_territorial]
+    needs: [planificar, verificar_fuentes_preparadas, preparar_territorial]
     # En PR no se valida contra un paquete histórico de producción: desde este
     # contrato los paquetes legacy sin informe población↔seccionado deben bloquear.
     # El CI de plataforma cubre esa puerta sintéticamente; producción conserva la puerta.
-    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.verificar_par_preparado.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') }}
+    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.verificar_fuentes_preparadas.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -758,7 +806,8 @@ jobs:
   preparar_electoral:
     name: 03 · Preparar resultados electorales
     needs: [planificar, puerta_02]
-    if: ${{ always() && needs.planificar.outputs.prepared_source_pair_sha256 != '' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
+    # 00 nunca adquiere fuentes electorales: el camino electoral exige par ya preparado.
+    if: ${{ false }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
