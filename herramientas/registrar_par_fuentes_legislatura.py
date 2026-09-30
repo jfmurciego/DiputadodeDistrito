@@ -13,7 +13,6 @@ try:
         electoral_identity,
         geometric_reuse_compatible,
         territorial_identity,
-        territorial_identity,
     )
     from herramientas.resolver_preparacion_legislatura import resolve
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
@@ -22,6 +21,7 @@ except ModuleNotFoundError:  # ejecución directa: python herramientas/...
         digest,
         electoral_identity,
         geometric_reuse_compatible,
+        territorial_identity,
     )
     from resolver_preparacion_legislatura import resolve
 
