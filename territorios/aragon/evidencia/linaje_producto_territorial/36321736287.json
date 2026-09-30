@@ -10,7 +10,7 @@
     "receipt_path": "territorios/aragon/evidencia/catalogo/territorial_product_2025.json"
   },
   "territorial_source": {
-    "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/receipt.json",
+    "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/35728613828/receipt.json",
     "territorial_identity_sha256": "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0",
     "run_id": 35728613828,
     "artifact_name": "ddd-source-package-aragon-2025-35728613828",
