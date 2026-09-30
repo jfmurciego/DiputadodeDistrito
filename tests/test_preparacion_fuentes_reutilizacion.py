@@ -9,6 +9,7 @@ from pathlib import Path
 
 import yaml
 
+from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, SCHEMA
 from herramientas.seleccionar_paquete_fuentes import select_first_valid, validate_prepared_package
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +26,7 @@ def build_package(
     population_year=None,
     section_year=None,
     corrupt=False,
+    include_compatibility=True,
 ) -> Path:
     package = root
     package.mkdir(parents=True, exist_ok=True)
@@ -59,6 +61,25 @@ def build_package(
         for name, data in docs.items():
             zf.writestr(name, json.dumps(data))
         zf.writestr("materialized/inputs/population.zip", source if not corrupt else source + b"corrupt")
+        if include_compatibility:
+            zf.writestr(REPORT_NAME, json.dumps({
+                "schema": SCHEMA,
+                "territory_id": territory,
+                "edition": str(edition),
+                "population_year": population_year,
+                "section_year": section_year,
+                "inputs": {},
+                "correspondences": [],
+                "geometric_changes": [],
+                "duplicates": {"population": [], "target_geometry": [], "origin_geometry": []},
+                "population_without_geometry": [],
+                "geometry_without_population": [],
+                "population_without_destination": [],
+                "population": {"input_total": 1, "assigned_total": 1, "exact_conservation": True},
+                "causes": [],
+                "compatibility_identity_sha256": "f" * 64,
+                "decision": "READY",
+            }))
     manifest = {
         "source_id": "prepared-territorial-sources:population",
         "territory_id": territory,
@@ -104,6 +125,15 @@ class PreparedSourceReuseTests(unittest.TestCase):
             )
             self.assertFalse(valid)
             self.assertTrue(any("año de seccionado distinto" in reason for reason in reasons))
+
+    def test_legacy_package_without_compatibility_report_is_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            package = build_package(Path(td) / "legacy", include_compatibility=False)
+            valid, reasons = validate_prepared_package(
+                package, territory_id="la_rioja", edition=2025
+            )
+            self.assertFalse(valid)
+            self.assertTrue(any("paquete histórico no reutilizable" in reason for reason in reasons))
 
     def test_reuse_disabled_selects_nothing(self):
         with tempfile.TemporaryDirectory() as td:
