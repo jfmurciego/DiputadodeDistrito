@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from herramientas.catalogo_territorios import format_territory_label, load_master
 import yaml
 from herramientas.resolver_eleccion_vigente import resolve, resolve_for_preparation
 from herramientas.preparar_fuente_electoral import prepare
@@ -39,9 +40,11 @@ class TestRegistroElectoralComun(unittest.TestCase):
         )
 
     def test_workflow_selector_matches_registry_codauto_order(self):
-        names=[row["name"] for row in self.registry["territories"].values()]
-        workflow=(ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")
-        self.assertIn("options: [" + ", ".join(names) + "]", workflow)
+        expected=[format_territory_label(row) for row in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
+        workflow=yaml.safe_load((ROOT/".github/workflows/preparacion-resultados-electorales.yml").read_text(encoding="utf-8")) or {}
+        triggers=workflow.get("on") or workflow.get(True) or {}
+        options=triggers["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        self.assertEqual(options,expected)
 
     def test_registry_has_exactly_19_identified_elections(self):
         self.assertEqual(self.registry["schema"],"ddd-election-registry/1.0"); self.assertEqual(len(self.registry["territories"]),19)
