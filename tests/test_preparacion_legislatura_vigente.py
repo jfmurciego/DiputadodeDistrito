@@ -146,8 +146,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
     def test_remote_reuse_requires_complete_paginated_inventory(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("gh api --paginate --slurp", workflow)
-        self.assertIn('total="$(jq -r '.total_count'', workflow)
-        self.assertIn('received="$(jq -r '.artifacts|length'', workflow)
+        self.assertIn("total=\"$(jq -r '.total_count'", workflow)
+        self.assertIn("received=\"$(jq -r '.artifacts|length'", workflow)
         self.assertIn("BLOCKED_DURABLE_INVENTORY", workflow)
 
     def test_matrix_does_not_invent_unknown_definitive_vote_gaps(self):
