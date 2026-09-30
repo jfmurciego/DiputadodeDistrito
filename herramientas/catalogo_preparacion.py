@@ -4,6 +4,11 @@ import argparse, hashlib, json, re
 from pathlib import Path
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import load_master, resolve_master
+except ModuleNotFoundError:
+    from catalogo_territorios import load_master, resolve_master
+
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 REQUIRED=(
