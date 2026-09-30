@@ -1,4 +1,4 @@
-name: Preparación conjunta · Legislatura vigente
+name: '- Activación de Legislatura Vigente'
 
 on:
   workflow_dispatch:
