@@ -178,12 +178,22 @@ def _territorial_candidate(
         ):
             return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_CONTRADICTORY"}
 
+    durable_candidate = {
+        "run_id": run_id,
+        "artifact_name": artifact_name,
+        "artifact_sha256": artifact_sha256,
+        "package_sha256": package_sha256,
+        "declaration": str(declaration_rel),
+        "receipt_path": receipt_rel or None,
+        "source_commit": prep.get("source_commit"),
+    }
     if observed_population_year != population_year:
         return {
             "reusable": False,
             "reason": "TERRITORIAL_POPULATION_YEAR_MISMATCH",
             "observed_population_year": observed_population_year,
             "observed_section_year": observed_section_year,
+            **durable_candidate,
             **identity,
         }
     if observed_section_year != section_year:
@@ -192,6 +202,7 @@ def _territorial_candidate(
             "reason": "TERRITORIAL_SECTION_YEAR_MISMATCH",
             "observed_population_year": observed_population_year,
             "observed_section_year": observed_section_year,
+            **durable_candidate,
             **identity,
         }
     source_commit = str(prep.get("source_commit") or "")
