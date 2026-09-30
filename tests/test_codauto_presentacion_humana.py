@@ -17,6 +17,7 @@ from herramientas.catalogo_territorios import (
 from herramientas.generar_estado_operativo import build, render_readme_block
 from herramientas.preparar_visor_ejecucion import _decorate_and_sort
 from herramientas.resolver_fuentes_territorio import resolve_territory
+from herramientas.resolver_ejecucion_completa import build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 WF = ROOT / ".github" / "workflows"
@@ -91,6 +92,18 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         visible = resolve_territory("04 · Islas Baleares")
         self.assertEqual(plain["id"], visible["id"])
         self.assertEqual(plain["province_codes"], visible["province_codes"])
+
+    def test_planning_is_identical_for_plain_and_visible_label(self):
+        kwargs = {
+            "edition": "2025",
+            "execution_mode": "reuse",
+            "catalog": ROOT / "configuracion/catalogo_preparacion.yaml",
+            "root_dir": ROOT,
+            "optimization_algorithm": "Canónico",
+        }
+        plain = build_plan(territory="Ceuta", **kwargs)
+        visible = build_plan(territory="18 · Ceuta", **kwargs)
+        self.assertEqual(visible, plain)
 
     def test_human_workflow_selectors_share_one_canonical_list(self):
         for name in (
