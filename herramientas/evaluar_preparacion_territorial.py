@@ -184,6 +184,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
     territory_id = str(territory.get("id") or "")
     territory_name = str(territory.get("business_name") or "Territorio sin nombre")
     edition = territory.get("edition")
+    source_year = int(territory.get("source_year", edition))
     provinces = {str(row.get("code")).zfill(2) for row in (territory.get("territorial_codes") or []) if isinstance(row, dict)}
     required = [str(x) for x in (declaration.get("required_sources") or [])]
     reasons: list[str] = []
@@ -214,12 +215,13 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         mode = None
     else:
         mode = inventory.get("acquisition_mode")
-        expected_header = {"territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode}
+        expected_header = {"territory_id": territory_id, "territory": territory_name, "edition": edition, "source_year": source_year, "environment": environment, "acquisition_mode": mode}
         for document_name, document in (("declaración", resolved_declaration), ("inventario", inventory), ("procedencia", provenance)):
             for key, expected in expected_header.items():
-                if document.get(key) != expected:
+                observed = document.get(key, document.get("edition") if key == "source_year" else None)
+                if observed != expected:
                     checks["headers_equal"] = False
-                    reasons.append(f"{document_name}: {key}={document.get(key)!r} no coincide con {expected!r}")
+                    reasons.append(f"{document_name}: {key}={observed!r} no coincide con {expected!r}")
 
         allowed = (declaration.get("environment_policy") or {}).get(environment) or []
         if mode not in allowed or (mode == "simulated" and environment != "test"):
@@ -297,7 +299,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         for source_id in pop_ids:
             try:
                 path = _materialized_path(evidence_dir, str((bindings.get(source_id) or {}).get("materialized_path") or ""))
-                _validate_population(path, declaration, int(edition), provinces)
+                _validate_population(path, declaration, source_year, provinces)
             except Exception as exc:
                 checks["population_valid"] = False
                 checks["province_coverage_exact"] = False
@@ -316,7 +318,7 @@ def evaluate(*, catalog: dict, declaration: dict, resolved_declaration: dict | N
         reasons.append("La adquisición terminó bloqueada")
 
     decision = "READY" if all(checks.values()) and not reasons else "BLOCKED"
-    return {"schema": "ddd-territory-readiness/1.2", "territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode, "decision": decision, "checks": checks, "reasons": reasons}
+    return {"schema": "ddd-territory-readiness/1.2", "territory_id": territory_id, "territory": territory_name, "edition": edition, "source_year": source_year, "environment": environment, "acquisition_mode": mode, "decision": decision, "checks": checks, "reasons": reasons}
 
 
 def readable_report(decision: dict) -> str:
