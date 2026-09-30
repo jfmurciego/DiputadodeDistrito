@@ -3,122 +3,123 @@ project_edition: '2025'
 as_of: '2026-09-30'
 population_section_policy:
   provider: Instituto Nacional de Estadística
-  latest_official_population_section_year: 2025
+  availability_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json
   population_source: https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv
   section_collection_template: WMS_INE_SECCIONES_G01:Secciones_{year}
-  rule: election_year_if_published_else_latest_official_with_explicit_lag
+  current_section_collection: WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit
+  rule: independent_population_and_section_years_with_verified_temporal_evidence
 territories:
   - territory_id: andalucia
     name: Andalucía
     election_id: andalucia_parlamento_2026
     election_date: '2026-05-17'
-    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: REUSE_TEMPORAL_SUBSTITUTION, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2026, section_lag_years: 0, section_reference_label: 'Secciones_2026', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_SOURCE_IDENTITY_CHANGE, reason: 'Población por sección 2026 no publicada: 2025 es la última oficial; seccionado 2026 sí publicado y debe adquirirse.'}
     electoral: {source: 'Minsait / EleccionesDB mirror provisional', granularity: section_party_after_polling_station_aggregation, action: BLOCKED_PROVISIONAL, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 4157539, source_candidate_votes: 4128575, gap_candidate_votes: 28964}
   - territory_id: aragon
     name: Aragón
     election_id: aragon_cortes_2026-02-08
     election_date: '2026-02-08'
-    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: ACQUIRE_DURABLE_IDENTITY_MISMATCH, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible. El registro territorial actual no liga run_id y artifact_name de forma coherente y debe readquirirse.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2026, section_lag_years: 0, section_reference_label: 'Secciones_2026', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_SOURCE_IDENTITY_CHANGE, reason: 'Población por sección 2026 no publicada: 2025 es la última oficial; seccionado 2026 sí publicado y debe adquirirse.'}
     electoral: {source: 'Corporación RTVE — resultados 2026', granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: principado_de_asturias
     name: Principado de Asturias
     election_id: asturias_jgpa_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: 'GIPEYOP / Spain Electoral Project mirror verificado', granularity: polling_station_to_section_party, action: REUSE, definitive_gap_status: RECONCILED_TO_OFFICIAL_TOTALS, gap_candidate_votes: 0}
   - territory_id: illes_balears
     name: Islas Baleares
     election_id: illes_balears_parlament_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: canarias
     name: Canarias
     election_id: canarias_parlamento_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: cantabria
     name: Cantabria
     election_id: cantabria_parlamento_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: castilla_y_leon
     name: Castilla y León
     election_id: castilla_y_leon_cortes_2026-03-15
     election_date: '2026-03-15'
-    territorial: {required_year: 2026, current_package_year: 2025, selected_source_year: 2025, action: ACQUIRE_DURABLE_IDENTITY_MISMATCH, lag_years: 1, reason: 'Censo anual por sección 2026 aún no publicado; se usa 2025 como último oficial disponible. El registro territorial actual no liga run_id y artifact_name de forma coherente y debe readquirirse.'}
+    territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2026, section_lag_years: 0, section_reference_label: 'Secciones_2026', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_SOURCE_IDENTITY_CHANGE, reason: 'Población por sección 2026 no publicada: 2025 es la última oficial; seccionado 2026 sí publicado y debe adquirirse.'}
     electoral: {source: 'Junta de Castilla y León — Datos Abiertos', granularity: section_party, action: ACQUIRE, definitive_gap_status: OFFICIAL_SOURCE, reason: 'La procedencia legacy acredita fuente y digest normalizado, pero no identifica un paquete electoral durable reutilizable.'}
   - territory_id: castilla_la_mancha
     name: Castilla-La Mancha
     election_id: castilla_la_mancha_cortes_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: cataluna
     name: Cataluña
     election_id: cataluna_parlament_2024
     election_date: '2024-05-12'
-    territorial: {required_year: 2024, current_package_year: 2025, selected_source_year: 2024, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2024, population_current_year: 2025, population_selected_year: 2024, population_lag_years: 0, population_reference_date: '2024-01-01', section_required_year: 2024, section_current_year: 2025, section_selected_year: 2024, section_lag_years: 0, section_reference_label: 'Secciones_2024', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: 'Generalitat de Catalunya / mirror auditable verificado', granularity: polling_station_to_section_party, action: ACQUIRE, definitive_gap_status: RECONCILED_TO_OFFICIAL_TOTALS, gap_candidate_votes: 0}
   - territory_id: comunidad_valenciana
     name: Comunidad Valenciana
     election_id: comunidad_valenciana_corts_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: extremadura
     name: Extremadura
     election_id: extremadura_asamblea_2025-12-21
     election_date: '2025-12-21'
-    territorial: {required_year: 2025, current_package_year: 2025, selected_source_year: 2025, action: REUSE_EXACT, lag_years: 0, reason: 'Paquete territorial contemporáneo de la elección.'}
+    territorial: {population_required_year: 2025, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 0, population_reference_date: '2025-01-01', section_required_year: 2025, section_current_year: 2025, section_selected_year: 2025, section_lag_years: 0, section_reference_label: 'Secciones_2025', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: REUSE_EXACT, reason: 'Población y seccionado 2025 coinciden con la elección.'}
     electoral: {source: 'Minsait / EleccionesDB mirror provisional', granularity: section_party_after_polling_station_aggregation, action: BLOCKED_PROVISIONAL, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 524837, source_candidate_votes: 522418, gap_candidate_votes: 2419}
   - territory_id: galicia
     name: Galicia
     election_id: galicia_parlamento_2024
     election_date: '2024-02-18'
-    territorial: {required_year: 2024, current_package_year: 2025, selected_source_year: 2024, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2024, population_current_year: 2025, population_selected_year: 2024, population_lag_years: 0, population_reference_date: '2024-01-01', section_required_year: 2024, section_current_year: 2025, section_selected_year: 2024, section_lag_years: 0, section_reference_label: 'Secciones_2024', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: 'Xunta de Galicia — Datos Abiertos', granularity: polling_station_to_section_party, action: REUSE, definitive_gap_status: OFFICIAL_SOURCE}
   - territory_id: madrid
     name: Comunidad de Madrid
     election_id: comunidad_madrid_asamblea_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: region_de_murcia
     name: Región de Murcia
     election_id: region_murcia_asamblea_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: comunidad_foral_de_navarra
     name: Comunidad Foral de Navarra
     election_id: navarra_parlamento_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: pais_vasco
     name: País Vasco
     election_id: pais_vasco_parlamento_2024
     election_date: '2024-04-21'
-    territorial: {required_year: 2024, current_package_year: 2025, selected_source_year: 2024, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2024, population_current_year: 2025, population_selected_year: 2024, population_lag_years: 0, population_reference_date: '2024-01-01', section_required_year: 2024, section_current_year: 2025, section_selected_year: 2024, section_lag_years: 0, section_reference_label: 'Secciones_2024', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2024; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
   - territory_id: la_rioja
     name: La Rioja
     election_id: la_rioja_parlamento_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: ceuta
     name: Ceuta
     election_id: ceuta_asamblea_local_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: REUSE, definitive_gap_status: NOT_DECLARED}
   - territory_id: melilla
     name: Melilla
     election_id: melilla_asamblea_local_2023
     election_date: '2023-05-28'
-    territorial: {required_year: 2023, current_package_year: 2025, selected_source_year: 2023, action: ACQUIRE_WRONG_YEAR, lag_years: 0, reason: 'Existe censo y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
+    territorial: {population_required_year: 2023, population_current_year: 2025, population_selected_year: 2023, population_lag_years: 0, population_reference_date: '2023-01-01', section_required_year: 2023, section_current_year: 2025, section_selected_year: 2023, section_lag_years: 0, section_reference_label: 'Secciones_2023', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_WRONG_YEAR, reason: 'Existen población por sección y seccionado oficial 2023; el paquete 2025 no es contemporáneo de la elección.'}
     electoral: {source: EleccionesDB, granularity: section_party, action: ACQUIRE, definitive_gap_status: NOT_EVALUATED}
