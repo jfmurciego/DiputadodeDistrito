@@ -475,14 +475,23 @@ def _validate_crs_contract(report: dict, *, population_year: int, section_year: 
     effective = crs.get("effective") or {}
     try:
         target_crs = _parse_crs(target.get("original"), label="report.target.original")
+        target_wkt = _parse_crs(target.get("original_wkt"), label="report.target.original_wkt")
         effective_crs = _parse_crs(effective.get("crs"), label="report.effective.crs")
+        effective_wkt = _parse_crs(effective.get("wkt"), label="report.effective.wkt")
+        if not target_crs.equals(target_wkt):
+            reasons.append("CRS_CONTRADICTORY: target original y WKT no equivalen")
+        if not effective_crs.equals(effective_wkt):
+            reasons.append("CRS_CONTRADICTORY: effective crs y WKT no equivalen")
         if not target_crs.equals(effective_crs):
             reasons.append("CRS_CONTRADICTORY: CRS efectivo no equivale al CRS objetivo")
         if int(population_year) != int(section_year):
             if not isinstance(origin, dict):
                 reasons.append("CRS_MISSING: informe sin CRS de seccionado origen")
             else:
-                _parse_crs(origin.get("original"), label="report.origin.original")
+                origin_crs = _parse_crs(origin.get("original"), label="report.origin.original")
+                origin_wkt = _parse_crs(origin.get("original_wkt"), label="report.origin.original_wkt")
+                if not origin_crs.equals(origin_wkt):
+                    reasons.append("CRS_CONTRADICTORY: origin original y WKT no equivalen")
         elif origin not in (None, {}):
             reasons.append("CRS_UNEXPECTED: CRS de origen declarado para la misma edición")
     except ValueError as exc:
