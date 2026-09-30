@@ -249,7 +249,12 @@ def promote(
 
     package_abs = package if package.is_absolute() else root / package
     source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
-    valid, reasons = validate_prepared_package(package_abs, territory_id=territory_id, edition=edition)
+    declaration_data = _yaml(source_declaration_abs)
+    declaration_territory = declaration_data.get("territory") or {}
+    source_year = int(declaration_territory.get("source_year", declaration_territory.get("edition", edition)))
+    valid, reasons = validate_prepared_package(
+        package_abs, territory_id=territory_id, edition=edition, source_year=source_year
+    )
     if not valid:
         raise ValueError("Paquete territorial no promovible: " + "; ".join(reasons))
     manifest = json.loads((package_abs / "manifest.json").read_text(encoding="utf-8"))
