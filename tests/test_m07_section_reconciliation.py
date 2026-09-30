@@ -17,7 +17,7 @@ spec.loader.exec_module(m07)
 
 
 class SectionReconciliationTests(unittest.TestCase):
-    def test_aliases_and_population_splits_preserve_votes_exactly(self):
+    def test_exact_alias_preserves_votes_and_population_split_is_not_applied(self):
         section_party=pd.DataFrame([
             {"CUSEC_KEY":"OLD","party":"A","votes":101},
             {"CUSEC_KEY":"PARENT","party":"A","votes":11},
@@ -33,7 +33,11 @@ class SectionReconciliationTests(unittest.TestCase):
         )
         contract={
             "section_reconciliation":{
-                "aliases":[{"from":"OLD","to":"NEW","method":"exact"}],
+                "aliases":[{
+                    "from":"OLD",
+                    "to":"NEW",
+                    "method":"ine_geometry_exact_overlap_1_to_1",
+                }],
                 "splits":[{
                     "source_section":"PARENT",
                     "target_sections":["PARENT","CHILD"],
@@ -53,16 +57,20 @@ class SectionReconciliationTests(unittest.TestCase):
             .set_index("CUSEC_KEY")["votes"]
         )
         self.assertEqual(a["NEW"],101)
-        self.assertEqual(a["PARENT"],8)
-        self.assertEqual(a["CHILD"],3)
+        self.assertEqual(a["PARENT"],11)
+        self.assertNotIn("CHILD",a)
         b=dict(
             out.loc[out["party"].eq("B"),["CUSEC_KEY","votes"]]
             .set_index("CUSEC_KEY")["votes"]
         )
-        self.assertEqual(b["PARENT"],5)
-        self.assertEqual(b["CHILD"],2)
+        self.assertEqual(b["PARENT"],7)
+        self.assertNotIn("CHILD",b)
+        self.assertEqual(
+            report["splits_not_applied"][0]["reason"],
+            "NO_VOTE_REDISTRIBUTION_BETWEEN_EDITIONS",
+        )
 
-    def test_split_fails_if_target_population_missing(self):
+    def test_split_with_missing_target_is_reported_without_fabricating_votes(self):
         section_party=pd.DataFrame([{"CUSEC_KEY":"PARENT","party":"A","votes":10}])
         gdf=gpd.GeoDataFrame(
             {"CUSEC_KEY":["PARENT"],"POP_2025":[100]},
@@ -74,10 +82,16 @@ class SectionReconciliationTests(unittest.TestCase):
             "weighting":"current_population",
             "population_field":"POP_2025",
         }]}}
-        with self.assertRaisesRegex(ValueError,"CHILD ausente"):
-            m07.apply_section_reconciliation(
-                section_party,gdf,section_field="CUSEC_KEY",contract=contract
-            )
+        out,report=m07.apply_section_reconciliation(
+            section_party,gdf,section_field="CUSEC_KEY",contract=contract
+        )
+        self.assertEqual(out.to_dict("records"),[
+            {"CUSEC_KEY":"PARENT","party":"A","votes":10}
+        ])
+        self.assertEqual(
+            report["splits_not_applied"][0]["target_sections"],
+            ["PARENT","CHILD"],
+        )
 
 
 if __name__=="__main__":
