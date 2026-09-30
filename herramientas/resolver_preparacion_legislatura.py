@@ -29,6 +29,12 @@ def _json(path: Path) -> dict:
     return data
 
 
+def _document(path: Path) -> dict:
+    if path.suffix.lower() == ".json":
+        return _json(path)
+    return _yaml(path)
+
+
 def _digest(value: object) -> str | None:
     text = str(value or "").removeprefix("sha256:").strip().lower()
     return text if SHA256.fullmatch(text) else None
@@ -116,6 +122,44 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             return {"reusable": False, "reason": "ELECTORAL_DIGEST_MISSING"}
         if not GIT_SHA.fullmatch(source_commit):
             return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISSING"}
+
+        provenance_reference = None
+        declaration_rel = str(data.get("declaration") or "").strip()
+        registry_rel = str(data.get("election_registry") or "").strip()
+        contract_rel = str(data.get("election_contract") or "").strip()
+        if declaration_rel:
+            ref_path = root / declaration_rel
+            if not ref_path.is_file():
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
+            ref = _document(ref_path)
+            if (
+                str(ref.get("territory_id") or "") != territory_id
+                or str(ref.get("election_id") or "") != election_id
+            ):
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
+            provenance_reference = declaration_rel
+        elif registry_rel:
+            if registry_rel != REGISTRY.as_posix():
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
+            registry = _yaml(root / REGISTRY)
+            registered = (registry.get("territories") or {}).get(territory_id) or {}
+            if str(registered.get("election_id") or "") != election_id:
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
+            provenance_reference = registry_rel
+        elif contract_rel:
+            ref_path = root / contract_rel
+            if not ref_path.is_file():
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
+            ref = _document(ref_path)
+            if (
+                str(ref.get("territory_id") or "") != territory_id
+                or str(ref.get("election_id") or "") != election_id
+            ):
+                return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_MISMATCH"}
+            provenance_reference = contract_rel
+        else:
+            return {"reusable": False, "reason": "ELECTORAL_PROVENANCE_REFERENCE_MISSING"}
+
         return {
             "reusable": True,
             "reason": "ELECTORAL_DURABLE_CANDIDATE",
@@ -123,6 +167,7 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
             "artifact_name": artifact_name,
             "artifact_sha256": artifact_sha256,
             "receipt": str(rel),
+            "provenance_reference": provenance_reference,
         }
 
     if schema == "ddd-election-source-provenance/1.0":
@@ -228,10 +273,18 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "temporal_lag_years": int(terr.get("lag_years", 0)),
             "temporal_reason": terr.get("reason"),
             "territorial_action": t_action,
+            "territorial_package_state": "READY_REUSABLE" if t_action.startswith("REUSE") else "ACQUIRE_REQUIRED",
+            "territorial_reason": t_candidate.get("reason"),
             "territorial_candidate": t_candidate,
             "electoral_source": electoral.get("source"),
             "electoral_granularity": electoral.get("granularity"),
             "electoral_action": e_action,
+            "electoral_package_state": (
+                "BLOCKED_PROVISIONAL" if e_action == "BLOCKED_PROVISIONAL"
+                else "READY_REUSABLE" if e_action == "REUSE"
+                else "ACQUIRE_REQUIRED"
+            ),
+            "electoral_reason": e_candidate.get("reason"),
             "electoral_candidate": e_candidate,
             "definitive_gap": {
                 k: v for k, v in electoral.items()
