@@ -93,6 +93,14 @@ jobs:
             }
             arts="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
             merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$arts")"
+            total="$(jq -r '.total_count' <<<"$merged")"
+            received="$(jq -r '.artifacts|length' <<<"$merged")"
+            if [[ "$total" != "$received" ]]; then
+              jq --arg k "$kind" \
+                '.plans[0][($k+"_action")]="BLOCKED_DURABLE_INVENTORY"; .plans[0][($k+"_remote_reason")]="inventario remoto de artefactos incompleto"' \
+                .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
             matches="$(jq -c --arg n "$artifact" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
             count="$(jq 'length' <<<"$matches")"
             if [[ "$count" == 0 ]]; then
