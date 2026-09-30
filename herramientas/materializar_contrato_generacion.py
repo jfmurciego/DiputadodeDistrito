@@ -347,7 +347,7 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
             raise ValueError("Contrato existente no admitido: " + "; ".join(admitted.get("errors") or []))
         return {
             "schema": "ddd-generation-contract-materialization/1.0",
-            "territory_id": territory_id, "edition": edition, "source_year": source_year, "source_year": source_year,
+            "territory_id": territory_id, "edition": edition, "source_year": source_year,
             "contract_path": str(contract_path.relative_to(root)),
             "k": current_k, "partition_mode": "existing_contract",
             "partition_districts": (cfg.get("validation") or {}).get("province_districts") or {},
@@ -540,7 +540,7 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
         raise ValueError("Contrato auto-materializado rechazado: " + "; ".join(report.get("errors") or []))
     return {
         "schema": "ddd-generation-contract-materialization/1.0",
-        "territory_id": territory_id, "edition": edition,
+        "territory_id": territory_id, "edition": edition, "source_year": source_year,
         "contract_path": str(contract_path.relative_to(root)),
         "k": k, "partition_mode": partition_mode,
         "k_reference_scope": pentry.get("k_reference_scope", "institutional_or_contractual_reference"),
@@ -560,10 +560,13 @@ def main() -> None:
     ap.add_argument("--territory-id", required=True)
     ap.add_argument("--edition", required=True)
     ap.add_argument("--package", required=True)
+    ap.add_argument("--source-year")
     ap.add_argument("--output")
     args = ap.parse_args()
     root = Path(args.root_dir).resolve()
-    result = materialize(root, args.territory_id, str(args.edition), Path(args.package).resolve())
+    result = materialize(
+        root, args.territory_id, str(args.edition), Path(args.package).resolve(), args.source_year
+    )
     payload = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         Path(args.output).write_text(payload, encoding="utf-8")
