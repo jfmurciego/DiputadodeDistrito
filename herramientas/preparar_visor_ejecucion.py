@@ -18,6 +18,13 @@ import yaml
 from pyproj import Transformer
 
 from ddd_ensemble.gallery import _epsg_from_geojson, _transform_coordinates
+from herramientas.catalogo_territorios import (
+    COUNTRY_CODE,
+    COUNTRY_NAME,
+    format_country_label,
+    format_territory_label,
+    master_index,
+)
 
 
 TERRITORY_LABELS = {
@@ -338,6 +345,32 @@ def add_registered_ensemble(entry: dict, materialized_root: Path, site: Path, re
         item["ensemble_asset_sha256"] = entry.get("sha256")
 
 
+def _decorate_and_sort(results: list[dict], repository_root: Path) -> list[dict]:
+    catalog = master_index(repository_root / "configuracion/catalogo_territorios_espana_2025.yaml")
+    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
+    for item in results:
+        canonical = catalog.get(str(item.get("territory_id") or ""))
+        if canonical is None:
+            # Compatibilidad con fixtures sintéticos y registros históricos no territoriales.
+            item.setdefault("territory_name", str(item.get("territory_label") or item.get("territory_id") or ""))
+            item.setdefault("territory_display_name", item["territory_name"])
+            item.setdefault("autonomous_community_code_ine", "99")
+        else:
+            item["territory_name"] = canonical["name"]
+            item["territory_label"] = format_territory_label(canonical)
+            item["territory_display_name"] = item["territory_label"]
+            item["autonomous_community_code_ine"] = canonical["autonomous_community_code_ine"]
+        item["country_code"] = COUNTRY_CODE
+        item["country_name"] = COUNTRY_NAME
+        item["country_display_name"] = format_country_label()
+    results.sort(key=lambda item: (
+        item["autonomous_community_code_ine"],
+        priority.get(item["kind"], 9),
+        item["label"],
+    ))
+    return results
+
+
 def build_from_publication_registry(
     registry_path: Path,
     repository_root: Path,
@@ -352,7 +385,7 @@ def build_from_publication_registry(
         add_registered_product(entry, repository_root, materialized_root, site, results)
     for entry in registry.get("ensembles", []):
         add_registered_ensemble(entry, materialized_root, site, results)
-    return results
+    return _decorate_and_sort(results, repository_root)
 
 
 def main() -> None:
@@ -390,9 +423,15 @@ def main() -> None:
     if not results:
         raise SystemExit("No se encontró ningún resultado visualizable")
 
-    priority = {"canonical_m08": 0, "canonical_m06": 1, "ensemble_candidate": 2, "static": 3}
-    results.sort(key=lambda item: (priority.get(item["kind"], 9), item["label"]))
-    payload = {"schema": "ddd.viewer-results/1.1", "results": results}
+    if not args.publication_registry:
+        results = _decorate_and_sort(results, args.repository_root)
+    payload = {
+        "schema": "ddd.viewer-results/1.1",
+        "country_code": COUNTRY_CODE,
+        "country_name": COUNTRY_NAME,
+        "country_display_name": format_country_label(),
+        "results": results,
+    }
     output = args.site / "data" / "viewer-results.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
