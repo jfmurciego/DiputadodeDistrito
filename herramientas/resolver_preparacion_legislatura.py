@@ -155,7 +155,19 @@ def _territorial_candidate(
     compatibility_identity_sha256 = _digest(prep.get("compatibility_identity_sha256"))
     compatibility_report_member = str(prep.get("compatibility_report_member") or "")
     if not compatibility_report_sha256 or not compatibility_identity_sha256 or not compatibility_report_member:
-        return {"reusable": False, "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING"}
+        return {
+            "reusable": False,
+            "reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING",
+            "run_id": run_id,
+            "artifact_name": artifact_name,
+            "artifact_sha256": artifact_sha256,
+            "package_sha256": package_sha256,
+            "population_year": observed_population_year,
+            "section_year": observed_section_year,
+            "declaration": str(declaration_rel),
+            "receipt_path": str(prep.get("receipt_path") or "") or None,
+            "source_commit": prep.get("source_commit"),
+        }
 
     identity = territorial_identity(
         territory_id=territory_id,
