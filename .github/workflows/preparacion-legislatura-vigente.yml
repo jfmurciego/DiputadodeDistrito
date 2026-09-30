@@ -1,0 +1,295 @@
+name: Preparación conjunta · Legislatura vigente
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory:
+        description: Territorio o matriz completa
+        required: true
+        default: Todos
+        type: choice
+        options:
+          - Todos
+          - 01 · Andalucía
+          - 02 · Aragón
+          - 03 · Principado de Asturias
+          - 04 · Islas Baleares
+          - 05 · Canarias
+          - 06 · Cantabria
+          - 07 · Castilla y León
+          - 08 · Castilla-La Mancha
+          - 09 · Cataluña
+          - 10 · Comunidad Valenciana
+          - 11 · Extremadura
+          - 12 · Galicia
+          - 13 · Comunidad de Madrid
+          - 14 · Región de Murcia
+          - 15 · Comunidad Foral de Navarra
+          - 16 · País Vasco
+          - 17 · La Rioja
+          - 18 · Ceuta
+          - 19 · Melilla
+      operation:
+        description: Planificar o preparar un único territorio
+        required: true
+        default: plan
+        type: choice
+        options: [plan, prepare_one]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: ddd-current-legislature-preparation-${{ inputs.territory }}
+  cancel-in-progress: false
+
+jobs:
+  planificar:
+    name: Resolver legislatura y fuentes requeridas
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_name: ${{ steps.outputs.outputs.territory_name }}
+      population_year: ${{ steps.outputs.outputs.population_year }}
+      section_year: ${{ steps.outputs.outputs.section_year }}
+      territorial_action: ${{ steps.outputs.outputs.territorial_action }}
+      electoral_action: ${{ steps.outputs.outputs.electoral_action }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Construir plan verificable
+        env:
+          TERRITORY: ${{ inputs.territory }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          set -euo pipefail
+          if [[ "$OPERATION" == prepare_one && "$TERRITORY" == Todos ]]; then
+            echo "::error::prepare_one exige un territorio concreto; Todos es sólo lectura/planificación."
+            exit 40
+          fi
+          python herramientas/resolver_preparacion_legislatura.py             --root-dir . --territory "$TERRITORY"             --output .ddd-current-legislature-plan.json
+          jq -e '.ok == true and (.plans|length) >= 1' .ddd-current-legislature-plan.json >/dev/null
+
+      - name: Acreditar paquete remoto antes de reutilizar
+        if: ${{ inputs.operation == 'prepare_one' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          verify_kind() {
+            local kind="$1"
+            local action candidate run_id artifact expected arts merged matches live digest count
+            action="$(jq -r ".plans[0].${kind}_action" .ddd-current-legislature-plan.json)"
+            case "$action" in
+              REUSE|REUSE_TEMPORAL_SUBSTITUTION) ;;
+              *) return 0 ;;
+            esac
+            candidate="$(jq -c ".plans[0].${kind}_candidate" .ddd-current-legislature-plan.json)"
+            run_id="$(jq -r '.run_id // empty' <<<"$candidate")"
+            artifact="$(jq -r '.artifact_name // empty' <<<"$candidate")"
+            expected="$(jq -r '.artifact_sha256 // empty' <<<"$candidate" | sed 's/^sha256://')"
+            [[ "$run_id" =~ ^[1-9][0-9]*$ && -n "$artifact" && "$expected" =~ ^[0-9a-f]{64}$ ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_IDENTITY"; .plans[0][($k+"_remote_reason")]="run/artifact/digest incompletos"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            arts="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$arts")"
+            total="$(jq -r '.total_count' <<<"$merged")"
+            received="$(jq -r '.artifacts|length' <<<"$merged")"
+            if [[ "$total" != "$received" ]]; then
+              jq --arg k "$kind" \
+                '.plans[0][($k+"_action")]="BLOCKED_DURABLE_INVENTORY"; .plans[0][($k+"_remote_reason")]="inventario remoto de artefactos incompleto"' \
+                .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
+            matches="$(jq -c --arg n "$artifact" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
+            count="$(jq 'length' <<<"$matches")"
+            if [[ "$count" == 0 ]]; then
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete registrado no disponible; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
+            [[ "$count" == 1 ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_AMBIGUITY"; .plans[0][($k+"_remote_reason")]="múltiples artefactos con la misma identidad"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            live="$(jq -c '.[0]' <<<"$matches")"
+            if [[ "$(jq -r '.expired|tostring' <<<"$live")" == true ]]; then
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete expirado; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
+            digest="$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')"
+            [[ "$digest" == "$expected" ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_DIGEST"; .plans[0][($k+"_remote_reason")]="digest remoto contradice el registro durable"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            jq --arg k "$kind"               '.plans[0][($k+"_remote_verified")]=true'               .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+          }
+          verify_kind territorial
+          verify_kind electoral
+
+      - id: outputs
+        name: Exponer acciones de un territorio
+        if: ${{ inputs.territory != 'Todos' }}
+        run: |
+          echo "territory_name=$(jq -r '.plans[0].name' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "population_year=$(jq -r '.plans[0].population_year_selected' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "section_year=$(jq -r '.plans[0].section_year_selected' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "territorial_action=$(jq -r '.plans[0].territorial_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "electoral_action=$(jq -r '.plans[0].electoral_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ddd-current-legislature-plan-${{ github.run_id }}
+          path: .ddd-current-legislature-plan.json
+          if-no-files-found: error
+          retention-days: 90
+
+  territorial:
+    name: 01 · Adquirir sólo fuente territorial necesaria
+    needs: planificar
+    if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.territorial_action == 'ACQUIRE' }}
+    uses: ./.github/workflows/preparacion-fuentes.yml
+    with:
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: '2025'
+      population_year: ${{ needs.planificar.outputs.population_year }}
+      section_year: ${{ needs.planificar.outputs.section_year }}
+      reutilizar_si_ya_preparada: false
+      source_ref: ${{ github.sha }}
+      persist_state: true
+    secrets: inherit
+
+  electoral:
+    name: 03 · Adquirir sólo fuente electoral necesaria
+    needs: planificar
+    if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.electoral_action == 'ACQUIRE' }}
+    uses: ./.github/workflows/preparacion-resultados-electorales.yml
+    with:
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: '2025'
+      reutilizar_si_ya_preparada: false
+      source_ref: ${{ github.sha }}
+      persist_state: true
+    secrets: inherit
+
+
+  registrar_par:
+    name: Registrar par preparado durable
+    needs: [planificar, territorial, electoral]
+    if: ${{ always() && inputs.operation == 'prepare_one' && needs.planificar.result == 'success' && needs.planificar.outputs.electoral_action != 'BLOCKED_PROVISIONAL' && needs.territorial.result != 'failure' && needs.electoral.result != 'failure' }}
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: ddd-prepared-source-pair
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TERRITORY: ${{ needs.planificar.outputs.territory_name }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.ref_name }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Revalidar receipts efectivos después de 01/03
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          git reset --hard "origin/$TARGET_BRANCH"
+          python herramientas/resolver_preparacion_legislatura.py --root-dir . --territory "$TERRITORY" --output .ddd-pair-plan.json
+          jq -e '.plans|length==1' .ddd-pair-plan.json >/dev/null
+          jq -e '.plans[0].territorial_action == "REUSE" or .plans[0].territorial_action == "REUSE_TEMPORAL_SUBSTITUTION"' .ddd-pair-plan.json >/dev/null || {
+            echo "::error::La fuente territorial efectiva no quedó acreditada."; exit 60;
+          }
+          jq -e '.plans[0].electoral_action == "REUSE"' .ddd-pair-plan.json >/dev/null || {
+            echo "::error::La fuente electoral efectiva no quedó acreditada."; exit 61;
+          }
+      - name: Verificar artefactos efectivos completos
+        run: |
+          set -euo pipefail
+          printf '{"schema":"ddd.prepared-source-pair-artifact-verification/1.0"}\n' > .ddd-pair-verification.json
+          verify_kind() {
+            local kind="$1" candidate run_id artifact expected pages merged total received matches count live digest
+            candidate="$(jq -c ".plans[0].${kind}_candidate" .ddd-pair-plan.json)"
+            run_id="$(jq -r '.run_id' <<<"$candidate")"
+            artifact="$(jq -r '.artifact_name' <<<"$candidate")"
+            expected="$(jq -r '.artifact_sha256' <<<"$candidate" | sed 's/^sha256://')"
+            pages="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$pages")"
+            total="$(jq -r '.total_count' <<<"$merged")"
+            received="$(jq -r '.artifacts|length' <<<"$merged")"
+            [[ "$total" == "$received" ]] || { echo "::error::Inventario remoto incompleto para $kind"; exit 62; }
+            matches="$(jq -c --arg n "$artifact" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
+            count="$(jq 'length' <<<"$matches")"
+            [[ "$count" == 1 ]] || { echo "::error::Identidad remota no única para $kind"; exit 63; }
+            live="$(jq -c '.[0]' <<<"$matches")"
+            [[ "$(jq -r '.expired|tostring' <<<"$live")" == false ]] || { echo "::error::Artefacto expirado para $kind"; exit 64; }
+            digest="$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')"
+            [[ "$digest" == "$expected" ]] || { echo "::error::Digest remoto contradictorio para $kind"; exit 65; }
+            jq --arg k "$kind" --argjson run "$run_id" --arg name "$artifact" --arg sha "$digest" \
+              --argjson artifact_id "$(jq -r '.id' <<<"$live")" \
+              '.[$k]={run_id:$run,artifact_id:$artifact_id,artifact_name:$name,artifact_sha256:$sha,expired:false}' \
+              .ddd-pair-verification.json > .tmp && mv .tmp .ddd-pair-verification.json
+          }
+          verify_kind territorial
+          verify_kind electoral
+      - id: pair
+        name: Materializar receipt versionado del par
+        run: |
+          set -euo pipefail
+          python herramientas/registrar_par_fuentes_legislatura.py \
+            --root-dir . --territory "$TERRITORY" \
+            --remote-verification .ddd-pair-verification.json \
+            --output .ddd-prepared-source-pair.json
+          receipt="$(jq -r '.receipt_path' .ddd-prepared-source-pair.json)"
+          pair_sha="$(jq -r '.pair_sha256' .ddd-prepared-source-pair.json)"
+          test -s "$receipt"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
+          echo "receipt_path=$receipt" >> "$GITHUB_OUTPUT"
+          echo "pair_sha256=$pair_sha" >> "$GITHUB_OUTPUT"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add configuracion/catalogo_preparacion.yaml "territorios/$(jq -r '.territory_id' .ddd-prepared-source-pair.json)/evidencia/pares_fuentes"
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: registrar par preparado de $(jq -r '.territory_id' .ddd-prepared-source-pair.json)"
+            pushed=false
+            for attempt in 1 2 3; do
+              if git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH"; then pushed=true; break; fi
+              git rebase --abort >/dev/null 2>&1 || true
+              sleep $((attempt * 2))
+            done
+            [[ "$pushed" == true ]] || { echo "::error::No se pudo registrar el par preparado."; exit 66; }
+          fi
+          git fetch origin "$TARGET_BRANCH"
+          git reset --hard "origin/$TARGET_BRANCH"
+          python herramientas/registrar_par_fuentes_legislatura.py \
+            --root-dir . --territory "$TERRITORY" \
+            --remote-verification .ddd-pair-verification.json --verify-only >/dev/null
+
+  resultado:
+    name: Cerrar preparación conjunta sin generación
+    needs: [planificar, territorial, electoral, registrar_par]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Exigir que sólo fallen bloqueos reales o adquisiciones solicitadas
+        env:
+          PLAN_RESULT: ${{ needs.planificar.result }}
+          TERRITORIAL_RESULT: ${{ needs.territorial.result }}
+          ELECTORAL_RESULT: ${{ needs.electoral.result }}
+          PAIR_RESULT: ${{ needs.registrar_par.result }}
+          OPERATION: ${{ inputs.operation }}
+          TERRITORIAL_ACTION: ${{ needs.planificar.outputs.territorial_action }}
+          ELECTORAL_ACTION: ${{ needs.planificar.outputs.electoral_action }}
+        run: |
+          set -euo pipefail
+          [[ "$PLAN_RESULT" == success ]] || exit 50
+          [[ "$TERRITORIAL_RESULT" != failure && "$ELECTORAL_RESULT" != failure ]] || exit 51
+          if [[ "$OPERATION" == prepare_one ]]; then
+            case "$TERRITORIAL_ACTION" in BLOCKED_*) echo "::error::Fuente territorial bloqueada: $TERRITORIAL_ACTION"; exit 52;; esac
+            case "$ELECTORAL_ACTION" in BLOCKED_DURABLE_*) echo "::error::Fuente electoral durable contradictoria: $ELECTORAL_ACTION"; exit 53;; esac
+            if [[ "$ELECTORAL_ACTION" == BLOCKED_PROVISIONAL ]]; then
+              echo "::notice::Fuente electoral provisional: queda explícitamente bloqueada para producción."
+            else
+              [[ "$PAIR_RESULT" == success ]] || { echo "::error::Las preparaciones terminaron sin un par durable válido."; exit 54; }
+            fi
+          fi

@@ -7,6 +7,11 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from herramientas.identidad_fuentes_legislatura import electoral_identity
+except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from identidad_fuentes_legislatura import electoral_identity
+
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 ELECTION_REGISTRY = Path("configuracion/registro_electoral.yaml")
 
@@ -71,6 +76,7 @@ def promote(
 
     elif kind == "electoral_source":
         receipt_payload = {**common, "election_id": election_id}
+        election_date = ""
         if declaration:
             declaration_path = root / declaration
             if not declaration_path.is_file(): raise ValueError(f"Declaración electoral inexistente: {declaration}")
@@ -83,6 +89,7 @@ def promote(
                     f"Declaración electoral no corresponde a la elección promovida: "
                     f"{declared_election_id!r} != {election_id!r}"
                 )
+            election_date = str(declared.get("election_date") or "")
             receipt_payload["declaration"] = declaration; state["electoral_source_declaration"] = declaration
         else:
             contract_raw = state.get("contract_path")
@@ -107,6 +114,7 @@ def promote(
                         f"Contrato electoral no corresponde a la elección promovida: "
                         f"{contract_election_id!r} != {election_id!r}"
                     )
+                election_date = str(election_contract.get("election_date") or "")
                 receipt_payload.update({
                     "declaration": None,
                     "election_contract": str(election_contract_raw),
@@ -119,13 +127,39 @@ def promote(
                 registered = _registered_election(root, territory_id, election_id)
                 if registered is None:
                     raise ValueError("Fuente electoral sin declaración, registro común ni election_contract materializado")
+                election_date = str(registered.get("election_date") or "")
                 receipt_payload.update({
                     "declaration": None,
                     "election_registry": ELECTION_REGISTRY.as_posix(),
-                    "election_date": registered.get("election_date"),
+                    "election_date": election_date,
                 })
                 state["electoral_source_declaration"] = None
-        receipt = _receipt_path(root, territory_id, kind, edition); rel = _write_receipt(receipt, receipt_payload); state["electoral_source_prepared"] = True; evidence["electoral_source"] = str(Path(rel).relative_to(root))
+        if not election_date:
+            registered = _registered_election(root, territory_id, election_id)
+            election_date = str((registered or {}).get("election_date") or "")
+        if not election_date:
+            raise ValueError("Fuente electoral sin fecha de elección verificable")
+        identity = electoral_identity(
+            territory_id=territory_id,
+            edition=str(edition),
+            election_id=str(election_id),
+            election_date=election_date,
+            artifact_sha256=digest,
+        )
+        receipt_payload["election_date"] = election_date
+        receipt_payload["electoral_identity_sha256"] = identity["electoral_identity_sha256"]
+        receipt = (
+            root / "territorios" / territory_id / "evidencia" / "fuentes_electorales"
+            / str(edition) / identity["electoral_identity_sha256"] / str(run_id) / "receipt.json"
+        )
+        rendered = json.dumps(receipt_payload, ensure_ascii=False, indent=2) + "\n"
+        receipt.parent.mkdir(parents=True, exist_ok=True)
+        if receipt.exists() and receipt.read_text(encoding="utf-8") != rendered:
+            raise ValueError("Receipt electoral versionado ya existe con contenido contradictorio")
+        receipt.write_text(rendered, encoding="utf-8")
+        rel = receipt.as_posix()
+        state["electoral_source_prepared"] = True
+        evidence["electoral_source"] = str(Path(rel).relative_to(root))
 
     elif kind == "electoral_product":
         receipt = _receipt_path(root, territory_id, kind, edition); rel = _write_receipt(receipt, {**common, "stage": "M08"}); state["electoral_product_available"] = True; evidence["electoral_product"] = str(Path(rel).relative_to(root)); state["last_valid_checkpoint"] = {"run_id": int(run_id), "stage": "M08"}

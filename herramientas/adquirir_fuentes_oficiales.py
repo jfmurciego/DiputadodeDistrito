@@ -60,11 +60,14 @@ def live_fetch(url: str, retries: int = 4, timeout: int = 120) -> bytes:
     raise RuntimeError(f"No se pudo descargar la fuente oficial: {last}")
 
 
-def _territory(declaration: dict) -> tuple[str, str, int, list[dict]]:
+def _territory(declaration: dict) -> tuple[str, str, int, int, int, list[dict]]:
     territory = declaration.get("territory") or {}
     territory_id = str(territory.get("id") or "").strip()
     name = str(territory.get("business_name") or "").strip()
     edition = territory.get("edition")
+    legacy_year = territory.get("source_year", edition)
+    population_year = territory.get("population_year", legacy_year)
+    section_year = territory.get("section_year", legacy_year)
     codes = territory.get("territorial_codes")
     if not territory_id or not name or edition is None or not isinstance(codes, list) or not codes:
         raise ValueError("Declaración territorial incompleta: id, nombre, edición y códigos son obligatorios")
@@ -73,7 +76,7 @@ def _territory(declaration: dict) -> tuple[str, str, int, list[dict]]:
         if not isinstance(row, dict) or row.get("code") is None or not row.get("business_name"):
             raise ValueError("Cada provincia debe declarar code y business_name")
         normalized.append({"code": str(row["code"]).zfill(2), "business_name": str(row["business_name"])})
-    return territory_id, name, int(edition), normalized
+    return territory_id, name, int(edition), int(population_year), int(section_year), normalized
 
 
 def _required_sources(catalog: dict, declaration: dict) -> list[tuple[str, dict, dict]]:
@@ -346,8 +349,8 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         return features, crs
 
 
-def _collect_live_sections(source: dict, edition: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict]:
-    urls = _source_urls(source, edition, provinces)
+def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict]:
+    urls = _source_urls(source, source_year, provinces)
     filter_field = str(source["territorial_filter_field"])
     section_id_field = str(source["section_id_field"])
     all_features: list[dict] = []
@@ -379,9 +382,14 @@ def _collect_live_sections(source: dict, edition: int, provinces: list[dict], fe
             is_section = ("SECC" in tipo) if tipo else bool(csec and csec != "000")
             if not is_section:
                 continue
-            if section_id in seen_ids:
-                continue
-            seen_ids.add(section_id)
+            normalized_section_id = _normalize_section_id(section_id)
+            if not normalized_section_id:
+                raise ValueError(f"Clave geométrica no normalizable: {section_id!r}")
+            if normalized_section_id in seen_ids:
+                raise ValueError(
+                    f"Clave geométrica duplicada antes de materializar: {normalized_section_id}"
+                )
+            seen_ids.add(normalized_section_id)
             all_features.append(feature)
             count += 1
         coverage[code] = count
@@ -430,14 +438,24 @@ def _persist(evidence_dir: Path, resolved: dict, inventory: dict, provenance: di
 def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment: str, acquisition_mode: str | None = None, fetcher: FetchBytes | None = None, root_dir: Path | None = None) -> tuple[dict, dict, dict, dict]:
     root_dir = (root_dir or Path.cwd()).resolve()
     evidence_dir = evidence_dir.resolve()
-    territory_id, territory_name, edition, provinces = _territory(declaration)
+    territory_id, territory_name, edition, population_year, section_year, provinces = _territory(declaration)
     province_codes = [row["code"] for row in provinces]
     mode = _select_mode(declaration, environment, acquisition_mode)
     if mode == "simulated" and fetcher is None:
         raise ValueError("La simulación exige un fetcher inyectado por pruebas")
     fetch = fetcher or live_fetch
     required = _required_sources(catalog, declaration)
-    header = {"territory_id": territory_id, "territory": territory_name, "edition": edition, "environment": environment, "acquisition_mode": mode}
+    header = {
+        "territory_id": territory_id,
+        "territory": territory_name,
+        "edition": edition,
+        "population_year": population_year,
+        "section_year": section_year,
+        "environment": environment,
+        "acquisition_mode": mode,
+    }
+    if population_year == section_year:
+        header["source_year"] = population_year
     resolved = {"schema": "ddd-source-materialization-declaration/1.1", **header, "materialization_root": str((evidence_dir / "materialized").resolve()), "sources": []}
     inventory = {"schema": "ddd-source-inventory/1.2", **header, "territorial_coverage": province_codes, "sources": []}
     provenance = {"schema": "ddd-source-provenance/1.2", **header, "sources": []}
@@ -445,7 +463,8 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
 
     for source_id, source, binding in required:
         configured_path = str(binding["materialized_path"])
-        official_urls = _source_urls(source, edition, provinces)
+        effective_year = population_year if source.get("kind") == "static_csv" else section_year
+        official_urls = _source_urls(source, effective_year, provinces)
         payload_out: bytes | None = None
         content_checks: dict = {}
         snapshot_meta: dict = {}
@@ -453,14 +472,14 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
         try:
             destination = _territorial_destination(evidence_dir, configured_path)
             if mode == "verified_snapshot":
-                source_payload, snapshot_meta = _read_snapshot(root_dir, evidence_dir, binding, configured_path, edition)
+                source_payload, snapshot_meta = _read_snapshot(root_dir, evidence_dir, binding, configured_path, effective_year)
             elif source.get("kind") == "static_csv":
                 source_payload = fetch(official_urls[0])
             else:
                 source_payload = b""
 
             if source.get("kind") == "static_csv":
-                filtered_csv, content_checks = _filter_population(source_payload, declaration, edition, province_codes)
+                filtered_csv, content_checks = _filter_population(source_payload, declaration, population_year, province_codes)
                 member = str(binding.get("archive_member") or source.get("output_name") or "population.csv")
                 payload_out = _zip_single(member, filtered_csv) if configured_path.lower().endswith(".zip") else filtered_csv
             elif source.get("kind") == "ogc_features":
@@ -472,18 +491,85 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     content_checks = {"provinces": coverage, "sections": len(features)}
                     payload_out = _write_shapefile_zip(features, crs=crs)
                 else:
-                    features, official_urls, content_checks = _collect_live_sections(source, edition, provinces, fetch)
+                    features, official_urls, content_checks = _collect_live_sections(source, section_year, provinces, fetch)
                     payload_out = _write_shapefile_zip(features, crs="EPSG:4326")
             else:
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
 
             _, staged_meta = _write_materialized(evidence_dir, configured_path, payload_out)
-            core = _core(source_id, configured_path, payload_out, official_urls, edition)
+            role = "population" if source.get("kind") == "static_csv" else "target_sectioning"
+            core = {**_core(source_id, configured_path, payload_out, official_urls, effective_year), "role": role}
             resolved["sources"].append({**core, "staged_path": str(destination)})
             inventory["sources"].append({**core, "availability": "AVAILABLE", "content_checks": content_checks, **staged_meta})
             provenance["sources"].append({**core, "provider": source.get("provider"), "acquired_at_utc": datetime.now(timezone.utc).isoformat(), "mode": mode, **snapshot_meta, **staged_meta})
+
+            if source.get("kind") == "ogc_features" and population_year != section_year:
+                origin_path = f"inputs/seccionado_origen_poblacion_{population_year}.zip"
+                origin_urls = _source_urls(source, population_year, provinces)
+                origin_snapshot_meta: dict = {}
+                if mode == "verified_snapshot":
+                    origin_snapshot = binding.get("population_sectioning_snapshot")
+                    if not isinstance(origin_snapshot, dict):
+                        raise ValueError(
+                            "Años población/seccionado distintos sin seccionado de origen verificable"
+                        )
+                    origin_binding = dict(binding)
+                    origin_binding["snapshot"] = origin_snapshot
+                    origin_payload_raw, origin_snapshot_meta = _read_snapshot(
+                        root_dir, evidence_dir, origin_binding, origin_path, population_year
+                    )
+                    origin_features, origin_crs = _read_sections_from_snapshot(
+                        origin_payload_raw,
+                        str(source["territorial_filter_field"]),
+                        str(source["section_id_field"]),
+                        province_codes,
+                    )
+                    origin_checks = {
+                        "provinces": sorted({
+                            str((f.get("properties") or {}).get(source["territorial_filter_field"], "")).zfill(2)
+                            for f in origin_features
+                        }),
+                        "sections": len(origin_features),
+                    }
+                    origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
+                else:
+                    origin_features, origin_urls, origin_checks = _collect_live_sections(
+                        source, population_year, provinces, fetch
+                    )
+                    origin_payload = _write_shapefile_zip(origin_features, crs="EPSG:4326")
+                origin_destination, origin_staged = _write_materialized(
+                    evidence_dir, origin_path, origin_payload
+                )
+                origin_core = {
+                    **_core(
+                        source_id + "_origen_poblacion",
+                        origin_path,
+                        origin_payload,
+                        origin_urls,
+                        population_year,
+                    ),
+                    "role": "population_sectioning_origin",
+                }
+                resolved["sources"].append({
+                    **origin_core,
+                    "staged_path": str(origin_destination),
+                })
+                inventory["sources"].append({
+                    **origin_core,
+                    "availability": "AVAILABLE",
+                    "content_checks": origin_checks,
+                    **origin_staged,
+                })
+                provenance["sources"].append({
+                    **origin_core,
+                    "provider": source.get("provider"),
+                    "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
+                    "mode": mode,
+                    **origin_snapshot_meta,
+                    **origin_staged,
+                })
         except Exception as exc:
-            core = _core(source_id, configured_path, payload_out, official_urls, edition)
+            core = _core(source_id, configured_path, payload_out, official_urls, effective_year)
             resolved["sources"].append(dict(core))
             inventory["sources"].append({**core, "availability": "BLOCKED", "error": str(exc), "content_checks": content_checks, **staged_meta})
             provenance["sources"].append({**core, "provider": source.get("provider"), "mode": mode, **snapshot_meta, **staged_meta})

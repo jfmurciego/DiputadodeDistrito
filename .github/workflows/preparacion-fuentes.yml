@@ -13,6 +13,9 @@ on:
     inputs:
       territory_id: {required: true, type: string}
       data_edition: {required: true, type: string}
+      source_year: {required: false, type: string, default: ''}
+      population_year: {required: false, type: string, default: ''}
+      section_year: {required: false, type: string, default: ''}
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
@@ -59,6 +62,18 @@ on:
         default: '2025'
         type: choice
         options: ['2025']
+      source_year:
+        description: Año legacy común (sólo si población y seccionado coinciden)
+        required: false
+        type: string
+      population_year:
+        description: Año oficial de población por sección (vacío = source_year/edición)
+        required: false
+        type: string
+      section_year:
+        description: Año oficial de seccionado (vacío = source_year/edición)
+        required: false
+        type: string
       reutilizar_si_ya_preparada:
         description: Reutilizar fuente oficial ya preparada
         required: true
@@ -90,6 +105,9 @@ jobs:
       registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
       registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
       registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
+      source_year: ${{ steps.resolve.outputs.source_year }}
+      population_year: ${{ steps.resolve.outputs.population_year }}
+      section_year: ${{ steps.resolve.outputs.section_year }}
       persist_state: ${{ steps.resolve.outputs.persist_state }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
@@ -100,6 +118,9 @@ jobs:
         env:
           TERRITORY: ${{ inputs.territory_id }}
           EDITION: ${{ inputs.data_edition }}
+          SOURCE_YEAR_INPUT: ${{ inputs.source_year || '' }}
+          POPULATION_YEAR_INPUT: ${{ inputs.population_year || '' }}
+          SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
           PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
@@ -108,7 +129,18 @@ jobs:
           persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
           echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" >/dev/null
+          legacy_year="$SOURCE_YEAR_INPUT"
+          [[ -n "$legacy_year" ]] || legacy_year="$EDITION"
+          population_year="$POPULATION_YEAR_INPUT"
+          section_year="$SECTION_YEAR_INPUT"
+          [[ -n "$population_year" ]] || population_year="$legacy_year"
+          [[ -n "$section_year" ]] || section_year="$legacy_year"
+          [[ "$population_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de población inválido: $population_year"; exit 40; }
+          [[ "$section_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de seccionado inválido: $section_year"; exit 40; }
+          echo "population_year=$population_year" >> "$GITHUB_OUTPUT"
+          echo "section_year=$section_year" >> "$GITHUB_OUTPUT"
+          if [[ "$population_year" == "$section_year" ]]; then echo "source_year=$population_year" >> "$GITHUB_OUTPUT"; else echo "source_year=" >> "$GITHUB_OUTPUT"; fi
+          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" --population-year "$population_year" --section-year "$section_year" >/dev/null
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
           echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
@@ -125,9 +157,17 @@ jobs:
             echo "registered_artifact_name=ddd-source-package-$(jq -r .territory_id <<<"$row")-$EDITION-$RECOVERY_RUN_ID" >> "$GITHUB_OUTPUT"
             echo "registered_artifact_sha256=${RECOVERY_SHA256,,}" >> "$GITHUB_OUTPUT"
           else
-            echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-            echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
-            echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            registered_population_year="$(jq -r '.population_year // .source_year // empty' <<<"$preflight")"
+            registered_section_year="$(jq -r '.section_year // .source_year // empty' <<<"$preflight")"
+            if [[ "$(jq -r '.registered|tostring' <<<"$preflight")" == true && "$registered_population_year" == "$population_year" && "$registered_section_year" == "$section_year" ]]; then
+              echo "registered_run_id=$(jq -r '.run_id // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=$(jq -r '.artifact_name // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=$(jq -r '.artifact_sha256 // empty' <<<"$preflight")" >> "$GITHUB_OUTPUT"
+            else
+              echo "registered_run_id=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_name=" >> "$GITHUB_OUTPUT"
+              echo "registered_artifact_sha256=" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
   territoriales:
@@ -143,6 +183,8 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
       EVIDENCE_DIR: .ddd-sources
     steps:
@@ -159,6 +201,8 @@ jobs:
           python herramientas/resolver_fuentes_territorio.py declaration \
             --territory "$TERRITORY" \
             --edition "$EDITION" \
+            --population-year "$POPULATION_YEAR" \
+            --section-year "$SECTION_YEAR" \
             --output "$SOURCE_DECLARATION"
           test -s "$SOURCE_DECLARATION"
       - id: previous
@@ -178,7 +222,7 @@ jobs:
           [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
           rm -rf .ddd-source-package
           gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-source-package
-          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION"
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR"
           echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
@@ -239,6 +283,8 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
       ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
       ARTIFACT_SHA256: ${{ needs.territoriales.outputs.artifact_digest }}
       TARGET_BRANCH: ${{ github.ref_name }}
@@ -258,16 +304,16 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$(dirname "$SOURCE_DECLARATION")"
-          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --output "$SOURCE_DECLARATION"
+          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --output "$SOURCE_DECLARATION"
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
-          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
+          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" --source-commit "$GITHUB_SHA" > .ddd-catalog-promotion.json
           echo "artifact_sha256=$(jq -r .artifact_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           echo "package_sha256=$(jq -r .package_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"
+          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config" "territorios/$TERRITORY_ID/evidencia/fuentes_territoriales"
           if ! git diff --cached --quiet; then
             git commit -m "chore: registrar preparación territorial de $TERRITORY_ID"
             pushed=false

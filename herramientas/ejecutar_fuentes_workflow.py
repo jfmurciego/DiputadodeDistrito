@@ -19,6 +19,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
+from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
 
 BUNDLE_NAME = "prepared_sources.zip"
@@ -31,6 +32,14 @@ def _declaration(path: Path) -> dict:
 
 def _edition(declaration: Path) -> int:
     return int((_declaration(declaration).get("territory") or {})["edition"])
+
+def _source_years(declaration: Path) -> tuple[int, int]:
+    territory = _declaration(declaration).get("territory") or {}
+    legacy = territory.get("source_year", territory["edition"])
+    return (
+        int(territory.get("population_year", legacy)),
+        int(territory.get("section_year", legacy)),
+    )
 
 
 def _territory_id(declaration: Path) -> str:
@@ -76,8 +85,15 @@ def _write_deterministic_bundle(evidence: Path, destination: Path) -> None:
             archive.writestr(info, path.read_bytes())
 
 
-def _manifest_from_acquisition(evidence: Path, working: Path, territory_id: str, edition: int,
-                               expected_records: int | None) -> dict:
+def _manifest_from_acquisition(
+    evidence: Path,
+    working: Path,
+    territory_id: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+    expected_records: int | None,
+) -> dict:
     inv_rows, prov_rows = _source_rows(evidence)
     working.mkdir(parents=True, exist_ok=True)
     frozen = working / BUNDLE_NAME
@@ -109,18 +125,23 @@ def _manifest_from_acquisition(evidence: Path, working: Path, territory_id: str,
         numeric = [int(v) for v in values if v not in (None, "")]
         records = max(numeric) if numeric else len(inv_rows)
 
-    return {
+    manifest = {
         "source_id": "prepared-territorial-sources:" + ",".join(sorted(set(source_ids))),
         "territory_id": territory_id,
         "edition": edition,
+        "population_year": population_year,
+        "section_year": section_year,
         "origin": " | ".join(sorted(urls)) or "declared-official-sources",
         "path": frozen.name,
         "bytes": frozen.stat().st_size,
         "sha256": _sha256(frozen),
         "records": int(records),
         "acquired_at": max(acquired) if acquired else "unknown-acquisition-date",
-        "bundle_schema": "ddd-prepared-sources-bundle/1.0",
+        "bundle_schema": "ddd-prepared-sources-bundle/1.1",
     }
+    if population_year == section_year:
+        manifest["source_year"] = population_year
+    return manifest
 
 
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:
@@ -153,6 +174,7 @@ def main() -> int:
     ap.add_argument("--expected-records", type=int)
     args = ap.parse_args()
     edition = _edition(args.declaration)
+    population_year, section_year = _source_years(args.declaration)
     territory_id = _territory_id(args.declaration)
     expected_records = args.expected_records if args.expected_records is not None else _expected_records(args.declaration)
 
@@ -162,7 +184,7 @@ def main() -> int:
         args.acquisition_evidence.mkdir(parents=True, exist_ok=True)
         catalog = load_yaml(args.root_dir / "fuentes/catalogo_oficial.yaml")
         declaration = load_yaml(args.declaration)
-        _, _, _, acquisition = acquire(
+        _, inventory, _, acquisition = acquire(
             catalog=catalog,
             declaration=declaration,
             evidence_dir=args.acquisition_evidence,
@@ -170,12 +192,40 @@ def main() -> int:
             acquisition_mode=args.acquisition_mode,
             root_dir=args.root_dir,
         )
+        if acquisition.get("decision") == "READY":
+            compatibility = build_materialized_report(
+                evidence_dir=args.acquisition_evidence,
+                territory_id=territory_id,
+                edition=str(edition),
+                population_year=population_year,
+                section_year=section_year,
+                inventory=inventory,
+            )
+            if compatibility.get("decision") != "READY":
+                acquisition["decision"] = "BLOCKED"
+                acquisition.setdefault("reasons", []).append({
+                    "source_id": "population_sectioning_compatibility",
+                    "reason": "; ".join(compatibility.get("causes") or ["COMPATIBILITY_BLOCKED"]),
+                })
+                (args.acquisition_evidence / "decision_adquisicion.json").write_text(
+                    json.dumps(acquisition, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+        manifest = _manifest_from_acquisition(
+            args.acquisition_evidence,
+            working,
+            territory_id,
+            edition,
+            population_year,
+            section_year,
+            expected_records,
+        )
         if acquisition.get("decision") != "READY":
             raise RuntimeError(
                 "Adquisición oficial bloqueada: "
                 + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
             )
-        return _manifest_from_acquisition(args.acquisition_evidence, working, territory_id, edition, expected_records)
+        return manifest
 
     evidence = execute_source_policy(
         requested_edition=edition,

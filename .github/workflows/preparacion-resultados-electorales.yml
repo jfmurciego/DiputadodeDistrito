@@ -244,7 +244,7 @@ jobs:
           python herramientas/promover_catalogo_operacional.py "${args[@]}"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions; git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/catalogo/electoral_source_$EDITION.json"
+          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/fuentes_electorales"
           if ! git diff --cached --quiet; then git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"; git pull --rebase origin "$TARGET_BRANCH"; git push origin "HEAD:$TARGET_BRANCH"; fi
           git fetch origin "$TARGET_BRANCH"; git reset --hard "origin/$TARGET_BRANCH"
           durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"

@@ -9,6 +9,7 @@ import json
 import zipfile
 from pathlib import Path
 
+from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
 from herramientas.politica_reutilizacion_fuentes import validate_frozen_copy
 
 REQUIRED_BUNDLE_FILES = {
@@ -34,7 +35,15 @@ def _json_member(archive: zipfile.ZipFile, name: str) -> dict:
     return data
 
 
-def validate_prepared_package(package: Path, *, territory_id: str, edition: str | int) -> tuple[bool, list[str]]:
+def validate_prepared_package(
+    package: Path,
+    *,
+    territory_id: str,
+    edition: str | int,
+    source_year: str | int | None = None,
+    population_year: str | int | None = None,
+    section_year: str | int | None = None,
+) -> tuple[bool, list[str]]:
     reasons: list[str] = []
     manifest_path = package / "manifest.json"
     if not manifest_path.is_file():
@@ -46,9 +55,28 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
     if not isinstance(manifest, dict):
         return False, ["manifest.json no contiene un objeto"]
 
+    legacy_year = int(source_year if source_year is not None else edition)
+    expected_population_year = int(population_year if population_year is not None else legacy_year)
+    expected_section_year = int(section_year if section_year is not None else legacy_year)
     valid_copy, copy_reasons = validate_frozen_copy(
         manifest, package, expected_edition=edition
     )
+    observed_population_year = int(
+        manifest.get("population_year", manifest.get("source_year", manifest.get("edition")))
+    )
+    observed_section_year = int(
+        manifest.get("section_year", manifest.get("source_year", manifest.get("edition")))
+    )
+    if observed_population_year != expected_population_year:
+        copy_reasons.append(
+            f"año de población distinto: {observed_population_year} != {expected_population_year}"
+        )
+        valid_copy = False
+    if observed_section_year != expected_section_year:
+        copy_reasons.append(
+            f"año de seccionado distinto: {observed_section_year} != {expected_section_year}"
+        )
+        valid_copy = False
     reasons.extend(copy_reasons)
 
     declared_territory = str(manifest.get("territory_id") or "").strip()
@@ -84,6 +112,20 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
                     reasons.append(f"territorio en {label} distinto: {actual_territory or 'vacío'} != {territory_id}")
                 if str(document.get("edition")) != str(edition):
                     reasons.append(f"edición en {label} distinta: {document.get('edition')} != {edition}")
+                observed_population_year = int(
+                    document.get("population_year", document.get("source_year", document.get("edition")))
+                )
+                observed_section_year = int(
+                    document.get("section_year", document.get("source_year", document.get("edition")))
+                )
+                if observed_population_year != expected_population_year:
+                    reasons.append(
+                        f"año de población en {label} distinto: {observed_population_year} != {expected_population_year}"
+                    )
+                if observed_section_year != expected_section_year:
+                    reasons.append(
+                        f"año de seccionado en {label} distinto: {observed_section_year} != {expected_section_year}"
+                    )
 
             if decision.get("decision") != "READY":
                 reasons.append(f"decisión de adquisición no reutilizable: {decision.get('decision')}")
@@ -97,6 +139,19 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
                         reasons.append("entrada de inventario inválida")
                         continue
                     source_id = str(source.get("source_id") or "desconocida")
+                    role = str(source.get("role") or "")
+                    expected_source_year = (
+                        expected_population_year
+                        if role in {"population", "population_sectioning_origin"}
+                        or "poblacion" in source_id.casefold()
+                        or "population" in source_id.casefold()
+                        else expected_section_year
+                    )
+                    observed_source_year = int(source.get("edition", expected_source_year))
+                    if observed_source_year != expected_source_year:
+                        reasons.append(
+                            f"{source_id}: año de fuente distinto: {observed_source_year} != {expected_source_year}"
+                        )
                     rel = str(source.get("path") or "")
                     expected_bytes = source.get("bytes")
                     expected_sha = str(source.get("sha256") or "").lower()
@@ -112,19 +167,50 @@ def validate_prepared_package(package: Path, *, territory_id: str, edition: str 
                         reasons.append(f"{source_id}: tamaño incorrecto: {len(payload)} != {expected_bytes}")
                     if _sha256(payload).lower() != expected_sha:
                         reasons.append(f"{source_id}: checksum incorrecto")
+
+            compatibility, compatibility_sha, compatibility_reasons = validate_compatibility_package(
+                package,
+                territory_id=territory_id,
+                edition=edition,
+                population_year=expected_population_year,
+                section_year=expected_section_year,
+                require_ready=True,
+            )
+            reasons.extend(compatibility_reasons)
+            if not compatibility_reasons:
+                identity = str(compatibility.get("compatibility_identity_sha256") or "")
+                if len(identity) != 64 or any(ch not in "0123456789abcdef" for ch in identity):
+                    reasons.append("informe de compatibilidad sin identidad SHA-256 válida")
+                if not compatibility_sha or len(compatibility_sha) != 64:
+                    reasons.append("informe de compatibilidad sin digest durable")
     except Exception as exc:
         reasons.append(f"paquete congelado ilegible: {exc}")
 
     return not reasons, reasons
 
 
-def select_first_valid(candidates: list[Path], *, territory_id: str, edition: str | int,
-                       reuse_enabled: bool = True) -> tuple[Path | None, list[dict]]:
+def select_first_valid(
+    candidates: list[Path],
+    *,
+    territory_id: str,
+    edition: str | int,
+    source_year: str | int | None = None,
+    population_year: str | int | None = None,
+    section_year: str | int | None = None,
+    reuse_enabled: bool = True,
+) -> tuple[Path | None, list[dict]]:
     if not reuse_enabled:
         return None, []
     diagnostics: list[dict] = []
     for candidate in candidates:
-        valid, reasons = validate_prepared_package(candidate, territory_id=territory_id, edition=edition)
+        valid, reasons = validate_prepared_package(
+            candidate,
+            territory_id=territory_id,
+            edition=edition,
+            source_year=source_year,
+            population_year=population_year,
+            section_year=section_year,
+        )
         diagnostics.append({"package": str(candidate), "valid": valid, "reasons": reasons})
         if valid:
             return candidate, diagnostics
@@ -136,9 +222,17 @@ def main() -> int:
     ap.add_argument("--package", required=True, type=Path)
     ap.add_argument("--territory-id", required=True)
     ap.add_argument("--edition", required=True)
+    ap.add_argument("--source-year")
+    ap.add_argument("--population-year")
+    ap.add_argument("--section-year")
     args = ap.parse_args()
     valid, reasons = validate_prepared_package(
-        args.package, territory_id=args.territory_id, edition=args.edition
+        args.package,
+        territory_id=args.territory_id,
+        edition=args.edition,
+        source_year=args.source_year,
+        population_year=args.population_year,
+        section_year=args.section_year,
     )
     print(json.dumps({"valid": valid, "reasons": reasons}, ensure_ascii=False))
     return 0 if valid else 2
