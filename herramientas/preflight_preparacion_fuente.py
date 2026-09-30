@@ -96,11 +96,23 @@ def preflight(root: Path, kind: str, territory: str, edition: str) -> dict:
         run_id, artifact_name, artifact_sha256 = _artifact_fields(
             evidence, expected_prefix=prefix, label=f"{tid}/{edition} registro territorial"
         )
+        declaration_rel = state.get("territorial_source_declaration")
+        source_year = int(edition)
+        if declaration_rel:
+            declaration_path = root / str(declaration_rel)
+            if not declaration_path.is_file():
+                raise ValueError(f"{tid}/{edition}: declaración territorial inexistente: {declaration_rel}")
+            declaration = _load_yaml(declaration_path)
+            territory = declaration.get("territory") or {}
+            if str(territory.get("id") or "") != tid:
+                raise ValueError(f"{tid}/{edition}: declaración territorial pertenece a otro territorio")
+            source_year = int(territory.get("source_year", territory.get("edition", edition)))
         common.update(
             registered=True,
             run_id=run_id,
             artifact_name=artifact_name,
             artifact_sha256=artifact_sha256,
+            source_year=source_year,
             evidence_path="configuracion/catalogo_preparacion.yaml#preparation_evidence",
         )
         return common
