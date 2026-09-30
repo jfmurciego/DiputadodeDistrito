@@ -453,6 +453,15 @@ def _inventory_by_role(inventory: dict, *, population_year: int, section_year: i
     missing = sorted(expected - set(by_role))
     if missing:
         raise ValueError("INPUT_ROLE_MISSING: " + ", ".join(missing))
+    members: dict[str, str] = {}
+    for role, row in by_role.items():
+        member = _materialized_member(row)
+        previous = members.get(member)
+        if previous is not None:
+            raise ValueError(
+                f"INPUT_MEMBER_AMBIGUOUS: {member} usado por {previous} y {role}"
+            )
+        members[member] = role
     return by_role
 
 
@@ -550,6 +559,18 @@ def validate_report_bindings(
         reasons.append("INPUT_BINDING_MISSING: " + ", ".join(missing))
     if unexpected:
         reasons.append("INPUT_BINDING_UNEXPECTED: " + ", ".join(unexpected))
+    report_members: dict[str, str] = {}
+    for role in sorted(expected_roles & report_roles):
+        binding = inputs.get(role)
+        if isinstance(binding, dict):
+            member = str(binding.get("member") or "")
+            if member:
+                previous = report_members.get(member)
+                if previous is not None:
+                    reasons.append(
+                        f"INPUT_BINDING_AMBIGUOUS: {member} usado por {previous} y {role}"
+                    )
+                report_members[member] = role
 
     payloads_by_role: dict[str, bytes] = {}
     for role in sorted(expected_roles & report_roles):
