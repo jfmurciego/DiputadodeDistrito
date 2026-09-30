@@ -730,13 +730,24 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         )
 
     def test_catalog_source_mode_prepares_electoral_only_when_missing(self):
-        plan = build_plan(
-            territory="Cantabria",
-            edition="2025",
-            execution_mode="catalog_source",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
+        original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        data = json.loads(json.dumps(original))
+        row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
+        state = row["editions"]["2025"]
+        state["electoral_source_prepared"] = False
+        evidence = state.get("evidence") or {}
+        evidence.pop("electoral_source", None)
+        state["evidence"] = evidence
+        with tempfile.TemporaryDirectory() as td:
+            catalog = Path(td) / "catalog.yaml"
+            catalog.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
+            plan = build_plan(
+                territory="Cantabria",
+                edition="2025",
+                execution_mode="catalog_source",
+                catalog=catalog,
+                root_dir=ROOT,
+            )
         self.assertFalse(plan["run_prepare_territorial"])
         self.assertTrue(plan["run_generate"])
         self.assertTrue(plan["run_prepare_electoral"])
