@@ -14,11 +14,13 @@ try:
         digest,
         territorial_identity,
     )
+    from herramientas.catalogo_territorios import normalize_territory_input
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from identidad_fuentes_legislatura import (
         digest,
         territorial_identity,
     )
+    from catalogo_territorios import normalize_territory_input
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
@@ -382,7 +384,9 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
     temporal = _temporal_evidence(root, matrix)
     rows = validate_matrix(root)
     edition = str(matrix.get("project_edition") or "2025")
-    wanted = territory.strip().casefold()
+    raw_territory = territory.strip()
+    normalized_territory = raw_territory if raw_territory.casefold() in {"todos", "all"} else normalize_territory_input(raw_territory)
+    wanted = normalized_territory.casefold()
     selected_rows = rows if wanted in {"todos", "all"} else [
         r for r in rows
         if wanted in {str(r["territory_id"]).casefold(), str(r["name"]).casefold()}
