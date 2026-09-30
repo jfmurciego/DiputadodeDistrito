@@ -627,7 +627,7 @@ jobs:
   preparar_territorial:
     name: 01 · Preparar datos territoriales
     needs: planificar
-    if: ${{ github.event_name == 'pull_request' && needs.planificar.outputs.run_prepare_territorial == 'true' }}
+    if: ${{ needs.planificar.outputs.prepared_source_pair_sha256 != '' && needs.planificar.outputs.run_prepare_territorial == 'true' }}
     uses: ./.github/workflows/preparacion-fuentes.yml
     secrets: inherit
     with:
@@ -697,7 +697,7 @@ jobs:
   preparar_electoral:
     name: 03 · Preparar resultados electorales
     needs: [planificar, puerta_02]
-    if: ${{ github.event_name == 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
+    if: ${{ always() && needs.planificar.outputs.prepared_source_pair_sha256 != '' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
