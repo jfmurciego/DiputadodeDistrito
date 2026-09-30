@@ -1,5 +1,6 @@
 from pathlib import Path
 import unittest,yaml
+from herramientas.catalogo_territorios import format_territory_label, load_master
 from herramientas.catalogo_preparacion import load_catalog,rows_for,validate_repository
 from herramientas.resolver_fuentes_territorio import territories
 
@@ -85,7 +86,7 @@ class DesignA(unittest.TestCase):
         prep=triggers(WF/"preparacion-fuentes.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         generation=triggers(WF/"produccion-distritos.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
         electoral=triggers(WF/"incorporacion-resultados-electorales.yml")["workflow_dispatch"]["inputs"]["territory_id"]["options"]
-        expected=[r["name"] for r in territories()]
+        expected=[format_territory_label(r) for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep,expected)

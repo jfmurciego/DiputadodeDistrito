@@ -6,6 +6,11 @@ from __future__ import annotations
 import argparse
 import json
 import unicodedata
+
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
 from pathlib import Path
 import yaml
 
@@ -34,7 +39,7 @@ def territories(registry_path: Path = DEFAULT_REGISTRY) -> list[dict]:
 
 
 def resolve_territory(value: str, registry_path: Path = DEFAULT_REGISTRY) -> dict:
-    wanted = norm(value)
+    wanted = norm(normalize_territory_input(value))
     for row in territories(registry_path):
         if wanted in {norm(row.get("id", "")), norm(row.get("name", ""))}:
             return row

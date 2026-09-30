@@ -1,13 +1,14 @@
 from pathlib import Path
 import unittest
 import yaml
+from herramientas.catalogo_territorios import format_territory_label, load_master
 
 ROOT=Path(__file__).resolve().parents[1]
 WORKFLOWS=ROOT/".github"/"workflows"
 GEN=WORKFLOWS/"produccion-distritos.yml"
 ELECTORAL=WORKFLOWS/"incorporacion-resultados-electorales.yml"
 PRODUCTION=WORKFLOWS/"producir-territorio-por-contrato.yml"
-ALL_TERRITORIES=["Andalucía","Aragón","Principado de Asturias","Islas Baleares","Canarias","Cantabria","Castilla-La Mancha","Castilla y León","Cataluña","Comunidad Valenciana","Extremadura","Galicia","Comunidad de Madrid","Región de Murcia","Comunidad Foral de Navarra","País Vasco","La Rioja","Ceuta","Melilla"]
+ALL_TERRITORIES=[format_territory_label(r) for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
 
 class WorkflowInterfaceInstitutional(unittest.TestCase):
     @staticmethod

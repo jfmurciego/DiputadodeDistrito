@@ -13,28 +13,28 @@ on:
         description: Territorio
         required: true
         type: choice
-        default: La Rioja
+        default: 17 · La Rioja
         options:
           - Todos
-          - Andalucía
-          - Aragón
-          - Principado de Asturias
-          - Islas Baleares
-          - Canarias
-          - Cantabria
-          - Castilla-La Mancha
-          - Castilla y León
-          - Cataluña
-          - Comunidad Valenciana
-          - Extremadura
-          - Galicia
-          - Comunidad de Madrid
-          - Región de Murcia
-          - Comunidad Foral de Navarra
-          - País Vasco
-          - La Rioja
-          - Ceuta
-          - Melilla
+          - 01 · Andalucía
+          - 02 · Aragón
+          - 03 · Principado de Asturias
+          - 04 · Islas Baleares
+          - 05 · Canarias
+          - 06 · Cantabria
+          - 07 · Castilla y León
+          - 08 · Castilla-La Mancha
+          - 09 · Cataluña
+          - 10 · Comunidad Valenciana
+          - 11 · Extremadura
+          - 12 · Galicia
+          - 13 · Comunidad de Madrid
+          - 14 · Región de Murcia
+          - 15 · Comunidad Foral de Navarra
+          - 16 · País Vasco
+          - 17 · La Rioja
+          - 18 · Ceuta
+          - 19 · Melilla
       data_edition:
         description: Edición de datos
         required: true
