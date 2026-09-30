@@ -204,7 +204,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         jobs = data["jobs"]
         self.assertIn("needs.puerta_01.result == 'success'", jobs["generar"]["if"])
-        self.assertIn("needs.puerta_02.result == 'success'", jobs["preparar_electoral"]["if"])
+        self.assertEqual(jobs["preparar_electoral"]["if"], "${{ false }}")
+        self.assertIn("needs.puerta_02.result == 'success'", jobs["puerta_03"]["if"])
         self.assertIn("needs.puerta_03.result == 'success'", jobs["incorporar"]["if"])
         self.assertIn("needs.puerta_04.result == 'success'", jobs["actualizar_estado"]["if"])
         self.assertIn("needs.actualizar_estado.result == 'success'", jobs["publicar"]["if"])
