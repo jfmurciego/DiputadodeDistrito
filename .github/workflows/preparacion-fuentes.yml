@@ -183,7 +183,8 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
-      SOURCE_YEAR: ${{ needs.resolver.outputs.source_year }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
       EVIDENCE_DIR: .ddd-sources
     steps:
@@ -200,7 +201,8 @@ jobs:
           python herramientas/resolver_fuentes_territorio.py declaration \
             --territory "$TERRITORY" \
             --edition "$EDITION" \
-            --source-year "$SOURCE_YEAR" \
+            --population-year "$POPULATION_YEAR" \
+            --section-year "$SECTION_YEAR" \
             --output "$SOURCE_DECLARATION"
           test -s "$SOURCE_DECLARATION"
       - id: previous
@@ -220,7 +222,7 @@ jobs:
           [[ "$actual_digest" == "$REGISTERED_ARTIFACT_SHA256" ]] || { echo "::error::Digest de artefacto territorial no coincide con el registro."; exit 45; }
           rm -rf .ddd-source-package
           gh run download "$REGISTERED_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$REGISTERED_ARTIFACT_NAME" --dir .ddd-source-package
-          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --source-year "$SOURCE_YEAR"
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-source-package             --territory-id "$TERRITORY_ID"             --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR"
           echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
@@ -281,7 +283,8 @@ jobs:
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
       EDITION: ${{ inputs.data_edition }}
-      SOURCE_YEAR: ${{ needs.resolver.outputs.source_year }}
+      POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
+      SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
       ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
       ARTIFACT_SHA256: ${{ needs.territoriales.outputs.artifact_digest }}
       TARGET_BRANCH: ${{ github.ref_name }}
@@ -301,16 +304,16 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$(dirname "$SOURCE_DECLARATION")"
-          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --source-year "$SOURCE_YEAR" --output "$SOURCE_DECLARATION"
+          python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --output "$SOURCE_DECLARATION"
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
-          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" > .ddd-catalog-promotion.json
+          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" --source-commit "$GITHUB_SHA" > .ddd-catalog-promotion.json
           echo "artifact_sha256=$(jq -r .artifact_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           echo "package_sha256=$(jq -r .package_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config"
+          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config" "territorios/$TERRITORY_ID/evidencia/fuentes_territoriales"
           if ! git diff --cached --quiet; then
             git commit -m "chore: registrar preparación territorial de $TERRITORY_ID"
             pushed=false
