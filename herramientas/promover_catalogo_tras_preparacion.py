@@ -11,6 +11,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
+from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, read_report_from_package
 from herramientas.identidad_fuentes_legislatura import territorial_identity
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
@@ -126,6 +127,9 @@ def _set_catalog_state(
     package_sha256: str,
     receipt_path: str | None = None,
     territorial_identity_sha256: str | None = None,
+    compatibility_report_sha256: str | None = None,
+    compatibility_identity_sha256: str | None = None,
+    compatibility_report_member: str | None = None,
     population_year: int | None = None,
     section_year: int | None = None,
     source_commit: str | None = None,
@@ -187,6 +191,12 @@ def _set_catalog_state(
         evidence.append(f"{child_indent}receipt_path: {receipt_path}")
     if territorial_identity_sha256:
         evidence.append(f"{child_indent}territorial_identity_sha256: {territorial_identity_sha256}")
+    if compatibility_report_sha256:
+        evidence.append(f"{child_indent}compatibility_report_sha256: {compatibility_report_sha256}")
+    if compatibility_identity_sha256:
+        evidence.append(f"{child_indent}compatibility_identity_sha256: {compatibility_identity_sha256}")
+    if compatibility_report_member:
+        evidence.append(f"{child_indent}compatibility_report_member: {compatibility_report_member}")
     if population_year is not None:
         evidence.append(f"{child_indent}population_year: {int(population_year)}")
     if section_year is not None:
@@ -325,6 +335,15 @@ def promote(
     package_sha256 = str(manifest.get("sha256") or "")
     if not package_sha256:
         raise ValueError("Paquete territorial sin SHA-256 interno")
+    compatibility, compatibility_report_sha256 = read_report_from_package(package_abs)
+    if compatibility.get("decision") != "READY":
+        raise ValueError(
+            "Paquete territorial bloqueado por compatibilidad población↔seccionado: "
+            + "; ".join(compatibility.get("causes") or [])
+        )
+    compatibility_identity_sha256 = str(
+        compatibility.get("compatibility_identity_sha256") or ""
+    )
 
     identity = territorial_identity(
         territory_id=territory_id,
@@ -332,6 +351,7 @@ def promote(
         population_year=population_year,
         section_year=section_year,
         package_sha256=package_sha256,
+        compatibility_identity_sha256=compatibility_identity_sha256,
     )
     identity_sha = identity["territorial_identity_sha256"]
     version_root = (
@@ -366,6 +386,9 @@ def promote(
         "source_commit": source_commit,
         "source_declaration": versioned_declaration.relative_to(root).as_posix(),
         "territorial_identity_sha256": identity_sha,
+        "compatibility_report_member": REPORT_NAME,
+        "compatibility_report_sha256": compatibility_report_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
     }
     rendered_receipt = json.dumps(receipt, ensure_ascii=False, indent=2) + "\n"
     if receipt_path.exists() and receipt_path.read_text(encoding="utf-8") != rendered_receipt:
@@ -412,6 +435,9 @@ def promote(
         package_sha256=package_sha256,
         receipt_path=receipt_rel,
         territorial_identity_sha256=identity_sha,
+        compatibility_report_sha256=compatibility_report_sha256,
+        compatibility_identity_sha256=compatibility_identity_sha256,
+        compatibility_report_member=REPORT_NAME,
         population_year=population_year,
         section_year=section_year,
         source_commit=source_commit,
@@ -466,6 +492,9 @@ def promote(
         "population_year": population_year,
         "section_year": section_year,
         "territorial_identity_sha256": identity_sha,
+        "compatibility_report_member": REPORT_NAME,
+        "compatibility_report_sha256": compatibility_report_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
         "source_receipt": receipt_rel,
     }
 
