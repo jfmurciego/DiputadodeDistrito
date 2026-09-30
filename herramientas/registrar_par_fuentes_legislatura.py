@@ -10,6 +10,7 @@ from herramientas.identidad_fuentes_legislatura import (
     canonical_sha256,
     digest,
     electoral_identity,
+    geometric_reuse_compatible,
 )
 from herramientas.resolver_preparacion_legislatura import resolve
 
@@ -52,6 +53,63 @@ def _verify_remote(candidate: dict, observed: dict, *, label: str) -> dict:
         "artifact_name": expected_name,
         "artifact_sha256": expected_digest,
         "expired": False,
+    }
+
+
+def _historical_product_reuse(root: Path, *, plan: dict, current_identity: str) -> dict:
+    import yaml
+    catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")) or {}
+    row = next(
+        (r for r in catalog.get("territories") or [] if r.get("territory_id") == plan["territory_id"]),
+        None,
+    )
+    state = ((row or {}).get("editions") or {}).get(str(plan["project_edition"])) or {}
+    if not state.get("territorial_product_available"):
+        return {"available": False, "geometric_reuse_compatible": False, "reason": "NO_TERRITORIAL_PRODUCT"}
+    evidence = state.get("evidence") or {}
+    product_rel = str(evidence.get("territorial_product") or "")
+    lineage_rel = str(evidence.get("territorial_product_source_lineage") or "")
+    if not product_rel or not (root / product_rel).is_file():
+        return {"available": True, "geometric_reuse_compatible": False, "reason": "PRODUCT_RECEIPT_MISSING"}
+    product = _json(root / product_rel)
+    if not lineage_rel or not (root / lineage_rel).is_file():
+        return {
+            "available": True,
+            "geometric_reuse_compatible": False,
+            "reason": "PRODUCT_SOURCE_LINEAGE_MISSING",
+            "product_receipt_path": product_rel,
+        }
+    lineage = _json(root / lineage_rel)
+    if (
+        lineage.get("schema") != "ddd.territorial-product-source-lineage/1.0"
+        or str(lineage.get("territory_id") or "") != str(plan["territory_id"])
+    ):
+        return {
+            "available": True,
+            "geometric_reuse_compatible": False,
+            "reason": "PRODUCT_SOURCE_LINEAGE_INVALID",
+            "product_receipt_path": product_rel,
+            "lineage_path": lineage_rel,
+        }
+    source_identity = str((lineage.get("territorial_source") or {}).get("territorial_identity_sha256") or "")
+    try:
+        compatible = geometric_reuse_compatible(
+            product_territorial_identity_sha256=source_identity,
+            current_territorial_identity_sha256=current_identity,
+        )
+    except Exception:
+        compatible = False
+    return {
+        "available": True,
+        "geometric_reuse_compatible": bool(compatible),
+        "reason": "SOURCE_IDENTITY_MATCH" if compatible else "SOURCE_IDENTITY_MISMATCH",
+        "product_receipt_path": product_rel,
+        "lineage_path": lineage_rel,
+        "product_run_id": product.get("run_id"),
+        "product_artifact_name": product.get("artifact_name"),
+        "product_artifact_sha256": product.get("artifact_sha256"),
+        "product_source_territorial_identity_sha256": source_identity or None,
+        "current_territorial_identity_sha256": current_identity,
     }
 
 
@@ -193,6 +251,11 @@ def build_pair(
         },
         "geometric_compatibility_key": territorial_identity_sha,
         "electoral_compatibility_key": electoral_identity_sha,
+        "territorial_product_reuse": _historical_product_reuse(
+            root,
+            plan=plan,
+            current_identity=territorial_identity_sha,
+        ),
         "pair_sha256": pair_sha,
     }
 
