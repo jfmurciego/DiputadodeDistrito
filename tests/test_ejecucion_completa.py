@@ -731,27 +731,45 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
     def test_catalog_source_mode_prepares_electoral_only_when_missing(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
-        data = json.loads(json.dumps(original))
-        row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
-        state = row["editions"]["2025"]
-        state["electoral_source_prepared"] = False
-        evidence = state.get("evidence") or {}
-        evidence.pop("electoral_source", None)
-        state["evidence"] = evidence
-        with tempfile.TemporaryDirectory() as td:
-            catalog = Path(td) / "catalog.yaml"
-            catalog.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
-            plan = build_plan(
-                territory="Cantabria",
-                edition="2025",
-                execution_mode="catalog_source",
-                catalog=catalog,
-                root_dir=ROOT,
-            )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertTrue(plan["run_generate"])
-        self.assertTrue(plan["run_prepare_electoral"])
-        self.assertTrue(plan["run_incorporate"])
+        cases = (
+            ("electoral_source_missing", False, True),
+            ("durable_electoral_source_present", True, False),
+        )
+        for case, source_prepared, expected_prepare in cases:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
+                data = json.loads(json.dumps(original))
+                row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
+                state = row["editions"]["2025"]
+                evidence = state.setdefault("evidence", {})
+                if source_prepared:
+                    state["electoral_source_prepared"] = True
+                    evidence["electoral_source"] = (
+                        "territorios/cantabria/evidencia/catalogo/electoral_source_2025.json"
+                    )
+                else:
+                    state["electoral_source_prepared"] = False
+                    evidence.pop("electoral_source", None)
+
+                catalog = Path(td) / "catalog.yaml"
+                catalog.write_text(
+                    yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+                    encoding="utf-8",
+                )
+                plan = build_plan(
+                    territory="Cantabria",
+                    edition="2025",
+                    execution_mode="catalog_source",
+                    catalog=catalog,
+                    root_dir=ROOT,
+                )
+                self.assertFalse(plan["run_prepare_territorial"])
+                self.assertTrue(plan["run_generate"])
+                self.assertEqual(plan["run_prepare_electoral"], expected_prepare)
+                self.assertTrue(plan["run_incorporate"])
+                if source_prepared:
+                    self.assertEqual(plan["existing"]["electoral_source"]["decision"], "VALIDADO")
+                else:
+                    self.assertIsNone(plan["existing"]["electoral_source"]["decision"])
 
     def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")

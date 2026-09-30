@@ -5,6 +5,11 @@ import re
 from pathlib import Path
 from typing import Any
 
+from herramientas.acreditar_producto_territorial_historico import (
+    HistoricalTerritorialAccreditationBlock,
+    derive_historical_territorial_producer,
+)
+
 PASS_CERTIFICATIONS = {"PASS", "PASS_WITH_EXCEPTIONS", "PASS_WITH_GOVERNED_EXCEPTIONS"}
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _SHA1 = re.compile(r"^[0-9a-f]{40}$")
@@ -184,14 +189,39 @@ def validate_durable_assets(
             stage="M06",
             require_decision=True,
         )
-        manifest = _manifest(root, territory_id, edition, territorial_product["run_id"])
-        _producer_phase_asset(
-            _phase(manifest, "02 ·"),
-            territorial_product,
-            label="territorial_product",
-            require_phase_decision=True,
-        )
-        if source:
+        manifest = None
+        historical_accreditation = None
+        try:
+            manifest = _manifest(root, territory_id, edition, territorial_product["run_id"])
+            _producer_phase_asset(
+                _phase(manifest, "02 ·"),
+                territorial_product,
+                label="territorial_product",
+                require_phase_decision=True,
+            )
+        except DurableAssetBlock as ordinary_error:
+            try:
+                historical_accreditation = derive_historical_territorial_producer(
+                    root_dir=root,
+                    territory_id=territory_id,
+                    edition=str(edition),
+                    receipt_rel=str(evidence.get("territorial_product") or ""),
+                    asset=territorial_product,
+                )
+            except HistoricalTerritorialAccreditationBlock as exc:
+                _block("DURABLE_HISTORICAL_ACCREDITATION_INVALID", str(exc))
+            if historical_accreditation is None:
+                raise ordinary_error
+            manifest = historical_accreditation.get("manifest")
+            territorial_product["producer_accreditation"] = {
+                "mode": "historical_derived",
+                "path": historical_accreditation["accreditation_path"],
+                "historical_mode": historical_accreditation["mode"],
+            }
+            if manifest is None:
+                territorial_product["producer_lineage_scope"] = "M06_ONLY"
+
+        if source and manifest is not None:
             source_phase = _phase(manifest, "01 ·")
             phase_artifact = str(source_phase.get("artifact") or "")
             phase_digest = str(source_phase.get("artifact_digest") or "").removeprefix("sha256:").lower()
