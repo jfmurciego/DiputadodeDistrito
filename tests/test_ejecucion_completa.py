@@ -730,8 +730,11 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         )
 
     def test_catalog_source_mode_prepares_electoral_only_when_missing(self):
+        # Cantabria ya tiene fuente electoral durable en el main actual.
+        # Andalucía conserva el mismo escenario contractual: fuente territorial
+        # acreditada y fuente electoral todavía ausente.
         plan = build_plan(
-            territory="Cantabria",
+            territory="Andalucía",
             edition="2025",
             execution_mode="catalog_source",
             catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
