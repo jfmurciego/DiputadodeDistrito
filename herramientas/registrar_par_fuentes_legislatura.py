@@ -370,7 +370,11 @@ def validate_pair_receipt(
             raise PreparedSourcePairBlock(f"PAIR_BLOCK: falta receipt durable de {label}")
         side_path = root / rel
         receipt = _json(side_path)
-        for key in ("territory_id", "edition", "run_id", "artifact_name", "artifact_sha256"):
+        if str(receipt.get("territory_id") or "") != territory_id:
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice territory_id")
+        if str(receipt.get("edition") or "") != edition:
+            raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice edition")
+        for key in ("run_id", "artifact_name", "artifact_sha256"):
             if str(receipt.get(key) or "") != str(side.get(key) or ""):
                 raise PreparedSourcePairBlock(f"PAIR_BLOCK: receipt de {label} contradice {key}")
         remote = side.get("remote_verification") or {}
