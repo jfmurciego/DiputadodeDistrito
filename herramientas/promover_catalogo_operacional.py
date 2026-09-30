@@ -7,7 +7,10 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.identidad_fuentes_legislatura import electoral_identity
+try:
+    from herramientas.identidad_fuentes_legislatura import electoral_identity
+except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from identidad_fuentes_legislatura import electoral_identity
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 ELECTION_REGISTRY = Path("configuracion/registro_electoral.yaml")
