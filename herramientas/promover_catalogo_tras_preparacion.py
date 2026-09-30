@@ -10,6 +10,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
+from herramientas.identidad_fuentes_legislatura import territorial_identity
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
 
@@ -122,6 +123,11 @@ def _set_catalog_state(
     artifact_name: str,
     artifact_sha256: str,
     package_sha256: str,
+    receipt_path: str | None = None,
+    territorial_identity_sha256: str | None = None,
+    population_year: int | None = None,
+    section_year: int | None = None,
+    source_commit: str | None = None,
     contract_path: str | None = None,
 ) -> None:
     lines = path.read_text(encoding="utf-8").splitlines()
@@ -176,6 +182,16 @@ def _set_catalog_state(
         f"{child_indent}artifact_sha256: {artifact_sha256}",
         f"{child_indent}package_sha256: {package_sha256}",
     ]
+    if receipt_path:
+        evidence.append(f"{child_indent}receipt_path: {receipt_path}")
+    if territorial_identity_sha256:
+        evidence.append(f"{child_indent}territorial_identity_sha256: {territorial_identity_sha256}")
+    if population_year is not None:
+        evidence.append(f"{child_indent}population_year: {int(population_year)}")
+    if section_year is not None:
+        evidence.append(f"{child_indent}section_year: {int(section_year)}")
+    if source_commit:
+        evidence.append(f"{child_indent}source_commit: {source_commit}")
     lines[insert_at:insert_at] = evidence
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -235,6 +251,7 @@ def promote(
     run_id: int,
     artifact_name: str,
     artifact_sha256: str,
+    source_commit: str | None = None,
 ) -> dict:
     root = root_dir.resolve()
     catalog = root / CATALOG
@@ -251,9 +268,15 @@ def promote(
     source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
     declaration_data = _yaml(source_declaration_abs)
     declaration_territory = declaration_data.get("territory") or {}
-    source_year = int(declaration_territory.get("source_year", declaration_territory.get("edition", edition)))
+    legacy_year = int(declaration_territory.get("source_year", declaration_territory.get("edition", edition)))
+    population_year = int(declaration_territory.get("population_year", legacy_year))
+    section_year = int(declaration_territory.get("section_year", legacy_year))
     valid, reasons = validate_prepared_package(
-        package_abs, territory_id=territory_id, edition=edition, source_year=source_year
+        package_abs,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
     )
     if not valid:
         raise ValueError("Paquete territorial no promovible: " + "; ".join(reasons))
@@ -262,18 +285,69 @@ def promote(
     if not package_sha256:
         raise ValueError("Paquete territorial sin SHA-256 interno")
 
+    identity = territorial_identity(
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=population_year,
+        section_year=section_year,
+        package_sha256=package_sha256,
+    )
+    identity_sha = identity["territorial_identity_sha256"]
+    version_root = (
+        root
+        / "territorios"
+        / territory_id
+        / "evidencia"
+        / "fuentes_territoriales"
+        / str(edition)
+        / identity_sha
+    )
+    version_root.mkdir(parents=True, exist_ok=True)
+    versioned_declaration = version_root / "fuentes_oficiales.yaml"
+    if not versioned_declaration.exists():
+        shutil.copy2(source_declaration_abs, versioned_declaration)
+    elif versioned_declaration.read_bytes() != source_declaration_abs.read_bytes():
+        raise ValueError("Identidad territorial existente apunta a una declaración distinta")
+
+    receipt_path = version_root / "receipt.json"
+    receipt = {
+        "schema": "ddd.territorial-source-receipt/1.0",
+        "kind": "territorial_source",
+        "territory_id": territory_id,
+        "edition": str(edition),
+        "population_year": population_year,
+        "section_year": section_year,
+        "run_id": int(run_id),
+        "artifact_name": artifact_name,
+        "artifact_sha256": artifact_sha256.removeprefix("sha256:"),
+        "package_sha256": package_sha256,
+        "source_commit": source_commit,
+        "source_declaration": versioned_declaration.relative_to(root).as_posix(),
+        "territorial_identity_sha256": identity_sha,
+    }
+    rendered_receipt = json.dumps(receipt, ensure_ascii=False, indent=2) + "\n"
+    if receipt_path.exists() and receipt_path.read_text(encoding="utf-8") != rendered_receipt:
+        raise ValueError("Receipt territorial versionado ya existe con contenido contradictorio")
+    receipt_path.write_text(rendered_receipt, encoding="utf-8")
+
     src_raw = state.get("territorial_source_declaration")
     durable_declaration = root / str(src_raw) if src_raw else root / "territorios" / territory_id / "config" / "fuentes_oficiales.yaml"
     durable_declaration.parent.mkdir(parents=True, exist_ok=True)
     if source_declaration_abs.resolve() != durable_declaration.resolve():
         shutil.copy2(source_declaration_abs, durable_declaration)
     source_rel = durable_declaration.relative_to(root).as_posix()
+    receipt_rel = receipt_path.relative_to(root).as_posix()
 
     # Desde R046 la preparación territorial no deja un territorio a medias:
     # materializa automáticamente el contrato completo que consumirá 02 y lo
     # somete a la misma puerta estructural R036. No hay alta manual por región.
     materialized = materialize_generation_contract(
-        root, territory_id, str(edition), package_abs, str(source_year)
+        root,
+        territory_id,
+        str(edition),
+        package_abs,
+        population_year=str(population_year),
+        section_year=str(section_year),
     )
     contract_rel = str(materialized["contract_path"])
     contract = root / contract_rel
@@ -294,6 +368,11 @@ def promote(
         artifact_name=artifact_name,
         artifact_sha256=artifact_sha256.removeprefix("sha256:"),
         package_sha256=package_sha256,
+        receipt_path=receipt_rel,
+        territorial_identity_sha256=identity_sha,
+        population_year=population_year,
+        section_year=section_year,
+        source_commit=source_commit,
         contract_path=contract_rel,
     )
 
@@ -335,6 +414,10 @@ def promote(
         "artifact_name": artifact_name,
         "artifact_sha256": artifact_sha256.removeprefix("sha256:"),
         "package_sha256": package_sha256,
+        "population_year": population_year,
+        "section_year": section_year,
+        "territorial_identity_sha256": identity_sha,
+        "source_receipt": receipt_rel,
     }
 
 def main() -> int:
@@ -347,6 +430,7 @@ def main() -> int:
     ap.add_argument("--run-id", required=True, type=int)
     ap.add_argument("--artifact-name", required=True)
     ap.add_argument("--artifact-sha256", required=True)
+    ap.add_argument("--source-commit")
     args = ap.parse_args()
     result = promote(
         root_dir=args.root_dir,
@@ -357,6 +441,7 @@ def main() -> int:
         run_id=args.run_id,
         artifact_name=args.artifact_name,
         artifact_sha256=args.artifact_sha256,
+        source_commit=args.source_commit,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0
