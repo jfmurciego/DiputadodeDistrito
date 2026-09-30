@@ -222,7 +222,14 @@ def component_apportionment_audit(
 
 
 
-def existing_or_bootstrap(root: Path, territory_id: str, territory_name: str, province_codes: list[str], edition: str, source_year: str | None = None) -> tuple[dict[str, Any], Path]:
+def existing_or_bootstrap(
+    root: Path,
+    territory_id: str,
+    territory_name: str,
+    province_codes: list[str],
+    edition: str,
+    section_year: str | None = None,
+) -> tuple[dict[str, Any], Path]:
     path = root / "territorios" / territory_id / "config" / f"{territory_id}_{edition}.yaml"
     if path.is_file():
         return yload(path), path
@@ -231,13 +238,13 @@ def existing_or_bootstrap(root: Path, territory_id: str, territory_name: str, pr
     cfg = {
         "meta": {
             "procedure_name": "Diputado de Distrito", "territory_id": territory_id,
-            "territory": territory_name, "run_name": run_name, "year": int(source_year),
+            "territory": territory_name, "run_name": run_name, "year": int(edition),
             "scope": "provincial", "schema_version": "1.0.0", "status": "generated_bootstrap",
         },
         "io": {
             "project_root": {"path": "../../.."},
             "input": {
-                "seccionado": {"path": f"inputs/seccionado_{source_year}.zip", "layer": "", "section_key_col": "CUSEC"},
+                "seccionado": {"path": f"inputs/seccionado_{section_year or edition}.zip", "layer": "", "section_key_col": "CUSEC"},
                 "population_cip": {
                     "paths": ["inputs/65034.csv.zip"], "sep": "auto", "section_key_col": "Secciones",
                     "pop_col": "Total",
@@ -284,8 +291,18 @@ def existing_or_bootstrap(root: Path, territory_id: str, territory_name: str, pr
     return cfg, path
 
 
-def materialize(root: Path, territory_id: str, edition: str, package: Path, source_year: str | None = None) -> dict[str, Any]:
-    source_year = str(source_year or edition)
+def materialize(
+    root: Path,
+    territory_id: str,
+    edition: str,
+    package: Path,
+    source_year: str | None = None,
+    population_year: str | None = None,
+    section_year: str | None = None,
+) -> dict[str, Any]:
+    legacy_year = str(source_year or edition)
+    population_year = str(population_year or legacy_year)
+    section_year = str(section_year or legacy_year)
     policy = yload(root / POLICY)
     master_path = root / MASTER
     master = yload(master_path)
@@ -301,10 +318,10 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
     provinces = [str(x).zfill(2) for x in row["province_codes"]]
     k = int(pentry["k"])
     defaults = policy["defaults"]
-    section_pop = section_populations(package, source_year, provinces)
+    section_pop = section_populations(package, population_year, provinces)
     province_pop = {code: sum(v for sec, v in section_pop.items() if sec[:2] == code) for code in provinces}
 
-    cfg, contract_path = existing_or_bootstrap(root, territory_id, name, provinces, edition, source_year)
+    cfg, contract_path = existing_or_bootstrap(root, territory_id, name, provinces, edition, section_year)
     modules = cfg.setdefault("modulos", {})
 
     # Los contratos ya industrializados no se regeneran: se conservan sus
@@ -318,9 +335,11 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
         )
     ) and bool((cfg.get("territory_contract") or {}).get("k_districts"))
     if already_complete:
-        cfg.setdefault("meta", {})["year"] = int(source_year)
+        cfg.setdefault("meta", {})["year"] = int(edition)
+        cfg.setdefault("meta", {})["source_population_year"] = int(population_year)
+        cfg.setdefault("meta", {})["source_section_year"] = int(section_year)
         input_cfg = cfg.setdefault("io", {}).setdefault("input", {})
-        input_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{source_year}.zip"
+        input_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{section_year}.zip"
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
             raise ValueError(f"K vigente {current_k} no coincide con política nacional {k}")
@@ -347,7 +366,10 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
             raise ValueError("Contrato existente no admitido: " + "; ".join(admitted.get("errors") or []))
         return {
             "schema": "ddd-generation-contract-materialization/1.0",
-            "territory_id": territory_id, "edition": edition, "source_year": source_year,
+            "territory_id": territory_id,
+            "edition": edition,
+            "population_year": population_year,
+            "section_year": section_year,
             "contract_path": str(contract_path.relative_to(root)),
             "k": current_k, "partition_mode": "existing_contract",
             "partition_districts": (cfg.get("validation") or {}).get("province_districts") or {},
@@ -363,7 +385,11 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
 
     meta.update({
         "procedure_name": "Diputado de Distrito", "territory_id": territory_id, "territory": name,
-        "run_name": f"{territory_id}_{edition}", "year": int(source_year), "schema_family": "ddd-territory",
+        "run_name": f"{territory_id}_{edition}",
+        "year": int(edition),
+        "source_population_year": int(population_year),
+        "source_section_year": int(section_year),
+        "schema_family": "ddd-territory",
         "contract_level": "production_m01_m06", "contract_schema_version": "1.0.0",
         "production_authorization": "AUTHORIZED", "status": "production_ready_auto_materialized",
     })
@@ -540,7 +566,10 @@ def materialize(root: Path, territory_id: str, edition: str, package: Path, sour
         raise ValueError("Contrato auto-materializado rechazado: " + "; ".join(report.get("errors") or []))
     return {
         "schema": "ddd-generation-contract-materialization/1.0",
-        "territory_id": territory_id, "edition": edition, "source_year": source_year,
+        "territory_id": territory_id,
+        "edition": edition,
+        "population_year": population_year,
+        "section_year": section_year,
         "contract_path": str(contract_path.relative_to(root)),
         "k": k, "partition_mode": partition_mode,
         "k_reference_scope": pentry.get("k_reference_scope", "institutional_or_contractual_reference"),
@@ -561,11 +590,19 @@ def main() -> None:
     ap.add_argument("--edition", required=True)
     ap.add_argument("--package", required=True)
     ap.add_argument("--source-year")
+    ap.add_argument("--population-year")
+    ap.add_argument("--section-year")
     ap.add_argument("--output")
     args = ap.parse_args()
     root = Path(args.root_dir).resolve()
     result = materialize(
-        root, args.territory_id, str(args.edition), Path(args.package).resolve(), args.source_year
+        root,
+        args.territory_id,
+        str(args.edition),
+        Path(args.package).resolve(),
+        args.source_year,
+        args.population_year,
+        args.section_year,
     )
     payload = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
