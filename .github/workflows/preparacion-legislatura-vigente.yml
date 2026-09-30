@@ -1,0 +1,188 @@
+name: Preparación conjunta · Legislatura vigente
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory:
+        description: Territorio o matriz completa
+        required: true
+        default: Todos
+        type: choice
+        options:
+          - Todos
+          - Andalucía
+          - Aragón
+          - Principado de Asturias
+          - Islas Baleares
+          - Canarias
+          - Cantabria
+          - Castilla y León
+          - Castilla-La Mancha
+          - Cataluña
+          - Comunidad Valenciana
+          - Extremadura
+          - Galicia
+          - Comunidad de Madrid
+          - Región de Murcia
+          - Comunidad Foral de Navarra
+          - País Vasco
+          - La Rioja
+          - Ceuta
+          - Melilla
+      operation:
+        description: Planificar o preparar un único territorio
+        required: true
+        default: plan
+        type: choice
+        options: [plan, prepare_one]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: ddd-current-legislature-preparation-${{ inputs.territory }}
+  cancel-in-progress: false
+
+jobs:
+  planificar:
+    name: Resolver legislatura y fuentes requeridas
+    runs-on: ubuntu-24.04
+    outputs:
+      territory_name: ${{ steps.outputs.outputs.territory_name }}
+      source_year: ${{ steps.outputs.outputs.source_year }}
+      territorial_action: ${{ steps.outputs.outputs.territorial_action }}
+      electoral_action: ${{ steps.outputs.outputs.electoral_action }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Construir plan verificable
+        env:
+          TERRITORY: ${{ inputs.territory }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          set -euo pipefail
+          if [[ "$OPERATION" == prepare_one && "$TERRITORY" == Todos ]]; then
+            echo "::error::prepare_one exige un territorio concreto; Todos es sólo lectura/planificación."
+            exit 40
+          fi
+          python herramientas/resolver_preparacion_legislatura.py             --root-dir . --territory "$TERRITORY"             --output .ddd-current-legislature-plan.json
+          jq -e '.ok == true and (.plans|length) >= 1' .ddd-current-legislature-plan.json >/dev/null
+
+      - name: Acreditar paquete remoto antes de reutilizar
+        if: ${{ inputs.operation == 'prepare_one' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          verify_kind() {
+            local kind="$1"
+            local action candidate run_id artifact expected arts merged matches live digest count
+            action="$(jq -r ".plans[0].${kind}_action" .ddd-current-legislature-plan.json)"
+            case "$action" in
+              REUSE|REUSE_TEMPORAL_SUBSTITUTION) ;;
+              *) return 0 ;;
+            esac
+            candidate="$(jq -c ".plans[0].${kind}_candidate" .ddd-current-legislature-plan.json)"
+            run_id="$(jq -r '.run_id // empty' <<<"$candidate")"
+            artifact="$(jq -r '.artifact_name // empty' <<<"$candidate")"
+            expected="$(jq -r '.artifact_sha256 // empty' <<<"$candidate" | sed 's/^sha256://')"
+            [[ "$run_id" =~ ^[1-9][0-9]*$ && -n "$artifact" && "$expected" =~ ^[0-9a-f]{64}$ ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_IDENTITY"; .plans[0][($k+"_remote_reason")]="run/artifact/digest incompletos"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            arts="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+            merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$arts")"
+            matches="$(jq -c --arg n "$artifact" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
+            count="$(jq 'length' <<<"$matches")"
+            if [[ "$count" == 0 ]]; then
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete registrado no disponible; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
+            [[ "$count" == 1 ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_AMBIGUITY"; .plans[0][($k+"_remote_reason")]="múltiples artefactos con la misma identidad"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            live="$(jq -c '.[0]' <<<"$matches")"
+            if [[ "$(jq -r '.expired|tostring' <<<"$live")" == true ]]; then
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="ACQUIRE"; .plans[0][($k+"_remote_reason")]="paquete expirado; adquirir de nuevo"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            fi
+            digest="$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')"
+            [[ "$digest" == "$expected" ]] || {
+              jq --arg k "$kind"                 '.plans[0][($k+"_action")]="BLOCKED_DURABLE_DIGEST"; .plans[0][($k+"_remote_reason")]="digest remoto contradice el registro durable"'                 .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+              return 0
+            }
+            jq --arg k "$kind"               '.plans[0][($k+"_remote_verified")]=true'               .ddd-current-legislature-plan.json > .tmp && mv .tmp .ddd-current-legislature-plan.json
+          }
+          verify_kind territorial
+          verify_kind electoral
+
+      - id: outputs
+        name: Exponer acciones de un territorio
+        if: ${{ inputs.territory != 'Todos' }}
+        run: |
+          echo "territory_name=$(jq -r '.plans[0].name' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "source_year=$(jq -r '.plans[0].population_year_selected' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "territorial_action=$(jq -r '.plans[0].territorial_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+          echo "electoral_action=$(jq -r '.plans[0].electoral_action' .ddd-current-legislature-plan.json)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ddd-current-legislature-plan-${{ github.run_id }}
+          path: .ddd-current-legislature-plan.json
+          if-no-files-found: error
+          retention-days: 90
+
+  territorial:
+    name: 01 · Adquirir sólo fuente territorial necesaria
+    needs: planificar
+    if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.territorial_action == 'ACQUIRE' }}
+    uses: ./.github/workflows/preparacion-fuentes.yml
+    with:
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: '2025'
+      source_year: ${{ needs.planificar.outputs.source_year }}
+      reutilizar_si_ya_preparada: true
+      source_ref: ${{ github.sha }}
+      persist_state: true
+    secrets: inherit
+
+  electoral:
+    name: 03 · Adquirir sólo fuente electoral necesaria
+    needs: planificar
+    if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.electoral_action == 'ACQUIRE' }}
+    uses: ./.github/workflows/preparacion-resultados-electorales.yml
+    with:
+      territory_id: ${{ needs.planificar.outputs.territory_name }}
+      data_edition: '2025'
+      reutilizar_si_ya_preparada: true
+      source_ref: ${{ github.sha }}
+      persist_state: true
+    secrets: inherit
+
+  resultado:
+    name: Cerrar preparación conjunta sin generación
+    needs: [planificar, territorial, electoral]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Exigir que sólo fallen bloqueos reales o adquisiciones solicitadas
+        env:
+          PLAN_RESULT: ${{ needs.planificar.result }}
+          TERRITORIAL_RESULT: ${{ needs.territorial.result }}
+          ELECTORAL_RESULT: ${{ needs.electoral.result }}
+          OPERATION: ${{ inputs.operation }}
+          TERRITORIAL_ACTION: ${{ needs.planificar.outputs.territorial_action }}
+          ELECTORAL_ACTION: ${{ needs.planificar.outputs.electoral_action }}
+        run: |
+          set -euo pipefail
+          [[ "$PLAN_RESULT" == success ]] || exit 50
+          [[ "$TERRITORIAL_RESULT" != failure && "$ELECTORAL_RESULT" != failure ]] || exit 51
+          if [[ "$OPERATION" == prepare_one ]]; then
+            case "$TERRITORIAL_ACTION" in BLOCKED_*) echo "::error::Fuente territorial bloqueada: $TERRITORIAL_ACTION"; exit 52;; esac
+            case "$ELECTORAL_ACTION" in BLOCKED_DURABLE_*) echo "::error::Fuente electoral durable contradictoria: $ELECTORAL_ACTION"; exit 53;; esac
+            if [[ "$ELECTORAL_ACTION" == BLOCKED_PROVISIONAL ]]; then
+              echo "::notice::Fuente electoral provisional: queda explícitamente bloqueada para producción."
+            fi
+          fi
