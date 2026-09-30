@@ -107,8 +107,15 @@ def section_populations(package: Path, edition: str, province_codes: list[str]) 
                 sec = str(row.get("Secciones") or "").split(" ", 1)[0].strip()
                 if len(sec) != 10 or sec[:2] not in wanted:
                     continue
-                raw_total = str(row.get("Total") or "0").strip().replace(".", "").replace(",", "")
-                result[sec] = int(raw_total or "0")
+                raw_total = str(row.get("Total") or "").strip()
+                if raw_total == "":
+                    raise ValueError(f"Población ausente para sección {sec}")
+                if sec in result:
+                    raise ValueError(
+                        f"Clave poblacional duplicada antes de sobrescribir: {sec}"
+                    )
+                normalized_total = raw_total.replace(".", "").replace(",", "")
+                result[sec] = int(normalized_total)
     if not result:
         raise ValueError("La fuente de población preparada no contiene secciones para el territorio")
     return result
