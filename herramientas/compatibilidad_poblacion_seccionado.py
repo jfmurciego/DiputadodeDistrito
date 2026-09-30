@@ -4,9 +4,10 @@ import csv
 import hashlib
 import io
 import json
+import tempfile
 import zipfile
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 SCHEMA = "ddd.population-sectioning-compatibility/1.0"
 REPORT_NAME = "compatibilidad_poblacion_seccionado.json"
@@ -85,6 +86,52 @@ def _union_equals(parts: list[Any], whole: Any) -> bool:
         return False
 
 
+def _parse_crs(value: object, *, label: str):
+    if value is None or str(value).strip() == "":
+        raise ValueError(f"CRS_MISSING: {label}")
+    try:
+        from pyproj import CRS
+        return CRS.from_user_input(value)
+    except Exception as exc:
+        raise ValueError(f"CRS_INVALID: {label}: {value!r}") from exc
+
+
+def _crs_text(crs: Any) -> str:
+    try:
+        authority = crs.to_authority()
+    except Exception:
+        authority = None
+    if authority:
+        return f"{authority[0]}:{authority[1]}"
+    return crs.to_wkt()
+
+
+def _crs_audit(*, target_original: object, origin_original: object | None, cross_year: bool) -> dict:
+    target = _parse_crs(target_original, label="target_sectioning")
+    origin = _parse_crs(origin_original, label="population_sectioning_origin") if cross_year else None
+    effective = target
+    return {
+        "target": {
+            "original": _crs_text(target),
+            "original_wkt": target.to_wkt(),
+        },
+        "origin": (
+            {
+                "original": _crs_text(origin),
+                "original_wkt": origin.to_wkt(),
+            }
+            if origin is not None
+            else None
+        ),
+        "effective": {
+            "crs": _crs_text(effective),
+            "wkt": effective.to_wkt(),
+            "policy": "target_sectioning_crs",
+            "origin_reprojected": bool(origin is not None and not origin.equals(target)),
+        },
+    }
+
+
 def reconcile_population_sectioning(
     *,
     territory_id: str,
@@ -95,6 +142,7 @@ def reconcile_population_sectioning(
     target_geometry_rows: list[tuple[str, Any]],
     origin_geometry_rows: list[tuple[str, Any]] | None,
     input_identities: dict | None = None,
+    crs_audit: dict | None = None,
 ) -> dict:
     populations, duplicate_population = _dedupe_population(population_rows)
     target, duplicate_target = _dedupe_geometry(target_geometry_rows)
@@ -141,7 +189,7 @@ def reconcile_population_sectioning(
                     "source_keys": [key],
                     "target_keys": [key],
                     "kind": "ONE_TO_ONE",
-                    "evidence": "geometric_equality",
+                    "evidence": "geometric_equality_after_crs_normalization",
                 })
                 mapped_source.add(key)
                 mapped_target.add(key)
@@ -155,8 +203,6 @@ def reconcile_population_sectioning(
         unmatched_source = [k for k in sorted(origin) if k not in mapped_source]
         unmatched_target = [k for k in sorted(target) if k not in mapped_target]
 
-        # A code change is accepted only when the source and target geometries are
-        # verifiably equal. Code equality by itself is never evidence across years.
         for source_key in list(unmatched_source):
             equal_targets = [
                 target_key for target_key in unmatched_target
@@ -168,7 +214,7 @@ def reconcile_population_sectioning(
                     "source_keys": [source_key],
                     "target_keys": [target_key],
                     "kind": "ONE_TO_ONE_CODE_CHANGE",
-                    "evidence": "geometric_equality",
+                    "evidence": "geometric_equality_after_crs_normalization",
                 })
                 mapped_source.add(source_key)
                 mapped_target.add(target_key)
@@ -177,9 +223,6 @@ def reconcile_population_sectioning(
         unmatched_source = [k for k in sorted(origin) if k not in mapped_source]
         unmatched_target = [k for k in sorted(target) if k not in mapped_target]
 
-        # Splits/fusions are diagnosed only after a geometric union check. They are
-        # still blocking: source-section population cannot be redistributed among
-        # several target sections without an authoritative population correspondence.
         for source_key in unmatched_source:
             candidates = [
                 target_key for target_key in unmatched_target
@@ -190,7 +233,7 @@ def reconcile_population_sectioning(
                     "source_keys": [source_key],
                     "target_keys": sorted(candidates),
                     "kind": "SPLIT",
-                    "evidence": "geometric_union",
+                    "evidence": "geometric_union_after_crs_normalization",
                 })
 
         for target_key in unmatched_target:
@@ -203,11 +246,10 @@ def reconcile_population_sectioning(
                     "source_keys": sorted(candidates),
                     "target_keys": [target_key],
                     "kind": "FUSION",
-                    "evidence": "geometric_union",
+                    "evidence": "geometric_union_after_crs_normalization",
                 })
 
-        non_bijective = [r for r in correspondences if r["kind"] in {"SPLIT", "FUSION"}]
-        if non_bijective:
+        if any(r["kind"] in {"SPLIT", "FUSION"} for r in correspondences):
             causes.append("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE")
         if geometric_changes:
             causes.append("SAME_CODE_BOUNDARY_CHANGED")
@@ -242,7 +284,6 @@ def reconcile_population_sectioning(
         causes.append("POPULATION_TOTAL_NOT_CONSERVED")
 
     if population_year != section_year:
-        # Any still-unmapped origin/target geometry is an unaccredited edition change.
         mapped_one_source = {r["source_keys"][0] for r in one_to_one}
         mapped_one_target = {r["target_keys"][0] for r in one_to_one}
         if sorted(set(origin) - mapped_one_source) or sorted(set(target) - mapped_one_target):
@@ -255,6 +296,7 @@ def reconcile_population_sectioning(
         "population_year": int(population_year),
         "section_year": int(section_year),
         "inputs": input_identities or {},
+        "crs": crs_audit or {},
         "correspondences": correspondences,
         "geometric_changes": geometric_changes,
         "duplicates": {
@@ -308,7 +350,7 @@ def _population_rows_from_zip(path: Path) -> list[tuple[str, int]]:
     return rows
 
 
-def _geometry_rows_from_zip(path: Path) -> list[tuple[str, Any]]:
+def _geometry_frame_from_zip(path: Path):
     try:
         import geopandas as gpd
     except Exception as exc:
@@ -319,14 +361,197 @@ def _geometry_rows_from_zip(path: Path) -> list[tuple[str, Any]]:
         shp_members = [n for n in archive.namelist() if n.lower().endswith(".shp") and "__macosx/" not in n.lower()]
         if len(shp_members) != 1:
             raise ValueError(f"Seccionado ambiguo: shapefiles={shp_members}")
-        import tempfile
         with tempfile.TemporaryDirectory(prefix="ddd_compat_sections_") as td:
             archive.extractall(td)
             gdf = gpd.read_file(Path(td) / shp_members[0])
     id_field = next((x for x in ("CUSEC", "CUSEC_KEY", "CUSEC20", "SEC") if x in gdf.columns), None)
     if not id_field:
         raise ValueError(f"Seccionado sin clave de sección reconocible: {list(gdf.columns)}")
+    _parse_crs(gdf.crs, label=str(path))
+    return gdf, id_field
+
+
+def _rows_from_frame(gdf: Any, id_field: str) -> list[tuple[str, Any]]:
     return [(normalize_section_key(row[id_field]), row.geometry) for _, row in gdf.iterrows()]
+
+
+def _expected_roles(population_year: int, section_year: int) -> tuple[str, ...]:
+    roles = ["population", "target_sectioning"]
+    if int(population_year) != int(section_year):
+        roles.append("population_sectioning_origin")
+    return tuple(roles)
+
+
+def _materialized_member(row: dict) -> str:
+    path = str(row.get("path") or "").strip()
+    if not path:
+        raise ValueError("INPUT_BINDING_INVALID: inventario sin path")
+    return "materialized/" + path.lstrip("/")
+
+
+def _inventory_by_role(inventory: dict, *, population_year: int, section_year: int) -> dict[str, dict]:
+    expected = set(_expected_roles(population_year, section_year))
+    rows = inventory.get("sources")
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("INPUT_ROLE_INVALID: inventario sin fuentes")
+    by_role: dict[str, dict] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("INPUT_ROLE_INVALID: entrada de inventario no es objeto")
+        role = str(row.get("role") or "").strip()
+        if not role:
+            raise ValueError("INPUT_ROLE_MISSING: entrada de inventario sin role")
+        if role not in expected:
+            raise ValueError(f"INPUT_ROLE_UNEXPECTED: {role}")
+        if role in by_role:
+            raise ValueError(f"INPUT_ROLE_DUPLICATE: {role}")
+        by_role[role] = row
+    missing = sorted(expected - set(by_role))
+    if missing:
+        raise ValueError("INPUT_ROLE_MISSING: " + ", ".join(missing))
+    return by_role
+
+
+def _validate_crs_contract(report: dict, *, population_year: int, section_year: int) -> list[str]:
+    reasons: list[str] = []
+    crs = report.get("crs")
+    if not isinstance(crs, dict):
+        return ["CRS_MISSING: informe sin bloque crs"]
+    target = crs.get("target") or {}
+    origin = crs.get("origin")
+    effective = crs.get("effective") or {}
+    try:
+        target_crs = _parse_crs(target.get("original"), label="report.target.original")
+        effective_crs = _parse_crs(effective.get("crs"), label="report.effective.crs")
+        if not target_crs.equals(effective_crs):
+            reasons.append("CRS_CONTRADICTORY: CRS efectivo no equivale al CRS objetivo")
+        if int(population_year) != int(section_year):
+            if not isinstance(origin, dict):
+                reasons.append("CRS_MISSING: informe sin CRS de seccionado origen")
+            else:
+                _parse_crs(origin.get("original"), label="report.origin.original")
+        elif origin not in (None, {}):
+            reasons.append("CRS_UNEXPECTED: CRS de origen declarado para la misma edición")
+    except ValueError as exc:
+        reasons.append(str(exc))
+    return reasons
+
+
+def validate_report_bindings(
+    *,
+    report: dict,
+    inventory: dict,
+    read_member_bytes: Callable[[str], bytes],
+    territory_id: str,
+    edition: str | int,
+    population_year: int,
+    section_year: int,
+    require_ready: bool,
+) -> list[str]:
+    reasons: list[str] = []
+    if report.get("schema") != SCHEMA:
+        reasons.append("informe de compatibilidad población↔seccionado inválido")
+        return reasons
+
+    canonical = {
+        key: value
+        for key, value in report.items()
+        if key not in {"schema", "compatibility_identity_sha256", "decision"}
+    }
+    declared_identity = str(report.get("compatibility_identity_sha256") or "")
+    if declared_identity != _canonical_sha256(canonical):
+        reasons.append("identidad del informe de compatibilidad población↔seccionado contradictoria")
+    expected_decision = "READY" if not (report.get("causes") or []) else "BLOCKED"
+    if report.get("decision") != expected_decision:
+        reasons.append("decisión del informe de compatibilidad población↔seccionado contradictoria")
+    if require_ready and report.get("decision") != "READY":
+        reasons.append(
+            "informe de compatibilidad población↔seccionado bloqueado: "
+            + "; ".join(report.get("causes") or [])
+        )
+
+    if str(report.get("territory_id") or "") != str(territory_id):
+        reasons.append("informe de compatibilidad pertenece a otro territorio")
+    if str(report.get("edition") or "") != str(edition):
+        reasons.append("informe de compatibilidad pertenece a otra edición")
+    if int(report.get("population_year") or 0) != int(population_year):
+        reasons.append("informe de compatibilidad usa otro año de población")
+    if int(report.get("section_year") or 0) != int(section_year):
+        reasons.append("informe de compatibilidad usa otro año de seccionado")
+    reasons.extend(_validate_crs_contract(
+        report,
+        population_year=population_year,
+        section_year=section_year,
+    ))
+
+    try:
+        by_role = _inventory_by_role(
+            inventory,
+            population_year=population_year,
+            section_year=section_year,
+        )
+    except ValueError as exc:
+        reasons.append(str(exc))
+        return reasons
+
+    inputs = report.get("inputs")
+    if not isinstance(inputs, dict):
+        reasons.append("INPUT_BINDING_INVALID: informe sin inputs")
+        return reasons
+    expected_roles = set(_expected_roles(population_year, section_year))
+    report_roles = set(inputs)
+    missing = sorted(expected_roles - report_roles)
+    unexpected = sorted(report_roles - expected_roles)
+    if missing:
+        reasons.append("INPUT_BINDING_MISSING: " + ", ".join(missing))
+    if unexpected:
+        reasons.append("INPUT_BINDING_UNEXPECTED: " + ", ".join(unexpected))
+
+    for role in sorted(expected_roles & report_roles):
+        inv = by_role[role]
+        binding = inputs.get(role)
+        if not isinstance(binding, dict):
+            reasons.append(f"INPUT_BINDING_INVALID: {role}")
+            continue
+        expected_member = _materialized_member(inv)
+        if str(binding.get("role") or "") != role:
+            reasons.append(f"INPUT_BINDING_ROLE_MISMATCH: {role}")
+        if str(binding.get("member") or "") != expected_member:
+            reasons.append(f"INPUT_BINDING_MEMBER_MISMATCH: {role}")
+        if str(binding.get("path") or "") != str(inv.get("path") or ""):
+            reasons.append(f"INPUT_BINDING_PATH_MISMATCH: {role}")
+        inv_sha = str(inv.get("sha256") or "").lower()
+        report_sha = str(binding.get("sha256") or "").lower()
+        inv_bytes = inv.get("bytes")
+        report_bytes = binding.get("bytes")
+        try:
+            payload = read_member_bytes(expected_member)
+        except Exception as exc:
+            reasons.append(f"INPUT_MEMBER_MISSING: {role}: {expected_member}: {exc}")
+            continue
+        actual_sha = _sha256_bytes(payload)
+        actual_bytes = len(payload)
+        if not inv_sha or inv_sha != actual_sha:
+            reasons.append(f"INPUT_INVENTORY_SHA_MISMATCH: {role}")
+        if report_sha != actual_sha:
+            reasons.append(f"INPUT_REPORT_SHA_MISMATCH: {role}")
+        try:
+            if int(inv_bytes) != actual_bytes:
+                reasons.append(f"INPUT_INVENTORY_SIZE_MISMATCH: {role}")
+        except Exception:
+            reasons.append(f"INPUT_INVENTORY_SIZE_INVALID: {role}")
+        try:
+            if int(report_bytes) != actual_bytes:
+                reasons.append(f"INPUT_REPORT_SIZE_MISMATCH: {role}")
+        except Exception:
+            reasons.append(f"INPUT_REPORT_SIZE_INVALID: {role}")
+        if str(binding.get("source_id") or "") != str(inv.get("source_id") or ""):
+            reasons.append(f"INPUT_BINDING_SOURCE_ID_MISMATCH: {role}")
+
+    population_audit = report.get("population") or {}
+    if require_ready and population_audit.get("exact_conservation") is not True:
+        reasons.append("informe de compatibilidad no acredita conservación exacta de población")
+    return reasons
 
 
 def build_materialized_report(
@@ -338,72 +563,144 @@ def build_materialized_report(
     section_year: int,
     inventory: dict,
 ) -> dict:
-    rows = inventory.get("sources") or []
-    by_role = {str(row.get("role") or ""): row for row in rows if isinstance(row, dict)}
-    population = by_role.get("population")
-    target = by_role.get("target_sectioning")
-    origin = by_role.get("population_sectioning_origin")
-    if not population or not target:
-        raise ValueError("Fuentes materializadas sin roles population/target_sectioning")
+    by_role = _inventory_by_role(
+        inventory,
+        population_year=population_year,
+        section_year=section_year,
+    )
 
-    def materialized(row: dict) -> Path:
-        return evidence_dir / "materialized" / str(row["path"])
+    def path_for(role: str) -> Path:
+        return evidence_dir / "materialized" / str(by_role[role]["path"])
 
-    population_path = materialized(population)
-    target_path = materialized(target)
-    origin_path = materialized(origin) if origin else None
-    identities = {
-        "population": {"path": str(population["path"]), "sha256": str(population["sha256"])},
-        "target_sectioning": {"path": str(target["path"]), "sha256": str(target["sha256"])},
-        "origin_sectioning": (
-            {"path": str(origin["path"]), "sha256": str(origin["sha256"])}
-            if origin else None
-        ),
-    }
+    population_path = path_for("population")
+    target_path = path_for("target_sectioning")
+    origin_path = (
+        path_for("population_sectioning_origin")
+        if population_year != section_year
+        else None
+    )
+
+    target_gdf, target_id = _geometry_frame_from_zip(target_path)
+    target_crs = _parse_crs(target_gdf.crs, label="target_sectioning")
+    origin_gdf = None
+    origin_id = None
+    origin_crs = None
+    if origin_path is not None:
+        origin_gdf, origin_id = _geometry_frame_from_zip(origin_path)
+        origin_crs = _parse_crs(origin_gdf.crs, label="population_sectioning_origin")
+        if not origin_crs.equals(target_crs):
+            origin_gdf = origin_gdf.to_crs(target_crs)
+
+    identities: dict[str, dict] = {}
+    for role, row in by_role.items():
+        path = evidence_dir / "materialized" / str(row["path"])
+        payload = path.read_bytes()
+        identities[role] = {
+            "role": role,
+            "source_id": str(row.get("source_id") or ""),
+            "path": str(row["path"]),
+            "member": _materialized_member(row),
+            "bytes": len(payload),
+            "sha256": _sha256_bytes(payload),
+        }
+
+    crs = _crs_audit(
+        target_original=target_gdf.crs,
+        origin_original=origin_crs,
+        cross_year=population_year != section_year,
+    )
     report = reconcile_population_sectioning(
         territory_id=territory_id,
         edition=edition,
         population_year=population_year,
         section_year=section_year,
         population_rows=_population_rows_from_zip(population_path),
-        target_geometry_rows=_geometry_rows_from_zip(target_path),
-        origin_geometry_rows=_geometry_rows_from_zip(origin_path) if origin_path else None,
+        target_geometry_rows=_rows_from_frame(target_gdf, target_id),
+        origin_geometry_rows=(
+            _rows_from_frame(origin_gdf, origin_id)
+            if origin_gdf is not None and origin_id is not None
+            else None
+        ),
         input_identities=identities,
+        crs_audit=crs,
     )
+    reasons = validate_report_bindings(
+        report=report,
+        inventory=inventory,
+        read_member_bytes=lambda member: (
+            evidence_dir / member
+        ).read_bytes(),
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+        require_ready=False,
+    )
+    if reasons:
+        raise ValueError("COMPATIBILITY_REPORT_INVALID: " + "; ".join(reasons))
     path = evidence_dir / REPORT_NAME
     path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
 
 
-def read_report_from_package(package: Path) -> tuple[dict, str]:
-    manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+def validate_compatibility_package(
+    package: Path,
+    *,
+    territory_id: str,
+    edition: str | int,
+    population_year: int,
+    section_year: int,
+    require_ready: bool = True,
+) -> tuple[dict, str, list[str]]:
+    manifest_path = package / "manifest.json"
+    if not manifest_path.is_file():
+        return {}, "", ["manifest.json ausente"]
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     bundle = package / str(manifest.get("path") or "")
     if not bundle.is_file() or not zipfile.is_zipfile(bundle):
-        raise ValueError("Paquete congelado ausente o inválido")
+        return {}, "", ["paquete congelado ausente o inválido"]
     with zipfile.ZipFile(bundle) as archive:
         try:
             raw = archive.read(REPORT_NAME)
-        except KeyError as exc:
-            raise ValueError(
+        except KeyError:
+            return {}, "", [
                 "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
-            ) from exc
-    report = json.loads(raw.decode("utf-8"))
-    if not isinstance(report, dict) or report.get("schema") != SCHEMA:
-        raise ValueError("informe de compatibilidad población↔seccionado inválido")
-    declared_identity = str(report.get("compatibility_identity_sha256") or "")
-    canonical = {
-        key: value
-        for key, value in report.items()
-        if key not in {"schema", "compatibility_identity_sha256", "decision"}
-    }
-    actual_identity = _canonical_sha256(canonical)
-    if declared_identity != actual_identity:
-        raise ValueError(
-            "identidad del informe de compatibilidad población↔seccionado contradictoria"
+            ]
+        try:
+            inventory = json.loads(archive.read("inventario_fuentes.json").decode("utf-8"))
+        except Exception as exc:
+            return {}, _sha256_bytes(raw), [f"inventario de fuentes ilegible: {exc}"]
+        try:
+            report = json.loads(raw.decode("utf-8"))
+        except Exception as exc:
+            return {}, _sha256_bytes(raw), [f"informe de compatibilidad ilegible: {exc}"]
+        if not isinstance(report, dict) or not isinstance(inventory, dict):
+            return {}, _sha256_bytes(raw), ["informe/inventario de compatibilidad inválido"]
+        reasons = validate_report_bindings(
+            report=report,
+            inventory=inventory,
+            read_member_bytes=archive.read,
+            territory_id=territory_id,
+            edition=edition,
+            population_year=population_year,
+            section_year=section_year,
+            require_ready=require_ready,
         )
-    expected_decision = "READY" if not (report.get("causes") or []) else "BLOCKED"
-    if report.get("decision") != expected_decision:
-        raise ValueError(
-            "decisión del informe de compatibilidad población↔seccionado contradictoria"
-        )
-    return report, _sha256_bytes(raw)
+        return report, _sha256_bytes(raw), reasons
+
+
+def read_report_from_package(package: Path) -> tuple[dict, str]:
+    manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+    population_year = int(manifest.get("population_year", manifest.get("source_year", manifest.get("edition"))))
+    section_year = int(manifest.get("section_year", manifest.get("source_year", manifest.get("edition"))))
+    report, digest, reasons = validate_compatibility_package(
+        package,
+        territory_id=str(manifest.get("territory_id") or ""),
+        edition=str(manifest.get("edition") or ""),
+        population_year=population_year,
+        section_year=section_year,
+        require_ready=True,
+    )
+    if reasons:
+        raise ValueError("; ".join(reasons))
+    return report, digest
