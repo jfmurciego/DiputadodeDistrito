@@ -243,6 +243,7 @@ jobs:
           receipt="$(jq -r '.receipt_path' .ddd-prepared-source-pair.json)"
           pair_sha="$(jq -r '.pair_sha256' .ddd-prepared-source-pair.json)"
           test -s "$receipt"
+          python herramientas/catalogo_preparacion.py --root-dir . validate
           echo "receipt_path=$receipt" >> "$GITHUB_OUTPUT"
           echo "pair_sha256=$pair_sha" >> "$GITHUB_OUTPUT"
           git config user.name github-actions
