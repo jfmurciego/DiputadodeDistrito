@@ -230,11 +230,11 @@ territories:
       preparation_status: READY
       contract_path: territorios/cataluna/config/cataluna_2025.yaml
       territorial_source_declaration: territorios/cataluna/config/fuentes_oficiales.yaml
-      electoral_source_declaration: null
+      electoral_source_declaration: territorios/cataluna/config/elecciones/cataluna_parlament_2024_vigente.yaml
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -246,6 +246,7 @@ territories:
         package_sha256: a985c0d12384541b5245ca1c063b1e5f997424af8a22a69c06a27149130c1807
       evidence:
         generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
   editions:
