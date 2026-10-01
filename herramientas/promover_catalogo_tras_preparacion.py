@@ -237,7 +237,7 @@ def _promote_contract(path: Path) -> None:
     for key, value in (
         ("contract_level", "production_m01_m06"),
         ("production_authorization", "AUTHORIZED"),
-        ("status", "generation_ready"),
+        ("status", "source_prepared_pending_pre_m04"),
     ):
         m0 = lines.index("meta:") + 1
         m1 = next(i for i in range(m0, len(lines)) if lines[i] and not lines[i].startswith("  "))
@@ -249,7 +249,7 @@ def _promote_contract(path: Path) -> None:
         for key in ("promotion_status", "status"):
             for i in range(tc0 + 1, tc1):
                 if lines[i].startswith(f"  {key}:"):
-                    lines[i] = f"  {key}: generation_ready"
+                    lines[i] = f"  {key}: source_prepared_pending_pre_m04"
                     break
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -307,7 +307,7 @@ def _promote_master(path: Path, territory_id: str, contract_complete: bool) -> N
     if target is None:
         raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
     line = lines[target]
-    line = re.sub(r"status: [^,}]+", "status: generation_ready", line)
+    line = re.sub(r"status: [^,}]+", "status: source_prepared_pending_pre_m04", line)
     line = re.sub(r"contract_level: [^,}]+", "contract_level: production_m01_m06", line)
     if "production_authorization:" in line:
         line = re.sub(r"production_authorization: [^,}]+", "production_authorization: AUTHORIZED", line)
