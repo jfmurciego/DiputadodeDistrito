@@ -129,19 +129,16 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     modules = contract.get("modulos") or {}
     m04 = modules.get("modulo_04_generar_semillas") or {}
     partitioning = contract.get("partitioning") or {}
-    if certified_product_ready:
-        return {"allowed": True, "route": "certified_product_lineage"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
     if pre_m04_accreditation_planned:
         return {"allowed": True, "route": "planned_pre_m04_accreditation"}
-    if meta.get("status") == territorial.get("status") == "generation_ready":
-        return {"allowed": True, "route": "declared_generation_ready"}
-    if (partitioning.get("enabled") is True and partitioning.get("strategy") == "connected_internal_units"
-            and partitioning.get("output_geojson") == m04.get("in_geojson")
-            and partitioning.get("partition_unit_field") == m04.get("municipality_field")):
-        return {"allowed": True, "route": "linked_internal_partitioning"}
-    return _core._blocked("CAP_PRE_M04_EVIDENCE", "primera generación sin evidencia durable pre-M04")
+    if certified_product_ready and not source_recalculation_planned:
+        return {"allowed": True, "route": "certified_product_lineage"}
+    return _core._blocked(
+        "CAP_PRE_M04_EVIDENCE",
+        "la generación exige evidencia pre-M04 ligada a la fuente efectiva; los estados históricos no habilitan una fuente nueva",
+    )
 
 
 def _explicit_source(values: dict | None) -> dict | None:
@@ -380,11 +377,11 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
-        certified_product_ready=territorial_product_ready and not catalog_source_mode,
+        certified_product_ready=territorial_product_ready and not generation_requested,
         first_generation_evidence=(
             generation_preflight_evidence
-            if territorial_sources_ready and not run_prepare_territorial
-            and not catalog_source_mode and not territorial_product_ready else None
+            if territorial_sources_ready and not run_prepare_territorial and generation_requested
+            else None
         ),
         preparation_evidence=prep,
         require_source=generation_requested,
@@ -392,17 +389,16 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         source_recalculation_planned=catalog_source_mode,
     )
     pre_m04_producer_planned = bool(
-        not catalog_source_mode
-        and selected_explicit_source is None
+        selected_explicit_source is None
         and (
             run_prepare_territorial
-            or (not from_start and territorial_sources_ready and not generation_preflight_path)
+            or (territorial_sources_ready and generation_requested and not generation_preflight_path)
         )
     )
     pre_m04_accreditation_planned = bool(
         pre_m04_producer_planned
         and territorial_sources_ready
-        and not territorial_product_ready
+        and generation_requested
         and not generation_gate.get("allowed")
         and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
     )
