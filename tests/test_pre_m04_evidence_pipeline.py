@@ -424,6 +424,23 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
 
 
 
+    def test_generation_enablement_has_single_material_validation_chain(self):
+        public = (ROOT / "herramientas/resolver_ejecucion_completa.py").read_text(encoding="utf-8")
+        core = (ROOT / "herramientas/_resolver_ejecucion_completa_core.py").read_text(encoding="utf-8")
+        public_block = public[
+            public.index("def generation_enablement"):
+            public.index("def generation_ready_contract")
+        ]
+        self.assertIn("return _core.generation_enablement(", public_block)
+        self.assertNotIn("_core.generation_enablement = generation_enablement", public)
+        self.assertEqual(core.count("def generation_enablement("), 1)
+        ready_block = public[
+            public.index("def generation_ready_contract"):
+            public.index("def _explicit_source")
+        ]
+        self.assertIn("_core.generation_enablement(", ready_block)
+
+
 class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
     REAL_CASES = {
         "illes_balears": {
