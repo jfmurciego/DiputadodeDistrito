@@ -214,10 +214,10 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(plan["territorial_action"], "ACQUIRE")
                 self.assertEqual(plan["electoral_action"], "REUSE")
 
-    def test_both_sources_are_acquired_when_both_are_missing_or_wrong(self):
+    def test_canarias_reuses_prepared_electoral_and_replaces_wrong_territorial(self):
         plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
-        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_action"], "REUSE")
 
     def test_population_and_section_years_are_separate_from_project_edition(self):
         declaration = build_declaration(
