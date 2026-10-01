@@ -72,8 +72,7 @@ class GaliciaElectoralApplication(unittest.TestCase):
             source.write_text(
                 "Cód Cir;Cód Con;Mesa;BNG;PP\n"
                 "15;007;01-001-A;10;20\n"
-                "15;007;01-001-B;5;7\n"
-                "Total;;;15;27\n",
+                "15;007;01-001-B;5;7\n",
                 encoding="utf-8",
             )
             frame, sections = m07.read_results(source, adapter, "CUSEC_KEY", parties)
@@ -82,6 +81,41 @@ class GaliciaElectoralApplication(unittest.TestCase):
         observed = {(r.CUSEC_KEY, r.party): int(r.votes) for r in grouped.itertuples()}
         self.assertEqual(observed[("1500701001", "BNG")], 15)
         self.assertEqual(observed[("1500701001", "PP")], 27)
+
+    def test_wide_polling_station_adapter_rejects_total_row_without_locator(self):
+        m07 = load_m07()
+        parties = PartyDictionary({
+            "schema_family": "ddd-party-dictionary",
+            "schema_version": "1.0.0",
+            "unknown_party_policy": "reject",
+            "parties": [
+                {"canonical_id": "BNG", "display_name": "BNG"},
+                {"canonical_id": "PP", "display_name": "PP"},
+            ],
+        })
+        adapter = {
+            "kind": "wide_polling_station_csv",
+            "separator": ";",
+            "province_field": "Cód Cir",
+            "municipality_field": "Cód Con",
+            "polling_station_field": "Mesa",
+            "polling_station_regex": r"^(?P<district>\d{2})-(?P<section>\d{3})-[A-Z0-9]+$",
+            "party_columns": ["BNG", "PP"],
+        }
+        with tempfile.TemporaryDirectory() as raw:
+            source = Path(raw) / "mesas.csv"
+            source.write_text(
+                "Cód Cir;Cód Con;Mesa;BNG;PP\n"
+                "15;007;01-001-A;10;20\n"
+                "15;007;01-001-B;5;7\n"
+                "Total;;;15;27\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"ELECTORAL_INPUT_INVALID.*row=csv\[4\].*field=Mesa.*cause=POLLING_STATION_LOCATOR_INVALID",
+            ):
+                m07.read_results(source, adapter, "CUSEC_KEY", parties)
 
     def test_contract_reconciliation_has_no_map_only_shortcut(self):
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
