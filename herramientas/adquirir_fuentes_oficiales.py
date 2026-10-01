@@ -330,11 +330,31 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     f"SECTION_ID_DUPLICATE_AFTER_NORMALIZATION: población: {section_id}"
                 )
             # Valida sin reescribir el valor: cero explícito se conserva tal cual.
-            population_value = parse_population_value(
-                row.get(rules["population_col"]),
-                section_id=section_id,
-                label="población adquirida",
-            )
+            try:
+                population_value = parse_population_value(
+                    row.get(rules["population_col"]),
+                    section_id=section_id,
+                    label="población adquirida",
+                )
+            except Exception as exc:
+                diagnostic_row = {
+                    key: row.get(key)
+                    for key in (
+                        rules["year_col"],
+                        rules["sex_col"],
+                        rules["age_col"],
+                        "Total Nacional",
+                        "Provincias",
+                        "Municipios",
+                        rules["section_col"],
+                        rules["population_col"],
+                    )
+                    if key in row
+                }
+                raise ValueError(
+                    f"{exc}; POPULATION_SOURCE_ROW="
+                    + json.dumps(diagnostic_row, ensure_ascii=False, sort_keys=True)
+                ) from exc
             selected_population_total += population_value
             seen_sections.add(section_id)
             writer.writerow(row)
