@@ -128,8 +128,8 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
             )
         if "source_commit" in prep and not re.fullmatch(r"[0-9a-f]{40}", str(prep.get("source_commit") or "")):
             return _core._blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
-    if source_recalculation_planned:
-        return {"allowed": True, "route": "accredited_source_recalculation"}
+    # Recalcular sobre una fuente acreditada no sustituye la evidencia pre-M04:
+    # la identidad material puede haber cambiado aunque exista un producto histórico.
     if first_generation_evidence:
         return _core._validated_first_generation_preflight(
             contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
@@ -144,7 +144,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return {"allowed": True, "route": "planned_pre_m04_accreditation"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
-    if certified_product_ready and not source_recalculation_planned:
+    if certified_product_ready and not require_source:
         return {"allowed": True, "route": "certified_product_lineage"}
     return _core._blocked(
         "CAP_PRE_M04_EVIDENCE",
