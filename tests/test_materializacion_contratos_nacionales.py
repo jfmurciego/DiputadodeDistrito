@@ -395,7 +395,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(blocked["allowed"], territory_id)
-            self.assertEqual("CAP_PRE_M04_EVIDENCE", blocked["capability"], territory_id)
+            self.assertEqual("CAP_SOURCE", blocked["capability"], territory_id)
+            self.assertIn("identidad completa", blocked["reason"], territory_id)
 
     def test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment(self):
         contract = yaml.safe_load(
