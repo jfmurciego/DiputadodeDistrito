@@ -366,6 +366,9 @@ jobs:
                   "artifact_name": source.get("artifact_name"),
                   "artifact_sha256": source.get("artifact_sha256"),
                   "package_sha256": source.get("package_sha256"),
+                  "compatibility_identity_sha256": source.get("compatibility_identity_sha256"),
+                  "population_year": source.get("population_year"),
+                  "section_year": source.get("section_year"),
               }
           else:
               evidence_path = ((state.get("evidence") or {}).get("generation_preflight"))
