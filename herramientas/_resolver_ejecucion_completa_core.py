@@ -208,8 +208,13 @@ def _contract_generation_binding(contract: dict) -> dict:
     m06 = modules.get("modulo_06_consolidar_distritos") or {}
     territorial = contract.get("territory_contract") or {}
     validation = contract.get("validation") or {}
+    meta = contract.get("meta") or {}
     binding = {
-        "contract_level": (contract.get("meta") or {}).get("contract_level"),
+        "contract_level": meta.get("contract_level"),
+        "edition": meta.get("year"),
+        "population_year": meta.get("source_population_year"),
+        "section_year": meta.get("source_section_year"),
+        "source_baseline": validation.get("source_baseline"),
         "k_districts": territorial.get("k_districts"),
         "population_floor_ratio": territorial.get("population_floor_ratio"),
         "population_cap_ratio": territorial.get("population_cap_ratio"),
@@ -326,13 +331,23 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
         return blocked("run_id inválido")
     source = evidence.get("source") or {}
-    if (preparation_evidence.get("run_id") != run_id
-            or source.get("artifact_name") != preparation_evidence.get("artifact_name")
-            or source.get("artifact_sha256") != preparation_evidence.get("artifact_sha256")
-            or source.get("package_sha256") != preparation_evidence.get("package_sha256")):
+    identity_fields = (
+        "artifact_name",
+        "artifact_sha256",
+        "package_sha256",
+        "compatibility_identity_sha256",
+        "population_year",
+        "section_year",
+    )
+    if preparation_evidence.get("run_id") != run_id or any(
+        str(source.get(key) or "") != str(preparation_evidence.get(key) or "")
+        for key in identity_fields
+    ):
         return blocked("la fuente preparada no coincide con la evidencia topológica")
     if not _sha256_value(source.get("artifact_sha256")) or not _sha256_value(source.get("package_sha256")):
         return blocked("SHA-256 de fuente inválido")
+    if not _sha256_value(source.get("compatibility_identity_sha256")):
+        return blocked("identidad de compatibilidad de fuente inválida")
     if not re.fullmatch(r"[0-9a-f]{40}", str(evidence.get("source_commit") or "")):
         return blocked("source_commit inválido")
     expected_implementation = _pre_m04_implementation_binding(root_dir, contract)
@@ -368,6 +383,15 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
             return blocked("número de secciones del grafo no coincide con las componentes físicas")
         if graph.get("population") != hard_partition["expected_graph_population"]:
             return blocked("población del grafo no coincide con el reparto físico acreditado")
+        baseline = validation.get("source_baseline") or {}
+        if (
+            baseline.get("schema") != "ddd.source-baseline/1.0"
+            or baseline.get("target_section_count") != hard_partition["expected_graph_nodes"]
+            or baseline.get("population_total") != hard_partition["expected_graph_population"]
+            or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+            or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+        ):
+            return blocked("baseline físico no está ligado a la fuente acreditada")
         expected_graph = (
             hard_partition["expected_isolated"],
             hard_partition["expected_global_components"],
@@ -381,10 +405,19 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         if actual_graph != expected_graph:
             return blocked("componentes físicas del grafo no coinciden con el lookup durable")
     else:
-        if graph.get("nodes") != validation.get("expected_sections_geometry"):
-            return blocked("número de secciones del grafo no coincide")
-        if graph.get("population") != validation.get("expected_population_total_2025"):
-            return blocked("población del grafo no coincide")
+        baseline = validation.get("source_baseline") or {}
+        if (
+            baseline.get("schema") != "ddd.source-baseline/1.0"
+            or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+            or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+            or int(baseline.get("population_year") or 0) != int(source.get("population_year") or 0)
+            or int(baseline.get("section_year") or 0) != int(source.get("section_year") or 0)
+        ):
+            return blocked("baseline del contrato no está ligado a la fuente acreditada")
+        if graph.get("nodes") != baseline.get("target_section_count"):
+            return blocked("número de secciones del grafo no coincide con el baseline de fuente")
+        if graph.get("population") != baseline.get("population_total"):
+            return blocked("población del grafo no coincide con el baseline de fuente")
         if (graph.get("isolated") != 0 or graph.get("global_components") != 1
                 or graph.get("province_disconnected") != 0 or graph.get("municipality_disconnected") != 0):
             return blocked("grafo territorial no supera conectividad administrativa")
