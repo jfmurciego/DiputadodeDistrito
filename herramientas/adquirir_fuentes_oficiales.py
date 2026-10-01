@@ -320,6 +320,10 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 municipality = str(row.get("Municipios") or "").strip()
                 raw_section_text = str(raw_section or "").strip()
                 if raw_section_text:
+                    province_digits = "".join(ch for ch in province_value if ch.isdigit())
+                    if province_digits and province_digits[:2].zfill(2) not in province_codes:
+                        territorial_exclusions += 1
+                        continue
                     record_row_issue(f"SECTION_ID_INVALID: población: {raw_section!r}", row)
                     continue
                 if municipality:
@@ -347,6 +351,10 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     row,
                 )
                 continue
+            province = section_id[:2]
+            if province not in province_codes:
+                territorial_exclusions += 1
+                continue
             province_value = str(row.get("Provincias") or "").strip()
             municipality = str(row.get("Municipios") or "").strip()
             province_digits = "".join(ch for ch in province_value if ch.isdigit())
@@ -368,10 +376,6 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     "SECTION_HIERARCHY_MISMATCH: código de municipio no coincide con sección",
                     row,
                 )
-                continue
-            province = section_id[:2]
-            if province not in province_codes:
-                territorial_exclusions += 1
                 continue
             if section_id in seen_sections:
                 record_row_issue(
