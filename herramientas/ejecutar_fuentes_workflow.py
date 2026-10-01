@@ -19,7 +19,7 @@ from pathlib import Path
 import yaml
 
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
-from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
+from herramientas.compatibilidad_poblacion_seccionado import assert_materialized_territorial_gate
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
 from herramientas.politica_reutilizacion_fuentes import parse_acquisition_date
 
@@ -155,31 +155,6 @@ def _manifest_from_acquisition(
     return manifest
 
 
-def _assert_materialized_gate(
-    *,
-    evidence: Path,
-    territory_id: str,
-    edition: int,
-    population_year: int,
-    section_year: int,
-) -> dict:
-    inv_rows, _ = _source_rows(evidence)
-    report = build_materialized_report(
-        evidence_dir=evidence,
-        territory_id=territory_id,
-        edition=str(edition),
-        population_year=population_year,
-        section_year=section_year,
-        inventory={"sources": inv_rows},
-    )
-    if report.get("decision") != "READY":
-        raise RuntimeError(
-            "Puerta territorial bloqueada: "
-            + "; ".join(report.get("causes") or ["COMPATIBILITY_BLOCKED"])
-        )
-    return report
-
-
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:
     manifest = json.loads((working / "manifest.json").read_text(encoding="utf-8"))
     bundle = working / str(manifest["path"])
@@ -229,19 +204,20 @@ def main() -> int:
             root_dir=args.root_dir,
         )
         if acquisition.get("decision") == "READY":
-            compatibility = build_materialized_report(
-                evidence_dir=args.acquisition_evidence,
-                territory_id=territory_id,
-                edition=str(edition),
-                population_year=population_year,
-                section_year=section_year,
-                inventory=inventory,
-            )
-            if compatibility.get("decision") != "READY":
+            try:
+                assert_materialized_territorial_gate(
+                    evidence_dir=args.acquisition_evidence,
+                    territory_id=territory_id,
+                    edition=str(edition),
+                    population_year=population_year,
+                    section_year=section_year,
+                    inventory=inventory,
+                )
+            except ValueError as exc:
                 acquisition["decision"] = "BLOCKED"
                 acquisition.setdefault("reasons", []).append({
                     "source_id": "population_sectioning_compatibility",
-                    "reason": "; ".join(compatibility.get("causes") or ["COMPATIBILITY_BLOCKED"]),
+                    "reason": str(exc),
                 })
                 (args.acquisition_evidence / "decision_adquisicion.json").write_text(
                     json.dumps(acquisition, ensure_ascii=False, indent=2) + "\n",
@@ -279,12 +255,14 @@ def main() -> int:
 
     # ACQUIRE y REUSE atraviesan exactamente la misma puerta factual sobre los
     # bytes materializados. Reutilizar un ZIP válido no sustituye esta validación.
-    _assert_materialized_gate(
-        evidence=args.acquisition_evidence,
+    inv_rows, _ = _source_rows(args.acquisition_evidence)
+    assert_materialized_territorial_gate(
+        evidence_dir=args.acquisition_evidence,
         territory_id=territory_id,
-        edition=edition,
+        edition=str(edition),
         population_year=population_year,
         section_year=section_year,
+        inventory={"sources": inv_rows},
     )
     print(json.dumps(evidence, ensure_ascii=False))
     return 0
