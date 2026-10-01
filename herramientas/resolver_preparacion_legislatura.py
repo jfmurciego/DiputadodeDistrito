@@ -113,11 +113,14 @@ def _temporal_evidence(root: Path, matrix: dict) -> dict:
 
 def _years_from_declaration(declaration: dict, edition: str) -> tuple[int, int]:
     territory = declaration.get("territory") or {}
-    legacy = int(territory.get("source_year", territory.get("edition", edition)))
-    return (
-        int(territory.get("population_year", legacy)),
-        int(territory.get("section_year", legacy)),
-    )
+    legacy = territory.get("source_year")
+    population = territory.get("population_year", legacy)
+    section = territory.get("section_year", legacy)
+    if population in (None, "") or section in (None, ""):
+        raise ValueError(
+            f"TERRITORIAL_TEMPORAL_IDENTITY_MISSING: {territory.get('id') or '?'}"
+        )
+    return int(population), int(section)
 
 
 def _territorial_candidate(
