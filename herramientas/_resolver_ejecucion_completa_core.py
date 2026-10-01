@@ -499,7 +499,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         )
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
-    if certified_product_ready:
+    if certified_product_ready and not require_source:
         return {"allowed": True, "route": "certified_product_lineage"}
     return _blocked(
         "CAP_PRE_M04_EVIDENCE",
