@@ -238,6 +238,8 @@ def _enable_contract_after_pre_m04(
         or str(state.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
         or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
         or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+        or int(baseline.get("population_year") or 0) != int(source.get("population_year") or 0)
+        or int(baseline.get("section_year") or 0) != int(source.get("section_year") or 0)
     ):
         raise ValueError("GENERATION_ENABLEMENT_SOURCE_MISMATCH")
     contract.setdefault("meta", {})["status"] = "generation_ready"
@@ -297,13 +299,15 @@ def register_evidence_path(
     start, end = _catalog_state_bounds(lines, territory_id, str(edition))
     state_indent = _catalog_state_indent(lines, start, end)
     _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
-    catalog.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    # No hacer durable la habilitación en catálogo hasta que contrato y maestro
+    # hayan aceptado exactamente la misma evidencia pre-M04.
     _enable_contract_after_pre_m04(
         root_dir=root_dir,
         contract_path=contract_path,
         evidence=evidence,
     )
     _enable_master_after_pre_m04(root_dir=root_dir, territory_id=territory_id)
+    catalog.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> int:
