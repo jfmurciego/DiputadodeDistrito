@@ -273,6 +273,7 @@ jobs:
     outputs:
       artifact_sha256: ${{ steps.register.outputs.artifact_sha256 }}
       package_sha256: ${{ steps.register.outputs.package_sha256 }}
+      promotion_sha: ${{ steps.register.outputs.promotion_sha }}
     if: ${{ needs.territoriales.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     runs-on: ubuntu-24.04
     concurrency:
@@ -330,6 +331,9 @@ jobs:
           [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro territorial durable no apunta al run actual."; exit 48; }
           [[ "$(jq -r .artifact_name <<<"$durable")" == "$ARTIFACT_NAME" ]] || { echo "::error::El registro territorial durable no conserva el artefacto esperado."; exit 49; }
           [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::El registro territorial durable no conserva el SHA-256 esperado."; exit 50; }
+          promotion_sha="$(git rev-parse HEAD)"
+          [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit de promoción inválido."; exit 51; }
+          echo "promotion_sha=$promotion_sha" >> "$GITHUB_OUTPUT"
   pre_m04:
     name: Acreditar contrato efectivo hasta la puerta de Formación inicial
     needs: [resolver, territoriales, registrar]
@@ -343,7 +347,7 @@ jobs:
       source_package_run_id: ${{ github.run_id }}
       source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
-      source_ref: ${{ inputs.source_ref || github.sha }}
+      source_ref: ${{ needs.registrar.outputs.promotion_sha }}
       persist_state: true
       preflight_only: true
       source_evidence_run_id: ${{ github.run_id }}
