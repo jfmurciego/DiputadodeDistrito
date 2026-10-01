@@ -289,18 +289,12 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
             if mode=="preparation":
                 eligible=state.get("preparation_status") in PREPARABLE
             elif mode in {"production","generation"}:
-                evidence=state.get("evidence") or {}
-                legacy_preflight=(
-                    "generation_enabled" not in state
-                    and bool(evidence.get("generation_preflight"))
-                )
                 eligible=bool(
                     state.get("territorial_sources_prepared")
                     and state.get("territorial_contract_complete")
                     and state.get("production_authorization")=="AUTHORIZED"
                     and (
                         state.get("generation_enabled") is True
-                        or legacy_preflight
                         or state.get("territorial_product_available") is True
                     )
                 )
