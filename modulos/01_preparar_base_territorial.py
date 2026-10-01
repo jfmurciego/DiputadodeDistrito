@@ -74,7 +74,11 @@ def load_cip(paths,section_key_col,pop_col,year,sep,filters,province_codes=None,
             if df.empty:continue
             o=pd.DataFrame(index=df.index);o["CUSEC_KEY"]=df[section_key_col].map(normalize_section_key);mask=o["CUSEC_KEY"].notna()
             if province_codes:mask&=o["CUSEC_KEY"].str[:2].isin(province_codes)
-            o=o.loc[mask];d=df.loc[mask];o["POP"]=pd.to_numeric(d[pop_col].astype(str).str.replace(".","",regex=False),errors="coerce");o=o.dropna(subset=["CUSEC_KEY","POP"])
+            o=o.loc[mask];d=df.loc[mask];o["POP"]=pd.to_numeric(d[pop_col].astype(str).str.replace(".","",regex=False),errors="coerce")
+            invalid=o["POP"].isna() | (o["POP"]<0)
+            if invalid.any():
+                bad=o.loc[invalid,"CUSEC_KEY"].astype(str).tolist()[:10]
+                raise ValueError(f"Población ausente/no numérica/negativa para secciones: {bad}")
             if not o.empty:partials.append(o[["CUSEC_KEY","POP"]])
     for pstr in paths:
         p=Path(pstr).expanduser().resolve()
@@ -86,13 +90,21 @@ def load_cip(paths,section_key_col,pop_col,year,sep,filters,province_codes=None,
                 with z.open(member) as fh:consume(pd.read_csv(fh,sep=sep2,dtype=str,chunksize=chunksize,encoding="utf-8-sig"))
         else:
             sample=p.open("rb").read(4096).decode("utf-8",errors="replace");sep2=_sniff_sep(sample) if sep=="auto" else sep;consume(pd.read_csv(p,sep=sep2,dtype=str,chunksize=chunksize,encoding="utf-8-sig"))
-    out=pd.concat(partials,ignore_index=True);out["POP"]=out["POP"].astype("int64");return out.groupby("CUSEC_KEY",as_index=False)["POP"].sum()
+    if not partials: raise ValueError(f"La fuente poblacional no contiene filas acreditadas para population_year={year}")
+    out=pd.concat(partials,ignore_index=True);out["POP"]=out["POP"].astype("int64")
+    dup=sorted(out.loc[out["CUSEC_KEY"].duplicated(False),"CUSEC_KEY"].astype(str).unique())
+    if dup: raise ValueError(f"Claves poblacionales duplicadas antes de agregar: {dup[:10]}")
+    return out
 def write_geojson(gdf,out_path):
     outp=Path(out_path);outp.parent.mkdir(parents=True,exist_ok=True);tmp=outp.parent/(outp.stem.replace(".geojson","")+".geojson");gdf.to_file(tmp,driver="GeoJSON")
     with zipfile.ZipFile(outp,"w",compression=zipfile.ZIP_DEFLATED) as z:z.write(tmp,arcname=tmp.name)
     tmp.unlink(missing_ok=True)
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);meta=cfg.get("meta",{});year=int(meta.get("year",2025));io_in=cfg["io"]["input"];secc=io_in["seccionado"];cip_cfg=io_in["population_cip"];s1=module_cfg(cfg,"modulo_01_preparar_base_territorial",legacy_step_key="step1_build_sections");prov=[str(x).zfill(2) for x in s1.get("province_codes",[])];gdf=load_seccionado(secc["path"],secc.get("layer","") or "",prov);gdf["CUSEC_KEY"]=gdf[secc.get("section_key_col","CUSEC")].map(normalize_section_key);gdf=gdf.dropna(subset=["CUSEC_KEY"]);gdf=gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy();filters={"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":year};filters.update(cip_cfg.get("filters",{}));cip=load_cip(cip_cfg["paths"],cip_cfg.get("section_key_col","Secciones"),cip_cfg.get("pop_col","Total"),year,cip_cfg.get("sep","auto"),filters,prov);pop_field=f"POP_{year}";gdf=gdf.merge(cip.rename(columns={"POP":pop_field}),on="CUSEC_KEY",how="left");missing=int(gdf[pop_field].isna().sum());gdf,comarcas_report=attach_comarcas_by_municipality(gdf,io_in.get("comarcas",{}));out_geo=require(s1.get("out_geojson"),"Falta M01 salida");write_geojson(gdf,out_geo);out_report=s1.get("out_report","")
-    if out_report:Path(out_report).write_text(json.dumps({"module":"01","version":"7.1.0","rows_out":len(gdf),"missing_population_rows":missing,"province_codes":prov,"year":year,"comarcas":comarcas_report},ensure_ascii=False,indent=2),encoding="utf-8")
+    ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);meta=cfg.get("meta",{});edition=int(require(meta.get("year"),"Falta meta.year (edición DDD)"));population_year=int(require(meta.get("source_population_year"),"Falta meta.source_population_year acreditado"));section_year=int(require(meta.get("source_section_year"),"Falta meta.source_section_year acreditado"));io_in=cfg["io"]["input"];secc=io_in["seccionado"];cip_cfg=io_in["population_cip"];s1=module_cfg(cfg,"modulo_01_preparar_base_territorial",legacy_step_key="step1_build_sections");prov=[str(x).zfill(2) for x in s1.get("province_codes",[])];gdf=load_seccionado(secc["path"],secc.get("layer","") or "",prov);gdf["CUSEC_KEY"]=gdf[secc.get("section_key_col","CUSEC")].map(normalize_section_key);gdf=gdf.dropna(subset=["CUSEC_KEY"]);gdf=gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy();filters={"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":population_year};filters.update(cip_cfg.get("filters",{}));configured_year=filters.get("year_value");
+    if int(configured_year)!=population_year: raise ValueError(f"population_cip.filters.year_value={configured_year} contradice source_population_year={population_year}")
+    cip=load_cip(cip_cfg["paths"],cip_cfg.get("section_key_col","Secciones"),cip_cfg.get("pop_col","Total"),population_year,cip_cfg.get("sep","auto"),filters,prov);pop_field=f"POP_{population_year}";gdf=gdf.merge(cip.rename(columns={"POP":pop_field}),on="CUSEC_KEY",how="left",validate="one_to_one");missing=int(gdf[pop_field].isna().sum());
+    if missing: raise ValueError(f"M01 bloqueado: {missing} geometrías carecen de población acreditada para {population_year}")
+    gdf,comarcas_report=attach_comarcas_by_municipality(gdf,io_in.get("comarcas",{}));out_geo=require(s1.get("out_geojson"),"Falta M01 salida");write_geojson(gdf,out_geo);out_report=s1.get("out_report","")
+    if out_report:Path(out_report).write_text(json.dumps({"module":"01","version":"7.2.0","rows_out":len(gdf),"missing_population_rows":missing,"province_codes":prov,"edition":edition,"population_year":population_year,"section_year":section_year,"population_field":pop_field,"comarcas":comarcas_report},ensure_ascii=False,indent=2),encoding="utf-8")
     print(f"[Módulo 1] OK rows={len(gdf)} missing_population={missing} out={out_geo}")
 if __name__=="__main__":main()
