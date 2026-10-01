@@ -50,7 +50,7 @@ class SourceTestPackageTests(unittest.TestCase):
         self.assertIn("Melilla", matrix("Todos"))
 
     def test_declaration_is_generated_without_prepared_snapshot(self):
-        d = build_declaration("La Rioja", 2025)
+        d = build_declaration("La Rioja", 2025, source_year=2025)
         self.assertEqual(d["territory"]["id"], "la_rioja")
         self.assertEqual([x["code"] for x in d["territory"]["territorial_codes"]], ["26"])
         self.assertEqual(d["required_sources"], ["poblacion_por_sexo_y_edad", "secciones_censales"])
@@ -72,7 +72,7 @@ class SourceTestPackageTests(unittest.TestCase):
         self.assertLess(result["sample_bytes"], len(payload))
 
     def test_ogc_remote_filter_is_only_province_and_sections_are_filtered_locally(self):
-        d = build_declaration("La Rioja", 2025)
+        d = build_declaration("La Rioja", 2025, source_year=2025)
         source = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))["sources"]["secciones_censales"]
         urls = _source_urls(source, 2025, d["territory"]["territorial_codes"])
         self.assertEqual(len(urls), 1)
@@ -91,7 +91,7 @@ class SourceTestPackageTests(unittest.TestCase):
         self.assertEqual(checks["sections"], 2)
 
     def test_ogc_probe_limits_each_province(self):
-        d = build_declaration("Canarias", 2025)
+        d = build_declaration("Canarias", 2025, source_year=2025)
         source = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))["sources"]["secciones_censales"]
         payload35 = json.dumps({"features": [{"properties": {"CPRO": "35", "CUSEC": "3500101001"}}]}).encode()
         payload38 = json.dumps({"features": [{"properties": {"CPRO": "38", "CUSEC": "3800101001"}}]}).encode()
@@ -110,7 +110,7 @@ class SourceTestPackageTests(unittest.TestCase):
     def test_full_mode_requires_acquire_then_reuse_then_block(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            declaration = build_declaration("La Rioja", 2025)
+            declaration = build_declaration("La Rioja", 2025, source_year=2025)
             declaration_path = root / "fuentes.yaml"
             declaration_path.write_text(yaml.safe_dump(declaration, allow_unicode=True), encoding="utf-8")
             out = root / "out"
