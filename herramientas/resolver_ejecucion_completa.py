@@ -589,7 +589,6 @@ def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."),
 
 
 _core._generation_capabilities = _generation_capabilities
-_core.generation_enablement = generation_enablement
 _core.build_plan = build_plan
 _core.apply_explicit_territorial_source = apply_explicit_territorial_source
 
