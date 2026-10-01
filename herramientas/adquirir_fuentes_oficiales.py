@@ -277,9 +277,22 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 continue
             if str(row.get(rules["age_col"], "")).strip() not in rules["age_total_values"]:
                 continue
-            section_id = _normalize_section_id(row.get(rules["section_col"]))
+            raw_section = row.get(rules["section_col"])
+            section_id = _normalize_section_id(raw_section)
             if not section_id:
-                raise ValueError(f"SECTION_ID_INVALID: población: {row.get(rules['section_col'])!r}")
+                # La tabla INE 65034 mezcla niveles geográficos. Las filas
+                # agregadas (nacional/provincia/municipio) no son registros de
+                # sección y se excluyen explícitamente antes del recorte
+                # territorial. Una sección no vacía pero inválida, o una fila
+                # sin nivel geográfico reconocible, sigue siendo bloqueo.
+                aggregate_columns = ("Total Nacional", "Provincias", "Municipios")
+                is_explicit_aggregate = (
+                    not str(raw_section or "").strip()
+                    and any(str(row.get(col) or "").strip() for col in aggregate_columns)
+                )
+                if is_explicit_aggregate:
+                    continue
+                raise ValueError(f"SECTION_ID_INVALID: población: {raw_section!r}")
             province = section_id[:2]
             if province not in province_codes:
                 continue
