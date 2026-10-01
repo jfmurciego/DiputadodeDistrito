@@ -350,6 +350,15 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         return blocked("identidad de compatibilidad de fuente inválida")
     if not re.fullmatch(r"[0-9a-f]{40}", str(evidence.get("source_commit") or "")):
         return blocked("source_commit inválido")
+    generation_state = contract.get("generation_state") or {}
+    if generation_state.get("generation_enabled") is True:
+        if (
+            int(generation_state.get("pre_m04_run_id") or 0) != run_id
+            or str(generation_state.get("pre_m04_source_commit") or "") != str(evidence.get("source_commit") or "")
+            or str(generation_state.get("pre_m04_artifact_sha256") or "").removeprefix("sha256:")
+                != str(evidence.get("artifact_sha256") or "").removeprefix("sha256:")
+        ):
+            return blocked("run/revisión/digest pre-M04 no coinciden con la habilitación registrada")
     expected_implementation = _pre_m04_implementation_binding(root_dir, contract)
     hard_partition_declared = ((contract.get("validation") or {}).get("hard_partition_mode") == "physical_components")
     if not _pre_m04_implementation_matches(
