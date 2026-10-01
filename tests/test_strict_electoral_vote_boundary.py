@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import importlib.util
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -87,7 +88,7 @@ class StrictElectoralVoteBoundary(unittest.TestCase):
         for raw in ("1.0", "1e0"):
             with self.subTest(raw=raw), self.assertRaisesRegex(
                 ValueError,
-                rf"ELECTORAL_VOTES_INVALID.*adapter=long_csv.*value='{raw.replace('.', r'\.')}'.*entero decimal exacto",
+                rf"ELECTORAL_VOTES_INVALID.*adapter=long_csv.*value='{re.escape(raw)}'.*entero decimal exacto",
             ):
                 self._read(
                     f"section;party;votes\n0100101001;P;{raw}\n",
@@ -244,6 +245,17 @@ class StrictElectoralVoteBoundary(unittest.TestCase):
                 "province;municipality;polling;P\n"
                 "1;1;1-1-A;7\n"
                 "1;2;INVALID;3\n",
+                ".csv",
+                self._wide_adapter(),
+            )
+
+    def test_wide_csv_partial_locator_match_is_rejected(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            r"ELECTORAL_INPUT_INVALID.*row=csv\[2\].*field=polling.*cause=POLLING_STATION_LOCATOR_INVALID",
+        ):
+            self._read(
+                "province;municipality;polling;P\n1;1;1-1-A-extra;7\n",
                 ".csv",
                 self._wide_adapter(),
             )
