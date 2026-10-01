@@ -29,6 +29,7 @@ sources:
     kind: ogc_features
     edition_policy: annual
     format: geojson
+    crs: EPSG:4326
     collection_template: WMS_INE_SECCIONES_G01:Secciones_{edition}
     endpoint_template: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_{edition}/items
     territorial_filter_field: CPRO
