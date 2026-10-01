@@ -8,6 +8,10 @@ try:
     from herramientas.catalogo_territorios import load_master
 except ModuleNotFoundError:
     from catalogo_territorios import load_master
+try:
+    from herramientas.resolver_ejecucion_completa import generation_ready_contract
+except ModuleNotFoundError:
+    from resolver_ejecucion_completa import generation_ready_contract
 
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
@@ -61,6 +65,26 @@ def evidence_reference(state:dict[str,Any],mode:str)->tuple[str|None,str]:
     ref=str(prep.get("receipt_path") or "")
     return (ref or None,"territorial_source_receipt")
 
+def _evidence_identity(root:Path,state:dict[str,Any],mode:str)->dict[str,Any]:
+    ref,kind=evidence_reference(state,mode)
+    result={"kind":kind,"receipt_path":ref}
+    if not ref or not (root/ref).is_file():
+        return result
+    data=json.loads((root/ref).read_text(encoding="utf-8"))
+    result["receipt_sha256"]=hashlib.sha256((root/ref).read_bytes()).hexdigest()
+    if mode=="electoral":
+        pair=data.get("pair") if data.get("pair") else data
+        territorial=(pair or {}).get("territorial_source") or {}
+        electoral=(pair or {}).get("electoral_source") or {}
+        result.update({
+            "pair_sha256":(pair or {}).get("pair_sha256"),
+            "territorial_identity_sha256":territorial.get("territorial_identity_sha256"),
+            "electoral_identity_sha256":electoral.get("electoral_identity_sha256"),
+        })
+    else:
+        result["territorial_identity_sha256"]=data.get("territorial_identity_sha256")
+    return result
+
 def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,strategy:str,
                    campaign_instance:str,root:Path=Path("."),edition:str="2025")->dict[str,Any]:
     if publication_mode not in MODES: raise ValueError("Modo de publicación no permitido")
@@ -74,17 +98,22 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
         cat=catalog.get(tid) or {}
         state=(cat.get("editions") or {}).get(edition) or {}
         contract=str(state.get("contract_path") or "")
-        evidence,evidence_kind=evidence_reference(state,publication_mode)
+        evidence=_evidence_identity(root,state,publication_mode)
         blockers=[]
         if not contract: blockers.append("CONTRACT_MISSING")
-        if str(state.get("production_authorization") or "")!="AUTHORIZED": blockers.append("PRODUCTION_NOT_AUTHORIZED")
-        if not evidence: blockers.append("ACCREDITED_EVIDENCE_MISSING")
-        elif not (root/evidence).is_file(): blockers.append("ACCREDITED_EVIDENCE_NOT_MATERIALIZED")
+        if not evidence.get("receipt_path"): blockers.append("ACCREDITED_EVIDENCE_MISSING")
+        elif not (root/str(evidence["receipt_path"])).is_file(): blockers.append("ACCREDITED_EVIDENCE_NOT_MATERIALIZED")
+        generation={"allowed":False}
+        if contract:
+            generation=generation_ready_contract(root_dir=root,state=state,territory_id=tid)
+            if not generation.get("allowed"):
+                blockers.append("GENERATION_NOT_READY:"+str(generation.get("capability") or "UNKNOWN"))
         territories.append({
           "slot":code,"codauto":code,"territory_id":tid,"territory_name":str(master["name"]),
           "publication_mode":publication_mode,"contract_path":contract,
-          "evidence":{"kind":evidence_kind,"receipt_path":evidence},
-          "preflight_status":"BLOCKED" if blockers else "READY_FOR_00_VALIDATION",
+          "evidence":evidence,
+          "generation_contract":generation,
+          "preflight_status":"BLOCKED" if blockers else "GENERATION_READY",
           "preflight_blockers":blockers,
           "expected_district_count":_expected_k(root,contract) if contract else 0,
         })
@@ -100,7 +129,7 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
       "campaign_confirmation":CONFIRMATION,
       "territories":territories,
       "source_authority":"00_common_prepared_source_contracts",
-      "generation_enablement_contract":"PENDING_TRANSVERSAL_REPAIR_FINAL_CONTRACT",
+      "generation_enablement_contract":"generation_ready_contract/v1",
     }
     body["manifest_sha256"]=_sha_payload(body)
     return body
@@ -110,7 +139,7 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
     entrypoint,count,unique=STRATEGIES[manifest["optimization_algorithm"]]
     include=[]
     for row in manifest["territories"]:
-        if row["preflight_status"]!="READY_FOR_00_VALIDATION": continue
+        if row["preflight_status"]!="GENERATION_READY": continue
         tid=row["territory_id"]; slot=row["slot"]; ci=manifest["campaign_instance"]
         include.append({
           **row,"campaign_instance":ci,"namespace":f"{ci}/{slot}/{tid}",
