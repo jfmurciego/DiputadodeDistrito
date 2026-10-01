@@ -270,6 +270,15 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
         seen_provinces: set[str] = set()
         seen_sections: set[str] = set()
         rows_out = 0
+        pertinent_rows = 0
+        territorial_exclusions = 0
+        aggregate_counts = {"national": 0, "provincial": 0, "municipal": 0}
+        aggregate_causes = {
+            "national": "TOTAL_NACIONAL_WITHOUT_LOWER_LEVELS",
+            "provincial": "PROVINCIA_WITHOUT_MUNICIPIO_OR_SECCION",
+            "municipal": "MUNICIPIO_WITHOUT_SECCION",
+        }
+        selected_population_total = 0
         for row in reader:
             if str(row.get(rules["year_col"], "")).strip() != str(edition):
                 continue
@@ -277,26 +286,59 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 continue
             if str(row.get(rules["age_col"], "")).strip() not in rules["age_total_values"]:
                 continue
-            section_id = _normalize_section_id(row.get(rules["section_col"]))
+            pertinent_rows += 1
+            raw_section = row.get(rules["section_col"])
+            section_id = _normalize_section_id(raw_section)
             if not section_id:
-                raise ValueError(f"SECTION_ID_INVALID: población: {row.get(rules['section_col'])!r}")
+                # INE 65034 expresa el nivel mediante una jerarquía estricta:
+                # nacional = sólo Total Nacional; provincial = sólo provincia;
+                # municipal = provincia + municipio. Cualquier combinación distinta
+                # con sección vacía es ambigua/incompatible y bloquea.
+                national = str(row.get("Total Nacional") or "").strip()
+                province_value = str(row.get("Provincias") or "").strip()
+                municipality = str(row.get("Municipios") or "").strip()
+                raw_section_text = str(raw_section or "").strip()
+                if raw_section_text:
+                    raise ValueError(f"SECTION_ID_INVALID: población: {raw_section!r}")
+                if national and not province_value and not municipality:
+                    aggregate_counts["national"] += 1
+                    continue
+                if not national and province_value and not municipality:
+                    aggregate_counts["provincial"] += 1
+                    continue
+                if not national and province_value and municipality:
+                    aggregate_counts["municipal"] += 1
+                    continue
+                raise ValueError(
+                    "SECTION_ID_INVALID: población: sección ausente con jerarquía "
+                    f"INE 65034 ambigua/incompatible: Total Nacional={national!r}, "
+                    f"Provincias={province_value!r}, Municipios={municipality!r}"
+                )
             province = section_id[:2]
             if province not in province_codes:
+                territorial_exclusions += 1
                 continue
             if section_id in seen_sections:
                 raise ValueError(
                     f"SECTION_ID_DUPLICATE_AFTER_NORMALIZATION: población: {section_id}"
                 )
             # Valida sin reescribir el valor: cero explícito se conserva tal cual.
-            parse_population_value(
+            population_value = parse_population_value(
                 row.get(rules["population_col"]),
                 section_id=section_id,
                 label="población adquirida",
             )
+            selected_population_total += population_value
             seen_sections.add(section_id)
             writer.writerow(row)
             seen_provinces.add(province)
             rows_out += 1
+        classified_rows = sum(aggregate_counts.values()) + rows_out + territorial_exclusions
+        if pertinent_rows != classified_rows:
+            raise ValueError(
+                "POPULATION_ROW_RECONCILIATION_FAILED: "
+                f"pertinentes={pertinent_rows}, clasificados={classified_rows}"
+            )
         if rows_out == 0:
             raise ValueError(f"No hay filas de población total para la edición {edition}")
         if seen_provinces != set(province_codes):
@@ -309,6 +351,24 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
             "population_filter": {"sex": rules["sex_total_values"], "age": rules["age_total_values"]},
             "provinces": sorted(seen_provinces),
             "rows": rows_out,
+            "pertinent_rows_examined": pertinent_rows,
+            "aggregate_exclusions": {
+                "total": sum(aggregate_counts.values()),
+                "by_level": aggregate_counts,
+                "causes": aggregate_causes,
+            },
+            "territorial_exclusions": {
+                "count": territorial_exclusions,
+                "cause": "SECTION_PROVINCE_OUTSIDE_REQUESTED_SCOPE",
+            },
+            "row_reconciliation": {
+                "pertinent": pertinent_rows,
+                "classified_aggregates": sum(aggregate_counts.values()),
+                "accepted_sections": rows_out,
+                "territorial_exclusions": territorial_exclusions,
+                "balanced": pertinent_rows == classified_rows,
+            },
+            "selected_section_population_total": selected_population_total,
         }
     finally:
         try:
