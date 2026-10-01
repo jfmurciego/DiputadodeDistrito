@@ -242,13 +242,27 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
         match = polling_values.str.extract(polling_regex)
         if not {"district", "section"}.issubset(match.columns):
             raise ValueError("polling_station_regex debe exponer grupos district y section")
+        province_width = int(adapter.get("province_width", 2))
+        municipality_width = int(adapter.get("municipality_width", 3))
+        district_width = int(adapter.get("district_width", 2))
+        section_width = int(adapter.get("section_width", 3))
+        province_values = frame[province_field].fillna("").str.strip()
+        municipality_values = frame[municipality_field].fillna("").str.strip()
         locator_valid = (
             polling_values.str.fullmatch(polling_regex)
             & match["district"].notna()
             & match["section"].notna()
+            & match["district"].fillna("").str.len().le(district_width)
+            & match["section"].fillna("").str.len().le(section_width)
         )
-        province_valid = frame[province_field].fillna("").str.fullmatch(r"\d+")
-        municipality_valid = frame[municipality_field].fillna("").str.fullmatch(r"\d+")
+        province_valid = (
+            province_values.str.fullmatch(r"\d+")
+            & province_values.str.len().le(province_width)
+        )
+        municipality_valid = (
+            municipality_values.str.fullmatch(r"\d+")
+            & municipality_values.str.len().le(municipality_width)
+        )
         for index in frame.index:
             row = f"csv[{int(index) + 2}]"
             if not bool(locator_valid.loc[index]):
@@ -280,10 +294,10 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 )
         frame = frame.copy()
         frame[section_field] = (
-            frame[province_field].astype(str).str.zfill(int(adapter.get("province_width", 2)))
-            + frame[municipality_field].astype(str).str.zfill(int(adapter.get("municipality_width", 3)))
-            + match["district"].astype(str).str.zfill(int(adapter.get("district_width", 2)))
-            + match["section"].astype(str).str.zfill(int(adapter.get("section_width", 3)))
+            province_values.str.zfill(province_width)
+            + municipality_values.str.zfill(municipality_width)
+            + match["district"].astype(str).str.zfill(district_width)
+            + match["section"].astype(str).str.zfill(section_width)
         )
         section_ids = set(frame[section_field])
         rows = []
