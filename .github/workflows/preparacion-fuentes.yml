@@ -69,11 +69,11 @@ on:
         required: false
         type: string
       population_year:
-        description: Año oficial de población por sección (vacío = source_year/edición)
+        description: Año oficial de población por sección (vacío sólo si source_year se aporta explícitamente)
         required: false
         type: string
       section_year:
-        description: Año oficial de seccionado (vacío = source_year/edición)
+        description: Año oficial de seccionado (vacío sólo si source_year se aporta explícitamente)
         required: false
         type: string
       reutilizar_si_ya_preparada:
