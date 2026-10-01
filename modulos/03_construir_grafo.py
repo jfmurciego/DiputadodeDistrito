@@ -22,6 +22,7 @@ if str(PROJECT_ROOT) not in sys.path:sys.path.insert(0,str(PROJECT_ROOT))
 import geopandas as gpd
 import pandas as pd
 from ddd_core.config import load_params_yaml,module_cfg,require
+from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 
 def _gpd_read_file(path_or_buf,layer=None):
     try:
@@ -123,10 +124,11 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument("--params",required=True);args=ap.parse_args();cfg=load_params_yaml(args.params);s3=module_cfg(cfg,"modulo_03_construir_grafo",legacy_step_key="step3_build_graph");val=cfg.get("validation",{}) or {}
     in_geo=require(s3.get("in_geojson",""),"Falta módulo 03 in_geojson");in_edges=require(s3.get("in_edges_jsonl",""),"Falta módulo 03 in_edges_jsonl");id_field=require(s3.get("id_field",""),"Falta módulo 03 id_field");pop_field=require(s3.get("pop_field",""),"Falta módulo 03 pop_field");out_graph=require(s3.get("out_graph_json",""),"Falta módulo 03 out_graph_json");out_report=s3.get("out_report","") or ""
     gdf=load_geojson_any(in_geo)
+    validate_geodataframe(gdf,label="M03 secciones de entrada")
     if id_field not in gdf.columns:raise SystemExit(f"M03: GeoJSON sin id_field '{id_field}'.")
     if pop_field not in gdf.columns:raise SystemExit(f"M03: GeoJSON sin pop_field '{pop_field}'.")
     optional_fields=[c for c in ("COMARCA_CODIGO","COMARCA_NOMBRE") if c in gdf.columns]
-    df=gdf[[id_field,pop_field,*optional_fields]].copy();df[id_field]=df[id_field].astype(str);df[pop_field]=pd.to_numeric(df[pop_field],errors="coerce").fillna(0).astype("int64")
+    df=gdf[[id_field,pop_field,*optional_fields]].copy();df[id_field]=df[id_field].astype(str);df[pop_field]=strict_population_series(df[pop_field],section_ids=df[id_field],label="población M03",require_non_null=True).astype("int64")
     nodes=build_nodes(df,id_field,pop_field,optional_fields);pop_map={n["id"]:n["pop"] for n in nodes};edges=load_edges_jsonl(in_edges);edges_f=[dict(e) for e in edges if e["u"] in pop_map and e["v"] in pop_map]
     validate_minimum_graph(nodes,edges_f)
     adj={n:set() for n in pop_map}

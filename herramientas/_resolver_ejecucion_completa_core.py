@@ -15,6 +15,12 @@ FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
 FIRST_GENERATION_EVIDENCE_KIND = "generation_preflight"
 FIRST_GENERATION_DECISION = "READY_FOR_FIRST_GENERATION"
 PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1 = "c2c928d1e21d3b486ee3e9975eace18364bd3176"
+# Evidencias pre-M04 históricas producidas antes de endurecer únicamente las
+# fronteras de entrada territorial. Estas versiones siguen siendo
+# topológicamente equivalentes cuando el paquete fuente supera la nueva puerta
+# población/CRS/geometría antes de cualquier cálculo.
+PRE_STRICT_TERRITORIAL_M01_BLOB_SHA1 = "54a4a39de89a53f21a323d36e351b815b0fb0a1f"
+PRE_STRICT_TERRITORIAL_M03_BLOB_SHA1 = "776f25060c7668475f6d8ec33a0e2c37a65e4aea"
 
 
 def _sha256_value(value: object) -> bool:
@@ -70,11 +76,36 @@ def _bridge_signature(rows: object) -> list[dict]:
 def _pre_m04_implementation_matches(observed: object, expected: dict, *, hard_partition: bool) -> bool:
     if observed == expected:
         return True
-    if hard_partition or not isinstance(observed, dict):
+    if not isinstance(observed, dict):
         return False
-    legacy = dict(expected)
-    legacy["m03_git_blob_sha1"] = PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1
-    return observed == legacy
+
+    # No se acepta deriva arbitraria. Sólo son compatibles las versiones
+    # conocidas cuya diferencia consiste en endurecer la validación de entrada;
+    # los módulos de topología/particionado y el resto del binding deben ser
+    # exactamente los mismos.
+    for key, expected_value in expected.items():
+        observed_value = observed.get(key)
+        if key == "m01_git_blob_sha1":
+            if observed_value not in {
+                expected_value,
+                PRE_STRICT_TERRITORIAL_M01_BLOB_SHA1,
+            }:
+                return False
+            continue
+        if key == "m03_git_blob_sha1":
+            if observed_value not in {
+                expected_value,
+                PRE_STRICT_TERRITORIAL_M03_BLOB_SHA1,
+                PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1,
+            }:
+                return False
+            continue
+        if observed_value != expected_value:
+            return False
+
+    # Una evidencia no puede omitir ni añadir componentes de implementación,
+    # especialmente los de partición física de archipiélagos.
+    return set(observed) == set(expected)
 
 
 def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:

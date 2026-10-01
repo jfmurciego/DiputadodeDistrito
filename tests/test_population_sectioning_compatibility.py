@@ -230,6 +230,7 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
     def test_live_geometric_duplicate_is_rejected_before_deduplication(self):
         source = {
             "kind": "ogc_features",
+            "crs": "EPSG:4326",
             "endpoint_template": "https://example.invalid/{edition}",
             "territorial_filter_field": "CPRO",
             "section_id_field": "CUSEC",

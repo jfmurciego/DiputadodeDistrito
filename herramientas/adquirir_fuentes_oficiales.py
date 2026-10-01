@@ -30,6 +30,8 @@ from urllib.request import Request, urlopen
 
 import yaml
 
+from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
+
 FetchBytes = Callable[[str], bytes]
 CORE_FIELDS = ("source_id", "path", "sha256", "bytes", "urls", "edition")
 SNAPSHOT_REQUIRED = ("path", "expected_sha256", "official_origin_url", "edition", "acquired_at")
@@ -266,6 +268,7 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
         writer = csv.DictWriter(output, fieldnames=reader.fieldnames, delimiter=delimiter, lineterminator="\n", extrasaction="ignore")
         writer.writeheader()
         seen_provinces: set[str] = set()
+        seen_sections: set[str] = set()
         rows_out = 0
         for row in reader:
             if str(row.get(rules["year_col"], "")).strip() != str(edition):
@@ -276,10 +279,21 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 continue
             section_id = _normalize_section_id(row.get(rules["section_col"]))
             if not section_id:
-                continue
+                raise ValueError(f"SECTION_ID_INVALID: población: {row.get(rules['section_col'])!r}")
             province = section_id[:2]
             if province not in province_codes:
                 continue
+            if section_id in seen_sections:
+                raise ValueError(
+                    f"SECTION_ID_DUPLICATE_AFTER_NORMALIZATION: población: {section_id}"
+                )
+            # Valida sin reescribir el valor: cero explícito se conserva tal cual.
+            parse_population_value(
+                row.get(rules["population_col"]),
+                section_id=section_id,
+                label="población adquirida",
+            )
+            seen_sections.add(section_id)
             writer.writerow(row)
             seen_provinces.add(province)
             rows_out += 1
@@ -336,6 +350,7 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         except Exception as exc:  # pragma: no cover
             raise RuntimeError(f"geopandas es obligatorio para copiar secciones verificadas: {exc}")
         gdf = gpd.read_file(shp)
+        validate_geodataframe(gdf, label="copia verificada de seccionado")
         if filter_field not in gdf.columns or section_id_field not in gdf.columns:
             raise ValueError("La copia de secciones no contiene campos territoriales obligatorios")
         gdf[filter_field] = gdf[filter_field].astype(str).str.zfill(2)
@@ -349,13 +364,16 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         return features, crs
 
 
-def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict]:
+def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict, str]:
     urls = _source_urls(source, source_year, provinces)
     filter_field = str(source["territorial_filter_field"])
     section_id_field = str(source["section_id_field"])
     all_features: list[dict] = []
     seen_ids: set[str] = set()
     coverage: dict[str, int] = {}
+    declared_crs = str(source.get("crs") or "").strip()
+    if not declared_crs:
+        raise ValueError("CRS_MISSING: fuente OGC sin CRS declarado en catálogo")
     for province, url in zip(provinces, urls):
         code = province["code"]
         payload = fetcher(url)
@@ -395,17 +413,20 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
         coverage[code] = count
     if set(coverage) != {row["code"] for row in provinces}:
         raise ValueError("Cobertura provincial de secciones incompleta")
-    return all_features, urls, {"provinces": sorted(coverage), "sections_by_province": coverage, "sections": len(all_features)}
+    return all_features, urls, {"provinces": sorted(coverage), "sections_by_province": coverage, "sections": len(all_features)}, declared_crs
 
 
-def _write_shapefile_zip(features: list[dict], crs: str | None = "EPSG:4326") -> bytes:
+def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
     try:
         import geopandas as gpd
     except Exception as exc:  # pragma: no cover
         raise RuntimeError(f"geopandas es obligatorio para materializar secciones: {exc}")
+    if crs is None or not str(crs).strip():
+        raise ValueError("CRS_MISSING: no se puede materializar seccionado sin CRS acreditado")
     with tempfile.TemporaryDirectory(prefix="ddd_sections_") as td:
         shp = Path(td) / "seccionado.shp"
-        gdf = gpd.GeoDataFrame.from_features(features, crs=crs or "EPSG:4326")
+        gdf = gpd.GeoDataFrame.from_features(features, crs=crs)
+        validate_geodataframe(gdf, label="seccionado a materializar")
         gdf.to_file(shp, driver="ESRI Shapefile", index=False)
         out = io.BytesIO()
         with zipfile.ZipFile(out, "w") as zf:
@@ -491,8 +512,8 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     content_checks = {"provinces": coverage, "sections": len(features)}
                     payload_out = _write_shapefile_zip(features, crs=crs)
                 else:
-                    features, official_urls, content_checks = _collect_live_sections(source, section_year, provinces, fetch)
-                    payload_out = _write_shapefile_zip(features, crs="EPSG:4326")
+                    features, official_urls, content_checks, live_crs = _collect_live_sections(source, section_year, provinces, fetch)
+                    payload_out = _write_shapefile_zip(features, crs=live_crs)
             else:
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
 
@@ -533,10 +554,10 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     }
                     origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
                 else:
-                    origin_features, origin_urls, origin_checks = _collect_live_sections(
+                    origin_features, origin_urls, origin_checks, origin_crs = _collect_live_sections(
                         source, population_year, provinces, fetch
                     )
-                    origin_payload = _write_shapefile_zip(origin_features, crs="EPSG:4326")
+                    origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
                 origin_destination, origin_staged = _write_materialized(
                     evidence_dir, origin_path, origin_payload
                 )

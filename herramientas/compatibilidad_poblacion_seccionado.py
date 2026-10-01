@@ -9,6 +9,8 @@ import zipfile
 from pathlib import Path
 from typing import Any, Callable
 
+from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
+
 SCHEMA = "ddd.population-sectioning-compatibility/1.0"
 REPORT_NAME = "compatibilidad_poblacion_seccionado.json"
 
@@ -337,16 +339,12 @@ def _population_rows_from_zip(path: Path) -> list[tuple[str, int]]:
     rows: list[tuple[str, int]] = []
     for row in reader:
         key = normalize_section_key(row.get("Secciones"))
-        raw = str(row.get("Total") or "").strip()
         if not key:
-            rows.append(("", 0))
-            continue
-        if raw == "":
-            raise ValueError(f"Población ausente para sección {key}")
-        cleaned = raw.replace(".", "").replace(",", "")
-        if not cleaned.lstrip("-").isdigit():
-            raise ValueError(f"Población no numérica para sección {key}: {raw!r}")
-        rows.append((key, int(cleaned)))
+            raise ValueError(f"SECTION_ID_INVALID: población: {row.get('Secciones')!r}")
+        rows.append((
+            key,
+            parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+        ))
     return rows
 
 
@@ -375,6 +373,7 @@ def _geometry_frame_from_zip(path: Path):
     id_field = next((x for x in ("CUSEC", "CUSEC_KEY", "CUSEC20", "SEC") if x in gdf.columns), None)
     if not id_field:
         raise ValueError(f"Seccionado sin clave de sección reconocible: {list(gdf.columns)}")
+    validate_geodataframe(gdf, label=str(path))
     _parse_crs(gdf.crs, label=str(path))
     return gdf, id_field
 
@@ -391,12 +390,14 @@ def normalize_geometry_frames(
     origin_id_field: str | None,
     cross_year: bool,
 ) -> tuple[list[tuple[str, Any]], list[tuple[str, Any]] | None, dict]:
+    validate_geodataframe(target_gdf, label="target_sectioning")
     target_crs = _parse_crs(getattr(target_gdf, "crs", None), label="target_sectioning")
     origin_crs = None
     normalized_origin = origin_gdf
     if cross_year:
         if origin_gdf is None or origin_id_field is None:
             raise ValueError("ORIGIN_SECTIONING_EVIDENCE_MISSING")
+        validate_geodataframe(origin_gdf, label="population_sectioning_origin")
         origin_crs = _parse_crs(getattr(origin_gdf, "crs", None), label="population_sectioning_origin")
         if not origin_crs.equals(target_crs):
             normalized_origin = origin_gdf.to_crs(target_crs)
@@ -740,6 +741,31 @@ def build_materialized_report(
         raise ValueError("COMPATIBILITY_REPORT_INVALID: " + "; ".join(reasons))
     path = evidence_dir / REPORT_NAME
     path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return report
+
+
+def assert_materialized_territorial_gate(
+    *,
+    evidence_dir: Path,
+    territory_id: str,
+    edition: str,
+    population_year: int,
+    section_year: int,
+    inventory: dict,
+) -> dict:
+    report = build_materialized_report(
+        evidence_dir=evidence_dir,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+        inventory=inventory,
+    )
+    if report.get("decision") != "READY":
+        raise ValueError(
+            "TERRITORIAL_DATA_GATE_BLOCKED: "
+            + "; ".join(report.get("causes") or ["COMPATIBILITY_BLOCKED"])
+        )
     return report
 
 
