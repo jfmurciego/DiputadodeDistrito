@@ -744,6 +744,31 @@ def build_materialized_report(
     return report
 
 
+def assert_materialized_territorial_gate(
+    *,
+    evidence_dir: Path,
+    territory_id: str,
+    edition: str,
+    population_year: int,
+    section_year: int,
+    inventory: dict,
+) -> dict:
+    report = build_materialized_report(
+        evidence_dir=evidence_dir,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+        inventory=inventory,
+    )
+    if report.get("decision") != "READY":
+        raise ValueError(
+            "TERRITORIAL_DATA_GATE_BLOCKED: "
+            + "; ".join(report.get("causes") or ["COMPATIBILITY_BLOCKED"])
+        )
+    return report
+
+
 def validate_compatibility_package(
     package: Path,
     *,
