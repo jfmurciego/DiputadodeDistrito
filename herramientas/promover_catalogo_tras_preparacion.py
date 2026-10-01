@@ -143,17 +143,37 @@ def _set_catalog_state(
         "territorial_source_declaration": source_declaration,
         "territorial_sources_prepared": "true",
         "territorial_contract_complete": "true" if contract_complete else "false",
+        "generation_enabled": "false",
     }
     if contract_path:
         updates["contract_path"] = contract_path
     if contract_complete:
         updates["production_authorization"] = "AUTHORIZED"
-        updates["territorial_certification"] = "NOT_CERTIFIED"
 
     for key, value in updates.items():
         start, end = _catalog_state_bounds(lines, territory_id, edition)
         state_indent = _catalog_state_indent(lines, start, end)
         _replace_key(lines, start, end, state_indent, key, value)
+
+    # Una fuente nueva invalida únicamente la habilitación/preflight activo.
+    # El fichero histórico se conserva; sólo se retira su referencia efectiva.
+    start, end = _catalog_state_bounds(lines, territory_id, edition)
+    state_indent = _catalog_state_indent(lines, start, end)
+    evidence_start = next(
+        (i for i in range(start, end) if lines[i].startswith(state_indent + "evidence:")),
+        None,
+    )
+    if evidence_start is not None:
+        child_indent = state_indent + "  "
+        evidence_end = evidence_start + 1
+        while evidence_end < end and (
+            lines[evidence_end].startswith(child_indent) or not lines[evidence_end].strip()
+        ):
+            evidence_end += 1
+        lines[evidence_start + 1:evidence_end] = [
+            line for line in lines[evidence_start + 1:evidence_end]
+            if not line.startswith(child_indent + "generation_preflight:")
+        ]
 
     start, end = _catalog_state_bounds(lines, territory_id, edition)
     state_indent = _catalog_state_indent(lines, start, end)
@@ -319,9 +339,13 @@ def promote(
     source_declaration_abs = source_declaration if source_declaration.is_absolute() else root / source_declaration
     declaration_data = _yaml(source_declaration_abs)
     declaration_territory = declaration_data.get("territory") or {}
-    legacy_year = int(declaration_territory.get("source_year", declaration_territory.get("edition", edition)))
-    population_year = int(declaration_territory.get("population_year", legacy_year))
-    section_year = int(declaration_territory.get("section_year", legacy_year))
+    legacy_year = declaration_territory.get("source_year")
+    population_raw = declaration_territory.get("population_year", legacy_year)
+    section_raw = declaration_territory.get("section_year", legacy_year)
+    if population_raw in (None, "") or section_raw in (None, ""):
+        raise ValueError("La declaración promovida debe fijar population_year y section_year explícitos")
+    population_year = int(population_raw)
+    section_year = int(section_raw)
     valid, reasons = validate_prepared_package(
         package_abs,
         territory_id=territory_id,
@@ -451,10 +475,9 @@ def promote(
         contract_path=contract_rel,
     )
 
-    # La admisión del contrato no equivale a habilitación efectiva de generación.
-    # Se informa la misma puerta que consumirá 00/02; la evidencia pre-M04, cuando
-    # exista, debe superar CAP_PRE_M04_EVIDENCE y coincidir con la fuente durable.
-    from herramientas.resolver_ejecucion_completa import generation_enablement
+    # La fuente queda preparada pero NO habilitada. El producto certificado previo
+    # permanece disponible y sólo una evidencia pre-M04 ligada a esta identidad
+    # podrá habilitar una nueva generación.
     _assert_territorial_product_guard(
         root,
         catalog,
@@ -462,23 +485,11 @@ def promote(
         edition=str(edition),
         guard=product_guard,
     )
-    refreshed = _yaml(catalog)
-    refreshed_row = next(r for r in refreshed.get("territories") or [] if r.get("territory_id") == territory_id)
-    refreshed_state = (refreshed_row.get("editions") or {}).get(str(edition)) or {}
-    generation_path = (refreshed_state.get("evidence") or {}).get("generation_preflight")
-    generation_evidence = {}
-    if generation_path and (root / str(generation_path)).is_file():
-        generation_evidence = json.loads((root / str(generation_path)).read_text(encoding="utf-8"))
-    prep = refreshed_state.get("preparation_evidence") or {}
-    effective_gate = generation_enablement(
-        root_dir=root,
-        contract_path=contract_rel,
-        territory_id=territory_id,
-        certified_product_ready=bool(refreshed_state.get("territorial_product_available")),
-        first_generation_evidence=generation_evidence or None,
-        preparation_evidence=prep,
-        require_source=True,
-    )
+    effective_gate = {
+        "allowed": False,
+        "capability": "CAP_PRE_M04_EVIDENCE",
+        "reason": "CAP_PRE_M04_EVIDENCE: fuente preparada pendiente de acreditación vinculada",
+    }
 
     return {
         "territory_id": territory_id,
