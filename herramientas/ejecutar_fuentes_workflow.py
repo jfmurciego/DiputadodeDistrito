@@ -72,6 +72,25 @@ def _source_rows(evidence: Path) -> tuple[list[dict], list[dict]]:
     return inv_rows, prov_rows
 
 
+def validate_materialized_evidence(
+    evidence: Path,
+    *,
+    territory_id: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+) -> dict:
+    inv_rows, _ = _source_rows(evidence)
+    return assert_materialized_territorial_gate(
+        evidence_dir=evidence,
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=population_year,
+        section_year=section_year,
+        inventory={"sources": inv_rows},
+    )
+
+
 def _write_deterministic_bundle(evidence: Path, destination: Path) -> None:
     files = sorted(p for p in evidence.rglob("*") if p.is_file())
     if not files:
@@ -205,13 +224,12 @@ def main() -> int:
         )
         if acquisition.get("decision") == "READY":
             try:
-                assert_materialized_territorial_gate(
-                    evidence_dir=args.acquisition_evidence,
+                validate_materialized_evidence(
+                    args.acquisition_evidence,
                     territory_id=territory_id,
-                    edition=str(edition),
+                    edition=edition,
                     population_year=population_year,
                     section_year=section_year,
-                    inventory=inventory,
                 )
             except ValueError as exc:
                 acquisition["decision"] = "BLOCKED"
@@ -255,14 +273,12 @@ def main() -> int:
 
     # ACQUIRE y REUSE atraviesan exactamente la misma puerta factual sobre los
     # bytes materializados. Reutilizar un ZIP válido no sustituye esta validación.
-    inv_rows, _ = _source_rows(args.acquisition_evidence)
-    assert_materialized_territorial_gate(
-        evidence_dir=args.acquisition_evidence,
+    validate_materialized_evidence(
+        args.acquisition_evidence,
         territory_id=territory_id,
-        edition=str(edition),
+        edition=edition,
         population_year=population_year,
         section_year=section_year,
-        inventory={"sources": inv_rows},
     )
     print(json.dumps(evidence, ensure_ascii=False))
     return 0
