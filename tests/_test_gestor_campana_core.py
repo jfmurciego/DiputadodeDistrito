@@ -12,6 +12,10 @@ from herramientas.registro_publicaciones_visor import make_candidate
 from herramientas.resolver_ejecucion_completa import (
     build_plan, apply_explicit_territorial_source, generation_enablement,
 )
+from herramientas._resolver_ejecucion_completa_core import (
+    _contract_generation_binding,
+    _pre_m04_implementation_binding,
+)
 from herramientas.gestor_campana import (
     CONFIRMATION,
     aggregate,
@@ -354,19 +358,14 @@ class CampaignManagerTests(unittest.TestCase):
                                       execution_mode="reuse", catalog=catalog, root_dir=root,
                                       optimization_algorithm=strategy, force_selected_algorithm=True)
                     self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], "source-B")
-                    apply_explicit_territorial_source(
-                        plan, root_dir=root, reuse_run_id=str(row["reuse_run_id"]),
-                        reuse_artifact_name=row["reuse_artifact_name"],
-                        reuse_artifact_sha256=row["reuse_artifact_sha256"],
-                        reuse_source_sha=row["reuse_source_sha"],
-                    )
-                    self.assertEqual(plan["existing"]["territorial_source"]["run_id"], row["reuse_run_id"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], row["reuse_artifact_name"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_sha256"], row["reuse_artifact_sha256"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["source_commit"], row["reuse_source_sha"])
-                    self.assertEqual(plan["execution_mode"], "from_start")
-                    self.assertFalse(plan["run_prepare_territorial"])
-                    self.assertTrue(plan["run_generate"])
+                    self.assertTrue(plan["run_prepare_territorial"])
+                    with self.assertRaisesRegex(ValueError, "CAP_SOURCE|CAP_PRE_M04_EVIDENCE"):
+                        apply_explicit_territorial_source(
+                            plan, root_dir=root, reuse_run_id=str(row["reuse_run_id"]),
+                            reuse_artifact_name=row["reuse_artifact_name"],
+                            reuse_artifact_sha256=row["reuse_artifact_sha256"],
+                            reuse_source_sha=row["reuse_source_sha"],
+                        )
             for mode in ("reuse", "from_start"):
                 with self.subTest(manual_mode=mode):
                     manual = build_plan(territory="Principado de Asturias", edition="2025",
@@ -375,7 +374,7 @@ class CampaignManagerTests(unittest.TestCase):
                     unchanged = json.loads(json.dumps(manual))
                     self.assertEqual(apply_explicit_territorial_source(manual), unchanged)
                     self.assertEqual(manual["existing"]["territorial_source"]["artifact_name"], "source-B")
-                    self.assertEqual(manual["run_prepare_territorial"], mode == "from_start")
+                    self.assertTrue(manual["run_prepare_territorial"])
 
     def test_partial_fixed_source_blocks_and_manual_plan_keeps_catalog_behavior(self):
         plan = {"execution_mode": "reuse", "run_prepare_territorial": False,
@@ -516,8 +515,42 @@ class CampaignManagerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
             contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
-            contract["meta"]["status"] = "production_ready_auto_materialized"
-            contract["territory_contract"]["status"] = "topology_contract_candidate"
+            contract["meta"]["status"] = "source_prepared_pending_pre_m04"
+            contract["territory_contract"]["status"] = "source_prepared_pending_pre_m04"
+            prep = dict(row["preparation_evidence"])
+            prep.update({
+                "compatibility_identity_sha256": "c" * 64,
+                "population_year": 2025,
+                "section_year": 2025,
+            })
+            source = evidence.setdefault("source", {})
+            source.update({
+                "artifact_name": prep["artifact_name"],
+                "artifact_sha256": prep["artifact_sha256"],
+                "package_sha256": prep["package_sha256"],
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+                "population_year": prep["population_year"],
+                "section_year": prep["section_year"],
+            })
+            contract.setdefault("validation", {})["source_baseline"] = {
+                "schema": "ddd.source-baseline/1.0",
+                "edition": "2025",
+                "population_year": 2025,
+                "section_year": 2025,
+                "population_total": evidence["graph"]["population"],
+                "target_section_count": evidence["graph"]["nodes"],
+                "package_sha256": prep["package_sha256"],
+                "compatibility_report_sha256": "9" * 64,
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+            }
+            contract["generation_state"] = {
+                "source_prepared": True,
+                "generation_enabled": False,
+                "package_sha256": prep["package_sha256"],
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+            }
+            evidence["implementation"] = _pre_m04_implementation_binding(ROOT, contract)
+            evidence["contract_binding"] = _contract_generation_binding(contract)
             (root / "contract.yaml").write_text(
                 yaml.safe_dump(contract, sort_keys=False, allow_unicode=True),
                 encoding="utf-8",
@@ -528,7 +561,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=evidence,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
 
@@ -540,7 +573,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=broken,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertFalse(gate["allowed"])
             self.assertIn("grafo territorial", gate["reason"])
@@ -553,7 +586,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=implementation_drift,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertFalse(gate["allowed"])
             self.assertIn("implementación pre-M04", gate["reason"])

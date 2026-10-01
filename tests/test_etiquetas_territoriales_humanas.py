@@ -126,7 +126,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
 
         with patch("herramientas.resolver_fuentes_territorio.territories") as source_registry:
             with self.assertRaisesRegex(KeyError, "Etiqueta territorial contradictoria"):
-                build_declaration("07 · Castilla-La Mancha", 2025)
+                build_declaration("07 · Castilla-La Mancha", 2025, source_year=2025)
             source_registry.assert_not_called()
 
     def test_all_human_territory_selectors_use_same_labels_and_order(self):
@@ -160,8 +160,8 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
         self.assertEqual(visible["territory_name"], "Galicia")
 
     def test_acquisition_accepts_visible_label_without_changing_declaration(self):
-        plain = build_declaration("Andalucía", 2025)
-        visible = build_declaration("01 · Andalucía", 2025)
+        plain = build_declaration("Andalucía", 2025, source_year=2025)
+        visible = build_declaration("01 · Andalucía", 2025, source_year=2025)
         self.assertEqual(visible, plain)
         self.assertEqual(visible["territory"]["id"], "andalucia")
 

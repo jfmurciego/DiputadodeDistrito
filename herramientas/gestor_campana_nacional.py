@@ -33,6 +33,70 @@ def _sha_payload(data:dict[str,Any])->str:
     raw=json.dumps(data,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
     return hashlib.sha256(raw).hexdigest()
 
+def validate_manifest_digest(manifest:dict[str,Any],expected_sha:str|None=None)->None:
+    body={k:v for k,v in manifest.items() if k!="manifest_sha256"}
+    digest=_sha_payload(body)
+    if manifest.get("manifest_sha256")!=digest or (expected_sha is not None and expected_sha!=digest):
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: manifest_sha256")
+
+def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Path,
+                            expected_sha:str,source_sha:str,slot:str,campaign_instance:str,
+                            frozen_inputs:dict[str,str]|None=None)->None:
+    """Compara referencias congeladas; la habilitación pertenece al validador común."""
+    validate_manifest_digest(manifest,expected_sha)
+    for key,value in (("source_sha",source_sha),("campaign_instance",campaign_instance),
+                      ("data_edition",str(plan.get("edition") or "")),
+                      ("optimization_algorithm",plan.get("optimization_algorithm"))):
+        if manifest.get(key)!=value:
+            raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: {key}")
+    matches=[r for r in manifest["territories"]
+             if r["territory_id"]==plan.get("territory_id") and r["slot"]==slot]
+    if len(matches)!=1:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: territory/slot")
+    row=matches[0]
+    if row["preflight_status"]!="GENERATION_READY" or row.get("preflight_blockers"):
+        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: entrada bloqueada")
+    if plan.get("publication_mode_effective")!=row["publication_mode"]:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: publication_mode")
+    if frozen_inputs is not None:
+        refs=row["generation_contract"]
+        source=refs.get("source") or {}
+        expected={"CAMPAIGN_CONTRACT_PATH":refs.get("contract_path"),
+                  "CAMPAIGN_CONTRACT_SHA256":refs.get("contract_sha256"),
+                  "CAMPAIGN_GENERATION_EVIDENCE_PATH":refs.get("generation_evidence_path"),
+                  "CAMPAIGN_GENERATION_EVIDENCE_SHA256":refs.get("generation_evidence_sha256")}
+        for key in ("run_id","artifact_name","artifact_sha256","package_sha256"):
+            expected["CAMPAIGN_SOURCE_"+key.upper()]=source.get(key)
+        for key in ("receipt_path","receipt_sha256"):
+            expected["CAMPAIGN_EVIDENCE_"+key.upper()]=row["evidence"].get(key)
+        for key in ("territorial_identity_sha256","electoral_identity_sha256","pair_sha256"):
+            expected["CAMPAIGN_"+key.upper()]=row["evidence"].get(key)
+        for key,value in expected.items():
+            if str(frozen_inputs.get(key) or "")!=str(value or ""):
+                raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: caller.{key}")
+    state=(_catalog_index(root).get(row["territory_id"],{}).get("editions") or {}).get(manifest["data_edition"]) or {}
+    actual=generation_ready_contract(root_dir=root,state=state,territory_id=row["territory_id"])
+    if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
+        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
+    if actual!=row["generation_contract"] or plan.get("contract_path")!=actual["contract_path"]:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: generation_contract")
+    if _evidence_identity(root,state,row["publication_mode"])!=row["evidence"]:
+        raise ValueError("CAMPAIGN_MANIFEST_MISMATCH: evidence receipt")
+    # La fuente resuelta por 00 debe ser la misma que habilitó generación,
+    # no basta con comprobar el catálogo y consumir luego otro receipt.
+    resolved=(plan.get("existing") or {}).get("territorial_source") or {}
+    for key in ("run_id","artifact_name","artifact_sha256","package_sha256","source_commit"):
+        if str(resolved.get(key) or "")!=str(actual["source"].get(key) or ""):
+            raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: resolved_source.{key}")
+    evidence=row["evidence"]
+    prepared=plan.get("prepared_source_pair" if row["publication_mode"]=="electoral" else "prepared_territorial_source") or {}
+    keys=("receipt_path","territorial_identity_sha256")
+    if row["publication_mode"]=="electoral":
+        keys+=("pair_sha256","electoral_identity_sha256")
+    for key in keys:
+        if not evidence.get(key) or prepared.get(key)!=evidence[key]:
+            raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: prepared.{key}")
+
 def _catalog_index(root:Path)->dict[str,dict[str,Any]]:
     data=_yaml(root/CATALOG)
     return {str(r["territory_id"]):r for r in data.get("territories") or []}
@@ -136,6 +200,7 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
 
 def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
     if confirmation!=CONFIRMATION: raise ValueError("Falta confirmación explícita")
+    validate_manifest_digest(manifest)
     entrypoint,count,unique=STRATEGIES[manifest["optimization_algorithm"]]
     include=[]
     for row in manifest["territories"]:
@@ -152,8 +217,12 @@ def build_matrix(manifest:dict[str,Any],confirmation:str)->dict[str,Any]:
     return {"include":include}
 
 def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]:
+    validate_manifest_digest(manifest)
     by_id={str(r.get("territory_id")):r for r in reports if r.get("territory_id")}
-    rows=[]; failed=[]
+    selected={r["territory_id"] for r in manifest["territories"]}
+    unexpected=sorted(set(by_id)-selected)
+    duplicates=sorted(tid for tid in by_id if sum(r.get("territory_id")==tid for r in reports)>1)
+    rows=[]; failed=list(dict.fromkeys(unexpected+duplicates))
     for expected in manifest["territories"]:
         tid=expected["territory_id"]
         if expected["preflight_status"]=="BLOCKED":
@@ -163,11 +232,27 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
             if observed is None:
                 item={**expected,"status":"MISSING","reason":"campaign_status.json ausente"}
             else:
-                item=dict(observed)
+                item={**expected,**observed}
                 terminal=item.get("status")
-                if terminal!="PASS":
+                binding={"campaign_instance":manifest["campaign_instance"],
+                         "source_sha":manifest["source_sha"],"manifest_sha256":manifest["manifest_sha256"],
+                         "slot":expected["slot"],"publication_mode":expected["publication_mode"]}
+                mismatch=any(observed.get(k)!=v for k,v in binding.items())
+                if tid in duplicates or mismatch:
+                    item["status"]="FAIL"
+                    item["reason"]="CAMPAIGN_MANIFEST_MISMATCH: resultado duplicado o de otra identidad"
+                elif terminal!="PASS":
                     item["status"]="FAIL" if terminal else "MISSING"
                     item["reason"]=item.get("reason") or "estado terminal PASS ausente"
+                elif manifest.get("optimization_algorithm")=="GerryChain 50" and (
+                    observed.get("candidate_count_expected")!=50
+                    or observed.get("candidate_count_valid")!=50
+                    or observed.get("unique_candidate_hash_count")!=50
+                    or observed.get("missing_candidate_hash_count")!=0
+                    or observed.get("duplicate_candidate_hash_count")!=0
+                ):
+                    item["status"]="FAIL"
+                    item["reason"]="portfolio incompleto o sin 50 candidatos únicos"
         rows.append(item)
         if item.get("status")!="PASS": failed.append(tid)
     return {
@@ -192,13 +277,16 @@ def validate_campaign_summary_for_promotion(summary:dict[str,Any])->list[dict[st
         seen.add(tid)
     return rows
 
-def publication_matrix(releases:list[dict[str,Any]],expected_count:int|None=None)->dict[str,Any]:
+def publication_matrix(releases:list[dict[str,Any]],expected_count:int|None=None,
+                       expected_territories:list[str]|None=None)->dict[str,Any]:
     if not 1<=len(releases)<=19: raise ValueError("La publicación exige entre 1 y 19 releases")
     if expected_count is not None and len(releases)!=expected_count:
         raise ValueError("No se publican resultados parciales")
     for key in ("release_tag","namespace","territory_id"):
         values=[str(r.get(key) or "") for r in releases]
         if not all(values) or len(set(values))!=len(values): raise ValueError(f"{key} ausente o duplicado")
+    if expected_territories is not None and {r["territory_id"] for r in releases}!=set(expected_territories):
+        raise ValueError("La publicación no coincide con los territorios seleccionados")
     return {"include":releases}
 
 def _load_json(path:Path)->dict[str,Any]:

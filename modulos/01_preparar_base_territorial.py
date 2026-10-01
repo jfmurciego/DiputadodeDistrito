@@ -233,7 +233,9 @@ def main():
     args = ap.parse_args()
     cfg = load_params_yaml(args.params)
     meta = cfg.get("meta", {})
-    year = int(meta.get("year", 2025))
+    edition = int(require(meta.get("year"), "Falta meta.year (edición DDD)"))
+    population_year = int(require(meta.get("source_population_year"), "Falta meta.source_population_year acreditado"))
+    section_year = int(require(meta.get("source_section_year"), "Falta meta.source_section_year acreditado"))
     val = cfg.get("validation", {}) or {}
     require_non_null_population = bool(val.get("require_non_null_population", True))
     io_in = cfg["io"]["input"]
@@ -262,14 +264,20 @@ def main():
         "edad_col": "Edad",
         "sexo_total_values": ["Total"],
         "edad_total_values": ["Todas las edades"],
-        "year_value": year,
+        "year_value": population_year,
     }
     filters.update(cip_cfg.get("filters", {}))
+    configured_year = filters.get("year_value")
+    if int(configured_year) != population_year:
+        raise ValueError(
+            f"population_cip.filters.year_value={configured_year} contradice "
+            f"source_population_year={population_year}"
+        )
     cip = load_cip(
         cip_cfg["paths"],
         cip_cfg.get("section_key_col", "Secciones"),
         cip_cfg.get("pop_col", "Total"),
-        year,
+        population_year,
         cip_cfg.get("sep", "auto"),
         filters,
         prov,
@@ -284,7 +292,7 @@ def main():
             + str(population_without_geometry[:10])
         )
 
-    pop_field = f"POP_{year}"
+    pop_field = f"POP_{population_year}"
     gdf = gdf.merge(
         cip.rename(columns={"POP": pop_field}),
         on="CUSEC_KEY",
@@ -329,7 +337,10 @@ def main():
                     "missing_population_rows": missing,
                     "require_non_null_population": require_non_null_population,
                     "province_codes": prov,
-                    "year": year,
+                    "edition": edition,
+                    "population_year": population_year,
+                    "section_year": section_year,
+                    "population_field": pop_field,
                     "comarcas": comarcas_report,
                 },
                 ensure_ascii=False,

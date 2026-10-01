@@ -132,6 +132,7 @@ jobs:
       manifest_sha256: ${{ steps.plan.outputs.manifest_sha256 }}
       manifest_path: ${{ steps.plan.outputs.manifest_path }}
       strategy: ${{ steps.plan.outputs.strategy }}
+      ready_count: ${{ steps.plan.outputs.ready_count }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
@@ -179,6 +180,7 @@ jobs:
           manifest_sha256="$(jq -r .manifest_sha256 .ddd-campaign/campaign-manifest.json)"
           {
             echo "matrix=$matrix"
+            echo "ready_count=$(jq '.include|length' <<<"$matrix")"
             echo "campaign_instance=$campaign_instance"
             echo "source_sha=$source_sha"
             echo "manifest_sha256=$manifest_sha256"
@@ -190,6 +192,7 @@ jobs:
         with:
           name: ddd-campaign-manifest-${{ steps.plan.outputs.campaign_instance }}
           path: .ddd-campaign/campaign-manifest.json
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
       - name: E2E sintético del Gestor nacional
@@ -200,7 +203,7 @@ jobs:
 
   territorios:
     name: ${{ matrix.slot }} · ${{ matrix.territory_name }}
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.ready_count != '0' }}
     needs: preparar
     strategy:
       fail-fast: false
@@ -218,7 +221,7 @@ jobs:
       persist_state: false
       publication_mode: ${{ matrix.publication_mode }}
       artifact_namespace: ${{ matrix.artifact_namespace }}
-      campaign_instance: ${{ matrix.entrypoint == 'gerrychain_50' && matrix.campaign_instance || '' }}
+      campaign_instance: ${{ matrix.campaign_instance }}
       campaign_slot: ${{ matrix.slot }}
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
@@ -238,6 +241,7 @@ jobs:
       candidate_count: ${{ matrix.candidate_count }}
       gerrychain_entrypoint: ${{ matrix.entrypoint }}
       require_unique_hashes: ${{ matrix.require_unique_hashes }}
+      expected_district_count: ${{ matrix.expected_district_count }}
 
   recuperar_portfolio:
     name: Recuperar portfolio existente sin recalcular
@@ -393,6 +397,7 @@ jobs:
         with:
           ref: ${{ needs.preparar.outputs.source_sha }}
       - name: Recuperar todos los resultados territoriales
+        continue-on-error: true
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           pattern: ddd-campaign-territory-*
@@ -417,6 +422,7 @@ jobs:
         with:
           name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
           path: .ddd-campaign/summary
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
       - name: Aplicar estado agregado
@@ -557,7 +563,8 @@ jobs:
           from herramientas.gestor_campana_nacional import publication_matrix
           releases=json.loads(Path(".ddd-campaign/releases/releases.json").read_text(encoding="utf-8"))
           summary=json.loads(Path(".ddd-campaign/summary/campaign-summary.json").read_text(encoding="utf-8"))
-          matrix=publication_matrix(releases, summary["territory_count_expected"])
+          matrix=publication_matrix(releases, summary["territory_count_expected"],
+                                    [r["territory_id"] for r in summary["territories"]])
           print("publication_matrix="+json.dumps(matrix,separators=(",",":"),ensure_ascii=False))
           PY
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -566,6 +573,7 @@ jobs:
           path: |
             .ddd-campaign/releases/descriptors
             .ddd-campaign/releases/releases.json
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
 
@@ -599,4 +607,3 @@ jobs:
           test "${{ needs.resumen.result }}" = success
           test "${{ needs.promover_galerias.result }}" = success
           test "${{ needs.publicar_galerias.result }}" = success
-

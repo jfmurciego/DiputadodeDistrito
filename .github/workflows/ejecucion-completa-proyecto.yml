@@ -194,6 +194,12 @@ jobs:
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar manifiesto congelado de campaña
+        if: ${{ inputs.campaign_instance != '' }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: ddd-campaign-manifest-${{ inputs.campaign_instance }}
+          path: .ddd-campaign
       - id: plan
         name: Resolver fases necesarias
         shell: bash
@@ -317,8 +323,11 @@ jobs:
               "require_unique_hashes":require_unique.lower()=="true",
           }
           if campaign_instance:
-              if entrypoint!="gerrychain_50" or require_unique.lower()!="true" or int(candidate_count or 0)!=50:
-                  raise SystemExit("Contrato GerryChain 50 incompleto en el caller")
+              from herramientas.gestor_campana_nacional import STRATEGIES
+              expected_entrypoint,expected_count,expected_unique=STRATEGIES[p["optimization_algorithm"]]
+              if (entrypoint!=expected_entrypoint or int(candidate_count or 0)!=expected_count
+                      or (require_unique.lower()=="true")!=expected_unique):
+                  raise SystemExit("Contrato de estrategia incompleto en el caller")
           try:
               if p.get("execution_mode") == "catalog_source":
                   if any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):
@@ -467,57 +476,21 @@ jobs:
           PY
           if [[ -n "$CAMPAIGN_INSTANCE" ]]; then
             python - <<'PY'
-          import hashlib,json,os
+          import json,os,subprocess
           from pathlib import Path
-          from herramientas.resolver_ejecucion_completa import generation_ready_contract
+          from herramientas.gestor_campana_nacional import validate_campaign_child
           p=json.loads(Path(".ddd-full-run/plan.json").read_text(encoding="utf-8"))
-          cs=p.get("catalog_state") or {}
-          state={
-              "contract_path":p.get("contract_path"),
-              "preparation_evidence":cs.get("catalog_preparation_evidence") or cs.get("preparation_evidence") or {},
-              "evidence":{"generation_preflight":cs.get("generation_preflight_path")},
-          }
-          actual=generation_ready_contract(root_dir=Path("."),state=state,territory_id=p["territory_id"])
-          if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
-              raise SystemExit("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
-          expected={
-              "contract_path":os.environ["CAMPAIGN_CONTRACT_PATH"],
-              "contract_sha256":os.environ["CAMPAIGN_CONTRACT_SHA256"],
-              "generation_evidence_path":os.environ["CAMPAIGN_GENERATION_EVIDENCE_PATH"],
-              "generation_evidence_sha256":os.environ["CAMPAIGN_GENERATION_EVIDENCE_SHA256"],
-          }
-          for key,value in expected.items():
-              if str(actual.get(key) or "")!=value:
-                  raise SystemExit(f"CAMPAIGN_MANIFEST_MISMATCH: {key}")
-          src=actual.get("source") or {}
-          source_expected={
-              "run_id":str(os.environ["CAMPAIGN_SOURCE_RUN_ID"]),
-              "artifact_name":os.environ["CAMPAIGN_SOURCE_ARTIFACT_NAME"],
-              "artifact_sha256":os.environ["CAMPAIGN_SOURCE_ARTIFACT_SHA256"],
-              "package_sha256":os.environ["CAMPAIGN_SOURCE_PACKAGE_SHA256"],
-          }
-          for key,value in source_expected.items():
-              if str(src.get(key) or "")!=value:
-                  raise SystemExit(f"CAMPAIGN_MANIFEST_MISMATCH: source.{key}")
-          receipt=Path(os.environ["CAMPAIGN_EVIDENCE_RECEIPT_PATH"])
-          if not receipt.is_file() or hashlib.sha256(receipt.read_bytes()).hexdigest()!=os.environ["CAMPAIGN_EVIDENCE_RECEIPT_SHA256"]:
-              raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: evidence receipt")
-          if p.get("publication_mode_effective")=="electoral":
-              prepared=p.get("prepared_source_pair") or {}
-              if str(prepared.get("receipt_path") or "")!=receipt.as_posix():
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: prepared_source_pair path")
-              if str(prepared.get("pair_sha256") or "")!=os.environ["CAMPAIGN_PAIR_SHA256"]:
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: pair_sha256")
-              if str(prepared.get("territorial_identity_sha256") or "")!=os.environ["CAMPAIGN_TERRITORIAL_IDENTITY_SHA256"]:
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial identity")
-              if str(prepared.get("electoral_identity_sha256") or "")!=os.environ["CAMPAIGN_ELECTORAL_IDENTITY_SHA256"]:
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: electoral identity")
-          else:
-              prepared=p.get("prepared_territorial_source") or {}
-              if str(prepared.get("receipt_path") or "")!=receipt.as_posix():
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial receipt path")
-              if str(prepared.get("territorial_identity_sha256") or "")!=os.environ["CAMPAIGN_TERRITORIAL_IDENTITY_SHA256"]:
-                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial identity")
+          manifest=json.loads(Path(".ddd-campaign/campaign-manifest.json").read_text(encoding="utf-8"))
+          try:
+              validate_campaign_child(
+                  manifest=manifest,plan=p,root=Path("."),
+                  expected_sha=os.environ["CAMPAIGN_MANIFEST_SHA256"],
+                  source_sha=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
+                  slot=os.environ["CAMPAIGN_SLOT"],campaign_instance=os.environ["CAMPAIGN_INSTANCE"],
+                  frozen_inputs=os.environ,
+              )
+          except ValueError as exc:
+              raise SystemExit(str(exc)) from exc  # CAMPAIGN_MANIFEST_MISMATCH blocks before generation
           PY
           fi
           persist="$PERSIST_INPUT"
@@ -843,11 +816,11 @@ jobs:
       run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_source_run_id }}
       artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || needs.planificar.outputs.existing_territorial_source_artifact }}
       expected_digest: ${{ needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   generar:
     name: 02 · Generar distritos autonómicos
-    needs: [planificar, puerta_01]
+    needs: [planificar, preparar_territorial, puerta_01]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.planificar.outputs.run_generate == 'true' }}
     uses: ./.github/workflows/produccion-distritos.yml
     secrets: inherit
@@ -858,7 +831,7 @@ jobs:
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       source_package_artifact_sha256: ${{ needs.puerta_01.outputs.artifact_digest }}
       generation_preflight_artifact_name: ${{ needs.planificar.outputs.run_prepare_territorial == 'true' && needs.planificar.outputs.persist_state == 'true' && format('ddd-generation-preflight-{0}-{1}', needs.planificar.outputs.territory_id, github.run_id) || '' }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
@@ -869,7 +842,7 @@ jobs:
 
   puerta_02:
     name: Puerta de validación · 02 → 03
-    needs: [planificar, puerta_01, generar]
+    needs: [planificar, preparar_territorial, puerta_01, generar]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -882,7 +855,7 @@ jobs:
       audit_artifact_name: ${{ needs.generar.result == 'success' && format('ddd-audit-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
       expected_digest: ${{ needs.generar.result != 'success' && needs.planificar.outputs.existing_territorial_product_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   preparar_electoral:
     name: 03 · Preparar resultados electorales
