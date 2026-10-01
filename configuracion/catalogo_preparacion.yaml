@@ -205,7 +205,7 @@ territories:
       evidence:
         territorial_product: territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json
         territorial_product_source_lineage: territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json
-        electoral_source: territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json
+        electoral_source: territorios/castilla_y_leon/evidencia/fuentes_electorales/2025/0b8bf7f7a83ba0b39e589fe211b7d95e3d33683fe2c639c995df097c6ee3972f/36875351443/receipt.json
         electoral_product: docs/SALIDAS_CHATGPT/CYL_PRODUCCION_2026-09-18.md
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
