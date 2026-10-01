@@ -16,6 +16,7 @@ ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.1.0.py
 from __future__ import annotations
 
 import argparse
+import csv
 import io
 import json
 import re
@@ -157,28 +158,58 @@ def _accepted(frame: pd.DataFrame) -> pd.DataFrame:
     return frame
 
 
+def _json_object(pairs):
+    obj = {}
+    for key, value in pairs:
+        if key in obj:
+            raise ValueError(f"ELECTORAL_INPUT_INVALID: JSON duplicate key {key!r}")
+        obj[key] = value
+    return obj
+
+
+def _read_csv_strict(text, separator, *, source, adapter_kind):
+    # pandas infers an index for surplus cells and skips empty lines by default.
+    # Check the raw records first, so neither behavior can hide rejected input.
+    records = list(csv.reader(io.StringIO(text), delimiter=separator, strict=True))
+    if not records or not records[0]:
+        raise ValueError(f"ELECTORAL_INPUT_INVALID source={source}: CSV header missing")
+    header = records[0]
+    if len(set(header)) != len(header) or any(not value.strip() for value in header):
+        _input_invalid(source=source, adapter_kind=adapter_kind, row="header",
+                       field="columns", value=header, cause="CSV_HEADER_INVALID")
+    for index, record in enumerate(records[1:], start=2):
+        if len(record) != len(header):
+            _input_invalid(source=source, adapter_kind=adapter_kind, row=f"csv[{index}]",
+                           field="columns", value=record, cause="CSV_ROW_WIDTH_INVALID")
+    return pd.read_csv(io.StringIO(text), sep=separator, dtype=str,
+                       keep_default_na=False, skip_blank_lines=False)
+
+
 def read_results(path, adapter, section_field, parties: PartyDictionary):
     source = Path(path)
-    text = source.read_text(encoding="utf-8", errors="replace").lstrip()
+    text = source.read_text(encoding="utf-8").lstrip()
     if text.startswith(("{", "[")):
-        obj = json.loads(text)
+        obj = json.loads(text, object_pairs_hook=_json_object)
         if adapter.get("kind") != "nested_json":
             raise ValueError(f"El contenido JSON requiere adaptador nested_json: {source}")
         zones = dotted(obj, require(adapter.get("records_path"), "Falta records_path"))
+        if not isinstance(zones, list):
+            _input_invalid(source=source, adapter_kind="nested_json", row="root",
+                           field=adapter["records_path"], value=zones, cause="ZONES_NOT_LIST")
         rows = []
         section_ids = set()
         section_key = require(adapter.get("section_field"), "Falta section_field")
         party_list = require(adapter.get("party_records_field"), "Falta party_records_field")
         party_key = require(adapter.get("party_field"), "Falta party_field")
         votes_key = require(adapter.get("votes_field"), "Falta votes_field")
-        for zone_index, zone in enumerate(zones or [], start=1):
+        for zone_index, zone in enumerate(zones, start=1):
             zone_row = f"zone[{zone_index}]"
             if not isinstance(zone, dict):
                 _input_invalid(
                     source=source, adapter_kind="nested_json", row=zone_row,
                     field="zone", value=zone, cause="ZONE_NOT_OBJECT",
                 )
-            party_records = zone.get(party_list, []) or []
+            party_records = zone.get(party_list, [])
             if not isinstance(party_records, list):
                 _input_invalid(
                     source=source, adapter_kind="nested_json", row=zone_row,
@@ -229,7 +260,7 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
         separator = adapter.get("separator", "auto")
         if separator == "auto":
             separator = ";" if first.count(";") > first.count(",") else ","
-        frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+        frame = _read_csv_strict(text, separator, source=source, adapter_kind="wide_polling_station_csv")
         province_field = require(adapter.get("province_field"), "Falta province_field")
         municipality_field = require(adapter.get("municipality_field"), "Falta municipality_field")
         polling_field = require(adapter.get("polling_station_field"), "Falta polling_station_field")
@@ -330,7 +361,7 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
     separator = adapter.get("separator", "auto")
     if separator == "auto":
         separator = ";" if first.count(";") > first.count(",") else ","
-    frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+    frame = _read_csv_strict(text, separator, source=source, adapter_kind="long_csv")
     section_source = require(adapter.get("section_field"), "Falta section_field")
     party_col = require(adapter.get("party_field"), "Falta party_field")
     votes_col = require(adapter.get("votes_field"), "Falta votes_field")

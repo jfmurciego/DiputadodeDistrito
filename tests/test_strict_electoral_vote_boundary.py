@@ -320,6 +320,61 @@ class StrictElectoralVoteBoundary(unittest.TestCase):
                 self._wide_adapter(["UNKNOWN"]),
             )
 
+    def test_mixed_csv_records_cannot_hide_surplus_missing_or_blank_rows(self):
+        cases = (
+            (self._long_adapter(), "section;party;votes\n0100101001;P;0\n",
+             ("ignored;0100101002;P;7\n", "0100101002;P\n", "\n")),
+            (self._wide_adapter(), "province;municipality;polling;P\n1;1;1-1-A;0\n",
+             ("ignored;1;2;1-2-A;7\n", "1;2;1-2-A\n", "\n")),
+        )
+        for adapter, valid, invalid_rows in cases:
+            for invalid in invalid_rows:
+                with self.subTest(adapter=adapter["kind"], invalid=invalid):
+                    with self.assertRaisesRegex(ValueError, "CSV_ROW_WIDTH_INVALID"):
+                        self._read(valid + invalid, ".csv", adapter)
+
+    def test_csv_duplicate_headers_block_before_pandas_mangles_them(self):
+        for adapter, text in (
+            (self._long_adapter(), "section;party;votes;votes\n0100101001;P;1;9\n"),
+            (self._wide_adapter(), "province;municipality;polling;P;P\n1;1;1-1-A;1;9\n"),
+        ):
+            with self.subTest(adapter=adapter["kind"]):
+                with self.assertRaisesRegex(ValueError, "CSV_HEADER_INVALID"):
+                    self._read(text, ".csv", adapter)
+
+    def test_mixed_nested_invalid_result_containers_are_not_absence(self):
+        for results in (None, False, 0, "", {}):
+            payload = {"zones": [
+                {"section": "0100101001", "results": [{"party": "P", "votes": 0}]},
+                {"section": "0100101002", "results": results},
+            ]}
+            with self.subTest(results=results):
+                with self.assertRaisesRegex(ValueError, r"zone\[2\].*PARTY_RECORDS_NOT_LIST"):
+                    self._read(json.dumps(payload), ".json", self._nested_adapter())
+
+    def test_nested_duplicate_keys_cannot_overwrite_electoral_records(self):
+        text = ('{"zones":[{"section":"0100101001","results":[{"party":"P","votes":0}]},'
+                '{"section":"0100101002","results":[{"party":"P","votes":9}],"results":[]}]}')
+        with self.assertRaisesRegex(ValueError, "duplicate key"):
+            self._read(text, ".json", self._nested_adapter())
+
+    def test_mixed_long_csv_invalid_section_party_and_vote_block(self):
+        for invalid, reason in ((";P;9", "SECTION_ID_MISSING"),
+                                ("0100101002;UNKNOWN;9", "PARTY_NOT_RECOGNIZED"),
+                                ("0100101002;P;", "ELECTORAL_VOTES_INVALID")):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, reason):
+                    self._read("section;party;votes\n0100101001;P;0\n" + invalid + "\n",
+                               ".csv", self._long_adapter())
+
+    def test_mixed_wide_csv_invalid_codes_block(self):
+        for invalid, reason in (("X;2;1-2-A;9", "PROVINCE_CODE_INVALID"),
+                                ("1;X;1-2-A;9", "MUNICIPALITY_CODE_INVALID")):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, reason):
+                    self._read("province;municipality;polling;P\n1;1;1-1-A;0\n" + invalid + "\n",
+                               ".csv", self._wide_adapter())
+
 
 if __name__ == "__main__":
     unittest.main()
