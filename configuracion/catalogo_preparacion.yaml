@@ -389,7 +389,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -401,6 +401,7 @@ territories:
         package_sha256: bfa629cc2b7f909b3222879aa84b5751c66625c147b49981573af00689c00305
       evidence:
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/d0a820d9fa006f296618c60c9148102e9edca70d447290ed038c82e312ebf1c7/36882818980/receipt.json
 - territory_id: pais_vasco
   name: País Vasco
   editions:
