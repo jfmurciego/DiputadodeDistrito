@@ -269,6 +269,33 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual(checks["rows"], 3)
         self.assertEqual(checks["selected_section_population_total"], 3579)
 
+    def test_population_section_row_with_wrong_province_blocks(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;39059 Santander;3905902003;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_HIERARCHY_MISMATCH"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_section_row_with_wrong_municipality_blocks(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39001 Alfoz;3905902003;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_HIERARCHY_MISMATCH"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_overlong_section_identifier_does_not_get_silently_truncated(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Santander;39059020030;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
+            _filter_population(payload, dec, 2023, ["39"])
+
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
         payload = (
