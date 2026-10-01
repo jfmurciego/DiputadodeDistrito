@@ -289,7 +289,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(gate["allowed"], territory_id)
-            self.assertEqual("CAP_PRE_M04_EVIDENCE", gate["capability"], territory_id)
+            self.assertIn(gate["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"}, territory_id)
 
             plan = build_plan(
                 territory=territory_id,
@@ -300,14 +300,16 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
             durable_preflight = (state.get("evidence") or {}).get("generation_preflight")
             self.assertTrue(durable_preflight, territory_id)
-            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertFalse(plan["run_prepare_territorial"], territory_id)
+            # La evidencia histórica no contiene la identidad de compatibilidad
+            # exigida por el contrato nuevo: se conserva, pero no habilita.
+            self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertTrue(plan["run_prepare_territorial"], territory_id)
             self.assertTrue(plan["run_generate"], territory_id)
-            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 
-    def test_archipelago_complete_durable_preflight_opens_only_first_generation_gate(self):
+    def test_historical_archipelago_preflight_does_not_bypass_new_source_identity(self):
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
@@ -376,11 +378,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 preparation_evidence=state["preparation_evidence"],
                 require_source=True,
             )
-            self.assertEqual(
-                {"allowed": True, "route": "validated_pre_m04_topology"},
-                gate,
-                territory_id,
-            )
+            self.assertFalse(gate["allowed"], territory_id)
+            self.assertIn(gate["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"}, territory_id)
             self.assertFalse(state["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", state["territorial_certification"], territory_id)
 
@@ -708,8 +707,9 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
             root_dir=ROOT,
         )
-        self.assertFalse(plan["pre_m04_accreditation_planned"])
-        self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"])
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
