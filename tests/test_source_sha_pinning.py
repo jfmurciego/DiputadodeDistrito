@@ -31,9 +31,6 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
 
         for name in (
             "preparar_territorial",
-            "puerta_01",
-            "generar",
-            "puerta_02",
             "preparar_electoral",
             "puerta_03",
             "incorporar",
@@ -43,6 +40,15 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
                     jobs[name]["with"]["source_ref"],
                     "${{ needs.planificar.outputs.source_sha }}",
                 )
+
+        enabled_ref = (
+            "${{ needs.preparar_territorial.result == 'success' && "
+            "needs.preparar_territorial.outputs.enabled_source_ref || "
+            "needs.planificar.outputs.source_sha }}"
+        )
+        for name in ("puerta_01", "generar", "puerta_02"):
+            with self.subTest(job=name):
+                self.assertEqual(jobs[name]["with"]["source_ref"], enabled_ref)
         self.assertIn(
             "needs.recuperar_electoral.outputs.source_commit",
             jobs["puerta_04"]["with"]["source_ref"],
