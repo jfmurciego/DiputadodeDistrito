@@ -215,6 +215,24 @@ class OfficialSourcesTests(unittest.TestCase):
         )
         self.assertEqual(checks["selected_section_population_total"], 123)
 
+    def test_population_missing_value_preserves_source_row_context(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo\tSexo\tEdad\tTotal Nacional\tProvincias\tMunicipios\tSecciones\tTotal\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Santander\t3905902003\t\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "POPULATION_MISSING") as caught:
+            _filter_population(payload, dec, 2023, ["39"])
+        message = str(caught.exception)
+        self.assertIn("POPULATION_SOURCE_ROW=", message)
+        self.assertIn('"Secciones": "3905902003"', message)
+        self.assertIn('"Periodo": "2023"', message)
+        self.assertIn('"Sexo": "Total"', message)
+        self.assertIn('"Edad": "Todas las edades"', message)
+        self.assertIn('"Total": ""', message)
+        self.assertIn('"Provincias": "39 Cantabria"', message)
+        self.assertIn('"Municipios": "39059 Santander"', message)
+
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
         payload = (
