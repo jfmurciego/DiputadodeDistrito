@@ -280,6 +280,35 @@ class StrictElectoralVoteBoundary(unittest.TestCase):
                 self._wide_adapter(),
             )
 
+    def test_wide_csv_overwidth_codes_are_invalid_even_when_numeric(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            r"ELECTORAL_INPUT_INVALID.*field=province.*cause=PROVINCE_CODE_INVALID",
+        ):
+            self._read(
+                "province;municipality;polling;P\n123;1;1-1-A;7\n",
+                ".csv",
+                self._wide_adapter(),
+            )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"ELECTORAL_INPUT_INVALID.*field=municipality.*cause=MUNICIPALITY_CODE_INVALID",
+        ):
+            self._read(
+                "province;municipality;polling;P\n1;1234;1-1-A;7\n",
+                ".csv",
+                self._wide_adapter(),
+            )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"ELECTORAL_INPUT_INVALID.*field=polling.*cause=POLLING_STATION_LOCATOR_INVALID",
+        ):
+            self._read(
+                "province;municipality;polling;P\n1;1;123-1-A;7\n",
+                ".csv",
+                self._wide_adapter(),
+            )
+
     def test_wide_csv_unknown_party_column_blocks_instead_of_accepting_empty_party(self):
         with self.assertRaisesRegex(
             ValueError,
