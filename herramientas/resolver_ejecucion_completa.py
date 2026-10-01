@@ -97,60 +97,19 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
                           source_acquisition_planned: bool = False,
                           pre_m04_accreditation_planned: bool = False,
                           source_recalculation_planned: bool = False) -> dict:
-    path = root_dir / contract_path if contract_path else None
-    if path is None or not path.is_file():
-        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
-    try:
-        contract = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, yaml.YAMLError):
-        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
-        return _core._blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
-    capability_gate = _generation_capabilities(contract, root_dir=root_dir)
-    if not capability_gate["allowed"]:
-        return capability_gate
-    prep = preparation_evidence or {}
-    if require_source and not source_acquisition_planned:
-        if (
-            not isinstance(prep.get("run_id"), int)
-            or isinstance(prep.get("run_id"), bool)
-            or prep.get("run_id") <= 0
-            or not prep.get("artifact_name")
-            or not _core._sha256_value(prep.get("artifact_sha256"))
-            or not _core._sha256_value(prep.get("package_sha256"))
-            or not _core._sha256_value(prep.get("compatibility_identity_sha256"))
-            or not isinstance(prep.get("population_year"), int)
-            or not isinstance(prep.get("section_year"), int)
-        ):
-            return _core._blocked(
-                "CAP_SOURCE",
-                "fuente territorial sin identidad completa run/artefacto/paquete/compatibilidad/años",
-            )
-        if "source_commit" in prep and not re.fullmatch(r"[0-9a-f]{40}", str(prep.get("source_commit") or "")):
-            return _core._blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
-    # Recalcular sobre una fuente acreditada no sustituye la evidencia pre-M04:
-    # la identidad material puede haber cambiado aunque exista un producto histórico.
-    if first_generation_evidence:
-        return _core._validated_first_generation_preflight(
-            contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
-            territory_id=territory_id, root_dir=root_dir,
-        )
-    meta = contract.get("meta") or {}
-    territorial = contract.get("territory_contract") or {}
-    modules = contract.get("modulos") or {}
-    m04 = modules.get("modulo_04_generar_semillas") or {}
-    partitioning = contract.get("partitioning") or {}
-    if pre_m04_accreditation_planned:
-        return {"allowed": True, "route": "planned_pre_m04_accreditation"}
-    if source_acquisition_planned:
-        return {"allowed": True, "route": "planned_source_acquisition"}
-    if certified_product_ready and not require_source:
-        return {"allowed": True, "route": "certified_product_lineage"}
-    return _core._blocked(
-        "CAP_PRE_M04_EVIDENCE",
-        "la generación exige evidencia pre-M04 ligada a la fuente efectiva; los estados históricos no habilitan una fuente nueva",
+    """API pública: delega íntegramente en la validación material común."""
+    return _core.generation_enablement(
+        root_dir=root_dir,
+        contract_path=contract_path,
+        territory_id=territory_id,
+        certified_product_ready=certified_product_ready,
+        first_generation_evidence=first_generation_evidence,
+        preparation_evidence=preparation_evidence,
+        require_source=require_source,
+        source_acquisition_planned=source_acquisition_planned,
+        pre_m04_accreditation_planned=pre_m04_accreditation_planned,
+        source_recalculation_planned=source_recalculation_planned,
     )
-
 
 def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str) -> dict:
     """Expone GENERATION_READY sólo cuando catálogo, contrato, fuente y pre-M04 coinciden.
