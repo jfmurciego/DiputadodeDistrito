@@ -435,6 +435,80 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
         self.assertIn('"section_year": source.get("section_year")', production)
 
 
+
+    def test_recalculation_and_historical_product_do_not_bypass_pre_m04(self):
+        contract = {
+            "meta": {
+                "territory_id": "demo",
+                "contract_level": "production_m01_m06",
+                "production_authorization": "AUTHORIZED",
+            },
+            "territory_contract": {
+                "k_districts": 1,
+                "population_floor_ratio": 0.8,
+                "population_cap_ratio": 1.75,
+                "target_tolerance_ratio": 0.12,
+                "oversized_municipality_rule": "split_only_above_hard_cap",
+                "municipality_atomicity_limit_ratio": 1.75,
+            },
+            "modulos": {
+                "modulo_01_preparar_base_territorial": {"out_geojson": "m01.zip"},
+                "modulo_02_construir_adyacencias": {
+                    "predicate": "contact", "working_crs": "EPSG:3035",
+                    "min_shared_border_m": 1.0, "max_precision_overlap_area_m2": 1.0,
+                    "buffer_m": 0.0, "simplify_m": 0.0, "topology_bridges": [],
+                },
+                "modulo_03_construir_grafo": {"out_graph_json": "m03.json"},
+                "modulo_04_generar_semillas": {
+                    "in_graph_json": "m03.json", "in_geojson": "m01.zip",
+                    "out_geojson": "m04.zip", "municipality_field": "CUMUN",
+                    "k_districts": 1,
+                },
+                "modulo_05_optimizar_distritos": {
+                    "in_graph_json": "m03.json", "in_geojson": "m04.zip",
+                    "out_geojson": "m05.zip", "municipality_field": "CUMUN",
+                },
+                "modulo_06_consolidar_distritos": {
+                    "in_geojson": "m05.zip", "municipality_field": "CUMUN",
+                    "expected_districts": 1,
+                },
+            },
+            "validation": {
+                "expected_districts": 1,
+                "municipality_field": "CUMUN",
+                "require_graph_contiguity": True,
+                "require_municipality_discipline": True,
+            },
+        }
+        prep = {
+            "run_id": 1,
+            "artifact_name": "ddd-source-package-demo-2025-1",
+            "artifact_sha256": "a" * 64,
+            "package_sha256": "b" * 64,
+            "compatibility_identity_sha256": "c" * 64,
+            "population_year": 2023,
+            "section_year": 2023,
+        }
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            path = root / "contract.yaml"
+            path.write_text(yaml.safe_dump(contract, sort_keys=False), encoding="utf-8")
+            for kwargs in (
+                {"source_recalculation_planned": True},
+                {"certified_product_ready": True},
+            ):
+                with self.subTest(kwargs=kwargs):
+                    gate = generation_enablement(
+                        root_dir=root,
+                        contract_path="contract.yaml",
+                        territory_id="demo",
+                        preparation_evidence=prep,
+                        require_source=True,
+                        **kwargs,
+                    )
+                    self.assertFalse(gate["allowed"])
+                    self.assertEqual(gate["capability"], "CAP_PRE_M04_EVIDENCE")
+
     def test_catalog_generation_requires_enabled_preflight_or_certified_product(self):
         with tempfile.TemporaryDirectory() as td:
             catalog = Path(td) / "catalog.yaml"
