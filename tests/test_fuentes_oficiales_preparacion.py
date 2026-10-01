@@ -224,7 +224,8 @@ class OfficialSourcesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "POPULATION_MISSING") as caught:
             _filter_population(payload, dec, 2023, ["39"])
         message = str(caught.exception)
-        self.assertIn("POPULATION_SOURCE_ROW=", message)
+        self.assertIn("POPULATION_SOURCE_ROWS_INVALID", message)
+        self.assertIn('"count=1"', message.replace("count=1", '"count=1"'))
         self.assertIn('"Secciones": "3905902003"', message)
         self.assertIn('"Periodo": "2023"', message)
         self.assertIn('"Sexo": "Total"', message)
@@ -232,6 +233,41 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertIn('"Total": ""', message)
         self.assertIn('"Provincias": "39 Cantabria"', message)
         self.assertIn('"Municipios": "39059 Santander"', message)
+
+    def test_population_reports_all_row_defects_in_one_pass(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo\tSexo\tEdad\tTotal Nacional\tProvincias\tMunicipios\tSecciones\tTotal\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Santander\t3905902003\t\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Santander\t3905902004\tn.d.\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Santander\t3905902005\t-1\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t\t39059 Santander\t\t100\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Santander\t3905902006\t0\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "POPULATION_SOURCE_ROWS_INVALID") as caught:
+            _filter_population(payload, dec, 2023, ["39"])
+        message = str(caught.exception)
+        self.assertIn("count=4", message)
+        self.assertIn("POPULATION_MISSING", message)
+        self.assertIn("POPULATION_NON_NUMERIC", message)
+        self.assertIn("POPULATION_NEGATIVE", message)
+        self.assertIn("contradictoria: municipio sin provincia", message)
+        self.assertIn('"Secciones": "3905902003"', message)
+        self.assertIn('"Secciones": "3905902004"', message)
+        self.assertIn('"Secciones": "3905902005"', message)
+        self.assertIn('"Secciones": "3905902006"', message)
+
+    def test_population_zero_and_grouped_integers_remain_valid(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Santander;3905902001;0\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Santander;3905902002;1.234\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Santander;3905902003;2 345\n"
+        ).encode("utf-8")
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["rows"], 3)
+        self.assertEqual(checks["selected_section_population_total"], 3579)
 
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
