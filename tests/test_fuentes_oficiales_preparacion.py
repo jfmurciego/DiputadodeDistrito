@@ -233,14 +233,17 @@ class OfficialSourcesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
             _filter_population(payload, dec, 2023, ["39"])
 
-    def test_population_missing_section_with_incompatible_hierarchy_blocks(self):
+    def test_population_missing_section_with_repeated_ancestors_is_municipal_aggregate(self):
         dec = declaration("cantabria")
         payload = (
             "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
             "Total Nacional;Cantabria;39001;;Total;Todas las edades;2023;123\n"
+            "Total Nacional;Cantabria;39001;3900101001;Total;Todas las edades;2023;0\n"
         ).encode("utf-8")
-        with self.assertRaisesRegex(ValueError, "jerarquía INE 65034 ambigua/incompatible"):
-            _filter_population(payload, dec, 2023, ["39"])
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["aggregate_exclusions"]["by_level"]["municipal"], 1)
+        self.assertEqual(checks["selected_section_population_total"], 0)
+        self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_population_reconciles_out_of_scope_sections_without_counting_them_in_population(self):
         dec = declaration("cantabria")
