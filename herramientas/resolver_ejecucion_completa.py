@@ -140,10 +140,10 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     modules = contract.get("modulos") or {}
     m04 = modules.get("modulo_04_generar_semillas") or {}
     partitioning = contract.get("partitioning") or {}
-    if source_acquisition_planned:
-        return {"allowed": True, "route": "planned_source_acquisition"}
     if pre_m04_accreditation_planned:
         return {"allowed": True, "route": "planned_pre_m04_accreditation"}
+    if source_acquisition_planned:
+        return {"allowed": True, "route": "planned_source_acquisition"}
     if certified_product_ready and not source_recalculation_planned:
         return {"allowed": True, "route": "certified_product_lineage"}
     return _core._blocked(
@@ -431,10 +431,15 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     )
     pre_m04_accreditation_planned = bool(
         pre_m04_producer_planned
-        and territorial_sources_ready
         and generation_requested
-        and not generation_gate.get("allowed")
-        and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+        and (
+            source_acquisition_planned
+            or (
+                territorial_sources_ready
+                and not generation_gate.get("allowed")
+                and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+            )
+        )
     )
     if pre_m04_accreditation_planned:
         run_prepare_territorial = True
@@ -446,6 +451,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             first_generation_evidence=None,
             preparation_evidence=prep,
             require_source=True,
+            source_acquisition_planned=source_acquisition_planned,
             pre_m04_accreditation_planned=True,
         )
     proposed_generate = bool(generation_requested or run_prepare_territorial)
