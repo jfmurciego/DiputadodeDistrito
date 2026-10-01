@@ -259,6 +259,55 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual(checks["selected_section_population_total"], 0)
         self.assertTrue(checks["row_reconciliation"]["balanced"])
 
+    def test_population_repeated_ancestors_classify_by_most_specific_level(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;01 Araba/Álava;;;Total;Todas las edades;2023;333746\n"
+            "Total Nacional;01 Araba/Álava;01001;;Total;Todas las edades;2023;25000\n"
+            "Total Nacional;Cantabria;39001;3900101001;Total;Todas las edades;2023;0\n"
+        ).encode("utf-8")
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        text = filtered.decode("utf-8-sig")
+        self.assertIn("3900101001", text)
+        self.assertNotIn("333746", text)
+        self.assertNotIn("25000", text)
+        self.assertEqual(checks["aggregate_exclusions"]["by_level"], {
+            "national": 0, "provincial": 1, "municipal": 1,
+        })
+        self.assertEqual(checks["pertinent_rows_examined"], 3)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 0)
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["selected_section_population_total"], 0)
+        self.assertEqual(checks["row_reconciliation"], {
+            "pertinent": 3,
+            "classified_aggregates": 2,
+            "accepted_sections": 1,
+            "territorial_exclusions": 0,
+            "balanced": True,
+        })
+
+    def test_population_repeated_ancestor_row_from_other_territory_is_aggregate_not_section_exclusion(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;01 Araba/Álava;;;Total;Todas las edades;2023;333746\n"
+            "Total Nacional;Cantabria;39001;3900101001;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["aggregate_exclusions"]["by_level"]["provincial"], 1)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 0)
+        self.assertTrue(checks["row_reconciliation"]["balanced"])
+
+    def test_population_true_hierarchy_contradiction_still_blocks(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;;01001;;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "contradictoria: municipio sin provincia"):
+            _filter_population(payload, dec, 2023, ["39"])
+
     def test_wrong_edition_blocks(self):
         dec0 = declaration("extremadura")
         fetcher = SimulatedINE(dec0, edition=2024)
