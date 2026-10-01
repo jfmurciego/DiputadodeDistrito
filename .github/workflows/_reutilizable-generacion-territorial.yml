@@ -32,6 +32,10 @@ on:
       source_evidence_artifact_name: {required: false, type: string, default: ''}
       source_evidence_artifact_sha256: {required: false, type: string, default: ''}
       source_evidence_package_sha256: {required: false, type: string, default: ''}
+    outputs:
+      enabled_source_ref:
+        description: Commit exacto que contiene fuente, contrato, evidencia pre-M04 y habilitación
+        value: ${{ jobs.pre_m04_evidence.outputs.enabled_source_ref }}
 
 permissions:
   contents: write
@@ -566,6 +570,8 @@ jobs:
     needs: [resolve, internal_units]
     if: ${{ always() && inputs.preflight_only && inputs.persist_state && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
     runs-on: ubuntu-24.04
+    outputs:
+      enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
@@ -590,7 +596,8 @@ jobs:
           rm -rf .ddd-pre-m04-m03 .ddd-pre-m04-partition
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-state-$GITHUB_RUN_ID-M03" --dir .ddd-pre-m04-m03
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-internal-units-$GITHUB_RUN_ID" --dir .ddd-pre-m04-partition
-      - name: Vincular fuente, contrato, implementación, grafo y particionado
+      - id: persist
+        name: Vincular fuente, contrato, implementación, grafo y particionado
         shell: bash
         run: |
           set -euo pipefail
@@ -640,7 +647,12 @@ jobs:
           for attempt in 1 2 3; do
             if git pull --rebase origin "$target_branch"; then
               python -m herramientas.handoff_evidencia_pre_m04 verify                 --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"                 --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"                 --source-commit "$SOURCE_REF"                 || { echo "::error::El handoff pre-M04 no coincide con la evidencia persistida; no se publicará acreditación."; exit 57; }
-              git push origin "HEAD:$target_branch" && exit 0
+              if git push origin "HEAD:$target_branch"; then
+                enabled_source_ref="$(git rev-parse HEAD)"
+                [[ "$enabled_source_ref" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit habilitado inválido."; exit 58; }
+                echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
             fi
             git rebase --abort >/dev/null 2>&1 || true
             sleep $((attempt * 2))
