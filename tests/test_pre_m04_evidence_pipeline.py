@@ -16,7 +16,7 @@ from herramientas.handoff_evidencia_pre_m04 import (
     verify_handoff,
 )
 from herramientas.materializar_evidencia_pre_m04 import build_evidence
-from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
+from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement, generation_ready_contract
 
 
 SHA_A = "a" * 64
@@ -891,6 +891,37 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertIn("PRE_M04_RESULT", jobs["resultado"]["steps"][-1]["env"])
         self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
         self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
+
+
+    def test_generation_ready_contract_binds_same_source_contract_and_pre_m04_evidence(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        row = next(r for r in catalog["territories"] if r["territory_id"] == "canarias")
+        state = row["editions"]["2025"]
+        result = generation_ready_contract(root_dir=ROOT, state=state, territory_id="canarias")
+        self.assertTrue(result["allowed"])
+        self.assertEqual(result["status"], "GENERATION_READY")
+        self.assertEqual(result["route"], "validated_pre_m04_topology")
+        self.assertEqual(result["contract_path"], state["contract_path"])
+        self.assertEqual(result["source"]["run_id"], state["preparation_evidence"]["run_id"])
+        self.assertEqual(
+            result["source"]["artifact_sha256"],
+            state["preparation_evidence"]["artifact_sha256"],
+        )
+        self.assertEqual(
+            result["generation_evidence_path"],
+            state["evidence"]["generation_preflight"],
+        )
+        self.assertEqual(len(result["contract_sha256"]), 64)
+        self.assertEqual(len(result["generation_evidence_sha256"]), 64)
+
+    def test_generation_ready_contract_rejects_source_identity_drift(self):
+        catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+        row = next(r for r in catalog["territories"] if r["territory_id"] == "canarias")
+        state = json.loads(json.dumps(row["editions"]["2025"]))
+        state["preparation_evidence"]["artifact_sha256"] = "0" * 64
+        result = generation_ready_contract(root_dir=ROOT, state=state, territory_id="canarias")
+        self.assertFalse(result["allowed"])
+        self.assertEqual(result["capability"], "CAP_PRE_M04_EVIDENCE")
 
 
 if __name__ == "__main__":
