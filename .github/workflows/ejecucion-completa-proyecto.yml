@@ -24,6 +24,19 @@ on:
       campaign_slot: {required: false, type: string, default: ''}
       campaign_namespace: {required: false, type: string, default: ''}
       campaign_manifest_sha256: {required: false, type: string, default: ''}
+      campaign_contract_path: {required: false, type: string, default: ''}
+      campaign_contract_sha256: {required: false, type: string, default: ''}
+      campaign_generation_evidence_path: {required: false, type: string, default: ''}
+      campaign_generation_evidence_sha256: {required: false, type: string, default: ''}
+      campaign_source_run_id: {required: false, type: number, default: 0}
+      campaign_source_artifact_name: {required: false, type: string, default: ''}
+      campaign_source_artifact_sha256: {required: false, type: string, default: ''}
+      campaign_source_package_sha256: {required: false, type: string, default: ''}
+      campaign_evidence_receipt_path: {required: false, type: string, default: ''}
+      campaign_evidence_receipt_sha256: {required: false, type: string, default: ''}
+      campaign_territorial_identity_sha256: {required: false, type: string, default: ''}
+      campaign_electoral_identity_sha256: {required: false, type: string, default: ''}
+      campaign_pair_sha256: {required: false, type: string, default: ''}
       candidate_count: {required: false, type: number, default: 0}
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
@@ -181,6 +194,12 @@ jobs:
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Recuperar manifiesto congelado de campaña
+        if: ${{ inputs.campaign_instance != '' }}
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: ddd-campaign-manifest-${{ inputs.campaign_instance }}
+          path: .ddd-campaign
       - id: plan
         name: Resolver fases necesarias
         shell: bash
@@ -197,6 +216,19 @@ jobs:
           CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
           CAMPAIGN_NAMESPACE: ${{ inputs.campaign_namespace }}
           CAMPAIGN_MANIFEST_SHA256: ${{ inputs.campaign_manifest_sha256 }}
+          CAMPAIGN_CONTRACT_PATH: ${{ inputs.campaign_contract_path }}
+          CAMPAIGN_CONTRACT_SHA256: ${{ inputs.campaign_contract_sha256 }}
+          CAMPAIGN_GENERATION_EVIDENCE_PATH: ${{ inputs.campaign_generation_evidence_path }}
+          CAMPAIGN_GENERATION_EVIDENCE_SHA256: ${{ inputs.campaign_generation_evidence_sha256 }}
+          CAMPAIGN_SOURCE_RUN_ID: ${{ inputs.campaign_source_run_id }}
+          CAMPAIGN_SOURCE_ARTIFACT_NAME: ${{ inputs.campaign_source_artifact_name }}
+          CAMPAIGN_SOURCE_ARTIFACT_SHA256: ${{ inputs.campaign_source_artifact_sha256 }}
+          CAMPAIGN_SOURCE_PACKAGE_SHA256: ${{ inputs.campaign_source_package_sha256 }}
+          CAMPAIGN_EVIDENCE_RECEIPT_PATH: ${{ inputs.campaign_evidence_receipt_path }}
+          CAMPAIGN_EVIDENCE_RECEIPT_SHA256: ${{ inputs.campaign_evidence_receipt_sha256 }}
+          CAMPAIGN_TERRITORIAL_IDENTITY_SHA256: ${{ inputs.campaign_territorial_identity_sha256 }}
+          CAMPAIGN_ELECTORAL_IDENTITY_SHA256: ${{ inputs.campaign_electoral_identity_sha256 }}
+          CAMPAIGN_PAIR_SHA256: ${{ inputs.campaign_pair_sha256 }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}
           GERRYCHAIN_ENTRYPOINT: ${{ inputs.gerrychain_entrypoint }}
           REQUIRE_UNIQUE_HASHES: ${{ inputs.require_unique_hashes }}
@@ -291,8 +323,11 @@ jobs:
               "require_unique_hashes":require_unique.lower()=="true",
           }
           if campaign_instance:
-              if entrypoint!="gerrychain_50" or require_unique.lower()!="true" or int(candidate_count or 0)!=50:
-                  raise SystemExit("Contrato GerryChain 50 incompleto en el caller")
+              from herramientas.gestor_campana_nacional import STRATEGIES
+              expected_entrypoint,expected_count,expected_unique=STRATEGIES[p["optimization_algorithm"]]
+              if (entrypoint!=expected_entrypoint or int(candidate_count or 0)!=expected_count
+                      or (require_unique.lower()=="true")!=expected_unique):
+                  raise SystemExit("Contrato de estrategia incompleto en el caller")
           try:
               if p.get("execution_mode") == "catalog_source":
                   if any((reuse_run_id, reuse_artifact, reuse_digest, reuse_source_sha)):
@@ -439,6 +474,25 @@ jobs:
           out("prepared_territorial_receipt",prepared_t.get("receipt_path"))
           out("prepared_territorial_identity_sha256",prepared_t.get("territorial_identity_sha256"))
           PY
+          if [[ -n "$CAMPAIGN_INSTANCE" ]]; then
+            python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          from herramientas.gestor_campana_nacional import validate_campaign_child
+          p=json.loads(Path(".ddd-full-run/plan.json").read_text(encoding="utf-8"))
+          manifest=json.loads(Path(".ddd-campaign/campaign-manifest.json").read_text(encoding="utf-8"))
+          try:
+              validate_campaign_child(
+                  manifest=manifest,plan=p,root=Path("."),
+                  expected_sha=os.environ["CAMPAIGN_MANIFEST_SHA256"],
+                  source_sha=subprocess.check_output(["git","rev-parse","HEAD"],text=True).strip(),
+                  slot=os.environ["CAMPAIGN_SLOT"],campaign_instance=os.environ["CAMPAIGN_INSTANCE"],
+                  frozen_inputs=os.environ,
+              )
+          except ValueError as exc:
+              raise SystemExit(str(exc)) from exc  # CAMPAIGN_MANIFEST_MISMATCH blocks before generation
+          PY
+          fi
           persist="$PERSIST_INPUT"
           publish="$PUBLISH_INPUT"
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then

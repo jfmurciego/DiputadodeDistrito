@@ -1,6 +1,6 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz humana de campaña
-# QUÉ HACE: valida un manifiesto versionado y lanza cinco territorios en paralelo desde el mismo commit.
+# QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
 name: 0 · Gestor de Campañas
 
@@ -25,13 +25,19 @@ on:
           - GerryChain
           - GerryChain 25
           - GerryChain 50
-      manifest:
-        description: Manifiesto de campaña
+      publication_mode:
+        description: Alcance de las entradas seleccionadas
         required: true
         type: choice
-        default: campana_cinco_territorios_v1
+        default: electoral
         options:
-          - campana_cinco_territorios_v1
+          - electoral
+          - territorial_only
+      territorios:
+        description: CODAUTO seleccionados (1–19), separados por coma; ejemplo 02,03,12
+        required: true
+        type: string
+        default: '12'
       confirmacion:
         description: Confirmación explícita
         required: true
@@ -94,7 +100,10 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/gestor-campanas.yml'
-      - 'configuracion/campanas/**'
+      - 'configuracion/catalogo_territorios_espana_2025.yaml'
+      - 'configuracion/catalogo_preparacion.yaml'
+      - 'herramientas/gestor_campana_nacional.py'
+      - 'tests/test_gestor_campana_nacional.py'
       - 'herramientas/gestor_campana.py'
       - 'tests/test_gestor_campana.py'
       - '.github/workflows/ejecucion-completa-proyecto.yml'
@@ -123,92 +132,78 @@ jobs:
       manifest_sha256: ${{ steps.plan.outputs.manifest_sha256 }}
       manifest_path: ${{ steps.plan.outputs.manifest_path }}
       strategy: ${{ steps.plan.outputs.strategy }}
+      ready_count: ${{ steps.plan.outputs.ready_count }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           ref: ${{ github.sha }}
       - id: plan
-        name: Construir matrix inmutable
+        name: Construir selección nacional y manifiesto inmutable
         shell: bash
         env:
-          MANIFEST_ID: ${{ github.event_name == 'pull_request' && 'campana_cinco_territorios_v1' || inputs.manifest }}
-          CONFIRMATION_INPUT: ${{ github.event_name == 'pull_request' && 'EXECUTE_CAMPAIGN_CONFIRMED' || inputs.confirmacion }}
-          STRATEGY_INPUT: ${{ github.event_name == 'pull_request' && 'GerryChain 50' || inputs.estrategia }}
+          INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
           set -euo pipefail
-          manifest_path="configuracion/campanas/$MANIFEST_ID.json"
-          test -f "$manifest_path" || { echo "::error::Manifiesto no permitido: $MANIFEST_ID"; exit 20; }
           if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
             test "$GITHUB_REF_NAME" = main || { echo "::error::Las campañas sólo se lanzan desde main."; exit 21; }
-            test "$CONFIRMATION_INPUT" = EXECUTE_CAMPAIGN_CONFIRMED || { echo "::error::Falta confirmación explícita."; exit 22; }
+            test "${{ inputs.confirmacion }}" = EXECUTE_CAMPAIGN_CONFIRMED || { echo "::error::Falta confirmación explícita."; exit 22; }
+            selected_json="$(python - <<'PY'
+          import json,os
+          from herramientas.catalogo_territorios import load_master
+          inputs=json.loads(os.environ["INPUTS_JSON"])
+          raw=str(inputs.get("territorios") or "")
+          codes=[x.strip().zfill(2) for x in raw.split(",") if x.strip()]
+          master=load_master()
+          by_code={str(r["autonomous_community_code_ine"]):r["territory_id"] for r in master}
+          unknown=[c for c in codes if c not in by_code]
+          if unknown: raise SystemExit("CODAUTO no registrados: "+",".join(unknown))
+          print(json.dumps([by_code[c] for c in codes]))
+          PY
+          )"
+            publication_mode="${{ inputs.publication_mode }}"
+            strategy="${{ inputs.estrategia }}"
+            confirmation="${{ inputs.confirmacion }}"
+          else
+            selected_json='["galicia"]'
+            publication_mode=electoral
+            strategy='GerryChain 50'
+            confirmation=EXECUTE_CAMPAIGN_CONFIRMED
           fi
           source_sha="$GITHUB_SHA"
           campaign_instance="campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          matrix="$(python herramientas/gestor_campana.py matrix --manifest "$manifest_path" --source-sha "$source_sha" --campaign-instance "$campaign_instance" --confirmation "$CONFIRMATION_INPUT" --strategy "$STRATEGY_INPUT")"
-          manifest_sha256="$(sha256sum "$manifest_path" | awk '{print $1}')"
+          mkdir -p .ddd-campaign
+          matrix="$(python -m herramientas.gestor_campana_nacional plan \
+            --selected-json "$selected_json" --publication-mode "$publication_mode" \
+            --source-sha "$source_sha" --strategy "$strategy" \
+            --campaign-instance "$campaign_instance" --confirmation "$confirmation" \
+            --output-manifest .ddd-campaign/campaign-manifest.json)"
+          manifest_sha256="$(jq -r .manifest_sha256 .ddd-campaign/campaign-manifest.json)"
           {
             echo "matrix=$matrix"
+            echo "ready_count=$(jq '.include|length' <<<"$matrix")"
             echo "campaign_instance=$campaign_instance"
             echo "source_sha=$source_sha"
             echo "manifest_sha256=$manifest_sha256"
-            echo "manifest_path=$manifest_path"
-            echo "strategy=$STRATEGY_INPUT"
+            echo "manifest_path=.ddd-campaign/campaign-manifest.json"
+            echo "strategy=$strategy"
           } >> "$GITHUB_OUTPUT"
-      - name: Validar reutilización fija por contenido
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from herramientas.gestor_campana import assert_productive_launch
-          assert_productive_launch("workflow_dispatch", "main", "EXECUTE_CAMPAIGN_CONFIRMED")
-          PY
-          matrix='${{ steps.plan.outputs.matrix }}'
-          mkdir -p .ddd-campaign/preflight
-          jq -c '.include[]' <<<"$matrix" | while read -r row; do
-            slot="$(jq -r .slot <<<"$row")"
-            run_id="$(jq -r .reuse_run_id <<<"$row")"
-            source_sha="$(jq -r .reuse_source_sha <<<"$row")"
-            artifact_name="$(jq -r .reuse_artifact_name <<<"$row")"
-            artifact_digest="$(jq -r .reuse_artifact_sha256 <<<"$row")"
-            m01_name="$(jq -r .m01_artifact_name <<<"$row")"
-            m01_digest="$(jq -r .m01_artifact_sha256 <<<"$row")"
-
-            run_meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id")"
-            test "$(jq -r .head_sha <<<"$run_meta")" = "$source_sha" || {
-              echo "::error::Procedencia distinta para slot $slot"; exit 31;
-            }
-
-            artifact_meta="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            source_matches="$(jq --arg n "$artifact_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$artifact_meta")"
-            m01_matches="$(jq --arg n "$m01_name" '[.artifacts[]|select(.name==$n and (.expired|not))]|length' <<<"$artifact_meta")"
-            test "$source_matches" = 1 || { echo "::error::Artefacto fuente no único para slot $slot"; exit 32; }
-            test "$m01_matches" = 1 || { echo "::error::Evidencia M01 no única para slot $slot"; exit 33; }
-            actual_source_digest="$(jq -r --arg n "$artifact_name" '.artifacts[]|select(.name==$n and (.expired|not))|.digest|sub("^sha256:";"")' <<<"$artifact_meta")"
-            actual_m01_digest="$(jq -r --arg n "$m01_name" '.artifacts[]|select(.name==$n and (.expired|not))|.digest|sub("^sha256:";"")' <<<"$artifact_meta")"
-            test "$actual_source_digest" = "$artifact_digest" || { echo "::error::Digest fuente distinto para slot $slot"; exit 34; }
-            test "$actual_m01_digest" = "$m01_digest" || { echo "::error::Digest M01 distinto para slot $slot"; exit 35; }
-
-            root=".ddd-campaign/preflight/$slot"
-            mkdir -p "$root/source" "$root/m01"
-            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$artifact_name" --dir "$root/source"
-            gh run download "$run_id" --repo "$GITHUB_REPOSITORY" --name "$m01_name" --dir "$root/m01"
-            python herramientas/gestor_campana.py validate-reuse               --manifest "${{ steps.plan.outputs.manifest_path }}"               --slot "$slot" --root-dir .               --source-dir "$root/source" --m01-dir "$root/m01"
-          done
-      - name: E2E sintético de campaña sin ejecutar territorios
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ steps.plan.outcome == 'success' }}
+        with:
+          name: ddd-campaign-manifest-${{ steps.plan.outputs.campaign_instance }}
+          path: .ddd-campaign/campaign-manifest.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+      - name: E2E sintético del Gestor nacional
         if: ${{ github.event_name == 'pull_request' }}
-        shell: bash
         run: |
-          set -euo pipefail
-          python -m pip install --disable-pip-version-check pyproj PyYAML==6.0.2
-          python -m unittest tests.test_gestor_campana
-          python herramientas/gestor_campana.py validate --manifest configuracion/campanas/campana_cinco_territorios_v1.json
+          python -m pip install --disable-pip-version-check PyYAML==6.0.2
+          python -m unittest tests.test_gestor_campana_nacional
 
   territorios:
     name: ${{ matrix.slot }} · ${{ matrix.territory_name }}
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.ready_count != '0' }}
     needs: preparar
     strategy:
       fail-fast: false
@@ -226,21 +221,27 @@ jobs:
       persist_state: false
       publication_mode: ${{ matrix.publication_mode }}
       artifact_namespace: ${{ matrix.artifact_namespace }}
-      campaign_instance: ${{ matrix.entrypoint == 'gerrychain_50' && matrix.campaign_instance || '' }}
+      campaign_instance: ${{ matrix.campaign_instance }}
       campaign_slot: ${{ matrix.slot }}
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
+      campaign_contract_path: ${{ matrix.generation_contract.contract_path }}
+      campaign_contract_sha256: ${{ matrix.generation_contract.contract_sha256 }}
+      campaign_generation_evidence_path: ${{ matrix.generation_contract.generation_evidence_path }}
+      campaign_generation_evidence_sha256: ${{ matrix.generation_contract.generation_evidence_sha256 }}
+      campaign_source_run_id: ${{ matrix.generation_contract.source.run_id }}
+      campaign_source_artifact_name: ${{ matrix.generation_contract.source.artifact_name }}
+      campaign_source_artifact_sha256: ${{ matrix.generation_contract.source.artifact_sha256 }}
+      campaign_source_package_sha256: ${{ matrix.generation_contract.source.package_sha256 }}
+      campaign_evidence_receipt_path: ${{ matrix.evidence.receipt_path }}
+      campaign_evidence_receipt_sha256: ${{ matrix.evidence.receipt_sha256 }}
+      campaign_territorial_identity_sha256: ${{ matrix.evidence.territorial_identity_sha256 }}
+      campaign_electoral_identity_sha256: ${{ matrix.evidence.electoral_identity_sha256 || '' }}
+      campaign_pair_sha256: ${{ matrix.evidence.pair_sha256 || '' }}
       candidate_count: ${{ matrix.candidate_count }}
       gerrychain_entrypoint: ${{ matrix.entrypoint }}
       require_unique_hashes: ${{ matrix.require_unique_hashes }}
-      reuse_run_id: ${{ matrix.reuse_run_id }}
-      reuse_artifact_name: ${{ matrix.reuse_artifact_name }}
-      reuse_artifact_sha256: ${{ matrix.reuse_artifact_sha256 }}
-      reuse_source_sha: ${{ matrix.reuse_source_sha }}
-      expected_population_total: ${{ matrix.expected_population_total }}
-      expected_section_count: ${{ matrix.expected_section_count }}
       expected_district_count: ${{ matrix.expected_district_count }}
-      expected_certification: ${{ matrix.expected_certification }}
 
   recuperar_portfolio:
     name: Recuperar portfolio existente sin recalcular
@@ -396,18 +397,24 @@ jobs:
         with:
           ref: ${{ needs.preparar.outputs.source_sha }}
       - name: Recuperar todos los resultados territoriales
+        continue-on-error: true
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           pattern: ddd-campaign-territory-*
           path: .ddd-campaign/reports
           merge-multiple: false
+      - name: Recuperar manifiesto inmutable
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+        with:
+          name: ddd-campaign-manifest-${{ needs.preparar.outputs.campaign_instance }}
+          path: .ddd-campaign
       - id: aggregate
         name: Conservar todos los fallos individuales
         shell: bash
         run: |
           set +e
           mkdir -p .ddd-campaign/summary
-          python herramientas/gestor_campana.py aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --campaign-instance "${{ needs.preparar.outputs.campaign_instance }}"             --source-sha "${{ needs.preparar.outputs.source_sha }}"             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
+          python herramientas/gestor_campana_nacional.py aggregate             --manifest "${{ needs.preparar.outputs.manifest_path }}"             --reports-root .ddd-campaign/reports             --output-json .ddd-campaign/summary/campaign-summary.json             --output-md .ddd-campaign/summary/campaign-summary.md
           rc=$?
           echo "aggregate_rc=$rc" >> "$GITHUB_OUTPUT"
           exit 0
@@ -415,6 +422,7 @@ jobs:
         with:
           name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
           path: .ddd-campaign/summary
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
       - name: Aplicar estado agregado
@@ -426,7 +434,7 @@ jobs:
           }
 
   promover_galerias:
-    name: Promover cinco galerías a releases inmutables
+    name: Promover galerías seleccionadas a releases inmutables
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.strategy == 'GerryChain 50' && needs.resumen.result == 'success' }}
     needs: [preparar, resumen]
     runs-on: ubuntu-24.04
@@ -447,14 +455,14 @@ jobs:
         with:
           name: ddd-campaign-summary-${{ needs.preparar.outputs.campaign_instance }}
           path: .ddd-campaign/summary
-      - name: Recuperar cinco bundles territoriales
+      - name: Recuperar bundles territoriales seleccionados
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           pattern: ddd-campaign-territory-*
           path: .ddd-campaign/reports
           merge-multiple: false
       - id: release
-        name: Empaquetar, promover y verificar cinco releases
+        name: Empaquetar, promover y verificar releases seleccionados
         shell: bash
         run: |
           set -euo pipefail
@@ -462,7 +470,7 @@ jobs:
           test -f "$summary"
           python - "$summary" <<'PY'
           import json,sys
-          from herramientas.gestor_campana import validate_campaign_summary_for_promotion
+          from herramientas.gestor_campana_nacional import validate_campaign_summary_for_promotion
           data=json.load(open(sys.argv[1],encoding="utf-8"))
           validate_campaign_summary_for_promotion(data)
           PY
@@ -552,9 +560,11 @@ jobs:
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           from pathlib import Path
-          from herramientas.gestor_campana import publication_matrix
+          from herramientas.gestor_campana_nacional import publication_matrix
           releases=json.loads(Path(".ddd-campaign/releases/releases.json").read_text(encoding="utf-8"))
-          matrix=publication_matrix(releases)
+          summary=json.loads(Path(".ddd-campaign/summary/campaign-summary.json").read_text(encoding="utf-8"))
+          matrix=publication_matrix(releases, summary["territory_count_expected"],
+                                    [r["territory_id"] for r in summary["territories"]])
           print("publication_matrix="+json.dumps(matrix,separators=(",",":"),ensure_ascii=False))
           PY
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -563,6 +573,7 @@ jobs:
           path: |
             .ddd-campaign/releases/descriptors
             .ddd-campaign/releases/releases.json
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 90
 
@@ -588,7 +599,7 @@ jobs:
     needs: [preparar, resumen, promover_galerias, publicar_galerias]
     runs-on: ubuntu-24.04
     steps:
-      - name: Exigir promoción y cinco despliegues correctos
+      - name: Exigir promoción y despliegues seleccionados correctos
         shell: bash
         run: |
           set -euo pipefail
@@ -596,4 +607,3 @@ jobs:
           test "${{ needs.resumen.result }}" = success
           test "${{ needs.promover_galerias.result }}" = success
           test "${{ needs.publicar_galerias.result }}" = success
-
