@@ -63,7 +63,7 @@ class NationalCampaignTests(unittest.TestCase):
 
 
  def test_manifest_fixes_validated_generation_references_and_blocked_rows_do_not_launch(self):
-  m=build_manifest(selected=["canarias"],publication_mode="electoral",
+  m=build_manifest(selected=["aragon"],publication_mode="territorial_only",
     source_sha="a"*40,strategy="GerryChain 50",campaign_instance="contract-test")
   row=m["territories"][0]
   self.assertEqual(m["generation_enablement_contract"],"generation_ready_contract/v1")
