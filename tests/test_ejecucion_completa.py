@@ -706,72 +706,17 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertTrue(plan["run_generate"])
             self.assertTrue(plan["run_incorporate"])
 
-    def test_catalog_source_mode_forces_new_generation_and_preserves_electoral_reuse(self):
-        plan = build_plan(
-            territory="Ceuta",
-            edition="2025",
-            execution_mode="catalog_source",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
-        self.assertEqual(plan["execution_mode"], "catalog_source")
-        self.assertEqual(plan["generation_execution_mode"], "from_start")
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertTrue(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertTrue(plan["run_incorporate"])
-        self.assertTrue(plan["existing"]["territorial_product"]["run_id"])
-        self.assertEqual(plan["existing"]["territorial_source"]["decision"], "VALIDADO")
-        self.assertEqual(plan["generation_gate"], {
-            "allowed": True,
-            "route": "accredited_source_recalculation",
-        })
-        self.assertEqual(
-            plan["existing"]["territorial_source"]["artifact_name"],
-            "ddd-source-package-ceuta-2025-36258940598",
-        )
-
-    def test_catalog_source_mode_prepares_electoral_only_when_missing(self):
-        original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
-        cases = (
-            ("electoral_source_missing", False, True),
-            ("durable_electoral_source_present", True, False),
-        )
-        for case, source_prepared, expected_prepare in cases:
-            with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
-                data = json.loads(json.dumps(original))
-                row = next(r for r in data["territories"] if r["territory_id"] == "cantabria")
-                state = row["editions"]["2025"]
-                evidence = state.setdefault("evidence", {})
-                if source_prepared:
-                    state["electoral_source_prepared"] = True
-                    evidence["electoral_source"] = (
-                        "territorios/cantabria/evidencia/catalogo/electoral_source_2025.json"
+    def test_catalog_source_mode_requires_current_compatibility_identity(self):
+        for territory in ("Ceuta", "Cantabria"):
+            with self.subTest(territory=territory):
+                with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
+                    build_plan(
+                        territory=territory,
+                        edition="2025",
+                        execution_mode="catalog_source",
+                        catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                        root_dir=ROOT,
                     )
-                else:
-                    state["electoral_source_prepared"] = False
-                    evidence.pop("electoral_source", None)
-
-                catalog = Path(td) / "catalog.yaml"
-                catalog.write_text(
-                    yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
-                    encoding="utf-8",
-                )
-                plan = build_plan(
-                    territory="Cantabria",
-                    edition="2025",
-                    execution_mode="catalog_source",
-                    catalog=catalog,
-                    root_dir=ROOT,
-                )
-                self.assertFalse(plan["run_prepare_territorial"])
-                self.assertTrue(plan["run_generate"])
-                self.assertEqual(plan["run_prepare_electoral"], expected_prepare)
-                self.assertTrue(plan["run_incorporate"])
-                if source_prepared:
-                    self.assertEqual(plan["existing"]["electoral_source"]["decision"], "VALIDADO")
-                else:
-                    self.assertIsNone(plan["existing"]["electoral_source"]["decision"])
 
     def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
