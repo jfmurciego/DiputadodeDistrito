@@ -130,11 +130,14 @@ jobs:
           echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
           legacy_year="$SOURCE_YEAR_INPUT"
-          [[ -n "$legacy_year" ]] || legacy_year="$EDITION"
           population_year="$POPULATION_YEAR_INPUT"
           section_year="$SECTION_YEAR_INPUT"
           [[ -n "$population_year" ]] || population_year="$legacy_year"
           [[ -n "$section_year" ]] || section_year="$legacy_year"
+          [[ -n "$population_year" && -n "$section_year" ]] || {
+            echo "::error::Debe indicarse population_year y section_year (o source_year explícito si coinciden). La edición no es un fallback temporal."
+            exit 40
+          }
           [[ "$population_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de población inválido: $population_year"; exit 40; }
           [[ "$section_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de seccionado inválido: $section_year"; exit 40; }
           echo "population_year=$population_year" >> "$GITHUB_OUTPUT"
