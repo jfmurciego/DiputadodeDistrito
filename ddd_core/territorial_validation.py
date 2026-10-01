@@ -4,7 +4,6 @@ import math
 import re
 from typing import Any, Callable
 
-import pandas as pd
 
 
 class TerritorialDataError(ValueError):
@@ -39,13 +38,14 @@ def parse_population_value(value: Any, *, section_id: str | None = None, label: 
 
 
 def strict_population_series(
-    values: pd.Series,
+    values,
     *,
-    section_ids: pd.Series | None = None,
+    section_ids=None,
     label: str = "población",
     require_non_null: bool = True,
-) -> pd.Series:
-    parsed: list[int | pd._libs.missing.NAType] = []
+):
+    import pandas as pd
+    parsed = []
     ids = list(section_ids.astype(str)) if section_ids is not None else [None] * len(values)
     for value, section_id in zip(values.tolist(), ids, strict=False):
         try:
@@ -62,11 +62,12 @@ def strict_population_series(
 
 
 def normalized_unique_keys(
-    values: pd.Series,
+    values,
     *,
     normalize: Callable[[Any], str | None],
     label: str,
-) -> pd.Series:
+):
+    import pandas as pd
     normalized = values.map(normalize)
     missing = normalized.isna() | normalized.astype("string").str.strip().eq("")
     if missing.any():
