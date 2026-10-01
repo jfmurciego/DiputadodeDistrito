@@ -235,8 +235,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             declaration["source_bindings"]["secciones_censales"]["materialized_path"],
             "inputs/seccionado_2026.zip",
         )
-        legacy_default = build_declaration("Comunidad de Madrid", 2025)
-        self.assertEqual(legacy_default["territory"]["source_year"], 2025)
+        with self.assertRaisesRegex(ValueError, "population_year y section_year"):
+            build_declaration("Comunidad de Madrid", 2025)
 
     def test_current_legislature_workflow_uses_codauto_labels_and_resolves_them(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
