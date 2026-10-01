@@ -13,7 +13,7 @@ from ddd_core.config import load_params_yaml
 from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
 from herramientas.catalogo_preparacion import rows_for
 from herramientas.compatibilidad_poblacion_seccionado import reconcile_population_sectioning
-from herramientas.materializar_evidencia_pre_m04 import _enable_contract_after_pre_m04
+from herramientas.materializar_evidencia_pre_m04 import _enable_contract_after_pre_m04, register_evidence_path
 from herramientas.promover_catalogo_tras_preparacion import _set_catalog_state, _promote_contract, _promote_master
 from herramientas.resolver_ejecucion_completa import generation_enablement
 
@@ -424,6 +424,8 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
                 "source": {
                     "package_sha256": "4" * 64,
                     "compatibility_identity_sha256": "c" * 64,
+                    "population_year": 2023,
+                    "section_year": 2023,
                 },
             }
             with self.assertRaisesRegex(ValueError, "SOURCE_MISMATCH"):
@@ -620,6 +622,64 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             master_text = master_path.read_text(encoding="utf-8")
             self.assertIn("status: source_prepared_pending_pre_m04", master_text)
             self.assertNotIn("status: generation_ready", master_text)
+
+
+    def test_failed_enablement_does_not_flip_catalog_or_master(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "configuracion").mkdir()
+            catalog = root / "configuracion/catalogo_preparacion.yaml"
+            catalog.write_text(
+                "schema: ddd-preparation-catalog/1.1\n"
+                "territories:\n"
+                "  - territory_id: demo\n"
+                "    name: Demo\n"
+                "    editions:\n"
+                "      '2025':\n"
+                "        generation_enabled: false\n"
+                "        evidence: {}\n",
+                encoding="utf-8",
+            )
+            master = root / "configuracion/catalogo_territorios_espana_2025.yaml"
+            master.write_text(
+                "- {territory_id: demo, status: source_prepared_pending_pre_m04}\n",
+                encoding="utf-8",
+            )
+            contract_path = root / "contract.yaml"
+            contract_path.write_text(
+                yaml.safe_dump(contract(), sort_keys=False),
+                encoding="utf-8",
+            )
+            evidence = {
+                "run_id": 7,
+                "source_commit": "e" * 40,
+                "artifact_sha256": "1" * 64,
+                "source": {
+                    "package_sha256": "4" * 64,
+                    "compatibility_identity_sha256": "c" * 64,
+                    "population_year": 2023,
+                    "section_year": 2023,
+                },
+            }
+            with self.assertRaisesRegex(ValueError, "SOURCE_MISMATCH"):
+                register_evidence_path(
+                    root_dir=root,
+                    territory_id="demo",
+                    edition="2025",
+                    evidence_path="preflight.json",
+                    contract_path="contract.yaml",
+                    evidence=evidence,
+                )
+            catalog_after = yaml.safe_load(catalog.read_text(encoding="utf-8"))
+            state = catalog_after["territories"][0]["editions"]["2025"]
+            self.assertFalse(state["generation_enabled"])
+            self.assertNotIn("generation_preflight", state["evidence"])
+            contract_after = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            self.assertFalse(contract_after["generation_state"]["generation_enabled"])
+            self.assertIn(
+                "status: source_prepared_pending_pre_m04",
+                master.read_text(encoding="utf-8"),
+            )
 
 
 if __name__ == "__main__":
