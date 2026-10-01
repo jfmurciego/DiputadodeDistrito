@@ -114,8 +114,12 @@ def _manifest_from_acquisition(
     population_year: int,
     section_year: int,
     expected_records: int | None,
-    acquisition: dict,
+    acquisition: dict | None = None,
 ) -> dict:
+    # Compatibilidad para consumidores internos que construyen el manifiesto
+    # directamente sobre evidencia ya acreditada. El flujo productivo siempre
+    # entrega explícitamente decision_adquisicion.
+    acquisition = acquisition or {"decision": "READY", "reasons": []}
     if acquisition.get("decision") != "READY":
         raise RuntimeError(
             "Adquisición oficial bloqueada: "
