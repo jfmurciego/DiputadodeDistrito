@@ -12,6 +12,10 @@ from herramientas.registro_publicaciones_visor import make_candidate
 from herramientas.resolver_ejecucion_completa import (
     build_plan, apply_explicit_territorial_source, generation_enablement,
 )
+from herramientas._resolver_ejecucion_completa_core import (
+    _contract_generation_binding,
+    _pre_m04_implementation_binding,
+)
 from herramientas.gestor_campana import (
     CONFIRMATION,
     aggregate,
@@ -509,8 +513,42 @@ class CampaignManagerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)
             contract = yaml.safe_load((ROOT / row["contract_path"]).read_text(encoding="utf-8"))
-            contract["meta"]["status"] = "production_ready_auto_materialized"
-            contract["territory_contract"]["status"] = "topology_contract_candidate"
+            contract["meta"]["status"] = "source_prepared_pending_pre_m04"
+            contract["territory_contract"]["status"] = "source_prepared_pending_pre_m04"
+            prep = dict(row["preparation_evidence"])
+            prep.update({
+                "compatibility_identity_sha256": "c" * 64,
+                "population_year": 2025,
+                "section_year": 2025,
+            })
+            source = evidence.setdefault("source", {})
+            source.update({
+                "artifact_name": prep["artifact_name"],
+                "artifact_sha256": prep["artifact_sha256"],
+                "package_sha256": prep["package_sha256"],
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+                "population_year": prep["population_year"],
+                "section_year": prep["section_year"],
+            })
+            contract.setdefault("validation", {})["source_baseline"] = {
+                "schema": "ddd.source-baseline/1.0",
+                "edition": "2025",
+                "population_year": 2025,
+                "section_year": 2025,
+                "population_total": evidence["graph"]["population"],
+                "target_section_count": evidence["graph"]["nodes"],
+                "package_sha256": prep["package_sha256"],
+                "compatibility_report_sha256": "9" * 64,
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+            }
+            contract["generation_state"] = {
+                "source_prepared": True,
+                "generation_enabled": False,
+                "package_sha256": prep["package_sha256"],
+                "compatibility_identity_sha256": prep["compatibility_identity_sha256"],
+            }
+            evidence["implementation"] = _pre_m04_implementation_binding(ROOT, contract)
+            evidence["contract_binding"] = _contract_generation_binding(contract)
             (root / "contract.yaml").write_text(
                 yaml.safe_dump(contract, sort_keys=False, allow_unicode=True),
                 encoding="utf-8",
@@ -521,7 +559,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=evidence,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
 
@@ -533,7 +571,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=broken,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertFalse(gate["allowed"])
             self.assertIn("grafo territorial", gate["reason"])
@@ -546,7 +584,7 @@ class CampaignManagerTests(unittest.TestCase):
                 territory_id="cantabria",
                 certified_product_ready=False,
                 first_generation_evidence=implementation_drift,
-                preparation_evidence=row["preparation_evidence"],
+                preparation_evidence=prep,
             )
             self.assertFalse(gate["allowed"])
             self.assertIn("implementación pre-M04", gate["reason"])
