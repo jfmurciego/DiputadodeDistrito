@@ -188,8 +188,8 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
 
             no_edition = root / "no-edition.yaml"
             no_edition.write_text("meta: {}\nio: {}\n", encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "edición DDD"):
-                load_params_yaml(str(no_edition))
+            generic = load_params_yaml(str(no_edition))
+            self.assertNotIn("year", generic["meta"])
 
     def test_population_and_geometry_invalidity_are_structured_blocks(self):
         geom = box(0, 0, 1, 1)
