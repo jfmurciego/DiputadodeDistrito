@@ -420,7 +420,6 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         preparation_evidence=prep,
         require_source=generation_requested,
         source_acquisition_planned=source_acquisition_planned,
-        source_recalculation_planned=catalog_source_mode,
     )
     pre_m04_producer_planned = bool(
         selected_explicit_source is None
