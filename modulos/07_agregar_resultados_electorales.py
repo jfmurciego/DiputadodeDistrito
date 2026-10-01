@@ -105,7 +105,7 @@ def _input_invalid(*, source: Path, adapter_kind: str, row: str, field: str, val
 
 
 def _required_text(value, *, source: Path, adapter_kind: str, row: str, field: str, cause: str) -> str:
-    if value is None:
+    if value is None or bool(pd.isna(value)):
         _input_invalid(
             source=source, adapter_kind=adapter_kind, row=row, field=field,
             value=value, cause=cause,
