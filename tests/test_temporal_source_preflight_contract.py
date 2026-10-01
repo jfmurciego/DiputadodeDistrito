@@ -11,6 +11,7 @@ from shapely.geometry import box
 
 from ddd_core.config import load_params_yaml
 from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
+from herramientas.catalogo_preparacion import rows_for
 from herramientas.compatibilidad_poblacion_seccionado import reconcile_population_sectioning
 from herramientas.materializar_evidencia_pre_m04 import _enable_contract_after_pre_m04
 from herramientas.promover_catalogo_tras_preparacion import _set_catalog_state
@@ -429,6 +430,50 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             self.assertIn("--section-year", body)
         self.assertNotIn("declared_generation_ready", resolver)
         self.assertNotIn("linked_internal_partitioning", resolver)
+
+
+    def test_catalog_generation_requires_enabled_preflight_or_certified_product(self):
+        with tempfile.TemporaryDirectory() as td:
+            catalog = Path(td) / "catalog.yaml"
+            base_state = {
+                "territory_declared": True,
+                "preparation_status": "READY",
+                "contract_path": "contract.yaml",
+                "territorial_source_declaration": "sources.yaml",
+                "electoral_source_declaration": None,
+                "territorial_sources_prepared": True,
+                "territorial_contract_complete": True,
+                "territorial_product_available": False,
+                "electoral_source_prepared": False,
+                "electoral_product_available": False,
+                "territorial_certification": "NOT_CERTIFIED",
+                "production_authorization": "AUTHORIZED",
+                "last_valid_checkpoint": None,
+                "generation_enabled": False,
+            }
+            catalog.write_text(
+                yaml.safe_dump({
+                    "schema": "ddd-preparation-catalog/1.1",
+                    "default_edition": "2025",
+                    "territories": [{
+                        "territory_id": "demo",
+                        "name": "Demo",
+                        "editions": {"2025": base_state},
+                    }],
+                }, sort_keys=False),
+                encoding="utf-8",
+            )
+            self.assertEqual(rows_for("generation", catalog), [])
+
+            data = yaml.safe_load(catalog.read_text(encoding="utf-8"))
+            data["territories"][0]["editions"]["2025"]["generation_enabled"] = True
+            catalog.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+            self.assertEqual([row["territory_id"] for row in rows_for("generation", catalog)], ["demo"])
+
+            data["territories"][0]["editions"]["2025"]["generation_enabled"] = False
+            data["territories"][0]["editions"]["2025"]["territorial_product_available"] = True
+            catalog.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+            self.assertEqual([row["territory_id"] for row in rows_for("generation", catalog)], ["demo"])
 
 
 if __name__ == "__main__":
