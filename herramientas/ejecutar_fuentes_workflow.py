@@ -19,8 +19,9 @@ from pathlib import Path
 import yaml
 
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
-from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
+from herramientas.compatibilidad_poblacion_seccionado import assert_materialized_territorial_gate
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
+from herramientas.politica_reutilizacion_fuentes import parse_acquisition_date
 
 BUNDLE_NAME = "prepared_sources.zip"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
@@ -72,6 +73,25 @@ def _source_rows(evidence: Path) -> tuple[list[dict], list[dict]]:
     return inv_rows, prov_rows
 
 
+def validate_materialized_evidence(
+    evidence: Path,
+    *,
+    territory_id: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+) -> dict:
+    inv_rows, _ = _source_rows(evidence)
+    return assert_materialized_territorial_gate(
+        evidence_dir=evidence,
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=population_year,
+        section_year=section_year,
+        inventory={"sources": inv_rows},
+    )
+
+
 def _write_deterministic_bundle(evidence: Path, destination: Path) -> None:
     files = sorted(p for p in evidence.rglob("*") if p.is_file())
     if not files:
@@ -117,14 +137,15 @@ def _manifest_from_acquisition(
             if value:
                 urls.add(str(value))
         date = (
-            row.get("acquired_at")
+            row.get("snapshot_acquired_at")
             or row.get("acquired_at_utc")
-            or row.get("snapshot_acquired_at")
+            or row.get("acquired_at")
             or row.get("retrieved_at")
             or row.get("acquisition_date")
         )
         if date:
-            acquired.append(str(date))
+            parsed = parse_acquisition_date(date)
+            acquired.append(parsed.isoformat())
 
     records = expected_records
     if records is None:
@@ -146,8 +167,9 @@ def _manifest_from_acquisition(
         "acquired_at": max(acquired) if acquired else None,
         "bundle_schema": "ddd-prepared-sources-bundle/1.1",
     }
-    if not manifest["acquired_at"]:
-        raise RuntimeError("La adquisición no acredita acquired_at/retrieved_at")
+    if manifest["acquired_at"] is None:
+        raise RuntimeError("Paquete nuevo sin fecha de adquisición interpretable")
+    parse_acquisition_date(manifest["acquired_at"])
     if population_year == section_year:
         manifest["source_year"] = population_year
     return manifest
@@ -202,19 +224,19 @@ def main() -> int:
             root_dir=args.root_dir,
         )
         if acquisition.get("decision") == "READY":
-            compatibility = build_materialized_report(
-                evidence_dir=args.acquisition_evidence,
-                territory_id=territory_id,
-                edition=str(edition),
-                population_year=population_year,
-                section_year=section_year,
-                inventory=inventory,
-            )
-            if compatibility.get("decision") != "READY":
+            try:
+                validate_materialized_evidence(
+                    args.acquisition_evidence,
+                    territory_id=territory_id,
+                    edition=edition,
+                    population_year=population_year,
+                    section_year=section_year,
+                )
+            except ValueError as exc:
                 acquisition["decision"] = "BLOCKED"
                 acquisition.setdefault("reasons", []).append({
                     "source_id": "population_sectioning_compatibility",
-                    "reason": "; ".join(compatibility.get("causes") or ["COMPATIBILITY_BLOCKED"]),
+                    "reason": str(exc),
                 })
                 (args.acquisition_evidence / "decision_adquisicion.json").write_text(
                     json.dumps(acquisition, ensure_ascii=False, indent=2) + "\n",
@@ -249,6 +271,16 @@ def main() -> int:
     )
     if evidence["decision"] == "REUSE":
         _restore_acquisition_evidence(args.working, args.acquisition_evidence)
+
+    # ACQUIRE y REUSE atraviesan exactamente la misma puerta factual sobre los
+    # bytes materializados. Reutilizar un ZIP válido no sustituye esta validación.
+    validate_materialized_evidence(
+        args.acquisition_evidence,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+    )
     print(json.dumps(evidence, ensure_ascii=False))
     return 0
 

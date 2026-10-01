@@ -152,6 +152,72 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     )
 
 
+def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str) -> dict:
+    """Expone GENERATION_READY sólo cuando catálogo, contrato, fuente y pre-M04 coinciden.
+
+    Los flags durables son condiciones necesarias, nunca autoridad suficiente:
+    la decisión material se delega en la validación definitiva de _core.
+    """
+    if state.get("generation_enabled") is not True:
+        return _core._blocked("CAP_PRE_M04_EVIDENCE", "generation_enabled no está registrado en catálogo")
+    contract_path = str(state.get("contract_path") or "")
+    prep = state.get("preparation_evidence") or {}
+    evidence_path = str((state.get("evidence") or {}).get("generation_preflight") or "")
+    if not evidence_path:
+        return _core._blocked("CAP_PRE_M04_EVIDENCE", "evidencia generation_preflight ausente")
+    evidence = _core._load_json(evidence_path, root_dir)
+    if not evidence:
+        return _core._blocked(
+            "CAP_PRE_M04_EVIDENCE",
+            f"evidencia generation_preflight ilegible: {evidence_path}",
+        )
+    gate = _core.generation_enablement(
+        root_dir=root_dir,
+        contract_path=contract_path,
+        territory_id=territory_id,
+        certified_product_ready=False,
+        first_generation_evidence=evidence,
+        preparation_evidence=prep,
+        require_source=True,
+    )
+    if not gate.get("allowed"):
+        return gate
+
+    contract_file = root_dir / contract_path
+    try:
+        contract = yaml.safe_load(contract_file.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
+    if (contract.get("generation_state") or {}).get("generation_enabled") is not True:
+        return _core._blocked(
+            "CAP_PRE_M04_EVIDENCE",
+            "generation_enabled no está registrado en el contrato efectivo",
+        )
+
+    evidence_file = root_dir / evidence_path
+    import hashlib
+    return {
+        "allowed": True,
+        "status": "GENERATION_READY",
+        "route": gate.get("route"),
+        "territory_id": territory_id,
+        "contract_path": contract_path,
+        "contract_sha256": hashlib.sha256(contract_file.read_bytes()).hexdigest(),
+        "source": {
+            "run_id": prep.get("run_id"),
+            "artifact_name": prep.get("artifact_name"),
+            "artifact_sha256": prep.get("artifact_sha256"),
+            "package_sha256": prep.get("package_sha256"),
+            "compatibility_identity_sha256": prep.get("compatibility_identity_sha256"),
+            "population_year": prep.get("population_year"),
+            "section_year": prep.get("section_year"),
+            "source_commit": prep.get("source_commit"),
+        },
+        "generation_evidence_path": evidence_path,
+        "generation_evidence_sha256": hashlib.sha256(evidence_file.read_bytes()).hexdigest(),
+    }
+
+
 def _explicit_source(values: dict | None) -> dict | None:
     if not values:
         env = __import__("os").environ

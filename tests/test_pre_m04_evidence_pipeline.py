@@ -16,7 +16,7 @@ from herramientas.handoff_evidencia_pre_m04 import (
     verify_handoff,
 )
 from herramientas.materializar_evidencia_pre_m04 import build_evidence
-from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
+from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement, generation_ready_contract
 
 
 SHA_A = "a" * 64
@@ -354,6 +354,74 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
             self.assertFalse(gate["allowed"])
             self.assertEqual(gate["capability"], "CAP_PRE_M04_EVIDENCE")
             self.assertIn("particionado", gate["reason"])
+
+    def test_generation_ready_contract_delegates_to_definitive_pre_m04_validation(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract_path, evidence = self.build(root, partitioned=False)
+            evidence_rel = "territorios/demo/evidencia/catalogo/generation_preflight_2025.json"
+            evidence_path = root / evidence_rel
+            evidence_path.parent.mkdir(parents=True, exist_ok=True)
+            evidence_path.write_text(
+                json.dumps(evidence, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            catalog = yaml.safe_load(
+                (root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
+            )
+            state = catalog["territories"][0]["editions"]["2025"]
+            state["generation_enabled"] = True
+            state.setdefault("evidence", {})["generation_preflight"] = evidence_rel
+
+            effective = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            effective["generation_state"].update({
+                "generation_enabled": True,
+                "pre_m04_run_id": evidence["run_id"],
+                "pre_m04_source_commit": evidence["source_commit"],
+                "pre_m04_artifact_sha256": evidence["artifact_sha256"],
+            })
+            contract_path.write_text(
+                yaml.safe_dump(effective, sort_keys=False),
+                encoding="utf-8",
+            )
+
+            result = generation_ready_contract(
+                root_dir=root,
+                state=state,
+                territory_id="demo",
+            )
+            self.assertTrue(result["allowed"])
+            self.assertEqual(result["status"], "GENERATION_READY")
+            self.assertEqual(result["route"], "validated_pre_m04_topology")
+            self.assertEqual(result["source"]["run_id"], 123)
+            self.assertEqual(result["source"]["package_sha256"], SHA_B)
+            self.assertEqual(result["source"]["compatibility_identity_sha256"], SHA_C)
+            self.assertEqual(result["source"]["population_year"], 2025)
+            self.assertEqual(result["source"]["section_year"], 2025)
+            self.assertEqual(len(result["contract_sha256"]), 64)
+            self.assertEqual(len(result["generation_evidence_sha256"]), 64)
+
+            drift = json.loads(json.dumps(state))
+            drift["preparation_evidence"]["artifact_sha256"] = "0" * 64
+            blocked = generation_ready_contract(
+                root_dir=root,
+                state=drift,
+                territory_id="demo",
+            )
+            self.assertFalse(blocked["allowed"])
+            self.assertEqual(blocked["capability"], "CAP_PRE_M04_EVIDENCE")
+
+            not_registered = json.loads(json.dumps(state))
+            not_registered["generation_enabled"] = False
+            blocked_flag = generation_ready_contract(
+                root_dir=root,
+                state=not_registered,
+                territory_id="demo",
+            )
+            self.assertFalse(blocked_flag["allowed"])
+            self.assertEqual(blocked_flag["capability"], "CAP_PRE_M04_EVIDENCE")
+
 
 
 class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):

@@ -84,11 +84,12 @@ class SourceTestPackageTests(unittest.TestCase):
             {"properties": {"CPRO": "26", "CUSEC": "2600101001", "CSEC": "001", "TIPO": "SECCIÓN"}},
             {"properties": {"CPRO": "26", "CUSEC": "2600101002", "CSEC": "002"}},
         ]}).encode()
-        features, _, checks = _collect_live_sections(
+        features, _, checks, crs = _collect_live_sections(
             source, 2025, d["territory"]["territorial_codes"], lambda _url: payload
         )
         self.assertEqual([f["properties"]["CUSEC"] for f in features], ["2600101001", "2600101002"])
         self.assertEqual(checks["sections"], 2)
+        self.assertEqual(crs, "EPSG:4326")
 
     def test_ogc_probe_limits_each_province(self):
         d = build_declaration("Canarias", 2025, source_year=2025)

@@ -9,9 +9,21 @@ factual. La adquisición queda en manos del adaptador de fuente correspondiente.
 from __future__ import annotations
 
 import hashlib
+from datetime import datetime
 from pathlib import Path
 
 REQUIRED = ("source_id", "edition", "origin", "path", "bytes", "sha256", "records", "acquired_at")
+
+
+def parse_acquisition_date(value: object) -> datetime:
+    raw = str(value or "").strip()
+    if not raw or raw == "unknown-acquisition-date":
+        raise ValueError("fecha de adquisición ausente o desconocida")
+    candidate = raw[:-1] + "+00:00" if raw.endswith("Z") else raw
+    try:
+        return datetime.fromisoformat(candidate)
+    except Exception as exc:
+        raise ValueError(f"fecha de adquisición no interpretable: {raw!r}") from exc
 
 
 def sha256_file(path: Path) -> str:
@@ -44,8 +56,10 @@ def validate_frozen_copy(manifest: dict, root: str | Path, *, expected_edition: 
         reasons.append(f"registros incorrectos: {manifest['records']} != {expected_records}")
     if not str(manifest["origin"]).strip():
         reasons.append("procedencia vacía")
-    if not str(manifest["acquired_at"]).strip():
-        reasons.append("fecha de adquisición vacía")
+    try:
+        parse_acquisition_date(manifest["acquired_at"])
+    except ValueError as exc:
+        reasons.append(str(exc))
     return not reasons, reasons
 
 

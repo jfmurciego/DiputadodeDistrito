@@ -214,6 +214,23 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(plan["territorial_action"], "ACQUIRE")
                 self.assertEqual(plan["electoral_action"], "REUSE")
 
+
+    def test_missing_sources_fixture_acquires_both_without_reading_live_catalog_state(self):
+        state = {
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "canarias"}, state),
+        ):
+            plan = resolve(ROOT, "Canarias")["plans"][0]
+        self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_PACKAGE_MISSING")
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_reason"], "ELECTORAL_PACKAGE_MISSING")
+
     def test_canarias_reacquires_territorial_but_reuses_current_electoral_receipt(self):
         plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
