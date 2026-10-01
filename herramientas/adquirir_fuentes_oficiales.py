@@ -210,7 +210,9 @@ def _normalize_section_id(value: object) -> str:
         return ""
     if len(digits) < 10:
         digits = digits.zfill(10)
-    return digits[:10]
+    if len(digits) != 10:
+        return ""
+    return digits
 
 
 def _population_rules(declaration: dict) -> dict:
@@ -342,6 +344,28 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     "SECTION_ID_INVALID: población: sección ausente con jerarquía "
                     f"INE 65034 ambigua/incompatible: Total Nacional={national!r}, "
                     f"Provincias={province_value!r}, Municipios={municipality!r}",
+                    row,
+                )
+                continue
+            province_value = str(row.get("Provincias") or "").strip()
+            municipality = str(row.get("Municipios") or "").strip()
+            province_digits = "".join(ch for ch in province_value if ch.isdigit())
+            municipality_digits = "".join(ch for ch in municipality if ch.isdigit())
+            if municipality and not province_value:
+                record_row_issue(
+                    "SECTION_HIERARCHY_MISMATCH: sección con municipio pero sin provincia",
+                    row,
+                )
+                continue
+            if province_digits and province_digits[:2].zfill(2) != section_id[:2]:
+                record_row_issue(
+                    "SECTION_HIERARCHY_MISMATCH: código de provincia no coincide con sección",
+                    row,
+                )
+                continue
+            if municipality_digits and municipality_digits[:5].zfill(5) != section_id[:5]:
+                record_row_issue(
+                    "SECTION_HIERARCHY_MISMATCH: código de municipio no coincide con sección",
                     row,
                 )
                 continue
