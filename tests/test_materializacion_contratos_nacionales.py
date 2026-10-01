@@ -198,7 +198,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 [("3300101001", 1507), ("3300201001", 1905), ("3300201002", 0)],
                 delimiter=";",
             )
-            result = materialize(root, "principado_de_asturias", "2025", package)
+            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["province_districts"], {"33": 45})
@@ -210,7 +210,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         try:
             root = Path(td.name)
             package = population_package(root, [("3300101001", 1_015_128)])
-            result = materialize(root, "principado_de_asturias", "2025", package)
+            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["k"], 45)
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
@@ -241,7 +241,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 root = Path(td.name)
                 rows = [(f"{province}00101001", 100000 + index * 1000) for index, province in enumerate(provinces)]
                 package = population_package(root, rows)
-                result = materialize(root, territory_id, "2025", package)
+                result = materialize(root, territory_id, "2025", package, population_year="2025", section_year="2025")
                 self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04", territory_id)
                 self.assertEqual(result["k"], int(entry["k"]), territory_id)
                 cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
@@ -799,7 +799,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("3800701001", 86297),
                 ("3801301001", 11993),
             ])
-            result = materialize(root, "canarias", "2025", package)
+            result = materialize(root, "canarias", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
@@ -831,7 +831,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("0702401001", 11690),
                 ("0702601001", 164265),
             ])
-            result = materialize(root, "illes_balears", "2025", package)
+            result = materialize(root, "illes_balears", "2025", package, population_year="2025", section_year="2025")
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
