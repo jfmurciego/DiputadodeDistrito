@@ -290,24 +290,31 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
             raw_section = row.get(rules["section_col"])
             section_id = _normalize_section_id(raw_section)
             if not section_id:
-                # INE 65034 expresa el nivel mediante una jerarquía estricta:
-                # nacional = sólo Total Nacional; provincial = sólo provincia;
-                # municipal = provincia + municipio. Cualquier combinación distinta
-                # con sección vacía es ambigua/incompatible y bloquea.
+                # INE 65034 repite los ancestros de la jerarquía en niveles
+                # inferiores: una fila provincial puede conservar Total Nacional y
+                # una municipal puede conservar Total Nacional + Provincia. El nivel
+                # efectivo lo determina el descendiente más específico presente.
                 national = str(row.get("Total Nacional") or "").strip()
                 province_value = str(row.get("Provincias") or "").strip()
                 municipality = str(row.get("Municipios") or "").strip()
                 raw_section_text = str(raw_section or "").strip()
                 if raw_section_text:
                     raise ValueError(f"SECTION_ID_INVALID: población: {raw_section!r}")
-                if national and not province_value and not municipality:
-                    aggregate_counts["national"] += 1
+                if municipality:
+                    if not province_value:
+                        raise ValueError(
+                            "SECTION_ID_INVALID: población: sección ausente con jerarquía "
+                            "INE 65034 contradictoria: municipio sin provincia: "
+                            f"Total Nacional={national!r}, Provincias={province_value!r}, "
+                            f"Municipios={municipality!r}"
+                        )
+                    aggregate_counts["municipal"] += 1
                     continue
-                if not national and province_value and not municipality:
+                if province_value:
                     aggregate_counts["provincial"] += 1
                     continue
-                if not national and province_value and municipality:
-                    aggregate_counts["municipal"] += 1
+                if national:
+                    aggregate_counts["national"] += 1
                     continue
                 raise ValueError(
                     "SECTION_ID_INVALID: población: sección ausente con jerarquía "

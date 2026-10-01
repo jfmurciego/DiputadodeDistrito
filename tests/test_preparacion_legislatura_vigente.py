@@ -167,26 +167,62 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_castilla_y_leon_source_receipt_is_repaired_without_erasing_historical_product(self):
-        plan = resolve(ROOT, "Castilla y León")["plans"][0]
+        # Fixture histórica deliberada: la reparación del receipt territorial debe
+        # seguir evaluándose aunque el catálogo vivo incorpore después un receipt
+        # electoral reusable. El resolvedor y sus validadores siguen siendo reales.
+        state = {
+            "territorial_source_declaration": "territorios/castilla_y_leon/config/fuentes_oficiales.yaml",
+            "territorial_sources_prepared": True,
+            "territorial_product_available": True,
+            "electoral_source_prepared": False,
+            "electoral_product_available": True,
+            "last_valid_checkpoint": {"run_id": 35889595424, "stage": "M06"},
+            "preparation_evidence": {
+                "run_id": 35610439734,
+                "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+                "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+                "package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+                "source_commit": "0c516d79e2eaa36966deb016bcf57aafff9c4409",
+                "population_year": 2025,
+                "section_year": 2025,
+                "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c",
+                "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
+            },
+            "evidence": {
+                "territorial_product": "territorios/castilla_y_leon/evidencia/catalogo/territorial_product_2025.json",
+                "territorial_product_source_lineage": "territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json",
+            },
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "castilla_y_leon"}, state),
+        ):
+            plan = resolve(ROOT, "Castilla y León")["plans"][0]
+
         candidate = plan["territorial_candidate"]
         self.assertEqual(candidate["run_id"], 35610439734)
         self.assertEqual(
             candidate["artifact_name"],
             "ddd-source-package-castilla_y_leon-2025-35610439734",
         )
+        self.assertEqual(
+            candidate["package_sha256"],
+            "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+        )
+        self.assertEqual(
+            candidate["receipt_path"],
+            "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
+        )
         self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
-        self.assertEqual(
-            plan["electoral_candidate"]["reason"],
-            "ELECTORAL_PACKAGE_IDENTITY_NOT_DURABLE",
-        )
-        state = next(
-            r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
-            if r["territory_id"] == "castilla_y_leon"
-        )["editions"]["2025"]
+        self.assertEqual(plan["electoral_candidate"]["reason"], "ELECTORAL_PACKAGE_MISSING")
         self.assertTrue(state["territorial_product_available"])
         self.assertEqual(state["last_valid_checkpoint"], {"run_id": 35889595424, "stage": "M06"})
+        self.assertEqual(
+            state["evidence"]["territorial_product_source_lineage"],
+            "territorios/castilla_y_leon/evidencia/linaje_producto_territorial/35889595424.json",
+        )
         self.assertNotIn("stage", state["preparation_evidence"])
 
     def test_historical_product_source_lineage_preserves_direct_producer_observation(self):
