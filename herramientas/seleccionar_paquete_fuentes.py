@@ -55,18 +55,24 @@ def validate_prepared_package(
     if not isinstance(manifest, dict):
         return False, ["manifest.json no contiene un objeto"]
 
-    if population_year is None and source_year is None:
-        return False, ["population_year esperado ausente; no se admite heredar la edición"]
-    if section_year is None and source_year is None:
-        return False, ["section_year esperado ausente; no se admite heredar la edición"]
+    observed_population_raw = manifest.get("population_year", manifest.get("source_year"))
+    observed_section_raw = manifest.get("section_year", manifest.get("source_year"))
     legacy_year = int(source_year) if source_year is not None else None
-    expected_population_year = int(population_year if population_year is not None else legacy_year)
-    expected_section_year = int(section_year if section_year is not None else legacy_year)
+    expected_population_raw = population_year if population_year is not None else legacy_year
+    expected_section_raw = section_year if section_year is not None else legacy_year
+    if expected_population_raw is None:
+        expected_population_raw = observed_population_raw
+    if expected_section_raw is None:
+        expected_section_raw = observed_section_raw
+    if expected_population_raw in (None, ""):
+        return False, ["population_year ausente tanto en caller como en manifest"]
+    if expected_section_raw in (None, ""):
+        return False, ["section_year ausente tanto en caller como en manifest"]
+    expected_population_year = int(expected_population_raw)
+    expected_section_year = int(expected_section_raw)
     valid_copy, copy_reasons = validate_frozen_copy(
         manifest, package, expected_edition=edition
     )
-    observed_population_raw = manifest.get("population_year", manifest.get("source_year"))
-    observed_section_raw = manifest.get("section_year", manifest.get("source_year"))
     if observed_population_raw in (None, ""):
         reasons.append("manifest sin population_year/source_year explícito")
         observed_population_year = -1
@@ -242,6 +248,10 @@ def main() -> int:
     ap.add_argument("--population-year")
     ap.add_argument("--section-year")
     args = ap.parse_args()
+    if args.source_year in (None, "") and (
+        args.population_year in (None, "") or args.section_year in (None, "")
+    ):
+        ap.error("--population-year y --section-year son obligatorios salvo --source-year explícito")
     valid, reasons = validate_prepared_package(
         args.package,
         territory_id=args.territory_id,
