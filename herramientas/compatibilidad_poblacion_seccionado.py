@@ -32,34 +32,62 @@ def normalize_section_key(value: object) -> str:
     return digits[:10]
 
 
-def _dedupe_population(rows: list[tuple[str, int]]) -> tuple[dict[str, int], list[str]]:
+def _dedupe_population(rows: list[tuple[str, Any]]) -> tuple[dict[str, int], list[str], list[str], list[str], list[str]]:
     values: dict[str, int] = {}
     duplicates: set[str] = set()
+    missing: set[str] = set()
+    invalid: set[str] = set()
+    negative: set[str] = set()
+    seen: set[str] = set()
     for raw_key, population in rows:
         key = normalize_section_key(raw_key)
         if not key:
             duplicates.add("<EMPTY>")
             continue
-        if key in values:
+        if key in seen:
             duplicates.add(key)
             continue
-        values[key] = int(population)
-    return values, sorted(duplicates)
+        seen.add(key)
+        if population is None or str(population).strip() == "":
+            missing.add(key)
+            continue
+        try:
+            value = int(population)
+        except (TypeError, ValueError):
+            invalid.add(key)
+            continue
+        if value < 0:
+            negative.add(key)
+            continue
+        values[key] = value
+    return values, sorted(duplicates), sorted(missing), sorted(invalid), sorted(negative)
 
 
-def _dedupe_geometry(rows: list[tuple[str, Any]]) -> tuple[dict[str, Any], list[str]]:
+def _dedupe_geometry(rows: list[tuple[str, Any]]) -> tuple[dict[str, Any], list[str], list[str]]:
     values: dict[str, Any] = {}
     duplicates: set[str] = set()
+    invalid: set[str] = set()
+    seen: set[str] = set()
     for raw_key, geometry in rows:
         key = normalize_section_key(raw_key)
         if not key:
             duplicates.add("<EMPTY>")
             continue
-        if key in values:
+        if key in seen:
             duplicates.add(key)
             continue
+        seen.add(key)
+        geometry_invalid = geometry is None
+        if not geometry_invalid:
+            try:
+                geometry_invalid = bool(geometry.is_empty) or not bool(geometry.is_valid)
+            except Exception:
+                geometry_invalid = True
+        if geometry_invalid:
+            invalid.add(key)
+            continue
         values[key] = geometry
-    return values, sorted(duplicates)
+    return values, sorted(duplicates), sorted(invalid)
 
 
 def _equals(left: Any, right: Any) -> bool:
@@ -138,25 +166,35 @@ def reconcile_population_sectioning(
     edition: str,
     population_year: int,
     section_year: int,
-    population_rows: list[tuple[str, int]],
+    population_rows: list[tuple[str, Any]],
     target_geometry_rows: list[tuple[str, Any]],
     origin_geometry_rows: list[tuple[str, Any]] | None,
     input_identities: dict | None = None,
     crs_audit: dict | None = None,
 ) -> dict:
-    populations, duplicate_population = _dedupe_population(population_rows)
-    target, duplicate_target = _dedupe_geometry(target_geometry_rows)
-    origin, duplicate_origin = _dedupe_geometry(origin_geometry_rows or [])
+    populations, duplicate_population, missing_population, invalid_population, negative_population = _dedupe_population(population_rows)
+    target, duplicate_target, invalid_target = _dedupe_geometry(target_geometry_rows)
+    origin, duplicate_origin, invalid_origin = _dedupe_geometry(origin_geometry_rows or [])
 
     causes: list[str] = []
     if duplicate_population:
         causes.append("DUPLICATE_POPULATION_KEYS")
+    if missing_population:
+        causes.append("POPULATION_VALUE_MISSING")
+    if invalid_population:
+        causes.append("POPULATION_VALUE_INVALID")
+    if negative_population:
+        causes.append("NEGATIVE_POPULATION")
     if duplicate_target:
         causes.append("DUPLICATE_TARGET_GEOMETRY_KEYS")
+    if invalid_target:
+        causes.append("INVALID_TARGET_GEOMETRY")
     if population_year != section_year and origin_geometry_rows is None:
         causes.append("ORIGIN_SECTIONING_EVIDENCE_MISSING")
     if population_year != section_year and duplicate_origin:
         causes.append("DUPLICATE_ORIGIN_GEOMETRY_KEYS")
+    if population_year != section_year and invalid_origin:
+        causes.append("INVALID_ORIGIN_GEOMETRY")
 
     reference_geometry = target if population_year == section_year else origin
     population_without_geometry = sorted(set(populations) - set(reference_geometry))
@@ -304,6 +342,13 @@ def reconcile_population_sectioning(
             "target_geometry": duplicate_target,
             "origin_geometry": duplicate_origin,
         },
+        "invalid_inputs": {
+            "population_missing": missing_population,
+            "population_invalid": invalid_population,
+            "population_negative": negative_population,
+            "target_geometry": invalid_target,
+            "origin_geometry": invalid_origin,
+        },
         "population_without_geometry": population_without_geometry,
         "geometry_without_population": geometry_without_population,
         "population_without_destination": population_without_destination,
@@ -311,6 +356,10 @@ def reconcile_population_sectioning(
             "input_total": input_total,
             "assigned_total": assigned_total,
             "exact_conservation": exact_conservation,
+        },
+        "baseline": {
+            "target_section_count": len(target),
+            "population_total": assigned_total,
         },
         "causes": causes,
     }
@@ -323,7 +372,7 @@ def reconcile_population_sectioning(
     }
 
 
-def _population_rows_from_zip(path: Path) -> list[tuple[str, int]]:
+def _population_rows_from_zip(path: Path) -> list[tuple[str, Any]]:
     if not zipfile.is_zipfile(path):
         raise ValueError(f"Fuente de población no ZIP: {path}")
     with zipfile.ZipFile(path) as archive:
@@ -334,19 +383,18 @@ def _population_rows_from_zip(path: Path) -> list[tuple[str, int]]:
     first = text.splitlines()[0] if text.splitlines() else ""
     delimiter = max(("\t", ";", ","), key=lambda d: first.count(d))
     reader = csv.DictReader(io.StringIO(text), delimiter=delimiter)
-    rows: list[tuple[str, int]] = []
+    rows: list[tuple[str, Any]] = []
     for row in reader:
         key = normalize_section_key(row.get("Secciones"))
         raw = str(row.get("Total") or "").strip()
         if not key:
-            rows.append(("", 0))
+            rows.append(("", None))
             continue
         if raw == "":
-            raise ValueError(f"Población ausente para sección {key}")
+            rows.append((key, None))
+            continue
         cleaned = raw.replace(".", "").replace(",", "")
-        if not cleaned.lstrip("-").isdigit():
-            raise ValueError(f"Población no numérica para sección {key}: {raw!r}")
-        rows.append((key, int(cleaned)))
+        rows.append((key, int(cleaned) if cleaned.lstrip("-").isdigit() else raw))
     return rows
 
 
