@@ -21,6 +21,7 @@ import yaml
 from herramientas.adquirir_fuentes_oficiales import acquire, load_yaml
 from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.gestionar_fuentes_checkpoint import execute_source_policy
+from herramientas.politica_reutilizacion_fuentes import parse_acquisition_date
 
 BUNDLE_NAME = "prepared_sources.zip"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
@@ -115,9 +116,16 @@ def _manifest_from_acquisition(
         for value in row.get("urls") or []:
             if value:
                 urls.add(str(value))
-        date = row.get("acquired_at") or row.get("retrieved_at") or row.get("acquisition_date")
+        date = (
+            row.get("snapshot_acquired_at")
+            or row.get("acquired_at_utc")
+            or row.get("acquired_at")
+            or row.get("retrieved_at")
+            or row.get("acquisition_date")
+        )
         if date:
-            acquired.append(str(date))
+            parsed = parse_acquisition_date(date)
+            acquired.append(parsed.isoformat())
 
     records = expected_records
     if records is None:
@@ -136,12 +144,40 @@ def _manifest_from_acquisition(
         "bytes": frozen.stat().st_size,
         "sha256": _sha256(frozen),
         "records": int(records),
-        "acquired_at": max(acquired) if acquired else "unknown-acquisition-date",
+        "acquired_at": max(acquired) if acquired else None,
         "bundle_schema": "ddd-prepared-sources-bundle/1.1",
     }
+    if manifest["acquired_at"] is None:
+        raise RuntimeError("Paquete nuevo sin fecha de adquisición interpretable")
+    parse_acquisition_date(manifest["acquired_at"])
     if population_year == section_year:
         manifest["source_year"] = population_year
     return manifest
+
+
+def _assert_materialized_gate(
+    *,
+    evidence: Path,
+    territory_id: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+) -> dict:
+    inv_rows, _ = _source_rows(evidence)
+    report = build_materialized_report(
+        evidence_dir=evidence,
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=population_year,
+        section_year=section_year,
+        inventory={"sources": inv_rows},
+    )
+    if report.get("decision") != "READY":
+        raise RuntimeError(
+            "Puerta territorial bloqueada: "
+            + "; ".join(report.get("causes") or ["COMPATIBILITY_BLOCKED"])
+        )
+    return report
 
 
 def _restore_acquisition_evidence(working: Path, evidence: Path) -> None:
@@ -240,6 +276,16 @@ def main() -> int:
     )
     if evidence["decision"] == "REUSE":
         _restore_acquisition_evidence(args.working, args.acquisition_evidence)
+
+    # ACQUIRE y REUSE atraviesan exactamente la misma puerta factual sobre los
+    # bytes materializados. Reutilizar un ZIP válido no sustituye esta validación.
+    _assert_materialized_gate(
+        evidence=args.acquisition_evidence,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+    )
     print(json.dumps(evidence, ensure_ascii=False))
     return 0
 
