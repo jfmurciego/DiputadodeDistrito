@@ -111,10 +111,21 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return capability_gate
     prep = preparation_evidence or {}
     if require_source and not source_acquisition_planned:
-        if (not isinstance(prep.get("run_id"), int) or isinstance(prep.get("run_id"), bool)
-                or prep.get("run_id") <= 0 or not prep.get("artifact_name")
-                or not _core._sha256_value(prep.get("artifact_sha256"))):
-            return _core._blocked("CAP_SOURCE", "fuente territorial no acreditada por run, artefacto y SHA-256")
+        if (
+            not isinstance(prep.get("run_id"), int)
+            or isinstance(prep.get("run_id"), bool)
+            or prep.get("run_id") <= 0
+            or not prep.get("artifact_name")
+            or not _core._sha256_value(prep.get("artifact_sha256"))
+            or not _core._sha256_value(prep.get("package_sha256"))
+            or not _core._sha256_value(prep.get("compatibility_identity_sha256"))
+            or not isinstance(prep.get("population_year"), int)
+            or not isinstance(prep.get("section_year"), int)
+        ):
+            return _core._blocked(
+                "CAP_SOURCE",
+                "fuente territorial sin identidad completa run/artefacto/paquete/compatibilidad/años",
+            )
         if "source_commit" in prep and not re.fullmatch(r"[0-9a-f]{40}", str(prep.get("source_commit") or "")):
             return _core._blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
     if source_recalculation_planned:
@@ -209,6 +220,20 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
             "SHA-256 interno del paquete territorial ausente o inválido"
         )
+    compatibility_identity_sha256 = str(prep.get("compatibility_identity_sha256") or "").lower()
+    if not _core._sha256_value(compatibility_identity_sha256):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "identidad de compatibilidad territorial ausente o inválida"
+        )
+    try:
+        population_year = int(prep.get("population_year"))
+        section_year = int(prep.get("section_year"))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "population_year/section_year ausentes o inválidos"
+        ) from exc
     declaration_rel = str(state.get("territorial_source_declaration") or "")
     declaration_path = root_dir / declaration_rel if declaration_rel else None
     if declaration_path is None or not declaration_path.is_file():
@@ -239,6 +264,9 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
         "artifact_name": artifact_name,
         "artifact_sha256": artifact_sha256,
         "package_sha256": package_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
+        "population_year": population_year,
+        "section_year": section_year,
         "source_declaration": declaration_rel,
     }
 
@@ -332,7 +360,13 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     )
 
     source_shape_ready = bool(
-        source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
+        source_run_id
+        and prep.get("artifact_name")
+        and _core._sha256_value(prep.get("artifact_sha256"))
+        and _core._sha256_value(prep.get("package_sha256"))
+        and _core._sha256_value(prep.get("compatibility_identity_sha256"))
+        and isinstance(prep.get("population_year"), int)
+        and isinstance(prep.get("section_year"), int)
     )
     territorial_sources_ready = bool(
         source_shape_ready
