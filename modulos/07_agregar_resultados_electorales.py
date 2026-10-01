@@ -238,10 +238,15 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
         missing = [c for c in [province_field, municipality_field, polling_field, *party_columns] if c not in frame.columns]
         if missing:
             raise ValueError(f"CSV electoral ancho carece de columnas: {missing}")
-        match = frame[polling_field].fillna("").str.extract(polling_regex)
+        polling_values = frame[polling_field].fillna("")
+        match = polling_values.str.extract(polling_regex)
         if not {"district", "section"}.issubset(match.columns):
             raise ValueError("polling_station_regex debe exponer grupos district y section")
-        locator_valid = match["district"].notna() & match["section"].notna()
+        locator_valid = (
+            polling_values.str.fullmatch(polling_regex)
+            & match["district"].notna()
+            & match["section"].notna()
+        )
         province_valid = frame[province_field].fillna("").str.fullmatch(r"\d+")
         municipality_valid = frame[municipality_field].fillna("").str.fullmatch(r"\d+")
         for index in frame.index:
