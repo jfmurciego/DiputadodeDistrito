@@ -398,6 +398,7 @@ jobs:
           PREPARED_SOURCE_ARTIFACT_NAME: ${{ steps.resolve.outputs.prepared_source_artifact_name }}
           OVERRIDE_SOURCE_RUN_ID: ${{ inputs.source_package_run_id }}
           OVERRIDE_SOURCE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
+          SOURCE_DECLARATION: territorios/${{ steps.resolve.outputs.territory_id }}/config/fuentes_oficiales.yaml
         run: |
           set -euo pipefail
           if [[ -n "$CHECKPOINT_RUN_ID" ]]; then
@@ -414,8 +415,23 @@ jobs:
               rm -rf "$tmp"
               return 1
             fi
+            read -r source_edition population_year section_year < <(python - "$SOURCE_DECLARATION" <<'PY'
+            import sys,yaml
+            from pathlib import Path
+            d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+            t=d.get('territory') or {}
+            edition=t.get('edition')
+            population=t.get('population_year', t.get('source_year'))
+            section=t.get('section_year', t.get('source_year'))
+            if edition in (None,'') or population in (None,'') or section in (None,''):
+                raise SystemExit('La declaración debe fijar edition, population_year y section_year')
+            print(edition, population, section)
+            PY
+            )
+            [[ "$source_edition" == "$EDITION" ]] || return 1
             if python -m herramientas.seleccionar_paquete_fuentes \
-              --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$EDITION" >/dev/null; then
+              --package "$tmp" --territory-id "$TERRITORY_ID" --edition "$source_edition" \
+              --population-year "$population_year" --section-year "$section_year" >/dev/null; then
               echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
               echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
               rm -rf "$tmp"
