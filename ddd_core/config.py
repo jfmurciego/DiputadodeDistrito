@@ -43,8 +43,16 @@ def load_params_yaml(params_path:str)->Dict[str,Any]:
                 xp=Path(s); return str(xp if xp.is_absolute() else (root/xp).resolve())
             return s
         return obj
-    resolved=_walk(data); resolved.setdefault("meta",{}); resolved["meta"].update({"run_name":run_name,"scope":scope,"run_id":run_id});
-    if year is not None: resolved["meta"]["year"]=year; resolved.setdefault("io",{}); resolved["io"].setdefault("project_root",{}); resolved["io"]["project_root"]["path"]=str(root); resolved["_internal"]={"params_path":str(p),"root":str(root),"fmt":fmt}; return resolved
+    resolved=_walk(data)
+    resolved.setdefault("meta",{})
+    resolved["meta"].update({"run_name":run_name,"scope":scope,"run_id":run_id})
+    if year is not None:
+        resolved["meta"]["year"]=year
+    resolved.setdefault("io",{})
+    resolved["io"].setdefault("project_root",{})
+    resolved["io"]["project_root"]["path"]=str(root)
+    resolved["_internal"]={"params_path":str(p),"root":str(root),"fmt":fmt}
+    return resolved
 def step_cfg(cfg:Dict[str,Any],step_key:str)->Dict[str,Any]:
     step=(cfg.get("steps",{}) or {}).get(step_key,{}) or {}
     if not isinstance(step,dict):raise ValueError(f"steps.{step_key} debe ser un mapping")
