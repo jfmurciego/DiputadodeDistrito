@@ -430,6 +430,9 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             self.assertIn("--section-year", body)
         self.assertNotIn("declared_generation_ready", resolver)
         self.assertNotIn("linked_internal_partitioning", resolver)
+        self.assertIn('"compatibility_identity_sha256": source.get("compatibility_identity_sha256")', production)
+        self.assertIn('"population_year": source.get("population_year")', production)
+        self.assertIn('"section_year": source.get("section_year")', production)
 
 
     def test_catalog_generation_requires_enabled_preflight_or_certified_product(self):
