@@ -27,16 +27,10 @@ COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
 REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta", "melilla")
 FROM_START_PRE_M04_TARGETS = {
-    "illes_balears",
-    "canarias",
-    "cataluna",
-    "comunidad_valenciana",
-    "madrid",
-    "region_de_murcia",
-    "comunidad_foral_de_navarra",
-    "pais_vasco",
-    "la_rioja",
-    "melilla",
+    "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
+    "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
+    "comunidad_valenciana", "extremadura", "galicia", "madrid", "region_de_murcia",
+    "comunidad_foral_de_navarra", "pais_vasco", "la_rioja", "ceuta", "melilla",
 }
 
 
@@ -579,34 +573,13 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
         return state, contract_path, prep, evidence
 
-    def test_real_pending_territories_receive_pre_m04_accreditation_before_generation_gate(self):
+    def test_historical_real_targets_require_reaccreditation_before_generation(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         for territory_id in REAL_TARGETS:
             with self.subTest(territory=territory_id):
-                state, contract_path, prep, evidence = self._build_real_evidence(territory_id)
-                if state.get("territorial_product_available"):
-                    continue
-                self.assertFalse(state.get("territorial_product_available"))
-                self.assertEqual(evidence["decision"], "READY_FOR_FIRST_GENERATION")
-                self.assertEqual(evidence["stage"], "M03U")
-                self.assertEqual(evidence["source"]["artifact_name"], prep["artifact_name"])
-                self.assertEqual(evidence["source"]["artifact_sha256"], str(prep["artifact_sha256"]).removeprefix("sha256:"))
-                self.assertEqual(evidence["source"]["package_sha256"], str(prep["package_sha256"]).removeprefix("sha256:"))
+                state, contract_path, _ = self._state_and_contract(territory_id)
+                prep = state.get("preparation_evidence") or {}
                 gate = generation_enablement(
-                    root_dir=ROOT,
-                    contract_path=contract_path,
-                    territory_id=territory_id,
-                    certified_product_ready=False,
-                    first_generation_evidence=evidence,
-                    preparation_evidence=prep,
-                    require_source=True,
-                )
-                self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
-
-    def test_missing_or_contradictory_pre_m04_accreditation_still_blocks_real_targets(self):
-        for territory_id in REAL_TARGETS:
-            with self.subTest(territory=territory_id, case="missing"):
-                state, contract_path, prep, evidence = self._build_real_evidence(territory_id)
-                missing = generation_enablement(
                     root_dir=ROOT,
                     contract_path=contract_path,
                     territory_id=territory_id,
@@ -615,57 +588,47 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     preparation_evidence=prep,
                     require_source=True,
                 )
-                self.assertFalse(missing["allowed"])
-                self.assertEqual(missing["capability"], "CAP_PRE_M04_EVIDENCE")
-            with self.subTest(territory=territory_id, case="contradictory"):
-                evidence["graph"]["nodes"] = int(evidence["graph"]["nodes"]) + 1
-                contradictory = generation_enablement(
-                    root_dir=ROOT,
-                    contract_path=contract_path,
-                    territory_id=territory_id,
-                    certified_product_ready=False,
-                    first_generation_evidence=evidence,
-                    preparation_evidence=prep,
-                    require_source=True,
-                )
-                self.assertFalse(contradictory["allowed"])
-                self.assertEqual(contradictory["capability"], "CAP_PRE_M04_EVIDENCE")
+                self.assertFalse(gate["allowed"])
+                self.assertIn(gate["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
 
-    def test_00_reuse_plan_schedules_or_reuses_pre_m04_for_real_targets(self):
-        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
-        for territory_id in REAL_TARGETS:
-            with self.subTest(territory=territory_id):
-                state, _, _ = self._state_and_contract(territory_id)
-                self.assertTrue(state.get("territorial_sources_prepared"))
-                if state.get("territorial_product_available"):
-                    continue
-                self.assertFalse(state.get("territorial_product_available"))
-                evidence_path = (state.get("evidence") or {}).get("generation_preflight")
                 plan = build_plan(
                     territory=territory_id,
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
                     root_dir=ROOT,
-                    optimization_algorithm="Canónico",
-                    force_selected_algorithm=False,
+                    optimization_algorithm="GerryChain 50",
+                    force_selected_algorithm=True,
                 )
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertTrue(plan["pre_m04_accreditation_planned"])
                 self.assertTrue(plan["run_generate"])
-                self.assertEqual(plan["existing"]["territorial_source"]["decision"], "VALIDADO")
-                if evidence_path:
-                    self.assertFalse(plan["pre_m04_accreditation_planned"])
-                    self.assertFalse(plan["run_prepare_territorial"])
-                    self.assertEqual(
-                        plan["generation_gate"],
-                        {"allowed": True, "route": "validated_pre_m04_topology"},
-                    )
-                else:
-                    self.assertTrue(plan["pre_m04_accreditation_planned"])
-                    self.assertTrue(plan["run_prepare_territorial"])
-                    self.assertEqual(
-                        plan["generation_gate"],
-                        {"allowed": True, "route": "planned_pre_m04_accreditation"},
-                    )
+                self.assertEqual(
+                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                    plan["generation_gate"],
+                )
+
+    def test_00_reuse_plan_reaccredits_historical_real_targets(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        for territory_id in REAL_TARGETS:
+            with self.subTest(territory=territory_id):
+                plan = build_plan(
+                    territory=territory_id,
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=ROOT,
+                    optimization_algorithm="GerryChain 50",
+                    force_selected_algorithm=True,
+                )
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertTrue(plan["pre_m04_accreditation_planned"])
+                self.assertTrue(plan["run_generate"])
+                self.assertIsNone(plan["existing"]["territorial_source"]["decision"])
+                self.assertEqual(
+                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                    plan["generation_gate"],
+                )
 
     def test_00_from_start_national_matrix_plans_required_pre_m04_accreditation(self):
         catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
@@ -694,7 +657,6 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 self.assertTrue(plan["generation_gate"]["allowed"])
                 if plan["pre_m04_accreditation_planned"]:
                     planned.add(territory_id)
-                    self.assertFalse(state.get("territorial_product_available"))
                     self.assertEqual(
                         {"allowed": True, "route": "planned_pre_m04_accreditation"},
                         plan["generation_gate"],
@@ -757,7 +719,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     root_dir=root,
                 )
 
-    def test_reuse_catalog_source_and_declared_continental_route_remain_unchanged(self):
+    def test_historical_source_and_flags_do_not_bypass_reaccreditation(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
@@ -767,27 +729,21 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertFalse(reuse["run_prepare_territorial"])
-        self.assertFalse(reuse["pre_m04_accreditation_planned"])
+        self.assertTrue(reuse["run_prepare_territorial"])
+        self.assertTrue(reuse["pre_m04_accreditation_planned"])
         self.assertEqual(
-            {"allowed": True, "route": "validated_pre_m04_topology"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             reuse["generation_gate"],
         )
 
-        accredited_source = build_plan(
-            territory="illes_balears",
-            edition="2025",
-            execution_mode="catalog_source",
-            catalog=catalog,
-            root_dir=ROOT,
-        )
-        self.assertFalse(accredited_source["run_prepare_territorial"])
-        self.assertFalse(accredited_source["pre_m04_accreditation_planned"])
-        self.assertTrue(accredited_source["run_generate"])
-        self.assertEqual(
-            {"allowed": True, "route": "accredited_source_recalculation"},
-            accredited_source["generation_gate"],
-        )
+        with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
+            build_plan(
+                territory="illes_balears",
+                edition="2025",
+                execution_mode="catalog_source",
+                catalog=catalog,
+                root_dir=ROOT,
+            )
 
         continental = build_plan(
             territory="andalucia",
@@ -797,10 +753,10 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             root_dir=ROOT,
         )
         self.assertTrue(continental["run_prepare_territorial"])
-        self.assertFalse(continental["pre_m04_accreditation_planned"])
+        self.assertTrue(continental["pre_m04_accreditation_planned"])
         self.assertTrue(continental["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "declared_generation_ready"},
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
             continental["generation_gate"],
         )
 
@@ -861,7 +817,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         )
 
         pre_m04 = preparation["jobs"]["pre_m04"]["with"]
-        self.assertEqual(pre_m04["source_ref"], "${{ inputs.source_ref || github.sha }}")
+        self.assertEqual(pre_m04["source_ref"], "${{ needs.registrar.outputs.promotion_sha }}")
         self.assertEqual(pre_m04["source_evidence_run_id"], "${{ github.run_id }}")
         self.assertIn("needs.registrar.outputs.artifact_sha256", pre_m04["source_evidence_artifact_sha256"])
         self.assertIn("needs.registrar.outputs.package_sha256", pre_m04["source_evidence_package_sha256"])
