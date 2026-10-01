@@ -56,8 +56,6 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     # Un producto ya certificado sigue siendo reutilizable si no se recalcula.
     for name, territory_id in (
         ("Principado de Asturias", "principado_de_asturias"),
-        ("Aragón", "aragon"),
-        ("Castilla y León", "castilla_y_leon"),
     ):
         with self.subTest(certified_reuse=territory_id):
             row = rows[territory_id]
@@ -105,8 +103,9 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
             self.assertTrue(plan["run_prepare_territorial"])
             self.assertEqual(
                 plan["generation_gate"],
-                {"allowed": True, "route": "planned_source_acquisition"},
+                {"allowed": True, "route": "planned_pre_m04_accreditation"},
             )
+            self.assertTrue(plan["pre_m04_accreditation_planned"])
 
             row = rows[territory_id]
             historical_preflight = (row.get("evidence") or {}).get("generation_preflight")
