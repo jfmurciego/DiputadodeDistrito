@@ -30,6 +30,8 @@ on:
         value: ${{ jobs.territoriales.outputs.artifact_name }}
       artifact_digest:
         value: ${{ jobs.territoriales.outputs.artifact_digest }}
+      enabled_source_ref:
+        value: ${{ jobs.pre_m04.outputs.enabled_source_ref }}
   workflow_dispatch:
     inputs:
       territory_id:
