@@ -762,11 +762,11 @@ jobs:
       run_id: ${{ needs.preparar_territorial.result == 'success' && github.run_id || needs.planificar.outputs.existing_territorial_source_run_id }}
       artifact_name: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.artifact_name || needs.planificar.outputs.existing_territorial_source_artifact }}
       expected_digest: ${{ needs.preparar_territorial.result != 'success' && needs.planificar.outputs.existing_territorial_source_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   generar:
     name: 02 · Generar distritos autonómicos
-    needs: [planificar, puerta_01]
+    needs: [planificar, preparar_territorial, puerta_01]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.planificar.outputs.run_generate == 'true' }}
     uses: ./.github/workflows/produccion-distritos.yml
     secrets: inherit
@@ -777,7 +777,7 @@ jobs:
       optimization_algorithm: ${{ needs.planificar.outputs.optimization_algorithm }}
       source_package_run_id: ${{ needs.puerta_01.outputs.run_id }}
       source_package_artifact_name: ${{ needs.puerta_01.outputs.artifact_name }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       source_package_artifact_sha256: ${{ needs.puerta_01.outputs.artifact_digest }}
       generation_preflight_artifact_name: ${{ needs.planificar.outputs.run_prepare_territorial == 'true' && needs.planificar.outputs.persist_state == 'true' && format('ddd-generation-preflight-{0}-{1}', needs.planificar.outputs.territory_id, github.run_id) || '' }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
@@ -788,7 +788,7 @@ jobs:
 
   puerta_02:
     name: Puerta de validación · 02 → 03
-    needs: [planificar, puerta_01, generar]
+    needs: [planificar, preparar_territorial, puerta_01, generar]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -801,7 +801,7 @@ jobs:
       audit_artifact_name: ${{ needs.generar.result == 'success' && format('ddd-audit-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
       expected_digest: ${{ needs.generar.result != 'success' && needs.planificar.outputs.existing_territorial_product_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   preparar_electoral:
     name: 03 · Preparar resultados electorales
