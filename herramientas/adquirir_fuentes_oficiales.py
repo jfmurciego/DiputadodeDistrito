@@ -398,14 +398,21 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
     return all_features, urls, {"provinces": sorted(coverage), "sections_by_province": coverage, "sections": len(all_features)}
 
 
-def _write_shapefile_zip(features: list[dict], crs: str | None = "EPSG:4326") -> bytes:
+def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
     try:
         import geopandas as gpd
+        from pyproj import CRS
     except Exception as exc:  # pragma: no cover
-        raise RuntimeError(f"geopandas es obligatorio para materializar secciones: {exc}")
+        raise RuntimeError(f"geopandas/pyproj son obligatorios para materializar secciones: {exc}")
+    if crs is None or not str(crs).strip():
+        raise ValueError("CRS_MISSING: la fuente geométrica no acredita CRS")
+    try:
+        CRS.from_user_input(crs)
+    except Exception as exc:
+        raise ValueError(f"CRS_INVALID: {crs!r}") from exc
     with tempfile.TemporaryDirectory(prefix="ddd_sections_") as td:
         shp = Path(td) / "seccionado.shp"
-        gdf = gpd.GeoDataFrame.from_features(features, crs=crs or "EPSG:4326")
+        gdf = gpd.GeoDataFrame.from_features(features, crs=crs)
         gdf.to_file(shp, driver="ESRI Shapefile", index=False)
         out = io.BytesIO()
         with zipfile.ZipFile(out, "w") as zf:
