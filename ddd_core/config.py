@@ -27,8 +27,10 @@ def load_params_yaml(params_path:str)->Dict[str,Any]:
     io_cfg=data.get("io",{}) or {}; root=p.parent.resolve(); pr=(io_cfg.get("project_root",{}) or {}).get("path","")
     if pr:
         pp=Path(str(pr)).expanduser(); root=pp.resolve() if pp.is_absolute() else (p.parent/pp).resolve()
-    meta=data.get("meta",{}) or {}; run_name=meta.get("run_name",p.stem); year=int(meta.get("year",2025)); scope=meta.get("scope","national") or "national"; run_id=os.getenv("DDD_RUN_ID") or meta.get("run_id") or "local"
-    fmt={"run_name":run_name,"year":year,"scope":scope,"run_id":run_id}
+    meta=data.get("meta",{}) or {}; run_name=meta.get("run_name",p.stem); year_raw=meta.get("year");
+    if year_raw in (None,""): raise ValueError("meta.year (edición DDD) es obligatorio; no se admite 2025 implícito")
+    year=int(year_raw); population_year=meta.get("source_population_year"); section_year=meta.get("source_section_year"); scope=meta.get("scope","national") or "national"; run_id=os.getenv("DDD_RUN_ID") or meta.get("run_id") or "local"
+    fmt={"run_name":run_name,"year":year,"population_year":population_year if population_year not in (None,"") else "","section_year":section_year if section_year not in (None,"") else "","scope":scope,"run_id":run_id}
     def _fmt(s:str)->str:
         try:return s.format(**fmt)
         except Exception:return s
