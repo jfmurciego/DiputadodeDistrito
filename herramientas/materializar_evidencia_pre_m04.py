@@ -299,6 +299,13 @@ def register_evidence_path(
     start, end = _catalog_state_bounds(lines, territory_id, str(edition))
     state_indent = _catalog_state_indent(lines, start, end)
     _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
+    # Validar también el destino maestro antes de escribir ningún estado habilitado.
+    master_path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
+    if not master_path.is_file():
+        raise ValueError("falta catálogo territorial maestro antes de habilitar generación")
+    master_lines = master_path.read_text(encoding="utf-8").splitlines()
+    if not any(f"territory_id: {territory_id}," in line for line in master_lines):
+        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
     # No hacer durable la habilitación en catálogo hasta que contrato y maestro
     # hayan aceptado exactamente la misma evidencia pre-M04.
     _enable_contract_after_pre_m04(
