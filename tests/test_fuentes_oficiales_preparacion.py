@@ -296,6 +296,30 @@ class OfficialSourcesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
             _filter_population(payload, dec, 2023, ["39"])
 
+    def test_population_invalid_section_from_other_province_is_territorial_exclusion(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;01001;seccion-invalida;123\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902003;10\n"
+        ).encode("utf-8")
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
+        self.assertTrue(checks["row_reconciliation"]["balanced"])
+
+    def test_population_missing_value_from_other_province_does_not_block_requested_territory(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;01001;0100101001;\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902003;10\n"
+        ).encode("utf-8")
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["selected_section_population_total"], 10)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
+
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
         payload = (
