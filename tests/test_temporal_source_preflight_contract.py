@@ -321,6 +321,36 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
                 )
                 self.assertEqual(gate, {"allowed": True, "route": "validated_pre_m04_topology"})
 
+                _enable_contract_after_pre_m04(
+                    root_dir=root,
+                    contract_path="contract.yaml",
+                    evidence=evidence,
+                )
+                enabled_gate = generation_enablement(
+                    root_dir=root,
+                    contract_path="contract.yaml",
+                    territory_id="demo",
+                    first_generation_evidence=evidence,
+                    preparation_evidence=prep,
+                    require_source=True,
+                )
+                self.assertEqual(
+                    enabled_gate,
+                    {"allowed": True, "route": "validated_pre_m04_topology"},
+                )
+                wrong_revision = json.loads(json.dumps(evidence))
+                wrong_revision["source_commit"] = "f" * 40
+                blocked_revision = generation_enablement(
+                    root_dir=root,
+                    contract_path="contract.yaml",
+                    territory_id="demo",
+                    first_generation_evidence=wrong_revision,
+                    preparation_evidence=prep,
+                    require_source=True,
+                )
+                self.assertFalse(blocked_revision["allowed"])
+                self.assertIn("run/revisión/digest", blocked_revision["reason"])
+
                 altered = json.loads(json.dumps(evidence))
                 altered["source"]["package_sha256"] = "4" * 64
                 blocked = generation_enablement(
