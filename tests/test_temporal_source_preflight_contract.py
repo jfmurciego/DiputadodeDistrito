@@ -682,5 +682,52 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             )
 
 
+    def test_missing_master_blocks_before_contract_enablement(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "configuracion").mkdir()
+            catalog = root / "configuracion/catalogo_preparacion.yaml"
+            catalog.write_text(
+                "schema: ddd-preparation-catalog/1.1\n"
+                "territories:\n"
+                "  - territory_id: demo\n"
+                "    name: Demo\n"
+                "    editions:\n"
+                "      '2025':\n"
+                "        generation_enabled: false\n"
+                "        evidence: {}\n",
+                encoding="utf-8",
+            )
+            contract_path = root / "contract.yaml"
+            contract_path.write_text(
+                yaml.safe_dump(contract(), sort_keys=False),
+                encoding="utf-8",
+            )
+            evidence = {
+                "run_id": 7,
+                "source_commit": "e" * 40,
+                "artifact_sha256": "1" * 64,
+                "source": {
+                    "package_sha256": "b" * 64,
+                    "compatibility_identity_sha256": "c" * 64,
+                    "population_year": 2023,
+                    "section_year": 2023,
+                },
+            }
+            with self.assertRaisesRegex(ValueError, "catálogo territorial maestro"):
+                register_evidence_path(
+                    root_dir=root,
+                    territory_id="demo",
+                    edition="2025",
+                    evidence_path="preflight.json",
+                    contract_path="contract.yaml",
+                    evidence=evidence,
+                )
+            contract_after = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            self.assertFalse(contract_after["generation_state"]["generation_enabled"])
+            state = yaml.safe_load(catalog.read_text(encoding="utf-8"))["territories"][0]["editions"]["2025"]
+            self.assertFalse(state["generation_enabled"])
+
+
 if __name__ == "__main__":
     unittest.main()
