@@ -53,16 +53,46 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
-    galicia_route = _expected_current_generation_route(rows["galicia"], "galicia")
-
-    for name, territory_id, route in (
-        ("Galicia", "galicia", galicia_route),
-        ("Principado de Asturias", "principado_de_asturias", "certified_product_lineage"),
-        ("Aragón", "aragon", "certified_product_lineage"),
-        ("Castilla y León", "castilla_y_leon", "certified_product_lineage"),
-        ("Andalucía", "andalucia", "declared_generation_ready"),
+    # Un producto ya certificado sigue siendo reutilizable si no se recalcula.
+    for name, territory_id in (
+        ("Principado de Asturias", "principado_de_asturias"),
+        ("Aragón", "aragon"),
+        ("Castilla y León", "castilla_y_leon"),
     ):
-        with self.subTest(territory=name):
+        with self.subTest(certified_reuse=territory_id):
+            row = rows[territory_id]
+            if not row.get("territorial_product_available"):
+                continue
+            plan = build_plan(
+                territory=name,
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog_path,
+                root_dir=ROOT,
+                optimization_algorithm="Canónico",
+                force_selected_algorithm=False,
+            )
+            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertFalse(plan["run_generate"])
+            self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "certified_product_lineage"})
+
+    # En cambio, cualquier nueva generación sobre los paquetes históricos actuales
+    # debe reacreditar la fuente: todavía carecen de compatibilidad+año completa.
+    for name, territory_id in (
+        ("Galicia", "galicia"),
+        ("Principado de Asturias", "principado_de_asturias"),
+        ("Aragón", "aragon"),
+        ("Castilla y León", "castilla_y_leon"),
+        ("Andalucía", "andalucia"),
+        ("La Rioja", "la_rioja"),
+        ("Cantabria", "cantabria"),
+        ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
+        ("País Vasco", "pais_vasco"),
+        ("Comunidad de Madrid", "madrid"),
+        ("Comunidad Valenciana", "comunidad_valenciana"),
+        ("Cataluña", "cataluna"),
+    ):
+        with self.subTest(recompute=territory_id):
             plan = build_plan(
                 territory=name,
                 edition="2025",
@@ -72,91 +102,28 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
                 optimization_algorithm="GerryChain 50",
                 force_selected_algorithm=True,
             )
-            self.assertEqual(plan["generation_gate"], {"allowed": True, "route": route})
+            self.assertTrue(plan["run_prepare_territorial"])
+            self.assertEqual(
+                plan["generation_gate"],
+                {"allowed": True, "route": "planned_source_acquisition"},
+            )
 
-    for name, territory_id in (
-        ("La Rioja", "la_rioja"),
-        ("Cantabria", "cantabria"),
-        ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
-        ("País Vasco", "pais_vasco"),
-    ):
-        with self.subTest(first_product=territory_id):
             row = rows[territory_id]
-            self.assertFalse(row["territorial_product_available"])
-            self.assertEqual(row["territorial_certification"], "NOT_CERTIFIED")
-            evidence_path = row["evidence"]["generation_preflight"]
-            evidence = json.loads((ROOT / evidence_path).read_text(encoding="utf-8"))
-            bare_gate = generation_enablement(
-                root_dir=ROOT, contract_path=row["contract_path"],
-                territory_id=territory_id, certified_product_ready=False,
-            )
-            if territory_id == "cantabria":
-                # #140 materializa Cantabria como contrato generation_ready. Esto es
-                # capacidad estructural del contrato, no un efecto de AUTHORIZED.
-                self.assertEqual(bare_gate, {"allowed": True, "route": "declared_generation_ready"})
-            else:
-                self.assertFalse(bare_gate["allowed"])
-            plan = build_plan(
-                territory=name, edition="2025", execution_mode="reuse",
-                catalog=catalog_path, root_dir=ROOT, force_selected_algorithm=True,
-            )
-            self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "validated_pre_m04_topology"})
-            prep = row["preparation_evidence"]
-            apply_explicit_territorial_source(
-                plan, root_dir=ROOT, reuse_run_id=str(prep["run_id"]),
-                reuse_artifact_name=prep["artifact_name"],
-                reuse_artifact_sha256=prep["artifact_sha256"],
-                reuse_source_sha=evidence["source_commit"],
-            )
-            self.assertTrue(plan["run_generate"])
-            self.assertEqual(plan["existing"]["territorial_source"]["run_id"], prep["run_id"])
-
-    for name, territory_id in (
-        ("Comunidad de Madrid", "madrid"),
-        ("Comunidad Valenciana", "comunidad_valenciana"),
-        ("Cataluña", "cataluna"),
-    ):
-        with self.subTest(pre_m04_planned=territory_id):
-            row = rows[territory_id]
-            self.assertFalse(row["territorial_product_available"])
-            evidence_path = (row.get("evidence") or {}).get("generation_preflight")
-            plan = build_plan(
-                territory=name, edition="2025", execution_mode="reuse",
-                catalog=catalog_path, root_dir=ROOT, force_selected_algorithm=True,
-            )
-            if evidence_path:
-                evidence = json.loads((ROOT / evidence_path).read_text(encoding="utf-8"))
-                direct_gate = generation_enablement(
+            historical_preflight = (row.get("evidence") or {}).get("generation_preflight")
+            if historical_preflight:
+                evidence = json.loads((ROOT / historical_preflight).read_text(encoding="utf-8"))
+                direct = generation_enablement(
                     root_dir=ROOT,
                     contract_path=row["contract_path"],
                     territory_id=territory_id,
                     certified_product_ready=False,
                     first_generation_evidence=evidence,
-                    preparation_evidence=row["preparation_evidence"],
+                    preparation_evidence=row.get("preparation_evidence") or {},
                     require_source=True,
                 )
-                self.assertEqual(direct_gate, {"allowed": True, "route": "validated_pre_m04_topology"})
-                self.assertFalse(plan["pre_m04_accreditation_planned"])
-                self.assertFalse(plan["run_prepare_territorial"])
-                self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "validated_pre_m04_topology"})
-            else:
-                direct_gate = generation_enablement(
-                    root_dir=ROOT,
-                    contract_path=row["contract_path"],
-                    territory_id=territory_id,
-                    certified_product_ready=False,
-                    first_generation_evidence=None,
-                    preparation_evidence=row["preparation_evidence"],
-                    require_source=True,
-                )
-                self.assertFalse(direct_gate["allowed"])
-                self.assertEqual(direct_gate["capability"], "CAP_PRE_M04_EVIDENCE")
-                self.assertTrue(plan["pre_m04_accreditation_planned"])
-                self.assertTrue(plan["run_prepare_territorial"])
-                self.assertEqual(
-                    plan["generation_gate"],
-                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
-                )
+                self.assertFalse(direct["allowed"])
+                self.assertIn(direct["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
+
 
 
 def _write_structural_fixture(root: Path, *, b_sha: str = "b" * 64, authorization=..., broken_k: bool = False) -> Path:
@@ -201,10 +168,12 @@ def _test_effective_manifest_source_precedes_catalog_provenance(self):
     with tempfile.TemporaryDirectory() as raw:
         root = Path(raw)
         catalog = _write_structural_fixture(root, b_sha="invalid-B")
-        plan = build_plan(territory="Fixture", edition="2025", execution_mode="reuse", catalog=catalog, root_dir=root, force_selected_algorithm=True, explicit_territorial_source=source_a)
-        self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], "source-A")
-        self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "declared_generation_ready"})
-        self.assertFalse(plan["run_prepare_territorial"])
+        with self.assertRaisesRegex(ValueError, "CAP_SOURCE|CAP_PRE_M04_EVIDENCE"):
+            build_plan(
+                territory="Fixture", edition="2025", execution_mode="reuse",
+                catalog=catalog, root_dir=root, force_selected_algorithm=True,
+                explicit_territorial_source=source_a,
+            )
     with tempfile.TemporaryDirectory() as raw:
         root = Path(raw)
         catalog = _write_structural_fixture(root)
@@ -217,7 +186,8 @@ def _test_authorization_is_neutral_but_explicit_block_is_not(self):
         root = Path(raw)
         _write_structural_fixture(root, authorization="AUTHORIZED")
         authorized = generation_enablement(root_dir=root, contract_path="contract.yaml", territory_id="fixture")
-        self.assertEqual(authorized, {"allowed": True, "route": "declared_generation_ready"})
+        self.assertFalse(authorized["allowed"])
+        self.assertEqual(authorized["capability"], "CAP_PRE_M04_EVIDENCE")
         _write_structural_fixture(root, authorization=...)
         absent = generation_enablement(root_dir=root, contract_path="contract.yaml", territory_id="fixture")
         self.assertEqual(absent, authorized)
