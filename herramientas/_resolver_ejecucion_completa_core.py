@@ -498,7 +498,16 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
 def generation_enablement(*, root_dir: Path, contract_path: str | None, territory_id: str,
                           certified_product_ready: bool = False, first_generation_evidence: dict | None = None,
                           preparation_evidence: dict | None = None, require_source: bool = False,
-                          source_acquisition_planned: bool = False) -> dict:
+                          source_acquisition_planned: bool = False,
+                          pre_m04_accreditation_planned: bool = False,
+                          source_recalculation_planned: bool = False) -> dict:
+    """Cadena única de habilitación de generación.
+
+    Los estados históricos sólo conservan continuidad del producto certificado.
+    Una fuente nueva exige identidad material completa y evidencia pre-M04
+    vinculada a esa misma identidad, salvo que la adquisición/reacreditación
+    esté explícitamente planificada para el run actual.
+    """
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
@@ -511,6 +520,7 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:
         return capability_gate
+
     prep = preparation_evidence or {}
     if require_source and not source_acquisition_planned:
         if (
@@ -528,20 +538,30 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
                 "CAP_SOURCE",
                 "fuente territorial sin identidad completa run/artefacto/paquete/compatibilidad/años",
             )
+        if "source_commit" in prep and not re.fullmatch(
+            r"[0-9a-f]{40}", str(prep.get("source_commit") or "")
+        ):
+            return _blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
+
     if first_generation_evidence:
         return _validated_first_generation_preflight(
-            contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
-            territory_id=territory_id, root_dir=root_dir,
+            contract=contract,
+            evidence=first_generation_evidence,
+            preparation_evidence=prep,
+            territory_id=territory_id,
+            root_dir=root_dir,
         )
+    if pre_m04_accreditation_planned:
+        return {"allowed": True, "route": "planned_pre_m04_accreditation"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
     if certified_product_ready and not require_source:
         return {"allowed": True, "route": "certified_product_lineage"}
     return _blocked(
         "CAP_PRE_M04_EVIDENCE",
-        "la generación exige evidencia pre-M04 ligada a la fuente efectiva",
+        "la generación exige evidencia pre-M04 ligada a la fuente efectiva; "
+        "los estados históricos no habilitan una fuente nueva",
     )
-
 
 def _load_json(path: str | None, root: Path) -> dict:
     if not path:
