@@ -128,7 +128,17 @@ def _canonical_party(value, *, parties: PartyDictionary, source: Path, adapter_k
         field=field,
         cause="PARTY_MISSING",
     )
-    canonical = parties.canonicalize(raw)
+    try:
+        canonical = parties.canonicalize(raw)
+    except ValueError:
+        _input_invalid(
+            source=source,
+            adapter_kind=adapter_kind,
+            row=row,
+            field=field,
+            value=value,
+            cause="PARTY_NOT_RECOGNIZED",
+        )
     if not canonical:
         _input_invalid(
             source=source,
