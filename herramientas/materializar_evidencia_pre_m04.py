@@ -70,6 +70,8 @@ def _resolved(path_template: str | None, contract: dict, run_id: int) -> str | N
         run_name=meta.get("run_name", ""),
         run_id=run_id,
         year=meta.get("year", ""),
+        population_year=meta.get("source_population_year", ""),
+        section_year=meta.get("source_section_year", ""),
     )
 
 
@@ -99,8 +101,15 @@ def build_evidence(
         raise ValueError(
             f"SOURCE_RUN_MISMATCH: preparation_evidence.run_id={prep.get('run_id')} run_id={run_id}"
         )
-    for key in ("artifact_name", "artifact_sha256", "package_sha256"):
-        if not prep.get(key):
+    for key in (
+        "artifact_name",
+        "artifact_sha256",
+        "package_sha256",
+        "compatibility_identity_sha256",
+        "population_year",
+        "section_year",
+    ):
+        if prep.get(key) in (None, ""):
             raise ValueError(f"SOURCE_EVIDENCE_INCOMPLETE: {key}")
 
     report = _find_m03_report(m03_state_dir)
@@ -169,6 +178,10 @@ def build_evidence(
             "artifact_name": prep["artifact_name"],
             "artifact_sha256": str(prep["artifact_sha256"]).removeprefix("sha256:"),
             "package_sha256": str(prep["package_sha256"]).removeprefix("sha256:"),
+            "compatibility_identity_sha256": str(prep["compatibility_identity_sha256"]),
+            "territorial_identity_sha256": str(prep.get("territorial_identity_sha256") or ""),
+            "population_year": int(prep["population_year"]),
+            "section_year": int(prep["section_year"]),
         },
         "implementation": _pre_m04_implementation_binding(root, contract),
         "adjacency": {
@@ -211,8 +224,60 @@ def build_evidence(
     return evidence
 
 
+def _enable_contract_after_pre_m04(
+    *, root_dir: Path, contract_path: str, evidence: dict
+) -> None:
+    path = root_dir / contract_path
+    contract = _yaml(path)
+    state = contract.setdefault("generation_state", {})
+    baseline = (contract.get("validation") or {}).get("source_baseline") or {}
+    source = evidence.get("source") or {}
+    if (
+        state.get("source_prepared") is not True
+        or str(state.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+        or str(state.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+        or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+        or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+        or int(baseline.get("population_year") or 0) != int(source.get("population_year") or 0)
+        or int(baseline.get("section_year") or 0) != int(source.get("section_year") or 0)
+    ):
+        raise ValueError("GENERATION_ENABLEMENT_SOURCE_MISMATCH")
+    contract.setdefault("meta", {})["status"] = "generation_ready"
+    contract.setdefault("territory_contract", {})["status"] = "generation_ready"
+    state.update({
+        "generation_enabled": True,
+        "pre_m04_run_id": int(evidence["run_id"]),
+        "pre_m04_source_commit": str(evidence["source_commit"]),
+        "pre_m04_artifact_sha256": str(evidence["artifact_sha256"]),
+    })
+    path.write_text(
+        yaml.safe_dump(contract, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+
+
+def _enable_master_after_pre_m04(*, root_dir: Path, territory_id: str) -> None:
+    path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    target = next(
+        (i for i, line in enumerate(lines) if f"territory_id: {territory_id}," in line),
+        None,
+    )
+    if target is None:
+        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
+    import re
+    line = lines[target]
+    if "status:" in line:
+        line = re.sub(r"status: [^,}]+", "status: generation_ready", line)
+    else:
+        line = line[:-1] + ", status: generation_ready}"
+    lines[target] = line
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def register_evidence_path(
-    *, root_dir: Path, territory_id: str, edition: str, evidence_path: str
+    *, root_dir: Path, territory_id: str, edition: str, evidence_path: str,
+    contract_path: str, evidence: dict
 ) -> None:
     catalog = root_dir / CATALOG
     lines = catalog.read_text(encoding="utf-8").splitlines()
@@ -231,6 +296,24 @@ def register_evidence_path(
     while e_end < end and (lines[e_end].startswith(child) or not lines[e_end].strip()):
         e_end += 1
     _replace_key(lines, evidence_start + 1, e_end, child, "generation_preflight", evidence_path)
+    start, end = _catalog_state_bounds(lines, territory_id, str(edition))
+    state_indent = _catalog_state_indent(lines, start, end)
+    _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
+    # Validar también el destino maestro antes de escribir ningún estado habilitado.
+    master_path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
+    if not master_path.is_file():
+        raise ValueError("falta catálogo territorial maestro antes de habilitar generación")
+    master_lines = master_path.read_text(encoding="utf-8").splitlines()
+    if not any(f"territory_id: {territory_id}," in line for line in master_lines):
+        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
+    # No hacer durable la habilitación en catálogo hasta que contrato y maestro
+    # hayan aceptado exactamente la misma evidencia pre-M04.
+    _enable_contract_after_pre_m04(
+        root_dir=root_dir,
+        contract_path=contract_path,
+        evidence=evidence,
+    )
+    _enable_master_after_pre_m04(root_dir=root_dir, territory_id=territory_id)
     catalog.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -290,6 +373,8 @@ def main() -> int:
             territory_id=args.territory_id,
             edition=args.edition,
             evidence_path=rel,
+            contract_path=args.contract_path,
+            evidence=evidence,
         )
     print(json.dumps(evidence, ensure_ascii=False))
     return 0

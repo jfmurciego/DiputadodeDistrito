@@ -15,7 +15,10 @@ import zipfile
 from pathlib import Path
 
 import yaml
+import geopandas as gpd
+from shapely.geometry import box
 
+from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.materializar_contrato_generacion import (
     component_apportionment_audit,
     component_hamilton,
@@ -38,8 +41,10 @@ PARTITIONS = ROOT / "configuracion/particiones_insulares_2025.json"
 
 
 def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str = "\t") -> Path:
+    """Paquete sintético acreditado: población + seccionado + inventario + compatibilidad."""
     package = root / "package"
-    package.mkdir(parents=True)
+    package.mkdir(parents=True, exist_ok=True)
+
     payload = io.StringIO()
     writer = csv.writer(payload, delimiter=delimiter, lineterminator="\n")
     writer.writerow(["Total Nacional","Provincias","Municipios","Secciones","Sexo","Edad","Periodo","Total"])
@@ -48,11 +53,90 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
             "Total Nacional", section[:2], section[:5], section,
             "Total", "Todas las edades", "2025", f"{population:,}".replace(",", "."),
         ])
-    zpath = package / "65034.csv.zip"
-    with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as zf:
+    population_zip = package / "65034.csv.zip"
+    with zipfile.ZipFile(population_zip, "w", zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("65034.csv", payload.getvalue().encode("utf-8-sig"))
-    return package
 
+    master = yaml.safe_load(
+        (root / "configuracion/catalogo_territorios_espana_2025.yaml").read_text(encoding="utf-8")
+    )
+    territory_id = master["territories"][0]["territory_id"]
+
+    evidence = package / "evidence"
+    materialized = evidence / "materialized" / "inputs"
+    materialized.mkdir(parents=True)
+    shutil.copy2(population_zip, materialized / "65034.csv.zip")
+
+    section_zip = materialized / "seccionado_2025.zip"
+    with tempfile.TemporaryDirectory() as geo_td:
+        geo_root = Path(geo_td)
+        shp = geo_root / "seccionado.shp"
+        gdf = gpd.GeoDataFrame(
+            {"CUSEC": [section for section, _ in rows]},
+            geometry=[box(index, 0, index + 0.8, 0.8) for index, _ in enumerate(rows)],
+            crs="EPSG:4326",
+        )
+        gdf.to_file(shp)
+        with zipfile.ZipFile(section_zip, "w", zipfile.ZIP_DEFLATED) as zf:
+            for path in sorted(geo_root.glob("seccionado.*")):
+                zf.write(path, arcname=path.name)
+
+    def sha(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    inventory = {
+        "sources": [
+            {
+                "role": "population",
+                "source_id": "synthetic_population",
+                "path": "inputs/65034.csv.zip",
+                "bytes": (materialized / "65034.csv.zip").stat().st_size,
+                "sha256": sha(materialized / "65034.csv.zip"),
+            },
+            {
+                "role": "target_sectioning",
+                "source_id": "synthetic_sectioning",
+                "path": "inputs/seccionado_2025.zip",
+                "bytes": section_zip.stat().st_size,
+                "sha256": sha(section_zip),
+            },
+        ]
+    }
+    (evidence / "inventario_fuentes.json").write_text(
+        json.dumps(inventory, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    build_materialized_report(
+        evidence_dir=evidence,
+        territory_id=territory_id,
+        edition="2025",
+        population_year=2025,
+        section_year=2025,
+        inventory=inventory,
+    )
+
+    bundle = package / "prepared_sources.zip"
+    with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as zf:
+        for path in sorted(p for p in evidence.rglob("*") if p.is_file()):
+            zf.write(path, arcname=path.relative_to(evidence).as_posix())
+    manifest = {
+        "territory_id": territory_id,
+        "edition": 2025,
+        "population_year": 2025,
+        "section_year": 2025,
+        "source_year": 2025,
+        "path": bundle.name,
+        "bytes": bundle.stat().st_size,
+        "sha256": sha(bundle),
+        "records": len(rows),
+        "origin": "synthetic-test-fixture",
+        "acquired_at": "2026-10-01T00:00:00+00:00",
+    }
+    (package / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return package
 
 def temp_root(territory_id: str, name: str, provinces: list[str]) -> tempfile.TemporaryDirectory:
     td = tempfile.TemporaryDirectory()
@@ -114,8 +198,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 [("3300101001", 1507), ("3300201001", 1905), ("3300201002", 0)],
                 delimiter=";",
             )
-            result = materialize(root, "principado_de_asturias", "2025", package)
-            self.assertEqual(result["status"], "READY")
+            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
+            self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["province_districts"], {"33": 45})
         finally:
@@ -126,8 +210,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         try:
             root = Path(td.name)
             package = population_package(root, [("3300101001", 1_015_128)])
-            result = materialize(root, "principado_de_asturias", "2025", package)
-            self.assertEqual(result["status"], "READY")
+            result = materialize(root, "principado_de_asturias", "2025", package, population_year="2025", section_year="2025")
+            self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["k"], 45)
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["meta"]["contract_level"], "production_m01_m06")
@@ -157,8 +241,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 root = Path(td.name)
                 rows = [(f"{province}00101001", 100000 + index * 1000) for index, province in enumerate(provinces)]
                 package = population_package(root, rows)
-                result = materialize(root, territory_id, "2025", package)
-                self.assertEqual(result["status"], "READY", territory_id)
+                result = materialize(root, territory_id, "2025", package, population_year="2025", section_year="2025")
+                self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04", territory_id)
                 self.assertEqual(result["k"], int(entry["k"]), territory_id)
                 cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
                 self.assertEqual(cfg["meta"]["production_authorization"], "AUTHORIZED", territory_id)
@@ -205,7 +289,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(gate["allowed"], territory_id)
-            self.assertEqual("CAP_PRE_M04_EVIDENCE", gate["capability"], territory_id)
+            self.assertIn(gate["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"}, territory_id)
 
             plan = build_plan(
                 territory=territory_id,
@@ -216,14 +300,16 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             )
             durable_preflight = (state.get("evidence") or {}).get("generation_preflight")
             self.assertTrue(durable_preflight, territory_id)
-            self.assertFalse(plan["pre_m04_accreditation_planned"], territory_id)
-            self.assertFalse(plan["run_prepare_territorial"], territory_id)
+            # La evidencia histórica no contiene la identidad de compatibilidad
+            # exigida por el contrato nuevo: se conserva, pero no habilita.
+            self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
+            self.assertTrue(plan["run_prepare_territorial"], territory_id)
             self.assertTrue(plan["run_generate"], territory_id)
-            self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"], territory_id)
+            self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"], territory_id)
             self.assertFalse(plan["catalog_state"]["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", plan["catalog_state"]["territorial_certification"], territory_id)
 
-    def test_archipelago_complete_durable_preflight_opens_only_first_generation_gate(self):
+    def test_historical_archipelago_preflight_does_not_bypass_new_source_identity(self):
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
@@ -292,11 +378,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 preparation_evidence=state["preparation_evidence"],
                 require_source=True,
             )
-            self.assertEqual(
-                {"allowed": True, "route": "validated_pre_m04_topology"},
-                gate,
-                territory_id,
-            )
+            self.assertFalse(gate["allowed"], territory_id)
+            self.assertIn(gate["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"}, territory_id)
             self.assertFalse(state["territorial_product_available"], territory_id)
             self.assertEqual("NOT_CERTIFIED", state["territorial_certification"], territory_id)
 
@@ -312,7 +395,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(blocked["allowed"], territory_id)
-            self.assertEqual("CAP_PRE_M04_EVIDENCE", blocked["capability"], territory_id)
+            self.assertEqual("CAP_SOURCE", blocked["capability"], territory_id)
+            self.assertIn("identidad completa", blocked["reason"], territory_id)
 
     def test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment(self):
         contract = yaml.safe_load(
@@ -624,8 +708,9 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
             root_dir=ROOT,
         )
-        self.assertFalse(plan["pre_m04_accreditation_planned"])
-        self.assertEqual("validated_pre_m04_topology", plan["generation_gate"]["route"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"])
 
     def test_archipelago_policy_separates_institutional_k_from_ddd_apportionment(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
@@ -715,8 +800,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("3800701001", 86297),
                 ("3801301001", 11993),
             ])
-            result = materialize(root, "canarias", "2025", package)
-            self.assertEqual(result["status"], "READY")
+            result = materialize(root, "canarias", "2025", package, population_year="2025", section_year="2025")
+            self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
                 {"35-C01":25,"35-C02":5,"35-C03":6,"35-C04":1,
@@ -747,8 +832,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 ("0702401001", 11690),
                 ("0702601001", 164265),
             ])
-            result = materialize(root, "illes_balears", "2025", package)
-            self.assertEqual(result["status"], "READY")
+            result = materialize(root, "illes_balears", "2025", package, population_year="2025", section_year="2025")
+            self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             self.assertEqual(result["partition_mode"], "physical_components_hamilton")
             self.assertEqual(
                 {"07-C01":44,"07-C02":6,"07-C03":1,"07-C04":8},

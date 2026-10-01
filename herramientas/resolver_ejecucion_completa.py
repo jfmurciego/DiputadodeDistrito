@@ -97,61 +97,28 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
                           source_acquisition_planned: bool = False,
                           pre_m04_accreditation_planned: bool = False,
                           source_recalculation_planned: bool = False) -> dict:
-    path = root_dir / contract_path if contract_path else None
-    if path is None or not path.is_file():
-        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
-    try:
-        contract = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, yaml.YAMLError):
-        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
-    if not isinstance(contract, dict) or (contract.get("meta") or {}).get("territory_id") != territory_id:
-        return _core._blocked("CAP_CONTRACT", "identidad del contrato territorial no coincide")
-    capability_gate = _generation_capabilities(contract, root_dir=root_dir)
-    if not capability_gate["allowed"]:
-        return capability_gate
-    prep = preparation_evidence or {}
-    if require_source and not source_acquisition_planned:
-        if (not isinstance(prep.get("run_id"), int) or isinstance(prep.get("run_id"), bool)
-                or prep.get("run_id") <= 0 or not prep.get("artifact_name")
-                or not _core._sha256_value(prep.get("artifact_sha256"))):
-            return _core._blocked("CAP_SOURCE", "fuente territorial no acreditada por run, artefacto y SHA-256")
-        if "source_commit" in prep and not re.fullmatch(r"[0-9a-f]{40}", str(prep.get("source_commit") or "")):
-            return _core._blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
-    if source_recalculation_planned:
-        return {"allowed": True, "route": "accredited_source_recalculation"}
-    if first_generation_evidence:
-        return _core._validated_first_generation_preflight(
-            contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
-            territory_id=territory_id, root_dir=root_dir,
-        )
-    meta = contract.get("meta") or {}
-    territorial = contract.get("territory_contract") or {}
-    modules = contract.get("modulos") or {}
-    m04 = modules.get("modulo_04_generar_semillas") or {}
-    partitioning = contract.get("partitioning") or {}
-    if certified_product_ready:
-        return {"allowed": True, "route": "certified_product_lineage"}
-    if source_acquisition_planned:
-        return {"allowed": True, "route": "planned_source_acquisition"}
-    if pre_m04_accreditation_planned:
-        return {"allowed": True, "route": "planned_pre_m04_accreditation"}
-    if meta.get("status") == territorial.get("status") == "generation_ready":
-        return {"allowed": True, "route": "declared_generation_ready"}
-    if (partitioning.get("enabled") is True and partitioning.get("strategy") == "connected_internal_units"
-            and partitioning.get("output_geojson") == m04.get("in_geojson")
-            and partitioning.get("partition_unit_field") == m04.get("municipality_field")):
-        return {"allowed": True, "route": "linked_internal_partitioning"}
-    return _core._blocked("CAP_PRE_M04_EVIDENCE", "primera generación sin evidencia durable pre-M04")
-
-
+    """API pública: delega íntegramente en la validación material común."""
+    return _core.generation_enablement(
+        root_dir=root_dir,
+        contract_path=contract_path,
+        territory_id=territory_id,
+        certified_product_ready=certified_product_ready,
+        first_generation_evidence=first_generation_evidence,
+        preparation_evidence=preparation_evidence,
+        require_source=require_source,
+        source_acquisition_planned=source_acquisition_planned,
+        pre_m04_accreditation_planned=pre_m04_accreditation_planned,
+        source_recalculation_planned=source_recalculation_planned,
+    )
 
 def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str) -> dict:
-    """Expone la misma decisión de habilitación que consume 00, con trazabilidad durable.
+    """Expone GENERATION_READY sólo cuando catálogo, contrato, fuente y pre-M04 coinciden.
 
-    No interpreta flags de catálogo como autorización. La autoridad es
-    generation_enablement() sobre el contrato efectivo, la fuente preparada y la
-    evidencia pre-M04 registrada para esa misma fuente.
+    Los flags durables son condiciones necesarias, nunca autoridad suficiente:
+    la decisión material se delega en la validación definitiva de _core.
     """
+    if state.get("generation_enabled") is not True:
+        return _core._blocked("CAP_PRE_M04_EVIDENCE", "generation_enabled no está registrado en catálogo")
     contract_path = str(state.get("contract_path") or "")
     prep = state.get("preparation_evidence") or {}
     evidence_path = str((state.get("evidence") or {}).get("generation_preflight") or "")
@@ -159,8 +126,11 @@ def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str)
         return _core._blocked("CAP_PRE_M04_EVIDENCE", "evidencia generation_preflight ausente")
     evidence = _core._load_json(evidence_path, root_dir)
     if not evidence:
-        return _core._blocked("CAP_PRE_M04_EVIDENCE", f"evidencia generation_preflight ilegible: {evidence_path}")
-    gate = generation_enablement(
+        return _core._blocked(
+            "CAP_PRE_M04_EVIDENCE",
+            f"evidencia generation_preflight ilegible: {evidence_path}",
+        )
+    gate = _core.generation_enablement(
         root_dir=root_dir,
         contract_path=contract_path,
         territory_id=territory_id,
@@ -171,7 +141,18 @@ def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str)
     )
     if not gate.get("allowed"):
         return gate
+
     contract_file = root_dir / contract_path
+    try:
+        contract = yaml.safe_load(contract_file.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return _core._blocked("CAP_CONTRACT", "contrato territorial efectivo ilegible")
+    if (contract.get("generation_state") or {}).get("generation_enabled") is not True:
+        return _core._blocked(
+            "CAP_PRE_M04_EVIDENCE",
+            "generation_enabled no está registrado en el contrato efectivo",
+        )
+
     evidence_file = root_dir / evidence_path
     import hashlib
     return {
@@ -186,6 +167,10 @@ def generation_ready_contract(*, root_dir: Path, state: dict, territory_id: str)
             "artifact_name": prep.get("artifact_name"),
             "artifact_sha256": prep.get("artifact_sha256"),
             "package_sha256": prep.get("package_sha256"),
+            "compatibility_identity_sha256": prep.get("compatibility_identity_sha256"),
+            "population_year": prep.get("population_year"),
+            "section_year": prep.get("section_year"),
+            "source_commit": prep.get("source_commit"),
         },
         "generation_evidence_path": evidence_path,
         "generation_evidence_sha256": hashlib.sha256(evidence_file.read_bytes()).hexdigest(),
@@ -260,6 +245,20 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
             f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
             "SHA-256 interno del paquete territorial ausente o inválido"
         )
+    compatibility_identity_sha256 = str(prep.get("compatibility_identity_sha256") or "").lower()
+    if not _core._sha256_value(compatibility_identity_sha256):
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "identidad de compatibilidad territorial ausente o inválida"
+        )
+    try:
+        population_year = int(prep.get("population_year"))
+        section_year = int(prep.get("section_year"))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            f"CATALOG_SOURCE_BLOCK: {row.get('name') or territory_id}: "
+            "population_year/section_year ausentes o inválidos"
+        ) from exc
     declaration_rel = str(state.get("territorial_source_declaration") or "")
     declaration_path = root_dir / declaration_rel if declaration_rel else None
     if declaration_path is None or not declaration_path.is_file():
@@ -290,6 +289,9 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
         "artifact_name": artifact_name,
         "artifact_sha256": artifact_sha256,
         "package_sha256": package_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
+        "population_year": population_year,
+        "section_year": section_year,
         "source_declaration": declaration_rel,
     }
 
@@ -383,7 +385,13 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     )
 
     source_shape_ready = bool(
-        source_run_id and prep.get("artifact_name") and _core._sha256_value(prep.get("artifact_sha256"))
+        source_run_id
+        and prep.get("artifact_name")
+        and _core._sha256_value(prep.get("artifact_sha256"))
+        and _core._sha256_value(prep.get("package_sha256"))
+        and _core._sha256_value(prep.get("compatibility_identity_sha256"))
+        and isinstance(prep.get("population_year"), int)
+        and isinstance(prep.get("section_year"), int)
     )
     territorial_sources_ready = bool(
         source_shape_ready
@@ -428,31 +436,34 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     source_acquisition_planned = bool(run_prepare_territorial and not territorial_sources_ready)
     generation_gate = generation_enablement(
         root_dir=root_dir, contract_path=row.get("contract_path"), territory_id=row["territory_id"],
-        certified_product_ready=territorial_product_ready and not catalog_source_mode,
+        certified_product_ready=territorial_product_ready and not generation_requested,
         first_generation_evidence=(
             generation_preflight_evidence
-            if territorial_sources_ready and not run_prepare_territorial
-            and not catalog_source_mode and not territorial_product_ready else None
+            if territorial_sources_ready and not run_prepare_territorial and generation_requested
+            else None
         ),
         preparation_evidence=prep,
         require_source=generation_requested,
         source_acquisition_planned=source_acquisition_planned,
-        source_recalculation_planned=catalog_source_mode,
     )
     pre_m04_producer_planned = bool(
-        not catalog_source_mode
-        and selected_explicit_source is None
+        selected_explicit_source is None
         and (
             run_prepare_territorial
-            or (not from_start and territorial_sources_ready and not generation_preflight_path)
+            or (territorial_sources_ready and generation_requested and not generation_preflight_path)
         )
     )
     pre_m04_accreditation_planned = bool(
         pre_m04_producer_planned
-        and territorial_sources_ready
-        and not territorial_product_ready
-        and not generation_gate.get("allowed")
-        and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+        and generation_requested
+        and (
+            source_acquisition_planned
+            or (
+                territorial_sources_ready
+                and not generation_gate.get("allowed")
+                and generation_gate.get("capability") == "CAP_PRE_M04_EVIDENCE"
+            )
+        )
     )
     if pre_m04_accreditation_planned:
         run_prepare_territorial = True
@@ -464,6 +475,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             first_generation_evidence=None,
             preparation_evidence=prep,
             require_source=True,
+            source_acquisition_planned=source_acquisition_planned,
             pre_m04_accreditation_planned=True,
         )
     proposed_generate = bool(generation_requested or run_prepare_territorial)
@@ -577,7 +589,6 @@ def apply_explicit_territorial_source(plan: dict, *, root_dir: Path = Path("."),
 
 
 _core._generation_capabilities = _generation_capabilities
-_core.generation_enablement = generation_enablement
 _core.build_plan = build_plan
 _core.apply_explicit_territorial_source = apply_explicit_territorial_source
 

@@ -429,7 +429,7 @@ class OrchestrationModeTests(unittest.TestCase):
             jobs["puerta_01"]["needs"],
             ["planificar", "verificar_fuentes_preparadas", "preparar_territorial"],
         )
-        self.assertEqual(jobs["generar"]["needs"], ["planificar", "puerta_01"])
+        self.assertEqual(jobs["generar"]["needs"], ["planificar", "preparar_territorial", "puerta_01"])
         self.assertNotIn("puerta_03", jobs["generar"]["needs"])
         self.assertIn(
             "publication_mode_effective == 'electoral'",

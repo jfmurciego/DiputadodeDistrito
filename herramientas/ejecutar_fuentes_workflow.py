@@ -36,11 +36,12 @@ def _edition(declaration: Path) -> int:
 
 def _source_years(declaration: Path) -> tuple[int, int]:
     territory = _declaration(declaration).get("territory") or {}
-    legacy = territory.get("source_year", territory["edition"])
-    return (
-        int(territory.get("population_year", legacy)),
-        int(territory.get("section_year", legacy)),
-    )
+    legacy = territory.get("source_year")
+    population = territory.get("population_year", legacy)
+    section = territory.get("section_year", legacy)
+    if population in (None, "") or section in (None, ""):
+        raise ValueError("La declaración debe fijar population_year y section_year (o source_year explícito)")
+    return int(population), int(section)
 
 
 def _territory_id(declaration: Path) -> str:

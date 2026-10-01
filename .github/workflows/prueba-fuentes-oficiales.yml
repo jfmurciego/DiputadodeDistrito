@@ -115,6 +115,8 @@ jobs:
             -m herramientas.probar_fuentes_oficiales \
             --territory "$TERRITORY" \
             --edition "$EDITION" \
+            --population-year "$EDITION" \
+            --section-year "$EDITION" \
             --mode "$internal_mode" \
             --output-dir "/app/.ddd-source-test/${{ strategy.job-index }}" \
             --timeout-seconds 10 \

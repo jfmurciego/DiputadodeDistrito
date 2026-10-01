@@ -22,20 +22,23 @@ def main():
     ap=argparse.ArgumentParser()
     ap.add_argument("--catalog",default="configuracion/catalogo_territorios_espana_2025.yaml")
     ap.add_argument("--territory",required=True)
+    ap.add_argument("--edition",type=int,required=True)
+    ap.add_argument("--population-year",type=int,required=True)
+    ap.add_argument("--section-year",type=int,required=True)
     ap.add_argument("--out",required=True)
     a=ap.parse_args()
     cat=yaml.safe_load(Path(a.catalog).read_text(encoding="utf-8"))
     matches=[x for x in cat["territories"] if x["territory_id"]==a.territory]
     if len(matches)!=1: raise SystemExit(f"Territorio no único/no encontrado: {a.territory}")
-    t=matches[0];tid=t["territory_id"];run=f"{tid}_2025";base=f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}"
+    t=matches[0];tid=t["territory_id"];edition=int(a.edition);population_year=int(a.population_year);section_year=int(a.section_year);run=f"{tid}_{edition}";base=f"territorios/{tid}/.cache/ddd/preparacion/{{run_name}}"
     cfg={
-      "meta":{"procedure_name":"Diputado de Distrito","territory_id":tid,"territory":t["name"],"run_name":run,"year":2025,"scope":"provincial","schema_version":"bootstrap-1.0.0","status":"observation_m01_m03"},
-      "io":{"project_root":{"path":"../../.."},"input":{"seccionado":{"path":"inputs/seccionado_2025.zip","layer":"","section_key_col":"CUSEC"},"population_cip":{"paths":["inputs/65034.csv.zip"],"sep":"auto","section_key_col":"Secciones","pop_col":"Total","filters":{"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"]}}},"cache":{"dir":base}},
+      "meta":{"procedure_name":"Diputado de Distrito","territory_id":tid,"territory":t["name"],"run_name":run,"year":edition,"source_population_year":population_year,"source_section_year":section_year,"scope":"provincial","schema_version":"bootstrap-1.1.0","status":"observation_m01_m03"},
+      "io":{"project_root":{"path":"../../.."},"input":{"seccionado":{"path":f"inputs/seccionado_{section_year}.zip","layer":"","section_key_col":"CUSEC"},"population_cip":{"paths":["inputs/65034.csv.zip"],"sep":"auto","section_key_col":"Secciones","pop_col":"Total","filters":{"year_col":"Periodo","sexo_col":"Sexo","edad_col":"Edad","sexo_total_values":["Total"],"edad_total_values":["Todas las edades"],"year_value":population_year}}},"cache":{"dir":base}},
       "territory_contract":{"unit_id_role":"census_section","admin_level_1_role":"province","admin_level_2_role":"municipality","province_codes":t["province_codes"],"status":"bootstrap_observation","topology_mode":"archipelago" if t["batch"]=="insular" else "land"},
       "modulos":{
         "modulo_01_preparar_base_territorial":{"province_codes":t["province_codes"],"drop_missing_population":False,"out_geojson":base+f"/{run}_m01_secciones_poblacion.geojson.zip","out_report":base+f"/{run}_m01_informe.json"},
         "modulo_02_construir_adyacencias":{"in_geojson":base+f"/{run}_m01_secciones_poblacion.geojson.zip","id_field":"CUSEC_KEY","out_edges_jsonl":base+f"/{run}_m02_adyacencias.jsonl","predicate":"contact","working_crs":"EPSG:3035","min_shared_border_m":1.0,"max_precision_overlap_area_m2":1.0,"buffer_m":0.0,"simplify_m":0.0,"max_candidates":0,"log_every":10000,"topology_bridges":[]},
-        "modulo_03_construir_grafo":{"in_geojson":base+f"/{run}_m01_secciones_poblacion.geojson.zip","in_edges_jsonl":base+f"/{run}_m02_adyacencias.jsonl","id_field":"CUSEC_KEY","pop_field":"POP_{year}","out_graph_json":base+f"/{run}_m03_grafo.json","out_report":base+f"/{run}_m03_informe.json"}},
+        "modulo_03_construir_grafo":{"in_geojson":base+f"/{run}_m01_secciones_poblacion.geojson.zip","in_edges_jsonl":base+f"/{run}_m02_adyacencias.jsonl","id_field":"CUSEC_KEY","pop_field":"POP_{population_year}","out_graph_json":base+f"/{run}_m03_grafo.json","out_report":base+f"/{run}_m03_informe.json"}},
       "validation":{"expected_province_codes":t["province_codes"],"require_unique_section_id":True,"require_non_null_population":True,"province_field":"CPRO","municipality_field":"CUMUN","municipality_name_field":"NMUN","audit_graph_components":True,"audit_admin_level_1_components":True,"audit_admin_level_2_components":True,"require_one_graph_component_per_province":False,"require_connected_municipalities":False}
     }
     out=Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)

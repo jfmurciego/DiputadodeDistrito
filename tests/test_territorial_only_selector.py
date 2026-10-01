@@ -26,7 +26,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         jobs = data["jobs"]
         self.assertEqual(jobs["preparar_electoral"]["if"], "${{ false }}")
         self.assertEqual(jobs["preparar_territorial"]["if"], "${{ false }}")
-        self.assertEqual(jobs["generar"]["needs"], ["planificar", "puerta_01"])
+        self.assertEqual(jobs["generar"]["needs"], ["planificar", "preparar_territorial", "puerta_01"])
         self.assertNotIn("puerta_03", jobs["generar"]["needs"])
         self.assertIn("puerta_02", jobs["publicar"]["needs"])
         self.assertEqual(

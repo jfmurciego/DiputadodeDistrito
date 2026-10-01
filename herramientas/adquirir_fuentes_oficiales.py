@@ -419,10 +419,15 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
 def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
     try:
         import geopandas as gpd
+        from pyproj import CRS
     except Exception as exc:  # pragma: no cover
         raise RuntimeError(f"geopandas es obligatorio para materializar secciones: {exc}")
     if crs is None or not str(crs).strip():
         raise ValueError("CRS_MISSING: no se puede materializar seccionado sin CRS acreditado")
+    try:
+        CRS.from_user_input(crs)
+    except Exception as exc:
+        raise ValueError(f"CRS_INVALID: {crs!r}") from exc
     with tempfile.TemporaryDirectory(prefix="ddd_sections_") as td:
         shp = Path(td) / "seccionado.shp"
         gdf = gpd.GeoDataFrame.from_features(features, crs=crs)

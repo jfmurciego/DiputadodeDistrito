@@ -125,6 +125,18 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             errors.append(f"{tid}/{edition}: receipt territorial inválido: {exc}")
 
             evidence=state.get("evidence") or {}
+            if state.get("generation_enabled") is True:
+                generation_raw=str(evidence.get("generation_preflight") or "")
+                if not generation_raw:
+                    errors.append(f"{tid}/{edition}: generation_enabled=true sin evidence.generation_preflight")
+                elif not (root/generation_raw).is_file():
+                    errors.append(f"{tid}/{edition}: generation_enabled=true con pre-M04 inexistente: {generation_raw}")
+                if cfg is None:
+                    errors.append(f"{tid}/{edition}: generation_enabled=true sin contrato legible")
+                else:
+                    generation_state=cfg.get("generation_state") or {}
+                    if generation_state.get("generation_enabled") is not True:
+                        errors.append(f"{tid}/{edition}: catálogo habilita generación pero contrato no")
             pair_raw=str(evidence.get("prepared_source_pair") or "")
             if pair_raw:
                 pair_path=root/pair_raw
@@ -281,6 +293,10 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
                     state.get("territorial_sources_prepared")
                     and state.get("territorial_contract_complete")
                     and state.get("production_authorization")=="AUTHORIZED"
+                    and (
+                        state.get("generation_enabled") is True
+                        or state.get("territorial_product_available") is True
+                    )
                 )
             elif mode=="electoral_application":
                 eligible=bool(

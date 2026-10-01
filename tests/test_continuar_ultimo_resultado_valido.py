@@ -308,7 +308,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
         self.assert_phases(self.case(), (True, True, True, True))
 
     def test_only_territorial_source_runs_02_03_04(self):
-        self.assert_phases(self.case(source=True), (False, True, True, True))
+        self.assert_phases(self.case(source=True), (True, True, True, True))
 
     def test_certified_territorial_product_runs_03_04(self):
         self.assert_phases(self.case(m06=True), (False, False, True, True))
@@ -316,7 +316,7 @@ class ContinueFromLastValidTests(unittest.TestCase):
     def test_territorial_and_electoral_sources_without_product_run_02_and_04(self):
         self.assert_phases(
             self.case(source=True, electoral_source=True),
-            (False, True, False, True),
+            (True, True, False, True),
         )
 
     def test_territorial_product_and_electoral_source_run_only_04(self):

@@ -15,10 +15,6 @@ FIRST_GENERATION_EVIDENCE_SCHEMA = "ddd.catalog-evidence/1.0"
 FIRST_GENERATION_EVIDENCE_KIND = "generation_preflight"
 FIRST_GENERATION_DECISION = "READY_FOR_FIRST_GENERATION"
 PRE_GRAPH_AUDIT_FIELDS_M03_BLOB_SHA1 = "c2c928d1e21d3b486ee3e9975eace18364bd3176"
-# Evidencias pre-M04 históricas producidas antes de endurecer únicamente las
-# fronteras de entrada territorial. Estas versiones siguen siendo
-# topológicamente equivalentes cuando el paquete fuente supera la nueva puerta
-# población/CRS/geometría antes de cualquier cálculo.
 PRE_STRICT_TERRITORIAL_M01_BLOB_SHA1 = "54a4a39de89a53f21a323d36e351b815b0fb0a1f"
 PRE_STRICT_TERRITORIAL_M03_BLOB_SHA1 = "776f25060c7668475f6d8ec33a0e2c37a65e4aea"
 
@@ -239,8 +235,13 @@ def _contract_generation_binding(contract: dict) -> dict:
     m06 = modules.get("modulo_06_consolidar_distritos") or {}
     territorial = contract.get("territory_contract") or {}
     validation = contract.get("validation") or {}
+    meta = contract.get("meta") or {}
     binding = {
-        "contract_level": (contract.get("meta") or {}).get("contract_level"),
+        "contract_level": meta.get("contract_level"),
+        "edition": meta.get("year"),
+        "population_year": meta.get("source_population_year"),
+        "section_year": meta.get("source_section_year"),
+        "source_baseline": validation.get("source_baseline"),
         "k_districts": territorial.get("k_districts"),
         "population_floor_ratio": territorial.get("population_floor_ratio"),
         "population_cap_ratio": territorial.get("population_cap_ratio"),
@@ -357,15 +358,34 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
         return blocked("run_id inválido")
     source = evidence.get("source") or {}
-    if (preparation_evidence.get("run_id") != run_id
-            or source.get("artifact_name") != preparation_evidence.get("artifact_name")
-            or source.get("artifact_sha256") != preparation_evidence.get("artifact_sha256")
-            or source.get("package_sha256") != preparation_evidence.get("package_sha256")):
+    identity_fields = (
+        "artifact_name",
+        "artifact_sha256",
+        "package_sha256",
+        "compatibility_identity_sha256",
+        "population_year",
+        "section_year",
+    )
+    if preparation_evidence.get("run_id") != run_id or any(
+        str(source.get(key) or "") != str(preparation_evidence.get(key) or "")
+        for key in identity_fields
+    ):
         return blocked("la fuente preparada no coincide con la evidencia topológica")
     if not _sha256_value(source.get("artifact_sha256")) or not _sha256_value(source.get("package_sha256")):
         return blocked("SHA-256 de fuente inválido")
+    if not _sha256_value(source.get("compatibility_identity_sha256")):
+        return blocked("identidad de compatibilidad de fuente inválida")
     if not re.fullmatch(r"[0-9a-f]{40}", str(evidence.get("source_commit") or "")):
         return blocked("source_commit inválido")
+    generation_state = contract.get("generation_state") or {}
+    if generation_state.get("generation_enabled") is True:
+        if (
+            int(generation_state.get("pre_m04_run_id") or 0) != run_id
+            or str(generation_state.get("pre_m04_source_commit") or "") != str(evidence.get("source_commit") or "")
+            or str(generation_state.get("pre_m04_artifact_sha256") or "").removeprefix("sha256:")
+                != str(evidence.get("artifact_sha256") or "").removeprefix("sha256:")
+        ):
+            return blocked("run/revisión/digest pre-M04 no coinciden con la habilitación registrada")
     expected_implementation = _pre_m04_implementation_binding(root_dir, contract)
     hard_partition_declared = ((contract.get("validation") or {}).get("hard_partition_mode") == "physical_components")
     if not _pre_m04_implementation_matches(
@@ -399,6 +419,15 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
             return blocked("número de secciones del grafo no coincide con las componentes físicas")
         if graph.get("population") != hard_partition["expected_graph_population"]:
             return blocked("población del grafo no coincide con el reparto físico acreditado")
+        baseline = validation.get("source_baseline") or {}
+        if (
+            baseline.get("schema") != "ddd.source-baseline/1.0"
+            or baseline.get("target_section_count") != hard_partition["expected_graph_nodes"]
+            or baseline.get("population_total") != hard_partition["expected_graph_population"]
+            or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+            or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+        ):
+            return blocked("baseline físico no está ligado a la fuente acreditada")
         expected_graph = (
             hard_partition["expected_isolated"],
             hard_partition["expected_global_components"],
@@ -412,10 +441,19 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         if actual_graph != expected_graph:
             return blocked("componentes físicas del grafo no coinciden con el lookup durable")
     else:
-        if graph.get("nodes") != validation.get("expected_sections_geometry"):
-            return blocked("número de secciones del grafo no coincide")
-        if graph.get("population") != validation.get("expected_population_total_2025"):
-            return blocked("población del grafo no coincide")
+        baseline = validation.get("source_baseline") or {}
+        if (
+            baseline.get("schema") != "ddd.source-baseline/1.0"
+            or str(baseline.get("package_sha256") or "") != str(source.get("package_sha256") or "")
+            or str(baseline.get("compatibility_identity_sha256") or "") != str(source.get("compatibility_identity_sha256") or "")
+            or int(baseline.get("population_year") or 0) != int(source.get("population_year") or 0)
+            or int(baseline.get("section_year") or 0) != int(source.get("section_year") or 0)
+        ):
+            return blocked("baseline del contrato no está ligado a la fuente acreditada")
+        if graph.get("nodes") != baseline.get("target_section_count"):
+            return blocked("número de secciones del grafo no coincide con el baseline de fuente")
+        if graph.get("population") != baseline.get("population_total"):
+            return blocked("población del grafo no coincide con el baseline de fuente")
         if (graph.get("isolated") != 0 or graph.get("global_components") != 1
                 or graph.get("province_disconnected") != 0 or graph.get("municipality_disconnected") != 0):
             return blocked("grafo territorial no supera conectividad administrativa")
@@ -460,7 +498,16 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
 def generation_enablement(*, root_dir: Path, contract_path: str | None, territory_id: str,
                           certified_product_ready: bool = False, first_generation_evidence: dict | None = None,
                           preparation_evidence: dict | None = None, require_source: bool = False,
-                          source_acquisition_planned: bool = False) -> dict:
+                          source_acquisition_planned: bool = False,
+                          pre_m04_accreditation_planned: bool = False,
+                          source_recalculation_planned: bool = False) -> dict:
+    """Cadena única de habilitación de generación.
+
+    Los estados históricos sólo conservan continuidad del producto certificado.
+    Una fuente nueva exige identidad material completa y evidencia pre-M04
+    vinculada a esa misma identidad, salvo que la adquisición/reacreditación
+    esté explícitamente planificada para el run actual.
+    """
     path = root_dir / contract_path if contract_path else None
     if path is None or not path.is_file():
         return _blocked("CAP_CONTRACT", "contrato territorial efectivo ausente")
@@ -473,33 +520,48 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
     capability_gate = _generation_capabilities(contract, root_dir=root_dir)
     if not capability_gate["allowed"]:
         return capability_gate
+
     prep = preparation_evidence or {}
     if require_source and not source_acquisition_planned:
-        if (not isinstance(prep.get("run_id"), int) or isinstance(prep.get("run_id"), bool)
-                or prep.get("run_id") <= 0 or not prep.get("artifact_name") or not _sha256_value(prep.get("artifact_sha256"))):
-            return _blocked("CAP_SOURCE", "fuente territorial no acreditada por run, artefacto y SHA-256")
+        if (
+            not isinstance(prep.get("run_id"), int)
+            or isinstance(prep.get("run_id"), bool)
+            or prep.get("run_id") <= 0
+            or not prep.get("artifact_name")
+            or not _sha256_value(prep.get("artifact_sha256"))
+            or not _sha256_value(prep.get("package_sha256"))
+            or not _sha256_value(prep.get("compatibility_identity_sha256"))
+            or not isinstance(prep.get("population_year"), int)
+            or not isinstance(prep.get("section_year"), int)
+        ):
+            return _blocked(
+                "CAP_SOURCE",
+                "fuente territorial sin identidad completa run/artefacto/paquete/compatibilidad/años",
+            )
+        if "source_commit" in prep and not re.fullmatch(
+            r"[0-9a-f]{40}", str(prep.get("source_commit") or "")
+        ):
+            return _blocked("CAP_SOURCE", "source_commit de la fuente efectiva inválido")
+
     if first_generation_evidence:
         return _validated_first_generation_preflight(
-            contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
-            territory_id=territory_id, root_dir=root_dir,
+            contract=contract,
+            evidence=first_generation_evidence,
+            preparation_evidence=prep,
+            territory_id=territory_id,
+            root_dir=root_dir,
         )
-    meta = contract.get("meta") or {}
-    territorial = contract.get("territory_contract") or {}
-    modules = contract.get("modulos") or {}
-    m04 = modules.get("modulo_04_generar_semillas") or {}
-    partitioning = contract.get("partitioning") or {}
-    if certified_product_ready:
-        return {"allowed": True, "route": "certified_product_lineage"}
+    if pre_m04_accreditation_planned:
+        return {"allowed": True, "route": "planned_pre_m04_accreditation"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
-    if meta.get("status") == territorial.get("status") == "generation_ready":
-        return {"allowed": True, "route": "declared_generation_ready"}
-    if (partitioning.get("enabled") is True and partitioning.get("strategy") == "connected_internal_units"
-            and partitioning.get("output_geojson") == m04.get("in_geojson")
-            and partitioning.get("partition_unit_field") == m04.get("municipality_field")):
-        return {"allowed": True, "route": "linked_internal_partitioning"}
-    return _blocked("CAP_PRE_M04_EVIDENCE", "primera generación sin evidencia durable pre-M04")
-
+    if certified_product_ready and not require_source:
+        return {"allowed": True, "route": "certified_product_lineage"}
+    return _blocked(
+        "CAP_PRE_M04_EVIDENCE",
+        "la generación exige evidencia pre-M04 ligada a la fuente efectiva; "
+        "los estados históricos no habilitan una fuente nueva",
+    )
 
 def _load_json(path: str | None, root: Path) -> dict:
     if not path:

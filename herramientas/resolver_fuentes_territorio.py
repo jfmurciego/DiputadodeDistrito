@@ -58,8 +58,14 @@ def build_declaration(
 ) -> dict:
     row = resolve_territory(territory, registry_path)
     legacy_year = int(source_year) if source_year is not None else None
-    population_year = int(population_year if population_year is not None else (legacy_year or edition))
-    section_year = int(section_year if section_year is not None else (legacy_year or edition))
+    population_raw = population_year if population_year is not None else legacy_year
+    section_raw = section_year if section_year is not None else legacy_year
+    if population_raw is None or section_raw is None:
+        raise ValueError(
+            "population_year y section_year son obligatorios; source_year explícito sólo puede sustituirlos cuando coinciden"
+        )
+    population_year = int(population_raw)
+    section_year = int(section_raw)
     catalog = load_yaml(catalog_path)
     sources = catalog.get("sources") or {}
     required = list(sources)
