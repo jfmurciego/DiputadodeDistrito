@@ -424,6 +424,11 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
 
         self.assertIn("promotion_sha", preparation)
         self.assertIn("source_ref: ${{ needs.registrar.outputs.promotion_sha }}", preparation)
+        self.assertIn("enabled_source_ref", preparation)
+        self.assertIn('echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"', reusable)
+        full = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+        enabled_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}"
+        self.assertIn("source_ref: " + enabled_ref, full)
         self.assertNotIn('legacy_year="$EDITION"', preparation)
         for body in (reusable, producer, production):
             self.assertIn("--population-year", body)
