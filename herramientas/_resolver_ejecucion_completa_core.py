@@ -477,9 +477,21 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
         return capability_gate
     prep = preparation_evidence or {}
     if require_source and not source_acquisition_planned:
-        if (not isinstance(prep.get("run_id"), int) or isinstance(prep.get("run_id"), bool)
-                or prep.get("run_id") <= 0 or not prep.get("artifact_name") or not _sha256_value(prep.get("artifact_sha256"))):
-            return _blocked("CAP_SOURCE", "fuente territorial no acreditada por run, artefacto y SHA-256")
+        if (
+            not isinstance(prep.get("run_id"), int)
+            or isinstance(prep.get("run_id"), bool)
+            or prep.get("run_id") <= 0
+            or not prep.get("artifact_name")
+            or not _sha256_value(prep.get("artifact_sha256"))
+            or not _sha256_value(prep.get("package_sha256"))
+            or not _sha256_value(prep.get("compatibility_identity_sha256"))
+            or not isinstance(prep.get("population_year"), int)
+            or not isinstance(prep.get("section_year"), int)
+        ):
+            return _blocked(
+                "CAP_SOURCE",
+                "fuente territorial sin identidad completa run/artefacto/paquete/compatibilidad/años",
+            )
     if first_generation_evidence:
         return _validated_first_generation_preflight(
             contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
