@@ -31,6 +31,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
+from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 
 
 def _gpd_read_file(path_or_buf, layer=None):
@@ -110,16 +111,14 @@ def main():
     metric_crs = s6.get("metric_crs", "EPSG:3035")
 
     gdf = load_geojson_any(in_geo)
+    validate_geodataframe(gdf, label="M06 secciones de entrada")
     for col in (id_field, district_field, pop_field):
         if col not in gdf.columns:
             raise SystemExit(f"[Módulo 6] Entrada sin columna '{col}'")
-    if gdf.crs is None:
-        raise SystemExit("[Módulo 6] Entrada sin CRS; no se pueden certificar métricas geométricas")
-
     df = gdf.copy()
     df[id_field] = df[id_field].astype(str)
     df[district_field] = pd.to_numeric(df[district_field], errors="raise").astype(int)
-    df[pop_field] = pd.to_numeric(df[pop_field], errors="coerce").fillna(0).astype("int64")
+    df[pop_field] = strict_population_series(df[pop_field], section_ids=df[id_field], label="población M06", require_non_null=True).astype("int64")
     if province_field in df.columns:
         df[province_field] = df[province_field].astype(str).str.zfill(2)
     if municipality_field in df.columns:
