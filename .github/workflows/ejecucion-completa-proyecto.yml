@@ -24,6 +24,19 @@ on:
       campaign_slot: {required: false, type: string, default: ''}
       campaign_namespace: {required: false, type: string, default: ''}
       campaign_manifest_sha256: {required: false, type: string, default: ''}
+      campaign_contract_path: {required: false, type: string, default: ''}
+      campaign_contract_sha256: {required: false, type: string, default: ''}
+      campaign_generation_evidence_path: {required: false, type: string, default: ''}
+      campaign_generation_evidence_sha256: {required: false, type: string, default: ''}
+      campaign_source_run_id: {required: false, type: number, default: 0}
+      campaign_source_artifact_name: {required: false, type: string, default: ''}
+      campaign_source_artifact_sha256: {required: false, type: string, default: ''}
+      campaign_source_package_sha256: {required: false, type: string, default: ''}
+      campaign_evidence_receipt_path: {required: false, type: string, default: ''}
+      campaign_evidence_receipt_sha256: {required: false, type: string, default: ''}
+      campaign_territorial_identity_sha256: {required: false, type: string, default: ''}
+      campaign_electoral_identity_sha256: {required: false, type: string, default: ''}
+      campaign_pair_sha256: {required: false, type: string, default: ''}
       candidate_count: {required: false, type: number, default: 0}
       gerrychain_entrypoint: {required: false, type: string, default: ''}
       require_unique_hashes: {required: false, type: boolean, default: false}
@@ -197,6 +210,19 @@ jobs:
           CAMPAIGN_SLOT: ${{ inputs.campaign_slot }}
           CAMPAIGN_NAMESPACE: ${{ inputs.campaign_namespace }}
           CAMPAIGN_MANIFEST_SHA256: ${{ inputs.campaign_manifest_sha256 }}
+          CAMPAIGN_CONTRACT_PATH: ${{ inputs.campaign_contract_path }}
+          CAMPAIGN_CONTRACT_SHA256: ${{ inputs.campaign_contract_sha256 }}
+          CAMPAIGN_GENERATION_EVIDENCE_PATH: ${{ inputs.campaign_generation_evidence_path }}
+          CAMPAIGN_GENERATION_EVIDENCE_SHA256: ${{ inputs.campaign_generation_evidence_sha256 }}
+          CAMPAIGN_SOURCE_RUN_ID: ${{ inputs.campaign_source_run_id }}
+          CAMPAIGN_SOURCE_ARTIFACT_NAME: ${{ inputs.campaign_source_artifact_name }}
+          CAMPAIGN_SOURCE_ARTIFACT_SHA256: ${{ inputs.campaign_source_artifact_sha256 }}
+          CAMPAIGN_SOURCE_PACKAGE_SHA256: ${{ inputs.campaign_source_package_sha256 }}
+          CAMPAIGN_EVIDENCE_RECEIPT_PATH: ${{ inputs.campaign_evidence_receipt_path }}
+          CAMPAIGN_EVIDENCE_RECEIPT_SHA256: ${{ inputs.campaign_evidence_receipt_sha256 }}
+          CAMPAIGN_TERRITORIAL_IDENTITY_SHA256: ${{ inputs.campaign_territorial_identity_sha256 }}
+          CAMPAIGN_ELECTORAL_IDENTITY_SHA256: ${{ inputs.campaign_electoral_identity_sha256 }}
+          CAMPAIGN_PAIR_SHA256: ${{ inputs.campaign_pair_sha256 }}
           CANDIDATE_COUNT: ${{ inputs.candidate_count }}
           GERRYCHAIN_ENTRYPOINT: ${{ inputs.gerrychain_entrypoint }}
           REQUIRE_UNIQUE_HASHES: ${{ inputs.require_unique_hashes }}
@@ -439,6 +465,61 @@ jobs:
           out("prepared_territorial_receipt",prepared_t.get("receipt_path"))
           out("prepared_territorial_identity_sha256",prepared_t.get("territorial_identity_sha256"))
           PY
+          if [[ -n "$CAMPAIGN_INSTANCE" ]]; then
+            python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          from herramientas.resolver_ejecucion_completa import generation_ready_contract
+          p=json.loads(Path(".ddd-full-run/plan.json").read_text(encoding="utf-8"))
+          cs=p.get("catalog_state") or {}
+          state={
+              "contract_path":p.get("contract_path"),
+              "preparation_evidence":cs.get("catalog_preparation_evidence") or cs.get("preparation_evidence") or {},
+              "evidence":{"generation_preflight":cs.get("generation_preflight_path")},
+          }
+          actual=generation_ready_contract(root_dir=Path("."),state=state,territory_id=p["territory_id"])
+          if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
+              raise SystemExit("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
+          expected={
+              "contract_path":os.environ["CAMPAIGN_CONTRACT_PATH"],
+              "contract_sha256":os.environ["CAMPAIGN_CONTRACT_SHA256"],
+              "generation_evidence_path":os.environ["CAMPAIGN_GENERATION_EVIDENCE_PATH"],
+              "generation_evidence_sha256":os.environ["CAMPAIGN_GENERATION_EVIDENCE_SHA256"],
+          }
+          for key,value in expected.items():
+              if str(actual.get(key) or "")!=value:
+                  raise SystemExit(f"CAMPAIGN_MANIFEST_MISMATCH: {key}")
+          src=actual.get("source") or {}
+          source_expected={
+              "run_id":str(os.environ["CAMPAIGN_SOURCE_RUN_ID"]),
+              "artifact_name":os.environ["CAMPAIGN_SOURCE_ARTIFACT_NAME"],
+              "artifact_sha256":os.environ["CAMPAIGN_SOURCE_ARTIFACT_SHA256"],
+              "package_sha256":os.environ["CAMPAIGN_SOURCE_PACKAGE_SHA256"],
+          }
+          for key,value in source_expected.items():
+              if str(src.get(key) or "")!=value:
+                  raise SystemExit(f"CAMPAIGN_MANIFEST_MISMATCH: source.{key}")
+          receipt=Path(os.environ["CAMPAIGN_EVIDENCE_RECEIPT_PATH"])
+          if not receipt.is_file() or hashlib.sha256(receipt.read_bytes()).hexdigest()!=os.environ["CAMPAIGN_EVIDENCE_RECEIPT_SHA256"]:
+              raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: evidence receipt")
+          if p.get("publication_mode_effective")=="electoral":
+              prepared=p.get("prepared_source_pair") or {}
+              if str(prepared.get("receipt_path") or "")!=receipt.as_posix():
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: prepared_source_pair path")
+              if str(prepared.get("pair_sha256") or "")!=os.environ["CAMPAIGN_PAIR_SHA256"]:
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: pair_sha256")
+              if str(prepared.get("territorial_identity_sha256") or "")!=os.environ["CAMPAIGN_TERRITORIAL_IDENTITY_SHA256"]:
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial identity")
+              if str(prepared.get("electoral_identity_sha256") or "")!=os.environ["CAMPAIGN_ELECTORAL_IDENTITY_SHA256"]:
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: electoral identity")
+          else:
+              prepared=p.get("prepared_territorial_source") or {}
+              if str(prepared.get("receipt_path") or "")!=receipt.as_posix():
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial receipt path")
+              if str(prepared.get("territorial_identity_sha256") or "")!=os.environ["CAMPAIGN_TERRITORIAL_IDENTITY_SHA256"]:
+                  raise SystemExit("CAMPAIGN_MANIFEST_MISMATCH: territorial identity")
+          PY
+          fi
           persist="$PERSIST_INPUT"
           publish="$PUBLISH_INPUT"
           if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
