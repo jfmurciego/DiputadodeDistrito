@@ -327,7 +327,6 @@ jobs:
           SOURCE_PACKAGE_RUN_ID: ${{ inputs.source_package_run_id }}
           SOURCE_PACKAGE_ARTIFACT_NAME: ${{ inputs.source_package_artifact_name }}
           SOURCE_PACKAGE_ARTIFACT_SHA256: ${{ inputs.source_package_artifact_sha256 }}
-          SOURCE_RECALCULATION_PLANNED: ${{ inputs.execution_mode == 'from_start' && inputs.source_package_run_id != '' && inputs.source_package_artifact_name != '' && inputs.source_package_artifact_sha256 != '' }}
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -382,7 +381,6 @@ jobs:
               first_generation_evidence=evidence,
               preparation_evidence=preparation_evidence,
               require_source=True,
-              source_recalculation_planned=env.get("SOURCE_RECALCULATION_PLANNED", "").lower() == "true",
           )
           if not gate.get("allowed"):
               raise SystemExit("GENERATION_CONTRACT_BLOCK: " + str(gate.get("reason") or gate))
