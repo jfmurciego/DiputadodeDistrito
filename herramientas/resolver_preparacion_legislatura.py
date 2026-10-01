@@ -142,12 +142,31 @@ def _territorial_candidate(
     territory = declaration.get("territory") or {}
     if str(territory.get("id") or "") != territory_id:
         return {"reusable": False, "reason": "TERRITORIAL_IDENTITY_MISMATCH"}
-    observed_population_year, observed_section_year = _years_from_declaration(declaration, edition)
-
     run_id = prep.get("run_id")
     artifact_name = str(prep.get("artifact_name") or "")
     artifact_sha256 = _digest(prep.get("artifact_sha256"))
     package_sha256 = _digest(prep.get("package_sha256"))
+    try:
+        observed_population_year, observed_section_year = _years_from_declaration(declaration, edition)
+    except ValueError:
+        # Un receipt histórico puede acreditar años aunque su declaración predatara
+        # la separación edition/population_year/section_year. Se preserva esa
+        # evidencia explícita; si tampoco existe, el candidato queda bloqueado,
+        # nunca se sustituye silenciosamente por la edición.
+        prep_population = prep.get("population_year")
+        prep_section = prep.get("section_year")
+        if prep_population in (None, "") or prep_section in (None, ""):
+            return {
+                "reusable": False,
+                "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+                "run_id": run_id,
+                "artifact_name": artifact_name or None,
+                "artifact_sha256": artifact_sha256,
+                "package_sha256": package_sha256,
+                "declaration": str(declaration_rel),
+            }
+        observed_population_year = int(prep_population)
+        observed_section_year = int(prep_section)
     if not isinstance(run_id, int) or run_id <= 0:
         return {"reusable": False, "reason": "TERRITORIAL_RUN_INVALID"}
     if artifact_name != f"ddd-source-package-{territory_id}-{edition}-{run_id}":
