@@ -801,8 +801,18 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
 
         generate = full["jobs"]["generar"]
         self.assertEqual(generate["with"]["require_generation_gate"], True)
-        self.assertEqual(generate["with"]["source_ref"], "${{ needs.planificar.outputs.source_sha }}")
+        enabled_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}"
+        self.assertIn("preparar_territorial", generate["needs"])
+        self.assertEqual(generate["with"]["source_ref"], enabled_ref)
         self.assertNotIn("'main'", generate["with"]["source_ref"])
+        self.assertEqual(full["jobs"]["puerta_01"]["with"]["source_ref"], enabled_ref)
+        self.assertIn("preparar_territorial", full["jobs"]["puerta_02"]["needs"])
+        self.assertEqual(full["jobs"]["puerta_02"]["with"]["source_ref"], enabled_ref)
+        prep_outputs = ((preparation.get("on") or preparation.get(True) or {}).get("workflow_call") or {}).get("outputs") or {}
+        self.assertEqual(
+            prep_outputs["enabled_source_ref"]["value"],
+            "${{ jobs.pre_m04.outputs.enabled_source_ref }}",
+        )
         self.assertIn(
             "run_prepare_territorial == 'true'",
             generate["with"]["generation_preflight_artifact_name"],
@@ -830,7 +840,16 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             "source_evidence_package_sha256",
         ):
             self.assertIn(key, reusable_inputs)
+        reusable_call = (reusable.get("on") or reusable.get(True) or {}).get("workflow_call") or {}
+        self.assertEqual(
+            (reusable_call.get("outputs") or {})["enabled_source_ref"]["value"],
+            "${{ jobs.pre_m04_evidence.outputs.enabled_source_ref }}",
+        )
         pre_m04_job = reusable["jobs"]["pre_m04_evidence"]
+        self.assertEqual(
+            pre_m04_job["outputs"]["enabled_source_ref"],
+            "${{ steps.persist.outputs.enabled_source_ref }}",
+        )
         checkout = next(step for step in pre_m04_job["steps"] if step.get("uses", "").startswith("actions/checkout@"))
         self.assertEqual(checkout["with"]["ref"], "${{ inputs.source_ref || github.sha }}")
         self.assertIn("--preparation-evidence-json", pre_m04_job["steps"][3]["run"])
