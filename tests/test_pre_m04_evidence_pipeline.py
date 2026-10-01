@@ -51,6 +51,8 @@ def contract(*, partitioned: bool) -> dict:
             "territory": "Demo",
             "run_name": "demo_2025",
             "year": 2025,
+            "source_population_year": 2025,
+            "source_section_year": 2025,
             "contract_level": "production_m01_m06",
             "production_authorization": "AUTHORIZED",
             "status": "production_ready_auto_materialized",
@@ -95,10 +97,27 @@ def contract(*, partitioned: bool) -> dict:
                 "expected_districts": 2,
             },
         },
+        "generation_state": {
+            "source_prepared": True,
+            "generation_enabled": False,
+            "package_sha256": SHA_B,
+            "compatibility_identity_sha256": SHA_C,
+        },
         "validation": {
             "expected_districts": 2,
             "expected_sections_geometry": 4,
             "expected_population_total_2025": 400,
+            "source_baseline": {
+                "schema": "ddd.source-baseline/1.0",
+                "edition": "2025",
+                "population_year": 2025,
+                "section_year": 2025,
+                "population_total": 400,
+                "target_section_count": 4,
+                "package_sha256": SHA_B,
+                "compatibility_report_sha256": SHA_D,
+                "compatibility_identity_sha256": SHA_C,
+            },
             "municipality_field": "CUMUN",
             "require_graph_contiguity": True,
             "require_municipality_discipline": True,
@@ -155,6 +174,9 @@ def write_fixture(root: Path, *, partitioned: bool):
                                 "artifact_name": "ddd-source-package-demo-2025-123",
                                 "artifact_sha256": SHA_A,
                                 "package_sha256": SHA_B,
+                                "compatibility_identity_sha256": SHA_C,
+                                "population_year": 2025,
+                                "section_year": 2025,
                             },
                         }
                     },
@@ -246,6 +268,9 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
                 "artifact_name": "ddd-source-package-demo-2025-123",
                 "artifact_sha256": SHA_A,
                 "package_sha256": SHA_B,
+                "compatibility_identity_sha256": SHA_C,
+                "population_year": 2025,
+                "section_year": 2025,
             },
             require_source=True,
         )
@@ -269,6 +294,9 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
                 "artifact_name": "ddd-source-package-demo-2025-124",
                 "artifact_sha256": SHA_A,
                 "package_sha256": SHA_B,
+                "compatibility_identity_sha256": SHA_C,
+                "population_year": 2025,
+                "section_year": 2025,
             }
             with patch("herramientas.materializar_evidencia_pre_m04._git_head", return_value=COMMIT):
                 evidence = build_evidence(
