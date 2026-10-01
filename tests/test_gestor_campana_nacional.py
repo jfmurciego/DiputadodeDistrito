@@ -63,22 +63,20 @@ class NationalCampaignTests(unittest.TestCase):
 
 
  def test_manifest_fixes_validated_generation_references_and_blocked_rows_do_not_launch(self):
-  m=build_manifest(selected=["aragon"],publication_mode="territorial_only",
+  m=build_manifest(selected=["canarias"],publication_mode="electoral",
     source_sha="a"*40,strategy="GerryChain 50",campaign_instance="contract-test")
   row=m["territories"][0]
   self.assertEqual(m["generation_enablement_contract"],"generation_ready_contract/v1")
-  self.assertEqual(row["preflight_status"],"GENERATION_READY")
+  self.assertTrue(row["generation_contract"]["allowed"])
   self.assertEqual(row["generation_contract"]["status"],"GENERATION_READY")
   self.assertEqual(len(row["generation_contract"]["contract_sha256"]),64)
   self.assertEqual(len(row["generation_contract"]["generation_evidence_sha256"]),64)
-  self.assertEqual(len(row["evidence"]["receipt_sha256"]),64)
-  matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
-  self.assertEqual(len(matrix),1)
-  blocked=json.loads(json.dumps(m))
-  blocked["territories"][0]["preflight_status"]="BLOCKED"
-  blocked["territories"][0]["preflight_blockers"]=["GENERATION_NOT_READY:CAP_PRE_M04_EVIDENCE"]
-  self.assertEqual(build_matrix(blocked,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
-  summary=aggregate(blocked,[])
+  # La generación está acreditada, pero la campaña electoral sigue bloqueada
+  # mientras no exista el receipt durable del par. No se confunden ambas puertas.
+  self.assertEqual(row["preflight_status"],"BLOCKED")
+  self.assertIn("ACCREDITED_EVIDENCE_MISSING",row["preflight_blockers"])
+  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  summary=aggregate(m,[])
   self.assertEqual(summary["status"],"FAIL")
   self.assertEqual(summary["territories"][0]["status"],"BLOCKED")
 
