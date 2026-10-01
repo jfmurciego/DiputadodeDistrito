@@ -1,7 +1,7 @@
 import json, tempfile, unittest
 from pathlib import Path
 from herramientas.gestor_campana_nacional import (
- canonical_selection, aggregate, publication_matrix, validate_campaign_summary_for_promotion, build_manifest
+ canonical_selection, aggregate, publication_matrix, validate_campaign_summary_for_promotion, build_manifest, build_matrix
 )
 
 class NationalCampaignTests(unittest.TestCase):
@@ -31,8 +31,8 @@ class NationalCampaignTests(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,"entre 1 y 19"): canonical_selection([])
  def test_partial_and_missing_never_pass(self):
   m={"campaign_instance":"c","source_sha":"a"*40,"manifest_sha256":"b"*64,
-     "territories":[{"territory_id":"a","preflight_status":"READY_FOR_00_VALIDATION","preflight_blockers":[]},
-                    {"territory_id":"b","preflight_status":"READY_FOR_00_VALIDATION","preflight_blockers":[]}]}
+     "territories":[{"territory_id":"a","preflight_status":"GENERATION_READY","preflight_blockers":[]},
+                    {"territory_id":"b","preflight_status":"GENERATION_READY","preflight_blockers":[]}]}
   s=aggregate(m,[{"territory_id":"a","status":"PASS"}])
   self.assertEqual(s["status"],"FAIL"); self.assertEqual(s["territories"][1]["status"],"MISSING")
  def test_blocked_never_passes(self):
@@ -60,5 +60,48 @@ class NationalCampaignTests(unittest.TestCase):
  def test_modes_are_explicit(self):
   from herramientas.gestor_campana_nacional import MODES
   self.assertEqual(MODES,{"electoral","territorial_only"})
+
+
+ def test_manifest_fixes_validated_generation_references_and_blocked_rows_do_not_launch(self):
+  m=build_manifest(selected=["canarias"],publication_mode="electoral",
+    source_sha="a"*40,strategy="GerryChain 50",campaign_instance="contract-test")
+  row=m["territories"][0]
+  self.assertEqual(m["generation_enablement_contract"],"generation_ready_contract/v1")
+  self.assertEqual(row["preflight_status"],"GENERATION_READY")
+  self.assertEqual(row["generation_contract"]["status"],"GENERATION_READY")
+  self.assertEqual(len(row["generation_contract"]["contract_sha256"]),64)
+  self.assertEqual(len(row["generation_contract"]["generation_evidence_sha256"]),64)
+  self.assertEqual(len(row["evidence"]["receipt_sha256"]),64)
+  matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"]
+  self.assertEqual(len(matrix),1)
+  blocked=json.loads(json.dumps(m))
+  blocked["territories"][0]["preflight_status"]="BLOCKED"
+  blocked["territories"][0]["preflight_blockers"]=["GENERATION_NOT_READY:CAP_PRE_M04_EVIDENCE"]
+  self.assertEqual(build_matrix(blocked,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+  summary=aggregate(blocked,[])
+  self.assertEqual(summary["status"],"FAIL")
+  self.assertEqual(summary["territories"][0]["status"],"BLOCKED")
+
+ def test_child_consumes_exact_manifest_references_and_recovery_bypasses_generation_gate(self):
+  text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  child=Path(".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
+  for token in ("campaign_contract_sha256","campaign_generation_evidence_sha256",
+                "campaign_source_artifact_sha256","campaign_source_package_sha256",
+                "campaign_evidence_receipt_sha256","campaign_territorial_identity_sha256"):
+   self.assertIn(token,text); self.assertIn(token,child)
+  self.assertIn("CAMPAIGN_MANIFEST_MISMATCH",child)
+  recovery=text[text.index("  recuperar_portfolio:"):text.index("  resumen:")]
+  self.assertNotIn("generation_ready_contract",recovery)
+  self.assertNotIn("campaign_contract_sha256",recovery)
+
+ def test_failed_campaign_cannot_replace_previous_certified_publication(self):
+  summary={"status":"FAIL","territory_count_expected":2,"territories":[
+    {"territory_id":"a","status":"PASS"},{"territory_id":"b","status":"FAIL"}]}
+  with self.assertRaises(ValueError):
+   validate_campaign_summary_for_promotion(summary)
+  text=Path(".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8")
+  self.assertIn("needs.resumen.result == 'success'",text)
+  self.assertIn("publish_result: false",text)
+  self.assertIn("persist_state: false",text)
 
 if __name__=="__main__": unittest.main()
