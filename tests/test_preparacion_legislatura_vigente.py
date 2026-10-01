@@ -214,10 +214,26 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(plan["territorial_action"], "ACQUIRE")
                 self.assertEqual(plan["electoral_action"], "REUSE")
 
-    def test_canarias_reuses_prepared_electoral_and_replaces_wrong_territorial(self):
-        plan = resolve(ROOT, "Canarias")["plans"][0]
+    def test_missing_sources_fixture_acquires_both_without_reading_live_catalog_state(self):
+        state = {
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "canarias"}, state),
+        ):
+            plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_PACKAGE_MISSING")
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_reason"], "ELECTORAL_PACKAGE_MISSING")
+
+    def test_canarias_live_valid_electoral_source_is_reused_independently(self):
+        plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["electoral_action"], "REUSE")
+        self.assertEqual(plan["electoral_reason"], "ELECTORAL_DURABLE_CANDIDATE")
 
     def test_population_and_section_years_are_separate_from_project_edition(self):
         declaration = build_declaration(
