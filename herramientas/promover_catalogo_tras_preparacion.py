@@ -267,6 +267,8 @@ def _capture_territorial_product_guard(root: Path, state: dict) -> dict | None:
     return {
         "receipt_path": rel,
         "receipt_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "territorial_certification": state.get("territorial_certification"),
+        "last_valid_checkpoint": json.loads(json.dumps(state.get("last_valid_checkpoint"))),
     }
 
 
@@ -291,6 +293,10 @@ def _assert_territorial_product_guard(
     path = root / rel
     if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != guard["receipt_sha256"]:
         raise ValueError("La promoción de fuente alteró el producto territorial histórico")
+    if state.get("territorial_certification") != guard["territorial_certification"]:
+        raise ValueError("La promoción de fuente alteró la certificación territorial histórica")
+    if state.get("last_valid_checkpoint") != guard["last_valid_checkpoint"]:
+        raise ValueError("La promoción de fuente alteró el último checkpoint certificado histórico")
 
 
 def _promote_master(path: Path, territory_id: str, contract_complete: bool) -> None:
