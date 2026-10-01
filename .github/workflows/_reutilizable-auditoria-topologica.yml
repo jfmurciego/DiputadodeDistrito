@@ -33,7 +33,7 @@ jobs:
           set -euo pipefail
           mkdir -p "territorios/$TID/config"
           CFG="territorios/$TID/config/.generated_bootstrap_2025.yaml"
-          python herramientas/generar_config_bootstrap.py --territory "$TID" --out "$CFG"
+          python herramientas/generar_config_bootstrap.py --territory "$TID" --edition 2025 --population-year 2025 --section-year 2025 --out "$CFG"
           docker run --rm -v "$PWD:/app" --entrypoint bash ddd-r023:${GITHUB_SHA} -lc "
             python modulos/01_preparar_base_territorial.py --params '$CFG'
             python modulos/02_construir_adyacencias.py --params '$CFG'

@@ -31,9 +31,6 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
 
         for name in (
             "preparar_territorial",
-            "puerta_01",
-            "generar",
-            "puerta_02",
             "preparar_electoral",
             "puerta_03",
             "incorporar",
@@ -43,6 +40,15 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
                     jobs[name]["with"]["source_ref"],
                     "${{ needs.planificar.outputs.source_sha }}",
                 )
+
+        enabled_ref = (
+            "${{ needs.preparar_territorial.result == 'success' && "
+            "needs.preparar_territorial.outputs.enabled_source_ref || "
+            "needs.planificar.outputs.source_sha }}"
+        )
+        for name in ("puerta_01", "generar", "puerta_02"):
+            with self.subTest(job=name):
+                self.assertEqual(jobs[name]["with"]["source_ref"], enabled_ref)
         self.assertIn(
             "needs.recuperar_electoral.outputs.source_commit",
             jobs["puerta_04"]["with"]["source_ref"],
@@ -80,7 +86,7 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         self.assertIn("'main'", state_checkout["with"]["ref"])
         self.assertIn("needs.planificar.outputs.source_sha", state_checkout["with"]["ref"])
 
-    def test_nested_reusables_receive_the_same_pinned_ref(self):
+    def test_nested_reusables_preserve_code_ref_and_pre_m04_uses_promotion_ref(self):
         production = load(WF / "produccion-distritos.yml")
         incorporation = load(WF / "incorporacion-resultados-electorales.yml")
         preparation = load(WF / "preparacion-fuentes.yml")
@@ -96,7 +102,11 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         )
         self.assertEqual(
             preparation["jobs"]["pre_m04"]["with"]["source_ref"],
-            "${{ inputs.source_ref || github.sha }}",
+            "${{ needs.registrar.outputs.promotion_sha }}",
+        )
+        self.assertEqual(
+            preparation["jobs"]["registrar"]["outputs"]["promotion_sha"],
+            "${{ steps.register.outputs.promotion_sha }}",
         )
 
         gate_checkout = next(

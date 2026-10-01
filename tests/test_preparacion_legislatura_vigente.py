@@ -127,7 +127,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2025)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
-        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
+        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_TEMPORAL_IDENTITY_MISSING")
         self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
@@ -214,6 +214,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(plan["territorial_action"], "ACQUIRE")
                 self.assertEqual(plan["electoral_action"], "REUSE")
 
+
     def test_missing_sources_fixture_acquires_both_without_reading_live_catalog_state(self):
         state = {
             "territorial_sources_prepared": False,
@@ -230,8 +231,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_reason"], "ELECTORAL_PACKAGE_MISSING")
 
-    def test_canarias_live_valid_electoral_source_is_reused_independently(self):
+    def test_canarias_reacquires_territorial_but_reuses_current_electoral_receipt(self):
         plan = resolve(ROOT, "Canarias")["plans"][0]
+        self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "REUSE")
         self.assertEqual(plan["electoral_reason"], "ELECTORAL_DURABLE_CANDIDATE")
 
@@ -251,8 +253,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             declaration["source_bindings"]["secciones_censales"]["materialized_path"],
             "inputs/seccionado_2026.zip",
         )
-        legacy_default = build_declaration("Comunidad de Madrid", 2025)
-        self.assertEqual(legacy_default["territory"]["source_year"], 2025)
+        with self.assertRaisesRegex(ValueError, "population_year y section_year"):
+            build_declaration("Comunidad de Madrid", 2025)
 
     def test_current_legislature_workflow_uses_codauto_labels_and_resolves_them(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))

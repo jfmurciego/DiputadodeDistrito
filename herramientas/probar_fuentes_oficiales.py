@@ -249,7 +249,9 @@ def full_test(declaration_path: Path, out: Path, *, timeout: int) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--territory", required=True)
-    ap.add_argument("--edition", default="2025")
+    ap.add_argument("--edition", required=True)
+    ap.add_argument("--population-year", type=int, required=True)
+    ap.add_argument("--section-year", type=int, required=True)
     ap.add_argument("--mode", choices=["unit", "full"], required=True)
     ap.add_argument("--output-dir", type=Path, required=True)
     ap.add_argument("--timeout-seconds", type=int, default=10)
@@ -260,12 +262,17 @@ def main() -> int:
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
-    declaration = build_declaration(args.territory, int(args.edition))
+    declaration = build_declaration(
+        args.territory,
+        int(args.edition),
+        population_year=args.population_year,
+        section_year=args.section_year,
+    )
     declaration_path = out / "fuentes_territorio.yaml"
     declaration_path.write_text(yaml.safe_dump(declaration, allow_unicode=True, sort_keys=False), encoding="utf-8")
     catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
 
-    protected = [ROOT / "inputs/65034.csv.zip", ROOT / f"inputs/seccionado_{args.edition}.zip"]
+    protected = [ROOT / "inputs/65034.csv.zip", ROOT / f"inputs/seccionado_{args.section_year}.zip"]
     before = file_state(protected)
     started = time.monotonic()
     try:

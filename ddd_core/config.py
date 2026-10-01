@@ -27,8 +27,10 @@ def load_params_yaml(params_path:str)->Dict[str,Any]:
     io_cfg=data.get("io",{}) or {}; root=p.parent.resolve(); pr=(io_cfg.get("project_root",{}) or {}).get("path","")
     if pr:
         pp=Path(str(pr)).expanduser(); root=pp.resolve() if pp.is_absolute() else (p.parent/pp).resolve()
-    meta=data.get("meta",{}) or {}; run_name=meta.get("run_name",p.stem); year=int(meta.get("year",2025)); scope=meta.get("scope","national") or "national"; run_id=os.getenv("DDD_RUN_ID") or meta.get("run_id") or "local"
-    fmt={"run_name":run_name,"year":year,"scope":scope,"run_id":run_id}
+    meta=data.get("meta",{}) or {}; run_name=meta.get("run_name",p.stem); year_raw=meta.get("year")
+    year=int(year_raw) if year_raw not in (None,"") else None
+    population_year=meta.get("source_population_year"); section_year=meta.get("source_section_year"); scope=meta.get("scope","national") or "national"; run_id=os.getenv("DDD_RUN_ID") or meta.get("run_id") or "local"
+    fmt={"run_name":run_name,"year":year if year is not None else "","population_year":population_year if population_year not in (None,"") else "","section_year":section_year if section_year not in (None,"") else "","scope":scope,"run_id":run_id}
     def _fmt(s:str)->str:
         try:return s.format(**fmt)
         except Exception:return s
@@ -41,7 +43,16 @@ def load_params_yaml(params_path:str)->Dict[str,Any]:
                 xp=Path(s); return str(xp if xp.is_absolute() else (root/xp).resolve())
             return s
         return obj
-    resolved=_walk(data); resolved.setdefault("meta",{}); resolved["meta"].update({"run_name":run_name,"year":year,"scope":scope,"run_id":run_id}); resolved.setdefault("io",{}); resolved["io"].setdefault("project_root",{}); resolved["io"]["project_root"]["path"]=str(root); resolved["_internal"]={"params_path":str(p),"root":str(root),"fmt":fmt}; return resolved
+    resolved=_walk(data)
+    resolved.setdefault("meta",{})
+    resolved["meta"].update({"run_name":run_name,"scope":scope,"run_id":run_id})
+    if year is not None:
+        resolved["meta"]["year"]=year
+    resolved.setdefault("io",{})
+    resolved["io"].setdefault("project_root",{})
+    resolved["io"]["project_root"]["path"]=str(root)
+    resolved["_internal"]={"params_path":str(p),"root":str(root),"fmt":fmt}
+    return resolved
 def step_cfg(cfg:Dict[str,Any],step_key:str)->Dict[str,Any]:
     step=(cfg.get("steps",{}) or {}).get(step_key,{}) or {}
     if not isinstance(step,dict):raise ValueError(f"steps.{step_key} debe ser un mapping")

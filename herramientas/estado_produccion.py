@@ -47,7 +47,12 @@ def _m05_report_path(params: Path, run_id: str | None = None) -> Path:
 def _render_output_path(params: Path, raw_cfg: dict, value: str, run_id: str | None) -> Path:
     meta = raw_cfg.get("meta") or {}
     run_name = meta.get("run_name", params.stem)
-    year = int(meta.get("year", 2025))
+    year_raw = meta.get("year")
+    if year_raw in (None, ""):
+        raise ValueError("meta.year (edición DDD) ausente")
+    year = int(year_raw)
+    population_year = meta.get("source_population_year")
+    section_year = meta.get("source_section_year")
     effective_run_id = run_id or meta.get("run_id") or "local"
     io_cfg = raw_cfg.get("io", {}) or {}
     project_root = (io_cfg.get("project_root", {}) or {}).get("path", "")
@@ -55,7 +60,13 @@ def _render_output_path(params: Path, raw_cfg: dict, value: str, run_id: str | N
     if project_root:
         p = Path(str(project_root)).expanduser()
         root = p.resolve() if p.is_absolute() else (params.parent / p).resolve()
-    rendered = str(value).format(year=year, run_name=run_name, run_id=effective_run_id)
+    rendered = str(value).format(
+        year=year,
+        population_year=population_year if population_year not in (None, "") else "",
+        section_year=section_year if section_year not in (None, "") else "",
+        run_name=run_name,
+        run_id=effective_run_id,
+    )
     path = Path(rendered).expanduser()
     return path if path.is_absolute() else (root / path).resolve()
 

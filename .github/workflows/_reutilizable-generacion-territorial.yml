@@ -32,6 +32,10 @@ on:
       source_evidence_artifact_name: {required: false, type: string, default: ''}
       source_evidence_artifact_sha256: {required: false, type: string, default: ''}
       source_evidence_package_sha256: {required: false, type: string, default: ''}
+    outputs:
+      enabled_source_ref:
+        description: Commit exacto que contiene fuente, contrato, evidencia pre-M04 y habilitación
+        value: ${{ jobs.pre_m04_evidence.outputs.enabled_source_ref }}
 
 permissions:
   contents: write
@@ -189,13 +193,20 @@ jobs:
           rm -rf .ddd-prepared-source-package .ddd-state/in
           mkdir -p .ddd-prepared-source-package .ddd-state/in/sources
           gh run download "$SOURCE_PACKAGE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_PACKAGE_ARTIFACT_NAME" --dir .ddd-prepared-source-package
-          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-prepared-source-package             --territory-id "$TERRITORY_ID"             --edition "$(python - "$SOURCE_DECLARATION" <<'PY'
+          read -r source_edition population_year section_year < <(python - "$SOURCE_DECLARATION" <<'PY'
           import sys,yaml
           from pathlib import Path
           d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-          print((d.get('territory') or {}).get('edition'))
+          t=d.get('territory') or {}
+          edition=t.get('edition')
+          population=t.get('population_year', t.get('source_year'))
+          section=t.get('section_year', t.get('source_year'))
+          if edition in (None,'') or population in (None,'') or section in (None,''):
+              raise SystemExit('La declaración debe fijar edition, population_year y section_year')
+          print(edition, population, section)
           PY
-          )"
+          )
+          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-prepared-source-package             --territory-id "$TERRITORY_ID"             --edition "$source_edition"             --population-year "$population_year"             --section-year "$section_year"
           cp -a .ddd-prepared-source-package/. .ddd-state/in/sources/
 
       - name: Recuperar paquete de fuentes de checkpoint solicitado
@@ -559,6 +570,8 @@ jobs:
     needs: [resolve, internal_units]
     if: ${{ always() && inputs.preflight_only && inputs.persist_state && needs.resolve.result == 'success' && needs.internal_units.result == 'success' }}
     runs-on: ubuntu-24.04
+    outputs:
+      enabled_source_ref: ${{ steps.persist.outputs.enabled_source_ref }}
     concurrency:
       group: ddd-catalog-promotion
       cancel-in-progress: false
@@ -583,7 +596,8 @@ jobs:
           rm -rf .ddd-pre-m04-m03 .ddd-pre-m04-partition
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-state-$GITHUB_RUN_ID-M03" --dir .ddd-pre-m04-m03
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "ddd-internal-units-$GITHUB_RUN_ID" --dir .ddd-pre-m04-partition
-      - name: Vincular fuente, contrato, implementación, grafo y particionado
+      - id: persist
+        name: Vincular fuente, contrato, implementación, grafo y particionado
         shell: bash
         run: |
           set -euo pipefail
@@ -605,7 +619,15 @@ jobs:
           if [[ -n "$SOURCE_EVIDENCE_RUN_ID$SOURCE_EVIDENCE_ARTIFACT_NAME$SOURCE_EVIDENCE_ARTIFACT_SHA256$SOURCE_EVIDENCE_PACKAGE_SHA256" ]]; then
             [[ "$SOURCE_EVIDENCE_RUN_ID" =~ ^[1-9][0-9]*$ ]] || { echo "::error::run_id de fuente explícita inválido"; exit 52; }
             [[ -n "$SOURCE_EVIDENCE_ARTIFACT_NAME" && -n "$SOURCE_EVIDENCE_ARTIFACT_SHA256" && -n "$SOURCE_EVIDENCE_PACKAGE_SHA256" ]] || { echo "::error::evidencia de fuente explícita incompleta"; exit 52; }
-            jq -n --argjson run_id "$SOURCE_EVIDENCE_RUN_ID"               --arg artifact_name "$SOURCE_EVIDENCE_ARTIFACT_NAME"               --arg artifact_sha256 "${SOURCE_EVIDENCE_ARTIFACT_SHA256#sha256:}"               --arg package_sha256 "${SOURCE_EVIDENCE_PACKAGE_SHA256#sha256:}"               '{run_id:$run_id,artifact_name:$artifact_name,artifact_sha256:$artifact_sha256,package_sha256:$package_sha256}'               > .ddd-source-evidence.json
+            row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$edition")"
+            jq '.preparation_evidence' <<<"$row" > .ddd-source-evidence.json
+            [[ "$(jq -r '.run_id // 0' .ddd-source-evidence.json)" == "$SOURCE_EVIDENCE_RUN_ID" ]] || { echo "::error::run_id de fuente no coincide con el commit acreditado"; exit 52; }
+            [[ "$(jq -r '.artifact_name // empty' .ddd-source-evidence.json)" == "$SOURCE_EVIDENCE_ARTIFACT_NAME" ]] || { echo "::error::artefacto de fuente no coincide con el commit acreditado"; exit 52; }
+            [[ "$(jq -r '.artifact_sha256 // empty' .ddd-source-evidence.json)" == "${SOURCE_EVIDENCE_ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::digest de fuente no coincide con el commit acreditado"; exit 52; }
+            [[ "$(jq -r '.package_sha256 // empty' .ddd-source-evidence.json)" == "${SOURCE_EVIDENCE_PACKAGE_SHA256#sha256:}" ]] || { echo "::error::digest interno no coincide con el commit acreditado"; exit 52; }
+            [[ "$(jq -r '.compatibility_identity_sha256 // empty' .ddd-source-evidence.json)" =~ ^[0-9a-f]{64}$ ]] || { echo "::error::fuente sin identidad de compatibilidad"; exit 52; }
+            [[ "$(jq -r '.population_year // empty' .ddd-source-evidence.json)" =~ ^20[0-9]{2}$ ]] || { echo "::error::fuente sin population_year"; exit 52; }
+            [[ "$(jq -r '.section_year // empty' .ddd-source-evidence.json)" =~ ^20[0-9]{2}$ ]] || { echo "::error::fuente sin section_year"; exit 52; }
             source_args=(--preparation-evidence-json .ddd-source-evidence.json)
           fi
           evidence_path="territorios/$TERRITORY_ID/evidencia/catalogo/generation_preflight_$edition.json"
@@ -618,14 +640,19 @@ jobs:
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/catalogo"
+          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config" "territorios/$TERRITORY_ID/evidencia/catalogo"
           git diff --cached --quiet && { echo "::error::La evidencia pre-M04 no produjo identidad durable nueva."; exit 53; }
           git commit -m "chore: registrar evidencia pre-M04 de $TERRITORY_ID"
           target_branch="$GITHUB_REF_NAME"
           for attempt in 1 2 3; do
             if git pull --rebase origin "$target_branch"; then
               python -m herramientas.handoff_evidencia_pre_m04 verify                 --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"                 --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"                 --source-commit "$SOURCE_REF"                 || { echo "::error::El handoff pre-M04 no coincide con la evidencia persistida; no se publicará acreditación."; exit 57; }
-              git push origin "HEAD:$target_branch" && exit 0
+              if git push origin "HEAD:$target_branch"; then
+                enabled_source_ref="$(git rev-parse HEAD)"
+                [[ "$enabled_source_ref" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit habilitado inválido."; exit 58; }
+                echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
             fi
             git rebase --abort >/dev/null 2>&1 || true
             sleep $((attempt * 2))

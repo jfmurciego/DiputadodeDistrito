@@ -23,6 +23,7 @@ from typing import Any
 import yaml
 
 from ddd_core.territory_contract import validate_production_contract
+from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
 
 POLICY = Path("configuracion/politica_generacion_territorial_2025.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -119,6 +120,115 @@ def section_populations(package: Path, edition: str, province_codes: list[str]) 
     if not result:
         raise ValueError("La fuente de población preparada no contiene secciones para el territorio")
     return result
+
+
+def source_baseline(
+    package: Path,
+    *,
+    territory_id: str,
+    edition: str,
+    population_year: int,
+    section_year: int,
+) -> dict[str, Any]:
+    report, report_sha256, reasons = validate_compatibility_package(
+        package,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+        require_ready=True,
+    )
+    if reasons:
+        raise ValueError("Paquete sin compatibilidad acreditada: " + "; ".join(reasons))
+    manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
+    baseline = report.get("baseline") or {}
+    population_total = baseline.get("population_total")
+    section_count = baseline.get("target_section_count")
+    identity = str(report.get("compatibility_identity_sha256") or "")
+    package_sha256 = str(manifest.get("sha256") or "")
+    if (
+        not isinstance(population_total, int)
+        or isinstance(population_total, bool)
+        or population_total < 0
+        or not isinstance(section_count, int)
+        or isinstance(section_count, bool)
+        or section_count <= 0
+        or len(identity) != 64
+        or len(package_sha256) != 64
+    ):
+        raise ValueError("Baseline de fuente incompleto o inválido")
+    return {
+        "schema": "ddd.source-baseline/1.0",
+        "edition": str(edition),
+        "population_year": int(population_year),
+        "section_year": int(section_year),
+        "population_total": int(population_total),
+        "target_section_count": int(section_count),
+        "package_sha256": package_sha256,
+        "compatibility_report_sha256": report_sha256,
+        "compatibility_identity_sha256": identity,
+    }
+
+
+def _apply_source_contract(cfg: dict[str, Any], *, population_year: int, section_year: int, baseline: dict[str, Any]) -> None:
+    meta = cfg.setdefault("meta", {})
+    meta["source_population_year"] = int(population_year)
+    meta["source_section_year"] = int(section_year)
+    meta["status"] = "source_prepared_pending_pre_m04"
+
+    io_cfg = cfg.setdefault("io", {}).setdefault("input", {})
+    io_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{section_year}.zip"
+    population_cfg = io_cfg.setdefault("population_cip", {})
+    population_cfg.setdefault("filters", {})["year_value"] = int(population_year)
+
+    modules = cfg.setdefault("modulos", {})
+    for name in (
+        "modulo_03_construir_grafo",
+        "modulo_04_generar_semillas",
+        "modulo_05_optimizar_distritos",
+        "modulo_06_consolidar_distritos",
+    ):
+        module = modules.get(name)
+        if isinstance(module, dict):
+            module["pop_field"] = "POP_{population_year}"
+    electoral = modules.get("modulo_07_agregar_resultados_electorales")
+    if isinstance(electoral, dict) and electoral.get("population_field"):
+        electoral["population_field"] = "POP_{population_year}"
+
+    validation = cfg.setdefault("validation", {})
+    validation["source_baseline"] = copy.deepcopy(baseline)
+    state = cfg.setdefault("generation_state", {})
+    state.update({
+        "source_prepared": True,
+        "generation_enabled": False,
+        "package_sha256": baseline["package_sha256"],
+        "compatibility_identity_sha256": baseline["compatibility_identity_sha256"],
+    })
+    territory_contract = cfg.setdefault("territory_contract", {})
+    territory_contract["status"] = "source_prepared_pending_pre_m04"
+
+
+def _component_populations(root: Path, territory_id: str, section_pop: dict[str, int]) -> dict[str, int]:
+    pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
+    territory = (pdata.get("territories") or {}).get(territory_id)
+    if not territory:
+        raise ValueError(f"Sin particiones físicas declaradas: {territory_id}")
+    mun_map = territory.get("municipality_to_partition") or {}
+    overrides = territory.get("section_overrides") or {}
+    populations = {str(key): 0 for key in (territory.get("components") or {})}
+    missing: list[str] = []
+    for section, population in section_pop.items():
+        component = overrides.get(section) or mun_map.get(section[:5])
+        if not component:
+            missing.append(section)
+            continue
+        populations.setdefault(str(component), 0)
+        populations[str(component)] += int(population)
+    if missing:
+        raise ValueError(
+            f"Partición insular incompleta para la fuente acreditada: {len(missing)} secciones; ejemplo={missing[:5]}"
+        )
+    return populations
 
 
 def hamilton(populations: dict[str, int], k: int) -> dict[str, int]:
@@ -281,7 +391,7 @@ def existing_or_bootstrap(
             "modulo_03_construir_grafo": {
                 "in_geojson": base + f"/{run_name}_m01_secciones_poblacion.geojson.zip",
                 "in_edges_jsonl": base + f"/{run_name}_m02_adyacencias.jsonl",
-                "id_field": "CUSEC_KEY", "pop_field": "POP_{year}",
+                "id_field": "CUSEC_KEY", "pop_field": "POP_{population_year}",
                 "out_graph_json": base + f"/{run_name}_m03_grafo.json",
                 "out_report": base + f"/{run_name}_m03_informe.json",
             },
@@ -307,9 +417,15 @@ def materialize(
     population_year: str | None = None,
     section_year: str | None = None,
 ) -> dict[str, Any]:
-    legacy_year = str(source_year or edition)
-    population_year = str(population_year or legacy_year)
-    section_year = str(section_year or legacy_year)
+    legacy_year = str(source_year) if source_year not in (None, "") else None
+    if population_year in (None, ""):
+        population_year = legacy_year
+    if section_year in (None, ""):
+        section_year = legacy_year
+    if population_year in (None, "") or section_year in (None, ""):
+        raise ValueError("population_year y section_year son obligatorios; la edición no es un fallback temporal")
+    population_year = str(population_year)
+    section_year = str(section_year)
     policy = yload(root / POLICY)
     master_path = root / MASTER
     master = yload(master_path)
@@ -326,7 +442,16 @@ def materialize(
     k = int(pentry["k"])
     defaults = policy["defaults"]
     section_pop = section_populations(package, population_year, provinces)
+    baseline = source_baseline(
+        package,
+        territory_id=territory_id,
+        edition=str(edition),
+        population_year=int(population_year),
+        section_year=int(section_year),
+    )
     province_pop = {code: sum(v for sec, v in section_pop.items() if sec[:2] == code) for code in provinces}
+    if sum(section_pop.values()) != baseline["population_total"]:
+        raise ValueError("La suma poblacional usada por el contrato contradice el baseline acreditado")
 
     cfg, contract_path = existing_or_bootstrap(root, territory_id, name, provinces, edition, section_year)
     modules = cfg.setdefault("modulos", {})
@@ -343,26 +468,44 @@ def materialize(
     ) and bool((cfg.get("territory_contract") or {}).get("k_districts"))
     if already_complete:
         cfg.setdefault("meta", {})["year"] = int(edition)
-        cfg.setdefault("meta", {})["source_population_year"] = int(population_year)
-        cfg.setdefault("meta", {})["source_section_year"] = int(section_year)
-        input_cfg = cfg.setdefault("io", {}).setdefault("input", {})
-        input_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{section_year}.zip"
+        _apply_source_contract(
+            cfg,
+            population_year=int(population_year),
+            section_year=int(section_year),
+            baseline=baseline,
+        )
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
             raise ValueError(f"K vigente {current_k} no coincide con política nacional {k}")
         cfg.setdefault("meta", {}).update({
             "schema_family": "ddd-territory", "contract_level": "production_m01_m06",
             "contract_schema_version": "1.0.0", "production_authorization": "AUTHORIZED",
+            "status": "source_prepared_pending_pre_m04",
         })
+        if str(pentry.get("partition_mode") or "") == "physical_components_hamilton":
+            component_pop = _component_populations(root, territory_id, section_pop)
+            floor_ratio = float(defaults["population_floor_ratio"])
+            quota, floor_exempt = component_hamilton(component_pop, current_k, floor_ratio)
+            cfg.setdefault("validation", {})["partition_populations"] = component_pop
+            cfg["validation"]["province_districts"] = quota
+            cfg["validation"]["population_floor_exempt_partitions"] = floor_exempt
+            cfg["validation"]["partition_apportionment_audit"] = component_apportionment_audit(
+                component_pop,
+                quota,
+                current_k,
+                floor_ratio,
+                floor_exempt,
+                exception_policy=(policy.get("archipelago") or {}).get("small_component_policy"),
+            )
         row.update({
             "contract_level": "production_m01_m06", "production_authorization": "AUTHORIZED",
             "k_districts": current_k,
             "k_source": (cfg.get("territory_contract") or {}).get("k_source", pentry["k_source"]),
             "k_rationale": (cfg.get("territory_contract") or {}).get("k_rationale", pentry["rationale"]),
-            "status": "generation_ready",
+            "status": "source_prepared_pending_pre_m04",
         })
         update_master_entry(
-            master_path, territory_id, status="generation_ready", authorization="AUTHORIZED",
+            master_path, territory_id, status="source_prepared_pending_pre_m04", authorization="AUTHORIZED",
             k=current_k,
             k_source=(cfg.get("territory_contract") or {}).get("k_source", pentry["k_source"]),
             k_rationale=(cfg.get("territory_contract") or {}).get("k_rationale", pentry["rationale"]),
@@ -381,7 +524,10 @@ def materialize(
             "k": current_k, "partition_mode": "existing_contract",
             "partition_districts": (cfg.get("validation") or {}).get("province_districts") or {},
             "population_floor_exempt_partitions": (cfg.get("validation") or {}).get("population_floor_exempt_partitions") or [],
-            "contract_sha256": admitted["contract_sha256"], "status": "READY",
+            "contract_sha256": admitted["contract_sha256"],
+            "source_baseline": baseline,
+            "generation_enabled": False,
+            "status": "SOURCE_PREPARED_PENDING_PRE_M04",
             "preserved_existing_contract": True,
         }
     val = cfg.setdefault("validation", {})
@@ -398,7 +544,7 @@ def materialize(
         "source_section_year": int(section_year),
         "schema_family": "ddd-territory",
         "contract_level": "production_m01_m06", "contract_schema_version": "1.0.0",
-        "production_authorization": "AUTHORIZED", "status": "production_ready_auto_materialized",
+        "production_authorization": "AUTHORIZED", "status": "source_prepared_pending_pre_m04",
     })
     meta.setdefault("schema_version", "1.0.0")
     meta.setdefault("scope", "provincial")
@@ -413,23 +559,7 @@ def materialize(
     partition_audit: dict[str, dict[str, Any]] = {}
 
     if partition_mode == "physical_components_hamilton":
-        pdata = json.loads((root / PARTITIONS).read_text(encoding="utf-8"))
-        territory_partitions = (pdata.get("territories") or {}).get(territory_id)
-        if not territory_partitions:
-            raise ValueError(f"Sin particiones físicas declaradas: {territory_id}")
-        mun_map = territory_partitions.get("municipality_to_partition") or {}
-        sec_overrides = territory_partitions.get("section_overrides") or {}
-        component_pop: dict[str, int] = {key: 0 for key in (territory_partitions.get("components") or {})}
-        missing = []
-        for sec, pop in section_pop.items():
-            partition = sec_overrides.get(sec) or mun_map.get(sec[:5])
-            if not partition:
-                missing.append(sec)
-            else:
-                component_pop.setdefault(partition, 0)
-                component_pop[partition] += pop
-        if missing:
-            raise ValueError(f"Partición insular incompleta: {len(missing)} secciones; ejemplo={missing[:5]}")
+        component_pop = _component_populations(root, territory_id, section_pop)
         quota, floor_exempt = component_hamilton(component_pop, k, float(defaults["population_floor_ratio"]))
         partition_audit = component_apportionment_audit(
             component_pop,
@@ -485,7 +615,7 @@ def materialize(
     modules["modulo_04_generar_semillas"] = {
         "in_graph_json": modules["modulo_03_construir_grafo"]["out_graph_json"],
         "in_geojson": m04_in,
-        "id_field": "CUSEC_KEY", "pop_field": "POP_{year}",
+        "id_field": "CUSEC_KEY", "pop_field": "POP_{population_year}",
         "province_field": partition_field, "municipality_field": municipality_field,
         "municipality_name_field": "NMUN",
         "district_apportionment": contract["district_apportionment"], "k_districts": k,
@@ -504,7 +634,7 @@ def materialize(
     modules["modulo_05_optimizar_distritos"] = {
         "in_graph_json": modules["modulo_03_construir_grafo"]["out_graph_json"],
         "in_geojson": modules["modulo_04_generar_semillas"]["out_geojson"],
-        "id_field": "CUSEC_KEY", "pop_field": "POP_{year}", "district_field": "district_id",
+        "id_field": "CUSEC_KEY", "pop_field": "POP_{population_year}", "district_field": "district_id",
         "province_field": partition_field, "municipality_field": municipality_field,
         "greedy_moves_limit": 1000, "anneal_iters": 20000, "seed": 12345,
         "anneal_seed_offset": 0, "anneal_outside_penalty": 0.01,
@@ -516,7 +646,7 @@ def materialize(
     }
     modules["modulo_06_consolidar_distritos"] = {
         "in_geojson": modules["modulo_05_optimizar_distritos"]["out_geojson"],
-        "id_field": "CUSEC_KEY", "district_field": "district_id", "pop_field": "POP_{year}",
+        "id_field": "CUSEC_KEY", "district_field": "district_id", "pop_field": "POP_{population_year}",
         "province_field": partition_field, "province_name_field": "NPRO",
         "municipality_field": municipality_field, "municipality_name_field": "NMUN",
         "cudis_field": "CUDIS", "metric_crs": "EPSG:3035", "expected_districts": k,
@@ -556,14 +686,21 @@ def materialize(
             "hard_partition_lookup": str(PARTITIONS),
         })
 
-    # El maestro y el contrato deben coincidir antes de atravesar la puerta R036.
+    _apply_source_contract(
+        cfg,
+        population_year=int(population_year),
+        section_year=int(section_year),
+        baseline=baseline,
+    )
+
+    # La fuente preparada no habilita generación: la puerta pre-M04 lo hará después.
     row.update({
         "contract_level": "production_m01_m06", "production_authorization": "AUTHORIZED",
         "k_districts": k, "k_source": pentry["k_source"], "k_rationale": pentry["rationale"],
-        "status": "production_ready_auto_materialized",
+        "status": "source_prepared_pending_pre_m04",
     })
     update_master_entry(
-        master_path, territory_id, status="generation_ready", authorization="AUTHORIZED",
+        master_path, territory_id, status="source_prepared_pending_pre_m04", authorization="AUTHORIZED",
         k=k, k_source=pentry["k_source"], k_rationale=pentry["rationale"],
     )
     ywrite(contract_path, cfg)
@@ -586,7 +723,10 @@ def materialize(
         "partition_districts": quota,
         "partition_apportionment_audit": partition_audit,
         "population_floor_exempt_partitions": floor_exempt,
-        "contract_sha256": report["contract_sha256"], "status": "READY",
+        "source_baseline": baseline,
+        "contract_sha256": report["contract_sha256"],
+        "generation_enabled": False,
+        "status": "SOURCE_PREPARED_PENDING_PRE_M04",
     }
 
 

@@ -370,9 +370,10 @@ class GaliciaElectoralIdentityGateTests(unittest.TestCase):
         self.assertFalse(plan["catalog_state"]["territorial_product_available"])
         self.assertEqual(
             plan["generation_gate"]["route"],
-            "validated_pre_m04_topology",
+            "planned_pre_m04_accreditation",
         )
-        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_prepare_territorial"])
         self.assertTrue(plan["run_generate"])
         self.assertFalse(plan["run_prepare_electoral"])
         self.assertTrue(plan["run_incorporate"])
