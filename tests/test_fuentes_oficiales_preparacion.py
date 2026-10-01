@@ -225,7 +225,7 @@ class OfficialSourcesTests(unittest.TestCase):
             _filter_population(payload, dec, 2023, ["39"])
         message = str(caught.exception)
         self.assertIn("POPULATION_SOURCE_ROWS_INVALID", message)
-        self.assertIn('"count=1"', message.replace("count=1", '"count=1"'))
+        self.assertIn("count=1", message)
         self.assertIn('"Secciones": "3905902003"', message)
         self.assertIn('"Periodo": "2023"', message)
         self.assertIn('"Sexo": "Total"', message)
