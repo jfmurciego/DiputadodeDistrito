@@ -185,11 +185,6 @@ jobs:
             echo "manifest_path=.ddd-campaign/campaign-manifest.json"
             echo "strategy=$strategy"
           } >> "$GITHUB_OUTPUT"
-      - name: Bloquear cierre productivo hasta contrato final transversal
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        run: |
-          echo "::error::TRANSVERSAL_GENERATION_CONTRACT_PENDING: integrar contrato final SOURCE_PREPARED/GENERATION_READY antes de habilitar campañas nacionales."
-          exit 24
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         if: ${{ steps.plan.outcome == 'success' }}
         with:
@@ -227,6 +222,19 @@ jobs:
       campaign_slot: ${{ matrix.slot }}
       campaign_namespace: ${{ matrix.namespace }}
       campaign_manifest_sha256: ${{ matrix.manifest_sha256 }}
+      campaign_contract_path: ${{ matrix.generation_contract.contract_path }}
+      campaign_contract_sha256: ${{ matrix.generation_contract.contract_sha256 }}
+      campaign_generation_evidence_path: ${{ matrix.generation_contract.generation_evidence_path }}
+      campaign_generation_evidence_sha256: ${{ matrix.generation_contract.generation_evidence_sha256 }}
+      campaign_source_run_id: ${{ matrix.generation_contract.source.run_id }}
+      campaign_source_artifact_name: ${{ matrix.generation_contract.source.artifact_name }}
+      campaign_source_artifact_sha256: ${{ matrix.generation_contract.source.artifact_sha256 }}
+      campaign_source_package_sha256: ${{ matrix.generation_contract.source.package_sha256 }}
+      campaign_evidence_receipt_path: ${{ matrix.evidence.receipt_path }}
+      campaign_evidence_receipt_sha256: ${{ matrix.evidence.receipt_sha256 }}
+      campaign_territorial_identity_sha256: ${{ matrix.evidence.territorial_identity_sha256 }}
+      campaign_electoral_identity_sha256: ${{ matrix.evidence.electoral_identity_sha256 || '' }}
+      campaign_pair_sha256: ${{ matrix.evidence.pair_sha256 || '' }}
       candidate_count: ${{ matrix.candidate_count }}
       gerrychain_entrypoint: ${{ matrix.entrypoint }}
       require_unique_hashes: ${{ matrix.require_unique_hashes }}
