@@ -83,10 +83,11 @@ class NationalCampaignTests(unittest.TestCase):
   for mode in ("electoral","territorial_only"):
    with self.subTest(mode=mode), tempfile.TemporaryDirectory() as td:
     root=Path(td); m,p=generation_fixture(root,mode)
-    subprocess.run(["git","init","-q",td],check=True)
-    subprocess.run(["git","-C",td,"-c","user.name=Test","-c","user.email=test@example.invalid",
-                    "commit","-q","--allow-empty","-m","synthetic"],check=True)
-    m["source_sha"]=subprocess.check_output(["git","-C",td,"rev-parse","HEAD"],text=True).strip()
+    # The suite container has no Git. Model only checkout SHA resolution;
+    # manifest transmission and the actual child validator remain unmocked.
+    bindir=root/"bin"; bindir.mkdir(); git=bindir/"git"
+    git.write_text(f"#!{sys.executable}\nimport sys\nassert sys.argv[1:]==['rev-parse','HEAD']\nprint({m['source_sha']!r})\n")
+    git.chmod(0o755)
     freeze(m); matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"][0]
     inputs={}
     for name,value in caller.items():
@@ -95,7 +96,7 @@ class NationalCampaignTests(unittest.TestCase):
       resolved=matrix
       for key in match[1].split("."): resolved=resolved.get(key,{}) if isinstance(resolved,dict) else {}
       inputs[name]=resolved if resolved!={} else ""
-    env={**os.environ,"PYTHONPATH":str(ROOT)}
+    env={**os.environ,"PYTHONPATH":str(ROOT),"PATH":str(bindir)}
     for name,value in step["env"].items():
      match=re.fullmatch(r"\$\{\{ inputs\.(\w+) \}\}",str(value))
      if match: env[name]=str(inputs.get(match[1],""))
