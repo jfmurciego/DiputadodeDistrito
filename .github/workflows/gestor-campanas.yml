@@ -171,7 +171,7 @@ jobs:
           source_sha="$GITHUB_SHA"
           campaign_instance="campaign-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           mkdir -p .ddd-campaign
-          matrix="$(python herramientas/gestor_campana_nacional.py plan \
+          matrix="$(python -m herramientas.gestor_campana_nacional plan \
             --selected-json "$selected_json" --publication-mode "$publication_mode" \
             --source-sha "$source_sha" --strategy "$strategy" \
             --campaign-instance "$campaign_instance" --confirmation "$confirmation" \
