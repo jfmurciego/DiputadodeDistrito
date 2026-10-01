@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Módulo 01 — Preparar base territorial.
-
-Integra seccionado y población sin reparar ni completar silenciosamente datos
-territoriales inválidos. El cero poblacional explícito es válido; ausencia,
-valor no numérico, negativo, duplicado tras normalización o falta de
-correspondencia bloquean cuando el contrato exige población completa.
+"""
+PROYECTO: Diputado de Distrito
+Módulo 01 — Preparar base territorial
+VERSIÓN: 7.2.0
+NOMBRE DE VERSIÓN: Fronteras territoriales fail-closed
+FECHA: 2026-10-01
+QUÉ HACE: integra cartografía y población oficial bloqueando ausencias, duplicados normalizados, valores inválidos y geometría/CRS no acreditados.
+POR QUÉ ES SEPARADO: es la base estable, costosa y cacheable de todos los módulos posteriores.
+ESTADO: candidato multi-territorio — frontera territorial estricta.
+CAMBIOS: hace efectivo require_non_null_population, conserva cero explícito y elimina pérdidas silenciosas de población y geometría.
+MOTIVO: impedir que datos territoriales incompletos o inválidos avancen a grafo, consolidación o validación.
+ANTERIOR: legacy/modulo01/01_preparar_base_territorial_v7.0.4.py
 """
 from __future__ import annotations
 
