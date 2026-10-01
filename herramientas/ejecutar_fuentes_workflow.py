@@ -35,11 +35,12 @@ def _edition(declaration: Path) -> int:
 
 def _source_years(declaration: Path) -> tuple[int, int]:
     territory = _declaration(declaration).get("territory") or {}
-    legacy = territory.get("source_year", territory["edition"])
-    return (
-        int(territory.get("population_year", legacy)),
-        int(territory.get("section_year", legacy)),
-    )
+    legacy = territory.get("source_year")
+    population = territory.get("population_year", legacy)
+    section = territory.get("section_year", legacy)
+    if population in (None, "") or section in (None, ""):
+        raise ValueError("La declaración debe fijar population_year y section_year (o source_year explícito)")
+    return int(population), int(section)
 
 
 def _territory_id(declaration: Path) -> str:
@@ -115,7 +116,13 @@ def _manifest_from_acquisition(
         for value in row.get("urls") or []:
             if value:
                 urls.add(str(value))
-        date = row.get("acquired_at") or row.get("retrieved_at") or row.get("acquisition_date")
+        date = (
+            row.get("acquired_at")
+            or row.get("acquired_at_utc")
+            or row.get("snapshot_acquired_at")
+            or row.get("retrieved_at")
+            or row.get("acquisition_date")
+        )
         if date:
             acquired.append(str(date))
 
@@ -136,9 +143,11 @@ def _manifest_from_acquisition(
         "bytes": frozen.stat().st_size,
         "sha256": _sha256(frozen),
         "records": int(records),
-        "acquired_at": max(acquired) if acquired else "unknown-acquisition-date",
+        "acquired_at": max(acquired) if acquired else None,
         "bundle_schema": "ddd-prepared-sources-bundle/1.1",
     }
+    if not manifest["acquired_at"]:
+        raise RuntimeError("La adquisición no acredita acquired_at/retrieved_at")
     if population_year == section_year:
         manifest["source_year"] = population_year
     return manifest
