@@ -259,7 +259,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -271,6 +271,7 @@ territories:
         package_sha256: 201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97
       evidence:
         generation_preflight: territorios/comunidad_valenciana/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/comunidad_valenciana/evidencia/fuentes_electorales/2025/81b385e7be11975f01870a1dbc41ab6c947774a0c6f611a5c3940e289523959e/36875387632/receipt.json
 - territory_id: extremadura
   name: Extremadura
   editions:
