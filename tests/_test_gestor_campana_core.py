@@ -352,19 +352,14 @@ class CampaignManagerTests(unittest.TestCase):
                                       execution_mode="reuse", catalog=catalog, root_dir=root,
                                       optimization_algorithm=strategy, force_selected_algorithm=True)
                     self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], "source-B")
-                    apply_explicit_territorial_source(
-                        plan, root_dir=root, reuse_run_id=str(row["reuse_run_id"]),
-                        reuse_artifact_name=row["reuse_artifact_name"],
-                        reuse_artifact_sha256=row["reuse_artifact_sha256"],
-                        reuse_source_sha=row["reuse_source_sha"],
-                    )
-                    self.assertEqual(plan["existing"]["territorial_source"]["run_id"], row["reuse_run_id"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_name"], row["reuse_artifact_name"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["artifact_sha256"], row["reuse_artifact_sha256"])
-                    self.assertEqual(plan["existing"]["territorial_source"]["source_commit"], row["reuse_source_sha"])
-                    self.assertEqual(plan["execution_mode"], "from_start")
-                    self.assertFalse(plan["run_prepare_territorial"])
-                    self.assertTrue(plan["run_generate"])
+                    self.assertTrue(plan["run_prepare_territorial"])
+                    with self.assertRaisesRegex(ValueError, "CAP_SOURCE|CAP_PRE_M04_EVIDENCE"):
+                        apply_explicit_territorial_source(
+                            plan, root_dir=root, reuse_run_id=str(row["reuse_run_id"]),
+                            reuse_artifact_name=row["reuse_artifact_name"],
+                            reuse_artifact_sha256=row["reuse_artifact_sha256"],
+                            reuse_source_sha=row["reuse_source_sha"],
+                        )
             for mode in ("reuse", "from_start"):
                 with self.subTest(manual_mode=mode):
                     manual = build_plan(territory="Principado de Asturias", edition="2025",
@@ -373,7 +368,7 @@ class CampaignManagerTests(unittest.TestCase):
                     unchanged = json.loads(json.dumps(manual))
                     self.assertEqual(apply_explicit_territorial_source(manual), unchanged)
                     self.assertEqual(manual["existing"]["territorial_source"]["artifact_name"], "source-B")
-                    self.assertEqual(manual["run_prepare_territorial"], mode == "from_start")
+                    self.assertTrue(manual["run_prepare_territorial"])
 
     def test_partial_fixed_source_blocks_and_manual_plan_keeps_catalog_behavior(self):
         plan = {"execution_mode": "reuse", "run_prepare_territorial": False,
