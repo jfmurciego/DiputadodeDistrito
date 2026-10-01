@@ -64,7 +64,7 @@ def _test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm(self)
             optimization_algorithm="GerryChain 50",
             force_selected_algorithm=True,
         )
-        self.assertFalse(plan["run_prepare_territorial"]); self.assertTrue(plan["run_generate"]); self.assertFalse(plan["run_prepare_electoral"]); self.assertTrue(plan["run_incorporate"])
+        self.assertTrue(plan["run_prepare_territorial"]); self.assertTrue(plan["pre_m04_accreditation_planned"]); self.assertTrue(plan["run_generate"]); self.assertFalse(plan["run_prepare_electoral"]); self.assertTrue(plan["run_incorporate"])
         self.assertEqual(plan["optimization_algorithm"], "GerryChain 50"); self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
 
