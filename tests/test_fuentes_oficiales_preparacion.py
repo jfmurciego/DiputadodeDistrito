@@ -26,7 +26,7 @@ from urllib.parse import parse_qs, urlparse
 
 import yaml
 
-from herramientas.adquirir_fuentes_oficiales import acquire, _write_shapefile_zip, _zip_single
+from herramientas.adquirir_fuentes_oficiales import acquire, _filter_population, _write_shapefile_zip, _zip_single
 from herramientas.evaluar_preparacion_territorial import evaluate, readable_report
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -171,6 +171,93 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertTrue((evidence / "inventario_fuentes.json").is_file())
         self.assertTrue((evidence / "decision_adquisicion.json").is_file())
         self.assertIn("HTML", json.dumps(acquisition, ensure_ascii=False))
+
+    def test_population_explicit_aggregate_rows_do_not_hide_valid_sections(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;;;;Total;Todas las edades;2023;48619620\n"
+            ";Cantabria;;;Total;Todas las edades;2023;591151\n"
+            ";Cantabria;39001;;Total;Todas las edades;2023;1000\n"
+            ";Cantabria;39001;3900101001;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        text = filtered.decode("utf-8-sig")
+        self.assertIn("3900101001", text)
+        self.assertNotIn("48619620", text)
+        self.assertNotIn("591151", text)
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["provinces"], ["39"])
+        self.assertEqual(checks["pertinent_rows_examined"], 4)
+        self.assertEqual(checks["aggregate_exclusions"]["total"], 3)
+        self.assertEqual(
+            checks["aggregate_exclusions"]["by_level"],
+            {"national": 1, "provincial": 1, "municipal": 1},
+        )
+        self.assertEqual(
+            checks["aggregate_exclusions"]["causes"],
+            {
+                "national": "TOTAL_NACIONAL_WITHOUT_LOWER_LEVELS",
+                "provincial": "PROVINCIA_WITHOUT_MUNICIPIO_OR_SECCION",
+                "municipal": "MUNICIPIO_WITHOUT_SECCION",
+            },
+        )
+        self.assertEqual(checks["territorial_exclusions"]["count"], 0)
+        self.assertEqual(
+            checks["row_reconciliation"],
+            {
+                "pertinent": 4,
+                "classified_aggregates": 3,
+                "accepted_sections": 1,
+                "territorial_exclusions": 0,
+                "balanced": True,
+            },
+        )
+        self.assertEqual(checks["selected_section_population_total"], 123)
+
+    def test_population_invalid_nonempty_section_still_blocks(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            ";Cantabria;39001;seccion-invalida;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_blank_section_without_explicit_aggregate_level_blocks(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            ";;;;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_missing_section_with_incompatible_hierarchy_blocks(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            "Total Nacional;Cantabria;39001;;Total;Todas las edades;2023;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "jerarquía INE 65034 ambigua/incompatible"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_reconciles_out_of_scope_sections_without_counting_them_in_population(self):
+        dec = declaration("cantabria")
+        payload = (
+            "Total Nacional;Provincias;Municipios;Secciones;Sexo;Edad;Periodo;Total\n"
+            ";Cantabria;39001;3900101001;Total;Todas las edades;2023;0\n"
+            ";Asturias;33001;3300101001;Total;Todas las edades;2023;999\n"
+        ).encode("utf-8")
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        text = filtered.decode("utf-8-sig")
+        self.assertIn("3900101001", text)
+        self.assertNotIn("3300101001", text)
+        self.assertEqual(checks["pertinent_rows_examined"], 2)
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
+        self.assertEqual(checks["selected_section_population_total"], 0)
+        self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_wrong_edition_blocks(self):
         dec0 = declaration("extremadura")

@@ -3,21 +3,23 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 07 — Agregar resultados electorales
-VERSIÓN: 7.3.0
+VERSIÓN: 7.3.1
 NOMBRE DE VERSIÓN: Contrato electoral universal
 FECHA: 2026-09-14
 QUÉ HACE: verifica convocatoria, fuentes y partidos antes de agregar votos a distritos.
 POR QUÉ ES SEPARADO: la elección nunca condiciona fronteras; M07 solo proyecta sobre M06.
 ESTADO: vigente — R039
-CAMBIOS: añade reconciliación declarativa de cambios de seccionado 2023→2025 con aliases 1:1 y splits ponderados por población, conservando exactamente los votos.
+CAMBIOS: endurece la frontera electoral: votos enteros decimales exactos y rechazo fail-closed de filas/zonas con localizador, sección o partido inválidos, sin descartes silenciosos.
 MOTIVO: permitir nuevas elecciones sin tablas ni lógica territorial en M07.
 ANTERIOR: legacy/modulo07/07_agregar_resultados_electorales_v7.1.0.py
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import io
 import json
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -65,42 +67,200 @@ def dotted(obj, path):
     return current
 
 
+
+def _exact_nonnegative_votes(value, *, source: Path, adapter_kind: str, row: str, field: str) -> int:
+    """Acepta sólo enteros decimales explícitos >= 0; nunca rellena, trunca ni descarta."""
+    if isinstance(value, bool) or value is None:
+        raise ValueError(
+            f"ELECTORAL_VOTES_INVALID source={source} adapter={adapter_kind} "
+            f"row={row} field={field} value={value!r}: votos ausentes o no enteros"
+        )
+    if isinstance(value, int):
+        votes = value
+    elif isinstance(value, str):
+        raw = value.strip()
+        if not re.fullmatch(r"[0-9]+", raw):
+            raise ValueError(
+                f"ELECTORAL_VOTES_INVALID source={source} adapter={adapter_kind} "
+                f"row={row} field={field} value={value!r}: se exige entero decimal exacto no negativo"
+            )
+        votes = int(raw)
+    else:
+        raise ValueError(
+            f"ELECTORAL_VOTES_INVALID source={source} adapter={adapter_kind} "
+            f"row={row} field={field} value={value!r}: se exige entero exacto, sin truncamiento"
+        )
+    if votes < 0:
+        raise ValueError(
+            f"ELECTORAL_VOTES_INVALID source={source} adapter={adapter_kind} "
+            f"row={row} field={field} value={value!r}: votos negativos prohibidos"
+        )
+    return votes
+
+
+def _input_invalid(*, source: Path, adapter_kind: str, row: str, field: str, value, cause: str) -> None:
+    raise ValueError(
+        f"ELECTORAL_INPUT_INVALID source={source} adapter={adapter_kind} "
+        f"row={row} field={field} value={value!r} cause={cause}"
+    )
+
+
+def _required_text(value, *, source: Path, adapter_kind: str, row: str, field: str, cause: str) -> str:
+    if value is None or bool(pd.isna(value)):
+        _input_invalid(
+            source=source, adapter_kind=adapter_kind, row=row, field=field,
+            value=value, cause=cause,
+        )
+    text = str(value).strip()
+    if not text:
+        _input_invalid(
+            source=source, adapter_kind=adapter_kind, row=row, field=field,
+            value=value, cause=cause,
+        )
+    return text
+
+
+def _canonical_party(value, *, parties: PartyDictionary, source: Path, adapter_kind: str, row: str, field: str) -> str:
+    raw = _required_text(
+        value,
+        source=source,
+        adapter_kind=adapter_kind,
+        row=row,
+        field=field,
+        cause="PARTY_MISSING",
+    )
+    try:
+        canonical = parties.canonicalize(raw)
+    except ValueError:
+        _input_invalid(
+            source=source,
+            adapter_kind=adapter_kind,
+            row=row,
+            field=field,
+            value=value,
+            cause="PARTY_NOT_RECOGNIZED",
+        )
+    if not canonical:
+        _input_invalid(
+            source=source,
+            adapter_kind=adapter_kind,
+            row=row,
+            field=field,
+            value=value,
+            cause="PARTY_NOT_RECOGNIZED",
+        )
+    return canonical
+
+
+def _accepted(frame: pd.DataFrame) -> pd.DataFrame:
+    # Sólo se llega aquí si todos los registros de entrada superaron la validación.
+    frame.attrs["rejected_rows"] = 0
+    return frame
+
+
+def _json_object(pairs):
+    obj = {}
+    for key, value in pairs:
+        if key in obj:
+            raise ValueError(f"ELECTORAL_INPUT_INVALID: JSON duplicate key {key!r}")
+        obj[key] = value
+    return obj
+
+
+def _read_csv_strict(text, separator, *, source, adapter_kind):
+    # pandas infers an index for surplus cells and skips empty lines by default.
+    # Check the raw records first, so neither behavior can hide rejected input.
+    records = list(csv.reader(io.StringIO(text), delimiter=separator, strict=True))
+    if not records or not records[0]:
+        raise ValueError(f"ELECTORAL_INPUT_INVALID source={source}: CSV header missing")
+    header = records[0]
+    if len(set(header)) != len(header) or any(not value.strip() for value in header):
+        _input_invalid(source=source, adapter_kind=adapter_kind, row="header",
+                       field="columns", value=header, cause="CSV_HEADER_INVALID")
+    for index, record in enumerate(records[1:], start=2):
+        if len(record) != len(header):
+            _input_invalid(source=source, adapter_kind=adapter_kind, row=f"csv[{index}]",
+                           field="columns", value=record, cause="CSV_ROW_WIDTH_INVALID")
+    return pd.read_csv(io.StringIO(text), sep=separator, dtype=str,
+                       keep_default_na=False, skip_blank_lines=False)
+
+
 def read_results(path, adapter, section_field, parties: PartyDictionary):
     source = Path(path)
-    text = source.read_text(encoding="utf-8", errors="replace").lstrip()
+    text = source.read_text(encoding="utf-8").lstrip()
     if text.startswith(("{", "[")):
-        obj = json.loads(text)
+        obj = json.loads(text, object_pairs_hook=_json_object)
         if adapter.get("kind") != "nested_json":
             raise ValueError(f"El contenido JSON requiere adaptador nested_json: {source}")
         zones = dotted(obj, require(adapter.get("records_path"), "Falta records_path"))
+        if not isinstance(zones, list):
+            _input_invalid(source=source, adapter_kind="nested_json", row="root",
+                           field=adapter["records_path"], value=zones, cause="ZONES_NOT_LIST")
         rows = []
         section_ids = set()
         section_key = require(adapter.get("section_field"), "Falta section_field")
         party_list = require(adapter.get("party_records_field"), "Falta party_records_field")
         party_key = require(adapter.get("party_field"), "Falta party_field")
         votes_key = require(adapter.get("votes_field"), "Falta votes_field")
-        for zone in zones or []:
-            section_id = zone.get(section_key)
-            if section_id is not None:
-                section_ids.add(str(section_id))
-            for item in zone.get(party_list, []) or []:
-                try:
-                    votes = int(float(item.get(votes_key, 0)))
-                except (TypeError, ValueError):
-                    continue
-                party = parties.canonicalize(item.get(party_key))
-                if section_id is not None and party:
-                    rows.append({section_field: str(section_id), "party": party, "votes": votes})
+        for zone_index, zone in enumerate(zones, start=1):
+            zone_row = f"zone[{zone_index}]"
+            if not isinstance(zone, dict):
+                _input_invalid(
+                    source=source, adapter_kind="nested_json", row=zone_row,
+                    field="zone", value=zone, cause="ZONE_NOT_OBJECT",
+                )
+            party_records = zone.get(party_list, [])
+            if not isinstance(party_records, list):
+                _input_invalid(
+                    source=source, adapter_kind="nested_json", row=zone_row,
+                    field=party_list, value=party_records, cause="PARTY_RECORDS_NOT_LIST",
+                )
+            section_value = zone.get(section_key)
+            if party_records:
+                section_id = _required_text(
+                    section_value,
+                    source=source,
+                    adapter_kind="nested_json",
+                    row=zone_row,
+                    field=section_key,
+                    cause="SECTION_ID_MISSING_WITH_RESULTS",
+                )
+            elif section_value is None or str(section_value).strip() == "":
+                # Una zona sin resultados puede carecer de sección sin perder votos.
+                continue
+            else:
+                section_id = str(section_value).strip()
+            section_ids.add(section_id)
+            for party_index, item in enumerate(party_records, start=1):
+                item_row = f"zone[{zone_index}].{party_list}[{party_index}]"
+                if not isinstance(item, dict):
+                    _input_invalid(
+                        source=source, adapter_kind="nested_json", row=item_row,
+                        field=party_list, value=item, cause="PARTY_RECORD_NOT_OBJECT",
+                    )
+                votes = _exact_nonnegative_votes(
+                    item.get(votes_key), source=source, adapter_kind="nested_json",
+                    row=item_row, field=votes_key,
+                )
+                party = _canonical_party(
+                    item.get(party_key),
+                    parties=parties,
+                    source=source,
+                    adapter_kind="nested_json",
+                    row=item_row,
+                    field=party_key,
+                )
+                rows.append({section_field: section_id, "party": party, "votes": votes})
         if not rows:
             raise ValueError(f"No se pudieron extraer votos del JSON: {source}")
-        return pd.DataFrame(rows), section_ids
+        return _accepted(pd.DataFrame(rows)), section_ids
 
     if adapter.get("kind") == "wide_polling_station_csv":
         first = text.splitlines()[0] if text else ""
         separator = adapter.get("separator", "auto")
         if separator == "auto":
             separator = ";" if first.count(";") > first.count(",") else ","
-        frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+        frame = _read_csv_strict(text, separator, source=source, adapter_kind="wide_polling_station_csv")
         province_field = require(adapter.get("province_field"), "Falta province_field")
         municipality_field = require(adapter.get("municipality_field"), "Falta municipality_field")
         polling_field = require(adapter.get("polling_station_field"), "Falta polling_station_field")
@@ -109,34 +269,91 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
         missing = [c for c in [province_field, municipality_field, polling_field, *party_columns] if c not in frame.columns]
         if missing:
             raise ValueError(f"CSV electoral ancho carece de columnas: {missing}")
-        match = frame[polling_field].fillna("").str.extract(polling_regex)
+        polling_values = frame[polling_field].fillna("")
+        match = polling_values.str.extract(polling_regex)
         if not {"district", "section"}.issubset(match.columns):
             raise ValueError("polling_station_regex debe exponer grupos district y section")
-        valid = (
-            match["district"].notna()
+        province_width = int(adapter.get("province_width", 2))
+        municipality_width = int(adapter.get("municipality_width", 3))
+        district_width = int(adapter.get("district_width", 2))
+        section_width = int(adapter.get("section_width", 3))
+        province_values = frame[province_field].fillna("").str.strip()
+        municipality_values = frame[municipality_field].fillna("").str.strip()
+        locator_valid = (
+            polling_values.str.fullmatch(polling_regex)
+            & match["district"].notna()
             & match["section"].notna()
-            & frame[province_field].fillna("").str.fullmatch(r"\d+")
-            & frame[municipality_field].fillna("").str.fullmatch(r"\d+")
+            & match["district"].fillna("").str.len().le(district_width)
+            & match["section"].fillna("").str.len().le(section_width)
         )
-        frame = frame.loc[valid].copy()
-        match = match.loc[valid]
+        province_valid = (
+            province_values.str.fullmatch(r"\d+")
+            & province_values.str.len().le(province_width)
+        )
+        municipality_valid = (
+            municipality_values.str.fullmatch(r"\d+")
+            & municipality_values.str.len().le(municipality_width)
+        )
+        for index in frame.index:
+            row = f"csv[{int(index) + 2}]"
+            if not bool(locator_valid.loc[index]):
+                _input_invalid(
+                    source=source,
+                    adapter_kind="wide_polling_station_csv",
+                    row=row,
+                    field=polling_field,
+                    value=frame.at[index, polling_field],
+                    cause="POLLING_STATION_LOCATOR_INVALID",
+                )
+            if not bool(province_valid.loc[index]):
+                _input_invalid(
+                    source=source,
+                    adapter_kind="wide_polling_station_csv",
+                    row=row,
+                    field=province_field,
+                    value=frame.at[index, province_field],
+                    cause="PROVINCE_CODE_INVALID",
+                )
+            if not bool(municipality_valid.loc[index]):
+                _input_invalid(
+                    source=source,
+                    adapter_kind="wide_polling_station_csv",
+                    row=row,
+                    field=municipality_field,
+                    value=frame.at[index, municipality_field],
+                    cause="MUNICIPALITY_CODE_INVALID",
+                )
+        frame = frame.copy()
         frame[section_field] = (
-            frame[province_field].astype(str).str.zfill(int(adapter.get("province_width", 2)))
-            + frame[municipality_field].astype(str).str.zfill(int(adapter.get("municipality_width", 3)))
-            + match["district"].astype(str).str.zfill(int(adapter.get("district_width", 2)))
-            + match["section"].astype(str).str.zfill(int(adapter.get("section_width", 3)))
+            province_values.str.zfill(province_width)
+            + municipality_values.str.zfill(municipality_width)
+            + match["district"].astype(str).str.zfill(district_width)
+            + match["section"].astype(str).str.zfill(section_width)
         )
         section_ids = set(frame[section_field])
         rows = []
         for raw_party in party_columns:
-            canonical = parties.canonicalize(raw_party)
+            canonical = _canonical_party(
+                raw_party,
+                parties=parties,
+                source=source,
+                adapter_kind="wide_polling_station_csv",
+                row="header",
+                field="party_columns",
+            )
             batch = frame[[section_field, raw_party]].rename(columns={raw_party: "votes"})
             batch["party"] = canonical
-            batch["votes"] = pd.to_numeric(batch["votes"], errors="coerce").fillna(0).astype("int64")
+            batch["votes"] = [
+                _exact_nonnegative_votes(
+                    value, source=source, adapter_kind="wide_polling_station_csv",
+                    row=f"csv[{int(index) + 2}]", field=raw_party,
+                )
+                for index, value in batch["votes"].items()
+            ]
             rows.append(batch[[section_field, "party", "votes"]])
         if not rows:
             raise ValueError(f"No se pudieron extraer partidos del CSV ancho: {source}")
-        return pd.concat(rows, ignore_index=True), section_ids
+        return _accepted(pd.concat(rows, ignore_index=True)), section_ids
 
     if adapter.get("kind") != "long_csv":
         raise ValueError(f"El contenido tabular requiere adaptador long_csv o wide_polling_station_csv: {source}")
@@ -144,21 +361,55 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
     separator = adapter.get("separator", "auto")
     if separator == "auto":
         separator = ";" if first.count(";") > first.count(",") else ","
-    frame = pd.read_csv(io.StringIO(text), sep=separator, dtype=str)
+    frame = _read_csv_strict(text, separator, source=source, adapter_kind="long_csv")
     section_source = require(adapter.get("section_field"), "Falta section_field")
     party_col = require(adapter.get("party_field"), "Falta party_field")
     votes_col = require(adapter.get("votes_field"), "Falta votes_field")
-    if not section_source or party_col not in frame.columns or votes_col not in frame.columns:
-        raise ValueError("CSV electoral no cumple contrato long section/party/votes")
+    missing = [c for c in (section_source, party_col, votes_col) if c not in frame.columns]
+    if missing:
+        raise ValueError(f"CSV electoral no cumple contrato long section/party/votes; faltan columnas: {missing}")
     result = frame[[section_source, party_col, votes_col]].rename(
         columns={section_source: section_field, party_col: "party", votes_col: "votes"}
     )
-    result[section_field] = result[section_field].astype(str)
+    validated_sections = []
+    validated_parties = []
+    validated_votes = []
+    for index, row_data in result.iterrows():
+        row = f"csv[{int(index) + 2}]"
+        validated_sections.append(
+            _required_text(
+                row_data[section_field],
+                source=source,
+                adapter_kind="long_csv",
+                row=row,
+                field=section_source,
+                cause="SECTION_ID_MISSING",
+            )
+        )
+        validated_parties.append(
+            _canonical_party(
+                row_data["party"],
+                parties=parties,
+                source=source,
+                adapter_kind="long_csv",
+                row=row,
+                field=party_col,
+            )
+        )
+        validated_votes.append(
+            _exact_nonnegative_votes(
+                row_data["votes"],
+                source=source,
+                adapter_kind="long_csv",
+                row=row,
+                field=votes_col,
+            )
+        )
+    result[section_field] = validated_sections
+    result["party"] = validated_parties
+    result["votes"] = validated_votes
     section_ids = set(result[section_field])
-    result["party"] = result["party"].map(parties.canonicalize)
-    result["votes"] = pd.to_numeric(result["votes"], errors="coerce").fillna(0).astype("int64")
-    result = result.loc[result["party"] != ""].copy()
-    return result, section_ids
+    return _accepted(result), section_ids
 
 
 
@@ -316,6 +567,9 @@ def main():
         read_results(source["resolved_path"], source["adapter"], section_field, parties)
         for source in contract["sources"]
     ]
+    rejected_rows = sum(int(batch[0].attrs.get("rejected_rows", 0)) for batch in result_batches)
+    if rejected_rows != 0:
+        raise ValueError(f"ELECTORAL_INPUT_REJECTED_ROWS: rejected_rows={rejected_rows}")
     results = pd.concat([batch[0] for batch in result_batches], ignore_index=True)
     result_section_ids = set().union(*(batch[1] for batch in result_batches))
     section_party = results.groupby([section_field, "party"], as_index=False)["votes"].sum()
@@ -341,6 +595,7 @@ def main():
         population_field=population_field,
         definitive_candidate_votes=definitive_candidate_votes,
     )
+    report["input_validation"] = {"rejected_rows": rejected_rows, "accepted_rows": int(len(results))}
     report["section_reconciliation"] = section_reconciliation_report
     report["source_verification"] = contract.get("source_verification") or {}
     report["non_geocodable_votes"] = contract.get("non_geocodable_votes") or {}

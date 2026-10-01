@@ -1,4 +1,4 @@
-import copy, json, shutil, tempfile, unittest
+import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
 from pathlib import Path
 from herramientas.gestor_campana_nacional import (
@@ -72,6 +72,42 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
  return m,plan
 
 class NationalCampaignTests(unittest.TestCase):
+ def test_actual_workflow_child_manifest_transmission(self):
+  manager=yaml.safe_load((ROOT/".github/workflows/gestor-campanas.yml").read_text())
+  child=yaml.safe_load((ROOT/".github/workflows/ejecucion-completa-proyecto.yml").read_text())
+  caller=next(job["with"] for job in manager["jobs"].values()
+              if job.get("uses")=="./.github/workflows/ejecucion-completa-proyecto.yml")
+  step=next(s for s in child["jobs"]["planificar"]["steps"]
+            if "validate_campaign_child(" in s.get("run",""))
+  code=step["run"].split('if [[ -n "$CAMPAIGN_INSTANCE" ]]; then',1)[1].split("python - <<'PY'\n",1)[1].split("\nPY",1)[0]
+  for mode in ("electoral","territorial_only"):
+   with self.subTest(mode=mode), tempfile.TemporaryDirectory() as td:
+    root=Path(td); m,p=generation_fixture(root,mode)
+    subprocess.run(["git","init","-q",td],check=True)
+    subprocess.run(["git","-C",td,"-c","user.name=Test","-c","user.email=test@example.invalid",
+                    "commit","-q","--allow-empty","-m","synthetic"],check=True)
+    m["source_sha"]=subprocess.check_output(["git","-C",td,"rev-parse","HEAD"],text=True).strip()
+    freeze(m); matrix=build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"][0]
+    inputs={}
+    for name,value in caller.items():
+     match=re.fullmatch(r"\$\{\{ matrix\.([\w.]+)(?: \|\| '')? \}\}",str(value))
+     if match:
+      resolved=matrix
+      for key in match[1].split("."): resolved=resolved.get(key,{}) if isinstance(resolved,dict) else {}
+      inputs[name]=resolved if resolved!={} else ""
+    env={**os.environ,"PYTHONPATH":str(ROOT)}
+    for name,value in step["env"].items():
+     match=re.fullmatch(r"\$\{\{ inputs\.(\w+) \}\}",str(value))
+     if match: env[name]=str(inputs.get(match[1],""))
+    for rel,payload in ((".ddd-campaign/campaign-manifest.json",m),(".ddd-full-run/plan.json",p)):
+     path=root/rel; path.parent.mkdir(); path.write_text(json.dumps(payload))
+    result=subprocess.run([sys.executable,"-c",code],cwd=root,env=env,capture_output=True,text=True)
+    self.assertEqual(result.returncode,0,result.stderr)
+    for name in (k for k in env if k.startswith("CAMPAIGN_") and k not in ("CAMPAIGN_INSTANCE","CAMPAIGN_NAMESPACE")):
+     result=subprocess.run([sys.executable,"-c",code],cwd=root,env={**env,name:"drift"},capture_output=True,text=True)
+     self.assertNotEqual(result.returncode,0,name)
+     self.assertIn("CAMPAIGN_MANIFEST_MISMATCH",result.stderr,name)
+
  def test_cardinalities_and_codauto_order(self):
   ids=[r["territory_id"] for r in canonical_selection([r["territory_id"] for r in canonical_selection(["andalucia"])] )]
   self.assertEqual(ids,["andalucia"])
