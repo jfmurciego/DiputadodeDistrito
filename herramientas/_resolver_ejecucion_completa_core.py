@@ -485,22 +485,14 @@ def generation_enablement(*, root_dir: Path, contract_path: str | None, territor
             contract=contract, evidence=first_generation_evidence, preparation_evidence=prep,
             territory_id=territory_id, root_dir=root_dir,
         )
-    meta = contract.get("meta") or {}
-    territorial = contract.get("territory_contract") or {}
-    modules = contract.get("modulos") or {}
-    m04 = modules.get("modulo_04_generar_semillas") or {}
-    partitioning = contract.get("partitioning") or {}
-    if certified_product_ready:
-        return {"allowed": True, "route": "certified_product_lineage"}
     if source_acquisition_planned:
         return {"allowed": True, "route": "planned_source_acquisition"}
-    if meta.get("status") == territorial.get("status") == "generation_ready":
-        return {"allowed": True, "route": "declared_generation_ready"}
-    if (partitioning.get("enabled") is True and partitioning.get("strategy") == "connected_internal_units"
-            and partitioning.get("output_geojson") == m04.get("in_geojson")
-            and partitioning.get("partition_unit_field") == m04.get("municipality_field")):
-        return {"allowed": True, "route": "linked_internal_partitioning"}
-    return _blocked("CAP_PRE_M04_EVIDENCE", "primera generación sin evidencia durable pre-M04")
+    if certified_product_ready:
+        return {"allowed": True, "route": "certified_product_lineage"}
+    return _blocked(
+        "CAP_PRE_M04_EVIDENCE",
+        "la generación exige evidencia pre-M04 ligada a la fuente efectiva",
+    )
 
 
 def _load_json(path: str | None, root: Path) -> dict:
