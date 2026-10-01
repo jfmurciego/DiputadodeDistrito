@@ -21,6 +21,7 @@ if str(ROOT) not in sys.path:sys.path.insert(0,str(ROOT))
 import geopandas as gpd
 import pandas as pd
 from ddd_core.config import load_params_yaml,module_cfg, hard_limits
+from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
 
 def read_geo(path:Path):
     return gpd.read_file(f"zip://{path}" if path.suffix==".zip" else path)
@@ -51,6 +52,11 @@ def main():
         print('\n'.join('[FAIL] '+x for x in fails));sys.exit(2)
 
     sec=read_geo(paths['secciones']);dist=read_geo(paths['distritos']);summ=pd.read_csv(paths['resumen']);graph=json.loads(paths['grafo'].read_text(encoding='utf-8'))
+    try:
+        validate_geodataframe(sec,label='validación secciones M06')
+        validate_geodataframe(dist,label='validación distritos M06')
+    except ValueError as exc:
+        fails.append(str(exc))
     val=cfg.get('validation',{}) or {}
     expected=int(val.get('expected_districts',s6.get('expected_districts',67)))
     did=s6['district_field'];sid=s6['id_field'];pop=s6['pop_field']
@@ -64,9 +70,19 @@ def main():
     if k!=expected:fails.append(f'distritos={k}, esperados={expected}')
     if len(dist)!=expected:fails.append(f'geometrías distritales={len(dist)}, esperadas={expected}')
 
-    section_pop=float(pd.to_numeric(sec[pop],errors='coerce').fillna(0).sum())
+    try:
+        sec_pop_values=strict_population_series(sec[pop],section_ids=sec[sid].astype(str),label='población validación',require_non_null=True)
+        section_pop=float(sec_pop_values.sum())
+    except ValueError as exc:
+        fails.append(str(exc));section_pop=float('nan')
     pop_col='district_pop' if 'district_pop' in summ.columns else next((c for c in summ.columns if 'pop' in c.lower()),None)
-    summary_pop=float(pd.to_numeric(summ[pop_col],errors='coerce').fillna(0).sum()) if pop_col else 0.0
+    if pop_col:
+        try:
+            summary_values=strict_population_series(summ[pop_col],label='población resumen M06',require_non_null=True)
+            summary_pop=float(summary_values.sum())
+        except ValueError as exc:
+            fails.append(str(exc));summary_pop=float('nan')
+    else:summary_pop=0.0
     if not pop_col:fails.append('resumen sin columna de población')
     elif abs(section_pop-summary_pop)>0.5:fails.append(f'población no conservada: {section_pop} vs {summary_pop}')
 
@@ -119,7 +135,10 @@ def main():
             work=sec[[did,municipality_discipline_field,pop]].copy()
             work[municipality_discipline_field]=work[municipality_discipline_field].astype(str)
             work[did]=work[did].astype(str)
-            work[pop]=pd.to_numeric(work[pop],errors='coerce').fillna(0)
+            try:
+                work[pop]=strict_population_series(work[pop],section_ids=work[municipality_discipline_field],label='población disciplina municipal',require_non_null=True)
+            except ValueError as exc:
+                fails.append(str(exc));work[pop]=pd.Series([pd.NA]*len(work),index=work.index,dtype='Int64')
             municipality_pop=work.groupby(municipality_discipline_field)[pop].sum().to_dict()
             district_municipalities=work.groupby(did)[municipality_discipline_field].agg(lambda s:set(s)).to_dict()
             for mun,g in work.groupby(municipality_discipline_field):
