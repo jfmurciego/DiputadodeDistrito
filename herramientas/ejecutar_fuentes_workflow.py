@@ -114,12 +114,15 @@ def _manifest_from_acquisition(
     population_year: int,
     section_year: int,
     expected_records: int | None,
+    acquisition: dict,
 ) -> dict:
-    inv_rows, prov_rows = _source_rows(evidence)
-    working.mkdir(parents=True, exist_ok=True)
-    frozen = working / BUNDLE_NAME
-    _write_deterministic_bundle(evidence, frozen)
+    if acquisition.get("decision") != "READY":
+        raise RuntimeError(
+            "Adquisición oficial bloqueada: "
+            + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
+        )
 
+    inv_rows, prov_rows = _source_rows(evidence)
     urls: set[str] = set()
     acquired: list[str] = []
     source_ids: list[str] = []
@@ -147,6 +150,39 @@ def _manifest_from_acquisition(
             parsed = parse_acquisition_date(date)
             acquired.append(parsed.isoformat())
 
+    available_ids = {
+        str(row.get("source_id") or row.get("id"))
+        for row in inv_rows
+        if isinstance(row, dict) and row.get("availability") == "AVAILABLE"
+    }
+    dated_ids = {
+        str(row.get("source_id") or row.get("id"))
+        for row in prov_rows
+        if isinstance(row, dict)
+        and (row.get("source_id") or row.get("id"))
+        and (
+            row.get("snapshot_acquired_at")
+            or row.get("acquired_at_utc")
+            or row.get("acquired_at")
+            or row.get("retrieved_at")
+            or row.get("acquisition_date")
+        )
+    }
+    missing_dates = sorted(available_ids - dated_ids)
+    if missing_dates:
+        raise RuntimeError(
+            "Paquete nuevo sin fecha de adquisición interpretable para: "
+            + ", ".join(missing_dates)
+        )
+    if not acquired:
+        raise RuntimeError("Paquete nuevo sin fecha de adquisición interpretable")
+
+    # Sólo después de acreditar READY y fechas reales se congela un paquete
+    # consumible. Un bloqueo conserva sus evidencias diagnósticas, pero no bundle.
+    working.mkdir(parents=True, exist_ok=True)
+    frozen = working / BUNDLE_NAME
+    _write_deterministic_bundle(evidence, frozen)
+
     records = expected_records
     if records is None:
         values = [row.get("records") or row.get("rows") or row.get("features") for row in inv_rows if isinstance(row, dict)]
@@ -164,11 +200,9 @@ def _manifest_from_acquisition(
         "bytes": frozen.stat().st_size,
         "sha256": _sha256(frozen),
         "records": int(records),
-        "acquired_at": max(acquired) if acquired else None,
+        "acquired_at": max(acquired),
         "bundle_schema": "ddd-prepared-sources-bundle/1.1",
     }
-    if manifest["acquired_at"] is None:
-        raise RuntimeError("Paquete nuevo sin fecha de adquisición interpretable")
     parse_acquisition_date(manifest["acquired_at"])
     if population_year == section_year:
         manifest["source_year"] = population_year
@@ -250,12 +284,8 @@ def main() -> int:
             population_year,
             section_year,
             expected_records,
+            acquisition,
         )
-        if acquisition.get("decision") != "READY":
-            raise RuntimeError(
-                "Adquisición oficial bloqueada: "
-                + json.dumps(acquisition.get("reasons") or [], ensure_ascii=False)
-            )
         return manifest
 
     evidence = execute_source_policy(
