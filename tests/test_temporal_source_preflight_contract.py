@@ -14,7 +14,7 @@ from herramientas._resolver_ejecucion_completa_core import _contract_generation_
 from herramientas.catalogo_preparacion import rows_for
 from herramientas.compatibilidad_poblacion_seccionado import reconcile_population_sectioning
 from herramientas.materializar_evidencia_pre_m04 import _enable_contract_after_pre_m04
-from herramientas.promover_catalogo_tras_preparacion import _set_catalog_state
+from herramientas.promover_catalogo_tras_preparacion import _set_catalog_state, _promote_contract, _promote_master
 from herramientas.resolver_ejecucion_completa import generation_enablement
 
 
@@ -556,6 +556,40 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             data["territories"][0]["editions"]["2025"]["territorial_product_available"] = True
             catalog.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
             self.assertEqual([row["territory_id"] for row in rows_for("generation", catalog)], ["demo"])
+
+
+    def test_source_promotion_helpers_never_mark_generation_ready_before_pre_m04(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract_path = root / "contract.yaml"
+            contract_path.write_text(
+                "meta:\n"
+                "  contract_level: bootstrap\n"
+                "  production_authorization: PREFLIGHT\n"
+                "  status: bootstrap\n"
+                "territory_contract:\n"
+                "  promotion_status: bootstrap\n"
+                "  status: bootstrap\n"
+                "validation: {}\n",
+                encoding="utf-8",
+            )
+            _promote_contract(contract_path)
+            promoted = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            self.assertEqual(promoted["meta"]["status"], "source_prepared_pending_pre_m04")
+            self.assertEqual(
+                promoted["territory_contract"]["status"],
+                "source_prepared_pending_pre_m04",
+            )
+
+            master_path = root / "master.yaml"
+            master_path.write_text(
+                "- {territory_id: demo, status: bootstrap, contract_level: bootstrap}\n",
+                encoding="utf-8",
+            )
+            _promote_master(master_path, "demo", True)
+            master_text = master_path.read_text(encoding="utf-8")
+            self.assertIn("status: source_prepared_pending_pre_m04", master_text)
+            self.assertNotIn("status: generation_ready", master_text)
 
 
 if __name__ == "__main__":
