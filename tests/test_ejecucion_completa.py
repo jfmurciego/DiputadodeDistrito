@@ -784,8 +784,10 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn('phase == "territorial_source"', gate)
         self.assertIn("validate_prepared_package(", gate)
         generation = (WF / "produccion-distritos.yml").read_text(encoding="utf-8")
-        self.assertIn("SOURCE_RECALCULATION_PLANNED", generation)
-        self.assertIn("source_recalculation_planned=", generation)
+        self.assertNotIn("SOURCE_RECALCULATION_PLANNED", generation)
+        self.assertNotIn("source_recalculation_planned=", generation)
+        self.assertIn("require_generation_gate", generation)
+        self.assertIn("generation_preflight_artifact_name", generation)
 
     def test_from_start_without_generation_contract_blocks_before_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
