@@ -414,7 +414,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -426,6 +426,7 @@ territories:
         package_sha256: 02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a
       evidence:
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
+        electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
 - territory_id: la_rioja
   name: La Rioja
   editions:

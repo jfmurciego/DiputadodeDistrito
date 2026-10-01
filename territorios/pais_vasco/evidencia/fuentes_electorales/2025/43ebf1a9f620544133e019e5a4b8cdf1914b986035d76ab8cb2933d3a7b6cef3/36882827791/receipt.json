@@ -1,0 +1,16 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_source",
+  "territory_id": "pais_vasco",
+  "territory_name": "País Vasco",
+  "edition": "2025",
+  "run_id": 36882827791,
+  "artifact_name": "ddd-electoral-package-pais_vasco-2025-36882827791",
+  "artifact_sha256": "2265c539fa6ac320771ee825522ebd13ce1987bd170a7809b6233526f473cd59",
+  "source_commit": "53d2b3e2b32b3757658f8b58a77e72a7afe61eb3",
+  "election_id": "pais_vasco_parlamento_2024",
+  "declaration": null,
+  "election_registry": "configuracion/registro_electoral.yaml",
+  "election_date": "2024-04-21",
+  "electoral_identity_sha256": "43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3"
+}
