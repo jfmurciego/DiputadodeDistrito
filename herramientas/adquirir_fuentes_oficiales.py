@@ -408,7 +408,7 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
             selected_population_total += population_value
             seen_sections.add(section_id)
             writer.writerow(row)
-            seen_provinces.add(province)
+            seen_provinces.add(section_province)
             rows_out += 1
         if row_issues:
             raise ValueError(
