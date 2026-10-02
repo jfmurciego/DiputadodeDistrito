@@ -1,0 +1,364 @@
+{
+  "schema": "ddd-electoral-gap-rescue-evidence/1.0",
+  "retrieved_at": "2026-10-02",
+  "base_main": "b7ddb972a76f6fc7888d2b20a21981369ada47d7",
+  "extremadura": {
+    "election_id": "extremadura_asamblea_2025-12-21",
+    "election_date": "2025-12-21",
+    "primary": {
+      "github_artifact_id": 11166680159,
+      "github_run_id": 36868568322,
+      "artifact_zip_sha256": "477e89e23dc9d517a120d82f23028db4078f9ef3f78f28ecd1711808f85aeb48",
+      "selected_source_sha256": "abb887c9df7c033c2ffb225e91f7ac69a870ac46d2edf05565d5a24a7d9602b4",
+      "upstream_source_sha256": "d09a4ad4be094f230ed84e17160fbfc801f5d0c2f51e3d931073a06cc094003d",
+      "sections": 966,
+      "candidate_votes": 522418,
+      "by_province": {
+        "Badajoz": {
+          "sections": 553,
+          "records": 6083,
+          "candidate_votes": 325305
+        },
+        "Cáceres": {
+          "sections": 413,
+          "records": 4956,
+          "candidate_votes": 197113
+        }
+      }
+    },
+    "badajoz_fragment": {
+      "source_url": "https://docs.google.com/spreadsheets/d/1iYowoV_RTHFRenoIkmsz0MA48ZZS_XzIYXeduaJplPQ/edit",
+      "source_artifact_sha256": "974ac787335aa27962a5af086041d76f2759d58bb80b58205c8d003ec1051180",
+      "sheet": "Indra ministerio",
+      "sheet_semantic_sha256": "e5948eee955c46f8296b1e6c1d51972eca4701d11963e35644a5ef2ac6d4c478",
+      "effective_rows": 905,
+      "unique_geographic_polling_stations": 904,
+      "geographic_sections": 553,
+      "geographic_candidate_votes": 325305,
+      "external_candidate_votes": 891,
+      "total_candidate_votes": 326196,
+      "geographic_section_party_differences_vs_primary": [],
+      "accounting_bad_rows": 15,
+      "ancillary_totals": {
+        "electors": 551372,
+        "voters": 337056,
+        "blank": 4158,
+        "null": 6689
+      },
+      "official_totals": {
+        "electors": 551424,
+        "voters": 337037,
+        "candidate_votes": 326196,
+        "blank": 4147,
+        "null": 6694
+      },
+      "source_class": "third_party_copy_attribution_unverified",
+      "promotion_allowed": false
+    },
+    "caceres_fragment": {
+      "source_url": "https://drive.google.com/file/d/14-0dgCpt9FEVPBAz5DtZEnbU5ilWBNXg/view",
+      "source_artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+      "parsed_semantic_sha256": "98b4e9c2a984bc40480bc10e9c6b8af6f12c1dbdd1105d28c1514a4e621858d0",
+      "table": "Informe de mesas",
+      "pages": 229,
+      "polling_rows": 499,
+      "geographic_polling_rows": 496,
+      "geographic_sections": 413,
+      "accounting_bad_rows": 0,
+      "geographic_candidate_votes": 197647,
+      "external_candidate_votes": 994,
+      "total_candidate_votes": 198641,
+      "differences_vs_primary": [
+        {
+          "cusec": "1004201001",
+          "party": "PACMA",
+          "primary": 0,
+          "fragment": 1,
+          "source_rows": [
+            {
+              "page": 46,
+              "mesa": "1-001-U",
+              "votes": 1
+            }
+          ]
+        },
+        {
+          "cusec": "1004201001",
+          "party": "PODEMOS-IU-AV",
+          "primary": 0,
+          "fragment": 5,
+          "source_rows": [
+            {
+              "page": 46,
+              "mesa": "1-001-U",
+              "votes": 5
+            }
+          ]
+        },
+        {
+          "cusec": "1004201001",
+          "party": "PP",
+          "primary": 0,
+          "fragment": 28,
+          "source_rows": [
+            {
+              "page": 46,
+              "mesa": "1-001-U",
+              "votes": 28
+            }
+          ]
+        },
+        {
+          "cusec": "1004201001",
+          "party": "PSOE",
+          "primary": 0,
+          "fragment": 19,
+          "source_rows": [
+            {
+              "page": 46,
+              "mesa": "1-001-U",
+              "votes": 19
+            }
+          ]
+        },
+        {
+          "cusec": "1004201001",
+          "party": "VOX",
+          "primary": 0,
+          "fragment": 2,
+          "source_rows": [
+            {
+              "page": 46,
+              "mesa": "1-001-U",
+              "votes": 2
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "Cs",
+          "primary": 0,
+          "fragment": 1,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 1
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "EXTREMADURA UNIDA",
+          "primary": 0,
+          "fragment": 2,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 2
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "JUNTOS-LEVANTA",
+          "primary": 0,
+          "fragment": 3,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 3
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "PODEMOS-IU-AV",
+          "primary": 0,
+          "fragment": 46,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 46
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "PP",
+          "primary": 0,
+          "fragment": 181,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 181
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "PSOE",
+          "primary": 0,
+          "fragment": 173,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 173
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "UED-SyT",
+          "primary": 0,
+          "fragment": 3,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 3
+            }
+          ]
+        },
+        {
+          "cusec": "1012501001",
+          "party": "VOX",
+          "primary": 0,
+          "fragment": 70,
+          "source_rows": [
+            {
+              "page": 131,
+              "mesa": "1-001-U",
+              "votes": 70
+            }
+          ]
+        }
+      ],
+      "official_totals": {
+        "electors": 339614,
+        "voters": 204689,
+        "candidate_votes": 198641,
+        "blank": 2082,
+        "null": 3966
+      },
+      "source_class": "third_party_hosted_copy_labeled_jep_definitive",
+      "promotion_allowed": false
+    },
+    "gap_decomposition": {
+      "badajoz_external": 891,
+      "caceres_external": 994,
+      "caceres_explicit_zero_conflicts": 534,
+      "total": 2419
+    }
+  },
+  "andalucia": {
+    "election_id": "andalucia_parlamento_2026",
+    "election_date": "2026-05-17",
+    "primary": {
+      "github_artifact_id": 11165191739,
+      "github_run_id": 36868568322,
+      "artifact_zip_sha256": "766fcc2cdf4f3a1fac85cdce9df4e1aabdec1758f197edb67595727c6932a4b7",
+      "selected_source_sha256": "bd42226a24b737efdaae2f785b90e7c286a4087b3ece30e0288a44778136c11d",
+      "upstream_source_sha256": "13ffb00bbba4403b9e8d072e766e3979c29ac63cfb5cdcdb7b5e91348484ac21",
+      "sections": 6044,
+      "polling_stations": 10403,
+      "candidate_votes": 4128575,
+      "by_province": {
+        "11": {
+          "sections": 923,
+          "records": 13845,
+          "candidate_votes": 591817
+        },
+        "14": {
+          "sections": 624,
+          "records": 8112,
+          "candidate_votes": 421191
+        },
+        "18": {
+          "sections": 676,
+          "records": 10140,
+          "candidate_votes": 472000
+        },
+        "21": {
+          "sections": 374,
+          "records": 5236,
+          "candidate_votes": 242037
+        },
+        "23": {
+          "sections": 496,
+          "records": 6448,
+          "candidate_votes": 336367
+        },
+        "29": {
+          "sections": 1100,
+          "records": 17600,
+          "candidate_votes": 740954
+        },
+        "41": {
+          "sections": 1382,
+          "records": 20730,
+          "candidate_votes": 1026640
+        },
+        "04": {
+          "sections": 469,
+          "records": 7504,
+          "candidate_votes": 297569
+        }
+      }
+    },
+    "official_candidate_votes": 4157539,
+    "gap_candidate_votes": 28964,
+    "opte_inventory": {
+      "url": "https://www.observatoriotransparenciaelectoral.org/elecciones-17my-parlamento-andaluz",
+      "finding": "OpTE conserva valor como evidencia/contraste, pero no es la siguiente vía de cierre: main ya contiene una adquisición oficial SIEL 2026 reproducible; en este rescate no se ejecutó por no disponer de acceso de red al endpoint SIEL.",
+      "structured_rows_used": 0,
+      "status": "SOURCE_DISCOVERY_ONLY"
+    },
+    "official_siel_route": {
+      "status": "IMPLEMENTED_NOT_EXECUTED_IN_THIS_RESCUE",
+      "acquisition": "herramientas/adquirir_siel_andalucia_2026.py",
+      "adapter": "herramientas/adaptador_siel_andalucia_2026.py",
+      "manual": "docs/auditorias/SIEL_ANDALUCIA_2026_MANUAL.md",
+      "election_key": 202605,
+      "expected_sections": 6044,
+      "official_candidate_votes": 4157539,
+      "output_status_on_success": "VERIFIED_OFFICIAL_FINAL",
+      "note": "Ruta oficial ya existente en main; debe ejecutarse en entorno con acceso a SIEL. No se sustituye por OpTE ni por votos provisionales Minsait."
+    }
+  },
+  "castilla_la_mancha": {
+    "election_id": "castilla_la_mancha_cortes_2023",
+    "election_date": "2023-05-28",
+    "current_package_artifact_id": 10961251316,
+    "current_package_sha256": "24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+    "selected_source_sha256": "953d7c3ad3ba3d4632042aa4a184708e5fe8829a4f13f0fb169e29d38e808137",
+    "sections": 1836,
+    "candidate_votes": 1022557,
+    "cuenca_sections": 196,
+    "cuenca_candidate_votes": 75828,
+    "status": "NO_CURRENT_GAP",
+    "european_2024_allowed": false
+  },
+  "other_current_readiness": {
+    "measured_known_delta": [
+      "andalucia",
+      "extremadura"
+    ],
+    "official_source_to_acquire": [
+      "castilla_y_leon"
+    ],
+    "source_candidate_not_evaluated": [
+      "canarias",
+      "comunidad_valenciana",
+      "comunidad_foral_de_navarra",
+      "pais_vasco",
+      "melilla"
+    ],
+    "note": "NOT_EVALUATED se conserva como readiness pendiente, no como hueco electoral demostrado."
+  }
+}

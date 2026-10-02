@@ -197,7 +197,20 @@ jobs:
             args=(--territory-id "$TERRITORY_ID" --edition "$EDITION" --package-out .ddd-electoral-package --root-dir .)
             [[ -n "$PARAMS" ]] && args+=(--params "$PARAMS"); [[ -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
             [[ -f .ddd-electoral-previous/manifest.json ]] && args+=(--previous-package .ddd-electoral-previous --previous-run-id "${{ steps.previous.outputs.run_id }}" --previous-artifact-name "${{ steps.previous.outputs.artifact_name }}")
+            set +e
             python -m herramientas.preparar_fuente_electoral "${args[@]}"
+            prepare_rc=$?
+            set -e
+            if [[ "$prepare_rc" != 0 && "$prepare_rc" != 2 ]]; then
+              exit "$prepare_rc"
+            fi
+            if [[ "$prepare_rc" == 2 ]]; then
+              test -s .ddd-electoral-package/manifest.json
+              [[ "$(jq -r '.decision // empty' .ddd-electoral-package/manifest.json)" == "BLOCK" ]] || {
+                echo "::error::El preparador devolvió bloqueo sin manifiesto BLOCK durable"
+                exit 48
+              }
+            fi
           fi
       - id: policy
         name: Leer política de promoción del paquete

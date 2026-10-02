@@ -1,0 +1,101 @@
+{
+  "schema": "ddd-electoral-gap-fragment/1.0",
+  "source_id": "opte_badajoz_indra_ministerio",
+  "retrieved_at": "2026-10-02",
+  "source_url": "https://docs.google.com/spreadsheets/d/1iYowoV_RTHFRenoIkmsz0MA48ZZS_XzIYXeduaJplPQ/edit",
+  "source_artifact_sha256": "974ac787335aa27962a5af086041d76f2759d58bb80b58205c8d003ec1051180",
+  "table": "Indra ministerio",
+  "source_locator": "Excel row 2 / Id_mesa 10-06-999-99-999-Z",
+  "records": [
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "Cs",
+      "votes": 2,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "JUNTOS-LEVANTA",
+      "votes": 15,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "MUNDO+JUSTO",
+      "votes": 7,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "NEX",
+      "votes": 10,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "PACMA",
+      "votes": 12,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "PODEMOS-IU-AV",
+      "votes": 157,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "PP",
+      "votes": 203,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "PSOE",
+      "votes": 312,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "UED-SyT",
+      "votes": 7,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    },
+    {
+      "unit_id": "CERA-BADAJOZ",
+      "unit_kind": "external",
+      "party": "VOX",
+      "votes": 166,
+      "source_row": 2,
+      "source_table": "Indra ministerio",
+      "source_locator": "10-06-999-99-999-Z"
+    }
+  ]
+}
