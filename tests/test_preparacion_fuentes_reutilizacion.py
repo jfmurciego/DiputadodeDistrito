@@ -357,7 +357,7 @@ class PreparedSourceReuseTests(unittest.TestCase):
 
         self.assertEqual(
             list(territorial_trigger["workflow_dispatch"]["inputs"]),
-            ["territory_id", "data_edition", "source_year", "population_year", "section_year", "reutilizar_si_ya_preparada", "recover_run_id", "recover_artifact_sha256"],
+            ["territory_id"],
         )
         self.assertEqual(
             list(electoral_trigger["workflow_dispatch"]["inputs"]),
@@ -367,6 +367,13 @@ class PreparedSourceReuseTests(unittest.TestCase):
             list(territorial_trigger["workflow_call"]["inputs"]),
             ["territory_id", "data_edition", "source_year", "population_year", "section_year", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "recover_run_id", "recover_artifact_sha256"],
         )
+        resolver_run = territorial["jobs"]["resolver"]["steps"][-1]["run"]
+        self.assertIn("population_current_year", resolver_run)
+        self.assertIn("section_current_year", resolver_run)
+        self.assertIn('EVENT_NAME" == workflow_dispatch', resolver_run)
+        self.assertIn("reuse_enabled=true", resolver_run)
+        self.assertIn("persist_requested=true", resolver_run)
+        self.assertIn("EDITION_INPUT", territorial["jobs"]["resolver"]["steps"][-1]["env"])
         self.assertEqual(
             list(electoral_trigger["workflow_call"]["inputs"]),
             ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state"],
