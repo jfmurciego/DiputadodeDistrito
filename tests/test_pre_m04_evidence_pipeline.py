@@ -17,6 +17,7 @@ from herramientas.handoff_evidencia_pre_m04 import (
 )
 from herramientas.materializar_evidencia_pre_m04 import build_evidence
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement, generation_ready_contract
+from herramientas.resolver_preparacion_legislatura import resolve as resolve_current_legislature
 
 
 SHA_A = "a" * 64
@@ -749,6 +750,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             for row in catalog.get("territories") or []
         }
         self.assertEqual(19, len(rows))
+        authoritative = {
+            item["territory_id"]: item
+            for item in resolve_current_legislature(ROOT, "Todos")["plans"]
+        }
+        self.assertEqual(set(rows), set(authoritative))
 
         planned = set()
         for territory_id, state in rows.items():
@@ -764,6 +770,14 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
                 self.assertTrue(plan["run_prepare_territorial"])
                 self.assertTrue(plan["run_generate"])
+                self.assertEqual(
+                    plan["population_year"],
+                    authoritative[territory_id]["population_year_selected"],
+                )
+                self.assertEqual(
+                    plan["section_year"],
+                    authoritative[territory_id]["section_year_selected"],
+                )
                 self.assertEqual("from_start", plan["generation_execution_mode"])
                 self.assertTrue(plan["generation_gate"]["allowed"])
                 if plan["pre_m04_accreditation_planned"]:
