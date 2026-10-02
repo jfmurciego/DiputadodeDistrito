@@ -383,7 +383,7 @@ class MultiterritoryPublicationTests(unittest.TestCase):
     def test_publication_workflow_and_job_names_remain_stable(self):
         wrapper = (WORKFLOWS / "desplegar-visor-publico.yml").read_text(encoding="utf-8")
         publisher = PUBLISHER.read_text(encoding="utf-8")
-        self.assertIn("name: 05 · Publicación del Visor", wrapper)
+        self.assertIn("name: 05 Publicación del Visor", wrapper)
         self.assertIn("name: Preparar promoción web", wrapper)
         self.assertIn("name: Desplegar página seleccionada", wrapper)
         self.assertIn("name: _Publicador Interno del Sitio", publisher)
