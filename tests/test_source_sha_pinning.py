@@ -29,28 +29,32 @@ class FullRunSourceShaPinningTests(unittest.TestCase):
         self.assertIn('echo "source_sha=$source_sha"', text)
         self.assertIn('echo "source_ref=$source_sha"', text)
 
-        for name in (
-            "preparar_territorial",
-            "preparar_electoral",
-            "puerta_03",
-            "incorporar",
-        ):
-            with self.subTest(job=name):
-                self.assertEqual(
-                    jobs[name]["with"]["source_ref"],
-                    "${{ needs.planificar.outputs.source_sha }}",
-                )
+        self.assertEqual(
+            jobs["preparar_territorial"]["with"]["source_ref"],
+            "${{ needs.planificar.outputs.source_sha }}",
+        )
 
         enabled_ref = (
             "${{ needs.preparar_territorial.result == 'success' && "
             "needs.preparar_territorial.outputs.enabled_source_ref || "
             "needs.planificar.outputs.source_sha }}"
         )
-        for name in ("puerta_01", "generar", "puerta_02"):
+        for name in (
+            "puerta_01",
+            "generar",
+            "puerta_02",
+            "preparar_electoral",
+            "puerta_03",
+            "incorporar",
+        ):
             with self.subTest(job=name):
                 self.assertEqual(jobs[name]["with"]["source_ref"], enabled_ref)
         self.assertIn(
             "needs.recuperar_electoral.outputs.source_commit",
+            jobs["puerta_04"]["with"]["source_ref"],
+        )
+        self.assertIn(
+            "needs.preparar_territorial.outputs.enabled_source_ref",
             jobs["puerta_04"]["with"]["source_ref"],
         )
         self.assertIn(
