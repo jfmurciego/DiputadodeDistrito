@@ -107,13 +107,13 @@ jobs:
           if [[ -z "$EDITION_INPUT" ]]; then
             current="$(python - "$TERRITORY" <<'PY'
           import json
-          import re
           import sys
           from pathlib import Path
           import yaml
+          from herramientas.catalogo_territorios import normalize_territory_input
 
           cfg = yaml.safe_load(Path("configuracion/preparacion_legislatura_vigente.yaml").read_text(encoding="utf-8")) or {}
-          wanted = re.sub(r"^\\s*\\d+\\s*·\\s*", "", sys.argv[1]).strip()
+          wanted = normalize_territory_input(sys.argv[1])
           row = next(
               (
                   item for item in (cfg.get("territories") or [])
