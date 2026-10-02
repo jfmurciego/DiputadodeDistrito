@@ -6,7 +6,7 @@
 # QUÉ HACE: encadena los cinco procesos de negocio 01→05, reutiliza fases válidas,
 # conserva un manifiesto único y permite publicar el producto territorial certificado aunque no exista producto electoral.
 # NO HACE: expone módulos internos, checkpoints ni nombres técnicos al usuario.
-name: 00 · Ejecución Completa del Proyecto
+name: 00 Ejecución Completa del Proyecto
 
 on:
   workflow_call:
@@ -787,7 +787,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
   preparar_territorial:
-    name: 01 · Preparar datos territoriales
+    name: 01 Preparar datos territoriales
     needs: planificar
     # 00 nunca adquiere fuentes: la preparación es un proceso separado.
     if: ${{ false }}
@@ -801,7 +801,7 @@ jobs:
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   puerta_01:
-    name: Puerta de validación · 01 → 02
+    name: Puerta de validación 01 → 02
     needs: [planificar, verificar_fuentes_preparadas, preparar_territorial]
     # En PR no se valida contra un paquete histórico de producción: desde este
     # contrato los paquetes legacy sin informe población↔seccionado deben bloquear.
@@ -819,7 +819,7 @@ jobs:
       source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   generar:
-    name: 02 · Generar distritos autonómicos
+    name: 02 Generar distritos autonómicos
     needs: [planificar, preparar_territorial, puerta_01]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.planificar.outputs.run_generate == 'true' }}
     uses: ./.github/workflows/produccion-distritos.yml
@@ -841,7 +841,7 @@ jobs:
       require_unique_hashes: ${{ inputs.require_unique_hashes == true }}
 
   puerta_02:
-    name: Puerta de validación · 02 → 03
+    name: Puerta de validación 02 → 03
     needs: [planificar, preparar_territorial, puerta_01, generar]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && (needs.generar.result == 'success' || needs.planificar.outputs.run_generate == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
@@ -858,7 +858,7 @@ jobs:
       source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
 
   preparar_electoral:
-    name: 03 · Preparar resultados electorales
+    name: 03 Preparar resultados electorales
     needs: [planificar, puerta_02]
     # 00 nunca adquiere fuentes electorales: el camino electoral exige par ya preparado.
     if: ${{ false }}
@@ -872,7 +872,7 @@ jobs:
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   puerta_03:
-    name: Puerta de validación · 03 → 04
+    name: Puerta de validación 03 → 04
     needs: [planificar, puerta_02, preparar_electoral]
     if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
@@ -888,7 +888,7 @@ jobs:
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
   incorporar:
-    name: 04 · Incorporar resultados electorales
+    name: 04 Incorporar resultados electorales
     needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
@@ -907,7 +907,7 @@ jobs:
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
   recuperar_electoral:
-    name: Reanudar · registrar M08 durable existente
+    name: Reanudar registro M08 durable existente
     needs: [planificar, detectar_recuperacion_electoral, puerta_02, puerta_03]
     if: ${{ always() && needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' }}
     uses: ./.github/workflows/recuperar-producto-electoral-durable.yml
@@ -923,7 +923,7 @@ jobs:
       confirm_recovery: true
 
   puerta_04:
-    name: Puerta de validación · 04 → estado operativo
+    name: Puerta de validación 04 → estado operativo
     needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
     if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
@@ -982,7 +982,7 @@ jobs:
           retention-days: 90
 
   publicar:
-    name: 05 · Publicar visor
+    name: 05 Publicar visor
     needs: [planificar, puerta_02, puerta_04, actualizar_estado]
     if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.puerta_04.result == 'success')) }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
