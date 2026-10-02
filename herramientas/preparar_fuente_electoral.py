@@ -583,7 +583,38 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
             if len(selected_sources)>1:
                 source_paths=[tmp/str(sel["artifact_path"]) for sel in selected_sources]
                 merged=tmp/"resultados_electorales_vigentes.csv"
-                merge_info=merge_delimited_sources(source_paths,merged)
+                composition=d.get("composition") or {}
+                if str(composition.get("kind") or "")=="electoral_gap_filler":
+                    from ddd_core.electoral_gap_filler import compose_delimited_sources
+                    declared_rows=d.get("sources") or []
+                    declared_ids=[str(row.get("id") or "").strip() for row in declared_rows]
+                    if any(not sid for sid in declared_ids):
+                        raise ValueError("source.id obligatorio y no vacío antes de composición")
+                    if len(set(declared_ids)) != len(declared_ids):
+                        raise ValueError("source.id duplicado antes de composición electoral")
+                    selected_ids=[str(sel.get("id") or "").strip() for sel in selected_sources]
+                    if any(not sid for sid in selected_ids):
+                        raise ValueError("selected_sources.id obligatorio y no vacío")
+                    if len(set(selected_ids)) != len(selected_ids):
+                        raise ValueError("selected_sources contiene IDs duplicados")
+                    declared_by_id={sid:row for sid,row in zip(declared_ids,declared_rows,strict=True)}
+                    source_declarations=[]
+                    for sel,sid in zip(selected_sources,selected_ids,strict=True):
+                        declared=declared_by_id.get(sid)
+                        if not declared:
+                            raise ValueError(f"Fuente seleccionada sin declaración para composición: {sid}")
+                        source_declarations.append(declared)
+                    runtime=dict(composition)
+                    runtime.setdefault("election_id",str(d.get("election_id") or ""))
+                    runtime.setdefault("election_date",str(d.get("election_date") or ""))
+                    runtime.setdefault("scope",territory_id)
+                    merge_info=compose_delimited_sources(
+                        source_paths,source_declarations,selected_sources,runtime,merged,
+                        repository_root=root,
+                        acquisition_root=tmp,
+                    )
+                else:
+                    merge_info=merge_delimited_sources(source_paths,merged)
                 provenance=[{
                     "id":sel.get("id"),"url":sel.get("url"),"publisher":sel.get("publisher"),
                     "sha256":sel.get("sha256"),"bytes":sel.get("bytes")
@@ -597,7 +628,25 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     "merge":merge_info,
                     "declaration":str(decl),
                 }
-                manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra)
+                composition_blocked=(
+                    merge_info.get("composition")=="electoral_gap_filler"
+                    and str(merge_info.get("status") or "")!="PASS"
+                )
+                if composition_blocked:
+                    block_extra={
+                        **election_extra,
+                        "reason":"La composición electoral no supera validación/admisibilidad",
+                        "composition_status":merge_info.get("status"),
+                        "source_status":"BLOCKED",
+                        "production_eligible":False,
+                    }
+                    manifest=_write_package(
+                        package_out,"BLOCK",territory_id,edition,None,{},block_extra
+                    )
+                else:
+                    manifest=_write_package(
+                        package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra
+                    )
                 raw_dir=package_out/"raw"; raw_dir.mkdir(exist_ok=True)
                 for sel,src in zip(selected_sources,source_paths):
                     raw_target=raw_dir/src.name
@@ -610,6 +659,29 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     "url":sel.get("url"),
                     "publisher":sel.get("publisher"),
                 } for sel in selected_sources]
+                if merge_info.get("composition")=="electoral_gap_filler":
+                    evidence_src=Path(str(merge_info["evidence_path"]))
+                    evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
+                    evidence_target=evidence_dir/"electoral_gap_fill.json"
+                    shutil.copy2(evidence_src,evidence_target)
+                    universe_meta=merge_info.get("expected_universe") or {}
+                    universe_rel=Path(str(universe_meta.get("path") or ""))
+                    universe_src=(root/universe_rel).resolve()
+                    if not universe_src.is_file() or sha(universe_src)!=str(universe_meta.get("sha256") or ""):
+                        raise ValueError("Expected universe perdió su artefacto gobernado antes de empaquetar evidencia")
+                    universe_target=evidence_dir/("expected_universe"+universe_src.suffix)
+                    shutil.copy2(universe_src,universe_target)
+                    manifest["composition_evidence"]={
+                        "kind":"electoral_gap_filler",
+                        "path":"evidence/electoral_gap_fill.json",
+                        "sha256":sha(evidence_target),
+                        "logical_digest":merge_info.get("logical_digest"),
+                        "expected_universe":{
+                            **universe_meta,
+                            "package_path":f"evidence/{universe_target.name}",
+                            "package_sha256":sha(universe_target),
+                        },
+                    }
                 (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
                 shutil.rmtree(tmp,ignore_errors=True); return manifest
             sel=result.get("selected_source") or (selected_sources[0] if selected_sources else None)

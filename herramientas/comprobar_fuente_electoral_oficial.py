@@ -37,6 +37,24 @@ def _norm(value: object) -> str:
     return str(value or "").strip().lower()
 
 
+def _validate_source_ids(sources: object) -> list[str]:
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("sources debe ser una lista no vacía")
+    ids: list[str] = []
+    seen: set[str] = set()
+    for index, source in enumerate(sources):
+        if not isinstance(source, dict):
+            raise ValueError(f"Cada fuente debe ser un objeto: índice {index}")
+        sid = str(source.get("id") or "").strip()
+        if not sid:
+            raise ValueError(f"source.id obligatorio y no vacío: índice {index}")
+        if sid in seen:
+            raise ValueError(f"source.id duplicado en declaración electoral: {sid}")
+        seen.add(sid)
+        ids.append(sid)
+    return ids
+
+
 def load_declaration(path: str | Path) -> dict:
     data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
     if not isinstance(data, dict):
@@ -49,8 +67,7 @@ def load_declaration(path: str | Path) -> dict:
         raise ValueError("Falta allowed_official_hosts/allowed_source_hosts en la declaración electoral")
     if data["minimum_resolution"] not in RESOLUTION_RANK:
         raise ValueError("minimum_resolution desconocida")
-    if not isinstance(data["sources"], list) or not data["sources"]:
-        raise ValueError("sources debe ser una lista no vacía")
+    _validate_source_ids(data["sources"])
     mode = str(data.get("selection_mode") or "first_ready")
     if mode not in {"first_ready", "all_required"}:
         raise ValueError("selection_mode desconocido")
@@ -115,6 +132,7 @@ def check_declaration(
     opener: Callable = urllib.request.urlopen,
     timeout: int = 20,
 ) -> dict:
+    _validate_source_ids(declaration.get("sources"))
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     downloads = out / "downloads"
