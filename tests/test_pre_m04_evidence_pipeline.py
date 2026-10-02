@@ -27,7 +27,6 @@ SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
 REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta")
-CURRENT_SOURCE_PENDING_PRE_M04_TARGETS = ("melilla",)
 FROM_START_PRE_M04_TARGETS = {
     "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
@@ -717,30 +716,50 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     plan["generation_gate"],
                 )
 
-    def test_00_reuse_reaccredits_current_source_missing_pre_m04(self):
-        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
-        for territory_id in CURRENT_SOURCE_PENDING_PRE_M04_TARGETS:
-            with self.subTest(territory=territory_id):
-                plan = build_plan(
-                    territory=territory_id,
-                    edition="2025",
-                    execution_mode="reuse",
-                    catalog=catalog,
-                    root_dir=ROOT,
-                    optimization_algorithm="GerryChain 50",
-                    force_selected_algorithm=True,
-                )
-                self.assertEqual(
-                    "VALIDADO",
-                    plan["existing"]["territorial_source"]["decision"],
-                )
-                self.assertTrue(plan["run_prepare_territorial"])
-                self.assertTrue(plan["pre_m04_accreditation_planned"])
-                self.assertTrue(plan["run_generate"])
-                self.assertEqual(
-                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
-                    plan["generation_gate"],
-                )
+    def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_missing(self):
+        source_catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        data = yaml.safe_load(source_catalog.read_text(encoding="utf-8")) or {}
+        row = next(
+            item for item in data["territories"]
+            if item["territory_id"] == "melilla"
+        )
+        state = row["editions"]["2025"]
+        self.assertTrue(state["territorial_sources_prepared"])
+        self.assertTrue(state["generation_enabled"])
+        self.assertIn("generation_preflight", state["evidence"])
+
+        # Reproduce de forma sintética el estado parcial que existía antes del
+        # run 37063207747: fuente territorial válida, pre-M04 aún no acreditado.
+        state["generation_enabled"] = False
+        state["evidence"].pop("generation_preflight", None)
+
+        with tempfile.TemporaryDirectory() as td:
+            catalog = Path(td) / "catalog.yaml"
+            catalog.write_text(
+                yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="melilla",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=ROOT,
+                optimization_algorithm="GerryChain 50",
+                force_selected_algorithm=True,
+            )
+
+        self.assertEqual(
+            "VALIDADO",
+            plan["existing"]["territorial_source"]["decision"],
+        )
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_generate"])
+        self.assertEqual(
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            plan["generation_gate"],
+        )
 
     def test_00_from_start_national_matrix_plans_required_pre_m04_accreditation(self):
         catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
