@@ -46,7 +46,10 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           ref: ${{ inputs.source_ref || github.sha }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Instalar runtime fijado de validación
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar runtime geoespacial de la puerta
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
       - id: gate
         name: Validar evidencia consumible
         shell: bash
