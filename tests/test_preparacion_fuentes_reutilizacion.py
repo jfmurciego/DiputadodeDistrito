@@ -410,6 +410,18 @@ class PreparedSourceReuseTests(unittest.TestCase):
         )
         self.assertIn("ddd-source-diagnostics-", diagnostics["with"]["name"])
         self.assertEqual(diagnostics["with"]["path"], "${{ env.EVIDENCE_DIR }}")
+        reuse_install = next(
+            s for s in territorial_steps
+            if s.get("name") == "Instalar entorno geoespacial para reutilización"
+        )
+        self.assertEqual(reuse_install["if"], territorial_previous["if"])
+        self.assertIn("-r requirements.lock", reuse_install["run"])
+        reuse_verify = next(
+            s for s in territorial_steps
+            if s.get("name") == "Verificar entorno geoespacial para reutilización"
+        )
+        self.assertEqual(reuse_verify["if"], territorial_previous["if"])
+        self.assertIn("import geopandas", reuse_verify["run"])
         self.assertIn("herramientas.seleccionar_paquete_fuentes", territorial_previous["run"])
 
         electoral_prepare = next(s for s in electoral_steps if s.get("id") == "prepare")
