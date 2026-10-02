@@ -25,7 +25,8 @@ SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
-REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta", "melilla")
+REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta")
+CURRENT_SOURCE_PENDING_PRE_M04_TARGETS = ("melilla",)
 FROM_START_PRE_M04_TARGETS = {
     "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
@@ -710,6 +711,31 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 self.assertTrue(plan["pre_m04_accreditation_planned"])
                 self.assertTrue(plan["run_generate"])
                 self.assertIsNone(plan["existing"]["territorial_source"]["decision"])
+                self.assertEqual(
+                    {"allowed": True, "route": "planned_pre_m04_accreditation"},
+                    plan["generation_gate"],
+                )
+
+    def test_00_reuse_reaccredits_current_source_missing_pre_m04(self):
+        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        for territory_id in CURRENT_SOURCE_PENDING_PRE_M04_TARGETS:
+            with self.subTest(territory=territory_id):
+                plan = build_plan(
+                    territory=territory_id,
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog,
+                    root_dir=ROOT,
+                    optimization_algorithm="GerryChain 50",
+                    force_selected_algorithm=True,
+                )
+                self.assertEqual(
+                    "VALIDADO",
+                    plan["existing"]["territorial_source"]["decision"],
+                )
+                self.assertTrue(plan["run_prepare_territorial"])
+                self.assertTrue(plan["pre_m04_accreditation_planned"])
+                self.assertTrue(plan["run_generate"])
                 self.assertEqual(
                     {"allowed": True, "route": "planned_pre_m04_accreditation"},
                     plan["generation_gate"],
