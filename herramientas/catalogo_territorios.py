@@ -8,7 +8,7 @@ import yaml
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
 COUNTRY_CODE = "ES"
 COUNTRY_NAME = "España"
-TERRITORY_CODE_RE = re.compile(r"^(\d{2})\s*·\s*(.+)$")
+TERRITORY_CODE_RE = re.compile(r"^(\d{2})(?:\s*·\s*|\s+)(.+)$")
 COUNTRY_LABEL_RE = re.compile(r"^([A-Z]{2})\s*·\s*(.+)$")
 
 
