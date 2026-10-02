@@ -8,6 +8,11 @@ from pathlib import Path
 
 import yaml
 
+try:
+    from herramientas.catalogo_territorios import normalize_territory_input
+except ModuleNotFoundError:  # ejecución directa como script
+    from catalogo_territorios import normalize_territory_input
+
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 SHA256_RE = re.compile(r"^[0-9a-fA-F]{64}$")
 
@@ -24,7 +29,7 @@ def _state(root: Path, territory: str, edition: str) -> tuple[str, str, dict]:
     if not catalog_path.is_file():
         raise ValueError(f"Catálogo inexistente: {catalog_path}")
     catalog = _load_yaml(catalog_path)
-    token = territory.strip()
+    token = normalize_territory_input(territory)
     rows = [
         row for row in (catalog.get("territories") or [])
         if token in {str(row.get("territory_id") or ""), str(row.get("name") or "")}
