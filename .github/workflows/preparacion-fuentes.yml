@@ -25,7 +25,7 @@ on:
       territory_id:
         value: ${{ jobs.resolver.outputs.territory_id }}
       edition:
-        value: ${{ inputs.data_edition }}
+        value: ${{ jobs.resolver.outputs.edition }}
       artifact_name:
         value: ${{ jobs.territoriales.outputs.artifact_name }}
       artifact_digest:
@@ -58,40 +58,8 @@ on:
           - 17 · La Rioja
           - 18 · Ceuta
           - 19 · Melilla
-      data_edition:
-        description: Edición de datos
-        required: true
-        default: '2025'
-        type: choice
-        options: ['2025']
-      source_year:
-        description: Año legacy común (sólo si población y seccionado coinciden)
-        required: false
-        type: string
-      population_year:
-        description: Año oficial de población por sección (vacío sólo si source_year se aporta explícitamente)
-        required: false
-        type: string
-      section_year:
-        description: Año oficial de seccionado (vacío sólo si source_year se aporta explícitamente)
-        required: false
-        type: string
-      reutilizar_si_ya_preparada:
-        description: Reutilizar fuente oficial ya preparada
-        required: true
-        default: true
-        type: boolean
-      recover_run_id:
-        description: Run de preparación existente sin registrar (opcional)
-        required: false
-        type: string
-      recover_artifact_sha256:
-        description: SHA-256 del artefacto de ese run (obligatorio con run)
-        required: false
-        type: string
-
 concurrency:
-  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition }}
+  group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false
 
 permissions:
@@ -104,6 +72,8 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       territory_id: ${{ steps.resolve.outputs.territory_id }}
+      edition: ${{ steps.resolve.outputs.edition }}
+      reuse_enabled: ${{ steps.resolve.outputs.reuse_enabled }}
       registered_run_id: ${{ steps.resolve.outputs.registered_run_id }}
       registered_artifact_name: ${{ steps.resolve.outputs.registered_artifact_name }}
       registered_artifact_sha256: ${{ steps.resolve.outputs.registered_artifact_sha256 }}
@@ -118,28 +88,78 @@ jobs:
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         env:
+          EVENT_NAME: ${{ github.event_name }}
           TERRITORY: ${{ inputs.territory_id }}
-          EDITION: ${{ inputs.data_edition }}
+          EDITION_INPUT: ${{ inputs.data_edition || '' }}
           SOURCE_YEAR_INPUT: ${{ inputs.source_year || '' }}
           POPULATION_YEAR_INPUT: ${{ inputs.population_year || '' }}
           SECTION_YEAR_INPUT: ${{ inputs.section_year || '' }}
+          REUSE_INPUT: ${{ toJSON(inputs.reutilizar_si_ya_preparada) }}
           PERSIST_INPUT: ${{ toJSON(inputs.persist_state) }}
           RECOVERY_RUN_ID: ${{ inputs.recover_run_id || '' }}
           RECOVERY_SHA256: ${{ inputs.recover_artifact_sha256 || '' }}
         run: |
           set -euo pipefail
-          persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$PERSIST_INPUT")"
-          echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          legacy_year="$SOURCE_YEAR_INPUT"
-          population_year="$POPULATION_YEAR_INPUT"
-          section_year="$SECTION_YEAR_INPUT"
-          [[ -n "$population_year" ]] || population_year="$legacy_year"
-          [[ -n "$section_year" ]] || section_year="$legacy_year"
+
+          if [[ "$EVENT_NAME" == workflow_dispatch ]]; then
+            current="$(python - "$TERRITORY" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+import yaml
+
+cfg = yaml.safe_load(Path("configuracion/preparacion_legislatura_vigente.yaml").read_text(encoding="utf-8")) or {}
+wanted = re.sub(r"^\\s*\\d+\\s*·\\s*", "", sys.argv[1]).strip()
+row = next(
+    (
+        item for item in (cfg.get("territories") or [])
+        if str(item.get("name") or "").strip() == wanted
+        or str(item.get("territory_id") or "").strip() == wanted
+    ),
+    None,
+)
+if not row:
+    raise SystemExit(f"Territorio sin contrato vigente: {wanted}")
+territorial = row.get("territorial") or {}
+result = {
+    "edition": str(cfg.get("project_edition") or ""),
+    "population_year": str(territorial.get("population_current_year") or ""),
+    "section_year": str(territorial.get("section_current_year") or ""),
+}
+if not all(result.values()):
+    raise SystemExit(f"Contrato vigente incompleto para {wanted}: {result}")
+print(json.dumps(result, ensure_ascii=False))
+PY
+)"
+            EDITION="$(jq -r .edition <<<"$current")"
+            population_year="$(jq -r .population_year <<<"$current")"
+            section_year="$(jq -r .section_year <<<"$current")"
+            reuse_enabled=true
+            persist_requested=true
+            RECOVERY_RUN_ID=""
+            RECOVERY_SHA256=""
+          else
+            EDITION="$EDITION_INPUT"
+            legacy_year="$SOURCE_YEAR_INPUT"
+            population_year="$POPULATION_YEAR_INPUT"
+            section_year="$SECTION_YEAR_INPUT"
+            [[ -n "$population_year" ]] || population_year="$legacy_year"
+            [[ -n "$section_year" ]] || section_year="$legacy_year"
+            reuse_enabled="$REUSE_INPUT"
+            persist_requested="$PERSIST_INPUT"
+          fi
+
+          [[ -n "$EDITION" ]] || { echo "::error::Edición interna no resuelta."; exit 40; }
           [[ -n "$population_year" && -n "$section_year" ]] || {
-            echo "::error::Debe indicarse population_year y section_year (o source_year explícito si coinciden). La edición no es un fallback temporal."
+            echo "::error::Contrato temporal incompleto: faltan años de población o seccionado."
             exit 40
           }
+          persist_json="$(python herramientas/evaluar_persistencia_preparacion.py resolve --requested "$persist_requested")"
+          echo "persist_state=$(jq -r '.persist_state|tostring' <<<"$persist_json")" >> "$GITHUB_OUTPUT"
+          echo "edition=$EDITION" >> "$GITHUB_OUTPUT"
+          echo "reuse_enabled=$reuse_enabled" >> "$GITHUB_OUTPUT"
           [[ "$population_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de población inválido: $population_year"; exit 40; }
           [[ "$section_year" =~ ^20[0-9]{2}$ ]] || { echo "::error::Año de seccionado inválido: $section_year"; exit 40; }
           echo "population_year=$population_year" >> "$GITHUB_OUTPUT"
@@ -152,7 +172,7 @@ jobs:
           if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
             [[ "$(jq -r '.persist_state|tostring' <<<"$persist_json")" == true ]] || { echo "::error::La recuperación durable exige persist_state=true."; exit 41; }
             [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }
-            [[ "${{ inputs.reutilizar_si_ya_preparada }}" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
+            [[ "$reuse_enabled" == true ]] || { echo "::error::La recuperación exige reutilización habilitada."; exit 41; }
             [[ -n "$RECOVERY_RUN_ID" && -n "$RECOVERY_SHA256" ]] || { echo "::error::Recuperación requiere run y SHA-256 juntos."; exit 41; }
             [[ "$RECOVERY_RUN_ID" =~ ^[1-9][0-9]*$ ]] || { echo "::error::Run de recuperación inválido."; exit 41; }
             RECOVERY_SHA256="${RECOVERY_SHA256#sha256:}"
@@ -187,7 +207,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ inputs.data_edition }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
       POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
       SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
@@ -212,7 +232,7 @@ jobs:
           test -s "$SOURCE_DECLARATION"
       - id: previous
         name: Recuperar fuente territorial registrada
-        if: ${{ inputs.reutilizar_si_ya_preparada && needs.resolver.outputs.registered_run_id != '' }}
+        if: ${{ needs.resolver.outputs.reuse_enabled == 'true' && needs.resolver.outputs.registered_run_id != '' }}
         shell: bash
         env:
           REGISTERED_RUN_ID: ${{ needs.resolver.outputs.registered_run_id }}
@@ -265,18 +285,18 @@ jobs:
         if: ${{ failure() && steps.acquire.outcome == 'failure' }}
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-source-diagnostics-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          name: ddd-source-diagnostics-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: ${{ env.EVIDENCE_DIR }}
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
       - id: meta
         name: Identificar paquete territorial
-        run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
+        run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
-          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: .ddd-source-package
           include-hidden-files: true
           if-no-files-found: error
@@ -298,10 +318,10 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TERRITORY: ${{ inputs.territory_id }}
       TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
-      EDITION: ${{ inputs.data_edition }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
       POPULATION_YEAR: ${{ needs.resolver.outputs.population_year }}
       SECTION_YEAR: ${{ needs.resolver.outputs.section_year }}
-      ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+      ARTIFACT_NAME: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
       ARTIFACT_SHA256: ${{ needs.territoriales.outputs.artifact_digest }}
       TARGET_BRANCH: ${{ github.ref_name }}
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
@@ -312,7 +332,7 @@ jobs:
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
-          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: .ddd-source-package
       - id: register
         name: Registrar preparación territorial
