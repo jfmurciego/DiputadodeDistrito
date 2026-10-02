@@ -5,7 +5,12 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sys
 import urllib.request
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from herramientas.resolver_adquisicion_electoral_especial import resolve
 
