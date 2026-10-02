@@ -274,6 +274,9 @@ def _territorial_candidate(
         "declaration": str(declaration_rel),
         "receipt_path": receipt_rel or None,
         "source_commit": source_commit,
+        "compatibility_report_sha256": compatibility_report_sha256,
+        "compatibility_identity_sha256": compatibility_identity_sha256,
+        "compatibility_report_member": compatibility_report_member,
         **identity,
     }
 

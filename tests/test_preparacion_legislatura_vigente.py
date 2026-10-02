@@ -574,5 +574,67 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                     self.assertNotIn("source_candidate_votes", electoral)
 
 
+
+class PreparedPairIntegrationRegressionTests(unittest.TestCase):
+    def test_melilla_reusable_candidate_builds_pair_with_compatibility_metadata(self):
+        plan = resolve(ROOT, "Melilla")["plans"][0]
+        self.assertEqual(plan["territorial_action"], "REUSE")
+        self.assertEqual(plan["electoral_action"], "REUSE")
+
+        territorial = plan["territorial_candidate"]
+        electoral = plan["electoral_candidate"]
+        catalog = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))
+        state = next(
+            row for row in catalog["territories"]
+            if row["territory_id"] == "melilla"
+        )["editions"]["2025"]
+        prep = state["preparation_evidence"]
+
+        self.assertEqual(
+            territorial["compatibility_report_sha256"],
+            prep["compatibility_report_sha256"],
+        )
+        self.assertEqual(
+            territorial["compatibility_identity_sha256"],
+            prep["compatibility_identity_sha256"],
+        )
+        self.assertEqual(
+            territorial["compatibility_report_member"],
+            prep["compatibility_report_member"],
+        )
+
+        remote = {
+            "schema": "ddd.prepared-source-pair-artifact-verification/1.0",
+            "territorial": {
+                "run_id": territorial["run_id"],
+                "artifact_id": 1,
+                "artifact_name": territorial["artifact_name"],
+                "artifact_sha256": territorial["artifact_sha256"],
+                "expired": False,
+            },
+            "electoral": {
+                "run_id": electoral["run_id"],
+                "artifact_id": 2,
+                "artifact_name": electoral["artifact_name"],
+                "artifact_sha256": electoral["artifact_sha256"],
+                "expired": False,
+            },
+        }
+
+        pair = build_pair(
+            root_dir=ROOT,
+            territory="Melilla",
+            remote_verification=remote,
+        )
+        self.assertEqual(
+            pair["territorial_source"]["compatibility_report_sha256"],
+            prep["compatibility_report_sha256"],
+        )
+        self.assertEqual(
+            pair["territorial_source"]["compatibility_report_member"],
+            prep["compatibility_report_member"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
