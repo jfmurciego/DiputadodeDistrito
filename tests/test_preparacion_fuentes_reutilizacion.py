@@ -385,7 +385,18 @@ class PreparedSourceReuseTests(unittest.TestCase):
             self.assertNotIn("actions/runs?status=completed", previous["run"])
 
         acquire = next(s for s in territorial_steps if s.get("name") == "Adquirir y congelar fuentes")
+        self.assertEqual(acquire["id"], "acquire")
         self.assertEqual(acquire["if"], "${{ steps.previous.outputs.reused_candidate != 'true' }}")
+        diagnostics = next(
+            s for s in territorial_steps
+            if s.get("name") == "Publicar diagnóstico de adquisición fallida"
+        )
+        self.assertEqual(
+            diagnostics["if"],
+            "${{ failure() && steps.acquire.outcome == 'failure' }}",
+        )
+        self.assertIn("ddd-source-diagnostics-", diagnostics["with"]["name"])
+        self.assertEqual(diagnostics["with"]["path"], "${{ env.EVIDENCE_DIR }}")
         self.assertIn("herramientas.seleccionar_paquete_fuentes", territorial_previous["run"])
 
         electoral_prepare = next(s for s in electoral_steps if s.get("id") == "prepare")
