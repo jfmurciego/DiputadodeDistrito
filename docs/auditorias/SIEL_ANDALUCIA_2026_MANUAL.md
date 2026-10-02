@@ -1,5 +1,8 @@
 # Andalucía 2026 — adquisición SIEL manual reproducible
 
+> **Operación normal:** usar `03 · Preparación de Resultados Electorales`. El workflow común resuelve la estrategia `official_api_snapshot` y el proveedor `siel` desde el contrato gobernado. Este documento queda como procedimiento diagnóstico/manual y como referencia de recuperación; no es la ruta ordinaria.
+
+
 ## Vía preferente: descarga oficial desde el portal definitivo
 
 La Junta de Andalucía mantiene el portal oficial `https://resultadoseleccionesandalucia.es/` como acceso a datos definitivos de 2026. La documentación oficial indica que SIEL permite descargar tablas de resultados por **totales, municipios y mesas**.

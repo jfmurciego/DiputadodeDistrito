@@ -95,7 +95,20 @@ jobs:
         run: |
           set -euo pipefail
           adapter=generic
-          if python - "$ELECTION_ID" <<'PY'
+          set +e
+          python herramientas/resolver_adquisicion_electoral_especial.py \
+            --root-dir . \
+            --election-id "$ELECTION_ID" \
+            --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" \
+            --output .ddd-special-acquisition.json >/dev/null
+          special_rc=$?
+          set -e
+          if [[ "$special_rc" == 0 ]]; then
+            adapter=official_snapshot
+          elif [[ "$special_rc" != 3 ]]; then
+            exit "$special_rc"
+          elif python - "$ELECTION_ID" <<'PY'
           import sys
           from herramientas.adaptador_eleccionesdb import ELECTIONS
           raise SystemExit(0 if sys.argv[1] in ELECTIONS else 1)
@@ -104,7 +117,12 @@ jobs:
             adapter=eleccionesdb
           else
             set +e
-            python herramientas/resolver_contrato_minsait_provisional.py               --root-dir . --election-id "$ELECTION_ID"               --territory-id "$TERRITORY_ID" --election-date "$ELECTION_DATE"               --output .ddd-minsait-contract.json >/dev/null
+            python herramientas/resolver_contrato_minsait_provisional.py \
+              --root-dir . \
+              --election-id "$ELECTION_ID" \
+              --territory-id "$TERRITORY_ID" \
+              --election-date "$ELECTION_DATE" \
+              --output .ddd-minsait-contract.json >/dev/null
             rc=$?
             set -e
             if [[ "$rc" == 0 ]]; then
@@ -114,6 +132,40 @@ jobs:
             fi
           fi
           echo "adapter=$adapter" >> "$GITHUB_OUTPUT"
+      - name: Adquirir snapshot oficial especializado
+        if: ${{ steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        run: |
+          set -euo pipefail
+          workers="$(jq -r '.provider_config.workers // 16' .ddd-special-acquisition.json)"
+          python herramientas/preparar_snapshot_electoral_oficial.py \
+            --root-dir . \
+            --election-id "$ELECTION_ID" \
+            --territory-id "$TERRITORY_ID" \
+            --election-date "$ELECTION_DATE" \
+            --edition "$EDITION" \
+            --snapshot-out .ddd-official-electoral-snapshot \
+            --package-out .ddd-electoral-package \
+            --workers "$workers"
+      - name: Conservar checkpoint de adquisición oficial si existe
+        if: ${{ always() && steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ddd-electoral-official-checkpoint-${{ needs.resolver.outputs.territory_id }}-${{ github.run_id }}
+          path: |
+            .ddd-official-electoral-snapshot/.checkpoint-sections
+            .ddd-official-electoral-snapshot/.checkpoint-meta.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Conservar snapshot oficial adquirido
+        if: ${{ steps.mode.outputs.adapter == 'official_snapshot' && steps.previous.outputs.run_id == '' }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: ddd-electoral-official-snapshot-${{ needs.resolver.outputs.territory_id }}-${{ github.run_id }}
+          path: .ddd-official-electoral-snapshot
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
       - name: Recuperar snapshot EleccionesDB durable y verificar huella
         if: ${{ steps.mode.outputs.adapter == 'eleccionesdb' && steps.previous.outputs.run_id == '' }}
         run: |
@@ -147,7 +199,17 @@ jobs:
         run: |
           set -euo pipefail
           adapter="${{ steps.mode.outputs.adapter }}"
-          if [[ "$adapter" == "eleccionesdb" ]]; then
+          if [[ "$adapter" == "official_snapshot" ]]; then
+            if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
+              cp -a .ddd-electoral-previous .ddd-electoral-package
+            else
+              test -s .ddd-electoral-package/manifest.json
+              [[ "$(jq -r '.acquisition.kind // empty' .ddd-electoral-package/manifest.json)" == "official_api_snapshot" ]] || {
+                echo "::error::El proveedor oficial no produjo un paquete con estrategia acreditada"
+                exit 55
+              }
+            fi
+          elif [[ "$adapter" == "eleccionesdb" ]]; then
             if [[ -n "${{ steps.previous.outputs.run_id }}" ]]; then
               cp -a .ddd-electoral-previous .ddd-electoral-package
             else
@@ -211,6 +273,34 @@ jobs:
                 exit 48
               }
             fi
+          fi
+      - id: validate
+        name: Validar paquete consumible antes de promoción
+        run: |
+          set -euo pipefail
+          manifest=.ddd-electoral-package/manifest.json
+          test -s "$manifest"
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ -n "$PARAMS" ]] || {
+              echo "::error::Paquete electoral consumible sin contrato territorial para validación"
+              exit 56
+            }
+            mkdir -p .ddd-electoral-package/evidence
+            validation=.ddd-electoral-package/evidence/validacion_preparacion.json
+            python herramientas/validar_paquete_electoral.py \
+              --package .ddd-electoral-package \
+              --params "$PARAMS" \
+              --territory-id "$TERRITORY_ID" \
+              --edition "$EDITION" \
+              --root-dir . \
+              --output "$validation"
+            [[ "$(jq -r '.decision // empty' "$validation")" == "READY_PACKAGE" ]] || {
+              echo "::error::Paquete electoral no supera READY_PACKAGE"
+              exit 56
+            }
+          else
+            echo "Paquete electoral no consumible ($decision): se conserva para evidencia y bloqueo durable."
           fi
       - id: policy
         name: Leer política de promoción del paquete
