@@ -215,24 +215,22 @@ class OfficialSourcesTests(unittest.TestCase):
         )
         self.assertEqual(checks["selected_section_population_total"], 123)
 
-    def test_population_missing_value_preserves_source_row_context(self):
+    def test_population_missing_value_is_unobserved_not_zero(self):
         dec = {"population_validation": {}}
         payload = (
             "Periodo\tSexo\tEdad\tTotal Nacional\tProvincias\tMunicipios\tSecciones\tTotal\n"
-            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Reinosa\t3905902003\t\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Reinosa\t3905902003 Reinosa sección 02003\t\n"
+            "2023\tTotal\tTodas las edades\tTotal Nacional\t39 Cantabria\t39059 Reinosa\t3905902002 Reinosa sección 02002\t123\n"
         ).encode("utf-8")
-        with self.assertRaisesRegex(ValueError, "POPULATION_MISSING") as caught:
-            _filter_population(payload, dec, 2023, ["39"])
-        message = str(caught.exception)
-        self.assertIn("POPULATION_SOURCE_ROWS_INVALID", message)
-        self.assertIn("count=1", message)
-        self.assertIn('"Secciones": "3905902003"', message)
-        self.assertIn('"Periodo": "2023"', message)
-        self.assertIn('"Sexo": "Total"', message)
-        self.assertIn('"Edad": "Todas las edades"', message)
-        self.assertIn('"Total": ""', message)
-        self.assertIn('"Provincias": "39 Cantabria"', message)
-        self.assertIn('"Municipios": "39059 Reinosa"', message)
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        text = filtered.decode("utf-8-sig")
+        self.assertNotIn("3905902003", text)
+        self.assertIn("3905902002", text)
+        self.assertEqual(checks["unobserved_sections"]["count"], 1)
+        self.assertEqual(checks["unobserved_sections"]["section_ids"], ["3905902003"])
+        self.assertEqual(checks["unobserved_sections"]["population_semantics"], "ABSENT_NOT_ZERO")
+        self.assertEqual(checks["selected_section_population_total"], 123)
+        self.assertTrue(checks["row_reconciliation"]["balanced"])
 
     def test_population_reports_all_row_defects_in_one_pass(self):
         dec = {"population_validation": {}}
@@ -247,8 +245,7 @@ class OfficialSourcesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "POPULATION_SOURCE_ROWS_INVALID") as caught:
             _filter_population(payload, dec, 2023, ["39"])
         message = str(caught.exception)
-        self.assertIn("count=4", message)
-        self.assertIn("POPULATION_MISSING", message)
+        self.assertIn("count=3", message)
         self.assertIn("POPULATION_NON_NUMERIC", message)
         self.assertIn("POPULATION_NEGATIVE", message)
         self.assertIn("contradictoria: municipio sin provincia", message)
@@ -287,38 +284,17 @@ class OfficialSourcesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "SECTION_HIERARCHY_MISMATCH"):
             _filter_population(payload, dec, 2023, ["39"])
 
-    def test_population_overlong_section_identifier_does_not_get_silently_truncated(self):
+    def test_population_real_ine_section_label_uses_leading_ten_digit_code(self):
         dec = {"population_validation": {}}
         payload = (
             "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
-            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Reinosa;39059020030;123\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059 Reinosa;"
+            "3905902003 Reinosa sección 02003;611\n"
         ).encode("utf-8")
-        with self.assertRaisesRegex(ValueError, "SECTION_ID_INVALID"):
-            _filter_population(payload, dec, 2023, ["39"])
-
-    def test_population_invalid_section_from_other_province_is_territorial_exclusion(self):
-        dec = {"population_validation": {}}
-        payload = (
-            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
-            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;01001;seccion-invalida;123\n"
-            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902003;10\n"
-        ).encode("utf-8")
-        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertIn("3905902003 Reinosa sección 02003", filtered.decode("utf-8-sig"))
         self.assertEqual(checks["rows"], 1)
-        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
-        self.assertTrue(checks["row_reconciliation"]["balanced"])
-
-    def test_population_missing_value_from_other_province_does_not_block_requested_territory(self):
-        dec = {"population_validation": {}}
-        payload = (
-            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
-            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;01001;0100101001;\n"
-            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902003;10\n"
-        ).encode("utf-8")
-        _, checks = _filter_population(payload, dec, 2023, ["39"])
-        self.assertEqual(checks["rows"], 1)
-        self.assertEqual(checks["selected_section_population_total"], 10)
-        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
+        self.assertEqual(checks["selected_section_population_total"], 611)
 
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
