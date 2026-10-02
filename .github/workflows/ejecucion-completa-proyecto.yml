@@ -437,6 +437,16 @@ jobs:
           if effective_mode=="territorial_only":
               p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
+          if p.get("run_prepare_territorial") is True:
+              temporal_missing=[
+                  key for key in ("population_year","section_year")
+                  if not isinstance(p.get(key), int)
+              ]
+              if temporal_missing:
+                  raise SystemExit(
+                      "TEMPORAL_CONTRACT_BLOCK: 00 no puede lanzar 01 sin contrato temporal: "
+                      + ", ".join(temporal_missing)
+                  )
           if p.get("execution_mode")=="from_start":
               required=["run_prepare_territorial","pre_m04_accreditation_planned","run_generate"]
               if effective_mode=="electoral":
