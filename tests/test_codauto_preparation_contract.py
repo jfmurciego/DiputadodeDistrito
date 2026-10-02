@@ -11,11 +11,13 @@ from herramientas.catalogo_territorios import (
     normalize_territory_input,
 )
 from herramientas.preflight_preparacion_fuente import _state
+from herramientas.catalogo_preparacion import resolve as resolve_catalog, rows_for
 from herramientas.resolver_preparacion_legislatura import resolve
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 WORKFLOWS = ROOT / ".github" / "workflows"
+PREPARATION_CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 
 
 def dispatch_inputs(path: Path) -> dict:
@@ -88,6 +90,40 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 options = dispatch_inputs(WORKFLOWS / workflow)["territory"]["options"]
                 self.assertEqual(options, ["Todos", *expected])
                 self.assertTrue(all(" · " not in item for item in options[1:]))
+
+
+
+    def test_generation_and_electoral_application_resolve_all_codauto_forms(self):
+        master_by_id = {
+            row["territory_id"]: row
+            for row in load_master(MASTER)
+        }
+        for mode in ("generation", "electoral_application"):
+            eligible = rows_for(mode, PREPARATION_CATALOG)
+            self.assertTrue(eligible, mode)
+            for row in eligible:
+                territory_id = row["territory_id"]
+                edition = row["edition"]
+                master = master_by_id[territory_id]
+                canonical = format_territory_label(master)
+                legacy = canonical.replace(" ", " · ", 1)
+
+                expected = resolve_catalog(mode, territory_id, edition, PREPARATION_CATALOG)
+                with self.subTest(mode=mode, territory=canonical):
+                    self.assertEqual(
+                        resolve_catalog(mode, canonical, edition, PREPARATION_CATALOG),
+                        expected,
+                    )
+                with self.subTest(mode=mode, territory=legacy):
+                    self.assertEqual(
+                        resolve_catalog(mode, legacy, edition, PREPARATION_CATALOG),
+                        expected,
+                    )
+                with self.subTest(mode=mode, territory=territory_id):
+                    self.assertEqual(
+                        resolve_catalog(mode, territory_id, edition, PREPARATION_CATALOG),
+                        expected,
+                    )
 
 
     def test_all_manually_dispatchable_workflow_names_are_free_of_middle_dot(self):
