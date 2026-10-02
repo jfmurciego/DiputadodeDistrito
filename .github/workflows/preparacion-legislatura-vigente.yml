@@ -145,7 +145,7 @@ jobs:
           retention-days: 90
 
   territorial:
-    name: 01 · Adquirir sólo fuente territorial necesaria
+    name: 01 Adquirir sólo fuente territorial necesaria
     needs: planificar
     if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.territorial_action == 'ACQUIRE' }}
     uses: ./.github/workflows/preparacion-fuentes.yml
@@ -160,7 +160,7 @@ jobs:
     secrets: inherit
 
   electoral:
-    name: 03 · Adquirir sólo fuente electoral necesaria
+    name: 03 Adquirir sólo fuente electoral necesaria
     needs: planificar
     if: ${{ inputs.operation == 'prepare_one' && needs.planificar.outputs.electoral_action == 'ACQUIRE' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
