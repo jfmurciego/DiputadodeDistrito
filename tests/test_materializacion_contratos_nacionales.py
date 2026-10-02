@@ -89,27 +89,39 @@ def population_package(
             for path in sorted(geo_root.glob("seccionado.*")):
                 zf.write(path, arcname=path.name)
 
+    origin_section_zip = None
+    if population_year != section_year:
+        origin_section_zip = materialized / f"seccionado_{population_year}.zip"
+        shutil.copy2(section_zip, origin_section_zip)
+
     def sha(path: Path) -> str:
         return hashlib.sha256(path.read_bytes()).hexdigest()
 
-    inventory = {
-        "sources": [
-            {
-                "role": "population",
-                "source_id": "synthetic_population",
-                "path": "inputs/65034.csv.zip",
-                "bytes": (materialized / "65034.csv.zip").stat().st_size,
-                "sha256": sha(materialized / "65034.csv.zip"),
-            },
-            {
-                "role": "target_sectioning",
-                "source_id": "synthetic_sectioning",
-                "path": f"inputs/seccionado_{section_year}.zip",
-                "bytes": section_zip.stat().st_size,
-                "sha256": sha(section_zip),
-            },
-        ]
-    }
+    sources = [
+        {
+            "role": "population",
+            "source_id": "synthetic_population",
+            "path": "inputs/65034.csv.zip",
+            "bytes": (materialized / "65034.csv.zip").stat().st_size,
+            "sha256": sha(materialized / "65034.csv.zip"),
+        },
+        {
+            "role": "target_sectioning",
+            "source_id": "synthetic_sectioning",
+            "path": f"inputs/seccionado_{section_year}.zip",
+            "bytes": section_zip.stat().st_size,
+            "sha256": sha(section_zip),
+        },
+    ]
+    if origin_section_zip is not None:
+        sources.append({
+            "role": "population_sectioning_origin",
+            "source_id": "synthetic_population_sectioning_origin",
+            "path": f"inputs/seccionado_{population_year}.zip",
+            "bytes": origin_section_zip.stat().st_size,
+            "sha256": sha(origin_section_zip),
+        })
+    inventory = {"sources": sources}
     (evidence / "inventario_fuentes.json").write_text(
         json.dumps(inventory, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
