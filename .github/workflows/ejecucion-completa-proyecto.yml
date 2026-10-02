@@ -195,7 +195,10 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           ref: ${{ inputs.source_ref || github.sha }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Instalar runtime fijado de planificación
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar runtime geoespacial de planificación
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
       - name: Recuperar manifiesto congelado de campaña
         if: ${{ inputs.campaign_instance != '' }}
         uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
@@ -566,7 +569,10 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           ref: ${{ needs.planificar.outputs.source_sha }}
-      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - name: Instalar runtime fijado de verificación de fuentes
+        run: python -m pip install --disable-pip-version-check -r requirements.lock
+      - name: Verificar runtime geoespacial de fuentes
+        run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
       - name: Resolver acreditación exacta según modo
         env:
           EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
