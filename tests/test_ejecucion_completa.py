@@ -826,12 +826,31 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertTrue(plan["run_generate"])
         self.assertTrue(plan["run_prepare_electoral"])
         self.assertTrue(plan["run_incorporate"])
+        self.assertEqual(plan["population_year"], 2023)
+        self.assertEqual(plan["section_year"], 2023)
+        self.assertNotEqual((plan["population_year"], plan["section_year"]), (2025, 2025))
 
         data = load(ORCH)
         jobs = data["jobs"]
         self.assertIn("run_prepare_territorial == 'true'", jobs["preparar_territorial"]["if"])
         self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
         self.assertIn("run_prepare_territorial == 'false'", jobs["verificar_fuentes_preparadas"]["if"])
+        self.assertEqual(
+            jobs["preparar_territorial"]["with"]["population_year"],
+            "${{ needs.planificar.outputs.population_year }}",
+        )
+        self.assertEqual(
+            jobs["preparar_territorial"]["with"]["section_year"],
+            "${{ needs.planificar.outputs.section_year }}",
+        )
+        self.assertEqual(
+            data["jobs"]["planificar"]["outputs"]["population_year"],
+            "${{ steps.plan.outputs.population_year }}",
+        )
+        self.assertEqual(
+            data["jobs"]["planificar"]["outputs"]["section_year"],
+            "${{ steps.plan.outputs.section_year }}",
+        )
 
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" != "from_start"', text)
