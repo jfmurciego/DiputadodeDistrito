@@ -160,6 +160,8 @@ jobs:
       generation_execution_mode: ${{ steps.plan.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ steps.plan.outputs.optimization_algorithm }}
       edition: ${{ steps.plan.outputs.edition }}
+      population_year: ${{ steps.plan.outputs.population_year }}
+      section_year: ${{ steps.plan.outputs.section_year }}
       source_sha: ${{ steps.plan.outputs.source_sha }}
       source_ref: ${{ steps.plan.outputs.source_sha }}
       persist_state: ${{ steps.plan.outputs.persist_state }}
@@ -465,6 +467,8 @@ jobs:
           out("generation_execution_mode",p.get("generation_execution_mode",p["execution_mode"]))
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
+          out("population_year",p.get("population_year"))
+          out("section_year",p.get("section_year"))
           out("publication_mode_requested",p.get("publication_mode_requested","electoral"))
           out("publication_mode_effective",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
           out("publication_mode",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
@@ -813,6 +817,8 @@ jobs:
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
+      population_year: ${{ needs.planificar.outputs.population_year }}
+      section_year: ${{ needs.planificar.outputs.section_year }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
       source_ref: ${{ needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
