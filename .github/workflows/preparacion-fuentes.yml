@@ -104,35 +104,35 @@ jobs:
 
           if [[ "$EVENT_NAME" == workflow_dispatch ]]; then
             current="$(python - "$TERRITORY" <<'PY'
-import json
-import re
-import sys
-from pathlib import Path
-import yaml
+          import json
+          import re
+          import sys
+          from pathlib import Path
+          import yaml
 
-cfg = yaml.safe_load(Path("configuracion/preparacion_legislatura_vigente.yaml").read_text(encoding="utf-8")) or {}
-wanted = re.sub(r"^\\s*\\d+\\s*·\\s*", "", sys.argv[1]).strip()
-row = next(
-    (
-        item for item in (cfg.get("territories") or [])
-        if str(item.get("name") or "").strip() == wanted
-        or str(item.get("territory_id") or "").strip() == wanted
-    ),
-    None,
-)
-if not row:
-    raise SystemExit(f"Territorio sin contrato vigente: {wanted}")
-territorial = row.get("territorial") or {}
-result = {
-    "edition": str(cfg.get("project_edition") or ""),
-    "population_year": str(territorial.get("population_current_year") or ""),
-    "section_year": str(territorial.get("section_current_year") or ""),
-}
-if not all(result.values()):
-    raise SystemExit(f"Contrato vigente incompleto para {wanted}: {result}")
-print(json.dumps(result, ensure_ascii=False))
-PY
-)"
+          cfg = yaml.safe_load(Path("configuracion/preparacion_legislatura_vigente.yaml").read_text(encoding="utf-8")) or {}
+          wanted = re.sub(r"^\\s*\\d+\\s*·\\s*", "", sys.argv[1]).strip()
+          row = next(
+              (
+                  item for item in (cfg.get("territories") or [])
+                  if str(item.get("name") or "").strip() == wanted
+                  or str(item.get("territory_id") or "").strip() == wanted
+              ),
+              None,
+          )
+          if not row:
+              raise SystemExit(f"Territorio sin contrato vigente: {wanted}")
+          territorial = row.get("territorial") or {}
+          result = {
+              "edition": str(cfg.get("project_edition") or ""),
+              "population_year": str(territorial.get("population_current_year") or ""),
+              "section_year": str(territorial.get("section_current_year") or ""),
+          }
+          if not all(result.values()):
+              raise SystemExit(f"Contrato vigente incompleto para {wanted}: {result}")
+          print(json.dumps(result, ensure_ascii=False))
+          PY
+          )"
             EDITION="$(jq -r .edition <<<"$current")"
             population_year="$(jq -r .population_year <<<"$current")"
             section_year="$(jq -r .section_year <<<"$current")"
@@ -375,18 +375,18 @@ PY
     if: ${{ needs.territoriales.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
     uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
     with:
-      params: ${{ format('territorios/{0}/config/{0}_{1}.yaml', needs.resolver.outputs.territory_id, inputs.data_edition) }}
+      params: ${{ format('territorios/{0}/config/{0}_{1}.yaml', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition) }}
       mode: execute
       from_stage: M01
       to_stage: M04
       source_package_run_id: ${{ github.run_id }}
-      source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
+      source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition, github.run_id) }}
       execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
       source_ref: ${{ needs.registrar.outputs.promotion_sha }}
       persist_state: true
       preflight_only: true
       source_evidence_run_id: ${{ github.run_id }}
-      source_evidence_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, inputs.data_edition, github.run_id) }}
+      source_evidence_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition, github.run_id) }}
       source_evidence_artifact_sha256: ${{ needs.registrar.outputs.artifact_sha256 }}
       source_evidence_package_sha256: ${{ needs.registrar.outputs.package_sha256 }}
     secrets: inherit
