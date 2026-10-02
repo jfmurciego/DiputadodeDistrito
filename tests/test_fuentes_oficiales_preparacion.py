@@ -209,6 +209,7 @@ class OfficialSourcesTests(unittest.TestCase):
                 "pertinent": 4,
                 "classified_aggregates": 3,
                 "accepted_sections": 1,
+                "unobserved_sections": 0,
                 "territorial_exclusions": 0,
                 "balanced": True,
             },
@@ -249,7 +250,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertIn("POPULATION_NON_NUMERIC", message)
         self.assertIn("POPULATION_NEGATIVE", message)
         self.assertIn("contradictoria: municipio sin provincia", message)
-        self.assertIn('"Secciones": "3905902003"', message)
+        self.assertNotIn('"Secciones": "3905902003"', message)
         self.assertIn('"Secciones": "3905902004"', message)
         self.assertIn('"Secciones": "3905902005"', message)
         self.assertIn('"Secciones": "3905902006"', message)
@@ -295,6 +296,40 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertIn("3905902003 Reinosa sección 02003", filtered.decode("utf-8-sig"))
         self.assertEqual(checks["rows"], 1)
         self.assertEqual(checks["selected_section_population_total"], 611)
+
+    def test_population_conflicting_other_section_but_requested_declared_province_blocks(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;01001;0100101001;123\n"
+        ).encode("utf-8")
+        with self.assertRaisesRegex(ValueError, "SECTION_HIERARCHY_MISMATCH"):
+            _filter_population(payload, dec, 2023, ["39"])
+
+    def test_population_fully_other_conflicting_row_can_be_excluded(self):
+        dec = {"population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;01 Araba/Álava;01001;0100201001;123\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902001;10\n"
+        ).encode("utf-8")
+        _, checks = _filter_population(payload, dec, 2023, ["39"])
+        self.assertEqual(checks["rows"], 1)
+        self.assertEqual(checks["territorial_exclusions"]["count"], 1)
+
+    def test_population_filter_uses_population_year_not_project_edition(self):
+        dec = {"edition": 2025, "population_validation": {}}
+        payload = (
+            "Periodo;Sexo;Edad;Total Nacional;Provincias;Municipios;Secciones;Total\n"
+            "2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902001;10\n"
+            "2025;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902001;99\n"
+        ).encode("utf-8")
+        filtered, checks = _filter_population(payload, dec, 2023, ["39"])
+        text = filtered.decode("utf-8-sig")
+        self.assertIn(";2023;10", text)
+        self.assertNotIn(";2025;99", text)
+        self.assertEqual(checks["edition"], 2023)
+        self.assertEqual(checks["selected_section_population_total"], 10)
 
     def test_population_invalid_nonempty_section_still_blocks(self):
         dec = declaration("cantabria")
@@ -367,6 +402,7 @@ class OfficialSourcesTests(unittest.TestCase):
             "pertinent": 3,
             "classified_aggregates": 2,
             "accepted_sections": 1,
+            "unobserved_sections": 0,
             "territorial_exclusions": 0,
             "balanced": True,
         })
