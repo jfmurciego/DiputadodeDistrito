@@ -20,7 +20,12 @@ def _authoritative_preparation_years(
     root_dir: Path,
     territory_id: str,
     edition: str,
-) -> tuple[int, int]:
+) -> tuple[int | None, int | None]:
+    matrix = root_dir / "configuracion/preparacion_legislatura_vigente.yaml"
+    if not matrix.is_file():
+        # Los fixtures unitarios pueden modelar contratos aislados sin la matriz
+        # nacional. El workflow 00 exige los años antes de lanzar 01.
+        return None, None
     try:
         current = resolve_current_legislature(root_dir, territory_id)
     except Exception as exc:
