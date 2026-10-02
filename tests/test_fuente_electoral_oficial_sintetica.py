@@ -84,6 +84,60 @@ class OfficialElectionSourceSynthetic(unittest.TestCase):
         }, sort_keys=False), encoding="utf-8")
         return params
 
+    def test_duplicate_source_ids_are_rejected_before_network(self):
+        declaration = self._base([
+            {
+                "id": "fragment",
+                "publisher": "Official A",
+                "url": "https://official.example/europeas.txt",
+                "access": "public",
+                "declared_resolution": "section",
+                "granularity_markers": ["seccion"],
+            },
+            {
+                "id": "fragment",
+                "publisher": "Official B",
+                "url": "https://official.example/clm.csv",
+                "access": "public",
+                "declared_resolution": "section",
+                "granularity_markers": ["seccion"],
+            },
+        ])
+        called = False
+
+        def opener(request, timeout=0):
+            nonlocal called
+            called = True
+            return FakeResponse(b"seccion,votos\n001,10\n")
+
+        with tempfile.TemporaryDirectory() as td:
+            with self.assertRaisesRegex(ValueError, "source.id duplicado"):
+                self.checker.check_declaration(declaration, td, opener=opener)
+            self.assertFalse(called)
+
+    def test_load_declaration_rejects_empty_and_duplicate_source_ids(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            for name, ids, pattern in (
+                ("empty.yaml", ["", "b"], "obligatorio"),
+                ("duplicate.yaml", ["same", "same"], "duplicado"),
+            ):
+                declaration = self._base([
+                    {
+                        "id": sid,
+                        "publisher": "Official",
+                        "url": f"https://official.example/{index}.csv",
+                        "access": "public",
+                        "declared_resolution": "section",
+                    }
+                    for index, sid in enumerate(ids)
+                ])
+                path = root / name
+                path.write_text(yaml.safe_dump(declaration, sort_keys=False), encoding="utf-8")
+                with self.subTest(name=name):
+                    with self.assertRaisesRegex(ValueError, pattern):
+                        self.checker.load_declaration(path)
+
     def test_public_granular_file_is_frozen_with_checksum(self):
         data = b"seccion,mesa,candidatura,votos\n001,01,A,10\n"
         declaration = self._base([{

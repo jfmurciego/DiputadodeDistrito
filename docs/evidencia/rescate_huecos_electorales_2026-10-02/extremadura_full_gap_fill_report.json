@@ -1,0 +1,278 @@
+{
+  "schema": "ddd-electoral-gap-fill/1.0",
+  "status": "BLOCK",
+  "identity": {
+    "election_id": "extremadura_asamblea_2025-12-21",
+    "election_date": "2025-12-21",
+    "election_type": "regional",
+    "scope": "extremadura"
+  },
+  "granularity": "section_party",
+  "primary_source_id": "minsait_eleccionesdb_provisional",
+  "expected_keys": 11039,
+  "primary_present_keys": 11039,
+  "added_keys": 0,
+  "remaining_missing_keys": [],
+  "blocked_units": [
+    "1004201001",
+    "1012501001"
+  ],
+  "conflicts": [
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1004201001",
+      "party": "PACMA",
+      "primary_votes": 0,
+      "fragment_votes": 1,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 46,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1004201001",
+      "party": "PODEMOS-IU-AV",
+      "primary_votes": 0,
+      "fragment_votes": 5,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 46,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1004201001",
+      "party": "PP",
+      "primary_votes": 0,
+      "fragment_votes": 28,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 46,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1004201001",
+      "party": "PSOE",
+      "primary_votes": 0,
+      "fragment_votes": 19,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 46,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1004201001",
+      "party": "VOX",
+      "primary_votes": 0,
+      "fragment_votes": 2,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 46,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "Cs",
+      "primary_votes": 0,
+      "fragment_votes": 1,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "EXTREMADURA UNIDA",
+      "primary_votes": 0,
+      "fragment_votes": 2,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "JUNTOS-LEVANTA",
+      "primary_votes": 0,
+      "fragment_votes": 3,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "PODEMOS-IU-AV",
+      "primary_votes": 0,
+      "fragment_votes": 46,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "PP",
+      "primary_votes": 0,
+      "fragment_votes": 181,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "PSOE",
+      "primary_votes": 0,
+      "fragment_votes": 173,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "UED-SyT",
+      "primary_votes": 0,
+      "fragment_votes": 3,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    },
+    {
+      "code": "PRIMARY_VALUE_CONFLICT",
+      "unit_id": "1012501001",
+      "party": "VOX",
+      "primary_votes": 0,
+      "fragment_votes": 70,
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "primary_was_explicit_zero": true,
+      "fragment_provenance": {
+        "artifact": "Resultados Definitivos_Caceres.Pdf",
+        "artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+        "source_row": 131,
+        "table": "Informe de mesas",
+        "source_locator": "1-001-U"
+      }
+    }
+  ],
+  "incorporated_records": [],
+  "geographic_candidate_votes": 522418,
+  "special_candidate_votes": 1885,
+  "candidate_votes_with_special": 524303,
+  "reconciliation_errors": [
+    {
+      "code": "GEOGRAPHIC_TOTAL_MISMATCH",
+      "actual": 522418,
+      "expected": 522952
+    },
+    {
+      "code": "TOTAL_WITH_SPECIAL_MISMATCH",
+      "actual": 524303,
+      "expected": 524837
+    }
+  ],
+  "admissibility_blockers": [
+    {
+      "code": "SOURCE_NOT_PRODUCTION_ELIGIBLE",
+      "source_id": "minsait_eleccionesdb_provisional",
+      "source_class": "verified_mirror_provisional"
+    },
+    {
+      "code": "SOURCE_NOT_PRODUCTION_ELIGIBLE",
+      "source_id": "opte_badajoz_indra_ministerio",
+      "source_class": "third_party_copy_attribution_unverified"
+    },
+    {
+      "code": "SOURCE_NOT_PRODUCTION_ELIGIBLE",
+      "source_id": "opte_caceres_jep_definitive_copy",
+      "source_class": "third_party_hosted_copy_labeled_jep_definitive"
+    },
+    {
+      "code": "MIXED_RESULT_STATUS_REQUIRES_EXPLICIT_POLICY",
+      "primary_status": "PROVISIONAL",
+      "fragment_status_pairs": [
+        [
+          "PROVISIONAL",
+          "DEFINITIVE_LABELED"
+        ],
+        [
+          "PROVISIONAL",
+          "UNVERIFIED"
+        ]
+      ]
+    }
+  ],
+  "production_eligible": false
+}
