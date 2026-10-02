@@ -56,10 +56,13 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         self.assertEqual(triggers(ELECTORAL_APPLY)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
 
     def test_preparation_generates_sources_and_reuses_existing_package_by_default(self):
-        inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
-        self.assertNotIn("source_scope",inputs)
-        self.assertTrue(inputs["reutilizar_si_ya_preparada"]["default"])
+        manual_inputs=triggers(PREP)["workflow_dispatch"]["inputs"]
+        reusable_inputs=triggers(PREP)["workflow_call"]["inputs"]
+        self.assertEqual(list(manual_inputs),["territory_id"])
+        self.assertNotIn("source_scope",manual_inputs)
+        self.assertTrue(reusable_inputs["reutilizar_si_ya_preparada"]["default"])
         text=PREP.read_text(encoding="utf-8")
+        self.assertIn("reuse_enabled=true",text)
         self.assertIn("resolver_fuentes_territorio.py declaration",text)
         self.assertIn("Recuperar fuente territorial registrada",text)
         self.assertIn("gh run download",text)
@@ -155,7 +158,7 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         ]: self.assertIn(token,engine)
         self.assertIn("ddd-checkpoint-selection-${{ github.run_id }}",ui)
         self.assertIn("ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",electoral_prep)
-        self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}",prep)
+        self.assertIn("ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}",prep)
         for name in [
             "_reutilizable-auditoria-topologica.yml","_reutilizable-operacion-territorial.yml",
             "generar-alternativas-territoriales.yml","orquestacion-control.yml","orquestacion-durable.yml",
