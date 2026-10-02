@@ -311,6 +311,7 @@ def rows_for(mode:str,path:Path=CATALOG)->list[dict]:
     return out
 
 def resolve(mode:str,territory:str,edition:str,path:Path=CATALOG)->dict:
+    territory=normalize_territory_input(territory)
     matches=[r for r in rows_for(mode,path) if r["edition"]==str(edition) and territory.strip() in {r["name"],r["territory_id"]}]
     if len(matches)!=1: raise SystemExit(f"No existe opción {mode} única para territorio={territory!r}, edición={edition!r}")
     return matches[0]

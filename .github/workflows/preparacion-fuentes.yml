@@ -6,7 +6,7 @@
 # ESTADO: candidato
 # CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
 # MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
-name: 01 · Preparación de Datos Territoriales
+name: 01 Preparación de Datos Territoriales
 
 on:
   workflow_call:
@@ -39,25 +39,25 @@ on:
         required: true
         type: choice
         options:
-          - 01 · Andalucía
-          - 02 · Aragón
-          - 03 · Principado de Asturias
-          - 04 · Islas Baleares
-          - 05 · Canarias
-          - 06 · Cantabria
-          - 07 · Castilla y León
-          - 08 · Castilla-La Mancha
-          - 09 · Cataluña
-          - 10 · Comunidad Valenciana
-          - 11 · Extremadura
-          - 12 · Galicia
-          - 13 · Comunidad de Madrid
-          - 14 · Región de Murcia
-          - 15 · Comunidad Foral de Navarra
-          - 16 · País Vasco
-          - 17 · La Rioja
-          - 18 · Ceuta
-          - 19 · Melilla
+          - 01 Andalucía
+          - 02 Aragón
+          - 03 Principado de Asturias
+          - 04 Islas Baleares
+          - 05 Canarias
+          - 06 Cantabria
+          - 07 Castilla y León
+          - 08 Castilla-La Mancha
+          - 09 Cataluña
+          - 10 Comunidad Valenciana
+          - 11 Extremadura
+          - 12 Galicia
+          - 13 Comunidad de Madrid
+          - 14 Región de Murcia
+          - 15 Comunidad Foral de Navarra
+          - 16 País Vasco
+          - 17 La Rioja
+          - 18 Ceuta
+          - 19 Melilla
 concurrency:
   group: ddd-territorial-prod-${{ inputs.territory_id }}-${{ inputs.data_edition || 'vigente' }}
   cancel-in-progress: false
@@ -105,39 +105,12 @@ jobs:
           # distinguir una ejecución manual directa de una llamada reutilizable.
           # data_edition es obligatoria en workflow_call y no existe en workflow_dispatch.
           if [[ -z "$EDITION_INPUT" ]]; then
-            current="$(python - "$TERRITORY" <<'PY'
-          import json
-          import sys
-          from pathlib import Path
-          import yaml
-          from herramientas.catalogo_territorios import normalize_territory_input
-
-          cfg = yaml.safe_load(Path("configuracion/preparacion_legislatura_vigente.yaml").read_text(encoding="utf-8")) or {}
-          wanted = normalize_territory_input(sys.argv[1])
-          row = next(
-              (
-                  item for item in (cfg.get("territories") or [])
-                  if str(item.get("name") or "").strip() == wanted
-                  or str(item.get("territory_id") or "").strip() == wanted
-              ),
-              None,
-          )
-          if not row:
-              raise SystemExit(f"Territorio sin contrato vigente: {wanted}")
-          territorial = row.get("territorial") or {}
-          result = {
-              "edition": str(cfg.get("project_edition") or ""),
-              "population_year": str(territorial.get("population_current_year") or ""),
-              "section_year": str(territorial.get("section_current_year") or ""),
-          }
-          if not all(result.values()):
-              raise SystemExit(f"Contrato vigente incompleto para {wanted}: {result}")
-          print(json.dumps(result, ensure_ascii=False))
-          PY
-          )"
-            EDITION="$(jq -r .edition <<<"$current")"
-            population_year="$(jq -r .population_year <<<"$current")"
-            section_year="$(jq -r .section_year <<<"$current")"
+            current="$(python herramientas/resolver_preparacion_legislatura.py --root-dir . --territory "$TERRITORY")"
+            plan="$(jq -ce '.plans | if length == 1 then .[0] else error("La preparación manual exige exactamente un territorio") end' <<<"$current")"
+            EDITION="$(jq -r .project_edition <<<"$plan")"
+            population_year="$(jq -r .population_year_selected <<<"$plan")"
+            section_year="$(jq -r .section_year_selected <<<"$plan")"
+            TERRITORY="$(jq -r .territory_id <<<"$plan")"
             reuse_enabled=true
             persist_requested=true
             RECOVERY_RUN_ID=""
@@ -167,10 +140,11 @@ jobs:
           echo "population_year=$population_year" >> "$GITHUB_OUTPUT"
           echo "section_year=$section_year" >> "$GITHUB_OUTPUT"
           if [[ "$population_year" == "$section_year" ]]; then echo "source_year=$population_year" >> "$GITHUB_OUTPUT"; else echo "source_year=" >> "$GITHUB_OUTPUT"; fi
-          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" --population-year "$population_year" --section-year "$section_year" >/dev/null
           row="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY" --edition "$EDITION")"
+          TERRITORY="$(jq -r .territory_id <<<"$row")"
+          python herramientas/resolver_fuentes_territorio.py declaration --territory "$TERRITORY" --edition "$EDITION" --population-year "$population_year" --section-year "$section_year" >/dev/null
           preflight="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY" --edition "$EDITION")"
-          echo "territory_id=$(jq -r .territory_id <<<"$row")" >> "$GITHUB_OUTPUT"
+          echo "territory_id=$TERRITORY" >> "$GITHUB_OUTPUT"
           if [[ -n "$RECOVERY_RUN_ID" || -n "$RECOVERY_SHA256" ]]; then
             [[ "$(jq -r '.persist_state|tostring' <<<"$persist_json")" == true ]] || { echo "::error::La recuperación durable exige persist_state=true."; exit 41; }
             [[ "$GITHUB_REF_NAME" == main ]] || { echo "::error::La recuperación durable solo se permite en main."; exit 41; }

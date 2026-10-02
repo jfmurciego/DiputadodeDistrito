@@ -8,7 +8,7 @@ import yaml
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
 COUNTRY_CODE = "ES"
 COUNTRY_NAME = "España"
-TERRITORY_CODE_RE = re.compile(r"^(\d{2})\s*·\s*(.+)$")
+TERRITORY_CODE_RE = re.compile(r"^(\d{2})(?:\s*·\s*|\s+)(.+)$")
 COUNTRY_LABEL_RE = re.compile(r"^([A-Z]{2})\s*·\s*(.+)$")
 
 
@@ -54,7 +54,7 @@ def master_index(path: Path = MASTER) -> dict[str, dict]:
 
 
 def format_territory_label(row: dict) -> str:
-    return f"{row['autonomous_community_code_ine']} · {row['name']}"
+    return f"{row['autonomous_community_code_ine']} {row['name']}"
 
 
 def format_country_label(code: str = COUNTRY_CODE, name: str = COUNTRY_NAME) -> str:

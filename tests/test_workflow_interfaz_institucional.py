@@ -21,7 +21,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         return ((triggers.get("workflow_dispatch") or {}).get("inputs",{}) or {})
 
     def test_generation_interface_name_and_controls(self):
-        self.assertEqual(self._load(GEN)["name"],"02 · Generación de Distritos Autonómicos")
+        self.assertEqual(self._load(GEN)["name"],"02 Generación de Distritos Autonómicos")
         inputs=self._dispatch_inputs(GEN)
         self.assertEqual(list(inputs),["territory_id","data_edition","execution_mode","optimization_algorithm"])
         self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)
@@ -30,7 +30,7 @@ class WorkflowInterfaceInstitutional(unittest.TestCase):
         self.assertEqual(inputs["optimization_algorithm"]["options"],["Canónico","GerryChain","GerryChain 25","GerryChain 50"])
 
     def test_electoral_incorporation_name_and_controls(self):
-        self.assertEqual(self._load(ELECTORAL)["name"],"04 · Incorporación de Resultados Electorales")
+        self.assertEqual(self._load(ELECTORAL)["name"],"04 Incorporación de Resultados Electorales")
         inputs=self._dispatch_inputs(ELECTORAL)
         self.assertEqual(list(inputs),["territory_id","data_edition"])
         self.assertEqual(inputs["territory_id"]["options"],ALL_TERRITORIES)

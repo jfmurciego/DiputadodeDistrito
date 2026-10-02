@@ -368,8 +368,11 @@ class PreparedSourceReuseTests(unittest.TestCase):
             ["territory_id", "data_edition", "source_year", "population_year", "section_year", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "recover_run_id", "recover_artifact_sha256"],
         )
         resolver_run = territorial["jobs"]["resolver"]["steps"][-1]["run"]
-        self.assertIn("population_current_year", resolver_run)
-        self.assertIn("section_current_year", resolver_run)
+        self.assertIn("resolver_preparacion_legislatura.py", resolver_run)
+        self.assertIn("population_year_selected", resolver_run)
+        self.assertIn("section_year_selected", resolver_run)
+        self.assertNotIn("population_current_year", resolver_run)
+        self.assertNotIn("section_current_year", resolver_run)
         self.assertNotIn("EVENT_NAME", resolver_run)
         self.assertIn('if [[ -z "$EDITION_INPUT" ]]; then', resolver_run)
         self.assertIn("reuse_enabled=true", resolver_run)

@@ -925,7 +925,7 @@ class CampaignManagerTests(unittest.TestCase):
 
     def test_existing_campaign_manager_recovers_portfolio_without_recalculation(self):
         manager = WORKFLOW.read_text(encoding="utf-8")
-        self.assertIn("name: 0 · Gestor de Campañas", manager)
+        self.assertIn("name: 0 Gestor de Campañas", manager)
         self.assertIn("Recuperar portfolio existente", manager)
         self.assertIn("portfolio_artifact_id:", manager)
         self.assertIn("portfolio_artifact_sha256:", manager)

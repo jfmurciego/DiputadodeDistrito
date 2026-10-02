@@ -40,7 +40,7 @@ class TestRegistroElectoralComun(unittest.TestCase):
 
     def test_workflow_selector_matches_registry_codauto_order(self):
         expected=[
-            f"{row['codauto']} · {row['name']}"
+            f"{row['codauto']} {row['name']}"
             for row in self.registry["territories"].values()
         ]
         workflow=yaml.safe_load(

@@ -3,11 +3,12 @@ import unittest
 import yaml
 
 from herramientas.evaluar_persistencia_preparacion import resolve_persist_state
-from herramientas.catalogo_territorios import normalize_territory_input
+from herramientas.catalogo_territorios import format_territory_label, load_master, normalize_territory_input
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
 CURRENT = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
+MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 
 
 class RecoverUnregisteredSourceContract(unittest.TestCase):
@@ -60,6 +61,10 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
         self.assertEqual(len(options), 19)
         self.assertEqual(len(rows), 19)
 
+        expected = [format_territory_label(row) for row in load_master(MASTER)]
+        self.assertEqual(options, expected)
+        self.assertTrue(all(" · " not in option for option in options))
+
         normalized = [normalize_territory_input(option) for option in options]
         configured = [str(row.get("name") or "").strip() for row in rows]
         self.assertEqual(set(normalized), set(configured))
@@ -79,10 +84,14 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
         )
         body = resolver["run"]
         self.assertIn(
-            "from herramientas.catalogo_territorios import normalize_territory_input",
+            'resolver_preparacion_legislatura.py --root-dir . --territory "$TERRITORY"',
             body,
         )
-        self.assertIn("wanted = normalize_territory_input(sys.argv[1])", body)
+        self.assertIn(".population_year_selected", body)
+        self.assertIn(".section_year_selected", body)
+        self.assertIn('TERRITORY="$(jq -r .territory_id <<<"$plan")"', body)
+        self.assertNotIn("population_current_year", body)
+        self.assertNotIn("section_current_year", body)
 
     def test_exact_recovery_never_uses_acquisition_or_unverified_history(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))

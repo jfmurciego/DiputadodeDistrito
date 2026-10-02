@@ -28,14 +28,14 @@ def triggers(path:Path):
 class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_visible_workflows(self):
         visible={
-            "00 · Ejecución Completa del Proyecto":WF/"ejecucion-completa-proyecto.yml",
-            "01 · Preparación de Datos Territoriales":PREP,
-            "03 · Preparación de Resultados Electorales":ELECTORAL_PREP,
-            "02 · Generación de Distritos Autonómicos":GEN,
-            "04 · Incorporación de Resultados Electorales":ELECTORAL_APPLY,
+            "00 Ejecución Completa del Proyecto":WF/"ejecucion-completa-proyecto.yml",
+            "01 Preparación de Datos Territoriales":PREP,
+            "03 Preparación de Resultados Electorales":ELECTORAL_PREP,
+            "02 Generación de Distritos Autonómicos":GEN,
+            "04 Incorporación de Resultados Electorales":ELECTORAL_APPLY,
             "Pruebas de la Plataforma":WF/"pruebas-plataforma.yml",
-            "05 · Publicación del Visor":WF/"desplegar-visor-publico.yml",
-            "0 · Gestor de Campañas":WF/"gestor-campanas.yml",
+            "05 Publicación del Visor":WF/"desplegar-visor-publico.yml",
+            "0 Gestor de Campañas":WF/"gestor-campanas.yml",
         }
         self.assertEqual({load(p)["name"] for p in visible.values()},set(visible))
         dispatch=[p.name for p in WF.glob("*.yml") if "workflow_dispatch" in triggers(p)]
@@ -47,9 +47,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
-        self.assertIn("17 · La Rioja",prep_options)
-        self.assertIn("18 · Ceuta",prep_options)
-        self.assertIn("19 · Melilla",prep_options)
+        self.assertIn("17 La Rioja",prep_options)
+        self.assertIn("18 Ceuta",prep_options)
+        self.assertIn("19 Melilla",prep_options)
         # La Rioja conserva preparación histórica, pero no puede anunciarse como\n        # generable hasta que su fuente vigente quede habilitada por pre-M04.\n        self.assertNotIn("La Rioja",generable)\n        self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
