@@ -8,7 +8,7 @@
 # CAMBIOS: incorpora selección funcional de estrategia 02.5: Canónico, GerryChain, GerryChain 25 o GerryChain 50; la elección viaja hasta M05 y obliga a ejecutar M05 para alternativas GerryChain.
 # COMPATIBILIDAD: mantiene la cadena M01–M08 y sus contratos internos sin alterar algoritmos ni parámetros territoriales.
 # ANTERIOR: versión 6.1.0 en historial Git.
-name: 02 · Generación de Distritos Autonómicos
+name: 02 Generación de Distritos Autonómicos
 
 on:
   workflow_call:
