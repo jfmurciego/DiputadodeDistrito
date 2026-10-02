@@ -256,10 +256,20 @@ jobs:
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
       - if: ${{ steps.previous.outputs.reused_candidate != 'true' && steps.mode.outputs.mode == 'verified_snapshot' }}
         run: bash inputs/partes/reconstruir_fuentes.sh
-      - name: Adquirir y congelar fuentes
+      - id: acquire
+        name: Adquirir y congelar fuentes
         if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
         run: |
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
+      - name: Publicar diagnóstico de adquisición fallida
+        if: ${{ failure() && steps.acquire.outcome == 'failure' }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-source-diagnostics-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}
+          path: ${{ env.EVIDENCE_DIR }}
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
       - id: meta
         name: Identificar paquete territorial
         run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ inputs.data_edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
