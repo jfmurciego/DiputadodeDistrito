@@ -5,7 +5,7 @@
 # ESTADO: candidato
 # QUÉ HACE: consume un producto territorial certificado y resultados electorales preparados.
 # NO HACE: generar distritos, repetir auditorías geométricas ni publicar el visor.
-name: 04 · Incorporación de Resultados Electorales
+name: 04 Incorporación de Resultados Electorales
 
 on:
   workflow_call:
