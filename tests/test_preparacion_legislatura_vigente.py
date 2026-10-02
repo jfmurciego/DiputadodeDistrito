@@ -22,7 +22,7 @@ from herramientas.registrar_par_fuentes_legislatura import (
     build_pair,
 )
 from herramientas.resolver_fuentes_territorio import build_declaration
-from herramientas.resolver_preparacion_legislatura import resolve, validate_matrix
+from herramientas.resolver_preparacion_legislatura import _electoral_plan, resolve, validate_matrix
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-legislatura-vigente.yml"
@@ -133,15 +133,16 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
 
-    def test_andalucia_preserves_provisional_gap_and_requires_2026_sectioning(self):
+    def test_andalucia_uses_reconciled_siel_and_requires_2026_sectioning(self):
         plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2026)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
-        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
-        self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 4128575)
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
+        self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 4157539)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 4157539)
-        self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 28964)
+        self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 0)
 
     def test_aragon_source_receipt_is_repaired_without_reacquiring_historical_product(self):
         plan = resolve(ROOT, "Aragón")["plans"][0]
@@ -242,6 +243,42 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                     observation["response_sha256"],
                     hashlib.sha256(observation["preserved_response"].encode("utf-8")).hexdigest(),
                 )
+
+    def test_andalucia_special_official_acquisition_overrides_legacy_provisional_block(self):
+        state = {
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        row = {
+            "territory_id": "andalucia",
+            "name": "Andalucía",
+            "election_id": "andalucia_parlamento_2026",
+            "election_date": "2026-05-17",
+            "electoral": {
+                "source": "legacy provisional",
+                "action": "BLOCKED_PROVISIONAL",
+            },
+        }
+        candidate, action = _electoral_plan(ROOT, "andalucia", state, row)
+        self.assertEqual(action, "ACQUIRE")
+        self.assertEqual(candidate["reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
+        self.assertEqual(candidate["acquisition_kind"], "official_api_snapshot")
+        self.assertEqual(candidate["provider"], "siel")
+        self.assertEqual(candidate["source_status"], "VERIFIED_OFFICIAL_FINAL")
+
+    def test_extremadura_without_special_contract_remains_blocked_provisional(self):
+        plan = resolve(ROOT, "Extremadura")["plans"][0]
+        self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
+        self.assertEqual(plan["electoral_reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
+
+    def test_andalucia_matrix_describes_current_siel_source(self):
+        plan = resolve(ROOT, "Andalucía")["plans"][0]
+        self.assertEqual(plan["electoral_action"], "ACQUIRE")
+        self.assertEqual(plan["electoral_reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
+        self.assertIn("SIEL", str(plan["electoral_source"]))
+        self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 0)
+        self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 4157539)
+        self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 4157539)
 
     def test_partial_acquisition_reuses_electoral_but_replaces_wrong_year_territorial(self):
         for territory in ("Comunidad de Madrid", "Galicia"):

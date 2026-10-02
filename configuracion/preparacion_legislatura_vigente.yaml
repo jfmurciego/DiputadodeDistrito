@@ -14,7 +14,7 @@ territories:
     election_id: andalucia_parlamento_2026
     election_date: '2026-05-17'
     territorial: {population_required_year: 2026, population_current_year: 2025, population_selected_year: 2025, population_lag_years: 1, population_reference_date: '2025-01-01', section_required_year: 2026, section_current_year: 2025, section_selected_year: 2026, section_lag_years: 0, section_reference_label: 'Secciones_2026', temporal_evidence: configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json, action: ACQUIRE_SOURCE_IDENTITY_CHANGE, reason: 'Población por sección 2026 no publicada: 2025 es la última oficial; seccionado 2026 sí publicado y debe adquirirse.'}
-    electoral: {source: 'Minsait / EleccionesDB mirror provisional', granularity: section_party_after_polling_station_aggregation, action: BLOCKED_PROVISIONAL, definitive_gap_status: KNOWN_DELTA, definitive_candidate_votes: 4157539, source_candidate_votes: 4128575, gap_candidate_votes: 28964}
+    electoral: {source: 'Junta de Andalucía — Sistema de Información Electoral de Andalucía (SIEL)', granularity: section_party_with_cera_reconciliation, action: ACQUIRE, definitive_gap_status: RECONCILED_TO_OFFICIAL_TOTALS, definitive_candidate_votes: 4157539, source_candidate_votes: 4157539, gap_candidate_votes: 0}
   - territory_id: aragon
     name: Aragón
     election_id: aragon_cortes_2026-02-08
