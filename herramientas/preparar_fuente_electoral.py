@@ -5,6 +5,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 import yaml
 from herramientas.comprobar_fuente_electoral_oficial import check_declaration,load_declaration
+from ddd_core.electoral_gap_filler import compose_declared_gap_csv
 
 
 def _clean_header(value: object) -> str:
@@ -582,8 +583,30 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
             election_extra={"checker_decision":result,"election_id":d.get("election_id"),"election_date":d.get("election_date")}
             if len(selected_sources)>1:
                 source_paths=[tmp/str(sel["artifact_path"]) for sel in selected_sources]
-                merged=tmp/"resultados_electorales_vigentes.csv"
-                merge_info=merge_delimited_sources(source_paths,merged)
+                composition=(d.get("composition") or {}) if isinstance(d,dict) else {}
+                gap_result=None
+                if str(composition.get("kind") or "")=="electoral_gap_filler":
+                    gap_result=compose_declared_gap_csv(
+                        source_paths=source_paths,
+                        selected_sources=selected_sources,
+                        source_declarations=d.get("sources") or [],
+                        declaration=d,
+                        root=root,
+                        out_dir=tmp/"electoral-gap-composition",
+                    )
+                    merged=gap_result["composed_path"]
+                    merge_info={
+                        "mode":"electoral_gap_filler",
+                        "status":gap_result["report"].get("status"),
+                        "logical_digest":gap_result["report"].get("logical_digest"),
+                        "expected_keys":gap_result["report"].get("expected_keys"),
+                        "primary_present_keys":gap_result["report"].get("primary_present_keys"),
+                        "added_keys":gap_result["report"].get("added_keys"),
+                        "remaining_missing_keys":len(gap_result["report"].get("remaining_missing_keys") or []),
+                    }
+                else:
+                    merged=tmp/"resultados_electorales_vigentes.csv"
+                    merge_info=merge_delimited_sources(source_paths,merged)
                 provenance=[{
                     "id":sel.get("id"),"url":sel.get("url"),"publisher":sel.get("publisher"),
                     "sha256":sel.get("sha256"),"bytes":sel.get("bytes")
@@ -591,13 +614,22 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 meta={
                     "publisher":"; ".join(sorted({str(sel.get("publisher") or "") for sel in selected_sources if sel.get("publisher")})),
                     "acquired_at":datetime.now(timezone.utc).isoformat(),
-                    "source_mode":"official_acquisition_multisource",
+                    "source_mode":"official_acquisition_composed" if gap_result else "official_acquisition_multisource",
                     "source_count":len(selected_sources),
                     "sources":provenance,
                     "merge":merge_info,
                     "declaration":str(decl),
                 }
-                manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra)
+                if gap_result and gap_result["report"].get("status")!="PASS":
+                    manifest=_write_package(
+                        package_out,"BLOCK",territory_id,edition,None,meta,{
+                            **election_extra,
+                            "reason":"Composición electoral bloqueada: huecos, conflictos o reconciliación no acreditados",
+                            "composition_report":gap_result["report"],
+                        },
+                    )
+                else:
+                    manifest=_write_package(package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra)
                 raw_dir=package_out/"raw"; raw_dir.mkdir(exist_ok=True)
                 for sel,src in zip(selected_sources,source_paths):
                     raw_target=raw_dir/src.name
@@ -610,6 +642,16 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     "url":sel.get("url"),
                     "publisher":sel.get("publisher"),
                 } for sel in selected_sources]
+                if gap_result:
+                    evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
+                    shutil.copy2(gap_result["report_path"],evidence_dir/"electoral_gap_report.json")
+                    shutil.copy2(gap_result["lineage_path"],evidence_dir/"electoral_gap_lineage.jsonl")
+                    manifest["composition_evidence"]={
+                        "report":"evidence/electoral_gap_report.json",
+                        "report_sha256":sha(evidence_dir/"electoral_gap_report.json"),
+                        "lineage":"evidence/electoral_gap_lineage.jsonl",
+                        "lineage_sha256":sha(evidence_dir/"electoral_gap_lineage.jsonl"),
+                    }
                 (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
                 shutil.rmtree(tmp,ignore_errors=True); return manifest
             sel=result.get("selected_source") or (selected_sources[0] if selected_sources else None)
