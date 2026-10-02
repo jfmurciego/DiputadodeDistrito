@@ -29,6 +29,7 @@ from herramientas.ejecutar_fuentes_workflow import (
 )
 from herramientas.politica_reutilizacion_fuentes import validate_frozen_copy
 from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
+from herramientas.validar_puerta_ejecucion import validate_gate
 
 ROOT = Path(__file__).resolve().parents[1]
 M01_PATH = ROOT / "modulos/01_preparar_base_territorial.py"
@@ -260,6 +261,40 @@ class RealTerritorialPackageGateTests(unittest.TestCase):
                 section_year=2025,
             )
             self.assertTrue(valid, reasons)
+
+    def test_gate_01_to_02_accepts_valid_geospatial_territorial_source_package(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            evidence, inventory = _write_evidence(
+                root,
+                population_rows=[("0100101001", "0")],
+            )
+            prepared = assert_materialized_territorial_gate(
+                evidence_dir=evidence,
+                territory_id="demo",
+                edition="2025",
+                population_year=2025,
+                section_year=2025,
+                inventory=inventory,
+            )
+            self.assertEqual(prepared["decision"], "READY")
+
+            package = _freeze_package(evidence, root / "package")
+            gate = validate_gate(
+                phase="territorial_source",
+                artifact_root=package,
+                territory_id="demo",
+                edition="2025",
+                run_id="123456",
+                artifact_name="ddd-source-package-demo-2025-123456",
+                artifact_digest="a" * 64,
+                expected_digest="a" * 64,
+                root_dir=ROOT,
+            )
+
+            self.assertEqual(gate["decision"], "VALIDADO", gate["reasons"])
+            self.assertEqual(gate["phase_decision"], "READY")
+            self.assertEqual(gate["reasons"], [])
 
     def test_real_local_population_errors_block_before_package_can_be_promoted_or_reused(self):
         cases = [
