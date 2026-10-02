@@ -54,7 +54,7 @@ def master_index(path: Path = MASTER) -> dict[str, dict]:
 
 
 def format_territory_label(row: dict) -> str:
-    return f"{row['autonomous_community_code_ine']} · {row['name']}"
+    return f"{row['autonomous_community_code_ine']} {row['name']}"
 
 
 def format_country_label(code: str = COUNTRY_CODE, name: str = COUNTRY_NAME) -> str:
