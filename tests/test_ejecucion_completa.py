@@ -204,7 +204,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         jobs = data["jobs"]
         self.assertIn("needs.puerta_01.result == 'success'", jobs["generar"]["if"])
-        self.assertEqual(jobs["preparar_electoral"]["if"], "${{ false }}")
+        self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
+        self.assertIn("publication_mode_effective == 'electoral'", jobs["preparar_electoral"]["if"])
         self.assertIn("needs.puerta_02.result == 'success'", jobs["puerta_03"]["if"])
         self.assertIn("needs.puerta_03.result == 'success'", jobs["incorporar"]["if"])
         self.assertIn("needs.puerta_04.result == 'success'", jobs["actualizar_estado"]["if"])
@@ -788,6 +789,54 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertNotIn("source_recalculation_planned=", generation)
         self.assertIn("require_generation_gate", generation)
         self.assertIn("generation_preflight_artifact_name", generation)
+
+    def test_melilla_from_start_electoral_ignores_prior_sources_and_runs_full_chain(self):
+        catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
+        catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
+        melilla = next(
+            row for row in catalog["territories"]
+            if row["territory_id"] == "melilla"
+        )
+        state = melilla["editions"]["2025"]
+        state["territorial_sources_prepared"] = True
+        state["electoral_source_prepared"] = True
+        state["generation_enabled"] = False
+        evidence = state.setdefault("evidence", {})
+        evidence.pop("prepared_source_pair", None)
+        evidence.pop("generation_preflight", None)
+
+        with tempfile.TemporaryDirectory() as td:
+            synthetic_catalog = Path(td) / "catalog.yaml"
+            synthetic_catalog.write_text(
+                yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="melilla",
+                edition="2025",
+                execution_mode="from_start",
+                catalog=synthetic_catalog,
+                root_dir=ROOT,
+                optimization_algorithm="Canónico",
+                force_selected_algorithm=False,
+            )
+
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+
+        data = load(ORCH)
+        jobs = data["jobs"]
+        self.assertIn("run_prepare_territorial == 'true'", jobs["preparar_territorial"]["if"])
+        self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
+        self.assertIn("run_prepare_territorial == 'false'", jobs["verificar_fuentes_preparadas"]["if"])
+
+        text = ORCH.read_text(encoding="utf-8")
+        self.assertIn('if [[ "$mode" != "from_start"', text)
+        self.assertIn('p.get("execution_mode")!="from_start" and effective_mode=="electoral"', text)
+        self.assertIn("FROM_START_CONTRACT_BLOCK", text)
 
     def test_from_start_without_generation_contract_blocks_before_business_phases(self):
         with tempfile.TemporaryDirectory() as td:
