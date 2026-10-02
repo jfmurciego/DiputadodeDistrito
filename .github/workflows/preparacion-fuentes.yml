@@ -88,7 +88,6 @@ jobs:
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
       - id: resolve
         env:
-          EVENT_NAME: ${{ github.event_name }}
           TERRITORY: ${{ inputs.territory_id }}
           EDITION_INPUT: ${{ inputs.data_edition || '' }}
           SOURCE_YEAR_INPUT: ${{ inputs.source_year || '' }}
@@ -102,7 +101,10 @@ jobs:
           set -euo pipefail
           python herramientas/catalogo_preparacion.py --root-dir . validate
 
-          if [[ "$EVENT_NAME" == workflow_dispatch ]]; then
+          # workflow_call hereda el evento del caller; no usar github.event_name para
+          # distinguir una ejecución manual directa de una llamada reutilizable.
+          # data_edition es obligatoria en workflow_call y no existe en workflow_dispatch.
+          if [[ -z "$EDITION_INPUT" ]]; then
             current="$(python - "$TERRITORY" <<'PY'
           import json
           import re

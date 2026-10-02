@@ -370,10 +370,16 @@ class PreparedSourceReuseTests(unittest.TestCase):
         resolver_run = territorial["jobs"]["resolver"]["steps"][-1]["run"]
         self.assertIn("population_current_year", resolver_run)
         self.assertIn("section_current_year", resolver_run)
-        self.assertIn('EVENT_NAME" == workflow_dispatch', resolver_run)
+        self.assertNotIn("EVENT_NAME", resolver_run)
+        self.assertIn('if [[ -z "$EDITION_INPUT" ]]; then', resolver_run)
         self.assertIn("reuse_enabled=true", resolver_run)
         self.assertIn("persist_requested=true", resolver_run)
         self.assertIn("EDITION_INPUT", territorial["jobs"]["resolver"]["steps"][-1]["env"])
+        activacion = yaml.safe_load((ROOT / ".github/workflows/preparacion-legislatura-vigente.yml").read_text(encoding="utf-8"))
+        territorial_call = activacion["jobs"]["territorial"]["with"]
+        self.assertEqual(territorial_call["population_year"], "${{ needs.planificar.outputs.population_year }}")
+        self.assertEqual(territorial_call["section_year"], "${{ needs.planificar.outputs.section_year }}")
+        self.assertFalse(territorial_call["reutilizar_si_ya_preparada"])
         self.assertEqual(
             list(electoral_trigger["workflow_call"]["inputs"]),
             ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state"],
