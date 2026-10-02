@@ -90,5 +90,47 @@ class CodautoPreparationContractTests(unittest.TestCase):
                 self.assertTrue(all(" · " not in item for item in options[1:]))
 
 
+    def test_all_manually_dispatchable_workflow_names_are_free_of_middle_dot(self):
+        def iter_names(node):
+            if isinstance(node, dict):
+                for key, value in node.items():
+                    if key == "name" and isinstance(value, str):
+                        yield value
+                    yield from iter_names(value)
+            elif isinstance(node, list):
+                for value in node:
+                    yield from iter_names(value)
+
+        manual = []
+        for path in sorted(WORKFLOWS.glob("*.yml")):
+            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            triggers = data.get("on") or data.get(True) or {}
+            if "workflow_dispatch" not in triggers:
+                continue
+            manual.append(path.name)
+            for name in iter_names(data):
+                with self.subTest(workflow=path.name, name=name):
+                    self.assertNotIn("·", name)
+
+        self.assertEqual(
+            manual,
+            [
+                "desplegar-visor-publico.yml",
+                "ejecucion-completa-proyecto.yml",
+                "gestor-campanas.yml",
+                "incorporacion-resultados-electorales.yml",
+                "preparacion-fuentes.yml",
+                "preparacion-legislatura-vigente.yml",
+                "preparacion-resultados-electorales.yml",
+                "produccion-distritos.yml",
+                "prueba-fuentes-oficiales.yml",
+                "prueba-openai.yml",
+                "publicar-version-mapa.yml",
+                "recuperar-producto-electoral-durable.yml",
+                "smoke-gerrychain-galicia.yml",
+            ],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
