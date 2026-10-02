@@ -279,6 +279,26 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
             "municipal": "MUNICIPIO_WITHOUT_SECCION",
         }
         selected_population_total = 0
+        row_issues: list[dict] = []
+        unobserved_sections: list[str] = []
+
+        def record_row_issue(reason: str, row: dict) -> None:
+            diagnostic_row = {
+                key: row.get(key)
+                for key in (
+                    rules["year_col"],
+                    rules["sex_col"],
+                    rules["age_col"],
+                    "Total Nacional",
+                    "Provincias",
+                    "Municipios",
+                    rules["section_col"],
+                    rules["population_col"],
+                )
+                if key in row
+            }
+            row_issues.append({"reason": reason, "row": diagnostic_row})
+
         for row in reader:
             if str(row.get(rules["year_col"], "")).strip() != str(edition):
                 continue
@@ -299,15 +319,22 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 municipality = str(row.get("Municipios") or "").strip()
                 raw_section_text = str(raw_section or "").strip()
                 if raw_section_text:
-                    raise ValueError(f"SECTION_ID_INVALID: población: {raw_section!r}")
+                    province_digits = "".join(ch for ch in province_value if ch.isdigit())
+                    if province_digits and province_digits[:2].zfill(2) not in province_codes:
+                        territorial_exclusions += 1
+                        continue
+                    record_row_issue(f"SECTION_ID_INVALID: población: {raw_section!r}", row)
+                    continue
                 if municipality:
                     if not province_value:
-                        raise ValueError(
+                        record_row_issue(
                             "SECTION_ID_INVALID: población: sección ausente con jerarquía "
                             "INE 65034 contradictoria: municipio sin provincia: "
                             f"Total Nacional={national!r}, Provincias={province_value!r}, "
-                            f"Municipios={municipality!r}"
+                            f"Municipios={municipality!r}",
+                            row,
                         )
+                        continue
                     aggregate_counts["municipal"] += 1
                     continue
                 if province_value:
@@ -316,31 +343,85 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 if national:
                     aggregate_counts["national"] += 1
                     continue
-                raise ValueError(
+                record_row_issue(
                     "SECTION_ID_INVALID: población: sección ausente con jerarquía "
                     f"INE 65034 ambigua/incompatible: Total Nacional={national!r}, "
-                    f"Provincias={province_value!r}, Municipios={municipality!r}"
+                    f"Provincias={province_value!r}, Municipios={municipality!r}",
+                    row,
                 )
-            province = section_id[:2]
-            if province not in province_codes:
+                continue
+            section_province = section_id[:2]
+            province_value = str(row.get("Provincias") or "").strip()
+            municipality = str(row.get("Municipios") or "").strip()
+            province_digits = "".join(ch for ch in province_value if ch.isdigit())
+            municipality_digits = "".join(ch for ch in municipality if ch.isdigit())
+            declared_province = province_digits[:2].zfill(2) if province_digits else ""
+            municipality_province = municipality_digits[:2].zfill(2) if municipality_digits else ""
+            points_to_requested = any(
+                code in province_codes
+                for code in (section_province, declared_province, municipality_province)
+                if code
+            )
+
+            hierarchy_issue = None
+            if municipality and not province_value:
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: sección con municipio pero sin provincia"
+            elif declared_province and declared_province != section_province:
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: código de provincia no coincide con sección"
+            elif municipality_digits and municipality_digits[:5].zfill(5) != section_id[:5]:
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: código de municipio no coincide con sección"
+
+            if hierarchy_issue:
+                if points_to_requested:
+                    record_row_issue(hierarchy_issue, row)
+                else:
+                    territorial_exclusions += 1
+                continue
+
+            if section_province not in province_codes:
                 territorial_exclusions += 1
                 continue
             if section_id in seen_sections:
-                raise ValueError(
-                    f"SECTION_ID_DUPLICATE_AFTER_NORMALIZATION: población: {section_id}"
+                record_row_issue(
+                    f"SECTION_ID_DUPLICATE_AFTER_NORMALIZATION: población: {section_id}",
+                    row,
                 )
+                continue
+            # INE 65034 conserva identidades seccionales históricas sin observación
+            # para periodos posteriores. Un Total vacío no equivale a población cero:
+            # se omite del conjunto poblacional y la compatibilidad con el seccionado
+            # oficial decide después si la ausencia es legítima o bloqueante.
+            raw_population = row.get(rules["population_col"])
+            if raw_population is None or str(raw_population).strip() == "":
+                unobserved_sections.append(section_id)
+                continue
             # Valida sin reescribir el valor: cero explícito se conserva tal cual.
-            population_value = parse_population_value(
-                row.get(rules["population_col"]),
-                section_id=section_id,
-                label="población adquirida",
-            )
+            try:
+                population_value = parse_population_value(
+                    raw_population,
+                    section_id=section_id,
+                    label="población adquirida",
+                )
+            except Exception as exc:
+                record_row_issue(str(exc), row)
+                continue
             selected_population_total += population_value
             seen_sections.add(section_id)
             writer.writerow(row)
-            seen_provinces.add(province)
+            seen_provinces.add(section_province)
             rows_out += 1
-        classified_rows = sum(aggregate_counts.values()) + rows_out + territorial_exclusions
+        if row_issues:
+            raise ValueError(
+                "POPULATION_SOURCE_ROWS_INVALID: "
+                f"count={len(row_issues)}; issues="
+                + json.dumps(row_issues, ensure_ascii=False, sort_keys=True)
+            )
+        classified_rows = (
+            sum(aggregate_counts.values())
+            + rows_out
+            + territorial_exclusions
+            + len(unobserved_sections)
+        )
         if pertinent_rows != classified_rows:
             raise ValueError(
                 "POPULATION_ROW_RECONCILIATION_FAILED: "
@@ -372,8 +453,15 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 "pertinent": pertinent_rows,
                 "classified_aggregates": sum(aggregate_counts.values()),
                 "accepted_sections": rows_out,
+                "unobserved_sections": len(unobserved_sections),
                 "territorial_exclusions": territorial_exclusions,
                 "balanced": pertinent_rows == classified_rows,
+            },
+            "unobserved_sections": {
+                "count": len(unobserved_sections),
+                "section_ids": sorted(unobserved_sections),
+                "cause": "INE_65034_SECTION_WITHOUT_POPULATION_OBSERVATION",
+                "population_semantics": "ABSENT_NOT_ZERO",
             },
             "selected_section_population_total": selected_population_total,
         }

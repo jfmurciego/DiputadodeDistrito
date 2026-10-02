@@ -53,9 +53,11 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
         event = workflow.get("on") or workflow.get(True)
         manual = event["workflow_dispatch"]["inputs"]
         reusable = event["workflow_call"]["inputs"]
-        for inputs in (manual, reusable):
-            self.assertIn("recover_run_id", inputs)
-            self.assertIn("recover_artifact_sha256", inputs)
+        self.assertEqual(list(manual), ["territory_id"])
+        self.assertNotIn("recover_run_id", manual)
+        self.assertNotIn("recover_artifact_sha256", manual)
+        self.assertIn("recover_run_id", reusable)
+        self.assertIn("recover_artifact_sha256", reusable)
 
         jobs = workflow["jobs"]
         resolver = next(step for step in jobs["resolver"]["steps"] if step.get("id") == "resolve")
