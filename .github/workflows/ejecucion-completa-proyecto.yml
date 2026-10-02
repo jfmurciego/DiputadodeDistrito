@@ -160,6 +160,8 @@ jobs:
       generation_execution_mode: ${{ steps.plan.outputs.generation_execution_mode }}
       optimization_algorithm: ${{ steps.plan.outputs.optimization_algorithm }}
       edition: ${{ steps.plan.outputs.edition }}
+      population_year: ${{ steps.plan.outputs.population_year }}
+      section_year: ${{ steps.plan.outputs.section_year }}
       source_sha: ${{ steps.plan.outputs.source_sha }}
       source_ref: ${{ steps.plan.outputs.source_sha }}
       persist_state: ${{ steps.plan.outputs.persist_state }}
@@ -275,27 +277,31 @@ jobs:
 
           if [[ "$GITHUB_EVENT_NAME" != "pull_request" ]]; then
             effective_mode="$(jq -r .effective .ddd-full-run/publication_mode.json)"
-            case "$effective_mode" in
-              electoral)
-                python -m herramientas.consumir_par_fuentes_legislatura \
-                  --root-dir . resolve \
-                  --territory "$TERRITORY" \
-                  --edition "$EDITION" \
-                  --output .ddd-full-run/prepared_pair.json
-                jq -e '.decision == "READY" and .pair.schema == "ddd.prepared-source-pair/1.0"' \
-                  .ddd-full-run/prepared_pair.json >/dev/null
-                ;;
-              territorial_only)
-                python -m herramientas.consumir_par_fuentes_legislatura \
-                  --root-dir . resolve-territorial \
-                  --territory "$TERRITORY" \
-                  --edition "$EDITION" \
-                  --output .ddd-full-run/prepared_territorial.json
-                jq -e '.decision == "READY" and .territorial_source.schema == "ddd.territorial-source-receipt/1.0"' \
-                  .ddd-full-run/prepared_territorial.json >/dev/null
-                ;;
-              *) echo "::error::publication_mode efectivo inválido: $effective_mode"; exit 58 ;;
-            esac
+            plan_prepare_territorial="$(jq -r '.run_prepare_territorial // false' .ddd-full-run/plan.json)"
+            plan_prepare_electoral="$(jq -r '.run_prepare_electoral // false' .ddd-full-run/plan.json)"
+            if [[ "$mode" != "from_start" && "$plan_prepare_territorial" != "true" && "$plan_prepare_electoral" != "true" ]]; then
+              case "$effective_mode" in
+                electoral)
+                  python -m herramientas.consumir_par_fuentes_legislatura \
+                    --root-dir . resolve \
+                    --territory "$TERRITORY" \
+                    --edition "$EDITION" \
+                    --output .ddd-full-run/prepared_pair.json
+                  jq -e '.decision == "READY" and .pair.schema == "ddd.prepared-source-pair/1.0"' \
+                    .ddd-full-run/prepared_pair.json >/dev/null
+                  ;;
+                territorial_only)
+                  python -m herramientas.consumir_par_fuentes_legislatura \
+                    --root-dir . resolve-territorial \
+                    --territory "$TERRITORY" \
+                    --edition "$EDITION" \
+                    --output .ddd-full-run/prepared_territorial.json
+                  jq -e '.decision == "READY" and .territorial_source.schema == "ddd.territorial-source-receipt/1.0"' \
+                    .ddd-full-run/prepared_territorial.json >/dev/null
+                  ;;
+                *) echo "::error::publication_mode efectivo inválido: $effective_mode"; exit 58 ;;
+              esac
+            fi
           fi
           python - "$PUBLICATION_MODE" "$CAMPAIGN_INSTANCE" "$CAMPAIGN_SLOT" "$CAMPAIGN_NAMESPACE" "$CAMPAIGN_MANIFEST_SHA256" "$CANDIDATE_COUNT" "$GERRYCHAIN_ENTRYPOINT" "$REQUIRE_UNIQUE_HASHES" "$REUSE_RUN_ID" "$REUSE_ARTIFACT_NAME" "$REUSE_ARTIFACT_SHA256" "$REUSE_SOURCE_SHA" "$EXPECTED_POPULATION_TOTAL" "$EXPECTED_SECTION_COUNT" "$EXPECTED_DISTRICT_COUNT" "$EXPECTED_CERTIFICATION" <<'PY'
           import json,sys
@@ -348,7 +354,7 @@ jobs:
           # nunca se reconstruye un par ni se permite que reuse_* sustituya su identidad.
           pair_path=Path(".ddd-full-run/prepared_pair.json")
           territorial_path=Path(".ddd-full-run/prepared_territorial.json")
-          if effective_mode=="electoral" and pair_path.is_file():
+          if p.get("execution_mode")!="from_start" and effective_mode=="electoral" and pair_path.is_file():
               pair_doc=json.loads(pair_path.read_text(encoding="utf-8"))
               pair=pair_doc["pair"]
               territorial=pair["territorial_source"]
@@ -383,7 +389,7 @@ jobs:
                   "decision":"VALIDADO",
               }
               reuse=pair_doc.get("geometric_reuse") or {}
-          elif effective_mode=="territorial_only" and territorial_path.is_file():
+          elif p.get("execution_mode")!="from_start" and effective_mode=="territorial_only" and territorial_path.is_file():
               territorial_doc=json.loads(territorial_path.read_text(encoding="utf-8"))
               territorial=territorial_doc["territorial_source"]
               p["prepared_territorial_source"]={
@@ -424,13 +430,35 @@ jobs:
           p["publication_mode_requested"]=publication_mode
           p["publication_mode_effective"]=effective_mode
           p["publication_mode"]=effective_mode
-          if pair is not None or territorial_doc is not None:
+          if p.get("execution_mode")!="from_start" and (pair is not None or territorial_doc is not None):
               p["run_prepare_territorial"]=False
               p["run_prepare_electoral"]=False
               p["pre_m04_accreditation_planned"]=False
           if effective_mode=="territorial_only":
               p["run_prepare_electoral"]=False
               p["run_incorporate"]=False
+          if p.get("run_prepare_territorial") is True:
+              temporal_missing=[
+                  key for key in ("population_year","section_year")
+                  if not isinstance(p.get(key), int)
+              ]
+              if temporal_missing:
+                  raise SystemExit(
+                      "TEMPORAL_CONTRACT_BLOCK: 00 no puede lanzar 01 sin contrato temporal: "
+                      + ", ".join(temporal_missing)
+                  )
+          if p.get("execution_mode")=="from_start":
+              required=["run_prepare_territorial","pre_m04_accreditation_planned","run_generate"]
+              if effective_mode=="electoral":
+                  required += ["run_prepare_electoral","run_incorporate"]
+              missing=[key for key in required if p.get(key) is not True]
+              if missing:
+                  raise SystemExit(
+                      "FROM_START_CONTRACT_BLOCK: el plan intentó omitir fases obligatorias: "
+                      + ", ".join(missing)
+                  )
+              if pair is not None or territorial_doc is not None:
+                  raise SystemExit("FROM_START_CONTRACT_BLOCK: from_start no puede consumir fuentes preparadas previas")
           path.write_text(json.dumps(p,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
           PY
           python - <<'PY' >> "$GITHUB_OUTPUT"
@@ -449,6 +477,8 @@ jobs:
           out("generation_execution_mode",p.get("generation_execution_mode",p["execution_mode"]))
           out("optimization_algorithm",p["optimization_algorithm"])
           out("edition",p["edition"])
+          out("population_year",p.get("population_year"))
+          out("section_year",p.get("section_year"))
           out("publication_mode_requested",p.get("publication_mode_requested","electoral"))
           out("publication_mode_effective",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
           out("publication_mode",p.get("publication_mode_effective",p.get("publication_mode","electoral")))
@@ -527,7 +557,7 @@ jobs:
   verificar_fuentes_preparadas:
     name: Verificar bytes de fuentes acreditadas
     needs: planificar
-    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' }}
+    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.run_prepare_territorial == 'false' }}
     runs-on: ubuntu-24.04
     outputs:
       pair_sha256: ${{ steps.verify.outputs.pair_sha256 }}
@@ -789,13 +819,16 @@ jobs:
   preparar_territorial:
     name: 01 Preparar datos territoriales
     needs: planificar
-    # 00 nunca adquiere fuentes: la preparación es un proceso separado.
-    if: ${{ false }}
+    # from_start y cualquier plan que necesite reacreditar fuentes ejecutan 01;
+    # los PR smoke siguen sin tocar producción.
+    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.run_prepare_territorial == 'true' }}
     uses: ./.github/workflows/preparacion-fuentes.yml
     secrets: inherit
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
+      population_year: ${{ needs.planificar.outputs.population_year }}
+      section_year: ${{ needs.planificar.outputs.section_year }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
       source_ref: ${{ needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
@@ -806,7 +839,7 @@ jobs:
     # En PR no se valida contra un paquete histórico de producción: desde este
     # contrato los paquetes legacy sin informe población↔seccionado deben bloquear.
     # El CI de plataforma cubre esa puerta sintéticamente; producción conserva la puerta.
-    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.verificar_fuentes_preparadas.result == 'success' && (needs.preparar_territorial.result == 'success' || needs.planificar.outputs.run_prepare_territorial == 'false') }}
+    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && ((needs.planificar.outputs.run_prepare_territorial == 'true' && needs.preparar_territorial.result == 'success') || (needs.planificar.outputs.run_prepare_territorial == 'false' && needs.verificar_fuentes_preparadas.result == 'success')) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -859,21 +892,21 @@ jobs:
 
   preparar_electoral:
     name: 03 Preparar resultados electorales
-    needs: [planificar, puerta_02]
-    # 00 nunca adquiere fuentes electorales: el camino electoral exige par ya preparado.
-    if: ${{ false }}
+    needs: [planificar, preparar_territorial, puerta_02]
+    # En modo electoral, from_start y cualquier plan sin fuente electoral válida ejecutan 03.
+    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   puerta_03:
     name: Puerta de validación 03 → 04
-    needs: [planificar, puerta_02, preparar_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, preparar_electoral]
     if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -884,12 +917,12 @@ jobs:
       run_id: ${{ needs.preparar_electoral.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_source_run_id }}
       artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
       expected_digest: ${{ needs.preparar_electoral.result != 'success' && needs.planificar.outputs.existing_electoral_source_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
   incorporar:
     name: 04 Incorporar resultados electorales
-    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, puerta_03, detectar_recuperacion_electoral]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
@@ -902,7 +935,7 @@ jobs:
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
@@ -924,7 +957,7 @@ jobs:
 
   puerta_04:
     name: Puerta de validación 04 → estado operativo
-    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
     if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -937,7 +970,7 @@ jobs:
       audit_artifact_name: ${{ needs.recuperar_electoral.result == 'success' && format('ddd-audit-electoral-{0}', needs.recuperar_electoral.outputs.source_run_id) || needs.incorporar.result == 'success' && format('ddd-audit-electoral-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       artifact_namespace: ${{ needs.recuperar_electoral.result == 'success' && '' || inputs.artifact_namespace }}
       expected_digest: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.artifact_digest || needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
-      source_ref: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_commit || needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_commit || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha) }}
 
   actualizar_estado:
     name: Actualizar estado operativo único

@@ -435,8 +435,11 @@ class OrchestrationModeTests(unittest.TestCase):
             "publication_mode_effective == 'electoral'",
             jobs["puerta_03"]["if"],
         )
-        self.assertEqual(jobs["preparar_territorial"]["if"], "${{ false }}")
-        self.assertEqual(jobs["preparar_electoral"]["if"], "${{ false }}")
+        self.assertIn("run_prepare_territorial == 'true'", jobs["preparar_territorial"]["if"])
+        self.assertIn("github.event_name != 'pull_request'", jobs["preparar_territorial"]["if"])
+        self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
+        self.assertIn("publication_mode_effective == 'electoral'", jobs["preparar_electoral"]["if"])
+        self.assertIn("run_prepare_territorial == 'false'", source_gate["if"])
 
         campaign = yaml.load(
             (ROOT / ".github/workflows/gestor-campanas.yml").read_text(encoding="utf-8"),

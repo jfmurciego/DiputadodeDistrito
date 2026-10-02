@@ -193,10 +193,10 @@ jobs:
           rm -rf .ddd-prepared-source-package .ddd-state/in
           mkdir -p .ddd-prepared-source-package .ddd-state/in/sources
           gh run download "$SOURCE_PACKAGE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$SOURCE_PACKAGE_ARTIFACT_NAME" --dir .ddd-prepared-source-package
-          read -r source_edition population_year section_year < <(python - "$SOURCE_DECLARATION" <<'PY'
+          read -r source_edition population_year section_year < <(docker run --rm -i -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} - "$SOURCE_DECLARATION" <<'PY'
           import sys,yaml
           from pathlib import Path
-          d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
+          d=yaml.safe_load((Path('/app') / sys.argv[1]).read_text(encoding='utf-8')) or {}
           t=d.get('territory') or {}
           edition=t.get('edition')
           population=t.get('population_year', t.get('source_year'))
@@ -206,7 +206,13 @@ jobs:
           print(edition, population, section)
           PY
           )
-          python -m herramientas.seleccionar_paquete_fuentes             --package .ddd-prepared-source-package             --territory-id "$TERRITORY_ID"             --edition "$source_edition"             --population-year "$population_year"             --section-year "$section_year"
+          docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-production:${GITHUB_SHA} \
+            -m herramientas.seleccionar_paquete_fuentes \
+            --package /app/.ddd-prepared-source-package \
+            --territory-id "$TERRITORY_ID" \
+            --edition "$source_edition" \
+            --population-year "$population_year" \
+            --section-year "$section_year"
           cp -a .ddd-prepared-source-package/. .ddd-state/in/sources/
 
       - name: Recuperar paquete de fuentes de checkpoint solicitado
