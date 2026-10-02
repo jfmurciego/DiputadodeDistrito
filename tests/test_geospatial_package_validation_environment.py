@@ -95,6 +95,57 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
                     tail[: selector + len(SELECTOR)],
                 )
 
+    def test_common_gate_has_pinned_runtime_for_transitive_territorial_validation(self):
+        workflow_path = WORKFLOWS / "_reutilizable-puerta-validacion.yml"
+        workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+        steps = workflow["jobs"]["validar"]["steps"]
+
+        install_index = next(
+            index
+            for index, step in enumerate(steps)
+            if step.get("name") == "Instalar runtime fijado de validación"
+        )
+        verify_index = next(
+            index
+            for index, step in enumerate(steps)
+            if step.get("name") == "Verificar runtime geoespacial de la puerta"
+        )
+        gate_index = next(
+            index
+            for index, step in enumerate(steps)
+            if step.get("id") == "gate"
+        )
+
+        self.assertLess(install_index, verify_index)
+        self.assertLess(verify_index, gate_index)
+        self.assertIn("-r requirements.lock", steps[install_index]["run"])
+        for module in ("geopandas", "pandas", "shapely", "pyproj", "pyogrio", "yaml"):
+            self.assertIn(module, steps[verify_index]["run"])
+
+        validator = (
+            ROOT / "herramientas" / "validar_puerta_ejecucion.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "from herramientas.seleccionar_paquete_fuentes import validate_prepared_package",
+            validator,
+        )
+        self.assertIn(
+            "validate_prepared_package(",
+            validator,
+            "la regresión debe seguir cubriendo la dependencia transitiva geoespacial",
+        )
+
+    def test_no_active_gate_validator_runs_with_yaml_only_runtime(self):
+        gate = (WORKFLOWS / "_reutilizable-puerta-validacion.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn(
+            "python -m pip install --disable-pip-version-check PyYAML==6.0.2",
+            gate,
+        )
+        self.assertIn("-r requirements.lock", gate)
+        self.assertIn("import geopandas", gate)
+
     def test_02_uses_pinned_geospatial_environment_before_package_selection(self):
         workflow = yaml.safe_load(
             (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
