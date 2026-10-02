@@ -146,6 +146,53 @@ class GeospatialPackageValidationEnvironmentTests(unittest.TestCase):
         self.assertIn("-r requirements.lock", gate)
         self.assertIn("import geopandas", gate)
 
+    def test_all_active_pair_consumers_have_geospatial_runtime(self):
+        consumer = "herramientas.consumir_par_fuentes_legislatura"
+        found: list[tuple[str, str, str]] = []
+
+        for path in sorted(WORKFLOWS.glob("*.yml")):
+            workflow = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            for job_name, job in (workflow.get("jobs") or {}).items():
+                if not isinstance(job, dict):
+                    continue
+                steps = job.get("steps") or []
+                if not isinstance(steps, list):
+                    continue
+                for index, step in enumerate(steps):
+                    if not isinstance(step, dict):
+                        continue
+                    run = str(step.get("run") or "")
+                    if consumer not in run:
+                        continue
+                    step_name = str(step.get("name") or step.get("id") or index)
+                    found.append((path.name, str(job_name), step_name))
+                    previous_runs = "\n".join(
+                        str(previous.get("run") or "")
+                        for previous in steps[:index]
+                        if isinstance(previous, dict)
+                    )
+                    with self.subTest(
+                        workflow=path.name,
+                        job=job_name,
+                        step=step_name,
+                    ):
+                        self.assertIn(
+                            "-r requirements.lock",
+                            previous_runs,
+                            "consumidor de par sin requirements.lock fijado",
+                        )
+                        self.assertIn(
+                            "import geopandas",
+                            previous_runs,
+                            "consumidor de par sin verificación geoespacial",
+                        )
+
+        self.assertTrue(found, "no se localizaron consumidores activos de pares")
+        self.assertTrue(
+            all(workflow == "ejecucion-completa-proyecto.yml" for workflow, _job, _step in found),
+            found,
+        )
+
     def test_02_uses_pinned_geospatial_environment_before_package_selection(self):
         workflow = yaml.safe_load(
             (WORKFLOWS / "produccion-distritos.yml").read_text(encoding="utf-8")
