@@ -6,7 +6,7 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
@@ -46,7 +46,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '52'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   notes:
   - R022 congeló 44 secciones y 87067 habitantes sin faltantes.
   - R023 justificó 0 pasarelas; no se añade ninguna excepción no auditada.
@@ -194,7 +194,7 @@ validation:
     compatibility_identity_sha256: 12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: ddf97cc78219ab5ee18cc1d2373bc39e3208b96ca4d9169041302fb319ceb6da
   compatibility_identity_sha256: 12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918
   source_inputs:
@@ -206,3 +206,6 @@ generation_state:
     sha256: 7efd3a771471c450147a07cc65e4908131cbfc04ec162a671ff7791fb706952b
     role: target_sectioning
     source_id: secciones_censales
+  pre_m04_run_id: 37063207747
+  pre_m04_source_commit: b2582ed2dc10ea3889f8cfb46add6a450bb6dcb3
+  pre_m04_artifact_sha256: da4e7b34fa951958e1eee71c1a188ffdff9697e07f50f2d7672e4462db482198
