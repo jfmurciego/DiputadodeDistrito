@@ -350,31 +350,36 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     row,
                 )
                 continue
-            province = section_id[:2]
-            if province not in province_codes:
-                territorial_exclusions += 1
-                continue
+            section_province = section_id[:2]
             province_value = str(row.get("Provincias") or "").strip()
             municipality = str(row.get("Municipios") or "").strip()
             province_digits = "".join(ch for ch in province_value if ch.isdigit())
             municipality_digits = "".join(ch for ch in municipality if ch.isdigit())
+            declared_province = province_digits[:2].zfill(2) if province_digits else ""
+            municipality_province = municipality_digits[:2].zfill(2) if municipality_digits else ""
+            points_to_requested = any(
+                code in province_codes
+                for code in (section_province, declared_province, municipality_province)
+                if code
+            )
+
+            hierarchy_issue = None
             if municipality and not province_value:
-                record_row_issue(
-                    "SECTION_HIERARCHY_MISMATCH: sección con municipio pero sin provincia",
-                    row,
-                )
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: sección con municipio pero sin provincia"
+            elif declared_province and declared_province != section_province:
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: código de provincia no coincide con sección"
+            elif municipality_digits and municipality_digits[:5].zfill(5) != section_id[:5]:
+                hierarchy_issue = "SECTION_HIERARCHY_MISMATCH: código de municipio no coincide con sección"
+
+            if hierarchy_issue:
+                if points_to_requested:
+                    record_row_issue(hierarchy_issue, row)
+                else:
+                    territorial_exclusions += 1
                 continue
-            if province_digits and province_digits[:2].zfill(2) != section_id[:2]:
-                record_row_issue(
-                    "SECTION_HIERARCHY_MISMATCH: código de provincia no coincide con sección",
-                    row,
-                )
-                continue
-            if municipality_digits and municipality_digits[:5].zfill(5) != section_id[:5]:
-                record_row_issue(
-                    "SECTION_HIERARCHY_MISMATCH: código de municipio no coincide con sección",
-                    row,
-                )
+
+            if section_province not in province_codes:
+                territorial_exclusions += 1
                 continue
             if section_id in seen_sections:
                 record_row_issue(
