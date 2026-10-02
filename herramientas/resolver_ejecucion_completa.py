@@ -10,8 +10,50 @@ import yaml
 from herramientas import _resolver_ejecucion_completa_core as _core
 from herramientas._resolver_ejecucion_completa_core import *  # noqa: F401,F403
 from herramientas.resolver_activos_durables import DurableAssetBlock, validate_durable_assets
+from herramientas.resolver_preparacion_legislatura import resolve as resolve_current_legislature
 
 _run_from_artifact = _core._run_from_artifact
+
+
+def _authoritative_preparation_years(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+) -> tuple[int, int]:
+    try:
+        current = resolve_current_legislature(root_dir, territory_id)
+    except Exception as exc:
+        raise ValueError(
+            f"TEMPORAL_CONTRACT_BLOCK: {territory_id}: "
+            f"no se pudo resolver la legislatura vigente: {exc}"
+        ) from exc
+    plans = current.get("plans") or []
+    if len(plans) != 1:
+        raise ValueError(
+            f"TEMPORAL_CONTRACT_BLOCK: {territory_id}: "
+            "la resolución temporal debe devolver exactamente un territorio"
+        )
+    temporal = plans[0]
+    if str(temporal.get("project_edition") or "") != str(edition):
+        raise ValueError(
+            f"TEMPORAL_CONTRACT_BLOCK: {territory_id}: "
+            f"edición temporal {temporal.get('project_edition')} != {edition}"
+        )
+    try:
+        population_year = int(temporal["population_year_selected"])
+        section_year = int(temporal["section_year_selected"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError(
+            f"TEMPORAL_CONTRACT_BLOCK: {territory_id}: "
+            "faltan population_year_selected/section_year_selected"
+        ) from exc
+    if not (2000 <= population_year <= 2099 and 2000 <= section_year <= 2099):
+        raise ValueError(
+            f"TEMPORAL_CONTRACT_BLOCK: {territory_id}: "
+            f"años temporales inválidos {population_year}/{section_year}"
+        )
+    return population_year, section_year
 
 
 def _generation_capabilities(contract: dict, root_dir: Path | None = None) -> dict:
@@ -490,9 +532,18 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         )
     )
     run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
+    population_year = None
+    section_year = None
+    if run_prepare_territorial:
+        population_year, section_year = _authoritative_preparation_years(
+            root_dir=root_dir,
+            territory_id=row["territory_id"],
+            edition=edition,
+        )
     plan = {
         "schema": "ddd.full-run-plan/1.1", "territory_id": row["territory_id"], "territory_name": row["name"],
         "edition": edition, "contract_path": row.get("contract_path"), "execution_mode": execution_mode,
+        "population_year": population_year, "section_year": section_year,
         "generation_execution_mode": "from_start" if catalog_source_mode else execution_mode,
         "optimization_algorithm": optimization_algorithm, "run_prepare_territorial": run_prepare_territorial,
         "pre_m04_accreditation_planned": pre_m04_accreditation_planned,
