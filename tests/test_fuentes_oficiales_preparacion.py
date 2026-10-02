@@ -253,7 +253,7 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertNotIn('"Secciones": "3905902003"', message)
         self.assertIn('"Secciones": "3905902004"', message)
         self.assertIn('"Secciones": "3905902005"', message)
-        self.assertIn('"Secciones": "3905902006"', message)
+        self.assertNotIn('"Secciones": "3905902006"', message)
 
     def test_population_zero_and_grouped_integers_remain_valid(self):
         dec = {"population_validation": {}}
@@ -326,7 +326,7 @@ class OfficialSourcesTests(unittest.TestCase):
         ).encode("utf-8")
         filtered, checks = _filter_population(payload, dec, 2023, ["39"])
         text = filtered.decode("utf-8-sig")
-        self.assertIn(";2023;10", text)
+        self.assertIn("2023;Total;Todas las edades;Total Nacional;39 Cantabria;39059;3905902001;10", text)
         self.assertNotIn(";2025;99", text)
         self.assertEqual(checks["edition"], 2023)
         self.assertEqual(checks["selected_section_population_total"], 10)
