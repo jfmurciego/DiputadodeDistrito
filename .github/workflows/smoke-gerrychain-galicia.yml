@@ -8,7 +8,7 @@
 # CAMBIOS: fija explícitamente el contrato efímero en la auditoría geométrica para evitar autodetección ambigua entre contrato productivo y contrato de smoke.
 # MOTIVO: demostrar el wiring real de producción sin recalcular M01–M04 ni alterar el contrato productivo de Galicia.
 # ANTERIOR: 1.0.1 en historial Git.
-name: Smoke · GerryChain Galicia M05→M06
+name: Smoke GerryChain Galicia M05→M06
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   smoke:
-    name: Galicia · GerryChain 02.5 → certificación M06
+    name: Galicia GerryChain 02.5 → certificación M06
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
