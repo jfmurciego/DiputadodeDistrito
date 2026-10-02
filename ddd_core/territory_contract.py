@@ -317,10 +317,36 @@ def validate_production_contract(params_path: str | Path, *, expected_territory:
     else:
         source_paths.extend(Path(str(x)).resolve() for x in population)
     manifest_paths = _manifest_paths(root)
-    if not manifest_paths:
-        errors.append("falta inputs/MANIFEST.sha256 con procedencia verificable")
+
+    dynamic_paths: set[Path] = set()
+    generation_state = cfg.get("generation_state") or {}
+    source_inputs = generation_state.get("source_inputs") if isinstance(generation_state, Mapping) else None
+    if source_inputs not in (None, []):
+        if not isinstance(source_inputs, list):
+            errors.append("generation_state.source_inputs debe ser una lista")
+        else:
+            for item in source_inputs:
+                if not isinstance(item, Mapping):
+                    errors.append("generation_state.source_inputs contiene una entrada no válida")
+                    continue
+                raw_path = item.get("path")
+                digest = str(item.get("sha256") or "").strip().lower()
+                if not isinstance(raw_path, str) or not raw_path:
+                    errors.append("generation_state.source_inputs contiene una ruta vacía")
+                    continue
+                if not re.fullmatch(r"[0-9a-f]{64}", digest):
+                    errors.append(f"generation_state.source_inputs SHA-256 inválido para {raw_path}")
+                    continue
+                path = Path(raw_path).resolve()
+                if path in dynamic_paths:
+                    errors.append(f"generation_state.source_inputs duplica ruta: {raw_path}")
+                    continue
+                dynamic_paths.add(path)
+
+    if not manifest_paths and not dynamic_paths:
+        errors.append("falta procedencia verificable de fuentes: inputs/MANIFEST.sha256 o generation_state.source_inputs")
     for source in source_paths:
-        if source not in manifest_paths:
+        if source not in manifest_paths and source not in dynamic_paths:
             errors.append(f"fuente sin checksum declarado: {source.relative_to(root) if _inside(root, str(source)) else source}")
 
     canonical = json.dumps({k: v for k, v in cfg.items() if k != "_internal"}, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()

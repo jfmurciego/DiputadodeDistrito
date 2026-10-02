@@ -18,6 +18,7 @@ import yaml
 import geopandas as gpd
 from shapely.geometry import box
 
+from ddd_core.territory_contract import validate_production_contract
 from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.materializar_contrato_generacion import (
     component_apportionment_audit,
@@ -40,7 +41,14 @@ MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 PARTITIONS = ROOT / "configuracion/particiones_insulares_2025.json"
 
 
-def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str = "\t") -> Path:
+def population_package(
+    root: Path,
+    rows: list[tuple[str, int]],
+    delimiter: str = "\t",
+    *,
+    population_year: int = 2025,
+    section_year: int = 2025,
+) -> Path:
     """Paquete sintético acreditado: población + seccionado + inventario + compatibilidad."""
     package = root / "package"
     package.mkdir(parents=True, exist_ok=True)
@@ -51,7 +59,7 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
     for section, population in rows:
         writer.writerow([
             "Total Nacional", section[:2], section[:5], section,
-            "Total", "Todas las edades", "2025", f"{population:,}".replace(",", "."),
+            "Total", "Todas las edades", str(population_year), f"{population:,}".replace(",", "."),
         ])
     population_zip = package / "65034.csv.zip"
     with zipfile.ZipFile(population_zip, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -67,7 +75,7 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
     materialized.mkdir(parents=True)
     shutil.copy2(population_zip, materialized / "65034.csv.zip")
 
-    section_zip = materialized / "seccionado_2025.zip"
+    section_zip = materialized / f"seccionado_{section_year}.zip"
     with tempfile.TemporaryDirectory() as geo_td:
         geo_root = Path(geo_td)
         shp = geo_root / "seccionado.shp"
@@ -81,27 +89,39 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
             for path in sorted(geo_root.glob("seccionado.*")):
                 zf.write(path, arcname=path.name)
 
+    origin_section_zip = None
+    if population_year != section_year:
+        origin_section_zip = materialized / f"seccionado_{population_year}.zip"
+        shutil.copy2(section_zip, origin_section_zip)
+
     def sha(path: Path) -> str:
         return hashlib.sha256(path.read_bytes()).hexdigest()
 
-    inventory = {
-        "sources": [
-            {
-                "role": "population",
-                "source_id": "synthetic_population",
-                "path": "inputs/65034.csv.zip",
-                "bytes": (materialized / "65034.csv.zip").stat().st_size,
-                "sha256": sha(materialized / "65034.csv.zip"),
-            },
-            {
-                "role": "target_sectioning",
-                "source_id": "synthetic_sectioning",
-                "path": "inputs/seccionado_2025.zip",
-                "bytes": section_zip.stat().st_size,
-                "sha256": sha(section_zip),
-            },
-        ]
-    }
+    sources = [
+        {
+            "role": "population",
+            "source_id": "synthetic_population",
+            "path": "inputs/65034.csv.zip",
+            "bytes": (materialized / "65034.csv.zip").stat().st_size,
+            "sha256": sha(materialized / "65034.csv.zip"),
+        },
+        {
+            "role": "target_sectioning",
+            "source_id": "synthetic_sectioning",
+            "path": f"inputs/seccionado_{section_year}.zip",
+            "bytes": section_zip.stat().st_size,
+            "sha256": sha(section_zip),
+        },
+    ]
+    if origin_section_zip is not None:
+        sources.append({
+            "role": "population_sectioning_origin",
+            "source_id": "synthetic_population_sectioning_origin",
+            "path": f"inputs/seccionado_{population_year}.zip",
+            "bytes": origin_section_zip.stat().st_size,
+            "sha256": sha(origin_section_zip),
+        })
+    inventory = {"sources": sources}
     (evidence / "inventario_fuentes.json").write_text(
         json.dumps(inventory, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -110,8 +130,8 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
         evidence_dir=evidence,
         territory_id=territory_id,
         edition="2025",
-        population_year=2025,
-        section_year=2025,
+        population_year=population_year,
+        section_year=section_year,
         inventory=inventory,
     )
 
@@ -122,9 +142,9 @@ def population_package(root: Path, rows: list[tuple[str, int]], delimiter: str =
     manifest = {
         "territory_id": territory_id,
         "edition": 2025,
-        "population_year": 2025,
-        "section_year": 2025,
-        "source_year": 2025,
+        "population_year": population_year,
+        "section_year": section_year,
+        "source_year": section_year,
         "path": bundle.name,
         "bytes": bundle.stat().st_size,
         "sha256": sha(bundle),
@@ -202,6 +222,107 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertEqual(result["status"], "SOURCE_PREPARED_PENDING_PRE_M04")
             cfg = yaml.safe_load((root / result["contract_path"]).read_text(encoding="utf-8"))
             self.assertEqual(cfg["validation"]["province_districts"], {"33": 45})
+        finally:
+            td.cleanup()
+
+    def test_dynamic_source_manifest_admits_2023_2024_and_2026_inputs(self):
+        cases = ((2023, 2023), (2024, 2024), (2025, 2026))
+        for population_year, section_year in cases:
+            with self.subTest(population_year=population_year, section_year=section_year):
+                td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+                try:
+                    root = Path(td.name)
+                    package = population_package(
+                        root,
+                        [("3300101001", 1_015_128)],
+                        population_year=population_year,
+                        section_year=section_year,
+                    )
+                    result = materialize(
+                        root,
+                        "principado_de_asturias",
+                        "2025",
+                        package,
+                        population_year=str(population_year),
+                        section_year=str(section_year),
+                    )
+                    contract_path = root / result["contract_path"]
+                    cfg = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+                    self.assertEqual(
+                        cfg["io"]["input"]["seccionado"]["path"],
+                        f"inputs/seccionado_{section_year}.zip",
+                    )
+                    source_inputs = cfg["generation_state"]["source_inputs"]
+                    by_path = {row["path"]: row for row in source_inputs}
+                    self.assertIn("inputs/65034.csv.zip", by_path)
+                    self.assertIn(f"inputs/seccionado_{section_year}.zip", by_path)
+                    self.assertRegex(
+                        by_path[f"inputs/seccionado_{section_year}.zip"]["sha256"],
+                        r"^[0-9a-f]{64}$",
+                    )
+                    admitted = validate_production_contract(
+                        contract_path,
+                        expected_territory="principado_de_asturias",
+                    )
+                    self.assertEqual("ADMITTED", admitted["status"], admitted["errors"])
+
+                    if section_year != 2025:
+                        broken = copy.deepcopy(cfg)
+                        broken["generation_state"].pop("source_inputs", None)
+                        contract_path.write_text(
+                            yaml.safe_dump(broken, sort_keys=False, allow_unicode=True),
+                            encoding="utf-8",
+                        )
+                        rejected = validate_production_contract(
+                            contract_path,
+                            expected_territory="principado_de_asturias",
+                        )
+                        self.assertEqual("REJECTED", rejected["status"])
+                        self.assertTrue(
+                            any(
+                                f"seccionado_{section_year}.zip" in error
+                                and "checksum" in error
+                                for error in rejected["errors"]
+                            ),
+                            rejected["errors"],
+                        )
+                finally:
+                    td.cleanup()
+
+    def test_dynamic_source_manifest_rejects_invalid_digest(self):
+        td = temp_root("principado_de_asturias", "Principado de Asturias", ["33"])
+        try:
+            root = Path(td.name)
+            package = population_package(
+                root,
+                [("3300101001", 1_015_128)],
+                population_year=2023,
+                section_year=2023,
+            )
+            result = materialize(
+                root,
+                "principado_de_asturias",
+                "2025",
+                package,
+                population_year="2023",
+                section_year="2023",
+            )
+            contract_path = root / result["contract_path"]
+            cfg = yaml.safe_load(contract_path.read_text(encoding="utf-8"))
+            cfg["generation_state"]["source_inputs"][0]["sha256"] = "bad"
+            contract_path.write_text(
+                yaml.safe_dump(cfg, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+            rejected = validate_production_contract(
+                contract_path,
+                expected_territory="principado_de_asturias",
+            )
+            self.assertEqual("REJECTED", rejected["status"])
+            self.assertTrue(
+                any("source_inputs SHA-256 inválido" in error for error in rejected["errors"]),
+                rejected["errors"],
+            )
         finally:
             td.cleanup()
 
