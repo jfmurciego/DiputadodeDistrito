@@ -298,11 +298,11 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         triggers = workflow.get("on") or workflow.get(True)
         options = triggers["workflow_dispatch"]["inputs"]["territory"]["options"]
         self.assertEqual(options[0], "Todos")
-        self.assertEqual(options[1], "01 · Andalucía")
-        self.assertEqual(options[7], "07 · Castilla y León")
-        self.assertEqual(options[-1], "19 · Melilla")
+        self.assertEqual(options[1], "01 Andalucía")
+        self.assertEqual(options[7], "07 Castilla y León")
+        self.assertEqual(options[-1], "19 Melilla")
         plain = resolve(ROOT, "Aragón")
-        coded = resolve(ROOT, "02 · Aragón")
+        coded = resolve(ROOT, "02 Aragón")
         self.assertEqual(coded, plain)
 
     def test_workflow_keeps_01_and_03_independent_and_never_runs_all_19(self):
