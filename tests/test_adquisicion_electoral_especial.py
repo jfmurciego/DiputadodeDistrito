@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -19,6 +21,23 @@ REGISTRY = ROOT / "configuracion" / "adquisiciones_electorales_especiales.yaml"
 
 SECTIONS_SHA = "6ef7fd1efb04ea3623b401b6fd73c1ed3895005384306c75b5953a97ddafa70e"
 CERA_SHA = "1a8de1e3e43623f677f5142fc300d70692837b30ffc5aa65e57ece3f6e7e9e7c"
+
+
+class OfficialSnapshotEntrypointTests(unittest.TestCase):
+    def test_direct_script_entrypoint_can_import_repository_package(self):
+        proc = subprocess.run(
+            [
+                sys.executable,
+                "herramientas/preparar_snapshot_electoral_oficial.py",
+                "--help",
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertNotIn("ModuleNotFoundError", proc.stderr)
 
 
 class SpecialElectoralAcquisitionContractTests(unittest.TestCase):
