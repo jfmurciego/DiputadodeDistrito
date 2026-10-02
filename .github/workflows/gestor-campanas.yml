@@ -2,7 +2,7 @@
 # CLASE: interfaz humana de campaña
 # QUÉ HACE: selecciona 1–19 territorios por CODAUTO, fija un manifiesto inmutable y orquesta desde el mismo commit.
 # NO HACE: reintentos, dispatch indirecto ni deploy-pages directo; la publicación pasa por el publicador común.
-name: 0 · Gestor de Campañas
+name: 0 Gestor de Campañas
 
 on:
   workflow_dispatch:
@@ -122,7 +122,7 @@ permissions:
 
 jobs:
   preparar:
-    name: 0 · Gestor de Campañas · Preparar
+    name: 0 Gestor de Campañas Preparar
     if: ${{ github.event_name == 'pull_request' || inputs.operacion == 'Ejecutar campaña' }}
     runs-on: ubuntu-24.04
     outputs:
@@ -202,7 +202,7 @@ jobs:
           python -m unittest tests.test_gestor_campana_nacional
 
   territorios:
-    name: ${{ matrix.slot }} · ${{ matrix.territory_name }}
+    name: ${{ matrix.slot }} ${{ matrix.territory_name }}
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.operacion == 'Ejecutar campaña' && needs.preparar.outputs.ready_count != '0' }}
     needs: preparar
     strategy:
