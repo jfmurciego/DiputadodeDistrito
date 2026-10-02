@@ -420,17 +420,17 @@ jobs:
               return 1
             fi
             read -r source_edition population_year section_year < <(python - "$SOURCE_DECLARATION" <<'PY'
-            import sys,yaml
-            from pathlib import Path
-            d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding='utf-8')) or {}
-            t=d.get('territory') or {}
-            edition=t.get('edition')
-            population=t.get('population_year', t.get('source_year'))
-            section=t.get('section_year', t.get('source_year'))
-            if edition in (None,'') or population in (None,'') or section in (None,''):
-                raise SystemExit('La declaración debe fijar edition, population_year y section_year')
-            print(edition, population, section)
-            PY
+          import sys,yaml
+          from pathlib import Path
+          d=yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8")) or {}
+          t=d.get("territory") or {}
+          edition=t.get("edition")
+          population=t.get("population_year", t.get("source_year"))
+          section=t.get("section_year", t.get("source_year"))
+          if edition in (None,"") or population in (None,"") or section in (None,""):
+              raise SystemExit("La declaración debe fijar edition, population_year y section_year")
+          print(edition, population, section)
+          PY
             )
             [[ "$source_edition" == "$EDITION" ]] || return 1
             if python -m herramientas.seleccionar_paquete_fuentes \
