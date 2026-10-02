@@ -3,9 +3,11 @@ import unittest
 import yaml
 
 from herramientas.evaluar_persistencia_preparacion import resolve_persist_state
+from herramientas.catalogo_territorios import normalize_territory_input
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github/workflows/preparacion-fuentes.yml"
+CURRENT = ROOT / "configuracion/preparacion_legislatura_vigente.yaml"
 
 
 class RecoverUnregisteredSourceContract(unittest.TestCase):
@@ -47,6 +49,40 @@ class RecoverUnregisteredSourceContract(unittest.TestCase):
             body.index("La recuperación durable exige persist_state=true."),
             body.index("registered_run_id=$RECOVERY_RUN_ID"),
         )
+
+    def test_manual_selector_resolves_all_19_current_territories(self):
+        workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        event = workflow.get("on") or workflow.get(True)
+        options = event["workflow_dispatch"]["inputs"]["territory_id"]["options"]
+        current = yaml.safe_load(CURRENT.read_text(encoding="utf-8")) or {}
+        rows = current.get("territories") or []
+
+        self.assertEqual(len(options), 19)
+        self.assertEqual(len(rows), 19)
+
+        normalized = [normalize_territory_input(option) for option in options]
+        configured = [str(row.get("name") or "").strip() for row in rows]
+        self.assertEqual(set(normalized), set(configured))
+        self.assertEqual(len(set(normalized)), 19)
+
+        for option, wanted in zip(options, normalized):
+            with self.subTest(option=option):
+                matches = [
+                    row for row in rows
+                    if str(row.get("name") or "").strip() == wanted
+                    or str(row.get("territory_id") or "").strip() == wanted
+                ]
+                self.assertEqual(len(matches), 1)
+
+        resolver = next(
+            step for step in workflow["jobs"]["resolver"]["steps"] if step.get("id") == "resolve"
+        )
+        body = resolver["run"]
+        self.assertIn(
+            "from herramientas.catalogo_territorios import normalize_territory_input",
+            body,
+        )
+        self.assertIn("wanted = normalize_territory_input(sys.argv[1])", body)
 
     def test_exact_recovery_never_uses_acquisition_or_unverified_history(self):
         workflow = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
