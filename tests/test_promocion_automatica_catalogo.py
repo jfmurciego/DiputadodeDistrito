@@ -36,6 +36,13 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertEqual(register["concurrency"]["group"],"ddd-catalog-promotion")
         self.assertFalse(register["concurrency"]["cancel-in-progress"])
         run="\n".join(step.get("run","") for step in register["steps"])
+        install_steps = [step for step in register["steps"] if step.get("name") == "Instalar entorno geoespacial de registro"]
+        self.assertEqual(len(install_steps), 1)
+        self.assertIn("-r requirements.lock", install_steps[0]["run"])
+        verify_steps = [step for step in register["steps"] if step.get("name") == "Verificar entorno geoespacial de registro"]
+        self.assertEqual(len(verify_steps), 1)
+        self.assertIn("import geopandas", verify_steps[0]["run"])
+        self.assertNotIn("PyYAML==6.0.2", "\n".join(step.get("run", "") for step in register["steps"]))
         self.assertIn("python -m herramientas.promover_catalogo_tras_preparacion", run)
         self.assertNotIn("python herramientas/promover_catalogo_tras_preparacion.py", run)
         self.assertIn("--run-id",run)
