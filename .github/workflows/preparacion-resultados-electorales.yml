@@ -1,4 +1,4 @@
-name: 03 · Preparación de Resultados Electorales
+name: 03 Preparación de Resultados Electorales
 
 on:
   workflow_call:
