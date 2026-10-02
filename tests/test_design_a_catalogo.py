@@ -15,11 +15,11 @@ def triggers(path):
 
 class DesignA(unittest.TestCase):
     def test_business_interfaces_are_named(self):
-        self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"00 · Ejecución Completa del Proyecto")
-        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"01 · Preparación de Datos Territoriales")
-        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"03 · Preparación de Resultados Electorales")
-        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"02 · Generación de Distritos Autonómicos")
-        self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"04 · Incorporación de Resultados Electorales")
+        self.assertEqual(load(WF/"ejecucion-completa-proyecto.yml")["name"],"00 Ejecución Completa del Proyecto")
+        self.assertEqual(load(WF/"preparacion-fuentes.yml")["name"],"01 Preparación de Datos Territoriales")
+        self.assertEqual(load(WF/"preparacion-resultados-electorales.yml")["name"],"03 Preparación de Resultados Electorales")
+        self.assertEqual(load(WF/"produccion-distritos.yml")["name"],"02 Generación de Distritos Autonómicos")
+        self.assertEqual(load(WF/"incorporacion-resultados-electorales.yml")["name"],"04 Incorporación de Resultados Electorales")
         self.assertEqual(load(WF/"pruebas-plataforma.yml")["name"],"Pruebas de la Plataforma")
 
     def test_business_workflows_with_territory_selector_are_explicit(self):
