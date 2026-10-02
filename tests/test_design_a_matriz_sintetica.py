@@ -47,9 +47,9 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
         generable=[r["name"] for r in rows_for("generation",CAT)]
         electoral_ready=[r["name"] for r in rows_for("electoral_application",CAT)]
         self.assertEqual(prep_options,expected)
-        self.assertIn("17 · La Rioja",prep_options)
-        self.assertIn("18 · Ceuta",prep_options)
-        self.assertIn("19 · Melilla",prep_options)
+        self.assertIn("17 La Rioja",prep_options)
+        self.assertIn("18 Ceuta",prep_options)
+        self.assertIn("19 Melilla",prep_options)
         # La Rioja conserva preparación histórica, pero no puede anunciarse como\n        # generable hasta que su fuente vigente quede habilitada por pre-M04.\n        self.assertNotIn("La Rioja",generable)\n        self.assertIn("Galicia",generable)
         self.assertIn("Galicia",electoral_ready)
         self.assertEqual(triggers(GEN)["workflow_dispatch"]["inputs"]["territory_id"]["options"],expected)
