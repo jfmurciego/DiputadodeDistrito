@@ -170,7 +170,52 @@ def source_baseline(
     }
 
 
-def _apply_source_contract(cfg: dict[str, Any], *, population_year: int, section_year: int, baseline: dict[str, Any]) -> None:
+def source_input_manifest(package: Path) -> list[dict[str, Any]]:
+    bundle = package / "prepared_sources.zip"
+    if not bundle.is_file():
+        raise ValueError("Paquete territorial sin prepared_sources.zip")
+    try:
+        with zipfile.ZipFile(bundle) as archive:
+            inventory = json.loads(archive.read("inventario_fuentes.json"))
+    except (KeyError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+        raise ValueError("Paquete territorial sin inventario de fuentes válido") from exc
+
+    sources = inventory.get("sources") or []
+    if not isinstance(sources, list) or not sources:
+        raise ValueError("Inventario territorial sin fuentes")
+    out: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for source in sources:
+        if not isinstance(source, dict):
+            raise ValueError("Entrada de inventario territorial inválida")
+        path = str(source.get("path") or "").strip()
+        digest = str(source.get("sha256") or "").strip().lower()
+        role = str(source.get("role") or "").strip()
+        source_id = str(source.get("source_id") or "").strip()
+        if not path.startswith("inputs/"):
+            raise ValueError(f"Ruta de fuente territorial no contractual: {path!r}")
+        if path in seen:
+            raise ValueError(f"Ruta de fuente territorial duplicada: {path}")
+        if not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError(f"SHA-256 territorial inválido para {path}")
+        seen.add(path)
+        out.append({
+            "path": path,
+            "sha256": digest,
+            "role": role,
+            "source_id": source_id,
+        })
+    return out
+
+
+def _apply_source_contract(
+    cfg: dict[str, Any],
+    *,
+    population_year: int,
+    section_year: int,
+    baseline: dict[str, Any],
+    source_inputs: list[dict[str, Any]],
+) -> None:
     meta = cfg.setdefault("meta", {})
     meta["source_population_year"] = int(population_year)
     meta["source_section_year"] = int(section_year)
@@ -203,6 +248,7 @@ def _apply_source_contract(cfg: dict[str, Any], *, population_year: int, section
         "generation_enabled": False,
         "package_sha256": baseline["package_sha256"],
         "compatibility_identity_sha256": baseline["compatibility_identity_sha256"],
+        "source_inputs": copy.deepcopy(source_inputs),
     })
     territory_contract = cfg.setdefault("territory_contract", {})
     territory_contract["status"] = "source_prepared_pending_pre_m04"
@@ -449,6 +495,15 @@ def materialize(
         population_year=int(population_year),
         section_year=int(section_year),
     )
+    source_inputs = source_input_manifest(package)
+    required_source_paths = {
+        "inputs/65034.csv.zip",
+        f"inputs/seccionado_{section_year}.zip",
+    }
+    declared_source_paths = {str(item["path"]) for item in source_inputs}
+    if not required_source_paths.issubset(declared_source_paths):
+        missing = sorted(required_source_paths - declared_source_paths)
+        raise ValueError("Inventario territorial no cubre entradas contractuales: " + ", ".join(missing))
     province_pop = {code: sum(v for sec, v in section_pop.items() if sec[:2] == code) for code in provinces}
     if sum(section_pop.values()) != baseline["population_total"]:
         raise ValueError("La suma poblacional usada por el contrato contradice el baseline acreditado")
@@ -473,6 +528,7 @@ def materialize(
             population_year=int(population_year),
             section_year=int(section_year),
             baseline=baseline,
+            source_inputs=source_inputs,
         )
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
@@ -691,6 +747,7 @@ def materialize(
         population_year=int(population_year),
         section_year=int(section_year),
         baseline=baseline,
+        source_inputs=source_inputs,
     )
 
     # La fuente preparada no habilita generación: la puerta pre-M04 lo hará después.
