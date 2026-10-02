@@ -210,9 +210,7 @@ def _normalize_section_id(value: object) -> str:
         return ""
     if len(digits) < 10:
         digits = digits.zfill(10)
-    if len(digits) != 10:
-        return ""
-    return digits
+    return digits[:10]
 
 
 def _population_rules(declaration: dict) -> dict:
@@ -282,6 +280,7 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
         }
         selected_population_total = 0
         row_issues: list[dict] = []
+        unobserved_sections: list[str] = []
 
         def record_row_issue(reason: str, row: dict) -> None:
             diagnostic_row = {
@@ -383,10 +382,18 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                     row,
                 )
                 continue
+            # INE 65034 conserva identidades seccionales históricas sin observación
+            # para periodos posteriores. Un Total vacío no equivale a población cero:
+            # se omite del conjunto poblacional y la compatibilidad con el seccionado
+            # oficial decide después si la ausencia es legítima o bloqueante.
+            raw_population = row.get(rules["population_col"])
+            if raw_population is None or str(raw_population).strip() == "":
+                unobserved_sections.append(section_id)
+                continue
             # Valida sin reescribir el valor: cero explícito se conserva tal cual.
             try:
                 population_value = parse_population_value(
-                    row.get(rules["population_col"]),
+                    raw_population,
                     section_id=section_id,
                     label="población adquirida",
                 )
@@ -404,7 +411,12 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 f"count={len(row_issues)}; issues="
                 + json.dumps(row_issues, ensure_ascii=False, sort_keys=True)
             )
-        classified_rows = sum(aggregate_counts.values()) + rows_out + territorial_exclusions
+        classified_rows = (
+            sum(aggregate_counts.values())
+            + rows_out
+            + territorial_exclusions
+            + len(unobserved_sections)
+        )
         if pertinent_rows != classified_rows:
             raise ValueError(
                 "POPULATION_ROW_RECONCILIATION_FAILED: "
@@ -436,8 +448,15 @@ def _filter_population(payload: bytes, declaration: dict, edition: int, province
                 "pertinent": pertinent_rows,
                 "classified_aggregates": sum(aggregate_counts.values()),
                 "accepted_sections": rows_out,
+                "unobserved_sections": len(unobserved_sections),
                 "territorial_exclusions": territorial_exclusions,
                 "balanced": pertinent_rows == classified_rows,
+            },
+            "unobserved_sections": {
+                "count": len(unobserved_sections),
+                "section_ids": sorted(unobserved_sections),
+                "cause": "INE_65034_SECTION_WITHOUT_POPULATION_OBSERVATION",
+                "population_semantics": "ABSENT_NOT_ZERO",
             },
             "selected_section_population_total": selected_population_total,
         }
