@@ -882,7 +882,7 @@ jobs:
 
   preparar_electoral:
     name: 03 Preparar resultados electorales
-    needs: [planificar, puerta_02]
+    needs: [planificar, preparar_territorial, puerta_02]
     # En modo electoral, from_start y cualquier plan sin fuente electoral válida ejecutan 03.
     if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
@@ -891,12 +891,12 @@ jobs:
       territory_id: ${{ needs.planificar.outputs.territory_name }}
       data_edition: ${{ needs.planificar.outputs.edition }}
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
 
   puerta_03:
     name: Puerta de validación 03 → 04
-    needs: [planificar, puerta_02, preparar_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, preparar_electoral]
     if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -907,12 +907,12 @@ jobs:
       run_id: ${{ needs.preparar_electoral.result == 'success' && github.run_id || needs.planificar.outputs.existing_electoral_source_run_id }}
       artifact_name: ${{ needs.preparar_electoral.result == 'success' && needs.preparar_electoral.outputs.artifact_name || needs.planificar.outputs.existing_electoral_source_artifact }}
       expected_digest: ${{ needs.preparar_electoral.result != 'success' && needs.planificar.outputs.existing_electoral_source_digest || '' }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
   incorporar:
     name: 04 Incorporar resultados electorales
-    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, puerta_03, detectar_recuperacion_electoral]
     if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
@@ -925,7 +925,7 @@ jobs:
       electoral_package_run_id: ${{ needs.puerta_03.outputs.run_id }}
       electoral_package_artifact_name: ${{ needs.puerta_03.outputs.artifact_name }}
       electoral_package_artifact_digest: ${{ needs.puerta_03.outputs.artifact_digest }}
-      source_ref: ${{ needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
       artifact_namespace: ${{ inputs.artifact_namespace }}
 
@@ -947,7 +947,7 @@ jobs:
 
   puerta_04:
     name: Puerta de validación 04 → estado operativo
-    needs: [planificar, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
+    needs: [planificar, preparar_territorial, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
     if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
@@ -960,7 +960,7 @@ jobs:
       audit_artifact_name: ${{ needs.recuperar_electoral.result == 'success' && format('ddd-audit-electoral-{0}', needs.recuperar_electoral.outputs.source_run_id) || needs.incorporar.result == 'success' && format('ddd-audit-electoral-{0}{1}', github.run_id, needs.planificar.outputs.artifact_suffix) || '' }}
       artifact_namespace: ${{ needs.recuperar_electoral.result == 'success' && '' || inputs.artifact_namespace }}
       expected_digest: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.artifact_digest || needs.incorporar.result != 'success' && needs.planificar.outputs.existing_electoral_product_digest || '' }}
-      source_ref: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_commit || needs.planificar.outputs.source_sha }}
+      source_ref: ${{ needs.recuperar_electoral.result == 'success' && needs.recuperar_electoral.outputs.source_commit || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha) }}
 
   actualizar_estado:
     name: Actualizar estado operativo único
