@@ -4,18 +4,18 @@
   "territory_id": "melilla",
   "territory_name": "Melilla",
   "edition": "2025",
-  "run_id": 37063207747,
-  "source_commit": "b2582ed2dc10ea3889f8cfb46add6a450bb6dcb3",
-  "artifact_name": "ddd-state-37063207747-M03U",
-  "artifact_sha256": "da4e7b34fa951958e1eee71c1a188ffdff9697e07f50f2d7672e4462db482198",
+  "run_id": 37068301578,
+  "source_commit": "c3cf6cab12be11ba1cfbc9682c3f6797ced116a6",
+  "artifact_name": "ddd-state-37068301578-M03U",
+  "artifact_sha256": "118e6c83f7472121ee7336c68e0c1415845755e1ad3d34bbbf236c796399068b",
   "decision": "READY_FOR_FIRST_GENERATION",
   "stage": "M03U",
   "source": {
-    "artifact_name": "ddd-source-package-melilla-2025-37063207747",
-    "artifact_sha256": "3e7998fd5a48175eff89595687c3e5ac48c5c5fe482b1e34408c11e6bdfb9b2e",
-    "package_sha256": "ddf97cc78219ab5ee18cc1d2373bc39e3208b96ca4d9169041302fb319ceb6da",
+    "artifact_name": "ddd-source-package-melilla-2025-37068301578",
+    "artifact_sha256": "02b42cf4fa509c478ab583c2e8f89f3de597588bb9cf9b269af7022dbea8bbd5",
+    "package_sha256": "cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b",
     "compatibility_identity_sha256": "12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918",
-    "territorial_identity_sha256": "666b8f333ea6428942603464be80f507c75c20502422cc6977a1655393d570a0",
+    "territorial_identity_sha256": "a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d",
     "population_year": 2023,
     "section_year": 2023
   },
@@ -36,8 +36,8 @@
     "topology_bridges": []
   },
   "graph": {
-    "artifact_name": "ddd-state-37063207747-M03",
-    "artifact_sha256": "26e342c4a180221725900576d527de068ccfa656b1b5437a187f81fd9eddb8f2",
+    "artifact_name": "ddd-state-37068301578-M03",
+    "artifact_sha256": "cb7e3d7ba29ec4a27a9795cc87a0a2fd2eca5de98aceb6065a15bf3d7ed5b17f",
     "module_version": "7.4.1",
     "nodes": 44,
     "edges": 105,
@@ -48,8 +48,8 @@
     "municipality_disconnected": 0
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-37063207747",
-    "job_artifact_sha256": "203cab6b3a22c0866fcd6c4f2b3f2a86d6f5b6dbf36afa07e1a1fb11984574f2",
+    "job_artifact_name": "ddd-internal-units-37068301578",
+    "job_artifact_sha256": "6e4ff566e7cb39eda5043c483542b41c0faf679504ae7e9dafa2fc314f66b654",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/melilla/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
@@ -67,7 +67,7 @@
       "section_year": 2023,
       "population_total": 85493,
       "target_section_count": 44,
-      "package_sha256": "ddf97cc78219ab5ee18cc1d2373bc39e3208b96ca4d9169041302fb319ceb6da",
+      "package_sha256": "cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b",
       "compatibility_report_sha256": "fa16e7be1bb0bc20150a59c8d3e15775b7100a9dd85baebc413a683a316ab8e2",
       "compatibility_identity_sha256": "12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918"
     },
