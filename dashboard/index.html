@@ -22,6 +22,12 @@
   </header>
 
   <main class="dashboard">
+    <nav class="dashboard-tabs" aria-label="Vistas del dashboard">
+      <button class="tab-button active" type="button" data-view="operational">Estado operativo</button>
+      <button class="tab-button" type="button" data-view="sources">Fuentes y vigencia</button>
+    </nav>
+
+    <section id="view-operational" class="dashboard-view">
     <section class="legend" aria-label="Leyenda del semáforo">
       <span><i class="dot green"></i> completo</span>
       <span><i class="dot yellow"></i> parcial / pendiente</span>
@@ -75,6 +81,46 @@
           <ol id="next" class="next"></ol>
         </article>
       </aside>
+    </section>
+    </section>
+
+    <section id="view-sources" class="dashboard-view" hidden>
+      <section class="legend" aria-label="Leyenda de fuentes">
+        <span><i class="dot green"></i> admisible</span>
+        <span><i class="dot yellow"></i> requiere acción</span>
+        <span><i class="dot red"></i> bloqueada</span>
+        <span><i class="dot gray"></i> no acreditada / sin actividad observable</span>
+      </section>
+
+      <section id="source-kpis" class="kpis" aria-label="Indicadores de fuentes"></section>
+
+      <article class="panel source-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Fuentes y vigencia de la legislatura</h2>
+            <p>El estado procede del resolvedor de Activación y de la evidencia durable; no se deduce por color ni por coincidencia de años.</p>
+          </div>
+          <span id="source-snapshot" class="snapshot">—</span>
+        </div>
+        <div class="table-wrap source-table-wrap">
+          <table class="source-table">
+            <thead>
+              <tr>
+                <th>Territorio</th>
+                <th>Elección</th>
+                <th>Objetivo territorial</th>
+                <th>Acreditado</th>
+                <th>Fuente territorial</th>
+                <th>Fuente electoral</th>
+                <th>Estado de fuentes</th>
+                <th>Actividad actual</th>
+                <th>Siguiente paso</th>
+              </tr>
+            </thead>
+            <tbody id="source-territories"></tbody>
+          </table>
+        </div>
+      </article>
     </section>
   </main>
 
