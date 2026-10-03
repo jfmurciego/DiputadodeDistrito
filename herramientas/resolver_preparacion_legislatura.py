@@ -15,16 +15,19 @@ try:
         territorial_identity,
     )
     from herramientas.catalogo_territorios import normalize_territory_input
+    from herramientas.adquirir_fuentes_oficiales import resolve_runtime_bindings
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from identidad_fuentes_legislatura import (
         digest,
         territorial_identity,
     )
     from catalogo_territorios import normalize_territory_input
+    from adquirir_fuentes_oficiales import resolve_runtime_bindings
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 REGISTRY = Path("configuracion/registro_electoral.yaml")
+OFFICIAL_SOURCES = Path("fuentes/catalogo_oficial.yaml")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA = re.compile(r"^[0-9a-f]{40}$")
 
@@ -121,6 +124,111 @@ def _years_from_declaration(declaration: dict, edition: str) -> tuple[int, int]:
             f"TERRITORIAL_TEMPORAL_IDENTITY_MISSING: {territory.get('id') or '?'}"
         )
     return int(population), int(section)
+
+
+def _resolved_source_plan(
+    root: Path,
+    *,
+    territory_id: str,
+    edition: str,
+    population_year: int,
+    section_year: int,
+    state: dict,
+) -> dict:
+    """Plan físico previo a adquisición: intención sin fingir bytes observados."""
+    declaration_rel = str(
+        state.get("territorial_source_declaration")
+        or f"territorios/{territory_id}/config/fuentes_oficiales.yaml"
+    )
+    declaration_path = root / declaration_rel
+    if not declaration_path.is_file():
+        return {
+            "schema": "ddd.resolved-source-plan/1.0",
+            "status": "UNRESOLVED",
+            "reason": "TERRITORIAL_DECLARATION_MISSING",
+            "declaration": declaration_rel,
+        }
+    declaration = _yaml(declaration_path)
+    catalog = _yaml(root / OFFICIAL_SOURCES)
+    source_catalog = catalog.get("sources") or {}
+    required = declaration.get("required_sources") or []
+    bindings = declaration.get("source_bindings") or {}
+    population_rules = declaration.get("population_validation") or {}
+    runtime = resolve_runtime_bindings(
+        root,
+        declaration,
+        territory_id=territory_id,
+        edition=int(edition),
+        population_year=int(population_year),
+        section_year=int(section_year),
+    )
+
+    sources: dict[str, dict] = {}
+    for source_id in required:
+        source_id = str(source_id)
+        source = source_catalog.get(source_id) or {}
+        binding = bindings.get(source_id) or {}
+        kind = str(source.get("kind") or "")
+        role = "population" if kind == "static_csv" else "sectioning"
+        effective_year = population_year if role == "population" else section_year
+        entry = {
+            "source_id": source_id,
+            "role": role,
+            "effective_year": int(effective_year),
+            "adapter_kind": kind,
+            "provider": source.get("provider"),
+            "artifact": {
+                "planned_path": str(binding.get("materialized_path") or ""),
+                "planned_archive_member": str(
+                    binding.get("archive_member")
+                    or source.get("output_name")
+                    or ""
+                ),
+            },
+            "format": {
+                "declared_type": source.get("format"),
+                "declared_crs": source.get("crs"),
+            },
+        }
+        if role == "population":
+            entry["fields"] = {
+                "section_id": str(population_rules.get("section_col") or "Secciones"),
+                "population": str(population_rules.get("population_col") or "Total"),
+                "year": str(population_rules.get("year_col") or "Periodo"),
+                "sex": str(population_rules.get("sex_col") or "Sexo"),
+                "age": str(population_rules.get("age_col") or "Edad"),
+            }
+            entry["filters"] = {
+                "year_value": int(population_year),
+                "sex_total_values": list(
+                    population_rules.get("sex_total_values") or ["Total"]
+                ),
+                "age_total_values": list(
+                    population_rules.get("age_total_values") or ["Todas las edades"]
+                ),
+            }
+        else:
+            entry["fields"] = {
+                "section_id": str(source.get("section_id_field") or ""),
+                "territorial_filter": str(source.get("territorial_filter_field") or ""),
+            }
+        sources[role] = entry
+
+    return {
+        "schema": "ddd.resolved-source-plan/1.0",
+        "status": "RESOLVED",
+        "territory": {
+            "territory_id": territory_id,
+            "project_edition": str(edition),
+        },
+        "temporal": {
+            "population_year": int(population_year),
+            "section_year": int(section_year),
+        },
+        "declaration": declaration_rel,
+        "sources": sources,
+        "runtime": runtime,
+    }
 
 
 def _territorial_candidate(
@@ -509,6 +617,14 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "territorial_package_state": "READY_REUSABLE" if t_action.startswith("REUSE") else "ACQUIRE_REQUIRED",
             "territorial_reason": t_candidate.get("reason"),
             "territorial_candidate": t_candidate,
+            "resolved_source_plan": _resolved_source_plan(
+                root,
+                territory_id=tid,
+                edition=edition,
+                population_year=population_year,
+                section_year=section_year,
+                state=state,
+            ),
             "electoral_source": electoral.get("source"),
             "electoral_granularity": electoral.get("granularity"),
             "electoral_action": e_action,
