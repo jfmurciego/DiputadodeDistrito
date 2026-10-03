@@ -716,6 +716,122 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     plan["generation_gate"],
                 )
 
+    def test_00_reuse_reaccredits_present_but_stale_pre_m04_without_reacquiring_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            contract_path, m03, job = write_fixture(root, partitioned=False)
+
+            # Fingerprint de implementación real dentro del fixture para poder
+            # demostrar una evidencia presente que queda obsoleta después.
+            implementation_files = {
+                "modulos/01_preparar_base_territorial.py": "m01-current\n",
+                "modulos/02_construir_adyacencias.py": "m02-current\n",
+                "modulos/03_construir_grafo.py": "m03-current\n",
+                "herramientas/preparar_unidades_internas.py": "partition-current\n",
+                "herramientas/construir_unidades_internas_m04.py": "builder-current\n",
+            }
+            for rel, payload in implementation_files.items():
+                path = root / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(payload, encoding="utf-8")
+
+            with patch(
+                "herramientas.materializar_evidencia_pre_m04._git_head",
+                return_value=COMMIT,
+            ):
+                evidence = build_evidence(
+                    root_dir=root,
+                    territory_id="demo",
+                    edition="2025",
+                    run_id=123,
+                    contract_path=str(contract_path.relative_to(root)),
+                    m03_state_dir=m03,
+                    partition_job=job,
+                    m03_artifact_sha256=SHA_C,
+                    m03u_artifact_sha256=SHA_D,
+                    partition_artifact_sha256=SHA_A,
+                )
+
+            self.assertEqual(
+                evidence["effective_gate"],
+                {"allowed": True, "route": "validated_pre_m04_topology"},
+            )
+
+            # Simula exactamente el caso Melilla: la evidencia existe y está
+            # ligada a la fuente correcta, pero M01 cambió desde que se emitió.
+            stale = json.loads(json.dumps(evidence))
+            stale["implementation"]["m01_git_blob_sha1"] = "0" * 40
+            evidence_rel = (
+                "territorios/demo/evidencia/catalogo/"
+                "generation_preflight_2025.json"
+            )
+            evidence_path = root / evidence_rel
+            evidence_path.parent.mkdir(parents=True, exist_ok=True)
+            evidence_path.write_text(
+                json.dumps(stale, indent=2),
+                encoding="utf-8",
+            )
+
+            catalog_path = root / "configuracion/catalogo_preparacion.yaml"
+            catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
+            state = catalog["territories"][0]["editions"]["2025"]
+            state["generation_enabled"] = True
+            state.setdefault("evidence", {})["generation_preflight"] = evidence_rel
+            catalog_path.write_text(
+                yaml.safe_dump(catalog, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+
+            direct = generation_enablement(
+                root_dir=root,
+                contract_path=str(contract_path.relative_to(root)),
+                territory_id="demo",
+                certified_product_ready=False,
+                first_generation_evidence=stale,
+                preparation_evidence=state["preparation_evidence"],
+                require_source=True,
+            )
+            self.assertFalse(direct["allowed"])
+            self.assertEqual(direct["capability"], "CAP_PRE_M04_EVIDENCE")
+            self.assertIn("implementación pre-M04 cambió", direct["reason"])
+
+            plan = build_plan(
+                territory="demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog_path,
+                root_dir=root,
+                optimization_algorithm="Canónico",
+            )
+
+        self.assertEqual(
+            plan["existing"]["territorial_source"]["decision"],
+            "VALIDADO",
+        )
+        self.assertEqual(plan["existing"]["territorial_source"]["run_id"], 123)
+        self.assertEqual(plan["execution_mode"], "reuse")
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_generate"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+
+        # En reuse, 01 debe recuperar el paquete ya acreditado; no volver a
+        # descargarlo. La reacreditación es M01→pre-M04, no adquisición.
+        workflow = yaml.safe_load(
+            (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(
+            workflow["jobs"]["preparar_territorial"]["with"][
+                "reutilizar_si_ya_preparada"
+            ],
+            "${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}",
+        )
+
     def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_missing(self):
         source_catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
         data = yaml.safe_load(source_catalog.read_text(encoding="utf-8")) or {}
