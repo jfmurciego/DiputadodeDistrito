@@ -227,6 +227,14 @@ def write_geojson(gdf, out_path):
     tmp.unlink(missing_ok=True)
 
 
+def resolve_runtime_fields(cfg: dict, population_year: int) -> tuple[str, str]:
+    runtime = ((cfg.get("resolved_source_contract") or {}).get("runtime") or {})
+    return (
+        str(runtime.get("section_id_field") or "CUSEC_KEY"),
+        str(runtime.get("population_field") or f"POP_{population_year}"),
+    )
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--params", required=True)
@@ -236,10 +244,9 @@ def main():
     edition = int(require(meta.get("year"), "Falta meta.year (edición DDD)"))
     population_year = int(require(meta.get("source_population_year"), "Falta meta.source_population_year acreditado"))
     section_year = int(require(meta.get("source_section_year"), "Falta meta.source_section_year acreditado"))
-    runtime = ((cfg.get("resolved_source_contract") or {}).get("runtime") or {})
-    runtime_section_field = str(runtime.get("section_id_field") or "CUSEC_KEY")
-    runtime_population_field = str(
-        runtime.get("population_field") or f"POP_{population_year}"
+    runtime_section_field, runtime_population_field = resolve_runtime_fields(
+        cfg,
+        population_year,
     )
     internal_section_field = "__DDD_SECTION_ID"
     val = cfg.get("validation", {}) or {}
