@@ -10,19 +10,24 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
+  source_population_year: 2024
+  source_section_year: 2024
 io:
   project_root:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2024.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2024
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/galicia/.cache/ddd/preparacion/{run_name}
   runs:
@@ -46,7 +56,7 @@ territory_contract:
   - '27'
   - '32'
   - '36'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   topology_mode: land
   k_districts: 75
   k_source: norma
@@ -109,14 +119,14 @@ modulos:
     in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     out_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -138,7 +148,7 @@ modulos:
     in_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -165,7 +175,7 @@ modulos:
     in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2024
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -229,3 +239,138 @@ validation:
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2024
+    section_year: 2024
+    population_total: 2705833
+    target_section_count: 2141
+    package_sha256: 3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c
+    compatibility_report_sha256: 09ed4e25da01e58e3ace5a726045bf9f9a3c34655ebc1a38bd01920c717dda78
+    compatibility_identity_sha256: d264f53e27628fc41ceacc3a725a1eea1f48785a45ef1de17384a98695e930c5
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: galicia
+    territory_name: Galicia
+    project_edition: '2025'
+  temporal:
+    population_year: 2024
+    section_year: 2024
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: c75dec6fe668f058545daac835a4edb676c1b17d29a6084ff7a66c5f4729abb4
+        bytes: 24386
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2024.zip
+        sha256: dada1f2c0d99ab383cd33d57877505c39288b592188c55ab986b4cdb67b4a606
+        bytes: 3730567
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: e2dff7ff6ed8581bba1cc0a69af4ee59e3c043495007bb36915e6e9c72ae23ca
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: 3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c
+  compatibility_identity_sha256: d264f53e27628fc41ceacc3a725a1eea1f48785a45ef1de17384a98695e930c5
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: c75dec6fe668f058545daac835a4edb676c1b17d29a6084ff7a66c5f4729abb4
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2024.zip
+    sha256: dada1f2c0d99ab383cd33d57877505c39288b592188c55ab986b4cdb67b4a606
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
