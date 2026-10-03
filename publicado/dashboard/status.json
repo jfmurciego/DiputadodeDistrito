@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-03T23:02:04.639535+00:00",
+  "generated_at": "2026-10-03T23:44:53.897908+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -503,10 +503,10 @@
           "territory_id": "galicia",
           "territory_name": "Galicia",
           "edition": "2025",
-          "run_id": 36403519566,
-          "artifact_name": "ddd-state-36403519566-M06",
-          "artifact_sha256": "12529f8c76eb46e661a28d546d09cd5d33e8e9db331c1f435d72d6adbbdc3733",
-          "source_commit": "61763602fc0cdbd0bea4f6b615c4e1dd422bc9af",
+          "run_id": 37159898924,
+          "artifact_name": "ddd-state-37159898924-M06",
+          "artifact_sha256": "aeb0f5f58fd017bff3f23877dad381a94ef65d21f05a8f025d89b854923f0caa",
+          "source_commit": "8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -555,9 +555,9 @@
         "territorial_source": {
           "territory_id": "madrid",
           "edition": "2025",
-          "run_id": 36260293375,
-          "artifact_name": "ddd-source-package-madrid-2025-36260293375",
-          "artifact_sha256": "f7449ee6cbbe89b051c4be98408c0f3b4d861a0a855862c19fad375f1ce42228",
+          "run_id": 37159829427,
+          "artifact_name": "ddd-source-package-madrid-2025-37159829427",
+          "artifact_sha256": "c5db6953a8b3c9d72e954e64661b0e2ed9bf3ad5b3140561fa793af81ec3230b",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -737,9 +737,9 @@
         "territorial_source": {
           "territory_id": "ceuta",
           "edition": "2025",
-          "run_id": 36258940598,
-          "artifact_name": "ddd-source-package-ceuta-2025-36258940598",
-          "artifact_sha256": "c682bc36d11b91edc5016c78e4f55baeb1499e0b8dd1b1b58f6fa87086302529",
+          "run_id": 37159991566,
+          "artifact_name": "ddd-source-package-ceuta-2025-37159991566",
+          "artifact_sha256": "7badbe6d89325152887d45029c1fc62a2ba0b3b0f65f8d694cc6698fd8a64fa4",
           "decision": "VALIDADO"
         },
         "territorial_product": {
