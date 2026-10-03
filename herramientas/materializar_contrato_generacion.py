@@ -417,6 +417,15 @@ def _apply_source_contract(
         seccionado_cfg = io_cfg.setdefault("seccionado", {})
         seccionado_cfg["path"] = str(section_contract["path"])
         seccionado_cfg["layer"] = str(section_contract.get("layer") or "")
+        seccionado_cfg["container"] = str(section_contract.get("container") or "file")
+        seccionado_cfg["materialized_format"] = str(
+            section_contract.get("materialized_format")
+            or section_contract.get("source_format")
+            or ""
+        )
+        seccionado_cfg["archive_member"] = str(
+            section_contract.get("archive_member") or ""
+        )
         if section_fields.get("section_id"):
             seccionado_cfg["section_key_col"] = str(section_fields["section_id"])
     else:
@@ -428,6 +437,18 @@ def _apply_source_contract(
         population_fields = population_contract.get("fields") or {}
         population_filters = population_contract.get("filters") or {}
         population_cfg["paths"] = [str(population_contract["path"])]
+        population_cfg["container"] = str(population_contract.get("container") or "file")
+        population_cfg["materialized_format"] = str(
+            population_contract.get("materialized_format")
+            or population_contract.get("source_format")
+            or ""
+        )
+        population_cfg["archive_member"] = str(
+            population_contract.get("archive_member") or ""
+        )
+        population_cfg["encoding"] = str(
+            population_contract.get("encoding") or "utf-8-sig"
+        )
         population_cfg["sep"] = str(population_contract.get("delimiter") or "auto")
         population_cfg["section_key_col"] = str(population_fields.get("section_id") or "")
         population_cfg["pop_col"] = str(population_fields.get("population") or "")
