@@ -85,6 +85,33 @@ class DashboardPages(unittest.TestCase):
         self.assertIn("path: .ddd-publication",reusable)
         self.assertIn("include-hidden-files: true",reusable)
 
+    def test_dashboard_conserva_estado_operativo_y_anade_fuentes_y_vigencia(self):
+        html=(ROOT/"dashboard/index.html").read_text(encoding="utf-8")
+        self.assertIn('data-view="operational"',html)
+        self.assertIn('data-view="sources"',html)
+        self.assertIn('id="view-operational"',html)
+        self.assertIn('id="view-sources"',html)
+        self.assertIn("Estado actual por territorio",html)
+        self.assertIn("Fuentes y vigencia de la legislatura",html)
+
+    def test_pestana_fuentes_solo_presenta_el_dictamen_del_status(self):
+        js=(ROOT/"dashboard/app.js").read_text(encoding="utf-8")
+        self.assertIn("data.source_readiness",js)
+        self.assertIn("r.territorial?.status",js)
+        self.assertIn("r.electoral?.status",js)
+        self.assertIn("r.next_steps",js)
+        self.assertNotIn("resolver_preparacion_legislatura",js)
+        self.assertNotIn("population_year_required ===",js)
+        self.assertNotIn("section_year_required ===",js)
+
+    def test_assets_fuente_y_publicados_del_dashboard_estan_sincronizados(self):
+        for name in ("index.html","app.js","styles.css"):
+            self.assertEqual(
+                (ROOT/"dashboard"/name).read_text(encoding="utf-8"),
+                (ROOT/"publicado/dashboard"/name).read_text(encoding="utf-8"),
+                name,
+            )
+
     def test_dashboard_no_expone_preflight(self):
         html=(ROOT/"dashboard/index.html").read_text(encoding="utf-8").lower()
         js=(ROOT/"dashboard/app.js").read_text(encoding="utf-8").lower()
