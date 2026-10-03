@@ -56,7 +56,7 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     # Un producto ya certificado sigue siendo reutilizable sólo cuando su
     # lineage corresponde a la fuente territorial actualmente acreditada.
     for name, territory_id in (
-        ("Aragón", "aragon"),
+        ("Galicia", "galicia"),
     ):
         with self.subTest(certified_reuse=territory_id):
             row = rows[territory_id]
