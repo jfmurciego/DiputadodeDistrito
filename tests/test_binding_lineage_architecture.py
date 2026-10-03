@@ -248,6 +248,9 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     },
                     "container": "file",
                     "materialized_format": "parquet",
+                    "archive_member": "",
+                    "encoding": "utf-8-sig",
+                    "delimiter": "auto",
                     "fields": {
                         "section_id": "voting_zone_code",
                         "population": "inhabitants_xyz",
