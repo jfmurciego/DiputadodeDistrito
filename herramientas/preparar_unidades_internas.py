@@ -98,7 +98,11 @@ def build_command(params_path: str | Path, run_id: str) -> list[str] | None:
         or m04.get("id_field")
         or "CUSEC_KEY"
     )
-    municipality_field = str(policy.get("municipality_field") or "CUMUN")
+    municipality_field = str(
+        runtime.get("municipality_field")
+        or policy.get("municipality_field")
+        or "CUMUN"
+    )
     population_field = str(
         runtime.get("population_field")
         or _fmt(
