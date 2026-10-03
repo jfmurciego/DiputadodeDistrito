@@ -525,6 +525,113 @@ def _electoral_plan(
     return candidate, "REUSE" if candidate.get("reusable") else "ACQUIRE"
 
 
+def _territorial_admissibility(action: str, candidate: dict) -> str:
+    reason = str(candidate.get("reason") or "")
+    if action == "REUSE":
+        return "ADMISSIBLE"
+    if action == "REUSE_TEMPORAL_SUBSTITUTION":
+        return "ADMISSIBLE_TEMPORAL_SUBSTITUTION"
+    if action.startswith("BLOCKED"):
+        return "BLOCKED"
+    if any(
+        marker in reason
+        for marker in (
+            "YEAR_MISMATCH",
+            "IDENTITY_MISMATCH",
+            "RECEIPT_CONTRADICTORY",
+        )
+    ):
+        return "INCOMPATIBLE"
+    if any(
+        marker in reason
+        for marker in (
+            "PACKAGE_MISSING",
+            "DECLARATION_MISSING",
+            "RECEIPT_MISSING",
+            "DIGEST_MISSING",
+            "COMPATIBILITY_REPORT_MISSING",
+            "PROVENANCE_MISSING",
+            "RUN_INVALID",
+        )
+    ):
+        return "NOT_ACCREDITED"
+    return "ACQUISITION_REQUIRED"
+
+
+def _electoral_admissibility(action: str, candidate: dict) -> str:
+    reason = str(candidate.get("reason") or "")
+    if action == "REUSE":
+        return "ADMISSIBLE"
+    if action.startswith("BLOCKED"):
+        return "BLOCKED"
+    if any(
+        marker in reason
+        for marker in (
+            "ELECTION_MISMATCH",
+            "IDENTITY_MISMATCH",
+            "PROVENANCE_MISMATCH",
+        )
+    ):
+        return "INCOMPATIBLE"
+    if any(
+        marker in reason
+        for marker in (
+            "PACKAGE_MISSING",
+            "RECEIPT_MISSING",
+            "PROVENANCE_REFERENCE_MISSING",
+            "PROVENANCE_INCOMPLETE",
+            "PACKAGE_IDENTITY_NOT_DURABLE",
+            "DIGEST_MISSING",
+            "RUN_INVALID",
+        )
+    ):
+        return "NOT_ACCREDITED"
+    return "ACQUISITION_REQUIRED"
+
+
+def _sources_status(territorial_status: str, electoral_status: str) -> str:
+    if "BLOCKED" in {territorial_status, electoral_status}:
+        return "BLOCKED"
+    territorial_ok = territorial_status in {
+        "ADMISSIBLE",
+        "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+    }
+    electoral_ok = electoral_status == "ADMISSIBLE"
+    if territorial_ok and electoral_ok:
+        return "ADMISSIBLE"
+    if not territorial_ok and electoral_ok:
+        return "TERRITORIAL_ACTION_REQUIRED"
+    if territorial_ok and not electoral_ok:
+        return "ELECTORAL_ACTION_REQUIRED"
+    return "ACTION_REQUIRED"
+
+
+def _source_next_steps(
+    territorial_action: str,
+    territorial_candidate: dict,
+    electoral_action: str,
+    electoral_candidate: dict,
+) -> list[dict]:
+    steps: list[dict] = []
+    if not territorial_action.startswith("REUSE"):
+        steps.append(
+            {
+                "domain": "territorial",
+                "planner_action": territorial_action,
+                "reason": territorial_candidate.get("reason"),
+            }
+        )
+    if electoral_action != "REUSE":
+        steps.append(
+            {
+                "domain": "electoral",
+                "planner_action": electoral_action,
+                "reason": electoral_candidate.get("reason"),
+            }
+        )
+    return steps
+
+
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
@@ -621,6 +728,12 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             t_action = "ACQUIRE"
 
         e_candidate, e_action = _electoral_plan(root, tid, state, row)
+        territorial_admissibility = _territorial_admissibility(t_action, t_candidate)
+        electoral_admissibility = _electoral_admissibility(e_action, e_candidate)
+        sources_status = _sources_status(
+            territorial_admissibility,
+            electoral_admissibility,
+        )
 
         current_population_year = int(
             t_candidate.get("population_year", t_candidate.get("observed_population_year", terr["population_current_year"]))
@@ -652,6 +765,7 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
                 "checked_at": temporal["checked_at"],
             },
             "territorial_action": t_action,
+            "territorial_admissibility": territorial_admissibility,
             "territorial_package_state": "READY_REUSABLE" if t_action.startswith("REUSE") else "ACQUIRE_REQUIRED",
             "territorial_reason": t_candidate.get("reason"),
             "territorial_candidate": t_candidate,
@@ -666,6 +780,14 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "electoral_source": electoral.get("source"),
             "electoral_granularity": electoral.get("granularity"),
             "electoral_action": e_action,
+            "electoral_admissibility": electoral_admissibility,
+            "sources_status": sources_status,
+            "source_next_steps": _source_next_steps(
+                t_action,
+                t_candidate,
+                e_action,
+                e_candidate,
+            ),
             "electoral_package_state": (
                 "BLOCKED_PROVISIONAL" if e_action == "BLOCKED_PROVISIONAL"
                 else "READY_REUSABLE" if e_action == "REUSE"
