@@ -21,10 +21,13 @@ from shapely.geometry import box
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
 from herramientas.materializar_contrato_generacion import (
+    _apply_source_contract,
     component_apportionment_audit,
     component_hamilton,
     hamilton,
     materialize,
+    section_populations,
+    source_input_manifest,
 )
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 from herramientas.preparar_particiones_fisicas_m04 import prepare as prepare_physical_m04_input
@@ -179,6 +182,248 @@ def temp_root(territory_id: str, name: str, provinces: list[str]) -> tempfile.Te
 
 
 class NationalGenerationMaterializationTests(unittest.TestCase):
+    def test_resolved_binding_reads_non_ine_names_and_columns(self):
+        with tempfile.TemporaryDirectory() as td:
+            package = Path(td)
+            population_payload = (
+                "ANIO|SEXO_T|EDAD_T|ZONA_X|HABITANTES_X\n"
+                "2019|TODOS|TODAS|3300101001|1234\n"
+                "2019|TODOS|TODAS|3300101002|0\n"
+            ).encode("utf-8")
+            inner = io.BytesIO()
+            with zipfile.ZipFile(inner, "w", zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr("poblacion_real_origen.dat", population_payload)
+
+            population_path = "inputs/fuente-poblacion-con-nombre-libre.pkg"
+            population_bytes = inner.getvalue()
+            population_digest = hashlib.sha256(population_bytes).hexdigest()
+            section_path = "inputs/geometria-con-nombre-libre.bundle"
+            inventory = {
+                "schema": "ddd-source-inventory/1.2",
+                "sources": [
+                    {
+                        "role": "population",
+                        "source_id": "demo_population_any_provider",
+                        "path": population_path,
+                        "sha256": population_digest,
+                        "consumer_contract": {
+                            "schema": "ddd.resolved-source-binding/1.0",
+                            "source_id": "demo_population_any_provider",
+                            "role": "population",
+                            "path": population_path,
+                            "effective_year": 2019,
+                            "source_kind": "external_table",
+                            "source_format": "provider_specific",
+                            "container": "zip",
+                            "materialized_format": "csv",
+                            "archive_member": "poblacion_real_origen.dat",
+                            "encoding": "utf-8",
+                            "delimiter": "|",
+                            "fields": {
+                                "section_id": "ZONA_X",
+                                "population": "HABITANTES_X",
+                                "year": "ANIO",
+                                "sex": "SEXO_T",
+                                "age": "EDAD_T",
+                            },
+                            "filters": {
+                                "year_value": 2019,
+                                "sex_total_values": ["TODOS"],
+                                "age_total_values": ["TODAS"],
+                            },
+                        },
+                    },
+                    {
+                        "role": "target_sectioning",
+                        "source_id": "demo_geometry_any_provider",
+                        "path": section_path,
+                        "sha256": "a" * 64,
+                        "consumer_contract": {
+                            "schema": "ddd.resolved-source-binding/1.0",
+                            "source_id": "demo_geometry_any_provider",
+                            "role": "target_sectioning",
+                            "path": section_path,
+                            "effective_year": 2021,
+                            "source_kind": "external_geometry",
+                            "source_format": "provider_specific",
+                            "container": "zip",
+                            "materialized_format": "shapefile",
+                            "layer": "zonas",
+                            "fields": {
+                                "section_id": "ZONE_CODE",
+                                "territorial_filter": "ADM1",
+                            },
+                        },
+                    },
+                ],
+            }
+            bundle = package / "prepared_sources.zip"
+            with zipfile.ZipFile(bundle, "w", zipfile.ZIP_DEFLATED) as archive:
+                archive.writestr(
+                    "inventario_fuentes.json",
+                    json.dumps(inventory, ensure_ascii=False),
+                )
+                archive.writestr(
+                    "materialized/" + population_path,
+                    population_bytes,
+                )
+
+            source_inputs = source_input_manifest(package)
+            populations = section_populations(
+                package,
+                source_inputs,
+                "2019",
+                ["33"],
+            )
+            self.assertEqual(
+                populations,
+                {"3300101001": 1234, "3300101002": 0},
+            )
+
+    def test_all_19_active_contracts_inherit_resolved_names_without_guessing(self):
+        preparation = yaml.safe_load(
+            (ROOT / "configuracion/preparacion_legislatura_vigente.yaml").read_text(
+                encoding="utf-8"
+            )
+        )
+        selected = {
+            row["territory_id"]: (
+                int(row["territorial"]["population_selected_year"]),
+                int(row["territorial"]["section_selected_year"]),
+            )
+            for row in preparation["territories"]
+        }
+        catalog = yaml.safe_load(
+            (ROOT / "configuracion/catalogo_preparacion.yaml").read_text(
+                encoding="utf-8"
+            )
+        )
+        rows = {row["territory_id"]: row for row in catalog["territories"]}
+        self.assertEqual(len(rows), 19)
+
+        baseline = {
+            "package_sha256": "b" * 64,
+            "compatibility_identity_sha256": "c" * 64,
+        }
+        for territory_id, row in rows.items():
+            with self.subTest(territory_id=territory_id):
+                population_year, section_year = selected[territory_id]
+                state = row["editions"]["2025"]
+                cfg = yaml.safe_load(
+                    (ROOT / state["contract_path"]).read_text(encoding="utf-8")
+                )
+                population_path = f"inputs/{territory_id}/padron-cualquier-nombre.pkg"
+                section_path = f"inputs/{territory_id}/limites-cualquier-nombre.bundle"
+                source_inputs = [
+                    {
+                        "source_id": f"{territory_id}-population",
+                        "role": "population",
+                        "path": population_path,
+                        "sha256": "d" * 64,
+                        "consumer_contract": {
+                            "schema": "ddd.resolved-source-binding/1.0",
+                            "source_id": f"{territory_id}-population",
+                            "role": "population",
+                            "path": population_path,
+                            "effective_year": population_year,
+                            "source_kind": "provider_specific",
+                            "source_format": "provider_specific",
+                            "container": "zip",
+                            "materialized_format": "csv",
+                            "archive_member": "datos-origen.dat",
+                            "encoding": "utf-8",
+                            "delimiter": "|",
+                            "fields": {
+                                "section_id": "ID_SECCION_REAL",
+                                "population": "POBLACION_REAL",
+                                "year": "ANIO_REAL",
+                                "sex": "SEXO_REAL",
+                                "age": "EDAD_REAL",
+                            },
+                            "filters": {
+                                "year_value": population_year,
+                                "sex_total_values": ["TOTAL_REAL"],
+                                "age_total_values": ["TODAS_REAL"],
+                            },
+                        },
+                    },
+                    {
+                        "source_id": f"{territory_id}-sectioning",
+                        "role": "target_sectioning",
+                        "path": section_path,
+                        "sha256": "e" * 64,
+                        "consumer_contract": {
+                            "schema": "ddd.resolved-source-binding/1.0",
+                            "source_id": f"{territory_id}-sectioning",
+                            "role": "target_sectioning",
+                            "path": section_path,
+                            "effective_year": section_year,
+                            "source_kind": "provider_specific",
+                            "source_format": "provider_specific",
+                            "container": "zip",
+                            "materialized_format": "shapefile",
+                            "layer": "CAPA_REAL",
+                            "fields": {
+                                "section_id": "ID_SECCION_GEOMETRIA",
+                                "territorial_filter": "ADM1_REAL",
+                            },
+                        },
+                    },
+                ]
+                _apply_source_contract(
+                    cfg,
+                    population_year=population_year,
+                    section_year=section_year,
+                    baseline=baseline,
+                    source_inputs=source_inputs,
+                )
+
+                self.assertEqual(
+                    cfg["io"]["input"]["population_cip"]["paths"],
+                    [population_path],
+                )
+                self.assertEqual(
+                    cfg["io"]["input"]["population_cip"]["section_key_col"],
+                    "ID_SECCION_REAL",
+                )
+                self.assertEqual(
+                    cfg["io"]["input"]["population_cip"]["pop_col"],
+                    "POBLACION_REAL",
+                )
+                self.assertEqual(
+                    cfg["io"]["input"]["seccionado"]["path"],
+                    section_path,
+                )
+                self.assertEqual(
+                    cfg["io"]["input"]["seccionado"]["section_key_col"],
+                    "ID_SECCION_GEOMETRIA",
+                )
+                self.assertEqual(
+                    cfg["resolved_source_contract"]["runtime"]["population_field"],
+                    f"POP_{population_year}",
+                )
+
+                for module_name in (
+                    "modulo_03_construir_grafo",
+                    "modulo_04_generar_semillas",
+                    "modulo_05_optimizar_distritos",
+                    "modulo_06_consolidar_distritos",
+                ):
+                    module = (cfg.get("modulos") or {}).get(module_name)
+                    if isinstance(module, dict):
+                        self.assertEqual(
+                            module.get("pop_field"),
+                            "POP_{population_year}",
+                            (territory_id, module_name),
+                        )
+                partitioning = cfg.get("partitioning")
+                if isinstance(partitioning, dict) and partitioning.get("population_field"):
+                    self.assertEqual(
+                        partitioning["population_field"],
+                        "POP_{population_year}",
+                        territory_id,
+                    )
+
     def test_policy_covers_exactly_the_national_registry(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
