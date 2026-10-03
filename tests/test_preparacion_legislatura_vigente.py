@@ -187,7 +187,17 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
 
     def test_andalucia_uses_reconciled_siel_and_requires_2026_sectioning(self):
-        plan = resolve(ROOT, "Andalucía")["plans"][0]
+        state = {
+            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "andalucia"}, state),
+        ):
+            plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2026)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
@@ -325,7 +335,17 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["electoral_reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
 
     def test_andalucia_matrix_describes_current_siel_source(self):
-        plan = resolve(ROOT, "Andalucía")["plans"][0]
+        state = {
+            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "andalucia"}, state),
+        ):
+            plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
         self.assertIn("SIEL", str(plan["electoral_source"]))
