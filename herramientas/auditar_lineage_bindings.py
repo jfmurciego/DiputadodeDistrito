@@ -102,7 +102,7 @@ def _record_source_identity(
             )
         out.append(
             BindingLineage(
-                binding=f"source_inputs[{role}].{input_field}",
+                binding=f"generation_state.source_inputs[{role}].{input_field}",
                 value=value,
                 upstream=(
                     "resolved_source_contract.sources."
@@ -211,6 +211,59 @@ def audit_binding_lineage(
             contract=contract,
             upstream_path=("sources", "sectioning", field),
         )
+
+    # Columnas y filtros físicos que determinan cómo M01 interpreta población.
+    population_contract = _get(contract, ("sources", "population"))
+    population_fields = population_contract.get("fields") or {}
+    population_filters = population_contract.get("filters") or {}
+    for cfg_field, contract_field in (
+        ("year_col", "year"),
+        ("sexo_col", "sex"),
+        ("edad_col", "age"),
+    ):
+        if contract_field in population_fields:
+            _record(
+                out,
+                cfg=cfg,
+                binding_path=(
+                    "io",
+                    "input",
+                    "population_cip",
+                    "filters",
+                    cfg_field,
+                ),
+                contract=contract,
+                upstream_path=(
+                    "sources",
+                    "population",
+                    "fields",
+                    contract_field,
+                ),
+            )
+    for cfg_field, contract_field in (
+        ("year_value", "year_value"),
+        ("sexo_total_values", "sex_total_values"),
+        ("edad_total_values", "age_total_values"),
+    ):
+        if contract_field in population_filters:
+            _record(
+                out,
+                cfg=cfg,
+                binding_path=(
+                    "io",
+                    "input",
+                    "population_cip",
+                    "filters",
+                    cfg_field,
+                ),
+                contract=contract,
+                upstream_path=(
+                    "sources",
+                    "population",
+                    "filters",
+                    contract_field,
+                ),
+            )
 
     module_specs = (
         ("modulo_02_construir_adyacencias", "id_field", "section_id_field"),
@@ -364,21 +417,34 @@ def audit_binding_lineage(
                 upstream_path=("runtime", "municipality_field"),
             )
 
-    # Identidad durable de los bytes consumidos.
-    if source_inputs is None:
+    # Identidad durable de los bytes consumidos. La fuente de verdad es el
+    # estado operativo materializado; un argumento externo sólo puede servir
+    # como cross-check, nunca sustituirlo.
+    generation_state = cfg.get("generation_state")
+    if not isinstance(generation_state, dict):
         raise ContractDerivationBlock(
-            "CONTRACT_DERIVATION_BLOCK: falta source_inputs acreditado"
+            "CONTRACT_DERIVATION_BLOCK: falta generation_state durable"
+        )
+    durable_source_inputs = generation_state.get("source_inputs")
+    if not isinstance(durable_source_inputs, list):
+        raise ContractDerivationBlock(
+            "CONTRACT_DERIVATION_BLOCK: generation_state.source_inputs no es lista"
+        )
+    if source_inputs is not None and source_inputs != durable_source_inputs:
+        raise ContractDerivationBlock(
+            "CONTRACT_DERIVATION_BLOCK: source_inputs externo difiere de "
+            "generation_state.source_inputs durable"
         )
     _record_source_identity(
         out,
-        source_inputs=source_inputs,
+        source_inputs=durable_source_inputs,
         role="population",
         contract=contract,
         contract_source_key="population",
     )
     _record_source_identity(
         out,
-        source_inputs=source_inputs,
+        source_inputs=durable_source_inputs,
         role="target_sectioning",
         contract=contract,
         contract_source_key="sectioning",
