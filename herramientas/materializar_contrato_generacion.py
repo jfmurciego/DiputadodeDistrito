@@ -497,6 +497,33 @@ def _apply_source_contract(
     runtime_population_field = str(runtime_bindings.get("population_field") or "")
     runtime_section_id_field = str(runtime_bindings.get("section_id_field") or "")
     runtime_province_field = str(runtime_bindings.get("province_field") or "")
+    runtime_municipality_field = str(
+        runtime_bindings.get("municipality_field") or ""
+    )
+
+    validation = cfg.setdefault("validation", {})
+    partitioning = cfg.get("partitioning")
+    partitioning_enabled = bool(
+        isinstance(partitioning, dict)
+        and partitioning.get("enabled") is not False
+        and str(partitioning.get("strategy") or "").strip()
+    )
+    partition_unit_field = (
+        str(partitioning.get("partition_unit_field") or "")
+        if isinstance(partitioning, dict)
+        else ""
+    )
+
+    # Los nombres administrativos del contrato resuelto son autoritativos.
+    # Una unidad interna puede sustituir al municipio sólo como input derivado
+    # de M04; no cambia el nombre del municipio administrativo aguas arriba/abajo.
+    if runtime_province_field:
+        validation["province_field"] = runtime_province_field
+    if runtime_municipality_field:
+        validation["municipality_field"] = runtime_municipality_field
+        if isinstance(partitioning, dict):
+            partitioning["municipality_field"] = runtime_municipality_field
+
     for name in (
         "modulo_03_construir_grafo",
         "modulo_04_generar_semillas",
@@ -511,17 +538,37 @@ def _apply_source_contract(
                 module["id_field"] = runtime_section_id_field
             if runtime_province_field and "province_field" in module:
                 module["province_field"] = runtime_province_field
+
+    m04 = modules.get("modulo_04_generar_semillas")
+    if isinstance(m04, dict) and runtime_municipality_field:
+        if partitioning_enabled and partition_unit_field:
+            m04["municipality_field"] = partition_unit_field
+        elif "municipality_field" in m04:
+            m04["municipality_field"] = runtime_municipality_field
+        if "source_municipality_field" in m04:
+            m04["source_municipality_field"] = runtime_municipality_field
+
+    for name in (
+        "modulo_05_optimizar_distritos",
+        "modulo_06_consolidar_distritos",
+    ):
+        module = modules.get(name)
+        if (
+            isinstance(module, dict)
+            and runtime_municipality_field
+            and "municipality_field" in module
+        ):
+            module["municipality_field"] = runtime_municipality_field
+
     m02 = modules.get("modulo_02_construir_adyacencias")
     if isinstance(m02, dict) and runtime_section_id_field:
         m02["id_field"] = runtime_section_id_field
     electoral = modules.get("modulo_07_agregar_resultados_electorales")
     if isinstance(electoral, dict) and electoral.get("population_field") and runtime_population_field:
         electoral["population_field"] = runtime_population_field
-    partitioning = cfg.get("partitioning")
     if isinstance(partitioning, dict) and partitioning.get("population_field") and runtime_population_field:
         partitioning["population_field"] = runtime_population_field
 
-    validation = cfg.setdefault("validation", {})
     validation["source_baseline"] = copy.deepcopy(baseline)
     state = cfg.setdefault("generation_state", {})
     state.update({
