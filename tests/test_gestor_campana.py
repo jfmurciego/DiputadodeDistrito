@@ -9,6 +9,7 @@ import yaml
 
 from tests import _test_gestor_campana_core as _core
 from tests._test_gestor_campana_core import *  # noqa: F401,F403
+from tests.test_pre_m04_evidence_pipeline import write_fixture
 
 ROOT = _core.ROOT
 build_plan = _core.build_plan
@@ -89,55 +90,49 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
             force_selected_algorithm=False,
         )
 
-    # En cambio, cualquier nueva generación sobre los paquetes históricos actuales
-    # debe reacreditar la fuente: todavía carecen de compatibilidad+año completa.
-    for name, territory_id in (
-        ("Galicia", "galicia"),
-        ("Principado de Asturias", "principado_de_asturias"),
-        ("Aragón", "aragon"),
-        ("Castilla y León", "castilla_y_leon"),
-        ("Andalucía", "andalucia"),
-        ("La Rioja", "la_rioja"),
-        ("Cantabria", "cantabria"),
-        ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
-        ("País Vasco", "pais_vasco"),
-        ("Comunidad de Madrid", "madrid"),
-        ("Comunidad Valenciana", "comunidad_valenciana"),
-        ("Cataluña", "cataluna"),
-    ):
-        with self.subTest(recompute=territory_id):
-            plan = build_plan(
-                territory=name,
-                edition="2025",
-                execution_mode="reuse",
-                catalog=catalog_path,
-                root_dir=ROOT,
-                optimization_algorithm="GerryChain 50",
-                force_selected_algorithm=True,
-            )
-            self.assertTrue(plan["run_prepare_territorial"])
-            self.assertEqual(
-                plan["generation_gate"],
-                {"allowed": True, "route": "planned_pre_m04_accreditation"},
-            )
-            self.assertTrue(plan["pre_m04_accreditation_planned"])
+    # La reacreditación previa a generación se prueba con un fixture controlado:
+    # fuente territorial válida, sin evidencia previa a generación. El resultado
+    # no depende de qué territorios reales hayan sido activados hoy.
+    with tempfile.TemporaryDirectory() as raw:
+        root = Path(raw)
+        write_fixture(root, partitioned=False)
+        controlled_catalog = root / "configuracion/catalogo_preparacion.yaml"
+        controlled = yaml.safe_load(controlled_catalog.read_text(encoding="utf-8")) or {}
+        state = controlled["territories"][0]["editions"]["2025"]
+        state["generation_enabled"] = True
+        state.setdefault("evidence", {}).pop("generation_preflight", None)
+        controlled_catalog.write_text(
+            yaml.safe_dump(controlled, allow_unicode=True, sort_keys=False),
+            encoding="utf-8",
+        )
 
-            row = rows[territory_id]
-            historical_preflight = (row.get("evidence") or {}).get("generation_preflight")
-            if historical_preflight:
-                evidence = json.loads((ROOT / historical_preflight).read_text(encoding="utf-8"))
-                direct = generation_enablement(
-                    root_dir=ROOT,
-                    contract_path=row["contract_path"],
-                    territory_id=territory_id,
-                    certified_product_ready=False,
-                    first_generation_evidence=evidence,
-                    preparation_evidence=row.get("preparation_evidence") or {},
-                    require_source=True,
-                )
-                self.assertFalse(direct["allowed"])
-                self.assertIn(direct["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
+        plan = build_plan(
+            territory="demo",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=controlled_catalog,
+            root_dir=root,
+            optimization_algorithm="GerryChain 50",
+            force_selected_algorithm=True,
+        )
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
 
+        direct = generation_enablement(
+            root_dir=root,
+            contract_path="territorios/demo/config/demo_2025.yaml",
+            territory_id="demo",
+            certified_product_ready=False,
+            first_generation_evidence=None,
+            preparation_evidence=state.get("preparation_evidence") or {},
+            require_source=True,
+        )
+        self.assertFalse(direct["allowed"])
+        self.assertIn(direct["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
 
 
 def _write_structural_fixture(root: Path, *, b_sha: str = "b" * 64, authorization=..., broken_k: bool = False) -> Path:
