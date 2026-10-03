@@ -759,8 +759,6 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
 
             # Simula exactamente el caso Melilla: la evidencia existe y está
             # ligada a la fuente correcta, pero M01 cambió desde que se emitió.
-            stale = json.loads(json.dumps(evidence))
-            stale["implementation"]["m01_git_blob_sha1"] = "0" * 40
             evidence_rel = (
                 "territorios/demo/evidencia/catalogo/"
                 "generation_preflight_2025.json"
@@ -768,7 +766,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             evidence_path = root / evidence_rel
             evidence_path.parent.mkdir(parents=True, exist_ok=True)
             evidence_path.write_text(
-                json.dumps(stale, indent=2),
+                json.dumps(evidence, indent=2),
                 encoding="utf-8",
             )
 
@@ -779,6 +777,28 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             state.setdefault("evidence", {})["generation_preflight"] = evidence_rel
             catalog_path.write_text(
                 yaml.safe_dump(catalog, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+
+            valid_plan = build_plan(
+                territory="demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog_path,
+                root_dir=root,
+                optimization_algorithm="Canónico",
+            )
+            self.assertFalse(valid_plan["run_prepare_territorial"])
+            self.assertFalse(valid_plan["pre_m04_accreditation_planned"])
+            self.assertEqual(
+                valid_plan["generation_gate"],
+                {"allowed": True, "route": "validated_pre_m04_topology"},
+            )
+
+            stale = json.loads(json.dumps(evidence))
+            stale["implementation"]["m01_git_blob_sha1"] = "0" * 40
+            evidence_path.write_text(
+                json.dumps(stale, indent=2),
                 encoding="utf-8",
             )
 
@@ -830,6 +850,50 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 "reutilizar_si_ya_preparada"
             ],
             "${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}",
+        )
+
+    def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_unreadable(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_fixture(root, partitioned=False)
+
+            evidence_rel = (
+                "territorios/demo/evidencia/catalogo/"
+                "generation_preflight_2025.json"
+            )
+            evidence_path = root / evidence_rel
+            evidence_path.parent.mkdir(parents=True, exist_ok=True)
+            evidence_path.write_text("{not-json", encoding="utf-8")
+
+            catalog_path = root / "configuracion/catalogo_preparacion.yaml"
+            catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
+            state = catalog["territories"][0]["editions"]["2025"]
+            state["generation_enabled"] = True
+            state.setdefault("evidence", {})["generation_preflight"] = evidence_rel
+            catalog_path.write_text(
+                yaml.safe_dump(catalog, sort_keys=False, allow_unicode=True),
+                encoding="utf-8",
+            )
+
+            plan = build_plan(
+                territory="demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog_path,
+                root_dir=root,
+                optimization_algorithm="Canónico",
+            )
+
+        self.assertEqual(
+            plan["existing"]["territorial_source"]["decision"],
+            "VALIDADO",
+        )
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
+        self.assertTrue(plan["run_generate"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
         )
 
     def test_00_reuse_reaccredits_valid_source_when_pre_m04_is_missing(self):
