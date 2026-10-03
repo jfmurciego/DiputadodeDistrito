@@ -10,7 +10,7 @@ meta:
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   source_population_year: 2024
   source_section_year: 2024
 io:
@@ -56,7 +56,7 @@ territory_contract:
   - '27'
   - '32'
   - '36'
-  status: source_prepared_pending_pre_m04
+  status: generation_ready
   topology_mode: land
   k_districts: 75
   k_source: norma
@@ -322,7 +322,7 @@ resolved_source_contract:
   contract_sha256: e2dff7ff6ed8581bba1cc0a69af4ee59e3c043495007bb36915e6e9c72ae23ca
 generation_state:
   source_prepared: true
-  generation_enabled: false
+  generation_enabled: true
   package_sha256: 3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c
   compatibility_identity_sha256: d264f53e27628fc41ceacc3a725a1eea1f48785a45ef1de17384a98695e930c5
   source_inputs:
@@ -374,3 +374,6 @@ generation_state:
       fields:
         section_id: CUSEC
         territorial_filter: CPRO
+  pre_m04_run_id: 37155903096
+  pre_m04_source_commit: cba2ddb1255fd59a50b871b01fc42c17e3422d5e
+  pre_m04_artifact_sha256: b44d0db6bb7209bd7170a454332361e0a96e6eeac95212151dd11c7af718c881
