@@ -28,6 +28,7 @@ from herramientas.materializar_contrato_generacion import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 from herramientas.preparar_particiones_fisicas_m04 import prepare as prepare_physical_m04_input
+from tests.test_pre_m04_evidence_pipeline import write_fixture
 from herramientas._resolver_ejecucion_completa_core import (
     _bridge_signature,
     _contract_generation_binding,
@@ -822,13 +823,25 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         self.assertIn("preparar_unidades_internas.py", workflow)
 
     def test_non_insular_preflight_behavior_is_unchanged(self):
-        plan = build_plan(
-            territory="cantabria",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_fixture(root, partitioned=False)
+            catalog = root/"configuracion/catalogo_preparacion.yaml"
+            payload = yaml.safe_load(catalog.read_text(encoding="utf-8")) or {}
+            state = payload["territories"][0]["editions"]["2025"]
+            state["generation_enabled"] = True
+            state.setdefault("evidence", {}).pop("generation_preflight", None)
+            catalog.write_text(
+                yaml.safe_dump(payload, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=root,
+            )
         self.assertTrue(plan["pre_m04_accreditation_planned"])
         self.assertTrue(plan["run_prepare_territorial"])
         self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"])
