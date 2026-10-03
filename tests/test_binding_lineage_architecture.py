@@ -131,10 +131,7 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     source_inputs=source_inputs,
                     resolved_contract=resolved,
                 )
-                lineage = audit_binding_lineage(
-                    cfg,
-                    source_inputs=source_inputs,
-                )
+                lineage = audit_binding_lineage(cfg)
                 self.assertTrue(lineage)
                 audited[territory_id] = {
                     row["binding"]: row["upstream"]
@@ -159,6 +156,16 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                 territory_id,
             )
             self.assertEqual(
+                lineage["io.input.population_cip.filters.year_col"],
+                "resolved_source_contract.sources.population.fields.year",
+                territory_id,
+            )
+            self.assertEqual(
+                lineage["io.input.population_cip.filters.year_value"],
+                "resolved_source_contract.sources.population.filters.year_value",
+                territory_id,
+            )
+            self.assertEqual(
                 lineage["validation.province_field"],
                 "resolved_source_contract.runtime.province_field",
                 territory_id,
@@ -169,12 +176,12 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                 territory_id,
             )
             self.assertEqual(
-                lineage["source_inputs[population].sha256"],
+                lineage["generation_state.source_inputs[population].sha256"],
                 "resolved_source_contract.sources.population.artifact.sha256",
                 territory_id,
             )
             self.assertEqual(
-                lineage["source_inputs[target_sectioning].sha256"],
+                lineage["generation_state.source_inputs[target_sectioning].sha256"],
                 "resolved_source_contract.sources.sectioning.artifact.sha256",
                 territory_id,
             )
@@ -317,9 +324,22 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             source_inputs=source_inputs,
             resolved_contract=resolved,
         )
-        lineage = audit_binding_lineage(
-            cfg,
-            source_inputs=source_inputs,
+        lineage = audit_binding_lineage(cfg)
+        lineage_map = {
+            row["binding"]: row["upstream"]
+            for row in lineage
+        }
+        self.assertEqual(
+            lineage_map["io.input.population_cip.filters.year_col"],
+            "resolved_source_contract.sources.population.fields.year",
+        )
+        self.assertEqual(
+            lineage_map["io.input.population_cip.filters.year_value"],
+            "resolved_source_contract.sources.population.filters.year_value",
+        )
+        self.assertEqual(
+            lineage_map["generation_state.source_inputs[population].sha256"],
+            "resolved_source_contract.sources.population.artifact.sha256",
         )
         values = "\n".join(str(row["value"]) for row in lineage)
         for invented in (
@@ -339,10 +359,7 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             ContractDerivationBlock,
             "CONTRACT_DERIVATION_BLOCK",
         ):
-            audit_binding_lineage(
-                corrupted,
-                source_inputs=source_inputs,
-            )
+            audit_binding_lineage(corrupted)
 
         corrupted_physical = copy.deepcopy(cfg)
         corrupted_physical["io"]["input"]["population_cip"]["archive_member"] = "README.csv"
@@ -350,10 +367,7 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             ContractDerivationBlock,
             "CONTRACT_DERIVATION_BLOCK",
         ):
-            audit_binding_lineage(
-                corrupted_physical,
-                source_inputs=source_inputs,
-            )
+            audit_binding_lineage(corrupted_physical)
 
         corrupted_admin = copy.deepcopy(cfg)
         corrupted_admin["modulos"]["modulo_05_optimizar_distritos"][
@@ -364,20 +378,40 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             ContractDerivationBlock,
             "CONTRACT_DERIVATION_BLOCK",
         ):
-            audit_binding_lineage(
-                corrupted_admin,
-                source_inputs=source_inputs,
-            )
+            audit_binding_lineage(corrupted_admin)
 
-        corrupted_sources = copy.deepcopy(source_inputs)
-        corrupted_sources[0]["sha256"] = "9" * 64
+        corrupted_durable = copy.deepcopy(cfg)
+        durable_population = next(
+            row
+            for row in corrupted_durable["generation_state"]["source_inputs"]
+            if row["role"] == "population"
+        )
+        durable_population["sha256"] = "9" * 64
+        with self.assertRaisesRegex(
+            ContractDerivationBlock,
+            "CONTRACT_DERIVATION_BLOCK",
+        ):
+            audit_binding_lineage(corrupted_durable)
+
+        corrupted_filter = copy.deepcopy(cfg)
+        corrupted_filter["io"]["input"]["population_cip"]["filters"][
+            "year_value"
+        ] = 2025
+        with self.assertRaisesRegex(
+            ContractDerivationBlock,
+            "CONTRACT_DERIVATION_BLOCK",
+        ):
+            audit_binding_lineage(corrupted_filter)
+
+        external_mismatch = copy.deepcopy(source_inputs)
+        external_mismatch[0]["sha256"] = "8" * 64
         with self.assertRaisesRegex(
             ContractDerivationBlock,
             "CONTRACT_DERIVATION_BLOCK",
         ):
             audit_binding_lineage(
                 cfg,
-                source_inputs=corrupted_sources,
+                source_inputs=external_mismatch,
             )
 
 
