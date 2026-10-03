@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import csv
 import io
 import json
@@ -64,7 +65,39 @@ def update_master_entry(path: Path, territory_id: str, *, status: str, authoriza
     lines[idx] = line
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-def _open_population_zip(package: Path) -> zipfile.ZipFile:
+def _source_by_role(source_inputs: list[dict[str, Any]], role: str) -> dict[str, Any]:
+    matches = [row for row in source_inputs if str(row.get("role") or "") == role]
+    if len(matches) != 1:
+        raise ValueError(f"Contrato de fuentes requiere exactamente un role={role}: {len(matches)}")
+    return matches[0]
+
+
+def _prepared_source_bytes(package: Path, source: dict[str, Any]) -> bytes:
+    path = str(source.get("path") or "").strip()
+    if not path:
+        raise ValueError("Fuente preparada sin path")
+    direct = [p for p in package.rglob(Path(path).name) if p.is_file()]
+    exact = [p for p in direct if p.as_posix().endswith(path)]
+    if len(exact) == 1:
+        return exact[0].read_bytes()
+    bundle = package / "prepared_sources.zip"
+    if not bundle.is_file():
+        raise FileNotFoundError(f"No se localiza {path!r} ni prepared_sources.zip en {package}")
+    with zipfile.ZipFile(bundle) as archive:
+        preferred = f"materialized/{path}"
+        if preferred in archive.namelist():
+            return archive.read(preferred)
+        candidates = [
+            name for name in archive.namelist()
+            if name == path or name.endswith("/" + path)
+        ]
+        if len(candidates) != 1:
+            raise ValueError(f"Paquete territorial ambiguo para {path!r}: {candidates}")
+        return archive.read(candidates[0])
+
+
+def _legacy_open_population_zip(package: Path) -> zipfile.ZipFile:
+    """Puente explícito para paquetes previos al contrato físico resuelto."""
     direct = list(package.rglob("65034.csv.zip")) if package.exists() else []
     if direct:
         return zipfile.ZipFile(direct[0])
@@ -79,10 +112,10 @@ def _open_population_zip(package: Path) -> zipfile.ZipFile:
     return zipfile.ZipFile(io.BytesIO(payload))
 
 
-def section_populations(package: Path, edition: str, province_codes: list[str]) -> dict[str, int]:
+def _legacy_section_populations(package: Path, edition: str, province_codes: list[str]) -> dict[str, int]:
     wanted = {str(x).zfill(2) for x in province_codes}
     result: dict[str, int] = {}
-    with _open_population_zip(package) as z:
+    with _legacy_open_population_zip(package) as z:
         names = [n for n in z.namelist() if n.lower().endswith(".csv") and "__MACOSX" not in n]
         if not names:
             raise ValueError("65034.csv.zip no contiene CSV")
@@ -112,11 +145,100 @@ def section_populations(package: Path, edition: str, province_codes: list[str]) 
                 if raw_total == "":
                     raise ValueError(f"Población ausente para sección {sec}")
                 if sec in result:
-                    raise ValueError(
-                        f"Clave poblacional duplicada antes de sobrescribir: {sec}"
-                    )
-                normalized_total = raw_total.replace(".", "").replace(",", "")
-                result[sec] = int(normalized_total)
+                    raise ValueError(f"Clave poblacional duplicada antes de sobrescribir: {sec}")
+                result[sec] = int(raw_total.replace(".", "").replace(",", ""))
+    if not result:
+        raise ValueError("La fuente de población preparada no contiene secciones para el territorio")
+    return result
+
+
+def section_populations(
+    package: Path,
+    source_inputs: list[dict[str, Any]],
+    population_year: str,
+    province_codes: list[str],
+    resolved_contract: dict[str, Any] | None = None,
+) -> dict[str, int]:
+    population_source = _source_by_role(source_inputs, "population")
+    contract = None
+    if isinstance(resolved_contract, dict):
+        contract = ((resolved_contract.get("sources") or {}).get("population"))
+    if not isinstance(contract, dict):
+        contract = population_source.get("consumer_contract")
+    if not isinstance(contract, dict):
+        return _legacy_section_populations(package, population_year, province_codes)
+
+    if contract.get("schema") != "ddd.resolved-source-binding/1.0":
+        raise ValueError("Contrato físico de población con schema no soportado")
+    if str(contract.get("materialized_format") or "") != "csv":
+        raise ValueError(
+            "Formato poblacional aún no soportado por el adaptador: "
+            + str(contract.get("materialized_format") or contract.get("source_format") or "")
+        )
+    fields = contract.get("fields") or {}
+    filters = contract.get("filters") or {}
+    section_col = str(fields.get("section_id") or "")
+    population_col = str(fields.get("population") or "")
+    year_col = str(fields.get("year") or "")
+    sex_col = str(fields.get("sex") or "")
+    age_col = str(fields.get("age") or "")
+    if not section_col or not population_col:
+        raise ValueError("Contrato físico de población sin section_id/population")
+
+    payload = _prepared_source_bytes(package, population_source)
+    if str(contract.get("container") or "") == "zip":
+        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+            member = str(contract.get("archive_member") or "")
+            if member and member in archive.namelist():
+                raw_payload = archive.read(member)
+            else:
+                candidates = [
+                    name for name in archive.namelist()
+                    if not name.endswith("/") and name.lower().endswith((".csv", ".tsv", ".txt"))
+                ]
+                if len(candidates) != 1:
+                    raise ValueError(f"Contrato poblacional ambiguo: archive_member={member!r}, candidatos={candidates}")
+                raw_payload = archive.read(candidates[0])
+    else:
+        raw_payload = payload
+
+    encoding = str(contract.get("encoding") or "utf-8-sig")
+    text = raw_payload.decode(encoding)
+    delimiter = str(contract.get("delimiter") or "auto")
+    if delimiter == "auto":
+        first = text.splitlines()[0] if text.splitlines() else ""
+        delimiter = max(("\t", ";", ","), key=first.count)
+    reader = csv.DictReader(io.StringIO(text), delimiter=delimiter)
+    if not reader.fieldnames:
+        raise ValueError("Fuente poblacional sin cabecera")
+    required = {section_col, population_col}
+    required.update(x for x in (year_col, sex_col, age_col) if x)
+    missing = sorted(required - set(reader.fieldnames))
+    if missing:
+        raise ValueError(f"Contrato poblacional refiere columnas ausentes: {missing}")
+
+    wanted = {str(x).zfill(2) for x in province_codes}
+    result: dict[str, int] = {}
+    for row in reader:
+        if year_col and str(row.get(year_col) or "").strip() != str(filters.get("year_value", population_year)):
+            continue
+        if sex_col and str(row.get(sex_col) or "").strip() not in {
+            str(x) for x in (filters.get("sex_total_values") or [])
+        }:
+            continue
+        if age_col and str(row.get(age_col) or "").strip() not in {
+            str(x) for x in (filters.get("age_total_values") or [])
+        }:
+            continue
+        sec = str(row.get(section_col) or "").split(" ", 1)[0].strip()
+        if len(sec) != 10 or sec[:2] not in wanted:
+            continue
+        raw_total = str(row.get(population_col) or "").strip()
+        if raw_total == "":
+            raise ValueError(f"Población ausente para sección {sec}")
+        if sec in result:
+            raise ValueError(f"Clave poblacional duplicada antes de sobrescribir: {sec}")
+        result[sec] = int(raw_total.replace(".", "").replace(",", ""))
     if not result:
         raise ValueError("La fuente de población preparada no contiene secciones para el territorio")
     return result
@@ -170,6 +292,41 @@ def source_baseline(
     }
 
 
+def resolved_source_contract(package: Path) -> dict[str, Any] | None:
+    bundle = package / "prepared_sources.zip"
+    if not bundle.is_file():
+        return None
+    try:
+        with zipfile.ZipFile(bundle) as archive:
+            if "resolved_source_contract.json" in archive.namelist():
+                contract = json.loads(archive.read("resolved_source_contract.json"))
+            else:
+                inventory = json.loads(archive.read("inventario_fuentes.json"))
+                contract = inventory.get("resolved_source_contract")
+    except (KeyError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+        raise ValueError("Paquete territorial con contrato resuelto ilegible") from exc
+    if contract is None:
+        return None
+    if not isinstance(contract, dict) or contract.get("schema") != "ddd.resolved-source-contract/1.0":
+        raise ValueError("resolved_source_contract con schema no soportado")
+    expected = str(contract.get("contract_sha256") or "")
+    canonical = dict(contract)
+    canonical.pop("contract_sha256", None)
+    actual = hashlib.sha256(
+        json.dumps(
+            canonical,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    if expected != actual:
+        raise ValueError(
+            f"resolved_source_contract SHA-256 inválido: {expected} != {actual}"
+        )
+    return contract
+
+
 def source_input_manifest(package: Path) -> list[dict[str, Any]]:
     bundle = package / "prepared_sources.zip"
     if not bundle.is_file():
@@ -199,11 +356,28 @@ def source_input_manifest(package: Path) -> list[dict[str, Any]]:
         if not re.fullmatch(r"[0-9a-f]{64}", digest):
             raise ValueError(f"SHA-256 territorial inválido para {path}")
         seen.add(path)
+        consumer_contract = source.get("consumer_contract")
+        if consumer_contract is not None:
+            if not isinstance(consumer_contract, dict):
+                raise ValueError(f"consumer_contract inválido para {source_id or path}")
+            if consumer_contract.get("schema") != "ddd.resolved-source-binding/1.0":
+                raise ValueError(f"consumer_contract con schema no soportado para {source_id or path}")
+            for key, expected in (
+                ("path", path),
+                ("role", role),
+                ("source_id", source_id),
+            ):
+                observed = str(consumer_contract.get(key) or "")
+                if observed != expected:
+                    raise ValueError(
+                        f"consumer_contract inconsistente {key}: {observed!r} != {expected!r}"
+                    )
         out.append({
             "path": path,
             "sha256": digest,
             "role": role,
             "source_id": source_id,
+            "consumer_contract": copy.deepcopy(consumer_contract) if consumer_contract is not None else None,
         })
     return out
 
@@ -215,6 +389,7 @@ def _apply_source_contract(
     section_year: int,
     baseline: dict[str, Any],
     source_inputs: list[dict[str, Any]],
+    resolved_contract: dict[str, Any] | None = None,
 ) -> None:
     meta = cfg.setdefault("meta", {})
     meta["source_population_year"] = int(population_year)
@@ -222,11 +397,133 @@ def _apply_source_contract(
     meta["status"] = "source_prepared_pending_pre_m04"
 
     io_cfg = cfg.setdefault("io", {}).setdefault("input", {})
-    io_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{section_year}.zip"
+    population_source = _source_by_role(source_inputs, "population")
+    section_source = _source_by_role(source_inputs, "target_sectioning")
+    population_contract = None
+    section_contract = None
+    runtime_bindings: dict[str, Any] = {}
+    if isinstance(resolved_contract, dict):
+        sources = resolved_contract.get("sources") or {}
+        population_contract = sources.get("population")
+        section_contract = sources.get("sectioning")
+        runtime_bindings = dict(resolved_contract.get("runtime") or {})
+    if not isinstance(population_contract, dict):
+        population_contract = population_source.get("consumer_contract")
+    if not isinstance(section_contract, dict):
+        section_contract = section_source.get("consumer_contract")
+
+    if isinstance(section_contract, dict):
+        section_fields = section_contract.get("fields") or {}
+        seccionado_cfg = io_cfg.setdefault("seccionado", {})
+        seccionado_cfg["path"] = str(section_contract["path"])
+        seccionado_cfg["layer"] = str(section_contract.get("layer") or "")
+        seccionado_cfg["container"] = str(section_contract.get("container") or "file")
+        seccionado_cfg["materialized_format"] = str(
+            section_contract.get("materialized_format")
+            or section_contract.get("source_format")
+            or ""
+        )
+        seccionado_cfg["archive_member"] = str(
+            section_contract.get("archive_member") or ""
+        )
+        if section_fields.get("section_id"):
+            seccionado_cfg["section_key_col"] = str(section_fields["section_id"])
+    else:
+        # Compatibilidad sólo para paquetes durables creados antes de este contrato.
+        io_cfg.setdefault("seccionado", {})["path"] = f"inputs/seccionado_{section_year}.zip"
+
     population_cfg = io_cfg.setdefault("population_cip", {})
-    population_cfg.setdefault("filters", {})["year_value"] = int(population_year)
+    if isinstance(population_contract, dict):
+        population_fields = population_contract.get("fields") or {}
+        population_filters = population_contract.get("filters") or {}
+        population_cfg["paths"] = [str(population_contract["path"])]
+        population_cfg["container"] = str(population_contract.get("container") or "file")
+        population_cfg["materialized_format"] = str(
+            population_contract.get("materialized_format")
+            or population_contract.get("source_format")
+            or ""
+        )
+        population_cfg["archive_member"] = str(
+            population_contract.get("archive_member") or ""
+        )
+        population_cfg["encoding"] = str(
+            population_contract.get("encoding") or "utf-8-sig"
+        )
+        population_cfg["sep"] = str(population_contract.get("delimiter") or "auto")
+        population_cfg["section_key_col"] = str(population_fields.get("section_id") or "")
+        population_cfg["pop_col"] = str(population_fields.get("population") or "")
+        filters_cfg = population_cfg.setdefault("filters", {})
+        mapping = {
+            "year_col": "year",
+            "sexo_col": "sex",
+            "edad_col": "age",
+        }
+        for target, semantic in mapping.items():
+            value = str(population_fields.get(semantic) or "")
+            if value:
+                filters_cfg[target] = value
+        filters_cfg["year_value"] = population_filters.get("year_value", int(population_year))
+        if "sex_total_values" in population_filters:
+            filters_cfg["sexo_total_values"] = list(population_filters["sex_total_values"])
+        if "age_total_values" in population_filters:
+            filters_cfg["edad_total_values"] = list(population_filters["age_total_values"])
+    else:
+        population_cfg.setdefault("filters", {})["year_value"] = int(population_year)
+
+    if not runtime_bindings:
+        runtime_bindings = {
+            "section_id_field": "CUSEC_KEY",
+            "population_field": f"POP_{int(population_year)}",
+            "province_field": (cfg.get("validation") or {}).get("province_field", "CPRO"),
+            "municipality_field": (cfg.get("validation") or {}).get("municipality_field", "CUMUN"),
+        }
+    if isinstance(resolved_contract, dict):
+        cfg["resolved_source_contract"] = copy.deepcopy(resolved_contract)
+    else:
+        cfg["resolved_source_contract"] = {
+            "schema": "ddd.resolved-source-contract/legacy-bridge",
+            "temporal": {
+                "population_year": int(population_year),
+                "section_year": int(section_year),
+            },
+            "sources": {
+                "population": copy.deepcopy(population_contract),
+                "sectioning": copy.deepcopy(section_contract),
+            },
+            "runtime": copy.deepcopy(runtime_bindings),
+        }
 
     modules = cfg.setdefault("modulos", {})
+    runtime_population_field = str(runtime_bindings.get("population_field") or "")
+    runtime_section_id_field = str(runtime_bindings.get("section_id_field") or "")
+    runtime_province_field = str(runtime_bindings.get("province_field") or "")
+    runtime_municipality_field = str(
+        runtime_bindings.get("municipality_field") or ""
+    )
+
+    validation = cfg.setdefault("validation", {})
+    partitioning = cfg.get("partitioning")
+    partitioning_enabled = bool(
+        isinstance(partitioning, dict)
+        and partitioning.get("enabled") is not False
+        and str(partitioning.get("strategy") or "").strip()
+    )
+    partition_unit_field = (
+        str(partitioning.get("partition_unit_field") or "")
+        if isinstance(partitioning, dict)
+        else ""
+    )
+
+    # Los nombres administrativos del contrato resuelto son autoritativos.
+    # Una unidad interna puede sustituir al municipio sólo como input derivado
+    # de M04; no cambia el nombre del municipio administrativo aguas arriba/abajo.
+    if runtime_province_field:
+        validation["province_field"] = runtime_province_field
+    if runtime_municipality_field:
+        validation["municipality_field"] = runtime_municipality_field
+        if isinstance(partitioning, dict):
+            partitioning["municipality_field"] = runtime_municipality_field
+
     for name in (
         "modulo_03_construir_grafo",
         "modulo_04_generar_semillas",
@@ -235,12 +532,43 @@ def _apply_source_contract(
     ):
         module = modules.get(name)
         if isinstance(module, dict):
-            module["pop_field"] = "POP_{population_year}"
-    electoral = modules.get("modulo_07_agregar_resultados_electorales")
-    if isinstance(electoral, dict) and electoral.get("population_field"):
-        electoral["population_field"] = "POP_{population_year}"
+            if runtime_population_field:
+                module["pop_field"] = runtime_population_field
+            if runtime_section_id_field and "id_field" in module:
+                module["id_field"] = runtime_section_id_field
+            if runtime_province_field and "province_field" in module:
+                module["province_field"] = runtime_province_field
 
-    validation = cfg.setdefault("validation", {})
+    m04 = modules.get("modulo_04_generar_semillas")
+    if isinstance(m04, dict) and runtime_municipality_field:
+        if partitioning_enabled and partition_unit_field:
+            m04["municipality_field"] = partition_unit_field
+        elif "municipality_field" in m04:
+            m04["municipality_field"] = runtime_municipality_field
+        if "source_municipality_field" in m04:
+            m04["source_municipality_field"] = runtime_municipality_field
+
+    for name in (
+        "modulo_05_optimizar_distritos",
+        "modulo_06_consolidar_distritos",
+    ):
+        module = modules.get(name)
+        if (
+            isinstance(module, dict)
+            and runtime_municipality_field
+            and "municipality_field" in module
+        ):
+            module["municipality_field"] = runtime_municipality_field
+
+    m02 = modules.get("modulo_02_construir_adyacencias")
+    if isinstance(m02, dict) and runtime_section_id_field:
+        m02["id_field"] = runtime_section_id_field
+    electoral = modules.get("modulo_07_agregar_resultados_electorales")
+    if isinstance(electoral, dict) and electoral.get("population_field") and runtime_population_field:
+        electoral["population_field"] = runtime_population_field
+    if isinstance(partitioning, dict) and partitioning.get("population_field") and runtime_population_field:
+        partitioning["population_field"] = runtime_population_field
+
     validation["source_baseline"] = copy.deepcopy(baseline)
     state = cfg.setdefault("generation_state", {})
     state.update({
@@ -487,7 +815,15 @@ def materialize(
     provinces = [str(x).zfill(2) for x in row["province_codes"]]
     k = int(pentry["k"])
     defaults = policy["defaults"]
-    section_pop = section_populations(package, population_year, provinces)
+    source_inputs = source_input_manifest(package)
+    resolved_contract = resolved_source_contract(package)
+    section_pop = section_populations(
+        package,
+        source_inputs,
+        population_year,
+        provinces,
+        resolved_contract=resolved_contract,
+    )
     baseline = source_baseline(
         package,
         territory_id=territory_id,
@@ -495,15 +831,11 @@ def materialize(
         population_year=int(population_year),
         section_year=int(section_year),
     )
-    source_inputs = source_input_manifest(package)
-    required_source_paths = {
-        "inputs/65034.csv.zip",
-        f"inputs/seccionado_{section_year}.zip",
-    }
-    declared_source_paths = {str(item["path"]) for item in source_inputs}
-    if not required_source_paths.issubset(declared_source_paths):
-        missing = sorted(required_source_paths - declared_source_paths)
-        raise ValueError("Inventario territorial no cubre entradas contractuales: " + ", ".join(missing))
+    required_roles = {"population", "target_sectioning"}
+    declared_roles = {str(item.get("role") or "") for item in source_inputs}
+    if not required_roles.issubset(declared_roles):
+        missing = sorted(required_roles - declared_roles)
+        raise ValueError("Inventario territorial no cubre roles contractuales: " + ", ".join(missing))
     province_pop = {code: sum(v for sec, v in section_pop.items() if sec[:2] == code) for code in provinces}
     if sum(section_pop.values()) != baseline["population_total"]:
         raise ValueError("La suma poblacional usada por el contrato contradice el baseline acreditado")
@@ -529,6 +861,7 @@ def materialize(
             section_year=int(section_year),
             baseline=baseline,
             source_inputs=source_inputs,
+            resolved_contract=resolved_contract,
         )
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
@@ -748,6 +1081,7 @@ def materialize(
         section_year=int(section_year),
         baseline=baseline,
         source_inputs=source_inputs,
+        resolved_contract=resolved_contract,
     )
 
     # La fuente preparada no habilita generación: la puerta pre-M04 lo hará después.
