@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 import tempfile
@@ -15,7 +16,12 @@ from herramientas.probar_fuentes_oficiales import (
     probe_ogc,
     probe_static_csv,
 )
-from herramientas.adquirir_fuentes_oficiales import _collect_live_sections, _source_urls
+from herramientas.adquirir_fuentes_oficiales import (
+    _collect_live_sections,
+    _ogc_endpoint,
+    _section_publication_identity,
+    _source_urls,
+)
 from herramientas.resolver_fuentes_territorio import build_declaration, matrix, territories
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +76,93 @@ class SourceTestPackageTests(unittest.TestCase):
         self.assertEqual(result["status"], "PASS")
         self.assertEqual(result["sample_records"], 10)
         self.assertLess(result["sample_bytes"], len(payload))
+
+    def test_current_ine_sectioning_uses_accredited_identity_not_runner_clock(self):
+        source = yaml.safe_load(
+            (ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8")
+        )["sources"]["secciones_censales"]
+        declaration = build_declaration(
+            "Andalucía",
+            2025,
+            population_year=2025,
+            section_year=2026,
+        )
+
+        with patch("herramientas.adquirir_fuentes_oficiales.datetime") as runner_clock:
+            runner_clock.now.return_value.year = 2027
+            identity = _section_publication_identity(policy_root=ROOT)
+            self.assertEqual(identity["latest_available_year"], 2026)
+            self.assertEqual(
+                identity["current_collection"],
+                "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+            )
+            self.assertIn(
+                "SU.VectorStatisticalUnit",
+                _ogc_endpoint(source, 2026, policy_root=ROOT),
+            )
+            urls = _source_urls(
+                source,
+                2026,
+                declaration["territory"]["territorial_codes"],
+                policy_root=ROOT,
+            )
+            runner_clock.now.assert_not_called()
+
+        self.assertTrue(urls)
+        self.assertTrue(all("SU.VectorStatisticalUnit" in url for url in urls))
+        self.assertTrue(all("Secciones_2026" not in url for url in urls))
+        self.assertIn(
+            "Secciones_2025",
+            _ogc_endpoint(source, 2025, policy_root=ROOT),
+        )
+        self.assertIn(
+            "Secciones_2024",
+            _ogc_endpoint(source, 2024, policy_root=ROOT),
+        )
+        with self.assertRaisesRegex(ValueError, "SECTION_YEAR_NOT_ACCREDITED"):
+            _ogc_endpoint(source, 2027, policy_root=ROOT)
+
+    def test_current_ine_sectioning_fails_closed_when_evidence_does_not_bind_collection_to_year(self):
+        source = yaml.safe_load(
+            (ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8")
+        )["sources"]["secciones_censales"]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            config = root / "configuracion"
+            config.mkdir()
+            matrix = yaml.safe_load(
+                (ROOT / "configuracion/preparacion_legislatura_vigente.yaml").read_text(
+                    encoding="utf-8"
+                )
+            )
+            evidence = json.loads(
+                (
+                    ROOT
+                    / "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json"
+                ).read_text(encoding="utf-8")
+            )
+            check = evidence["checks"]["census_sections"]
+            check["preserved_response"] = (
+                "Servicio API Features para cartografía digitalizada de secciones censales\n"
+                "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit\n"
+                "Título: Secciones_2025"
+            )
+            check["response_sha256"] = hashlib.sha256(
+                check["preserved_response"].encode("utf-8")
+            ).hexdigest()
+            (config / "preparacion_legislatura_vigente.yaml").write_text(
+                yaml.safe_dump(matrix, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            (config / "evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json").write_text(
+                json.dumps(evidence, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                "SECTION_PUBLICATION_IDENTITY_UNPROVEN",
+            ):
+                _ogc_endpoint(source, 2026, policy_root=root)
 
     def test_ogc_remote_filter_is_only_province_and_sections_are_filtered_locally(self):
         d = build_declaration("La Rioja", 2025, source_year=2025)

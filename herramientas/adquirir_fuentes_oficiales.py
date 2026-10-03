@@ -3,13 +3,13 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.2.0
-NOMBRE DE VERSIÓN: Copia nacional inmutable y recorte territorial aislado
-FECHA: 2026-09-17
+VERSIÓN: 1.4.0
+NOMBRE DE VERSIÓN: Seccionado INE vigente acreditado por evidencia durable
+FECHA: 2026-10-03
 ESTADO: candidato
 FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
-CAMBIOS: escribe recortes sólo en evidence/materialized, separa raíz nacional y raíz territorial y bloquea origen=destino.
-MOTIVO: impedir que la preparación de un territorio mutile o sobrescriba una copia oficial compartida por otros territorios.
+CAMBIOS: resuelve SU.VectorStatisticalUnit mediante la última edición acreditada por evidencia INE durable, sin depender del reloj del runner; conserva Secciones_AÑO para históricos.
+MOTIVO: mantener determinista la identidad del locator durante cambios de año y fallar cerrado si la colección vigente no queda acreditada.
 ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.1.0.py
 """
 from __future__ import annotations
@@ -33,6 +33,8 @@ import yaml
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
 
 FetchBytes = Callable[[str], bytes]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PREPARATION_MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CORE_FIELDS = ("source_id", "path", "sha256", "bytes", "urls", "edition")
 SNAPSHOT_REQUIRED = ("path", "expected_sha256", "official_origin_url", "edition", "acquired_at")
 
@@ -132,12 +134,137 @@ def _territorial_destination(evidence_dir: Path, configured_path: str) -> Path:
     return destination
 
 
-def _source_urls(source: dict, edition: int, provinces: list[dict]) -> list[str]:
+def _section_publication_identity(*, policy_root: Path | None = None) -> dict:
+    root = (policy_root or PROJECT_ROOT).resolve()
+    matrix_path = (root / PREPARATION_MATRIX).resolve()
+    if not matrix_path.is_file():
+        raise ValueError(
+            f"SECTION_PUBLICATION_IDENTITY_MISSING: no existe {PREPARATION_MATRIX}"
+        )
+    matrix = load_yaml(matrix_path)
+    policy = matrix.get("population_section_policy") or {}
+    evidence_rel = str(policy.get("availability_evidence") or "").strip()
+    current_collection = str(policy.get("current_section_collection") or "").strip()
+    provider = str(policy.get("provider") or "").strip()
+    if not evidence_rel or not current_collection or not provider:
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_MISSING: "
+            "faltan availability_evidence/current_section_collection/provider"
+        )
+
+    evidence_path = (root / evidence_rel).resolve()
+    try:
+        evidence_path.relative_to(root)
+    except ValueError as exc:
+        raise ValueError(
+            f"SECTION_PUBLICATION_IDENTITY_INVALID: evidencia fuera del repositorio: {evidence_rel}"
+        ) from exc
+    if not evidence_path.is_file():
+        raise ValueError(
+            f"SECTION_PUBLICATION_IDENTITY_MISSING: no existe {evidence_rel}"
+        )
+
+    try:
+        evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise ValueError(
+            f"SECTION_PUBLICATION_IDENTITY_INVALID: evidencia ilegible: {evidence_rel}"
+        ) from exc
+    if not isinstance(evidence, dict):
+        raise ValueError("SECTION_PUBLICATION_IDENTITY_INVALID: evidencia no es objeto")
+    if evidence.get("schema") != "ddd.official-temporal-availability-evidence/1.0":
+        raise ValueError("SECTION_PUBLICATION_IDENTITY_INVALID: schema no reconocido")
+    if str(evidence.get("provider") or "").strip() != provider:
+        raise ValueError("SECTION_PUBLICATION_IDENTITY_INVALID: proveedor incoherente")
+
+    check = (evidence.get("checks") or {}).get("census_sections")
+    if not isinstance(check, dict):
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_INVALID: falta census_sections"
+        )
+    response = str(check.get("preserved_response") or "")
+    declared_digest = str(check.get("response_sha256") or "").strip().lower()
+    available = check.get("available_years")
+    if not response or not declared_digest or not isinstance(available, list) or not available:
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_INVALID: census_sections incompleto"
+        )
+    actual_digest = sha256_bytes(response.encode("utf-8"))
+    if declared_digest != actual_digest:
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_DIGEST_MISMATCH: "
+            f"{declared_digest} != {actual_digest}"
+        )
+    try:
+        years = sorted({int(value) for value in available})
+        latest = int(check.get("latest_available_year"))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_INVALID: años no normalizables"
+        ) from exc
+    if latest != max(years):
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_INVALID: latest_available_year incoherente"
+        )
+    collection_identifier = current_collection.rsplit(":", 1)[-1]
+    if collection_identifier not in response or f"Secciones_{latest}" not in response:
+        raise ValueError(
+            "SECTION_PUBLICATION_IDENTITY_UNPROVEN: "
+            f"{current_collection} no queda vinculada de forma durable a Secciones_{latest}"
+        )
+    return {
+        "latest_available_year": latest,
+        "current_collection": current_collection,
+        "evidence": evidence_rel,
+        "evidence_sha256": sha256_bytes(evidence_path.read_bytes()),
+    }
+
+
+def _ogc_endpoint(
+    source: dict,
+    edition: int,
+    *,
+    policy_root: Path | None = None,
+) -> str:
+    identity = _section_publication_identity(policy_root=policy_root)
+    requested = int(edition)
+    latest = int(identity["latest_available_year"])
+    if requested > latest:
+        raise ValueError(
+            f"SECTION_YEAR_NOT_ACCREDITED: {requested} > {latest}"
+        )
+    if requested == latest:
+        source_collection = str(source.get("current_collection") or "").strip()
+        if source_collection != identity["current_collection"]:
+            raise ValueError(
+                "SECTION_PUBLICATION_IDENTITY_MISMATCH: "
+                f"catálogo={source_collection or 'vacío'} "
+                f"política={identity['current_collection']}"
+            )
+        endpoint = str(source.get("current_endpoint") or "").strip()
+        if not endpoint:
+            raise ValueError(
+                "Fuente OGC sin current_endpoint para el seccionado vigente acreditado"
+            )
+        return endpoint
+    endpoint = str(source.get("endpoint_template") or "").strip()
+    if not endpoint:
+        raise ValueError("Fuente OGC sin endpoint_template histórico")
+    return endpoint.format(edition=requested)
+
+
+def _source_urls(
+    source: dict,
+    edition: int,
+    provinces: list[dict],
+    *,
+    policy_root: Path | None = None,
+) -> list[str]:
     kind = source.get("kind")
     if kind == "static_csv":
         return [str(source["url"])]
     if kind == "ogc_features":
-        endpoint = str(source["endpoint_template"]).format(edition=edition)
+        endpoint = _ogc_endpoint(source, edition, policy_root=policy_root)
         filter_field = str(source["territorial_filter_field"])
         feature_filter = str(source.get("feature_filter") or "")
         urls = []

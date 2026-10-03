@@ -1,12 +1,12 @@
 # PROYECTO: Diputado de Distrito
 # COMPONENTE: catálogo de fuentes oficiales
-# VERSIÓN: 1.1.0
-# NOMBRE DE VERSIÓN: Identificadores estables y contratos de contenido
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Seccionado actual estable e histórico anual
 # FECHA: 2026-09-17
 # ESTADO: candidato
 # FUNCIÓN: declarar fuentes oficiales reutilizables sin lógica territorial.
-# CAMBIOS: fija id estable por fuente y conserva endpoints y formato oficial.
-# MOTIVO: permitir igualdad verificable entre declaración, inventario y procedencia.
+# CAMBIOS: conserva id estable y distingue la colección INE vigente de las colecciones históricas anuales.
+# MOTIVO: evitar tratar el seccionado del año en curso como histórico y resolver correctamente el endpoint OGC.
 # ANTERIOR: legacy/fuentes/catalogo_oficial_v1.0.0.yaml
 schema: ddd-official-source-catalog/1.1
 sources:
@@ -30,6 +30,8 @@ sources:
     edition_policy: annual
     format: geojson
     crs: EPSG:4326
+    current_collection: WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit
+    current_endpoint: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items
     collection_template: WMS_INE_SECCIONES_G01:Secciones_{edition}
     endpoint_template: https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_{edition}/items
     territorial_filter_field: CPRO

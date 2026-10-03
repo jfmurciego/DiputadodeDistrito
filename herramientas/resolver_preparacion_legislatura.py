@@ -25,6 +25,7 @@ try:
     from herramientas.catalogo_territorios import normalize_territory_input
     from herramientas.adquirir_fuentes_oficiales import resolve_runtime_bindings
     from herramientas.resolver_fuentes_territorio import build_declaration
+    from herramientas.resolver_adquisicion_electoral_especial import resolve as resolve_special_electoral_acquisition
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from identidad_fuentes_legislatura import (
         digest,
@@ -33,6 +34,7 @@ except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from catalogo_territorios import normalize_territory_input
     from adquirir_fuentes_oficiales import resolve_runtime_bindings
     from resolver_fuentes_territorio import build_declaration
+    from resolver_adquisicion_electoral_especial import resolve as resolve_special_electoral_acquisition
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
@@ -491,6 +493,38 @@ def _electoral_candidate(root: Path, territory_id: str, state: dict, election_id
     return {"reusable": False, "reason": "ELECTORAL_RECEIPT_SCHEMA"}
 
 
+def _electoral_plan(
+    root: Path,
+    territory_id: str,
+    state: dict,
+    row: dict,
+) -> tuple[dict, str]:
+    special = resolve_special_electoral_acquisition(
+        root_dir=root,
+        election_id=str(row["election_id"]),
+        territory_id=territory_id,
+        election_date=str(row["election_date"]),
+    )
+    if special is not None:
+        candidate = _electoral_candidate(root, territory_id, state, str(row["election_id"]))
+        if candidate.get("reusable"):
+            return candidate, "REUSE"
+        return {
+            **candidate,
+            "reason": "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE",
+            "acquisition_kind": special["kind"],
+            "provider": special["provider"],
+            "source_status": special["source_status"],
+        }, "ACQUIRE"
+
+    electoral = row.get("electoral") or {}
+    if electoral.get("action") == "BLOCKED_PROVISIONAL":
+        return {"reusable": False, "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE"}, "BLOCKED_PROVISIONAL"
+
+    candidate = _electoral_candidate(root, territory_id, state, str(row["election_id"]))
+    return candidate, "REUSE" if candidate.get("reusable") else "ACQUIRE"
+
+
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
@@ -586,12 +620,7 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
         else:
             t_action = "ACQUIRE"
 
-        if electoral.get("action") == "BLOCKED_PROVISIONAL":
-            e_candidate = {"reusable": False, "reason": "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE"}
-            e_action = "BLOCKED_PROVISIONAL"
-        else:
-            e_candidate = _electoral_candidate(root, tid, state, row["election_id"])
-            e_action = "REUSE" if e_candidate.get("reusable") else "ACQUIRE"
+        e_candidate, e_action = _electoral_plan(root, tid, state, row)
 
         current_population_year = int(
             t_candidate.get("population_year", t_candidate.get("observed_population_year", terr["population_current_year"]))
