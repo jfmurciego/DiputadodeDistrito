@@ -6,23 +6,28 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
+  source_population_year: 2023
+  source_section_year: 2023
 io:
   project_root:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/cantabria/.cache/ddd/preparacion/{run_name}
   runs:
@@ -43,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '39'
-  status: generation_ready
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 458 secciones y 593623 habitantes sin faltantes.
   - R023 justificó 1 pasarelas; no se añade ninguna excepción no auditada.
@@ -94,14 +104,14 @@ modulos:
     in_geojson: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     out_graph_json: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -116,7 +126,7 @@ modulos:
     in_graph_json: territorios/cantabria/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/cantabria/.cache/ddd/preparacion/{run_name}/cantabria_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -136,7 +146,7 @@ modulos:
     in_geojson: territorios/cantabria/.cache/ddd/preparacion/{run_name}/cantabria_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -180,3 +190,138 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2023
+    section_year: 2023
+    population_total: 588387
+    target_section_count: 460
+    package_sha256: df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb
+    compatibility_report_sha256: 2b416b9db6d0907102704dbdbdf9c508bb263afe83cb2e8e90395f7dc4d59226
+    compatibility_identity_sha256: 9a52657927866ca04c0fe2e3b7e0f31a2bde65115de7c80ba4b8b7ab93e9d572
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: cantabria
+    territory_name: Cantabria
+    project_edition: '2025'
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf
+        bytes: 5944
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: c601ec570e1eace685a9b6687bb3a0930f2cc2957710e09e1ad6cb93c1850d8a
+        bytes: 688235
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: e4ac38e25a4b175e0cec6526a1d6f868187cdf7ccb934bd947404a48bfbc1d10
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb
+  compatibility_identity_sha256: 9a52657927866ca04c0fe2e3b7e0f31a2bde65115de7c80ba4b8b7ab93e9d572
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 6c528643ca8972c7fe013104e01e8197e5975d6db31a36dc86c271d5353d6edf
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2023.zip
+    sha256: c601ec570e1eace685a9b6687bb3a0930f2cc2957710e09e1ad6cb93c1850d8a
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
