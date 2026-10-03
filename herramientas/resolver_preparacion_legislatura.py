@@ -16,6 +16,7 @@ try:
     )
     from herramientas.catalogo_territorios import normalize_territory_input
     from herramientas.adquirir_fuentes_oficiales import resolve_runtime_bindings
+    from herramientas.resolver_fuentes_territorio import build_declaration
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     from identidad_fuentes_legislatura import (
         digest,
@@ -23,6 +24,7 @@ except ModuleNotFoundError:  # ejecución directa: python herramientas/...
     )
     from catalogo_territorios import normalize_territory_input
     from adquirir_fuentes_oficiales import resolve_runtime_bindings
+    from resolver_fuentes_territorio import build_declaration
 
 MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
@@ -140,15 +142,14 @@ def _resolved_source_plan(
         state.get("territorial_source_declaration")
         or f"territorios/{territory_id}/config/fuentes_oficiales.yaml"
     )
-    declaration_path = root / declaration_rel
-    if not declaration_path.is_file():
-        return {
-            "schema": "ddd.resolved-source-plan/1.0",
-            "status": "UNRESOLVED",
-            "reason": "TERRITORIAL_DECLARATION_MISSING",
-            "declaration": declaration_rel,
-        }
-    declaration = _yaml(declaration_path)
+    declaration = build_declaration(
+        territory_id,
+        int(edition),
+        population_year=int(population_year),
+        section_year=int(section_year),
+        registry_path=root / "fuentes/territorios_espana.yaml",
+        catalog_path=root / OFFICIAL_SOURCES,
+    )
     catalog = _yaml(root / OFFICIAL_SOURCES)
     source_catalog = catalog.get("sources") or {}
     required = declaration.get("required_sources") or []
