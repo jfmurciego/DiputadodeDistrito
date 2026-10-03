@@ -1,0 +1,91 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": null,
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+  "workflow_run_id": 37159942482,
+  "source_sha": "8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "FAILED",
+  "completion_status": "INCOMPLETE",
+  "resumption": null,
+  "failed_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "04 · Incorporación de Resultados Electorales",
+    "05 · Publicación del Visor"
+  ],
+  "blocked_phases": [
+    "02 · Generación de Distritos Autonómicos",
+    "03 · Preparación de Resultados Electorales",
+    "04 · Incorporación de Resultados Electorales"
+  ],
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 37150130330,
+      "artifact": "ddd-source-package-cantabria-2025-37150130330",
+      "artifact_digest": "sha256:918b0674e0d92c38a76021cc00cb363b3fb02d4dd2a8adcb4cb020ee1278868d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "failure",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "skipped",
+      "run_id": null,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": "BLOQUEADO",
+      "phase_decision": null
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "skipped",
+      "run_id": 37159942482,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-03T23:07:01.761119+00:00"
+}
