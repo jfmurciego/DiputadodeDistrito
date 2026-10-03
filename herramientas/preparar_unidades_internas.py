@@ -33,6 +33,8 @@ def _fmt(value: str, *, cfg: dict, run_id: str) -> str:
         run_name=meta.get("run_name", ""),
         run_id=run_id,
         year=meta.get("year", ""),
+        population_year=meta.get("source_population_year", ""),
+        section_year=meta.get("source_section_year", ""),
     )
 
 
@@ -89,9 +91,26 @@ def build_command(params_path: str | Path, run_id: str) -> list[str] | None:
         raise ValueError("territory_contract.k_districts debe ser entero positivo")
 
     m04 = ((cfg.get("modulos") or {}).get("modulo_04_generar_semillas") or {})
-    id_field = str(policy.get("id_field") or m04.get("id_field") or "CUSEC_KEY")
+    runtime = ((cfg.get("resolved_source_contract") or {}).get("runtime") or {})
+    id_field = str(
+        runtime.get("section_id_field")
+        or policy.get("id_field")
+        or m04.get("id_field")
+        or "CUSEC_KEY"
+    )
     municipality_field = str(policy.get("municipality_field") or "CUMUN")
-    population_field = _fmt(str(policy.get("population_field") or m04.get("pop_field") or f"POP_{(cfg.get('meta') or {}).get('year', '')}"), cfg=cfg, run_id=run_id)
+    population_field = str(
+        runtime.get("population_field")
+        or _fmt(
+            str(
+                policy.get("population_field")
+                or m04.get("pop_field")
+                or f"POP_{(cfg.get('meta') or {}).get('source_population_year', '')}"
+            ),
+            cfg=cfg,
+            run_id=run_id,
+        )
+    )
 
     output_geojson = _fmt(policy["output_geojson"], cfg=cfg, run_id=run_id)
     m04_input = _fmt(str(m04.get("in_geojson") or ""), cfg=cfg, run_id=run_id)
