@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "melilla",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37148646551,
+  "artifact_name": "ddd-source-package-melilla-2025-37148646551",
+  "artifact_sha256": "10de7821dff3d4a09e484553bb212d554bab97ebc7560cd5e9c2bf4297b5d88a",
+  "package_sha256": "cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b",
+  "source_commit": "2f563746132c6de66cb9be4d818428c0f4249aa7",
+  "source_declaration": "territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/37148646551/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "fa16e7be1bb0bc20150a59c8d3e15775b7100a9dd85baebc413a683a316ab8e2",
+  "compatibility_identity_sha256": "12276697755307133c896edf4ebf66c1613f67071876c21d3bd66bf485ee1918"
+}
