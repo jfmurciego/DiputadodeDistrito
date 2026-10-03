@@ -4,48 +4,52 @@
   "territory_id": "la_rioja",
   "territory_name": "La Rioja",
   "edition": "2025",
-  "run_id": 35754690537,
-  "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
-  "artifact_name": "ddd-state-35754690537-M03U",
-  "artifact_sha256": "c524a939f2a36459287133c4e32aa558c93715729837aa800ec3ada37df8109a",
+  "run_id": 37157977205,
+  "source_commit": "dad80d6b5d72dc061b559d53aacbb2d0f862f6b2",
+  "artifact_name": "ddd-state-37157977205-M03U",
+  "artifact_sha256": "2f92b1ecc18c4bf8e05a1ee67767b18d7a3a6b3ca286ee3d740f674bba4782cf",
   "decision": "READY_FOR_FIRST_GENERATION",
   "stage": "M03U",
   "source": {
-    "artifact_name": "ddd-source-package-la_rioja-2025-35754690537",
-    "artifact_sha256": "d04b89b21e2c3ef2ca0c6b8833de0f798062f1cc772437208c88a1e61badb389",
-    "package_sha256": "ef858d56759e8eba3cd5eb747ddcdec574ffaed08350bcbab171e12ed7f234f5"
+    "artifact_name": "ddd-source-package-la_rioja-2025-37157977205",
+    "artifact_sha256": "95373f07ea7acb95f1bf23d63fb8e0b47ed9912757720c7aa1de3e7e98ab6e48",
+    "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
+    "compatibility_identity_sha256": "6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804",
+    "territorial_identity_sha256": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
+    "population_year": 2023,
+    "section_year": 2023
   },
   "implementation": {
-    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
     "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
-    "m03_git_blob_sha1": "c2c928d1e21d3b486ee3e9975eace18364bd3176",
-    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
+    "m03_git_blob_sha1": "5c9a2811021b3ea6a4d90e1a5eaa0accd80b3394",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
     "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
   },
   "adjacency": {
     "predicate": "contact",
     "working_crs": "EPSG:3035",
-    "min_shared_border_m": 1,
-    "max_precision_overlap_area_m2": 1,
-    "buffer_m": 0,
-    "simplify_m": 0,
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
     "topology_bridges": []
   },
   "graph": {
-    "artifact_name": "ddd-state-35754690537-M03",
-    "artifact_sha256": "8842e6f8c76a8160d03506fe83c1fbbeebfbf5040b123abf32d22d90c0b2616e",
+    "artifact_name": "ddd-state-37157977205-M03",
+    "artifact_sha256": "17f75ac3b8f35fb420946b7ac706cdb6123b315d7bd4bffe8c027313d670b2d2",
     "module_version": "7.4.1",
     "nodes": 343,
-    "edges": 924,
-    "population": 326803,
+    "edges": 928,
+    "population": 322282,
     "isolated": 0,
     "global_components": 1,
     "province_disconnected": 0,
     "municipality_disconnected": 0
   },
   "partitioning": {
-    "job_artifact_name": "ddd-internal-units-35754690537",
-    "job_artifact_sha256": "9e638a0cc9888e69a4db27beecae8fba01906c511d7c3e904dbb9e063cac971b",
+    "job_artifact_name": "ddd-internal-units-37157977205",
+    "job_artifact_sha256": "36e91ca7180cdf911b221617575c6342d1226fca94808ec2fdd50d9a4b016193",
     "status": "NOOP",
     "strategy": null,
     "contract_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
@@ -53,6 +57,20 @@
   },
   "contract_binding": {
     "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 322282,
+      "target_section_count": 343,
+      "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
+      "compatibility_report_sha256": "272fe7f82f85d5f9ed107207256b869347d40e1cd390b52725f246ae12e50f10",
+      "compatibility_identity_sha256": "6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804"
+    },
     "k_districts": 33,
     "population_floor_ratio": 0.8,
     "population_cap_ratio": 1.75,
@@ -75,5 +93,9 @@
     "expected_districts": 33,
     "require_graph_contiguity": true,
     "require_municipality_discipline": true
+  },
+  "effective_gate": {
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }

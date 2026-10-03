@@ -516,7 +516,8 @@ territories:
         source_commit: 33f5ddba45994131b0a622e49842f09a32c3f51b
       evidence:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
-      generation_enabled: false
+        generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true
 - territory_id: ceuta
   name: Ceuta
   editions:
