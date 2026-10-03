@@ -412,11 +412,19 @@ def main():
             require_non_null=True,
         ).astype("int64")
 
+    # Compatibilidad interna: comarcas todavía consume CUSEC_KEY. Ese alias
+    # no es contractual y se elimina si runtime declara otro nombre público.
+    gdf["CUSEC_KEY"] = gdf[internal_section_field]
+    gdf, comarcas_report = attach_comarcas_by_municipality(
+        gdf,
+        io_in.get("comarcas", {}),
+    )
     gdf[runtime_section_field] = gdf[internal_section_field]
-    if runtime_section_field != internal_section_field:
-        gdf = gdf.drop(columns=[internal_section_field])
+    drop_cols = [internal_section_field]
+    if runtime_section_field != "CUSEC_KEY":
+        drop_cols.append("CUSEC_KEY")
+    gdf = gdf.drop(columns=[col for col in drop_cols if col in gdf.columns])
 
-    gdf, comarcas_report = attach_comarcas_by_municipality(gdf, io_in.get("comarcas", {}))
     validate_geodataframe(gdf, label="M01 salida territorial")
 
     out_geo = require(s1.get("out_geojson"), "Falta M01 salida")
