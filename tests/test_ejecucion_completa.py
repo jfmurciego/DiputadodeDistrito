@@ -708,16 +708,29 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertTrue(plan["run_incorporate"])
 
     def test_catalog_source_mode_requires_current_compatibility_identity(self):
-        for territory in ("Ceuta", "Cantabria"):
-            with self.subTest(territory=territory):
-                with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
-                    build_plan(
-                        territory=territory,
-                        edition="2025",
-                        execution_mode="catalog_source",
-                        catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-                        root_dir=ROOT,
-                    )
+        catalog = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        target = next(
+            row for row in catalog["territories"]
+            if row["territory_id"] == "cantabria"
+        )
+        target["editions"]["2025"]["preparation_evidence"].pop(
+            "compatibility_identity_sha256",
+            None,
+        )
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "catalogo_preparacion.yaml"
+            path.write_text(
+                yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
+                build_plan(
+                    territory="Cantabria",
+                    edition="2025",
+                    execution_mode="catalog_source",
+                    catalog=path,
+                    root_dir=ROOT,
+                )
 
     def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")
