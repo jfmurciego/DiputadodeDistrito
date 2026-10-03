@@ -189,6 +189,32 @@ class OfficialSourcesTests(unittest.TestCase):
             inventory["sources"][0]["consumer_contract"],
         )
 
+        contract_path = evidence / "resolved_source_contract.json"
+        self.assertTrue(contract_path.is_file())
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        self.assertEqual(contract["schema"], "ddd.resolved-source-contract/1.0")
+        self.assertRegex(contract["contract_sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(
+            contract["sources"]["population"]["artifact"]["sha256"],
+            by_role["population"]["sha256"],
+        )
+        self.assertEqual(
+            contract["sources"]["sectioning"]["artifact"]["sha256"],
+            by_role["target_sectioning"]["sha256"],
+        )
+        self.assertEqual(
+            contract["sources"]["population"]["fields"]["population"],
+            dec["population_validation"]["population_col"],
+        )
+        self.assertEqual(
+            contract["runtime"]["population_field"],
+            f"POP_{expected_population_year}",
+        )
+        self.assertEqual(
+            resolved["resolved_source_contract_sha256"],
+            contract["contract_sha256"],
+        )
+
     def test_simulation_is_rejected_outside_test(self):
         dec = declaration("extremadura")
         with tempfile.TemporaryDirectory() as td:
