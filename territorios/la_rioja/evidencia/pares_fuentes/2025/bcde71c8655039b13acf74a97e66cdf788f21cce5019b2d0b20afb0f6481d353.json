@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "la_rioja",
+  "territory_name": "La Rioja",
+  "edition": "2025",
+  "election": {
+    "election_id": "la_rioja_parlamento_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 37157977205,
+    "artifact_name": "ddd-source-package-la_rioja-2025-37157977205",
+    "artifact_sha256": "95373f07ea7acb95f1bf23d63fb8e0b47ed9912757720c7aa1de3e7e98ab6e48",
+    "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
+    "source_commit": "33f5ddba45994131b0a622e49842f09a32c3f51b",
+    "source_declaration": "territorios/la_rioja/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/37157977205/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "272fe7f82f85d5f9ed107207256b869347d40e1cd390b52725f246ae12e50f10",
+    "compatibility_identity_sha256": "6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804",
+    "remote_verification": {
+      "run_id": 37157977205,
+      "artifact_id": 11286669053,
+      "artifact_name": "ddd-source-package-la_rioja-2025-37157977205",
+      "artifact_sha256": "95373f07ea7acb95f1bf23d63fb8e0b47ed9912757720c7aa1de3e7e98ab6e48",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 36629352271,
+    "artifact_name": "ddd-electoral-package-la_rioja-2025-36629352271",
+    "artifact_sha256": "8ee7a245ea2ea601dcd6da7799bc2aa4b84e6c5324ebe169ded9db52cc08c2fc",
+    "source_commit": "ea782dc5833f6092a8532ef1f5bab213b38553d9",
+    "receipt_path": "territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "la_rioja_parlamento_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "45add4ae88753aaf9b788f3f32d31e8fae6443d6ec2c45fb31bc37b08ba7bdf1",
+    "remote_verification": {
+      "run_id": 36629352271,
+      "artifact_id": 11062490644,
+      "artifact_name": "ddd-electoral-package-la_rioja-2025-36629352271",
+      "artifact_sha256": "8ee7a245ea2ea601dcd6da7799bc2aa4b84e6c5324ebe169ded9db52cc08c2fc",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
+  "electoral_compatibility_key": "45add4ae88753aaf9b788f3f32d31e8fae6443d6ec2c45fb31bc37b08ba7bdf1",
+  "territorial_product_reuse": {
+    "available": false,
+    "geometric_reuse_compatible": false,
+    "reason": "NO_TERRITORIAL_PRODUCT"
+  },
+  "pair_sha256": "bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353"
+}
