@@ -330,7 +330,7 @@ def main():
     else:
         gdf[pop_field] = strict_population_series(
             gdf[pop_field],
-            section_ids=gdf["CUSEC_KEY"],
+            section_ids=gdf[internal_section_field],
             label="población M01",
             require_non_null=True,
         ).astype("int64")
