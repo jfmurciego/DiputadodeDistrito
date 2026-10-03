@@ -564,7 +564,8 @@ territories:
       evidence:
         territorial_product: territorios/ceuta/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/ceuta/evidencia/catalogo/electoral_source_2025.json
-      generation_enabled: false
+        generation_preflight: territorios/ceuta/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true
 - territory_id: melilla
   name: Melilla
   editions:
