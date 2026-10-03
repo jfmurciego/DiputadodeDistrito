@@ -64,6 +64,7 @@ def final_contract_from_plan(plan: dict) -> tuple[dict, list[dict]]:
                 },
                 "container": "zip" if str(sec_path).endswith(".zip") else "file",
                 "materialized_format": "shapefile",
+                "archive_member": "",
                 "layer": "",
                 "fields": copy.deepcopy(sectioning["fields"]),
             },
@@ -130,7 +131,10 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     source_inputs=source_inputs,
                     resolved_contract=resolved,
                 )
-                lineage = audit_binding_lineage(cfg)
+                lineage = audit_binding_lineage(
+                    cfg,
+                    source_inputs=source_inputs,
+                )
                 self.assertTrue(lineage)
                 audited[territory_id] = {
                     row["binding"]: row["upstream"]
@@ -149,6 +153,31 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                 "resolved_source_contract.sources.sectioning.artifact.path",
                 territory_id,
             )
+            self.assertEqual(
+                lineage["io.input.population_cip.archive_member"],
+                "resolved_source_contract.sources.population.archive_member",
+                territory_id,
+            )
+            self.assertEqual(
+                lineage["validation.province_field"],
+                "resolved_source_contract.runtime.province_field",
+                territory_id,
+            )
+            self.assertEqual(
+                lineage["validation.municipality_field"],
+                "resolved_source_contract.runtime.municipality_field",
+                territory_id,
+            )
+            self.assertEqual(
+                lineage["source_inputs[population].sha256"],
+                "resolved_source_contract.sources.population.artifact.sha256",
+                territory_id,
+            )
+            self.assertEqual(
+                lineage["source_inputs[target_sectioning].sha256"],
+                "resolved_source_contract.sources.sectioning.artifact.sha256",
+                territory_id,
+            )
 
     def test_hostile_non_spanish_contract_crosses_binding_route_without_invention(self):
         cfg = {
@@ -165,19 +194,29 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     "id_field": "legacy",
                     "pop_field": "legacy",
                     "province_field": "legacy",
+                    "municipality_field": "PART_UNIT",
+                    "source_municipality_field": "legacy",
                 },
                 "modulo_05_optimizar_distritos": {
                     "id_field": "legacy",
                     "pop_field": "legacy",
                     "province_field": "legacy",
+                    "municipality_field": "legacy",
                 },
                 "modulo_06_consolidar_distritos": {
                     "id_field": "legacy",
                     "pop_field": "legacy",
                     "province_field": "legacy",
+                    "municipality_field": "legacy",
                 },
             },
-            "partitioning": {"population_field": "POP_{year}"},
+            "partitioning": {
+                "enabled": True,
+                "strategy": "connected_internal_units",
+                "partition_unit_field": "PART_UNIT",
+                "municipality_field": "legacy",
+                "population_field": "POP_{year}",
+            },
             "validation": {
                 "province_field": "legacy",
                 "municipality_field": "legacy",
@@ -234,6 +273,7 @@ class BindingLineageArchitectureTests(unittest.TestCase):
                     },
                     "container": "file",
                     "materialized_format": "geopackage",
+                    "archive_member": "",
                     "layer": "section_polygons",
                     "fields": {
                         "section_id": "ZONA_ID",
@@ -274,7 +314,10 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             source_inputs=source_inputs,
             resolved_contract=resolved,
         )
-        lineage = audit_binding_lineage(cfg)
+        lineage = audit_binding_lineage(
+            cfg,
+            source_inputs=source_inputs,
+        )
         values = "\n".join(str(row["value"]) for row in lineage)
         for invented in (
             "65034.csv",
@@ -293,7 +336,46 @@ class BindingLineageArchitectureTests(unittest.TestCase):
             ContractDerivationBlock,
             "CONTRACT_DERIVATION_BLOCK",
         ):
-            audit_binding_lineage(corrupted)
+            audit_binding_lineage(
+                corrupted,
+                source_inputs=source_inputs,
+            )
+
+        corrupted_physical = copy.deepcopy(cfg)
+        corrupted_physical["io"]["input"]["population_cip"]["archive_member"] = "README.csv"
+        with self.assertRaisesRegex(
+            ContractDerivationBlock,
+            "CONTRACT_DERIVATION_BLOCK",
+        ):
+            audit_binding_lineage(
+                corrupted_physical,
+                source_inputs=source_inputs,
+            )
+
+        corrupted_admin = copy.deepcopy(cfg)
+        corrupted_admin["modulos"]["modulo_05_optimizar_distritos"][
+            "municipality_field"
+        ] = "CUMUN"
+        corrupted_admin["validation"]["municipality_field"] = "CUMUN"
+        with self.assertRaisesRegex(
+            ContractDerivationBlock,
+            "CONTRACT_DERIVATION_BLOCK",
+        ):
+            audit_binding_lineage(
+                corrupted_admin,
+                source_inputs=source_inputs,
+            )
+
+        corrupted_sources = copy.deepcopy(source_inputs)
+        corrupted_sources[0]["sha256"] = "9" * 64
+        with self.assertRaisesRegex(
+            ContractDerivationBlock,
+            "CONTRACT_DERIVATION_BLOCK",
+        ):
+            audit_binding_lineage(
+                cfg,
+                source_inputs=corrupted_sources,
+            )
 
 
 if __name__ == "__main__":
