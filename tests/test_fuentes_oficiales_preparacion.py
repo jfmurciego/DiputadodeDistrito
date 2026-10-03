@@ -156,6 +156,35 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual([row["code"] for row in dec["territory"]["territorial_codes"]], ["22", "44", "50"])
         self.assertEqual(dec["coverage_checks"]["required_territorial_codes"], ["22", "44", "50"])
 
+    def test_acquisition_persists_resolved_consumer_contract(self):
+        td, root, evidence, dec, resolved, inventory, provenance, acquisition = self.materialize("aragon")
+        self.addCleanup(td.cleanup)
+        self.assertEqual(acquisition["decision"], "READY")
+        by_role = {row["role"]: row for row in inventory["sources"]}
+        population = by_role["population"]["consumer_contract"]
+        sectioning = by_role["target_sectioning"]["consumer_contract"]
+
+        self.assertEqual(population["schema"], "ddd.resolved-source-binding/1.0")
+        self.assertEqual(population["path"], by_role["population"]["path"])
+        self.assertEqual(population["materialized_format"], "csv")
+        self.assertEqual(population["fields"]["section_id"], dec["population_validation"]["section_col"])
+        self.assertEqual(population["fields"]["population"], dec["population_validation"]["population_col"])
+        self.assertEqual(population["filters"]["year_value"], dec["territory"]["population_year"])
+
+        self.assertEqual(sectioning["schema"], "ddd.resolved-source-binding/1.0")
+        self.assertEqual(sectioning["path"], by_role["target_sectioning"]["path"])
+        self.assertEqual(sectioning["materialized_format"], "shapefile")
+        self.assertEqual(
+            sectioning["fields"]["section_id"],
+            CATALOG["sources"]["secciones_censales"]["section_id_field"],
+        )
+
+        persisted = json.loads((evidence / "inventario_fuentes.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            persisted["sources"][0]["consumer_contract"],
+            inventory["sources"][0]["consumer_contract"],
+        )
+
     def test_simulation_is_rejected_outside_test(self):
         dec = declaration("extremadura")
         with tempfile.TemporaryDirectory() as td:
