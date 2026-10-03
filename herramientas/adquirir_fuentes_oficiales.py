@@ -698,7 +698,7 @@ def _render_runtime_value(value: object, *, edition: int, population_year: int, 
         return text
 
 
-def _runtime_bindings(
+def resolve_runtime_bindings(
     root_dir: Path,
     declaration: dict,
     *,
@@ -809,7 +809,7 @@ def _resolved_source_contract(
             "RESOLVED_SOURCE_CONTRACT_INCOMPLETE: faltan roles " + ", ".join(missing)
         )
 
-    runtime = _runtime_bindings(
+    runtime = resolve_runtime_bindings(
         root_dir,
         declaration,
         territory_id=territory_id,
