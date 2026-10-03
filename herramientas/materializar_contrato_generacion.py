@@ -1013,6 +1013,7 @@ def materialize(
         section_year=int(section_year),
         baseline=baseline,
         source_inputs=source_inputs,
+        resolved_contract=resolved_contract,
     )
 
     # La fuente preparada no habilita generación: la puerta pre-M04 lo hará después.
