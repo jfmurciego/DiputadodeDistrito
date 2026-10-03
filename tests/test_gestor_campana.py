@@ -53,9 +53,10 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
-    # Un producto ya certificado sigue siendo reutilizable si no se recalcula.
+    # Un producto ya certificado sigue siendo reutilizable sólo cuando su
+    # lineage corresponde a los activos durables actualmente acreditados.
     for name, territory_id in (
-        ("Principado de Asturias", "principado_de_asturias"),
+        ("Galicia", "galicia"),
     ):
         with self.subTest(certified_reuse=territory_id):
             row = rows[territory_id]
@@ -73,6 +74,20 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
             self.assertFalse(plan["run_prepare_territorial"])
             self.assertFalse(plan["run_generate"])
             self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "certified_product_lineage"})
+
+    # Asturias acaba de registrar una fuente territorial distinta de la que
+    # produjo su producto histórico. El producto se conserva como evidencia,
+    # pero no puede reutilizarse como activo vigente.
+    with self.assertRaisesRegex(ValueError, "DURABLE_LINEAGE_INCOMPATIBLE"):
+        build_plan(
+            territory="Principado de Asturias",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=catalog_path,
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=False,
+        )
 
     # En cambio, cualquier nueva generación sobre los paquetes históricos actuales
     # debe reacreditar la fuente: todavía carecen de compatibilidad+año completa.
