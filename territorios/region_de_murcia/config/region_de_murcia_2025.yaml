@@ -6,23 +6,28 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: production_ready_auto_materialized
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
+  source_population_year: 2023
+  source_section_year: 2023
 io:
   project_root:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}
   runs:
@@ -43,7 +53,7 @@ territory_contract:
   admin_level_2_role: municipality
   province_codes: &id001
   - '30'
-  status: topology_contract_candidate
+  status: source_prepared_pending_pre_m04
   notes:
   - R022 congeló 1224 secciones y 1586989 habitantes sin faltantes.
   - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
@@ -106,14 +116,14 @@ modulos:
     in_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     out_graph_json: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -128,7 +138,7 @@ modulos:
     in_graph_json: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/region_de_murcia_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -148,7 +158,7 @@ modulos:
     in_geojson: territorios/region_de_murcia/.cache/ddd/preparacion/{run_name}/region_de_murcia_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -193,3 +203,138 @@ validation:
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
   partition_apportionment_audit: {}
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2023
+    section_year: 2023
+    population_total: 1551692
+    target_section_count: 1223
+    package_sha256: 71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534
+    compatibility_report_sha256: c5979efd29142e6f002bb8d728947fe633b9af82975dbcb625626c8538c15737
+    compatibility_identity_sha256: 234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: region_de_murcia
+    territory_name: Región de Murcia
+    project_edition: '2025'
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 975e8557b92ff1875f4f3ff6a5d50afc5c52dc5314df8f7dd03a9dd35c1f8a04
+        bytes: 12255
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: c3d2c57d07362b8ac206bb691e63cb4d276fc0f05c95e628373d7c1392a53ed4
+        bytes: 1716910
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: 3cdde1fb25b82e953677fc6de3848a1a5f147f4ad7f822bd2e0acb7363d544e7
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: 71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534
+  compatibility_identity_sha256: 234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 975e8557b92ff1875f4f3ff6a5d50afc5c52dc5314df8f7dd03a9dd35c1f8a04
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2023.zip
+    sha256: c3d2c57d07362b8ac206bb691e63cb4d276fc0f05c95e628373d7c1392a53ed4
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO

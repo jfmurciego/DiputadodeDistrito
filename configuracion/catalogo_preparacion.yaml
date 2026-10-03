@@ -401,13 +401,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 36260308371
-        artifact_name: ddd-source-package-region_de_murcia-2025-36260308371
-        artifact_sha256: a079d29be6018b4051f3b2d246cd606c81ca117eae353405da7a7585348d2d87
-        package_sha256: d855dfad0910b5913e6920a03e7cfbfdfa720584d1fa28f739fb906268e89240
+        run_id: 37157930076
+        artifact_name: ddd-source-package-region_de_murcia-2025-37157930076
+        artifact_sha256: 2536655f59114a74c3a05511e3a7e57e29b658013c11595d28c73b2c47070ef6
+        package_sha256: 71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534
+        receipt_path: territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/37157930076/receipt.json
+        territorial_identity_sha256: 14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443
+        compatibility_report_sha256: c5979efd29142e6f002bb8d728947fe633b9af82975dbcb625626c8538c15737
+        compatibility_identity_sha256: 234860acfd0a8e71e089f18156dd4d76e0b010a35e5edf6510eb49aba9d309f7
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 33f5ddba45994131b0a622e49842f09a32c3f51b
       evidence:
-        generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/region_de_murcia/evidencia/catalogo/electoral_source_2025.json
+      generation_enabled: false
 - territory_id: comunidad_foral_de_navarra
   name: Comunidad Foral de Navarra
   editions:
