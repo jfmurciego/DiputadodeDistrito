@@ -13,7 +13,7 @@ territories:
       territorial_sources_prepared: true
       territorial_contract_complete: true
       territorial_product_available: false
-      electoral_source_prepared: false
+      electoral_source_prepared: true
       electoral_product_available: false
       territorial_certification: NOT_CERTIFIED
       production_authorization: AUTHORIZED
@@ -23,6 +23,8 @@ territories:
         artifact_name: ddd-source-package-andalucia-2025-36020646219
         artifact_sha256: cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316
         package_sha256: 16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07
+      evidence:
+        electoral_source: territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json
 - territory_id: aragon
   name: Aragón
   editions:
