@@ -5,7 +5,15 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
+
+# Ejecución directa: `python herramientas/resolver_preparacion_legislatura.py`
+# debe conservar acceso a los paquetes del repositorio (herramientas, ddd_core).
+# Al ejecutar un fichero, Python pone herramientas/ en sys.path[0], no la raíz.
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 import yaml
 
