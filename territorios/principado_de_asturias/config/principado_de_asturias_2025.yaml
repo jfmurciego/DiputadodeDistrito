@@ -77,7 +77,7 @@ partitioning:
   output_report: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03u_informe.json
   partition_unit_field: M04_PARTITION_UNIT
   municipality_field: CUMUN
-  population_field: POP_{year}
+  population_field: POP_2023
   atomicity_ratio: 1.5
   chunk_ratio: 0.5
 modulos:
@@ -104,14 +104,14 @@ modulos:
     in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{population_year}
+    pop_field: POP_2023
     out_graph_json: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03u_unidades.geojson
     id_field: CUSEC_KEY
-    pop_field: POP_{population_year}
+    pop_field: POP_2023
     province_field: CPRO
     municipality_field: M04_PARTITION_UNIT
     municipality_name_field: NMUN
@@ -126,7 +126,7 @@ modulos:
     in_graph_json: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/principado_de_asturias_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{population_year}
+    pop_field: POP_2023
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -146,7 +146,7 @@ modulos:
     in_geojson: territorios/principado_de_asturias/.cache/ddd/preparacion/{run_name}/principado_de_asturias_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{population_year}
+    pop_field: POP_2023
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -210,7 +210,22 @@ generation_state:
     sha256: 042104ba010c3b4b25560e4a647ec506cdf6a22001c296a3b107a80a166df439
     role: population
     source_id: poblacion_por_sexo_y_edad
+    consumer_contract: null
   - path: inputs/seccionado_2023.zip
     sha256: 1280d4aeaa66073659676418537a1c1b961d3d4d28acde5101e9f0f2610e12f0
     role: target_sectioning
     source_id: secciones_censales
+    consumer_contract: null
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/legacy-bridge
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population: null
+    sectioning: null
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: CPRO
+    municipality_field: CUMUN

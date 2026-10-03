@@ -79,18 +79,18 @@ territories:
         run_id: 36398139343
         stage: M08
       preparation_evidence:
-        run_id: 37077796759
-        artifact_name: ddd-source-package-principado_de_asturias-2025-37077796759
-        artifact_sha256: 0eb58035dc7e6c2812f2b2a2c244084eff87f53344d10b0096266c72174c8025
+        run_id: 37159918099
+        artifact_name: ddd-source-package-principado_de_asturias-2025-37159918099
+        artifact_sha256: 5dc79e2b571497c7bcc703e6026a97b6ae616688b566bb2f36e09d8563aab0dc
         package_sha256: 8418a0d5232b0dae7c643cda869d9c08a1a11b1ce9e1c84a00578109fa41e615
-        receipt_path: territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/37077796759/receipt.json
+        receipt_path: territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/37159918099/receipt.json
         territorial_identity_sha256: b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe
         compatibility_report_sha256: 6e344f525c5694a89d269a1cb10f8ee92c1faa1a0cfabda2477f7c7daecd2286
         compatibility_identity_sha256: 059ef52320bb60eb3ee358f4e3b219c15df7bdcb1b499073b9345737bb868d79
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: c3c1e9f218bd919a0f5eab5c76f118554c5a4d0e
+        source_commit: 8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51
       evidence:
         territorial_product: territorios/principado_de_asturias/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/principado_de_asturias/evidencia/catalogo/electoral_source_2025.json
