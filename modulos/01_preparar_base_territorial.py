@@ -93,15 +93,49 @@ def _extract_shapefile_family(zip_path, shp_member):
     return shp
 
 
-def load_seccionado(path_str, layer="", province_codes=None):
+def load_seccionado(
+    path_str,
+    layer="",
+    province_codes=None,
+    *,
+    container="auto",
+    materialized_format="",
+    archive_member="",
+):
     p = Path(path_str).expanduser().resolve()
     if not p.exists():
         raise FileNotFoundError(f"Seccionado no encontrado: {p}")
-    if p.suffix.lower() == ".zip":
+
+    container = str(container or "auto").strip().lower()
+    materialized_format = str(materialized_format or "").strip().lower()
+    use_zip = container == "zip" or (container == "auto" and p.suffix.lower() == ".zip")
+
+    if materialized_format and materialized_format not in {
+        "shapefile",
+        "geojson",
+        "geopackage",
+        "gpkg",
+    }:
+        raise ValueError(
+            f"Formato de seccionado no soportado por M01: {materialized_format}"
+        )
+
+    if use_zip:
         with zipfile.ZipFile(p, "r") as z:
-            shp_member = _first_member_with_ext(z, (".shp",))
+            shp_member = str(archive_member or "").strip()
+            if shp_member:
+                if shp_member not in z.namelist():
+                    raise ValueError(
+                        f"archive_member de seccionado no existe: {shp_member}"
+                    )
+                if not shp_member.lower().endswith(".shp"):
+                    raise ValueError(
+                        "archive_member de seccionado debe apuntar al .shp materializado"
+                    )
+            else:
+                shp_member = _first_member_with_ext(z, (".shp",))
         if not shp_member:
-            raise ValueError("ZIP sin .shp")
+            raise ValueError("Contenedor ZIP de seccionado sin .shp")
         shp = _extract_shapefile_family(p, shp_member)
         try:
             import pyogrio
@@ -115,8 +149,10 @@ def load_seccionado(path_str, layer="", province_codes=None):
         except Exception as exc:
             print(f"[Módulo 1] AVISO filtro temprano no disponible: {exc}")
             return gpd.read_file(str(shp))
-    return gpd.read_file(str(p), layer=layer or None)
 
+    if container not in {"auto", "file"}:
+        raise ValueError(f"Container de seccionado no soportado por M01: {container}")
+    return gpd.read_file(str(p), layer=layer or None)
 
 def _sniff_sep(sample):
     first = sample.splitlines()[0] if sample.splitlines() else sample
@@ -127,13 +163,37 @@ def _sniff_sep(sample):
     return sep
 
 
-def load_cip(paths, section_key_col, pop_col, year, sep, filters, province_codes=None, chunksize=100000):
+def load_cip(
+    paths,
+    section_key_col,
+    pop_col,
+    year,
+    sep,
+    filters,
+    province_codes=None,
+    chunksize=100000,
+    *,
+    container="auto",
+    materialized_format="",
+    archive_member="",
+    encoding="utf-8-sig",
+):
     partials = []
     year_col = filters.get("year_col", "Periodo")
     sexo_col = filters.get("sexo_col", "Sexo")
     edad_col = filters.get("edad_col", "Edad")
     sexo_vals = [str(x) for x in filters.get("sexo_total_values", ["Total"])]
     edad_vals = [str(x) for x in filters.get("edad_total_values", ["Todas las edades"])]
+
+    container = str(container or "auto").strip().lower()
+    materialized_format = str(materialized_format or "").strip().lower()
+    archive_member = str(archive_member or "").strip()
+    encoding = str(encoding or "utf-8-sig").strip()
+
+    if materialized_format and materialized_format not in {"csv", "tsv", "txt"}:
+        raise ValueError(
+            f"Formato poblacional no soportado por M01: {materialized_format}"
+        )
 
     def consume(reader):
         for df in reader:
@@ -171,38 +231,45 @@ def load_cip(paths, section_key_col, pop_col, year, sep, filters, province_codes
             )
             partials.append(o[["CUSEC_KEY", "POP"]])
 
+    def reader_from_binary(binary, *, effective_sep):
+        return pd.read_csv(
+            binary,
+            sep=effective_sep,
+            dtype=str,
+            chunksize=chunksize,
+            encoding=encoding,
+        )
+
     for pstr in paths:
         p = Path(pstr).expanduser().resolve()
-        if p.suffix.lower() == ".zip":
+        if not p.exists():
+            raise FileNotFoundError(f"Fuente poblacional no encontrada: {p}")
+        use_zip = container == "zip" or (container == "auto" and p.suffix.lower() == ".zip")
+        if use_zip:
             with zipfile.ZipFile(p, "r") as z:
-                member = _first_member_with_ext(z, (".csv", ".tsv", ".txt"))
-                if not member:
-                    raise ValueError("ZIP de población sin CSV/TSV/TXT")
+                member = archive_member
+                if member:
+                    if member not in z.namelist():
+                        raise ValueError(
+                            f"archive_member poblacional no existe: {member}"
+                        )
+                else:
+                    member = _first_member_with_ext(z, (".csv", ".tsv", ".txt"))
+                    if not member:
+                        raise ValueError("ZIP de población sin CSV/TSV/TXT")
                 with z.open(member) as fh:
-                    sample = fh.read(4096).decode("utf-8", errors="replace")
+                    sample = fh.read(4096).decode(encoding, errors="strict")
                 sep2 = _sniff_sep(sample) if sep == "auto" else sep
                 with z.open(member) as fh:
-                    consume(
-                        pd.read_csv(
-                            fh,
-                            sep=sep2,
-                            dtype=str,
-                            chunksize=chunksize,
-                            encoding="utf-8-sig",
-                        )
-                    )
+                    consume(reader_from_binary(fh, effective_sep=sep2))
         else:
-            sample = p.open("rb").read(4096).decode("utf-8", errors="replace")
-            sep2 = _sniff_sep(sample) if sep == "auto" else sep
-            consume(
-                pd.read_csv(
-                    p,
-                    sep=sep2,
-                    dtype=str,
-                    chunksize=chunksize,
-                    encoding="utf-8-sig",
+            if container not in {"auto", "file"}:
+                raise ValueError(
+                    f"Container poblacional no soportado por M01: {container}"
                 )
-            )
+            sample = p.open("rb").read(4096).decode(encoding, errors="strict")
+            sep2 = _sniff_sep(sample) if sep == "auto" else sep
+            consume(reader_from_binary(p, effective_sep=sep2))
 
     if not partials:
         raise TerritorialDataError("POPULATION_MISSING: no hay filas de población en el ámbito")
@@ -215,7 +282,6 @@ def load_cip(paths, section_key_col, pop_col, year, sep, filters, province_codes
         )
     out["POP"] = out["POP"].astype("int64")
     return out
-
 
 def write_geojson(gdf, out_path):
     outp = Path(out_path)
@@ -257,7 +323,14 @@ def main():
     s1 = module_cfg(cfg, "modulo_01_preparar_base_territorial", legacy_step_key="step1_build_sections")
     prov = [str(x).zfill(2) for x in s1.get("province_codes", [])]
 
-    gdf = load_seccionado(secc["path"], secc.get("layer", "") or "", prov)
+    gdf = load_seccionado(
+        secc["path"],
+        secc.get("layer", "") or "",
+        prov,
+        container=secc.get("container", "auto"),
+        materialized_format=secc.get("materialized_format", ""),
+        archive_member=secc.get("archive_member", ""),
+    )
     validate_geodataframe(gdf, label="M01 seccionado de entrada")
     section_source_col = secc.get("section_key_col", "CUSEC")
     if section_source_col not in gdf.columns:
@@ -294,6 +367,10 @@ def main():
         cip_cfg.get("sep", "auto"),
         filters,
         prov,
+        container=cip_cfg.get("container", "auto"),
+        materialized_format=cip_cfg.get("materialized_format", ""),
+        archive_member=cip_cfg.get("archive_member", ""),
+        encoding=cip_cfg.get("encoding", "utf-8-sig"),
     )
 
     cip = cip.rename(columns={"CUSEC_KEY": internal_section_field})
