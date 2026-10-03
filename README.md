@@ -10,15 +10,15 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-01T15:13:13.282725+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-03T23:02:04.639535+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **3** | 02 · Aragón · 03 · Principado de Asturias · 12 · Galicia |
-| **Generación territorial validada** | 🟢 **7** | 02 · Aragón · 03 · Principado de Asturias · 07 · Castilla y León · 08 · Castilla-La Mancha · 11 · Extremadura · 12 · Galicia · 18 · Ceuta |
-| **Preparados para continuar** | 🔵 **12** | 01 · Andalucía · 04 · Islas Baleares · 05 · Canarias · 06 · Cantabria · 09 · Cataluña · 10 · Comunidad Valenciana · 13 · Comunidad de Madrid · 14 · Región de Murcia · 15 · Comunidad Foral de Navarra · 16 · País Vasco · 17 · La Rioja · 19 · Melilla |
+| **Cadena completa validada** | 🟢 **3** | 02 Aragón · 03 Principado de Asturias · 12 Galicia |
+| **Generación territorial validada** | 🟢 **7** | 02 Aragón · 03 Principado de Asturias · 07 Castilla y León · 08 Castilla-La Mancha · 11 Extremadura · 12 Galicia · 18 Ceuta |
+| **Preparados para continuar** | 🔵 **12** | 01 Andalucía · 04 Islas Baleares · 05 Canarias · 06 Cantabria · 09 Cataluña · 10 Comunidad Valenciana · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 19 Melilla |
 | **Validación pendiente** | 🟡 **0** | — |
 | **Pendientes o no incorporados** | ⚪/🔴 **0** | — |
 
@@ -28,25 +28,25 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 
 | Territorio | FT | G | FE | RE | Estado |
 |---|:---:|:---:|:---:|:---:|---|
-| **01 · Andalucía** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
-| **02 · Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **03 · Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **04 · Islas Baleares** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
-| **05 · Canarias** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
-| **06 · Cantabria** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
-| **07 · Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
-| **08 · Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
-| **09 · Cataluña** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
-| **10 · Comunidad Valenciana** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
-| **11 · Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |
-| **12 · Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
-| **13 · Comunidad de Madrid** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
-| **14 · Región de Murcia** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
-| **15 · Comunidad Foral de Navarra** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
-| **16 · País Vasco** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
-| **17 · La Rioja** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
-| **18 · Ceuta** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
-| **19 · Melilla** | 🟢 | 🟡 | ⚪ | ⚪ | Fuentes territoriales preparadas |
+| **01 Andalucía** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **02 Aragón** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
+| **03 Principado de Asturias** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
+| **04 Islas Baleares** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
+| **05 Canarias** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **06 Cantabria** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
+| **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
+| **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
+| **09 Cataluña** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **10 Comunidad Valenciana** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **11 Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |
+| **12 Galicia** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
+| **13 Comunidad de Madrid** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
+| **14 Región de Murcia** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
+| **15 Comunidad Foral de Navarra** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **16 País Vasco** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
+| **17 La Rioja** | 🟢 | 🟡 | 🟢 | ⚪ | Fuentes territoriales preparadas |
+| **18 Ceuta** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
+| **19 Melilla** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 
 ## Cadena automática
 

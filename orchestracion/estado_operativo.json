@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-01T15:13:13.282725+00:00",
+  "generated_at": "2026-10-03T23:02:04.639535+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
   "pipeline": [
     "01 · Preparación de Datos Territoriales",
@@ -23,7 +23,7 @@
       "name": "Andalucía",
       "ft": "green",
       "g": "yellow",
-      "fe": "gray",
+      "fe": "yellow",
       "re": "gray",
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
@@ -44,7 +44,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "01",
-      "display_name": "01 · Andalucía"
+      "display_name": "01 Andalucía"
     },
     {
       "territory_id": "aragon",
@@ -109,7 +109,7 @@
         }
       },
       "autonomous_community_code_ine": "02",
-      "display_name": "02 · Aragón"
+      "display_name": "02 Aragón"
     },
     {
       "territory_id": "principado_de_asturias",
@@ -127,9 +127,9 @@
         "territorial_source": {
           "territory_id": "principado_de_asturias",
           "edition": "2025",
-          "run_id": 35728626894,
-          "artifact_name": "ddd-source-package-principado_de_asturias-2025-35728626894",
-          "artifact_sha256": "fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5",
+          "run_id": 37159918099,
+          "artifact_name": "ddd-source-package-principado_de_asturias-2025-37159918099",
+          "artifact_sha256": "5dc79e2b571497c7bcc703e6026a97b6ae616688b566bb2f36e09d8563aab0dc",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -172,7 +172,7 @@
         }
       },
       "autonomous_community_code_ine": "03",
-      "display_name": "03 · Principado de Asturias"
+      "display_name": "03 Principado de Asturias"
     },
     {
       "territory_id": "illes_balears",
@@ -214,7 +214,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "04",
-      "display_name": "04 · Islas Baleares"
+      "display_name": "04 Islas Baleares"
     },
     {
       "territory_id": "canarias",
@@ -232,9 +232,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 36529404391,
-          "artifact_name": "ddd-source-package-canarias-2025-36529404391",
-          "artifact_sha256": "82bb8090edaf6d326aa285018d4b3839ec5b925d7eda2e4f5d381fa2e333ebda",
+          "run_id": 37157866581,
+          "artifact_name": "ddd-source-package-canarias-2025-37157866581",
+          "artifact_sha256": "431f5756eb87c85f970cfc602e4548a7351b65e22861befc226784ed02c82f31",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -242,7 +242,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "05",
-      "display_name": "05 · Canarias"
+      "display_name": "05 Canarias"
     },
     {
       "territory_id": "cantabria",
@@ -260,9 +260,9 @@
         "territorial_source": {
           "territory_id": "cantabria",
           "edition": "2025",
-          "run_id": 36020676520,
-          "artifact_name": "ddd-source-package-cantabria-2025-36020676520",
-          "artifact_sha256": "ea58edc91018bcc4853d44051c3b582acf5d9ed236bb7ddd5fce7fcb230d8293",
+          "run_id": 37150130330,
+          "artifact_name": "ddd-source-package-cantabria-2025-37150130330",
+          "artifact_sha256": "918b0674e0d92c38a76021cc00cb363b3fb02d4dd2a8adcb4cb020ee1278868d",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -284,7 +284,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "06",
-      "display_name": "06 · Cantabria"
+      "display_name": "06 Cantabria"
     },
     {
       "territory_id": "castilla_y_leon",
@@ -324,7 +324,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "07",
-      "display_name": "07 · Castilla y León"
+      "display_name": "07 Castilla y León"
     },
     {
       "territory_id": "castilla_la_mancha",
@@ -378,7 +378,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "08",
-      "display_name": "08 · Castilla-La Mancha"
+      "display_name": "08 Castilla-La Mancha"
     },
     {
       "territory_id": "cataluna",
@@ -406,7 +406,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "09",
-      "display_name": "09 · Cataluña"
+      "display_name": "09 Cataluña"
     },
     {
       "territory_id": "comunidad_valenciana",
@@ -434,7 +434,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "10",
-      "display_name": "10 · Comunidad Valenciana"
+      "display_name": "10 Comunidad Valenciana"
     },
     {
       "territory_id": "extremadura",
@@ -474,7 +474,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "11",
-      "display_name": "11 · Extremadura"
+      "display_name": "11 Extremadura"
     },
     {
       "territory_id": "galicia",
@@ -492,9 +492,9 @@
         "territorial_source": {
           "territory_id": "galicia",
           "edition": "2025",
-          "run_id": 36345716757,
-          "artifact_name": "ddd-source-package-galicia-2025-36345716757",
-          "artifact_sha256": "367869c2149d753d1159cd0fcb4771593f98ca6c05c43277b88b0000afb09602",
+          "run_id": 37155903096,
+          "artifact_name": "ddd-source-package-galicia-2025-37155903096",
+          "artifact_sha256": "fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -537,7 +537,7 @@
         }
       },
       "autonomous_community_code_ine": "12",
-      "display_name": "12 · Galicia"
+      "display_name": "12 Galicia"
     },
     {
       "territory_id": "madrid",
@@ -579,7 +579,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "13",
-      "display_name": "13 · Comunidad de Madrid"
+      "display_name": "13 Comunidad de Madrid"
     },
     {
       "territory_id": "region_de_murcia",
@@ -597,9 +597,9 @@
         "territorial_source": {
           "territory_id": "region_de_murcia",
           "edition": "2025",
-          "run_id": 36260308371,
-          "artifact_name": "ddd-source-package-region_de_murcia-2025-36260308371",
-          "artifact_sha256": "a079d29be6018b4051f3b2d246cd606c81ca117eae353405da7a7585348d2d87",
+          "run_id": 37157930076,
+          "artifact_name": "ddd-source-package-region_de_murcia-2025-37157930076",
+          "artifact_sha256": "2536655f59114a74c3a05511e3a7e57e29b658013c11595d28c73b2c47070ef6",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -621,14 +621,14 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "14",
-      "display_name": "14 · Región de Murcia"
+      "display_name": "14 Región de Murcia"
     },
     {
       "territory_id": "comunidad_foral_de_navarra",
       "name": "Comunidad Foral de Navarra",
       "ft": "green",
       "g": "yellow",
-      "fe": "gray",
+      "fe": "yellow",
       "re": "gray",
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
@@ -639,9 +639,9 @@
         "territorial_source": {
           "territory_id": "comunidad_foral_de_navarra",
           "edition": "2025",
-          "run_id": 35755122526,
-          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-35755122526",
-          "artifact_sha256": "9af4663e730cbcd15d79f37e38f77773f4f86b53079cb78323f1524c9fa6f243",
+          "run_id": 37157948240,
+          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37157948240",
+          "artifact_sha256": "4227410329e62f6a6a79394b1fcc2fc60c5fdc2efa8cd807dd683e29ed552899",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -649,14 +649,14 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "15",
-      "display_name": "15 · Comunidad Foral de Navarra"
+      "display_name": "15 Comunidad Foral de Navarra"
     },
     {
       "territory_id": "pais_vasco",
       "name": "País Vasco",
       "ft": "green",
       "g": "yellow",
-      "fe": "gray",
+      "fe": "yellow",
       "re": "gray",
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
@@ -677,7 +677,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "16",
-      "display_name": "16 · País Vasco"
+      "display_name": "16 País Vasco"
     },
     {
       "territory_id": "la_rioja",
@@ -695,9 +695,9 @@
         "territorial_source": {
           "territory_id": "la_rioja",
           "edition": "2025",
-          "run_id": 35754690537,
-          "artifact_name": "ddd-source-package-la_rioja-2025-35754690537",
-          "artifact_sha256": "d04b89b21e2c3ef2ca0c6b8833de0f798062f1cc772437208c88a1e61badb389",
+          "run_id": 37157977205,
+          "artifact_name": "ddd-source-package-la_rioja-2025-37157977205",
+          "artifact_sha256": "95373f07ea7acb95f1bf23d63fb8e0b47ed9912757720c7aa1de3e7e98ab6e48",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -719,7 +719,7 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "17",
-      "display_name": "17 · La Rioja"
+      "display_name": "17 La Rioja"
     },
     {
       "territory_id": "ceuta",
@@ -773,14 +773,14 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "18",
-      "display_name": "18 · Ceuta"
+      "display_name": "18 Ceuta"
     },
     {
       "territory_id": "melilla",
       "name": "Melilla",
       "ft": "green",
       "g": "yellow",
-      "fe": "gray",
+      "fe": "yellow",
       "re": "gray",
       "status": "Fuentes territoriales preparadas",
       "certification": "NOT_CERTIFIED",
@@ -791,9 +791,9 @@
         "territorial_source": {
           "territory_id": "melilla",
           "edition": "2025",
-          "run_id": 36274033519,
-          "artifact_name": "ddd-source-package-melilla-2025-36274033519",
-          "artifact_sha256": "3cb9d2377555ed54fc7e93d13887faa18986b3ccf0565444400cdbcc9a66bda5",
+          "run_id": 37148646551,
+          "artifact_name": "ddd-source-package-melilla-2025-37148646551",
+          "artifact_sha256": "10de7821dff3d4a09e484553bb212d554bab97ebc7560cd5e9c2bf4297b5d88a",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -801,50 +801,50 @@
         "electoral_product": null
       },
       "autonomous_community_code_ine": "19",
-      "display_name": "19 · Melilla"
+      "display_name": "19 Melilla"
     }
   ],
   "kpis": {
     "complete": 3,
     "complete_names": [
-      "02 · Aragón",
-      "03 · Principado de Asturias",
-      "12 · Galicia"
+      "02 Aragón",
+      "03 Principado de Asturias",
+      "12 Galicia"
     ],
     "territorial_validated": 7,
     "territorial_validated_names": [
-      "02 · Aragón",
-      "03 · Principado de Asturias",
-      "07 · Castilla y León",
-      "08 · Castilla-La Mancha",
-      "11 · Extremadura",
-      "12 · Galicia",
-      "18 · Ceuta"
+      "02 Aragón",
+      "03 Principado de Asturias",
+      "07 Castilla y León",
+      "08 Castilla-La Mancha",
+      "11 Extremadura",
+      "12 Galicia",
+      "18 Ceuta"
     ],
     "validated": 7,
     "validated_names": [
-      "02 · Aragón",
-      "03 · Principado de Asturias",
-      "07 · Castilla y León",
-      "08 · Castilla-La Mancha",
-      "11 · Extremadura",
-      "12 · Galicia",
-      "18 · Ceuta"
+      "02 Aragón",
+      "03 Principado de Asturias",
+      "07 Castilla y León",
+      "08 Castilla-La Mancha",
+      "11 Extremadura",
+      "12 Galicia",
+      "18 Ceuta"
     ],
     "ready": 12,
     "ready_names": [
-      "01 · Andalucía",
-      "04 · Islas Baleares",
-      "05 · Canarias",
-      "06 · Cantabria",
-      "09 · Cataluña",
-      "10 · Comunidad Valenciana",
-      "13 · Comunidad de Madrid",
-      "14 · Región de Murcia",
-      "15 · Comunidad Foral de Navarra",
-      "16 · País Vasco",
-      "17 · La Rioja",
-      "19 · Melilla"
+      "01 Andalucía",
+      "04 Islas Baleares",
+      "05 Canarias",
+      "06 Cantabria",
+      "09 Cataluña",
+      "10 Comunidad Valenciana",
+      "13 Comunidad de Madrid",
+      "14 Región de Murcia",
+      "15 Comunidad Foral de Navarra",
+      "16 País Vasco",
+      "17 La Rioja",
+      "19 Melilla"
     ],
     "pending": 0,
     "pending_names": [],
@@ -854,7 +854,7 @@
   "latest_validated": {
     "territory_id": "galicia",
     "name": "Galicia",
-    "display_name": "12 · Galicia",
+    "display_name": "12 Galicia",
     "autonomous_community_code_ine": "12",
     "run_id": 36403519566,
     "stage": "M08",
@@ -863,49 +863,49 @@
   },
   "alerts": [
     {
-      "territory": "01 · Andalucía",
+      "territory": "01 Andalucía",
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "04 · Islas Baleares",
+      "territory": "04 Islas Baleares",
       "territory_id": "illes_balears",
       "autonomous_community_code_ine": "04",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "05 · Canarias",
+      "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "06 · Cantabria",
+      "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "07 · Castilla y León",
+      "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "08 · Castilla-La Mancha",
+      "territory": "08 Castilla-La Mancha",
       "territory_id": "castilla_la_mancha",
       "autonomous_community_code_ine": "08",
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "09 · Cataluña",
+      "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
       "action": "completar puerta de validación territorial"
     },
     {
-      "territory": "10 · Comunidad Valenciana",
+      "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
       "action": "completar puerta de validación territorial"
@@ -913,49 +913,49 @@
   ],
   "next_actions": [
     {
-      "territory": "01 · Andalucía",
+      "territory": "01 Andalucía",
       "territory_id": "andalucia",
       "autonomous_community_code_ine": "01",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "04 · Islas Baleares",
+      "territory": "04 Islas Baleares",
       "territory_id": "illes_balears",
       "autonomous_community_code_ine": "04",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "05 · Canarias",
+      "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "06 · Cantabria",
+      "territory": "06 Cantabria",
       "territory_id": "cantabria",
       "autonomous_community_code_ine": "06",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "07 · Castilla y León",
+      "territory": "07 Castilla y León",
       "territory_id": "castilla_y_leon",
       "autonomous_community_code_ine": "07",
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "08 · Castilla-La Mancha",
+      "territory": "08 Castilla-La Mancha",
       "territory_id": "castilla_la_mancha",
       "autonomous_community_code_ine": "08",
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "09 · Cataluña",
+      "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
       "action": "generar y validar distritos"
     },
     {
-      "territory": "10 · Comunidad Valenciana",
+      "territory": "10 Comunidad Valenciana",
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
       "action": "generar y validar distritos"
