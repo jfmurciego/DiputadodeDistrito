@@ -568,7 +568,17 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
         coverage[code] = count
     if set(coverage) != {row["code"] for row in provinces}:
         raise ValueError("Cobertura provincial de secciones incompleta")
-    return all_features, urls, {"provinces": sorted(coverage), "sections_by_province": coverage, "sections": len(all_features)}, declared_crs
+    observed_columns = sorted({
+        str(key)
+        for feature in all_features
+        for key in ((feature.get("properties") or {}).keys())
+    })
+    return all_features, urls, {
+        "provinces": sorted(coverage),
+        "sections_by_province": coverage,
+        "sections": len(all_features),
+        "columns": observed_columns,
+    }, declared_crs
 
 
 def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
@@ -675,11 +685,197 @@ def _resolved_consumer_contract(
     return contract
 
 
+def _render_runtime_value(value: object, *, edition: int, population_year: int, section_year: int) -> str:
+    text = str(value or "")
+    try:
+        return text.format(
+            year=edition,
+            project_edition=edition,
+            population_year=population_year,
+            section_year=section_year,
+        )
+    except Exception:
+        return text
+
+
+def _runtime_bindings(
+    root_dir: Path,
+    declaration: dict,
+    *,
+    territory_id: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+) -> dict:
+    """Fija una vez los nombres runtime que producirán/consumirán los módulos.
+
+    Una declaración futura puede sobrescribirlos explícitamente. Para los
+    contratos españoles existentes se conservan los nombres operativos actuales,
+    pero el valor queda materializado en el contrato durable y deja de requerir
+    inferencias aguas abajo.
+    """
+    explicit = declaration.get("runtime_bindings") or {}
+    contract_path = (
+        root_dir
+        / "territorios"
+        / territory_id
+        / "config"
+        / f"{territory_id}_{edition}.yaml"
+    )
+    generation = {}
+    if contract_path.is_file():
+        generation = load_yaml(contract_path)
+    modules = generation.get("modulos") or {}
+    validation = generation.get("validation") or {}
+    m02 = modules.get("modulo_02_construir_adyacencias") or {}
+    m03 = modules.get("modulo_03_construir_grafo") or {}
+    m04 = modules.get("modulo_04_generar_semillas") or {}
+
+    section_id = str(
+        explicit.get("section_id_field")
+        or m02.get("id_field")
+        or m03.get("id_field")
+        or "CUSEC_KEY"
+    )
+    population_template = (
+        explicit.get("population_field")
+        or m03.get("pop_field")
+        or m04.get("pop_field")
+        or "POP_{population_year}"
+    )
+    # Si el contrato histórico usa el placeholder ambiguo {year}, el compilador
+    # de fuentes lo resuelve por semántica poblacional, no por project edition.
+    if str(population_template) == "POP_{year}":
+        population_template = "POP_{population_year}"
+    population_field = _render_runtime_value(
+        population_template,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+    )
+    province_field = str(
+        explicit.get("province_field")
+        or validation.get("province_field")
+        or "CPRO"
+    )
+    municipality_field = str(
+        explicit.get("municipality_field")
+        or validation.get("municipality_field")
+        or "CUMUN"
+    )
+    return {
+        "section_id_field": section_id,
+        "population_field": population_field,
+        "province_field": province_field,
+        "municipality_field": municipality_field,
+    }
+
+
+def _resolved_source_contract(
+    *,
+    root_dir: Path,
+    declaration: dict,
+    inventory: dict,
+    territory_id: str,
+    territory_name: str,
+    edition: int,
+    population_year: int,
+    section_year: int,
+) -> dict:
+    available = [
+        row for row in (inventory.get("sources") or [])
+        if isinstance(row, dict) and row.get("availability") == "AVAILABLE"
+    ]
+    by_role: dict[str, dict] = {}
+    for row in available:
+        role = str(row.get("role") or "")
+        binding = row.get("consumer_contract")
+        if not role or not isinstance(binding, dict):
+            continue
+        source = json.loads(json.dumps(binding))
+        source["artifact"] = {
+            "path": str(row.get("path") or ""),
+            "sha256": str(row.get("sha256") or ""),
+            "bytes": int(row.get("bytes") or 0),
+        }
+        # El path del binding debe describir exactamente el artefacto acreditado.
+        source["path"] = source["artifact"]["path"]
+        by_role[role] = source
+
+    required = {"population", "target_sectioning"}
+    if not required.issubset(by_role):
+        missing = sorted(required - set(by_role))
+        raise ValueError(
+            "RESOLVED_SOURCE_CONTRACT_INCOMPLETE: faltan roles " + ", ".join(missing)
+        )
+
+    runtime = _runtime_bindings(
+        root_dir,
+        declaration,
+        territory_id=territory_id,
+        edition=edition,
+        population_year=population_year,
+        section_year=section_year,
+    )
+    contract = {
+        "schema": "ddd.resolved-source-contract/1.0",
+        "territory": {
+            "territory_id": territory_id,
+            "territory_name": territory_name,
+            "project_edition": str(edition),
+        },
+        "temporal": {
+            "population_year": int(population_year),
+            "section_year": int(section_year),
+        },
+        "sources": {
+            "population": by_role["population"],
+            "sectioning": by_role["target_sectioning"],
+        },
+        "runtime": runtime,
+        "transformations": [
+            {
+                "kind": "normalize_section_identifier",
+                "from": "sources.sectioning.fields.section_id",
+                "to": "runtime.section_id_field",
+            },
+            {
+                "kind": "attach_population",
+                "source_field": "sources.population.fields.population",
+                "to": "runtime.population_field",
+            },
+        ],
+    }
+    if "population_sectioning_origin" in by_role:
+        contract["sources"]["population_sectioning_origin"] = by_role[
+            "population_sectioning_origin"
+        ]
+    canonical = json.dumps(
+        contract,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    contract["contract_sha256"] = sha256_bytes(canonical)
+    return contract
+
+
 def _persist(evidence_dir: Path, resolved: dict, inventory: dict, provenance: dict, decision: dict) -> None:
     evidence_dir.mkdir(parents=True, exist_ok=True)
-    files = {"declaracion_materializacion.json": resolved, "inventario_fuentes.json": inventory, "manifiesto_procedencia.json": provenance, "decision_adquisicion.json": decision}
+    files = {
+        "declaracion_materializacion.json": resolved,
+        "inventario_fuentes.json": inventory,
+        "manifiesto_procedencia.json": provenance,
+        "decision_adquisicion.json": decision,
+    }
+    contract = inventory.get("resolved_source_contract")
+    if isinstance(contract, dict):
+        files["resolved_source_contract.json"] = contract
     for name, data in files.items():
-        (evidence_dir / name).write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (evidence_dir / name).write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
 
 def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment: str, acquisition_mode: str | None = None, fetcher: FetchBytes | None = None, root_dir: Path | None = None) -> tuple[dict, dict, dict, dict]:
@@ -735,7 +931,15 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     coverage = sorted({str((f.get("properties") or {}).get(source["territorial_filter_field"], "")).zfill(2) for f in features})
                     if coverage != sorted(province_codes):
                         raise ValueError(f"Cobertura provincial de secciones incorrecta: {coverage}")
-                    content_checks = {"provinces": coverage, "sections": len(features)}
+                    content_checks = {
+                        "provinces": coverage,
+                        "sections": len(features),
+                        "columns": sorted({
+                            str(key)
+                            for feature in features
+                            for key in ((feature.get("properties") or {}).keys())
+                        }),
+                    }
                     payload_out = _write_shapefile_zip(features, crs=crs)
                 else:
                     features, official_urls, content_checks, live_crs = _collect_live_sections(source, section_year, provinces, fetch)
@@ -865,6 +1069,22 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
             decision["reasons"].append({"source_id": source_id, "reason": str(exc)})
             _persist(evidence_dir, resolved, inventory, provenance, decision)
             continue
+        _persist(evidence_dir, resolved, inventory, provenance, decision)
+
+    if decision["decision"] == "READY":
+        contract = _resolved_source_contract(
+            root_dir=root_dir,
+            declaration=declaration,
+            inventory=inventory,
+            territory_id=territory_id,
+            territory_name=territory_name,
+            edition=edition,
+            population_year=population_year,
+            section_year=section_year,
+        )
+        inventory["resolved_source_contract"] = contract
+        resolved["resolved_source_contract_sha256"] = contract["contract_sha256"]
+        provenance["resolved_source_contract_sha256"] = contract["contract_sha256"]
         _persist(evidence_dir, resolved, inventory, provenance, decision)
 
     return resolved, inventory, provenance, decision
