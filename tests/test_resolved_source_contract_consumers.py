@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import copy
 import importlib.util
+import subprocess
+import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 import yaml
@@ -75,7 +79,9 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
                         "sha256": "c" * 64,
                         "bytes": 10,
                     },
+                    "container": "zip",
                     "materialized_format": "shapefile",
+                    "archive_member": "",
                     "layer": "section_polygons",
                     "fields": {
                         "section_id": "ZONA_ID",
@@ -136,7 +142,13 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
         self.assertEqual(cfg["io"]["input"]["population_cip"]["paths"], ["inputs/weird_population.pkg"])
         self.assertEqual(cfg["io"]["input"]["population_cip"]["section_key_col"], "voting_zone_code")
         self.assertEqual(cfg["io"]["input"]["population_cip"]["pop_col"], "inhabitants_xyz")
+        self.assertEqual(cfg["io"]["input"]["population_cip"]["container"], "zip")
+        self.assertEqual(cfg["io"]["input"]["population_cip"]["materialized_format"], "csv")
+        self.assertEqual(cfg["io"]["input"]["population_cip"]["archive_member"], "population.dat")
+        self.assertEqual(cfg["io"]["input"]["population_cip"]["encoding"], "utf-8")
         self.assertEqual(cfg["io"]["input"]["seccionado"]["path"], "inputs/boundaries.bundle")
+        self.assertEqual(cfg["io"]["input"]["seccionado"]["container"], "zip")
+        self.assertEqual(cfg["io"]["input"]["seccionado"]["materialized_format"], "shapefile")
         self.assertEqual(cfg["io"]["input"]["seccionado"]["section_key_col"], "ZONA_ID")
         self.assertEqual(cfg["modulos"]["modulo_03_construir_grafo"]["id_field"], "voting_zone_code_normalized")
         self.assertEqual(cfg["modulos"]["modulo_03_construir_grafo"]["pop_field"], "population_runtime")
@@ -149,6 +161,155 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
             module.resolve_runtime_fields(cfg, 2019),
             ("voting_zone_code_normalized", "population_runtime"),
         )
+
+    def test_m01_real_io_obeys_container_member_encoding_and_delimiter(self):
+        import geopandas as gpd
+        from shapely.geometry import Polygon
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            inputs = root / "inputs"
+            inputs.mkdir(parents=True)
+
+            population_path = inputs / "population.pkg"
+            misleading = (
+                "wrong,columns\n"
+                "this,would_fail\n"
+            ).encode("utf-8")
+            real_population = (
+                "Año|Sexo|Edad|Sección|Habitantes\n"
+                "2019|Todos|Todas|3300101001|1234\n"
+                "2019|Todos|Todas|3300101002|567\n"
+            ).encode("latin-1")
+            with zipfile.ZipFile(population_path, "w", zipfile.ZIP_DEFLATED) as archive:
+                # El señuelo aparece primero para que cualquier autodetección falle.
+                archive.writestr("README.csv", misleading)
+                archive.writestr("real_data.dat", real_population)
+
+            shape_dir = root / "shape"
+            shape_dir.mkdir()
+            shp = shape_dir / "sections.shp"
+            gdf = gpd.GeoDataFrame(
+                {
+                    "ZONA_ID": ["3300101001", "3300101002"],
+                    "CPRO": ["33", "33"],
+                },
+                geometry=[
+                    Polygon([(0, 0), (1, 0), (1, 1), (0, 1)]),
+                    Polygon([(1, 0), (2, 0), (2, 1), (1, 1)]),
+                ],
+                crs="EPSG:4326",
+            )
+            gdf.to_file(shp, driver="ESRI Shapefile", index=False)
+            section_path = inputs / "boundaries.bundle"
+            with zipfile.ZipFile(section_path, "w", zipfile.ZIP_DEFLATED) as archive:
+                for sidecar in sorted(shape_dir.glob("sections.*")):
+                    archive.write(sidecar, arcname=sidecar.name)
+
+            resolved = copy.deepcopy(self.resolved_contract())
+            population = resolved["sources"]["population"]
+            population["path"] = "inputs/population.pkg"
+            population["artifact"]["path"] = "inputs/population.pkg"
+            population["archive_member"] = "real_data.dat"
+            population["encoding"] = "latin-1"
+            population["delimiter"] = "|"
+            population["fields"] = {
+                "section_id": "Sección",
+                "population": "Habitantes",
+                "year": "Año",
+                "sex": "Sexo",
+                "age": "Edad",
+            }
+            population["filters"] = {
+                "year_value": 2019,
+                "sex_total_values": ["Todos"],
+                "age_total_values": ["Todas"],
+            }
+
+            sectioning = resolved["sources"]["sectioning"]
+            sectioning["path"] = "inputs/boundaries.bundle"
+            sectioning["artifact"]["path"] = "inputs/boundaries.bundle"
+            sectioning["container"] = "zip"
+            sectioning["materialized_format"] = "shapefile"
+            sectioning["archive_member"] = "sections.shp"
+            sectioning["layer"] = ""
+            sectioning["fields"]["section_id"] = "ZONA_ID"
+
+            source_inputs = [
+                {
+                    "source_id": "demo-pop",
+                    "role": "population",
+                    "path": "inputs/population.pkg",
+                    "sha256": "b" * 64,
+                },
+                {
+                    "source_id": "demo-geo",
+                    "role": "target_sectioning",
+                    "path": "inputs/boundaries.bundle",
+                    "sha256": "c" * 64,
+                },
+            ]
+            cfg = {
+                "meta": {"year": 2025},
+                "io": {"input": {"seccionado": {}, "population_cip": {}}},
+                "validation": {"require_non_null_population": True},
+                "modulos": {
+                    "modulo_01_preparar_base_territorial": {
+                        "province_codes": ["33"],
+                        "out_geojson": "outputs/m01.zip",
+                        "out_report": "outputs/m01_report.json",
+                    },
+                },
+            }
+            _apply_source_contract(
+                cfg,
+                population_year=2019,
+                section_year=2021,
+                baseline={
+                    "package_sha256": "d" * 64,
+                    "compatibility_identity_sha256": "e" * 64,
+                },
+                source_inputs=source_inputs,
+                resolved_contract=resolved,
+            )
+            params = root / "params.yaml"
+            params.write_text(yaml.safe_dump(cfg, sort_keys=False), encoding="utf-8")
+
+            completed = subprocess.run(
+                [sys.executable, str(M01_PATH), "--params", str(params)],
+                cwd=root,
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(
+                completed.returncode,
+                0,
+                completed.stdout + "\n" + completed.stderr,
+            )
+            report = yaml.safe_load(
+                (root / "outputs/m01_report.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(report["population_field"], "population_runtime")
+            self.assertEqual(
+                report["section_id_field"],
+                "voting_zone_code_normalized",
+            )
+            self.assertEqual(report["rows_out"], 2)
+
+            with zipfile.ZipFile(root / "outputs/m01.zip") as archive:
+                geojson_name = next(
+                    name for name in archive.namelist()
+                    if name.endswith(".geojson")
+                )
+                extracted = root / "m01.geojson"
+                extracted.write_bytes(archive.read(geojson_name))
+            output = gpd.read_file(extracted)
+            self.assertEqual(
+                output["population_runtime"].astype(int).tolist(),
+                [1234, 567],
+            )
+            self.assertIn("voting_zone_code_normalized", output.columns)
+            self.assertNotIn("CUSEC_KEY", output.columns)
 
     def test_internal_units_prefers_runtime_binding_over_legacy_year(self):
         with tempfile.TemporaryDirectory() as td:
@@ -179,7 +340,7 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
                     "output_geojson": "out.geojson",
                     "output_report": "report.json",
                     "id_field": "LEGACY_ID",
-                    "municipality_field": "ADM2_CODE",
+                    "municipality_field": "CUMUN",
                     "population_field": "POP_{year}",
                     "partition_unit_field": "PART_UNIT",
                     "atomicity_ratio": 0.5,
@@ -191,6 +352,7 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
             self.assertIsNotNone(command)
             self.assertEqual(command[command.index("--id-field") + 1], "voting_zone_code_normalized")
             self.assertEqual(command[command.index("--population-field") + 1], "population_runtime")
+            self.assertEqual(command[command.index("--municipality-field") + 1], "ADM2_CODE")
 
 
 if __name__ == "__main__":
