@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import csv
 import io
 import json
@@ -156,9 +157,14 @@ def section_populations(
     source_inputs: list[dict[str, Any]],
     population_year: str,
     province_codes: list[str],
+    resolved_contract: dict[str, Any] | None = None,
 ) -> dict[str, int]:
     population_source = _source_by_role(source_inputs, "population")
-    contract = population_source.get("consumer_contract")
+    contract = None
+    if isinstance(resolved_contract, dict):
+        contract = ((resolved_contract.get("sources") or {}).get("population"))
+    if not isinstance(contract, dict):
+        contract = population_source.get("consumer_contract")
     if not isinstance(contract, dict):
         return _legacy_section_populations(package, population_year, province_codes)
 
@@ -286,6 +292,41 @@ def source_baseline(
     }
 
 
+def resolved_source_contract(package: Path) -> dict[str, Any] | None:
+    bundle = package / "prepared_sources.zip"
+    if not bundle.is_file():
+        return None
+    try:
+        with zipfile.ZipFile(bundle) as archive:
+            if "resolved_source_contract.json" in archive.namelist():
+                contract = json.loads(archive.read("resolved_source_contract.json"))
+            else:
+                inventory = json.loads(archive.read("inventario_fuentes.json"))
+                contract = inventory.get("resolved_source_contract")
+    except (KeyError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+        raise ValueError("Paquete territorial con contrato resuelto ilegible") from exc
+    if contract is None:
+        return None
+    if not isinstance(contract, dict) or contract.get("schema") != "ddd.resolved-source-contract/1.0":
+        raise ValueError("resolved_source_contract con schema no soportado")
+    expected = str(contract.get("contract_sha256") or "")
+    canonical = dict(contract)
+    canonical.pop("contract_sha256", None)
+    actual = hashlib.sha256(
+        json.dumps(
+            canonical,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    if expected != actual:
+        raise ValueError(
+            f"resolved_source_contract SHA-256 inválido: {expected} != {actual}"
+        )
+    return contract
+
+
 def source_input_manifest(package: Path) -> list[dict[str, Any]]:
     bundle = package / "prepared_sources.zip"
     if not bundle.is_file():
@@ -348,6 +389,7 @@ def _apply_source_contract(
     section_year: int,
     baseline: dict[str, Any],
     source_inputs: list[dict[str, Any]],
+    resolved_contract: dict[str, Any] | None = None,
 ) -> None:
     meta = cfg.setdefault("meta", {})
     meta["source_population_year"] = int(population_year)
@@ -357,8 +399,18 @@ def _apply_source_contract(
     io_cfg = cfg.setdefault("io", {}).setdefault("input", {})
     population_source = _source_by_role(source_inputs, "population")
     section_source = _source_by_role(source_inputs, "target_sectioning")
-    population_contract = population_source.get("consumer_contract")
-    section_contract = section_source.get("consumer_contract")
+    population_contract = None
+    section_contract = None
+    runtime_bindings: dict[str, Any] = {}
+    if isinstance(resolved_contract, dict):
+        sources = resolved_contract.get("sources") or {}
+        population_contract = sources.get("population")
+        section_contract = sources.get("sectioning")
+        runtime_bindings = dict(resolved_contract.get("runtime") or {})
+    if not isinstance(population_contract, dict):
+        population_contract = population_source.get("consumer_contract")
+    if not isinstance(section_contract, dict):
+        section_contract = section_source.get("consumer_contract")
 
     if isinstance(section_contract, dict):
         section_fields = section_contract.get("fields") or {}
@@ -397,22 +449,33 @@ def _apply_source_contract(
     else:
         population_cfg.setdefault("filters", {})["year_value"] = int(population_year)
 
-    runtime_bindings = {
-        "section_id_field": "CUSEC_KEY",
-        "population_field": f"POP_{int(population_year)}",
-    }
-    cfg["resolved_source_contract"] = {
-        "schema": "ddd.resolved-source-contract/1.0",
-        "population_year": int(population_year),
-        "section_year": int(section_year),
-        "inputs": {
-            "population": copy.deepcopy(population_contract),
-            "target_sectioning": copy.deepcopy(section_contract),
-        },
-        "runtime": runtime_bindings,
-    }
+    if not runtime_bindings:
+        runtime_bindings = {
+            "section_id_field": "CUSEC_KEY",
+            "population_field": f"POP_{int(population_year)}",
+            "province_field": (cfg.get("validation") or {}).get("province_field", "CPRO"),
+            "municipality_field": (cfg.get("validation") or {}).get("municipality_field", "CUMUN"),
+        }
+    if isinstance(resolved_contract, dict):
+        cfg["resolved_source_contract"] = copy.deepcopy(resolved_contract)
+    else:
+        cfg["resolved_source_contract"] = {
+            "schema": "ddd.resolved-source-contract/legacy-bridge",
+            "temporal": {
+                "population_year": int(population_year),
+                "section_year": int(section_year),
+            },
+            "sources": {
+                "population": copy.deepcopy(population_contract),
+                "sectioning": copy.deepcopy(section_contract),
+            },
+            "runtime": copy.deepcopy(runtime_bindings),
+        }
 
     modules = cfg.setdefault("modulos", {})
+    runtime_population_field = str(runtime_bindings.get("population_field") or "")
+    runtime_section_id_field = str(runtime_bindings.get("section_id_field") or "")
+    runtime_province_field = str(runtime_bindings.get("province_field") or "")
     for name in (
         "modulo_03_construir_grafo",
         "modulo_04_generar_semillas",
@@ -421,13 +484,21 @@ def _apply_source_contract(
     ):
         module = modules.get(name)
         if isinstance(module, dict):
-            module["pop_field"] = "POP_{population_year}"
+            if runtime_population_field:
+                module["pop_field"] = runtime_population_field
+            if runtime_section_id_field and "id_field" in module:
+                module["id_field"] = runtime_section_id_field
+            if runtime_province_field and "province_field" in module:
+                module["province_field"] = runtime_province_field
+    m02 = modules.get("modulo_02_construir_adyacencias")
+    if isinstance(m02, dict) and runtime_section_id_field:
+        m02["id_field"] = runtime_section_id_field
     electoral = modules.get("modulo_07_agregar_resultados_electorales")
-    if isinstance(electoral, dict) and electoral.get("population_field"):
-        electoral["population_field"] = "POP_{population_year}"
+    if isinstance(electoral, dict) and electoral.get("population_field") and runtime_population_field:
+        electoral["population_field"] = runtime_population_field
     partitioning = cfg.get("partitioning")
-    if isinstance(partitioning, dict) and partitioning.get("population_field"):
-        partitioning["population_field"] = "POP_{population_year}"
+    if isinstance(partitioning, dict) and partitioning.get("population_field") and runtime_population_field:
+        partitioning["population_field"] = runtime_population_field
 
     validation = cfg.setdefault("validation", {})
     validation["source_baseline"] = copy.deepcopy(baseline)
@@ -677,7 +748,14 @@ def materialize(
     k = int(pentry["k"])
     defaults = policy["defaults"]
     source_inputs = source_input_manifest(package)
-    section_pop = section_populations(package, source_inputs, population_year, provinces)
+    resolved_contract = resolved_source_contract(package)
+    section_pop = section_populations(
+        package,
+        source_inputs,
+        population_year,
+        provinces,
+        resolved_contract=resolved_contract,
+    )
     baseline = source_baseline(
         package,
         territory_id=territory_id,
@@ -715,6 +793,7 @@ def materialize(
             section_year=int(section_year),
             baseline=baseline,
             source_inputs=source_inputs,
+            resolved_contract=resolved_contract,
         )
         current_k = int((cfg.get("territory_contract") or {})["k_districts"])
         if current_k != k:
