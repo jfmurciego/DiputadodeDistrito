@@ -442,13 +442,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35755122526
-        artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-35755122526
-        artifact_sha256: 9af4663e730cbcd15d79f37e38f77773f4f86b53079cb78323f1524c9fa6f243
-        package_sha256: bfa629cc2b7f909b3222879aa84b5751c66625c147b49981573af00689c00305
+        run_id: 37157948240
+        artifact_name: ddd-source-package-comunidad_foral_de_navarra-2025-37157948240
+        artifact_sha256: 4227410329e62f6a6a79394b1fcc2fc60c5fdc2efa8cd807dd683e29ed552899
+        package_sha256: 85e406bccf7e33de8a7133540f0ae33532a234e16f66d02979c8aeae30330a03
+        receipt_path: territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37157948240/receipt.json
+        territorial_identity_sha256: b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2
+        compatibility_report_sha256: 37e6c6d48e2da4e646df0ebd10040de299c5468b16524fd00a5c104907c60a31
+        compatibility_identity_sha256: 16868f3fbeb2a1053a4c47ec0ff009d0b9654b776995868e386932a57894677b
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2023
+        section_year: 2023
+        source_commit: 33f5ddba45994131b0a622e49842f09a32c3f51b
       evidence:
-        generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/d0a820d9fa006f296618c60c9148102e9edca70d447290ed038c82e312ebf1c7/36882818980/receipt.json
+      generation_enabled: false
 - territory_id: pais_vasco
   name: País Vasco
   editions:
