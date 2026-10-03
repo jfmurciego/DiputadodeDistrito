@@ -122,6 +122,33 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "TEMPORAL_EVIDENCE_DIGEST_MISMATCH"):
                 validate_matrix(root)
 
+    def test_activation_exposes_resolved_source_plan_before_acquisition(self):
+        plan = resolve(ROOT, "Principado de Asturias")["plans"][0]
+        source_plan = plan["resolved_source_plan"]
+        self.assertEqual(source_plan["schema"], "ddd.resolved-source-plan/1.0")
+        self.assertEqual(source_plan["status"], "RESOLVED")
+        self.assertEqual(source_plan["territory"]["territory_id"], "principado_de_asturias")
+        self.assertEqual(source_plan["territory"]["project_edition"], "2025")
+        self.assertEqual(source_plan["temporal"], {
+            "population_year": 2023,
+            "section_year": 2023,
+        })
+        self.assertEqual(
+            source_plan["sources"]["population"]["artifact"]["planned_path"],
+            "inputs/65034.csv.zip",
+        )
+        self.assertEqual(
+            source_plan["sources"]["population"]["fields"]["population"],
+            "Total",
+        )
+        self.assertEqual(
+            source_plan["sources"]["sectioning"]["fields"]["section_id"],
+            "CUSEC",
+        )
+        # La edición administrativa 2025 no puede contaminar el binding runtime.
+        self.assertEqual(source_plan["runtime"]["population_field"], "POP_2023")
+        self.assertEqual(source_plan["runtime"]["section_id_field"], "CUSEC_KEY")
+
     def test_extremadura_2025_is_exact_but_electoral_stays_provisional(self):
         plan = resolve(ROOT, "Extremadura")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
