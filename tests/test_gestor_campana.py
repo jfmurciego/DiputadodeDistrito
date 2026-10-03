@@ -75,6 +75,9 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
             self.assertFalse(plan["run_generate"])
             self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "certified_product_lineage"})
 
+    # Asturias acaba de registrar una fuente territorial distinta de la que
+    # produjo su producto histórico. El producto se conserva como evidencia,
+    # pero no puede reutilizarse como activo vigente.
     with self.assertRaisesRegex(ValueError, "DURABLE_LINEAGE_INCOMPATIBLE"):
         build_plan(
             territory="Principado de Asturias",
