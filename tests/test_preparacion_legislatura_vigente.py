@@ -3,6 +3,8 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -33,6 +35,30 @@ CATALOG = ROOT / "configuracion/catalogo_preparacion.yaml"
 
 
 class CurrentLegislaturePreparationTests(unittest.TestCase):
+    def test_direct_cli_entrypoint_matches_activation_workflow(self):
+        completed = subprocess.run(
+            [
+                sys.executable,
+                "herramientas/resolver_preparacion_legislatura.py",
+                "--root-dir",
+                ".",
+                "--territory",
+                "19 Melilla",
+            ],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(
+            completed.returncode,
+            0,
+            completed.stdout + "\n" + completed.stderr,
+        )
+        payload = json.loads(completed.stdout)
+        self.assertTrue(payload["ok"])
+        self.assertEqual(len(payload["plans"]), 1)
+        self.assertEqual(payload["plans"][0]["territory_id"], "melilla")
+
     def test_matrix_has_exactly_19_current_elections(self):
         rows = validate_matrix(ROOT)
         registry = yaml.safe_load(REGISTRY.read_text(encoding="utf-8"))["territories"]
