@@ -236,6 +236,12 @@ def main():
     edition = int(require(meta.get("year"), "Falta meta.year (edición DDD)"))
     population_year = int(require(meta.get("source_population_year"), "Falta meta.source_population_year acreditado"))
     section_year = int(require(meta.get("source_section_year"), "Falta meta.source_section_year acreditado"))
+    runtime = ((cfg.get("resolved_source_contract") or {}).get("runtime") or {})
+    runtime_section_field = str(runtime.get("section_id_field") or "CUSEC_KEY")
+    runtime_population_field = str(
+        runtime.get("population_field") or f"POP_{population_year}"
+    )
+    internal_section_field = "__DDD_SECTION_ID"
     val = cfg.get("validation", {}) or {}
     require_non_null_population = bool(val.get("require_non_null_population", True))
     io_in = cfg["io"]["input"]
@@ -249,12 +255,12 @@ def main():
     section_source_col = secc.get("section_key_col", "CUSEC")
     if section_source_col not in gdf.columns:
         raise SystemExit(f"[Módulo 1] Seccionado sin campo {section_source_col!r}")
-    gdf["CUSEC_KEY"] = normalized_unique_keys(
+    gdf[internal_section_field] = normalized_unique_keys(
         gdf[section_source_col],
         normalize=normalize_section_key,
         label="geometría M01",
     )
-    gdf = gdf[gdf["CUSEC_KEY"].str[:2].isin(prov)].copy()
+    gdf = gdf[gdf[internal_section_field].str[:2].isin(prov)].copy()
     if gdf.empty:
         raise SystemExit("[Módulo 1] Seccionado vacío para las provincias declaradas")
 
@@ -283,8 +289,9 @@ def main():
         prov,
     )
 
-    geometry_keys = set(gdf["CUSEC_KEY"])
-    population_keys = set(cip["CUSEC_KEY"])
+    cip = cip.rename(columns={"CUSEC_KEY": internal_section_field})
+    geometry_keys = set(gdf[internal_section_field])
+    population_keys = set(cip[internal_section_field])
     population_without_geometry = sorted(population_keys - geometry_keys)
     if population_without_geometry:
         raise SystemExit(
@@ -292,16 +299,16 @@ def main():
             + str(population_without_geometry[:10])
         )
 
-    pop_field = f"POP_{population_year}"
+    pop_field = runtime_population_field
     gdf = gdf.merge(
         cip.rename(columns={"POP": pop_field}),
-        on="CUSEC_KEY",
+        on=internal_section_field,
         how="left",
         validate="one_to_one",
     )
     missing = int(gdf[pop_field].isna().sum())
     if require_non_null_population and missing:
-        missing_ids = gdf.loc[gdf[pop_field].isna(), "CUSEC_KEY"].astype(str).head(10).tolist()
+        missing_ids = gdf.loc[gdf[pop_field].isna(), internal_section_field].astype(str).head(10).tolist()
         raise SystemExit(
             f"[Módulo 1] POPULATION_MISSING: {missing} secciones sin población: {missing_ids}"
         )
@@ -309,7 +316,7 @@ def main():
         # La ausencia queda explícita; nunca se transforma en cero.
         gdf[pop_field] = strict_population_series(
             gdf[pop_field],
-            section_ids=gdf["CUSEC_KEY"],
+            section_ids=gdf[internal_section_field],
             label="población M01",
             require_non_null=False,
         )
@@ -320,6 +327,10 @@ def main():
             label="población M01",
             require_non_null=True,
         ).astype("int64")
+
+    gdf[runtime_section_field] = gdf[internal_section_field]
+    if runtime_section_field != internal_section_field:
+        gdf = gdf.drop(columns=[internal_section_field])
 
     gdf, comarcas_report = attach_comarcas_by_municipality(gdf, io_in.get("comarcas", {}))
     validate_geodataframe(gdf, label="M01 salida territorial")
@@ -340,6 +351,7 @@ def main():
                     "edition": edition,
                     "population_year": population_year,
                     "section_year": section_year,
+                    "section_id_field": runtime_section_field,
                     "population_field": pop_field,
                     "comarcas": comarcas_report,
                 },
