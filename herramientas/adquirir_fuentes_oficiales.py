@@ -609,6 +609,72 @@ def _core(source_id: str, configured_path: str, payload: bytes | None, urls: lis
     return {"source_id": source_id, "path": configured_path, "sha256": sha256_bytes(payload) if payload is not None else None, "bytes": len(payload) if payload is not None else None, "urls": list(urls), "edition": edition}
 
 
+def _resolved_consumer_contract(
+    *,
+    source_id: str,
+    source: dict,
+    binding: dict,
+    declaration: dict,
+    role: str,
+    configured_path: str,
+    effective_year: int,
+    content_checks: dict,
+) -> dict:
+    """Contrato físico durable que deben consumir las fases posteriores.
+
+    Conserva nombres, rutas y campos observados/declarados; no obliga al
+    consumidor a reconstruirlos desde edition, territory o convenciones INE.
+    """
+    contract = {
+        "schema": "ddd.resolved-source-binding/1.0",
+        "source_id": source_id,
+        "role": role,
+        "path": configured_path,
+        "effective_year": int(effective_year),
+        "source_kind": str(source.get("kind") or ""),
+        "source_format": str(source.get("format") or ""),
+        "container": "zip" if configured_path.lower().endswith(".zip") else "file",
+    }
+    if role == "population":
+        rules = _population_rules(declaration)
+        delimiter = str(content_checks.get("delimiter") or "auto")
+        if delimiter == "tab":
+            delimiter = "\t"
+        contract.update({
+            "materialized_format": "csv",
+            "archive_member": str(
+                binding.get("archive_member")
+                or source.get("output_name")
+                or ""
+            ),
+            "encoding": "utf-8-sig",
+            "delimiter": delimiter,
+            "fields": {
+                "section_id": rules["section_col"],
+                "population": rules["population_col"],
+                "year": rules["year_col"],
+                "sex": rules["sex_col"],
+                "age": rules["age_col"],
+            },
+            "filters": {
+                "year_value": int(effective_year),
+                "sex_total_values": list(rules["sex_total_values"]),
+                "age_total_values": list(rules["age_total_values"]),
+            },
+        })
+    elif role in {"target_sectioning", "population_sectioning_origin"}:
+        contract.update({
+            "materialized_format": "shapefile",
+            "layer": "",
+            "crs": str(source.get("crs") or ""),
+            "fields": {
+                "section_id": str(source.get("section_id_field") or ""),
+                "territorial_filter": str(source.get("territorial_filter_field") or ""),
+            },
+        })
+    return contract
+
+
 def _persist(evidence_dir: Path, resolved: dict, inventory: dict, provenance: dict, decision: dict) -> None:
     evidence_dir.mkdir(parents=True, exist_ok=True)
     files = {"declaracion_materializacion.json": resolved, "inventario_fuentes.json": inventory, "manifiesto_procedencia.json": provenance, "decision_adquisicion.json": decision}
@@ -680,9 +746,37 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
             _, staged_meta = _write_materialized(evidence_dir, configured_path, payload_out)
             role = "population" if source.get("kind") == "static_csv" else "target_sectioning"
             core = {**_core(source_id, configured_path, payload_out, official_urls, effective_year), "role": role}
-            resolved["sources"].append({**core, "staged_path": str(destination)})
-            inventory["sources"].append({**core, "availability": "AVAILABLE", "content_checks": content_checks, **staged_meta})
-            provenance["sources"].append({**core, "provider": source.get("provider"), "acquired_at_utc": datetime.now(timezone.utc).isoformat(), "mode": mode, **snapshot_meta, **staged_meta})
+            consumer_contract = _resolved_consumer_contract(
+                source_id=source_id,
+                source=source,
+                binding=binding,
+                declaration=declaration,
+                role=role,
+                configured_path=configured_path,
+                effective_year=effective_year,
+                content_checks=content_checks,
+            )
+            resolved["sources"].append({
+                **core,
+                "staged_path": str(destination),
+                "consumer_contract": consumer_contract,
+            })
+            inventory["sources"].append({
+                **core,
+                "availability": "AVAILABLE",
+                "content_checks": content_checks,
+                "consumer_contract": consumer_contract,
+                **staged_meta,
+            })
+            provenance["sources"].append({
+                **core,
+                "provider": source.get("provider"),
+                "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
+                "mode": mode,
+                "consumer_contract": consumer_contract,
+                **snapshot_meta,
+                **staged_meta,
+            })
 
             if source.get("kind") == "ogc_features" and population_year != section_year:
                 origin_path = f"inputs/seccionado_origen_poblacion_{population_year}.zip"
@@ -731,14 +825,26 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     ),
                     "role": "population_sectioning_origin",
                 }
+                origin_consumer_contract = _resolved_consumer_contract(
+                    source_id=source_id + "_origen_poblacion",
+                    source=source,
+                    binding=binding,
+                    declaration=declaration,
+                    role="population_sectioning_origin",
+                    configured_path=origin_path,
+                    effective_year=population_year,
+                    content_checks=origin_checks,
+                )
                 resolved["sources"].append({
                     **origin_core,
                     "staged_path": str(origin_destination),
+                    "consumer_contract": origin_consumer_contract,
                 })
                 inventory["sources"].append({
                     **origin_core,
                     "availability": "AVAILABLE",
                     "content_checks": origin_checks,
+                    "consumer_contract": origin_consumer_contract,
                     **origin_staged,
                 })
                 provenance["sources"].append({
@@ -746,6 +852,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     "provider": source.get("provider"),
                     "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
                     "mode": mode,
+                    "consumer_contract": origin_consumer_contract,
                     **origin_snapshot_meta,
                     **origin_staged,
                 })
