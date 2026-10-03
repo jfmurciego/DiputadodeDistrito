@@ -178,7 +178,8 @@ territories:
         source_commit: 0d3da30a0bf804e6bbec22f13c1b3fff1b966a33
       evidence:
         electoral_source: territorios/cantabria/evidencia/catalogo/electoral_source_2025.json
-      generation_enabled: false
+        generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
+      generation_enabled: true
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha
   editions:
