@@ -11,6 +11,7 @@ from pathlib import Path
 
 import yaml
 
+from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import _apply_source_contract
 from herramientas.preparar_unidades_internas import build_command
 
@@ -121,12 +122,37 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
             "modulos": {
                 "modulo_02_construir_adyacencias": {"id_field": "LEGACY"},
                 "modulo_03_construir_grafo": {"id_field": "LEGACY", "pop_field": "POP_2025"},
-                "modulo_04_generar_semillas": {"id_field": "LEGACY", "pop_field": "POP_2025", "province_field": "CPRO"},
-                "modulo_05_optimizar_distritos": {"id_field": "LEGACY", "pop_field": "POP_2025", "province_field": "CPRO"},
-                "modulo_06_consolidar_distritos": {"id_field": "LEGACY", "pop_field": "POP_2025", "province_field": "CPRO"},
+                "modulo_04_generar_semillas": {
+                    "id_field": "LEGACY",
+                    "pop_field": "POP_2025",
+                    "province_field": "CPRO",
+                    "municipality_field": "M04_PARTITION_UNIT",
+                    "source_municipality_field": "CUMUN",
+                },
+                "modulo_05_optimizar_distritos": {
+                    "id_field": "LEGACY",
+                    "pop_field": "POP_2025",
+                    "province_field": "CPRO",
+                    "municipality_field": "CUMUN",
+                },
+                "modulo_06_consolidar_distritos": {
+                    "id_field": "LEGACY",
+                    "pop_field": "POP_2025",
+                    "province_field": "CPRO",
+                    "municipality_field": "CUMUN",
+                },
             },
-            "partitioning": {"population_field": "POP_{year}"},
-            "validation": {},
+            "partitioning": {
+                "enabled": True,
+                "strategy": "connected_internal_units",
+                "partition_unit_field": "M04_PARTITION_UNIT",
+                "municipality_field": "CUMUN",
+                "population_field": "POP_{year}",
+            },
+            "validation": {
+                "province_field": "CPRO",
+                "municipality_field": "CUMUN",
+            },
         }
         _apply_source_contract(
             cfg,
@@ -153,6 +179,136 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
         self.assertEqual(cfg["modulos"]["modulo_03_construir_grafo"]["id_field"], "voting_zone_code_normalized")
         self.assertEqual(cfg["modulos"]["modulo_03_construir_grafo"]["pop_field"], "population_runtime")
         self.assertEqual(cfg["partitioning"]["population_field"], "population_runtime")
+        self.assertEqual(cfg["validation"]["province_field"], "PROV_CODE")
+        self.assertEqual(cfg["validation"]["municipality_field"], "ADM2_CODE")
+        self.assertEqual(cfg["partitioning"]["municipality_field"], "ADM2_CODE")
+        self.assertEqual(
+            cfg["modulos"]["modulo_04_generar_semillas"]["province_field"],
+            "PROV_CODE",
+        )
+        self.assertEqual(
+            cfg["modulos"]["modulo_04_generar_semillas"]["municipality_field"],
+            "M04_PARTITION_UNIT",
+        )
+        self.assertEqual(
+            cfg["modulos"]["modulo_04_generar_semillas"]["source_municipality_field"],
+            "ADM2_CODE",
+        )
+        for module_name in (
+            "modulo_05_optimizar_distritos",
+            "modulo_06_consolidar_distritos",
+        ):
+            self.assertEqual(
+                cfg["modulos"][module_name]["province_field"],
+                "PROV_CODE",
+            )
+            self.assertEqual(
+                cfg["modulos"][module_name]["municipality_field"],
+                "ADM2_CODE",
+            )
+
+    def test_runtime_admin_bindings_keep_production_contract_coherent(self):
+        source = (
+            ROOT
+            / "territorios/principado_de_asturias/config/principado_de_asturias_2025.yaml"
+        )
+        cfg = yaml.safe_load(source.read_text(encoding="utf-8"))
+        resolved = copy.deepcopy(self.resolved_contract())
+
+        population = resolved["sources"]["population"]
+        population["path"] = "inputs/65034.csv.zip"
+        population["artifact"]["path"] = "inputs/65034.csv.zip"
+        population["archive_member"] = "65034.csv"
+        population["fields"] = {
+            "section_id": "Secciones",
+            "population": "Total",
+            "year": "Periodo",
+            "sex": "Sexo",
+            "age": "Edad",
+        }
+        population["filters"] = {
+            "year_value": 2023,
+            "sex_total_values": ["Total"],
+            "age_total_values": ["Todas las edades"],
+        }
+
+        sectioning = resolved["sources"]["sectioning"]
+        sectioning["path"] = "inputs/seccionado_2023.zip"
+        sectioning["artifact"]["path"] = "inputs/seccionado_2023.zip"
+        sectioning["fields"]["section_id"] = "CUSEC"
+
+        resolved["temporal"] = {
+            "population_year": 2023,
+            "section_year": 2023,
+        }
+        resolved["runtime"] = {
+            "section_id_field": "CUSEC_KEY",
+            "population_field": "POP_2023",
+            "province_field": "PROV_CODE",
+            "municipality_field": "ADM2_CODE",
+        }
+
+        source_inputs = [
+            {
+                "source_id": "demo-pop",
+                "role": "population",
+                "path": "inputs/65034.csv.zip",
+                "sha256": "b" * 64,
+            },
+            {
+                "source_id": "demo-geo",
+                "role": "target_sectioning",
+                "path": "inputs/seccionado_2023.zip",
+                "sha256": "c" * 64,
+            },
+        ]
+        _apply_source_contract(
+            cfg,
+            population_year=2023,
+            section_year=2023,
+            baseline={
+                "package_sha256": "d" * 64,
+                "compatibility_identity_sha256": "e" * 64,
+            },
+            source_inputs=source_inputs,
+            resolved_contract=resolved,
+        )
+
+        self.assertEqual(cfg["validation"]["province_field"], "PROV_CODE")
+        self.assertEqual(cfg["validation"]["municipality_field"], "ADM2_CODE")
+        self.assertEqual(cfg["partitioning"]["municipality_field"], "ADM2_CODE")
+        self.assertEqual(
+            cfg["modulos"]["modulo_04_generar_semillas"]["municipality_field"],
+            "M04_PARTITION_UNIT",
+        )
+        self.assertEqual(
+            cfg["modulos"]["modulo_05_optimizar_distritos"]["municipality_field"],
+            "ADM2_CODE",
+        )
+        self.assertEqual(
+            cfg["modulos"]["modulo_06_consolidar_distritos"]["municipality_field"],
+            "ADM2_CODE",
+        )
+
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=".yaml",
+            dir=source.parent,
+            delete=False,
+        ) as handle:
+            yaml.safe_dump(cfg, handle, sort_keys=False, allow_unicode=True)
+            path = Path(handle.name)
+        try:
+            report = validate_production_contract(
+                path,
+                expected_territory="principado_de_asturias",
+            )
+        finally:
+            path.unlink(missing_ok=True)
+
+        self.assertEqual(report["status"], "ADMITTED", report["errors"])
+        self.assertTrue(report["production_authorized"], report["errors"])
 
     def test_m01_outputs_are_contract_owned(self):
         module = load_m01()
