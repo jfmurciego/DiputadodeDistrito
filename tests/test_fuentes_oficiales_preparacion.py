@@ -169,7 +169,11 @@ class OfficialSourcesTests(unittest.TestCase):
         self.assertEqual(population["materialized_format"], "csv")
         self.assertEqual(population["fields"]["section_id"], dec["population_validation"]["section_col"])
         self.assertEqual(population["fields"]["population"], dec["population_validation"]["population_col"])
-        self.assertEqual(population["filters"]["year_value"], dec["territory"]["population_year"])
+        expected_population_year = dec["territory"].get(
+            "population_year",
+            dec["territory"].get("source_year", dec["territory"]["edition"]),
+        )
+        self.assertEqual(population["filters"]["year_value"], expected_population_year)
 
         self.assertEqual(sectioning["schema"], "ddd.resolved-source-binding/1.0")
         self.assertEqual(sectioning["path"], by_role["target_sectioning"]["path"])
