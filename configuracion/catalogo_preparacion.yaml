@@ -356,6 +356,7 @@ territories:
         territorial_product: territorios/galicia/evidencia/catalogo/territorial_product_2025.json
         electoral_product: territorios/galicia/evidencia/catalogo/electoral_product_2025.json
         generation_preflight: territorios/galicia/evidencia/catalogo/generation_preflight_2025.json
+        prepared_source_pair: territorios/galicia/evidencia/pares_fuentes/2025/6e4181263ddafe3d992b38d9a706e81dd6cebf21ed119ce83b97fb456f7568ff.json
       generation_enabled: true
 - territory_id: madrid
   name: Comunidad de Madrid
