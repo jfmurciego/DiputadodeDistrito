@@ -293,6 +293,24 @@ def write_geojson(gdf, out_path):
     tmp.unlink(missing_ok=True)
 
 
+def normalize_archive_member(value: object, cfg: dict) -> str:
+    raw = str(value or "").strip()
+    if not raw:
+        return ""
+    candidate = Path(raw)
+    if not candidate.is_absolute():
+        return raw.replace("\\", "/")
+    root_raw = str(((cfg.get("_internal") or {}).get("root") or "")).strip()
+    if root_raw:
+        root = Path(root_raw).resolve()
+        try:
+            return candidate.resolve().relative_to(root).as_posix()
+        except ValueError:
+            pass
+    # Un archive_member nunca debe apuntar al filesystem local.
+    return candidate.name
+
+
 def resolve_runtime_fields(cfg: dict, population_year: int) -> tuple[str, str]:
     runtime = ((cfg.get("resolved_source_contract") or {}).get("runtime") or {})
     return (
@@ -329,7 +347,10 @@ def main():
         prov,
         container=secc.get("container", "auto"),
         materialized_format=secc.get("materialized_format", ""),
-        archive_member=secc.get("archive_member", ""),
+        archive_member=normalize_archive_member(
+            secc.get("archive_member", ""),
+            cfg,
+        ),
     )
     validate_geodataframe(gdf, label="M01 seccionado de entrada")
     section_source_col = secc.get("section_key_col", "CUSEC")
@@ -369,7 +390,10 @@ def main():
         prov,
         container=cip_cfg.get("container", "auto"),
         materialized_format=cip_cfg.get("materialized_format", ""),
-        archive_member=cip_cfg.get("archive_member", ""),
+        archive_member=normalize_archive_member(
+            cip_cfg.get("archive_member", ""),
+            cfg,
+        ),
         encoding=cip_cfg.get("encoding", "utf-8-sig"),
     )
 
