@@ -30,6 +30,13 @@ from urllib.request import Request, urlopen
 
 import yaml
 
+from ddd_core.official_geometry import (
+    load_geometry_policy,
+    normalize_official_features,
+    persist_geometry_normalization_evidence,
+    persist_raw_ogc_response,
+    validate_materialization_roundtrip,
+)
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
 
 FetchBytes = Callable[[str], bytes]
@@ -632,7 +639,18 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         except Exception as exc:  # pragma: no cover
             raise RuntimeError(f"geopandas es obligatorio para copiar secciones verificadas: {exc}")
         gdf = gpd.read_file(shp)
-        validate_geodataframe(gdf, label="copia verificada de seccionado")
+        if gdf.crs is None or str(gdf.crs).strip() == "":
+            raise ValueError("CRS_MISSING: copia verificada de seccionado")
+        if bool(gdf.geometry.isna().any()):
+            raise ValueError(
+                "GEOMETRY_NULL: copia verificada de seccionado: "
+                f"count={int(gdf.geometry.isna().sum())}"
+            )
+        if bool(gdf.geometry.is_empty.any()):
+            raise ValueError(
+                "GEOMETRY_EMPTY: copia verificada de seccionado: "
+                f"count={int(gdf.geometry.is_empty.sum())}"
+            )
         if filter_field not in gdf.columns or section_id_field not in gdf.columns:
             raise ValueError("La copia de secciones no contiene campos territoriales obligatorios")
         gdf[filter_field] = gdf[filter_field].astype(str).str.zfill(2)
@@ -646,19 +664,39 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         return features, crs
 
 
-def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict, str]:
+def _collect_live_sections(
+    source: dict,
+    source_year: int,
+    provinces: list[dict],
+    fetcher: FetchBytes,
+    *,
+    evidence_dir: Path | None = None,
+    source_id: str = "secciones_censales",
+) -> tuple[list[dict], list[str], dict, str]:
     urls = _source_urls(source, source_year, provinces)
     filter_field = str(source["territorial_filter_field"])
     section_id_field = str(source["section_id_field"])
     all_features: list[dict] = []
     seen_ids: set[str] = set()
     coverage: dict[str, int] = {}
+    raw_responses: list[dict] = []
     declared_crs = str(source.get("crs") or "").strip()
     if not declared_crs:
         raise ValueError("CRS_MISSING: fuente OGC sin CRS declarado en catálogo")
     for province, url in zip(provinces, urls):
         code = province["code"]
         payload = fetcher(url)
+        if evidence_dir is not None:
+            raw_responses.append(
+                persist_raw_ogc_response(
+                    evidence_dir,
+                    source_id=source_id,
+                    source_year=source_year,
+                    province_code=code,
+                    url=url,
+                    payload=payload,
+                )
+            )
         if _looks_like_html(payload):
             raise ValueError(f"La fuente de secciones devolvió HTML para CPRO={code}")
         data = json.loads(payload.decode("utf-8-sig"))
@@ -705,34 +743,365 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
         "sections_by_province": coverage,
         "sections": len(all_features),
         "columns": observed_columns,
+        "raw_responses": raw_responses,
     }, declared_crs
 
 
-def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
+def _persist_geometry_evidence(
+    *,
+    evidence_dir: Path,
+    source_id: str,
+    source_year: int,
+    content_checks: dict,
+    snapshot_identity: dict | None = None,
+    derived_path: str | None = None,
+    derived_payload: bytes | None = None,
+    materialization_validation: dict | None = None,
+) -> dict:
+    report = content_checks.get("geometry_normalization")
+    if not isinstance(report, dict):
+        raise ValueError("GEOMETRY_NORMALIZATION_EVIDENCE_MISSING_REPORT")
+    reference = persist_geometry_normalization_evidence(
+        evidence_dir,
+        source_id=source_id,
+        source_year=source_year,
+        report=report,
+        raw_records=list(content_checks.get("raw_responses") or []),
+        snapshot_identity=snapshot_identity,
+        derived_path=derived_path,
+        derived_payload=derived_payload,
+        materialization_validation=materialization_validation,
+    )
+    content_checks["geometry_normalization_evidence"] = reference
+    return reference
+
+
+def _normalize_sections_or_block(
+    features: list[dict],
+    source: dict,
+    content_checks: dict,
+    *,
+    crs: str,
+    evidence_dir: Path,
+    source_id: str,
+    source_year: int,
+    snapshot_identity: dict | None = None,
+) -> list[dict]:
+    policy, policy_sha256, policy_path = load_geometry_policy()
+    source_stage = (
+        "RAW_SNAPSHOT_GEOMETRY_AFTER_VECTOR_READ_BEFORE_NORMALIZATION"
+        if snapshot_identity
+        else "RAW_SOURCE_FEATURE_AFTER_JSON_DECODE_BEFORE_GEOMETRY_TRANSFORMATION"
+    )
+    normalized, audit = normalize_official_features(
+        features,
+        str(source["section_id_field"]),
+        crs=crs,
+        coverage_field=str(source["territorial_filter_field"]),
+        policy=policy,
+        policy_sha256=policy_sha256,
+        policy_path=policy_path,
+        source_stage=source_stage,
+    )
+    raw_by_partition = {
+        str(row.get("province_code") or "").zfill(2): row
+        for row in (content_checks.get("raw_responses") or [])
+        if isinstance(row, dict)
+    }
+    snapshot_sha256 = (
+        str(snapshot_identity.get("snapshot_sha256") or "")
+        if snapshot_identity else ""
+    )
+    for issue in audit.get("issues") or []:
+        before = issue.get("before") or {}
+        partition = str(before.get("source_partition") or "")
+        raw_record = raw_by_partition.get(partition.zfill(2))
+        if raw_record:
+            before["raw_source_response_sha256"] = raw_record.get("sha256")
+            before["raw_source_response_path"] = raw_record.get("path")
+        elif snapshot_sha256:
+            before["raw_source_response_sha256"] = snapshot_sha256
+            before["raw_source_response_path"] = snapshot_identity.get(
+                "snapshot_path"
+            )
+        else:
+            before["raw_source_response_sha256"] = None
+            before["raw_source_response_path"] = None
+
+    content_checks["geometry_normalization"] = audit
+    _persist_geometry_evidence(
+        evidence_dir=evidence_dir,
+        source_id=source_id,
+        source_year=source_year,
+        content_checks=content_checks,
+        snapshot_identity=snapshot_identity,
+    )
+    if audit["decision"] != "READY":
+        raise ValueError(
+            "GEOMETRY_INVALID_AUDITED: "
+            + json.dumps(
+                {
+                    "decision": audit["decision"],
+                    "issues": audit["issues"],
+                    "topology": audit["topology"],
+                    "identity_and_attributes": audit[
+                        "identity_and_attributes"
+                    ],
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+        )
+    return normalized
+
+
+def _write_shapefile_zip(
+    features: list[dict],
+    crs: str | None,
+    *,
+    section_id_field: str | None = None,
+    source_partition_field: str | None = None,
+    materialization_checks: dict | None = None,
+) -> bytes:
     try:
         import geopandas as gpd
         from pyproj import CRS
     except Exception as exc:  # pragma: no cover
-        raise RuntimeError(f"geopandas es obligatorio para materializar secciones: {exc}")
+        raise RuntimeError(
+            f"geopandas es obligatorio para materializar secciones: {exc}"
+        )
     if crs is None or not str(crs).strip():
-        raise ValueError("CRS_MISSING: no se puede materializar seccionado sin CRS acreditado")
+        raise ValueError(
+            "CRS_MISSING: no se puede materializar seccionado sin CRS acreditado"
+        )
     try:
         CRS.from_user_input(crs)
     except Exception as exc:
         raise ValueError(f"CRS_INVALID: {crs!r}") from exc
+    if materialization_checks is not None:
+        materialization_checks.update({
+            "decision": "PENDING",
+            "stage": "PRE_SHAPEFILE_WRITE",
+        })
     with tempfile.TemporaryDirectory(prefix="ddd_sections_") as td:
         shp = Path(td) / "seccionado.shp"
-        gdf = gpd.GeoDataFrame.from_features(features, crs=crs)
-        validate_geodataframe(gdf, label="seccionado a materializar")
-        gdf.to_file(shp, driver="ESRI Shapefile", index=False)
+        try:
+            gdf = gpd.GeoDataFrame.from_features(features, crs=crs)
+            validate_geodataframe(
+                gdf,
+                label="seccionado normalizado antes de materializar",
+            )
+            if materialization_checks is not None:
+                materialization_checks["stage"] = "SHAPEFILE_WRITE"
+            gdf.to_file(shp, driver="ESRI Shapefile", index=False)
+
+            if materialization_checks is not None:
+                materialization_checks["stage"] = "POST_SHAPEFILE_WRITE_READBACK"
+            reloaded = gpd.read_file(shp)
+            if section_id_field:
+                roundtrip = validate_materialization_roundtrip(
+                    features,
+                    reloaded,
+                    section_id_field=section_id_field,
+                    source_crs=str(crs),
+                    source_partition_field=source_partition_field,
+                )
+                if materialization_checks is not None:
+                    materialization_checks.update(roundtrip)
+                if roundtrip["decision"] != "READY":
+                    raise ValueError(
+                        "GEOMETRY_POST_MATERIALIZATION_BLOCKED: "
+                        + json.dumps(
+                            {
+                                "defects": roundtrip.get("defects") or [],
+                                "attribute_changes": roundtrip.get(
+                                    "attribute_changes"
+                                ) or [],
+                            },
+                            ensure_ascii=False,
+                            sort_keys=True,
+                            separators=(",", ":"),
+                        )
+                    )
+                validate_geodataframe(
+                    reloaded,
+                    label="seccionado derivado tras materialización",
+                )
+            else:
+                validate_geodataframe(
+                    reloaded,
+                    label="seccionado derivado tras materialización",
+                )
+                if materialization_checks is not None:
+                    materialization_checks.update({
+                        "decision": "READY",
+                        "stage": "POST_SHAPEFILE_WRITE_READBACK",
+                        "note": "roundtrip identity not requested",
+                    })
+        except Exception as exc:
+            if materialization_checks is not None:
+                materialization_checks.update({
+                    "decision": "BLOCKED",
+                    "error": str(exc),
+                })
+                materialization_checks.setdefault(
+                    "stage",
+                    "MATERIALIZATION_STAGE_UNKNOWN",
+                )
+            raise
+
         out = io.BytesIO()
         with zipfile.ZipFile(out, "w") as zf:
             for file in sorted(Path(td).glob("seccionado.*")):
-                info = zipfile.ZipInfo(file.name, date_time=(2025, 1, 1, 0, 0, 0))
+                info = zipfile.ZipInfo(
+                    file.name,
+                    date_time=(2025, 1, 1, 0, 0, 0),
+                )
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o644 << 16
                 zf.writestr(info, file.read_bytes())
         return out.getvalue()
+
+
+def _enrich_materialization_defects_with_source_lineage(
+    content_checks: dict,
+    *,
+    snapshot_identity: dict | None = None,
+) -> None:
+    materialization = content_checks.get("geometry_materialization") or {}
+    defects = materialization.get("defects") or []
+    if not defects:
+        return
+
+    normalization = content_checks.get("geometry_normalization") or {}
+    normalization_by_id = {
+        str((issue.get("before") or {}).get("section_id") or ""): issue
+        for issue in (normalization.get("issues") or [])
+        if isinstance(issue, dict)
+    }
+    raw_by_partition = {
+        str(row.get("province_code") or row.get("province") or "").zfill(2): row
+        for row in (content_checks.get("raw_responses") or [])
+        if isinstance(row, dict)
+    }
+    snapshot_sha256 = (
+        str(snapshot_identity.get("snapshot_sha256") or "")
+        if snapshot_identity else ""
+    )
+    snapshot_path = (
+        snapshot_identity.get("snapshot_path")
+        if snapshot_identity else None
+    )
+
+    for defect in defects:
+        section_id = str(defect.get("section_id") or "")
+        before = defect.get("before") or {}
+        after = defect.get("after") or {}
+        partition = str(
+            defect.get("source_partition")
+            or before.get("source_partition")
+            or ""
+        )
+        source_issue = normalization_by_id.get(section_id) or {}
+        source_before = source_issue.get("before") or {}
+        raw_record = raw_by_partition.get(partition.zfill(2))
+        defect["raw_source"] = {
+            "section_id": section_id,
+            "crs": source_before.get("crs") or before.get("crs"),
+            "geometry_type": (
+                source_before.get("geometry_type")
+                or before.get("geometry_type")
+            ),
+            "geometry_sha256": (
+                source_before.get("geometry_sha256")
+                or before.get("geometry_sha256")
+            ),
+            "validity_reason": (
+                source_before.get("validity_reason")
+                or before.get("validity_reason")
+            ),
+            "response_sha256": (
+                raw_record.get("sha256")
+                if raw_record else (snapshot_sha256 or None)
+            ),
+            "response_path": (
+                raw_record.get("path")
+                if raw_record else snapshot_path
+            ),
+        }
+        defect["pre_materialization"] = {
+            "section_id": section_id,
+            "crs": before.get("crs"),
+            "geometry_type": before.get("geometry_type"),
+            "geometry_sha256": before.get("geometry_sha256"),
+            "validity_reason": before.get("validity_reason"),
+        }
+        defect["post_materialization"] = {
+            "section_id": section_id,
+            "crs": after.get("crs"),
+            "geometry_type": after.get("geometry_type"),
+            "geometry_sha256": after.get("geometry_sha256"),
+            "validity_reason": after.get("validity_reason"),
+        }
+
+
+def _materialize_sections_with_evidence(
+    features: list[dict],
+    *,
+    crs: str,
+    section_id_field: str,
+    source_partition_field: str | None = None,
+    evidence_dir: Path,
+    source_id: str,
+    source_year: int,
+    content_checks: dict,
+    derived_path: str,
+    snapshot_identity: dict | None = None,
+) -> bytes:
+    """Materializa y persiste el resultado de roundtrip incluso si éste bloquea."""
+    materialization_checks: dict = {}
+    content_checks["geometry_materialization"] = materialization_checks
+    try:
+        payload = _write_shapefile_zip(
+            features,
+            crs=crs,
+            section_id_field=section_id_field,
+            source_partition_field=source_partition_field,
+            materialization_checks=materialization_checks,
+        )
+    except Exception:
+        _enrich_materialization_defects_with_source_lineage(
+            content_checks,
+            snapshot_identity=snapshot_identity,
+        )
+        _persist_geometry_evidence(
+            evidence_dir=evidence_dir,
+            source_id=source_id,
+            source_year=source_year,
+            content_checks=content_checks,
+            snapshot_identity=snapshot_identity,
+            derived_path=derived_path,
+            derived_payload=None,
+            materialization_validation=materialization_checks,
+        )
+        raise
+
+    _enrich_materialization_defects_with_source_lineage(
+        content_checks,
+        snapshot_identity=snapshot_identity,
+    )
+    _persist_geometry_evidence(
+        evidence_dir=evidence_dir,
+        source_id=source_id,
+        source_year=source_year,
+        content_checks=content_checks,
+        snapshot_identity=snapshot_identity,
+        derived_path=derived_path,
+        derived_payload=payload,
+        materialization_validation=materialization_checks,
+    )
+    return payload
 
 
 def _write_materialized(evidence_dir: Path, configured_path: str, payload: bytes) -> tuple[Path, dict]:
@@ -1067,10 +1436,57 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                             for key in ((feature.get("properties") or {}).keys())
                         }),
                     }
-                    payload_out = _write_shapefile_zip(features, crs=crs)
+                    features = _normalize_sections_or_block(
+                        features,
+                        source,
+                        content_checks,
+                        crs=str(crs),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id,
+                        source_year=section_year,
+                        snapshot_identity=snapshot_meta,
+                    )
+                    payload_out = _materialize_sections_with_evidence(
+                        features,
+                        crs=str(crs),
+                        section_id_field=str(source["section_id_field"]),
+                        source_partition_field=str(source["territorial_filter_field"]),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id,
+                        source_year=section_year,
+                        content_checks=content_checks,
+                        derived_path=configured_path,
+                        snapshot_identity=snapshot_meta,
+                    )
                 else:
-                    features, official_urls, content_checks, live_crs = _collect_live_sections(source, section_year, provinces, fetch)
-                    payload_out = _write_shapefile_zip(features, crs=live_crs)
+                    features, official_urls, content_checks, live_crs = _collect_live_sections(
+                        source,
+                        section_year,
+                        provinces,
+                        fetch,
+                        evidence_dir=evidence_dir,
+                        source_id=source_id,
+                    )
+                    features = _normalize_sections_or_block(
+                        features,
+                        source,
+                        content_checks,
+                        crs=str(live_crs),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id,
+                        source_year=section_year,
+                    )
+                    payload_out = _materialize_sections_with_evidence(
+                        features,
+                        crs=str(live_crs),
+                        section_id_field=str(source["section_id_field"]),
+                        source_partition_field=str(source["territorial_filter_field"]),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id,
+                        source_year=section_year,
+                        content_checks=content_checks,
+                        derived_path=configured_path,
+                    )
             else:
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
 
@@ -1092,11 +1508,13 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                 "staged_path": str(destination),
                 "consumer_contract": consumer_contract,
             })
+            derivation = content_checks.get("geometry_normalization_evidence")
             inventory["sources"].append({
                 **core,
                 "availability": "AVAILABLE",
                 "content_checks": content_checks,
                 "consumer_contract": consumer_contract,
+                "derivation": derivation,
                 **staged_meta,
             })
             provenance["sources"].append({
@@ -1105,6 +1523,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                 "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
                 "mode": mode,
                 "consumer_contract": consumer_contract,
+                "derivation": derivation,
                 **snapshot_meta,
                 **staged_meta,
             })
@@ -1137,12 +1556,57 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                         }),
                         "sections": len(origin_features),
                     }
-                    origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
+                    origin_features = _normalize_sections_or_block(
+                        origin_features,
+                        source,
+                        origin_checks,
+                        crs=str(origin_crs),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id + "_origen_poblacion",
+                        source_year=population_year,
+                        snapshot_identity=origin_snapshot_meta,
+                    )
+                    origin_payload = _materialize_sections_with_evidence(
+                        origin_features,
+                        crs=str(origin_crs),
+                        section_id_field=str(source["section_id_field"]),
+                        source_partition_field=str(source["territorial_filter_field"]),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id + "_origen_poblacion",
+                        source_year=population_year,
+                        content_checks=origin_checks,
+                        derived_path=origin_path,
+                        snapshot_identity=origin_snapshot_meta,
+                    )
                 else:
                     origin_features, origin_urls, origin_checks, origin_crs = _collect_live_sections(
-                        source, population_year, provinces, fetch
+                        source,
+                        population_year,
+                        provinces,
+                        fetch,
+                        evidence_dir=evidence_dir,
+                        source_id=source_id + "_origen_poblacion",
                     )
-                    origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
+                    origin_features = _normalize_sections_or_block(
+                        origin_features,
+                        source,
+                        origin_checks,
+                        crs=str(origin_crs),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id + "_origen_poblacion",
+                        source_year=population_year,
+                    )
+                    origin_payload = _materialize_sections_with_evidence(
+                        origin_features,
+                        crs=str(origin_crs),
+                        section_id_field=str(source["section_id_field"]),
+                        source_partition_field=str(source["territorial_filter_field"]),
+                        evidence_dir=evidence_dir,
+                        source_id=source_id + "_origen_poblacion",
+                        source_year=population_year,
+                        content_checks=origin_checks,
+                        derived_path=origin_path,
+                    )
                 origin_destination, origin_staged = _write_materialized(
                     evidence_dir, origin_path, origin_payload
                 )
@@ -1171,11 +1635,15 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     "staged_path": str(origin_destination),
                     "consumer_contract": origin_consumer_contract,
                 })
+                origin_derivation = origin_checks.get(
+                    "geometry_normalization_evidence"
+                )
                 inventory["sources"].append({
                     **origin_core,
                     "availability": "AVAILABLE",
                     "content_checks": origin_checks,
                     "consumer_contract": origin_consumer_contract,
+                    "derivation": origin_derivation,
                     **origin_staged,
                 })
                 provenance["sources"].append({
@@ -1184,14 +1652,30 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     "acquired_at_utc": datetime.now(timezone.utc).isoformat(),
                     "mode": mode,
                     "consumer_contract": origin_consumer_contract,
+                    "derivation": origin_derivation,
                     **origin_snapshot_meta,
                     **origin_staged,
                 })
         except Exception as exc:
             core = _core(source_id, configured_path, payload_out, official_urls, effective_year)
             resolved["sources"].append(dict(core))
-            inventory["sources"].append({**core, "availability": "BLOCKED", "error": str(exc), "content_checks": content_checks, **staged_meta})
-            provenance["sources"].append({**core, "provider": source.get("provider"), "mode": mode, **snapshot_meta, **staged_meta})
+            derivation = content_checks.get("geometry_normalization_evidence")
+            inventory["sources"].append({
+                **core,
+                "availability": "BLOCKED",
+                "error": str(exc),
+                "content_checks": content_checks,
+                "derivation": derivation,
+                **staged_meta,
+            })
+            provenance["sources"].append({
+                **core,
+                "provider": source.get("provider"),
+                "mode": mode,
+                "derivation": derivation,
+                **snapshot_meta,
+                **staged_meta,
+            })
             decision["decision"] = "BLOCKED"
             decision["reasons"].append({"source_id": source_id, "reason": str(exc)})
             _persist(evidence_dir, resolved, inventory, provenance, decision)

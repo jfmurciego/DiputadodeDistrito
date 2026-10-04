@@ -82,7 +82,16 @@ class SimulatedINE:
         features = []
         for index in range(self.counts[requested]):
             section = f"{requested}{index:08d}"
-            features.append({"type": "Feature", "properties": {"CPRO": actual, "TIPO": "SECCION", "CUSEC": section}, "geometry": {"type": "Point", "coordinates": [-6.0 + index * 0.00001, 39.0]}})
+            x = -6.0 + index * 0.00002
+            y = 36.0 + int(requested) * 0.05
+            ring = [
+                [x, y],
+                [x + 0.00001, y],
+                [x + 0.00001, y + 0.00001],
+                [x, y + 0.00001],
+                [x, y],
+            ]
+            features.append({"type": "Feature", "properties": {"CPRO": actual, "TIPO": "SECCION", "CUSEC": section}, "geometry": {"type": "Polygon", "coordinates": [ring]}})
         return json.dumps({"type": "FeatureCollection", "features": features}).encode("utf-8")
 
 
@@ -121,7 +130,16 @@ class OfficialSourcesTests(unittest.TestCase):
             for index in range(count):
                 sid = f"{code}{index:08d}"
                 population.write(f"2025\tTotal\tTodas las edades\t{sid}\t100\n")
-                features.append({"type": "Feature", "properties": {"CPRO": code, "TIPO": "SECCION", "CUSEC": sid}, "geometry": {"type": "Point", "coordinates": [-7.0 + ordinal * 0.00001, 40.0]}})
+                x = -7.0 + ordinal * 0.00002
+                y = 40.0
+                ring = [
+                    [x, y],
+                    [x + 0.00001, y],
+                    [x + 0.00001, y + 0.00001],
+                    [x, y + 0.00001],
+                    [x, y],
+                ]
+                features.append({"type": "Feature", "properties": {"CPRO": code, "TIPO": "SECCION", "CUSEC": sid}, "geometry": {"type": "Polygon", "coordinates": [ring]}})
                 ordinal += 1
 
         national = root / "national"
