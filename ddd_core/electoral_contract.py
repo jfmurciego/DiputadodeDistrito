@@ -214,6 +214,7 @@ def _validate_wide_polling_station_adapter(adapter: Mapping[str, Any], context: 
         )
 
     seen_ids: set[str] = set()
+    partition_fields: set[str] = set()
     for index, aggregate in enumerate(aggregates):
         aggregate_context = (
             f"{adapter_context}.record_classification.aggregates[{index}]"
@@ -290,6 +291,7 @@ def _validate_wide_polling_station_adapter(adapter: Mapping[str, Any], context: 
                 f"{aggregate_context}.scope.partition_field "
                 "debe ser texto no vacío"
             )
+        partition_fields.add(partition_field.strip())
 
         reconciliation = _required(
             aggregate,
@@ -311,6 +313,12 @@ def _validate_wide_polling_station_adapter(adapter: Mapping[str, Any], context: 
                 f"{aggregate_context}.vote_reconciliation."
                 "empty_aggregate_value debe ser reject"
             )
+
+    if len(partition_fields) > 1:
+        raise ValueError(
+            f"{adapter_context}.record_classification.aggregates "
+            "debe usar un único scope.partition_field"
+        )
 
 
 def load_election_contract(
