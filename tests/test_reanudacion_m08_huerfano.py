@@ -620,20 +620,33 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         territory_id: str,
         failed_candidate_run: int,
         persisted_false_runs: tuple[int, ...],
+        expected_plan_block: str | None = None,
     ) -> None:
-        plan = build_plan(
-            territory=territory_name,
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-            optimization_algorithm="Canónico",
-            force_selected_algorithm=True,
-        )
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertTrue(plan["run_incorporate"])
+        if expected_plan_block is None:
+            plan = build_plan(
+                territory=territory_name,
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+                optimization_algorithm="Canónico",
+                force_selected_algorithm=True,
+            )
+            self.assertFalse(plan["run_prepare_territorial"])
+            self.assertFalse(plan["run_generate"])
+            self.assertFalse(plan["run_prepare_electoral"])
+            self.assertTrue(plan["run_incorporate"])
+        else:
+            with self.assertRaisesRegex(ValueError, expected_plan_block):
+                build_plan(
+                    territory=territory_name,
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                    root_dir=ROOT,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=True,
+                )
 
         scan_result = scan(
             root_dir=ROOT,
@@ -760,14 +773,20 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
         )
         self.assertNotIn(36573474139, [row["run_id"] for row in candidates])
 
-    def test_ceuta_36529371078_and_36529371312_reuse_01_03_and_reach_new_04(self):
-        # 36529371078 abortó antes de persistir manifiesto; 36529371312 sí lo
-        # persistió con 04 skipped. Ninguno debe convertirse en candidato.
+    def test_ceuta_historical_candidates_survive_but_current_source_lineage_blocks_reuse(self):
+        # Los candidatos históricos siguen siendo auditables, pero la fuente
+        # territorial viva de Ceuta fue renovada después del producto M06
+        # vigente. Continuar ese producto con la fuente nueva debe bloquearse
+        # por linaje en vez de fingir que la ruta histórica sigue reutilizable.
         self._assert_real_case(
             territory_name="Ceuta",
             territory_id="ceuta",
             failed_candidate_run=36482903970,
             persisted_false_runs=(36529371312,),
+            expected_plan_block=(
+                r"CONTINUE_DURABLE_BLOCK: Ceuta: DURABLE_LINEAGE_INCOMPATIBLE: "
+                r"territorial_source→territorial_product"
+            ),
         )
 
 

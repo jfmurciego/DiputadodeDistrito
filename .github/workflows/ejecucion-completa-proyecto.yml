@@ -209,7 +209,7 @@ jobs:
         name: Resolver fases necesarias
         shell: bash
         env:
-          TERRITORY: ${{ github.event_name == 'pull_request' && 'Galicia' || inputs.territory_id }}
+          TERRITORY: ${{ github.event_name == 'pull_request' && 'Castilla-La Mancha' || inputs.territory_id }}
           EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
           UI_MODE: ${{ github.event_name == 'pull_request' && 'Reutilizar progreso existente' || inputs.execution_mode }}
           UI_ALGORITHM: ${{ github.event_name == 'pull_request' && 'Canónico' || inputs.optimization_algorithm }}
