@@ -110,9 +110,54 @@
                   }
                 },
                 "additionalProperties": true
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
               }
             },
-            "additionalProperties": true
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "required": [
+                    "party_applicability"
+                  ],
+                  "properties": {
+                    "party_applicability": {
+                      "minProperties": 1
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "structural_provenance"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wide_polling_station_csv"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "required": [
+                    "structural_provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wide_polling_station_csv"
+                    }
+                  }
+                }
+              }
+            ]
           }
         },
         "additionalProperties": true
