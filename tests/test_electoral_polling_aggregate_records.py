@@ -486,7 +486,7 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                 parties("P", "Q"),
             )
 
-    def test_raw_boundary_does_not_invent_business_block_boundary(self):
+    def test_required_aggregate_blocks_when_raw_changes(self):
         adapter = scoped_adapter(require_aggregate=True)
         raw_a = (
             "province;municipality;polling;P;Q\n"
@@ -495,7 +495,30 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
         raw_b = (
             "province;municipality;polling;P;Q\n"
             "32;2;1-1-A;5;7\n"
-            "SUM;;;15;27\n"
+            "SUM;;;5;7\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"MISSING_EXPECTED_AGGREGATE.*previous_source_id.*raw_a"
+            r".*current_source_id.*raw_b",
+        ):
+            self._read_merged(
+                [("raw_a", raw_a), ("raw_b", raw_b)],
+                adapter,
+                parties("P", "Q"),
+            )
+
+    def test_optional_aggregate_reconciles_only_current_raw_block(self):
+        adapter = scoped_adapter(require_aggregate=False)
+        raw_a = (
+            "province;municipality;polling;P;Q\n"
+            "32;1;1-1-A;10;20\n"
+        )
+        raw_b = (
+            "province;municipality;polling;P;Q\n"
+            "32;2;1-1-A;5;7\n"
+            "SUM;;;5;7\n"
         )
 
         frame, _ = self._read_merged(
@@ -505,10 +528,9 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
         )
         evidence = frame.attrs["recognized_aggregates"]
         self.assertEqual(len(evidence), 1)
-        self.assertEqual(evidence[0]["scope"]["polling_station_rows"], 2)
         self.assertEqual(
-            evidence[0]["vote_reconciliation"]["status"],
-            "MATCH",
+            evidence[0]["scope"]["polling_station_rows"],
+            1,
         )
         comparisons = {
             item["party_column"]: item
@@ -516,8 +538,33 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                 "comparisons"
             ]
         }
-        self.assertEqual(comparisons["P"]["polling_station_sum"], 15)
-        self.assertEqual(comparisons["Q"]["polling_station_sum"], 27)
+        self.assertEqual(comparisons["P"]["polling_station_sum"], 5)
+        self.assertEqual(comparisons["Q"]["polling_station_sum"], 7)
+        self.assertEqual(
+            evidence[0]["vote_reconciliation"]["status"],
+            "MATCH",
+        )
+
+    def test_aggregate_from_different_raw_is_blocked_defensively(self):
+        adapter = scoped_adapter(require_aggregate=False)
+        raw_a = (
+            "province;municipality;polling;P;Q\n"
+            "32;1;1-1-A;10;20\n"
+        )
+        raw_b = (
+            "province;municipality;polling;P;Q\n"
+            "SUM;;;10;20\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"AGGREGATE_SOURCE_PROVENANCE_MISMATCH",
+        ):
+            self._read_merged(
+                [("raw_a", raw_a), ("raw_b", raw_b)],
+                adapter,
+                parties("P", "Q"),
+            )
 
     def test_contract_rejects_permissive_aggregate_semantics(self):
         cases = []
