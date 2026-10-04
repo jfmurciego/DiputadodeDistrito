@@ -662,17 +662,63 @@ def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:
     dictionary_target=contract_dir/"party_dictionary.json"
     shutil.copy2(dictionary_src,dictionary_target)
 
+    structural_info=None
+    adapter=dict((sources[0].get("adapter") or {}))
+    structural_decl=adapter.get("structural_provenance")
+    if structural_decl:
+        structural_raw=str(structural_decl.get("path") or "").strip()
+        structural_expected=str(
+            structural_decl.get("sha256") or ""
+        ).lower()
+        structural_src=(root/structural_raw).resolve()
+        structural_doc=_load_structural_provenance(
+            structural_src,
+            expected_sha256=structural_expected,
+            expected_source_sha256=selected_sha,
+            context="procedencia estructural del contrato materializado",
+        )
+        evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
+        structural_target=evidence_dir/"structural_provenance.json"
+        shutil.copy2(structural_src,structural_target)
+        structural_info={
+            "schema":STRUCTURAL_PROVENANCE_SCHEMA,
+            "path":"evidence/structural_provenance.json",
+            "sha256":sha(structural_target),
+            "merged_source_sha256":selected_sha,
+        }
+        adapter["structural_provenance"]={
+            "path":"evidence/structural_provenance.json",
+            "sha256":structural_info["sha256"],
+        }
+        contract["sources"][0]["adapter"]=adapter
+        manifest["structural_provenance"]=structural_info
+        raw_sources=manifest.get("raw_sources") or []
+        if raw_sources:
+            _validate_raw_sources_against_structural(
+                package=package_out,
+                raw_sources=raw_sources,
+                document=structural_doc,
+                context="contrato materializado",
+            )
+
     contract["sources"][0]["path"]=str(selected["path"])
     contract["party_dictionary"]["path"]="contract/party_dictionary.json"
     contract["party_dictionary"]["sha256"]=sha(dictionary_target)
-    contract_target.write_text(json.dumps(contract,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    contract_target.write_text(
+        json.dumps(contract,ensure_ascii=False,indent=2)+"\n",
+        encoding="utf-8",
+    )
 
-    return {
+    embedded={
         "election_contract":"contract/election_contract.json",
         "party_dictionary":"contract/party_dictionary.json",
         "contract_sha256":sha(contract_target),
         "party_dictionary_sha256":sha(dictionary_target),
     }
+    if structural_info:
+        embedded["structural_provenance"]="evidence/structural_provenance.json"
+        embedded["structural_provenance_sha256"]=structural_info["sha256"]
+    return embedded
 
 
 def validate_previous(package:Path,territory_id:str,edition:str,expected_election_id:str|None=None,expected_election_date:str|None=None)->dict|None:
@@ -686,6 +732,28 @@ def validate_previous(package:Path,territory_id:str,edition:str,expected_electio
         if not p.is_file() or sha(p)!=str(s.get("sha256") or "") or p.stat().st_size!=int(s.get("bytes") or -1): return None
         records,_=count_records(p)
         if "records" in s and int(s.get("records") or 0)!=records: return None
+
+        structural=m.get("structural_provenance")
+        if structural is not None:
+            if not isinstance(structural,dict): return None
+            sidecar=package/str(structural.get("path") or "")
+            document=_load_structural_provenance(
+                sidecar,
+                expected_sha256=str(structural.get("sha256") or ""),
+                expected_source_sha256=str(s.get("sha256") or ""),
+                context="paquete electoral reutilizable",
+            )
+            if (
+                str(structural.get("merged_source_sha256") or "").lower()
+                != str(s.get("sha256") or "").lower()
+            ):
+                return None
+            _validate_raw_sources_against_structural(
+                package=package,
+                raw_sources=m.get("raw_sources") or [],
+                document=document,
+                context="paquete electoral reutilizable",
+            )
         return m
     except Exception: return None
 
@@ -711,6 +779,56 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                 "election_id":m.get("election_id"),
                 "election_date":m.get("election_date"),
             })
+            raw_sources=m.get("raw_sources") or []
+            if raw_sources:
+                copied_raw=[]
+                for index,raw in enumerate(raw_sources):
+                    raw_src=previous/str(raw.get("path") or "")
+                    expected_raw_sha=str(raw.get("sha256") or "").lower()
+                    if (
+                        not raw_src.is_file()
+                        or sha(raw_src).lower()!=expected_raw_sha
+                    ):
+                        raise ValueError(
+                            "Paquete electoral reutilizable perdió un raw"
+                        )
+                    raw_dir=package_out/"raw"; raw_dir.mkdir(exist_ok=True)
+                    raw_target=raw_dir/f"{index:03d}_{raw_src.name}"
+                    shutil.copy2(raw_src,raw_target)
+                    copied_raw.append({
+                        **raw,
+                        "path":raw_target.relative_to(package_out).as_posix(),
+                        "sha256":sha(raw_target),
+                        "bytes":raw_target.stat().st_size,
+                    })
+                manifest["raw_sources"]=copied_raw
+
+            structural=m.get("structural_provenance")
+            if structural is not None:
+                structural_src=previous/str(structural.get("path") or "")
+                structural_doc=_load_structural_provenance(
+                    structural_src,
+                    expected_sha256=str(structural.get("sha256") or ""),
+                    expected_source_sha256=str(
+                        (m.get("selected_source") or {}).get("sha256") or ""
+                    ),
+                    context="paquete electoral reutilizable",
+                )
+                evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
+                structural_target=evidence_dir/"structural_provenance.json"
+                shutil.copy2(structural_src,structural_target)
+                manifest["structural_provenance"]={
+                    **structural,
+                    "path":"evidence/structural_provenance.json",
+                    "sha256":sha(structural_target),
+                }
+                _validate_raw_sources_against_structural(
+                    package=package_out,
+                    raw_sources=manifest.get("raw_sources") or [],
+                    document=structural_doc,
+                    context="paquete electoral reutilizado",
+                )
+
             embedded=m.get("embedded_contract") or {}
             if embedded:
                 contract_src=previous/str(embedded.get("election_contract") or "")
@@ -726,7 +844,17 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     "contract_sha256":sha(contract_dir/"election_contract.json"),
                     "party_dictionary_sha256":sha(contract_dir/"party_dictionary.json"),
                 }
-                (package_out/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+                if manifest.get("structural_provenance"):
+                    manifest["embedded_contract"].update({
+                        "structural_provenance":"evidence/structural_provenance.json",
+                        "structural_provenance_sha256":manifest[
+                            "structural_provenance"
+                        ]["sha256"],
+                    })
+            (package_out/"manifest.json").write_text(
+                json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",
+                encoding="utf-8",
+            )
             return manifest
     m07=(cfg.get("modulos") or {}).get("modulo_07_agregar_resultados_electorales") or {}
     contract_raw=m07.get("election_contract")
@@ -811,7 +939,14 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                         acquisition_root=tmp,
                     )
                 else:
-                    merge_info=merge_delimited_sources(source_paths,merged)
+                    merge_info=merge_delimited_sources(
+                        source_paths,
+                        merged,
+                        source_ids=[
+                            str(sel.get("id") or "")
+                            for sel in selected_sources
+                        ],
+                    )
                 provenance=[{
                     "id":sel.get("id"),"url":sel.get("url"),"publisher":sel.get("publisher"),
                     "sha256":sel.get("sha256"),"bytes":sel.get("bytes")
@@ -822,7 +957,11 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     "source_mode":"official_acquisition_multisource",
                     "source_count":len(selected_sources),
                     "sources":provenance,
-                    "merge":merge_info,
+                    "merge":{
+                        key:value
+                        for key,value in merge_info.items()
+                        if key!="structural_provenance_path"
+                    },
                     "declaration":str(decl),
                 }
                 composition_blocked=(
@@ -844,18 +983,43 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     manifest=_write_package(
                         package_out,"ACQUIRE",territory_id,edition,merged,meta,election_extra
                     )
-                raw_dir=package_out/"raw"; raw_dir.mkdir(exist_ok=True)
-                for sel,src in zip(selected_sources,source_paths):
-                    raw_target=raw_dir/src.name
-                    shutil.copy2(src,raw_target)
-                manifest["raw_sources"]=[{
-                    "id":sel.get("id"),
-                    "path":f"raw/{(tmp/str(sel['artifact_path'])).name}",
-                    "sha256":sel.get("sha256"),
-                    "bytes":sel.get("bytes"),
-                    "url":sel.get("url"),
-                    "publisher":sel.get("publisher"),
-                } for sel in selected_sources]
+                manifest["raw_sources"]=_copy_raw_sources(
+                    package_out=package_out,
+                    selected_sources=selected_sources,
+                    source_paths=source_paths,
+                )
+
+                structural_path=str(
+                    merge_info.get("structural_provenance_path") or ""
+                ).strip()
+                if structural_path:
+                    structural_src=Path(structural_path)
+                    structural_doc=_load_structural_provenance(
+                        structural_src,
+                        expected_sha256=str(
+                            merge_info.get(
+                                "structural_provenance_sha256"
+                            ) or ""
+                        ),
+                        expected_source_sha256=sha(merged),
+                        context="procedencia estructural del merge electoral",
+                    )
+                    _validate_raw_sources_against_structural(
+                        package=package_out,
+                        raw_sources=manifest["raw_sources"],
+                        document=structural_doc,
+                        context="paquete electoral adquirido",
+                    )
+                    evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
+                    structural_target=evidence_dir/"structural_provenance.json"
+                    shutil.copy2(structural_src,structural_target)
+                    manifest["structural_provenance"]={
+                        "schema":STRUCTURAL_PROVENANCE_SCHEMA,
+                        "path":"evidence/structural_provenance.json",
+                        "sha256":sha(structural_target),
+                        "merged_source_sha256":sha(merged),
+                    }
+
                 if merge_info.get("composition")=="electoral_gap_filler":
                     evidence_src=Path(str(merge_info["evidence_path"]))
                     evidence_dir=package_out/"evidence"; evidence_dir.mkdir(exist_ok=True)
