@@ -63,6 +63,20 @@ class GaliciaElectoralApplication(unittest.TestCase):
                 "empty_aggregate_value": "reject",
             },
         )
+        applicability = adapter["party_applicability"]
+        self.assertEqual(set(applicability), {"DO"})
+        self.assertEqual(applicability["DO"]["field"], "Cód Cir")
+        self.assertEqual(applicability["DO"]["equals"], ["32"])
+        self.assertTrue(str(applicability["DO"]["reason"]).strip())
+        provenance = adapter["structural_provenance"]
+        self.assertEqual(
+            provenance["path"],
+            "inputs/galicia_parlamento_2024_mesas.structural_provenance.json",
+        )
+        self.assertEqual(
+            provenance["sha256"],
+            "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68",
+        )
         exceptions = contract["reconciliation"]["allowed_result_only_sections"]
         self.assertEqual(len(exceptions), 48)
         self.assertEqual(sum(int(x["expected_votes"]) for x in exceptions), 25086)
