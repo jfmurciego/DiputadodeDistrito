@@ -327,6 +327,7 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             polling_field,
             *party_columns,
         ]
+        aggregate_partition_fields = set()
         for rule in aggregate_rules:
             if not isinstance(rule, dict):
                 raise ValueError(
@@ -335,13 +336,26 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 )
             match_cfg = rule.get("match") or {}
             scope_cfg = rule.get("scope") or {}
+            partition_field = scope_cfg.get("partition_field")
+            if partition_field:
+                aggregate_partition_fields.add(str(partition_field))
             contract_fields.extend(
                 [
                     match_cfg.get("field"),
                     *list(match_cfg.get("required_empty_fields") or []),
-                    scope_cfg.get("partition_field"),
+                    partition_field,
                 ]
             )
+        if len(aggregate_partition_fields) > 1:
+            raise ValueError(
+                "record_classification.aggregates debe usar un único "
+                "scope.partition_field"
+            )
+        block_partition_field = (
+            next(iter(aggregate_partition_fields))
+            if aggregate_partition_fields
+            else None
+        )
         missing = [
             field
             for field in contract_fields
@@ -539,6 +553,41 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             index = classified["index"]
             row = f"csv[{int(index) + 2}]"
             if classified["kind"] == "polling_station":
+                if block_partition_field is not None:
+                    current_partition = _field_text(
+                        index,
+                        block_partition_field,
+                    )
+                    if not current_partition:
+                        _input_invalid(
+                            source=source,
+                            adapter_kind=adapter_kind,
+                            row=row,
+                            field=block_partition_field,
+                            value=frame.at[index, block_partition_field],
+                            cause="AGGREGATE_SCOPE_VALUE_MISSING",
+                        )
+                    if pending_polling_rows:
+                        previous_partition = str(
+                            pending_polling_rows[-1]["fields"].get(
+                                block_partition_field,
+                                "",
+                            )
+                        ).strip()
+                        if current_partition != previous_partition:
+                            if require_aggregate_for_each_block:
+                                _input_invalid(
+                                    source=source,
+                                    adapter_kind=adapter_kind,
+                                    row=row,
+                                    field=block_partition_field,
+                                    value={
+                                        "previous": previous_partition,
+                                        "current": current_partition,
+                                    },
+                                    cause="MISSING_EXPECTED_AGGREGATE",
+                                )
+                            pending_polling_rows = []
                 section_id = (
                     _field_text(index, province_field).zfill(province_width)
                     + _field_text(
