@@ -222,9 +222,9 @@ validation:
         2523401002, con 0 m de frontera lineal compartida. La acreditación describe
         la estructura administrativa de entrada; no añade aristas ni habilita generación.
       source: >-
-        ddd-source-package-cataluna-2025-37215025861 (INE seccionado 2024,
-        package e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0);
-        límites de término oficiales de Generalitat e ICGC
+        ddd-source-package-cataluna-2025-37215025861, INE seccionado 2024;
+        ICGC Divisions administratives v2.2, datos 2026-01-20;
+        Ajuntament de Tremp, ficha vigente de Puigcercós
       evidence:
         run_id: 37215025861
         source_commit: d4f8b84769290aa252498399b66ba90c37b44612
@@ -233,7 +233,21 @@ validation:
           u: '2523401002'
           v: '2523403001'
           shared_border_m: 0.0
-        administrative_reference: Generalitat de Catalunya, Mapa local, Límites de término oficiales
+        administrative_dataset:
+          authority: Institut Cartogràfic i Geològic de Catalunya
+          dataset: Divisions administratives
+          specification: v2.2
+          data_date: '2026-01-20'
+          municipality_geometry_contract: polígono simple o compuesto de diversas partes disjuntas
+        section_correspondence:
+          section: '2523403001'
+          official_enclave: Puigcercós
+          local_authority: Ajuntament de Tremp
+          official_area_km2: 1.59
+          matched_part_area_km2_epsg3035: 1.5834613860534748
+          matched_part_centroid_wgs84:
+            longitude: 0.8861609846822961
+            latitude: 42.129575417543286
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
