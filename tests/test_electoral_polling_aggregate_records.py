@@ -193,6 +193,76 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
         ):
             self._read(text, adapter, dictionary)
 
+    def test_optional_aggregate_reconciles_only_immediately_preceding_block(self):
+        adapter = galicia_style_adapter()
+        adapter["record_classification"][
+            "require_aggregate_for_each_block"
+        ] = False
+        text = (
+            "Cód Cir;Cód Con;Mesa;BNG;PP\n"
+            "15;007;01-001-A;10;20\n"
+            "27;001;01-001-A;5;7\n"
+            "Total;;;5;7\n"
+        )
+
+        frame, sections = self._read(
+            text,
+            adapter,
+            parties("BNG", "PP"),
+        )
+
+        self.assertEqual(
+            sections,
+            {"1500701001", "2700101001"},
+        )
+        evidence = frame.attrs["recognized_aggregates"]
+        self.assertEqual(len(evidence), 1)
+        self.assertEqual(
+            evidence[0]["scope"]["partition_value"],
+            "27",
+        )
+        self.assertEqual(
+            evidence[0]["scope"]["polling_station_rows"],
+            1,
+        )
+
+    def test_required_aggregate_blocks_before_partition_transition(self):
+        text = (
+            "Cód Cir;Cód Con;Mesa;BNG;PP\n"
+            "15;007;01-001-A;10;20\n"
+            "27;001;01-001-A;5;7\n"
+            "Total;;;5;7\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"MISSING_EXPECTED_AGGREGATE",
+        ):
+            self._read(
+                text,
+                galicia_style_adapter(),
+                parties("BNG", "PP"),
+            )
+
+    def test_contract_rejects_mixed_partition_fields_for_aggregate_rules(self):
+        adapter = galicia_style_adapter()
+        second = copy.deepcopy(
+            adapter["record_classification"]["aggregates"][0]
+        )
+        second["id"] = "other_total"
+        second["match"]["equals"] = "GrandTotal"
+        second["scope"]["partition_field"] = "Cód Con"
+        adapter["record_classification"]["aggregates"].append(second)
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"debe usar un único scope.partition_field",
+        ):
+            _validate_wide_polling_station_adapter(
+                adapter,
+                "fixture",
+            )
+
     def test_four_real_provincial_totals_are_recognized_and_not_counted(self):
         # Totales oficiales observados en el artefacto del run 37159898924.
         text = (
