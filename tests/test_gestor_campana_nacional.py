@@ -20,7 +20,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
  row=copy.deepcopy(next(r for r in catalog["territories"] if r["territory_id"]=="cantabria"))
  state=row["editions"]["2025"]
  contract=yaml.safe_load((ROOT/state["contract_path"]).read_text())
- evidence=json.loads((ROOT/state["evidence"]["generation_preflight"]).read_text())
+ evidence=json.loads((ROOT/"territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json").read_text())
  (root/"configuracion").mkdir()
  shutil.copy(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml", root/"configuracion")
  for rel in ("modulos/01_preparar_base_territorial.py", "modulos/02_construir_adyacencias.py",

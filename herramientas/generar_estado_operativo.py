@@ -17,6 +17,9 @@ try:
         format_territory_label,
         master_index,
     )
+    from herramientas.resolver_preparacion_legislatura import (
+        resolve as resolve_current_legislature,
+    )
 except ModuleNotFoundError:  # ejecución directa como script
     from catalogo_territorios import (
         COUNTRY_CODE,
@@ -24,6 +27,9 @@ except ModuleNotFoundError:  # ejecución directa como script
         format_country_label,
         format_territory_label,
         master_index,
+    )
+    from resolver_preparacion_legislatura import (
+        resolve as resolve_current_legislature,
     )
 
 START = "<!-- DDD:ESTADO:INICIO -->"
@@ -80,6 +86,128 @@ def _prep_evidence(state: dict, territory_id: str, edition: str) -> dict:
         "artifact_name": artifact,
         "artifact_sha256": digest,
         "decision": "VALIDADO",
+    }
+
+
+def _source_readiness_row(plan: dict, display_name: str) -> dict:
+    territorial_candidate = plan.get("territorial_candidate") or {}
+    return {
+        "territory_id": plan["territory_id"],
+        "name": plan["name"],
+        "display_name": display_name,
+        "election": {
+            "election_id": plan["election_id"],
+            "election_date": plan["election_date"],
+        },
+        "territorial": {
+            "status": plan.get("territorial_admissibility"),
+            "action": plan.get("territorial_action"),
+            "reason": plan.get("territorial_reason"),
+            "required": {
+                "population_year": plan.get("population_year_required"),
+                "section_year": plan.get("section_year_required"),
+            },
+            "selected": {
+                "population_year": plan.get("population_year_selected"),
+                "section_year": plan.get("section_year_selected"),
+            },
+            "accredited": {
+                "population_year": territorial_candidate.get(
+                    "population_year",
+                    territorial_candidate.get("observed_population_year"),
+                ),
+                "section_year": territorial_candidate.get(
+                    "section_year",
+                    territorial_candidate.get("observed_section_year"),
+                ),
+                "run_id": territorial_candidate.get("run_id"),
+                "receipt_path": territorial_candidate.get("receipt_path"),
+            },
+        },
+        "electoral": {
+            "status": plan.get("electoral_admissibility"),
+            "action": plan.get("electoral_action"),
+            "reason": plan.get("electoral_reason"),
+            "source": plan.get("electoral_source"),
+            "granularity": plan.get("electoral_granularity"),
+        },
+        "status": plan.get("sources_status"),
+        "activity": {
+            "status": "NOT_OBSERVED",
+            "label": "Sin actividad durable registrada",
+            "source": "repository_durable_state",
+        },
+        "next_steps": list(plan.get("source_next_steps") or []),
+    }
+
+
+def _build_source_readiness(root: Path, master: dict) -> dict:
+    required_inputs = (
+        root / "configuracion/preparacion_legislatura_vigente.yaml",
+        root / "configuracion/registro_electoral.yaml",
+        root / "fuentes/catalogo_oficial.yaml",
+        root / "fuentes/territorios_espana.yaml",
+    )
+    if not all(path.is_file() for path in required_inputs):
+        return {
+            "schema": "ddd-source-readiness/1.0",
+            "status": "UNAVAILABLE",
+            "reason": "current_legislature_sources_not_present",
+            "territories": [],
+            "summary": {
+                "admissible": 0,
+                "action_required": 0,
+                "blocked": 0,
+                "unavailable": 0,
+            },
+        }
+
+    resolved = resolve_current_legislature(root, "Todos")
+    rows = []
+    for plan in resolved.get("plans") or []:
+        canonical = master.get(plan["territory_id"])
+        if canonical is None:
+            raise ValueError(
+                f"{plan['territory_id']}: ausente del catálogo territorial maestro"
+            )
+        rows.append(
+            _source_readiness_row(
+                plan,
+                format_territory_label(canonical),
+            )
+        )
+    rows.sort(
+        key=lambda r: (
+            master[r["territory_id"]]["autonomous_community_code_ine"],
+            r["name"].casefold(),
+        )
+    )
+    summary = {
+        "admissible": sum(r["status"] == "ADMISSIBLE" for r in rows),
+        "action_required": sum(
+            r["status"]
+            in {
+                "ACTION_REQUIRED",
+                "TERRITORIAL_ACTION_REQUIRED",
+                "ELECTORAL_ACTION_REQUIRED",
+            }
+            for r in rows
+        ),
+        "blocked": sum(r["status"] == "BLOCKED" for r in rows),
+        "unavailable": sum(r["status"] == "UNAVAILABLE" for r in rows),
+    }
+    return {
+        "schema": "ddd-source-readiness/1.0",
+        "status": "READY",
+        "as_of": resolved.get("as_of"),
+        "project_edition": resolved.get("project_edition"),
+        "temporal_evidence": resolved.get("temporal_evidence"),
+        "activity_observation": {
+            "mode": "repository_durable_state_only",
+            "live_workflow_activity": False,
+        },
+        "summary": summary,
+        "territories": rows,
     }
 
 
@@ -205,14 +333,17 @@ def build(root: Path, edition: str) -> dict:
         elif r["g"] == "green" and r["re"] != "green":
             next_actions.append({"territory": r["display_name"], "territory_id": r["territory_id"], "autonomous_community_code_ine": r["autonomous_community_code_ine"], "action": "incorporar resultados electorales"})
 
+    source_readiness = _build_source_readiness(root, master)
+
     return {
-        "schema": "ddd-estado-operativo/2.1",
+        "schema": "ddd-estado-operativo/2.2",
         "edition": edition,
         "country_code": COUNTRY_CODE,
         "country_name": COUNTRY_NAME,
         "country_display_name": format_country_label(),
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + territorios/*/evidencia/catalogo/*.json",
+        "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
+        "source_readiness": source_readiness,
         "pipeline": [
             "01 · Preparación de Datos Territoriales", "Puerta de validación · 01 → 02",
             "02 · Generación de Distritos Autonómicos", "Puerta de validación · 02 → 03",

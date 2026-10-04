@@ -19,7 +19,7 @@ class DashboardPages(unittest.TestCase):
 
     def test_dashboard_se_genera_desde_catalogo(self):
         payload=build(ROOT,"2025")
-        self.assertEqual(payload["schema"],"ddd-estado-operativo/2.1")
+        self.assertEqual(payload["schema"],"ddd-estado-operativo/2.2")
         galicia=next(r for r in payload["territories"] if r["territory_id"]=="galicia")
 
         catalog=yaml.safe_load((ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))

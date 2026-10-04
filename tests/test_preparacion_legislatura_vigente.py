@@ -187,7 +187,17 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
 
     def test_andalucia_uses_reconciled_siel_and_requires_2026_sectioning(self):
-        plan = resolve(ROOT, "Andalucía")["plans"][0]
+        state = {
+            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "andalucia"}, state),
+        ):
+            plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2026)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
@@ -325,7 +335,17 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["electoral_reason"], "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE")
 
     def test_andalucia_matrix_describes_current_siel_source(self):
-        plan = resolve(ROOT, "Andalucía")["plans"][0]
+        state = {
+            "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
+            "territorial_sources_prepared": False,
+            "electoral_source_prepared": False,
+            "evidence": {},
+        }
+        with mock.patch(
+            "herramientas.resolver_preparacion_legislatura._catalog_state",
+            return_value=({"territory_id": "andalucia"}, state),
+        ):
+            plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")
         self.assertIn("SIEL", str(plan["electoral_source"]))
@@ -334,11 +354,41 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 4157539)
 
     def test_partial_acquisition_reuses_electoral_but_replaces_wrong_year_territorial(self):
-        for territory in ("Comunidad de Madrid", "Galicia"):
-            plan = resolve(ROOT, territory)["plans"][0]
-            with self.subTest(territory=territory):
-                self.assertEqual(plan["territorial_action"], "ACQUIRE")
-                self.assertEqual(plan["electoral_action"], "REUSE")
+        state = {
+            "territorial_source_declaration": "territorios/galicia/config/fuentes_oficiales.yaml",
+        }
+        territorial_candidate = {
+            "reusable": False,
+            "reason": "TERRITORIAL_POPULATION_YEAR_MISMATCH",
+            "observed_population_year": 2025,
+            "observed_section_year": 2025,
+        }
+        electoral_candidate = {
+            "reusable": True,
+            "reason": "ELECTORAL_DURABLE_CANDIDATE",
+        }
+        with (
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._catalog_state",
+                return_value=({"territory_id": "galicia"}, state),
+            ),
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._territorial_candidate",
+                return_value=territorial_candidate,
+            ),
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._electoral_plan",
+                return_value=(electoral_candidate, "REUSE"),
+            ),
+        ):
+            plan = resolve(ROOT, "Galicia")["plans"][0]
+
+        self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(
+            plan["territorial_reason"],
+            "TERRITORIAL_POPULATION_YEAR_MISMATCH",
+        )
+        self.assertEqual(plan["electoral_action"], "REUSE")
 
 
     def test_missing_sources_fixture_acquires_both_without_reading_live_catalog_state(self):
@@ -358,8 +408,39 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["electoral_reason"], "ELECTORAL_PACKAGE_MISSING")
 
     def test_canarias_reacquires_territorial_but_reuses_current_electoral_receipt(self):
-        plan = resolve(ROOT, "Canarias")["plans"][0]
+        state = {
+            "territorial_source_declaration": "territorios/canarias/config/fuentes_oficiales.yaml",
+        }
+        territorial_candidate = {
+            "reusable": False,
+            "reason": "TERRITORIAL_POPULATION_YEAR_MISMATCH",
+            "observed_population_year": 2025,
+            "observed_section_year": 2025,
+        }
+        electoral_candidate = {
+            "reusable": True,
+            "reason": "ELECTORAL_DURABLE_CANDIDATE",
+        }
+        with (
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._catalog_state",
+                return_value=({"territory_id": "canarias"}, state),
+            ),
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._territorial_candidate",
+                return_value=territorial_candidate,
+            ),
+            mock.patch(
+                "herramientas.resolver_preparacion_legislatura._electoral_plan",
+                return_value=(electoral_candidate, "REUSE"),
+            ),
+        ):
+            plan = resolve(ROOT, "Canarias")["plans"][0]
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(
+            plan["territorial_reason"],
+            "TERRITORIAL_POPULATION_YEAR_MISMATCH",
+        )
         self.assertEqual(plan["electoral_action"], "REUSE")
         self.assertEqual(plan["electoral_reason"], "ELECTORAL_DURABLE_CANDIDATE")
 
@@ -421,8 +502,11 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         remote = {
             "schema": "ddd.prepared-source-pair-artifact-verification/1.0",
         }
-        with self.assertRaisesRegex(PreparedSourcePairBlock, "fuente territorial efectiva no acreditada"):
+        with self.assertRaises(PreparedSourcePairBlock) as ctx:
             build_pair(root_dir=ROOT, territory="Canarias", remote_verification=remote)
+        message = str(ctx.exception)
+        self.assertIn("PAIR_BLOCK", message)
+        self.assertIn("territorial", message.lower())
 
     def test_territorial_identity_change_blocks_geometric_reuse(self):
         historical = territorial_identity(

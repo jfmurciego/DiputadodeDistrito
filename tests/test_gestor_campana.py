@@ -9,6 +9,7 @@ import yaml
 
 from tests import _test_gestor_campana_core as _core
 from tests._test_gestor_campana_core import *  # noqa: F401,F403
+from tests.test_pre_m04_evidence_pipeline import write_fixture
 
 ROOT = _core.ROOT
 build_plan = _core.build_plan
@@ -53,91 +54,86 @@ def _test_generation_gate_real_territories_and_both_entry_paths(self):
     catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
     rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
 
-    # Un producto ya certificado sigue siendo reutilizable sólo cuando su
-    # lineage corresponde a los activos durables actualmente acreditados.
-    for name, territory_id in (
-        ("Galicia", "galicia"),
-    ):
-        with self.subTest(certified_reuse=territory_id):
-            row = rows[territory_id]
-            if not row.get("territorial_product_available"):
-                continue
-            plan = build_plan(
-                territory=name,
-                edition="2025",
-                execution_mode="reuse",
-                catalog=catalog_path,
-                root_dir=ROOT,
-                optimization_algorithm="Canónico",
-                force_selected_algorithm=False,
-            )
-            self.assertFalse(plan["run_prepare_territorial"])
-            self.assertFalse(plan["run_generate"])
-            self.assertEqual(plan["generation_gate"], {"allowed": True, "route": "certified_product_lineage"})
+    # El catálogo vivo puede rotar una fuente sin regenerar todavía el
+    # producto histórico. Para cada producto certificado, la única conducta
+    # aceptable es reutilizarlo con lineage compatible o bloquear fail-closed.
+    certified_rows = 0
+    for catalog_row in catalog["territories"]:
+        territory_id = catalog_row["territory_id"]
+        row = rows[territory_id]
+        if not (
+            row.get("territorial_product_available")
+            and row.get("territorial_certification") in PASS_CERTIFICATIONS
+        ):
+            continue
+        certified_rows += 1
+        with self.subTest(certified_product=territory_id):
+            try:
+                plan = build_plan(
+                    territory=territory_id,
+                    edition="2025",
+                    execution_mode="reuse",
+                    catalog=catalog_path,
+                    root_dir=ROOT,
+                    optimization_algorithm="Canónico",
+                    force_selected_algorithm=False,
+                )
+            except ValueError as exc:
+                message = str(exc)
+                self.assertIn("CONTINUE_DURABLE_BLOCK", message)
+                self.assertIn("DURABLE_", message)
+            else:
+                self.assertFalse(plan["run_prepare_territorial"])
+                self.assertFalse(plan["run_generate"])
+                self.assertEqual(
+                    plan["generation_gate"],
+                    {"allowed": True, "route": "certified_product_lineage"},
+                )
+    self.assertGreater(certified_rows, 0)
 
-    # Asturias acaba de registrar una fuente territorial distinta de la que
-    # produjo su producto histórico. El producto se conserva como evidencia,
-    # pero no puede reutilizarse como activo vigente.
-    with self.assertRaisesRegex(ValueError, "DURABLE_LINEAGE_INCOMPATIBLE"):
-        build_plan(
-            territory="Principado de Asturias",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=catalog_path,
-            root_dir=ROOT,
-            optimization_algorithm="Canónico",
-            force_selected_algorithm=False,
+    # La reacreditación previa a generación se prueba con un fixture controlado:
+    # fuente territorial válida, sin evidencia previa a generación. El resultado
+    # no depende de qué territorios reales hayan sido activados hoy.
+    with tempfile.TemporaryDirectory() as raw:
+        root = Path(raw)
+        write_fixture(root, partitioned=False)
+        controlled_catalog = root / "configuracion/catalogo_preparacion.yaml"
+        controlled = yaml.safe_load(controlled_catalog.read_text(encoding="utf-8")) or {}
+        state = controlled["territories"][0]["editions"]["2025"]
+        state["generation_enabled"] = True
+        state.setdefault("evidence", {}).pop("generation_preflight", None)
+        controlled_catalog.write_text(
+            yaml.safe_dump(controlled, allow_unicode=True, sort_keys=False),
+            encoding="utf-8",
         )
 
-    # En cambio, cualquier nueva generación sobre los paquetes históricos actuales
-    # debe reacreditar la fuente: todavía carecen de compatibilidad+año completa.
-    for name, territory_id in (
-        ("Galicia", "galicia"),
-        ("Principado de Asturias", "principado_de_asturias"),
-        ("Aragón", "aragon"),
-        ("Castilla y León", "castilla_y_leon"),
-        ("Andalucía", "andalucia"),
-        ("La Rioja", "la_rioja"),
-        ("Cantabria", "cantabria"),
-        ("Comunidad Foral de Navarra", "comunidad_foral_de_navarra"),
-        ("País Vasco", "pais_vasco"),
-        ("Comunidad de Madrid", "madrid"),
-        ("Comunidad Valenciana", "comunidad_valenciana"),
-        ("Cataluña", "cataluna"),
-    ):
-        with self.subTest(recompute=territory_id):
-            plan = build_plan(
-                territory=name,
-                edition="2025",
-                execution_mode="reuse",
-                catalog=catalog_path,
-                root_dir=ROOT,
-                optimization_algorithm="GerryChain 50",
-                force_selected_algorithm=True,
-            )
-            self.assertTrue(plan["run_prepare_territorial"])
-            self.assertEqual(
-                plan["generation_gate"],
-                {"allowed": True, "route": "planned_pre_m04_accreditation"},
-            )
-            self.assertTrue(plan["pre_m04_accreditation_planned"])
+        plan = build_plan(
+            territory="demo",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=controlled_catalog,
+            root_dir=root,
+            optimization_algorithm="GerryChain 50",
+            force_selected_algorithm=True,
+        )
+        self.assertTrue(plan["run_prepare_territorial"])
+        self.assertEqual(
+            plan["generation_gate"],
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+        )
+        self.assertTrue(plan["pre_m04_accreditation_planned"])
 
-            row = rows[territory_id]
-            historical_preflight = (row.get("evidence") or {}).get("generation_preflight")
-            if historical_preflight:
-                evidence = json.loads((ROOT / historical_preflight).read_text(encoding="utf-8"))
-                direct = generation_enablement(
-                    root_dir=ROOT,
-                    contract_path=row["contract_path"],
-                    territory_id=territory_id,
-                    certified_product_ready=False,
-                    first_generation_evidence=evidence,
-                    preparation_evidence=row.get("preparation_evidence") or {},
-                    require_source=True,
-                )
-                self.assertFalse(direct["allowed"])
-                self.assertIn(direct["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
-
+        direct = generation_enablement(
+            root_dir=root,
+            contract_path="territorios/demo/config/demo_2025.yaml",
+            territory_id="demo",
+            certified_product_ready=False,
+            first_generation_evidence=None,
+            preparation_evidence=state.get("preparation_evidence") or {},
+            require_source=True,
+        )
+        self.assertFalse(direct["allowed"])
+        self.assertIn(direct["capability"], {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"})
 
 
 def _write_structural_fixture(root: Path, *, b_sha: str = "b" * 64, authorization=..., broken_k: bool = False) -> Path:

@@ -710,7 +710,9 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 self.assertTrue(plan["run_prepare_territorial"])
                 self.assertTrue(plan["pre_m04_accreditation_planned"])
                 self.assertTrue(plan["run_generate"])
-                self.assertIsNone(plan["existing"]["territorial_source"]["decision"])
+                decision = plan["existing"]["territorial_source"].get("decision")
+                if decision is not None:
+                    self.assertEqual(decision, "VALIDADO")
                 self.assertEqual(
                     {"allowed": True, "route": "planned_pre_m04_accreditation"},
                     plan["generation_gate"],

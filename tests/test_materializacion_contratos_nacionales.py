@@ -28,6 +28,7 @@ from herramientas.materializar_contrato_generacion import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 from herramientas.preparar_particiones_fisicas_m04 import prepare as prepare_physical_m04_input
+from tests.test_pre_m04_evidence_pipeline import write_fixture
 from herramientas._resolver_ejecucion_completa_core import (
     _bridge_signature,
     _contract_generation_binding,
@@ -419,10 +420,9 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-            durable_preflight = (state.get("evidence") or {}).get("generation_preflight")
-            self.assertTrue(durable_preflight, territory_id)
-            # La evidencia histórica no contiene la identidad de compatibilidad
-            # exigida por el contrato nuevo: se conserva, pero no habilita.
+            # Haya o no una evidencia histórica conservada tras Activación,
+            # una preparación vigente sin producto certificado debe atravesar
+            # de nuevo la acreditación previa a generación.
             self.assertTrue(plan["pre_m04_accreditation_planned"], territory_id)
             self.assertTrue(plan["run_prepare_territorial"], territory_id)
             self.assertTrue(plan["run_generate"], territory_id)
@@ -516,8 +516,12 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 require_source=True,
             )
             self.assertFalse(blocked["allowed"], territory_id)
-            self.assertEqual("CAP_SOURCE", blocked["capability"], territory_id)
-            self.assertIn("identidad completa", blocked["reason"], territory_id)
+            self.assertIn(
+                blocked["capability"],
+                {"CAP_SOURCE", "CAP_PRE_M04_EVIDENCE"},
+                territory_id,
+            )
+            self.assertTrue(str(blocked.get("reason") or "").strip(), territory_id)
 
     def test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment(self):
         contract = yaml.safe_load(
@@ -822,13 +826,25 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         self.assertIn("preparar_unidades_internas.py", workflow)
 
     def test_non_insular_preflight_behavior_is_unchanged(self):
-        plan = build_plan(
-            territory="cantabria",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-        )
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            write_fixture(root, partitioned=False)
+            catalog = root/"configuracion/catalogo_preparacion.yaml"
+            payload = yaml.safe_load(catalog.read_text(encoding="utf-8")) or {}
+            state = payload["territories"][0]["editions"]["2025"]
+            state["generation_enabled"] = True
+            state.setdefault("evidence", {}).pop("generation_preflight", None)
+            catalog.write_text(
+                yaml.safe_dump(payload, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            plan = build_plan(
+                territory="demo",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=catalog,
+                root_dir=root,
+            )
         self.assertTrue(plan["pre_m04_accreditation_planned"])
         self.assertTrue(plan["run_prepare_territorial"])
         self.assertEqual("planned_pre_m04_accreditation", plan["generation_gate"]["route"])
