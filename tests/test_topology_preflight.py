@@ -14,6 +14,7 @@ import yaml
 from shapely.geometry import Polygon
 
 from ddd_core.topology_preflight import evaluate_topology_preflight, validate_topology_accreditation_binding
+from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
 
 
 _M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).resolve().parents[1] / "modulos" / "02_construir_adyacencias.py")
@@ -272,6 +273,36 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertTrue(r["present"])
         self.assertFalse(r["valid"])
         self.assertIn("package_sha256", r["reason"])
+
+    def test_19_generation_binding_carries_topology_accreditation(self):
+        cfg = {
+            "meta": {"year": 2025},
+            "territory_contract": {},
+            "modulos": {},
+            "validation": {
+                "source_baseline": {"package_sha256": "a" * 64},
+                "topology_accreditation": {
+                    "schema": "ddd.topology-accreditation/1.0",
+                    "source_binding": {
+                        "edition": "2025",
+                        "section_year": 2024,
+                        "package_sha256": "a" * 64,
+                        "compatibility_identity_sha256": "b" * 64,
+                    },
+                    "administrative_components": [{
+                        "admin_scope": "municipality:01001",
+                        "components": [["a"], ["b"]],
+                        "reason": "synthetic",
+                        "source": "synthetic",
+                    }],
+                },
+            },
+        }
+        before = _contract_generation_binding(cfg)
+        cfg["validation"]["topology_accreditation"]["administrative_components"][0]["components"] = [["a", "b"], ["c"]]
+        after = _contract_generation_binding(cfg)
+        self.assertIn("topology_accreditation", before)
+        self.assertNotEqual(before["topology_accreditation"], after["topology_accreditation"])
 
 
 class M02ContractInputCases(unittest.TestCase):
