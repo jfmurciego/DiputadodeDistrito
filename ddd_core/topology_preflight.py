@@ -15,7 +15,7 @@ from typing import Any, Iterable, Mapping
 
 DECISIONS = {"READY", "NEEDS_POLICY", "BLOCKED"}
 REQUIRED_BRIDGE_KEYS = ("u", "v", "admin_scope", "edge_type", "reason", "source")
-TOPOLOGY_ACCREDITATION_SCHEMA = "ddd.topology-accreditation/1.0"
+TOPOLOGY_ACCREDITATION_SCHEMA = "ddd.topology-accreditation.v1"
 REQUIRED_COMPONENT_KEYS = ("admin_scope", "components", "reason", "source")
 
 
