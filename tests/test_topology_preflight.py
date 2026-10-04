@@ -283,10 +283,15 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("municipality:25234", declaration["admin_scope"])
         self.assertTrue(declaration["reason"].startswith("El seccionado oficial 2024"))
         self.assertTrue(declaration["source"].startswith("ddd-source-package-cataluna-2025-37215025861"))
-        self.assertEqual(
-            "Generalitat de Catalunya, Mapa local, Límites de término oficiales",
-            declaration["evidence"]["administrative_reference"],
-        )
+        evidence = declaration["evidence"]
+        self.assertEqual("Divisions administratives", evidence["administrative_dataset"]["dataset"])
+        self.assertEqual("v2.2", evidence["administrative_dataset"]["specification"])
+        self.assertEqual("2026-01-20", evidence["administrative_dataset"]["data_date"])
+        correspondence = evidence["section_correspondence"]
+        self.assertEqual("2523403001", correspondence["section"])
+        self.assertEqual("Puigcercós", correspondence["official_enclave"])
+        self.assertEqual(1.59, correspondence["official_area_km2"])
+        self.assertAlmostEqual(1.5834613860534748, correspondence["matched_part_area_km2_epsg3035"], places=12)
 
     def test_20_generation_binding_carries_topology_accreditation(self):
         cfg = {
