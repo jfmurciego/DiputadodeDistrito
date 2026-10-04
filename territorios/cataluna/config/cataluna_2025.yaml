@@ -6,23 +6,28 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 0.3.0
-  status: production_ready_auto_materialized
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
+  source_population_year: 2024
+  source_section_year: 2024
 io:
   project_root:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2024.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2024
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/cataluna/.cache/ddd/preparacion/{run_name}
   runs:
@@ -46,7 +56,7 @@ territory_contract:
   - '17'
   - '25'
   - '43'
-  status: topology_audit_cat02
+  status: source_prepared_pending_pre_m04
   notes:
   - CAT-02 run 34688104014 certificó 1709401001, Llívia, como único aislado.
   - La sección española más próxima es 1714101003, Puigcerdà, a 1.636,011 m en EPSG:3035.
@@ -101,14 +111,14 @@ modulos:
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     out_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     out_report: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     province_field: CPRO
     municipality_field: CUMUN
     municipality_name_field: NMUN
@@ -123,7 +133,7 @@ modulos:
     in_graph_json: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2024
     district_field: district_id
     province_field: CPRO
     municipality_field: CUMUN
@@ -143,7 +153,7 @@ modulos:
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/cataluna_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2024
     province_field: CPRO
     province_name_field: NPRO
     municipality_field: CUMUN
@@ -190,3 +200,138 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2024
+    section_year: 2024
+    population_total: 8012231
+    target_section_count: 5117
+    package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+    compatibility_report_sha256: b035b6aa54bdd037554628094b168432eb2beee89e98c14a6897c3500ffd1090
+    compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: cataluna
+    territory_name: Cataluña
+    project_edition: '2025'
+  temporal:
+    population_year: 2024
+    section_year: 2024
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: 2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1
+        bytes: 61389
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2024.zip
+        sha256: 7ff7c455cc17b441bba9ce5c9642131222f9a63bce0edf8b9173862221f18fec
+        bytes: 6638397
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: be54e45f56c12d6126f1b3d7ddc3b31b3f11ff22ebd656a2385470fad6acaade
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+  compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: 2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2024.zip
+    sha256: 7ff7c455cc17b441bba9ce5c9642131222f9a63bce0edf8b9173862221f18fec
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO

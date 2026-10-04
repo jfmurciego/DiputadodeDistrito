@@ -269,13 +269,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 36260268529
-        artifact_name: ddd-source-package-cataluna-2025-36260268529
-        artifact_sha256: 5207fbe9743ff5142231f13076dc530fed4bc59ace313aa3a2cfd5d6e781966a
-        package_sha256: a985c0d12384541b5245ca1c063b1e5f997424af8a22a69c06a27149130c1807
+        run_id: 37215025861
+        artifact_name: ddd-source-package-cataluna-2025-37215025861
+        artifact_sha256: 0f2de10f82267e6be8d38409fb7b7a0c790fced42360570e79766ba0dce94aa0
+        package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+        receipt_path: territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37215025861/receipt.json
+        territorial_identity_sha256: 7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2
+        compatibility_report_sha256: b035b6aa54bdd037554628094b168432eb2beee89e98c14a6897c3500ffd1090
+        compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2024
+        section_year: 2024
+        source_commit: d4f8b84769290aa252498399b66ba90c37b44612
       evidence:
-        generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
+      generation_enabled: false
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
   editions:
