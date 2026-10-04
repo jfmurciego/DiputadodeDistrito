@@ -33,6 +33,7 @@ import yaml
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
 
 FetchBytes = Callable[[str], bytes]
+RawCapture = Callable[[str, str, bytes], dict]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 PREPARATION_MATRIX = Path("configuracion/preparacion_legislatura_vigente.yaml")
 CORE_FIELDS = ("source_id", "path", "sha256", "bytes", "urls", "edition")
@@ -48,6 +49,34 @@ def load_yaml(path: Path) -> dict:
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _raw_ogc_capture(
+    evidence_dir: Path,
+    source_id: str,
+    source_year: int,
+) -> RawCapture:
+    def capture(province_code: str, url: str, payload: bytes) -> dict:
+        digest = sha256_bytes(payload)
+        relative = (
+            Path("raw")
+            / source_id
+            / str(source_year)
+            / f"CPRO-{province_code}.{digest}.geojson"
+        )
+        destination = evidence_dir / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(payload)
+        return {
+            "province": province_code,
+            "url": url,
+            "path": relative.as_posix(),
+            "sha256": digest,
+            "bytes": len(payload),
+            "preservation": "exact_response_bytes_before_json_or_geometry_conversion",
+        }
+
+    return capture
 
 
 def live_fetch(url: str, retries: int = 4, timeout: int = 120) -> bytes:
@@ -646,19 +675,29 @@ def _read_sections_from_snapshot(payload: bytes, filter_field: str, section_id_f
         return features, crs
 
 
-def _collect_live_sections(source: dict, source_year: int, provinces: list[dict], fetcher: FetchBytes) -> tuple[list[dict], list[str], dict, str]:
+def _collect_live_sections(
+    source: dict,
+    source_year: int,
+    provinces: list[dict],
+    fetcher: FetchBytes,
+    *,
+    raw_capture: RawCapture | None = None,
+) -> tuple[list[dict], list[str], dict, str]:
     urls = _source_urls(source, source_year, provinces)
     filter_field = str(source["territorial_filter_field"])
     section_id_field = str(source["section_id_field"])
     all_features: list[dict] = []
     seen_ids: set[str] = set()
     coverage: dict[str, int] = {}
+    raw_responses: list[dict] = []
     declared_crs = str(source.get("crs") or "").strip()
     if not declared_crs:
         raise ValueError("CRS_MISSING: fuente OGC sin CRS declarado en catálogo")
     for province, url in zip(provinces, urls):
         code = province["code"]
         payload = fetcher(url)
+        if raw_capture is not None:
+            raw_responses.append(raw_capture(code, url, payload))
         if _looks_like_html(payload):
             raise ValueError(f"La fuente de secciones devolvió HTML para CPRO={code}")
         data = json.loads(payload.decode("utf-8-sig"))
@@ -700,12 +739,15 @@ def _collect_live_sections(source: dict, source_year: int, provinces: list[dict]
         for feature in all_features
         for key in ((feature.get("properties") or {}).keys())
     })
-    return all_features, urls, {
+    checks = {
         "provinces": sorted(coverage),
         "sections_by_province": coverage,
         "sections": len(all_features),
         "columns": observed_columns,
-    }, declared_crs
+    }
+    if raw_responses:
+        checks["raw_responses"] = raw_responses
+    return all_features, urls, checks, declared_crs
 
 
 def _write_shapefile_zip(features: list[dict], crs: str | None) -> bytes:
@@ -1069,7 +1111,17 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     }
                     payload_out = _write_shapefile_zip(features, crs=crs)
                 else:
-                    features, official_urls, content_checks, live_crs = _collect_live_sections(source, section_year, provinces, fetch)
+                    features, official_urls, content_checks, live_crs = _collect_live_sections(
+                        source,
+                        section_year,
+                        provinces,
+                        fetch,
+                        raw_capture=_raw_ogc_capture(
+                            evidence_dir,
+                            source_id,
+                            section_year,
+                        ),
+                    )
                     payload_out = _write_shapefile_zip(features, crs=live_crs)
             else:
                 raise ValueError(f"Tipo de fuente no soportado: {source.get('kind')}")
@@ -1140,7 +1192,15 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                     origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
                 else:
                     origin_features, origin_urls, origin_checks, origin_crs = _collect_live_sections(
-                        source, population_year, provinces, fetch
+                        source,
+                        population_year,
+                        provinces,
+                        fetch,
+                        raw_capture=_raw_ogc_capture(
+                            evidence_dir,
+                            source_id + "_origen_poblacion",
+                            population_year,
+                        ),
                     )
                     origin_payload = _write_shapefile_zip(origin_features, crs=origin_crs)
                 origin_destination, origin_staged = _write_materialized(
