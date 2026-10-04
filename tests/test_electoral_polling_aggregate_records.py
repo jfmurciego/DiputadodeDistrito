@@ -169,6 +169,30 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                 "fixture",
             )
 
+    def test_two_raw_columns_cannot_map_to_same_canonical_party(self):
+        adapter = galicia_style_adapter()
+        adapter["party_columns"] = ["A", "ALIAS_A"]
+        dictionary = PartyDictionary({
+            "schema_family": "ddd-party-dictionary",
+            "schema_version": "1.0.0",
+            "unknown_party_policy": "reject",
+            "parties": [{
+                "canonical_id": "A",
+                "display_name": "A",
+                "aliases": ["ALIAS_A"],
+            }],
+        })
+        text = (
+            "Cód Cir;Cód Con;Mesa;A;ALIAS_A\n"
+            "15;007;01-001-A;10;10\n"
+            "Total;;;10;10\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"PARTY_COLUMNS_CANONICAL_DUPLICATE",
+        ):
+            self._read(text, adapter, dictionary)
+
     def test_four_real_provincial_totals_are_recognized_and_not_counted(self):
         # Totales oficiales observados en el artefacto del run 37159898924.
         text = (
