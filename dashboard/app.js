@@ -334,7 +334,7 @@ async function bootstrap(){
   renderList('#next',data.next_actions,true);
   renderActivation(data.source_readiness);
   wireDashboardTabs();
-  document.querySelector('#footer-territories').textContent=(data.country_display_name || 'ES · España')+' · '+data.territories.length+' territorios monitorizados';
+  document.querySelector('#footer-territories').textContent=(data.country_display_name || "ES · España")+' · '+data.territories.length+' territorios monitorizados';
   document.querySelector('#footer-validated').textContent=data.kpis.complete+' cadenas completas validadas';
 }
 
