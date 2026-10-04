@@ -207,6 +207,54 @@ class ResolvedSourceContractConsumerTests(unittest.TestCase):
                 "ADM2_CODE",
             )
 
+    def test_new_source_atomically_invalidates_previous_pre_m04_fingerprints(self):
+        cfg = {
+            "meta": {"year": 2025, "status": "generation_ready"},
+            "io": {"input": {"seccionado": {}, "population_cip": {}}},
+            "modulos": {},
+            "validation": {},
+            "generation_state": {
+                "source_prepared": True,
+                "generation_enabled": True,
+                "package_sha256": "1" * 64,
+                "compatibility_identity_sha256": "2" * 64,
+                "source_inputs": [{"path": "inputs/old", "sha256": "3" * 64}],
+                "pre_m04_run_id": 777,
+                "pre_m04_source_commit": "4" * 40,
+                "pre_m04_artifact_sha256": "5" * 64,
+            },
+            "territory_contract": {"status": "generation_ready"},
+        }
+
+        _apply_source_contract(
+            cfg,
+            population_year=2019,
+            section_year=2021,
+            baseline={
+                "package_sha256": "d" * 64,
+                "compatibility_identity_sha256": "e" * 64,
+            },
+            source_inputs=self.source_inputs(),
+            resolved_contract=self.resolved_contract(),
+        )
+
+        state = cfg["generation_state"]
+        self.assertTrue(state["source_prepared"])
+        self.assertFalse(state["generation_enabled"])
+        self.assertEqual(state["package_sha256"], "d" * 64)
+        self.assertEqual(state["compatibility_identity_sha256"], "e" * 64)
+        for key in (
+            "pre_m04_run_id",
+            "pre_m04_source_commit",
+            "pre_m04_artifact_sha256",
+        ):
+            self.assertNotIn(key, state)
+        self.assertEqual(cfg["meta"]["status"], "source_prepared_pending_pre_m04")
+        self.assertEqual(
+            cfg["territory_contract"]["status"],
+            "source_prepared_pending_pre_m04",
+        )
+
     def test_runtime_admin_bindings_keep_production_contract_coherent(self):
         source = (
             ROOT

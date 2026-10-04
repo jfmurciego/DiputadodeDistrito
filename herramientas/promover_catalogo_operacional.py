@@ -8,8 +8,12 @@ from pathlib import Path
 import yaml
 
 try:
+    from herramientas.catalogo_preparacion import validate_repository
+    from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
     from herramientas.identidad_fuentes_legislatura import electoral_identity
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from catalogo_preparacion import validate_repository
+    from persistir_estado_operativo_compartido import persist_rederived_tree
     from identidad_fuentes_legislatura import electoral_identity
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
@@ -169,7 +173,79 @@ def promote(
     return {"territory_id":territory_id,"edition":str(edition),"kind":kind,"run_id":int(run_id),"incorporation_enabled":bool(state.get("territorial_product_available") and state.get("electoral_source_prepared") and state.get("territorial_contract_complete") and state.get("production_authorization") == "AUTHORIZED")}
 
 
+
+
+def persist_promotion(
+    *,
+    root_dir: Path,
+    kind: str,
+    territory_id: str,
+    edition: str,
+    run_id: int,
+    artifact_name: str,
+    artifact_sha256: str,
+    declaration: str | None = None,
+    decision: str | None = None,
+    election_id: str | None = None,
+    source_commit: str | None = None,
+    target_branch: str,
+    max_attempts: int = 4,
+) -> dict:
+    """Persiste una promoción operacional rederivándola desde el HEAD remoto."""
+    root = root_dir.resolve()
+    result_box: dict[str, dict] = {}
+
+    def apply(current_root: Path, _attempt: int) -> None:
+        result_box["promotion"] = promote(
+            root_dir=current_root,
+            kind=kind,
+            territory_id=territory_id,
+            edition=str(edition),
+            run_id=int(run_id),
+            artifact_name=artifact_name,
+            artifact_sha256=artifact_sha256,
+            declaration=declaration,
+            decision=decision,
+            election_id=election_id,
+            source_commit=source_commit,
+        )
+
+    def validate(current_root: Path) -> None:
+        errors = validate_repository(root_dir=current_root)
+        if errors:
+            raise ValueError(
+                "Promoción operacional deja repositorio inválido: "
+                + "; ".join(errors[:8])
+            )
+
+    evidence_dir = {
+        "electoral_source": f"territorios/{territory_id}/evidencia/fuentes_electorales",
+        "territorial_product": f"territorios/{territory_id}/evidencia/catalogo",
+        "electoral_product": f"territorios/{territory_id}/evidencia/catalogo",
+    }[kind]
+    persisted = persist_rederived_tree(
+        root_dir=root,
+        target_branch=target_branch,
+        paths=(CATALOG.as_posix(), evidence_dir),
+        commit_message=f"chore: registrar {kind} de {territory_id}",
+        apply=apply,
+        validate=validate,
+        max_attempts=max_attempts,
+        exhausted_message=(
+            f"No se pudo registrar {kind} de {territory_id} tras "
+            f"{max_attempts} rederivaciones desde el HEAD vigente"
+        ),
+    )
+    result = dict(result_box.get("promotion") or {})
+    result["promotion_sha"] = persisted.head_sha
+    result["persistence_attempt"] = persisted.attempt
+    result["persistence_changed"] = persisted.changed
+    return result
+
 def main() -> int:
-    ap=argparse.ArgumentParser(); ap.add_argument("--root-dir",type=Path,default=Path(".")); ap.add_argument("--kind",required=True,choices=["territorial_product","electoral_source","electoral_product"]); ap.add_argument("--territory-id",required=True); ap.add_argument("--edition",required=True); ap.add_argument("--run-id",required=True,type=int); ap.add_argument("--artifact-name",required=True); ap.add_argument("--artifact-sha256",required=True); ap.add_argument("--declaration"); ap.add_argument("--decision"); ap.add_argument("--election-id"); ap.add_argument("--source-commit")
-    args=ap.parse_args(); result=promote(root_dir=args.root_dir,kind=args.kind,territory_id=args.territory_id,edition=args.edition,run_id=args.run_id,artifact_name=args.artifact_name,artifact_sha256=args.artifact_sha256,declaration=args.declaration,decision=args.decision,election_id=args.election_id,source_commit=args.source_commit); print(json.dumps(result,ensure_ascii=False,indent=2)); return 0
+    ap=argparse.ArgumentParser(); ap.add_argument("--root-dir",type=Path,default=Path(".")); ap.add_argument("--kind",required=True,choices=["territorial_product","electoral_source","electoral_product"]); ap.add_argument("--territory-id",required=True); ap.add_argument("--edition",required=True); ap.add_argument("--run-id",required=True,type=int); ap.add_argument("--artifact-name",required=True); ap.add_argument("--artifact-sha256",required=True); ap.add_argument("--declaration"); ap.add_argument("--decision"); ap.add_argument("--election-id"); ap.add_argument("--source-commit"); ap.add_argument("--persist",action="store_true"); ap.add_argument("--target-branch",default="main"); ap.add_argument("--max-attempts",type=int,default=4)
+    args=ap.parse_args()
+    common=dict(root_dir=args.root_dir,kind=args.kind,territory_id=args.territory_id,edition=args.edition,run_id=args.run_id,artifact_name=args.artifact_name,artifact_sha256=args.artifact_sha256,declaration=args.declaration,decision=args.decision,election_id=args.election_id,source_commit=args.source_commit)
+    result=(persist_promotion(**common,target_branch=args.target_branch,max_attempts=args.max_attempts) if args.persist else promote(**common))
+    print(json.dumps(result,ensure_ascii=False,indent=2)); return 0
 if __name__ == "__main__": raise SystemExit(main())

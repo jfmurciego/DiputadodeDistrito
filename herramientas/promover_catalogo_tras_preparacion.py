@@ -15,6 +15,8 @@ from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, valida
 from herramientas.identidad_fuentes_legislatura import territorial_identity
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.materializar_contrato_generacion import materialize as materialize_generation_contract
+from herramientas.catalogo_preparacion import validate_repository
+from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
 
 CATALOG = Path("configuracion/catalogo_preparacion.yaml")
 MASTER = Path("configuracion/catalogo_territorios_espana_2025.yaml")
@@ -522,6 +524,82 @@ def promote(
         "source_receipt": receipt_rel,
     }
 
+
+
+def persist_promotion(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+    package: Path,
+    source_declaration: Path,
+    run_id: int,
+    artifact_name: str,
+    artifact_sha256: str,
+    source_commit: str | None,
+    target_branch: str,
+    max_attempts: int = 4,
+) -> dict:
+    """Persiste la promoción territorial rederivándola desde el HEAD remoto vigente.
+
+    No rebasea ni mezcla snapshots del catálogo: cada intento vuelve a ejecutar
+    la promoción semántica completa sobre el último HEAD, usando el mecanismo
+    concurrente común del repositorio.
+    """
+    root = root_dir.resolve()
+    frozen_package = package if package.is_absolute() else root / package
+    frozen_declaration = (
+        source_declaration
+        if source_declaration.is_absolute()
+        else root / source_declaration
+    )
+    result_box: dict[str, dict] = {}
+
+    def apply(current_root: Path, _attempt: int) -> None:
+        result_box["promotion"] = promote(
+            root_dir=current_root,
+            territory_id=territory_id,
+            edition=str(edition),
+            package=frozen_package,
+            source_declaration=frozen_declaration,
+            run_id=int(run_id),
+            artifact_name=artifact_name,
+            artifact_sha256=artifact_sha256,
+            source_commit=source_commit,
+        )
+
+    def validate(current_root: Path) -> None:
+        errors = validate_repository(root_dir=current_root)
+        if errors:
+            raise ValueError(
+                "Promoción territorial deja repositorio inválido: "
+                + "; ".join(errors[:8])
+            )
+
+    persisted = persist_rederived_tree(
+        root_dir=root,
+        target_branch=target_branch,
+        paths=(
+            CATALOG.as_posix(),
+            MASTER.as_posix(),
+            f"territorios/{territory_id}/config",
+            f"territorios/{territory_id}/evidencia/fuentes_territoriales",
+        ),
+        commit_message=f"chore: registrar preparación territorial de {territory_id}",
+        apply=apply,
+        validate=validate,
+        max_attempts=max_attempts,
+        exhausted_message=(
+            "No se pudo registrar la preparación territorial tras "
+            f"{max_attempts} rederivaciones desde el HEAD vigente"
+        ),
+    )
+    promotion = dict(result_box.get("promotion") or {})
+    promotion["promotion_sha"] = persisted.head_sha
+    promotion["persistence_attempt"] = persisted.attempt
+    promotion["persistence_changed"] = persisted.changed
+    return promotion
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root-dir", type=Path, default=Path("."))
@@ -533,8 +611,11 @@ def main() -> int:
     ap.add_argument("--artifact-name", required=True)
     ap.add_argument("--artifact-sha256", required=True)
     ap.add_argument("--source-commit")
+    ap.add_argument("--persist", action="store_true")
+    ap.add_argument("--target-branch", default="main")
+    ap.add_argument("--max-attempts", type=int, default=4)
     args = ap.parse_args()
-    result = promote(
+    common = dict(
         root_dir=args.root_dir,
         territory_id=args.territory_id,
         edition=args.edition,
@@ -544,6 +625,15 @@ def main() -> int:
         artifact_name=args.artifact_name,
         artifact_sha256=args.artifact_sha256,
         source_commit=args.source_commit,
+    )
+    result = (
+        persist_promotion(
+            **common,
+            target_branch=args.target_branch,
+            max_attempts=args.max_attempts,
+        )
+        if args.persist
+        else promote(**common)
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

@@ -359,6 +359,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
     if not isinstance(run_id, int) or isinstance(run_id, bool) or run_id <= 0:
         return blocked("run_id inválido")
     source = evidence.get("source") or {}
+    source_run_id = source.get("run_id", run_id)
     identity_fields = (
         "artifact_name",
         "artifact_sha256",
@@ -367,7 +368,7 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
         "population_year",
         "section_year",
     )
-    if preparation_evidence.get("run_id") != run_id or any(
+    if preparation_evidence.get("run_id") != source_run_id or any(
         str(source.get(key) or "") != str(preparation_evidence.get(key) or "")
         for key in identity_fields
     ):

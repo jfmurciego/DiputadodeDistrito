@@ -27,7 +27,7 @@ class TerritorialOnlyManualSelectorRegression(unittest.TestCase):
         self.assertIn("publication_mode_effective == 'electoral'", jobs["preparar_electoral"]["if"])
         self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
         self.assertIn("run_prepare_territorial == 'true'", jobs["preparar_territorial"]["if"])
-        self.assertEqual(jobs["generar"]["needs"], ["planificar", "preparar_territorial", "puerta_01"])
+        self.assertEqual(jobs["generar"]["needs"], ["planificar", "preparar_territorial", "puerta_01", "acreditar_generacion"])
         self.assertNotIn("puerta_03", jobs["generar"]["needs"])
         self.assertIn("puerta_02", jobs["publicar"]["needs"])
         self.assertEqual(

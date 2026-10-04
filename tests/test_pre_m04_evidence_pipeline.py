@@ -15,7 +15,7 @@ from herramientas.handoff_evidencia_pre_m04 import (
     stage_handoff,
     verify_handoff,
 )
-from herramientas.materializar_evidencia_pre_m04 import build_evidence
+from herramientas.materializar_evidencia_pre_m04 import build_evidence, build_generation_evaluation
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement, generation_ready_contract
 from herramientas.resolver_preparacion_legislatura import resolve as resolve_current_legislature
 
@@ -283,13 +283,13 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
                 "route": "validated_pre_m04_topology",
             })
 
-    def test_explicit_preparation_evidence_overrides_stale_catalog_without_changing_contract(self):
+    def test_pre_m04_evaluation_run_can_reuse_older_prepared_source(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             contract_path, m03, job = write_fixture(root, partitioned=False)
-            override = {
-                "run_id": 124,
-                "artifact_name": "ddd-source-package-demo-2025-124",
+            prepared = {
+                "run_id": 123,
+                "artifact_name": "ddd-source-package-demo-2025-123",
                 "artifact_sha256": SHA_A,
                 "package_sha256": SHA_B,
                 "compatibility_identity_sha256": SHA_C,
@@ -308,14 +308,20 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
                     m03_artifact_sha256=SHA_C,
                     m03u_artifact_sha256=SHA_D,
                     partition_artifact_sha256=SHA_A,
-                    preparation_evidence=override,
+                    preparation_evidence=prepared,
                 )
-            catalog = yaml.safe_load((root / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
-            stale = catalog["territories"][0]["editions"]["2025"]["preparation_evidence"]
-            self.assertEqual(stale["run_id"], 123)
             self.assertEqual(evidence["run_id"], 124)
-            self.assertEqual(evidence["source"]["artifact_name"], override["artifact_name"])
-            self.assertEqual(evidence["effective_gate"], {
+            self.assertEqual(evidence["source"]["run_id"], 123)
+            self.assertEqual(evidence["source"]["artifact_name"], prepared["artifact_name"])
+            gate = generation_enablement(
+                root_dir=root,
+                contract_path=str(contract_path.relative_to(root)),
+                territory_id="demo",
+                first_generation_evidence=evidence,
+                preparation_evidence=prepared,
+                require_source=True,
+            )
+            self.assertEqual(gate, {
                 "allowed": True,
                 "route": "validated_pre_m04_topology",
             })
@@ -1091,7 +1097,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             continental["generation_gate"],
         )
 
-    def test_00_wiring_waits_for_validated_pre_m04_before_generation(self):
+    def test_00_wiring_closes_preparation_before_generation_accreditation(self):
         full = yaml.safe_load((ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8"))
         preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
@@ -1100,17 +1106,29 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
 
         self.assertEqual(full_jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
         self.assertIn("preparar_territorial", full_jobs["puerta_01"]["needs"])
-        self.assertIn("puerta_01", full_jobs["generar"]["needs"])
-        self.assertIn("needs.puerta_01.result == 'success'", full_jobs["generar"]["if"])
-
-        self.assertIn("pre_m04", prep_jobs["resultado"]["needs"])
+        self.assertNotIn("pre_m04", prep_jobs)
+        self.assertIn("generation_pending", prep_jobs)
+        self.assertIn("generation_pending", prep_jobs["resultado"]["needs"])
         terminal = prep_jobs["resultado"]["steps"][-1]
-        self.assertIn("PRE_M04_RESULT", terminal["env"])
-        self.assertIn('[[ "$PERSIST_STATE" == true && "$PRE_M04_RESULT" != success ]]', terminal["run"])
-        self.assertTrue(prep_jobs["pre_m04"]["with"]["preflight_only"])
+        self.assertIn("GENERATION_PENDING_RESULT", terminal["env"])
+        self.assertNotIn("PRE_M04_RESULT", terminal["env"])
+
+        accreditation = full_jobs["acreditar_generacion"]
+        self.assertEqual(
+            accreditation["uses"],
+            "./.github/workflows/_reutilizable-generacion-territorial.yml",
+        )
+        self.assertTrue(accreditation["with"]["preflight_only"])
+        self.assertIn("puerta_01", accreditation["needs"])
+        self.assertIn("acreditar_generacion", full_jobs["generar"]["needs"])
+        self.assertIn(
+            "needs.acreditar_generacion.result == 'success'",
+            full_jobs["generar"]["if"],
+        )
 
         self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
         self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
+        self.assertIn("pre_m04_diagnostic", reusable["jobs"])
 
     def test_00_generation_handoff_keeps_source_sha_and_transports_pre_m04_evidence(self):
         full_text = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
@@ -1132,20 +1150,28 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
 
         generate = full["jobs"]["generar"]
         self.assertEqual(generate["with"]["require_generation_gate"], True)
-        enabled_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}"
+        prepared_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha }}"
+        enabled_ref = "${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}"
         self.assertIn("preparar_territorial", generate["needs"])
+        self.assertIn("acreditar_generacion", generate["needs"])
         self.assertEqual(generate["with"]["source_ref"], enabled_ref)
         self.assertNotIn("'main'", generate["with"]["source_ref"])
-        self.assertEqual(full["jobs"]["puerta_01"]["with"]["source_ref"], enabled_ref)
+        self.assertEqual(full["jobs"]["puerta_01"]["with"]["source_ref"], prepared_ref)
+        self.assertEqual(
+            full["jobs"]["acreditar_generacion"]["with"]["source_ref"],
+            prepared_ref,
+        )
         self.assertIn("preparar_territorial", full["jobs"]["puerta_02"]["needs"])
+        self.assertIn("acreditar_generacion", full["jobs"]["puerta_02"]["needs"])
         self.assertEqual(full["jobs"]["puerta_02"]["with"]["source_ref"], enabled_ref)
         prep_outputs = ((preparation.get("on") or preparation.get(True) or {}).get("workflow_call") or {}).get("outputs") or {}
         self.assertEqual(
-            prep_outputs["enabled_source_ref"]["value"],
-            "${{ jobs.pre_m04.outputs.enabled_source_ref }}",
+            prep_outputs["prepared_source_ref"]["value"],
+            "${{ jobs.generation_pending.outputs.prepared_source_ref }}",
         )
+        self.assertNotIn("enabled_source_ref", prep_outputs)
         self.assertIn(
-            "run_prepare_territorial == 'true'",
+            "pre_m04_accreditation_planned == 'true'",
             generate["with"]["generation_preflight_artifact_name"],
         )
         self.assertIn(
@@ -1157,11 +1183,14 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             "${{ needs.puerta_01.outputs.artifact_digest }}",
         )
 
-        pre_m04 = preparation["jobs"]["pre_m04"]["with"]
-        self.assertEqual(pre_m04["source_ref"], "${{ needs.registrar.outputs.promotion_sha }}")
-        self.assertEqual(pre_m04["source_evidence_run_id"], "${{ github.run_id }}")
-        self.assertIn("needs.registrar.outputs.artifact_sha256", pre_m04["source_evidence_artifact_sha256"])
-        self.assertIn("needs.registrar.outputs.package_sha256", pre_m04["source_evidence_package_sha256"])
+        pre_m04 = full["jobs"]["acreditar_generacion"]["with"]
+        self.assertTrue(pre_m04["preflight_only"])
+        self.assertEqual(pre_m04["source_ref"], prepared_ref)
+        self.assertEqual(pre_m04["source_package_run_id"], "${{ needs.puerta_01.outputs.run_id }}")
+        self.assertEqual(
+            pre_m04["source_package_artifact_name"],
+            "${{ needs.puerta_01.outputs.artifact_name }}",
+        )
 
         reusable_inputs = ((reusable.get("on") or reusable.get(True) or {}).get("workflow_call") or {}).get("inputs") or {}
         for key in (
@@ -1175,6 +1204,10 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
         self.assertEqual(
             (reusable_call.get("outputs") or {})["enabled_source_ref"]["value"],
             "${{ jobs.pre_m04_evidence.outputs.enabled_source_ref }}",
+        )
+        self.assertEqual(
+            (reusable_call.get("outputs") or {})["generation_evaluation_status"]["value"],
+            "${{ jobs.pre_m04_evidence.result == 'success' && 'ENABLED' || jobs.pre_m04_diagnostic.outputs.evaluation_status }}",
         )
         pre_m04_job = reusable["jobs"]["pre_m04_evidence"]
         self.assertEqual(
@@ -1215,14 +1248,15 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             names.index("Resolver paquete territorial preparado"),
         )
 
-    def test_preparation_workflow_persists_pre_m04_before_terminal_success_and_never_runs_m04(self):
+    def test_preparation_workflow_persists_pending_and_never_runs_generation_preflight(self):
         preparation = yaml.safe_load((ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(encoding="utf-8"))
         reusable = yaml.safe_load((ROOT / ".github/workflows/_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8"))
         jobs = preparation["jobs"]
-        self.assertEqual(jobs["pre_m04"]["needs"], ["resolver", "territoriales", "registrar"])
-        self.assertTrue(jobs["pre_m04"]["with"]["preflight_only"])
-        self.assertIn("pre_m04", jobs["resultado"]["needs"])
-        self.assertIn("PRE_M04_RESULT", jobs["resultado"]["steps"][-1]["env"])
+        self.assertNotIn("pre_m04", jobs)
+        self.assertEqual(jobs["generation_pending"]["needs"], ["resolver", "registrar"])
+        self.assertIn("generation_pending", jobs["resultado"]["needs"])
+        self.assertIn("GENERATION_PENDING_RESULT", jobs["resultado"]["steps"][-1]["env"])
+        self.assertNotIn("continue-on-error", jobs["generation_pending"])
         self.assertIn("!inputs.preflight_only", reusable["jobs"]["m04"]["if"])
         self.assertIn("inputs.preflight_only", reusable["jobs"]["pre_m04_evidence"]["if"])
 

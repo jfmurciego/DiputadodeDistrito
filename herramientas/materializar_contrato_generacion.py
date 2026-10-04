@@ -571,6 +571,15 @@ def _apply_source_contract(
 
     validation["source_baseline"] = copy.deepcopy(baseline)
     state = cfg.setdefault("generation_state", {})
+    # Una nueva identidad de fuente invalida atómicamente cualquier acreditación
+    # pre-generación anterior. No debe existir una ventana durable con la fuente
+    # nueva deshabilitada pero fingerprints pre-M04 de la fuente precedente.
+    for key in (
+        "pre_m04_run_id",
+        "pre_m04_source_commit",
+        "pre_m04_artifact_sha256",
+    ):
+        state.pop(key, None)
     state.update({
         "source_prepared": True,
         "generation_enabled": False,

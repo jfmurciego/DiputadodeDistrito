@@ -35,6 +35,46 @@ class PreM04PersistenceConflict(RuntimeError):
         self.status = status
 
 
+
+def _candidate_evaluation_status(candidate: dict) -> str:
+    status = str(
+        candidate.get("evaluation_status")
+        or ("ENABLED" if candidate.get("decision") == "READY_FOR_FIRST_GENERATION" else "")
+    ).upper()
+    if status not in {"ENABLED", "BLOCKED", "PENDING", "ERROR_TECHNICAL"}:
+        raise ValueError(f"GENERATION_EVALUATION_STATUS_INVALID: {status!r}")
+    return status
+
+
+def _validate_non_enabling_identity(
+    candidate: dict,
+    *,
+    territory_id: str,
+    edition: str,
+    run_id: int,
+    source_commit: str,
+) -> None:
+    if candidate.get("schema") != "ddd.catalog-evidence/1.0":
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: schema inválido")
+    if candidate.get("kind") != "generation_preflight":
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: kind inválido")
+    if str(candidate.get("territory_id") or "") != territory_id:
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: territorio no coincide")
+    if str(candidate.get("edition") or "") != str(edition):
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: edición no coincide")
+    if candidate.get("run_id") != int(run_id):
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: run_id no coincide")
+    if str(candidate.get("source_commit") or "").lower() != source_commit.lower():
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: source_commit no coincide")
+    source = candidate.get("source") or {}
+    source_run = source.get("run_id")
+    if not isinstance(source_run, int) or isinstance(source_run, bool) or source_run <= 0:
+        raise ValueError("GENERATION_EVALUATION_IDENTITY: source.run_id inválido")
+    for key in ("artifact_sha256", "package_sha256", "compatibility_identity_sha256"):
+        value = str(source.get(key) or "").removeprefix("sha256:").lower()
+        if not HEX64.fullmatch(value):
+            raise ValueError(f"GENERATION_EVALUATION_IDENTITY: {key} inválido")
+
 def _json(path: Path) -> dict:
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -307,17 +347,29 @@ def persist_pre_m04_evidence(
     if not isinstance(candidate, dict):
         raise ValueError("candidate_evidence debe contener un objeto JSON")
 
-    validate_identity(
-        candidate,
-        territory_id=territory_id,
-        edition=str(edition),
-        run_id=int(run_id),
-        source_commit=source_commit,
-    )
+    evaluation_status = _candidate_evaluation_status(candidate)
+    if evaluation_status == "ENABLED":
+        validate_identity(
+            candidate,
+            territory_id=territory_id,
+            edition=str(edition),
+            run_id=int(run_id),
+            source_commit=source_commit,
+        )
+    else:
+        _validate_non_enabling_identity(
+            candidate,
+            territory_id=territory_id,
+            edition=str(edition),
+            run_id=int(run_id),
+            source_commit=source_commit,
+        )
     candidate_fingerprint = _stable_fingerprint(candidate)
 
     if (handoff is None) != (handoff_metadata is None):
         raise ValueError("handoff y handoff_metadata deben suministrarse juntos")
+    if evaluation_status != "ENABLED" and handoff is not None:
+        raise ValueError("Sólo una evaluación ENABLED puede producir handoff de generación")
     handoff_path = handoff
     metadata_path = handoff_metadata
     if handoff_path is not None and not handoff_path.is_absolute():
@@ -475,7 +527,7 @@ def persist_pre_m04_evidence(
             root_dir=root,
             target_branch=target_branch,
             paths=paths,
-            commit_message=f"chore: registrar evidencia pre-M04 de {territory_id}",
+            commit_message=f"chore: registrar evaluación pre-generación de {territory_id}",
             apply=apply,
             max_attempts=max_attempts,
             before_push=before_push,

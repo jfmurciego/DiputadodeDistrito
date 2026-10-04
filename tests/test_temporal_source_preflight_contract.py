@@ -455,11 +455,14 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
         resolver = (ROOT / "herramientas/resolver_ejecucion_completa.py").read_text(encoding="utf-8")
 
         self.assertIn("promotion_sha", preparation)
-        self.assertIn("source_ref: ${{ needs.registrar.outputs.promotion_sha }}", preparation)
-        self.assertIn("enabled_source_ref", preparation)
+        self.assertIn("prepared_source_ref", preparation)
+        self.assertNotIn("source_ref: ${{ needs.registrar.outputs.promotion_sha }}", preparation)
+        self.assertIn("enabled_source_ref", reusable)
         self.assertIn('echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"', reusable)
         full = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
-        enabled_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.enabled_source_ref || needs.planificar.outputs.source_sha }}"
+        prepared_ref = "${{ needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha }}"
+        enabled_ref = "${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}"
+        self.assertIn("source_ref: " + prepared_ref, full)
         self.assertIn("source_ref: " + enabled_ref, full)
         self.assertNotIn('legacy_year="$EDITION"', preparation)
         for body in (reusable, producer, production):

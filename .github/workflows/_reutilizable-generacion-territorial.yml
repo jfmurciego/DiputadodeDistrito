@@ -36,6 +36,12 @@ on:
       enabled_source_ref:
         description: Commit exacto que contiene fuente, contrato, evidencia pre-M04 y habilitación
         value: ${{ jobs.pre_m04_evidence.outputs.enabled_source_ref }}
+      generation_evaluation_status:
+        description: Resultado explícito de la evaluación de generación
+        value: ${{ jobs.pre_m04_evidence.result == 'success' && 'ENABLED' || jobs.pre_m04_diagnostic.outputs.evaluation_status }}
+      evaluation_source_ref:
+        description: Commit durable que contiene la última evaluación, habilitante o no
+        value: ${{ jobs.pre_m04_evidence.result == 'success' && jobs.pre_m04_evidence.outputs.enabled_source_ref || jobs.pre_m04_diagnostic.outputs.evaluation_source_ref }}
 
 permissions:
   contents: write
@@ -412,6 +418,64 @@ jobs:
           -e DDD_GERRYCHAIN_ENTRYPOINT="${{ inputs.gerrychain_entrypoint }}"
           -e DDD_REQUIRE_UNIQUE_HASHES="${{ inputs.require_unique_hashes }}"
           --entrypoint /bin/bash ddd-production:${GITHUB_SHA} /app/procedimiento.sh
+      - name: Conservar diagnóstico estructurado de bloqueo M03
+        if: ${{ failure() && env.STAGE == 'M03' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .ddd-generation-diagnostic
+          python - "$CACHE_DIR" "$RUNS_DIR" <<'PY'
+          import json,sys
+          from pathlib import Path
+          roots=[Path(p) for p in sys.argv[1:] if p]
+          reports=[]
+          for root in roots:
+              if not root.exists():
+                  continue
+              for path in root.rglob("*.json"):
+                  try:
+                      data=json.loads(path.read_text(encoding="utf-8"))
+                  except Exception:
+                      continue
+                  if isinstance(data,dict) and str(data.get("module"))=="03":
+                      reports.append((path,data))
+          if reports:
+              path,report=reports[-1]
+              province=(report.get("province_component_audit") or {}).get("violations") or []
+              municipality=(report.get("municipality_component_audit") or {}).get("violations") or []
+              blocked=bool(province or municipality)
+              payload={
+                  "status":"BLOCKED" if blocked else "ERROR_TECHNICAL",
+                  "stage":"TERRITORY_GRAPH",
+                  "capability":"CAP_GRAPH" if blocked else "CAP_PRE_M04_EVIDENCE",
+                  "reason": (
+                      f"M03 bloqueó conectividad administrativa: provincias={len(province)}, municipios={len(municipality)}"
+                      if blocked else
+                      "M03 terminó con error sin una violación estructurada reconocible."
+                  ),
+                  "report_path":path.as_posix(),
+                  "report":report,
+              }
+          else:
+              payload={
+                  "status":"ERROR_TECHNICAL",
+                  "stage":"TERRITORY_GRAPH",
+                  "capability":"CAP_PRE_M04_EVIDENCE",
+                  "reason":"M03 terminó con error sin informe estructurado recuperable.",
+              }
+          Path(".ddd-generation-diagnostic/classification.json").write_text(
+              json.dumps(payload,ensure_ascii=False,indent=2)+"\n",
+              encoding="utf-8",
+          )
+          PY
+      - name: Publicar diagnóstico M03 bloqueado
+        if: ${{ failure() && env.STAGE == 'M03' }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-generation-diagnostic-${{ github.run_id }}-M03${{ inputs.artifact_namespace != '' && format('-{0}', inputs.artifact_namespace) || '' }}
+          path: .ddd-generation-diagnostic/classification.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Empaquetar checkpoint acumulado del módulo
         shell: bash
         run: |
@@ -681,6 +745,159 @@ jobs:
           name: ddd-generation-preflight-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/ddd-pre-m04-evidence-${{ github.run_id }}.json
           if-no-files-found: error
+          retention-days: 30
+
+
+  pre_m04_diagnostic:
+    name: Registrar evaluación no habilitante de generación
+    needs: [resolve, official_sources, m01, m02, m03, internal_units, pre_m04_evidence]
+    if: ${{ always() && inputs.preflight_only && inputs.persist_state && needs.resolve.result == 'success' && needs.pre_m04_evidence.result != 'success' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      evaluation_status: ${{ steps.classify.outputs.evaluation_status }}
+      evaluation_source_ref: ${{ steps.persist.outputs.evaluation_source_ref }}
+    concurrency:
+      group: ddd-catalog-promotion
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PARAMS: ${{ needs.resolve.outputs.params }}
+      TERRITORY_ID: ${{ needs.resolve.outputs.territory_id }}
+      SOURCE_REF: ${{ inputs.source_ref || github.sha }}
+      SOURCES_RESULT: ${{ needs.official_sources.result }}
+      M01_RESULT: ${{ needs.m01.result }}
+      M02_RESULT: ${{ needs.m02.result }}
+      M03_RESULT: ${{ needs.m03.result }}
+      INTERNAL_RESULT: ${{ needs.internal_units.result }}
+      READY_RESULT: ${{ needs.pre_m04_evidence.result }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
+      - id: classify
+        name: Clasificar bloqueo o error técnico
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .ddd-generation-diagnostic-download
+          mkdir -p .ddd-generation-diagnostic-download
+          suffix=''
+          if [[ -n '${{ inputs.artifact_namespace }}' ]]; then
+            suffix='-${{ inputs.artifact_namespace }}'
+          fi
+
+          status=ERROR_TECHNICAL
+          stage=PRE_GENERATION
+          capability=CAP_PRE_M04_EVIDENCE
+          reason="La evaluación previa a generación no terminó con evidencia habilitante."
+
+          if [[ "$M03_RESULT" == failure ]]; then
+            name="ddd-generation-diagnostic-$GITHUB_RUN_ID-M03${suffix}"
+            if gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-generation-diagnostic-download >/dev/null 2>&1               && [[ -s .ddd-generation-diagnostic-download/classification.json ]]; then
+              status="$(jq -r '.status' .ddd-generation-diagnostic-download/classification.json)"
+              stage="$(jq -r '.stage' .ddd-generation-diagnostic-download/classification.json)"
+              capability="$(jq -r '.capability' .ddd-generation-diagnostic-download/classification.json)"
+              reason="$(jq -r '.reason' .ddd-generation-diagnostic-download/classification.json)"
+            else
+              stage=TERRITORY_GRAPH
+              reason="M03 falló y no dejó diagnóstico estructurado recuperable."
+            fi
+          elif [[ "$INTERNAL_RESULT" == failure ]]; then
+            name="ddd-internal-units-$GITHUB_RUN_ID${suffix}"
+            if gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$name" --dir .ddd-generation-diagnostic-download >/dev/null 2>&1; then
+              job="$(find .ddd-generation-diagnostic-download -name job.json -type f | head -1 || true)"
+            else
+              job=''
+            fi
+            if [[ -n "$job" && -s "$job" && "$(jq -r '.status // empty' "$job")" == BLOCKED ]]; then
+              status=BLOCKED
+              stage=DISTRICT_FORMATION_INPUT
+              capability=CAP_M04_INPUT
+              reason="$(jq -r '.error // "Preparación de unidades internas bloqueada."' "$job")"
+            else
+              stage=DISTRICT_FORMATION_INPUT
+              reason="La preparación de unidades internas terminó con error técnico sin bloqueo estructurado verificable."
+            fi
+          elif [[ "$SOURCES_RESULT" == failure ]]; then
+            stage=SOURCE_MATERIALIZATION
+            reason="La fuente ya acreditada no pudo materializarse para la evaluación; requiere diagnóstico técnico."
+          elif [[ "$M01_RESULT" == failure ]]; then
+            stage=TERRITORY_PREPARATION
+            reason="La base territorial falló durante la evaluación de generación."
+          elif [[ "$M02_RESULT" == failure ]]; then
+            stage=TERRITORY_ADJACENCY
+            reason="La construcción de adyacencias falló durante la evaluación de generación."
+          elif [[ "$READY_RESULT" == failure ]]; then
+            stage=PRE_GENERATION_PERSISTENCE
+            reason="La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+          fi
+
+          case "$status" in BLOCKED|ERROR_TECHNICAL) ;; *)
+            status=ERROR_TECHNICAL
+            capability=CAP_PRE_M04_EVIDENCE
+            reason="Clasificación no reconocida durante la evaluación previa a generación."
+          esac
+
+          edition="$(python - <<'PY'
+          import os,yaml
+          d=yaml.safe_load(open(os.environ["PARAMS"],encoding="utf-8")) or {}
+          print((d.get("meta") or {}).get("year",""))
+          PY
+          )"
+          [[ "$edition" =~ ^20[0-9]{2}$ ]] || { echo "::error::Edición no resoluble para diagnóstico pre-generación."; exit 60; }
+
+          python - "$TERRITORY_ID" "$edition" "$GITHUB_RUN_ID" "$status" "$stage" "$capability" "$reason" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from herramientas.materializar_evidencia_pre_m04 import build_generation_evaluation
+          territory,edition,run_id,status,stage,capability,reason=sys.argv[1:]
+          payload=build_generation_evaluation(
+              root_dir=Path("."),
+              territory_id=territory,
+              edition=edition,
+              run_id=int(run_id),
+              status=status,
+              stage=stage,
+              capability=capability,
+              reason=reason,
+          )
+          Path(".ddd-generation-evaluation.json").write_text(
+              json.dumps(payload,ensure_ascii=False,indent=2)+"\n",
+              encoding="utf-8",
+          )
+          PY
+          {
+            echo "evaluation_status=$status"
+            echo "edition=$edition"
+            echo "source_commit=$(git rev-parse HEAD)"
+          } >> "$GITHUB_OUTPUT"
+
+      - id: persist
+        name: Persistir evaluación no habilitante
+        env:
+          EDITION: ${{ steps.classify.outputs.edition }}
+          SOURCE_COMMIT: ${{ steps.classify.outputs.source_commit }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          evaluation_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$GITHUB_RUN_ID"             --contract-path "$PARAMS"             --candidate-evidence .ddd-generation-evaluation.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$GITHUB_REF_NAME"             --max-attempts 4             --result-json .ddd-generation-evaluation-persistence.json)"
+          [[ "$evaluation_ref" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "::error::La evaluación no habilitante no quedó persistida."
+            exit 61
+          }
+          echo "evaluation_source_ref=$evaluation_ref" >> "$GITHUB_OUTPUT"
+
+      - name: Publicar diagnóstico de evaluación
+        if: ${{ always() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-generation-evaluation-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
+          path: |
+            .ddd-generation-evaluation.json
+            .ddd-generation-evaluation-persistence.json
+          if-no-files-found: warn
           retention-days: 30
 
   m04:

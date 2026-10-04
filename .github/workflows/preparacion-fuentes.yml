@@ -1,11 +1,11 @@
 # PROYECTO: Diputado de Distrito
 # CLASE: interfaz de negocio — Diseño A
-# VERSIÓN: 1.3.0
+# VERSIÓN: 1.4.0
 # NOMBRE DE VERSIÓN: Preparación durable de datos territoriales
 # FECHA: 2026-09-19
 # ESTADO: candidato
-# CAMBIOS: separa la preparación territorial de la preparación electoral; este workflow sólo prepara secciones y población.
-# MOTIVO: impedir que la ausencia de resultados electorales bloquee la preparación de datos territoriales.
+# CAMBIOS: la preparación territorial termina al acreditar y persistir su paquete; la habilitación pre-generación se evalúa fuera de 01.
+# MOTIVO: conservar fuentes válidas aunque una evaluación posterior bloquee la generación de distritos.
 name: 01 Preparación de Datos Territoriales
 
 on:
@@ -30,8 +30,8 @@ on:
         value: ${{ jobs.territoriales.outputs.artifact_name }}
       artifact_digest:
         value: ${{ jobs.territoriales.outputs.artifact_digest }}
-      enabled_source_ref:
-        value: ${{ jobs.pre_m04.outputs.enabled_source_ref }}
+      prepared_source_ref:
+        value: ${{ jobs.generation_pending.outputs.prepared_source_ref }}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -326,59 +326,87 @@ jobs:
           set -euo pipefail
           mkdir -p "$(dirname "$SOURCE_DECLARATION")"
           python herramientas/resolver_fuentes_territorio.py declaration             --territory "$TERRITORY" --edition "$EDITION" --population-year "$POPULATION_YEAR" --section-year "$SECTION_YEAR" --output "$SOURCE_DECLARATION"
-          git fetch origin "$TARGET_BRANCH"
-          git reset --hard "origin/$TARGET_BRANCH"
-          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir . --territory-id "$TERRITORY_ID" --edition "$EDITION"             --package .ddd-source-package --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID" --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256" --source-commit "$GITHUB_SHA" > .ddd-catalog-promotion.json
+          python -m herramientas.promover_catalogo_tras_preparacion             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --package .ddd-source-package             --source-declaration "$SOURCE_DECLARATION"             --run-id "$GITHUB_RUN_ID"             --artifact-name "$ARTIFACT_NAME"             --artifact-sha256 "$ARTIFACT_SHA256"             --source-commit "$GITHUB_SHA"             --persist             --target-branch "$TARGET_BRANCH"             --max-attempts 4 > .ddd-catalog-promotion.json
           echo "artifact_sha256=$(jq -r .artifact_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           echo "package_sha256=$(jq -r .package_sha256 .ddd-catalog-promotion.json)" >> "$GITHUB_OUTPUT"
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config" "territorios/$TERRITORY_ID/evidencia/fuentes_territoriales"
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: registrar preparación territorial de $TERRITORY_ID"
-            pushed=false
-            for attempt in 1 2 3; do
-              if git pull --rebase origin "$TARGET_BRANCH" && git push origin "HEAD:$TARGET_BRANCH"; then pushed=true; break; fi
-              git rebase --abort >/dev/null 2>&1 || true
-              sleep $((attempt * 2))
-            done
-            [[ "$pushed" == true ]] || { echo "::error::No se pudo registrar la preparación territorial tras tres intentos."; exit 47; }
-          fi
-          git fetch origin "$TARGET_BRANCH"
-          git reset --hard "origin/$TARGET_BRANCH"
           durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind territorial --territory "$TERRITORY_ID" --edition "$EDITION")"
           [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" ]] || { echo "::error::El registro territorial durable no apunta al run actual."; exit 48; }
           [[ "$(jq -r .artifact_name <<<"$durable")" == "$ARTIFACT_NAME" ]] || { echo "::error::El registro territorial durable no conserva el artefacto esperado."; exit 49; }
           [[ "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_SHA256#sha256:}" ]] || { echo "::error::El registro territorial durable no conserva el SHA-256 esperado."; exit 50; }
-          promotion_sha="$(git rev-parse HEAD)"
+          promotion_sha="$(jq -r .promotion_sha .ddd-catalog-promotion.json)"
           [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit de promoción inválido."; exit 51; }
+          [[ "$(git rev-parse HEAD)" == "$promotion_sha" ]] || { echo "::error::El checkout final no coincide con la promoción durable."; exit 52; }
           echo "promotion_sha=$promotion_sha" >> "$GITHUB_OUTPUT"
-  pre_m04:
-    name: Acreditar contrato efectivo hasta la puerta de Formación inicial
-    needs: [resolver, territoriales, registrar]
-    if: ${{ needs.territoriales.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
-    uses: ./.github/workflows/_reutilizable-generacion-territorial.yml
-    with:
-      params: ${{ format('territorios/{0}/config/{0}_{1}.yaml', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition) }}
-      mode: execute
-      from_stage: M01
-      to_stage: M04
-      source_package_run_id: ${{ github.run_id }}
-      source_package_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition, github.run_id) }}
-      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
-      source_ref: ${{ needs.registrar.outputs.promotion_sha }}
-      persist_state: true
-      preflight_only: true
-      source_evidence_run_id: ${{ github.run_id }}
-      source_evidence_artifact_name: ${{ format('ddd-source-package-{0}-{1}-{2}', needs.resolver.outputs.territory_id, needs.resolver.outputs.edition, github.run_id) }}
-      source_evidence_artifact_sha256: ${{ needs.registrar.outputs.artifact_sha256 }}
-      source_evidence_package_sha256: ${{ needs.registrar.outputs.package_sha256 }}
-    secrets: inherit
+
+  generation_pending:
+    name: Registrar evaluación de generación pendiente
+    needs: [resolver, registrar]
+    if: ${{ always() && needs.resolver.result == 'success' && needs.registrar.result == 'success' && needs.resolver.outputs.persist_state == 'true' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      prepared_source_ref: ${{ steps.persist.outputs.prepared_source_ref }}
+    env:
+      TERRITORY_ID: ${{ needs.resolver.outputs.territory_id }}
+      EDITION: ${{ needs.resolver.outputs.edition }}
+      RUN_ID: ${{ github.run_id }}
+      TARGET_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          ref: ${{ needs.registrar.outputs.promotion_sha }}
+          token: ${{ github.token }}
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+      - id: candidate
+        name: Materializar estado PENDING ligado a la fuente acreditada
+        shell: bash
+        run: |
+          set -euo pipefail
+          contract_path="$(python herramientas/catalogo_preparacion.py lookup --territory "$TERRITORY_ID" --edition "$EDITION" | jq -r '.contract_path')"
+          [[ -n "$contract_path" && "$contract_path" != null ]] || {
+            echo "::error::La fuente acreditada no tiene contrato territorial efectivo."
+            exit 56
+          }
+          python - "$TERRITORY_ID" "$EDITION" "$RUN_ID" "$contract_path" <<'PY'
+          import json,sys
+          from pathlib import Path
+          from herramientas.materializar_evidencia_pre_m04 import build_generation_evaluation
+          territory_id,edition,run_id,contract_path=sys.argv[1:]
+          payload=build_generation_evaluation(
+              root_dir=Path("."),
+              territory_id=territory_id,
+              edition=edition,
+              run_id=int(run_id),
+              status="PENDING",
+              stage="SOURCE_PREPARED",
+              reason="Fuente territorial acreditada; habilitación de generación todavía no evaluada.",
+          )
+          Path(".ddd-generation-pending.json").write_text(
+              json.dumps(payload,ensure_ascii=False,indent=2)+"\n",
+              encoding="utf-8",
+          )
+          PY
+          echo "contract_path=$contract_path" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - id: persist
+        name: Persistir diagnóstico con el escritor concurrente común
+        env:
+          CONTRACT_PATH: ${{ steps.candidate.outputs.contract_path }}
+          SOURCE_COMMIT: ${{ steps.candidate.outputs.source_commit }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_ref="$(python herramientas/persistir_evidencia_pre_m04_operacional.py             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)"
+          [[ "$source_ref" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "::error::Persistencia PENDING no devolvió un commit durable."
+            exit 57
+          }
+          echo "prepared_source_ref=$source_ref" >> "$GITHUB_OUTPUT"
 
   resultado:
     name: Verificar resultado durable de preparación
-    needs: [resolver, territoriales, registrar, pre_m04]
+    needs: [resolver, territoriales, registrar, generation_pending]
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     steps:
@@ -390,11 +418,11 @@ jobs:
           PREPARATION_RESULT: ${{ needs.territoriales.result }}
           REGISTRATION_RESULT: ${{ needs.registrar.result }}
           PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
-          PRE_M04_RESULT: ${{ needs.pre_m04.result }}
+          GENERATION_PENDING_RESULT: ${{ needs.generation_pending.result }}
         run: |
-          if [[ "$PERSIST_STATE" == true && "$PRE_M04_RESULT" != success ]]; then
-            echo "::error::La preparación durable no acreditó la puerta pre-M04: $PRE_M04_RESULT"
-            exit 55
+          if [[ "$PERSIST_STATE" == true && "$GENERATION_PENDING_RESULT" != success ]]; then
+            echo "::error::La fuente fue preparada, pero no quedó persistido su estado PENDING de generación: $GENERATION_PENDING_RESULT"
+            exit 56
           fi
           python herramientas/evaluar_persistencia_preparacion.py terminal \
             --preparation-result "$PREPARATION_RESULT" \
