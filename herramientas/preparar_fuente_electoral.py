@@ -10,7 +10,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from herramientas.comprobar_fuente_electoral_oficial import check_declaration,load_declaration
+from herramientas.comprobar_fuente_electoral_oficial import (
+    check_declaration,
+    load_declaration,
+)
 from ddd_core.electoral_contract import (
     STRUCTURAL_PROVENANCE_SCHEMA,
     validate_structural_provenance_document,
