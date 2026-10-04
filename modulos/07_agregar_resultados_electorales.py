@@ -502,8 +502,9 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             )
 
         canonical_parties = {}
+        canonical_owners = {}
         for raw_party in party_columns:
-            canonical_parties[raw_party] = _canonical_party(
+            canonical = _canonical_party(
                 raw_party,
                 parties=parties,
                 source=source,
@@ -511,6 +512,18 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 row="header",
                 field="party_columns",
             )
+            owner = canonical_owners.get(canonical)
+            if owner is not None:
+                _input_invalid(
+                    source=source,
+                    adapter_kind=adapter_kind,
+                    row="header",
+                    field="party_columns",
+                    value=[owner, raw_party],
+                    cause="PARTY_COLUMNS_CANONICAL_DUPLICATE",
+                )
+            canonical_owners[canonical] = raw_party
+            canonical_parties[raw_party] = canonical
 
         vote_rows = []
         section_ids = set()
