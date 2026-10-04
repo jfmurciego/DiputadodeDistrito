@@ -1,0 +1,491 @@
+{
+  "schema": "ddd.invalid-official-geometries-evidence/1.0",
+  "observed_on": "2026-10-04",
+  "base_sha": "75100a31df76a5e1fe7ca12fc6212440fb7a5b50",
+  "scope": "diagnóstico de 13 geometrías inválidas en siete runs de Activación; no acredita preparación territorial completa",
+  "source_contract": {
+    "provider": "Instituto Nacional de Estadística",
+    "source_id": "secciones_censales",
+    "declared_crs": "EPSG:4326",
+    "format": "geojson",
+    "section_id_field": "CUSEC",
+    "note": "CRS declarado por el catálogo consumido por estos runs; los bytes OGC de seccionado no quedaron preservados en los artefactos fallidos."
+  },
+  "failed_runs": [
+    {
+      "territory": "Andalucía",
+      "run": 37150399030,
+      "section_year": 2026,
+      "sections": 6045,
+      "invalid": 1,
+      "population_sha256": "0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=1"
+    },
+    {
+      "territory": "Castilla y León",
+      "run": 37150791785,
+      "section_year": 2026,
+      "sections": 3509,
+      "invalid": 2,
+      "population_sha256": "18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=2"
+    },
+    {
+      "territory": "Castilla-La Mancha",
+      "run": 37155873741,
+      "section_year": 2023,
+      "sections": 1954,
+      "invalid": 1,
+      "population_sha256": "5ffb96a3263b6fec454e3ebfa0651323f9d1492a8823756d891260b3aba8fd2e",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=1"
+    },
+    {
+      "territory": "Cataluña",
+      "run": 37155881823,
+      "section_year": 2024,
+      "sections": 5117,
+      "invalid": 3,
+      "population_sha256": "2cedf1e2a7bee0e4d2dfd9af7ee960f76df0ad20a54a9aecc89c7f7f30698ef1",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=3"
+    },
+    {
+      "territory": "Comunidad Valenciana",
+      "run": 37155892338,
+      "section_year": 2023,
+      "sections": 3503,
+      "invalid": 4,
+      "population_sha256": "1bb88e20437edfee346d0cabc254044e9fd07ef6e94892318e9263b2c8a38478",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=4"
+    },
+    {
+      "territory": "Islas Baleares",
+      "run": 37157853562,
+      "section_year": 2023,
+      "sections": 670,
+      "invalid": 1,
+      "population_sha256": "fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=1"
+    },
+    {
+      "territory": "País Vasco",
+      "run": 37157960180,
+      "section_year": 2024,
+      "sections": 1713,
+      "invalid": 1,
+      "population_sha256": "a3d879ea855f837653948b90483b5930e69b94a4caaba0ad45cfbcbe26a6442c",
+      "sectioning_materialized": false,
+      "sectioning_sha256": null,
+      "error": "GEOMETRY_INVALID: seccionado a materializar: count=1"
+    }
+  ],
+  "geometry_cases": [
+    {
+      "case_id": "37150399030-1",
+      "territory": "Andalucía",
+      "run_id": 37150399030,
+      "section_year": 2026,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37150791785-1",
+      "territory": "Castilla y León",
+      "run_id": 37150791785,
+      "section_year": 2026,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37150791785-2",
+      "territory": "Castilla y León",
+      "run_id": 37150791785,
+      "section_year": 2026,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155873741-1",
+      "territory": "Castilla-La Mancha",
+      "run_id": 37155873741,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155881823-1",
+      "territory": "Cataluña",
+      "run_id": 37155881823,
+      "section_year": 2024,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155881823-2",
+      "territory": "Cataluña",
+      "run_id": 37155881823,
+      "section_year": 2024,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155881823-3",
+      "territory": "Cataluña",
+      "run_id": 37155881823,
+      "section_year": 2024,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155892338-1",
+      "territory": "Comunidad Valenciana",
+      "run_id": 37155892338,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155892338-2",
+      "territory": "Comunidad Valenciana",
+      "run_id": 37155892338,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155892338-3",
+      "territory": "Comunidad Valenciana",
+      "run_id": 37155892338,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37155892338-4",
+      "territory": "Comunidad Valenciana",
+      "run_id": 37155892338,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37157853562-1",
+      "territory": "Islas Baleares",
+      "run_id": 37157853562,
+      "section_year": 2023,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    },
+    {
+      "case_id": "37157960180-1",
+      "territory": "País Vasco",
+      "run_id": 37157960180,
+      "section_year": 2024,
+      "section_id": null,
+      "raw_response_sha256": null,
+      "geometry_type": null,
+      "invalidity_reason": null,
+      "treatment": "BLOCK_NO_NORMALIZATION",
+      "measured_change": null,
+      "result": "EVIDENCE_NOT_SUFFICIENT_FOR_CARTOGRAPHIC_NORMALIZATION",
+      "missing_evidence": [
+        "CUSEC de la geometría inválida",
+        "bytes OGC exactos asociados a la entidad",
+        "motivo GEOS por entidad",
+        "comparación topológica antes/después"
+      ]
+    }
+  ],
+  "historical_valid_controls": {
+    "note": "Paquetes 2025 históricos recuperados de Actions. Se usan únicamente para demostrar que la validación no altera geometrías válidas; no sustituyen las ediciones 2023/2024/2026 fallidas y no acreditan compatibilidad poblacional actual.",
+    "local_runtime": {
+      "geopandas": "1.1.2",
+      "shapely": "2.1.2",
+      "geos": "3.13.1",
+      "pyproj": "3.7.2"
+    },
+    "datasets": [
+      {
+        "territory": "Andalucía",
+        "run": 36020646219,
+        "artifact_id": 10818283996,
+        "sectioning_sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029",
+        "sections": 6029,
+        "types": {
+          "Polygon": 5957,
+          "MultiPolygon": 72
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "Castilla y León",
+        "run": 35610439734,
+        "artifact_id": 10646126607,
+        "sectioning_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+        "sections": 3506,
+        "types": {
+          "Polygon": 3388,
+          "MultiPolygon": 118
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "Castilla-La Mancha",
+        "run": 35744494489,
+        "artifact_id": 10704236949,
+        "sectioning_sha256": "2dd52babb5882407f5c76b01a69f9da583e73f96115413523ba56736778726a3",
+        "sections": 1961,
+        "types": {
+          "Polygon": 1907,
+          "MultiPolygon": 54
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "Cataluña",
+        "run": 36260268529,
+        "artifact_id": 10912460494,
+        "sectioning_sha256": "991c36b7ed4b7eb4a1b13ec083ae88c9b7bb26bb59477dca78fafcfee0225db1",
+        "sections": 5143,
+        "types": {
+          "Polygon": 5050,
+          "MultiPolygon": 93
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "Comunidad Valenciana",
+        "run": 36273981926,
+        "artifact_id": 10917405336,
+        "sectioning_sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf",
+        "sections": 3515,
+        "types": {
+          "Polygon": 3450,
+          "MultiPolygon": 65
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "Islas Baleares",
+        "run": 36529385760,
+        "artifact_id": 11015489967,
+        "sectioning_sha256": "0a18c80304985b5819bc29854d745c3cbb5ffb79a9c3723f5a31d61dc5aec8a1",
+        "sections": 674,
+        "types": {
+          "Polygon": 628,
+          "MultiPolygon": 46
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      },
+      {
+        "territory": "País Vasco",
+        "run": 35755166499,
+        "artifact_id": 10710275879,
+        "sectioning_sha256": "6d6ced6d1dee8e7798cce784639f3758f18d48b96f71c250f065d54341f59390",
+        "sections": 1707,
+        "types": {
+          "Polygon": 1659,
+          "MultiPolygon": 48
+        },
+        "population_section_set_equal": false,
+        "edition": 2025,
+        "crs": "EPSG:4326",
+        "null_geometries": 0,
+        "empty_geometries": 0,
+        "invalid_geometries": 0,
+        "section_ids_unique": true,
+        "geometry_hashes_unchanged_by_validation": true
+      }
+    ]
+  },
+  "decision": {
+    "normalize_now": false,
+    "reason": "Los runs preservan el conteo de inválidas pero no CUSEC, bytes de seccionado, tipo ni motivo exacto. Cualquier reparación cartográfica ahora requeriría una decisión no demostrable.",
+    "follow_up_after_merge": "Una nueva adquisición expresamente autorizada podrá conservar respuestas OGC exactas y emitir diagnóstico por entidad; esta evidencia permitirá decidir si existe una normalización genérica justificable."
+  }
+}
