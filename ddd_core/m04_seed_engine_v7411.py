@@ -92,7 +92,7 @@ def connected(nodes, adj):
     return len(seen) == len(nodes)
 
 
-def postprocess(params_path):
+def postprocess(params_path, additional_protected_nodes=None):
     cfg = load_params_yaml(params_path)
     s4 = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
     s2 = module_cfg(cfg, "modulo_02_construir_adyacencias", "step2_export_edges")
@@ -134,6 +134,11 @@ def postprocess(params_path):
         for x in (b.get("u"), b.get("v")):
             if x is not None:
                 bridge_nodes.add(str(x))
+    bridge_nodes.update(
+        str(node)
+        for node in (additional_protected_nodes or ())
+        if node is not None
+    )
 
     def dnodes(d):
         return set(g.loc[g[did] == d, idf].astype(str))

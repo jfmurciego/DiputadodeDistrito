@@ -18,20 +18,20 @@ assert spec and spec.loader
 spec.loader.exec_module(m05)
 
 
-def frame(populations):
+def frame(populations, provinces=("01", "01")):
     return pd.DataFrame(
         [
             {
                 "CUSEC_KEY": "a",
                 "district_id": 1,
-                "CPRO": "01",
+                "CPRO": provinces[0],
                 "ddd_unit_id": "u1",
                 "ddd_closed_urban": False,
             },
             {
                 "CUSEC_KEY": "b",
                 "district_id": 2,
-                "CPRO": "01",
+                "CPRO": provinces[1],
                 "ddd_unit_id": "u2",
                 "ddd_closed_urban": False,
             },
@@ -99,7 +99,7 @@ class AutoPopulationRepairActivationTests(unittest.TestCase):
             limits = repair_mock.call_args.kwargs["limits"]
             self.assertEqual(limits.max_depth, 3)
             self.assertEqual(limits.max_transfer_set, 2)
-            self.assertEqual(limits.max_candidates, 5000)
+            self.assertEqual(limits.max_candidates, 20000)
             self.assertEqual(limits.max_seconds, 5.0)
             saved = json.loads(report.read_text(encoding="utf-8"))["population_repair"]
             self.assertEqual(saved["activation"], "AUTO_HARD_VIOLATIONS")
@@ -139,6 +139,82 @@ class AutoPopulationRepairActivationTests(unittest.TestCase):
             self.assertFalse(result["enabled"])
             self.assertEqual(result["activation"], "NOT_NEEDED")
             self.assertEqual(result["result"], "DISABLED")
+
+    def test_governed_floor_exemption_does_not_auto_activate_repair(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph, report, out = self.make_files(root, [40, 100])
+            cfg = {
+                "validation": {
+                    "population_floor_exempt_partitions": ["EX"],
+                }
+            }
+            with (
+                patch.object(
+                    m05,
+                    "load_geo",
+                    return_value=frame([40, 100], provinces=("EX", "01")),
+                ),
+                patch.object(m05, "hard_limits", return_value=(100, 50, 150, 10)),
+                patch.object(m05, "repair") as repair_mock,
+            ):
+                result = m05._apply_population_repair(
+                    cfg, self.s5(graph), out, report
+                )
+
+            repair_mock.assert_not_called()
+            self.assertFalse(result["enabled"])
+            self.assertEqual(result["activation"], "NOT_NEEDED")
+            self.assertEqual(result["hard_population_violations_before"], 0)
+            self.assertEqual(
+                result["population_floor_exempt_partitions"], ["EX"]
+            )
+            self.assertEqual(result["district_floor_overrides"], {"1": 0.0})
+            saved = json.loads(
+                report.read_text(encoding="utf-8")
+            )["population_repair"]
+            self.assertEqual(saved["district_floor_overrides"], {"1": 0.0})
+
+    def test_floor_exemption_keeps_ceiling_hard_and_is_passed_to_repair(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            graph, report, out = self.make_files(root, [160, 100])
+            cfg = {
+                "validation": {
+                    "population_floor_exempt_partitions": ["EX"],
+                }
+            }
+            repaired = {
+                "result": "IMPROVED_NOT_REPAIRED",
+                "assignments": {"u1": 1, "u2": 2},
+                "hard_limits_met": False,
+                "final_hard_population_violations": 1,
+            }
+            with (
+                patch.object(
+                    m05,
+                    "load_geo",
+                    return_value=frame([160, 100], provinces=("EX", "01")),
+                ),
+                patch.object(m05, "write_geo"),
+                patch.object(m05, "hard_limits", return_value=(100, 50, 150, 10)),
+                patch.object(m05, "repair", return_value=repaired) as repair_mock,
+                patch.object(m05, "_refresh_population_report"),
+            ):
+                result = m05._apply_population_repair(
+                    cfg, self.s5(graph), out, report
+                )
+
+            self.assertTrue(result["enabled"])
+            self.assertEqual(result["activation"], "AUTO_HARD_VIOLATIONS")
+            self.assertEqual(result["hard_population_violations_before"], 1)
+            floors = repair_mock.call_args.kwargs["district_floors"]
+            self.assertEqual(floors[1], 0.0)
+            self.assertEqual(floors[2], 50)
+            self.assertEqual(
+                result["population_floor_exempt_partitions"], ["EX"]
+            )
+            self.assertEqual(result["district_floor_overrides"], {"1": 0.0})
 
     def test_structurally_invalid_partition_does_not_auto_activate(self):
         with tempfile.TemporaryDirectory() as td:

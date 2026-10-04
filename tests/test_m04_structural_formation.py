@@ -1,0 +1,296 @@
+from __future__ import annotations
+
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+import pandas as pd
+
+from ddd_core import m04_seed_engine as engine
+
+
+class StructuralFormationTests(unittest.TestCase):
+    def test_explicit_component_gateway_preserves_unique_external_connection(self):
+        municipality={"h1","h2","h3"}
+        province_nodes=municipality | {"external"}
+        adjacency={
+            "h1":{"h2"},
+            "h2":{"h1","h3","external"},
+            "h3":{"h2"},
+            "external":{"h2"},
+        }
+        self.assertEqual(
+            engine._protected_component_gateways(
+                municipality,province_nodes,adjacency
+            ),
+            {"h2"},
+        )
+
+    def test_dependent_gateway_does_not_overprotect_connected_exterior(self):
+        municipality={"h1","h2","h3"}
+        province_nodes=municipality | {"external"}
+        adjacency={
+            "h1":{"h2"},
+            "h2":{"h1","h3","external"},
+            "h3":{"h2"},
+            "external":{"h2"},
+        }
+        self.assertEqual(
+            engine._protected_component_gateways(
+                municipality,province_nodes,adjacency,dependent_only=True
+            ),
+            set(),
+        )
+
+    def test_dependent_gateway_keeps_one_deterministic_gate_per_external_component(self):
+        municipality={"m1","m2","m3","m4"}
+        province_nodes=municipality | {"a1","a2","b1"}
+        adjacency={
+            "m1":{"m2","a1"},
+            "m2":{"m1","m3","a1","a2"},
+            "m3":{"m2","m4","b1"},
+            "m4":{"m3","b1"},
+            "a1":{"m1","m2","a2"},
+            "a2":{"m2","a1"},
+            "b1":{"m3","m4"},
+        }
+        protected=engine._protected_component_gateways(
+            municipality,province_nodes,adjacency,dependent_only=True
+        )
+        self.assertEqual(len(protected),2)
+        self.assertIn("m2",protected)
+        self.assertIn("m3",protected)
+
+    def test_la_rioja_haro_cut_keeps_brinas_gateway_from_real_run(self):
+        # Certificado mínimo extraído de M03U del run 37161772942.
+        # Al retirar Haro, Briñas (2603301001, 182 habitantes) queda como
+        # componente exterior dependiente y sólo enlaza por 2607104002.
+        haro={
+            "2607101001","2607102001","2607102002","2607103001",
+            "2607104001","2607104002","2607104003","2607104004",
+        }
+        brinas="2603301001"
+        gimileo="2606801001"
+        province_nodes=haro | {brinas,gimileo}
+        adjacency={node:set() for node in province_nodes}
+        edges=[
+            ("2607101001","2607102002"),
+            ("2607101001","2607103001"),
+            ("2607101001","2607104002"),
+            ("2607102001","2607102002"),
+            ("2607102001","2607103001"),
+            ("2607102001","2607104001"),
+            ("2607102001","2607104003"),
+            ("2607102001","2607104004"),
+            ("2607102002","2607103001"),
+            ("2607102002","2607104002"),
+            ("2607102002","2607104004"),
+            ("2607103001","2607104001"),
+            ("2607103001","2607104002"),
+            ("2607104001","2607104003"),
+            ("2607104002","2607104004"),
+            ("2607104003","2607104004"),
+            ("2607104002",brinas),
+            ("2607103001",gimileo),
+            ("2607104001",gimileo),
+        ]
+        for left,right in edges:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+
+        protected=engine._protected_component_gateways(
+            haro,province_nodes,adjacency,dependent_only=True
+        )
+        self.assertIn("2607104002",protected)
+        self.assertEqual(len(engine._components(province_nodes-haro,adjacency)),2)
+
+        weights={
+            "2607101001":685,
+            "2607102001":2103,
+            "2607102002":707,
+            "2607103001":1503,
+            "2607104001":2129,
+            "2607104002":852,
+            "2607104003":1729,
+            "2607104004":2042,
+        }
+        target=322282/33
+        floor=target*0.8
+        cap=target*1.75
+        tolerance=target*0.12
+        cores,residual,_mode,_gateways=engine.partition_oversized_municipality(
+            haro,target,floor,cap,tolerance,adjacency,weights,
+            label="real-run-cut-certificate",protected=protected,
+        )
+        self.assertTrue(cores)
+        self.assertTrue(protected <= residual)
+        self.assertIn("2607104002",residual)
+        self.assertTrue(engine.core.previous.connected(residual,adjacency))
+        self.assertTrue(all(
+            floor <= sum(weights[node] for node in core) <= cap
+            for core in cores
+        ))
+        self.assertLessEqual(sum(weights[node] for node in residual),cap)
+
+    def test_melilla_real_run_is_atomically_incompatible_before_search(self):
+        # Poblaciones M03U del run 37148646551: 44 secciones, K=25.
+        # Por cardinalidad, al menos 2*K-N = 6 distritos han de ser singleton.
+        # Sólo dos secciones alcanzan el suelo 2735.776, por lo que ni siquiera
+        # el modelo relajado (sin contigüidad ni disciplina municipal) es viable.
+        populations=[
+            1090,1939,1414,1553,2291,1199,1548,1776,2341,2407,2384,
+            1833,1247,2843,1573,2005,2364,2013,1587,1631,1859,2491,
+            2052,1950,2143,1949,1627,2617,1710,2974,1317,2063,2499,
+            1946,1842,2369,1573,2027,1370,2549,2356,1605,1195,2372,
+        ]
+        nodes={f"s{i:02d}" for i in range(len(populations))}
+        weights={node:pop for node,pop in zip(sorted(nodes),populations)}
+        ok,reason,detail=engine._atomic_population_necessary_conditions(
+            nodes,weights,k=25,floor=2735.776,cap=5984.51
+        )
+        self.assertFalse(ok)
+        self.assertEqual(reason,"INSUFFICIENT_HARD_VALID_SINGLETONS")
+        self.assertEqual(detail["nodes"],44)
+        self.assertEqual(detail["required_singletons"],6)
+        self.assertEqual(detail["hard_valid_singletons"],2)
+        self.assertEqual(detail["population"],85493)
+
+    def test_preflight_rejects_m03_geometry_universe_mismatch_explicitly(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            graph=root/"graph.json"
+            graph.write_text(
+                json.dumps({
+                    "nodes":[{"id":"a","pop":10},{"id":"b","pop":10}],
+                    "edges":[{"u":"a","v":"b"}],
+                }),
+                encoding="utf-8",
+            )
+            step={
+                "in_graph_json":str(graph),
+                "in_geojson":str(root/"geo.json"),
+                "id_field":"CUSEC_KEY",
+                "province_field":"CPRO",
+                "municipality_field":"CUMUN",
+                "k_districts":1,
+            }
+            cfg={"validation":{"expected_districts":1,"province_districts":{"01":1}}}
+            cases=(
+                pd.DataFrame([
+                    {"CUSEC_KEY":"a","CPRO":"01","CUMUN":"001"},
+                ]),
+                pd.DataFrame([
+                    {"CUSEC_KEY":"a","CPRO":"01","CUMUN":"001"},
+                    {"CUSEC_KEY":"b","CPRO":"01","CUMUN":"001"},
+                    {"CUSEC_KEY":"c","CPRO":"01","CUMUN":"001"},
+                ]),
+            )
+            for frame in cases:
+                with self.subTest(ids=sorted(frame["CUSEC_KEY"])):
+                    with patch.object(engine.core,"load_geo",return_value=frame):
+                        with self.assertRaisesRegex(
+                            SystemExit,"universo M03/geometría incoherente"
+                        ):
+                            engine._preflight_atomic_population_connectivity(cfg,step)
+
+    def test_floor_exemption_does_not_exempt_atomic_k_or_ceiling_conditions(self):
+        nodes={"a","b"}
+        weights={"a":8,"b":8}
+        ok,reason,detail=engine._atomic_population_necessary_conditions(
+            nodes,weights,k=3,floor=0,cap=10
+        )
+        self.assertFalse(ok)
+        self.assertEqual(reason,"K_EXCEEDS_ATOMIC_UNITS")
+        self.assertEqual(detail["nodes"],2)
+        self.assertEqual(detail["k"],3)
+
+        ok,reason,_=engine._atomic_population_necessary_conditions(
+            nodes,weights,k=1,floor=0,cap=10
+        )
+        self.assertFalse(ok)
+        self.assertEqual(reason,"PROVINCE_POPULATION_OUTSIDE_K_HARD_RANGE")
+
+    def test_exact_atomic_cover_detects_aggregate_feasible_but_atomic_infeasible(self):
+        # Total=12 y k=2 admiten agregadamente [10,14], pero cada sección pesa
+        # 4: los singles quedan bajo suelo y cualquier pareja supera el techo.
+        nodes={"a","b","c"}
+        weights={"a":4,"b":4,"c":4}
+        adjacency={
+            "a":{"b"},
+            "b":{"a","c"},
+            "c":{"b"},
+        }
+        groups,seen=engine._enumerate_connected_hard_groups(
+            nodes,adjacency,weights,floor=5,cap=7
+        )
+        self.assertIsNotNone(groups)
+        self.assertGreater(seen,0)
+        self.assertEqual(groups,[])
+        feasible,states=engine._exact_connected_hard_partition(
+            nodes,groups,weights,k=2,floor=5,cap=7
+        )
+        self.assertIs(feasible,False)
+        self.assertGreater(states,0)
+
+    def test_exact_cover_keeps_zero_population_nodes_at_the_ceiling(self):
+        # Un distrito puede estar exactamente en el techo y aun necesitar
+        # absorber secciones de población cero para cubrir todo su componente.
+        # Podar al alcanzar cap fabricaría una imposibilidad falsa.
+        nodes={"a","z1","z2"}
+        weights={"a":5,"z1":0,"z2":0}
+        adjacency={
+            "a":{"z1","z2"},
+            "z1":{"a"},
+            "z2":{"a"},
+        }
+        groups,_=engine._enumerate_connected_hard_groups(
+            nodes,adjacency,weights,floor=5,cap=5
+        )
+        self.assertIn(frozenset(nodes),groups)
+        feasible,states=engine._exact_connected_hard_partition(
+            nodes,groups,weights,k=1,floor=5,cap=5
+        )
+        self.assertIs(feasible,True)
+        self.assertGreater(states,0)
+
+    def test_exact_atomic_cover_accepts_connected_feasible_partition(self):
+        nodes={"a","b","c","d"}
+        weights={node:3 for node in nodes}
+        adjacency={
+            "a":{"b"},
+            "b":{"a","c"},
+            "c":{"b","d"},
+            "d":{"c"},
+        }
+        groups,_=engine._enumerate_connected_hard_groups(
+            nodes,adjacency,weights,floor=5,cap=7
+        )
+        feasible,states=engine._exact_connected_hard_partition(
+            nodes,groups,weights,k=2,floor=5,cap=7
+        )
+        self.assertIs(feasible,True)
+        self.assertGreater(states,0)
+
+    def test_exact_atomic_cover_returns_unknown_when_state_budget_exhausts(self):
+        nodes={"a","b","c","d"}
+        weights={node:3 for node in nodes}
+        adjacency={
+            "a":{"b"},
+            "b":{"a","c"},
+            "c":{"b","d"},
+            "d":{"c"},
+        }
+        groups,_=engine._enumerate_connected_hard_groups(
+            nodes,adjacency,weights,floor=5,cap=7
+        )
+        feasible,states=engine._exact_connected_hard_partition(
+            nodes,groups,weights,k=2,floor=5,cap=7,max_states=1
+        )
+        self.assertIsNone(feasible)
+        self.assertGreater(states,1)
+
+
+if __name__ == "__main__":
+    unittest.main()
