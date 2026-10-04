@@ -85,6 +85,78 @@ class DashboardPages(unittest.TestCase):
         self.assertIn("path: .ddd-publication",reusable)
         self.assertIn("include-hidden-files: true",reusable)
 
+    def test_dashboard_conserva_estado_operativo_y_anade_activacion_completa(self):
+        html=(ROOT/"dashboard/index.html").read_text(encoding="utf-8")
+        self.assertIn('data-view="operational"',html)
+        self.assertIn('data-view="activation"',html)
+        self.assertIn('id="view-operational"',html)
+        self.assertIn('id="view-activation"',html)
+        self.assertIn("Mapa de Activación",html)
+        self.assertIn("Cadena de Activación",html)
+        self.assertIn("Cuadro maestro de Activación",html)
+
+    def test_activacion_presenta_solo_su_fase(self):
+        html=(ROOT/"dashboard/index.html").read_text(encoding="utf-8")
+        activation=html.split('id="view-activation"',1)[1]
+        for forbidden in ("M04","M06","Generación territorial","Publicación opcional"):
+            self.assertNotIn(forbidden,activation)
+        for expected in (
+            "Población",
+            "Secciones / geometría",
+            "Resultados electorales",
+            "Desfase temporal relevante",
+            "Estado de Activación",
+            "Qué falta para activarlo",
+        ):
+            self.assertIn(expected,activation)
+
+    def test_activacion_tiene_seis_tarjetas_mapa_ficha_y_embudo(self):
+        js=(ROOT/"dashboard/app.js").read_text(encoding="utf-8")
+        for label in (
+            "Activadas",
+            "Activables ahora",
+            "Pendientes de fuente territorial",
+            "Pendientes de fuente electoral",
+            "Bloqueadas",
+            "Sustitución temporal acreditada",
+        ):
+            self.assertIn(label,js)
+        self.assertIn("MAP_POINTS",js)
+        for territory_id in (
+            "andalucia","aragon","principado_de_asturias","illes_balears","canarias",
+            "cantabria","castilla_y_leon","castilla_la_mancha","cataluna",
+            "comunidad_valenciana","extremadura","galicia","madrid","region_de_murcia",
+            "comunidad_foral_de_navarra","pais_vasco","la_rioja","ceuta","melilla",
+        ):
+            self.assertIn(territory_id,js)
+        for step in (
+            "Legislatura resuelta",
+            "Años resueltos",
+            "Fuente territorial",
+            "Fuente electoral",
+            "Par durable",
+        ):
+            self.assertIn(step,js)
+
+    def test_dashboard_activacion_solo_presenta_dictamen_y_par_durable(self):
+        js=(ROOT/"dashboard/app.js").read_text(encoding="utf-8")
+        self.assertIn("data.source_readiness",js)
+        self.assertIn("row.activation",js)
+        self.assertIn("row.territorial",js)
+        self.assertIn("row.electoral",js)
+        self.assertIn("row.next_steps",js)
+        self.assertNotIn("resolver_preparacion_legislatura",js)
+        self.assertNotIn("population_year_required ===",js)
+        self.assertNotIn("section_year_required ===",js)
+
+    def test_assets_fuente_y_publicados_del_dashboard_estan_sincronizados(self):
+        for name in ("index.html","app.js","styles.css"):
+            self.assertEqual(
+                (ROOT/"dashboard"/name).read_text(encoding="utf-8"),
+                (ROOT/"publicado/dashboard"/name).read_text(encoding="utf-8"),
+                name,
+            )
+
     def test_dashboard_no_expone_preflight(self):
         html=(ROOT/"dashboard/index.html").read_text(encoding="utf-8").lower()
         js=(ROOT/"dashboard/app.js").read_text(encoding="utf-8").lower()

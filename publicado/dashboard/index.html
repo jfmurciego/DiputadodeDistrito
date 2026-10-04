@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Dashboard operativo del proyecto Diputado de Distrito">
-  <title>Diputado de Distrito · estado operativo</title>
+  <title>Diputado de Distrito · estado del proyecto</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,8 +12,8 @@
     <div>
       <p class="eyebrow">Diputado de Distrito</p>
       <h1>Estado operativo del proyecto</h1>
-      <p class="subtitle">Resumen ejecutivo de la cadena automática vigente</p>
-      <p class="source">Fuente de verdad: catálogo y evidencias reproducibles del repositorio.</p>
+      <p class="subtitle">Situación nacional, fuentes vigentes y progreso reproducible</p>
+      <p class="source">Fuente de verdad: catálogo y evidencias durables del repositorio.</p>
     </div>
     <nav class="nav" aria-label="Navegación principal">
       <a href="../">Visor territorial</a>
@@ -22,59 +22,192 @@
   </header>
 
   <main class="dashboard">
-    <section class="legend" aria-label="Leyenda del semáforo">
-      <span><i class="dot green"></i> completo</span>
-      <span><i class="dot yellow"></i> parcial / pendiente</span>
-      <span><i class="dot red"></i> no incorporado / bloqueado</span>
-      <span><i class="dot gray"></i> no iniciado</span>
+    <nav class="dashboard-tabs" aria-label="Vistas del dashboard">
+      <button class="tab-button active" type="button" data-view="operational">Estado operativo</button>
+      <button class="tab-button" type="button" data-view="activation">Activación</button>
+    </nav>
+
+    <section id="view-operational" class="dashboard-view">
+      <section class="legend" aria-label="Leyenda del semáforo">
+        <span><i class="dot green"></i> completo</span>
+        <span><i class="dot yellow"></i> parcial / pendiente</span>
+        <span><i class="dot red"></i> no incorporado / bloqueado</span>
+        <span><i class="dot gray"></i> no iniciado</span>
+      </section>
+
+      <section id="kpis" class="kpis" aria-label="Indicadores principales"></section>
+
+      <section class="layout">
+        <article class="panel territory-panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Estado actual por territorio</h2>
+              <p>FT = fuentes territoriales · G = generación · FE = fuentes electorales · RE = resultados electorales</p>
+            </div>
+            <span id="snapshot" class="snapshot">—</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Territorio</th><th>FT</th><th>G</th><th>FE</th><th>RE</th><th>Estado</th></tr></thead>
+              <tbody id="territories"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <aside class="side-stack">
+          <article class="panel">
+            <div class="panel-heading"><h2>Cadena automática</h2></div>
+            <div class="pipeline">
+              <div><b>1</b><strong>Fuentes territoriales</strong><span>preparar / reutilizar</span></div>
+              <div><b>2</b><strong>Generación territorial</strong><span>M01–M06</span></div>
+              <div><b>3</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
+              <div><b>4</b><strong>Resultados electorales</strong><span>M07–M08</span></div>
+            </div>
+            <p class="rule">Cada transición exige una puerta de validación. La geometría nunca depende de resultados electorales.</p>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading"><h2>Último producto validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
+            <dl id="latest" class="metrics"></dl>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading"><h2>Bloqueos y alertas</h2></div>
+            <ul id="alerts" class="alerts"></ul>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading"><h2>Siguiente foco operativo</h2></div>
+            <ol id="next" class="next"></ol>
+          </article>
+        </aside>
+      </section>
     </section>
 
-    <section id="kpis" class="kpis" aria-label="Indicadores principales"></section>
+    <section id="view-activation" class="dashboard-view activation-view" hidden>
+      <section class="activation-titlebar">
+        <div>
+          <p class="eyebrow">Preparación de la legislatura vigente</p>
+          <h2>Activación nacional</h2>
+          <p>Qué territorios están activados, cuáles pueden activarse ya y qué fuente impide activar los demás.</p>
+        </div>
+        <div class="activation-title-actions">
+          <span id="activation-snapshot" class="snapshot">—</span>
+          <button id="activation-clear-filter" class="quiet-button" type="button" hidden>Quitar filtro</button>
+        </div>
+      </section>
 
-    <section class="layout">
-      <article class="panel territory-panel">
+      <section id="activation-kpis" class="activation-kpis" aria-label="Indicadores de Activación"></section>
+
+      <section class="activation-main-grid">
+        <article class="panel activation-map-panel">
+          <div class="panel-heading activation-map-heading">
+            <div>
+              <h2>Mapa de Activación</h2>
+              <p>Selecciona un territorio para ver sus fuentes y su siguiente acción.</p>
+            </div>
+            <div class="activation-legend" aria-label="Leyenda del mapa">
+              <span><i class="dot green"></i> activada</span>
+              <span><i class="dot blue"></i> activable</span>
+              <span><i class="dot yellow"></i> requiere acción</span>
+              <span><i class="dot red"></i> bloqueada</span>
+              <span><i class="dot gray"></i> no acreditada</span>
+            </div>
+          </div>
+          <div class="activation-map" aria-label="Mapa esquemático de Activación de España">
+            <svg class="spain-silhouette" viewBox="0 0 720 500" role="img" aria-label="Silueta esquemática de España">
+              <defs>
+                <linearGradient id="land" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#f7fafc"/>
+                  <stop offset="100%" stop-color="#e9f0f6"/>
+                </linearGradient>
+              </defs>
+              <path class="map-land" d="M128 126 L166 84 L230 72 L286 81 L332 67 L390 82 L443 76 L495 99 L566 105 L608 137 L596 179 L570 205 L552 251 L516 280 L489 329 L446 352 L411 391 L347 399 L305 382 L264 399 L220 372 L186 335 L158 304 L138 257 L112 220 L116 171 Z"/>
+              <path class="map-border-accent" d="M128 126 L166 84 L230 72 L286 81 L332 67 L390 82 L443 76 L495 99 L566 105 L608 137"/>
+              <ellipse class="map-island" cx="625" cy="305" rx="42" ry="20"/>
+              <ellipse class="map-island" cx="119" cy="444" rx="54" ry="22"/>
+              <circle class="map-city" cx="350" cy="449" r="8"/>
+              <circle class="map-city" cx="421" cy="455" r="8"/>
+              <text x="607" y="345" class="map-label">Islas Baleares</text>
+              <text x="76" y="480" class="map-label">Canarias</text>
+              <text x="330" y="480" class="map-label">Ceuta</text>
+              <text x="404" y="486" class="map-label">Melilla</text>
+            </svg>
+            <div id="activation-map-points" class="activation-map-points"></div>
+          </div>
+          <p class="map-note">Mapa esquemático. El color representa exclusivamente el estado de Activación, no generación ni publicación.</p>
+        </article>
+
+        <aside class="activation-side">
+          <article class="panel activation-detail-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">Detalle territorial</p>
+                <h2 id="activation-detail-title">Selecciona un territorio</h2>
+              </div>
+              <span id="activation-detail-badge" class="status-chip gray">—</span>
+            </div>
+            <div id="activation-detail" class="activation-detail-empty">
+              El mapa y el cuadro maestro abren aquí la situación de cada territorio.
+            </div>
+          </article>
+
+          <article class="panel activation-context">
+            <div class="context-block">
+              <span class="context-icon">◷</span>
+              <div>
+                <p>Vigencia de las fuentes</p>
+                <strong id="activation-vigency">—</strong>
+                <span id="activation-vigency-provider">—</span>
+              </div>
+            </div>
+            <div class="context-block">
+              <span class="context-icon">↻</span>
+              <div>
+                <p>Actividad reciente</p>
+                <strong id="activation-activity">—</strong>
+                <span>Sólo actividad acreditada; nunca se infiere de una acción pendiente.</span>
+              </div>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <article class="panel activation-chain-panel">
         <div class="panel-heading">
           <div>
-            <h2>Estado actual por territorio</h2>
-            <p>FT = fuentes territoriales · G = generación · FE = fuentes electorales · RE = resultados electorales</p>
+            <h2>Cadena de Activación</h2>
+            <p>El embudo termina en el par durable de fuentes. No incluye fases posteriores del proyecto.</p>
           </div>
-          <span id="snapshot" class="snapshot">—</span>
+        </div>
+        <div id="activation-chain" class="activation-chain"></div>
+      </article>
+
+      <article class="panel activation-table-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>Cuadro maestro de Activación</h2>
+            <p>Tres fuentes, vigencia, estado y bloqueo explicado para un usuario externo.</p>
+          </div>
+          <span id="activation-filter-label" class="snapshot">Todos los territorios</span>
         </div>
         <div class="table-wrap">
-          <table>
-            <thead><tr><th>Territorio</th><th>FT</th><th>G</th><th>FE</th><th>RE</th><th>Estado</th></tr></thead>
-            <tbody id="territories"></tbody>
+          <table class="activation-table">
+            <thead>
+              <tr>
+                <th>Territorio</th>
+                <th>Población</th>
+                <th>Secciones / geometría</th>
+                <th>Resultados electorales</th>
+                <th>Desfase temporal relevante</th>
+                <th>Estado de Activación</th>
+                <th>Qué falta para activarlo</th>
+              </tr>
+            </thead>
+            <tbody id="activation-territories"></tbody>
           </table>
         </div>
       </article>
-
-      <aside class="side-stack">
-        <article class="panel">
-          <div class="panel-heading"><h2>Cadena automática</h2></div>
-          <div class="pipeline">
-            <div><b>1</b><strong>Fuentes territoriales</strong><span>preparar / reutilizar</span></div>
-            <div><b>2</b><strong>Generación territorial</strong><span>M01–M06</span></div>
-            <div><b>3</b><strong>Fuentes electorales</strong><span>resolver / adquirir</span></div>
-            <div><b>4</b><strong>Resultados electorales</strong><span>M07–M08</span></div>
-          </div>
-          <p class="rule">Cada transición exige una puerta de validación. La geometría nunca depende de resultados electorales.</p>
-        </article>
-
-        <article class="panel">
-          <div class="panel-heading"><h2>Último producto validado</h2><span id="latest-badge" class="badge green-bg">—</span></div>
-          <dl id="latest" class="metrics"></dl>
-        </article>
-
-        <article class="panel">
-          <div class="panel-heading"><h2>Bloqueos y alertas</h2></div>
-          <ul id="alerts" class="alerts"></ul>
-        </article>
-
-        <article class="panel">
-          <div class="panel-heading"><h2>Siguiente foco operativo</h2></div>
-          <ol id="next" class="next"></ol>
-        </article>
-      </aside>
     </section>
   </main>
 
