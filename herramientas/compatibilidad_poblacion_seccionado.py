@@ -6,13 +6,14 @@ import io
 import json
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Callable
 
 from ddd_core.territorial_validation import parse_population_value, validate_geodataframe
 
 SCHEMA = "ddd.population-sectioning-compatibility/1.0"
 REPORT_NAME = "compatibilidad_poblacion_seccionado.json"
+GEOMETRY_EVIDENCE_SCHEMA = "ddd.geometry-normalization-evidence/1.0"
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -162,6 +163,511 @@ def _crs_audit(*, target_original: object, origin_original: object | None, cross
     }
 
 
+def _geometry_audit_context(by_role: dict[str, dict]) -> dict[str, dict]:
+    context: dict[str, dict] = {}
+    for role in ("target_sectioning", "population_sectioning_origin"):
+        row = by_role.get(role)
+        if not isinstance(row, dict):
+            continue
+        checks = row.get("content_checks") or {}
+        audit = checks.get("geometry_normalization")
+        derivation = row.get("derivation")
+        context[role] = {
+            "audit": audit if isinstance(audit, dict) else None,
+            "derivation": (
+                derivation if isinstance(derivation, dict) else None
+            ),
+        }
+    return context
+
+
+def _geometry_derivation_member_path(
+    derivation: dict,
+    *,
+    role: str,
+) -> tuple[str | None, str | None]:
+    raw = str(derivation.get("path") or "").strip()
+    if not raw:
+        return None, f"GEOMETRY_DERIVATION_PATH_MISSING: {role}"
+    path = PurePosixPath(raw)
+    if path.is_absolute() or ".." in path.parts or not path.parts:
+        return None, (
+            f"GEOMETRY_DERIVATION_PATH_INVALID: {role}: {raw}"
+        )
+    return path.as_posix(), None
+
+
+def _verified_geometry_audit_context(
+    by_role: dict[str, dict],
+    *,
+    read_member_bytes: Callable[[str], bytes],
+    required_roles: tuple[str, ...],
+) -> tuple[dict[str, dict], list[str]]:
+    """Carga la auditoría desde el JSON durable y valida su binding material."""
+    context: dict[str, dict] = {}
+    reasons: list[str] = []
+    for role in required_roles:
+        row = by_role.get(role)
+        if not isinstance(row, dict):
+            reasons.append(f"GEOMETRY_DERIVATION_ROLE_MISSING: {role}")
+            continue
+
+        checks = row.get("content_checks") or {}
+        inline_audit = checks.get("geometry_normalization")
+        derivation = row.get("derivation")
+        if not isinstance(derivation, dict):
+            reasons.append(f"GEOMETRY_DERIVATION_METADATA_MISSING: {role}")
+            continue
+
+        member, path_error = _geometry_derivation_member_path(
+            derivation,
+            role=role,
+        )
+        if path_error:
+            reasons.append(path_error)
+            continue
+
+        declared_sha = str(derivation.get("sha256") or "").lower()
+        if len(declared_sha) != 64 or any(
+            ch not in "0123456789abcdef" for ch in declared_sha
+        ):
+            reasons.append(f"GEOMETRY_DERIVATION_SHA_INVALID: {role}")
+            continue
+
+        try:
+            payload = read_member_bytes(str(member))
+        except Exception as exc:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_MISSING: {role}: {member}: {exc}"
+            )
+            continue
+
+        actual_sha = _sha256_bytes(payload)
+        if actual_sha != declared_sha:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_SHA_MISMATCH: {role}: "
+                f"{actual_sha} != {declared_sha}"
+            )
+            continue
+
+        try:
+            document = json.loads(payload.decode("utf-8"))
+        except Exception as exc:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_JSON_INVALID: {role}: {exc}"
+            )
+            continue
+        if not isinstance(document, dict):
+            reasons.append(
+                f"GEOMETRY_DERIVATION_DOCUMENT_INVALID: {role}"
+            )
+            continue
+        if document.get("schema") != GEOMETRY_EVIDENCE_SCHEMA:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_SCHEMA_INVALID: {role}: "
+                f"{document.get('schema')}"
+            )
+            continue
+
+        expected_source_id = str(derivation.get("source_id") or "")
+        expected_source_year = derivation.get("source_year")
+        expected_decision = str(derivation.get("decision") or "")
+        if str(document.get("source_id") or "") != expected_source_id:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_SOURCE_ID_MISMATCH: {role}"
+            )
+            continue
+        try:
+            document_year = int(document.get("source_year"))
+            declared_year = int(expected_source_year)
+        except Exception:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_SOURCE_YEAR_INVALID: {role}"
+            )
+            continue
+        if document_year != declared_year:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_SOURCE_YEAR_MISMATCH: {role}"
+            )
+            continue
+        if str(document.get("decision") or "") != expected_decision:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_DECISION_MISMATCH: {role}"
+            )
+            continue
+
+        derived = document.get("derived")
+        if not isinstance(derived, dict):
+            reasons.append(
+                f"GEOMETRY_DERIVATION_DERIVED_BINDING_MISSING: {role}"
+            )
+            continue
+        try:
+            derived_bytes = int(derived.get("bytes"))
+            inventory_bytes = int(row.get("bytes"))
+        except Exception:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_DERIVED_BYTES_INVALID: {role}"
+            )
+            continue
+        if (
+            str(derived.get("path") or "") != str(row.get("path") or "")
+            or str(derived.get("sha256") or "").lower()
+            != str(row.get("sha256") or "").lower()
+            or derived_bytes != inventory_bytes
+            or str(derived.get("decision") or "")
+            != str(document.get("decision") or "")
+        ):
+            reasons.append(
+                f"GEOMETRY_DERIVATION_DERIVED_BINDING_MISMATCH: {role}"
+            )
+            continue
+
+        durable_audit = document.get("normalization")
+        if not isinstance(durable_audit, dict):
+            reasons.append(
+                f"GEOMETRY_DERIVATION_AUDIT_MISSING: {role}"
+            )
+            continue
+        if not isinstance(inline_audit, dict):
+            reasons.append(
+                f"GEOMETRY_INLINE_AUDIT_MISSING: {role}"
+            )
+            continue
+        if inline_audit != durable_audit:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_AUDIT_MISMATCH: {role}"
+            )
+            continue
+
+        row_source_id = str(row.get("source_id") or "")
+        if row_source_id and expected_source_id != row_source_id:
+            reasons.append(
+                f"GEOMETRY_DERIVATION_INVENTORY_SOURCE_ID_MISMATCH: {role}"
+            )
+            continue
+        row_year = row.get("edition")
+        if row_year not in (None, ""):
+            try:
+                if int(row_year) != declared_year:
+                    reasons.append(
+                        f"GEOMETRY_DERIVATION_INVENTORY_YEAR_MISMATCH: {role}"
+                    )
+                    continue
+            except Exception:
+                reasons.append(
+                    f"GEOMETRY_DERIVATION_INVENTORY_YEAR_INVALID: {role}"
+                )
+                continue
+
+        context[role] = {
+            # El durable JSON es la fuente del audit usado por la puerta.
+            "audit": durable_audit,
+            "derivation": {
+                "path": str(member),
+                "sha256": actual_sha,
+                "source_id": expected_source_id,
+                "source_year": declared_year,
+                "decision": expected_decision,
+            },
+        }
+
+    return context, reasons
+
+
+def _geometry_evidence_bindings(context: dict[str, dict] | None) -> dict:
+    result: dict[str, dict] = {}
+    for role, row in sorted((context or {}).items()):
+        audit = row.get("audit") if isinstance(row, dict) else None
+        derivation = (
+            row.get("derivation") if isinstance(row, dict) else None
+        )
+        result[role] = {
+            "derivation": {
+                key: derivation.get(key)
+                for key in (
+                    "path",
+                    "sha256",
+                    "source_id",
+                    "source_year",
+                    "decision",
+                )
+            } if isinstance(derivation, dict) else None,
+            "normalization_safety_decision": (
+                ((audit or {}).get("normalization_safety") or {}).get(
+                    "decision"
+                )
+                if isinstance(audit, dict) else None
+            ),
+            "source_admissibility_decision": (
+                ((audit or {}).get("source_admissibility") or {}).get(
+                    "decision"
+                )
+                if isinstance(audit, dict) else None
+            ),
+        }
+    return result
+
+
+def _pair_key(left: str, right: str) -> tuple[str, str]:
+    return tuple(sorted((str(left), str(right))))
+
+
+def _origin_overlap_pairs(audit: dict) -> list[dict]:
+    source = (audit.get("source_admissibility") or {})
+    rows = source.get("original_overlap_pairs") or []
+    result = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        left = str(row.get("section_a") or "")
+        right = str(row.get("section_b") or "")
+        if left and right and left != right:
+            result.append({
+                "section_a": left,
+                "section_b": right,
+                "relation_geometry_sha256": row.get(
+                    "relation_geometry_sha256"
+                ),
+            })
+    return sorted(
+        result,
+        key=lambda row: (row["section_a"], row["section_b"]),
+    )
+
+
+def _target_admissible_overlap_pairs(audit: dict) -> dict[tuple[str, str], dict]:
+    rows = (
+        (audit.get("source_admissibility") or {})
+        .get("original_overlap_pairs")
+        or []
+    )
+    result: dict[tuple[str, str], dict] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        left = str(row.get("section_a") or "")
+        right = str(row.get("section_b") or "")
+        if left and right and left != right:
+            result[_pair_key(left, right)] = row
+    return result
+
+
+def _assess_origin_geometry_admissibility(
+    *,
+    origin: dict[str, Any],
+    target: dict[str, Any],
+    correspondences: list[dict],
+    geometry_audits: dict[str, dict] | None,
+) -> dict:
+    bindings = _geometry_evidence_bindings(geometry_audits)
+    target_ctx = (geometry_audits or {}).get("target_sectioning") or {}
+    origin_ctx = (
+        (geometry_audits or {}).get("population_sectioning_origin")
+        or {}
+    )
+    target_audit = target_ctx.get("audit")
+    origin_audit = origin_ctx.get("audit")
+    target_derivation = target_ctx.get("derivation")
+    origin_derivation = origin_ctx.get("derivation")
+    blockers: list[dict] = []
+
+    if not isinstance(target_audit, dict):
+        blockers.append({"reason": "TARGET_GEOMETRY_AUDIT_MISSING"})
+    if not isinstance(origin_audit, dict):
+        blockers.append({"reason": "ORIGIN_GEOMETRY_AUDIT_MISSING"})
+    if (
+        not isinstance(target_derivation, dict)
+        or target_derivation.get("decision") != "READY"
+    ):
+        blockers.append({
+            "reason": "TARGET_GEOMETRY_DERIVATION_NOT_READY",
+            "decision": (
+                target_derivation.get("decision")
+                if isinstance(target_derivation, dict) else None
+            ),
+        })
+    if (
+        not isinstance(origin_derivation, dict)
+        or origin_derivation.get("decision") != "READY"
+    ):
+        blockers.append({
+            "reason": "ORIGIN_GEOMETRY_DERIVATION_NOT_READY",
+            "decision": (
+                origin_derivation.get("decision")
+                if isinstance(origin_derivation, dict) else None
+            ),
+        })
+
+    if isinstance(target_audit, dict):
+        if (
+            (target_audit.get("normalization_safety") or {}).get(
+                "decision"
+            )
+            != "READY"
+        ):
+            blockers.append({"reason": "TARGET_NORMALIZATION_NOT_SAFE"})
+        if (
+            (target_audit.get("source_admissibility") or {}).get(
+                "decision"
+            )
+            != "READY"
+        ):
+            blockers.append({
+                "reason": "TARGET_SOURCE_NOT_ADMISSIBLE",
+                "decision": (
+                    (target_audit.get("source_admissibility") or {})
+                    .get("decision")
+                ),
+            })
+
+    if isinstance(origin_audit, dict):
+        if (
+            (origin_audit.get("normalization_safety") or {}).get(
+                "decision"
+            )
+            != "READY"
+        ):
+            blockers.append({"reason": "ORIGIN_NORMALIZATION_NOT_SAFE"})
+        if (
+            (origin_audit.get("source_admissibility") or {}).get(
+                "decision"
+            )
+            != "DEFERRED_TO_CONSUMER_GATE"
+        ):
+            blockers.append({
+                "reason": "ORIGIN_SOURCE_NOT_DEFERRED_TO_THIS_GATE",
+                "decision": (
+                    (origin_audit.get("source_admissibility") or {})
+                    .get("decision")
+                ),
+            })
+
+    if blockers:
+        return {
+            "decision": "BLOCKED",
+            "consumer": "population_sectioning_compatibility",
+            "evidence_bindings": bindings,
+            "original_overlap_pair_count": None,
+            "pair_assessments": [],
+            "blockers": blockers,
+        }
+
+    mapping: dict[str, str] = {}
+    for row in correspondences:
+        sources = row.get("source_keys") or []
+        targets = row.get("target_keys") or []
+        if (
+            len(sources) == 1
+            and len(targets) == 1
+            and row.get("kind") in {
+                "ONE_TO_ONE",
+                "ONE_TO_ONE_CODE_CHANGE",
+            }
+            and row.get("evidence")
+            == "geometric_equality_after_crs_normalization"
+        ):
+            mapping[str(sources[0])] = str(targets[0])
+
+    origin_pairs = _origin_overlap_pairs(origin_audit)
+    target_pairs = _target_admissible_overlap_pairs(target_audit)
+    assessments: list[dict] = []
+    for row in origin_pairs:
+        source_a = row["section_a"]
+        source_b = row["section_b"]
+        target_a = mapping.get(source_a)
+        target_b = mapping.get(source_b)
+        assessment = {
+            "source_a": source_a,
+            "source_b": source_b,
+            "target_a": target_a,
+            "target_b": target_b,
+            "origin_relation_geometry_sha256": row.get(
+                "relation_geometry_sha256"
+            ),
+            "admissible": False,
+        }
+        if not target_a or not target_b:
+            assessment["reason"] = "OVERLAP_SECTION_WITHOUT_EXACT_ONE_TO_ONE_MAPPING"
+            blockers.append(dict(assessment))
+            assessments.append(assessment)
+            continue
+        if target_a == target_b:
+            assessment["reason"] = "OVERLAP_PAIR_COLLAPSES_TO_ONE_TARGET"
+            blockers.append(dict(assessment))
+            assessments.append(assessment)
+            continue
+        if (
+            source_a not in origin
+            or source_b not in origin
+            or target_a not in target
+            or target_b not in target
+        ):
+            assessment["reason"] = "OVERLAP_PAIR_GEOMETRY_MISSING"
+            blockers.append(dict(assessment))
+            assessments.append(assessment)
+            continue
+        try:
+            source_exact = (
+                origin[source_a].equals(target[target_a])
+                and origin[source_b].equals(target[target_b])
+            )
+            origin_overlap = origin[source_a].intersection(
+                origin[source_b]
+            )
+            target_overlap = target[target_a].intersection(
+                target[target_b]
+            )
+            relation_equal = bool(origin_overlap.equals(target_overlap))
+        except Exception as exc:
+            assessment["reason"] = (
+                f"PAIR_RELATION_RECOMPUTATION_FAILED: "
+                f"{type(exc).__name__}: {exc}"
+            )
+            blockers.append(dict(assessment))
+            assessments.append(assessment)
+            continue
+
+        target_pair = target_pairs.get(
+            _pair_key(target_a, target_b)
+        )
+        target_admissible = bool(
+            isinstance(target_pair, dict)
+            and target_pair.get("admissible") is True
+        )
+        assessment.update({
+            "source_geometries_equal_destinations": bool(source_exact),
+            "overlap_relation_equal_after_mapping": relation_equal,
+            "target_pair_admissible": target_admissible,
+            "target_pair_evidence": target_pair,
+        })
+        admissible = bool(
+            source_exact and relation_equal and target_admissible
+        )
+        assessment["admissible"] = admissible
+        if not admissible:
+            assessment["reason"] = (
+                "ORIGIN_DEFECT_NOT_PROVEN_NEUTRAL_FOR_POPULATION_MAPPING"
+            )
+            blockers.append(dict(assessment))
+        assessments.append(assessment)
+
+    return {
+        "decision": "READY" if not blockers else "BLOCKED",
+        "consumer": "population_sectioning_compatibility",
+        "evidence_bindings": bindings,
+        "original_overlap_pair_count": len(origin_pairs),
+        "pair_assessments": assessments,
+        "blockers": blockers,
+        "policy": (
+            "Every original origin overlap must involve sections with exact "
+            "one-to-one geometric destinations; the pair relation must be "
+            "identical after mapping, and the corresponding target pair must "
+            "already be admissible for its declared territorial consumer."
+        ),
+    }
+
+
 def reconcile_population_sectioning(
     *,
     territory_id: str,
@@ -173,6 +679,7 @@ def reconcile_population_sectioning(
     origin_geometry_rows: list[tuple[str, Any]] | None,
     input_identities: dict | None = None,
     crs_audit: dict | None = None,
+    geometry_audits: dict[str, dict] | None = None,
 ) -> dict:
     populations, duplicate_population, missing_population, invalid_population, negative_population = _dedupe_population(population_rows)
     target, duplicate_target, invalid_target = _dedupe_geometry(target_geometry_rows)
@@ -329,6 +836,37 @@ def reconcile_population_sectioning(
         if sorted(set(origin) - mapped_one_source) or sorted(set(target) - mapped_one_target):
             causes.append("UNACCREDITED_SECTIONING_CHANGE")
 
+    if population_year != section_year and geometry_audits is not None:
+        geometry_admissibility = _assess_origin_geometry_admissibility(
+            origin=origin,
+            target=target,
+            correspondences=correspondences,
+            geometry_audits=geometry_audits,
+        )
+        if geometry_admissibility.get("decision") != "READY":
+            causes.append("ORIGIN_GEOMETRY_DEFECT_NOT_ADMISSIBLE")
+    elif population_year != section_year:
+        geometry_admissibility = {
+            "decision": "NOT_EVALUATED",
+            "consumer": "population_sectioning_compatibility",
+            "evidence_bindings": {},
+            "pair_assessments": [],
+            "blockers": [
+                {"reason": "GEOMETRY_AUDIT_CONTEXT_NOT_SUPPLIED"}
+            ],
+        }
+        causes.append("GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING")
+    else:
+        geometry_admissibility = {
+            "decision": "NOT_APPLICABLE",
+            "consumer": "population_sectioning_compatibility",
+            "evidence_bindings": _geometry_evidence_bindings(
+                geometry_audits
+            ),
+            "pair_assessments": [],
+            "blockers": [],
+        }
+
     causes = sorted(set(causes))
     canonical = {
         "territory_id": str(territory_id),
@@ -337,6 +875,7 @@ def reconcile_population_sectioning(
         "section_year": int(section_year),
         "inputs": input_identities or {},
         "crs": crs_audit or {},
+        "geometry_admissibility": geometry_admissibility,
         "correspondences": correspondences,
         "geometric_changes": geometric_changes,
         "duplicates": {
@@ -606,6 +1145,51 @@ def validate_report_bindings(
         reasons.append(str(exc))
         return reasons
 
+    if int(population_year) != int(section_year):
+        verified_geometry_context, geometry_evidence_reasons = (
+            _verified_geometry_audit_context(
+                by_role,
+                read_member_bytes=read_member_bytes,
+                required_roles=(
+                    "target_sectioning",
+                    "population_sectioning_origin",
+                ),
+            )
+        )
+        reasons.extend(geometry_evidence_reasons)
+    else:
+        verified_geometry_context = _geometry_audit_context(by_role)
+
+    geometry_admissibility = report.get("geometry_admissibility")
+    if geometry_admissibility is None:
+        # Compatibilidad hacia atrás sólo para pares de la misma edición:
+        # no existe seccionado de origen cuyo defecto deba acreditarse.
+        if int(population_year) != int(section_year):
+            reasons.append(
+                "GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING: "
+                "paquete cross-year sin acreditación geométrica del origen"
+            )
+    else:
+        if (
+            int(population_year) != int(section_year)
+            and geometry_admissibility.get("decision") != "READY"
+        ):
+            reasons.append(
+                "GEOMETRY_ADMISSIBILITY_NOT_READY: "
+                f"{geometry_admissibility.get('decision')}"
+            )
+        declared_geometry_bindings = (
+            geometry_admissibility.get("evidence_bindings")
+        )
+        expected_geometry_bindings = _geometry_evidence_bindings(
+            verified_geometry_context
+        )
+        if declared_geometry_bindings != expected_geometry_bindings:
+            reasons.append(
+                "GEOMETRY_ADMISSIBILITY_BINDING_MISMATCH: "
+                "el informe no está ligado a la evidencia geométrica del inventario"
+            )
+
     inputs = report.get("inputs")
     if not isinstance(inputs, dict):
         reasons.append("INPUT_BINDING_INVALID: informe sin inputs")
@@ -763,6 +1347,27 @@ def build_materialized_report(
             "sha256": _sha256_bytes(payload),
         }
 
+    if population_year != section_year:
+        geometry_audits, geometry_reasons = (
+            _verified_geometry_audit_context(
+                by_role,
+                read_member_bytes=lambda member: (
+                    evidence_dir / member
+                ).read_bytes(),
+                required_roles=(
+                    "target_sectioning",
+                    "population_sectioning_origin",
+                ),
+            )
+        )
+        if geometry_reasons:
+            raise ValueError(
+                "GEOMETRY_DERIVATION_INVALID: "
+                + "; ".join(geometry_reasons)
+            )
+    else:
+        geometry_audits = _geometry_audit_context(by_role)
+
     report = reconcile_population_sectioning(
         territory_id=territory_id,
         edition=edition,
@@ -773,6 +1378,7 @@ def build_materialized_report(
         origin_geometry_rows=origin_rows,
         input_identities=identities,
         crs_audit=crs,
+        geometry_audits=geometry_audits,
     )
     reasons = validate_report_bindings(
         report=report,

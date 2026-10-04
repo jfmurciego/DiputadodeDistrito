@@ -68,7 +68,70 @@ def reconcile(population_rows, target_rows, origin_rows=None, *, population_year
                 "origin_reprojected": False,
             },
         },
+        geometry_audits=(
+            geometry_audits()
+            if origin_rows is not None
+            else None
+        ),
     )
+
+
+def geometry_audits(
+    *,
+    origin_pairs: list[tuple[str, str]] | None = None,
+    target_pairs: list[tuple[str, str]] | None = None,
+) -> dict:
+    origin_pairs = origin_pairs or []
+    target_pairs = target_pairs or []
+    return {
+        "target_sectioning": {
+            "derivation": {
+                "path": "geometry_normalization/target.json",
+                "sha256": "d" * 64,
+                "source_id": "target",
+                "source_year": 2025,
+                "decision": "READY",
+            },
+            "audit": {
+                "normalization_safety": {"decision": "READY"},
+                "source_admissibility": {
+                    "decision": "READY",
+                    "original_overlap_pairs": [
+                        {
+                            "section_a": left,
+                            "section_b": right,
+                            "admissible": True,
+                            "measurement_crs": "EPSG:3035",
+                        }
+                        for left, right in target_pairs
+                    ],
+                },
+            },
+        },
+        "population_sectioning_origin": {
+            "derivation": {
+                "path": "geometry_normalization/origin.json",
+                "sha256": "e" * 64,
+                "source_id": "origin",
+                "source_year": 2024,
+                "decision": "READY",
+            },
+            "audit": {
+                "normalization_safety": {"decision": "READY"},
+                "source_admissibility": {
+                    "decision": "DEFERRED_TO_CONSUMER_GATE",
+                    "original_overlap_pairs": [
+                        {
+                            "section_a": left,
+                            "section_b": right,
+                            "relation_geometry_sha256": "f" * 64,
+                        }
+                        for left, right in origin_pairs
+                    ],
+                },
+            },
+        },
+    }
 
 
 class PopulationSectioningCompatibilityTests(unittest.TestCase):
@@ -111,6 +174,7 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
             origin_geometry_rows=origin_rows,
             input_identities={},
             crs_audit=crs,
+            geometry_audits=geometry_audits(),
         )
         self.assertEqual(report["decision"], "READY")
         self.assertEqual(report["crs"]["target"]["original"], "EPSG:3857")
@@ -146,6 +210,7 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
             origin_geometry_rows=origin_rows,
             input_identities={},
             crs_audit=crs,
+            geometry_audits=geometry_audits(),
         )
         self.assertEqual(report["decision"], "BLOCKED")
         self.assertIn("SAME_CODE_BOUNDARY_CHANGED", report["causes"])
@@ -175,6 +240,30 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
                 origin_id_field=None,
                 cross_year=False,
             )
+
+    def test_cross_year_without_geometry_evidence_fails_closed(self):
+        geom = box(0, 0, 1, 1)
+        report = reconcile_population_sectioning(
+            territory_id="demo",
+            edition="2025",
+            population_year=2024,
+            section_year=2025,
+            population_rows=[("0100101001", 100)],
+            target_geometry_rows=[("0100101001", geom)],
+            origin_geometry_rows=[("0100101001", geom)],
+            input_identities={},
+            crs_audit={},
+            geometry_audits=None,
+        )
+        self.assertEqual(report["decision"], "BLOCKED")
+        self.assertIn(
+            "GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING",
+            report["causes"],
+        )
+        self.assertEqual(
+            report["geometry_admissibility"]["decision"],
+            "NOT_EVALUATED",
+        )
 
     def test_same_code_with_changed_boundaries_is_blocked(self):
         report = reconcile(
@@ -226,6 +315,83 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
         )
         self.assertIn("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE", report["causes"])
         self.assertTrue(any(x["kind"] == "FUSION" for x in report["correspondences"]))
+
+    def test_origin_overlap_requires_bound_target_admissibility(self):
+        origin_a = box(0, 0, 2, 2)
+        origin_b = box(1.5, 0, 3.5, 2)
+        target_a = box(0, 0, 2, 2)
+        target_b = box(1.5, 0, 3.5, 2)
+        report = reconcile_population_sectioning(
+            territory_id="demo",
+            edition="2025",
+            population_year=2024,
+            section_year=2025,
+            population_rows=[
+                ("0100101001", 40),
+                ("0100101002", 60),
+            ],
+            target_geometry_rows=[
+                ("0100102001", target_a),
+                ("0100102002", target_b),
+            ],
+            origin_geometry_rows=[
+                ("0100101001", origin_a),
+                ("0100101002", origin_b),
+            ],
+            input_identities={},
+            crs_audit={},
+            geometry_audits=geometry_audits(
+                origin_pairs=[("0100101001", "0100101002")],
+                target_pairs=[],
+            ),
+        )
+        self.assertEqual(report["decision"], "BLOCKED")
+        self.assertIn(
+            "ORIGIN_GEOMETRY_DEFECT_NOT_ADMISSIBLE",
+            report["causes"],
+        )
+        assessment = report["geometry_admissibility"]
+        self.assertEqual(assessment["decision"], "BLOCKED")
+        self.assertEqual(assessment["original_overlap_pair_count"], 1)
+        self.assertFalse(
+            assessment["pair_assessments"][0]["target_pair_admissible"]
+        )
+
+    def test_origin_overlap_is_admissible_only_when_exact_mapping_binds_to_admissible_target_pair(self):
+        origin_a = box(0, 0, 2, 2)
+        origin_b = box(1.5, 0, 3.5, 2)
+        report = reconcile_population_sectioning(
+            territory_id="demo",
+            edition="2025",
+            population_year=2024,
+            section_year=2025,
+            population_rows=[
+                ("0100101001", 40),
+                ("0100101002", 60),
+            ],
+            target_geometry_rows=[
+                ("0100102001", origin_a),
+                ("0100102002", origin_b),
+            ],
+            origin_geometry_rows=[
+                ("0100101001", origin_a),
+                ("0100101002", origin_b),
+            ],
+            input_identities={},
+            crs_audit={},
+            geometry_audits=geometry_audits(
+                origin_pairs=[("0100101001", "0100101002")],
+                target_pairs=[("0100102001", "0100102002")],
+            ),
+        )
+        self.assertEqual(report["decision"], "READY")
+        assessment = report["geometry_admissibility"]
+        self.assertEqual(assessment["decision"], "READY")
+        pair = assessment["pair_assessments"][0]
+        self.assertTrue(pair["source_geometries_equal_destinations"])
+        self.assertTrue(pair["overlap_relation_equal_after_mapping"])
+        self.assertTrue(pair["target_pair_admissible"])
+        self.assertTrue(pair["admissible"])
 
     def test_live_geometric_duplicate_is_rejected_before_deduplication(self):
         source = {

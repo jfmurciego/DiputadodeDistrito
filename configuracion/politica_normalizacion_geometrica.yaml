@@ -1,5 +1,5 @@
 schema: ddd.geometry-normalization-policy/1.0
-version: 1.0.0
+version: 1.1.0
 scope:
   geometry_family: polygonal_census_sections
   source_roles:
@@ -11,12 +11,27 @@ acceptance:
   exact_properties: true
   exact_source_boundary_set: true
   require_independent_repair_consensus: true
+  require_pairwise_overlap_preservation: true
+  require_pairwise_contact_preservation: true
+  require_evidence_when_raw_baseline_is_not_evaluable: true
+  preexisting_source_overlap_is_normalization_failure: false
   allow_non_polygonal_components: false
   allow_section_drop: false
   allow_boundary_bridges: false
   allow_coordinate_snapping: false
-  allow_overlap_after_normalization: false
   numeric_acceptance_tolerance: null
+source_admissibility:
+  target_sectioning:
+    consumer: modulo_02_construir_adyacencias
+    use_existing_declared_consumer_overlap_rule: true
+    measure_in_effective_consumer_crs: true
+    require_pairwise_assessment: true
+  population_sectioning_origin:
+    consumer: population_sectioning_compatibility
+    decision: deferred_to_mandatory_consumer_gate
+    required_evidence: compatibilidad_poblacion_seccionado.json geometry_admissibility decision READY
+    require_exact_one_to_one_destination_for_original_defects: true
+    require_admissible_target_relation_for_original_defects: true
 allowed_methods:
   - DEDUPLICATE_EXACT_MULTIPOLYGON_COMPONENTS
   - DEDUPLICATE_EXACT_INTERIOR_RINGS
@@ -29,6 +44,7 @@ measurement:
   length_unit: metre
   area_unit: square_metre
   acceptance_uses_metric_thresholds: false
+  source_admissibility_may_use_existing_consumer_thresholds: true
 limitations:
   global_gap_check_requires_authoritative_territory_mask: true
   invalid_polygon_area_is_not_used_as_equivalence_evidence: true

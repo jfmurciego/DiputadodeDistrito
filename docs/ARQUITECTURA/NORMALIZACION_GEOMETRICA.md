@@ -29,25 +29,49 @@ No se permiten snapping, puentes, relleno de fronteras, eliminación de seccione
 
 ## Tolerancias y unidades
 
-La tolerancia semántica de aceptación es **nula**: `numeric_acceptance_tolerance: null`. No se ajusta ningún umbral para los incidentes observados.
+La tolerancia semántica de aceptación de la **normalización** es **nula**: `numeric_acceptance_tolerance: null`. No se ajusta ningún umbral para los incidentes observados. Cuando el consumidor territorial ya declara una tolerancia de precisión para su propia semántica de adyacencia, esa regla puede reutilizarse exclusivamente en el control separado de admisibilidad de fuente y se registra como tal.
 
 Las magnitudes métricas de diagnóstico se calculan en **ETRS89 / LAEA Europe (EPSG:3035)**, con metros y metros cuadrados. Esas magnitudes documentan el cambio; no sustituyen las pruebas topológicas exactas ni actúan como umbrales de aprobación.
 
 El área de una geometría inválida no se usa como prueba de equivalencia porque su interpretación puede no ser fiable. Para auto-intersecciones se exige evidencia adicional independiente: consenso entre algoritmos válidos y conservación exacta de frontera.
 
+## Dos controles distintos
+
+La puerta común separa dos decisiones que no deben volver a confundirse.
+
+### 1. Seguridad de la normalización
+
+Responde únicamente a si la transformación conserva el producto fuente: identidad, atributos, cobertura declarada y topología. Los solapes y contactos se comparan **por pareja de secciones** antes/después mediante geometría exacta. Se clasifican solapes nuevos, aumentados, reducidos o desplazados y contactos añadidos, retirados o desplazados.
+
+Un solape preexistente que permanece exactamente igual no es, por sí solo, un fallo de normalización. Tampoco queda automáticamente aceptado como defecto de fuente: pasa al segundo control.
+
+Si una operación sobre el raw inválido no permite obtener un baseline fiable, el cálculo se registra como `PAIR_BASELINE_NOT_EVALUABLE`. Nunca se sustituye por cero. Sólo puede cerrarse con evidencia alternativa ya exigida por la política —prueba exacta de conjunto o consenso independiente de reparación con frontera fuente exacta—; en ausencia de esa evidencia la normalización queda bloqueada.
+
+### 2. Admisibilidad del defecto de fuente
+
+Responde a si un defecto que ya estaba en la fuente es compatible con el **consumidor territorial declarado**.
+
+- Para `target_sectioning`, los solapes preexistentes se contrastan pareja por pareja con el contrato vigente de `modulo_02_construir_adyacencias`. Si el predicado es `contact`, la admisibilidad del defecto de precisión reutiliza exclusivamente el `max_precision_overlap_area_m2` ya declarado y lo mide en el `working_crs` efectivo del consumidor. Separadamente se reproduce el predicado completo de M02 —incluida `min_shared_border_m`— y se registra si la pareja produciría una arista (`GEOMETRIC_EDGE`) o no (`NO_EDGE_UNDER_DECLARED_CONSUMER`). Un solape submétrico puede por tanto ser admisible como defecto de precisión sin inventar una adyacencia. No se crea ni ajusta ninguna tolerancia en esta capa y el CRS diagnóstico global no se confunde con el CRS del consumidor.
+- Para `population_sectioning_origin`, la geometría se consume conjuntamente con población y seccionado objetivo. La admisibilidad queda `DEFERRED_TO_CONSUMER_GATE`, pero el `READY` general de correspondencia no basta: `geometry_admissibility` debe ser `READY`. Cada pareja con defecto original debe quedar ligada a destinos geométricamente idénticos uno-a-uno, conservar exactamente la relación espacial tras el mapeo y corresponder a una pareja del seccionado objetivo ya admisible para su consumidor territorial. La procedencia INE o la mera ausencia de cambios no sustituyen esa evidencia.
+
+El `decision` global permite materializar sólo cuando la normalización es segura y el segundo control permite staging. La ausencia de `declared_use` es fail-closed: puede existir `normalization_safety=READY`, pero `source_admissibility=NOT_EVALUATED` no produce `READY` global. Un `DEFERRED_TO_CONSUMER_GATE` no certifica la fuente: habilita únicamente llegar a la puerta obligatoria que debe emitir `geometry_admissibility=READY` o bloquearla.
+
 ## Validaciones de conjunto
 
-La decisión común comprueba:
+La evidencia comprueba:
 
 - identidad y número de secciones;
 - atributos no geométricos y cobertura provincial;
-- población, si está embebida como atributo; cuando población y geometría son fuentes separadas, la compatibilidad sigue en la puerta territorial existente;
+- población, si está embebida como atributo;
 - geometrías nulas o vacías y tipos resultantes;
 - validez del derivado;
-- solapes de área entre secciones;
-- contactos de las secciones modificadas con sus vecinas;
+- solapes antes/después por pareja, con huella y área métrica diagnóstica;
+- contactos antes/después por pareja, con huella y longitud métrica diagnóstica;
+- limitaciones de baseline y evidencia alternativa, cuando exista;
 - número de componentes;
 - identidad tras escritura/lectura del Shapefile y equivalencia de CRS.
+
+Las magnitudes métricas de la normalización siguen sin ser umbrales de aceptación. Sólo la admisibilidad de fuente puede reutilizar reglas ya existentes del consumidor territorial. El área de solape se usa únicamente contra el techo de precisión ya declarado; la frontera compartida se registra para evaluar por separado el efecto sobre la adyacencia. Procedencia, CRS, área, frontera compartida y efecto M02 quedan auditados por pareja.
 
 ### Huecos
 
@@ -69,6 +93,8 @@ Cada derivación genera `.ddd-sources/geometry_normalization/<source_id>_<year>.
 - resultado de la validación posterior a materialización.
 
 El inventario y el manifiesto de procedencia existentes enlazan a esta evidencia mediante `derivation`.
+
+Para pares cross-year esa referencia no es nominal: la puerta abre el `derivation.path` dentro del paquete congelado, verifica el SHA-256 declarado, valida `schema/source_id/source_year/decision`, exige que el bloque `derived` coincida con el ZIP de seccionado materializado (ruta, bytes y SHA-256) y usa `normalization` del JSON durable como fuente del audit. La copia inline de `content_checks.geometry_normalization` debe ser idéntica; cualquier ausencia o divergencia bloquea reutilización y compatibilidad.
 
 ## Incidentes del 3–4 de octubre de 2026
 

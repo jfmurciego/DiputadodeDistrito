@@ -246,6 +246,30 @@ class PreparedSourceReuseTests(unittest.TestCase):
             self.assertFalse(valid)
             self.assertTrue(any("año de seccionado distinto" in reason for reason in reasons))
 
+    def test_legacy_cross_year_package_without_geometry_admissibility_is_blocked(self):
+        with tempfile.TemporaryDirectory() as td:
+            package = build_package(
+                Path(td) / "legacy-cross-year",
+                edition=2025,
+                population_year=2025,
+                section_year=2026,
+            )
+            valid, reasons = validate_prepared_package(
+                package,
+                territory_id="la_rioja",
+                edition=2025,
+                population_year=2025,
+                section_year=2026,
+            )
+            self.assertFalse(valid)
+            self.assertTrue(
+                any(
+                    "GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING" in reason
+                    for reason in reasons
+                ),
+                reasons,
+            )
+
     def test_legacy_package_without_compatibility_report_is_blocked(self):
         with tempfile.TemporaryDirectory() as td:
             package = build_package(Path(td) / "legacy", include_compatibility=False)

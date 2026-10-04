@@ -20,6 +20,7 @@ from shapely.geometry import box
 
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
+from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
 from herramientas.materializar_contrato_generacion import (
     component_apportionment_audit,
     component_hamilton,
@@ -98,6 +99,84 @@ def population_package(
     def sha(path: Path) -> str:
         return hashlib.sha256(path.read_bytes()).hexdigest()
 
+    target_audit = {
+        "normalization_safety": {"decision": "READY"},
+        "source_admissibility": {
+            "decision": "READY",
+            "original_overlap_pairs": [],
+        },
+    }
+    origin_audit = {
+        "normalization_safety": {"decision": "READY"},
+        "source_admissibility": {
+            "decision": "DEFERRED_TO_CONSUMER_GATE",
+            "original_overlap_pairs": [],
+        },
+    }
+
+    def write_geometry_evidence(
+        *,
+        source_id: str,
+        source_year: int,
+        audit: dict,
+        derived_path: str,
+        derived_file: Path,
+    ) -> dict:
+        rel = (
+            Path("geometry_normalization")
+            / f"{source_id}_{source_year}.json"
+        )
+        path = evidence / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        document = {
+            "schema": "ddd.geometry-normalization-evidence/1.0",
+            "source_id": source_id,
+            "source_year": source_year,
+            "decision": "READY",
+            "source_identity": {
+                "fixture": True,
+                "raw_preserved": True,
+            },
+            "normalization": audit,
+            "derived": {
+                "path": derived_path,
+                "sha256": sha(derived_file),
+                "bytes": derived_file.stat().st_size,
+                "decision": "READY",
+            },
+            "materialization_validation": {
+                "decision": "READY",
+                "fixture": True,
+            },
+        }
+        payload = (
+            json.dumps(
+                document,
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2,
+            )
+            + "\n"
+        )
+        path.write_text(payload, encoding="utf-8")
+        return {
+            "path": rel.as_posix(),
+            "sha256": hashlib.sha256(
+                payload.encode("utf-8")
+            ).hexdigest(),
+            "source_id": source_id,
+            "source_year": source_year,
+            "decision": "READY",
+        }
+
+    target_derivation = write_geometry_evidence(
+        source_id="synthetic_sectioning",
+        source_year=section_year,
+        audit=target_audit,
+        derived_path=f"inputs/seccionado_{section_year}.zip",
+        derived_file=section_zip,
+    )
+
     sources = [
         {
             "role": "population",
@@ -112,21 +191,87 @@ def population_package(
             "path": f"inputs/seccionado_{section_year}.zip",
             "bytes": section_zip.stat().st_size,
             "sha256": sha(section_zip),
+            "content_checks": {
+                "geometry_normalization": target_audit,
+            },
+            "derivation": target_derivation,
         },
     ]
     if origin_section_zip is not None:
+        origin_derivation = write_geometry_evidence(
+            source_id="synthetic_population_sectioning_origin",
+            source_year=population_year,
+            audit=origin_audit,
+            derived_path=f"inputs/seccionado_{population_year}.zip",
+            derived_file=origin_section_zip,
+        )
         sources.append({
             "role": "population_sectioning_origin",
             "source_id": "synthetic_population_sectioning_origin",
             "path": f"inputs/seccionado_{population_year}.zip",
             "bytes": origin_section_zip.stat().st_size,
             "sha256": sha(origin_section_zip),
+            "content_checks": {
+                "geometry_normalization": origin_audit,
+            },
+            "derivation": origin_derivation,
         })
-    inventory = {"sources": sources}
+    inventory = {
+        "territory_id": territory_id,
+        "territory": "Principado de Asturias",
+        "edition": 2025,
+        "population_year": population_year,
+        "section_year": section_year,
+        "sources": sources,
+    }
     (evidence / "inventario_fuentes.json").write_text(
         json.dumps(inventory, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    package_docs = {
+        "declaracion_materializacion.json": {
+            "territory_id": territory_id,
+            "territory": "Principado de Asturias",
+            "edition": 2025,
+            "population_year": population_year,
+            "section_year": section_year,
+            "sources": [
+                {
+                    "source_id": row["source_id"],
+                    "role": row["role"],
+                }
+                for row in sources
+            ],
+        },
+        "manifiesto_procedencia.json": {
+            "territory_id": territory_id,
+            "territory": "Principado de Asturias",
+            "edition": 2025,
+            "population_year": population_year,
+            "section_year": section_year,
+            "sources": [
+                {
+                    "source_id": row["source_id"],
+                    "role": row["role"],
+                }
+                for row in sources
+            ],
+        },
+        "decision_adquisicion.json": {
+            "territory_id": territory_id,
+            "territory": "Principado de Asturias",
+            "edition": 2025,
+            "population_year": population_year,
+            "section_year": section_year,
+            "decision": "READY",
+        },
+    }
+    for name, document in package_docs.items():
+        (evidence / name).write_text(
+            json.dumps(document, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
     build_materialized_report(
         evidence_dir=evidence,
         territory_id=territory_id,
@@ -141,6 +286,7 @@ def population_package(
         for path in sorted(p for p in evidence.rglob("*") if p.is_file()):
             zf.write(path, arcname=path.relative_to(evidence).as_posix())
     manifest = {
+        "source_id": "prepared-territorial-sources:synthetic",
         "territory_id": territory_id,
         "edition": 2025,
         "population_year": population_year,
@@ -158,6 +304,31 @@ def population_package(
         encoding="utf-8",
     )
     return package
+
+
+def rewrite_prepared_bundle(package: Path, mutator) -> None:
+    manifest_path = package / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    bundle = package / str(manifest["path"])
+    with zipfile.ZipFile(bundle) as zf:
+        members = {name: zf.read(name) for name in zf.namelist()}
+    mutator(members)
+    with zipfile.ZipFile(
+        bundle,
+        "w",
+        compression=zipfile.ZIP_DEFLATED,
+    ) as zf:
+        for name in sorted(members):
+            zf.writestr(name, members[name])
+    manifest["bytes"] = bundle.stat().st_size
+    manifest["sha256"] = hashlib.sha256(
+        bundle.read_bytes()
+    ).hexdigest()
+    manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
 
 def temp_root(territory_id: str, name: str, provinces: list[str]) -> tempfile.TemporaryDirectory:
     td = tempfile.TemporaryDirectory()
@@ -180,6 +351,148 @@ def temp_root(territory_id: str, name: str, provinces: list[str]) -> tempfile.Te
 
 
 class NationalGenerationMaterializationTests(unittest.TestCase):
+    def _cross_year_package(self, root: Path) -> Path:
+        return population_package(
+            root,
+            [("3300101001", 1_015_128)],
+            population_year=2025,
+            section_year=2026,
+        )
+
+    def _validate_cross_year_package(self, package: Path) -> tuple[bool, list[str]]:
+        return validate_prepared_package(
+            package,
+            territory_id="principado_de_asturias",
+            edition=2025,
+            population_year=2025,
+            section_year=2026,
+        )
+
+    def test_cross_year_geometry_derivations_are_materially_bound(self):
+        td = temp_root(
+            "principado_de_asturias",
+            "Principado de Asturias",
+            ["33"],
+        )
+        try:
+            package = self._cross_year_package(Path(td.name))
+            valid, reasons = self._validate_cross_year_package(package)
+            self.assertTrue(valid, reasons)
+        finally:
+            td.cleanup()
+
+    def test_cross_year_missing_geometry_derivation_blocks(self):
+        td = temp_root(
+            "principado_de_asturias",
+            "Principado de Asturias",
+            ["33"],
+        )
+        try:
+            package = self._cross_year_package(Path(td.name))
+
+            def mutate(members):
+                members.pop(
+                    "geometry_normalization/"
+                    "synthetic_population_sectioning_origin_2025.json"
+                )
+
+            rewrite_prepared_bundle(package, mutate)
+            valid, reasons = self._validate_cross_year_package(package)
+            self.assertFalse(valid)
+            self.assertTrue(
+                any(
+                    "GEOMETRY_DERIVATION_MISSING: "
+                    "population_sectioning_origin"
+                    in reason
+                    for reason in reasons
+                ),
+                reasons,
+            )
+        finally:
+            td.cleanup()
+
+    def test_cross_year_geometry_derivation_sha_mismatch_blocks(self):
+        td = temp_root(
+            "principado_de_asturias",
+            "Principado de Asturias",
+            ["33"],
+        )
+        try:
+            package = self._cross_year_package(Path(td.name))
+
+            def mutate(members):
+                inventory = json.loads(
+                    members["inventario_fuentes.json"].decode("utf-8")
+                )
+                row = next(
+                    item
+                    for item in inventory["sources"]
+                    if item["role"] == "target_sectioning"
+                )
+                row["derivation"]["sha256"] = "0" * 64
+                members["inventario_fuentes.json"] = json.dumps(
+                    inventory,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                ).encode("utf-8")
+
+            rewrite_prepared_bundle(package, mutate)
+            valid, reasons = self._validate_cross_year_package(package)
+            self.assertFalse(valid)
+            self.assertTrue(
+                any(
+                    "GEOMETRY_DERIVATION_SHA_MISMATCH: "
+                    "target_sectioning"
+                    in reason
+                    for reason in reasons
+                ),
+                reasons,
+            )
+        finally:
+            td.cleanup()
+
+    def test_cross_year_inline_audit_mismatch_with_durable_blocks(self):
+        td = temp_root(
+            "principado_de_asturias",
+            "Principado de Asturias",
+            ["33"],
+        )
+        try:
+            package = self._cross_year_package(Path(td.name))
+
+            def mutate(members):
+                inventory = json.loads(
+                    members["inventario_fuentes.json"].decode("utf-8")
+                )
+                row = next(
+                    item
+                    for item in inventory["sources"]
+                    if item["role"] == "target_sectioning"
+                )
+                row["content_checks"]["geometry_normalization"][
+                    "source_admissibility"
+                ]["decision"] = "BLOCKED"
+                members["inventario_fuentes.json"] = json.dumps(
+                    inventory,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                ).encode("utf-8")
+
+            rewrite_prepared_bundle(package, mutate)
+            valid, reasons = self._validate_cross_year_package(package)
+            self.assertFalse(valid)
+            self.assertTrue(
+                any(
+                    "GEOMETRY_DERIVATION_AUDIT_MISMATCH: "
+                    "target_sectioning"
+                    in reason
+                    for reason in reasons
+                ),
+                reasons,
+            )
+        finally:
+            td.cleanup()
+
     def test_policy_covers_exactly_the_national_registry(self):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
         master = yaml.safe_load(MASTER.read_text(encoding="utf-8"))
