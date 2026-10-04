@@ -33,7 +33,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require
-from ddd_core.electoral_contract import PartyDictionary, load_election_contract
+from ddd_core.electoral_contract import (
+    PartyDictionary,
+    STRUCTURAL_PROVENANCE_SCHEMA,
+    load_election_contract,
+    validate_structural_provenance_document,
+)
 from ddd_core.electoral_reconciliation import reconcile_sections
 
 
@@ -186,6 +191,103 @@ def _read_csv_strict(text, separator, *, source, adapter_kind):
                        keep_default_na=False, skip_blank_lines=False)
 
 
+def _structural_rows(adapter, source: Path, frame: pd.DataFrame):
+    declared_scope = adapter.get("party_applicability") or {}
+    record = adapter.get("structural_provenance")
+    if not record:
+        if declared_scope:
+            raise ValueError(
+                "ELECTORAL_STRUCTURAL_PROVENANCE_REQUIRED "
+                f"source={source}"
+            )
+        return None, None
+    if not isinstance(record, dict):
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: declaración"
+        )
+    raw_path = str(
+        record.get("resolved_path")
+        or record.get("path")
+        or ""
+    ).strip()
+    if not raw_path:
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: path ausente"
+        )
+    provenance_path = Path(raw_path)
+    if not provenance_path.is_absolute():
+        provenance_path = (ROOT / provenance_path).resolve()
+    if not provenance_path.is_file():
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: fichero ausente"
+        )
+    actual_provenance_sha = hashlib.sha256(
+        provenance_path.read_bytes()
+    ).hexdigest()
+    declared_provenance_sha = str(
+        record.get("sha256") or ""
+    ).lower()
+    if (
+        not re.fullmatch(r"[0-9a-f]{64}", declared_provenance_sha)
+        or actual_provenance_sha != declared_provenance_sha
+    ):
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: "
+            "checksum del sidecar no coincide"
+        )
+    document = json.loads(provenance_path.read_text(encoding="utf-8"))
+    actual_source_sha = hashlib.sha256(source.read_bytes()).hexdigest()
+    validate_structural_provenance_document(
+        document,
+        context="procedencia estructural M07",
+        expected_source_sha256=actual_source_sha,
+    )
+    merged = document["merged_source"]
+    if merged["records"] != len(frame):
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: "
+            "número de filas no coincide"
+        )
+    if list(merged["columns"]) != list(frame.columns):
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: "
+            "cabecera fusionada no coincide"
+        )
+
+    rows = [None] * len(frame)
+    summaries = []
+    for source_record in document["sources"]:
+        start = source_record["merged_row_index_start"]
+        end = source_record["merged_row_index_end_exclusive"]
+        normalized = {
+            **source_record,
+            "source_id": source_record["source_id"].strip(),
+            "raw_file": source_record["raw_file"].strip(),
+            "raw_sha256": source_record["raw_sha256"].lower(),
+            "original_columns": list(source_record["original_columns"]),
+        }
+        for index in range(start, end):
+            rows[index] = normalized
+        summaries.append({
+            "source_id": normalized["source_id"],
+            "raw_file": normalized["raw_file"],
+            "raw_sha256": normalized["raw_sha256"],
+            "records": normalized["records"],
+            "original_columns": list(normalized["original_columns"]),
+        })
+    if any(row is None for row in rows):
+        raise ValueError(
+            "ELECTORAL_STRUCTURAL_PROVENANCE_INVALID: "
+            "cobertura de filas incompleta"
+        )
+    return rows, {
+        "schema": STRUCTURAL_PROVENANCE_SCHEMA,
+        "sha256": actual_provenance_sha,
+        "merged_source_sha256": actual_source_sha,
+        "sources": summaries,
+    }
+
+
 def read_results(path, adapter, section_field, parties: PartyDictionary):
     source = Path(path)
     text = source.read_text(encoding="utf-8").lstrip()
@@ -294,6 +396,14 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 "record_classification debe ser un objeto"
             )
         aggregate_rules = classification.get("aggregates") or []
+        party_applicability = adapter.get("party_applicability") or {}
+        if not isinstance(party_applicability, dict):
+            raise ValueError("party_applicability debe ser un objeto")
+        structural_rows, structural_evidence = _structural_rows(
+            adapter,
+            source,
+            frame,
+        )
         require_aggregate_for_each_block = False
         if classification:
             polling_cfg = classification.get("polling_station") or {}
@@ -326,6 +436,11 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             municipality_field,
             polling_field,
             *party_columns,
+            *[
+                rule.get("field")
+                for rule in party_applicability.values()
+                if isinstance(rule, dict)
+            ],
         ]
         aggregate_partition_fields = set()
         for rule in aggregate_rules:
@@ -416,6 +531,24 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 if _field_text(index, field):
                     return False
             return True
+
+        def _source_record(index):
+            if structural_rows is None:
+                return None
+            return structural_rows[int(index)]
+
+        def _party_scope_rule(raw_party):
+            rule = party_applicability.get(raw_party)
+            return rule if isinstance(rule, dict) else None
+
+        def _party_applicable_for_value(raw_party, value):
+            rule = _party_scope_rule(raw_party)
+            if rule is None:
+                return True
+            equals = rule.get("equals")
+            values = equals if isinstance(equals, list) else [equals]
+            expected = {str(item).strip() for item in values}
+            return str(value).strip() in expected
 
         record_classes = []
         for index in frame.index:
@@ -548,11 +681,36 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             "name": source.name,
             "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
         }
+        not_applicable_counts = {}
+
+        def _record_not_applicable(
+            raw_party,
+            scope_field,
+            scope_value,
+            source_record,
+        ):
+            rule = _party_scope_rule(raw_party) or {}
+            key = (
+                raw_party,
+                str(scope_field),
+                str(scope_value),
+                str(rule.get("reason") or ""),
+                str((source_record or {}).get("source_id") or ""),
+                str((source_record or {}).get("raw_sha256") or ""),
+            )
+            not_applicable_counts[key] = (
+                int(not_applicable_counts.get(key, 0)) + 1
+            )
 
         for classified in record_classes:
             index = classified["index"]
             row = f"csv[{int(index) + 2}]"
             if classified["kind"] == "polling_station":
+                source_record = _source_record(index)
+                current_source_id = str(
+                    (source_record or {}).get("source_id") or ""
+                )
+                current_partition = None
                 if block_partition_field is not None:
                     current_partition = _field_text(
                         index,
@@ -567,27 +725,48 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                             value=frame.at[index, block_partition_field],
                             cause="AGGREGATE_SCOPE_VALUE_MISSING",
                         )
-                    if pending_polling_rows:
-                        previous_partition = str(
+                if pending_polling_rows:
+                    previous_partition = (
+                        str(
                             pending_polling_rows[-1]["fields"].get(
                                 block_partition_field,
                                 "",
                             )
                         ).strip()
-                        if current_partition != previous_partition:
-                            if require_aggregate_for_each_block:
-                                _input_invalid(
-                                    source=source,
-                                    adapter_kind=adapter_kind,
-                                    row=row,
-                                    field=block_partition_field,
-                                    value={
-                                        "previous": previous_partition,
-                                        "current": current_partition,
-                                    },
-                                    cause="MISSING_EXPECTED_AGGREGATE",
-                                )
-                            pending_polling_rows = []
+                        if block_partition_field is not None
+                        else None
+                    )
+                    previous_source_id = str(
+                        pending_polling_rows[-1].get("source_id") or ""
+                    )
+                    partition_changed = (
+                        block_partition_field is not None
+                        and current_partition != previous_partition
+                    )
+                    source_changed = (
+                        structural_rows is not None
+                        and current_source_id != previous_source_id
+                    )
+                    if partition_changed or source_changed:
+                        if require_aggregate_for_each_block:
+                            _input_invalid(
+                                source=source,
+                                adapter_kind=adapter_kind,
+                                row=row,
+                                field=(
+                                    block_partition_field
+                                    if partition_changed
+                                    else "structural_provenance"
+                                ),
+                                value={
+                                    "previous_partition": previous_partition,
+                                    "current_partition": current_partition,
+                                    "previous_source_id": previous_source_id,
+                                    "current_source_id": current_source_id,
+                                },
+                                cause="MISSING_EXPECTED_AGGREGATE",
+                            )
+                        pending_polling_rows = []
                 section_id = (
                     _field_text(index, province_field).zfill(province_width)
                     + _field_text(
@@ -602,7 +781,69 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                     )
                 )
                 raw_votes = {}
+                source_columns = set(
+                    (source_record or {}).get("original_columns") or []
+                )
                 for raw_party in party_columns:
+                    scope_rule = _party_scope_rule(raw_party)
+                    if scope_rule is not None:
+                        scope_field = str(scope_rule.get("field") or "")
+                        if scope_field not in source_columns:
+                            _input_invalid(
+                                source=source,
+                                adapter_kind=adapter_kind,
+                                row=row,
+                                field=scope_field,
+                                value=None,
+                                cause="PARTY_SCOPE_FIELD_MISSING_IN_RAW",
+                            )
+                        scope_value = _field_text(index, scope_field)
+                        if not scope_value:
+                            _input_invalid(
+                                source=source,
+                                adapter_kind=adapter_kind,
+                                row=row,
+                                field=scope_field,
+                                value=frame.at[index, scope_field],
+                                cause="PARTY_SCOPE_VALUE_MISSING",
+                            )
+                        in_scope = _party_applicable_for_value(
+                            raw_party,
+                            scope_value,
+                        )
+                        physically_present = raw_party in source_columns
+                        if not in_scope:
+                            if physically_present:
+                                _input_invalid(
+                                    source=source,
+                                    adapter_kind=adapter_kind,
+                                    row=row,
+                                    field=raw_party,
+                                    value=frame.at[index, raw_party],
+                                    cause=(
+                                        "PARTY_COLUMN_PRESENT_OUTSIDE_"
+                                        "DECLARED_SCOPE"
+                                    ),
+                                )
+                            _record_not_applicable(
+                                raw_party,
+                                scope_field,
+                                scope_value,
+                                source_record,
+                            )
+                            continue
+                        if not physically_present:
+                            _input_invalid(
+                                source=source,
+                                adapter_kind=adapter_kind,
+                                row=row,
+                                field=raw_party,
+                                value=None,
+                                cause=(
+                                    "PARTY_COLUMN_MISSING_IN_"
+                                    "DECLARED_SCOPE"
+                                ),
+                            )
                     votes = _exact_nonnegative_votes(
                         frame.at[index, raw_party],
                         source=source,
@@ -618,6 +859,15 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                             "votes": votes,
                         }
                     )
+                if not raw_votes:
+                    _input_invalid(
+                        source=source,
+                        adapter_kind=adapter_kind,
+                        row=row,
+                        field="party_applicability",
+                        value="no_applicable_parties",
+                        cause="NO_PARTIES_IN_DECLARED_SCOPE",
+                    )
                 section_ids.add(section_id)
                 polling_station_rows += 1
                 pending_polling_rows.append(
@@ -625,6 +875,10 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                         "row": row,
                         "raw_index": int(index),
                         "raw_votes": raw_votes,
+                        "source_id": current_source_id,
+                        "raw_sha256": str(
+                            (source_record or {}).get("raw_sha256") or ""
+                        ),
                         "fields": {
                             field: _field_text(index, field)
                             for field in frame.columns
@@ -671,6 +925,32 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                     cause="AGGREGATE_SCOPE_AMBIGUOUS",
                 )
             partition_value = next(iter(partition_values))
+            aggregate_source_record = _source_record(index)
+            aggregate_source_id = str(
+                (aggregate_source_record or {}).get("source_id") or ""
+            )
+            if structural_rows is not None:
+                pending_source_ids = {
+                    str(item.get("source_id") or "")
+                    for item in pending_polling_rows
+                }
+                if (
+                    len(pending_source_ids) != 1
+                    or aggregate_source_id not in pending_source_ids
+                ):
+                    _input_invalid(
+                        source=source,
+                        adapter_kind=adapter_kind,
+                        row=row,
+                        field="structural_provenance",
+                        value={
+                            "aggregate_source_id": aggregate_source_id,
+                            "polling_source_ids": sorted(
+                                pending_source_ids
+                            ),
+                        },
+                        cause="AGGREGATE_SOURCE_PROVENANCE_MISMATCH",
+                    )
             reconciliation = rule.get("vote_reconciliation") or {}
             reconciliation_kind = reconciliation.get("kind")
             comparisons = []
@@ -696,6 +976,90 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 )
 
             for raw_party in party_columns:
+                scope_rule = _party_scope_rule(raw_party)
+                if scope_rule is not None:
+                    scope_field = str(scope_rule.get("field") or "")
+                    aggregate_columns = set(
+                        (aggregate_source_record or {}).get(
+                            "original_columns"
+                        ) or []
+                    )
+                    if scope_field not in aggregate_columns:
+                        _input_invalid(
+                            source=source,
+                            adapter_kind=adapter_kind,
+                            row=row,
+                            field=scope_field,
+                            value=None,
+                            cause="PARTY_SCOPE_FIELD_MISSING_IN_RAW",
+                        )
+                    block_values = {
+                        str(item["fields"].get(scope_field, "")).strip()
+                        for item in pending_polling_rows
+                    }
+                    if "" in block_values or len(block_values) != 1:
+                        _input_invalid(
+                            source=source,
+                            adapter_kind=adapter_kind,
+                            row=row,
+                            field=scope_field,
+                            value=sorted(block_values),
+                            cause=(
+                                "PARTY_SCOPE_VALUE_MISSING"
+                                if "" in block_values
+                                else "PARTY_SCOPE_AMBIGUOUS"
+                            ),
+                        )
+                    block_value = next(iter(block_values))
+                    in_scope = _party_applicable_for_value(
+                        raw_party,
+                        block_value,
+                    )
+                    physically_present = raw_party in aggregate_columns
+                    if not in_scope:
+                        if physically_present:
+                            _input_invalid(
+                                source=source,
+                                adapter_kind=adapter_kind,
+                                row=row,
+                                field=raw_party,
+                                value=frame.at[index, raw_party],
+                                cause=(
+                                    "PARTY_AGGREGATE_COLUMN_PRESENT_"
+                                    "OUTSIDE_DECLARED_SCOPE"
+                                ),
+                            )
+                        comparisons.append(
+                            {
+                                "party_column": raw_party,
+                                "canonical_party": canonical_parties[raw_party],
+                                "status": "NOT_COMPARABLE",
+                                "reason": "PARTY_OUTSIDE_DECLARED_SCOPE",
+                                "scope_field": scope_field,
+                                "scope_value": block_value,
+                                "source_id": aggregate_source_id,
+                                "raw_sha256": str(
+                                    (aggregate_source_record or {}).get(
+                                        "raw_sha256"
+                                    ) or ""
+                                ),
+                                "polling_station_sum": None,
+                                "aggregate_value": None,
+                            }
+                        )
+                        continue
+                    if not physically_present:
+                        _input_invalid(
+                            source=source,
+                            adapter_kind=adapter_kind,
+                            row=row,
+                            field=raw_party,
+                            value=None,
+                            cause=(
+                                "PARTY_AGGREGATE_COLUMN_MISSING_IN_"
+                                "DECLARED_SCOPE"
+                            ),
+                        )
                 observed = sum(
                     int(item["raw_votes"][raw_party])
                     for item in pending_polling_rows
@@ -741,7 +1105,16 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                 "vote_reconciliation": {
                     "kind": reconciliation_kind,
                     "status": (
-                        "MISMATCH" if differences else "MATCH"
+                        "MISMATCH"
+                        if differences
+                        else (
+                            "MATCH_WITH_OUT_OF_SCOPE"
+                            if any(
+                                item.get("status") == "NOT_COMPARABLE"
+                                for item in comparisons
+                            )
+                            else "MATCH"
+                        )
                     ),
                     "comparisons": comparisons,
                 },
@@ -784,6 +1157,31 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             recognized_aggregates
         )
         result.attrs["polling_station_rows"] = polling_station_rows
+        applicability_evidence = [
+            {
+                "party_column": party,
+                "scope_field": scope_field,
+                "scope_value": scope_value,
+                "reason": reason,
+                "source_id": source_id,
+                "raw_sha256": raw_sha256,
+                "polling_station_rows": count,
+            }
+            for (
+                party,
+                scope_field,
+                scope_value,
+                reason,
+                source_id,
+                raw_sha256,
+            ), count in sorted(not_applicable_counts.items())
+        ]
+        result.attrs["structural_provenance"] = structural_evidence
+        result.attrs["party_applicability"] = applicability_evidence
+        result.attrs["not_applicable_party_cells"] = sum(
+            int(item["polling_station_rows"])
+            for item in applicability_evidence
+        )
         result.attrs["record_classification"] = {
             "polling_station_rows": polling_station_rows,
             "recognized_aggregate_rows": len(recognized_aggregates),
@@ -1019,6 +1417,24 @@ def main():
             [],
         )
     ]
+    structural_provenance_evidence = [
+        evidence
+        for batch in result_batches
+        for evidence in [batch[0].attrs.get("structural_provenance")]
+        if evidence
+    ]
+    party_applicability_evidence = [
+        evidence
+        for batch in result_batches
+        for evidence in batch[0].attrs.get(
+            "party_applicability",
+            [],
+        )
+    ]
+    not_applicable_party_cells = sum(
+        int(batch[0].attrs.get("not_applicable_party_cells", 0))
+        for batch in result_batches
+    )
     polling_station_rows = sum(
         int(batch[0].attrs.get("polling_station_rows", 0))
         for batch in result_batches
@@ -1058,6 +1474,9 @@ def main():
         "recognized_aggregate_rows": len(aggregate_evidence),
         "recognized_aggregates": aggregate_evidence,
         "aggregate_rows_counted_as_votes": 0,
+        "structural_provenance": structural_provenance_evidence,
+        "party_applicability": party_applicability_evidence,
+        "not_applicable_party_cells": not_applicable_party_cells,
     }
     report["section_reconciliation"] = section_reconciliation_report
     report["source_verification"] = contract.get("source_verification") or {}
