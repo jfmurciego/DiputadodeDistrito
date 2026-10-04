@@ -637,33 +637,44 @@ jobs:
             source_args=(--preparation-evidence-json .ddd-source-evidence.json)
           fi
           evidence_path="territorios/$TERRITORY_ID/evidencia/catalogo/generation_preflight_$edition.json"
+          candidate_path="$RUNNER_TEMP/ddd-pre-m04-candidate-$GITHUB_RUN_ID.json"
           handoff="$RUNNER_TEMP/ddd-pre-m04-evidence-$GITHUB_RUN_ID.json"
           handoff_meta="$RUNNER_TEMP/ddd-pre-m04-handoff-$GITHUB_RUN_ID.json"
+          persistence_result="$RUNNER_TEMP/ddd-pre-m04-persistence-$GITHUB_RUN_ID.json"
 
-          python -m herramientas.materializar_evidencia_pre_m04             --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition"             --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS"             --m03-state-dir .ddd-pre-m04-m03             --partition-job .ddd-pre-m04-partition/job.json             --m03-artifact-sha256 "$m03_digest"             --m03u-artifact-sha256 "$m03u_digest"             --partition-artifact-sha256 "$part_digest" "${source_args[@]}" --persist
-          python -m herramientas.handoff_evidencia_pre_m04 stage             --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"             --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"             --source-commit "$SOURCE_REF"
-          python herramientas/catalogo_preparacion.py --root-dir . validate
+          # La evidencia se deriva una sola vez con el código/contrato del SOURCE_REF.
+          # La base mutable de escritura se refresca después, sin reinterpretar el run.
+          python -m herramientas.materializar_evidencia_pre_m04 \
+            --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition" \
+            --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS" \
+            --m03-state-dir .ddd-pre-m04-m03 \
+            --partition-job .ddd-pre-m04-partition/job.json \
+            --m03-artifact-sha256 "$m03_digest" \
+            --m03u-artifact-sha256 "$m03u_digest" \
+            --partition-artifact-sha256 "$part_digest" \
+            "${source_args[@]}" --output "$candidate_path"
+          python -m herramientas.handoff_evidencia_pre_m04 stage \
+            --persisted-evidence "$candidate_path" --handoff "$handoff" --metadata "$handoff_meta" \
+            --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID" \
+            --source-commit "$SOURCE_REF"
 
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml configuracion/catalogo_territorios_espana_2025.yaml             "territorios/$TERRITORY_ID/config" "territorios/$TERRITORY_ID/evidencia/catalogo"
-          git diff --cached --quiet && { echo "::error::La evidencia pre-M04 no produjo identidad durable nueva."; exit 53; }
-          git commit -m "chore: registrar evidencia pre-M04 de $TERRITORY_ID"
-          target_branch="$GITHUB_REF_NAME"
-          for attempt in 1 2 3; do
-            if git pull --rebase origin "$target_branch"; then
-              python -m herramientas.handoff_evidencia_pre_m04 verify                 --persisted-evidence "$evidence_path" --handoff "$handoff" --metadata "$handoff_meta"                 --territory-id "$TERRITORY_ID" --edition "$edition" --run-id "$GITHUB_RUN_ID"                 --source-commit "$SOURCE_REF"                 || { echo "::error::El handoff pre-M04 no coincide con la evidencia persistida; no se publicará acreditación."; exit 57; }
-              if git push origin "HEAD:$target_branch"; then
-                enabled_source_ref="$(git rev-parse HEAD)"
-                [[ "$enabled_source_ref" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit habilitado inválido."; exit 58; }
-                echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"
-                exit 0
-              fi
-            fi
-            git rebase --abort >/dev/null 2>&1 || true
-            sleep $((attempt * 2))
-          done
-          echo "::error::No se pudo registrar la evidencia pre-M04."; exit 54
+          enabled_source_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional \
+            --root-dir . --territory-id "$TERRITORY_ID" --edition "$edition" \
+            --run-id "$GITHUB_RUN_ID" --contract-path "$PARAMS" \
+            --candidate-evidence "$candidate_path" --source-commit "$SOURCE_REF" \
+            --target-branch "$GITHUB_REF_NAME" --max-attempts 4 \
+            --result-json "$persistence_result" \
+            --handoff "$handoff" --handoff-metadata "$handoff_meta")"
+          [[ "$enabled_source_ref" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::Commit habilitado inválido."; exit 58; }
+          echo "enabled_source_ref=$enabled_source_ref" >> "$GITHUB_OUTPUT"
+      - name: Publicar diagnóstico de persistencia pre-M04
+        if: ${{ always() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: ddd-pre-m04-persistence-${{ needs.resolve.outputs.territory_id }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/ddd-pre-m04-persistence-${{ github.run_id }}.json
+          if-no-files-found: warn
+          retention-days: 30
       - name: Publicar evidencia pre-M04 inmutable
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
