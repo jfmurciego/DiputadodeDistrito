@@ -14,6 +14,7 @@ import yaml
 from shapely.geometry import Polygon
 
 from ddd_core.topology_preflight import evaluate_topology_preflight, validate_topology_accreditation_binding
+from ddd_core.config import load_params_yaml
 from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
 
 
@@ -274,7 +275,20 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertFalse(r["valid"])
         self.assertIn("package_sha256", r["reason"])
 
-    def test_19_generation_binding_carries_topology_accreditation(self):
+    def test_19_real_catalonia_accreditation_survives_config_loader_verbatim(self):
+        cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))
+        accreditation = cfg["validation"]["topology_accreditation"]
+        self.assertEqual("ddd.topology-accreditation.v1", accreditation["schema"])
+        declaration = accreditation["administrative_components"][0]
+        self.assertEqual("municipality:25234", declaration["admin_scope"])
+        self.assertTrue(declaration["reason"].startswith("El seccionado oficial 2024"))
+        self.assertTrue(declaration["source"].startswith("ddd-source-package-cataluna-2025-37215025861"))
+        self.assertEqual(
+            "Generalitat de Catalunya, Mapa local, Límites de término oficiales",
+            declaration["evidence"]["administrative_reference"],
+        )
+
+    def test_20_generation_binding_carries_topology_accreditation(self):
         cfg = {
             "meta": {"year": 2025},
             "territory_contract": {},
