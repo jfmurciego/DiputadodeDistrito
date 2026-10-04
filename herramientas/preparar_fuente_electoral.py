@@ -614,6 +614,15 @@ def _validate_raw_sources_against_structural(
             or raw_path.stat().st_size!=declared_bytes
         ):
             raise ValueError(f"{raw_context}: bytes no coinciden")
+        fields,rows=_read_delimited(raw_path)
+        if fields!=list(structural.get("original_columns") or []):
+            raise ValueError(
+                f"{raw_context}: cabecera raw no coincide con sidecar"
+            )
+        if len(rows)!=int(structural.get("records") or -1):
+            raise ValueError(
+                f"{raw_context}: número de registros no coincide con sidecar"
+            )
 
 
 def _write_package(out:Path,decision:str,territory_id:str,edition:str,source:Path|None,meta:dict,extra:dict|None=None)->dict:
