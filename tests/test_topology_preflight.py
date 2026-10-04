@@ -298,7 +298,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
                 },
             },
         }
-        before = _contract_generation_binding(cfg)
+        before = json.loads(json.dumps(_contract_generation_binding(cfg)))
         cfg["validation"]["topology_accreditation"]["administrative_components"][0]["components"] = [["a", "b"], ["c"]]
         after = _contract_generation_binding(cfg)
         self.assertIn("topology_accreditation", before)
