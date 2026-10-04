@@ -106,7 +106,7 @@ modulos:
       edge_type: administrative_enclave
       reason: Llívia es un enclave español separado del cuerpo principal de Girona;
         enlace a la sección española más próxima en Puigcerdà (~1636 m).
-      source: CAT-02 run 34688104014
+      source: CAT-02 run 34688104014; revalidado geométricamente contra ddd-source-package-cataluna-2025-37215025861
   modulo_03_construir_grafo:
     in_geojson: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/cataluna/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
@@ -200,6 +200,40 @@ validation:
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
   population_floor_exempt_partitions: []
+  topology_accreditation:
+    schema: ddd.topology-accreditation/1.0
+    source_binding:
+      edition: '2025'
+      section_year: 2024
+      package_sha256: e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0
+      compatibility_identity_sha256: 58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a
+    administrative_components:
+    - admin_scope: municipality:25234
+      components:
+      - - '2523401001'
+        - '2523401002'
+        - '2523402001'
+        - '2523402002'
+      - - '2523403001'
+      reason: >-
+        El seccionado oficial 2024 asigna las cinco secciones a Tremp (25234), pero
+        bajo la adyacencia productiva contact/EPSG:3035/min_shared_border_m=1.0
+        forman dos componentes [4,1]. 2523403001 sólo toca puntualmente a
+        2523401002, con 0 m de frontera lineal compartida. La acreditación describe
+        la estructura administrativa de entrada; no añade aristas ni habilita generación.
+      source: >-
+        ddd-source-package-cataluna-2025-37215025861 (INE seccionado 2024,
+        package e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0);
+        límites de término oficiales Generalitat/ICGC
+      evidence:
+        run_id: 37215025861
+        source_commit: d4f8b84769290aa252498399b66ba90c37b44612
+        working_crs: EPSG:3035
+        point_contact:
+          u: '2523401002'
+          v: '2523403001'
+          shared_border_m: 0.0
+        administrative_reference: https://web.gencat.cat/es/ens-locals/identitat-ens-locals/mapa-local/limits-terme-oficials
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
