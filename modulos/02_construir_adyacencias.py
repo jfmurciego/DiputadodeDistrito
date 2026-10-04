@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 02 — Construir adyacencias
-VERSIÓN: 7.3.1
-NOMBRE DE VERSIÓN: Política topológica declarativa por ámbito
+VERSIÓN: 7.3.2
+NOMBRE DE VERSIÓN: Política topológica con acreditación ligada a fuente
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: calcula adyacencias geométricas con umbral métrico explícito y aplica, opcionalmente, pasarelas topológicas declarativas auditables.
@@ -30,7 +30,7 @@ if str(PROJECT_ROOT) not in sys.path:
 import geopandas as gpd
 
 from ddd_core.config import load_params_yaml, module_cfg, require
-from ddd_core.topology_preflight import validate_topology_bridges
+from ddd_core.topology_preflight import validate_topology_accreditation_binding, validate_topology_bridges
 
 
 def _gpd_read_file(path_or_buf, layer=None):
@@ -226,6 +226,10 @@ def main():
         }
         for _, row in gdf.iterrows()
     }
+    accreditation = validate_topology_accreditation_binding(cfg)
+    if accreditation.get("present") and not accreditation.get("valid"):
+        raise SystemExit(f"M02 acreditación topológica obsoleta: {accreditation.get('reason')}")
+
     bridges, rejected, _ = validate_topology_bridges(
         units=units,
         bridges=s2.get("topology_bridges", []) or [],
@@ -237,7 +241,7 @@ def main():
 
     n, ng, nb = write_edges_jsonl(geometric, bridges, out_edges)
     print(
-        f"[Módulo 2] OK v7.3.1 edges={n} geometric={ng} bridges={nb} "
+        f"[Módulo 2] OK v7.3.2 edges={n} geometric={ng} bridges={nb} "
         f"predicate={predicate} min_shared_border_m={min_shared} crs={working_crs} out={out_edges}"
     )
 
