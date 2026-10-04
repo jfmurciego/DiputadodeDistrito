@@ -14,6 +14,9 @@ from ddd_core.electoral_contract import (
     STRUCTURAL_PROVENANCE_SCHEMA,
     validate_structural_provenance_document,
 )
+from herramientas.preparar_fuente_electoral import (
+    _validate_raw_sources_against_structural,
+)
 
 
 def sha256(path: Path) -> str:
@@ -235,6 +238,24 @@ def _load_package_structural_provenance(
         context="procedencia estructural del paquete",
         expected_source_sha256=source_hash,
     )
+    raw_embedded = manifest_decl.get("raw_sources_embedded")
+    if not isinstance(raw_embedded, bool):
+        raise ValueError(
+            "structural_provenance.raw_sources_embedded debe ser booleano"
+        )
+    raw_sources = manifest.get("raw_sources") or []
+    if raw_embedded:
+        _validate_raw_sources_against_structural(
+            package=package,
+            raw_sources=raw_sources,
+            document=document,
+            context="paquete electoral validado",
+            required=True,
+        )
+    elif raw_sources:
+        raise ValueError(
+            "raw_sources presentes pero raw_sources_embedded=false"
+        )
     return sidecar, manifest_sha, document
 
 
@@ -298,6 +319,24 @@ def _validate_static_structural_provenance(
         context="procedencia estructural empaquetada",
         expected_source_sha256=source_hash,
     )
+    raw_embedded = packaged.get("raw_sources_embedded")
+    if not isinstance(raw_embedded, bool):
+        raise ValueError(
+            "structural_provenance.raw_sources_embedded debe ser booleano"
+        )
+    raw_sources = manifest.get("raw_sources") or []
+    if raw_embedded:
+        _validate_raw_sources_against_structural(
+            package=package,
+            raw_sources=raw_sources,
+            document=packaged_document,
+            context="paquete electoral estático",
+            required=True,
+        )
+    elif raw_sources:
+        raise ValueError(
+            "raw_sources presentes pero raw_sources_embedded=false"
+        )
     return expected
 
 
