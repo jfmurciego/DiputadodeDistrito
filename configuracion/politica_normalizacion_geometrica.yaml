@@ -1,0 +1,34 @@
+schema: ddd.geometry-normalization-policy/1.0
+version: 1.0.0
+scope:
+  geometry_family: polygonal_census_sections
+  source_roles:
+    - target_sectioning
+    - population_sectioning_origin
+metric_crs: EPSG:3035
+acceptance:
+  exact_section_identity: true
+  exact_properties: true
+  exact_source_boundary_set: true
+  require_independent_repair_consensus: true
+  allow_non_polygonal_components: false
+  allow_section_drop: false
+  allow_boundary_bridges: false
+  allow_coordinate_snapping: false
+  allow_overlap_after_normalization: false
+  numeric_acceptance_tolerance: null
+allowed_methods:
+  - DEDUPLICATE_EXACT_MULTIPOLYGON_COMPONENTS
+  - DEDUPLICATE_EXACT_INTERIOR_RINGS
+  - MAKE_VALID_DUAL_CONSENSUS_BOUNDARY_PRESERVING
+allowed_invalidity_reason_prefixes:
+  MAKE_VALID_DUAL_CONSENSUS_BOUNDARY_PRESERVING:
+    - Self-intersection
+    - Ring Self-intersection
+measurement:
+  length_unit: metre
+  area_unit: square_metre
+  acceptance_uses_metric_thresholds: false
+limitations:
+  global_gap_check_requires_authoritative_territory_mask: true
+  invalid_polygon_area_is_not_used_as_equivalence_evidence: true
