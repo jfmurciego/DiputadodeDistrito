@@ -115,6 +115,204 @@ def _verify_file(record: Mapping[str, Any], project_root: Path, context: str) ->
     return path
 
 
+def _validate_wide_polling_station_adapter(adapter: Mapping[str, Any], context: str) -> None:
+    adapter_context = f"{context}.adapter"
+    for key in (
+        "province_field",
+        "municipality_field",
+        "polling_station_field",
+    ):
+        value = _required(adapter, key, adapter_context)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"{adapter_context}.{key} debe ser texto no vacío"
+            )
+
+    polling_regex = _required(
+        adapter,
+        "polling_station_regex",
+        adapter_context,
+    )
+    if not isinstance(polling_regex, str) or not polling_regex.strip():
+        raise ValueError(
+            f"{adapter_context}.polling_station_regex "
+            "debe ser texto no vacío"
+        )
+    try:
+        compiled_polling = re.compile(polling_regex)
+    except re.error as exc:
+        raise ValueError(
+            f"{adapter_context}.polling_station_regex inválido: {exc}"
+        ) from exc
+    if not {"district", "section"}.issubset(
+        compiled_polling.groupindex
+    ):
+        raise ValueError(
+            f"{adapter_context}.polling_station_regex debe exponer "
+            "grupos district y section"
+        )
+
+    party_columns = _required(
+        adapter,
+        "party_columns",
+        adapter_context,
+    )
+    if (
+        not isinstance(party_columns, list)
+        or not party_columns
+        or any(
+            not isinstance(value, str) or not value.strip()
+            for value in party_columns
+        )
+        or len(set(party_columns)) != len(party_columns)
+    ):
+        raise ValueError(
+            f"{adapter_context}.party_columns debe ser una lista "
+            "no vacía de nombres únicos"
+        )
+
+    classification = _required(
+        adapter,
+        "record_classification",
+        adapter_context,
+    )
+    if not isinstance(classification, Mapping):
+        raise ValueError(
+            f"{adapter_context}.record_classification debe ser un objeto"
+        )
+    polling = _required(
+        classification,
+        "polling_station",
+        f"{adapter_context}.record_classification",
+    )
+    if (
+        not isinstance(polling, Mapping)
+        or polling.get("mode") != "locator_contract"
+    ):
+        raise ValueError(
+            f"{adapter_context}.record_classification.polling_station.mode "
+            "debe ser locator_contract"
+        )
+    aggregates = classification.get("aggregates")
+    if not isinstance(aggregates, list):
+        raise ValueError(
+            f"{adapter_context}.record_classification.aggregates "
+            "debe ser una lista"
+        )
+    require_aggregate = classification.get(
+        "require_aggregate_for_each_block"
+    )
+    if not isinstance(require_aggregate, bool):
+        raise ValueError(
+            f"{adapter_context}.record_classification."
+            "require_aggregate_for_each_block debe ser booleano"
+        )
+    if require_aggregate and not aggregates:
+        raise ValueError(
+            f"{adapter_context}.record_classification no puede exigir "
+            "agregados sin declarar reglas"
+        )
+
+    seen_ids: set[str] = set()
+    for index, aggregate in enumerate(aggregates):
+        aggregate_context = (
+            f"{adapter_context}.record_classification.aggregates[{index}]"
+        )
+        if not isinstance(aggregate, Mapping):
+            raise ValueError(f"{aggregate_context} debe ser un objeto")
+        aggregate_id = str(
+            _required(aggregate, "id", aggregate_context)
+        ).strip()
+        if aggregate_id in seen_ids:
+            raise ValueError(
+                f"{aggregate_context}: id de agregado duplicado "
+                f"{aggregate_id!r}"
+            )
+        seen_ids.add(aggregate_id)
+
+        match = _required(aggregate, "match", aggregate_context)
+        if not isinstance(match, Mapping):
+            raise ValueError(f"{aggregate_context}.match debe ser un objeto")
+        match_field = _required(
+            match,
+            "field",
+            f"{aggregate_context}.match",
+        )
+        if not isinstance(match_field, str) or not match_field.strip():
+            raise ValueError(
+                f"{aggregate_context}.match.field debe ser texto no vacío"
+            )
+        equals = _required(match, "equals", f"{aggregate_context}.match")
+        values = equals if isinstance(equals, list) else [equals]
+        if not values or any(not str(value).strip() for value in values):
+            raise ValueError(
+                f"{aggregate_context}.match.equals debe declarar "
+                "valores exactos no vacíos"
+            )
+        empty_fields = _required(
+            match,
+            "required_empty_fields",
+            f"{aggregate_context}.match",
+        )
+        if (
+            not isinstance(empty_fields, list)
+            or not empty_fields
+            or any(
+                not isinstance(field, str) or not field.strip()
+                for field in empty_fields
+            )
+            or len(set(empty_fields)) != len(empty_fields)
+        ):
+            raise ValueError(
+                f"{aggregate_context}.match.required_empty_fields "
+                "debe ser una lista no vacía de nombres únicos"
+            )
+
+        scope = _required(aggregate, "scope", aggregate_context)
+        if (
+            not isinstance(scope, Mapping)
+            or scope.get("kind") != "preceding_polling_station_block"
+        ):
+            raise ValueError(
+                f"{aggregate_context}.scope.kind debe ser "
+                "preceding_polling_station_block"
+            )
+        partition_field = _required(
+            scope,
+            "partition_field",
+            f"{aggregate_context}.scope",
+        )
+        if (
+            not isinstance(partition_field, str)
+            or not partition_field.strip()
+        ):
+            raise ValueError(
+                f"{aggregate_context}.scope.partition_field "
+                "debe ser texto no vacío"
+            )
+
+        reconciliation = _required(
+            aggregate,
+            "vote_reconciliation",
+            aggregate_context,
+        )
+        if not isinstance(reconciliation, Mapping):
+            raise ValueError(
+                f"{aggregate_context}.vote_reconciliation debe ser un objeto"
+            )
+        reconciliation_kind = reconciliation.get("kind")
+        if reconciliation_kind != "party_columns_exact_sum":
+            raise ValueError(
+                f"{aggregate_context}.vote_reconciliation.kind debe ser "
+                "party_columns_exact_sum"
+            )
+        if reconciliation.get("empty_aggregate_value") != "reject":
+            raise ValueError(
+                f"{aggregate_context}.vote_reconciliation."
+                "empty_aggregate_value debe ser reject"
+            )
+
+
 def load_election_contract(
     contract_path: str | Path,
     *,
@@ -154,6 +352,8 @@ def load_election_contract(
         adapter = _required(source, "adapter", context)
         if not isinstance(adapter, Mapping) or adapter.get("kind") not in SUPPORTED_ADAPTERS:
             raise ValueError(f"{context}: adaptador no soportado")
+        if adapter.get("kind") == "wide_polling_station_csv":
+            _validate_wide_polling_station_adapter(adapter, context)
         resolved = dict(source)
         resolved["resolved_path"] = str(_verify_file(source, root, context))
         resolved_sources.append(resolved)
