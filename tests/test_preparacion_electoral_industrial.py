@@ -599,6 +599,14 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
             sidecar.write_bytes(
                 Path(info["structural_provenance_path"]).read_bytes()
             )
+            raw_manifest=_copy_raw_sources(
+                package_out=package,
+                selected_sources=[
+                    {"id":"p15","sha256":self.sha(raw15)},
+                    {"id":"p32","sha256":self.sha(raw32)},
+                ],
+                source_paths=[raw15,raw32],
+            )
 
             dictionary=package/"contract/party_dictionary.json"
             self._write_dictionary(dictionary)
@@ -646,12 +654,13 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
                     "sha256":self.sha(source),
                     "bytes":source.stat().st_size,
                 },
+                "raw_sources":raw_manifest,
                 "structural_provenance":{
                     "schema":"ddd-electoral-structural-provenance/1.0",
                     "path":"evidence/structural_provenance.json",
                     "sha256":self.sha(sidecar),
                     "merged_source_sha256":self.sha(source),
-                    "raw_sources_embedded":False,
+                    "raw_sources_embedded":True,
                 },
                 "embedded_contract":{
                     "election_contract":"contract/election_contract.json",
@@ -707,6 +716,23 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
                 ]["resolved_path"],
                 str(runtime_sidecar.resolve()),
             )
+
+            raw_to_tamper=package/raw_manifest[0]["path"]
+            original_raw=raw_to_tamper.read_bytes()
+            raw_to_tamper.write_bytes(original_raw+b"\n")
+            with self.assertRaisesRegex(
+                ValueError,
+                r"raw no acredita el sidecar|bytes no coinciden",
+            ):
+                validate_package(
+                    package=package,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
+            raw_to_tamper.write_bytes(original_raw)
 
             manifest_path=package/"manifest.json"
             original_manifest=json.loads(
@@ -852,6 +878,9 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
             for raw in result["raw_sources"]:
                 self.assertTrue((out/raw["path"]).is_file())
             self.assertIsNotNone(validate_previous(out,"demo","2025"))
+            damaged=out/result["raw_sources"][0]["path"]
+            damaged.write_bytes(damaged.read_bytes()+b"\n")
+            self.assertIsNone(validate_previous(out,"demo","2025"))
 
     def test_copy_raw_sources_avoids_same_basename_collision(self):
         with tempfile.TemporaryDirectory() as td:
@@ -878,6 +907,65 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
                 [Path(row["path"]).name for row in copied],
                 ["000_results.csv","001_results.csv"],
             )
+
+    def test_structural_merge_rejects_non_text_source_id(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            raw=root/"raw.csv"
+            raw.write_text("x\n1\n",encoding="utf-8")
+            with self.assertRaisesRegex(
+                ValueError,
+                r"source_id debe ser texto no vacío",
+            ):
+                merge_delimited_sources(
+                    [raw],
+                    root/"merged.csv",
+                    source_ids=[7],
+                )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"source.id no textual o vacío",
+            ):
+                _copy_raw_sources(
+                    package_out=root/"package",
+                    selected_sources=[
+                        {"id":7,"sha256":self.sha(raw)}
+                    ],
+                    source_paths=[raw],
+                )
+
+    def test_structural_merge_rejects_duplicate_header_and_irregular_rows(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            duplicate=root/"duplicate.csv"
+            duplicate.write_text(
+                "a;a\n1;2\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"cabecera vacía o duplicada",
+            ):
+                merge_delimited_sources(
+                    [duplicate],
+                    root/"duplicate-merged.csv",
+                    source_ids=["dup"],
+                )
+
+            irregular=root/"irregular.csv"
+            irregular.write_text(
+                "a;b\n1;2;3\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"anchura inválida",
+            ):
+                merge_delimited_sources(
+                    [irregular],
+                    root/"irregular-merged.csv",
+                    source_ids=["irregular"],
+                )
 
 
 class WorkflowContractTests(unittest.TestCase):
