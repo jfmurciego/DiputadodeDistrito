@@ -866,7 +866,7 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                         row=row,
                         field="party_applicability",
                         value="no_applicable_parties",
-                        cause="NO_APPLICABLE_PARTIES_FOR_POLLING_STATION",
+                        cause="NO_PARTIES_IN_DECLARED_SCOPE",
                     )
                 section_ids.add(section_id)
                 polling_station_rows += 1
@@ -1105,7 +1105,7 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                         "MISMATCH"
                         if differences
                         else (
-                            "MATCH_WITH_NOT_APPLICABLE"
+                            "MATCH_WITH_OUT_OF_SCOPE"
                             if any(
                                 item.get("status") == "NOT_COMPARABLE"
                                 for item in comparisons
