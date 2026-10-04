@@ -324,7 +324,27 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("evidence", r["administrative_components"]["rejected"][0]["rejection_reason"])
 
-    def test_21_evidence_section_outside_scope_blocks(self):
+    def test_21_empty_evidence_blocks_accreditation(self):
+        declaration = administrative_components("00001", [["a"], ["b"]], evidence={})
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+            components=[declaration],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn(
+            "evidence must be a non-empty object",
+            r["administrative_components"]["rejected"][0]["rejection_reason"],
+        )
+
+    def test_22_evidence_section_outside_scope_blocks(self):
         declaration = administrative_components(
             "00001",
             [["a"], ["b"]],
@@ -350,7 +370,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("does not belong to declared scope", r["administrative_components"]["rejected"][0]["rejection_reason"])
 
-    def test_22_evidence_cannot_point_section_at_another_declared_component(self):
+    def test_23_evidence_cannot_point_section_at_another_declared_component(self):
         declaration = administrative_components(
             "00001",
             [["a"], ["b"]],
@@ -379,7 +399,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
             r["administrative_components"]["rejected"][0]["rejection_reason"],
         )
 
-    def test_23_real_tremp_evidence_is_normative_and_passes_exact_membership(self):
+    def test_24_real_tremp_evidence_is_normative_and_passes_exact_membership(self):
         cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))
         declaration = cfg["validation"]["topology_accreditation"]["administrative_components"][0]
         tremp = ["2523401001", "2523401002", "2523402001", "2523402002", "2523403001"]
@@ -402,7 +422,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("2523403001", evidence["section"])
         self.assertEqual(["2523403001"], evidence["component_sections"])
 
-    def test_24_generation_binding_carries_topology_accreditation(self):
+    def test_25_generation_binding_carries_topology_accreditation(self):
         cfg = {
             "meta": {"year": 2025},
             "territory_contract": {},
