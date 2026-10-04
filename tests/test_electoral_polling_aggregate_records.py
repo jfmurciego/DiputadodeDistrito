@@ -9,6 +9,8 @@ from pathlib import Path
 from ddd_core.electoral_contract import (
     PartyDictionary,
     _validate_wide_polling_station_adapter,
+    load_election_contract,
+    validate_structural_provenance_document,
 )
 from herramientas.preparar_fuente_electoral import merge_delimited_sources
 
@@ -203,6 +205,128 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                         copy.deepcopy(adapter),
                         "fixture",
                     )
+
+    def test_contract_load_rejects_scope_field_missing_in_any_raw(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            raw_a = root / "a.csv"
+            raw_b = root / "b.csv"
+            raw_a.write_text(
+                "province;municipality;polling;P\n"
+                "15;7;1-1-A;5\n"
+                "SUM;;;5\n",
+                encoding="utf-8",
+            )
+            raw_b.write_text(
+                "province;municipality;polling;region;P;Q\n"
+                "32;1;1-1-A;north;7;0\n"
+                "SUM;;;north;7;0\n",
+                encoding="utf-8",
+            )
+            merged = root / "merged.csv"
+            info = merge_delimited_sources(
+                [raw_a, raw_b],
+                merged,
+                source_ids=["a", "b"],
+            )
+            dictionary = root / "parties.json"
+            dictionary.write_text(
+                '{"schema_family":"ddd-party-dictionary",'
+                '"schema_version":"1.0.0",'
+                '"unknown_party_policy":"reject",'
+                '"parties":[{"canonical_id":"P","display_name":"P"},'
+                '{"canonical_id":"Q","display_name":"Q"}]}',
+                encoding="utf-8",
+            )
+            import hashlib
+            sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+            contract = root / "contract.json"
+            adapter = scoped_adapter()
+            adapter["party_applicability"]["Q"]["field"] = "region"
+            adapter["party_applicability"]["Q"]["equals"] = ["north"]
+            adapter["structural_provenance"] = {
+                "path": Path(
+                    info["structural_provenance_path"]
+                ).name,
+                "sha256": info["structural_provenance_sha256"],
+            }
+            contract.write_text(
+                __import__("json").dumps({
+                    "schema_family": "ddd-election",
+                    "schema_version": "1.0.0",
+                    "election_id": "demo_2026",
+                    "territory_id": "demo",
+                    "title": "Demo",
+                    "election_date": "2026-01-01",
+                    "input_mode": "verifiable_file",
+                    "boundary_independence": True,
+                    "sources": [{
+                        "path": merged.name,
+                        "sha256": sha(merged),
+                        "publisher": "Official",
+                        "source_url": "https://official.example/results",
+                        "retrieved_at": "2026-01-02",
+                        "adapter": adapter,
+                    }],
+                    "party_dictionary": {
+                        "path": dictionary.name,
+                        "sha256": sha(dictionary),
+                    },
+                    "reconciliation": {},
+                }),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"campo de ámbito 'region'.*ausente en raws: a",
+            ):
+                load_election_contract(
+                    contract,
+                    project_root=root,
+                    expected_territory_id="demo",
+                )
+
+    def test_structural_document_rejects_impossible_metadata(self):
+        base = {
+            "schema": "ddd-electoral-structural-provenance/1.0",
+            "merged_source": {
+                "sha256": "a" * 64,
+                "records": 1,
+                "columns": ["province", "P"],
+            },
+            "sources": [{
+                "source_id": "a",
+                "raw_file": "a.csv",
+                "raw_sha256": "b" * 64,
+                "records": 1,
+                "merged_row_index_start": 0,
+                "merged_row_index_end_exclusive": 1,
+                "original_columns": ["province", "P"],
+            }],
+        }
+        invalid_name = copy.deepcopy(base)
+        invalid_name["sources"][0]["raw_file"] = "../a.csv"
+        with self.assertRaisesRegex(
+            ValueError,
+            r"raw_file debe ser un nombre de fichero",
+        ):
+            validate_structural_provenance_document(
+                invalid_name,
+                context="fixture",
+            )
+
+        invalid_union = copy.deepcopy(base)
+        invalid_union["merged_source"]["columns"] = [
+            "province", "P", "ghost",
+        ]
+        with self.assertRaisesRegex(
+            ValueError,
+            r"no coincide con la unión ordenada",
+        ):
+            validate_structural_provenance_document(
+                invalid_union,
+                context="fixture",
+            )
 
     def test_party_scope_distinguishes_structural_absence_from_zero(self):
         adapter = scoped_adapter()
