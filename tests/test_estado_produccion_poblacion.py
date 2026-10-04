@@ -79,6 +79,35 @@ def status(report, *, geo="PASS", execution="success", target_required=False):
 
 
 class ProductionPopulationGateTests(unittest.TestCase):
+    def test_repair_explicit_hard_signature_does_not_shift_durable_objective_indexes(self):
+        report = repair_report(
+            before=(2, 4, 0.30, 1.20, 12),
+            after=(1, 3, 0.20, 0.90, 10),
+            result="IMPROVED_NOT_REPAIRED",
+        )
+        repair = report["population_repair"]
+        repair.update({
+            "objective_hierarchy": [
+                "hard_violation_count",
+                "outliers",
+                "max_deviation",
+                "total_deviation",
+                "cohesion",
+            ],
+            "hard_signature_before": [2, 1500],
+            "hard_signature_after": [1, 400],
+            "hard_violation_magnitude_before": 1500,
+            "hard_violation_magnitude_after": 400,
+        })
+        population = population_dimension(report)
+        self.assertEqual(population["population_hard_constraints_before"], 2)
+        self.assertEqual(population["population_hard_constraints_after"], 1)
+        self.assertEqual(population["population_outliers_before"], 4)
+        self.assertEqual(population["population_outliers_after"], 3)
+        self.assertAlmostEqual(population["population_max_deviation_before"], 0.30)
+        self.assertAlmostEqual(population["population_max_deviation_after"], 0.20)
+        self.assertEqual(population["population_decision"], HARD_BLOCK)
+
     def test_repair_enabled_target_met_uses_repair_indexes(self):
         population = population_dimension(repair_report())
         self.assertEqual(population["population_decision"], TARGET_MET)

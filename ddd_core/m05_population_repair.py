@@ -17,7 +17,7 @@ RESULT_NONE = "NO_FEASIBLE_REPAIR_FOUND"
 class SearchLimits:
     max_depth: int = 3
     max_transfer_set: int = 2
-    max_candidates: int = 5000
+    max_candidates: int = 20000
     max_seconds: float = 5.0
     seed: int = 0
 
@@ -50,36 +50,53 @@ def territorial_metrics(state, adjacency, *, boundary_units_moved=0):
             "corridor_penalty":None,"base_compactness":None}
 
 
-def objective(populations, *, target, tolerance, floor, cap, cohesion=0):
+def _district_floor(district, floor, district_floors=None):
+    if district_floors is None:
+        return floor
+    return float(district_floors.get(district, floor))
+
+
+def objective(populations, *, target, tolerance, floor, cap, cohesion=0, district_floors=None):
     vals=list(populations.values())
-    hard=sum(p < floor or p > cap for p in vals)
+    hard=sum(
+        p < _district_floor(d, floor, district_floors) or p > cap
+        for d,p in populations.items()
+    )
     outside=sum(abs(p-target) > tolerance for p in vals)
     maxdev=max((abs(p-target)/target for p in vals),default=0.0)
     totaldev=sum(abs(p-target)/target for p in vals)
     return (hard,outside,round(maxdev,12),round(totaldev,12),int(cohesion))
 
 
-def _hard_population_signature(populations, *, floor, cap):
+def _hard_population_signature(populations, *, floor, cap, district_floors=None):
     hard_count = 0
     hard_magnitude = 0
-    for population in populations.values():
-        if population < floor:
+    for district,population in populations.items():
+        effective_floor = _district_floor(district, floor, district_floors)
+        if population < effective_floor:
             hard_count += 1
-            hard_magnitude += floor - population
+            hard_magnitude += effective_floor - population
         elif population > cap:
             hard_count += 1
             hard_magnitude += population - cap
     return (int(hard_count), int(hard_magnitude))
 
 
-def _controlled_population_transition(before, after, *, floor, cap):
-    """Never worsen hard floor/cap compliance while a multi-step repair is in flight."""
-    before_sig = _hard_population_signature(before, floor=floor, cap=cap)
-    after_sig = _hard_population_signature(after, floor=floor, cap=cap)
+def _controlled_population_transition(before, after, *, floor, cap, district_floors=None):
+    """Monotone hard-population transition used by the primary search."""
+    before_sig = _hard_population_signature(
+        before, floor=floor, cap=cap, district_floors=district_floors
+    )
+    after_sig = _hard_population_signature(
+        after, floor=floor, cap=cap, district_floors=district_floors
+    )
     return after_sig <= before_sig, before_sig, after_sig
 
 
-def _verify_final_constraints(state, units, adjacency, *, expected_districts, floor, cap):
+
+def _verify_final_constraints(
+    state, units, adjacency, *, expected_districts, floor, cap, district_floors=None
+):
     districts = set(state.values())
     if districts != set(expected_districts):
         return {"valid": False, "reason": "DISTRICT_SET_CHANGED"}
@@ -102,7 +119,9 @@ def _verify_final_constraints(state, units, adjacency, *, expected_districts, fl
         return {"valid": False, "reason": "MUNICIPAL_INTEGRITY", "groups": split_groups}
 
     populations = _district_pops(state, units)
-    hard_count, hard_magnitude = _hard_population_signature(populations, floor=floor, cap=cap)
+    hard_count, hard_magnitude = _hard_population_signature(
+        populations, floor=floor, cap=cap, district_floors=district_floors
+    )
     return {
         "valid": True,
         "hard_limits_met": hard_count == 0,
@@ -112,7 +131,9 @@ def _verify_final_constraints(state, units, adjacency, *, expected_districts, fl
     }
 
 
-def verify_partition_constraints(state, units, adjacency, *, floor, cap):
+def verify_partition_constraints(
+    state, units, adjacency, *, floor, cap, district_floors=None
+):
     """Validate structural invariants of a partition and report hard population violations."""
     return _verify_final_constraints(
         state,
@@ -121,6 +142,7 @@ def verify_partition_constraints(state, units, adjacency, *, floor, cap):
         expected_districts=set(state.values()),
         floor=floor,
         cap=cap,
+        district_floors=district_floors,
     )
 
 
@@ -151,7 +173,9 @@ def _municipality_complete(moved,donor,state,units):
     return True
 
 
-def _valid_transfer(state,units,adjacency,moved,donor,receiver,*,floor,cap):
+def _valid_transfer(
+    state,units,adjacency,moved,donor,receiver,*,floor,cap,district_floors=None
+):
     moved=set(moved); checks={"province_verified":False,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":False,"atomic_units_verified":False,"municipal_integrity_verified":False}
     if not moved or any(state.get(u)!=donor for u in moved): return False,"NOT_OWNED",checks
@@ -170,7 +194,9 @@ def _valid_transfer(state,units,adjacency,moved,donor,receiver,*,floor,cap):
     trial=dict(state)
     for u in moved: trial[u]=receiver
     before_pops=_district_pops(state,units); after_pops=_district_pops(trial,units)
-    controlled,before_sig,after_sig=_controlled_population_transition(before_pops,after_pops,floor=floor,cap=cap)
+    controlled,before_sig,after_sig=_controlled_population_transition(
+        before_pops,after_pops,floor=floor,cap=cap,district_floors=district_floors
+    )
     checks["population_transition_verified"]=controlled
     checks["hard_signature_before"]=list(before_sig)
     checks["hard_signature_after"]=list(after_sig)
@@ -211,9 +237,15 @@ def _relevant_districts(state,units,adjacency,target,tolerance,remaining_depth):
     return relevant
 
 
-def _step_evidence(state,trial,units,adjacency,moved,donor,receiver,checks,*,target,tolerance,floor,cap):
+def _step_evidence(
+    state,trial,units,adjacency,moved,donor,receiver,checks,*,
+    target,tolerance,floor,cap,district_floors=None
+):
     before=_district_pops(state,units); after=_district_pops(trial,units); tm=territorial_metrics(trial,adjacency,boundary_units_moved=len(moved))
-    obj=objective(after,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=tm["cut_boundary_edges"])
+    obj=objective(
+        after,target=target,tolerance=tolerance,floor=floor,cap=cap,
+        cohesion=tm["cut_boundary_edges"],district_floors=district_floors
+    )
     return {"units":sorted(moved,key=str),"donor":donor,"receiver":receiver,"population_before":before,"population_after":after,
         "deviation_before":_deviations(before,target),"deviation_after":_deviations(after,target),"objective_after_step":list(obj),
         "territorial_metrics":tm,**checks,"reason":"ACCEPTED_VALID_CANDIDATE"}
@@ -227,15 +259,24 @@ def _churn(path):
     return (units,districts,len(path))
 
 
-def _rank(state,path,units,adjacency,target,tolerance,floor,cap):
-    pops=_district_pops(state,units); tm=territorial_metrics(state,adjacency); obj=objective(pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=tm["cut_boundary_edges"])
-    hard_count,hard_magnitude=_hard_population_signature(pops,floor=floor,cap=cap)
+def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=None):
+    pops=_district_pops(state,units); tm=territorial_metrics(state,adjacency); obj=objective(
+        pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
+        cohesion=tm["cut_boundary_edges"],district_floors=district_floors
+    )
+    hard_count,hard_magnitude=_hard_population_signature(
+        pops,floor=floor,cap=cap,district_floors=district_floors
+    )
     return (hard_count,hard_magnitude,obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
-def _province_rank_from_pops(pops,districts,target,tolerance,floor,cap):
+def _province_rank_from_pops(
+    pops,districts,target,tolerance,floor,cap,district_floors=None
+):
     selected={d:pops[d] for d in districts}
-    hard_count,hard_magnitude=_hard_population_signature(selected,floor=floor,cap=cap)
+    hard_count,hard_magnitude=_hard_population_signature(
+        selected,floor=floor,cap=cap,district_floors=district_floors
+    )
     outliers={d for d in districts if abs(pops[d]-target)>tolerance}
     distance=round(sum(max(0,abs(pops[d]-target)-tolerance) for d in districts)/target,12)
     maxdev=round(max((abs(pops[d]-target)/target for d in outliers),default=0.0),12)
@@ -247,7 +288,20 @@ def _province_state_key(state,units,province):
     return tuple(sorted(((u,state[u]) for u in state if str(units[u].get("province"))==province),key=lambda x:str(x[0])))
 
 
-def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,receiver,*,floor,cap):
+def _focal_single_transfer(
+    state,
+    pops,
+    province_units,
+    units,
+    adjacency,
+    u,
+    donor,
+    receiver,
+    *,
+    floor,
+    cap,
+    district_floors=None,
+):
     checks={"province_verified":True,"donor_contiguity_verified":False,
         "receiver_contiguity_verified":True,"atomic_units_verified":True,"municipal_integrity_verified":False}
     group=units[u].get("municipality_group")
@@ -260,7 +314,9 @@ def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,rec
     checks["donor_contiguity_verified"]=True
     after_donor=pops[donor]-int(units[u]["population"]); after_receiver=pops[receiver]+int(units[u]["population"])
     trial_pops=dict(pops); trial_pops[donor]=after_donor; trial_pops[receiver]=after_receiver
-    controlled,before_sig,after_sig=_controlled_population_transition(pops,trial_pops,floor=floor,cap=cap)
+    controlled,before_sig,after_sig=_controlled_population_transition(
+        pops,trial_pops,floor=floor,cap=cap,district_floors=district_floors
+    )
     checks["population_transition_verified"]=controlled
     checks["hard_signature_before"]=list(before_sig)
     checks["hard_signature_after"]=list(after_sig)
@@ -268,8 +324,10 @@ def _focal_single_transfer(state,pops,province_units,units,adjacency,u,donor,rec
         return False,"POPULATION_REGRESSION",checks
     return True,"VALID",checks
 
-
-def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limits,deadline,candidate_budget):
+def _focal_chain_search(
+    *,state,units,adjacency,target,tolerance,floor,cap,limits,deadline,
+    candidate_budget,district_floors=None
+):
     """Beam search focal con dos modos explícitos.
 
     Si entra con infracciones duras, su responsabilidad termina al alcanzar
@@ -279,8 +337,10 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
     hasta cerrar los outliers de tolerancia.
     """
     phase_start=time.monotonic()
-    hard_repair_mode=_hard_population_signature(_district_pops(state,units),floor=floor,cap=cap)[0] > 0
-    working=dict(state); all_steps=[]; candidate_attempts=0; states_explored=0
+    hard_repair_mode=_hard_population_signature(
+        _district_pops(state,units),floor=floor,cap=cap,district_floors=district_floors
+    )[0] > 0
+    working=dict(state); all_steps=[]; candidate_attempts=0; transitions_evaluated=0; states_explored=0
     rejection_counts={}; province_reports=[]; termination="QUEUE_EMPTY"
     provinces=sorted({str(units[u].get("province")) for u in units},key=str)
     for province in provinces:
@@ -294,9 +354,15 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         districts=sorted(set(local_base.values()),key=str)
         start_pops={d:0 for d in districts}
         for u,d in local_base.items(): start_pops[d]+=int(units[u]["population"])
-        start_rank,start_outliers=_province_rank_from_pops(start_pops,districts,target,tolerance,floor,cap)
+        start_rank,start_outliers=_province_rank_from_pops(
+            start_pops,districts,target,tolerance,floor,cap,district_floors
+        )
         if start_rank[0]==0 and not start_outliers: continue
-        hard_districts={d for d in districts if start_pops[d] < floor or start_pops[d] > cap}
+        hard_districts={
+            d for d in districts
+            if start_pops[d] < _district_floor(d,floor,district_floors)
+            or start_pops[d] > cap
+        }
         district_neighbors=_district_neighbors(local_base,adjacency)
         preparatory_districts=set(hard_districts); prep_frontier=set(hard_districts)
         for _ in range(2):
@@ -322,7 +388,13 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                     found=(current,pops,path,rank); break
                 if depth>=depth_limit:
                     depth_exhausted+=1; continue
-                _,outliers=_province_rank_from_pops(pops,districts,target,tolerance,floor,cap)
+                _,outliers=_province_rank_from_pops(
+                    pops,districts,target,tolerance,floor,cap,district_floors
+                )
+                hard_now={
+                    d for d in districts
+                    if pops[d] < _district_floor(d,floor,district_floors) or pops[d] > cap
+                }
                 for u in province_units:
                     donor=current[u]
                     receivers=sorted({current[v] for v in adjacency.get(u,()) if v in current and current[v]!=donor},key=str)
@@ -331,23 +403,33 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
                             termination="CANDIDATE_BUDGET_EXHAUSTED"; break
                         if time.monotonic()>=deadline:
                             termination="TIME_BUDGET_EXHAUSTED"; break
-                        donor_high=donor in outliers and pops[donor] > target+tolerance
-                        receiver_low=receiver in outliers and pops[receiver] < target-tolerance
+                        if hard_repair_mode:
+                            donor_high=donor in hard_now and pops[donor] > cap
+                            receiver_low=(
+                                receiver in hard_now
+                                and pops[receiver] < _district_floor(receiver,floor,district_floors)
+                            )
+                        else:
+                            donor_high=donor in outliers and pops[donor] > target+tolerance
+                            receiver_low=receiver in outliers and pops[receiver] < target-tolerance
                         targeted=donor_high or receiver_low
                         preparatory=(donor in preparatory_districts and receiver in preparatory_districts)
                         if not (targeted or preparatory): continue
-                        if targeted:
-                            candidate_attempts+=1
-                        ok,reason,checks=_focal_single_transfer(current,pops,province_units,units,adjacency,u,donor,receiver,floor=floor,cap=cap)
+                        transitions_evaluated+=1
+                        ok,reason,checks=_focal_single_transfer(
+                            current,pops,province_units,units,adjacency,u,donor,receiver,
+                            floor=floor,cap=cap,district_floors=district_floors,
+                        )
                         if not ok:
                             rejection_counts[reason]=rejection_counts.get(reason,0)+1
                             continue
-                        if not targeted:
-                            candidate_attempts+=1
+                        candidate_attempts+=1
                         trial_pops=dict(pops); delta=int(units[u]["population"])
                         trial_pops[donor]-=delta; trial_pops[receiver]+=delta
-                        trial_rank,trial_outliers=_province_rank_from_pops(trial_pops,districts,target,tolerance,floor,cap)
-                        if len(trial_outliers)>len(outliers)+1: continue
+                        trial_rank,trial_outliers=_province_rank_from_pops(
+                            trial_pops,districts,target,tolerance,floor,cap,district_floors
+                        )
+                        if (not hard_repair_mode) and len(trial_outliers)>len(outliers)+1: continue
                         trial=current.copy(); trial[u]=receiver
                         key=_state_key(trial)
                         if key in seen: continue
@@ -369,7 +451,11 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
             replay=dict(working); steps=[]
             for u,donor,receiver,checks in moves:
                 trial=dict(replay); trial[u]=receiver
-                steps.append(_step_evidence(replay,trial,units,adjacency,(u,),donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap))
+                steps.append(_step_evidence(
+                    replay,trial,units,adjacency,(u,),donor,receiver,checks,
+                    target=target,tolerance=tolerance,floor=floor,cap=cap,
+                    district_floors=district_floors,
+                ))
                 replay=trial
             for u,d in found_local.items(): working[u]=d
             all_steps.extend(steps); report["outliers_after"]=final_rank[2]
@@ -378,7 +464,9 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         province_reports.append(report)
         if termination.endswith("EXHAUSTED"): break
     final_pops=_district_pops(working,units)
-    final_hard=_hard_population_signature(final_pops,floor=floor,cap=cap)
+    final_hard=_hard_population_signature(
+        final_pops,floor=floor,cap=cap,district_floors=district_floors
+    )
     complete=(final_hard[0]==0) if hard_repair_mode else (not _outliers(final_pops,target,tolerance))
     elapsed=time.monotonic()-phase_start
     classification={
@@ -388,27 +476,55 @@ def _focal_chain_search(*,state,units,adjacency,target,tolerance,floor,cap,limit
         "municipal_integrity": rejection_counts.get("MUNICIPAL_INTEGRITY",0),
         "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
     }
-    return working,all_steps,{"enabled":True,"complete":complete,"candidate_budget":candidate_budget,
-        "candidate_attempts":candidate_attempts,"states_explored":states_explored,"termination_reason":termination,
+    return working,all_steps,{"enabled":True,"complete":complete,
+        "completion_target":"HARD_POPULATION_LIMITS" if hard_repair_mode else "TARGET_TOLERANCE",
+        "candidate_budget":candidate_budget,
+        "candidate_attempts":candidate_attempts,"transitions_evaluated":transitions_evaluated,
+        "states_explored":states_explored,"termination_reason":termination,
         "elapsed_seconds":round(elapsed,6),"provinces":province_reports,"rejection_counts":rejection_counts,
         "rejection_classification":classification}
 
 
-def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None):
+def repair(
+    *,assignments,units,adjacency,target,tolerance,floor,cap,limits=None,
+    district_floors=None
+):
     """Búsqueda best-first + reparación focal bajo un único presupuesto temporal y de candidatos."""
     limits=limits or SearchLimits(); start=time.monotonic(); deadline=start+float(limits.max_seconds)
-    examined=0; created=1; secondary_only=0
+    examined=0; primary_transitions_evaluated=0; created=1; secondary_only=0
     baseline=dict(assignments); baseline_pops=_district_pops(baseline,units); baseline_tm=territorial_metrics(baseline,adjacency)
-    baseline_obj=objective(baseline_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=baseline_tm["cut_boundary_edges"])
+    baseline_obj=objective(
+        baseline_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
+        cohesion=baseline_tm["cut_boundary_edges"],district_floors=district_floors
+    )
     baseline_outliers=baseline_obj[1]
-    reserve_for_focal=(int(limits.max_candidates)//2) if baseline_outliers else 0
-    primary_budget=max(0,int(limits.max_candidates)-reserve_for_focal)
+    baseline_hard=_hard_population_signature(
+        baseline_pops,floor=floor,cap=cap,district_floors=district_floors
+    )
+    # Ante violaciones duras, la primaria conserva una fracción acotada para
+    # capturar mejoras directas o por conjuntos conectados; la mayoría del
+    # presupuesto y del tiempo queda reservada para cadenas focales.
+    total_candidate_budget=max(0,int(limits.max_candidates))
+    if baseline_hard[0] > 0:
+        primary_budget=total_candidate_budget//4
+        primary_deadline=start+(float(limits.max_seconds)*0.25)
+    else:
+        primary_budget=(
+            total_candidate_budget - total_candidate_budget//2
+            if baseline_outliers else total_candidate_budget
+        )
+        primary_deadline=deadline
     best_primary=None; rejected=[]; rejection_counts={}; depth_exhausted=0; seen={_state_key(baseline)}; heap=[]
-    rank,_=_rank(baseline,[],units,adjacency,target,tolerance,floor,cap); heapq.heappush(heap,(rank,0,baseline,[]))
+    baseline_rank,_=_rank(
+        baseline,[],units,adjacency,target,tolerance,floor,cap,district_floors
+    )
+    rank=baseline_rank; heapq.heappush(heap,(rank,0,baseline,[]))
     serial=0; termination="QUEUE_EMPTY"
     while heap:
         if examined>=primary_budget: termination="PRIMARY_BUDGET_RESERVED_FOR_FOCAL"; break
-        if time.monotonic()>=deadline: termination="TIME_BUDGET_EXHAUSTED"; break
+        if time.monotonic()>=primary_deadline:
+            termination="PRIMARY_TIME_RESERVED_FOR_FOCAL" if primary_deadline < deadline else "TIME_BUDGET_EXHAUSTED"
+            break
         _,_,state,path=heapq.heappop(heap)
         if len(path)>=limits.max_depth:
             depth_exhausted+=1
@@ -426,27 +542,43 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         for _,_,_,donor,receiver in pairs:
             for moved in _boundary_sets(state,adjacency,donor,receiver,limits.max_transfer_set):
                 if examined>=primary_budget: termination="PRIMARY_BUDGET_RESERVED_FOR_FOCAL"; break
-                if time.monotonic()>=deadline: termination="TIME_BUDGET_EXHAUSTED"; break
-                examined+=1
-                ok,reason,checks=_valid_transfer(state,units,adjacency,moved,donor,receiver,floor=floor,cap=cap)
+                if time.monotonic()>=primary_deadline:
+                    termination="PRIMARY_TIME_RESERVED_FOR_FOCAL" if primary_deadline < deadline else "TIME_BUDGET_EXHAUSTED"
+                    break
+                primary_transitions_evaluated+=1
+                ok,reason,checks=_valid_transfer(
+                    state,units,adjacency,moved,donor,receiver,
+                    floor=floor,cap=cap,district_floors=district_floors
+                )
                 if not ok:
                     rejection_counts[reason]=rejection_counts.get(reason,0)+1
                     if len(rejected)<100: rejected.append({"units":sorted(moved,key=str),"districts":[donor,receiver],"reason":reason,**checks})
                     continue
+                examined+=1
                 trial=dict(state)
                 for u in moved: trial[u]=receiver
                 key=_state_key(trial)
                 if key in seen: continue
-                seen.add(key); step=_step_evidence(state,trial,units,adjacency,moved,donor,receiver,checks,target=target,tolerance=tolerance,floor=floor,cap=cap)
-                new_path=path+[step]; rank,obj=_rank(trial,new_path,units,adjacency,target,tolerance,floor,cap); created+=1
-                if _primary_improves(obj,baseline_obj):
+                seen.add(key); step=_step_evidence(
+                    state,trial,units,adjacency,moved,donor,receiver,checks,
+                    target=target,tolerance=tolerance,floor=floor,cap=cap,
+                    district_floors=district_floors,
+                )
+                new_path=path+[step]; rank,obj=_rank(
+                    trial,new_path,units,adjacency,target,tolerance,floor,cap,district_floors
+                ); created+=1
+                primary_improves=(
+                    (baseline_hard[0] > 0 and rank[:-1] < baseline_rank[:-1])
+                    or _primary_improves(obj,baseline_obj)
+                )
+                if primary_improves:
                     candidate=(rank,trial,new_path,obj)
                     if best_primary is None or rank < best_primary[0]: best_primary=candidate
                 elif obj < baseline_obj: secondary_only += 1
                 if len(new_path)<limits.max_depth:
                     serial+=1; heapq.heappush(heap,(rank,serial,trial,new_path))
-            if termination in {"PRIMARY_BUDGET_RESERVED_FOR_FOCAL","TIME_BUDGET_EXHAUSTED"}: break
-        if termination in {"PRIMARY_BUDGET_RESERVED_FOR_FOCAL","TIME_BUDGET_EXHAUSTED"}: break
+            if termination in {"PRIMARY_BUDGET_RESERVED_FOR_FOCAL","PRIMARY_TIME_RESERVED_FOR_FOCAL","TIME_BUDGET_EXHAUSTED"}: break
+        if termination in {"PRIMARY_BUDGET_RESERVED_FOR_FOCAL","PRIMARY_TIME_RESERVED_FOR_FOCAL","TIME_BUDGET_EXHAUSTED"}: break
 
     if best_primary is None:
         best_state=baseline; best_path=[]; best_obj=baseline_obj; status=RESULT_NONE; baseline_restored=True
@@ -455,15 +587,19 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         status=RESULT_REPAIRED if best_obj[1]==0 else RESULT_IMPROVED; baseline_restored=False
 
     focal_meta={"enabled":False,"complete":best_obj[1]==0,"candidate_budget":0,"candidate_attempts":0,
-        "states_explored":0,"termination_reason":"NOT_NEEDED","elapsed_seconds":0.0,"provinces":[],
+        "transitions_evaluated":0,"states_explored":0,"termination_reason":"NOT_NEEDED","elapsed_seconds":0.0,"provinces":[],
         "rejection_counts":{},"rejection_classification":{}}
     remaining_candidates=max(0,int(limits.max_candidates)-examined)
     if best_obj[1] != 0 and remaining_candidates>0 and time.monotonic()<deadline:
         focal_state,focal_steps,focal_meta=_focal_chain_search(
             state=best_state,units=units,adjacency=adjacency,target=target,tolerance=tolerance,
-            floor=floor,cap=cap,limits=limits,deadline=deadline,candidate_budget=remaining_candidates)
+            floor=floor,cap=cap,limits=limits,deadline=deadline,
+            candidate_budget=remaining_candidates,district_floors=district_floors)
         focal_pops=_district_pops(focal_state,units); focal_tm=territorial_metrics(focal_state,adjacency)
-        focal_obj=objective(focal_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,cohesion=focal_tm["cut_boundary_edges"])
+        focal_obj=objective(
+            focal_pops,target=target,tolerance=tolerance,floor=floor,cap=cap,
+            cohesion=focal_tm["cut_boundary_edges"],district_floors=district_floors
+        )
         if focal_obj < best_obj or focal_obj[1]==0:
             best_state=focal_state; best_path=best_path+focal_steps; best_obj=focal_obj
             status=RESULT_REPAIRED if best_obj[1]==0 else RESULT_IMPROVED; baseline_restored=False
@@ -475,8 +611,12 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         termination="TIME_BUDGET_EXHAUSTED"
     elif total_candidates>=limits.max_candidates and best_obj[1] != 0:
         termination="CANDIDATE_BUDGET_EXHAUSTED"
-    elif focal_meta.get("termination_reason") not in {None,"NOT_NEEDED","QUEUE_EMPTY"} and best_obj[1] != 0:
-        termination=focal_meta["termination_reason"]
+    elif focal_meta.get("enabled") and best_obj[1] != 0:
+        # Una vez ejecutada la fase focal, su causa de terminación describe
+        # el estado final de la búsqueda. La reserva de presupuesto de la
+        # primaria es un detalle intermedio y no debe sobrevivir como razón
+        # final cuando la focal sí consumió ese relevo.
+        termination=focal_meta.get("termination_reason") or "QUEUE_EMPTY"
 
     rejection_counts["DEPTH_EXHAUSTED"]=rejection_counts.get("DEPTH_EXHAUSTED",0)+depth_exhausted
     for reason,count in (focal_meta.get("rejection_counts") or {}).items():
@@ -489,27 +629,55 @@ def repair(*,assignments,units,adjacency,target,tolerance,floor,cap,limits=None)
         "depth_exhaustion": rejection_counts.get("DEPTH_EXHAUSTED",0),
     }
     final_pops=_district_pops(best_state,units); final_tm=territorial_metrics(best_state,adjacency,boundary_units_moved=sum(len(s["units"]) for s in best_path))
+    final_hard=_hard_population_signature(
+        final_pops,floor=floor,cap=cap,district_floors=district_floors
+    )
     final_verification=_verify_final_constraints(
         best_state,units,adjacency,
         expected_districts=set(baseline.values()),
-        floor=floor,cap=cap,
+        floor=floor,cap=cap,district_floors=district_floors,
     )
+    if baseline_hard[0] > 0 and final_hard[0] == 0:
+        termination="HARD_LIMITS_REPAIRED"
+    elif baseline_hard[0] == 0 and baseline_outliers > 0 and best_obj[1] == 0:
+        termination="TARGET_TOLERANCE_REPAIRED"
     if not final_verification.get("valid"):
         raise RuntimeError(f"M05 repair produjo estado estructuralmente inválido: {final_verification}")
     affected=sorted({d for s in best_path for d in (s["donor"],s["receiver"])},key=str)
-    return {"schema":"ddd.m05-population-repair/1.5","result":status,"limits":asdict(limits),
+    floor_overrides={
+        str(district):float(value)
+        for district,value in sorted((district_floors or {}).items(),key=lambda item:str(item[0]))
+        if float(value)!=float(floor)
+    }
+    return {"schema":"ddd.m05-population-repair/1.6","result":status,"limits":asdict(limits),
+        "hard_population_floor":float(floor),"hard_population_cap":float(cap),
+        "district_floor_overrides":floor_overrides,
         "candidates_examined":total_candidates,"primary_candidates_examined":examined,
+        "primary_candidate_budget":primary_budget,
+        "primary_transitions_evaluated":primary_transitions_evaluated,
+        "transitions_evaluated":primary_transitions_evaluated+int(focal_meta.get("transitions_evaluated",0)),
         "termination_reason":termination,"elapsed_seconds":round(elapsed,6),"queue_states_created":created,"queue_states_examined":examined,
         "primary_improvement_found":best_primary is not None,"secondary_only_candidates":secondary_only,"baseline_restored":baseline_restored,
-        "objective_hierarchy":["hard_constraints","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
-        "objective_before":list(baseline_obj),"objective_after":list(best_obj),"territorial_metrics_before":baseline_tm,"territorial_metrics_after":final_tm,
+        # objective_* mantiene el contrato durable histórico de cinco posiciones.
+        # La magnitud dura pertenece al ranking interno y se expone por separado.
+        "objective_hierarchy":["hard_violation_count","outliers","max_deviation","total_deviation","cohesion"],"queue_priority":["hard_violation_count","hard_violation_magnitude","outliers","max_deviation","outlier_distance_to_tolerance","total_deviation","cohesion","units_moved","districts_affected","chain_length","depth","deterministic_key"],
+        "objective_before":list(baseline_obj),"objective_after":list(best_obj),
+        "hard_signature_before":list(baseline_hard),"hard_signature_after":list(final_hard),
+        "hard_violation_magnitude_before":int(baseline_hard[1]),"hard_violation_magnitude_after":int(final_hard[1]),
+        "territorial_metrics_before":baseline_tm,"territorial_metrics_after":final_tm,
         "population_before":baseline_pops,"population_after":final_pops,"populations_before":baseline_pops,"populations_after":final_pops,"assignments":best_state,
         "hard_limits_met":bool(final_verification["hard_limits_met"]),
         "final_hard_population_violations":int(final_verification["hard_population_violations"]),
-        "final_hard_violation_magnitude":int(final_verification["hard_violation_magnitude"]),
+        "final_hard_violation_magnitude":int(final_hard[1]),
         "controlled_improvement_verified":all(bool(step.get("population_transition_verified",False)) for step in best_path),
-        "repairs":best_path,"districts_affected":affected,"constraints_verified":["EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY","HARD_POPULATION_LIMITS_FINAL"],
+        "repairs":best_path,"districts_affected":affected,
+        "constraints_checked":["EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY","HARD_POPULATION_LIMITS_FINAL"],
+        "constraints_verified":[
+            "EXACT_DISTRICT_COUNT","PROVINCE","CONTIGUITY","ATOMIC_UNITS","MUNICIPAL_INTEGRITY",
+            *(["HARD_POPULATION_LIMITS_FINAL"] if final_verification["hard_limits_met"] else []),
+        ],
         "territorial_metric_availability":{"cut_boundary_edges":True,"boundary_units_moved":True,"corridor_penalty":False,"base_compactness":False},
-        "focal_search":focal_meta,"rejection_counts":rejection_counts,"rejection_classification":rejection_classification,
+        "focal_search":focal_meta,
+        "rejection_counts":rejection_counts,"rejection_classification":rejection_classification,
         "rejections":rejected,"baseline_preserved":best_state==baseline}
 

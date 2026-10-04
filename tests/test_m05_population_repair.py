@@ -20,6 +20,7 @@ class PopulationRepairTests(unittest.TestCase):
         units={"a1":U(40),"a2":U(40),"b1":U(20),"b2":U(100)}; ass={"a1":"A","a2":"A","b1":"B","b2":"B"}
         x=self.repair_case(ass,units,A(("a1","a2"),("a2","b1"),("b1","b2")))
         self.assertEqual(x["result"],r.RESULT_REPAIRED); self.assertEqual(x["objective_after"][1],0)
+        self.assertEqual(x["termination_reason"],"TARGET_TOLERANCE_REPAIRED")
 
     def test_secondary_total_deviation_only_restores_baseline(self):
         # A=80, B=120, C=130; mover 5 reduce totaldev pero C fija maxdev en 30%.
@@ -140,6 +141,8 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertTrue(x["hard_limits_met"])
         self.assertEqual(x["final_hard_population_violations"],0)
         self.assertTrue(x["focal_search"]["complete"])
+        self.assertEqual(x["focal_search"]["completion_target"],"HARD_POPULATION_LIMITS")
+        self.assertEqual(x["termination_reason"],"HARD_LIMITS_REPAIRED")
         self.assertEqual(len(x["repairs"]),1)
         self.assertEqual(x["population_after"]["A"],90)
         self.assertEqual(x["population_after"]["B"],100)
@@ -164,10 +167,20 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertEqual(x["final_hard_population_violations"],0)
         self.assertGreaterEqual(len(x["repairs"]),2)
         self.assertTrue(x["controlled_improvement_verified"])
+        self.assertEqual(x["primary_candidate_budget"],50)
+        self.assertGreaterEqual(
+            x["primary_transitions_evaluated"],
+            x["primary_candidates_examined"],
+        )
+        self.assertGreaterEqual(
+            x["transitions_evaluated"],
+            x["candidates_examined"],
+        )
         self.assertIn("PROVINCE",x["constraints_verified"])
         self.assertIn("CONTIGUITY",x["constraints_verified"])
         self.assertIn("ATOMIC_UNITS",x["constraints_verified"])
         self.assertIn("MUNICIPAL_INTEGRITY",x["constraints_verified"])
+        self.assertIn("HARD_POPULATION_LIMITS_FINAL",x["constraints_verified"])
         signatures=[tuple(step["hard_signature_after"]) for step in x["repairs"]]
         previous=r._hard_population_signature(x["population_before"],floor=50,cap=150)
         for signature in signatures:
@@ -176,6 +189,103 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertLess(
             x["final_hard_violation_magnitude"],
             r._hard_population_signature(x["population_before"],floor=50,cap=150)[1],
+        )
+
+    def test_district_floor_override_exempts_only_floor_not_ceiling(self):
+        units={
+            "a":U(40),
+            "b":U(100),
+        }
+        assignments={"a":"A","b":"B"}
+        adjacency=A(("a","b"))
+
+        governed=r.verify_partition_constraints(
+            assignments,
+            units,
+            adjacency,
+            floor=50,
+            cap=150,
+            district_floors={"A":0.0,"B":50.0},
+        )
+        self.assertTrue(governed["valid"])
+        self.assertTrue(governed["hard_limits_met"])
+        self.assertEqual(governed["hard_population_violations"],0)
+
+        units_over={
+            "a":U(160),
+            "b":U(100),
+        }
+        ceiling=r.verify_partition_constraints(
+            assignments,
+            units_over,
+            adjacency,
+            floor=50,
+            cap=150,
+            district_floors={"A":0.0,"B":50.0},
+        )
+        self.assertTrue(ceiling["valid"])
+        self.assertFalse(ceiling["hard_limits_met"])
+        self.assertEqual(ceiling["hard_population_violations"],1)
+        self.assertEqual(ceiling["hard_violation_magnitude"],10)
+
+    def test_repair_uses_effective_floor_in_hard_signature_and_evidence(self):
+        units={
+            "a":U(40),
+            "b":U(100),
+        }
+        assignments={"a":"A","b":"B"}
+        x=r.repair(
+            assignments=assignments,
+            units=units,
+            adjacency=A(("a","b")),
+            target=100,
+            tolerance=10,
+            floor=50,
+            cap=150,
+            district_floors={"A":0.0,"B":50.0},
+            limits=r.SearchLimits(
+                max_depth=1,
+                max_transfer_set=1,
+                max_candidates=10,
+                max_seconds=1,
+                seed=0,
+            ),
+        )
+        self.assertEqual(x["hard_signature_before"],[0,0])
+        self.assertEqual(x["hard_signature_after"],[0,0])
+        self.assertEqual(x["hard_population_floor"],50.0)
+        self.assertEqual(x["hard_population_cap"],150.0)
+        self.assertEqual(x["district_floor_overrides"],{"A":0.0})
+        self.assertTrue(x["hard_limits_met"])
+
+    def test_durable_objective_vector_stays_five_dimensional_and_hard_signature_is_explicit(self):
+        units={"a":U(40),"x":U(50),"b":U(100),"c":U(140)}
+        ass={"a":"A","x":"B","b":"B","c":"C"}
+        adj=A(("a","x"),("x","b"))
+        x=self.repair_case(
+            ass,units,adj,
+            limits=r.SearchLimits(max_depth=0,max_transfer_set=1,max_candidates=50,max_seconds=2,seed=13),
+        )
+        self.assertEqual(x["schema"],"ddd.m05-population-repair/1.6")
+        self.assertEqual(
+            x["objective_hierarchy"],
+            ["hard_violation_count","outliers","max_deviation","total_deviation","cohesion"],
+        )
+        self.assertEqual(len(x["objective_before"]),5)
+        self.assertEqual(len(x["objective_after"]),5)
+        self.assertEqual(x["objective_before"][0],x["hard_signature_before"][0])
+        self.assertEqual(x["objective_after"][0],x["hard_signature_after"][0])
+        self.assertEqual(
+            x["hard_violation_magnitude_before"],
+            x["hard_signature_before"][1],
+        )
+        self.assertEqual(
+            x["hard_violation_magnitude_after"],
+            x["hard_signature_after"][1],
+        )
+        self.assertEqual(
+            x["final_hard_violation_magnitude"],
+            x["hard_signature_after"][1],
         )
 
     def test_unsolved_hard_population_case_is_preserved_and_reported(self):
@@ -193,6 +303,8 @@ class PopulationRepairTests(unittest.TestCase):
         self.assertFalse(x["hard_limits_met"])
         self.assertEqual(x["assignments"],ass)
         self.assertGreater(x["final_hard_population_violations"],0)
+        self.assertIn("HARD_POPULATION_LIMITS_FINAL",x["constraints_checked"])
+        self.assertNotIn("HARD_POPULATION_LIMITS_FINAL",x["constraints_verified"])
         self.assertGreater(x["rejection_classification"]["municipal_integrity"],0)
 
     def test_global_candidate_budget_caps_primary_plus_focal_on_large_case(self):
@@ -213,6 +325,10 @@ class PopulationRepairTests(unittest.TestCase):
             50,
         )
         self.assertEqual(x["focal_search"]["candidate_budget"],50-x["primary_candidates_examined"])
+        self.assertGreaterEqual(
+            x["focal_search"]["transitions_evaluated"],
+            x["focal_search"]["candidate_attempts"],
+        )
 
     def test_total_time_budget_includes_focal_phase_on_large_case(self):
         units={}; ass={}; edges=[]
@@ -239,6 +355,7 @@ class PopulationRepairTests(unittest.TestCase):
         units={"a":U(80),"b":U(120)}; ass={"a":"A","b":"B"}
         x=self.repair_case(ass,units,A(("a","b")),limits=r.SearchLimits(max_depth=1,max_transfer_set=1,max_candidates=1,max_seconds=2,seed=1))
         self.assertEqual(x["result"],r.RESULT_NONE); self.assertTrue(x["baseline_restored"]); self.assertEqual(x["assignments"],ass)
+        self.assertEqual(x["primary_candidate_budget"],1)
         self.assertIn(x["termination_reason"],{"CANDIDATE_BUDGET_EXHAUSTED","QUEUE_EMPTY"})
 
     def test_deterministic_same_seed(self):
