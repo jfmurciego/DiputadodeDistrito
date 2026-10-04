@@ -3,10 +3,10 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: Preflight topológico territorial genérico
-VERSIÓN: 1.0.2
+VERSIÓN: 1.1.0
 FECHA: 2026-09-16
 ESTADO: candidato
-QUÉ HACE: separa grafo físico, componentes diagnosticadas, pasarelas declaradas y grafo operativo; emite READY, NEEDS_POLICY o BLOCKED sin ejecutar M01-M03.
+QUÉ HACE: separa grafo físico, componentes administrativas acreditadas, pasarelas declaradas y grafo operativo; emite READY, NEEDS_POLICY o BLOCKED sin ejecutar M01-M03.
 """
 from __future__ import annotations
 
@@ -15,6 +15,8 @@ from typing import Any, Iterable, Mapping
 
 DECISIONS = {"READY", "NEEDS_POLICY", "BLOCKED"}
 REQUIRED_BRIDGE_KEYS = ("u", "v", "admin_scope", "edge_type", "reason", "source")
+TOPOLOGY_ACCREDITATION_SCHEMA = "ddd.topology-accreditation/1.0"
+REQUIRED_COMPONENT_KEYS = ("admin_scope", "components", "reason", "source")
 
 
 def _components(nodes: Iterable[str], edges: Iterable[tuple[str, str]]) -> list[list[str]]:
@@ -75,6 +77,160 @@ def _scope_nodes(units: Mapping[str, Mapping[str, Any]], admin_scope: str) -> tu
             if str(meta.get("municipality", "")) == expected
         }, None
     return set(), f"unsupported admin_scope: {admin_scope}"
+
+
+def _canonical_components(groups: Iterable[Iterable[Any]]) -> tuple[tuple[str, ...], ...]:
+    rows = [tuple(sorted(str(value) for value in group)) for group in groups]
+    return tuple(sorted(rows, key=lambda row: (-len(row), row[0] if row else "")))
+
+
+def topology_source_binding(cfg: Mapping[str, Any]) -> dict[str, Any]:
+    """Identity of the prepared source that topology exceptions are accredited against."""
+    meta = cfg.get("meta") or {}
+    validation = cfg.get("validation") or {}
+    baseline = validation.get("source_baseline") or {}
+    section_year = meta.get("source_section_year", baseline.get("section_year"))
+    try:
+        section_year = int(section_year) if section_year not in (None, "") else None
+    except (TypeError, ValueError):
+        section_year = None
+    return {
+        "edition": str(meta.get("year") or ""),
+        "section_year": section_year,
+        "package_sha256": str(baseline.get("package_sha256") or ""),
+        "compatibility_identity_sha256": str(baseline.get("compatibility_identity_sha256") or ""),
+    }
+
+
+def validate_topology_accreditation_binding(cfg: Mapping[str, Any]) -> dict[str, Any]:
+    """Fail closed when a source-bound topology accreditation no longer matches the input."""
+    validation = cfg.get("validation") or {}
+    accreditation = validation.get("topology_accreditation")
+    if not accreditation:
+        return {"present": False, "valid": True, "declared": None, "current": topology_source_binding(cfg)}
+
+    if not isinstance(accreditation, Mapping):
+        return {
+            "present": True, "valid": False,
+            "reason": "topology_accreditation must be an object",
+            "declared": None, "current": topology_source_binding(cfg),
+        }
+    if accreditation.get("schema") != TOPOLOGY_ACCREDITATION_SCHEMA:
+        return {
+            "present": True, "valid": False,
+            "reason": f"unsupported topology accreditation schema: {accreditation.get('schema')}",
+            "declared": accreditation.get("source_binding"),
+            "current": topology_source_binding(cfg),
+        }
+
+    declared = accreditation.get("source_binding")
+    current = topology_source_binding(cfg)
+    required = ("edition", "section_year", "package_sha256", "compatibility_identity_sha256")
+    if not isinstance(declared, Mapping) or any(declared.get(key) in (None, "") for key in required):
+        return {
+            "present": True, "valid": False,
+            "reason": "topology accreditation source_binding is incomplete",
+            "declared": dict(declared) if isinstance(declared, Mapping) else declared,
+            "current": current,
+        }
+    normalized = {
+        "edition": str(declared.get("edition") or ""),
+        "section_year": int(declared["section_year"]),
+        "package_sha256": str(declared.get("package_sha256") or ""),
+        "compatibility_identity_sha256": str(declared.get("compatibility_identity_sha256") or ""),
+    }
+    if normalized != current:
+        mismatch = [key for key in required if normalized.get(key) != current.get(key)]
+        return {
+            "present": True, "valid": False,
+            "reason": "stale topology accreditation; source binding changed: " + ", ".join(mismatch),
+            "declared": normalized, "current": current,
+        }
+    return {"present": True, "valid": True, "declared": normalized, "current": current}
+
+
+def validate_administrative_components(
+    *,
+    units: Mapping[str, Mapping[str, Any]],
+    declarations: Iterable[Mapping[str, Any]],
+    operational_edges: Iterable[tuple[str, str]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Validate exact administrative component membership without adding operational edges."""
+    edges = {_edge(u, v) for u, v in operational_edges if str(u) != str(v)}
+    accepted: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+    seen_scopes: set[str] = set()
+
+    for raw in declarations:
+        if not isinstance(raw, Mapping):
+            rejected.append({"rejection_reason": "administrative component declaration must be an object"})
+            continue
+        rec = dict(raw)
+        missing = [key for key in REQUIRED_COMPONENT_KEYS if rec.get(key) in (None, "")]
+        if missing:
+            rejected.append({**rec, "rejection_reason": "missing declarative fields: " + ", ".join(missing)})
+            continue
+        if "district_id" in rec:
+            rejected.append({**rec, "rejection_reason": "district_id-dependent component declarations are forbidden"})
+            continue
+        scope = str(rec["admin_scope"])
+        if scope in seen_scopes:
+            rejected.append({**rec, "rejection_reason": f"duplicate administrative component declaration: {scope}"})
+            continue
+        seen_scopes.add(scope)
+
+        scope_nodes, scope_error = _scope_nodes(units, scope)
+        if scope_error:
+            rejected.append({**rec, "rejection_reason": scope_error})
+            continue
+        if not scope_nodes:
+            rejected.append({**rec, "rejection_reason": f"declared scope has no units: {scope}"})
+            continue
+
+        raw_components = rec.get("components")
+        if (
+            not isinstance(raw_components, list)
+            or len(raw_components) < 2
+            or any(not isinstance(group, list) or not group for group in raw_components)
+        ):
+            rejected.append({**rec, "rejection_reason": "components must contain at least two non-empty unit lists"})
+            continue
+        declared_components = [[str(value) for value in group] for group in raw_components]
+        flattened = [value for group in declared_components for value in group]
+        if len(flattened) != len(set(flattened)):
+            rejected.append({**rec, "rejection_reason": "administrative components contain duplicate units"})
+            continue
+        if set(flattened) != scope_nodes:
+            missing_nodes = sorted(scope_nodes - set(flattened))
+            foreign_nodes = sorted(set(flattened) - scope_nodes)
+            rejected.append({
+                **rec,
+                "rejection_reason": (
+                    f"administrative component membership no longer covers {scope}; "
+                    f"missing={missing_nodes[:12]} foreign={foreign_nodes[:12]}"
+                ),
+            })
+            continue
+
+        scope_edges = {(u, v) for u, v in edges if u in scope_nodes and v in scope_nodes}
+        observed = _components(scope_nodes, scope_edges)
+        if _canonical_components(declared_components) != _canonical_components(observed):
+            rejected.append({
+                **rec,
+                "rejection_reason": (
+                    f"accredited administrative components no longer match observed topology for {scope}; "
+                    f"observed={observed}"
+                ),
+            })
+            continue
+        accepted.append({
+            **rec,
+            "admin_scope": scope,
+            "components": [list(group) for group in _canonical_components(declared_components)],
+            "component_count": len(observed),
+        })
+
+    return accepted, rejected
 
 
 def validate_topology_bridges(
@@ -147,9 +303,12 @@ def evaluate_topology_preflight(
     bridges: Iterable[Mapping[str, Any]],
     min_shared_border_m: float,
     productive_continental: bool = True,
+    administrative_components: Iterable[Mapping[str, Any]] = (),
+    accreditation_error: str | None = None,
 ) -> dict[str, Any]:
     ids = {str(x) for x in units}
     bridge_list = [dict(x) for x in bridges]
+    component_declarations = [dict(x) for x in administrative_components]
     reasons: list[str] = []
     blocking: list[str] = []
     physical_edges: set[tuple[str, str]] = set()
@@ -180,6 +339,15 @@ def evaluate_topology_preflight(
     )
     if rejected:
         blocking.extend(item["rejection_reason"] for item in rejected)
+    component_accepted, component_rejected = validate_administrative_components(
+        units=units,
+        declarations=component_declarations,
+        operational_edges=operational_edges,
+    )
+    if accreditation_error:
+        blocking.append(accreditation_error)
+    if component_rejected:
+        blocking.extend(item["rejection_reason"] for item in component_rejected)
 
     operational_components = _components(ids, operational_edges)
     province_components = _group_components(units, operational_edges, "province")
@@ -187,8 +355,15 @@ def evaluate_topology_preflight(
     isolated = sorted(uid for uid in ids if not any(uid in e for e in operational_edges))
     multipart = sorted(uid for uid, meta in units.items() if bool(meta.get("multipart")))
 
-    unresolved_provinces = sorted(k for k, comps in province_components.items() if k and len(comps) > 1)
-    unresolved_municipalities = sorted(k for k, comps in municipality_components.items() if k and len(comps) > 1)
+    admitted_scopes = {str(item["admin_scope"]) for item in component_accepted}
+    unresolved_provinces = sorted(
+        k for k, comps in province_components.items()
+        if k and len(comps) > 1 and f"province:{k}" not in admitted_scopes
+    )
+    unresolved_municipalities = sorted(
+        k for k, comps in municipality_components.items()
+        if k and len(comps) > 1 and f"municipality:{k}" not in admitted_scopes
+    )
 
     if blocking:
         decision = "BLOCKED"
@@ -201,7 +376,10 @@ def evaluate_topology_preflight(
             reasons.append("disconnected municipalities: " + ", ".join(unresolved_municipalities))
     else:
         decision = "READY"
-        reasons.append("each administrative scope is operationally connected under declared policy")
+        if component_accepted:
+            reasons.append("disconnected administrative scopes match source-bound accredited components")
+        else:
+            reasons.append("each administrative scope is operationally connected under declared policy")
 
     return {
         "schema_version": "1.0.1",
@@ -223,6 +401,11 @@ def evaluate_topology_preflight(
             "requested": len(bridge_list),
             "accepted": accepted,
             "rejected": rejected,
+        },
+        "administrative_components": {
+            "requested": len(component_declarations),
+            "accepted": component_accepted,
+            "rejected": component_rejected,
         },
         "operational_edges": len(operational_edges),
     }
