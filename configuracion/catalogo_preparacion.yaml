@@ -392,23 +392,22 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 37159829427
-        artifact_name: ddd-source-package-madrid-2025-37159829427
-        artifact_sha256: c5db6953a8b3c9d72e954e64661b0e2ed9bf3ad5b3140561fa793af81ec3230b
+        run_id: 37245404875
+        artifact_name: ddd-source-package-madrid-2025-37245404875
+        artifact_sha256: 0847f8283919c88833262c8fbe7af4f946043bcf96d294e868973220f5020c91
         package_sha256: 1cbe39913e9ed022b0150c1e47332ae28badc4bea86462d157579f73b2eab70a
-        receipt_path: territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/37159829427/receipt.json
+        receipt_path: territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/37245404875/receipt.json
         territorial_identity_sha256: 8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520
         compatibility_report_sha256: bfa8d0694e2a7b21417c562c473e04c87cfa0a0cfbde6a0f66a0809a39216038
         compatibility_identity_sha256: 52fe804149b55b3d97c18f160aa4369e8b663062b2641dced8a01fdd7fa63b62
         compatibility_report_member: compatibilidad_poblacion_seccionado.json
         population_year: 2023
         section_year: 2023
-        source_commit: 8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51
+        source_commit: 8a2839b4160275877bf32f66933bf1464955503f
       evidence:
         electoral_source: territorios/madrid/evidencia/catalogo/electoral_source_2025.json
-        generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
         prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/717bced42d2c9c21dbcbe221b067454432e269dd24c976ca2a808c7bd025ade5.json
-      generation_enabled: true
+      generation_enabled: false
 - territory_id: region_de_murcia
   name: Región de Murcia
   editions:
