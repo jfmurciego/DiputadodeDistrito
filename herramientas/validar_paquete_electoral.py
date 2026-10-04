@@ -270,33 +270,34 @@ def _validate_static_structural_provenance(
         expected_source_sha256=source_hash,
     )
     packaged = manifest.get("structural_provenance")
-    if packaged is not None:
-        if not isinstance(packaged, dict):
-            raise ValueError("procedencia estructural del paquete inválida")
-        package_path = str(packaged.get("path") or "").strip()
-        package_sha = str(packaged.get("sha256") or "").lower()
-        package_sidecar = package / package_path
-        if (
-            not package_path
-            or package_sha != expected
-            or str(
-                packaged.get("merged_source_sha256") or ""
-            ).lower() != source_hash
-            or not package_sidecar.is_file()
-            or sha256(package_sidecar).lower() != package_sha
-        ):
-            raise ValueError(
-                "sidecar estructural del paquete no coincide "
-                "con el contrato estático"
-            )
-        packaged_document = json.loads(
-            package_sidecar.read_text(encoding="utf-8")
+    if not isinstance(packaged, dict):
+        raise ValueError(
+            "contrato estático estructural exige sidecar dentro del paquete"
         )
-        validate_structural_provenance_document(
-            packaged_document,
-            context="procedencia estructural empaquetada",
-            expected_source_sha256=source_hash,
+    package_path = str(packaged.get("path") or "").strip()
+    package_sha = str(packaged.get("sha256") or "").lower()
+    package_sidecar = package / package_path
+    if (
+        not package_path
+        or package_sha != expected
+        or str(
+            packaged.get("merged_source_sha256") or ""
+        ).lower() != source_hash
+        or not package_sidecar.is_file()
+        or sha256(package_sidecar).lower() != package_sha
+    ):
+        raise ValueError(
+            "sidecar estructural del paquete no coincide "
+            "con el contrato estático"
         )
+    packaged_document = json.loads(
+        package_sidecar.read_text(encoding="utf-8")
+    )
+    validate_structural_provenance_document(
+        packaged_document,
+        context="procedencia estructural empaquetada",
+        expected_source_sha256=source_hash,
+    )
     return expected
 
 
