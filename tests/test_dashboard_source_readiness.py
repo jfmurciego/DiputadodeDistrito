@@ -323,6 +323,45 @@ class DashboardSourceReadinessTests(unittest.TestCase):
                 row["territory_id"],
             )
 
+            self.assertIn(
+                row["activation"]["state"],
+                {
+                    "ACTIVATED",
+                    "ACTIVABLE",
+                    "ACTION_REQUIRED",
+                    "BLOCKED",
+                    "NOT_ACCREDITED",
+                },
+                row["territory_id"],
+            )
+            if row["activation"]["state"] == "ACTIVATED":
+                self.assertEqual(row["status"], "ADMISSIBLE", row["territory_id"])
+                self.assertTrue(
+                    row["activation"]["pair"]["current"],
+                    row["territory_id"],
+                )
+
+        summary = readiness["summary"]
+        self.assertEqual(
+            summary["activated"],
+            sum(
+                row["activation"]["state"] == "ACTIVATED"
+                for row in readiness["territories"]
+            ),
+        )
+        self.assertEqual(
+            summary["activable"],
+            sum(
+                row["activation"]["state"] == "ACTIVABLE"
+                for row in readiness["territories"]
+            ),
+        )
+        self.assertEqual(
+            readiness["activation_chain"]["durable_pair"],
+            summary["activated"],
+        )
+        self.assertEqual(readiness["activation_chain"]["total"], 19)
+
 
 
 if __name__ == "__main__":

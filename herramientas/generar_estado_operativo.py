@@ -20,6 +20,7 @@ try:
     from herramientas.resolver_preparacion_legislatura import (
         resolve as resolve_current_legislature,
     )
+    from herramientas.registrar_par_fuentes_legislatura import validate_pair_receipt
 except ModuleNotFoundError:  # ejecución directa como script
     from catalogo_territorios import (
         COUNTRY_CODE,
@@ -31,6 +32,7 @@ except ModuleNotFoundError:  # ejecución directa como script
     from resolver_preparacion_legislatura import (
         resolve as resolve_current_legislature,
     )
+    from registrar_par_fuentes_legislatura import validate_pair_receipt
 
 START = "<!-- DDD:ESTADO:INICIO -->"
 END = "<!-- DDD:ESTADO:FIN -->"
@@ -89,8 +91,101 @@ def _prep_evidence(state: dict, territory_id: str, edition: str) -> dict:
     }
 
 
-def _source_readiness_row(plan: dict, display_name: str) -> dict:
+def _normalized_digest(value: object) -> str:
+    return str(value or "").removeprefix("sha256:").strip().lower()
+
+
+def _current_pair_status(root: Path, state: dict, plan: dict) -> dict:
+    rel = str((state.get("evidence") or {}).get("prepared_source_pair") or "")
+    if not rel:
+        return {
+            "current": False,
+            "receipt_path": None,
+            "pair_sha256": None,
+            "reason": "PAIR_NOT_REGISTERED",
+        }
+    try:
+        pair = validate_pair_receipt(
+            root_dir=root,
+            pair_path=Path(rel),
+            expected_territory_id=str(plan["territory_id"]),
+            expected_edition=str(plan["project_edition"]),
+        )
+    except Exception:
+        return {
+            "current": False,
+            "receipt_path": rel,
+            "pair_sha256": None,
+            "reason": "PAIR_NOT_ACCREDITED",
+        }
+
+    territorial = plan.get("territorial_candidate") or {}
+    electoral = plan.get("electoral_candidate") or {}
+    pair_territorial = pair.get("territorial_source") or {}
+    pair_electoral = pair.get("electoral_source") or {}
+    references = pair.get("references") or {}
+    population = references.get("population") or {}
+    sectioning = references.get("sectioning") or {}
+    election = pair.get("election") or {}
+
+    current = (
+        str(election.get("election_id") or "") == str(plan.get("election_id") or "")
+        and str(election.get("election_date") or "") == str(plan.get("election_date") or "")
+        and int(population.get("year") or 0) == int(plan.get("population_year_selected") or 0)
+        and int(sectioning.get("year") or 0) == int(plan.get("section_year_selected") or 0)
+        and int(pair_territorial.get("run_id") or 0) == int(territorial.get("run_id") or 0)
+        and _normalized_digest(pair_territorial.get("artifact_sha256"))
+        == _normalized_digest(territorial.get("artifact_sha256"))
+        and int(pair_electoral.get("run_id") or 0) == int(electoral.get("run_id") or 0)
+        and _normalized_digest(pair_electoral.get("artifact_sha256"))
+        == _normalized_digest(electoral.get("artifact_sha256"))
+    )
+    return {
+        "current": bool(current),
+        "receipt_path": rel,
+        "pair_sha256": pair.get("pair_sha256"),
+        "reason": "CURRENT_DURABLE_PAIR" if current else "PAIR_NOT_CURRENT",
+    }
+
+
+def _activation_snapshot(plan: dict, pair: dict | None = None) -> dict:
+    pair = pair or {
+        "current": False,
+        "receipt_path": None,
+        "pair_sha256": None,
+        "reason": "PAIR_NOT_OBSERVED",
+    }
+    territorial_status = str(plan.get("territorial_admissibility") or "")
+    electoral_status = str(plan.get("electoral_admissibility") or "")
+    sources_status = str(plan.get("sources_status") or "")
+
+    if pair.get("current"):
+        state = "ACTIVATED"
+    elif sources_status == "ADMISSIBLE":
+        state = "ACTIVABLE"
+    elif sources_status == "BLOCKED":
+        state = "BLOCKED"
+    elif {
+        territorial_status,
+        electoral_status,
+    } & {"INCOMPATIBLE", "ACQUISITION_REQUIRED"}:
+        state = "ACTION_REQUIRED"
+    else:
+        state = "NOT_ACCREDITED"
+
+    return {
+        "state": state,
+        "pair": pair,
+    }
+
+
+def _source_readiness_row(
+    plan: dict,
+    display_name: str,
+    activation: dict | None = None,
+) -> dict:
     territorial_candidate = plan.get("territorial_candidate") or {}
+    activation = activation or _activation_snapshot(plan)
     return {
         "territory_id": plan["territory_id"],
         "name": plan["name"],
@@ -132,6 +227,7 @@ def _source_readiness_row(plan: dict, display_name: str) -> dict:
             "granularity": plan.get("electoral_granularity"),
         },
         "status": plan.get("sources_status"),
+        "activation": activation,
         "activity": {
             "status": "NOT_OBSERVED",
             "label": "Sin actividad durable registrada",
@@ -159,10 +255,29 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
                 "action_required": 0,
                 "blocked": 0,
                 "unavailable": 0,
+                "activated": 0,
+                "activable": 0,
+                "territorial_pending": 0,
+                "electoral_pending": 0,
+                "temporal_substitution": 0,
+                "recent_activity": 0,
+            },
+            "activation_chain": {
+                "total": 0,
+                "legislature_resolved": 0,
+                "years_resolved": 0,
+                "territorial_source": 0,
+                "electoral_source": 0,
+                "durable_pair": 0,
             },
         }
 
     resolved = resolve_current_legislature(root, "Todos")
+    catalog = load_yaml(root / "configuracion/catalogo_preparacion.yaml")
+    catalog_states = {
+        row["territory_id"]: ((row.get("editions") or {}).get(str(resolved.get("project_edition") or "2025")) or {})
+        for row in catalog.get("territories") or []
+    }
     rows = []
     for plan in resolved.get("plans") or []:
         canonical = master.get(plan["territory_id"])
@@ -170,10 +285,16 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
             raise ValueError(
                 f"{plan['territory_id']}: ausente del catálogo territorial maestro"
             )
+        pair = _current_pair_status(
+            root,
+            catalog_states.get(plan["territory_id"]) or {},
+            plan,
+        )
         rows.append(
             _source_readiness_row(
                 plan,
                 format_territory_label(canonical),
+                _activation_snapshot(plan, pair),
             )
         )
     rows.sort(
@@ -195,6 +316,50 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
         ),
         "blocked": sum(r["status"] == "BLOCKED" for r in rows),
         "unavailable": sum(r["status"] == "UNAVAILABLE" for r in rows),
+        "activated": sum(r["activation"]["state"] == "ACTIVATED" for r in rows),
+        "activable": sum(r["activation"]["state"] == "ACTIVABLE" for r in rows),
+        "territorial_pending": sum(
+            r["territorial"]["status"]
+            not in {"ADMISSIBLE", "ADMISSIBLE_TEMPORAL_SUBSTITUTION"}
+            for r in rows
+        ),
+        "electoral_pending": sum(
+            r["electoral"]["status"] != "ADMISSIBLE"
+            for r in rows
+        ),
+        "temporal_substitution": sum(
+            r["territorial"]["status"] == "ADMISSIBLE_TEMPORAL_SUBSTITUTION"
+            for r in rows
+        ),
+        "recent_activity": sum(
+            r["activity"]["status"] != "NOT_OBSERVED"
+            for r in rows
+        ),
+    }
+    activation_chain = {
+        "total": len(rows),
+        "legislature_resolved": sum(
+            bool(r["election"].get("election_id") and r["election"].get("election_date"))
+            for r in rows
+        ),
+        "years_resolved": sum(
+            r["territorial"]["selected"].get("population_year") is not None
+            and r["territorial"]["selected"].get("section_year") is not None
+            for r in rows
+        ),
+        "territorial_source": sum(
+            r["territorial"]["status"]
+            in {"ADMISSIBLE", "ADMISSIBLE_TEMPORAL_SUBSTITUTION"}
+            for r in rows
+        ),
+        "electoral_source": sum(
+            r["electoral"]["status"] == "ADMISSIBLE"
+            for r in rows
+        ),
+        "durable_pair": sum(
+            r["activation"]["state"] == "ACTIVATED"
+            for r in rows
+        ),
     }
     return {
         "schema": "ddd-source-readiness/1.0",
@@ -207,6 +372,7 @@ def _build_source_readiness(root: Path, master: dict) -> dict:
             "live_workflow_activity": False,
         },
         "summary": summary,
+        "activation_chain": activation_chain,
         "territories": rows,
     }
 
