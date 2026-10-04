@@ -43,6 +43,7 @@ class SharedOperationalStateEntrypointTests(unittest.TestCase):
             fake_git.write_text(
                 "#!/usr/bin/env sh\n"
                 "if [ \"$1\" = \"rev-parse\" ]; then printf '%s\\n' workflow-fixture-head; fi\n"
+                "if [ \"$1\" = \"ls-remote\" ]; then printf '%s\\t%s\\n' workflow-fixture-head refs/heads/main; fi\n"
                 "exit 0\n",
                 encoding="utf-8",
             )
