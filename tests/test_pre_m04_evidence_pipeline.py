@@ -588,14 +588,16 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
         self.assertNotIn("> .ddd-pre-m04-evidence.json", body)
         self.assertIn('handoff="$RUNNER_TEMP/ddd-pre-m04-evidence-$GITHUB_RUN_ID.json"', body)
         self.assertIn("handoff_evidencia_pre_m04 stage", body)
-        self.assertIn("handoff_evidencia_pre_m04 verify", body)
-        self.assertLess(body.index("handoff_evidencia_pre_m04 stage"), body.index("git commit"))
-        self.assertLess(body.index("git pull --rebase"), body.index("handoff_evidencia_pre_m04 verify"))
-        self.assertLess(body.index("handoff_evidencia_pre_m04 verify"), body.index('git push origin "HEAD:$target_branch"'))
-        self.assertIn(
-            "no coincide con la evidencia persistida; no se publicará acreditación",
-            body,
+        self.assertIn("persistir_evidencia_pre_m04_operacional", body)
+        self.assertIn("--candidate-evidence", body)
+        self.assertIn('--source-commit "$SOURCE_REF"', body)
+        self.assertIn('--handoff "$handoff"', body)
+        self.assertLess(
+            body.index("handoff_evidencia_pre_m04 stage"),
+            body.index("persistir_evidencia_pre_m04_operacional"),
         )
+        self.assertNotIn("git pull --rebase", body)
+        self.assertNotIn("git push origin", body)
 
         upload = next(
             step

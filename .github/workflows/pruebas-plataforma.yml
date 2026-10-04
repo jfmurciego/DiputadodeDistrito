@@ -28,6 +28,8 @@ jobs:
         run: bash tests/test_source_sha_pinning_git.sh
       - name: Probar registros electorales concurrentes sobre Git real
         run: python -m unittest tests.test_registro_producto_electoral_concurrencia -v
+      - name: Probar persistencia pre-M04 concurrente sobre Git real
+        run: python -m unittest tests.test_pre_m04_persistencia_concurrente -v
       - name: Probar recuperación durable de producto electoral
         run: python -m unittest tests.test_recuperacion_producto_electoral -v
       - name: Probar reanudación automática de M08 huérfano
