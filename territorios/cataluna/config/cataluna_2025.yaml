@@ -241,6 +241,8 @@ validation:
           municipality_geometry_contract: polígono simple o compuesto de diversas partes disjuntas
         section_correspondence:
           section: '2523403001'
+          component_sections:
+          - '2523403001'
           official_enclave: Puigcercós
           local_authority: Ajuntament de Tremp
           official_area_km2: 1.59
