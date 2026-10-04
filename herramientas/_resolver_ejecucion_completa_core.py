@@ -242,6 +242,7 @@ def _contract_generation_binding(contract: dict) -> dict:
         "population_year": meta.get("source_population_year"),
         "section_year": meta.get("source_section_year"),
         "source_baseline": validation.get("source_baseline"),
+        "topology_accreditation": validation.get("topology_accreditation"),
         "k_districts": territorial.get("k_districts"),
         "population_floor_ratio": territorial.get("population_floor_ratio"),
         "population_cap_ratio": territorial.get("population_cap_ratio"),
