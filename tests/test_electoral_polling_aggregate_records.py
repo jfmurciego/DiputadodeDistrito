@@ -498,16 +498,16 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
             "SUM;;;5;7\n"
         )
 
-        with self.assertRaisesRegex(
-            ValueError,
-            r"MISSING_EXPECTED_AGGREGATE.*previous_source_id.*raw_a"
-            r".*current_source_id.*raw_b",
-        ):
+        with self.assertRaises(ValueError) as caught:
             self._read_merged(
                 [("raw_a", raw_a), ("raw_b", raw_b)],
                 adapter,
                 parties("P", "Q"),
             )
+        message = str(caught.exception)
+        self.assertIn("cause=MISSING_EXPECTED_AGGREGATE", message)
+        self.assertIn("'previous_source_id': 'raw_a'", message)
+        self.assertIn("'current_source_id': 'raw_b'", message)
 
     def test_optional_aggregate_reconciles_only_current_raw_block(self):
         adapter = scoped_adapter(require_aggregate=False)
