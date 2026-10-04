@@ -203,11 +203,20 @@ def _load_package_structural_provenance(
     adapter_path = str(adapter_decl.get("path") or "").strip()
     manifest_sha = str(manifest_decl.get("sha256") or "").lower()
     adapter_sha = str(adapter_decl.get("sha256") or "").lower()
+    embedded = manifest.get("embedded_contract") or {}
+    embedded_path = str(
+        embedded.get("structural_provenance") or ""
+    ).strip()
+    embedded_sha = str(
+        embedded.get("structural_provenance_sha256") or ""
+    ).lower()
     if (
         not manifest_path
         or manifest_path != adapter_path
+        or manifest_path != embedded_path
         or not _hex64(manifest_sha)
         or manifest_sha != adapter_sha
+        or manifest_sha != embedded_sha
         or str(
             manifest_decl.get("merged_source_sha256") or ""
         ).lower() != source_hash
@@ -232,6 +241,7 @@ def _load_package_structural_provenance(
 def _validate_static_structural_provenance(
     *,
     root: Path,
+    package: Path,
     manifest: dict,
     source_hash: str,
     adapter: dict,
@@ -265,17 +275,28 @@ def _validate_static_structural_provenance(
             raise ValueError("procedencia estructural del paquete inválida")
         package_path = str(packaged.get("path") or "").strip()
         package_sha = str(packaged.get("sha256") or "").lower()
+        package_sidecar = package / package_path
         if (
             not package_path
             or package_sha != expected
             or str(
                 packaged.get("merged_source_sha256") or ""
             ).lower() != source_hash
+            or not package_sidecar.is_file()
+            or sha256(package_sidecar).lower() != package_sha
         ):
             raise ValueError(
                 "sidecar estructural del paquete no coincide "
                 "con el contrato estático"
             )
+        packaged_document = json.loads(
+            package_sidecar.read_text(encoding="utf-8")
+        )
+        validate_structural_provenance_document(
+            packaged_document,
+            context="procedencia estructural empaquetada",
+            expected_source_sha256=source_hash,
+        )
     return expected
 
 
@@ -436,6 +457,7 @@ def validate_package(
         target = root / str(target_raw)
         static_structural_sha = _validate_static_structural_provenance(
             root=root,
+            package=package,
             manifest=manifest,
             source_hash=actual,
             adapter=dict(matches[0].get("adapter") or {}),
