@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "cantabria",
+  "edition": "2025",
+  "population_year": 2023,
+  "section_year": 2023,
+  "run_id": 37245390628,
+  "artifact_name": "ddd-source-package-cantabria-2025-37245390628",
+  "artifact_sha256": "a178f16ae60cfba4ecc7bf5f9100afee3d59a137d3149bf94517ecaee39decfb",
+  "package_sha256": "df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb",
+  "source_commit": "8a2839b4160275877bf32f66933bf1464955503f",
+  "source_declaration": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37245390628/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "2b416b9db6d0907102704dbdbdf9c508bb263afe83cb2e8e90395f7dc4d59226",
+  "compatibility_identity_sha256": "9a52657927866ca04c0fe2e3b7e0f31a2bde65115de7c80ba4b8b7ab93e9d572"
+}
