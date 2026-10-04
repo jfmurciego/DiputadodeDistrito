@@ -217,14 +217,14 @@ validation:
       - - '2523403001'
       reason: >-
         El seccionado oficial 2024 asigna las cinco secciones a Tremp (25234), pero
-        bajo la adyacencia productiva contact/EPSG:3035/min_shared_border_m=1.0
+        bajo la adyacencia productiva contact, EPSG:3035 y min_shared_border_m=1.0
         forman dos componentes [4,1]. 2523403001 sólo toca puntualmente a
         2523401002, con 0 m de frontera lineal compartida. La acreditación describe
         la estructura administrativa de entrada; no añade aristas ni habilita generación.
       source: >-
         ddd-source-package-cataluna-2025-37215025861 (INE seccionado 2024,
         package e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0);
-        límites de término oficiales Generalitat/ICGC
+        límites de término oficiales de Generalitat e ICGC
       evidence:
         run_id: 37215025861
         source_commit: d4f8b84769290aa252498399b66ba90c37b44612
@@ -233,7 +233,7 @@ validation:
           u: '2523401002'
           v: '2523403001'
           shared_border_m: 0.0
-        administrative_reference: https://web.gencat.cat/es/ens-locals/identitat-ens-locals/mapa-local/limits-terme-oficials
+        administrative_reference: Generalitat de Catalunya, Mapa local, Límites de término oficiales
   source_baseline:
     schema: ddd.source-baseline/1.0
     edition: '2025'
