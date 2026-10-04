@@ -3,7 +3,7 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Preflight topológico territorial genérico
-VERSIÓN: 1.0.2
+VERSIÓN: 1.1.0
 FECHA: 2026-09-16
 ESTADO: candidato
 QUÉ HACE: inspecciona el producto M01 existente y el contrato, mide contactos físicos, aplica la política declarada de pasarelas y emite un informe READY / NEEDS_POLICY / BLOCKED. No ejecuta M01-M03.
@@ -21,7 +21,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ddd_core.config import load_params_yaml, module_cfg, require
-from ddd_core.topology_preflight import evaluate_topology_preflight
+from ddd_core.topology_preflight import evaluate_topology_preflight, validate_topology_accreditation_binding
 
 
 def _load_m02_module(root: Path):
@@ -106,13 +106,21 @@ def main():
         (cfg.get("meta") or {}).get("contract_level") == "production_m01_m06"
         and str(contract.get("topology_mode", "land")) == "land"
     )
+    accreditation = validate_topology_accreditation_binding(cfg)
+    accreditation_cfg = ((cfg.get("validation") or {}).get("topology_accreditation") or {})
     report = evaluate_topology_preflight(
         units=units,
         contacts=contacts,
         bridges=m02.get("topology_bridges", []) or [],
         min_shared_border_m=min_shared,
         productive_continental=productive_continental,
+        administrative_components=accreditation_cfg.get("administrative_components", []) or [],
+        accreditation_error=(
+            None if accreditation.get("valid")
+            else str(accreditation.get("reason") or "topology accreditation is invalid")
+        ),
     )
+    report["topology_accreditation"] = accreditation
     report["territory_id"] = (cfg.get("meta") or {}).get("territory_id")
     report["source"] = {"params": str(Path(args.params)), "m01_geojson": str(in_geo), "working_crs": working_crs}
 
