@@ -68,7 +68,7 @@ class M03AdministrativeComponents(unittest.TestCase):
         }
         if accredited:
             validation["topology_accreditation"] = {
-                "schema": "ddd.topology-accreditation/1.0",
+                "schema": "ddd.topology-accreditation.v1",
                 "source_binding": {
                     "edition": "2025",
                     "section_year": 2024,
