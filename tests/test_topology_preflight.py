@@ -13,7 +13,11 @@ import geopandas as gpd
 import yaml
 from shapely.geometry import Polygon
 
-from ddd_core.topology_preflight import evaluate_topology_preflight, validate_topology_accreditation_binding
+from ddd_core.topology_preflight import (
+    evaluate_topology_preflight,
+    validate_administrative_components,
+    validate_topology_accreditation_binding,
+)
 from ddd_core.config import load_params_yaml
 from herramientas._resolver_ejecucion_completa_core import _contract_generation_binding
 
@@ -30,11 +34,19 @@ def unit(province="01", municipality="001", multipart=False):
 
 
 def administrative_components(municipality, components, **extra):
+    evidenced_component = list(components[-1])
     data = {
         "admin_scope": f"municipality:{municipality}",
         "components": components,
         "reason": "synthetic accredited administrative discontinuity",
         "source": "synthetic source edition",
+        "evidence": {
+            "section_correspondence": {
+                "section": evidenced_component[0],
+                "component_sections": evidenced_component,
+                "official_unit": "synthetic enclave",
+            }
+        },
     }
     data.update(extra)
     return data
@@ -289,11 +301,108 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         self.assertEqual("2026-01-20", evidence["administrative_dataset"]["data_date"])
         correspondence = evidence["section_correspondence"]
         self.assertEqual("2523403001", correspondence["section"])
+        self.assertEqual(["2523403001"], correspondence["component_sections"])
         self.assertEqual("Puigcercós", correspondence["official_enclave"])
         self.assertEqual(1.59, correspondence["official_area_km2"])
         self.assertAlmostEqual(1.5834613860534748, correspondence["matched_part_area_km2_epsg3035"], places=12)
 
-    def test_20_generation_binding_carries_topology_accreditation(self):
+    def test_20_missing_evidence_blocks_accreditation(self):
+        declaration = administrative_components("00001", [["a"], ["b"]])
+        declaration.pop("evidence")
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+            components=[declaration],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn("evidence", r["administrative_components"]["rejected"][0]["rejection_reason"])
+
+    def test_21_evidence_section_outside_scope_blocks(self):
+        declaration = administrative_components(
+            "00001",
+            [["a"], ["b"]],
+            evidence={
+                "section_correspondence": {
+                    "section": "x",
+                    "component_sections": ["b"],
+                }
+            },
+        )
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+            components=[declaration],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn("does not belong to declared scope", r["administrative_components"]["rejected"][0]["rejection_reason"])
+
+    def test_22_evidence_cannot_point_section_at_another_declared_component(self):
+        declaration = administrative_components(
+            "00001",
+            [["a"], ["b"]],
+            evidence={
+                "section_correspondence": {
+                    "section": "a",
+                    "component_sections": ["b"],
+                }
+            },
+        )
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+            components=[declaration],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn(
+            "does not belong to the evidenced declared component",
+            r["administrative_components"]["rejected"][0]["rejection_reason"],
+        )
+
+    def test_23_real_tremp_evidence_is_normative_and_passes_exact_membership(self):
+        cfg = load_params_yaml(str(ROOT / "territorios/cataluna/config/cataluna_2025.yaml"))
+        declaration = cfg["validation"]["topology_accreditation"]["administrative_components"][0]
+        tremp = ["2523401001", "2523401002", "2523402001", "2523402002", "2523403001"]
+        units = {
+            section: {"province": "25", "municipality": "25234"}
+            for section in tremp
+        }
+        accepted, rejected = validate_administrative_components(
+            units=units,
+            declarations=[declaration],
+            operational_edges=[
+                ("2523401001", "2523401002"),
+                ("2523401002", "2523402001"),
+                ("2523402001", "2523402002"),
+            ],
+        )
+        self.assertEqual([], rejected)
+        self.assertEqual(1, len(accepted))
+        evidence = accepted[0]["evidence"]["section_correspondence"]
+        self.assertEqual("2523403001", evidence["section"])
+        self.assertEqual(["2523403001"], evidence["component_sections"])
+
+    def test_24_generation_binding_carries_topology_accreditation(self):
         cfg = {
             "meta": {"year": 2025},
             "territory_contract": {},
@@ -313,6 +422,12 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
                         "components": [["a"], ["b"]],
                         "reason": "synthetic",
                         "source": "synthetic",
+                        "evidence": {
+                            "section_correspondence": {
+                                "section": "b",
+                                "component_sections": ["b"],
+                            }
+                        },
                     }],
                 },
             },
