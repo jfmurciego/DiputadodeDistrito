@@ -3,8 +3,8 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 03 — Construir grafo territorial
-VERSIÓN: 7.4.1
-NOMBRE DE VERSIÓN: Grafo territorial con atributos comunitarios opcionales
+VERSIÓN: 7.5.0
+NOMBRE DE VERSIÓN: Grafo territorial con componentes administrativos acreditados
 FECHA: 2026-09-14
 QUÉ HACE: construye el grafo canónico, preserva atributos comunitarios opcionales y audita conectividad global, provincial y municipal.
 POR QUÉ ES SEPARADO: M03 es la frontera entre GIS y optimización; una discontinuidad administrativa debe detectarse aquí, no durante M04/M05, para impedir que el algoritmo trabaje sobre unidades atómicas topológicamente inválidas.
@@ -23,6 +23,7 @@ import geopandas as gpd
 import pandas as pd
 from ddd_core.config import load_params_yaml,module_cfg,require
 from ddd_core.territorial_validation import strict_population_series, validate_geodataframe
+from ddd_core.topology_preflight import validate_administrative_components, validate_topology_accreditation_binding
 
 def _gpd_read_file(path_or_buf,layer=None):
     try:
@@ -151,10 +152,40 @@ def main():
             if c not in gdf.columns:raise SystemExit(f"M03: falta campo administrativo '{c}' requerido por validación municipal")
         gx=gdf.copy();gx[province_field]=gx[province_field].astype(str).str.zfill(2);gx[municipality_field]=gx[municipality_field].astype(str).str.zfill(5)
         municipality_audit,municipality_bad=audit_group_components(gx,id_field,[province_field,municipality_field],adj,municipality_name_field)
-    report={"module":"03","version":"7.4.1","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"optional_node_fields":optional_fields,"out_graph_json":out_graph,"global_component_audit":global_audit,"province_component_audit":{"enabled":audit_province,"enforced":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"details":province_audit,"violations":province_bad},"municipality_component_audit":{"enabled":audit_municipality,"enforced":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"details":municipality_audit,"violations":municipality_bad}}
+
+    accreditation=validate_topology_accreditation_binding(cfg)
+    accreditation_cfg=val.get("topology_accreditation") or {}
+    component_accepted=[];component_rejected=[]
+    if accreditation.get("valid"):
+        if accreditation_cfg.get("administrative_components"):
+            ax=gdf.copy()
+            for c in (province_field,municipality_field):
+                if c not in ax.columns:raise SystemExit(f"M03: falta campo administrativo '{c}' requerido por acreditación")
+            ax[province_field]=ax[province_field].astype(str).str.zfill(2);ax[municipality_field]=ax[municipality_field].astype(str).str.zfill(5)
+            admin_units={
+                str(row[id_field]):{"province":str(row[province_field]),"municipality":str(row[municipality_field])}
+                for _,row in ax.iterrows()
+            }
+            component_accepted,component_rejected=validate_administrative_components(
+                units=admin_units,
+                declarations=accreditation_cfg.get("administrative_components") or [],
+                operational_edges=[(edge["u"],edge["v"]) for edge in edges_f],
+            )
+    admitted_scopes={str(item.get("admin_scope")) for item in component_accepted}
+    province_unresolved=[
+        item for item in province_bad
+        if f"province:{str(item.get('key','')).split('/')[0].zfill(2)}" not in admitted_scopes
+    ]
+    municipality_unresolved=[
+        item for item in municipality_bad
+        if f"municipality:{str(item.get('key','')).split('/')[-1].zfill(5)}" not in admitted_scopes
+    ]
+    report={"module":"03","version":"7.5.0","nodes":len(nodes),"edges":len(edges_f),"isolated":isolated,"total_pop":total_pop,"id_field":id_field,"pop_field":pop_field,"optional_node_fields":optional_fields,"out_graph_json":out_graph,"global_component_audit":global_audit,"topology_accreditation":{**accreditation,"administrative_components":{"accepted":component_accepted,"rejected":component_rejected}},"province_component_audit":{"enabled":audit_province,"enforced":bool(val.get("require_one_graph_component_per_province",False)),"groups":len(province_audit),"disconnected":len(province_bad),"admitted_disconnected":len([x for x in component_accepted if str(x.get("admin_scope","")).startswith("province:")]),"unresolved":len(province_unresolved),"details":province_audit,"violations":province_bad,"unresolved_violations":province_unresolved},"municipality_component_audit":{"enabled":audit_municipality,"enforced":bool(val.get("require_connected_municipalities",False)),"groups":len(municipality_audit),"disconnected":len(municipality_bad),"admitted_disconnected":len([x for x in component_accepted if str(x.get("admin_scope","")).startswith("municipality:")]),"unresolved":len(municipality_unresolved),"details":municipality_audit,"violations":municipality_bad,"unresolved_violations":municipality_unresolved}}
     write_json({"nodes":nodes,"edges":edges_f},out_graph)
     if out_report:write_json(report,out_report)
-    if province_bad and bool(val.get("require_one_graph_component_per_province",False)):raise SystemExit(f"M03: provincias desconectadas tras M02: {province_bad}")
-    if municipality_bad and bool(val.get("require_connected_municipalities",False)):raise SystemExit(f"M03: municipios desconectados tras M02: {municipality_bad}")
-    print(f"[Módulo 3] OK v7.4.1 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} municipios_bad={len(municipality_bad)} out={out_graph}")
+    if accreditation.get("present") and not accreditation.get("valid"):raise SystemExit(f"M03: acreditación topológica obsoleta: {accreditation.get('reason')}")
+    if component_rejected:raise SystemExit(f"M03: componentes administrativos acreditados inválidos: {component_rejected}")
+    if province_unresolved and bool(val.get("require_one_graph_component_per_province",False)):raise SystemExit(f"M03: provincias desconectadas tras M02 sin acreditación vigente: {province_unresolved}")
+    if municipality_unresolved and bool(val.get("require_connected_municipalities",False)):raise SystemExit(f"M03: municipios desconectados tras M02 sin acreditación vigente: {municipality_unresolved}")
+    print(f"[Módulo 3] OK v7.5.0 nodes={len(nodes)} edges={len(edges_f)} isolated={isolated} provincias_bad={len(province_bad)} provincias_sin_acreditar={len(province_unresolved)} municipios_bad={len(municipality_bad)} municipios_sin_acreditar={len(municipality_unresolved)} out={out_graph}")
 if __name__=="__main__":main()
