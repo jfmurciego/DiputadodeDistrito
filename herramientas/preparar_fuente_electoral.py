@@ -542,6 +542,16 @@ def _copy_raw_sources(
             raise ValueError(
                 f"raw source {source_id}: SHA no coincide con adquisición"
             )
+        declared_bytes=selected.get("bytes")
+        if declared_bytes is not None and (
+            not isinstance(declared_bytes,int)
+            or isinstance(declared_bytes,bool)
+            or declared_bytes<0
+            or source.stat().st_size!=declared_bytes
+        ):
+            raise ValueError(
+                f"raw source {source_id}: bytes no coinciden con adquisición"
+            )
         target=raw_dir/f"{index:03d}_{source.name}"
         shutil.copy2(source,target)
         result.append({
@@ -582,6 +592,11 @@ def _validate_raw_sources_against_structural(
         raw_id=str(raw.get("id") or "").strip()
         if raw_id!=str(structural.get("source_id") or "").strip():
             raise ValueError(f"{raw_context}: source_id no coincide")
+        if (
+            str(raw.get("original_name") or "")
+            != str(structural.get("raw_file") or "")
+        ):
+            raise ValueError(f"{raw_context}: nombre raw no coincide")
         raw_path=package/str(raw.get("path") or "")
         expected_sha=str(raw.get("sha256") or "").lower()
         if (
