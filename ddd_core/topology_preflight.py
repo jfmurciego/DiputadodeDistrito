@@ -16,7 +16,7 @@ from typing import Any, Iterable, Mapping
 DECISIONS = {"READY", "NEEDS_POLICY", "BLOCKED"}
 REQUIRED_BRIDGE_KEYS = ("u", "v", "admin_scope", "edge_type", "reason", "source")
 TOPOLOGY_ACCREDITATION_SCHEMA = "ddd.topology-accreditation.v1"
-REQUIRED_COMPONENT_KEYS = ("admin_scope", "components", "reason", "source")
+REQUIRED_COMPONENT_KEYS = ("admin_scope", "components", "reason", "source", "evidence")
 
 
 def _components(nodes: Iterable[str], edges: Iterable[tuple[str, str]]) -> list[list[str]]:
@@ -149,6 +149,62 @@ def validate_topology_accreditation_binding(cfg: Mapping[str, Any]) -> dict[str,
     return {"present": True, "valid": True, "declared": normalized, "current": current}
 
 
+def _validate_administrative_component_evidence(
+    *,
+    evidence: Any,
+    scope: str,
+    scope_nodes: set[str],
+    declared_components: list[list[str]],
+) -> str | None:
+    """Require structured evidence tied to exact declared members and components."""
+    if not isinstance(evidence, Mapping) or not evidence:
+        return "evidence must be a non-empty object"
+
+    correspondence = evidence.get("section_correspondence")
+    if isinstance(correspondence, Mapping):
+        records = [dict(correspondence)]
+    elif (
+        isinstance(correspondence, list)
+        and correspondence
+        and all(isinstance(item, Mapping) for item in correspondence)
+    ):
+        records = [dict(item) for item in correspondence]
+    else:
+        return "evidence.section_correspondence must be a non-empty object or list of objects"
+
+    canonical_declared = {
+        tuple(sorted(str(value) for value in component))
+        for component in declared_components
+    }
+    for index, record in enumerate(records):
+        prefix = f"evidence.section_correspondence[{index}]"
+        section = str(record.get("section") or "")
+        component_raw = record.get("component_sections")
+        if not section:
+            return f"{prefix}.section is required"
+        if section not in scope_nodes:
+            return f"{prefix}.section does not belong to declared scope {scope}: {section}"
+        if (
+            not isinstance(component_raw, list)
+            or not component_raw
+            or any(value in (None, "") for value in component_raw)
+        ):
+            return f"{prefix}.component_sections must be a non-empty unit list"
+
+        component = tuple(sorted(str(value) for value in component_raw))
+        if len(component) != len(set(component)):
+            return f"{prefix}.component_sections contains duplicate units"
+        foreign = sorted(set(component) - scope_nodes)
+        if foreign:
+            return f"{prefix}.component_sections contains units outside {scope}: {foreign[:12]}"
+        if component not in canonical_declared:
+            return f"{prefix}.component_sections does not match any declared component"
+        if section not in component:
+            return f"{prefix}.section does not belong to the evidenced declared component"
+
+    return None
+
+
 def validate_administrative_components(
     *,
     units: Mapping[str, Mapping[str, Any]],
@@ -210,6 +266,16 @@ def validate_administrative_components(
                     f"missing={missing_nodes[:12]} foreign={foreign_nodes[:12]}"
                 ),
             })
+            continue
+
+        evidence_error = _validate_administrative_component_evidence(
+            evidence=rec.get("evidence"),
+            scope=scope,
+            scope_nodes=scope_nodes,
+            declared_components=declared_components,
+        )
+        if evidence_error:
+            rejected.append({**rec, "rejection_reason": evidence_error})
             continue
 
         scope_edges = {(u, v) for u, v in edges if u in scope_nodes and v in scope_nodes}
