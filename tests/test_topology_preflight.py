@@ -259,7 +259,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
                     "compatibility_identity_sha256": "c" * 64,
                 },
                 "topology_accreditation": {
-                    "schema": "ddd.topology-accreditation/1.0",
+                    "schema": "ddd.topology-accreditation.v1",
                     "source_binding": {
                         "edition": "2025",
                         "section_year": 2024,
@@ -282,7 +282,7 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
             "validation": {
                 "source_baseline": {"package_sha256": "a" * 64},
                 "topology_accreditation": {
-                    "schema": "ddd.topology-accreditation/1.0",
+                    "schema": "ddd.topology-accreditation.v1",
                     "source_binding": {
                         "edition": "2025",
                         "section_year": 2024,
