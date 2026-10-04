@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 
 from herramientas.generar_estado_operativo import (
+    _activation_snapshot,
     _source_readiness_row,
     build,
 )
@@ -178,6 +179,52 @@ class ResolverSourceAdmissibilityTests(unittest.TestCase):
                 "ACQUIRE",
                 {"reason": "ELECTORAL_REASON_NUEVO_SIN_MAPEAR"},
             )
+
+
+class ActivationSnapshotPrecedenceTests(unittest.TestCase):
+    def setUp(self):
+        self.current_pair = {
+            "current": True,
+            "receipt_path": "territorios/demo/evidencia/pares_fuentes/2025/demo.json",
+            "pair_sha256": "a" * 64,
+            "reason": "CURRENT_DURABLE_PAIR",
+        }
+
+    def test_current_pair_and_admissible_sources_is_activated(self):
+        plan = plan_fixture()
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "ACTIVATED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_not_accredited_sources(self):
+        plan = plan_fixture(
+            territorial_action="ACQUIRE",
+            territorial_reason="TERRITORIAL_PACKAGE_MISSING",
+        )
+        self.assertEqual(plan["territorial_admissibility"], "NOT_ACCREDITED")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "NOT_ACCREDITED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_incompatible_sources(self):
+        plan = plan_fixture(
+            territorial_action="ACQUIRE",
+            territorial_reason="TERRITORIAL_POPULATION_YEAR_MISMATCH",
+        )
+        self.assertEqual(plan["territorial_admissibility"], "INCOMPATIBLE")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "ACTION_REQUIRED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_blocked_sources(self):
+        plan = plan_fixture(
+            electoral_action="BLOCKED_PROVISIONAL",
+            electoral_reason="PROVISIONAL_NOT_PRODUCTION_ELIGIBLE",
+        )
+        self.assertEqual(plan["sources_status"], "BLOCKED")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "BLOCKED")
+        self.assertTrue(activation["pair"]["current"])
 
 
 class DashboardSourceReadinessTests(unittest.TestCase):

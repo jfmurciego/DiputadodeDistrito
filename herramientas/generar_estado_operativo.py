@@ -159,7 +159,7 @@ def _activation_snapshot(plan: dict, pair: dict | None = None) -> dict:
     electoral_status = str(plan.get("electoral_admissibility") or "")
     sources_status = str(plan.get("sources_status") or "")
 
-    if pair.get("current"):
+    if pair.get("current") and sources_status == "ADMISSIBLE":
         state = "ACTIVATED"
     elif sources_status == "ADMISSIBLE":
         state = "ACTIVABLE"
