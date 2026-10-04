@@ -426,13 +426,16 @@ def merge_delimited_sources(
     all_fields=[]; all_rows=[]; provenance_sources=[]; cursor=0
     for index,path in enumerate(paths):
         fields,rows=_read_delimited(path)
-        source_id=(
-            str(source_ids[index]).strip()
-            if source_ids is not None
-            else path.name
-        )
-        if not source_id:
-            raise ValueError("source_id vacío en procedencia estructural")
+        if source_ids is not None:
+            raw_source_id=source_ids[index]
+            if not isinstance(raw_source_id,str) or not raw_source_id.strip():
+                raise ValueError(
+                    "source_id debe ser texto no vacío "
+                    "en procedencia estructural"
+                )
+            source_id=raw_source_id.strip()
+        else:
+            source_id=path.name
         for field in fields:
             if field not in all_fields:
                 all_fields.append(field)
@@ -532,9 +535,17 @@ def _copy_raw_sources(
     for index,(selected,source) in enumerate(
         zip(selected_sources,source_paths,strict=True)
     ):
-        source_id=str(selected.get("id") or "").strip()
-        if not source_id or source_id in seen_ids:
-            raise ValueError("raw_sources contiene source.id vacío o duplicado")
+        raw_source_id=selected.get("id")
+        if (
+            not isinstance(raw_source_id,str)
+            or not raw_source_id.strip()
+        ):
+            raise ValueError(
+                "raw_sources contiene source.id no textual o vacío"
+            )
+        source_id=raw_source_id.strip()
+        if source_id in seen_ids:
+            raise ValueError("raw_sources contiene source.id duplicado")
         seen_ids.add(source_id)
         declared_sha=str(selected.get("sha256") or "").lower()
         actual_sha=sha(source).lower()
