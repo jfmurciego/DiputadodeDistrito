@@ -13,7 +13,7 @@ import geopandas as gpd
 import yaml
 from shapely.geometry import Polygon
 
-from ddd_core.topology_preflight import evaluate_topology_preflight
+from ddd_core.topology_preflight import evaluate_topology_preflight, validate_topology_accreditation_binding
 
 
 _M02_SPEC = importlib.util.spec_from_file_location("ddd_m02", Path(__file__).resolve().parents[1] / "modulos" / "02_construir_adyacencias.py")
@@ -25,6 +25,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def unit(province="01", municipality="001", multipart=False):
     return {"province": province, "municipality": municipality, "multipart": multipart}
+
+
+def administrative_components(municipality, components, **extra):
+    data = {
+        "admin_scope": f"municipality:{municipality}",
+        "components": components,
+        "reason": "synthetic accredited administrative discontinuity",
+        "source": "synthetic source edition",
+    }
+    data.update(extra)
+    return data
 
 
 def bridge(u, v, **extra):
@@ -41,13 +52,15 @@ def bridge(u, v, **extra):
 
 
 class TopologyPreflightSyntheticCases(unittest.TestCase):
-    def run_case(self, units, contacts, bridges=None, threshold=1.0):
+    def run_case(self, units, contacts, bridges=None, threshold=1.0, components=None, accreditation_error=None):
         return evaluate_topology_preflight(
             units=units,
             contacts=contacts,
             bridges=bridges or [],
             min_shared_border_m=threshold,
             productive_continental=True,
+            administrative_components=components or [],
+            accreditation_error=accreditation_error,
         )
 
     def test_01_point_contact(self):
@@ -164,6 +177,101 @@ class TopologyPreflightSyntheticCases(unittest.TestCase):
         )
         self.assertEqual("BLOCKED", r["decision"])
         self.assertIn("declared scope municipality:00001", r["bridges"]["rejected"][0]["rejection_reason"])
+
+    def test_13_connected_municipality_needs_no_exception(self):
+        r = self.run_case(
+            {"a": unit(municipality="00001"), "b": unit(municipality="00001")},
+            [{"u": "a", "v": "b", "shared_border_m": 12.0}],
+        )
+        self.assertEqual("READY", r["decision"])
+        self.assertEqual([], r["administrative_components"]["accepted"])
+
+    def test_14_accredited_discontinuous_municipality_keeps_physical_graph(self):
+        units = {
+            "a": unit(municipality="00001"),
+            "b": unit(municipality="00001"),
+            "x": unit(municipality="00002"),
+        }
+        contacts = [
+            {"u": "a", "v": "x", "shared_border_m": 8.0},
+            {"u": "b", "v": "x", "shared_border_m": 9.0},
+        ]
+        r = self.run_case(
+            units,
+            contacts,
+            components=[administrative_components("00001", [["a"], ["b"]])],
+        )
+        self.assertEqual("READY", r["decision"])
+        self.assertEqual(2, r["physical_edges"])
+        self.assertEqual(2, r["operational_edges"])
+        self.assertEqual([["a"], ["b"]], r["components"]["municipal"]["00001"])
+        self.assertEqual(1, len(r["administrative_components"]["accepted"]))
+
+    def test_15_unknown_discontinuous_municipality_remains_needs_policy(self):
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+        )
+        self.assertEqual("NEEDS_POLICY", r["decision"])
+        self.assertIn("00001", r["reasons"][0])
+
+    def test_16_point_contact_can_be_accredited_but_never_becomes_edge(self):
+        r = self.run_case(
+            {
+                "a": unit(municipality="00001"),
+                "b": unit(municipality="00001"),
+                "x": unit(municipality="00002"),
+            },
+            [
+                {"u": "a", "v": "b", "shared_border_m": 0.0},
+                {"u": "a", "v": "x", "shared_border_m": 8.0},
+                {"u": "b", "v": "x", "shared_border_m": 9.0},
+            ],
+            components=[administrative_components("00001", [["a"], ["b"]])],
+        )
+        self.assertEqual("READY", r["decision"])
+        self.assertEqual(1, len(r["point_contacts_removed"]))
+        self.assertEqual(2, r["operational_edges"])
+
+    def test_17_component_declaration_is_stale_when_connectivity_changes(self):
+        r = self.run_case(
+            {"a": unit(municipality="00001"), "b": unit(municipality="00001")},
+            [{"u": "a", "v": "b", "shared_border_m": 12.0}],
+            components=[administrative_components("00001", [["a"], ["b"]])],
+        )
+        self.assertEqual("BLOCKED", r["decision"])
+        self.assertIn("no longer match observed topology", r["administrative_components"]["rejected"][0]["rejection_reason"])
+
+    def test_18_source_bound_accreditation_becomes_stale_after_source_change(self):
+        cfg = {
+            "meta": {"year": 2025, "source_section_year": 2024},
+            "validation": {
+                "source_baseline": {
+                    "package_sha256": "b" * 64,
+                    "compatibility_identity_sha256": "c" * 64,
+                },
+                "topology_accreditation": {
+                    "schema": "ddd.topology-accreditation/1.0",
+                    "source_binding": {
+                        "edition": "2025",
+                        "section_year": 2024,
+                        "package_sha256": "a" * 64,
+                        "compatibility_identity_sha256": "c" * 64,
+                    },
+                },
+            },
+        }
+        r = validate_topology_accreditation_binding(cfg)
+        self.assertTrue(r["present"])
+        self.assertFalse(r["valid"])
+        self.assertIn("package_sha256", r["reason"])
 
 
 class M02ContractInputCases(unittest.TestCase):
