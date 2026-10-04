@@ -772,9 +772,11 @@ def validate_previous(package:Path,territory_id:str,edition:str,expected_electio
                 != str(s.get("sha256") or "").lower()
             ):
                 return None
-            raw_required=bool(
-                structural.get("raw_sources_embedded",False)
-            )
+            raw_required=structural.get("raw_sources_embedded")
+            if not isinstance(raw_required,bool):
+                return None
+            if structural.get("schema")!=STRUCTURAL_PROVENANCE_SCHEMA:
+                return None
             _validate_raw_sources_against_structural(
                 package=package,
                 raw_sources=m.get("raw_sources") or [],
@@ -855,8 +857,8 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     raw_sources=manifest.get("raw_sources") or [],
                     document=structural_doc,
                     context="paquete electoral reutilizado",
-                    required=bool(
-                        structural.get("raw_sources_embedded",False)
+                    required=(
+                        structural.get("raw_sources_embedded") is True
                     ),
                 )
 
