@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import tempfile
@@ -549,6 +550,20 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
             self.assertIsNotNone(
                 validate_previous(out,"demo","2025")
             )
+            packaged_sidecar=out/structural["path"]
+            packaged_sidecar.unlink()
+            with self.assertRaisesRegex(
+                ValueError,
+                r"sidecar estructural del paquete no coincide",
+            ):
+                validate_package(
+                    package=out,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
 
     def test_embedded_runtime_contract_materializes_verified_sidecar(self):
         with tempfile.TemporaryDirectory() as td:
@@ -693,11 +708,33 @@ class StructuralProvenancePackagingTests(unittest.TestCase):
                 str(runtime_sidecar.resolve()),
             )
 
-            tampered=json.loads(
-                (package/"manifest.json").read_text(encoding="utf-8")
+            manifest_path=package/"manifest.json"
+            original_manifest=json.loads(
+                manifest_path.read_text(encoding="utf-8")
             )
+            tampered=copy.deepcopy(original_manifest)
             tampered["structural_provenance"]["sha256"]="0"*64
-            (package/"manifest.json").write_text(
+            manifest_path.write_text(
+                json.dumps(tampered),encoding="utf-8"
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"declaración estructural del paquete no coincide",
+            ):
+                validate_package(
+                    package=package,
+                    params=params,
+                    territory_id="demo",
+                    edition="2025",
+                    root=root,
+                    materialize=False,
+                )
+
+            tampered=copy.deepcopy(original_manifest)
+            tampered["embedded_contract"][
+                "structural_provenance"
+            ]="evidence/other.json"
+            manifest_path.write_text(
                 json.dumps(tampered),encoding="utf-8"
             )
             with self.assertRaisesRegex(
