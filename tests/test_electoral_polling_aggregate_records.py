@@ -10,6 +10,7 @@ from ddd_core.electoral_contract import (
     PartyDictionary,
     _validate_wide_polling_station_adapter,
 )
+from herramientas.preparar_fuente_electoral import merge_delimited_sources
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +71,52 @@ def galicia_style_adapter() -> dict:
     }
 
 
+def scoped_adapter(*, require_aggregate: bool = True) -> dict:
+    return {
+        "kind": "wide_polling_station_csv",
+        "separator": ";",
+        "province_field": "province",
+        "municipality_field": "municipality",
+        "polling_station_field": "polling",
+        "polling_station_regex": (
+            r"^(?P<district>\d+)-(?P<section>\d+)-[A-Z]$"
+        ),
+        "party_columns": ["P", "Q"],
+        "party_applicability": {
+            "Q": {
+                "field": "province",
+                "equals": ["32"],
+                "reason": "Q sólo concurre en la circunscripción 32",
+            }
+        },
+        "record_classification": {
+            "polling_station": {"mode": "locator_contract"},
+            "aggregates": [
+                {
+                    "id": "provincial_total",
+                    "match": {
+                        "field": "province",
+                        "equals": "SUM",
+                        "required_empty_fields": [
+                            "municipality",
+                            "polling",
+                        ],
+                    },
+                    "scope": {
+                        "kind": "preceding_polling_station_block",
+                        "partition_field": "province",
+                    },
+                    "vote_reconciliation": {
+                        "kind": "party_columns_exact_sum",
+                        "empty_aggregate_value": "reject",
+                    },
+                }
+            ],
+            "require_aggregate_for_each_block": require_aggregate,
+        },
+    }
+
+
 class PollingStationAggregateRecordTests(unittest.TestCase):
     def _read(self, text: str, adapter: dict, dictionary: PartyDictionary):
         with tempfile.TemporaryDirectory() as td:
@@ -80,6 +127,265 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                 adapter,
                 "CUSEC_KEY",
                 dictionary,
+            )
+
+    def _read_merged(
+        self,
+        raws: list[tuple[str, str]],
+        adapter: dict,
+        dictionary: PartyDictionary,
+    ):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paths = []
+            source_ids = []
+            for source_id, text in raws:
+                path = root / f"{source_id}.csv"
+                path.write_text(text, encoding="utf-8")
+                paths.append(path)
+                source_ids.append(source_id)
+            merged = root / "merged.csv"
+            info = merge_delimited_sources(
+                paths,
+                merged,
+                source_ids=source_ids,
+            )
+            runtime_adapter = copy.deepcopy(adapter)
+            runtime_adapter["structural_provenance"] = {
+                "path": info["structural_provenance_path"],
+                "sha256": info["structural_provenance_sha256"],
+            }
+            return M07.read_results(
+                merged,
+                runtime_adapter,
+                "CUSEC_KEY",
+                dictionary,
+            )
+
+    def test_contract_rejects_invalid_party_applicability(self):
+        cases = []
+
+        unknown = scoped_adapter()
+        unknown["party_applicability"] = {
+            "R": {
+                "field": "province",
+                "equals": ["32"],
+                "reason": "fixture",
+            }
+        }
+        cases.append((unknown, r"candidatura ajena a party_columns"))
+
+        numeric_field = scoped_adapter()
+        numeric_field["party_applicability"]["Q"]["field"] = 32
+        cases.append((numeric_field, r"field debe ser texto no vacío"))
+
+        duplicate_values = scoped_adapter()
+        duplicate_values["party_applicability"]["Q"]["equals"] = [
+            "32",
+            " 32 ",
+        ]
+        cases.append((duplicate_values, r"equals contiene valores duplicados"))
+
+        blank_reason = scoped_adapter()
+        blank_reason["party_applicability"]["Q"]["reason"] = " "
+        cases.append((blank_reason, r"reason debe ser texto no vacío"))
+
+        missing_sidecar = scoped_adapter()
+        cases.append((
+            missing_sidecar,
+            r"structural_provenance es obligatorio",
+        ))
+
+        for adapter, expected in cases:
+            with self.subTest(expected=expected):
+                with self.assertRaisesRegex(ValueError, expected):
+                    _validate_wide_polling_station_adapter(
+                        copy.deepcopy(adapter),
+                        "fixture",
+                    )
+
+    def test_party_scope_distinguishes_structural_absence_from_zero(self):
+        adapter = scoped_adapter()
+        raw_15 = (
+            "province;municipality;polling;P\n"
+            "15;7;1-1-A;5\n"
+            "SUM;;;5\n"
+        )
+        raw_32 = (
+            "province;municipality;polling;P;Q\n"
+            "32;1;1-1-A;7;0\n"
+            "SUM;;;7;0\n"
+        )
+
+        frame, sections = self._read_merged(
+            [("province_15", raw_15), ("province_32", raw_32)],
+            adapter,
+            parties("P", "Q"),
+        )
+
+        self.assertEqual(
+            sections,
+            {"1500701001", "3200101001"},
+        )
+        self.assertEqual(
+            frame.loc[frame["party"] == "Q", "votes"].tolist(),
+            [0],
+        )
+        self.assertEqual(frame.attrs["not_applicable_party_cells"], 1)
+        applicability = frame.attrs["party_applicability"]
+        self.assertEqual(len(applicability), 1)
+        self.assertEqual(applicability[0]["party_column"], "Q")
+        self.assertEqual(applicability[0]["scope_value"], "15")
+        self.assertEqual(applicability[0]["source_id"], "province_15")
+        self.assertRegex(applicability[0]["raw_sha256"], r"^[0-9a-f]{64}$")
+
+        first, second = frame.attrs["recognized_aggregates"]
+        first_q = next(
+            item
+            for item in first["vote_reconciliation"]["comparisons"]
+            if item.get("party_column") == "Q"
+        )
+        second_q = next(
+            item
+            for item in second["vote_reconciliation"]["comparisons"]
+            if item.get("party_column") == "Q"
+        )
+        self.assertEqual(first_q["status"], "NOT_COMPARABLE")
+        self.assertEqual(
+            first["vote_reconciliation"]["status"],
+            "MATCH_WITH_OUT_OF_SCOPE",
+        )
+        self.assertEqual(second_q["status"], "MATCH")
+        self.assertEqual(second_q["aggregate_value"], 0)
+
+    def test_blank_cell_in_physically_present_out_of_scope_column_blocks(self):
+        raw_15 = (
+            "province;municipality;polling;P;Q\n"
+            "15;7;1-1-A;5;\n"
+            "SUM;;;5;\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"PARTY_COLUMN_PRESENT_OUTSIDE_DECLARED_SCOPE",
+        ):
+            self._read_merged(
+                [("province_15", raw_15)],
+                scoped_adapter(),
+                parties("P", "Q"),
+            )
+
+    def test_party_column_missing_inside_declared_scope_blocks(self):
+        raw_32 = (
+            "province;municipality;polling;P\n"
+            "32;1;1-1-A;7\n"
+            "SUM;;;7\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"PARTY_COLUMN_MISSING_IN_DECLARED_SCOPE",
+        ):
+            self._read_merged(
+                [("province_32", raw_32)],
+                scoped_adapter(),
+                parties("P", "Q"),
+            )
+
+    def test_blank_party_value_inside_declared_scope_still_blocks(self):
+        raw_32 = (
+            "province;municipality;polling;P;Q\n"
+            "32;1;1-1-A;10;\n"
+            "SUM;;;10;\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"ELECTORAL_VOTES_INVALID.*field=Q",
+        ):
+            self._read_merged(
+                [("province_32", raw_32)],
+                scoped_adapter(),
+                parties("P", "Q"),
+            )
+
+    def test_scope_field_must_exist_and_have_value_in_original_raw(self):
+        adapter = scoped_adapter()
+        adapter["party_applicability"]["Q"] = {
+            "field": "region",
+            "equals": ["north"],
+            "reason": "fixture",
+        }
+        missing_field = (
+            "province;municipality;polling;P\n"
+            "15;7;1-1-A;5\n"
+            "SUM;;;5\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"PARTY_SCOPE_FIELD_MISSING_IN_RAW",
+        ):
+            self._read_merged(
+                [("missing_scope", missing_field)],
+                adapter,
+                parties("P", "Q"),
+            )
+
+        blank_value = (
+            "province;municipality;polling;region;P\n"
+            "15;7;1-1-A;;5\n"
+            "SUM;;;;5\n"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"PARTY_SCOPE_VALUE_MISSING",
+        ):
+            self._read_merged(
+                [("blank_scope", blank_value)],
+                adapter,
+                parties("P", "Q"),
+            )
+
+    def test_optional_aggregate_closes_block_at_raw_boundary(self):
+        adapter = scoped_adapter(require_aggregate=False)
+        adapter.pop("party_applicability")
+        raw_a = (
+            "province;municipality;polling;P;Q\n"
+            "7;1;1-1-A;10;20\n"
+        )
+        raw_b = (
+            "province;municipality;polling;P;Q\n"
+            "7;2;1-1-A;5;7\n"
+            "SUM;;;5;7\n"
+        )
+
+        frame, _ = self._read_merged(
+            [("raw_a", raw_a), ("raw_b", raw_b)],
+            adapter,
+            parties("P", "Q"),
+        )
+        evidence = frame.attrs["recognized_aggregates"]
+        self.assertEqual(len(evidence), 1)
+        self.assertEqual(evidence[0]["scope"]["polling_station_rows"], 1)
+
+    def test_required_aggregate_blocks_at_raw_boundary(self):
+        adapter = scoped_adapter(require_aggregate=True)
+        adapter.pop("party_applicability")
+        raw_a = (
+            "province;municipality;polling;P;Q\n"
+            "7;1;1-1-A;10;20\n"
+        )
+        raw_b = (
+            "province;municipality;polling;P;Q\n"
+            "7;2;1-1-A;5;7\n"
+            "SUM;;;5;7\n"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"MISSING_EXPECTED_AGGREGATE",
+        ):
+            self._read_merged(
+                [("raw_a", raw_a), ("raw_b", raw_b)],
+                adapter,
+                parties("P", "Q"),
             )
 
     def test_contract_rejects_permissive_aggregate_semantics(self):
