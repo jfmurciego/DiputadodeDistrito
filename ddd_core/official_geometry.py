@@ -569,6 +569,765 @@ def _feature_geometry_digest(features: list[dict], section_id_field: str) -> str
     return _sha256_json(rows)
 
 
+
+def _bbox_candidate_pairs(*geometry_sets: list[Any]) -> list[tuple[int, int]]:
+    """Unión determinista de parejas con bounding boxes coincidentes."""
+    from shapely.strtree import STRtree
+
+    pairs: set[tuple[int, int]] = set()
+    for geometries in geometry_sets:
+        kept = [
+            (index, geometry)
+            for index, geometry in enumerate(geometries)
+            if geometry is not None and not geometry.is_empty
+        ]
+        if not kept:
+            continue
+        original_indexes = [row[0] for row in kept]
+        compact = [row[1] for row in kept]
+        tree = STRtree(compact)
+        result = tree.query(compact)
+        for left, right in zip(
+            result[0].tolist(), result[1].tolist(), strict=False
+        ):
+            i = original_indexes[int(left)]
+            j = original_indexes[int(right)]
+            if i < j:
+                pairs.add((i, j))
+            elif j < i:
+                pairs.add((j, i))
+    return sorted(pairs)
+
+
+def _safe_pair_relation(left: Any, right: Any, relation: str) -> tuple[Any | None, str | None]:
+    try:
+        if relation == "overlap":
+            value = left.intersection(right)
+            if value.is_empty or float(value.area) == 0.0:
+                return None, None
+            return value, None
+        if relation == "contact":
+            value = left.boundary.intersection(right.boundary)
+            return (None if value.is_empty else value), None
+        raise ValueError(f"Relación desconocida: {relation}")
+    except Exception as exc:
+        return None, f"{type(exc).__name__}: {exc}"
+
+
+def _relation_observation(
+    geometry: Any | None,
+    *,
+    relation: str,
+    source_crs: str,
+    metric_crs: str,
+) -> dict | None:
+    if geometry is None:
+        return None
+    metric = _metric_geometry(geometry, source_crs, metric_crs)
+    row = {
+        "geometry_type": geometry.geom_type,
+        "geometry_sha256": _sha256_geometry(geometry),
+    }
+    if relation == "overlap":
+        row["area_m2"] = float(metric.area)
+    else:
+        row["length_m"] = float(metric.length)
+    return row
+
+
+def _classify_spatial_change(
+    before: Any | None,
+    after: Any | None,
+    *,
+    relation: str,
+) -> str:
+    """Clasifica por geometría, nunca por conteos ni suma de áreas."""
+    if before is None and after is None:
+        return "PRESERVED_NONE"
+    if before is None:
+        return "NEW"
+    if after is None:
+        return "REMOVED"
+    if before.equals(after):
+        return "PRESERVED"
+    if relation == "contact":
+        return "DISPLACED_OR_RESHAPED"
+    try:
+        added = after.difference(before)
+        removed = before.difference(after)
+        added_empty = bool(added.is_empty)
+        removed_empty = bool(removed.is_empty)
+    except Exception:
+        return "DISPLACED_OR_RESHAPED"
+    if not added_empty and removed_empty:
+        return "INCREASED"
+    if added_empty and not removed_empty:
+        return "DECREASED"
+    return "DISPLACED_OR_RESHAPED"
+
+
+def _baseline_variants(
+    raw_geometry: Any,
+    derived_geometry: Any,
+    issue: dict | None,
+) -> tuple[list[tuple[str, Any]], list[str]]:
+    """Construye interpretaciones verificables del raw sólo cuando la prueba lo permite."""
+    if not issue or issue.get("status") != "NORMALIZED":
+        try:
+            if raw_geometry.is_valid:
+                return [("RAW_VALID", raw_geometry)], []
+        except Exception:
+            pass
+        return [], ["RAW_INVALID_WITHOUT_NORMALIZATION_EVIDENCE"]
+
+    method = str(issue.get("method") or "")
+    proof = issue.get("proof") or {}
+    if method in {
+        "DEDUPLICATE_EXACT_MULTIPOLYGON_COMPONENTS",
+        "DEDUPLICATE_EXACT_INTERIOR_RINGS",
+    }:
+        exact = (
+            bool(proof.get("point_set_equal"))
+            and bool(proof.get("boundary_set_equal"))
+            and bool(proof.get("symmetric_difference_empty"))
+        )
+        if exact:
+            return [("EXACT_POINT_SET_DERIVED", derived_geometry)], []
+        return [], ["EXACT_DEDUPLICATION_PROOF_INCOMPLETE"]
+
+    if method == "MAKE_VALID_DUAL_CONSENSUS_BOUNDARY_PRESERVING":
+        verified = (
+            bool(issue.get("independent_candidate_equal"))
+            and bool(issue.get("source_boundary_set_equal"))
+            and bool(issue.get("candidate_symmetric_difference_empty"))
+        )
+        if not verified:
+            return [], ["DUAL_REPAIR_PROOF_INCOMPLETE"]
+        try:
+            from shapely import make_valid
+
+            linework = make_valid(
+                raw_geometry,
+                method="linework",
+                keep_collapsed=True,
+            )
+            structure = make_valid(
+                raw_geometry,
+                method="structure",
+                keep_collapsed=False,
+            )
+            if (
+                not _polygonal_only(linework)
+                or not _polygonal_only(structure)
+                or linework.is_empty
+                or structure.is_empty
+                or not linework.is_valid
+                or not structure.is_valid
+                or not linework.equals(structure)
+                or not raw_geometry.boundary.equals(linework.boundary)
+                or not linework.equals(derived_geometry)
+            ):
+                return [], ["DUAL_REPAIR_RECOMPUTATION_DIVERGED"]
+            return [
+                ("MAKE_VALID_LINEWORK", linework),
+                ("MAKE_VALID_STRUCTURE", structure),
+            ], []
+        except Exception as exc:
+            return [], [f"DUAL_REPAIR_RECOMPUTATION_FAILED: {type(exc).__name__}: {exc}"]
+
+    return [], [f"UNSUPPORTED_NORMALIZATION_METHOD: {method or 'NONE'}"]
+
+
+def _nullable_geometry_equal(left: Any | None, right: Any | None) -> bool:
+    if left is None or right is None:
+        return left is None and right is None
+    try:
+        return bool(left.equals(right))
+    except Exception:
+        return False
+
+
+def _alternative_pair_baseline(
+    raw_left: Any,
+    raw_right: Any,
+    derived_left: Any,
+    derived_right: Any,
+    left_issue: dict | None,
+    right_issue: dict | None,
+    *,
+    relation: str,
+) -> tuple[Any | None, dict]:
+    """Acredita la relación de la pareja, no sólo la reparación de cada sección."""
+    left_variants, left_errors = _baseline_variants(
+        raw_left, derived_left, left_issue
+    )
+    right_variants, right_errors = _baseline_variants(
+        raw_right, derived_right, right_issue
+    )
+    errors = [*left_errors, *right_errors]
+    if errors or not left_variants or not right_variants:
+        return None, {
+            "status": "NOT_AVAILABLE",
+            "relation": relation,
+            "errors": errors or ["PAIR_VARIANTS_EMPTY"],
+        }
+
+    observations: list[tuple[str, str, Any | None]] = []
+    for left_name, left_geometry in left_variants:
+        for right_name, right_geometry in right_variants:
+            value, error = _safe_pair_relation(
+                left_geometry,
+                right_geometry,
+                relation,
+            )
+            if error:
+                return None, {
+                    "status": "NOT_AVAILABLE",
+                    "relation": relation,
+                    "errors": [
+                        f"{left_name}/{right_name}: {error}"
+                    ],
+                }
+            observations.append((left_name, right_name, value))
+
+    canonical = observations[0][2]
+    if not all(
+        _nullable_geometry_equal(canonical, value)
+        for _, _, value in observations[1:]
+    ):
+        return None, {
+            "status": "NOT_AVAILABLE",
+            "relation": relation,
+            "errors": ["INDEPENDENT_PAIR_RELATIONS_DISAGREE"],
+            "variants": [
+                {"left": left, "right": right}
+                for left, right, _ in observations
+            ],
+        }
+
+    after, after_error = _safe_pair_relation(
+        derived_left,
+        derived_right,
+        relation,
+    )
+    if after_error or not _nullable_geometry_equal(canonical, after):
+        return None, {
+            "status": "NOT_AVAILABLE",
+            "relation": relation,
+            "errors": [
+                (
+                    f"DERIVED_RELATION_ERROR: {after_error}"
+                    if after_error
+                    else "ALTERNATIVE_BASELINE_DIFFERS_FROM_DERIVED_RELATION"
+                )
+            ],
+        }
+
+    return canonical, {
+        "status": "AVAILABLE",
+        "relation": relation,
+        "proof": "PAIR_RELATION_RECOMPUTED_FROM_VERIFIED_INDEPENDENT_VARIANTS",
+        "left_variants": [name for name, _ in left_variants],
+        "right_variants": [name for name, _ in right_variants],
+        "variant_pair_count": len(observations),
+        "all_variant_relations_equal": True,
+        "matches_derived_relation": True,
+        "note": (
+            "The failed raw operation is not replaced by zero or by the "
+            "derived result by assumption. The pair relation is independently "
+            "recomputed from every repair interpretation already accredited "
+            "by the normalization policy and all interpretations must agree."
+        ),
+    }
+
+
+
+def _pairwise_topology_evidence(
+    section_ids: list[str],
+    raw_geometries: list[Any],
+    derived_geometries: list[Any],
+    issues: list[dict],
+    *,
+    source_crs: str,
+    metric_crs: str,
+) -> dict:
+    issues_by_id = {
+        str((row.get("before") or {}).get("section_id") or ""): row
+        for row in issues
+        if isinstance(row, dict)
+    }
+    overlap_rows: list[dict] = []
+    contact_rows: list[dict] = []
+    limitations: list[dict] = []
+    overlap_changes: list[dict] = []
+    contact_changes: list[dict] = []
+
+    for i, j in _bbox_candidate_pairs(raw_geometries, derived_geometries):
+        pair = (section_ids[i], section_ids[j])
+        for relation, output, changes in (
+            ("overlap", overlap_rows, overlap_changes),
+            ("contact", contact_rows, contact_changes),
+        ):
+            raw_geometry = raw_geometries[i]
+            other_raw = raw_geometries[j]
+            derived_geometry = derived_geometries[i]
+            other_derived = derived_geometries[j]
+            if (
+                raw_geometry is None
+                or other_raw is None
+                or derived_geometry is None
+                or other_derived is None
+            ):
+                continue
+
+            try:
+                raw_pair_valid = bool(
+                    raw_geometry.is_valid and other_raw.is_valid
+                )
+            except Exception:
+                raw_pair_valid = False
+            if raw_pair_valid:
+                before, before_error = _safe_pair_relation(
+                    raw_geometry, other_raw, relation
+                )
+            else:
+                before = None
+                before_error = (
+                    "RAW_GEOMETRY_INVALID_PAIR_BASELINE_REQUIRES_"
+                    "ALTERNATIVE_EVIDENCE"
+                )
+            after, after_error = _safe_pair_relation(
+                derived_geometry, other_derived, relation
+            )
+            alternative = None
+            baseline_method = "RAW_PAIR_OPERATION"
+            unresolved = False
+            if before_error:
+                before, alternative = _alternative_pair_baseline(
+                    raw_geometry,
+                    other_raw,
+                    derived_geometry,
+                    other_derived,
+                    issues_by_id.get(pair[0]),
+                    issues_by_id.get(pair[1]),
+                    relation=relation,
+                )
+                if alternative["status"] == "AVAILABLE" and after_error is None:
+                    baseline_method = "ALTERNATIVE_PAIR_EVIDENCE"
+                else:
+                    unresolved = True
+                    baseline_method = "NOT_EVALUABLE"
+            if after_error:
+                unresolved = True
+
+            classification = (
+                "BASELINE_NOT_EVALUABLE"
+                if unresolved
+                else _classify_spatial_change(
+                    before, after, relation=relation
+                )
+            )
+            before_observation = _relation_observation(
+                before,
+                relation=relation,
+                source_crs=source_crs,
+                metric_crs=metric_crs,
+            )
+            after_observation = _relation_observation(
+                after,
+                relation=relation,
+                source_crs=source_crs,
+                metric_crs=metric_crs,
+            )
+            # Persistimos únicamente parejas con relación, cambio o limitación.
+            if (
+                before_observation is None
+                and after_observation is None
+                and not before_error
+                and not after_error
+            ):
+                continue
+            row = {
+                "section_a": pair[0],
+                "section_b": pair[1],
+                "classification": classification,
+                "baseline_method": baseline_method,
+                "before": before_observation,
+                "after": after_observation,
+            }
+            if alternative is not None:
+                row["alternative_baseline_evidence"] = alternative
+            if before_error:
+                row["before_error"] = before_error
+            if after_error:
+                row["after_error"] = after_error
+            output.append(row)
+
+            if unresolved:
+                limitations.append({
+                    "section_a": pair[0],
+                    "section_b": pair[1],
+                    "relation": relation,
+                    "reason": "PAIR_BASELINE_NOT_EVALUABLE",
+                    "before_error": before_error,
+                    "after_error": after_error,
+                    "alternative_baseline_evidence": alternative,
+                })
+            elif classification not in {
+                "PRESERVED_NONE",
+                "PRESERVED",
+            }:
+                changes.append({
+                    "section_a": pair[0],
+                    "section_b": pair[1],
+                    "classification": classification,
+                    "before": before_observation,
+                    "after": after_observation,
+                })
+
+    return {
+        "comparison": "PAIRWISE_EXACT_GEOMETRY",
+        "metric_crs": metric_crs,
+        "numeric_acceptance_tolerance": None,
+        "overlaps": sorted(
+            overlap_rows,
+            key=lambda row: (row["section_a"], row["section_b"]),
+        ),
+        "contacts": sorted(
+            contact_rows,
+            key=lambda row: (row["section_a"], row["section_b"]),
+        ),
+        "overlap_changes": sorted(
+            overlap_changes,
+            key=lambda row: (row["section_a"], row["section_b"]),
+        ),
+        "contact_changes": sorted(
+            contact_changes,
+            key=lambda row: (row["section_a"], row["section_b"]),
+        ),
+        "baseline_limitations": limitations,
+        "overlap_change_count": len(overlap_changes),
+        "contact_change_count": len(contact_changes),
+        "unresolved_baseline_count": len(limitations),
+    }
+
+
+def _coverage_preservation_evidence(
+    issues: list[dict],
+    *,
+    geometry_digest_equal: bool,
+) -> dict:
+    normalized = [row for row in issues if row.get("status") == "NORMALIZED"]
+    if not normalized:
+        return {
+            "decision": "READY" if geometry_digest_equal else "BLOCKED",
+            "method": "EXACT_DATASET_GEOMETRY_IDENTITY",
+            "geometry_digest_equal": geometry_digest_equal,
+            "sections": [],
+        }
+
+    evidence: list[dict] = []
+    safe = True
+    for issue in normalized:
+        method = str(issue.get("method") or "")
+        proof = issue.get("proof") or {}
+        if method in {
+            "DEDUPLICATE_EXACT_MULTIPOLYGON_COMPONENTS",
+            "DEDUPLICATE_EXACT_INTERIOR_RINGS",
+        }:
+            ok = bool(proof.get("point_set_equal")) and bool(
+                proof.get("boundary_set_equal")
+            )
+            kind = "EXACT_POINT_AND_BOUNDARY_SET_PROOF"
+        elif method == "MAKE_VALID_DUAL_CONSENSUS_BOUNDARY_PRESERVING":
+            ok = (
+                bool(issue.get("independent_candidate_equal"))
+                and bool(issue.get("source_boundary_set_equal"))
+                and bool(issue.get("candidate_symmetric_difference_empty"))
+            )
+            kind = "DUAL_REPAIR_CONSENSUS_WITH_EXACT_SOURCE_BOUNDARY"
+        else:
+            ok = False
+            kind = "UNSUPPORTED"
+        safe = safe and ok
+        evidence.append({
+            "section_id": str((issue.get("before") or {}).get("section_id") or ""),
+            "method": method,
+            "evidence": kind,
+            "verified": ok,
+        })
+    return {
+        "decision": "READY" if safe else "BLOCKED",
+        "method": "PER_SECTION_EXACT_OR_INDEPENDENT_ALTERNATIVE_EVIDENCE",
+        "geometry_digest_equal": geometry_digest_equal,
+        "sections": evidence,
+        "note": (
+            "Invalid raw polygon area is never used as equivalence evidence."
+        ),
+    }
+
+
+def _source_admissibility(
+    pairwise: dict,
+    *,
+    declared_use: dict | None,
+    section_ids: list[str] | None = None,
+    derived_geometries: list[Any] | None = None,
+    source_crs: str | None = None,
+) -> dict:
+    if not declared_use:
+        return {
+            "decision": "NOT_EVALUATED",
+            "allows_staging": False,
+            "reason": (
+                "No declared consumer contract was supplied. Normalization "
+                "safety may be READY, but source admissibility is fail-closed."
+            ),
+        }
+
+    role = str(declared_use.get("role") or "")
+    consumer = str(declared_use.get("consumer") or "")
+    topology_changes = (
+        int(pairwise.get("overlap_change_count") or 0)
+        + int(pairwise.get("contact_change_count") or 0)
+        + int(pairwise.get("unresolved_baseline_count") or 0)
+    )
+    if topology_changes:
+        return {
+            "decision": "BLOCKED",
+            "allows_staging": False,
+            "role": role,
+            "consumer": consumer,
+            "declared_use": declared_use,
+            "reason": "Normalization changed topology or left an unevaluable baseline.",
+            "adjacency_impact": {
+                "normalization_pair_changes": topology_changes,
+                "decision": "BLOCKED",
+            },
+        }
+
+    if role == "population_sectioning_origin":
+        return {
+            "decision": "DEFERRED_TO_CONSUMER_GATE",
+            "allows_staging": True,
+            "role": role,
+            "consumer": consumer or "population_sectioning_compatibility",
+            "required_evidence": (
+                "compatibilidad_poblacion_seccionado.json geometry_admissibility "
+                "decision READY"
+            ),
+            "original_overlap_pairs": [
+                {
+                    "section_a": row["section_a"],
+                    "section_b": row["section_b"],
+                    "relation_geometry_sha256": (
+                        (row.get("after") or {}).get("geometry_sha256")
+                    ),
+                }
+                for row in (pairwise.get("overlaps") or [])
+                if row.get("after") is not None
+                and row.get("classification") == "PRESERVED"
+            ],
+            "reason": (
+                "Origin section geometry is consumed jointly with target "
+                "sectioning and population. Staging is allowed only so the "
+                "mandatory compatibility gate can bind every original defect "
+                "to an exact one-to-one destination and to an admissible target "
+                "relation; provenance or invariance alone is insufficient."
+            ),
+        }
+
+    if role != "target_sectioning":
+        return {
+            "decision": "BLOCKED",
+            "allows_staging": False,
+            "role": role,
+            "consumer": consumer,
+            "reason": "Unsupported or missing declared geometry source role.",
+        }
+
+    original_overlaps = [
+        row for row in pairwise.get("overlaps") or []
+        if row.get("after") is not None
+        and row.get("classification") == "PRESERVED"
+    ]
+    if not original_overlaps:
+        return {
+            "decision": "READY",
+            "allows_staging": True,
+            "role": role,
+            "consumer": consumer,
+            "declared_use": declared_use,
+            "original_overlap_pairs": [],
+            "inadmissible_overlap_pairs": [],
+            "adjacency_impact": {
+                "normalization_pair_changes": 0,
+                "decision": "READY",
+            },
+            "coverage_impact": {
+                "assessment": "NO_ORIGINAL_OVERLAP_DEFECT",
+                "global_gap_mask": "NOT_AVAILABLE",
+            },
+            "threshold_origin": None,
+        }
+
+    adjacency = declared_use.get("adjacency") or {}
+    predicate = str(adjacency.get("predicate") or "")
+    working_crs = str(adjacency.get("working_crs") or "")
+    min_shared = adjacency.get("min_shared_border_m")
+    max_overlap = adjacency.get("max_precision_overlap_area_m2")
+    if not predicate or min_shared is None or not working_crs:
+        return {
+            "decision": "BLOCKED",
+            "allows_staging": False,
+            "role": role,
+            "consumer": consumer,
+            "reason": (
+                "Declared target-sectioning consumer contract is incomplete "
+                "for assessing an original overlap defect."
+            ),
+            "declared_use": declared_use,
+        }
+    if (
+        not section_ids
+        or not derived_geometries
+        or source_crs is None
+        or len(section_ids) != len(derived_geometries)
+    ):
+        return {
+            "decision": "BLOCKED",
+            "allows_staging": False,
+            "role": role,
+            "consumer": consumer,
+            "reason": "Geometry context missing for consumer-CRS defect assessment.",
+        }
+
+    index_by_id = {
+        str(section_id): index
+        for index, section_id in enumerate(section_ids)
+    }
+    violations: list[dict] = []
+    assessed: list[dict] = []
+    for row in original_overlaps:
+        section_a = str(row["section_a"])
+        section_b = str(row["section_b"])
+        if section_a not in index_by_id or section_b not in index_by_id:
+            violations.append({
+                "section_a": section_a,
+                "section_b": section_b,
+                "reason": "PAIR_GEOMETRY_NOT_FOUND",
+                "admissible": False,
+            })
+            continue
+        left = derived_geometries[index_by_id[section_a]]
+        right = derived_geometries[index_by_id[section_b]]
+        try:
+            left_metric = _metric_geometry(
+                left,
+                str(source_crs),
+                working_crs,
+            )
+            right_metric = _metric_geometry(
+                right,
+                str(source_crs),
+                working_crs,
+            )
+            overlap_metric = left_metric.intersection(right_metric)
+            boundary_metric = left_metric.boundary.intersection(
+                right_metric.boundary
+            )
+            area = float(overlap_metric.area)
+            shared = float(boundary_metric.length)
+        except Exception as exc:
+            violations.append({
+                "section_a": section_a,
+                "section_b": section_b,
+                "reason": (
+                    f"CONSUMER_CRS_MEASUREMENT_FAILED: "
+                    f"{type(exc).__name__}: {exc}"
+                ),
+                "admissible": False,
+            })
+            continue
+
+        pair = {
+            "section_a": section_a,
+            "section_b": section_b,
+            "overlap_area_m2": area,
+            "shared_boundary_m": shared,
+            "measurement_crs": working_crs,
+        }
+        if predicate == "contact" and max_overlap is not None:
+            precision_admissible = area <= float(max_overlap)
+            would_form_edge = bool(
+                shared >= float(min_shared)
+                and (bool(left_metric.touches(right_metric)) or precision_admissible)
+            )
+            admissible = precision_admissible
+            pair.update({
+                "consumer_rule": (
+                    "pre-existing overlap <= "
+                    "max_precision_overlap_area_m2; M02 edge effect recorded "
+                    "separately using its full contact predicate"
+                ),
+                "declared_min_shared_border_m": float(min_shared),
+                "declared_max_precision_overlap_area_m2": float(max_overlap),
+                "would_form_m02_edge": would_form_edge,
+                "adjacency_effect": (
+                    "GEOMETRIC_EDGE"
+                    if would_form_edge
+                    else "NO_EDGE_UNDER_DECLARED_CONSUMER"
+                ),
+                "admissible": admissible,
+            })
+        else:
+            admissible = False
+            pair.update({
+                "consumer_rule": (
+                    "overlap_not_declared_admissible_for_this_predicate"
+                ),
+                "admissible": False,
+            })
+        assessed.append(pair)
+        if not admissible:
+            violations.append(pair)
+
+    ready = not violations
+    return {
+        "decision": "READY" if ready else "BLOCKED",
+        "allows_staging": ready,
+        "role": role,
+        "consumer": consumer,
+        "declared_use": declared_use,
+        "original_overlap_pairs": assessed,
+        "inadmissible_overlap_pairs": violations,
+        "adjacency_impact": {
+            "normalization_pair_changes": 0,
+            "decision": "READY",
+            "assessment": "EXISTING_M02_RELATION_RULE_REPLAYED_PER_PAIR",
+        },
+        "coverage_impact": {
+            "assessment": (
+                "PAIRWISE_AGAINST_DECLARED_CONSUMER_PRECISION_RULE"
+                if predicate == "contact" and max_overlap is not None
+                else "NO_OVERLAP_ALLOWANCE_DECLARED"
+            ),
+            "global_gap_mask": "NOT_AVAILABLE",
+            "note": (
+                "No sum of overlap areas is used for acceptance; every pair is "
+                "recomputed in the consumer working CRS. The existing "
+                "precision-overlap ceiling governs coverage admissibility, "
+                "while the full M02 predicate is replayed and recorded as the "
+                "pair's adjacency effect."
+            ),
+        },
+        "threshold_origin": (
+            "Existing territorial adjacency contract; not a normalization tolerance."
+        ),
+    }
+
+
+
 def _candidate_overlap_evidence(
     section_ids: list[str],
     geometries: list[Any],
@@ -702,6 +1461,7 @@ def normalize_official_features(
     policy: dict | None = None,
     policy_sha256: str | None = None,
     policy_path: str | None = None,
+    declared_use: dict | None = None,
     source_stage: str = (
         "RAW_SOURCE_FEATURE_AFTER_JSON_DECODE_BEFORE_GEOMETRY_TRANSFORMATION"
     ),
@@ -841,6 +1601,19 @@ def normalize_official_features(
             for geometry in derived_geometries
         )
     )
+    before_geometry_digest = _feature_geometry_digest(
+        features, section_id_field
+    )
+    after_geometry_digest = _feature_geometry_digest(
+        normalized, section_id_field
+    )
+    coverage_preservation = _coverage_preservation_evidence(
+        issues,
+        geometry_digest_equal=(
+            before_geometry_digest == after_geometry_digest
+        ),
+    )
+
     topology: dict[str, Any] = {
         "metric_crs": metric_crs,
         "metric_units": {"length": "metre", "area": "square_metre"},
@@ -853,12 +1626,20 @@ def normalize_official_features(
                 "contract; pre-existing global gaps cannot be asserted here."
             ),
             "repair_induced_gap_evidence": (
-                "accepted repairs must preserve the source boundary set and "
-                "changed-section contacts exactly"
+                "pairwise overlap/contact comparison plus exact or independent "
+                "per-section coverage evidence"
             ),
         },
     }
     if candidate_basic_valid:
+        pairwise = _pairwise_topology_evidence(
+            section_ids,
+            raw_geometries,
+            derived_geometries,
+            issues,
+            source_crs=crs,
+            metric_crs=metric_crs,
+        )
         overlaps = _candidate_overlap_evidence(
             section_ids,
             derived_geometries,
@@ -879,6 +1660,7 @@ def normalize_official_features(
         topology.update({
             "candidate_overlap_count": len(overlaps),
             "candidate_overlaps": overlaps,
+            "pairwise": pairwise,
             "candidate_gap_diagnostics": gap_diagnostics,
             "contacts": contacts,
             "components": [
@@ -892,9 +1674,21 @@ def normalize_official_features(
             ],
         })
     else:
+        pairwise = {
+            "comparison": "NOT_EVALUATED_CANDIDATE_INVALID_OR_BLOCKED",
+            "overlaps": [],
+            "contacts": [],
+            "overlap_changes": [],
+            "contact_changes": [],
+            "baseline_limitations": [],
+            "overlap_change_count": 0,
+            "contact_change_count": 0,
+            "unresolved_baseline_count": 0,
+        }
         topology.update({
             "candidate_overlap_count": None,
             "candidate_overlaps": [],
+            "pairwise": pairwise,
             "candidate_gap_diagnostics": {
                 "status": "NOT_EVALUATED_CANDIDATE_INVALID_OR_BLOCKED"
             },
@@ -904,24 +1698,54 @@ def normalize_official_features(
             "components": [],
         })
 
-    topology_ready = (
-        candidate_basic_valid
-        and topology.get("candidate_overlap_count") == 0
-        and topology.get("contacts", {}).get(
-            "all_contact_id_sets_preserved", True
-        )
-        and topology.get("contacts", {}).get(
-            "all_contact_geometries_preserved", True
-        )
-    )
     structural_ready = (
         identity_equal
         and properties_equal
         and coverage_before == coverage_after
     )
+    topology_preserved = (
+        candidate_basic_valid
+        and int(pairwise.get("overlap_change_count") or 0) == 0
+        and int(pairwise.get("contact_change_count") or 0) == 0
+        and int(pairwise.get("unresolved_baseline_count") or 0) == 0
+    )
+    normalization_safety_ready = (
+        blocked == 0
+        and structural_ready
+        and topology_preserved
+        and coverage_preservation.get("decision") == "READY"
+    )
+    normalization_safety = {
+        "decision": "READY" if normalization_safety_ready else "BLOCKED",
+        "identity_preserved": identity_equal,
+        "attributes_preserved": properties_equal,
+        "declared_coverage_preserved": coverage_before == coverage_after,
+        "coverage_evidence": coverage_preservation,
+        "pairwise_topology_preserved": topology_preserved,
+        "overlap_change_count": int(
+            pairwise.get("overlap_change_count") or 0
+        ),
+        "contact_change_count": int(
+            pairwise.get("contact_change_count") or 0
+        ),
+        "unresolved_baseline_count": int(
+            pairwise.get("unresolved_baseline_count") or 0
+        ),
+    }
+
+    source_admissibility = _source_admissibility(
+        pairwise,
+        declared_use=declared_use,
+        section_ids=section_ids,
+        derived_geometries=derived_geometries,
+        source_crs=str(crs),
+    )
+    source_allows_stage = bool(
+        source_admissibility.get("allows_staging", False)
+    )
     decision = (
         "READY"
-        if blocked == 0 and structural_ready and topology_ready
+        if normalization_safety_ready and source_allows_stage
         else "BLOCKED"
     )
 
@@ -935,6 +1759,9 @@ def normalize_official_features(
         "decision": decision,
         "source_crs": str(crs),
         "source_stage": source_stage,
+        "declared_use": declared_use,
+        "normalization_safety": normalization_safety,
+        "source_admissibility": source_admissibility,
         "normalization_policy": {
             "schema": policy.get("schema"),
             "version": policy.get("version"),
@@ -944,6 +1771,7 @@ def normalize_official_features(
             "make_valid_used_only_with_independent_consensus": True,
             "numeric_acceptance_tolerance": None,
             "metric_values_are_diagnostic_not_pass_thresholds": True,
+            "preexisting_source_defects_are_not_normalization_failures": True,
         },
         "identity_and_attributes": {
             "section_order_and_identity_equal": identity_equal,
@@ -969,12 +1797,8 @@ def normalize_official_features(
                 ),
             },
         },
-        "geometry_set_sha256_before": _feature_geometry_digest(
-            features, section_id_field
-        ),
-        "geometry_set_sha256_after": _feature_geometry_digest(
-            normalized, section_id_field
-        ),
+        "geometry_set_sha256_before": before_geometry_digest,
+        "geometry_set_sha256_after": after_geometry_digest,
         "topology": topology,
         "libraries": geometry_runtime_versions(),
         "issues": issues,

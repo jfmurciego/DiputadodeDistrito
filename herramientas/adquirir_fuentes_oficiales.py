@@ -776,6 +776,72 @@ def _persist_geometry_evidence(
     return reference
 
 
+def _geometry_declared_use(
+    root_dir: Path,
+    *,
+    territory_id: str,
+    edition: int,
+    role: str,
+) -> dict:
+    """Resuelve el consumidor geométrico sin inventar umbrales nuevos."""
+    if role == "population_sectioning_origin":
+        return {
+            "role": role,
+            "consumer": "population_sectioning_compatibility",
+            "gate": "assert_materialized_territorial_gate",
+            "required_evidence": (
+                "compatibilidad_poblacion_seccionado.json "
+                "geometry_admissibility decision READY"
+            ),
+        }
+
+    if role != "target_sectioning":
+        return {
+            "role": role,
+            "consumer": "unsupported",
+        }
+
+    contract_path = (
+        Path(root_dir)
+        / "territorios"
+        / territory_id
+        / "config"
+        / f"{territory_id}_{int(edition)}.yaml"
+    )
+    if not contract_path.is_file():
+        return {
+            "role": role,
+            "consumer": "modulo_02_construir_adyacencias",
+            "contract_path": contract_path.as_posix(),
+            "adjacency": {},
+        }
+    cfg = load_yaml(contract_path)
+    m02 = (
+        ((cfg.get("modulos") or {}).get(
+            "modulo_02_construir_adyacencias"
+        ))
+        or {}
+    )
+    adjacency = {
+        "predicate": str(m02.get("predicate", "touches")),
+        "working_crs": str(m02.get("working_crs", "EPSG:25830")),
+        "min_shared_border_m": m02.get("min_shared_border_m"),
+        # No se aplica el fallback de M02 para acreditar defectos de fuente:
+        # un solape sólo es admisible si el contrato territorial lo declara.
+        "max_precision_overlap_area_m2": (
+            m02.get("max_precision_overlap_area_m2")
+            if "max_precision_overlap_area_m2" in m02
+            else None
+        ),
+    }
+    return {
+        "role": role,
+        "consumer": "modulo_02_construir_adyacencias",
+        "contract_path": contract_path.relative_to(root_dir).as_posix(),
+        "adjacency": adjacency,
+    }
+
+
 def _normalize_sections_or_block(
     features: list[dict],
     source: dict,
@@ -786,6 +852,7 @@ def _normalize_sections_or_block(
     source_id: str,
     source_year: int,
     snapshot_identity: dict | None = None,
+    declared_use: dict | None = None,
 ) -> list[dict]:
     policy, policy_sha256, policy_path = load_geometry_policy()
     source_stage = (
@@ -801,6 +868,7 @@ def _normalize_sections_or_block(
         policy=policy,
         policy_sha256=policy_sha256,
         policy_path=policy_path,
+        declared_use=declared_use,
         source_stage=source_stage,
     )
     raw_by_partition = {
@@ -843,6 +911,12 @@ def _normalize_sections_or_block(
                 {
                     "decision": audit["decision"],
                     "issues": audit["issues"],
+                    "normalization_safety": audit.get(
+                        "normalization_safety"
+                    ),
+                    "source_admissibility": audit.get(
+                        "source_admissibility"
+                    ),
                     "topology": audit["topology"],
                     "identity_and_attributes": audit[
                         "identity_and_attributes"
@@ -1400,6 +1474,19 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
     provenance = {"schema": "ddd-source-provenance/1.2", **header, "sources": []}
     decision = {"schema": "ddd-source-acquisition-decision/1.1", **header, "decision": "READY", "reasons": []}
 
+    target_geometry_use = _geometry_declared_use(
+        root_dir,
+        territory_id=territory_id,
+        edition=edition,
+        role="target_sectioning",
+    )
+    origin_geometry_use = _geometry_declared_use(
+        root_dir,
+        territory_id=territory_id,
+        edition=edition,
+        role="population_sectioning_origin",
+    )
+
     for source_id, source, binding in required:
         configured_path = str(binding["materialized_path"])
         effective_year = population_year if source.get("kind") == "static_csv" else section_year
@@ -1445,6 +1532,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                         source_id=source_id,
                         source_year=section_year,
                         snapshot_identity=snapshot_meta,
+                        declared_use=target_geometry_use,
                     )
                     payload_out = _materialize_sections_with_evidence(
                         features,
@@ -1475,6 +1563,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                         evidence_dir=evidence_dir,
                         source_id=source_id,
                         source_year=section_year,
+                        declared_use=target_geometry_use,
                     )
                     payload_out = _materialize_sections_with_evidence(
                         features,
@@ -1565,6 +1654,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                         source_id=source_id + "_origen_poblacion",
                         source_year=population_year,
                         snapshot_identity=origin_snapshot_meta,
+                        declared_use=origin_geometry_use,
                     )
                     origin_payload = _materialize_sections_with_evidence(
                         origin_features,
@@ -1595,6 +1685,7 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                         evidence_dir=evidence_dir,
                         source_id=source_id + "_origen_poblacion",
                         source_year=population_year,
+                        declared_use=origin_geometry_use,
                     )
                     origin_payload = _materialize_sections_with_evidence(
                         origin_features,

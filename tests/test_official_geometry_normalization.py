@@ -12,16 +12,40 @@ import geopandas as gpd
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon, box, mapping, shape
 
 from ddd_core.official_geometry import (
+    _classify_spatial_change,
+    _pairwise_topology_evidence,
     normalize_official_features,
     normalize_official_geometry,
     persist_geometry_normalization_evidence,
     persist_raw_ogc_response,
 )
 from herramientas.adquirir_fuentes_oficiales import (
+    _geometry_declared_use,
     _materialize_sections_with_evidence,
     _normalize_sections_or_block,
     _write_shapefile_zip,
 )
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def target_use(
+    *,
+    crs: str = "EPSG:3035",
+    min_shared: float = 1.0,
+    max_overlap: float = 1.0,
+) -> dict:
+    return {
+        "role": "target_sectioning",
+        "consumer": "modulo_02_construir_adyacencias",
+        "adjacency": {
+            "predicate": "contact",
+            "working_crs": crs,
+            "min_shared_border_m": min_shared,
+            "max_precision_overlap_area_m2": max_overlap,
+        },
+    }
 
 
 class OfficialGeometryNormalizationTests(unittest.TestCase):
@@ -240,6 +264,7 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
             "CUSEC",
             crs="EPSG:4326",
             coverage_field="CPRO",
+            declared_use=target_use(),
         )
 
         self.assertEqual(json.dumps(raw, sort_keys=True), snapshot)
@@ -282,7 +307,7 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
         self.assertEqual(out[0]["properties"], raw[0]["properties"])
         self.assertEqual(out[1]["properties"], raw[1]["properties"])
 
-    def test_dataset_level_overlap_blocks_even_when_each_feature_is_valid(self):
+    def test_dataset_without_modifications_keeps_original_overlap_as_source_defect(self):
         raw = [
             {
                 "type": "Feature",
@@ -299,13 +324,375 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
         _, report = normalize_official_features(
             raw,
             "CUSEC",
-            crs="EPSG:4326",
+            crs="EPSG:3035",
             coverage_field="CPRO",
         )
 
         self.assertEqual(report["blocked"], 0)
         self.assertEqual(report["topology"]["candidate_overlap_count"], 1)
+        self.assertEqual(report["normalization_safety"]["decision"], "READY")
+        self.assertEqual(report["source_admissibility"]["decision"], "NOT_EVALUATED")
+        self.assertFalse(report["source_admissibility"]["allows_staging"])
         self.assertEqual(report["decision"], "BLOCKED")
+        pair = report["topology"]["pairwise"]["overlaps"][0]
+        self.assertEqual(
+            (pair["section_a"], pair["section_b"]),
+            ("0100101001", "0100101002"),
+        )
+        self.assertEqual(pair["classification"], "PRESERVED")
+        self.assertEqual(pair["before"], pair["after"])
+
+    def test_original_overlap_is_admissible_only_by_declared_consumer_rule(self):
+        raw = [
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101001", "CPRO": "01"},
+                "geometry": mapping(box(0, 0, 2, 2)),
+            },
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101002", "CPRO": "01"},
+                "geometry": mapping(box(1.5, 0, 3.5, 2)),
+            },
+        ]
+        declared_use = {
+            "role": "target_sectioning",
+            "consumer": "modulo_02_construir_adyacencias",
+            "adjacency": {
+                "predicate": "contact",
+                "working_crs": "EPSG:3035",
+                "min_shared_border_m": 1.0,
+                "max_precision_overlap_area_m2": 1.0,
+            },
+        }
+
+        _, report = normalize_official_features(
+            raw,
+            "CUSEC",
+            crs="EPSG:3035",
+            coverage_field="CPRO",
+            declared_use=declared_use,
+        )
+
+        self.assertEqual(report["normalization_safety"]["decision"], "READY")
+        self.assertEqual(report["source_admissibility"]["decision"], "READY")
+        self.assertEqual(report["decision"], "READY")
+        assessed = report["source_admissibility"]["original_overlap_pairs"]
+        self.assertEqual(len(assessed), 1)
+        self.assertEqual(assessed[0]["overlap_area_m2"], 1.0)
+        self.assertTrue(assessed[0]["admissible"])
+
+    def test_precision_overlap_without_m02_edge_is_still_explicitly_admissible(self):
+        raw = [
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101001", "CPRO": "01"},
+                "geometry": mapping(box(0, 0, 2, 2)),
+            },
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101002", "CPRO": "01"},
+                "geometry": mapping(box(1.999, 1.0, 3.0, 1.5)),
+            },
+        ]
+        declared_use = target_use(
+            crs="EPSG:3035",
+            min_shared=1.0,
+            max_overlap=1.0,
+        )
+
+        _, report = normalize_official_features(
+            raw,
+            "CUSEC",
+            crs="EPSG:3035",
+            coverage_field="CPRO",
+            declared_use=declared_use,
+        )
+
+        self.assertEqual(report["decision"], "READY")
+        pair = report["source_admissibility"][
+            "original_overlap_pairs"
+        ][0]
+        self.assertLess(pair["overlap_area_m2"], 1.0)
+        self.assertLess(pair["shared_boundary_m"], 1.0)
+        self.assertFalse(pair["would_form_m02_edge"])
+        self.assertEqual(
+            pair["adjacency_effect"],
+            "NO_EDGE_UNDER_DECLARED_CONSUMER",
+        )
+        self.assertTrue(pair["admissible"])
+
+    def test_original_overlap_remains_blocked_when_declared_use_rejects_it(self):
+        raw = [
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101001", "CPRO": "01"},
+                "geometry": mapping(box(0, 0, 2, 2)),
+            },
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101002", "CPRO": "01"},
+                "geometry": mapping(box(1, 0, 3, 2)),
+            },
+        ]
+        declared_use = {
+            "role": "target_sectioning",
+            "consumer": "modulo_02_construir_adyacencias",
+            "adjacency": {
+                "predicate": "contact",
+                "working_crs": "EPSG:3035",
+                "min_shared_border_m": 1.0,
+                "max_precision_overlap_area_m2": 1.0,
+            },
+        }
+
+        _, report = normalize_official_features(
+            raw,
+            "CUSEC",
+            crs="EPSG:3035",
+            coverage_field="CPRO",
+            declared_use=declared_use,
+        )
+
+        self.assertEqual(report["normalization_safety"]["decision"], "READY")
+        self.assertEqual(report["source_admissibility"]["decision"], "BLOCKED")
+        self.assertEqual(report["decision"], "BLOCKED")
+        violation = report["source_admissibility"]["inadmissible_overlap_pairs"][0]
+        self.assertEqual(violation["overlap_area_m2"], 2.0)
+        self.assertFalse(violation["admissible"])
+
+    def test_pairwise_overlap_detects_new_and_increased_defects(self):
+        raw = [box(0, 0, 1, 1), box(1, 0, 2, 1)]
+        new_overlap = [box(0, 0, 1.2, 1), box(1, 0, 2, 1)]
+        evidence = _pairwise_topology_evidence(
+            ["A", "B"],
+            raw,
+            new_overlap,
+            [],
+            source_crs="EPSG:3035",
+            metric_crs="EPSG:3035",
+        )
+        self.assertEqual(evidence["overlap_change_count"], 1)
+        self.assertEqual(
+            evidence["overlap_changes"][0]["classification"],
+            "NEW",
+        )
+
+        before = box(0, 0, 2, 1).intersection(box(1, 0, 3, 1))
+        after = box(0, 0, 2.5, 1).intersection(box(1, 0, 3, 1))
+        self.assertEqual(
+            _classify_spatial_change(before, after, relation="overlap"),
+            "INCREASED",
+        )
+
+    def test_pairwise_change_with_equal_area_but_different_location_is_displaced(self):
+        before = box(0, 0, 1, 1)
+        after = box(2, 0, 3, 1)
+        self.assertEqual(before.area, after.area)
+        self.assertEqual(
+            _classify_spatial_change(before, after, relation="overlap"),
+            "DISPLACED_OR_RESHAPED",
+        )
+        self.assertEqual(
+            _classify_spatial_change(
+                before.boundary,
+                after.boundary,
+                relation="contact",
+            ),
+            "DISPLACED_OR_RESHAPED",
+        )
+
+    def test_pairwise_contact_change_is_detected_end_to_end(self):
+        raw = [box(0, 0, 1, 1), box(1, 0, 2, 1)]
+        derived = [box(0, 0, 1, 1), box(1.1, 0, 2.1, 1)]
+        evidence = _pairwise_topology_evidence(
+            ["A", "B"],
+            raw,
+            derived,
+            [],
+            source_crs="EPSG:3035",
+            metric_crs="EPSG:3035",
+        )
+        self.assertEqual(evidence["contact_change_count"], 1)
+        self.assertEqual(
+            evidence["contact_changes"][0]["classification"],
+            "REMOVED",
+        )
+
+    def test_pairwise_increased_overlap_is_detected_end_to_end(self):
+        raw = [box(0, 0, 2, 1), box(1, 0, 3, 1)]
+        derived = [box(0, 0, 2.5, 1), box(1, 0, 3, 1)]
+        evidence = _pairwise_topology_evidence(
+            ["A", "B"],
+            raw,
+            derived,
+            [],
+            source_crs="EPSG:3035",
+            metric_crs="EPSG:3035",
+        )
+        self.assertEqual(evidence["overlap_change_count"], 1)
+        self.assertEqual(
+            evidence["overlap_changes"][0]["classification"],
+            "INCREASED",
+        )
+
+    def test_pairwise_equal_area_spatial_move_is_detected_end_to_end(self):
+        raw = [box(0, 0, 2, 1), box(1, 0, 3, 1)]
+        derived = [box(0, 0, 2, 1), box(-1, 0, 1, 1)]
+        evidence = _pairwise_topology_evidence(
+            ["A", "B"],
+            raw,
+            derived,
+            [],
+            source_crs="EPSG:3035",
+            metric_crs="EPSG:3035",
+        )
+        change = evidence["overlap_changes"][0]
+        self.assertEqual(
+            change["before"]["area_m2"],
+            change["after"]["area_m2"],
+        )
+        self.assertEqual(
+            change["classification"],
+            "DISPLACED_OR_RESHAPED",
+        )
+
+    def test_unevaluable_raw_baseline_without_pair_evidence_blocks(self):
+        invalid = Polygon(
+            [(0, 0), (2, 2), (2, 0), (0, 2), (0, 0)]
+        )
+        derived = box(0, 0, 2, 2)
+        neighbor = box(0, 0, 1, 1)
+
+        def relation(left, right, kind):
+            if not left.is_valid or not right.is_valid:
+                return None, "forced invalid raw baseline"
+            if kind == "overlap":
+                value = left.intersection(right)
+                return (
+                    (None, None)
+                    if value.is_empty or float(value.area) == 0.0
+                    else (value, None)
+                )
+            value = left.boundary.intersection(right.boundary)
+            return (None if value.is_empty else value), None
+
+        with patch(
+            "ddd_core.official_geometry._safe_pair_relation",
+            side_effect=relation,
+        ):
+            evidence = _pairwise_topology_evidence(
+                ["A", "B"],
+                [invalid, neighbor],
+                [derived, neighbor],
+                [],
+                source_crs="EPSG:3035",
+                metric_crs="EPSG:3035",
+            )
+
+        self.assertGreater(evidence["unresolved_baseline_count"], 0)
+        self.assertTrue(evidence["baseline_limitations"])
+        self.assertEqual(
+            evidence["baseline_limitations"][0]["reason"],
+            "PAIR_BASELINE_NOT_EVALUABLE",
+        )
+        self.assertEqual(
+            evidence["baseline_limitations"][0][
+                "alternative_baseline_evidence"
+            ]["status"],
+            "NOT_AVAILABLE",
+        )
+
+    def test_consumer_fallback_crs_is_replayed_not_compared_to_policy_crs(self):
+        declared = _geometry_declared_use(
+            ROOT,
+            territory_id="castilla_y_leon",
+            edition=2025,
+            role="target_sectioning",
+        )
+        self.assertEqual(
+            declared["adjacency"]["working_crs"],
+            "EPSG:25830",
+        )
+        self.assertEqual(
+            declared["adjacency"]["max_precision_overlap_area_m2"],
+            1.0,
+        )
+        raw = [
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0900101001", "CPRO": "09"},
+                "geometry": mapping(box(0, 0, 2, 2)),
+            },
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0900101002", "CPRO": "09"},
+                "geometry": mapping(box(1.5, 0, 3.5, 2)),
+            },
+        ]
+        _, report = normalize_official_features(
+            raw,
+            "CUSEC",
+            crs="EPSG:25830",
+            coverage_field="CPRO",
+            declared_use=declared,
+        )
+        self.assertEqual(report["decision"], "READY")
+        pair = report["source_admissibility"][
+            "original_overlap_pairs"
+        ][0]
+        self.assertEqual(pair["measurement_crs"], "EPSG:25830")
+        self.assertEqual(pair["overlap_area_m2"], 1.0)
+        self.assertGreaterEqual(pair["shared_boundary_m"], 1.0)
+
+    def test_invalid_raw_baseline_uses_verifiable_alternative_not_zero(self):
+        bowtie = Polygon(
+            [(0, 0), (2, 2), (2, 0), (0, 2), (0, 0)]
+        )
+        neighbor = box(0, 0, 1, 1)
+        raw = [
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101001", "CPRO": "01"},
+                "geometry": mapping(bowtie),
+            },
+            {
+                "type": "Feature",
+                "properties": {"CUSEC": "0100101002", "CPRO": "01"},
+                "geometry": mapping(neighbor),
+            },
+        ]
+
+        _, report = normalize_official_features(
+            raw,
+            "CUSEC",
+            crs="EPSG:3035",
+            coverage_field="CPRO",
+        )
+
+        rows = [
+            row
+            for row in report["topology"]["pairwise"]["overlaps"]
+            if row["section_a"] == "0100101001"
+            and row["section_b"] == "0100101002"
+        ]
+        self.assertEqual(len(rows), 1)
+        row = rows[0]
+        self.assertIn("before_error", row)
+        self.assertEqual(
+            row["baseline_method"],
+            "ALTERNATIVE_PAIR_EVIDENCE",
+        )
+        self.assertEqual(
+            row["alternative_baseline_evidence"]["status"],
+            "AVAILABLE",
+        )
+        self.assertIsNotNone(row["before"])
+        self.assertNotEqual(row["before"]["area_m2"], 0.0)
+        self.assertEqual(
+            report["normalization_safety"]["unresolved_baseline_count"],
+            0,
+        )
 
     def test_feature_pipeline_is_idempotent_after_exact_normalization(self):
         part = box(0, 0, 1, 1)
@@ -326,11 +713,13 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
             raw,
             "CUSEC",
             coverage_field="CPRO",
+            declared_use=target_use(),
         )
         second, report2 = normalize_official_features(
             first,
             "CUSEC",
             coverage_field="CPRO",
+            declared_use=target_use(),
         )
 
         self.assertEqual(report1["normalized"], 1)
@@ -550,6 +939,7 @@ class OfficialGeometryNormalizationTests(unittest.TestCase):
                 evidence_dir=evidence,
                 source_id="sections",
                 source_year=2024,
+                declared_use=target_use(),
             )
             self.assertEqual(
                 checks["geometry_normalization_evidence"]["decision"],
