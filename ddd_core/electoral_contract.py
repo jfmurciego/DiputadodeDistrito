@@ -218,10 +218,14 @@ def validate_structural_provenance_document(
                 f"{source_context}.source_id duplicado: {source_id!r}"
             )
         seen_ids.add(source_id)
-        _strict_text(
+        raw_file = _strict_text(
             _required(source, "raw_file", source_context),
             f"{source_context}.raw_file",
         )
+        if Path(raw_file).name != raw_file or raw_file in {".", ".."}:
+            raise ValueError(
+                f"{source_context}.raw_file debe ser un nombre de fichero"
+            )
         raw_sha = _strict_text(
             _required(source, "raw_sha256", source_context),
             f"{source_context}.raw_sha256",
@@ -659,6 +663,26 @@ def load_election_contract(
                 context=provenance_context,
                 expected_source_sha256=str(source.get("sha256") or ""),
             )
+            applicability = adapter.get("party_applicability") or {}
+            scope_fields = {
+                str(rule.get("field") or "").strip()
+                for rule in applicability.values()
+                if isinstance(rule, Mapping)
+            }
+            for scope_field in scope_fields:
+                missing_scope = [
+                    str(record.get("source_id") or "")
+                    for record in provenance_doc["sources"]
+                    if scope_field not in (
+                        record.get("original_columns") or []
+                    )
+                ]
+                if missing_scope:
+                    raise ValueError(
+                        f"{context}: campo de ámbito {scope_field!r} "
+                        "ausente en raws: "
+                        + ", ".join(missing_scope)
+                    )
             resolved_adapter["structural_provenance"] = {
                 **dict(provenance_record),
                 "resolved_path": str(provenance_path),
