@@ -61,6 +61,19 @@
             }
           ],
           "require_aggregate_for_each_block": true
+        },
+        "party_applicability": {
+          "DO": {
+            "field": "Cód Cir",
+            "equals": [
+              "32"
+            ],
+            "reason": "La candidatura DO sólo figura en el fichero oficial provincial de Ourense; los otros tres ficheros oficiales no contienen esa columna."
+          }
+        },
+        "structural_provenance": {
+          "path": "territorios/galicia/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
+          "sha256": "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68"
         }
       }
     }

@@ -3,19 +3,172 @@
   "$id": "https://diputadodedistrito.example/schemas/contrato-electoral-1.0.0.json",
   "title": "Contrato electoral DDD",
   "type": "object",
-  "required": ["schema_family", "schema_version", "election_id", "territory_id", "title", "election_date", "input_mode", "boundary_independence", "sources", "party_dictionary", "reconciliation"],
+  "required": [
+    "schema_family",
+    "schema_version",
+    "election_id",
+    "territory_id",
+    "title",
+    "election_date",
+    "input_mode",
+    "boundary_independence",
+    "sources",
+    "party_dictionary",
+    "reconciliation"
+  ],
   "properties": {
-    "schema_family": {"const": "ddd-election"},
-    "schema_version": {"const": "1.0.0"},
-    "election_id": {"type": "string", "minLength": 1},
-    "territory_id": {"type": "string", "minLength": 1},
-    "title": {"type": "string", "minLength": 1},
-    "election_date": {"type": "string", "format": "date"},
-    "input_mode": {"const": "verifiable_file"},
-    "boundary_independence": {"const": true},
-    "sources": {"type": "array", "minItems": 1},
-    "party_dictionary": {"type": "object"},
-    "reconciliation": {"type": "object"}
+    "schema_family": {
+      "const": "ddd-election"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "election_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "territory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "election_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "input_mode": {
+      "const": "verifiable_file"
+    },
+    "boundary_independence": {
+      "const": true
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter": {
+            "type": "object",
+            "properties": {
+              "party_applicability": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "required": [
+                    "field",
+                    "equals",
+                    "reason"
+                  ],
+                  "properties": {
+                    "field": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "equals": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        {
+                          "type": "array",
+                          "minItems": 1,
+                          "uniqueItems": true,
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      ]
+                    },
+                    "reason": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "structural_provenance": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "sha256"
+                ],
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{64}$"
+                  }
+                },
+                "additionalProperties": true
+              },
+              "kind": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": true,
+            "allOf": [
+              {
+                "if": {
+                  "required": [
+                    "party_applicability"
+                  ],
+                  "properties": {
+                    "party_applicability": {
+                      "minProperties": 1
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "structural_provenance"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wide_polling_station_csv"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "required": [
+                    "structural_provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "const": "wide_polling_station_csv"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "party_dictionary": {
+      "type": "object"
+    },
+    "reconciliation": {
+      "type": "object"
+    }
   },
   "additionalProperties": true
 }
