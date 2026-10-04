@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,csv,hashlib,json,re,shutil,unicodedata
+import argparse,csv,hashlib,io,json,re,shutil,unicodedata
 from datetime import datetime,timezone
 from pathlib import Path
 import yaml
 from herramientas.comprobar_fuente_electoral_oficial import check_declaration,load_declaration
+from ddd_core.electoral_contract import (
+    STRUCTURAL_PROVENANCE_SCHEMA,
+    validate_structural_provenance_document,
+)
 
 
 def _clean_header(value: object) -> str:
@@ -372,32 +376,225 @@ def _read_delimited(path:Path)->tuple[list[str],list[dict]]:
             text=raw.decode(encoding); break
         except UnicodeDecodeError:
             continue
-    if text is None: raise ValueError(f"No se puede decodificar {path}")
-    lines=text.splitlines()
-    if not lines: raise ValueError(f"Fuente vacía: {path}")
-    delimiter=max((";",",","\t"),key=lambda d:lines[0].count(d))
-    reader=csv.DictReader(lines,delimiter=delimiter)
-    fields=[str(x or "").strip() for x in (reader.fieldnames or [])]
-    if not fields: raise ValueError(f"CSV sin cabecera: {path}")
+    if text is None:
+        raise ValueError(f"No se puede decodificar {path}")
+    first_line=text.splitlines()[0] if text.splitlines() else ""
+    if not first_line:
+        raise ValueError(f"Fuente vacía: {path}")
+    delimiter=max((";",",","\t"),key=lambda d:first_line.count(d))
+    try:
+        records=list(
+            csv.reader(
+                io.StringIO(text),
+                delimiter=delimiter,
+                strict=True,
+            )
+        )
+    except csv.Error as exc:
+        raise ValueError(f"CSV malformado: {path}: {exc}") from exc
+    if not records or not records[0]:
+        raise ValueError(f"CSV sin cabecera: {path}")
+    fields=[str(value or "").strip() for value in records[0]]
+    if (
+        any(not field for field in fields)
+        or len(set(fields))!=len(fields)
+    ):
+        raise ValueError(f"CSV con cabecera vacía o duplicada: {path}")
     rows=[]
-    for row in reader:
-        rows.append({fields[i]: row.get(reader.fieldnames[i],"") for i in range(len(fields))})
+    for index,record in enumerate(records[1:],start=2):
+        if len(record)!=len(fields):
+            raise ValueError(
+                f"CSV con anchura inválida: {path} row={index} "
+                f"esperadas={len(fields)} observadas={len(record)}"
+            )
+        rows.append(dict(zip(fields,record,strict=True)))
+    if not rows:
+        raise ValueError(f"Fuente sin registros: {path}")
     return fields,rows
 
-def merge_delimited_sources(paths:list[Path],out:Path)->dict:
-    all_fields=[]; all_rows=[]
-    for path in paths:
+
+def merge_delimited_sources(
+    paths:list[Path],
+    out:Path,
+    *,
+    source_ids:list[str]|None=None,
+)->dict:
+    if not paths:
+        raise ValueError("No hay fuentes electorales para fusionar")
+    if source_ids is not None and len(source_ids)!=len(paths):
+        raise ValueError("source_ids no coincide con las fuentes a fusionar")
+    all_fields=[]; all_rows=[]; provenance_sources=[]; cursor=0
+    for index,path in enumerate(paths):
         fields,rows=_read_delimited(path)
+        source_id=(
+            str(source_ids[index]).strip()
+            if source_ids is not None
+            else path.name
+        )
+        if not source_id:
+            raise ValueError("source_id vacío en procedencia estructural")
         for field in fields:
-            if field not in all_fields: all_fields.append(field)
+            if field not in all_fields:
+                all_fields.append(field)
+        start=cursor
+        cursor+=len(rows)
+        provenance_sources.append({
+            "source_id":source_id,
+            "raw_file":path.name,
+            "raw_sha256":sha(path),
+            "records":len(rows),
+            "merged_row_index_start":start,
+            "merged_row_index_end_exclusive":cursor,
+            "original_columns":fields,
+        })
         all_rows.extend(rows)
-    if not all_rows: raise ValueError("Las fuentes electorales no contienen registros")
+    if len({row["source_id"] for row in provenance_sources})!=len(provenance_sources):
+        raise ValueError("source_id duplicado en procedencia estructural")
     out.parent.mkdir(parents=True,exist_ok=True)
     with out.open("w",encoding="utf-8",newline="") as f:
-        writer=csv.DictWriter(f,fieldnames=all_fields,delimiter=";",extrasaction="ignore")
+        writer=csv.DictWriter(
+            f,
+            fieldnames=all_fields,
+            delimiter=";",
+            extrasaction="ignore",
+        )
         writer.writeheader()
-        for row in all_rows: writer.writerow({field:row.get(field,"") for field in all_fields})
-    return {"records":len(all_rows),"columns":all_fields}
+        for row in all_rows:
+            writer.writerow({field:row.get(field,"") for field in all_fields})
+    sidecar=out.with_name(out.name+".structural_provenance.json")
+    provenance={
+        "schema":STRUCTURAL_PROVENANCE_SCHEMA,
+        "merged_source":{
+            "sha256":sha(out),
+            "records":len(all_rows),
+            "columns":all_fields,
+        },
+        "sources":provenance_sources,
+    }
+    validate_structural_provenance_document(
+        provenance,
+        context="procedencia estructural generada",
+        expected_source_sha256=sha(out),
+    )
+    sidecar.write_text(
+        json.dumps(
+            provenance,
+            ensure_ascii=False,
+            sort_keys=True,
+            indent=2,
+        )+"\n",
+        encoding="utf-8",
+    )
+    return {
+        "records":len(all_rows),
+        "columns":all_fields,
+        "structural_provenance_path":str(sidecar),
+        "structural_provenance_sha256":sha(sidecar),
+        "structural_provenance_schema":STRUCTURAL_PROVENANCE_SCHEMA,
+    }
+
+
+def _load_structural_provenance(
+    path:Path,
+    *,
+    expected_sha256:str,
+    expected_source_sha256:str,
+    context:str,
+)->dict:
+    expected=str(expected_sha256 or "").lower()
+    if (
+        not path.is_file()
+        or not re.fullmatch(r"[0-9a-f]{64}",expected)
+        or sha(path).lower()!=expected
+    ):
+        raise ValueError(f"{context}: sidecar ausente o con SHA inválido")
+    document=json.loads(path.read_text(encoding="utf-8"))
+    validate_structural_provenance_document(
+        document,
+        context=context,
+        expected_source_sha256=expected_source_sha256,
+    )
+    return document
+
+
+def _copy_raw_sources(
+    *,
+    package_out:Path,
+    selected_sources:list[dict],
+    source_paths:list[Path],
+)->list[dict]:
+    if len(selected_sources)!=len(source_paths):
+        raise ValueError("raw_sources no coincide con selected_sources")
+    raw_dir=package_out/"raw"
+    raw_dir.mkdir(exist_ok=True)
+    result=[]
+    seen_ids=set()
+    for index,(selected,source) in enumerate(
+        zip(selected_sources,source_paths,strict=True)
+    ):
+        source_id=str(selected.get("id") or "").strip()
+        if not source_id or source_id in seen_ids:
+            raise ValueError("raw_sources contiene source.id vacío o duplicado")
+        seen_ids.add(source_id)
+        declared_sha=str(selected.get("sha256") or "").lower()
+        actual_sha=sha(source).lower()
+        if not declared_sha or declared_sha!=actual_sha:
+            raise ValueError(
+                f"raw source {source_id}: SHA no coincide con adquisición"
+            )
+        target=raw_dir/f"{index:03d}_{source.name}"
+        shutil.copy2(source,target)
+        result.append({
+            "id":source_id,
+            "path":target.relative_to(package_out).as_posix(),
+            "original_name":source.name,
+            "sha256":actual_sha,
+            "bytes":target.stat().st_size,
+            "url":selected.get("url"),
+            "publisher":selected.get("publisher"),
+        })
+    return result
+
+
+def _validate_raw_sources_against_structural(
+    *,
+    package:Path,
+    raw_sources:list[dict],
+    document:dict,
+    context:str,
+)->None:
+    if not isinstance(raw_sources,list) or not raw_sources:
+        raise ValueError(f"{context}: raw_sources ausentes")
+    structural_sources=document.get("sources") or []
+    if len(raw_sources)!=len(structural_sources):
+        raise ValueError(f"{context}: raw_sources no coincide con sidecar")
+    for index,(raw,structural) in enumerate(
+        zip(raw_sources,structural_sources,strict=True)
+    ):
+        raw_context=f"{context}.raw_sources[{index}]"
+        if not isinstance(raw,dict):
+            raise ValueError(f"{raw_context} inválido")
+        raw_id=str(raw.get("id") or "").strip()
+        if raw_id!=str(structural.get("source_id") or "").strip():
+            raise ValueError(f"{raw_context}: source_id no coincide")
+        raw_path=package/str(raw.get("path") or "")
+        expected_sha=str(raw.get("sha256") or "").lower()
+        if (
+            not raw_path.is_file()
+            or not re.fullmatch(r"[0-9a-f]{64}",expected_sha)
+            or sha(raw_path).lower()!=expected_sha
+            or expected_sha!=str(structural.get("raw_sha256") or "").lower()
+        ):
+            raise ValueError(f"{raw_context}: raw no acredita el sidecar")
+        declared_bytes=raw.get("bytes")
+        if (
+            not isinstance(declared_bytes,int)
+            or isinstance(declared_bytes,bool)
+            or declared_bytes<0
+            or raw_path.stat().st_size!=declared_bytes
+        ):
+            raise ValueError(f"{raw_context}: bytes no coinciden")
+
 
 def _write_package(out:Path,decision:str,territory_id:str,edition:str,source:Path|None,meta:dict,extra:dict|None=None)->dict:
     if out.exists(): shutil.rmtree(out)
