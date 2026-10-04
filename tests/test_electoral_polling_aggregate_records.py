@@ -467,17 +467,16 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
                 parties("P", "Q"),
             )
 
-    def test_optional_aggregate_closes_block_at_raw_boundary(self):
-        adapter = scoped_adapter(require_aggregate=False)
-        adapter.pop("party_applicability")
+    def test_raw_boundary_does_not_invent_business_block_boundary(self):
+        adapter = scoped_adapter(require_aggregate=True)
         raw_a = (
             "province;municipality;polling;P;Q\n"
-            "7;1;1-1-A;10;20\n"
+            "32;1;1-1-A;10;20\n"
         )
         raw_b = (
             "province;municipality;polling;P;Q\n"
-            "7;2;1-1-A;5;7\n"
-            "SUM;;;5;7\n"
+            "32;2;1-1-A;5;7\n"
+            "SUM;;;15;27\n"
         )
 
         frame, _ = self._read_merged(
@@ -487,30 +486,19 @@ class PollingStationAggregateRecordTests(unittest.TestCase):
         )
         evidence = frame.attrs["recognized_aggregates"]
         self.assertEqual(len(evidence), 1)
-        self.assertEqual(evidence[0]["scope"]["polling_station_rows"], 1)
-
-    def test_required_aggregate_blocks_at_raw_boundary(self):
-        adapter = scoped_adapter(require_aggregate=True)
-        adapter.pop("party_applicability")
-        raw_a = (
-            "province;municipality;polling;P;Q\n"
-            "7;1;1-1-A;10;20\n"
+        self.assertEqual(evidence[0]["scope"]["polling_station_rows"], 2)
+        self.assertEqual(
+            evidence[0]["vote_reconciliation"]["status"],
+            "MATCH",
         )
-        raw_b = (
-            "province;municipality;polling;P;Q\n"
-            "7;2;1-1-A;5;7\n"
-            "SUM;;;5;7\n"
-        )
-
-        with self.assertRaisesRegex(
-            ValueError,
-            r"MISSING_EXPECTED_AGGREGATE",
-        ):
-            self._read_merged(
-                [("raw_a", raw_a), ("raw_b", raw_b)],
-                adapter,
-                parties("P", "Q"),
-            )
+        comparisons = {
+            item["party_column"]: item
+            for item in evidence[0]["vote_reconciliation"][
+                "comparisons"
+            ]
+        }
+        self.assertEqual(comparisons["P"]["polling_station_sum"], 15)
+        self.assertEqual(comparisons["Q"]["polling_station_sum"], 27)
 
     def test_contract_rejects_permissive_aggregate_semantics(self):
         cases = []
