@@ -34,7 +34,34 @@
           "SUMAR GALICIA",
           "VOX",
           "DO"
-        ]
+        ],
+        "record_classification": {
+          "polling_station": {
+            "mode": "locator_contract"
+          },
+          "aggregates": [
+            {
+              "id": "provincial_total",
+              "match": {
+                "field": "Cód Cir",
+                "equals": "Total",
+                "required_empty_fields": [
+                  "Cód Con",
+                  "Mesa"
+                ]
+              },
+              "scope": {
+                "kind": "preceding_polling_station_block",
+                "partition_field": "Cód Cir"
+              },
+              "vote_reconciliation": {
+                "kind": "party_columns_exact_sum",
+                "empty_aggregate_value": "reject"
+              }
+            }
+          ],
+          "require_aggregate_for_each_block": true
+        }
       }
     }
   ],

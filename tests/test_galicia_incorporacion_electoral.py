@@ -38,7 +38,31 @@ class GaliciaElectoralApplication(unittest.TestCase):
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         self.assertEqual(contract["territory_id"], "galicia")
         self.assertEqual(contract["sources"][0]["sha256"], "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96")
-        self.assertEqual(contract["sources"][0]["adapter"]["kind"], "wide_polling_station_csv")
+        adapter = contract["sources"][0]["adapter"]
+        self.assertEqual(adapter["kind"], "wide_polling_station_csv")
+        classification = adapter["record_classification"]
+        self.assertEqual(
+            classification["polling_station"]["mode"],
+            "locator_contract",
+        )
+        self.assertTrue(
+            classification["require_aggregate_for_each_block"]
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["id"],
+            "provincial_total",
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["match"]["equals"],
+            "Total",
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["vote_reconciliation"],
+            {
+                "kind": "party_columns_exact_sum",
+                "empty_aggregate_value": "reject",
+            },
+        )
         exceptions = contract["reconciliation"]["allowed_result_only_sections"]
         self.assertEqual(len(exceptions), 48)
         self.assertEqual(sum(int(x["expected_votes"]) for x in exceptions), 25086)
