@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import math
 import re
 from typing import Any, Callable
@@ -81,6 +83,56 @@ def normalized_unique_keys(
     return normalized
 
 
+def geometry_runtime_versions() -> dict[str, str]:
+    import geopandas as gpd
+    import pyproj
+    import shapely
+
+    return {
+        "geopandas": str(gpd.__version__),
+        "shapely": str(shapely.__version__),
+        "geos": str(shapely.geos_version_string),
+        "pyproj": str(pyproj.__version__),
+    }
+
+
+def invalid_geometry_diagnostics(
+    gdf: Any,
+    *,
+    id_column: str | None = None,
+) -> list[dict[str, str]]:
+    import shapely
+    from shapely.validation import explain_validity
+
+    geometry = gdf.geometry
+    if id_column is None:
+        for candidate in ("CUSEC", "CUSEC_KEY", "section_id"):
+            if candidate in getattr(gdf, "columns", []):
+                id_column = candidate
+                break
+
+    diagnostics: list[dict[str, str]] = []
+    for index, geom in geometry[~geometry.is_valid].items():
+        feature_id = str(gdf.at[index, id_column]) if id_column and id_column in gdf.columns else str(index)
+        wkb = shapely.to_wkb(
+            geom,
+            hex=False,
+            output_dimension=2,
+            byte_order=1,
+            include_srid=False,
+        )
+        diagnostics.append(
+            {
+                "feature_id": feature_id,
+                "geometry_type": str(geom.geom_type),
+                "reason": str(explain_validity(geom)),
+                "parsed_geometry_wkb_sha256": hashlib.sha256(wkb).hexdigest(),
+            }
+        )
+    diagnostics.sort(key=lambda row: (row["feature_id"], row["parsed_geometry_wkb_sha256"]))
+    return diagnostics
+
+
 def validate_geodataframe(gdf: Any, *, label: str) -> None:
     crs = getattr(gdf, "crs", None)
     if crs is None or str(crs).strip() == "":
@@ -104,4 +156,9 @@ def validate_geodataframe(gdf: Any, *, label: str) -> None:
         raise TerritorialDataError(f"GEOMETRY_EMPTY: {label}: count={int(empty_mask.sum())}")
     valid_mask = geometry.is_valid
     if bool((~valid_mask).any()):
-        raise TerritorialDataError(f"GEOMETRY_INVALID: {label}: count={int((~valid_mask).sum())}")
+        defects = invalid_geometry_diagnostics(gdf)
+        raise TerritorialDataError(
+            f"GEOMETRY_INVALID: {label}: count={int((~valid_mask).sum())}; "
+            f"defects={json.dumps(defects, ensure_ascii=False, sort_keys=True)}; "
+            f"libraries={json.dumps(geometry_runtime_versions(), sort_keys=True)}"
+        )
