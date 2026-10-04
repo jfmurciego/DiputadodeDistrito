@@ -1,30 +1,30 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.2
-**Nombre de versión:** Reparación poblacional automática con contrato durable
-**Fecha:** 2026-10-05
-**Código activo:** M05 v7.7.2
+**Versión documental:** 1.4.1
+**Nombre de versión:** Contrato de informe con motor y wrapper separados
+**Fecha:** 2026-09-11
+**Código activo:** M05 v7.7.1
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.1.md`
-**Cambio:** mantiene la fase C opt-in y consolida en v7.7.2 la fase D automática ante violaciones duras, con presupuesto focal reservado, evidencia durable compatible y respeto de excepciones de suelo gobernadas; `version` sigue identificando el motor base y `wrapper_version` la interfaz/orquestador activo.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.0.md`
+**Cambio:** mantiene la fase C opt-in y añade en v7.7.0 una reparación poblacional genérica con fase focal determinista posterior; `version` sigue identificando el motor base y `wrapper_version` la interfaz/orquestador activo.
 **Motivo:** incorporar una reparación poblacional reusable y acotada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
 
 ## Propósito
 M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
 ## Separación wrapper / motor
-- `modulos/05_optimizar_distritos.py` v7.7.2 es la interfaz activa.
+- `modulos/05_optimizar_distritos.py` v7.7.1 es la interfaz activa.
 - `ddd_core/m05_opt_engine_v741.py` es el motor activo de cálculo; conserva las guardas estructurales de v7.4.0 y deja de abortar únicamente por incumplimientos poblacionales remanentes.
 - `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.
-- `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica posterior al motor base y al pulido. Se activa automáticamente si el baseline estructural conserva violaciones duras, salvo `population_repair.enabled: false` explícito.
+- `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica opt-in posterior al motor base y al pulido.
 - Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.1 sin transformar la entrada.
 - Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta el motor v7.4.1.
 - La configuración se resuelve siempre con `ddd_core.config.load_params_yaml`.
 
 ## Semántica del informe
 - `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual es `7.4.1`.
-- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.2`.
+- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.1`.
 - `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.
 - `population_repair`: evidencia estructurada de la reparación cuando está habilitada, o de su desactivación cuando no lo está.
 - `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.
@@ -35,7 +35,7 @@ Esta separación evita presentar una evolución de orquestación como si fuera u
 1. K y cuotas definidos por el territorio;
 2. provincia infranqueable;
 3. contigüidad estricta por M03;
-4. suelo/techo poblacional configurado, aplicando suelo efectivo 0 sólo a las particiones incluidas en `population_floor_exempt_partitions`, sin eximir el techo;
+4. suelo/techo poblacional configurado;
 5. movimientos de `ddd_unit_id` completas;
 6. distritos `ddd_closed_urban` no reciben ni ceden unidades;
 7. disciplina municipal final auditada contra `municipality_field` real.
@@ -69,10 +69,10 @@ EXT-05 Run `34641298906` encontró 8 swaps 1×1 estrictamente mejores sobre ese 
 EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 swaps, reduce los outliers de 4 a 2 y el error cuadrático de `0.137478882166` a `0.131455334058`, sin modificar el máximo desvío de 13,30 %, sin violaciones duras y sin aumentar splits municipales. Por tanto, la fase C es útil pero todavía no resuelve por sí sola el contrato ±10 % de Extremadura.
 
 ## Estado de validación
-- La lógica base v7.4.0 permanece validada/promocionada por Run #9 y el motor activo v7.4.1 conserva esa línea estructural.
-- El wrapper v7.7.2 mantiene la fase C como opt-in y hace la fase D automática únicamente ante violaciones duras sobre un baseline estructuralmente válido.
-- La fase C está validada operativamente en EXT-06 pero sigue siendo opt-in; esa evidencia histórica no se presenta como validación territorial de la fase D.
-- La fase D está cubierta por regresiones sintéticas y por regresiones del camino canónico M04/M05. Las ejecuciones territoriales históricas no se reinterpretan ni se promueven por el mero cambio de código.
+- La lógica base v7.4.0 permanece validada/promocionada por Run #9.
+- El wrapper v7.7.1 es **candidato**; la nueva reparación permanece opt-in.
+- La fase C está **validada operativamente en EXT-06 pero sigue opt-in** porque quedan dos outliers en Extremadura.
+- La fase D requiere CI sintética completa antes de cualquier validación territorial.
 
 ## Productos auditables
 - GeoJSON ZIP de asignación completa optimizada.

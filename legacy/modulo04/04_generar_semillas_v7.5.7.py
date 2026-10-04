@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.8
-NOMBRE DE VERSIÓN: Entrada canónica con preflight estructural
-FECHA: 2026-10-05
-ESTADO: activo; default nacional y regresiones certificadas sobre Aragón y Castilla y León.
-FUNCIÓN: ejecutar el motor M04 canónico con preflight atómico y política de puertas dependientes por defecto, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
+VERSIÓN: 7.5.7
+NOMBRE DE VERSIÓN: Punto de entrada M04 canónico
+FECHA: 2026-09-13
+ESTADO: activo; composición territorial sin cambios, pendiente de certificación CI de C-08.
+FUNCIÓN: ejecutar el motor M04 v7.5.1, que permite `gateway_policy: preserve_component_gateways`, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
-COMPATIBILIDAD: sin `gateway_policy`, el motor preserva puertas sólo para componentes exteriores realmente dependientes; `preserve_component_gateways` y `legacy` siguen disponibles si se declaran explícitamente.
-CAMBIOS: el default común pasa a preserve_dependent_component_gateways; el motor bloquea incompatibilidades atómicas demostrables antes de la heurística y conserva las puertas acreditadas durante el postproceso.
-MOTIVO: evitar residuos provinciales inviables y separar imposibilidad matemática de agotamiento heurístico sin introducir excepciones territoriales.
-ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.7.py
+COMPATIBILIDAD: sin `gateway_policy`, el motor usa `legacy`, preservando el comportamiento validado de Aragón/CYL.
+CAMBIOS: importa estáticamente el único motor declarado y elimina la carga por ruta.
+MOTIVO: hacer inequívoca y auditable la implementación M04 vigente.
+ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.6.py
 """
 from __future__ import annotations
 
@@ -33,8 +33,6 @@ if str(ROOT) not in sys.path:
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 from ddd_core import m04_seed_engine
 
-ENTRYPOINT_VERSION = "7.5.8"
-
 
 def load_geo(path):
     p = Path(path)
@@ -51,7 +49,7 @@ def load_geo(path):
                         value = value.tolist()
                     if isinstance(value, (list, tuple)) and len(value) == 1:
                         return str(value[0])
-                    raise SystemExit(f"M04 {ENTRYPOINT_VERSION}: ddd_unit_id no escalar: {value!r}")
+                    raise SystemExit(f"M04 v7.5.6: ddd_unit_id no escalar: {value!r}")
                 gdf["ddd_unit_id"] = gdf["ddd_unit_id"].map(scalar_unit).astype(str)
             return gdf
     return gpd.read_file(p)
@@ -138,7 +136,7 @@ def expose_flexible_residual_units(params_path):
             donor_slack = donor_pop - lo
             if donor_slack + 1e-9 < deficit:
                 raise SystemExit(
-                    f"M04 {ENTRYPOINT_VERSION}: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
+                    f"M04 v7.5.1: residual {rid} bloquea provincia {prov} y no tiene slack suficiente; "
                     f"deficit={deficit:.2f} slack={donor_slack:.2f}"
                 )
             donor_nodes = dnodes(d)
@@ -160,7 +158,7 @@ def expose_flexible_residual_units(params_path):
                     candidates.append((score, n, q, pn))
             if not candidates:
                 raise SystemExit(
-                    f"M04 {ENTRYPOINT_VERSION}: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
+                    f"M04 v7.5.1: residual {rid} bloquea provincia {prov}; deficit={deficit:.2f} "
                     f"pero no existe sección fronteriza individual transferible"
                 )
             _, n, q, pn = min(candidates, key=lambda z: z[0])
@@ -181,20 +179,19 @@ def expose_flexible_residual_units(params_path):
 
     for d, x in g.groupby(did):
         if not connected(set(x[idf]), adj):
-            raise SystemExit(f"M04 {ENTRYPOINT_VERSION}: distrito {d} desconectado")
+            raise SystemExit(f"M04 v7.5.1: distrito {d} desconectado")
 
     write_geo(g, out)
     rep = json.loads(Path(report_path).read_text(encoding="utf-8")) if report_path and Path(report_path).exists() else {}
-    rep["version"] = ENTRYPOINT_VERSION
-    rep["engine_version"] = m04_seed_engine.ENGINE_VERSION
-    rep["gateway_policy"] = str(s4.get("gateway_policy", "preserve_dependent_component_gateways"))
+    rep["version"] = "7.5.1"
+    rep["gateway_policy"] = str(s4.get("gateway_policy", "legacy"))
     rep["flexible_residual_units"] = created
     rep.setdefault("rules", {})["monolithic_residuals_may_expose_minimal_transferable_frontier_unit"] = True
     rep["rules"]["flex_units_do_not_change_m04_district_assignment"] = True
-    rep["rules"]["dependent_component_gateway_policy_is_default"] = True
+    rep["rules"]["component_gateway_policy_is_opt_in"] = True
     if report_path:
         Path(report_path).write_text(json.dumps(rep, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[Módulo 4] OK entrypoint={ENTRYPOINT_VERSION} gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
+    print(f"[Módulo 4] OK v7.5.1 gateway_policy={rep['gateway_policy']} flex_units={len(created)} outside_tol={rep.get('outside_target_tolerance')} out={out}")
 
 
 def normalize_unit_property_for_ogr(path):
@@ -211,7 +208,7 @@ def normalize_unit_property_for_ogr(path):
         value = props.get("ddd_unit_id")
         if isinstance(value, list):
             if len(value) != 1:
-                raise SystemExit(f"M04 {ENTRYPOINT_VERSION}: ddd_unit_id multivaluado no normalizable: {value!r}")
+                raise SystemExit(f"M04 v7.5.2: ddd_unit_id multivaluado no normalizable: {value!r}")
             props["ddd_unit_id"] = str(value[0])
             changed += 1
     if changed:
