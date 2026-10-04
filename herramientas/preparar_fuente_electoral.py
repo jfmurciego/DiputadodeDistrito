@@ -562,9 +562,14 @@ def _validate_raw_sources_against_structural(
     raw_sources:list[dict],
     document:dict,
     context:str,
+    required:bool=True,
 )->None:
-    if not isinstance(raw_sources,list) or not raw_sources:
-        raise ValueError(f"{context}: raw_sources ausentes")
+    if not isinstance(raw_sources,list):
+        raise ValueError(f"{context}: raw_sources inválido")
+    if not raw_sources:
+        if required:
+            raise ValueError(f"{context}: raw_sources ausentes")
+        return
     structural_sources=document.get("sources") or []
     if len(raw_sources)!=len(structural_sources):
         raise ValueError(f"{context}: raw_sources no coincide con sidecar")
@@ -685,6 +690,9 @@ def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:
             "path":"evidence/structural_provenance.json",
             "sha256":sha(structural_target),
             "merged_source_sha256":selected_sha,
+            "raw_sources_embedded":bool(
+                manifest.get("raw_sources")
+            ),
         }
         adapter["structural_provenance"]={
             "path":"evidence/structural_provenance.json",
@@ -699,6 +707,7 @@ def _materialize_embedded_contract(*,root:Path,package_out:Path,source_contract:
                 raw_sources=raw_sources,
                 document=structural_doc,
                 context="contrato materializado",
+                required=False,
             )
 
     contract["sources"][0]["path"]=str(selected["path"])
@@ -748,11 +757,15 @@ def validate_previous(package:Path,territory_id:str,edition:str,expected_electio
                 != str(s.get("sha256") or "").lower()
             ):
                 return None
+            raw_required=bool(
+                structural.get("raw_sources_embedded",False)
+            )
             _validate_raw_sources_against_structural(
                 package=package,
                 raw_sources=m.get("raw_sources") or [],
                 document=document,
                 context="paquete electoral reutilizable",
+                required=raw_required,
             )
         return m
     except Exception: return None
@@ -827,6 +840,9 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                     raw_sources=manifest.get("raw_sources") or [],
                     document=structural_doc,
                     context="paquete electoral reutilizado",
+                    required=bool(
+                        structural.get("raw_sources_embedded",False)
+                    ),
                 )
 
             embedded=m.get("embedded_contract") or {}
@@ -1018,6 +1034,7 @@ def prepare(*,territory_id:str,edition:str,package_out:Path,root:Path,params:Pat
                         "path":"evidence/structural_provenance.json",
                         "sha256":sha(structural_target),
                         "merged_source_sha256":sha(merged),
+                        "raw_sources_embedded":True,
                     }
 
                 if merge_info.get("composition")=="electoral_gap_filler":
