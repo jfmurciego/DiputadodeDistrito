@@ -80,6 +80,13 @@ class M03AdministrativeComponents(unittest.TestCase):
                     "components": [["a"], ["b"]],
                     "reason": "synthetic source-bound discontinuity",
                     "source": "synthetic official sectioning",
+                    "evidence": {
+                        "section_correspondence": {
+                            "section": "b",
+                            "component_sections": ["b"],
+                            "official_unit": "synthetic enclave",
+                        }
+                    },
                 }],
             }
 
