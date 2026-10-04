@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Iterable
 
-from herramientas.generar_estado_operativo import build, update_readme, write_state
 
 SHARED_PATHS = (
     "README.md",
@@ -138,6 +137,10 @@ def persist_rederived_tree(
 
 
 def _regenerate(root: Path, edition: str, *, sync_dashboard_assets: bool) -> None:
+    # Import diferido: persist_rederived_tree es infraestructura común y no debe
+    # arrastrar el generador de estado (que a su vez valida pares de fuentes).
+    from herramientas.generar_estado_operativo import build, update_readme, write_state
+
     state = build(root, edition)
     write_state(
         state,

@@ -48,7 +48,9 @@ class AutomaticCatalogPromotionTests(unittest.TestCase):
         self.assertIn("--run-id",run)
         self.assertIn("--artifact-name",run)
         self.assertIn("--artifact-sha256",run)
-        self.assertIn("git push origin",run)
+        self.assertIn("--persist",run)
+        self.assertIn("--target-branch",run)
+        self.assertNotIn("git pull --rebase",run)
         upload_steps=data["jobs"]["territoriales"]["steps"]
         self.assertTrue(any(step.get("id")=="upload" for step in upload_steps))
 

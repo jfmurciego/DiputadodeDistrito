@@ -77,14 +77,14 @@ class MandatorySyntheticDesignATests(unittest.TestCase):
     def test_preparations_are_separate_and_never_execute_m01_m08(self):
         territorial=load(PREP)
         electoral=load(ELECTORAL_PREP)
-        self.assertEqual(set(territorial["jobs"]),{"resolver","territoriales","registrar","pre_m04","resultado"})
+        self.assertEqual(set(territorial["jobs"]),{"resolver","territoriales","registrar","generation_pending","resultado"})
         self.assertEqual(set(electoral["jobs"]),{"resolver","electorales","registrar","resultado"})
         territorial_text=PREP.read_text(encoding="utf-8")
         electoral_text=ELECTORAL_PREP.read_text(encoding="utf-8")
         self.assertNotIn("preparar_fuente_electoral",territorial_text)
         self.assertNotIn("ddd-electoral-package",territorial_text)
-        self.assertIn("preflight_only: true",territorial_text)
-        self.assertIn("_reutilizable-generacion-territorial.yml",territorial_text)
+        self.assertNotIn("_reutilizable-generacion-territorial.yml",territorial_text)
+        self.assertIn("Registrar evaluación de generación pendiente",territorial_text)
         reusable=(WF/"_reutilizable-generacion-territorial.yml").read_text(encoding="utf-8")
         self.assertIn("!inputs.preflight_only",reusable)
         for text in (territorial_text,electoral_text):

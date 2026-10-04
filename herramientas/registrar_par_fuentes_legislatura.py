@@ -7,6 +7,8 @@ import re
 from pathlib import Path
 
 try:
+    from herramientas.catalogo_preparacion import validate_repository
+    from herramientas.persistir_estado_operativo_compartido import persist_rederived_tree
     from herramientas.identidad_fuentes_legislatura import (
         canonical_sha256,
         digest,
@@ -16,6 +18,8 @@ try:
     )
     from herramientas.resolver_preparacion_legislatura import resolve
 except ModuleNotFoundError:  # ejecución directa: python herramientas/...
+    from catalogo_preparacion import validate_repository
+    from persistir_estado_operativo_compartido import persist_rederived_tree
     from identidad_fuentes_legislatura import (
         canonical_sha256,
         digest,
@@ -528,20 +532,98 @@ def register_pair(
     return {**pair, "receipt_path": pair_rel}
 
 
+
+
+def persist_pair(
+    *,
+    root_dir: Path,
+    territory: str,
+    remote_verification_path: Path,
+    target_branch: str,
+    max_attempts: int = 4,
+) -> dict:
+    """Persiste el par preparado rederivándolo desde el HEAD remoto vigente."""
+    root = root_dir.resolve()
+    frozen_remote = (
+        remote_verification_path
+        if remote_verification_path.is_absolute()
+        else root / remote_verification_path
+    )
+    initial = build_pair(
+        root_dir=root,
+        territory=territory,
+        remote_verification=_json(frozen_remote),
+    )
+    territory_id = str(initial["territory_id"])
+    result_box: dict[str, dict] = {}
+
+    def apply(current_root: Path, _attempt: int) -> None:
+        result_box["pair"] = register_pair(
+            root_dir=current_root,
+            territory=territory,
+            remote_verification_path=frozen_remote,
+            verify_only=False,
+        )
+
+    def validate(current_root: Path) -> None:
+        errors = validate_repository(root_dir=current_root)
+        if errors:
+            raise PreparedSourcePairBlock(
+                "PAIR_BLOCK: registro deja repositorio inválido: "
+                + "; ".join(errors[:8])
+            )
+
+    persisted = persist_rederived_tree(
+        root_dir=root,
+        target_branch=target_branch,
+        paths=(
+            "configuracion/catalogo_preparacion.yaml",
+            f"territorios/{territory_id}/evidencia/pares_fuentes",
+        ),
+        commit_message=f"chore: registrar par preparado de {territory_id}",
+        apply=apply,
+        validate=validate,
+        max_attempts=max_attempts,
+        exhausted_message=(
+            f"No se pudo registrar el par preparado de {territory_id} tras "
+            f"{max_attempts} rederivaciones desde el HEAD vigente"
+        ),
+    )
+    pair = dict(result_box.get("pair") or {})
+    pair["promotion_sha"] = persisted.head_sha
+    pair["persistence_attempt"] = persisted.attempt
+    pair["persistence_changed"] = persisted.changed
+    return pair
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root-dir", type=Path, default=Path("."))
     ap.add_argument("--territory", required=True)
     ap.add_argument("--remote-verification", required=True, type=Path)
     ap.add_argument("--verify-only", action="store_true")
+    ap.add_argument("--persist", action="store_true")
+    ap.add_argument("--target-branch", default="main")
+    ap.add_argument("--max-attempts", type=int, default=4)
     ap.add_argument("--output", type=Path)
     args = ap.parse_args()
     try:
-        result = register_pair(
-            root_dir=args.root_dir,
-            territory=args.territory,
-            remote_verification_path=args.remote_verification,
-            verify_only=args.verify_only,
+        if args.persist and args.verify_only:
+            raise PreparedSourcePairBlock("PAIR_BLOCK: --persist y --verify-only son incompatibles")
+        result = (
+            persist_pair(
+                root_dir=args.root_dir,
+                territory=args.territory,
+                remote_verification_path=args.remote_verification,
+                target_branch=args.target_branch,
+                max_attempts=args.max_attempts,
+            )
+            if args.persist
+            else register_pair(
+                root_dir=args.root_dir,
+                territory=args.territory,
+                remote_verification_path=args.remote_verification,
+                verify_only=args.verify_only,
+            )
         )
     except Exception as exc:
         payload = {"decision": "BLOCKED", "reason": str(exc)}

@@ -149,6 +149,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "detectar_recuperacion_electoral",
                 "preparar_territorial",
                 "puerta_01",
+                "acreditar_generacion",
                 "generar",
                 "puerta_02",
                 "preparar_electoral",
@@ -163,6 +164,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             ],
         )
         self.assertEqual(jobs["preparar_territorial"]["uses"], "./.github/workflows/preparacion-fuentes.yml")
+        self.assertEqual(jobs["acreditar_generacion"]["uses"], "./.github/workflows/_reutilizable-generacion-territorial.yml")
         self.assertEqual(jobs["generar"]["uses"], "./.github/workflows/produccion-distritos.yml")
         self.assertEqual(jobs["preparar_electoral"]["uses"], "./.github/workflows/preparacion-resultados-electorales.yml")
         self.assertEqual(jobs["incorporar"]["uses"], "./.github/workflows/incorporacion-resultados-electorales.yml")
@@ -213,6 +215,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         data = load(ORCH)
         jobs = data["jobs"]
         self.assertIn("needs.puerta_01.result == 'success'", jobs["generar"]["if"])
+        self.assertIn("needs.acreditar_generacion.result == 'success'", jobs["generar"]["if"])
         self.assertIn("run_prepare_electoral == 'true'", jobs["preparar_electoral"]["if"])
         self.assertIn("publication_mode_effective == 'electoral'", jobs["preparar_electoral"]["if"])
         self.assertIn("needs.puerta_02.result == 'success'", jobs["puerta_03"]["if"])

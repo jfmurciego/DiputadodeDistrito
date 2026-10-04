@@ -344,12 +344,14 @@ jobs:
           artifact_name="ddd-electoral-package-$TERRITORY_ID-$EDITION-$GITHUB_RUN_ID"; test -n "$ARTIFACT_DIGEST" || exit 47
           args=(--kind electoral_source --territory-id "$TERRITORY_ID" --edition "$EDITION" --run-id "$GITHUB_RUN_ID" --artifact-name "$artifact_name" --artifact-sha256 "$ARTIFACT_DIGEST" --election-id "$ELECTION_ID" --source-commit "$GITHUB_SHA")
           [[ "$ADAPTER" == "generic" && -n "$DECLARATION" ]] && args+=(--declaration "$DECLARATION")
-          python herramientas/promover_catalogo_operacional.py "${args[@]}"
+          args+=(--persist --target-branch "$TARGET_BRANCH" --max-attempts 4)
+          python herramientas/promover_catalogo_operacional.py "${args[@]}" > .ddd-electoral-promotion.json
           python herramientas/catalogo_preparacion.py --root-dir . validate
-          git config user.name github-actions; git config user.email github-actions@github.com
-          git add configuracion/catalogo_preparacion.yaml "territorios/$TERRITORY_ID/evidencia/fuentes_electorales"
-          if ! git diff --cached --quiet; then git commit -m "chore: registrar preparación electoral de $TERRITORY_ID"; git pull --rebase origin "$TARGET_BRANCH"; git push origin "HEAD:$TARGET_BRANCH"; fi
-          git fetch origin "$TARGET_BRANCH"; git reset --hard "origin/$TARGET_BRANCH"
+          promotion_sha="$(jq -r '.promotion_sha // empty' .ddd-electoral-promotion.json)"
+          [[ "$promotion_sha" =~ ^[0-9a-f]{40}$ && "$(git rev-parse HEAD)" == "$promotion_sha" ]] || {
+            echo "::error::La preparación electoral no quedó en un commit durable verificable."
+            exit 49
+          }
           durable="$(python herramientas/preflight_preparacion_fuente.py --root-dir . --kind electoral --territory "$TERRITORY_ID" --edition "$EDITION")"
           [[ "$(jq -r .run_id <<<"$durable")" == "$GITHUB_RUN_ID" && "$(jq -r .artifact_name <<<"$durable")" == "$artifact_name" && "$(jq -r .artifact_sha256 <<<"$durable")" == "${ARTIFACT_DIGEST#sha256:}" ]] || exit 50
 

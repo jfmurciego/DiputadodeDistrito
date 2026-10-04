@@ -125,18 +125,64 @@ def validate_repository(path:Path=CATALOG,root_dir:Path=Path("."))->list[str]:
                             errors.append(f"{tid}/{edition}: receipt territorial inválido: {exc}")
 
             evidence=state.get("evidence") or {}
+            generation_raw=str(evidence.get("generation_preflight") or "")
+            generation_status=""
+            if generation_raw:
+                generation_path=root/generation_raw
+                if not generation_path.is_file():
+                    errors.append(f"{tid}/{edition}: evidencia pre-generación inexistente: {generation_raw}")
+                else:
+                    try:
+                        generation=json.loads(generation_path.read_text(encoding="utf-8"))
+                        if generation.get("schema")!="ddd.catalog-evidence/1.0" or generation.get("kind")!="generation_preflight":
+                            errors.append(f"{tid}/{edition}: schema/tipo de evaluación pre-generación inválido")
+                        if str(generation.get("territory_id") or "")!=tid or str(generation.get("edition") or "")!=str(edition):
+                            errors.append(f"{tid}/{edition}: evaluación pre-generación pertenece a otra identidad")
+                        explicit_generation_status=generation.get("evaluation_status")
+                        if explicit_generation_status not in (None,""):
+                            generation_status=str(explicit_generation_status).upper()
+                            if generation_status not in {"ENABLED","BLOCKED","PENDING","ERROR_TECHNICAL"}:
+                                errors.append(f"{tid}/{edition}: estado de evaluación pre-generación inválido: {generation_status!r}")
+                        elif state.get("generation_enabled") is True and generation.get("decision")=="READY_FOR_FIRST_GENERATION":
+                            # Compatibilidad: la evidencia histórica sólo se interpreta como
+                            # habilitante cuando el estado durable antiguo también lo estaba.
+                            generation_status="ENABLED"
+                        source=generation.get("source") or {}
+                        for key in ("artifact_sha256","package_sha256","compatibility_identity_sha256"):
+                            expected=str(prep.get(key) or "").removeprefix("sha256:")
+                            actual=str(source.get(key) or "").removeprefix("sha256:")
+                            if expected and actual!=expected:
+                                errors.append(f"{tid}/{edition}: evaluación pre-generación contradice preparation_evidence.{key}")
+                    except Exception as exc:
+                        errors.append(f"{tid}/{edition}: evaluación pre-generación inválida: {exc}")
             if state.get("generation_enabled") is True:
-                generation_raw=str(evidence.get("generation_preflight") or "")
                 if not generation_raw:
                     errors.append(f"{tid}/{edition}: generation_enabled=true sin evidence.generation_preflight")
-                elif not (root/generation_raw).is_file():
-                    errors.append(f"{tid}/{edition}: generation_enabled=true con pre-M04 inexistente: {generation_raw}")
+                elif generation_status and generation_status!="ENABLED":
+                    errors.append(f"{tid}/{edition}: generation_enabled=true con evaluación {generation_status}")
                 if cfg is None:
                     errors.append(f"{tid}/{edition}: generation_enabled=true sin contrato legible")
                 else:
                     generation_state=cfg.get("generation_state") or {}
                     if generation_state.get("generation_enabled") is not True:
                         errors.append(f"{tid}/{edition}: catálogo habilita generación pero contrato no")
+            elif generation_status=="ENABLED":
+                errors.append(f"{tid}/{edition}: evaluación ENABLED registrada pero generation_enabled=false")
+            if state.get("generation_enabled") is False and cfg is not None:
+                generation_state=cfg.get("generation_state") or {}
+                residual_pre_m04=[
+                    key for key in (
+                        "pre_m04_run_id",
+                        "pre_m04_source_commit",
+                        "pre_m04_artifact_sha256",
+                    )
+                    if generation_state.get(key) not in (None,"")
+                ]
+                if residual_pre_m04:
+                    errors.append(
+                        f"{tid}/{edition}: generation_enabled=false conserva fingerprints pre-M04 residuales: "
+                        + ", ".join(residual_pre_m04)
+                    )
             pair_raw=str(evidence.get("prepared_source_pair") or "")
             if pair_raw:
                 pair_path=root/pair_raw

@@ -357,8 +357,9 @@ jobs:
               expected_artifact = env.get("SOURCE_PACKAGE_ARTIFACT_NAME", "")
               expected_digest = env.get("SOURCE_PACKAGE_ARTIFACT_SHA256", "").removeprefix("sha256:")
               source = evidence.get("source") or {}
-              if str(evidence.get("run_id") or "") != expected_run:
-                  raise SystemExit("GENERATION_CONTRACT_BLOCK: run de evidencia pre-M04 no coincide con la fuente validada")
+              source_run = source.get("run_id", evidence.get("run_id"))
+              if str(source_run or "") != expected_run:
+                  raise SystemExit("GENERATION_CONTRACT_BLOCK: run de fuente ligado a evidencia pre-M04 no coincide con la fuente validada")
               if str(source.get("artifact_name") or "") != expected_artifact:
                   raise SystemExit("GENERATION_CONTRACT_BLOCK: artefacto de evidencia pre-M04 no coincide con la fuente validada")
               if str(source.get("artifact_sha256") or "").removeprefix("sha256:") != expected_digest:

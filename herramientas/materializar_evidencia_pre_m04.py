@@ -97,10 +97,6 @@ def build_evidence(
 
     row = lookup(territory_id, str(edition), root / CATALOG)
     prep = preparation_evidence or row.get("preparation_evidence") or {}
-    if prep.get("run_id") != run_id:
-        raise ValueError(
-            f"SOURCE_RUN_MISMATCH: preparation_evidence.run_id={prep.get('run_id')} run_id={run_id}"
-        )
     for key in (
         "artifact_name",
         "artifact_sha256",
@@ -173,8 +169,10 @@ def build_evidence(
         "artifact_name": f"ddd-state-{run_id}-M03U",
         "artifact_sha256": m03u_artifact_sha256.removeprefix("sha256:"),
         "decision": "READY_FOR_FIRST_GENERATION",
+        "evaluation_status": "ENABLED",
         "stage": "M03U",
         "source": {
+            "run_id": int(prep["run_id"]),
             "artifact_name": prep["artifact_name"],
             "artifact_sha256": str(prep["artifact_sha256"]).removeprefix("sha256:"),
             "package_sha256": str(prep["package_sha256"]).removeprefix("sha256:"),
@@ -224,11 +222,73 @@ def build_evidence(
     return evidence
 
 
-def _enable_contract_after_pre_m04(
-    *, root_dir: Path, contract_path: str, evidence: dict
+
+GENERATION_EVALUATION_STATUSES = {"ENABLED", "BLOCKED", "PENDING", "ERROR_TECHNICAL"}
+
+
+def build_generation_evaluation(
+    *,
+    root_dir: Path,
+    territory_id: str,
+    edition: str,
+    run_id: int,
+    status: str,
+    stage: str,
+    reason: str,
+    capability: str = "CAP_PRE_M04_EVIDENCE",
+    preparation_evidence: dict | None = None,
+) -> dict:
+    """Materializa una evaluación no habilitante ligada a la fuente acreditada."""
+    normalized = str(status or "").upper()
+    if normalized not in GENERATION_EVALUATION_STATUSES - {"ENABLED"}:
+        raise ValueError(f"GENERATION_EVALUATION_STATUS_INVALID: {status!r}")
+    root = root_dir.resolve()
+    row = lookup(territory_id, str(edition), root / CATALOG)
+    prep = preparation_evidence or row.get("preparation_evidence") or {}
+    for key in (
+        "run_id",
+        "artifact_name",
+        "artifact_sha256",
+        "package_sha256",
+        "compatibility_identity_sha256",
+        "population_year",
+        "section_year",
+    ):
+        if prep.get(key) in (None, ""):
+            raise ValueError(f"SOURCE_EVIDENCE_INCOMPLETE: {key}")
+    return {
+        "schema": "ddd.catalog-evidence/1.0",
+        "kind": "generation_preflight",
+        "territory_id": territory_id,
+        "territory_name": row.get("name") or territory_id,
+        "edition": str(edition),
+        "run_id": int(run_id),
+        "source_commit": _git_head(root),
+        "decision": normalized,
+        "evaluation_status": normalized,
+        "stage": str(stage or "PRE_GENERATION"),
+        "source": {
+            "run_id": int(prep["run_id"]),
+            "artifact_name": prep["artifact_name"],
+            "artifact_sha256": str(prep["artifact_sha256"]).removeprefix("sha256:"),
+            "package_sha256": str(prep["package_sha256"]).removeprefix("sha256:"),
+            "compatibility_identity_sha256": str(prep["compatibility_identity_sha256"]),
+            "territorial_identity_sha256": str(prep.get("territorial_identity_sha256") or ""),
+            "population_year": int(prep["population_year"]),
+            "section_year": int(prep["section_year"]),
+        },
+        "effective_gate": {
+            "allowed": False,
+            "status": normalized,
+            "capability": str(capability or "CAP_PRE_M04_EVIDENCE"),
+            "reason": str(reason or normalized),
+        },
+    }
+
+
+def _assert_evaluation_source_matches_contract(
+    *, contract: dict, evidence: dict
 ) -> None:
-    path = root_dir / contract_path
-    contract = _yaml(path)
     state = contract.setdefault("generation_state", {})
     baseline = (contract.get("validation") or {}).get("source_baseline") or {}
     source = evidence.get("source") or {}
@@ -241,7 +301,54 @@ def _enable_contract_after_pre_m04(
         or int(baseline.get("population_year") or 0) != int(source.get("population_year") or 0)
         or int(baseline.get("section_year") or 0) != int(source.get("section_year") or 0)
     ):
-        raise ValueError("GENERATION_ENABLEMENT_SOURCE_MISMATCH")
+        raise ValueError("GENERATION_EVALUATION_SOURCE_MISMATCH")
+
+
+def _disable_contract_after_generation_evaluation(
+    *, root_dir: Path, contract_path: str, evidence: dict
+) -> None:
+    path = root_dir / contract_path
+    contract = _yaml(path)
+    _assert_evaluation_source_matches_contract(contract=contract, evidence=evidence)
+    contract.setdefault("meta", {})["status"] = "source_prepared_pending_pre_m04"
+    contract.setdefault("territory_contract", {})["status"] = "source_prepared_pending_pre_m04"
+    state = contract.setdefault("generation_state", {})
+    state["generation_enabled"] = False
+    for key in ("pre_m04_run_id", "pre_m04_source_commit", "pre_m04_artifact_sha256"):
+        state.pop(key, None)
+    path.write_text(
+        yaml.safe_dump(contract, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
+
+
+def _set_master_generation_status(
+    *, root_dir: Path, territory_id: str, status: str
+) -> None:
+    path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    target = next(
+        (i for i, line in enumerate(lines) if f"territory_id: {territory_id}," in line),
+        None,
+    )
+    if target is None:
+        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
+    import re
+    line = lines[target]
+    if "status:" in line:
+        line = re.sub(r"status: [^,}]+", f"status: {status}", line)
+    else:
+        line = line[:-1] + f", status: {status}" + "}"
+    lines[target] = line
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+def _enable_contract_after_pre_m04(
+    *, root_dir: Path, contract_path: str, evidence: dict
+) -> None:
+    path = root_dir / contract_path
+    contract = _yaml(path)
+    _assert_evaluation_source_matches_contract(contract=contract, evidence=evidence)
+    state = contract.setdefault("generation_state", {})
     contract.setdefault("meta", {})["status"] = "generation_ready"
     contract.setdefault("territory_contract", {})["status"] = "generation_ready"
     state.update({
@@ -257,22 +364,11 @@ def _enable_contract_after_pre_m04(
 
 
 def _enable_master_after_pre_m04(*, root_dir: Path, territory_id: str) -> None:
-    path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
-    lines = path.read_text(encoding="utf-8").splitlines()
-    target = next(
-        (i for i, line in enumerate(lines) if f"territory_id: {territory_id}," in line),
-        None,
+    _set_master_generation_status(
+        root_dir=root_dir,
+        territory_id=territory_id,
+        status="generation_ready",
     )
-    if target is None:
-        raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
-    import re
-    line = lines[target]
-    if "status:" in line:
-        line = re.sub(r"status: [^,}]+", "status: generation_ready", line)
-    else:
-        line = line[:-1] + ", status: generation_ready}"
-    lines[target] = line
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def register_evidence_path(
@@ -291,6 +387,10 @@ def register_evidence_path(
         lines.insert(end, f"{state_indent}evidence:")
         evidence_start = end
         end += 1
+    else:
+        inline = lines[evidence_start].strip()
+        if inline in {"evidence: {}", "evidence: null", "evidence: ~"}:
+            lines[evidence_start] = f"{state_indent}evidence:"
     child = state_indent + "  "
     e_end = evidence_start + 1
     while e_end < end and (lines[e_end].startswith(child) or not lines[e_end].strip()):
@@ -298,22 +398,40 @@ def register_evidence_path(
     _replace_key(lines, evidence_start + 1, e_end, child, "generation_preflight", evidence_path)
     start, end = _catalog_state_bounds(lines, territory_id, str(edition))
     state_indent = _catalog_state_indent(lines, start, end)
-    _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
-    # Validar también el destino maestro antes de escribir ningún estado habilitado.
+    evaluation_status = str(
+        evidence.get("evaluation_status")
+        or "ENABLED"
+    ).upper()
+    if evaluation_status not in GENERATION_EVALUATION_STATUSES:
+        raise ValueError(f"GENERATION_EVALUATION_STATUS_INVALID: {evaluation_status!r}")
+
     master_path = root_dir / "configuracion/catalogo_territorios_espana_2025.yaml"
     if not master_path.is_file():
-        raise ValueError("falta catálogo territorial maestro antes de habilitar generación")
+        raise ValueError("falta catálogo territorial maestro antes de registrar evaluación")
     master_lines = master_path.read_text(encoding="utf-8").splitlines()
     if not any(f"territory_id: {territory_id}," in line for line in master_lines):
         raise ValueError(f"{territory_id}: ausente del catálogo territorial maestro")
-    # No hacer durable la habilitación en catálogo hasta que contrato y maestro
-    # hayan aceptado exactamente la misma evidencia pre-M04.
-    _enable_contract_after_pre_m04(
-        root_dir=root_dir,
-        contract_path=contract_path,
-        evidence=evidence,
-    )
-    _enable_master_after_pre_m04(root_dir=root_dir, territory_id=territory_id)
+
+    if evaluation_status == "ENABLED":
+        _replace_key(lines, start, end, state_indent, "generation_enabled", "true")
+        _enable_contract_after_pre_m04(
+            root_dir=root_dir,
+            contract_path=contract_path,
+            evidence=evidence,
+        )
+        _enable_master_after_pre_m04(root_dir=root_dir, territory_id=territory_id)
+    else:
+        _replace_key(lines, start, end, state_indent, "generation_enabled", "false")
+        _disable_contract_after_generation_evaluation(
+            root_dir=root_dir,
+            contract_path=contract_path,
+            evidence=evidence,
+        )
+        _set_master_generation_status(
+            root_dir=root_dir,
+            territory_id=territory_id,
+            status="source_prepared_pending_pre_m04",
+        )
     catalog.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
