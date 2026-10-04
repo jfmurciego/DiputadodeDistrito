@@ -72,12 +72,72 @@ class GaliciaElectoralVigente(unittest.TestCase):
             a=root/"a.csv"; b=root/"b.csv"; out=root/"merged.csv"
             a.write_text("mesa;censo;A\n01;100;10\n",encoding="utf-8")
             b.write_text("mesa;censo;B\n02;120;20\n",encoding="utf-8")
-            info=merge_delimited_sources([a,b],out)
+            info=merge_delimited_sources(
+                [a,b],
+                out,
+                source_ids=["raw_a","raw_b"],
+            )
             self.assertEqual(info["records"],2)
             self.assertEqual(info["columns"],["mesa","censo","A","B"])
             text=out.read_text(encoding="utf-8")
             self.assertIn("01;100;10;",text)
             self.assertIn("02;120;;20",text)
+
+            sidecar=Path(info["structural_provenance_path"])
+            provenance=json.loads(sidecar.read_text(encoding="utf-8"))
+            self.assertEqual(
+                provenance["schema"],
+                "ddd-electoral-structural-provenance/1.0",
+            )
+            self.assertEqual(
+                [row["source_id"] for row in provenance["sources"]],
+                ["raw_a","raw_b"],
+            )
+            self.assertEqual(
+                provenance["sources"][0]["original_columns"],
+                ["mesa","censo","A"],
+            )
+            self.assertEqual(
+                provenance["sources"][1]["original_columns"],
+                ["mesa","censo","B"],
+            )
+            self.assertEqual(
+                provenance["merged_source"]["columns"],
+                ["mesa","censo","A","B"],
+            )
+
+    def test_multifile_merge_rejects_ambiguous_raw_structure(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td)
+            duplicate=root/"duplicate.csv"
+            duplicate.write_text(
+                "mesa;A;A\n01;1;2\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"cabecera vacía o duplicada",
+            ):
+                merge_delimited_sources(
+                    [duplicate],
+                    root/"duplicate-out.csv",
+                    source_ids=["duplicate"],
+                )
+
+            wide=root/"wide.csv"
+            wide.write_text(
+                "mesa;A\n01;1;extra\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"anchura inválida",
+            ):
+                merge_delimited_sources(
+                    [wide],
+                    root/"wide-out.csv",
+                    source_ids=["wide"],
+                )
 
 if __name__=="__main__":
     unittest.main()
