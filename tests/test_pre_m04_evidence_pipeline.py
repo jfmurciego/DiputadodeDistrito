@@ -26,7 +26,10 @@ SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
-REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta")
+# Madrid y Ceuta dejaron de ser especímenes históricos tras la renovación
+# de fuente/preflight ya presente en main. Este conjunto conserva sólo casos
+# que aún deben atravesar reacreditación pre-M04 en el catálogo vivo.
+REAL_TARGETS = ("cataluna", "comunidad_valenciana", "region_de_murcia")
 FROM_START_PRE_M04_TARGETS = {
     "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",

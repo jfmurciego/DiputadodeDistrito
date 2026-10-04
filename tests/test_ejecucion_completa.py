@@ -90,6 +90,10 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn('[[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]', text)
         self.assertIn("La persistencia durable sólo está permitida desde main", text)
         self.assertIn(
+            '"$pre_m04_planned" == "true" && "$persist" != "true"',
+            text,
+        )
+        self.assertNotIn(
             '"$pre_m04_planned" == "true" && "$persist" != "true" && "$GITHUB_EVENT_NAME" != "pull_request"',
             text,
         )
