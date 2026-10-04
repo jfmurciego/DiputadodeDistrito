@@ -34,7 +34,47 @@
           "SUMAR GALICIA",
           "VOX",
           "DO"
-        ]
+        ],
+        "record_classification": {
+          "polling_station": {
+            "mode": "locator_contract"
+          },
+          "aggregates": [
+            {
+              "id": "provincial_total",
+              "match": {
+                "field": "Cód Cir",
+                "equals": "Total",
+                "required_empty_fields": [
+                  "Cód Con",
+                  "Mesa"
+                ]
+              },
+              "scope": {
+                "kind": "preceding_polling_station_block",
+                "partition_field": "Cód Cir"
+              },
+              "vote_reconciliation": {
+                "kind": "party_columns_exact_sum",
+                "empty_aggregate_value": "reject"
+              }
+            }
+          ],
+          "require_aggregate_for_each_block": true
+        },
+        "party_applicability": {
+          "DO": {
+            "field": "Cód Cir",
+            "equals": [
+              "32"
+            ],
+            "reason": "La candidatura DO sólo figura en el fichero oficial provincial de Ourense; los otros tres ficheros oficiales no contienen esa columna."
+          }
+        },
+        "structural_provenance": {
+          "path": "territorios/galicia/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
+          "sha256": "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68"
+        }
       }
     }
   ],

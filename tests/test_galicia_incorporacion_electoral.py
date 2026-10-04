@@ -38,7 +38,45 @@ class GaliciaElectoralApplication(unittest.TestCase):
         contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
         self.assertEqual(contract["territory_id"], "galicia")
         self.assertEqual(contract["sources"][0]["sha256"], "7f9db16181962a1ef543fe0768c6822d19166e91b97e0a9d48b7c449c24aba96")
-        self.assertEqual(contract["sources"][0]["adapter"]["kind"], "wide_polling_station_csv")
+        adapter = contract["sources"][0]["adapter"]
+        self.assertEqual(adapter["kind"], "wide_polling_station_csv")
+        classification = adapter["record_classification"]
+        self.assertEqual(
+            classification["polling_station"]["mode"],
+            "locator_contract",
+        )
+        self.assertTrue(
+            classification["require_aggregate_for_each_block"]
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["id"],
+            "provincial_total",
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["match"]["equals"],
+            "Total",
+        )
+        self.assertEqual(
+            classification["aggregates"][0]["vote_reconciliation"],
+            {
+                "kind": "party_columns_exact_sum",
+                "empty_aggregate_value": "reject",
+            },
+        )
+        applicability = adapter["party_applicability"]
+        self.assertEqual(set(applicability), {"DO"})
+        self.assertEqual(applicability["DO"]["field"], "Cód Cir")
+        self.assertEqual(applicability["DO"]["equals"], ["32"])
+        self.assertTrue(str(applicability["DO"]["reason"]).strip())
+        provenance = adapter["structural_provenance"]
+        self.assertEqual(
+            provenance["path"],
+            "territorios/galicia/config/elecciones/galicia_parlamento_2024.structural_provenance.json",
+        )
+        self.assertEqual(
+            provenance["sha256"],
+            "9839cd45ed28404d31010bcb4ff0a79cb40efc640540dfdee6f13ceedf53ca68",
+        )
         exceptions = contract["reconciliation"]["allowed_result_only_sections"]
         self.assertEqual(len(exceptions), 48)
         self.assertEqual(sum(int(x["expected_votes"]) for x in exceptions), 25086)
@@ -46,6 +84,77 @@ class GaliciaElectoralApplication(unittest.TestCase):
         dictionary = ROOT / contract["party_dictionary"]["path"]
         self.assertEqual(hashlib.sha256(dictionary.read_bytes()).hexdigest(), contract["party_dictionary"]["sha256"])
         PartyDictionary(json.loads(dictionary.read_text(encoding="utf-8")))
+
+    def test_structural_provenance_is_hash_bound_to_galicia_contract(self):
+        contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+        source = contract["sources"][0]
+        declaration = source["adapter"]["structural_provenance"]
+        sidecar = ROOT / declaration["path"]
+        self.assertTrue(sidecar.is_file())
+        self.assertEqual(
+            hashlib.sha256(sidecar.read_bytes()).hexdigest(),
+            declaration["sha256"],
+        )
+        document = json.loads(sidecar.read_text(encoding="utf-8"))
+        self.assertEqual(
+            document["merged_source"]["sha256"],
+            source["sha256"],
+        )
+        self.assertEqual(document["merged_source"]["records"], 3996)
+        self.assertEqual(
+            sum(int(row["records"]) for row in document["sources"]),
+            3996,
+        )
+        self.assertEqual(
+            [row["source_id"] for row in document["sources"]],
+            [
+                "a_coruna_mesas",
+                "lugo_mesas",
+                "ourense_mesas",
+                "pontevedra_mesas",
+            ],
+        )
+        self.assertEqual(
+            [
+                row["source_id"]
+                for row in document["sources"]
+                if "DO" in row["original_columns"]
+            ],
+            ["ourense_mesas"],
+        )
+        self.assertEqual(
+            source["adapter"]["party_applicability"]["DO"]["equals"],
+            ["32"],
+        )
+
+    def test_electoral_schema_requires_sidecar_for_party_applicability(self):
+        schema_path = ROOT / "configuracion/esquemas/contrato_electoral.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        adapter = schema["properties"]["sources"]["items"][
+            "properties"
+        ]["adapter"]
+        self.assertEqual(
+            adapter["properties"]["structural_provenance"][
+                "required"
+            ],
+            ["path", "sha256"],
+        )
+        applicability_rule = next(
+            rule
+            for rule in adapter["allOf"]
+            if (
+                "party_applicability"
+                in rule.get("if", {}).get("required", [])
+            )
+        )
+        self.assertIn(
+            "structural_provenance",
+            applicability_rule["then"]["required"],
+        )
+        self.assertEqual(
+            applicability_rule["then"]["properties"]["kind"]["const"],
+            "wide_polling_station_csv",
+        )
 
     def test_wide_polling_station_adapter_builds_cusec_and_aggregates_tables(self):
         m07 = load_m07()

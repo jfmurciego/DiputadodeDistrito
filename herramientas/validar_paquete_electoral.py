@@ -7,8 +7,22 @@ import json
 import shutil
 from datetime import datetime
 from pathlib import Path
+import sys
 
 import yaml
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+
+from ddd_core.electoral_contract import (
+    STRUCTURAL_PROVENANCE_SCHEMA,
+    validate_structural_provenance_document,
+)
+from herramientas.preparar_fuente_electoral import (
+    _validate_raw_sources_against_structural,
+)
 
 
 def sha256(path: Path) -> str:
@@ -178,6 +192,162 @@ def _verified_eleccionesdb_retrieved_at(
     }
 
 
+def _load_package_structural_provenance(
+    *,
+    package: Path,
+    manifest: dict,
+    source_hash: str,
+    adapter: dict,
+) -> tuple[Path, str, dict] | None:
+    manifest_decl = manifest.get("structural_provenance")
+    adapter_decl = adapter.get("structural_provenance")
+    if manifest_decl is None and adapter_decl is None:
+        return None
+    if not isinstance(manifest_decl, dict) or not isinstance(adapter_decl, dict):
+        raise ValueError(
+            "paquete y contrato deben declarar conjuntamente "
+            "structural_provenance"
+        )
+    manifest_path = str(manifest_decl.get("path") or "").strip()
+    adapter_path = str(adapter_decl.get("path") or "").strip()
+    manifest_sha = str(manifest_decl.get("sha256") or "").lower()
+    adapter_sha = str(adapter_decl.get("sha256") or "").lower()
+    embedded = manifest.get("embedded_contract") or {}
+    embedded_path = str(
+        embedded.get("structural_provenance") or ""
+    ).strip()
+    embedded_sha = str(
+        embedded.get("structural_provenance_sha256") or ""
+    ).lower()
+    if (
+        not manifest_path
+        or manifest_path != adapter_path
+        or manifest_path != embedded_path
+        or not _hex64(manifest_sha)
+        or manifest_sha != adapter_sha
+        or manifest_sha != embedded_sha
+        or str(
+            manifest_decl.get("merged_source_sha256") or ""
+        ).lower() != source_hash
+    ):
+        raise ValueError(
+            "declaración estructural del paquete no coincide con contrato"
+        )
+    sidecar = package / manifest_path
+    if not sidecar.is_file() or sha256(sidecar).lower() != manifest_sha:
+        raise ValueError(
+            "procedencia estructural embebida ausente o alterada"
+        )
+    document = json.loads(sidecar.read_text(encoding="utf-8"))
+    validate_structural_provenance_document(
+        document,
+        context="procedencia estructural del paquete",
+        expected_source_sha256=source_hash,
+    )
+    raw_embedded = manifest_decl.get("raw_sources_embedded")
+    if not isinstance(raw_embedded, bool):
+        raise ValueError(
+            "structural_provenance.raw_sources_embedded debe ser booleano"
+        )
+    raw_sources = manifest.get("raw_sources") or []
+    if raw_embedded:
+        _validate_raw_sources_against_structural(
+            package=package,
+            raw_sources=raw_sources,
+            document=document,
+            context="paquete electoral validado",
+            required=True,
+        )
+    elif raw_sources:
+        raise ValueError(
+            "raw_sources presentes pero raw_sources_embedded=false"
+        )
+    return sidecar, manifest_sha, document
+
+
+def _validate_static_structural_provenance(
+    *,
+    root: Path,
+    package: Path,
+    manifest: dict,
+    source_hash: str,
+    adapter: dict,
+) -> str | None:
+    contract_decl = adapter.get("structural_provenance")
+    if contract_decl is None:
+        if manifest.get("structural_provenance") is not None:
+            raise ValueError(
+                "paquete declara procedencia estructural ausente "
+                "del contrato estático"
+            )
+        return None
+    if not isinstance(contract_decl, dict):
+        raise ValueError("structural_provenance contractual inválido")
+    path_raw = str(contract_decl.get("path") or "").strip()
+    expected = str(contract_decl.get("sha256") or "").lower()
+    if not path_raw or not _hex64(expected):
+        raise ValueError("structural_provenance contractual incompleto")
+    sidecar = root / path_raw
+    if not sidecar.is_file() or sha256(sidecar).lower() != expected:
+        raise ValueError("sidecar estructural contractual ausente o alterado")
+    document = json.loads(sidecar.read_text(encoding="utf-8"))
+    validate_structural_provenance_document(
+        document,
+        context="procedencia estructural contractual",
+        expected_source_sha256=source_hash,
+    )
+    packaged = manifest.get("structural_provenance")
+    if packaged is None:
+        return expected
+    if not isinstance(packaged, dict):
+        raise ValueError(
+            "procedencia estructural del paquete estático inválida"
+        )
+    package_path = str(packaged.get("path") or "").strip()
+    package_sha = str(packaged.get("sha256") or "").lower()
+    package_sidecar = package / package_path
+    if (
+        not package_path
+        or package_sha != expected
+        or str(
+            packaged.get("merged_source_sha256") or ""
+        ).lower() != source_hash
+        or not package_sidecar.is_file()
+        or sha256(package_sidecar).lower() != package_sha
+    ):
+        raise ValueError(
+            "sidecar estructural del paquete no coincide "
+            "con el contrato estático"
+        )
+    packaged_document = json.loads(
+        package_sidecar.read_text(encoding="utf-8")
+    )
+    validate_structural_provenance_document(
+        packaged_document,
+        context="procedencia estructural empaquetada",
+        expected_source_sha256=source_hash,
+    )
+    raw_embedded = packaged.get("raw_sources_embedded")
+    if not isinstance(raw_embedded, bool):
+        raise ValueError(
+            "structural_provenance.raw_sources_embedded debe ser booleano"
+        )
+    raw_sources = manifest.get("raw_sources") or []
+    if raw_embedded:
+        _validate_raw_sources_against_structural(
+            package=package,
+            raw_sources=raw_sources,
+            document=packaged_document,
+            context="paquete electoral estático",
+            required=True,
+        )
+    elif raw_sources:
+        raise ValueError(
+            "raw_sources presentes pero raw_sources_embedded=false"
+        )
+    return expected
+
+
 def _materialize_embedded_contract(
     *,
     package: Path,
@@ -223,8 +393,18 @@ def _materialize_embedded_contract(
     runtime_contract = runtime_dir / "election_contract.json"
     runtime_dictionary = runtime_dir / "party_dictionary.json"
     runtime_source = runtime_dir / "data" / source.name
+    runtime_structural = (
+        runtime_dir / "evidence" / "structural_provenance.json"
+    )
 
     runtime_source_contract = dict(sources[0])
+    runtime_adapter = dict(runtime_source_contract.get("adapter") or {})
+    structural = _load_package_structural_provenance(
+        package=package,
+        manifest=manifest,
+        source_hash=source_hash,
+        adapter=runtime_adapter,
+    )
     if (
         str(manifest.get("adapter") or "") == "eleccionesdb_sqlite/1.0"
         and not str(runtime_source_contract.get("retrieved_at") or "").strip()
@@ -242,6 +422,19 @@ def _materialize_embedded_contract(
         runtime_dictionary.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, runtime_source)
         shutil.copy2(dictionary_src, runtime_dictionary)
+        if structural is not None:
+            structural_src, structural_sha, _ = structural
+            runtime_structural.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(structural_src, runtime_structural)
+            if sha256(runtime_structural).lower() != structural_sha:
+                raise ValueError(
+                    "materialización alteró la procedencia estructural"
+                )
+            runtime_adapter["structural_provenance"] = {
+                "path": runtime_structural.relative_to(root).as_posix(),
+                "sha256": structural_sha,
+            }
+            runtime_source_contract["adapter"] = runtime_adapter
         runtime_contract_payload = dict(contract)
         runtime_contract_payload["sources"] = [runtime_source_contract]
         runtime_source_contract["path"] = runtime_source.relative_to(root).as_posix()
@@ -260,6 +453,9 @@ def _materialize_embedded_contract(
         "runtime_contract_path": runtime_contract.relative_to(root).as_posix(),
         "contract_sha256": expected_contract_hash,
         "party_dictionary_sha256": expected_dictionary_hash,
+        "structural_provenance_sha256": (
+            structural[1] if structural is not None else None
+        ),
         "election_identity_mode": "exact",
         "contract_election_id": contract.get("election_id"),
         "package_election_id": manifest.get("election_id"),
@@ -307,6 +503,13 @@ def validate_package(
         if not target_raw:
             raise ValueError("fuente contractual sin path")
         target = root / str(target_raw)
+        static_structural_sha = _validate_static_structural_provenance(
+            root=root,
+            package=package,
+            manifest=manifest,
+            source_hash=actual,
+            adapter=dict(matches[0].get("adapter") or {}),
+        )
         if materialize:
             target.parent.mkdir(parents=True, exist_ok=True)
             if source.resolve() != target.resolve():
@@ -321,6 +524,7 @@ def validate_package(
             "contract_sha256": actual,
             "contract_source_path": str(target_raw),
             "party_dictionary_sha256": None,
+            "structural_provenance_sha256": static_structural_sha,
             "election_identity_mode": election_identity_mode,
             "contract_election_id": contract.get("election_id"),
             "package_election_id": manifest.get("election_id"),
