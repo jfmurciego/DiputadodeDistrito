@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 
 from herramientas.generar_estado_operativo import (
+    _activation_snapshot,
     _source_readiness_row,
     build,
 )
@@ -180,6 +181,52 @@ class ResolverSourceAdmissibilityTests(unittest.TestCase):
             )
 
 
+class ActivationSnapshotPrecedenceTests(unittest.TestCase):
+    def setUp(self):
+        self.current_pair = {
+            "current": True,
+            "receipt_path": "territorios/demo/evidencia/pares_fuentes/2025/demo.json",
+            "pair_sha256": "a" * 64,
+            "reason": "CURRENT_DURABLE_PAIR",
+        }
+
+    def test_current_pair_and_admissible_sources_is_activated(self):
+        plan = plan_fixture()
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "ACTIVATED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_not_accredited_sources(self):
+        plan = plan_fixture(
+            territorial_action="ACQUIRE",
+            territorial_reason="TERRITORIAL_PACKAGE_MISSING",
+        )
+        self.assertEqual(plan["territorial_admissibility"], "NOT_ACCREDITED")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "NOT_ACCREDITED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_incompatible_sources(self):
+        plan = plan_fixture(
+            territorial_action="ACQUIRE",
+            territorial_reason="TERRITORIAL_POPULATION_YEAR_MISMATCH",
+        )
+        self.assertEqual(plan["territorial_admissibility"], "INCOMPATIBLE")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "ACTION_REQUIRED")
+        self.assertTrue(activation["pair"]["current"])
+
+    def test_current_pair_never_overrides_blocked_sources(self):
+        plan = plan_fixture(
+            electoral_action="BLOCKED_PROVISIONAL",
+            electoral_reason="PROVISIONAL_NOT_PRODUCTION_ELIGIBLE",
+        )
+        self.assertEqual(plan["sources_status"], "BLOCKED")
+        activation = _activation_snapshot(plan, self.current_pair)
+        self.assertEqual(activation["state"], "BLOCKED")
+        self.assertTrue(activation["pair"]["current"])
+
+
 class DashboardSourceReadinessTests(unittest.TestCase):
     def test_admissible_depends_on_resolver_dictamen_not_year_comparison(self):
         plan = plan_fixture()
@@ -322,6 +369,45 @@ class DashboardSourceReadinessTests(unittest.TestCase):
                 plan["source_next_steps"],
                 row["territory_id"],
             )
+
+            self.assertIn(
+                row["activation"]["state"],
+                {
+                    "ACTIVATED",
+                    "ACTIVABLE",
+                    "ACTION_REQUIRED",
+                    "BLOCKED",
+                    "NOT_ACCREDITED",
+                },
+                row["territory_id"],
+            )
+            if row["activation"]["state"] == "ACTIVATED":
+                self.assertEqual(row["status"], "ADMISSIBLE", row["territory_id"])
+                self.assertTrue(
+                    row["activation"]["pair"]["current"],
+                    row["territory_id"],
+                )
+
+        summary = readiness["summary"]
+        self.assertEqual(
+            summary["activated"],
+            sum(
+                row["activation"]["state"] == "ACTIVATED"
+                for row in readiness["territories"]
+            ),
+        )
+        self.assertEqual(
+            summary["activable"],
+            sum(
+                row["activation"]["state"] == "ACTIVABLE"
+                for row in readiness["territories"]
+            ),
+        )
+        self.assertEqual(
+            readiness["activation_chain"]["durable_pair"],
+            summary["activated"],
+        )
+        self.assertEqual(readiness["activation_chain"]["total"], 19)
 
 
 
