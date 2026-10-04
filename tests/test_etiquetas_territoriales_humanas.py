@@ -148,7 +148,7 @@ class HumanTerritoryLabelsTests(unittest.TestCase):
     def test_planning_accepts_visible_label_without_changing_plan(self):
         kwargs = dict(
             edition="2025",
-            execution_mode="reuse",
+            execution_mode="from_start",
             catalog=CATALOG,
             root_dir=ROOT,
             optimization_algorithm="Canónico",

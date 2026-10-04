@@ -78,16 +78,25 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn("source_ref", call_inputs)
         self.assertIn("persist_state", call_inputs)
         text = ORCH.read_text(encoding="utf-8")
-        self.assertIn("github.event_name == 'pull_request' && 'Galicia'", text)
+        self.assertIn("github.event_name == 'pull_request' && 'Castilla-La Mancha'", text)
         self.assertIn("github.event_name == 'pull_request' && '2025'", text)
         self.assertIn("github.event_name == 'pull_request' && 'Reutilizar progreso existente'", text)
         self.assertIn("github.event_name == 'pull_request' && 'Canónico'", text)
+        self.assertIn("github.event_name == 'pull_request' && 'electoral'", text)
         self.assertIn("inputs.publication_mode || 'electoral'", text)
         self.assertIn('if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]', text)
         self.assertIn("persist=false", text)
         self.assertIn("publish=false", text)
         self.assertIn('[[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]', text)
         self.assertIn("La persistencia durable sólo está permitida desde main", text)
+        self.assertIn(
+            '"$pre_m04_planned" == "true" && "$persist" != "true"',
+            text,
+        )
+        self.assertNotIn(
+            '"$pre_m04_planned" == "true" && "$persist" != "true" && "$GITHUB_EVENT_NAME" != "pull_request"',
+            text,
+        )
 
     def test_premerge_smoke_cannot_persist_catalog_state(self):
         for name in (
@@ -708,16 +717,29 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertTrue(plan["run_incorporate"])
 
     def test_catalog_source_mode_requires_current_compatibility_identity(self):
-        for territory in ("Ceuta", "Cantabria"):
-            with self.subTest(territory=territory):
-                with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
-                    build_plan(
-                        territory=territory,
-                        edition="2025",
-                        execution_mode="catalog_source",
-                        catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-                        root_dir=ROOT,
-                    )
+        catalog = load(ROOT / "configuracion/catalogo_preparacion.yaml")
+        target = next(
+            row for row in catalog["territories"]
+            if row["territory_id"] == "cantabria"
+        )
+        target["editions"]["2025"]["preparation_evidence"].pop(
+            "compatibility_identity_sha256",
+            None,
+        )
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "catalogo_preparacion.yaml"
+            path.write_text(
+                yaml.safe_dump(catalog, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
+                build_plan(
+                    territory="Cantabria",
+                    edition="2025",
+                    execution_mode="catalog_source",
+                    catalog=path,
+                    root_dir=ROOT,
+                )
 
     def test_catalog_source_mode_blocks_invalid_catalog_accreditation_before_generation(self):
         original = load(ROOT / "configuracion/catalogo_preparacion.yaml")

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
 from pathlib import Path
 
@@ -592,26 +593,42 @@ class CampaignManagerTests(unittest.TestCase):
             self.assertIn("implementación pre-M04", gate["reason"])
 
     def test_first_generation_explicit_source_must_be_the_validated_source(self):
-        catalog_path = ROOT / "configuracion/catalogo_preparacion.yaml"
-        plan = build_plan(
-            territory="La Rioja",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=catalog_path,
-            root_dir=ROOT,
-            force_selected_algorithm=True,
-        )
+        validated_source = {
+            "artifact_name": "ddd-source-package-demo-2025-42",
+            "artifact_sha256": "a" * 64,
+        }
+        plan = {
+            "territory_id": "demo",
+            "contract_path": "contract.yaml",
+            "catalog_state": {
+                "territorial_product_available": False,
+                "preparation_evidence": {
+                    "run_id": 42,
+                    **validated_source,
+                },
+                "generation_preflight_evidence": {
+                    "run_id": 42,
+                    "source_commit": "b" * 40,
+                    "source": validated_source,
+                },
+            },
+            "existing": {"territorial_source": None},
+            "campaign": {},
+        }
         before = json.loads(json.dumps(plan))
-        prep = plan["catalog_state"]["preparation_evidence"]
-        with self.assertRaisesRegex(ValueError, "procedencia validada"):
-            apply_explicit_territorial_source(
-                plan,
-                root_dir=ROOT,
-                reuse_run_id=str(prep["run_id"]),
-                reuse_artifact_name=prep["artifact_name"],
-                reuse_artifact_sha256="f" * 64,
-                reuse_source_sha=plan["catalog_state"]["generation_preflight_evidence"]["source_commit"],
-            )
+        with mock.patch(
+            "herramientas._resolver_ejecucion_completa_core.generation_enablement",
+            return_value={"allowed": True, "route": "validated_pre_m04_topology"},
+        ):
+            with self.assertRaisesRegex(ValueError, "procedencia validada"):
+                apply_explicit_territorial_source(
+                    plan,
+                    root_dir=ROOT,
+                    reuse_run_id="42",
+                    reuse_artifact_name=validated_source["artifact_name"],
+                    reuse_artifact_sha256="f" * 64,
+                    reuse_source_sha="b" * 40,
+                )
         self.assertEqual(plan, before)
 
     def test_generation_enablement_requires_both_declarations_or_matching_partition_links(self):

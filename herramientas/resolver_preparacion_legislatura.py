@@ -525,6 +525,154 @@ def _electoral_plan(
     return candidate, "REUSE" if candidate.get("reusable") else "ACQUIRE"
 
 
+_TERRITORIAL_ADMISSIBILITY_BY_REASON = {
+    "TERRITORIAL_DURABLE_CANDIDATE": "ADMISSIBLE",
+    "TERRITORIAL_IDENTITY_MISMATCH": "INCOMPATIBLE",
+    "TERRITORIAL_ARTIFACT_IDENTITY_MISMATCH": "INCOMPATIBLE",
+    "TERRITORIAL_RECEIPT_CONTRADICTORY": "INCOMPATIBLE",
+    "TERRITORIAL_POPULATION_YEAR_MISMATCH": "INCOMPATIBLE",
+    "TERRITORIAL_SECTION_YEAR_MISMATCH": "INCOMPATIBLE",
+    "TERRITORIAL_PACKAGE_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_DECLARATION_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_TEMPORAL_IDENTITY_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_RUN_INVALID": "NOT_ACCREDITED",
+    "TERRITORIAL_DIGEST_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_COMPATIBILITY_REPORT_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_RECEIPT_MISSING": "NOT_ACCREDITED",
+    "TERRITORIAL_PROVENANCE_MISSING": "NOT_ACCREDITED",
+}
+
+_ELECTORAL_ADMISSIBILITY_BY_REASON = {
+    "ELECTORAL_DURABLE_CANDIDATE": "ADMISSIBLE",
+    "ELECTORAL_IDENTITY_MISMATCH": "INCOMPATIBLE",
+    "ELECTORAL_ELECTION_MISMATCH": "INCOMPATIBLE",
+    "ELECTORAL_ARTIFACT_IDENTITY_MISMATCH": "INCOMPATIBLE",
+    "ELECTORAL_PROVENANCE_MISMATCH": "INCOMPATIBLE",
+    "ELECTORAL_PACKAGE_MISSING": "NOT_ACCREDITED",
+    "ELECTORAL_RECEIPT_MISSING": "NOT_ACCREDITED",
+    "ELECTORAL_RECEIPT_KIND": "NOT_ACCREDITED",
+    "ELECTORAL_RUN_INVALID": "NOT_ACCREDITED",
+    "ELECTORAL_DIGEST_MISSING": "NOT_ACCREDITED",
+    "ELECTORAL_PROVENANCE_MISSING": "NOT_ACCREDITED",
+    "ELECTORAL_PROVENANCE_REFERENCE_MISSING": "NOT_ACCREDITED",
+    "ELECTORAL_LEGACY_PROVENANCE_INCOMPLETE": "NOT_ACCREDITED",
+    "ELECTORAL_PACKAGE_IDENTITY_NOT_DURABLE": "NOT_ACCREDITED",
+    "ELECTORAL_RECEIPT_SCHEMA": "NOT_ACCREDITED",
+    "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE": "ACQUISITION_REQUIRED",
+    "PROVISIONAL_NOT_PRODUCTION_ELIGIBLE": "BLOCKED",
+}
+
+
+def _mapped_admissibility(mapping: dict[str, str], reason: str, domain: str) -> str:
+    if reason not in mapping:
+        raise ValueError(
+            f"{domain}: reason no clasificado por la autoridad semántica: "
+            f"{reason or '<vacío>'}"
+        )
+    return mapping[reason]
+
+
+def _territorial_admissibility(action: str, candidate: dict) -> str:
+    reason = str(candidate.get("reason") or "").strip()
+    mapped = _mapped_admissibility(
+        _TERRITORIAL_ADMISSIBILITY_BY_REASON,
+        reason,
+        "territorial",
+    )
+    if action == "REUSE":
+        if mapped != "ADMISSIBLE":
+            raise ValueError(
+                f"territorial: acción REUSE incompatible con reason {reason}: {mapped}"
+            )
+        return "ADMISSIBLE"
+    if action == "REUSE_TEMPORAL_SUBSTITUTION":
+        if mapped != "ADMISSIBLE":
+            raise ValueError(
+                "territorial: acción REUSE_TEMPORAL_SUBSTITUTION incompatible "
+                f"con reason {reason}: {mapped}"
+            )
+        return "ADMISSIBLE_TEMPORAL_SUBSTITUTION"
+    if action == "ACQUIRE":
+        if mapped in {"ADMISSIBLE", "BLOCKED"}:
+            raise ValueError(
+                f"territorial: acción ACQUIRE incompatible con reason {reason}: {mapped}"
+            )
+        return mapped
+    raise ValueError(f"territorial: acción no clasificada: {action!r}")
+
+
+def _electoral_admissibility(action: str, candidate: dict) -> str:
+    reason = str(candidate.get("reason") or "").strip()
+    mapped = _mapped_admissibility(
+        _ELECTORAL_ADMISSIBILITY_BY_REASON,
+        reason,
+        "electoral",
+    )
+    if action == "REUSE":
+        if mapped != "ADMISSIBLE":
+            raise ValueError(
+                f"electoral: acción REUSE incompatible con reason {reason}: {mapped}"
+            )
+        return "ADMISSIBLE"
+    if action == "BLOCKED_PROVISIONAL":
+        if mapped != "BLOCKED":
+            raise ValueError(
+                "electoral: acción BLOCKED_PROVISIONAL incompatible "
+                f"con reason {reason}: {mapped}"
+            )
+        return "BLOCKED"
+    if action == "ACQUIRE":
+        if mapped in {"ADMISSIBLE", "BLOCKED"}:
+            raise ValueError(
+                f"electoral: acción ACQUIRE incompatible con reason {reason}: {mapped}"
+            )
+        return mapped
+    raise ValueError(f"electoral: acción no clasificada: {action!r}")
+
+
+def _sources_status(territorial_status: str, electoral_status: str) -> str:
+    if "BLOCKED" in {territorial_status, electoral_status}:
+        return "BLOCKED"
+    territorial_ok = territorial_status in {
+        "ADMISSIBLE",
+        "ADMISSIBLE_TEMPORAL_SUBSTITUTION",
+    }
+    electoral_ok = electoral_status == "ADMISSIBLE"
+    if territorial_ok and electoral_ok:
+        return "ADMISSIBLE"
+    if not territorial_ok and electoral_ok:
+        return "TERRITORIAL_ACTION_REQUIRED"
+    if territorial_ok and not electoral_ok:
+        return "ELECTORAL_ACTION_REQUIRED"
+    return "ACTION_REQUIRED"
+
+
+def _source_next_steps(
+    territorial_action: str,
+    territorial_candidate: dict,
+    electoral_action: str,
+    electoral_candidate: dict,
+) -> list[dict]:
+    steps: list[dict] = []
+    if not territorial_action.startswith("REUSE"):
+        steps.append(
+            {
+                "domain": "territorial",
+                "planner_action": territorial_action,
+                "reason": territorial_candidate.get("reason"),
+            }
+        )
+    if electoral_action != "REUSE":
+        steps.append(
+            {
+                "domain": "electoral",
+                "planner_action": electoral_action,
+                "reason": electoral_candidate.get("reason"),
+            }
+        )
+    return steps
+
+
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
@@ -621,6 +769,12 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             t_action = "ACQUIRE"
 
         e_candidate, e_action = _electoral_plan(root, tid, state, row)
+        territorial_admissibility = _territorial_admissibility(t_action, t_candidate)
+        electoral_admissibility = _electoral_admissibility(e_action, e_candidate)
+        sources_status = _sources_status(
+            territorial_admissibility,
+            electoral_admissibility,
+        )
 
         current_population_year = int(
             t_candidate.get("population_year", t_candidate.get("observed_population_year", terr["population_current_year"]))
@@ -652,6 +806,7 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
                 "checked_at": temporal["checked_at"],
             },
             "territorial_action": t_action,
+            "territorial_admissibility": territorial_admissibility,
             "territorial_package_state": "READY_REUSABLE" if t_action.startswith("REUSE") else "ACQUIRE_REQUIRED",
             "territorial_reason": t_candidate.get("reason"),
             "territorial_candidate": t_candidate,
@@ -666,6 +821,14 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "electoral_source": electoral.get("source"),
             "electoral_granularity": electoral.get("granularity"),
             "electoral_action": e_action,
+            "electoral_admissibility": electoral_admissibility,
+            "sources_status": sources_status,
+            "source_next_steps": _source_next_steps(
+                t_action,
+                t_candidate,
+                e_action,
+                e_candidate,
+            ),
             "electoral_package_state": (
                 "BLOCKED_PROVISIONAL" if e_action == "BLOCKED_PROVISIONAL"
                 else "READY_REUSABLE" if e_action == "REUSE"

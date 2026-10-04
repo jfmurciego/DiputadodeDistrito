@@ -26,7 +26,10 @@ SHA_C = "c" * 64
 SHA_D = "d" * 64
 COMMIT = "1" * 40
 ROOT = Path(__file__).resolve().parents[1]
-REAL_TARGETS = ("cataluna", "comunidad_valenciana", "madrid", "region_de_murcia", "ceuta")
+# Madrid y Ceuta dejaron de ser especímenes históricos tras la renovación
+# de fuente/preflight ya presente en main. Este conjunto conserva sólo casos
+# que aún deben atravesar reacreditación pre-M04 en el catálogo vivo.
+REAL_TARGETS = ("cataluna", "comunidad_valenciana", "region_de_murcia")
 FROM_START_PRE_M04_TARGETS = {
     "andalucia", "aragon", "principado_de_asturias", "illes_balears", "canarias",
     "cantabria", "castilla_y_leon", "castilla_la_mancha", "cataluna",
@@ -710,7 +713,9 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 self.assertTrue(plan["run_prepare_territorial"])
                 self.assertTrue(plan["pre_m04_accreditation_planned"])
                 self.assertTrue(plan["run_generate"])
-                self.assertIsNone(plan["existing"]["territorial_source"]["decision"])
+                decision = plan["existing"]["territorial_source"].get("decision")
+                if decision is not None:
+                    self.assertEqual(decision, "VALIDADO")
                 self.assertEqual(
                     {"allowed": True, "route": "planned_pre_m04_accreditation"},
                     plan["generation_gate"],

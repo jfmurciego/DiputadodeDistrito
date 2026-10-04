@@ -48,7 +48,7 @@ class EstadoOperativoUnicoTests(unittest.TestCase):
             }]}
             (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump(catalog,allow_unicode=True,sort_keys=False),encoding="utf-8")
             state=build(root,"2025")
-            self.assertEqual(state["schema"],"ddd-estado-operativo/2.1")
+            self.assertEqual(state["schema"],"ddd-estado-operativo/2.2")
             self.assertEqual(state["kpis"]["complete_names"],["Demo"])
             demo=next(r for r in state["territories"] if r["territory_id"]=="demo")
             self.assertEqual((demo["ft"],demo["g"],demo["fe"],demo["re"]),("green","green","green","green"))
