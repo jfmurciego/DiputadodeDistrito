@@ -725,44 +725,23 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
                             value=frame.at[index, block_partition_field],
                             cause="AGGREGATE_SCOPE_VALUE_MISSING",
                         )
-                if pending_polling_rows:
-                    previous_partition = (
-                        str(
-                            pending_polling_rows[-1]["fields"].get(
-                                block_partition_field,
-                                "",
-                            )
-                        ).strip()
-                        if block_partition_field is not None
-                        else None
-                    )
-                    previous_source_id = str(
-                        pending_polling_rows[-1].get("source_id") or ""
-                    )
-                    partition_changed = (
-                        block_partition_field is not None
-                        and current_partition != previous_partition
-                    )
-                    source_changed = (
-                        structural_rows is not None
-                        and current_source_id != previous_source_id
-                    )
-                    if partition_changed or source_changed:
+                if pending_polling_rows and block_partition_field is not None:
+                    previous_partition = str(
+                        pending_polling_rows[-1]["fields"].get(
+                            block_partition_field,
+                            "",
+                        )
+                    ).strip()
+                    if current_partition != previous_partition:
                         if require_aggregate_for_each_block:
                             _input_invalid(
                                 source=source,
                                 adapter_kind=adapter_kind,
                                 row=row,
-                                field=(
-                                    block_partition_field
-                                    if partition_changed
-                                    else "structural_provenance"
-                                ),
+                                field=block_partition_field,
                                 value={
-                                    "previous_partition": previous_partition,
-                                    "current_partition": current_partition,
-                                    "previous_source_id": previous_source_id,
-                                    "current_source_id": current_source_id,
+                                    "previous": previous_partition,
+                                    "current": current_partition,
                                 },
                                 cause="MISSING_EXPECTED_AGGREGATE",
                             )
@@ -929,25 +908,6 @@ def read_results(path, adapter, section_field, parties: PartyDictionary):
             aggregate_source_id = str(
                 (aggregate_source_record or {}).get("source_id") or ""
             )
-            pending_source_ids = {
-                str(item.get("source_id") or "")
-                for item in pending_polling_rows
-            }
-            if structural_rows is not None and (
-                len(pending_source_ids) != 1
-                or aggregate_source_id not in pending_source_ids
-            ):
-                _input_invalid(
-                    source=source,
-                    adapter_kind=adapter_kind,
-                    row=row,
-                    field="structural_provenance",
-                    value={
-                        "aggregate_source_id": aggregate_source_id,
-                        "polling_source_ids": sorted(pending_source_ids),
-                    },
-                    cause="AGGREGATE_SOURCE_PROVENANCE_MISMATCH",
-                )
             reconciliation = rule.get("vote_reconciliation") or {}
             reconciliation_kind = reconciliation.get("kind")
             comparisons = []
