@@ -178,12 +178,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 37318299003
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 37318299003
         artifact_name: ddd-source-package-cantabria-2025-37318299003
@@ -202,6 +202,7 @@ territories:
         prepared_source_pair: territorios/cantabria/evidencia/pares_fuentes/2025/53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a.json
         generation_preflight: territorios/cantabria/evidencia/catalogo/generation_preflight_2025.json
         territorial_product: territorios/cantabria/evidencia/catalogo/territorial_product_2025.json
+        electoral_product: territorios/cantabria/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: castilla_la_mancha
   name: Castilla-La Mancha

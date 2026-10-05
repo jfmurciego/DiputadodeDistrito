@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "cantabria",
+  "territory_name": "Cantabria",
+  "edition": "2025",
+  "run_id": 37318299003,
+  "artifact_name": "ddd-state-37318299003-M08",
+  "artifact_sha256": "c13f34a4ab4b8e9d83934e8f86447f2ca81542f2285b2324cd2f4e18d01f3177",
+  "source_commit": "7c2ba6f9fc66649939c515289b5e8eea3cc4e5c1",
+  "stage": "M08"
+}
