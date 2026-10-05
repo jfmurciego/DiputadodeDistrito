@@ -5,10 +5,12 @@
   "territory_name": "La Rioja",
   "edition": "2025",
   "run_id": 37298033194,
-  "source_commit": "62aed44099d1f7e6ab98d8d5f49be4844788476f",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "ed8b7cdbc947423f4f04ef2915763e8e9828fc43",
+  "artifact_name": "ddd-state-37298033194-M03U",
+  "artifact_sha256": "315d08118670eacece8a48b20494da8506097076d91e0d19fe061cb78f1d0575",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 37298033194,
     "artifact_name": "ddd-source-package-la_rioja-2025-37298033194",
@@ -19,10 +21,84 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-37298033194-M03",
+    "artifact_sha256": "29f4dabc72251878b562ee7aa361360855515edef563f717af6b2e5bc05a2032",
+    "module_version": "7.5.0",
+    "nodes": 343,
+    "edges": 928,
+    "population": 322282,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-37298033194",
+    "job_artifact_sha256": "cffbb08ddd664c862488300a100b755e0eaed8fe47b78023917e8b56d9106a96",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/la_rioja_2025/la_rioja_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 322282,
+      "target_section_count": 343,
+      "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
+      "compatibility_report_sha256": "272fe7f82f85d5f9ed107207256b869347d40e1cd390b52725f246ae12e50f10",
+      "compatibility_identity_sha256": "6baef86c9acc1696f5c231ec1a0d778bf7d675636149d27298fc3e70190b8804"
+    },
+    "topology_accreditation": null,
+    "k_districts": 33,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "closed_target_cores_plus_open_residual",
+    "municipality_atomicity_limit_ratio": 1.12,
+    "m01_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/la_rioja/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 33,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
