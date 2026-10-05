@@ -496,7 +496,7 @@ territories:
         electoral_source: territorios/comunidad_foral_de_navarra/evidencia/fuentes_electorales/2025/d0a820d9fa006f296618c60c9148102e9edca70d447290ed038c82e312ebf1c7/36882818980/receipt.json
         prepared_source_pair: territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b.json
         generation_preflight: territorios/comunidad_foral_de_navarra/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: pais_vasco
   name: País Vasco
   editions:
