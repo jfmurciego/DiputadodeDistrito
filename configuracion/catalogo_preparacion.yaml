@@ -599,7 +599,7 @@ territories:
       evidence:
         territorial_product: territorios/ceuta/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/ceuta/evidencia/catalogo/electoral_source_2025.json
-        prepared_source_pair: territorios/ceuta/evidencia/pares_fuentes/2025/10b0976a44ef2f98d7f5b46b0e782fec78de7a4aadde7e91461266446d6aa88b.json
+        prepared_source_pair: territorios/ceuta/evidencia/pares_fuentes/2025/54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41.json
       generation_enabled: false
 - territory_id: melilla
   name: Melilla
