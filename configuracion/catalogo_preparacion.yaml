@@ -432,6 +432,7 @@ territories:
       evidence:
         electoral_source: territorios/madrid/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412.json
+        generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: region_de_murcia
   name: Región de Murcia
