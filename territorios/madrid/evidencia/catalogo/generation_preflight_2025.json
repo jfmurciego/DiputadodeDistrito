@@ -5,10 +5,12 @@
   "territory_name": "Comunidad de Madrid",
   "edition": "2025",
   "run_id": 37325328346,
-  "source_commit": "9a31988577568c390c6a97b9d896d231f606d259",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "40e1d664e6f106f57bace582a63042bc64e4d2a4",
+  "artifact_name": "ddd-state-37325328346-M03U",
+  "artifact_sha256": "bcdba2933a60ddc08d4b1ee0b5583fd7867a71030fdaedaa9ac63bc5e454117a",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 37325328346,
     "artifact_name": "ddd-source-package-madrid-2025-37325328346",
@@ -19,10 +21,84 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-37325328346-M03",
+    "artifact_sha256": "d8835a493f65bf7821557c5283467544964c5d6c8bae40b496bb1cbacede796c",
+    "module_version": "7.5.0",
+    "nodes": 4479,
+    "edges": 12244,
+    "population": 6871903,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-37325328346",
+    "job_artifact_sha256": "5ac7be3eaa992100466eb57e6272ab40e013d8b770b15263b16ed6a7387c9b2e",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/madrid/.cache/ddd/preparacion/madrid_2025/madrid_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 6871903,
+      "target_section_count": 4479,
+      "package_sha256": "1cbe39913e9ed022b0150c1e47332ae28badc4bea86462d157579f73b2eab70a",
+      "compatibility_report_sha256": "bfa8d0694e2a7b21417c562c473e04c87cfa0a0cfbde6a0f66a0809a39216038",
+      "compatibility_identity_sha256": "52fe804149b55b3d97c18f160aa4369e8b663062b2641dced8a01fdd7fa63b62"
+    },
+    "topology_accreditation": null,
+    "k_districts": 135,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/madrid_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/madrid/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/madrid_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/madrid_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/madrid/.cache/ddd/preparacion/{run_name}/madrid_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 135,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
