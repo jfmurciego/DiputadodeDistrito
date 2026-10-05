@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-04T15:37:42.914372+00:00",
+  "generated_at": "2026-10-05T09:42:58.476278+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -22,13 +22,13 @@
       "live_workflow_activity": false
     },
     "summary": {
-      "admissible": 10,
-      "action_required": 8,
+      "admissible": 14,
+      "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 6,
-      "activable": 4,
-      "territorial_pending": 9,
+      "activated": 14,
+      "activable": 0,
+      "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
       "recent_activity": 0
@@ -37,9 +37,9 @@
       "total": 19,
       "legislature_resolved": 19,
       "years_resolved": 19,
-      "territorial_source": 10,
+      "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 6
+      "durable_pair": 14
     },
     "territories": [
       {
@@ -192,12 +192,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/b161c23449de0792274c4c51d8aa3c0a6ac2a0907da1159127fcf96f89f65e17.json",
-            "pair_sha256": "b161c23449de0792274c4c51d8aa3c0a6ac2a0907da1159127fcf96f89f65e17",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/bca00845b12387e21b56fb3c444888489620770cfb749cc511d2a2761474ea2f.json",
+            "pair_sha256": "bca00845b12387e21b56fb3c444888489620770cfb749cc511d2a2761474ea2f",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -216,9 +216,9 @@
           "election_date": "2023-05-28"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -228,10 +228,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 36529385760,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 37245576772,
+            "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/37245576772/receipt.json"
           }
         },
         "electoral": {
@@ -241,14 +241,14 @@
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/1a27f13502e48c1e36a24a8dda8afa2e6521955b3dbfec639b50bef1a10b489c.json",
+            "pair_sha256": "1a27f13502e48c1e36a24a8dda8afa2e6521955b3dbfec639b50bef1a10b489c",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -256,13 +256,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "canarias",
@@ -300,12 +294,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f.json",
+            "pair_sha256": "635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -338,8 +332,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37150130330,
-            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37150130330/receipt.json"
+            "run_id": 37245390628,
+            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37245390628/receipt.json"
           }
         },
         "electoral": {
@@ -354,8 +348,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/761847834b5d738effe720e991c3e0343ac589dd9ed403af36f30692b24fd48f.json",
-            "pair_sha256": "761847834b5d738effe720e991c3e0343ac589dd9ed403af36f30692b24fd48f",
+            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a.json",
+            "pair_sha256": "53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -432,9 +426,9 @@
           "election_date": "2023-05-28"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2023,
             "section_year": 2023
@@ -444,10 +438,10 @@
             "section_year": 2023
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 35744494489,
-            "receipt_path": null
+            "population_year": 2023,
+            "section_year": 2023,
+            "run_id": 37245345263,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03/37245345263/receipt.json"
           }
         },
         "electoral": {
@@ -457,14 +451,14 @@
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e.json",
+            "pair_sha256": "689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -472,13 +466,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "cataluna",
@@ -489,9 +477,9 @@
           "election_date": "2024-05-12"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2024,
             "section_year": 2024
@@ -501,10 +489,10 @@
             "section_year": 2024
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 36260268529,
-            "receipt_path": null
+            "population_year": 2024,
+            "section_year": 2024,
+            "run_id": 37215025861,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37215025861/receipt.json"
           }
         },
         "electoral": {
@@ -514,14 +502,14 @@
           "source": "Generalitat de Catalunya / mirror auditable verificado",
           "granularity": "polling_station_to_section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a.json",
+            "pair_sha256": "8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -529,13 +517,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "comunidad_valenciana",
@@ -730,8 +712,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37159829427,
-            "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/37159829427/receipt.json"
+            "run_id": 37245404875,
+            "receipt_path": "territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/37245404875/receipt.json"
           }
         },
         "electoral": {
@@ -746,8 +728,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/717bced42d2c9c21dbcbe221b067454432e269dd24c976ca2a808c7bd025ade5.json",
-            "pair_sha256": "717bced42d2c9c21dbcbe221b067454432e269dd24c976ca2a808c7bd025ade5",
+            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412.json",
+            "pair_sha256": "27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -794,12 +776,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/163b58661a890e49fe3a586adeb773ecc3af893d55f8f0eeb1fe03f12efd95b6.json",
+            "pair_sha256": "163b58661a890e49fe3a586adeb773ecc3af893d55f8f0eeb1fe03f12efd95b6",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -832,8 +814,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37157948240,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37157948240/receipt.json"
+            "run_id": 37280698035,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37280698035/receipt.json"
           }
         },
         "electoral": {
@@ -848,8 +830,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/589c86561078b54f527072c18279ca2633f5739cbee531d6ed8557151509a038.json",
-            "pair_sha256": "589c86561078b54f527072c18279ca2633f5739cbee531d6ed8557151509a038",
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b.json",
+            "pair_sha256": "24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -869,9 +851,9 @@
           "election_date": "2024-04-21"
         },
         "territorial": {
-          "status": "NOT_ACCREDITED",
-          "action": "ACQUIRE",
-          "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+          "status": "ADMISSIBLE",
+          "action": "REUSE",
+          "reason": "TERRITORIAL_DURABLE_CANDIDATE",
           "required": {
             "population_year": 2024,
             "section_year": 2024
@@ -881,10 +863,10 @@
             "section_year": 2024
           },
           "accredited": {
-            "population_year": null,
-            "section_year": null,
-            "run_id": 35755166499,
-            "receipt_path": null
+            "population_year": 2024,
+            "section_year": 2024,
+            "run_id": 37245350125,
+            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/37245350125/receipt.json"
           }
         },
         "electoral": {
@@ -894,14 +876,14 @@
           "source": "EleccionesDB",
           "granularity": "section_party"
         },
-        "status": "TERRITORIAL_ACTION_REQUIRED",
+        "status": "ADMISSIBLE",
         "activation": {
-          "state": "NOT_ACCREDITED",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": null,
-            "pair_sha256": null,
-            "reason": "PAIR_NOT_REGISTERED"
+            "current": true,
+            "receipt_path": "territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json",
+            "pair_sha256": "fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -909,13 +891,7 @@
           "label": "Sin actividad durable registrada",
           "source": "repository_durable_state"
         },
-        "next_steps": [
-          {
-            "domain": "territorial",
-            "planner_action": "ACQUIRE",
-            "reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING"
-          }
-        ]
+        "next_steps": []
       },
       {
         "territory_id": "la_rioja",
@@ -991,8 +967,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37159991566,
-            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37159991566/receipt.json"
+            "run_id": 37278571905,
+            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37278571905/receipt.json"
           }
         },
         "electoral": {
@@ -1007,8 +983,8 @@
           "state": "ACTIVATED",
           "pair": {
             "current": true,
-            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/10b0976a44ef2f98d7f5b46b0e782fec78de7a4aadde7e91461266446d6aa88b.json",
-            "pair_sha256": "10b0976a44ef2f98d7f5b46b0e782fec78de7a4aadde7e91461266446d6aa88b",
+            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41.json",
+            "pair_sha256": "54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41",
             "reason": "CURRENT_DURABLE_PAIR"
           }
         },
@@ -1055,12 +1031,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/3333ec3b98bcd3c8e58cb29c9d2b9b76deca3a4057572180b12ac88cf8dea373.json",
-            "pair_sha256": "3333ec3b98bcd3c8e58cb29c9d2b9b76deca3a4057572180b12ac88cf8dea373",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33.json",
+            "pair_sha256": "62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1256,9 +1232,9 @@
         "territorial_source": {
           "territory_id": "illes_balears",
           "edition": "2025",
-          "run_id": 36529385760,
-          "artifact_name": "ddd-source-package-illes_balears-2025-36529385760",
-          "artifact_sha256": "b6f0033b9b8447a18fe171aedcf9e0ac724c5804a9b190314b1f6c845f2d9c11",
+          "run_id": 37245576772,
+          "artifact_name": "ddd-source-package-illes_balears-2025-37245576772",
+          "artifact_sha256": "2454452c4ffb9882099519ec78de53e4ecf5dc6d2c48cd7af6d7042f10db25df",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1326,9 +1302,9 @@
         "territorial_source": {
           "territory_id": "cantabria",
           "edition": "2025",
-          "run_id": 37150130330,
-          "artifact_name": "ddd-source-package-cantabria-2025-37150130330",
-          "artifact_sha256": "918b0674e0d92c38a76021cc00cb363b3fb02d4dd2a8adcb4cb020ee1278868d",
+          "run_id": 37245390628,
+          "artifact_name": "ddd-source-package-cantabria-2025-37245390628",
+          "artifact_sha256": "a178f16ae60cfba4ecc7bf5f9100afee3d59a137d3149bf94517ecaee39decfb",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1408,9 +1384,9 @@
         "territorial_source": {
           "territory_id": "castilla_la_mancha",
           "edition": "2025",
-          "run_id": 35744494489,
-          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-35744494489",
-          "artifact_sha256": "3317a19b68d5fa341b8066d1d5927884912fe981de1b803e67388d573f010e57",
+          "run_id": 37245345263,
+          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-37245345263",
+          "artifact_sha256": "75f402fcfba49791bdbd4230cbff668f14a5672f27342e94d3ab9b1d6f0f69f8",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1462,9 +1438,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 36260268529,
-          "artifact_name": "ddd-source-package-cataluna-2025-36260268529",
-          "artifact_sha256": "5207fbe9743ff5142231f13076dc530fed4bc59ace313aa3a2cfd5d6e781966a",
+          "run_id": 37215025861,
+          "artifact_name": "ddd-source-package-cataluna-2025-37215025861",
+          "artifact_sha256": "0f2de10f82267e6be8d38409fb7b7a0c790fced42360570e79766ba0dce94aa0",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1621,9 +1597,9 @@
         "territorial_source": {
           "territory_id": "madrid",
           "edition": "2025",
-          "run_id": 37159829427,
-          "artifact_name": "ddd-source-package-madrid-2025-37159829427",
-          "artifact_sha256": "c5db6953a8b3c9d72e954e64661b0e2ed9bf3ad5b3140561fa793af81ec3230b",
+          "run_id": 37245404875,
+          "artifact_name": "ddd-source-package-madrid-2025-37245404875",
+          "artifact_sha256": "0847f8283919c88833262c8fbe7af4f946043bcf96d294e868973220f5020c91",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1705,9 +1681,9 @@
         "territorial_source": {
           "territory_id": "comunidad_foral_de_navarra",
           "edition": "2025",
-          "run_id": 37157948240,
-          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37157948240",
-          "artifact_sha256": "4227410329e62f6a6a79394b1fcc2fc60c5fdc2efa8cd807dd683e29ed552899",
+          "run_id": 37280698035,
+          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37280698035",
+          "artifact_sha256": "8a5451aead7a0683cb2b6f1055f12ca47a36d220d65a1b09cd3bb93a6605d3b4",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1733,9 +1709,9 @@
         "territorial_source": {
           "territory_id": "pais_vasco",
           "edition": "2025",
-          "run_id": 35755166499,
-          "artifact_name": "ddd-source-package-pais_vasco-2025-35755166499",
-          "artifact_sha256": "f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b",
+          "run_id": 37245350125,
+          "artifact_name": "ddd-source-package-pais_vasco-2025-37245350125",
+          "artifact_sha256": "df6678b753a27b2070f2613c6f9777caf84ab99cd86d82faeb95d0eb6b6a2236",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1803,9 +1779,9 @@
         "territorial_source": {
           "territory_id": "ceuta",
           "edition": "2025",
-          "run_id": 37159991566,
-          "artifact_name": "ddd-source-package-ceuta-2025-37159991566",
-          "artifact_sha256": "7badbe6d89325152887d45029c1fc62a2ba0b3b0f65f8d694cc6698fd8a64fa4",
+          "run_id": 37278571905,
+          "artifact_name": "ddd-source-package-ceuta-2025-37278571905",
+          "artifact_sha256": "2412732a6ed3791e1d1b0d01e26cfd9ef1a783bcb775d61b055aab878be5735f",
           "decision": "VALIDADO"
         },
         "territorial_product": {

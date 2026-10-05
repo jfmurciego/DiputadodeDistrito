@@ -71,7 +71,11 @@ def fetch_json(
 
 def normalized_cusec(value: object) -> str:
     digits = "".join(ch for ch in str(value or "") if ch.isdigit())
-    return digits.zfill(10)[:10] if digits else ""
+    if not digits:
+        return ""
+    if len(digits) > 10:
+        raise ValueError(f"CUSEC no normalizable sin truncamiento: {value!r}")
+    return digits.zfill(10)
 
 
 def field_name(metadata: dict, alias: str) -> str:
@@ -311,13 +315,9 @@ def main() -> int:
     target_value = population.get(TARGET_CUSEC)
     joined_target_value = joined_population.get(TARGET_CUSEC)
 
-    population_service_identity = "2026" in " ".join(
-        str(metadata.get(key) or "")
-        for key in (
-            "service_description",
-            "service_map_name",
-            "service_document_title",
-        )
+    population_service_identity = (
+        metadata.get("service_description") == "Número de personas en 2026"
+        and metadata.get("service_document_title") == "Censo 2026 _ Número de personas"
     )
     section_collection_identity = (
         section_metadata.get("title") == "Secciones_2026"
@@ -330,8 +330,10 @@ def main() -> int:
         and metadata.get("geometry_type") == "esriGeometryPolygon"
         and int(metadata.get("max_record_count") or 0) >= EXPECTED_SECTIONS
         and int((metadata.get("spatial_reference") or {}).get("wkid") or 0) == 25830
-        and metadata.get("cusec_field")
-        and metadata.get("population_field")
+        and metadata.get("cusec_field") == "CUSEC"
+        and metadata.get("joined_cusec_field") == "cusec_1"
+        and metadata.get("province_field") == "CPRO"
+        and metadata.get("population_field") == "n_personas"
     )
     extraction_pass = (
         len(population_ids) == EXPECTED_SECTIONS
@@ -346,10 +348,12 @@ def main() -> int:
         len(joined_population_ids) == EXPECTED_SECTIONS
         and joined_population_ids == sectioning
     )
-    exact_match_pass = source_key_match
+    exact_match_pass = geometry_key_match and source_key_match
     target_pass = (
         TARGET_CUSEC in sectioning
+        and isinstance(target_value, int)
         and isinstance(joined_target_value, int)
+        and target_value == joined_target_value
     )
 
     checks = {
