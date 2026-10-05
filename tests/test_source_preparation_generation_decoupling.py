@@ -335,10 +335,19 @@ class WorkflowDecouplingTests(unittest.TestCase):
                 self.assertTrue(state["territorial_sources_prepared"])
                 self.assertTrue(state["electoral_source_prepared"])
                 self.assertFalse(state["generation_enabled"])
-                self.assertNotIn(
-                    "prepared_source_pair",
-                    state.get("evidence") or {},
+                evidence = state.get("evidence") or {}
+                pair_rel = evidence.get("prepared_source_pair")
+                self.assertTrue(pair_rel)
+                pair = json.loads((ROOT / pair_rel).read_text(encoding="utf-8"))
+                self.assertEqual(pair["schema"], "ddd.prepared-source-pair/1.0")
+                self.assertEqual(pair["territory_id"], territory_id)
+                self.assertEqual(str(pair["edition"]), "2025")
+                self.assertEqual(
+                    pair["territorial_source"]["run_id"],
+                    state["preparation_evidence"]["run_id"],
                 )
+                self.assertIn("electoral_source", pair)
+                self.assertNotIn("generation_preflight", evidence)
 
     def test_provisional_electoral_source_does_not_form_productive_pair(self):
         text = (WF / "preparacion-legislatura-vigente.yml").read_text(

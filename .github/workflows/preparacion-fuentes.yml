@@ -397,7 +397,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          source_ref="$(python herramientas/persistir_evidencia_pre_m04_operacional.py             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)"
+          source_ref="$(python -m herramientas.persistir_evidencia_pre_m04_operacional             --root-dir .             --territory-id "$TERRITORY_ID"             --edition "$EDITION"             --run-id "$RUN_ID"             --contract-path "$CONTRACT_PATH"             --candidate-evidence .ddd-generation-pending.json             --source-commit "$SOURCE_COMMIT"             --target-branch "$TARGET_BRANCH"             --result-json .ddd-generation-pending-persistence.json)"
           [[ "$source_ref" =~ ^[0-9a-f]{40}$ ]] || {
             echo "::error::Persistencia PENDING no devolvió un commit durable."
             exit 57

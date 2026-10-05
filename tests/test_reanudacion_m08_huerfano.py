@@ -707,10 +707,11 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             incorporate_if,
         )
 
-    def test_castilla_la_mancha_36488755336_reuses_01_03_and_reaches_new_04(self):
-        # Nombre conservado para fijar la regresión que rompió Plataforma.
-        # El nuevo intento 36551586302 acredita M08_ABSENT respecto de la
-        # candidatura anterior y pasa a ser el único candidato estructural.
+    def test_castilla_la_mancha_current_source_lineage_blocks_reuse(self):
+        # El candidato M08 sigue siendo auditable, pero la fuente territorial
+        # viva fue renovada después del producto M06 vigente. El planner debe
+        # bloquear la reutilización del producto histórico hasta que exista un
+        # lineage que acredite compatibilidad con la fuente territorial actual.
         result = scan(
             root_dir=ROOT,
             territory_id="castilla_la_mancha",
@@ -735,6 +736,11 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             territory_id="castilla_la_mancha",
             failed_candidate_run=36551586302,
             persisted_false_runs=(36444657976, 36488755336),
+            expected_plan_block=(
+                r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
+                r"DURABLE_LINEAGE_INCOMPATIBLE: "
+                r"territorial_source→territorial_product"
+            ),
         )
 
     def test_baleares_36573474139_territorial_failure_never_becomes_m08_candidate(self):
