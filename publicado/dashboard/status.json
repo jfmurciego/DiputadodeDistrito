@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-05T09:42:58.476278+00:00",
+  "generated_at": "2026-10-05T13:59:04.469578+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 14,
-      "activable": 0,
+      "activated": 10,
+      "activable": 4,
       "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 14
+      "durable_pair": 10
     },
     "territories": [
       {
@@ -332,8 +332,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37245390628,
-            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37245390628/receipt.json"
+            "run_id": 37318299003,
+            "receipt_path": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37318299003/receipt.json"
           }
         },
         "electoral": {
@@ -345,12 +345,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a.json",
             "pair_sha256": "53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -814,8 +814,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37280698035,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37280698035/receipt.json"
+            "run_id": 37293310755,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37293310755/receipt.json"
           }
         },
         "electoral": {
@@ -827,12 +827,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b.json",
             "pair_sha256": "24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -916,8 +916,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37157977205,
-            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/37157977205/receipt.json"
+            "run_id": 37298033194,
+            "receipt_path": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/37298033194/receipt.json"
           }
         },
         "electoral": {
@@ -929,12 +929,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353.json",
             "pair_sha256": "bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1018,8 +1018,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37148646551,
-            "receipt_path": "territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/37148646551/receipt.json"
+            "run_id": 37315646335,
+            "receipt_path": "territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/37315646335/receipt.json"
           }
         },
         "electoral": {
@@ -1031,12 +1031,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33.json",
             "pair_sha256": "62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1290,24 +1290,36 @@
       "territory_id": "cantabria",
       "name": "Cantabria",
       "ft": "green",
-      "g": "yellow",
+      "g": "green",
       "fe": "green",
-      "re": "gray",
-      "status": "Fuentes territoriales preparadas",
-      "certification": "NOT_CERTIFIED",
-      "run_id": null,
-      "stage": null,
+      "re": "green",
+      "status": "Cadena completa validada",
+      "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
+      "run_id": 37318299003,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "cantabria",
           "edition": "2025",
-          "run_id": 37245390628,
-          "artifact_name": "ddd-source-package-cantabria-2025-37245390628",
-          "artifact_sha256": "a178f16ae60cfba4ecc7bf5f9100afee3d59a137d3149bf94517ecaee39decfb",
+          "run_id": 37318299003,
+          "artifact_name": "ddd-source-package-cantabria-2025-37318299003",
+          "artifact_sha256": "c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
           "decision": "VALIDADO"
         },
-        "territorial_product": null,
+        "territorial_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "territorial_product",
+          "territory_id": "cantabria",
+          "territory_name": "Cantabria",
+          "edition": "2025",
+          "run_id": 37318299003,
+          "artifact_name": "ddd-state-37318299003-M06",
+          "artifact_sha256": "ad72c3856b45a639fd9eb4223d6f3af8fef4e7450568311e1c213b1990e55121",
+          "source_commit": "3938c97a8b46590a54016173416acf34c165d5a1",
+          "decision": "PASS_WITH_EXCEPTIONS",
+          "stage": "M06"
+        },
         "electoral_source": {
           "schema": "ddd.catalog-evidence/1.0",
           "kind": "electoral_source",
@@ -1323,7 +1335,18 @@
           "election_registry": "configuracion/registro_electoral.yaml",
           "election_date": "2023-05-28"
         },
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "cantabria",
+          "territory_name": "Cantabria",
+          "edition": "2025",
+          "run_id": 37318299003,
+          "artifact_name": "ddd-state-37318299003-M08",
+          "artifact_sha256": "c13f34a4ab4b8e9d83934e8f86447f2ca81542f2285b2324cd2f4e18d01f3177",
+          "source_commit": "7c2ba6f9fc66649939c515289b5e8eea3cc4e5c1",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "06",
       "display_name": "06 Cantabria"
@@ -1681,9 +1704,9 @@
         "territorial_source": {
           "territory_id": "comunidad_foral_de_navarra",
           "edition": "2025",
-          "run_id": 37280698035,
-          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37280698035",
-          "artifact_sha256": "8a5451aead7a0683cb2b6f1055f12ca47a36d220d65a1b09cd3bb93a6605d3b4",
+          "run_id": 37293310755,
+          "artifact_name": "ddd-source-package-comunidad_foral_de_navarra-2025-37293310755",
+          "artifact_sha256": "703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1737,9 +1760,9 @@
         "territorial_source": {
           "territory_id": "la_rioja",
           "edition": "2025",
-          "run_id": 37157977205,
-          "artifact_name": "ddd-source-package-la_rioja-2025-37157977205",
-          "artifact_sha256": "95373f07ea7acb95f1bf23d63fb8e0b47ed9912757720c7aa1de3e7e98ab6e48",
+          "run_id": 37298033194,
+          "artifact_name": "ddd-source-package-la_rioja-2025-37298033194",
+          "artifact_sha256": "653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1833,9 +1856,9 @@
         "territorial_source": {
           "territory_id": "melilla",
           "edition": "2025",
-          "run_id": 37148646551,
-          "artifact_name": "ddd-source-package-melilla-2025-37148646551",
-          "artifact_sha256": "10de7821dff3d4a09e484553bb212d554bab97ebc7560cd5e9c2bf4297b5d88a",
+          "run_id": 37315646335,
+          "artifact_name": "ddd-source-package-melilla-2025-37315646335",
+          "artifact_sha256": "6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
@@ -1847,38 +1870,40 @@
     }
   ],
   "kpis": {
-    "complete": 3,
+    "complete": 4,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
+      "06 Cantabria",
       "12 Galicia"
     ],
-    "territorial_validated": 7,
+    "territorial_validated": 8,
     "territorial_validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
+      "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "11 Extremadura",
       "12 Galicia",
       "18 Ceuta"
     ],
-    "validated": 7,
+    "validated": 8,
     "validated_names": [
       "02 Aragón",
       "03 Principado de Asturias",
+      "06 Cantabria",
       "07 Castilla y León",
       "08 Castilla-La Mancha",
       "11 Extremadura",
       "12 Galicia",
       "18 Ceuta"
     ],
-    "ready": 12,
+    "ready": 11,
     "ready_names": [
       "01 Andalucía",
       "04 Islas Baleares",
       "05 Canarias",
-      "06 Cantabria",
       "09 Cataluña",
       "10 Comunidad Valenciana",
       "13 Comunidad de Madrid",
@@ -1894,11 +1919,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "galicia",
-    "name": "Galicia",
-    "display_name": "12 Galicia",
-    "autonomous_community_code_ine": "12",
-    "run_id": 36403519566,
+    "territory_id": "cantabria",
+    "name": "Cantabria",
+    "display_name": "06 Cantabria",
+    "autonomous_community_code_ine": "06",
+    "run_id": 37318299003,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -1920,12 +1945,6 @@
       "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
-      "action": "completar puerta de validación territorial"
-    },
-    {
-      "territory": "06 Cantabria",
-      "territory_id": "cantabria",
-      "autonomous_community_code_ine": "06",
       "action": "completar puerta de validación territorial"
     },
     {
@@ -1951,6 +1970,12 @@
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
       "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "madrid",
+      "autonomous_community_code_ine": "13",
+      "action": "completar puerta de validación territorial"
     }
   ],
   "next_actions": [
@@ -1970,12 +1995,6 @@
       "territory": "05 Canarias",
       "territory_id": "canarias",
       "autonomous_community_code_ine": "05",
-      "action": "generar y validar distritos"
-    },
-    {
-      "territory": "06 Cantabria",
-      "territory_id": "cantabria",
-      "autonomous_community_code_ine": "06",
       "action": "generar y validar distritos"
     },
     {
@@ -2001,6 +2020,12 @@
       "territory_id": "comunidad_valenciana",
       "autonomous_community_code_ine": "10",
       "action": "generar y validar distritos"
+    },
+    {
+      "territory": "11 Extremadura",
+      "territory_id": "extremadura",
+      "autonomous_community_code_ine": "11",
+      "action": "preparar fuentes electorales"
     }
   ]
 }
