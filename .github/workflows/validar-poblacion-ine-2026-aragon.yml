@@ -1,0 +1,43 @@
+name: Investigación — INE población 2026 Aragón
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'herramientas/validar_poblacion_ine_2026_aragon.py'
+      - '.github/workflows/validar-poblacion-ine-2026-aragon.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    name: Validar GIS INE 2026 contra Secciones_2026
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Ejecutar cuatro comprobaciones técnicas
+        run: |
+          set -uo pipefail
+          mkdir -p .ddd-investigacion
+          set +e
+          python -m herramientas.validar_poblacion_ine_2026_aragon \
+            --root-dir . \
+            --output .ddd-investigacion/aragon_poblacion_ine_2026.json
+          rc=$?
+          set -e
+          python -m json.tool .ddd-investigacion/aragon_poblacion_ine_2026.json
+          if [[ "$rc" -eq 2 ]]; then
+            echo "::warning::La investigación terminó correctamente con BLOCK_TECHNICAL; consultar el JSON de evidencia."
+            exit 0
+          fi
+          exit "$rc"
+      - name: Publicar evidencia de investigación
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: aragon-poblacion-ine-2026
+          path: .ddd-investigacion/aragon_poblacion_ine_2026.json
+          if-no-files-found: error
+          retention-days: 7
