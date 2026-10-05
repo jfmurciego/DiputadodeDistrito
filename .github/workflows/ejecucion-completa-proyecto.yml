@@ -211,7 +211,7 @@ jobs:
         env:
           TERRITORY: ${{ github.event_name == 'pull_request' && 'Castilla-La Mancha' || inputs.territory_id }}
           EDITION: ${{ github.event_name == 'pull_request' && '2025' || inputs.data_edition }}
-          UI_MODE: ${{ github.event_name == 'pull_request' && 'Reutilizar progreso existente' || inputs.execution_mode }}
+          UI_MODE: ${{ github.event_name == 'pull_request' && 'Ejecutar desde el principio' || inputs.execution_mode }}
           UI_ALGORITHM: ${{ github.event_name == 'pull_request' && 'Canónico' || inputs.optimization_algorithm }}
           PERSIST_INPUT: ${{ inputs.persist_state }}
           PUBLISH_INPUT: ${{ inputs.publish_result }}
@@ -538,7 +538,7 @@ jobs:
             exit 52
           fi
           pre_m04_planned="$(jq -r '.pre_m04_accreditation_planned // false' .ddd-full-run/plan.json)"
-          if [[ "$pre_m04_planned" == "true" && "$persist" != "true" ]]; then
+          if [[ "$pre_m04_planned" == "true" && "$persist" != "true" && "$GITHUB_EVENT_NAME" != "pull_request" ]]; then
             echo "::error::La acreditación pre-M04 planificada exige persist_state=true antes de habilitar generación."
             exit 56
           fi

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -14,6 +15,9 @@ from herramientas.persistir_evidencia_pre_m04_operacional import (
     PreM04PersistenceConflict,
     persist_pre_m04_evidence,
 )
+from herramientas.materializar_evidencia_pre_m04 import register_evidence_path
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def git(root: Path, *args: str) -> str:
@@ -260,6 +264,211 @@ def state(root: Path, tid: str) -> dict:
         for row in catalog["territories"]
         if row["territory_id"] == tid
     )
+
+
+@unittest.skipUnless(shutil.which("bash"), "bash executable required")
+class PreM04WorkflowEntrypointTests(unittest.TestCase):
+    def test_workflow_pending_command_runs_from_checkout_root_without_pythonpath_or_push(self):
+        workflow = yaml.safe_load(
+            (ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(
+                encoding="utf-8"
+            )
+        )
+        step = next(
+            item
+            for item in workflow["jobs"]["generation_pending"]["steps"]
+            if item.get("name")
+            == "Persistir diagnóstico con el escritor concurrente común"
+        )
+        run_script = step["run"]
+        self.assertIn(
+            "python -m herramientas.persistir_evidencia_pre_m04_operacional",
+            run_script,
+        )
+
+        production_catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        production_before = production_catalog.read_bytes()
+        fake_source_sha = "1" * 40
+        run_id = 909
+
+        with tempfile.TemporaryDirectory() as td:
+            base = Path(td)
+            checkout = base / "checkout"
+            checkout.mkdir()
+            write_fixture(checkout)
+
+            candidate_payload = {
+                "schema": "ddd.catalog-evidence/1.0",
+                "kind": "generation_preflight",
+                "territory_id": "alpha",
+                "territory_name": "Alpha",
+                "edition": "2025",
+                "run_id": run_id,
+                "source_commit": fake_source_sha,
+                "decision": "PENDING",
+                "evaluation_status": "PENDING",
+                "stage": "SOURCE_PREPARED",
+                "source": {
+                    "run_id": 123,
+                    "artifact_name": "ddd-source-package-alpha-2025-123",
+                    "artifact_sha256": "a" * 64,
+                    "package_sha256": "b" * 64,
+                    "compatibility_identity_sha256": "c" * 64,
+                    "territorial_identity_sha256": "d" * 64,
+                    "population_year": 2023,
+                    "section_year": 2023,
+                },
+                "effective_gate": {
+                    "allowed": False,
+                    "status": "PENDING",
+                    "capability": "CAP_PRE_M04_EVIDENCE",
+                    "reason": "fixture PENDING para entrypoint del workflow",
+                },
+            }
+            candidate_path = checkout / ".ddd-generation-pending.json"
+            candidate_path.write_text(
+                json.dumps(candidate_payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            evidence_rel = (
+                "territorios/alpha/evidencia/catalogo/"
+                "generation_preflight_2025.json"
+            )
+            evidence_path = checkout / evidence_rel
+            evidence_path.parent.mkdir(parents=True, exist_ok=True)
+            evidence_path.write_text(
+                json.dumps(candidate_payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            register_evidence_path(
+                root_dir=checkout,
+                territory_id="alpha",
+                edition="2025",
+                evidence_path=evidence_rel,
+                contract_path="territorios/alpha/config/alpha_2025.yaml",
+                evidence=candidate_payload,
+            )
+
+            # Sólo el código procede del checkout de la PR; todos los datos que
+            # se validan/mutan viven dentro del directorio temporal.
+            (checkout / "herramientas").symlink_to(
+                ROOT / "herramientas",
+                target_is_directory=True,
+            )
+            (checkout / "ddd_core").symlink_to(
+                ROOT / "ddd_core",
+                target_is_directory=True,
+            )
+
+            shim_dir = base / "shim"
+            shim_dir.mkdir()
+            git_log = base / "git.log"
+            git_shim = shim_dir / "git"
+            git_shim.write_text(
+                """#!/bin/sh
+printf '%s\\n' "$*" >> "$DDD_GIT_LOG"
+case "$1" in
+  rev-parse)
+    printf '%s\\n' "$DDD_FAKE_SHA"
+    exit 0
+    ;;
+  config|fetch|reset|add)
+    exit 0
+    ;;
+  diff)
+    # El fixture ya contiene exactamente la materialización PENDING esperada:
+    # no hay cambios que commitear.
+    exit 0
+    ;;
+  ls-remote)
+    printf '%s\\trefs/heads/main\\n' "$DDD_FAKE_SHA"
+    exit 0
+    ;;
+  push)
+    echo "push forbidden in regression" >&2
+    exit 97
+    ;;
+  commit)
+    echo "unexpected commit in NO_OP regression" >&2
+    exit 96
+    ;;
+  *)
+    echo "unexpected git command: $*" >&2
+    exit 95
+    ;;
+esac
+""",
+                encoding="utf-8",
+            )
+            git_shim.chmod(0o755)
+
+            github_output = base / "github-output.txt"
+            env = os.environ.copy()
+            env.pop("PYTHONPATH", None)
+            env.update(
+                {
+                    "PATH": str(shim_dir) + os.pathsep + env.get("PATH", ""),
+                    "DDD_GIT_LOG": str(git_log),
+                    "DDD_FAKE_SHA": fake_source_sha,
+                    "PYTHONDONTWRITEBYTECODE": "1",
+                    "TERRITORY_ID": "alpha",
+                    "EDITION": "2025",
+                    "RUN_ID": str(run_id),
+                    "CONTRACT_PATH": "territorios/alpha/config/alpha_2025.yaml",
+                    "SOURCE_COMMIT": fake_source_sha,
+                    "TARGET_BRANCH": "main",
+                    "GITHUB_OUTPUT": str(github_output),
+                }
+            )
+
+            completed = subprocess.run(
+                ["bash", "-c", run_script],
+                cwd=checkout,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+            self.assertEqual(
+                completed.returncode,
+                0,
+                msg=f"stdout={completed.stdout}\nstderr={completed.stderr}",
+            )
+
+            result = json.loads(
+                (checkout / ".ddd-generation-pending-persistence.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(result["status"], "NO_OP")
+            self.assertEqual(result["source_commit"], fake_source_sha)
+            self.assertEqual(result["head_sha"], fake_source_sha)
+            self.assertIn(
+                f"prepared_source_ref={fake_source_sha}",
+                github_output.read_text(encoding="utf-8"),
+            )
+
+            alpha = state(checkout, "alpha")
+            self.assertFalse(alpha["generation_enabled"])
+            self.assertEqual(
+                alpha["evidence"]["generation_preflight"],
+                evidence_rel,
+            )
+            persisted = json.loads(evidence_path.read_text(encoding="utf-8"))
+            self.assertEqual(persisted["evaluation_status"], "PENDING")
+            self.assertFalse(persisted["effective_gate"]["allowed"])
+
+            git_calls = git_log.read_text(encoding="utf-8").splitlines()
+            self.assertTrue(any(line.startswith("fetch origin main") for line in git_calls))
+            self.assertTrue(any(line.startswith("reset --hard origin/main") for line in git_calls))
+            self.assertTrue(any(line.startswith("ls-remote ") for line in git_calls))
+            self.assertFalse(
+                any(line == "push" or line.startswith("push ") for line in git_calls),
+                git_calls,
+            )
+
+        self.assertEqual(production_catalog.read_bytes(), production_before)
 
 
 @unittest.skipUnless(shutil.which("git"), "git executable required")

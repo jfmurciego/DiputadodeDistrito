@@ -380,20 +380,22 @@ class ContinueFromLastValidTests(unittest.TestCase):
                     force_selected_algorithm=False,
                 )
 
-    def test_castilla_la_mancha_current_state_plans_only_electoral_incorporation(self):
-        p = build_plan(
-            territory="Castilla-La Mancha",
-            edition="2025",
-            execution_mode="reuse",
-            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-            root_dir=ROOT,
-            optimization_algorithm="Canónico",
-            force_selected_algorithm=True,
-        )
-        self.assert_phases(p, (False, False, False, True))
-        self.assertTrue(p["existing"]["territorial_product"]["run_id"])
-        self.assertTrue(p["existing"]["electoral_source"]["run_id"])
-        self.assertFalse(p["existing"]["electoral_product"]["run_id"])
+    def test_castilla_la_mancha_current_source_lineage_blocks_continuation(self):
+        with self.assertRaisesRegex(
+            ValueError,
+            r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
+            r"DURABLE_LINEAGE_INCOMPATIBLE: "
+            r"territorial_source→territorial_product",
+        ):
+            build_plan(
+                territory="Castilla-La Mancha",
+                edition="2025",
+                execution_mode="reuse",
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+                root_dir=ROOT,
+                optimization_algorithm="Canónico",
+                force_selected_algorithm=True,
+            )
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
