@@ -266,9 +266,8 @@ def state(root: Path, tid: str) -> dict:
     )
 
 
-@unittest.skipUnless(shutil.which("git"), "git executable required")
-class PreM04SemanticPersistenceTests(unittest.TestCase):
-    @unittest.skipUnless(shutil.which("bash"), "bash executable required")
+@unittest.skipUnless(shutil.which("bash"), "bash executable required")
+class PreM04WorkflowEntrypointTests(unittest.TestCase):
     def test_workflow_pending_command_runs_from_checkout_root_without_pythonpath_or_push(self):
         workflow = yaml.safe_load(
             (ROOT / ".github/workflows/preparacion-fuentes.yml").read_text(
@@ -350,26 +349,8 @@ class PreM04SemanticPersistenceTests(unittest.TestCase):
                 evidence=candidate_payload,
             )
 
-            real_git = shutil.which("git")
-            assert real_git is not None
-            git(checkout, "init", "-b", "main")
-            git(checkout, "config", "user.name", "test")
-            git(checkout, "config", "user.email", "test@example.invalid")
-            git(checkout, "add", ".")
-            git(checkout, "commit", "-m", "pending fixture")
-
-            remote = base / "remote.git"
-            subprocess.run(
-                [real_git, "clone", "--bare", str(checkout), str(remote)],
-                check=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            git(checkout, "remote", "add", "origin", str(remote))
-
-            # El checkout temporal comparte sólo el código del paquete; los datos,
-            # catálogo, contrato y evidencia que se mutan viven exclusivamente en td.
+            # Sólo el código procede del checkout de la PR; todos los datos que
+            # se validan/mutan viven dentro del directorio temporal.
             (checkout / "herramientas").symlink_to(
                 ROOT / "herramientas",
                 target_is_directory=True,
@@ -386,19 +367,36 @@ class PreM04SemanticPersistenceTests(unittest.TestCase):
             git_shim.write_text(
                 """#!/bin/sh
 printf '%s\\n' "$*" >> "$DDD_GIT_LOG"
-if [ "$1" = "rev-parse" ] && [ "$2" = "HEAD" ]; then
-  printf '%s\\n' "$DDD_FAKE_SHA"
-  exit 0
-fi
-if [ "$1" = "ls-remote" ]; then
-  printf '%s\\trefs/heads/main\\n' "$DDD_FAKE_SHA"
-  exit 0
-fi
-if [ "$1" = "push" ]; then
-  echo "push forbidden in regression" >&2
-  exit 97
-fi
-exec "$DDD_REAL_GIT" "$@"
+case "$1" in
+  rev-parse)
+    printf '%s\\n' "$DDD_FAKE_SHA"
+    exit 0
+    ;;
+  config|fetch|reset|add)
+    exit 0
+    ;;
+  diff)
+    # El fixture ya contiene exactamente la materialización PENDING esperada:
+    # no hay cambios que commitear.
+    exit 0
+    ;;
+  ls-remote)
+    printf '%s\\trefs/heads/main\\n' "$DDD_FAKE_SHA"
+    exit 0
+    ;;
+  push)
+    echo "push forbidden in regression" >&2
+    exit 97
+    ;;
+  commit)
+    echo "unexpected commit in NO_OP regression" >&2
+    exit 96
+    ;;
+  *)
+    echo "unexpected git command: $*" >&2
+    exit 95
+    ;;
+esac
 """,
                 encoding="utf-8",
             )
@@ -410,7 +408,6 @@ exec "$DDD_REAL_GIT" "$@"
             env.update(
                 {
                     "PATH": str(shim_dir) + os.pathsep + env.get("PATH", ""),
-                    "DDD_REAL_GIT": real_git,
                     "DDD_GIT_LOG": str(git_log),
                     "DDD_FAKE_SHA": fake_source_sha,
                     "PYTHONDONTWRITEBYTECODE": "1",
@@ -463,17 +460,19 @@ exec "$DDD_REAL_GIT" "$@"
             self.assertFalse(persisted["effective_gate"]["allowed"])
 
             git_calls = git_log.read_text(encoding="utf-8").splitlines()
+            self.assertTrue(any(line.startswith("fetch origin main") for line in git_calls))
+            self.assertTrue(any(line.startswith("reset --hard origin/main") for line in git_calls))
+            self.assertTrue(any(line.startswith("ls-remote ") for line in git_calls))
             self.assertFalse(
                 any(line == "push" or line.startswith("push ") for line in git_calls),
                 git_calls,
             )
-            self.assertEqual(
-                Path(git(checkout, "remote", "get-url", "origin")).resolve(),
-                remote.resolve(),
-            )
 
         self.assertEqual(production_catalog.read_bytes(), production_before)
 
+
+@unittest.skipUnless(shutil.which("git"), "git executable required")
+class PreM04SemanticPersistenceTests(unittest.TestCase):
     def test_two_writers_same_base_different_territories_preserve_both(self):
         with tempfile.TemporaryDirectory() as td:
             base = Path(td)
