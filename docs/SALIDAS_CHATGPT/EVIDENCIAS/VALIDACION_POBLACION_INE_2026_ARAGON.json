@@ -1,0 +1,93 @@
+{
+  "schema": "ddd.ine-2026-population-validation-summary/1.0",
+  "provider": "Instituto Nacional de Estadística",
+  "scope": "Aragón",
+  "observed_at": "2026-10-05",
+  "validation_run": {
+    "workflow_run_id": 37285055266,
+    "workflow_head_sha": "171c2a9a26c0b6b8e1fa77b7cf35703ea7f8dd80",
+    "raw_artifact": {
+      "artifact_id": 11333693450,
+      "name": "aragon-poblacion-ine-2026",
+      "digest": "sha256:39c03ce4b88803a79c2389c5a5e17a3b0a002a193e62e53d0ee7e891e7f63018",
+      "expires_at": "2026-10-12T08:40:52Z"
+    }
+  },
+  "population_gis_2026": {
+    "service": "https://www.ine.es/servergis2/rest/services/ws/censo_numero_de_personas/MapServer",
+    "layer": "https://www.ine.es/servergis2/rest/services/ws/censo_numero_de_personas/MapServer/2",
+    "service_description": "Número de personas en 2026",
+    "document_title": "Censo 2026 _ Número de personas",
+    "layer_name": "Nivel: secciones",
+    "geometry_type": "esriGeometryPolygon",
+    "wkid": 25830,
+    "max_record_count": 2000,
+    "fields": {
+      "cusec": "CUSEC",
+      "province": "CPRO",
+      "population": "n_personas"
+    },
+    "extraction": {
+      "query_method": "POST equality by CPRO",
+      "section_count": 1463,
+      "province_counts": {
+        "22": 287,
+        "44": 284,
+        "50": 892
+      },
+      "total_population": 1364621,
+      "attributes_sha256": "2b09f61112de7c9793077ef048c27d88de13acefb170c665860d53482c1c328a"
+    }
+  },
+  "sectioning_2026": {
+    "collection": "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+    "accredited_title": "Secciones_2026",
+    "section_count": 1463,
+    "province_counts": {
+      "22": 286,
+      "44": 284,
+      "50": 893
+    },
+    "cusec_sha256": "256e83acdb168133056056c39bf448e7507f57d2872f18727454ec99f47c5df5"
+  },
+  "comparison": {
+    "exact_cusec_match": false,
+    "population_only": [
+      "2221301003"
+    ],
+    "sectioning_only": [
+      "5002501003"
+    ]
+  },
+  "target_section": {
+    "cusec": "5002501003",
+    "present_in_population_gis_2026": false,
+    "present_in_sectioning_2026": true,
+    "n_personas": null
+  },
+  "baseline_2025_diagnostic": {
+    "section_count": 1463,
+    "added_in_2026": [
+      "5002501003"
+    ],
+    "removed_in_2026": [
+      "2221301003"
+    ],
+    "expected_cross_year_swap": true
+  },
+  "checks": {
+    "metadata_layer": true,
+    "aragon_population_extraction": true,
+    "exact_1463_cusec_match": false,
+    "target_5002501003_has_population": false
+  },
+  "technical_decision": "BLOCK_TECHNICAL",
+  "interpretation": [
+    "El servicio GIS se identifica oficialmente como Censo 2026 / Número de personas en 2026.",
+    "Sin embargo, su universo CUSEC de Aragón no coincide con el seccionado oficial vigente Secciones_2026.",
+    "El GIS poblacional conserva 2221301003 y no contiene 5002501003; el seccionado 2026 presenta exactamente el patrón inverso.",
+    "No existe por tanto una unión 1:1 defendible población-2026/seccionado-2026 para Aragón en el estado observado.",
+    "No procede promover población 2026, estimar, repartir ni construir crosswalk artificial."
+  ],
+  "governance_note": "El bloqueo es ya técnico además de estadístico: incluso antes de decidir si el GIS 2026 es definitivo, la identidad seccional no es compatible con Secciones_2026."
+}
