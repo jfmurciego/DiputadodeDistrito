@@ -495,13 +495,21 @@ territories:
       production_authorization: AUTHORIZED
       last_valid_checkpoint: null
       preparation_evidence:
-        run_id: 35755166499
-        artifact_name: ddd-source-package-pais_vasco-2025-35755166499
-        artifact_sha256: f6ffb4e58dadfbe2a16a4e737e7f872a70c633f93498aab22c45cda2e6c9c10b
-        package_sha256: 02ef16800c140eadaec637ce50c4b0c9d9f0859426514881f7f6e1405ea43b6a
+        run_id: 37245350125
+        artifact_name: ddd-source-package-pais_vasco-2025-37245350125
+        artifact_sha256: df6678b753a27b2070f2613c6f9777caf84ab99cd86d82faeb95d0eb6b6a2236
+        package_sha256: b920a3f0d0ed07cfe3b7b43698fff61346d07f8cbffadbaf16084b9282f88335
+        receipt_path: territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/37245350125/receipt.json
+        territorial_identity_sha256: 1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a
+        compatibility_report_sha256: 18f7f17786f19324150b67c985702dfd8454054bf10949725b83da571155c4fe
+        compatibility_identity_sha256: 9093176a6a06c0f93a570d5ea6180b4ae6f6b9c034f6cd13d119dab6cdb6d17b
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        population_year: 2024
+        section_year: 2024
+        source_commit: 413a861b1bd54b55a1fa1e4048713329570cff2d
       evidence:
-        generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
+      generation_enabled: false
 - territory_id: la_rioja
   name: La Rioja
   editions:
