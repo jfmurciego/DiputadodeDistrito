@@ -468,6 +468,7 @@ territories:
       evidence:
         electoral_source: territorios/region_de_murcia/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/region_de_murcia/evidencia/pares_fuentes/2025/163b58661a890e49fe3a586adeb773ecc3af893d55f8f0eeb1fe03f12efd95b6.json
+        generation_preflight: territorios/region_de_murcia/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: comunidad_foral_de_navarra
   name: Comunidad Foral de Navarra
