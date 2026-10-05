@@ -637,4 +637,4 @@ territories:
         electoral_source: territorios/melilla/evidencia/fuentes_electorales/2025/5c3fceaf4341f2bfa52ed5639a927f71d28979601554dc4529c6b814c7d13c22/37009226866/receipt.json
         prepared_source_pair: territorios/melilla/evidencia/pares_fuentes/2025/62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33.json
         generation_preflight: territorios/melilla/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
