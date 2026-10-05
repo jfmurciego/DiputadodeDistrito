@@ -1073,14 +1073,24 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             reuse["generation_gate"],
         )
 
-        with self.assertRaisesRegex(ValueError, "CATALOG_SOURCE_BLOCK"):
-            build_plan(
-                territory="illes_balears",
-                edition="2025",
-                execution_mode="catalog_source",
-                catalog=catalog,
-                root_dir=ROOT,
-            )
+        catalog_source = build_plan(
+            territory="illes_balears",
+            edition="2025",
+            execution_mode="catalog_source",
+            catalog=catalog,
+            root_dir=ROOT,
+        )
+        self.assertTrue(catalog_source["run_prepare_territorial"])
+        self.assertTrue(catalog_source["pre_m04_accreditation_planned"])
+        self.assertTrue(catalog_source["run_generate"])
+        self.assertEqual(
+            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            catalog_source["generation_gate"],
+        )
+        self.assertEqual(
+            catalog_source["existing"]["territorial_source"]["run_id"],
+            catalog_source["catalog_state"]["catalog_preparation_evidence"]["run_id"],
+        )
 
         continental = build_plan(
             territory="andalucia",

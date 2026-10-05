@@ -509,7 +509,7 @@ class CampaignManagerTests(unittest.TestCase):
     def test_first_generation_preflight_is_structural_and_cannot_fallback_to_declaration(self):
         catalog = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
         rows = {row["territory_id"]: row["editions"]["2025"] for row in catalog["territories"]}
-        row = rows["cantabria"]
+        row = rows["galicia"]
         evidence = json.loads(
             (ROOT / row["evidence"]["generation_preflight"]).read_text(encoding="utf-8")
         )
@@ -559,7 +559,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="cantabria",
+                territory_id="galicia",
                 certified_product_ready=False,
                 first_generation_evidence=evidence,
                 preparation_evidence=prep,
@@ -571,7 +571,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="cantabria",
+                territory_id="galicia",
                 certified_product_ready=False,
                 first_generation_evidence=broken,
                 preparation_evidence=prep,
@@ -584,7 +584,7 @@ class CampaignManagerTests(unittest.TestCase):
             gate = generation_enablement(
                 root_dir=ROOT,
                 contract_path=str(root / "contract.yaml"),
-                territory_id="cantabria",
+                territory_id="galicia",
                 certified_product_ready=False,
                 first_generation_evidence=implementation_drift,
                 preparation_evidence=prep,

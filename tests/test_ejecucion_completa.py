@@ -80,7 +80,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn("github.event_name == 'pull_request' && 'Castilla-La Mancha'", text)
         self.assertIn("github.event_name == 'pull_request' && '2025'", text)
-        self.assertIn("github.event_name == 'pull_request' && 'Reutilizar progreso existente'", text)
+        self.assertIn("github.event_name == 'pull_request' && 'Ejecutar desde el principio'", text)
         self.assertIn("github.event_name == 'pull_request' && 'Canónico'", text)
         self.assertIn("github.event_name == 'pull_request' && 'electoral'", text)
         self.assertIn("inputs.publication_mode || 'electoral'", text)
@@ -90,12 +90,25 @@ class FullProjectOrchestratorTests(unittest.TestCase):
         self.assertIn('[[ "$persist" == "true" && "$GITHUB_REF_NAME" != "main" ]]', text)
         self.assertIn("La persistencia durable sólo está permitida desde main", text)
         self.assertIn(
-            '"$pre_m04_planned" == "true" && "$persist" != "true"',
-            text,
-        )
-        self.assertNotIn(
             '"$pre_m04_planned" == "true" && "$persist" != "true" && "$GITHUB_EVENT_NAME" != "pull_request"',
             text,
+        )
+        jobs = load(ORCH)["jobs"]
+        self.assertIn(
+            "github.event_name != 'pull_request'",
+            str(jobs["preparar_territorial"]["if"]),
+        )
+        self.assertIn(
+            "github.event_name != 'pull_request'",
+            str(jobs["puerta_01"]["if"]),
+        )
+        self.assertIn(
+            "needs.puerta_01.result == 'success'",
+            str(jobs["acreditar_generacion"]["if"]),
+        )
+        self.assertIn(
+            "needs.puerta_01.result == 'success'",
+            str(jobs["generar"]["if"]),
         )
 
     def test_premerge_smoke_cannot_persist_catalog_state(self):
@@ -932,54 +945,38 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
 
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
-    def test_plan_is_no_no_no_yes_and_uses_current_receipts(self):
+    def test_current_source_lineage_blocks_reuse_of_historical_m06(self):
         data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
-        row = next(r for r in data["territories"] if r["territory_id"] == "castilla_la_mancha")
+        row = next(
+            r for r in data["territories"]
+            if r["territory_id"] == "castilla_la_mancha"
+        )
         state = row["editions"]["2025"]
+        self.assertTrue(state["territorial_product_available"])
+        self.assertTrue(state["electoral_source_prepared"])
+        self.assertFalse(state["electoral_product_available"])
+        self.assertEqual(
+            state["preparation_evidence"]["run_id"],
+            37245345263,
+        )
+        self.assertEqual(
+            state["last_valid_checkpoint"],
+            {"run_id": 36444657976, "stage": "M06"},
+        )
 
-        territorial_path = ROOT / "territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json"
-        electoral_source_path = ROOT / "territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json"
-        territorial = json.loads(territorial_path.read_text(encoding="utf-8"))
-        electoral_source = json.loads(electoral_source_path.read_text(encoding="utf-8"))
-
-        self.assertEqual(territorial["territory_id"], "castilla_la_mancha")
-        self.assertEqual(electoral_source["territory_id"], "castilla_la_mancha")
-        self.assertEqual(str(territorial["edition"]), "2025")
-        self.assertEqual(str(electoral_source["edition"]), "2025")
-        self.assertRegex(str(territorial["artifact_sha256"]).removeprefix("sha256:"), r"^[0-9a-f]{64}$")
-        self.assertRegex(str(electoral_source["artifact_sha256"]).removeprefix("sha256:"), r"^[0-9a-f]{64}$")
-
-        # Escenario aislado: M06 y fuente electoral durables disponibles, sin M08.
-        state["territorial_product_available"] = True
-        state["electoral_source_prepared"] = True
-        state["electoral_product_available"] = False
-        state["territorial_certification"] = "PASS_WITH_GOVERNED_EXCEPTIONS"
-        state["last_valid_checkpoint"] = {"run_id": int(territorial["run_id"]), "stage": "M06"}
-        state["evidence"] = {
-            "territorial_product": str(territorial_path.relative_to(ROOT)),
-            "electoral_source": str(electoral_source_path.relative_to(ROOT)),
-        }
-        with tempfile.TemporaryDirectory() as td:
-            catalog = Path(td) / "catalog.yaml"
-            catalog.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
-            plan = build_plan(
+        with self.assertRaisesRegex(
+            ValueError,
+            r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
+            r"DURABLE_LINEAGE_INCOMPATIBLE: "
+            r"territorial_source→territorial_product",
+        ):
+            build_plan(
                 territory="Castilla-La Mancha",
                 edition="2025",
                 execution_mode="reuse",
-                catalog=catalog,
+                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
                 root_dir=ROOT,
             )
-
-        self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_generate"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertTrue(plan["run_incorporate"])
-        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], territorial["run_id"])
-        self.assertEqual(plan["existing"]["territorial_product"]["artifact_name"], territorial["artifact_name"])
-        self.assertEqual(plan["existing"]["territorial_product"]["artifact_sha256"], territorial["artifact_sha256"])
-        self.assertEqual(plan["existing"]["electoral_source"]["run_id"], electoral_source["run_id"])
-        self.assertEqual(plan["existing"]["electoral_source"]["artifact_name"], electoral_source["artifact_name"])
-        self.assertEqual(plan["existing"]["electoral_source"]["artifact_sha256"], electoral_source["artifact_sha256"])
 
 
 if __name__ == "__main__":
