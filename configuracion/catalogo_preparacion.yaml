@@ -129,6 +129,7 @@ territories:
         source_commit: 4bb3b931cf5f50cf83e70b77fcdd862c3cf6011c
       evidence:
         electoral_source: territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json
+        prepared_source_pair: territorios/illes_balears/evidencia/pares_fuentes/2025/1a27f13502e48c1e36a24a8dda8afa2e6521955b3dbfec639b50bef1a10b489c.json
       generation_enabled: false
 - territory_id: canarias
   name: Canarias
