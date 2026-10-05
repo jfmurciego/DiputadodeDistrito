@@ -6,23 +6,28 @@ meta:
   year: 2025
   scope: provincial
   schema_version: 1.0.0
-  status: production_ready_auto_materialized
+  status: source_prepared_pending_pre_m04
   schema_family: ddd-territory
   contract_level: production_m01_m06
   contract_schema_version: 1.0.0
   production_authorization: AUTHORIZED
+  source_population_year: 2023
+  source_section_year: 2023
 io:
   project_root:
     path: ../../..
   input:
     seccionado:
-      path: inputs/seccionado_2025.zip
+      path: inputs/seccionado_2023.zip
       layer: ''
       section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
     population_cip:
       paths:
       - inputs/65034.csv.zip
-      sep: auto
+      sep: ;
       section_key_col: Secciones
       pop_col: Total
       filters:
@@ -33,6 +38,11 @@ io:
         - Total
         edad_total_values:
         - Todas las edades
+        year_value: 2023
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
   cache:
     dir: territorios/illes_balears/.cache/ddd/preparacion/{run_name}
   runs:
@@ -70,9 +80,10 @@ territory_contract:
   oversized_municipality_rule: split_only_above_hard_cap
   municipality_atomicity_limit_ratio: 1.75
   require_auditable_district_catalogue: true
-  population_floor_exempt_partitions: &id002
+  population_floor_exempt_partitions:
   - 07-C03
   small_component_exception_policy: one_contiguous_district_floor_exception
+  status: source_prepared_pending_pre_m04
 modulos:
   modulo_01_preparar_base_territorial:
     province_codes: *id001
@@ -98,14 +109,14 @@ modulos:
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip
     in_edges_jsonl: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m02_adyacencias.jsonl
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     out_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
     out_report: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_informe.json
   modulo_04_generar_semillas:
     in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_particiones.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
     municipality_name_field: NMUN
@@ -123,7 +134,7 @@ modulos:
     in_graph_json: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip
     id_field: CUSEC_KEY
-    pop_field: POP_{year}
+    pop_field: POP_2023
     district_field: district_id
     province_field: DDD_PARTITION
     municipality_field: DDD_MUNICIPALITY_PARTITION
@@ -143,7 +154,7 @@ modulos:
     in_geojson: territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_distritos_optimizados.geojson.zip
     id_field: CUSEC_KEY
     district_field: district_id
-    pop_field: POP_{year}
+    pop_field: POP_2023
     province_field: DDD_PARTITION
     province_name_field: NPRO
     municipality_field: DDD_MUNICIPALITY_PARTITION
@@ -170,18 +181,18 @@ validation:
   require_one_graph_component_per_province: false
   require_connected_municipalities: false
   partition_populations:
-    07-C01: 971068
-    07-C02: 102821
-    07-C03: 11690
-    07-C04: 164265
+    07-C01: 940332
+    07-C02: 99005
+    07-C03: 11389
+    07-C04: 159180
   expected_districts: 59
   population_floor_ratio: 0.8
   population_cap_ratio: 1.75
   target_tolerance_ratio: 0.12
   province_apportionment: hamilton_components
   province_districts:
-    07-C01: 44
-    07-C02: 6
+    07-C01: 45
+    07-C02: 5
     07-C03: 1
     07-C04: 8
   require_graph_contiguity: true
@@ -191,43 +202,179 @@ validation:
   max_mixed_districts_per_split_municipality: 1
   require_m06_population_conservation: true
   require_m06_assignment_identity_with_m05: true
-  population_floor_exempt_partitions: *id002
+  population_floor_exempt_partitions:
+  - 07-C03
   partition_apportionment_audit:
     07-C01:
-      population: 971068
-      districts: 44
-      target_population: 21183.79661
-      average_population_per_district: 22069.727273
-      relative_deviation_from_target: 0.041821147
-      population_floor: 16947.037288
+      population: 940332
+      districts: 45
+      target_population: 20506.881356
+      average_population_per_district: 20896.266667
+      relative_deviation_from_target: 0.018988032
+      population_floor: 16405.505085
       floor_exception_required: false
       floor_exception_governed: true
     07-C02:
-      population: 102821
-      districts: 6
-      target_population: 21183.79661
-      average_population_per_district: 17136.833333
-      relative_deviation_from_target: -0.191040509
-      population_floor: 16947.037288
+      population: 99005
+      districts: 5
+      target_population: 20506.881356
+      average_population_per_district: 19801.0
+      relative_deviation_from_target: -0.034421682
+      population_floor: 16405.505085
       floor_exception_required: false
       floor_exception_governed: true
     07-C03:
-      population: 11690
+      population: 11389
       districts: 1
-      target_population: 21183.79661
-      average_population_per_district: 11690.0
-      relative_deviation_from_target: -0.448163131
-      population_floor: 16947.037288
+      target_population: 20506.881356
+      average_population_per_district: 11389.0
+      relative_deviation_from_target: -0.44462545
+      population_floor: 16405.505085
       floor_exception_required: true
       floor_exception_governed: true
     07-C04:
-      population: 164265
+      population: 159180
       districts: 8
-      target_population: 21183.79661
-      average_population_per_district: 20533.125
-      relative_deviation_from_target: -0.030715533
-      population_floor: 16947.037288
+      target_population: 20506.881356
+      average_population_per_district: 19897.5
+      relative_deviation_from_target: -0.029715945
+      population_floor: 16405.505085
       floor_exception_required: false
       floor_exception_governed: true
   hard_partition_mode: physical_components
   hard_partition_lookup: configuracion/particiones_insulares_2025.json
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2023
+    section_year: 2023
+    population_total: 1209906
+    target_section_count: 670
+    package_sha256: aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a
+    compatibility_report_sha256: 6b9e30559d4bbd1a94554aec5815d123533ebde32c4a8e0f2a6f8fbf75b499e5
+    compatibility_identity_sha256: 9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: illes_balears
+    territory_name: Islas Baleares
+    project_edition: '2025'
+  temporal:
+    population_year: 2023
+    section_year: 2023
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
+        bytes: 7651
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2023.zip
+        sha256: d548b2ed2cb180ab16e520f56751bb9b36f1bba5a77283ef70be15037d9eda1e
+        bytes: 3454670
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2023
+    province_field: DDD_PARTITION
+    municipality_field: DDD_MUNICIPALITY_PARTITION
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: 1824cb141f901f9bf798d6372902dd6fc8196befb32269b6bc918ac29a3d6746
+generation_state:
+  source_prepared: true
+  generation_enabled: false
+  package_sha256: aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a
+  compatibility_identity_sha256: 9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: fb105c27f3145280b4982de04638bf9b3205c3629c3a4edc1f91c17daf55f92b
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2023
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2023
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2023.zip
+    sha256: d548b2ed2cb180ab16e520f56751bb9b36f1bba5a77283ef70be15037d9eda1e
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2023.zip
+      effective_year: 2023
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
