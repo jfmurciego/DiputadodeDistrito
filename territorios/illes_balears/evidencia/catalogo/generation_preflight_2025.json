@@ -5,10 +5,10 @@
   "territory_name": "Islas Baleares",
   "edition": "2025",
   "run_id": 37336114775,
-  "source_commit": "4396270ac7a67aac56382ad775a310c0bd28d40f",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "8ee4053f1980899a4870aa7f5b1df12af84c71c2",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "DISTRICT_FORMATION_INPUT",
   "source": {
     "run_id": 37336114775,
     "artifact_name": "ddd-source-package-illes_balears-2025-37336114775",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "status": "BLOCKED",
+    "capability": "CAP_M04_INPUT",
+    "reason": "ValueError: inventario de secciones por componente no coincide: esperado={'07-C01': 536, '07-C02': 56, '07-C03': 6, '07-C04': 76} actual={'07-C01': 532, '07-C04': 76, '07-C02': 56, '07-C03': 6}"
   }
 }
