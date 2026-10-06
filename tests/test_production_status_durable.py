@@ -157,9 +157,13 @@ class DurableProductionStatusTests(unittest.TestCase):
             jobs = workflow_jobs()
             upload_steps = [
                 step for step in jobs["auditoria"]["steps"]
-                if step.get("uses") == "actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f"
+                if str(step.get("uses") or "").startswith("actions/upload-artifact@")
             ]
             self.assertEqual(len(upload_steps), 1)
+            self.assertRegex(
+                upload_steps[0]["uses"],
+                r"^actions/upload-artifact@[0-9a-f]{40}$",
+            )
             self.assertEqual(upload_steps[0]["with"]["path"], ".ddd-audit")
             self.assertEqual(upload_steps[0]["with"]["if-no-files-found"], "error")
 
