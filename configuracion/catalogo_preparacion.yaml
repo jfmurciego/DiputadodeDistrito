@@ -165,7 +165,7 @@ territories:
         source_commit: 3985346fb7216516e8caec48a310c8f92400c18d
       evidence:
         electoral_source: territorios/canarias/evidencia/fuentes_electorales/2025/02e89fee5cab2eb7cf58038f7a349d35628486144a17e9f1a9febd603d4eaf11/36789298682/receipt.json
-        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f.json
+        prepared_source_pair: territorios/canarias/evidencia/pares_fuentes/2025/0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364.json
         generation_preflight: territorios/canarias/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: cantabria
