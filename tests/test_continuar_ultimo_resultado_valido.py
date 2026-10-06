@@ -380,22 +380,26 @@ class ContinueFromLastValidTests(unittest.TestCase):
                     force_selected_algorithm=False,
                 )
 
-    def test_castilla_la_mancha_current_source_lineage_blocks_continuation(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
-            r"DURABLE_LINEAGE_INCOMPATIBLE: "
-            r"territorial_source→territorial_product",
-        ):
-            build_plan(
-                territory="Castilla-La Mancha",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-                root_dir=ROOT,
-                optimization_algorithm="Canónico",
-                force_selected_algorithm=True,
-            )
+    def test_castilla_la_mancha_current_complete_product_is_reused_without_work(self):
+        plan = build_plan(
+            territory="Castilla-La Mancha",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+            optimization_algorithm="Canónico",
+            force_selected_algorithm=True,
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertFalse(plan["run_incorporate"])
+        self.assertTrue(plan["catalog_state"]["territorial_product_available"])
+        self.assertTrue(plan["catalog_state"]["electoral_product_available"])
+        territorial_run = plan["existing"]["territorial_product"]["run_id"]
+        electoral_run = plan["existing"]["electoral_product"]["run_id"]
+        self.assertIsInstance(territorial_run, int)
+        self.assertEqual(electoral_run, territorial_run)
 
     def test_workflow_accepts_future_label_without_exposing_interface_yet(self):
         workflow = (ROOT / ".github/workflows/ejecucion-completa-proyecto.yml").read_text(encoding="utf-8")
