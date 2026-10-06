@@ -551,7 +551,7 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
                 temp = Path(td)
                 persisted = temp / "generation_preflight_2025.json"
-                persisted.write_bytes(self._real_evidence(territory_id).read_bytes())
+                persisted.write_bytes(self._historical_evidence(territory_id).read_bytes())
                 handoff = temp / "runner-temp" / "evidence.json"
                 metadata = temp / "runner-temp" / "handoff.json"
                 stage_handoff(
