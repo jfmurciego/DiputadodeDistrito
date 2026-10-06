@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-06T11:15:37.494101+00:00",
+  "generated_at": "2026-10-06T13:39:06.561723+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 12,
-      "activable": 2,
+      "activated": 13,
+      "activable": 1,
       "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 12
+      "durable_pair": 13
     },
     "territories": [
       {
@@ -294,12 +294,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f.json",
-            "pair_sha256": "635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364.json",
+            "pair_sha256": "0a9a2afac6470220bf851f1283e1d3c54bd56e080c906ab122f24962f2d09364",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -504,12 +504,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a.json",
-            "pair_sha256": "8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597.json",
+            "pair_sha256": "9457fa2c3379e273f5238f8de79885e62b120e591fbbb1f85a53bcb3d3641597",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -865,8 +865,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 37245350125,
-            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/37245350125/receipt.json"
+            "run_id": 37458584767,
+            "receipt_path": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/37458584767/receipt.json"
           }
         },
         "electoral": {
@@ -878,12 +878,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json",
             "pair_sha256": "fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1743,9 +1743,9 @@
         "territorial_source": {
           "territory_id": "pais_vasco",
           "edition": "2025",
-          "run_id": 37245350125,
-          "artifact_name": "ddd-source-package-pais_vasco-2025-37245350125",
-          "artifact_sha256": "df6678b753a27b2070f2613c6f9777caf84ab99cd86d82faeb95d0eb6b6a2236",
+          "run_id": 37458584767,
+          "artifact_name": "ddd-source-package-pais_vasco-2025-37458584767",
+          "artifact_sha256": "ba7ed7d7e09040e2892dabc63162f3b7f6f30a401c898bcf03c789f74f7e7041",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
