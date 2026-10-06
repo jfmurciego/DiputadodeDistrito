@@ -242,7 +242,7 @@ territories:
       evidence:
         territorial_product: territorios/castilla_la_mancha/evidencia/catalogo/territorial_product_2025.json
         electoral_source: territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json
-        prepared_source_pair: territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e.json
+        prepared_source_pair: territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f.json
         generation_preflight: territorios/castilla_la_mancha/evidencia/catalogo/generation_preflight_2025.json
         electoral_product: territorios/castilla_la_mancha/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
