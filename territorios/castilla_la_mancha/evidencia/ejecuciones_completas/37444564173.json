@@ -1,0 +1,83 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "execution_mode": "catalog_source",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 37444564173,
+  "source_sha": "d9396ab63333dadcde01d5ad1262997b694fcd9d",
+  "publication_mode_requested": "electoral",
+  "publication_mode_effective": "electoral",
+  "publication_mode_scope_mismatch": false,
+  "publish_requested": true,
+  "status": "SUCCESS",
+  "completion_status": "COMPLETE",
+  "resumption": null,
+  "failed_phases": [],
+  "blocked_phases": [],
+  "out_of_scope_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37444564173,
+      "artifact": "ddd-source-package-castilla_la_mancha-2025-37444564173",
+      "artifact_digest": "sha256:d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37444564173,
+      "artifact": "ddd-state-37444564173-M06",
+      "artifact_digest": "sha256:772a2a083c12317c16f9b7a0bf5cffff72a396d767d19722a4bac405af92ecb4",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": false,
+      "result": "skipped",
+      "run_id": 36402139263,
+      "artifact": "ddd-electoral-package-castilla_la_mancha-2025-36402139263",
+      "artifact_digest": "sha256:24dab5f8ae7bcc4c2704ceb1deba6a2a0458a53151be6f1567232a8d1652302a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37444564173,
+      "artifact": "ddd-state-37444564173-M08",
+      "artifact_digest": "sha256:59abc88a2e283045b4fb563c80c4eb8fa01ef106733b50331b74ceb1ad89995d",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "scope": "IN_SCOPE",
+      "executed": true,
+      "result": "success",
+      "run_id": 37444564173,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-10-06T10:11:36.189885+00:00"
+}
