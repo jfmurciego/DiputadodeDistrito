@@ -5,10 +5,10 @@
   "territory_name": "Canarias",
   "edition": "2025",
   "run_id": 37449876557,
-  "source_commit": "8cb817e7c0bef71b2008f5118f5167efb263e3ef",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "343acd2635e28f2d4bcce09dfb7c5d05223b60a4",
+  "decision": "BLOCKED",
+  "evaluation_status": "BLOCKED",
+  "stage": "DISTRICT_FORMATION_INPUT",
   "source": {
     "run_id": 37449876557,
     "artifact_name": "ddd-source-package-canarias-2025-37449876557",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "status": "BLOCKED",
+    "capability": "CAP_M04_INPUT",
+    "reason": "ValueError: inventario de secciones por componente no coincide: esperado={'35-C01': 589, '35-C02': 56, '35-C03': 77, '35-C04': 1, '38-C01': 602, '38-C02': 15, '38-C03': 61, '38-C04': 6} actual={'38-C01': 599, '35-C01': 585, '35-C03': 74, '38-C03': 61, '35-C02': 55, '38-C02': 15, '38-C04': 6, '35-C04': 1}"
   }
 }
