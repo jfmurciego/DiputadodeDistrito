@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "run_id": 37438440043,
+  "source_commit": "6ea06f347e335d292f658e28a9372e9c0d2231de",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
+  "source": {
+    "run_id": 37438440043,
+    "artifact_name": "ddd-source-package-principado_de_asturias-2025-37438440043",
+    "artifact_sha256": "8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d",
+    "package_sha256": "8418a0d5232b0dae7c643cda869d9c08a1a11b1ce9e1c84a00578109fa41e615",
+    "compatibility_identity_sha256": "059ef52320bb60eb3ee358f4e3b219c15df7bdcb1b499073b9345737bb868d79",
+    "territorial_identity_sha256": "b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe",
+    "population_year": 2023,
+    "section_year": 2023
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+  }
+}
