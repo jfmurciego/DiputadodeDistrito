@@ -313,6 +313,7 @@ territories:
       evidence:
         electoral_source: territorios/cataluna/evidencia/fuentes_electorales/2025/4339f10519a3a10cf22b99dfe1b3fd25565c97058333c1284234d760aee393b5/36789340482/receipt.json
         prepared_source_pair: territorios/cataluna/evidencia/pares_fuentes/2025/8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a.json
+        generation_preflight: territorios/cataluna/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: false
 - territory_id: comunidad_valenciana
   name: Comunidad Valenciana
