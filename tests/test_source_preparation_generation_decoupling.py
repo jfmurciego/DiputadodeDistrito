@@ -360,6 +360,13 @@ class WorkflowDecouplingTests(unittest.TestCase):
                         (ROOT / preflight_rel).read_text(encoding="utf-8")
                     )
                     self.assertEqual(preflight["territory_id"], territory_id)
+                    preflight_source = preflight.get("source") or {}
+                    for key in (
+                        "package_sha256",
+                        "territorial_identity_sha256",
+                        "compatibility_identity_sha256",
+                    ):
+                        self.assertEqual(preflight_source[key], prepared[key])
                     gate = preflight.get("effective_gate") or {}
                     self.assertFalse(gate.get("allowed", False))
                     self.assertNotEqual(
