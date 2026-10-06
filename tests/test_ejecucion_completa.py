@@ -945,7 +945,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
 
 class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
-    def test_current_source_lineage_blocks_reuse_of_historical_m06(self):
+    def test_current_complete_product_is_durable_and_reusable(self):
         data = load(ROOT / "configuracion/catalogo_preparacion.yaml")
         row = next(
             r for r in data["territories"]
@@ -954,29 +954,25 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         state = row["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
         self.assertTrue(state["electoral_source_prepared"])
-        self.assertFalse(state["electoral_product_available"])
-        self.assertEqual(
-            state["preparation_evidence"]["run_id"],
-            37245345263,
-        )
-        self.assertEqual(
-            state["last_valid_checkpoint"],
-            {"run_id": 36444657976, "stage": "M06"},
-        )
+        self.assertTrue(state["electoral_product_available"])
+        checkpoint = state["last_valid_checkpoint"]
+        self.assertEqual(checkpoint["stage"], "M08")
+        current_run = checkpoint["run_id"]
+        self.assertIsInstance(current_run, int)
 
-        with self.assertRaisesRegex(
-            ValueError,
-            r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
-            r"DURABLE_LINEAGE_INCOMPATIBLE: "
-            r"territorial_source→territorial_product",
-        ):
-            build_plan(
-                territory="Castilla-La Mancha",
-                edition="2025",
-                execution_mode="reuse",
-                catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
-                root_dir=ROOT,
-            )
+        plan = build_plan(
+            territory="Castilla-La Mancha",
+            edition="2025",
+            execution_mode="reuse",
+            catalog=ROOT / "configuracion/catalogo_preparacion.yaml",
+            root_dir=ROOT,
+        )
+        self.assertFalse(plan["run_prepare_territorial"])
+        self.assertFalse(plan["run_generate"])
+        self.assertFalse(plan["run_prepare_electoral"])
+        self.assertFalse(plan["run_incorporate"])
+        self.assertEqual(plan["existing"]["territorial_product"]["run_id"], current_run)
+        self.assertEqual(plan["existing"]["electoral_product"]["run_id"], current_run)
 
 
 if __name__ == "__main__":

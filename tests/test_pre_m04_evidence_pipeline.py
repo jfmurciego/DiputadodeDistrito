@@ -452,6 +452,10 @@ class DurablePreM04EvidenceTests(unittest.TestCase):
 
 
 class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
+    # Estos casos reproducen runs históricos concretos que acreditaron el
+    # contrato de handoff. Sus bytes viven en fixtures inmutables: el catálogo
+    # territorial de producción es mutable y puede ser sustituido por una
+    # evaluación posterior READY/BLOCKED sin invalidar esta regresión histórica.
     REAL_CASES = {
         "illes_balears": {
             "run_id": 36529385760,
@@ -469,14 +473,14 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
         },
     }
 
-    def _real_evidence(self, territory_id: str) -> Path:
+    def _historical_evidence(self, territory_id: str) -> Path:
+        expected = self.REAL_CASES[territory_id]
         return (
             ROOT
-            / "territorios"
-            / territory_id
-            / "evidencia"
-            / "catalogo"
-            / "generation_preflight_2025.json"
+            / "tests"
+            / "fixtures"
+            / "pre_m04_handoff"
+            / f"{territory_id}_run_{expected['run_id']}.json"
         )
 
     def test_real_archipelago_handoff_survives_workspace_evidence_disappearance(self):
@@ -493,7 +497,7 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
                     / "generation_preflight_2025.json"
                 )
                 persisted.parent.mkdir(parents=True, exist_ok=True)
-                original = self._real_evidence(territory_id).read_bytes()
+                original = self._historical_evidence(territory_id).read_bytes()
                 persisted.write_bytes(original)
 
                 # Este era el handoff antiguo dentro del worktree: los runs reales
@@ -547,7 +551,7 @@ class PreM04EvidenceHandoffRegressionTests(unittest.TestCase):
             with self.subTest(territory=territory_id), tempfile.TemporaryDirectory() as td:
                 temp = Path(td)
                 persisted = temp / "generation_preflight_2025.json"
-                persisted.write_bytes(self._real_evidence(territory_id).read_bytes())
+                persisted.write_bytes(self._historical_evidence(territory_id).read_bytes())
                 handoff = temp / "runner-temp" / "evidence.json"
                 metadata = temp / "runner-temp" / "handoff.json"
                 stage_handoff(
