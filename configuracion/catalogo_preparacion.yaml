@@ -575,7 +575,7 @@ territories:
         source_commit: 58bfbaf433fea7fbb36139f87cd5818a2eda80e5
       evidence:
         electoral_source: territorios/la_rioja/evidencia/catalogo/electoral_source_2025.json
-        prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353.json
+        prepared_source_pair: territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json
         generation_preflight: territorios/la_rioja/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
 - territory_id: ceuta
