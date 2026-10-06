@@ -219,12 +219,12 @@ territories:
       territorial_contract_complete: true
       territorial_product_available: true
       electoral_source_prepared: true
-      electoral_product_available: false
+      electoral_product_available: true
       territorial_certification: PASS_WITH_GOVERNED_EXCEPTIONS
       production_authorization: AUTHORIZED
       last_valid_checkpoint:
         run_id: 37444564173
-        stage: M06
+        stage: M08
       preparation_evidence:
         run_id: 37444564173
         artifact_name: ddd-source-package-castilla_la_mancha-2025-37444564173
@@ -243,6 +243,7 @@ territories:
         electoral_source: territorios/castilla_la_mancha/evidencia/catalogo/electoral_source_2025.json
         prepared_source_pair: territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e.json
         generation_preflight: territorios/castilla_la_mancha/evidencia/catalogo/generation_preflight_2025.json
+        electoral_product: territorios/castilla_la_mancha/evidencia/catalogo/electoral_product_2025.json
       generation_enabled: true
 - territory_id: castilla_y_leon
   name: Castilla y León

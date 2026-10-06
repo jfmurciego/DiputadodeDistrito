@@ -1,0 +1,12 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "electoral_product",
+  "territory_id": "castilla_la_mancha",
+  "territory_name": "Castilla-La Mancha",
+  "edition": "2025",
+  "run_id": 37444564173,
+  "artifact_name": "ddd-state-37444564173-M08",
+  "artifact_sha256": "59abc88a2e283045b4fb563c80c4eb8fa01ef106733b50331b74ceb1ad89995d",
+  "source_commit": "6362dbb947f4df72d2796026b0cf256de1263011",
+  "stage": "M08"
+}
