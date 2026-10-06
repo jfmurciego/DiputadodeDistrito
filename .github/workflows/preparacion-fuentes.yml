@@ -82,7 +82,7 @@ jobs:
       section_year: ${{ steps.resolve.outputs.section_year }}
       persist_state: ${{ steps.resolve.outputs.persist_state }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
@@ -189,7 +189,7 @@ jobs:
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
       EVIDENCE_DIR: .ddd-sources
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
           token: ${{ github.token }}
@@ -233,9 +233,9 @@ jobs:
           echo "run_id=$REGISTERED_RUN_ID" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$REGISTERED_ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
           echo "reused_candidate=true" >> "$GITHUB_OUTPUT"
-      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
         if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
-      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         if: ${{ steps.previous.outputs.reused_candidate != 'true' }}
         with:
           context: .
@@ -265,7 +265,7 @@ jobs:
           docker run --rm -v "$PWD:/app" -w /app --entrypoint python ddd-source-preparation:${GITHUB_SHA}             -m herramientas.ejecutar_fuentes_workflow             --declaration "/app/$SOURCE_DECLARATION" --working /app/.ddd-source-package             --checkpoint-out /app/.ddd-source-checkpoint --acquisition-evidence "/app/$EVIDENCE_DIR"             --environment production --acquisition-mode '${{ steps.mode.outputs.mode }}' --root-dir /app
       - name: Publicar diagnóstico de adquisición fallida
         if: ${{ failure() && steps.acquire.outcome == 'failure' }}
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-source-diagnostics-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: ${{ env.EVIDENCE_DIR }}
@@ -276,7 +276,7 @@ jobs:
         name: Identificar paquete territorial
         run: echo "artifact_name=ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: .ddd-source-package
@@ -308,14 +308,14 @@ jobs:
       TARGET_BRANCH: ${{ github.ref_name }}
       SOURCE_DECLARATION: .ddd-generated-sources/fuentes_territorio.yaml
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.ref_name }}
       - name: Instalar entorno geoespacial de registro
         run: python -m pip install --disable-pip-version-check -r requirements.lock
       - name: Verificar entorno geoespacial de registro
         run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
-      - uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ddd-source-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}
           path: .ddd-source-package
@@ -352,7 +352,7 @@ jobs:
       RUN_ID: ${{ github.run_id }}
       TARGET_BRANCH: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.registrar.outputs.promotion_sha }}
           token: ${{ github.token }}
@@ -410,7 +410,7 @@ jobs:
     if: ${{ always() }}
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.source_ref || github.sha }}
       - name: Exigir registro cuando la persistencia es obligatoria
