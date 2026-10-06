@@ -1,0 +1,76 @@
+{
+  "schema": "ddd.prepared-source-pair/1.0",
+  "territory_id": "illes_balears",
+  "territory_name": "Islas Baleares",
+  "edition": "2025",
+  "election": {
+    "election_id": "illes_balears_parlament_2023",
+    "election_date": "2023-05-28"
+  },
+  "references": {
+    "population": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_date": "2023-01-01"
+    },
+    "sectioning": {
+      "required_year": 2023,
+      "year": 2023,
+      "reference_label": "Secciones_2023"
+    }
+  },
+  "temporal_evidence": {
+    "path": "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
+    "sha256": "e4aeacec819e402977064971859b5f363b01917c1b73d7b68e9bc925d0be8b86",
+    "provider": "Instituto Nacional de Estadística",
+    "checked_at": "2026-09-30T10:51:00+02:00"
+  },
+  "territorial_source": {
+    "run_id": 37336114775,
+    "artifact_name": "ddd-source-package-illes_balears-2025-37336114775",
+    "artifact_sha256": "bd100f1fe96b81f89b128eafce7b4e9456095c06ed69770b780c32a91f90006a",
+    "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a",
+    "source_commit": "36a41ad27ba6b9a19946609b954f2eef86c801c9",
+    "source_declaration": "territorios/illes_balears/config/fuentes_oficiales.yaml",
+    "receipt_path": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/37336114775/receipt.json",
+    "population_year": 2023,
+    "section_year": 2023,
+    "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
+    "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+    "compatibility_report_sha256": "6b9e30559d4bbd1a94554aec5815d123533ebde32c4a8e0f2a6f8fbf75b499e5",
+    "compatibility_identity_sha256": "9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c",
+    "remote_verification": {
+      "run_id": 37336114775,
+      "artifact_id": 11355504685,
+      "artifact_name": "ddd-source-package-illes_balears-2025-37336114775",
+      "artifact_sha256": "bd100f1fe96b81f89b128eafce7b4e9456095c06ed69770b780c32a91f90006a",
+      "expired": false
+    }
+  },
+  "electoral_source": {
+    "run_id": 36629201729,
+    "artifact_name": "ddd-electoral-package-illes_balears-2025-36629201729",
+    "artifact_sha256": "d3fcaf9059e1d36b26cb0416965d0db46a8140db6a82b4979dee72dfdb9c200e",
+    "source_commit": "c04614f27c3fd84c0785301c3a0d30c46fd81236",
+    "receipt_path": "territorios/illes_balears/evidencia/catalogo/electoral_source_2025.json",
+    "provenance_reference": "configuracion/registro_electoral.yaml",
+    "election_id": "illes_balears_parlament_2023",
+    "election_date": "2023-05-28",
+    "electoral_identity_sha256": "139caa1532867eca0af6dbda8472021bec4ba6ec20d3ee49dea5fac589dd0c74",
+    "remote_verification": {
+      "run_id": 36629201729,
+      "artifact_id": 11061856308,
+      "artifact_name": "ddd-electoral-package-illes_balears-2025-36629201729",
+      "artifact_sha256": "d3fcaf9059e1d36b26cb0416965d0db46a8140db6a82b4979dee72dfdb9c200e",
+      "expired": false
+    }
+  },
+  "geometric_compatibility_key": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
+  "electoral_compatibility_key": "139caa1532867eca0af6dbda8472021bec4ba6ec20d3ee49dea5fac589dd0c74",
+  "territorial_product_reuse": {
+    "available": false,
+    "geometric_reuse_compatible": false,
+    "reason": "NO_TERRITORIAL_PRODUCT"
+  },
+  "pair_sha256": "d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99"
+}
