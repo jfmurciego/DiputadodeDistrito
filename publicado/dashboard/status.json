@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-06T11:00:10.963475+00:00",
+  "generated_at": "2026-10-06T11:08:46.824326+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 11,
-      "activable": 3,
+      "activated": 12,
+      "activable": 2,
       "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 11
+      "durable_pair": 12
     },
     "territories": [
       {
@@ -345,12 +345,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a.json",
-            "pair_sha256": "53b2253f3d8df0ba6b7d80f45497099e3e1091b9ce00383d9efd43c15728ec5a",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/cantabria/evidencia/pares_fuentes/2025/ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b.json",
+            "pair_sha256": "ed3f68dc4a753b9568f1e22a7a0923abfa79bbe5a42de01f4ebdd41425e7cb5b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -491,8 +491,8 @@
           "accredited": {
             "population_year": 2024,
             "section_year": 2024,
-            "run_id": 37215025861,
-            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37215025861/receipt.json"
+            "run_id": 37453376100,
+            "receipt_path": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37453376100/receipt.json"
           }
         },
         "electoral": {
@@ -504,12 +504,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/cataluna/evidencia/pares_fuentes/2025/8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a.json",
             "pair_sha256": "8411b1de4147b345b596f18f6f5980d804b9852c07aa9ce2e6d731cc5be0183a",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -827,12 +827,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b.json",
-            "pair_sha256": "24e5c67ee4a8841849a5ca9b2061804bcf7ba0ced9477aa3fa664dbb7ac9190b",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/comunidad_foral_de_navarra/evidencia/pares_fuentes/2025/a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc.json",
+            "pair_sha256": "a3d6c6b3da60ca4e3c7a715c5f14316eeb0e2247d7e5510e431c6ef0eb138acc",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1472,9 +1472,9 @@
         "territorial_source": {
           "territory_id": "cataluna",
           "edition": "2025",
-          "run_id": 37215025861,
-          "artifact_name": "ddd-source-package-cataluna-2025-37215025861",
-          "artifact_sha256": "0f2de10f82267e6be8d38409fb7b7a0c790fced42360570e79766ba0dce94aa0",
+          "run_id": 37453376100,
+          "artifact_name": "ddd-source-package-cataluna-2025-37453376100",
+          "artifact_sha256": "555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
