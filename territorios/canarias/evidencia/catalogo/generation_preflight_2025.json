@@ -4,223 +4,25 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 36529404391,
-  "source_commit": "afe1ed53c6968e5abf7b8b2ca3726d3cc2cbca97",
-  "artifact_name": "ddd-state-36529404391-M03U",
-  "artifact_sha256": "76b75f7bcb5016ce23e239f893240b4670a9254c67aa9111014fa8ebd40c2a31",
-  "decision": "READY_FOR_FIRST_GENERATION",
-  "stage": "M03U",
+  "run_id": 37449876557,
+  "source_commit": "8cb817e7c0bef71b2008f5118f5167efb263e3ef",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "artifact_name": "ddd-source-package-canarias-2025-36529404391",
-    "artifact_sha256": "82bb8090edaf6d326aa285018d4b3839ec5b925d7eda2e4f5d381fa2e333ebda",
-    "package_sha256": "abeb53758e14b38f88631798f81660b32c5add7dcf1fc34d05a649401a332409"
-  },
-  "implementation": {
-    "m01_git_blob_sha1": "54a4a39de89a53f21a323d36e351b815b0fb0a1f",
-    "m02_git_blob_sha1": "2f8256d6a82920c3145fad330c4862af60bff30a",
-    "m03_git_blob_sha1": "776f25060c7668475f6d8ec33a0e2c37a65e4aea",
-    "partition_preparer_git_blob_sha1": "43f5f123b1742cb14e9d40af972b3cbe541c2887",
-    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
-    "physical_partition_preparer_git_blob_sha1": "19e4119f89a569febc84e06d0e04df3f6b25da7c",
-    "m04_entrypoint_git_blob_sha1": "8b143ec1a9cbc449a278ed5623cd2668d67a8b33"
-  },
-  "adjacency": {
-    "predicate": "contact",
-    "working_crs": "EPSG:3035",
-    "min_shared_border_m": 1.0,
-    "max_precision_overlap_area_m2": 1.0,
-    "buffer_m": 0.0,
-    "simplify_m": 0.0,
-    "topology_bridges": []
-  },
-  "graph": {
-    "artifact_name": "ddd-state-36529404391-M03",
-    "artifact_sha256": "f875c59f8e890ccdf60d2a7d2a1eb0a7bc1a6511d34e9d38f98bbec1dc419cf3",
-    "module_version": "7.4.1",
-    "nodes": 1407,
-    "edges": 3684,
-    "population": 2258866,
-    "isolated": 1,
-    "global_components": 8,
-    "province_disconnected": 2,
-    "municipality_disconnected": 1
-  },
-  "partitioning": {
-    "job_artifact_name": "ddd-internal-units-36529404391",
-    "job_artifact_sha256": "84e5134f8050ecbeb9b620bbb02900ebff05b3d41351ad0720cf2658e9866b94",
-    "status": "PREPARED",
-    "strategy": "physical_components",
-    "contract_output_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_particiones.geojson.zip",
-    "resolved_output_geojson": "/app/territorios/canarias/.cache/ddd/preparacion/canarias_2025/canarias_2025_m03_particiones.geojson.zip",
-    "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
-    "hard_partition_lookup_sha256": "8e77a69d95276e612c715761ff51974605b1278f6dcca1129c98e36c6f8ddac9",
-    "partition_field": "DDD_PARTITION",
-    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "component_sections": {
-      "35-C01": 589,
-      "35-C02": 56,
-      "35-C03": 77,
-      "35-C04": 1,
-      "38-C01": 602,
-      "38-C02": 15,
-      "38-C03": 61,
-      "38-C04": 6
-    },
-    "component_districts": {
-      "35-C01": 25,
-      "35-C02": 5,
-      "35-C03": 6,
-      "35-C04": 1,
-      "38-C01": 28,
-      "38-C02": 1,
-      "38-C03": 3,
-      "38-C04": 1
-    }
-  },
-  "contract_binding": {
-    "contract_level": "production_m01_m06",
-    "k_districts": 70,
-    "population_floor_ratio": 0.8,
-    "population_cap_ratio": 1.75,
-    "target_tolerance_ratio": 0.12,
-    "oversized_municipality_rule": "split_only_above_hard_cap",
-    "municipality_atomicity_limit_ratio": 1.75,
-    "m01_output_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip",
-    "m03_output_graph_json": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json",
-    "m04_input_graph_json": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json",
-    "m04_input_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_particiones.geojson.zip",
-    "m04_output_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_semillas.geojson.zip",
-    "m05_input_graph_json": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_grafo.json",
-    "m05_input_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m04_semillas.geojson.zip",
-    "m05_output_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m05_distritos_optimizados.geojson.zip",
-    "m06_input_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m05_distritos_optimizados.geojson.zip",
-    "m04_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "m05_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "m06_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "validation_municipality_field": "DDD_MUNICIPALITY_PARTITION",
-    "expected_districts": 70,
-    "require_graph_contiguity": true,
-    "require_municipality_discipline": true,
-    "hard_partition_input": {
-      "mode": "physical_components",
-      "lookup": "configuracion/particiones_insulares_2025.json",
-      "partition_populations": {
-        "35-C01": 875589,
-        "35-C02": 129080,
-        "35-C03": 166146,
-        "35-C04": 732,
-        "38-C01": 966469,
-        "38-C02": 22560,
-        "38-C03": 86297,
-        "38-C04": 11993
-      },
-      "component_districts": {
-        "35-C01": 25,
-        "35-C02": 5,
-        "35-C03": 6,
-        "35-C04": 1,
-        "38-C01": 28,
-        "38-C02": 1,
-        "38-C03": 3,
-        "38-C04": 1
-      },
-      "partition_apportionment_audit": {
-        "35-C01": {
-          "population": 875589,
-          "districts": 25,
-          "target_population": 32269.514286,
-          "average_population_per_district": 35023.56,
-          "relative_deviation_from_target": 0.085345125,
-          "population_floor": 25815.611429,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "35-C02": {
-          "population": 129080,
-          "districts": 5,
-          "target_population": 32269.514286,
-          "average_population_per_district": 25816.0,
-          "relative_deviation_from_target": -0.199987959,
-          "population_floor": 25815.611429,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "35-C03": {
-          "population": 166146,
-          "districts": 6,
-          "target_population": 32269.514286,
-          "average_population_per_district": 27691.0,
-          "relative_deviation_from_target": -0.141883582,
-          "population_floor": 25815.611429,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "35-C04": {
-          "population": 732,
-          "districts": 1,
-          "target_population": 32269.514286,
-          "average_population_per_district": 732.0,
-          "relative_deviation_from_target": -0.977316052,
-          "population_floor": 25815.611429,
-          "floor_exception_required": true,
-          "floor_exception_governed": true
-        },
-        "38-C01": {
-          "population": 966469,
-          "districts": 28,
-          "target_population": 32269.514286,
-          "average_population_per_district": 34516.75,
-          "relative_deviation_from_target": 0.069639589,
-          "population_floor": 25815.611429,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "38-C02": {
-          "population": 22560,
-          "districts": 1,
-          "target_population": 32269.514286,
-          "average_population_per_district": 22560.0,
-          "relative_deviation_from_target": -0.300888145,
-          "population_floor": 25815.611429,
-          "floor_exception_required": true,
-          "floor_exception_governed": true
-        },
-        "38-C03": {
-          "population": 86297,
-          "districts": 3,
-          "target_population": 32269.514286,
-          "average_population_per_district": 28765.666667,
-          "relative_deviation_from_target": -0.108580736,
-          "population_floor": 25815.611429,
-          "floor_exception_required": false,
-          "floor_exception_governed": true
-        },
-        "38-C04": {
-          "population": 11993,
-          "districts": 1,
-          "target_population": 32269.514286,
-          "average_population_per_district": 11993.0,
-          "relative_deviation_from_target": -0.628348915,
-          "population_floor": 25815.611429,
-          "floor_exception_required": true,
-          "floor_exception_governed": true
-        }
-      },
-      "population_floor_exempt_partitions": [
-        "35-C04",
-        "38-C02",
-        "38-C04"
-      ],
-      "source_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m01_secciones_poblacion.geojson.zip",
-      "input_geojson": "territorios/canarias/.cache/ddd/preparacion/{run_name}/canarias_2025_m03_particiones.geojson.zip",
-      "partition_field": "DDD_PARTITION",
-      "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-      "district_apportionment": "hamilton_components",
-      "hard_partition_territory_id": "canarias"
-    }
+    "run_id": 37449876557,
+    "artifact_name": "ddd-source-package-canarias-2025-37449876557",
+    "artifact_sha256": "57dd38b223c60c177e847880abdee9413608e92f282e1cee2c9726d1d0c21a70",
+    "package_sha256": "81f3b9981994072f6882c6451acda17c64c650f1773cb8da28952b114518906b",
+    "compatibility_identity_sha256": "58649ba6af163393f567747d673269b7c6a52e9c0cd6c286b3c0c5a592c7fca8",
+    "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
+    "population_year": 2023,
+    "section_year": 2023
   },
   "effective_gate": {
-    "allowed": true,
-    "route": "validated_pre_m04_topology"
+    "allowed": false,
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
