@@ -142,9 +142,16 @@ def build_evidence(
                 "resolved_output_geojson": job.get("output_geojson"),
                 "hard_partition_lookup": job.get("hard_partition_lookup"),
                 "hard_partition_lookup_sha256": job.get("hard_partition_lookup_sha256"),
+                "inventory_id": job.get("inventory_id"),
+                "source_identity": job.get("source_identity"),
                 "partition_field": job.get("partition_field"),
                 "municipality_field": job.get("municipality_field"),
+                "input_section_count": job.get("input_section_count"),
+                "output_section_count": job.get("output_section_count"),
+                "input_output_cusec_equal": job.get("input_output_cusec_equal"),
+                "universe_cusec_set_sha256": job.get("universe_cusec_set_sha256"),
                 "component_sections": job.get("component_sections"),
+                "component_cusec_set_sha256": job.get("component_cusec_set_sha256"),
                 "component_districts": job.get("component_districts"),
             }
         else:
