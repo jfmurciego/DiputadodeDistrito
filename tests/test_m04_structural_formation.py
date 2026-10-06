@@ -8,10 +8,55 @@ from unittest.mock import patch
 
 import pandas as pd
 
+from ddd_core import m04_closed_target_cores as closed_target
 from ddd_core import m04_seed_engine as engine
+
+ROOT = Path(__file__).resolve().parents[1]
+CLOSED_TARGET_FIXTURE = ROOT / "tests/fixtures/m04_closed_target_cores/la_rioja_run_37298033194.json"
 
 
 class StructuralFormationTests(unittest.TestCase):
+    def _real_closed_target_case(self, municipality_code):
+        payload=json.loads(CLOSED_TARGET_FIXTURE.read_text(encoding="utf-8"))
+        contract=payload["contract"]
+        item=payload["municipalities"][municipality_code]
+        node_ids=item["node_ids"]
+        weights=dict(zip(node_ids,item["populations"]))
+        adjacency={node:set() for node in node_ids}
+        for left_index,right_index in item["internal_edges"]:
+            left=node_ids[left_index]
+            right=node_ids[right_index]
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+        gateways={node_ids[index] for index in item["gateway_indices"]}
+
+        def unit_order(unit_id):
+            if unit_id.endswith(":R"):
+                return (1,999)
+            return (0,int(unit_id.rsplit("U",1)[1]))
+
+        unit_ids=sorted(item["initial_parts"],key=unit_order)
+        parts=[
+            {node_ids[index] for index in item["initial_parts"][unit_id]}
+            for unit_id in unit_ids
+        ]
+        target=contract["territory_population"]/contract["k"]
+        floor=target*contract["population_floor_ratio"]
+        cap=target*contract["population_cap_ratio"]
+        tolerance=target*contract["target_tolerance_ratio"]
+        return {
+            "weights":weights,
+            "adjacency":adjacency,
+            "gateways":gateways,
+            "unit_ids":unit_ids,
+            "closed":parts[:-1],
+            "residual":parts[-1],
+            "target":target,
+            "floor":floor,
+            "cap":cap,
+            "tolerance":tolerance,
+        }
+
     def test_explicit_component_gateway_preserves_unique_external_connection(self):
         municipality={"h1","h2","h3"}
         province_nodes=municipality | {"external"}
@@ -133,6 +178,136 @@ class StructuralFormationTests(unittest.TestCase):
             for core in cores
         ))
         self.assertLessEqual(sum(weights[node] for node in residual),cap)
+
+    def test_la_rioja_calahorra_allows_open_residual_below_floor(self):
+        case=self._real_closed_target_case("26036")
+        before=[
+            sum(case["weights"][node] for node in part)
+            for part in case["closed"]
+        ]
+        self.assertEqual(before,[7986,8797])
+
+        cores,residual,evidence=closed_target.repair_closed_target_cores(
+            case["closed"],
+            case["residual"],
+            target=case["target"],
+            floor=case["floor"],
+            cap=case["cap"],
+            tolerance=case["tolerance"],
+            adjacency=case["adjacency"],
+            weights=case["weights"],
+            residual_gateways=case["gateways"],
+        )
+
+        lo=case["target"]-case["tolerance"]
+        hi=case["target"]+case["tolerance"]
+        populations=[
+            sum(case["weights"][node] for node in part)
+            for part in cores
+        ]
+        residual_population=sum(case["weights"][node] for node in residual)
+        self.assertEqual(evidence["strategy"],"exact_connected_target_cores")
+        self.assertTrue(all(lo <= population <= hi for population in populations))
+        self.assertLess(residual_population,case["floor"])
+        self.assertLessEqual(residual_population,case["cap"])
+        self.assertTrue(all(
+            closed_target._connected(part,case["adjacency"])
+            for part in cores
+        ))
+        self.assertTrue(closed_target._connected(residual,case["adjacency"]))
+        self.assertTrue(residual & case["gateways"])
+        self.assertEqual(
+            set().union(*cores,residual),
+            set().union(*case["closed"],case["residual"]),
+        )
+        self.assertEqual(len(cores),len(case["closed"]))
+
+    def test_la_rioja_logrono_repairs_outlier_without_touching_residual(self):
+        case=self._real_closed_target_case("26089")
+        initial=[
+            sum(case["weights"][node] for node in part)
+            for part in case["closed"]
+        ]
+        self.assertEqual(initial[13],13425)
+        original_residual=set(case["residual"])
+
+        cores,residual,evidence=closed_target.repair_closed_target_cores(
+            case["closed"],
+            case["residual"],
+            target=case["target"],
+            floor=case["floor"],
+            cap=case["cap"],
+            tolerance=case["tolerance"],
+            adjacency=case["adjacency"],
+            weights=case["weights"],
+            residual_gateways=case["gateways"],
+        )
+
+        populations=[
+            sum(case["weights"][node] for node in part)
+            for part in cores
+        ]
+        lo=case["target"]-case["tolerance"]
+        hi=case["target"]+case["tolerance"]
+        self.assertEqual(evidence["strategy"],"beam_core_only_focused")
+        self.assertEqual(residual,original_residual)
+        self.assertEqual(sum(case["weights"][node] for node in residual),10509)
+        self.assertEqual(populations[4],10592)
+        self.assertEqual(populations[11],10714)
+        self.assertEqual(populations[13],10905)
+        self.assertTrue(all(lo <= population <= hi for population in populations))
+        self.assertTrue(all(
+            closed_target._connected(part,case["adjacency"])
+            for part in cores
+        ))
+        self.assertTrue(closed_target._connected(residual,case["adjacency"]))
+
+    def test_closed_target_contract_fails_closed_instead_of_freezing_outlier(self):
+        adjacency={"a":{"b"},"b":{"a"}}
+        weights={"a":6,"b":6}
+        with self.assertRaisesRegex(
+            SystemExit,
+            "CLOSED_CORE_TARGET_INCOMPATIBLE",
+        ):
+            closed_target.repair_closed_target_cores(
+                [{"a"}],
+                {"b"},
+                target=10,
+                floor=5,
+                cap=20,
+                tolerance=1,
+                adjacency=adjacency,
+                weights=weights,
+                residual_gateways={"b"},
+            )
+
+    def test_closed_target_report_rejects_any_frozen_population_exception(self):
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/"m04.json"
+            path.write_text(
+                json.dumps({
+                    "closed_core_population_exceptions":[
+                        {"district_id":1,"population":7}
+                    ]
+                }),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                SystemExit,
+                "CLOSED_CORE_TARGET_CONTRACT_BREACH",
+            ):
+                engine._assert_closed_target_report(path)
+
+            path.write_text(
+                json.dumps({"closed_core_population_exceptions":[]}),
+                encoding="utf-8",
+            )
+            engine._assert_closed_target_report(path)
+            report=json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(report["closed_core_target_contract"],"PASS")
+            self.assertTrue(
+                report["rules"]["closed_urban_requires_target_tolerance"]
+            )
 
     def test_melilla_real_run_is_atomically_incompatible_before_search(self):
         # Poblaciones M03U del run 37148646551: 44 secciones, K=25.

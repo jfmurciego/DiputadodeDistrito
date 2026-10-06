@@ -4,12 +4,12 @@
 
 PROYECTO: Diputado de Distrito
 Módulo 04 — Motor canónico de semillas
-VERSIÓN: 7.6.3
-NOMBRE DE VERSIÓN: Preflight atómico y puertas dependientes por defecto
-FECHA: 2026-10-05
-FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed y política declarativa de puertas de componentes.
-CAMBIOS: añade condiciones necesarias y exact-cover conexo acotado para incompatibilidades pequeñas; usa preserve_dependent_component_gateways como default común; conserva puertas protegidas en postproceso y restaura el monkey-patch al terminar cada ejecución.
-MOTIVO: distinguir incompatibilidad matemática de fallo heurístico y evitar que el cierre de núcleos urbanos aisle componentes provinciales dependientes sin alterar K, provincia, contigüidad ni cuotas.
+VERSIÓN: 7.6.4
+NOMBRE DE VERSIÓN: Closed target cores conformes antes de congelar
+FECHA: 2026-10-06
+FUNCIÓN: ejecutar el núcleo 7.4.13 con preflight atómico fail-closed, puertas de componentes y reparación genérica de closed target cores.
+CAMBIOS: para closed_target_cores_plus_open_residual exige que todo core inmutable quede dentro de la tolerancia objetivo; permite residual provisional bajo floor, conserva cap/gateways y bloquea explícitamente si no encuentra una partición conforme.
+MOTIVO: evitar que M04 congele outliers que M05 no puede reparar, sin relajar K, provincia, contigüidad, disciplina municipal, tolerancia ni límites duros.
 ANTERIOR: legacy/ddd_core/m04_seed_engine_v7.6.2.py
 """
 from __future__ import annotations
@@ -22,10 +22,55 @@ from pathlib import Path
 from ddd_core import m04_seed_engine_v7412 as core
 from ddd_core import m04_seed_engine_v7411 as postprocess_engine
 from ddd_core.config import hard_limits, load_params_yaml, module_cfg, require
+from ddd_core.m04_closed_target_cores import repair_closed_target_cores
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
-ENGINE_VERSION = "7.6.3"
+ENGINE_VERSION = "7.6.4"
 partition_oversized_municipality = core.partition_oversized_municipality
+_BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
+
+
+def _partition_closed_target_cores(
+    nodes,
+    target,
+    floor,
+    cap,
+    tolerance,
+    adjacency,
+    weights,
+    label="",
+    protected=None,
+):
+    """Construye el mismo número de piezas, pero nunca congela un core fuera de target."""
+    closed, residual, mode, residual_gateways = (
+        _BASE_PARTITION_OVERSIZED_MUNICIPALITY(
+            nodes,
+            target,
+            floor,
+            cap,
+            tolerance,
+            adjacency,
+            weights,
+            label=label,
+            protected=protected,
+        )
+    )
+    repaired_closed, repaired_residual, evidence = repair_closed_target_cores(
+        closed,
+        residual,
+        target=target,
+        floor=floor,
+        cap=cap,
+        tolerance=tolerance,
+        adjacency=adjacency,
+        weights=weights,
+        protected=protected,
+        residual_gateways=residual_gateways,
+    )
+    strategy = str(evidence.get("strategy", "unknown"))
+    if strategy != "already_conformant":
+        mode = f"{mode}+closed_target:{strategy}"
+    return repaired_closed, repaired_residual, mode, residual_gateways
 
 
 def _components(nodes, adj):
@@ -392,6 +437,25 @@ def _preflight_atomic_population_connectivity(cfg, step):
     return diagnostics
 
 
+def _assert_closed_target_report(report_path):
+    path = Path(report_path)
+    if not path.is_file():
+        raise SystemExit("M04: falta informe para certificar closed target cores")
+    report = json.loads(path.read_text(encoding="utf-8"))
+    exceptions = list(report.get("closed_core_population_exceptions") or [])
+    if exceptions:
+        raise SystemExit(
+            "M04: CLOSED_CORE_TARGET_CONTRACT_BREACH "
+            f"closed_core_population_exceptions={exceptions}"
+        )
+    report.setdefault("rules", {})["closed_urban_requires_target_tolerance"] = True
+    report["closed_core_target_contract"] = "PASS"
+    path.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
 def _normalize_unit_property_for_ogr(path):
     archive = Path(path)
     if archive.suffix.lower() != ".zip":
@@ -426,6 +490,17 @@ def main():
     cfg = load_params_yaml(args.params)
     step = module_cfg(cfg, "modulo_04_generar_semillas", "step4_seed_districts")
     policy = str(step.get("gateway_policy", "preserve_dependent_component_gateways"))
+    oversized_rule = str(
+        ((cfg.get("territory_contract") or {}).get("oversized_municipality_rule") or "")
+    )
+    strict_closed_target = (
+        oversized_rule == "closed_target_cores_plus_open_residual"
+    )
+    selected_partitioner = (
+        _partition_closed_target_cores
+        if strict_closed_target
+        else _BASE_PARTITION_OVERSIZED_MUNICIPALITY
+    )
     _preflight_atomic_population_connectivity(cfg, step)
     original = core.partition_oversized_municipality
     protected_component_nodes = set()
@@ -481,7 +556,7 @@ def main():
 
         def patched(nodes, target, floor, cap, tolerance, adjacency_arg, weights, label="", protected=None):
             expanded = set(protected or ()) | protected_gateways(nodes)
-            return original(
+            return selected_partitioner(
                 nodes,
                 target,
                 floor,
@@ -494,7 +569,9 @@ def main():
             )
 
         core.partition_oversized_municipality = patched
-    elif policy != "legacy":
+    elif policy == "legacy":
+        core.partition_oversized_municipality = selected_partitioner
+    else:
         raise SystemExit(f"M04 {ENGINE_VERSION}: gateway_policy desconocida: {policy}")
 
     try:
@@ -510,7 +587,12 @@ def main():
         args.params,
         additional_protected_nodes=protected_component_nodes,
     )
-    print(f"[Módulo 4] motor canónico {ENGINE_VERSION} gateway_policy={policy}")
+    if strict_closed_target:
+        _assert_closed_target_report(step.get("out_report", ""))
+    print(
+        f"[Módulo 4] motor canónico {ENGINE_VERSION} "
+        f"gateway_policy={policy} oversized_rule={oversized_rule or 'legacy'}"
+    )
 
 
 if __name__ == "__main__":
