@@ -544,7 +544,7 @@ territories:
         electoral_source: territorios/pais_vasco/evidencia/fuentes_electorales/2025/43ebf1a9f620544133e019e5a4b8cdf1914b986035d76ab8cb2933d3a7b6cef3/36882827791/receipt.json
         prepared_source_pair: territorios/pais_vasco/evidencia/pares_fuentes/2025/fb127a019ad58f768fd162871bb0d70da88741f8efc8e26497204fea9bf59976.json
         generation_preflight: territorios/pais_vasco/evidencia/catalogo/generation_preflight_2025.json
-      generation_enabled: false
+      generation_enabled: true
 - territory_id: la_rioja
   name: La Rioja
   editions:
