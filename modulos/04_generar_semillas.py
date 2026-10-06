@@ -3,17 +3,17 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 04 — Generar distritos iniciales
-VERSIÓN: 7.5.8
-NOMBRE DE VERSIÓN: Entrada canónica con preflight estructural
-FECHA: 2026-10-05
+VERSIÓN: 7.5.9
+NOMBRE DE VERSIÓN: Entrada canónica con closed target cores estrictos
+FECHA: 2026-10-06
 ESTADO: activo; default nacional y regresiones certificadas sobre Aragón y Castilla y León.
-FUNCIÓN: ejecutar el motor M04 canónico con preflight atómico y política de puertas dependientes por defecto, y después exponer una micro-unidad residual flexible solo cuando sea matemáticamente imprescindible para M05.
+FUNCIÓN: ejecutar el motor M04 canónico con preflight atómico, política de puertas dependientes y closed target cores conformes antes de exponer una micro-unidad residual flexible para M05.
 ENTRADAS: grafo M03, geometría M01 y configuración territorial.
 SALIDAS: K distritos iniciales, unidades DDD y diagnóstico M04.
 REGLAS DURAS: provincia, K, cuotas, población y contigüidad invariantes; no se crean pasarelas; la política de componentes conserva el mínimo de puertas que mantiene conectada cada componente provincial exterior; la micro-unidad :F no cambia asignación M04.
 COMPATIBILIDAD: sin `gateway_policy`, el motor preserva puertas sólo para componentes exteriores realmente dependientes; `preserve_component_gateways` y `legacy` siguen disponibles si se declaran explícitamente.
-CAMBIOS: el default común pasa a preserve_dependent_component_gateways; el motor bloquea incompatibilidades atómicas demostrables antes de la heurística y conserva las puertas acreditadas durante el postproceso.
-MOTIVO: evitar residuos provinciales inviables y separar imposibilidad matemática de agotamiento heurístico sin introducir excepciones territoriales.
+CAMBIOS: conserva el preflight y añade la semántica estricta closed_target_cores_plus_open_residual del motor 7.6.4; el residual provisional puede quedar bajo floor sin convertirlo en core cerrado.
+MOTIVO: impedir que un outlier quede marcado ddd_closed_urban y se vuelva inmutable en M05, sin relajar tolerancias ni reglas territoriales.
 ANTERIOR: legacy/modulo04/04_generar_semillas_v7.5.7.py
 """
 from __future__ import annotations
@@ -33,7 +33,7 @@ if str(ROOT) not in sys.path:
 from ddd_core.config import load_params_yaml, module_cfg, require, hard_limits
 from ddd_core import m04_seed_engine
 
-ENTRYPOINT_VERSION = "7.5.8"
+ENTRYPOINT_VERSION = "7.5.9"
 
 
 def load_geo(path):
