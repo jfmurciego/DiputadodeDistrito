@@ -1,5 +1,4 @@
 from __future__ import annotations
-# CI synchronize marker; reverted in the next commit.
 
 from itertools import permutations
 
