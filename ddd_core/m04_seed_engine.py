@@ -26,10 +26,11 @@ from ddd_core.m04_closed_target_cores import repair_closed_target_cores
 
 ENGINE_ID = "ddd_core.m04_seed_engine"
 ENGINE_VERSION = "7.6.4"
-_BASE_PARTITION_OVERSIZED_MUNICIPALITY = core.partition_oversized_municipality
+partition_oversized_municipality = core.partition_oversized_municipality
+_BASE_PARTITION_OVERSIZED_MUNICIPALITY = partition_oversized_municipality
 
 
-def partition_oversized_municipality(
+def _partition_closed_target_cores(
     nodes,
     target,
     floor,
@@ -496,7 +497,7 @@ def main():
         oversized_rule == "closed_target_cores_plus_open_residual"
     )
     selected_partitioner = (
-        partition_oversized_municipality
+        _partition_closed_target_cores
         if strict_closed_target
         else _BASE_PARTITION_OVERSIZED_MUNICIPALITY
     )
