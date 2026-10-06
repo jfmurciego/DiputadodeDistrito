@@ -436,7 +436,7 @@ territories:
         source_commit: ebe49a735091363944cb5ded0f272e6c0f37b707
       evidence:
         electoral_source: territorios/madrid/evidencia/catalogo/electoral_source_2025.json
-        prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412.json
+        prepared_source_pair: territorios/madrid/evidencia/pares_fuentes/2025/a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b.json
         generation_preflight: territorios/madrid/evidencia/catalogo/generation_preflight_2025.json
       generation_enabled: true
 - territory_id: region_de_murcia
