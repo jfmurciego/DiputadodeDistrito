@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-06T10:09:38.894779+00:00",
+  "generated_at": "2026-10-06T11:00:10.963475+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 4,
-      "activable": 10,
+      "activated": 11,
+      "activable": 3,
       "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 4
+      "durable_pair": 11
     },
     "territories": [
       {
@@ -192,12 +192,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/bca00845b12387e21b56fb3c444888489620770cfb749cc511d2a2761474ea2f.json",
-            "pair_sha256": "bca00845b12387e21b56fb3c444888489620770cfb749cc511d2a2761474ea2f",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/principado_de_asturias/evidencia/pares_fuentes/2025/dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22.json",
+            "pair_sha256": "dd4bb2ad2b9530fd179dc58ebaaead971751b6f0def7342dde3d1e338c8f4b22",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -243,12 +243,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/1a27f13502e48c1e36a24a8dda8afa2e6521955b3dbfec639b50bef1a10b489c.json",
-            "pair_sha256": "1a27f13502e48c1e36a24a8dda8afa2e6521955b3dbfec639b50bef1a10b489c",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/illes_balears/evidencia/pares_fuentes/2025/d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99.json",
+            "pair_sha256": "d53b609d9afff779b58902c9d92962098d7b3251b2e11e3049446dad9e7c9b99",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -281,8 +281,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37157866581,
-            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37157866581/receipt.json"
+            "run_id": 37449876557,
+            "receipt_path": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37449876557/receipt.json"
           }
         },
         "electoral": {
@@ -294,12 +294,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/canarias/evidencia/pares_fuentes/2025/635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f.json",
             "pair_sha256": "635f7f8ac53232e08589abd22e046c677f50f9e3caeb95b86711c8733e75c29f",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -453,12 +453,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e.json",
-            "pair_sha256": "689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f.json",
+            "pair_sha256": "711ebf2ea4823f048cbc1a55a712d9590785543cc8dbf87d39bfbdc9ec3bb77f",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -725,12 +725,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412.json",
-            "pair_sha256": "27c27078f8307117768d05d69fafff5e88b1557e22aa95f20b55ad38dd02b412",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/madrid/evidencia/pares_fuentes/2025/a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b.json",
+            "pair_sha256": "a73ba65bf9ecbd03b291ea77df2243cc6bd6342eb2127b63ea1875880cd9b63b",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -776,12 +776,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/163b58661a890e49fe3a586adeb773ecc3af893d55f8f0eeb1fe03f12efd95b6.json",
-            "pair_sha256": "163b58661a890e49fe3a586adeb773ecc3af893d55f8f0eeb1fe03f12efd95b6",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/region_de_murcia/evidencia/pares_fuentes/2025/f995638ef9c435a40b7d188df0bbb3877048d778c366442b354e54017ac81ba1.json",
+            "pair_sha256": "f995638ef9c435a40b7d188df0bbb3877048d778c366442b354e54017ac81ba1",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -929,12 +929,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353.json",
-            "pair_sha256": "bcde71c8655039b13acf74a97e66cdf788f21cce5019b2d0b20afb0f6481d353",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/la_rioja/evidencia/pares_fuentes/2025/0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11.json",
+            "pair_sha256": "0fcd3dd64758df4ecc14d74e504405a5304bf38de176720153c7ef8e4076aa11",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -980,12 +980,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41.json",
-            "pair_sha256": "54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/52d85edaf79987e268b1c703e7fc9a4a1c5baaf500fb6964f2b10028bd313f34.json",
+            "pair_sha256": "52d85edaf79987e268b1c703e7fc9a4a1c5baaf500fb6964f2b10028bd313f34",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1031,12 +1031,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVABLE",
+          "state": "ACTIVATED",
           "pair": {
-            "current": false,
-            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33.json",
-            "pair_sha256": "62be901557a75175db0e7a446e68cfc16d5cb340fc98f600d310ff9b27049d33",
-            "reason": "PAIR_NOT_CURRENT"
+            "current": true,
+            "receipt_path": "territorios/melilla/evidencia/pares_fuentes/2025/de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4.json",
+            "pair_sha256": "de4be281b20e40e65b1d674243aff69f91b9eeae3f4a947c002ce3f700c6dde4",
+            "reason": "CURRENT_DURABLE_PAIR"
           }
         },
         "activity": {
@@ -1274,9 +1274,9 @@
         "territorial_source": {
           "territory_id": "canarias",
           "edition": "2025",
-          "run_id": 37157866581,
-          "artifact_name": "ddd-source-package-canarias-2025-37157866581",
-          "artifact_sha256": "431f5756eb87c85f970cfc602e4548a7351b65e22861befc226784ed02c82f31",
+          "run_id": 37449876557,
+          "artifact_name": "ddd-source-package-canarias-2025-37449876557",
+          "artifact_sha256": "57dd38b223c60c177e847880abdee9413608e92f282e1cee2c9726d1d0c21a70",
           "decision": "VALIDADO"
         },
         "territorial_product": null,
