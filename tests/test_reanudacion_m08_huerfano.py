@@ -707,40 +707,66 @@ class RealFreshIncorporationRegressionTests(unittest.TestCase):
             incorporate_if,
         )
 
-    def test_castilla_la_mancha_current_source_lineage_blocks_reuse(self):
-        # El candidato M08 sigue siendo auditable, pero la fuente territorial
-        # viva fue renovada después del producto M06 vigente. El planner debe
-        # bloquear la reutilización del producto histórico hasta que exista un
-        # lineage que acredite compatibilidad con la fuente territorial actual.
+    def test_castilla_la_mancha_current_complete_product_supersedes_historical_candidates(self):
+        # El catálogo vivo ya acredita un producto territorial y electoral
+        # completo del mismo run. Los fallos históricos siguen auditables en
+        # sus manifiestos, pero ya no son candidatos M08 para el producto M06
+        # vigente y tampoco deben fabricar una barrera de ausencia.
+        evidence_root = (
+            ROOT
+            / "territorios"
+            / "castilla_la_mancha"
+            / "evidencia"
+        )
+        territorial = json.loads(
+            (evidence_root / "catalogo" / "territorial_product_2025.json")
+            .read_text(encoding="utf-8")
+        )
+        electoral = json.loads(
+            (evidence_root / "catalogo" / "electoral_product_2025.json")
+            .read_text(encoding="utf-8")
+        )
+        current_run = territorial["run_id"]
+        self.assertIsInstance(current_run, int)
+        self.assertEqual(electoral["run_id"], current_run)
+        self.assertEqual(territorial["stage"], "M06")
+        self.assertEqual(electoral["stage"], "M08")
+
+        manifest = json.loads(
+            (evidence_root / "ejecuciones_completas" / f"{current_run}.json")
+            .read_text(encoding="utf-8")
+        )
+        self.assertEqual(manifest["status"], "SUCCESS")
+        self.assertEqual(manifest["completion_status"], "COMPLETE")
+        phase02 = next(
+            row for row in manifest["phases"] if row["name"].startswith("02 ·")
+        )
+        phase04 = next(
+            row for row in manifest["phases"] if row["name"].startswith("04 ·")
+        )
+        self.assertEqual(phase02["run_id"], current_run)
+        self.assertEqual(phase02["artifact"], territorial["artifact_name"])
+        self.assertEqual(phase02["result"], "success")
+        self.assertEqual(phase04["run_id"], current_run)
+        self.assertEqual(phase04["artifact"], electoral["artifact_name"])
+        self.assertEqual(phase04["result"], "success")
+
         result = scan(
             root_dir=ROOT,
             territory_id="castilla_la_mancha",
             edition="2025",
         )
-        self.assertEqual(result["absence_barrier_run_id"], 36551586302)
+        self.assertEqual(result["status"], "NONE")
+        self.assertEqual(result["reason"], "NO_PENDING_FAILED_INCORPORATION")
+        self.assertIsNone(result["absence_barrier_run_id"])
+        self.assertEqual(result["retired_candidates"], [])
         self.assertEqual(
-            [row["run_id"] for row in result["retired_candidates"]],
-            [36444657976],
-        )
-        self.assertEqual(
-            [row["run_id"] for row in structural_candidates(
+            structural_candidates(
                 root_dir=ROOT,
                 territory_id="castilla_la_mancha",
                 edition="2025",
-            )],
-            [36551586302],
-        )
-
-        self._assert_real_case(
-            territory_name="Castilla-La Mancha",
-            territory_id="castilla_la_mancha",
-            failed_candidate_run=36551586302,
-            persisted_false_runs=(36444657976, 36488755336),
-            expected_plan_block=(
-                r"CONTINUE_DURABLE_BLOCK: Castilla-La Mancha: "
-                r"DURABLE_LINEAGE_INCOMPATIBLE: "
-                r"territorial_source→territorial_product"
             ),
+            [],
         )
 
     def test_baleares_36573474139_territorial_failure_never_becomes_m08_candidate(self):
