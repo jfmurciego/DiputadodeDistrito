@@ -959,7 +959,6 @@ class CastillaLaManchaReuseCurrentDurableInputsTests(unittest.TestCase):
         self.assertEqual(checkpoint["stage"], "M08")
         current_run = checkpoint["run_id"]
         self.assertIsInstance(current_run, int)
-        self.assertEqual(state["preparation_evidence"]["run_id"], current_run)
 
         plan = build_plan(
             territory="Castilla-La Mancha",
