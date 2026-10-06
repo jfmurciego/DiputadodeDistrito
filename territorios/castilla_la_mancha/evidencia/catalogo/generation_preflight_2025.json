@@ -5,10 +5,12 @@
   "territory_name": "Castilla-La Mancha",
   "edition": "2025",
   "run_id": 37444564173,
-  "source_commit": "3e5d6796d9636be853d0000db16bc64c8295f332",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "207461fd553ec6263085878f75438493de746c4e",
+  "artifact_name": "ddd-state-37444564173-M03U",
+  "artifact_sha256": "617f71fb8c0d646b1b1ade88af0ca659b8f3c84c3ffd004d3465765f99eca07f",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 37444564173,
     "artifact_name": "ddd-source-package-castilla_la_mancha-2025-37444564173",
@@ -19,10 +21,91 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": [
+      {
+        "u": "1301701001",
+        "v": "1304901001",
+        "admin_scope": "province:13",
+        "edge_type": "administrative_exclave"
+      }
+    ]
+  },
+  "graph": {
+    "artifact_name": "ddd-state-37444564173-M03",
+    "artifact_sha256": "d93c4c1e4af1b57f11f9929acbf6a5ae4a2e2d36b648925ea4652f378b1003bb",
+    "module_version": "7.5.0",
+    "nodes": 1954,
+    "edges": 5526,
+    "population": 2084086,
+    "isolated": 0,
+    "global_components": 1,
+    "province_disconnected": 0,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-37444564173",
+    "job_artifact_sha256": "b4152dd654c8a800024bc40210115bde722e286f4214e38ffd68ab39ca387be4",
+    "status": "NOOP",
+    "strategy": null,
+    "contract_output_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "resolved_output_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/castilla_la_mancha_2025/castilla_la_mancha_2025_m01_secciones_poblacion.geojson.zip"
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 2084086,
+      "target_section_count": 1954,
+      "package_sha256": "9a1c83de524ba975e393454e40bf4d4e723f04c4ceb70e1aa361c5f18836ebe8",
+      "compatibility_report_sha256": "3e828c538e5d1db691a867208bdbaab0130d3ccb7525e9c4cadfe425953b479a",
+      "compatibility_identity_sha256": "f15b9e67715d6605f6a9884cc238501cbbd6d05388269ea0047d02facee533eb"
+    },
+    "topology_accreditation": null,
+    "k_districts": 33,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_graph_json": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m04_input_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+    "m04_output_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/castilla_la_mancha_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+    "m05_input_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/castilla_la_mancha_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/castilla_la_mancha_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/castilla_la_mancha/.cache/ddd/preparacion/{run_name}/castilla_la_mancha_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "CUMUN",
+    "m05_municipality_field": "CUMUN",
+    "m06_municipality_field": "CUMUN",
+    "validation_municipality_field": "CUMUN",
+    "expected_districts": 33,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
