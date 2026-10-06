@@ -10,13 +10,13 @@ DDD es un motor modular y reproducible para construir, optimizar, validar y audi
 
 **Estado generado automáticamente desde el catálogo y las evidencias durables. No editar manualmente este bloque.**
 
-Actualizado: 2026-10-06T09:17:01.696856+00:00 · País: **ES · España** · Edición: **2025**
+Actualizado: 2026-10-06T10:09:20.507754+00:00 · País: **ES · España** · Edición: **2025**
 
 ## Resumen
 
 | Indicador | Estado | Territorios |
 |---|---:|---|
-| **Cadena completa validada** | 🟢 **4** | 02 Aragón · 03 Principado de Asturias · 06 Cantabria · 12 Galicia |
+| **Cadena completa validada** | 🟢 **5** | 02 Aragón · 03 Principado de Asturias · 06 Cantabria · 08 Castilla-La Mancha · 12 Galicia |
 | **Generación territorial validada** | 🟢 **8** | 02 Aragón · 03 Principado de Asturias · 06 Cantabria · 07 Castilla y León · 08 Castilla-La Mancha · 11 Extremadura · 12 Galicia · 18 Ceuta |
 | **Preparados para continuar** | 🔵 **11** | 01 Andalucía · 04 Islas Baleares · 05 Canarias · 09 Cataluña · 10 Comunidad Valenciana · 13 Comunidad de Madrid · 14 Región de Murcia · 15 Comunidad Foral de Navarra · 16 País Vasco · 17 La Rioja · 19 Melilla |
 | **Validación pendiente** | 🟡 **0** | — |
@@ -35,7 +35,7 @@ FT = **fuentes territoriales** · G = **generación territorial** · FE = **fuen
 | **05 Canarias** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 | **06 Cantabria** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **07 Castilla y León** | 🟢 | 🟢 | 🟡 | 🟡 | Generación territorial validada |
-| **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟡 | Listo para incorporar resultados electorales |
+| **08 Castilla-La Mancha** | 🟢 | 🟢 | 🟢 | 🟢 | Cadena completa validada |
 | **09 Cataluña** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 | **10 Comunidad Valenciana** | 🟢 | 🟡 | 🟡 | ⚪ | Fuentes territoriales preparadas |
 | **11 Extremadura** | 🟢 | 🟢 | 🟡 | ⚪ | Generación territorial validada |

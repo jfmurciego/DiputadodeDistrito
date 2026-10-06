@@ -4,7 +4,7 @@
   "country_code": "ES",
   "country_name": "España",
   "country_display_name": "ES · España",
-  "generated_at": "2026-10-06T09:17:01.696856+00:00",
+  "generated_at": "2026-10-06T10:09:20.507754+00:00",
   "source_of_truth": "configuracion/catalogo_territorios_espana_2025.yaml + configuracion/catalogo_preparacion.yaml + configuracion/preparacion_legislatura_vigente.yaml + configuracion/registro_electoral.yaml + territorios/*/evidencia/catalogo/*.json",
   "source_readiness": {
     "schema": "ddd-source-readiness/1.0",
@@ -26,8 +26,8 @@
       "action_required": 4,
       "blocked": 1,
       "unavailable": 0,
-      "activated": 6,
-      "activable": 8,
+      "activated": 4,
+      "activable": 10,
       "territorial_pending": 5,
       "electoral_pending": 1,
       "temporal_substitution": 0,
@@ -39,7 +39,7 @@
       "years_resolved": 19,
       "territorial_source": 14,
       "electoral_source": 18,
-      "durable_pair": 6
+      "durable_pair": 4
     },
     "territories": [
       {
@@ -440,8 +440,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37245345263,
-            "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03/37245345263/receipt.json"
+            "run_id": 37444564173,
+            "receipt_path": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03/37444564173/receipt.json"
           }
         },
         "electoral": {
@@ -453,12 +453,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/castilla_la_mancha/evidencia/pares_fuentes/2025/689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e.json",
             "pair_sha256": "689dea131e30cbc6fb18127dd2c6b40fe0280a45809bf8664b2f70b4b11ba45e",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -967,8 +967,8 @@
           "accredited": {
             "population_year": 2023,
             "section_year": 2023,
-            "run_id": 37278571905,
-            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37278571905/receipt.json"
+            "run_id": 37442375016,
+            "receipt_path": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37442375016/receipt.json"
           }
         },
         "electoral": {
@@ -980,12 +980,12 @@
         },
         "status": "ADMISSIBLE",
         "activation": {
-          "state": "ACTIVATED",
+          "state": "ACTIVABLE",
           "pair": {
-            "current": true,
+            "current": false,
             "receipt_path": "territorios/ceuta/evidencia/pares_fuentes/2025/54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41.json",
             "pair_sha256": "54db7cefba7113dace5854d9409a0a95a709cb1aca55e365597db04b266a6c41",
-            "reason": "CURRENT_DURABLE_PAIR"
+            "reason": "PAIR_NOT_CURRENT"
           }
         },
         "activity": {
@@ -1397,19 +1397,19 @@
       "ft": "green",
       "g": "green",
       "fe": "green",
-      "re": "yellow",
-      "status": "Listo para incorporar resultados electorales",
+      "re": "green",
+      "status": "Cadena completa validada",
       "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
-      "run_id": 36444657976,
-      "stage": "M06",
+      "run_id": 37444564173,
+      "stage": "M08",
       "edition": "2025",
       "phase_evidence": {
         "territorial_source": {
           "territory_id": "castilla_la_mancha",
           "edition": "2025",
-          "run_id": 37245345263,
-          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-37245345263",
-          "artifact_sha256": "75f402fcfba49791bdbd4230cbff668f14a5672f27342e94d3ab9b1d6f0f69f8",
+          "run_id": 37444564173,
+          "artifact_name": "ddd-source-package-castilla_la_mancha-2025-37444564173",
+          "artifact_sha256": "d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1418,10 +1418,10 @@
           "territory_id": "castilla_la_mancha",
           "territory_name": "Castilla-La Mancha",
           "edition": "2025",
-          "run_id": 36444657976,
-          "artifact_name": "ddd-state-36444657976-M06",
-          "artifact_sha256": "c65d384e78cb9bb43ef6694b193d28710b91ce7096ff49763d7c6f321ccb5f6a",
-          "source_commit": "f75518f9f6824ad24dd255259d89733341fc2c36",
+          "run_id": 37444564173,
+          "artifact_name": "ddd-state-37444564173-M06",
+          "artifact_sha256": "772a2a083c12317c16f9b7a0bf5cffff72a396d767d19722a4bac405af92ecb4",
+          "source_commit": "d9396ab63333dadcde01d5ad1262997b694fcd9d",
           "decision": "PASS_WITH_EXCEPTIONS",
           "stage": "M06"
         },
@@ -1440,7 +1440,18 @@
           "election_registry": "configuracion/registro_electoral.yaml",
           "election_date": "2023-05-28"
         },
-        "electoral_product": null
+        "electoral_product": {
+          "schema": "ddd.catalog-evidence/1.0",
+          "kind": "electoral_product",
+          "territory_id": "castilla_la_mancha",
+          "territory_name": "Castilla-La Mancha",
+          "edition": "2025",
+          "run_id": 37444564173,
+          "artifact_name": "ddd-state-37444564173-M08",
+          "artifact_sha256": "59abc88a2e283045b4fb563c80c4eb8fa01ef106733b50331b74ceb1ad89995d",
+          "source_commit": "6362dbb947f4df72d2796026b0cf256de1263011",
+          "stage": "M08"
+        }
       },
       "autonomous_community_code_ine": "08",
       "display_name": "08 Castilla-La Mancha"
@@ -1802,9 +1813,9 @@
         "territorial_source": {
           "territory_id": "ceuta",
           "edition": "2025",
-          "run_id": 37278571905,
-          "artifact_name": "ddd-source-package-ceuta-2025-37278571905",
-          "artifact_sha256": "2412732a6ed3791e1d1b0d01e26cfd9ef1a783bcb775d61b055aab878be5735f",
+          "run_id": 37442375016,
+          "artifact_name": "ddd-source-package-ceuta-2025-37442375016",
+          "artifact_sha256": "37ae8cb20b84a1ce99bcefa4a4e69b7872bc01014541c62516914159653ee5af",
           "decision": "VALIDADO"
         },
         "territorial_product": {
@@ -1870,11 +1881,12 @@
     }
   ],
   "kpis": {
-    "complete": 4,
+    "complete": 5,
     "complete_names": [
       "02 Aragón",
       "03 Principado de Asturias",
       "06 Cantabria",
+      "08 Castilla-La Mancha",
       "12 Galicia"
     ],
     "territorial_validated": 8,
@@ -1919,11 +1931,11 @@
     "blocked_names": []
   },
   "latest_validated": {
-    "territory_id": "principado_de_asturias",
-    "name": "Principado de Asturias",
-    "display_name": "03 Principado de Asturias",
-    "autonomous_community_code_ine": "03",
-    "run_id": 37438440043,
+    "territory_id": "castilla_la_mancha",
+    "name": "Castilla-La Mancha",
+    "display_name": "08 Castilla-La Mancha",
+    "autonomous_community_code_ine": "08",
+    "run_id": 37444564173,
     "stage": "M08",
     "certification": "PASS_WITH_GOVERNED_EXCEPTIONS",
     "edition": "2025"
@@ -1954,12 +1966,6 @@
       "action": "incorporar resultados electorales"
     },
     {
-      "territory": "08 Castilla-La Mancha",
-      "territory_id": "castilla_la_mancha",
-      "autonomous_community_code_ine": "08",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -1975,6 +1981,12 @@
       "territory": "13 Comunidad de Madrid",
       "territory_id": "madrid",
       "autonomous_community_code_ine": "13",
+      "action": "completar puerta de validación territorial"
+    },
+    {
+      "territory": "14 Región de Murcia",
+      "territory_id": "region_de_murcia",
+      "autonomous_community_code_ine": "14",
       "action": "completar puerta de validación territorial"
     }
   ],
@@ -2004,12 +2016,6 @@
       "action": "preparar fuentes electorales"
     },
     {
-      "territory": "08 Castilla-La Mancha",
-      "territory_id": "castilla_la_mancha",
-      "autonomous_community_code_ine": "08",
-      "action": "incorporar resultados electorales"
-    },
-    {
       "territory": "09 Cataluña",
       "territory_id": "cataluna",
       "autonomous_community_code_ine": "09",
@@ -2026,6 +2032,12 @@
       "territory_id": "extremadura",
       "autonomous_community_code_ine": "11",
       "action": "preparar fuentes electorales"
+    },
+    {
+      "territory": "13 Comunidad de Madrid",
+      "territory_id": "madrid",
+      "autonomous_community_code_ine": "13",
+      "action": "generar y validar distritos"
     }
   ]
 }
