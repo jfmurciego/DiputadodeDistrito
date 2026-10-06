@@ -5,10 +5,10 @@
   "territory_name": "Cataluña",
   "edition": "2025",
   "run_id": 37453376100,
-  "source_commit": "4f05208fe6777db589e595e8d4316822194a8630",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "1927926110915d8f8ded6695427e564554b5dd31",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
   "source": {
     "run_id": 37453376100,
     "artifact_name": "ddd-source-package-cataluna-2025-37453376100",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "PENDING",
+    "status": "ERROR_TECHNICAL",
     "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
   }
 }
