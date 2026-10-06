@@ -342,12 +342,30 @@ class WorkflowDecouplingTests(unittest.TestCase):
                 self.assertEqual(pair["schema"], "ddd.prepared-source-pair/1.0")
                 self.assertEqual(pair["territory_id"], territory_id)
                 self.assertEqual(str(pair["edition"]), "2025")
-                self.assertEqual(
-                    pair["territorial_source"]["run_id"],
-                    state["preparation_evidence"]["run_id"],
-                )
+                prepared = state["preparation_evidence"]
+                paired_source = pair["territorial_source"]
+                # Una reacreditación puede producir un run nuevo con los mismos
+                # datos territoriales. La identidad material, no el run_id,
+                # es la invariancia del par de fuentes.
+                for key in (
+                    "package_sha256",
+                    "territorial_identity_sha256",
+                    "compatibility_identity_sha256",
+                ):
+                    self.assertEqual(paired_source[key], prepared[key])
                 self.assertIn("electoral_source", pair)
-                self.assertNotIn("generation_preflight", evidence)
+                preflight_rel = evidence.get("generation_preflight")
+                if preflight_rel:
+                    preflight = json.loads(
+                        (ROOT / preflight_rel).read_text(encoding="utf-8")
+                    )
+                    self.assertEqual(preflight["territory_id"], territory_id)
+                    gate = preflight.get("effective_gate") or {}
+                    self.assertFalse(gate.get("allowed", False))
+                    self.assertNotEqual(
+                        preflight.get("decision"),
+                        "READY_FOR_FIRST_GENERATION",
+                    )
 
     def test_provisional_electoral_source_does_not_form_productive_pair(self):
         text = (WF / "preparacion-legislatura-vigente.yml").read_text(
