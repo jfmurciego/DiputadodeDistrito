@@ -167,6 +167,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "generar",
                 "puerta_02",
                 "preparar_electoral",
+                "clasificar_electoral",
                 "puerta_03",
                 "incorporar",
                 "recuperar_electoral",
