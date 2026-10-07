@@ -366,6 +366,14 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             prep,
         )
         self.assertIn(
+            '[[ -z "$package_election_id" || "$package_election_id" == "$ELECTION_ID" ]]',
+            prep,
+        )
+        self.assertIn(
+            "Bloqueo electoral con identidad contradictoria",
+            prep,
+        )
+        self.assertIn(
             "electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact,execution:$electoral_execution,completion_status:$electoral_completion_status}",
             workflow,
         )
