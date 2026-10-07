@@ -209,13 +209,36 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         self.assertEqual(manifest["electoral_status"], "SKIPPED_SOURCE_UNAVAILABLE")
         self.assertEqual(len(manifest["skipped_source_gap_phases"]), 2)
 
+    def test_r3b_electoral_source_block_after_03_is_successful_territorial_completion(self):
+        with tempfile.TemporaryDirectory() as td:
+            output = Path(td) / "manifest.json"
+            completed = subprocess.run(
+                manifest_cmd(
+                    output,
+                    completion="SKIPPED_ELECTORAL_SOURCE_INVALID",
+                    prep_e_result="success",
+                    prep_e_executed="true",
+                ),
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            manifest = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["status"], "SUCCESS")
+        self.assertEqual(manifest["completion_status"], "TERRITORIAL_COMPLETE")
+        self.assertEqual(manifest["territorial_status"], "CERTIFIED")
+        self.assertEqual(
+            manifest["electoral_status"],
+            "SKIPPED_ELECTORAL_SOURCE_INVALID",
+        )
+
     def test_r5_executed_electoral_failure_is_still_failed(self):
         with tempfile.TemporaryDirectory() as td:
             output = Path(td) / "manifest.json"
             completed = subprocess.run(
                 manifest_cmd(
                     output,
-                    completion="PENDING",
+                    completion="SKIPPED_ELECTORAL_SOURCE_INVALID",
                     prep_e_result="failure",
                     prep_e_executed="true",
                     electoral_source_validation="BLOQUEADO",
@@ -290,6 +313,27 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         self.assertEqual(
             territorial["existing"]["territorial_source"],
             electoral["existing"]["territorial_source"],
+        )
+
+    def test_phase03_source_gap_mode_is_opt_in_and_00_classifies_it(self):
+        prep = (ROOT / ".github/workflows/preparacion-resultados-electorales.yml").read_text(
+            encoding="utf-8"
+        )
+        workflow = ORCH.read_text(encoding="utf-8")
+        self.assertIn(
+            "allow_source_gap_success: {required: false, type: boolean, default: false}",
+            prep,
+        )
+        self.assertIn("electoral_outcome=SKIPPED_ELECTORAL_SOURCE_INVALID", prep)
+        self.assertIn("allow_source_gap_success: true", workflow)
+        self.assertIn("Clasificar resultado de la rama electoral", workflow)
+        self.assertIn(
+            'PREP_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID"',
+            workflow,
+        )
+        self.assertIn(
+            "03 falló técnicamente; no puede reclasificarse como source gap electoral",
+            workflow,
         )
 
     def test_r7_alternative_territorial_requires_temporal_admissibility_and_is_explicit(self):
