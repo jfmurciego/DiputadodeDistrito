@@ -279,7 +279,7 @@ jobs:
           requested=sys.argv[1]
           effective=resolve_publication_mode(plan,requested,root_dir=Path("."))
           Path(".ddd-full-run/plan.json").write_text(
-              json.dumps(plan,ensure_ascii=False,indent=2)+"\\n",encoding="utf-8"
+              json.dumps(plan,ensure_ascii=False,indent=2)+"\n",encoding="utf-8"
           )
           Path(".ddd-full-run/publication_mode.json").write_text(
               json.dumps({"requested":requested,"effective":effective},ensure_ascii=False,indent=2)+"\n",
