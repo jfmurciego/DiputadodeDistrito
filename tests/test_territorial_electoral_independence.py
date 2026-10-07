@@ -183,7 +183,7 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "herramientas.resolver_ejecucion_completa.validate_durable_assets",
             side_effect=DurableAssetBlock("DURABLE_ASSET_INVALID: territorial"),
         ):
-            with self.assertRaisesRegex(ValueError, "CONTINUE_TERRITORIAL_DURABLE_BLOCK"):
+            with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK"):
                 build_plan(
                     territory="Demo",
                     edition="2025",
