@@ -957,6 +957,7 @@ jobs:
           PREP_RESULT: ${{ needs.preparar_electoral.result }}
           PREP_OUTCOME: ${{ needs.preparar_electoral.outputs.electoral_outcome }}
           PREP_REASON: ${{ needs.preparar_electoral.outputs.electoral_skip_reason }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
           set -euo pipefail
           emit() {
@@ -975,6 +976,8 @@ jobs:
           elif [[ "$PLAN_EXECUTION" == "SKIP" ]]; then
             emit SKIP "$PLAN_ACTIVATION" "$PLAN_COMPLETION" "$PLAN_REASON"
           elif [[ "$RUN_PREPARE" != "true" ]]; then
+            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+          elif [[ "$EVENT_NAME" == "pull_request" && "$PREP_RESULT" == "skipped" ]]; then
             emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
           elif [[ "$PREP_RESULT" != "success" ]]; then
             echo "::error::03 falló técnicamente; no puede reclasificarse como source gap electoral."
