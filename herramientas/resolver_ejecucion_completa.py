@@ -414,24 +414,10 @@ def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path)
         )
         return "electoral"
 
-    if plan.get("run_prepare_electoral"):
-        from herramientas.resolver_eleccion_vigente import resolve as resolve_election_source
-        try:
-            resolve_election_source(territory, root_dir=root_dir, edition=edition)
-        except SystemExit as exc:
-            reason = str(exc)
-            if reason.startswith("No existe elección resoluble"):
-                _skip_electoral(
-                    plan,
-                    activation_status="TERRITORIAL_READY_ELECTORAL_PENDING",
-                    completion_status="SKIPPED_SOURCE_UNAVAILABLE",
-                    reason=reason,
-                )
-                return "electoral"
-            raise ValueError(
-                f"ELECTORAL_ACTIVATION_TECHNICAL_BLOCK: {reason}"
-            ) from exc
-
+    # Si el plan pide 03, la propia preparación electoral es la autoridad
+    # para resolver/adquirir la fuente. No se usa aquí un resolver más estricto:
+    # podría declarar "sin fuente" antes de que un adaptador gobernado (snapshot
+    # oficial, EleccionesDB, Minsait o declaración) tenga ocasión de adquirirla.
     plan["electoral_activation"] = {
         "status": "ELECTORAL_SOURCE_READY",
         "execution": "EXECUTE",
