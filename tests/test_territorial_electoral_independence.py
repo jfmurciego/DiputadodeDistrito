@@ -330,6 +330,14 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         self.assertIn("allow_source_gap_success: true", workflow)
         self.assertIn("Clasificar resultado de la rama electoral", workflow)
         self.assertIn(
+            "PREPARED_PAIR_SHA: ${{ needs.planificar.outputs.prepared_source_pair_sha256 }}",
+            workflow,
+        )
+        self.assertIn(
+            "no existe prepared_source_pair acreditado para la entrada electoral",
+            workflow,
+        )
+        self.assertIn(
             'PREP_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID"',
             workflow,
         )
