@@ -576,7 +576,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 expected_election_id=None,
             )
         except DurableAssetBlock as exc:
-            raise ValueError(f"CONTINUE_TERRITORIAL_DURABLE_BLOCK: {row['name']}: {exc}") from exc
+            raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
         prep = territorial_durable["territorial_source"] or {}
         territorial_evidence = territorial_durable["territorial_product"] or {}
 
