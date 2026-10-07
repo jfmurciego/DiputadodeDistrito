@@ -71,7 +71,7 @@ def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped
 
 
 class TerritorialElectoralIndependenceTests(unittest.TestCase):
-    def test_r1_valid_territorial_missing_electoral_keeps_generation_and_skips_electoral(self):
+    def test_r1_valid_territorial_missing_electoral_keeps_generation_and_delegates_to_03(self):
         plan = {
             "territory_id": "demo",
             "territory_name": "Demo",
@@ -93,21 +93,16 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         with mock.patch(
             "herramientas.resolver_ejecucion_completa.resolve_current_legislature",
             return_value=current,
-        ), mock.patch(
-            "herramientas.resolver_eleccion_vigente.resolve",
-            side_effect=SystemExit("No existe elección resoluble para territorio='Demo'"),
         ):
             mode = resolve_publication_mode(plan, "electoral", root_dir=Path("."))
 
         self.assertEqual(mode, "electoral")
         self.assertTrue(plan["run_generate"])
         self.assertFalse(plan["run_prepare_territorial"])
-        self.assertFalse(plan["run_prepare_electoral"])
-        self.assertFalse(plan["run_incorporate"])
-        self.assertEqual(
-            plan["electoral_activation"]["completion_status"],
-            "SKIPPED_SOURCE_UNAVAILABLE",
-        )
+        self.assertTrue(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+        self.assertEqual(plan["electoral_activation"]["execution"], "EXECUTE")
+        self.assertEqual(plan["electoral_activation"]["completion_status"], "PENDING")
 
         workflow = yaml.load(ORCH.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
         source_gate = workflow["jobs"]["verificar_fuentes_preparadas"]
@@ -370,7 +365,7 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             workflow,
         )
 
-    def test_election_resolution_corruption_is_not_downgraded_to_source_gap(self):
+    def test_legislature_resolution_corruption_is_not_downgraded_to_source_gap(self):
         plan = {
             "territory_id": "demo",
             "territory_name": "Demo",
@@ -380,18 +375,9 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "run_prepare_electoral": True,
             "run_incorporate": True,
         }
-        current = {
-            "plans": [{
-                "electoral_action": "ACQUIRE",
-                "electoral_admissibility": "NOT_ACCREDITED",
-            }]
-        }
         with mock.patch(
             "herramientas.resolver_ejecucion_completa.resolve_current_legislature",
-            return_value=current,
-        ), mock.patch(
-            "herramientas.resolver_eleccion_vigente.resolve",
-            side_effect=SystemExit("Elección vigente ambigua para territorio='Demo'"),
+            side_effect=ValueError("matriz electoral contradictoria"),
         ):
             with self.assertRaisesRegex(
                 ValueError,
