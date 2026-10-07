@@ -306,6 +306,7 @@ jobs:
               apply_explicit_territorial_source,
               _skip_electoral,
               select_territorial_for_prepared_pair,
+              classify_prepared_pair_failure,
           )
           path=Path(".ddd-full-run/plan.json")
           p=json.loads(path.read_text(encoding="utf-8"))
@@ -384,19 +385,15 @@ jobs:
                           root_dir=Path("."),territory=p["territory_name"],edition=p["edition"]
                       )
                   except PreparedPairExecutionBlock as exc:
-                      reason=str(exc)
-                      missing=("falta evidence.prepared_source_pair" in reason or "receipt durable del par no disponible" in reason)
+                      try:
+                          gap=classify_prepared_pair_failure(str(exc))
+                      except ValueError as technical:
+                          raise SystemExit(str(technical)) from exc
                       _skip_electoral(
                           p,
-                          activation_status=(
-                              "TERRITORIAL_READY_ELECTORAL_PENDING"
-                              if missing else "TERRITORIAL_READY_PAIR_INCOMPATIBLE"
-                          ),
-                          completion_status=(
-                              "SKIPPED_NO_ACCREDITED_PAIR"
-                              if missing else "SKIPPED_INCOMPATIBLE_PAIR"
-                          ),
-                          reason=reason,
+                          activation_status=gap["activation_status"],
+                          completion_status=gap["completion_status"],
+                          reason=gap["reason"],
                       )
                   else:
                       pair=pair_doc["pair"]
