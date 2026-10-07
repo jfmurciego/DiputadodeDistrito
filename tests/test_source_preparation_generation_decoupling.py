@@ -322,19 +322,23 @@ class WorkflowDecouplingTests(unittest.TestCase):
                 module.name,
             )
 
-    def test_current_canarias_and_cataluna_evidence_is_prepared_but_not_generation_enabled(self):
+    def test_current_prepared_sources_keep_generation_enablement_independent(self):
         catalog = yaml.safe_load(
             (ROOT / "configuracion/catalogo_preparacion.yaml").read_text(
                 encoding="utf-8"
             )
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
-        for territory_id in ("canarias", "cataluna"):
+        expected_generation_enabled = {
+            "canarias": True,
+            "cataluna": False,
+        }
+        for territory_id, expected_enabled in expected_generation_enabled.items():
             with self.subTest(territory=territory_id):
                 state = rows[territory_id]["editions"]["2025"]
                 self.assertTrue(state["territorial_sources_prepared"])
                 self.assertTrue(state["electoral_source_prepared"])
-                self.assertFalse(state["generation_enabled"])
+                self.assertEqual(expected_enabled, state["generation_enabled"])
                 evidence = state.get("evidence") or {}
                 pair_rel = evidence.get("prepared_source_pair")
                 self.assertTrue(pair_rel)
