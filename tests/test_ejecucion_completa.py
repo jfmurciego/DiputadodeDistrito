@@ -574,7 +574,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
-    def test_reuse_reschedules_electoral_when_registered_election_changed(self):
+    def test_reuse_degrades_electoral_when_registered_election_changed(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             catalog = root / "catalog.yaml"
@@ -676,21 +676,17 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 }],
             }, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
-            with mock.patch(
-                "herramientas.resolver_ejecucion_completa.generation_enablement",
-                return_value={"allowed": True},
+            with self.assertRaisesRegex(
+                ValueError,
+                "CONTINUE_DURABLE_BLOCK.*DURABLE_ASSET_MISSING.*electoral_source",
             ):
-                plan = build_plan(
+                build_plan(
                     territory="Demo",
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
                     root_dir=root,
                 )
-            self.assertEqual(plan["electoral_source_gap"]["kind"], "SOURCE_GAP")
-            self.assertIn("DURABLE_ASSET_MISSING", plan["electoral_source_gap"]["reason"])
-            self.assertFalse(plan["run_prepare_electoral"])
-            self.assertFalse(plan["run_incorporate"])
 
     def test_gerrychain_50_is_preserved_in_plan(self):
         with tempfile.TemporaryDirectory() as td:
