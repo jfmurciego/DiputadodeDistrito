@@ -1060,7 +1060,7 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                     root_dir=root,
                 )
 
-    def test_historical_source_and_flags_do_not_bypass_reaccreditation(self):
+    def test_current_durable_pre_m04_evidence_is_reused_without_reacquisition(self):
         catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
 
         reuse = build_plan(
@@ -1070,10 +1070,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertTrue(reuse["run_prepare_territorial"])
-        self.assertTrue(reuse["pre_m04_accreditation_planned"])
+        self.assertFalse(reuse["run_prepare_territorial"])
+        self.assertFalse(reuse["pre_m04_accreditation_planned"])
+        self.assertTrue(reuse["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             reuse["generation_gate"],
         )
 
@@ -1084,11 +1085,11 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
             catalog=catalog,
             root_dir=ROOT,
         )
-        self.assertTrue(catalog_source["run_prepare_territorial"])
-        self.assertTrue(catalog_source["pre_m04_accreditation_planned"])
+        self.assertFalse(catalog_source["run_prepare_territorial"])
+        self.assertFalse(catalog_source["pre_m04_accreditation_planned"])
         self.assertTrue(catalog_source["run_generate"])
         self.assertEqual(
-            {"allowed": True, "route": "planned_pre_m04_accreditation"},
+            {"allowed": True, "route": "validated_pre_m04_topology"},
             catalog_source["generation_gate"],
         )
         self.assertEqual(
