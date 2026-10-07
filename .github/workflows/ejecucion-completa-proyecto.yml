@@ -1261,10 +1261,10 @@ jobs:
       PREP_E_RESULT: ${{ needs.preparar_electoral.result }}
       INC_RESULT: ${{ needs.detectar_recuperacion_electoral.outputs.recover == 'true' && 'skipped' || needs.incorporar.result }}
       PUB_RESULT: ${{ needs.publicar.result }}
-      RUN_PREP_T: ${{ needs.planificar.outputs.run_prepare_territorial }}
-      RUN_GEN: ${{ needs.planificar.outputs.run_generate }}
-      RUN_PREP_E: ${{ needs.planificar.outputs.run_prepare_electoral }}
-      RUN_INC: ${{ needs.detectar_recuperacion_electoral.outputs.recover == 'true' && 'false' || needs.planificar.outputs.run_incorporate }}
+      RUN_PREP_T: ${{ needs.preparar_territorial.result != 'skipped' }}
+      RUN_GEN: ${{ needs.generar.result != 'skipped' }}
+      RUN_PREP_E: ${{ needs.preparar_electoral.result != 'skipped' }}
+      RUN_INC: ${{ needs.incorporar.result != 'skipped' }}
       RECOVERY_STATUS: ${{ needs.detectar_recuperacion_electoral.outputs.status }}
       RECOVERY_RESULT: ${{ needs.recuperar_electoral.result }}
       RECOVERY_REASON: ${{ needs.detectar_recuperacion_electoral.outputs.reason }}
