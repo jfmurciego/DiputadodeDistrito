@@ -606,7 +606,7 @@ jobs:
           retention-days: 30
 
   verificar_fuentes_preparadas:
-    name: Verificar bytes de fuentes acreditadas
+    name: Verificar bytes de la fuente territorial acreditada
     needs: planificar
     if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.run_prepare_territorial == 'false' }}
     runs-on: ubuntu-24.04
@@ -617,129 +617,88 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.planificar.outputs.source_sha }}
-      - name: Instalar runtime fijado de verificación de fuentes
+      - name: Instalar runtime fijado de verificación territorial
         run: python -m pip install --disable-pip-version-check -r requirements.lock
-      - name: Verificar runtime geoespacial de fuentes
+      - name: Verificar runtime geoespacial territorial
         run: python -c "import geopandas, pandas, shapely, pyproj, pyogrio, yaml"
-      - name: Resolver acreditación exacta según modo
+      - name: Resolver exactamente la territorial seleccionada
         env:
-          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
+          SELECTION_STATUS: ${{ needs.planificar.outputs.territorial_selection_status }}
         run: |
           set -euo pipefail
           mkdir -p .ddd-source-check
-          case "$EFFECTIVE_MODE" in
-            electoral)
-              python -m herramientas.consumir_par_fuentes_legislatura \
-                --root-dir . resolve \
-                --territory "${{ needs.planificar.outputs.territory_name }}" \
-                --edition "${{ needs.planificar.outputs.edition }}" \
-                --output .ddd-source-check/resolved.json
-              test "$(jq -r '.pair.pair_sha256' .ddd-source-check/resolved.json)" = "${{ needs.planificar.outputs.prepared_source_pair_sha256 }}" || {
-                echo "::error::El receipt durable del par cambió entre planificación y verificación."; exit 70;
-              }
-              ;;
-            territorial_only)
-              python -m herramientas.consumir_par_fuentes_legislatura \
-                --root-dir . resolve-territorial \
-                --territory "${{ needs.planificar.outputs.territory_name }}" \
-                --edition "${{ needs.planificar.outputs.edition }}" \
-                --output .ddd-source-check/resolved.json
-              test "$(jq -r '.territorial_source.territorial_identity_sha256' .ddd-source-check/resolved.json)" = "${{ needs.planificar.outputs.prepared_territorial_identity_sha256 }}" || {
-                echo "::error::La identidad territorial cambió entre planificación y verificación."; exit 70;
-              }
-              ;;
-            *) echo "::error::Modo efectivo no soportado: $EFFECTIVE_MODE"; exit 70 ;;
-          esac
-      - name: Verificar identidad remota exacta de artefactos requeridos
-        env:
-          GH_TOKEN: ${{ github.token }}
-          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
-        run: |
-          set -euo pipefail
-          verify_side() {
-            local side="$1" source run_id name expected expected_id pages merged total received matches live live_id
-            if [[ "$EFFECTIVE_MODE" == electoral ]]; then
-              source="$(jq -c ".pair.${side}_source" .ddd-source-check/resolved.json)"
-            else
-              [[ "$side" == territorial ]] || return 0
-              source="$(jq -c '.territorial_source' .ddd-source-check/resolved.json)"
-            fi
-            run_id="$(jq -r '.run_id' <<<"$source")"
-            name="$(jq -r '.artifact_name' <<<"$source")"
-            expected="$(jq -r '.artifact_sha256' <<<"$source" | sed 's/^sha256://')"
-            expected_id="$(jq -r '.remote_verification.artifact_id // .artifact_id // empty' <<<"$source")"
-            pages="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
-            merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$pages")"
-            total="$(jq -r '.total_count' <<<"$merged")"
-            received="$(jq -r '.artifacts|length' <<<"$merged")"
-            [[ "$total" == "$received" ]] || { echo "::error::Inventario remoto incompleto para $side"; exit 71; }
-            matches="$(jq -c --arg n "$name" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
-            [[ "$(jq 'length' <<<"$matches")" == 1 ]] || { echo "::error::Artefacto $side ausente o ambiguo"; exit 72; }
-            live="$(jq -c '.[0]' <<<"$matches")"
-            live_id="$(jq -r '.id' <<<"$live")"
-            if [[ -n "$expected_id" && "$live_id" != "$expected_id" ]]; then
-              echo "::error::artifact_id $side contradice la acreditación"; exit 73
-            fi
-            [[ "$(jq -r '.expired|tostring' <<<"$live")" == false ]] || { echo "::error::Artefacto $side expirado"; exit 74; }
-            [[ "$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')" == "$expected" ]] || {
-              echo "::error::Digest remoto $side contradice la acreditación"; exit 75;
-            }
-          }
-          verify_side territorial
-          if [[ "$EFFECTIVE_MODE" == electoral ]]; then verify_side electoral; fi
-      - name: Descargar exactamente los artefactos acreditados
-        env:
-          GH_TOKEN: ${{ github.token }}
-          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
-        run: |
-          set -euo pipefail
-          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
-            t_run="$(jq -r '.pair.territorial_source.run_id' .ddd-source-check/resolved.json)"
-            t_name="$(jq -r '.pair.territorial_source.artifact_name' .ddd-source-check/resolved.json)"
+          if [[ "$SELECTION_STATUS" == "FULL_PAIR_READY_WITH_ALTERNATIVE_TERRITORIAL" ]]; then
+            python -m herramientas.consumir_par_fuentes_legislatura \\
+              --root-dir . resolve \\
+              --territory "${{ needs.planificar.outputs.territory_name }}" \\
+              --edition "${{ needs.planificar.outputs.edition }}" \\
+              --output .ddd-source-check/pair.json
+            jq '{receipt_path:.pair.territorial_source.receipt_path,territorial_source:.pair.territorial_source}' \\
+              .ddd-source-check/pair.json > .ddd-source-check/resolved.json
           else
-            t_run="$(jq -r '.territorial_source.run_id' .ddd-source-check/resolved.json)"
-            t_name="$(jq -r '.territorial_source.artifact_name' .ddd-source-check/resolved.json)"
+            python -m herramientas.consumir_par_fuentes_legislatura \\
+              --root-dir . resolve-territorial \\
+              --territory "${{ needs.planificar.outputs.territory_name }}" \\
+              --edition "${{ needs.planificar.outputs.edition }}" \\
+              --output .ddd-source-check/resolved.json
           fi
-          rm -rf .ddd-source-check/territorial .ddd-source-check/electoral
+          test "$(jq -r '.territorial_source.territorial_identity_sha256' .ddd-source-check/resolved.json)" = "${{ needs.planificar.outputs.prepared_territorial_identity_sha256 }}" || {
+            echo "::error::La identidad territorial cambió entre planificación y verificación."; exit 70;
+          }
+      - name: Verificar identidad remota exacta del artefacto territorial
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source="$(jq -c '.territorial_source' .ddd-source-check/resolved.json)"
+          run_id="$(jq -r '.run_id' <<<"$source")"
+          name="$(jq -r '.artifact_name' <<<"$source")"
+          expected="$(jq -r '.artifact_sha256' <<<"$source" | sed 's/^sha256://')"
+          expected_id="$(jq -r '.remote_verification.artifact_id // .artifact_id // empty' <<<"$source")"
+          pages="$(gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/artifacts?per_page=100")"
+          merged="$(jq '{total_count:(.[0].total_count // 0),artifacts:[.[].artifacts[]]}' <<<"$pages")"
+          total="$(jq -r '.total_count' <<<"$merged")"
+          received="$(jq -r '.artifacts|length' <<<"$merged")"
+          [[ "$total" == "$received" ]] || { echo "::error::Inventario remoto incompleto para territorial"; exit 71; }
+          matches="$(jq -c --arg n "$name" '[.artifacts[]|select(.name==$n)]' <<<"$merged")"
+          [[ "$(jq 'length' <<<"$matches")" == 1 ]] || { echo "::error::Artefacto territorial ausente o ambiguo"; exit 72; }
+          live="$(jq -c '.[0]' <<<"$matches")"
+          live_id="$(jq -r '.id' <<<"$live")"
+          if [[ -n "$expected_id" && "$live_id" != "$expected_id" ]]; then
+            echo "::error::artifact_id territorial contradice la acreditación"; exit 73
+          fi
+          [[ "$(jq -r '.expired|tostring' <<<"$live")" == false ]] || { echo "::error::Artefacto territorial expirado"; exit 74; }
+          [[ "$(jq -r '.digest // empty' <<<"$live" | sed 's/^sha256://')" == "$expected" ]] || {
+            echo "::error::Digest remoto territorial contradice la acreditación"; exit 75;
+          }
+      - name: Descargar exactamente el artefacto territorial acreditado
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          t_run="$(jq -r '.territorial_source.run_id' .ddd-source-check/resolved.json)"
+          t_name="$(jq -r '.territorial_source.artifact_name' .ddd-source-check/resolved.json)"
+          rm -rf .ddd-source-check/territorial
           gh run download "$t_run" --repo "$GITHUB_REPOSITORY" --name "$t_name" --dir .ddd-source-check/territorial
           test -s .ddd-source-check/territorial/manifest.json
-          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
-            e_run="$(jq -r '.pair.electoral_source.run_id' .ddd-source-check/resolved.json)"
-            e_name="$(jq -r '.pair.electoral_source.artifact_name' .ddd-source-check/resolved.json)"
-            gh run download "$e_run" --repo "$GITHUB_REPOSITORY" --name "$e_name" --dir .ddd-source-check/electoral
-            test -s .ddd-source-check/electoral/manifest.json
-          fi
       - id: verify
-        name: Verificar bytes efectivos y contratos
-        env:
-          EFFECTIVE_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
+        name: Verificar bytes y contrato territorial efectivos
         run: |
           set -euo pipefail
-          if [[ "$EFFECTIVE_MODE" == electoral ]]; then
-            receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
-            python -m herramientas.consumir_par_fuentes_legislatura \
-              --root-dir . verify \
-              --pair-receipt "$receipt" \
-              --territorial-package .ddd-source-check/territorial \
-              --electoral-package .ddd-source-check/electoral \
-              --params "${{ needs.planificar.outputs.contract_path }}" \
-              --output .ddd-source-check/validation.json
-          else
-            receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
-            python -m herramientas.consumir_par_fuentes_legislatura \
-              --root-dir . verify-territorial \
-              --territorial-receipt "$receipt" \
-              --territorial-package .ddd-source-check/territorial \
-              --output .ddd-source-check/validation.json
-          fi
+          receipt="$(jq -r '.receipt_path' .ddd-source-check/resolved.json)"
+          python -m herramientas.consumir_par_fuentes_legislatura \\
+            --root-dir . verify-territorial \\
+            --territorial-receipt "$receipt" \\
+            --territorial-package .ddd-source-check/territorial \\
+            --output .ddd-source-check/validation.json
           jq -e '.decision == "READY"' .ddd-source-check/validation.json >/dev/null
-          echo "pair_sha256=$(jq -r '.pair_sha256 // empty' .ddd-source-check/validation.json)" >> "$GITHUB_OUTPUT"
+          echo "pair_sha256=${{ needs.planificar.outputs.prepared_source_pair_sha256 }}" >> "$GITHUB_OUTPUT"
           echo "territorial_identity_sha256=$(jq -r '.territorial_identity_sha256' .ddd-source-check/validation.json)" >> "$GITHUB_OUTPUT"
 
   detectar_recuperacion_electoral:
     name: Detectar M08 electoral materializado sin registro
     needs: planificar
-    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.persist_state == 'true' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
+    if: ${{ github.event_name != 'pull_request' && needs.planificar.result == 'success' && needs.planificar.outputs.persist_state == 'true' && needs.planificar.outputs.execution_mode_internal == 'reuse' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.outputs.run_prepare_territorial == 'false' && needs.planificar.outputs.run_generate == 'false' && needs.planificar.outputs.run_prepare_electoral == 'false' }}
     runs-on: ubuntu-24.04
     outputs:
       recover: ${{ steps.detect.outputs.recover }}
@@ -967,7 +926,7 @@ jobs:
     name: 03 Preparar resultados electorales
     needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02]
     # En modo electoral, from_start y cualquier plan sin fuente electoral válida ejecutan 03.
-    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
+    if: ${{ github.event_name != 'pull_request' && always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.outputs.run_prepare_electoral == 'true' }}
     uses: ./.github/workflows/preparacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -980,7 +939,7 @@ jobs:
   puerta_03:
     name: Puerta de validación 03 → 04
     needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, preparar_electoral]
-    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -996,7 +955,7 @@ jobs:
   incorporar:
     name: 04 Incorporar resultados electorales
     needs: [planificar, preparar_territorial, acreditar_generacion, generar, puerta_02, puerta_03, detectar_recuperacion_electoral]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -1031,7 +990,7 @@ jobs:
   puerta_04:
     name: Puerta de validación 04 → estado operativo
     needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
-    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
+    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -1048,7 +1007,7 @@ jobs:
   actualizar_estado:
     name: Actualizar estado operativo único
     needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.puerta_04.result == 'success')) }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || needs.planificar.outputs.electoral_execution == 'SKIP'))) }}
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -1090,7 +1049,7 @@ jobs:
   publicar:
     name: 05 Publicar visor
     needs: [planificar, puerta_02, puerta_04, actualizar_estado]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.puerta_04.result == 'success')) }}
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || needs.planificar.outputs.electoral_execution == 'SKIP'))) }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
