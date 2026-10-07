@@ -374,6 +374,10 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             prep,
         )
         self.assertIn(
+            "Decisión electoral no reconocida",
+            prep,
+        )
+        self.assertIn(
             "electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact,execution:$electoral_execution,completion_status:$electoral_completion_status}",
             workflow,
         )
