@@ -358,6 +358,14 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             prep,
         )
         self.assertIn(
+            '[[ "$validation_decision" == "READY_PACKAGE" ]]',
+            prep,
+        )
+        self.assertNotIn(
+            '[[ -z "$validation_decision" || "$validation_decision" == "READY_PACKAGE" ]]',
+            prep,
+        )
+        self.assertIn(
             '[[ "$production_eligible" == "true" ]] && ready=true',
             prep,
         )
