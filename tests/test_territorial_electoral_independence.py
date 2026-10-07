@@ -25,7 +25,15 @@ WRITER = ROOT / "herramientas/escribir_manifest_ejecucion_completa.py"
 
 
 def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped",
-                 prep_e_executed: str = "false", electoral_source_validation: str = "") -> list[str]:
+                 prep_e_executed: str = "false", electoral_source_validation: str = "",
+                 classification_result: str = "success",
+                 territorial_product_validation: str = "VALIDADO") -> list[str]:
+    activation_by_completion = {
+        "SKIPPED_SOURCE_UNAVAILABLE": "TERRITORIAL_READY_ELECTORAL_PENDING",
+        "SKIPPED_ELECTORAL_SOURCE_INVALID": "TERRITORIAL_READY_ELECTORAL_INVALID",
+        "SKIPPED_INCOMPATIBLE_PAIR": "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
+        "SKIPPED_NO_ACCREDITED_PAIR": "TERRITORIAL_READY_ELECTORAL_PENDING",
+    }
     return [
         sys.executable,
         str(WRITER),
@@ -38,10 +46,10 @@ def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped
         "--source-sha", "a" * 40,
         "--publication-mode-requested", "electoral",
         "--publication-mode-effective", "electoral",
-        "--electoral-activation-status", (
-            "TERRITORIAL_READY_ELECTORAL_PENDING"
-            if completion.startswith("SKIPPED_")
-            else "FULL_PAIR_READY"
+        "--electoral-classification-result", classification_result,
+        "--electoral-activation-status", activation_by_completion.get(
+            completion,
+            "TERRITORIAL_READY_ELECTORAL_PENDING" if completion.startswith("SKIPPED_") else "FULL_PAIR_READY",
         ),
         "--electoral-completion-status", completion,
         "--electoral-skip-reason", "fixture source gap" if completion.startswith("SKIPPED_") else "",
@@ -56,7 +64,7 @@ def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped
         "--prepare-electoral-executed", prep_e_executed,
         "--incorporate-executed", "false",
         "--territorial-source-validation", "VALIDADO",
-        "--territorial-product-validation", "VALIDADO",
+        "--territorial-product-validation", territorial_product_validation,
         "--electoral-source-validation", electoral_source_validation,
         "--output", str(output),
     ]
@@ -346,6 +354,66 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             workflow,
         )
 
+    def test_election_resolution_corruption_is_not_downgraded_to_source_gap(self):
+        plan = {
+            "territory_id": "demo",
+            "territory_name": "Demo",
+            "edition": "2025",
+            "run_prepare_territorial": False,
+            "run_generate": True,
+            "run_prepare_electoral": True,
+            "run_incorporate": True,
+        }
+        current = {
+            "plans": [{
+                "electoral_action": "ACQUIRE",
+                "electoral_admissibility": "NOT_ACCREDITED",
+            }]
+        }
+        with mock.patch(
+            "herramientas.resolver_ejecucion_completa.resolve_current_legislature",
+            return_value=current,
+        ), mock.patch(
+            "herramientas.resolver_eleccion_vigente.resolve",
+            side_effect=SystemExit("Elección vigente ambigua para territorio='Demo'"),
+        ):
+            with self.assertRaisesRegex(
+                ValueError,
+                "ELECTORAL_ACTIVATION_TECHNICAL_BLOCK",
+            ):
+                resolve_publication_mode(plan, "electoral", root_dir=Path("."))
+
+        self.assertTrue(plan["run_generate"])
+        self.assertTrue(plan["run_prepare_electoral"])
+        self.assertTrue(plan["run_incorporate"])
+
+    def test_unknown_skip_or_classifier_failure_cannot_yield_success_manifest(self):
+        scenarios = (
+            {
+                "completion": "SKIPPED_TECHNICAL_FAILURE",
+            },
+            {
+                "completion": "SKIPPED_SOURCE_UNAVAILABLE",
+                "classification_result": "failure",
+            },
+            {
+                "completion": "SKIPPED_SOURCE_UNAVAILABLE",
+                "territorial_product_validation": "BLOQUEADO",
+            },
+        )
+        for kwargs in scenarios:
+            with self.subTest(**kwargs), tempfile.TemporaryDirectory() as td:
+                output = Path(td) / "manifest.json"
+                completed = subprocess.run(
+                    manifest_cmd(output, **kwargs),
+                    capture_output=True,
+                    text=True,
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                manifest = json.loads(output.read_text(encoding="utf-8"))
+                self.assertEqual(manifest["status"], "FAILED")
+                self.assertEqual(manifest["completion_status"], "INCOMPLETE")
+
     def test_r7_alternative_territorial_requires_temporal_admissibility_and_is_explicit(self):
         preferred = {
             "territorial_identity_sha256": "a" * 64,
@@ -378,14 +446,24 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
 
         self.assertEqual(
             selected["status"],
-            "FULL_PAIR_READY_WITH_ALTERNATIVE_TERRITORIAL",
+            "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
         )
         self.assertEqual(selected["preferred_identity_sha256"], "a" * 64)
-        self.assertEqual(selected["selected_identity_sha256"], "b" * 64)
+        self.assertEqual(selected["selected_identity_sha256"], "a" * 64)
+        self.assertTrue(selected["alternative_temporally_admissible"])
         self.assertEqual(
             selected["selection_reason"],
-            "ACCREDITED_PAIR_ALTERNATIVE_TERRITORIAL_TEMPORALLY_ADMISSIBLE",
+            "PAIR_ALTERNATIVE_NOT_AUTO_SELECTED_TO_PRESERVE_TERRITORIAL_INDEPENDENCE",
         )
+
+        workflow = ORCH.read_text(encoding="utf-8")
+        self.assertNotIn("reuse=pair_doc.get(\"geometric_reuse\")", workflow)
+        self.assertNotIn("FULL_PAIR_READY_WITH_ALTERNATIVE_TERRITORIAL", workflow)
+        source_gate = workflow.split(
+            "  verificar_fuentes_preparadas:", 1
+        )[1].split("  detectar_recuperacion_electoral:", 1)[0]
+        self.assertIn("resolve-territorial", source_gate)
+        self.assertNotIn("--root-dir . resolve \\", source_gate)
 
 
 if __name__ == "__main__":
