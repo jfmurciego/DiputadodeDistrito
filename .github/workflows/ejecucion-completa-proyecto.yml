@@ -1228,11 +1228,12 @@ jobs:
             --arg entrypoint "$GERRYCHAIN_ENTRYPOINT" --argjson require_unique_hashes "$REQUIRE_UNIQUE_HASHES" \
             --arg territorial_run_id "$TERRITORIAL_RUN_ID" --arg territorial_artifact "$TERRITORIAL_ARTIFACT" \
             --arg electoral_run_id "$ELECTORAL_RUN_ID" --arg electoral_artifact "$ELECTORAL_ARTIFACT" \
+            --arg electoral_execution "$ELECTORAL_EXECUTION" --arg electoral_completion_status "$ELECTORAL_COMPLETION_STATUS" \
             --argjson candidate_count_expected "$CANDIDATE_COUNT" --argjson candidate_count_valid "$candidate_count_valid" \
             --argjson unique_candidate_hash_count "$unique_candidate_hash_count" \
             --argjson missing_candidate_hash_count "$missing_candidate_hash_count" \
             --argjson duplicate_candidate_hash_count "$duplicate_candidate_hash_count" \
-            '{schema:"ddd.campaign-territory-status/1.1",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,entrypoint:$entrypoint,require_unique_hashes:$require_unique_hashes,candidate_count_expected:$candidate_count_expected,candidate_count_valid:$candidate_count_valid,unique_candidate_hash_count:$unique_candidate_hash_count,missing_candidate_hash_count:$missing_candidate_hash_count,duplicate_candidate_hash_count:$duplicate_candidate_hash_count,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact}}' \
+            '{schema:"ddd.campaign-territory-status/1.1",campaign_instance:$campaign_instance,slot:$slot,territory_id:$territory_id,territory_name:$territory_name,namespace:$namespace,artifact_namespace:$artifact_namespace,source_sha:$source_sha,manifest_sha256:$manifest_sha256,publication_mode:$publication_mode,entrypoint:$entrypoint,require_unique_hashes:$require_unique_hashes,candidate_count_expected:$candidate_count_expected,candidate_count_valid:$candidate_count_valid,unique_candidate_hash_count:$unique_candidate_hash_count,missing_candidate_hash_count:$missing_candidate_hash_count,duplicate_candidate_hash_count:$duplicate_candidate_hash_count,status:$status,reason:$reason,territorial:{run_id:$territorial_run_id,artifact:$territorial_artifact},electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact,execution:$electoral_execution,completion_status:$electoral_completion_status}}' \
             > "$root/summary/campaign_status.json"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
