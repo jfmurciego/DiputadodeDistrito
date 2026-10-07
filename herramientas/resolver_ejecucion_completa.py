@@ -523,6 +523,18 @@ def _electoral_source_gap_from_durable_block(exc: DurableAssetBlock) -> dict | N
     return None
 
 
+def classify_prepared_pair_failure(reason: str) -> dict:
+    """Sólo la ausencia declarativa de pareja es source gap; un receipt roto es fallo DDD."""
+    text = str(reason or "")
+    if text.startswith("PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair"):
+        return {
+            "activation_status": "TERRITORIAL_READY_ELECTORAL_PENDING",
+            "completion_status": "SKIPPED_NO_ACCREDITED_PAIR",
+            "reason": text,
+        }
+    raise ValueError(f"ELECTORAL_PAIR_TECHNICAL_BLOCK: {text}")
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
