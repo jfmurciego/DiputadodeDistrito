@@ -365,6 +365,10 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "fuente electoral no elegible para producción",
             prep,
         )
+        self.assertIn(
+            "electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact,execution:$electoral_execution,completion_status:$electoral_completion_status}",
+            workflow,
+        )
 
     def test_election_resolution_corruption_is_not_downgraded_to_source_gap(self):
         plan = {
