@@ -27,7 +27,8 @@ WRITER = ROOT / "herramientas/escribir_manifest_ejecucion_completa.py"
 def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped",
                  prep_e_executed: str = "false", electoral_source_validation: str = "",
                  classification_result: str = "success",
-                 territorial_product_validation: str = "VALIDADO") -> list[str]:
+                 territorial_product_validation: str = "VALIDADO",
+                 incorporate_executed: str = "false") -> list[str]:
     activation_by_completion = {
         "SKIPPED_SOURCE_UNAVAILABLE": "TERRITORIAL_READY_ELECTORAL_PENDING",
         "SKIPPED_ELECTORAL_SOURCE_INVALID": "TERRITORIAL_READY_ELECTORAL_INVALID",
@@ -62,7 +63,7 @@ def manifest_cmd(output: Path, *, completion: str, prep_e_result: str = "skipped
         "--prepare-territorial-executed", "false",
         "--generate-executed", "false",
         "--prepare-electoral-executed", prep_e_executed,
-        "--incorporate-executed", "false",
+        "--incorporate-executed", incorporate_executed,
         "--territorial-source-validation", "VALIDADO",
         "--territorial-product-validation", territorial_product_validation,
         "--electoral-source-validation", electoral_source_validation,
@@ -93,8 +94,12 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
         with mock.patch(
             "herramientas.resolver_ejecucion_completa.resolve_current_legislature",
             return_value=current,
-        ):
+        ), mock.patch(
+            "herramientas.resolver_eleccion_vigente.resolve",
+            side_effect=AssertionError("03 debe conservar la autoridad de adquisición"),
+        ) as premature_source_resolver:
             mode = resolve_publication_mode(plan, "electoral", root_dir=Path("."))
+        premature_source_resolver.assert_not_called()
 
         self.assertEqual(mode, "electoral")
         self.assertTrue(plan["run_generate"])
@@ -410,6 +415,10 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
                 "completion": "SKIPPED_SOURCE_UNAVAILABLE",
                 "territorial_product_validation": "BLOQUEADO",
             },
+            {
+                "completion": "SKIPPED_SOURCE_UNAVAILABLE",
+                "incorporate_executed": "true",
+            },
         )
         for kwargs in scenarios:
             with self.subTest(**kwargs), tempfile.TemporaryDirectory() as td:
@@ -423,6 +432,36 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
                 manifest = json.loads(output.read_text(encoding="utf-8"))
                 self.assertEqual(manifest["status"], "FAILED")
                 self.assertEqual(manifest["completion_status"], "INCOMPLETE")
+
+    def test_same_material_pair_never_replaces_preferred_territorial_run(self):
+        preferred = {
+            "run_id": 101,
+            "artifact_name": "ddd-source-package-demo-2025-101",
+            "territorial_identity_sha256": "a" * 64,
+            "population_year": 2025,
+            "section_year": 2025,
+        }
+        pair = {
+            "territorial_source": {
+                "run_id": 202,
+                "artifact_name": "ddd-source-package-demo-2025-202",
+                "territorial_identity_sha256": "a" * 64,
+                "population_year": 2025,
+                "section_year": 2025,
+            }
+        }
+        selected = select_territorial_for_prepared_pair(
+            {"territory_name": "Demo"},
+            preferred_territorial=preferred,
+            pair=pair,
+            root_dir=Path("."),
+        )
+        self.assertEqual(selected["status"], "FULL_PAIR_READY")
+        self.assertEqual(selected["selected"]["run_id"], 101)
+        self.assertEqual(
+            selected["selection_reason"],
+            "PREFERRED_TERRITORIAL_MATCHES_ACCREDITED_PAIR",
+        )
 
     def test_r7_alternative_territorial_requires_temporal_admissibility_and_is_explicit(self):
         preferred = {
