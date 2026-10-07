@@ -353,6 +353,18 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "03 falló técnicamente; no puede reclasificarse como source gap electoral",
             workflow,
         )
+        self.assertIn(
+            'production_eligible="${{ steps.policy.outputs.production_eligible }}"',
+            prep,
+        )
+        self.assertIn(
+            '[[ "$production_eligible" == "true" ]] && ready=true',
+            prep,
+        )
+        self.assertIn(
+            "fuente electoral no elegible para producción",
+            prep,
+        )
 
     def test_election_resolution_corruption_is_not_downgraded_to_source_gap(self):
         plan = {
