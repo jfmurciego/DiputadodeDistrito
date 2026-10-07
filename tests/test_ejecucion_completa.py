@@ -4,6 +4,7 @@ import json
 import tempfile
 from pathlib import Path
 import unittest
+from unittest import mock
 import yaml
 
 from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
@@ -629,17 +630,21 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 },
             }, sort_keys=False), encoding="utf-8")
 
-            with self.assertRaisesRegex(
-                ValueError,
-                "CONTINUE_DURABLE_BLOCK.*electoral_source.*election_id",
+            with mock.patch(
+                "herramientas.resolver_ejecucion_completa.generation_enablement",
+                return_value={"allowed": True},
             ):
-                build_plan(
+                plan = build_plan(
                     territory="Demo",
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
                     root_dir=root,
                 )
+            self.assertEqual(plan["electoral_source_gap"]["kind"], "SOURCE_GAP")
+            self.assertIn("electoral_source", plan["electoral_source_gap"]["reason"])
+            self.assertFalse(plan["run_prepare_electoral"])
+            self.assertFalse(plan["run_incorporate"])
 
     def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
         with tempfile.TemporaryDirectory() as td:
@@ -671,17 +676,21 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 }],
             }, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
-            with self.assertRaisesRegex(
-                ValueError,
-                "CONTINUE_DURABLE_BLOCK.*DURABLE_ASSET_MISSING.*electoral_source",
+            with mock.patch(
+                "herramientas.resolver_ejecucion_completa.generation_enablement",
+                return_value={"allowed": True},
             ):
-                build_plan(
+                plan = build_plan(
                     territory="Demo",
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
                     root_dir=root,
                 )
+            self.assertEqual(plan["electoral_source_gap"]["kind"], "SOURCE_GAP")
+            self.assertIn("DURABLE_ASSET_MISSING", plan["electoral_source_gap"]["reason"])
+            self.assertFalse(plan["run_prepare_electoral"])
+            self.assertFalse(plan["run_incorporate"])
 
     def test_gerrychain_50_is_preserved_in_plan(self):
         with tempfile.TemporaryDirectory() as td:
