@@ -901,7 +901,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" != "from_start"', text)
-        self.assertIn('p.get("execution_mode")!="from_start" and effective_mode=="electoral"', text)
+        self.assertIn('if p.get("execution_mode")!="from_start" and territorial_path.is_file():', text)
+        self.assertIn('effective_mode=="electoral"', text)
         self.assertIn("FROM_START_CONTRACT_BLOCK", text)
         self.assertIn("TEMPORAL_CONTRACT_BLOCK: 00 no puede lanzar 01 sin contrato temporal", text)
 
