@@ -8,12 +8,15 @@ on:
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      allow_source_gap_success: {required: false, type: boolean, default: false}
     outputs:
       territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
       codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}
       edition: {value: '${{ jobs.resolver.outputs.edition }}'}
       artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
       artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
+      electoral_outcome: {value: '${{ jobs.electorales.outputs.electoral_outcome }}'}
+      electoral_skip_reason: {value: '${{ jobs.electorales.outputs.electoral_skip_reason }}'}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -73,7 +76,7 @@ jobs:
     name: Preparar resultados electorales
     needs: resolver
     runs-on: ubuntu-24.04
-    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}'}
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}', electoral_outcome: '${{ steps.outcome.outputs.electoral_outcome }}', electoral_skip_reason: '${{ steps.outcome.outputs.electoral_skip_reason }}'}
     env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ELECTION_DATE: '${{ needs.resolver.outputs.election_date }}'}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -295,10 +298,15 @@ jobs:
               --edition "$EDITION" \
               --root-dir . \
               --output "$validation"
-            [[ "$(jq -r '.decision // empty' "$validation")" == "READY_PACKAGE" ]] || {
-              echo "::error::Paquete electoral no supera READY_PACKAGE"
-              exit 56
-            }
+            validation_decision="$(jq -r '.decision // empty' "$validation")"
+            if [[ "$validation_decision" != "READY_PACKAGE" ]]; then
+              if [[ "${{ inputs.allow_source_gap_success }}" == "true" ]]; then
+                echo "::notice::Paquete electoral no supera READY_PACKAGE; el caller ha autorizado degradación territorial."
+              else
+                echo "::error::Paquete electoral no supera READY_PACKAGE"
+                exit 56
+              fi
+            fi
           else
             echo "Paquete electoral no consumible ($decision): se conserva para evidencia y bloqueo durable."
           fi
@@ -322,10 +330,46 @@ jobs:
       - id: upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with: {name: 'ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}', path: .ddd-electoral-package, include-hidden-files: true, if-no-files-found: error, retention-days: 30}
-      - name: Aplicar decisión electoral
+      - id: outcome
+        name: Aplicar decisión electoral
+        shell: bash
         run: |
+          set -euo pipefail
           test -f .ddd-electoral-package/manifest.json
-          decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"; case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
+          manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          validation_decision=""
+          validation=.ddd-electoral-package/evidence/validacion_preparacion.json
+          [[ -f "$validation" ]] && validation_decision="$(jq -r '.decision // empty' "$validation")"
+          ready=false
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ -z "$validation_decision" || "$validation_decision" == "READY_PACKAGE" ]] && ready=true
+          fi
+          if [[ "$ready" == "true" ]]; then
+            {
+              echo "electoral_outcome=READY"
+              echo "electoral_skip_reason="
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${{ inputs.allow_source_gap_success }}" != "true" ]]; then
+            echo "::error::Preparación electoral BLOQUEADA"
+            exit 42
+          fi
+
+          reason="$(jq -r '.reason // .block_reason // empty' "$manifest")"
+          if [[ -z "$reason" && -f "$validation" ]]; then
+            reason="$(jq -r '.reason // ((.reasons // []) | join("; ")) // empty' "$validation")"
+          fi
+          [[ -n "$reason" ]] || reason="fuente electoral no apta por contrato"
+          {
+            echo "electoral_outcome=SKIPPED_ELECTORAL_SOURCE_INVALID"
+            echo "electoral_skip_reason<<DDD_EOF"
+            echo "$reason"
+            echo "DDD_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "::notice::La fuente electoral queda en SKIP contractual; no se oculta ningún fallo técnico."
 
   registrar:
     name: Registrar resultados electorales preparados
