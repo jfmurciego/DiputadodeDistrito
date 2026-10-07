@@ -448,7 +448,13 @@ def select_territorial_for_prepared_pair(
     pair: dict,
     root_dir: Path,
 ) -> dict:
-    """Selecciona explícitamente A o B sin rebajar vigencia territorial."""
+    """Evalúa una alternativa B, pero conserva A salvo identidad material exacta.
+
+    La pareja electoral no tiene autoridad para cambiar la fuente usada por M04-M06.
+    Una B distinta puede declararse temporalmente admisible para diagnóstico, pero
+    queda fuera de esta ejecución hasta que exista una selección territorial explícita
+    e independiente de la rama electoral.
+    """
     preferred = dict(preferred_territorial)
     paired = dict(pair.get("territorial_source") or {})
     preferred_identity = str(preferred.get("territorial_identity_sha256") or "")
