@@ -932,11 +932,66 @@ jobs:
       reutilizar_si_ya_preparada: ${{ needs.planificar.outputs.execution_mode_internal != 'from_start' }}
       source_ref: ${{ needs.acreditar_generacion.result == 'success' && needs.acreditar_generacion.outputs.enabled_source_ref || (needs.preparar_territorial.result == 'success' && needs.preparar_territorial.outputs.prepared_source_ref || needs.planificar.outputs.source_sha) }}
       persist_state: ${{ needs.planificar.outputs.persist_state == 'true' }}
+      allow_source_gap_success: true
+
+  clasificar_electoral:
+    name: Clasificar resultado de la rama electoral
+    needs: [planificar, preparar_electoral]
+    if: ${{ always() && needs.planificar.result == 'success' }}
+    runs-on: ubuntu-24.04
+    outputs:
+      execution: ${{ steps.classify.outputs.execution }}
+      activation_status: ${{ steps.classify.outputs.activation_status }}
+      completion_status: ${{ steps.classify.outputs.completion_status }}
+      skip_reason: ${{ steps.classify.outputs.skip_reason }}
+    steps:
+      - id: classify
+        shell: bash
+        env:
+          PUBLICATION_MODE: ${{ needs.planificar.outputs.publication_mode_effective }}
+          PLAN_EXECUTION: ${{ needs.planificar.outputs.electoral_execution }}
+          PLAN_ACTIVATION: ${{ needs.planificar.outputs.electoral_activation_status }}
+          PLAN_COMPLETION: ${{ needs.planificar.outputs.electoral_completion_status }}
+          PLAN_REASON: ${{ needs.planificar.outputs.electoral_skip_reason }}
+          RUN_PREPARE: ${{ needs.planificar.outputs.run_prepare_electoral }}
+          PREP_RESULT: ${{ needs.preparar_electoral.result }}
+          PREP_OUTCOME: ${{ needs.preparar_electoral.outputs.electoral_outcome }}
+          PREP_REASON: ${{ needs.preparar_electoral.outputs.electoral_skip_reason }}
+        run: |
+          set -euo pipefail
+          emit() {
+            local execution="$1" activation="$2" completion="$3" reason="$4"
+            {
+              echo "execution=$execution"
+              echo "activation_status=$activation"
+              echo "completion_status=$completion"
+              echo "skip_reason<<DDD_EOF"
+              echo "$reason"
+              echo "DDD_EOF"
+            } >> "$GITHUB_OUTPUT"
+          }
+          if [[ "$PUBLICATION_MODE" != "electoral" ]]; then
+            emit SKIP TERRITORIAL_ONLY NOT_REQUESTED "alcance territorial solicitado"
+          elif [[ "$PLAN_EXECUTION" == "SKIP" ]]; then
+            emit SKIP "$PLAN_ACTIVATION" "$PLAN_COMPLETION" "$PLAN_REASON"
+          elif [[ "$RUN_PREPARE" != "true" ]]; then
+            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+          elif [[ "$PREP_RESULT" != "success" ]]; then
+            echo "::error::03 falló técnicamente; no puede reclasificarse como source gap electoral."
+            exit 61
+          elif [[ "$PREP_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID" ]]; then
+            emit SKIP TERRITORIAL_READY_ELECTORAL_INVALID SKIPPED_ELECTORAL_SOURCE_INVALID "$PREP_REASON"
+          elif [[ "$PREP_OUTCOME" == "READY" ]]; then
+            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+          else
+            echo "::error::03 terminó sin resultado electoral semántico reconocible: $PREP_OUTCOME"
+            exit 62
+          fi
 
   puerta_03:
     name: Puerta de validación 03 → 04
-    needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, preparar_electoral]
-    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
+    needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, preparar_electoral, clasificar_electoral]
+    if: ${{ always() && github.event_name != 'pull_request' && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && (needs.preparar_electoral.result == 'success' || needs.planificar.outputs.run_prepare_electoral == 'false') }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -951,8 +1006,8 @@ jobs:
 
   incorporar:
     name: 04 Incorporar resultados electorales
-    needs: [planificar, preparar_territorial, acreditar_generacion, generar, puerta_02, puerta_03, detectar_recuperacion_electoral]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
+    needs: [planificar, preparar_territorial, acreditar_generacion, generar, puerta_02, puerta_03, detectar_recuperacion_electoral, clasificar_electoral]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && needs.planificar.outputs.run_incorporate == 'true' && (needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) }}
     uses: ./.github/workflows/incorporacion-resultados-electorales.yml
     secrets: inherit
     with:
@@ -970,8 +1025,8 @@ jobs:
 
   recuperar_electoral:
     name: Reanudar registro M08 durable existente
-    needs: [planificar, detectar_recuperacion_electoral, puerta_02, puerta_03]
-    if: ${{ always() && needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' }}
+    needs: [planificar, detectar_recuperacion_electoral, puerta_02, puerta_03, clasificar_electoral]
+    if: ${{ always() && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' }}
     uses: ./.github/workflows/recuperar-producto-electoral-durable.yml
     secrets: inherit
     with:
@@ -986,8 +1041,8 @@ jobs:
 
   puerta_04:
     name: Puerta de validación 04 → estado operativo
-    needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral]
-    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.planificar.outputs.electoral_execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
+    needs: [planificar, preparar_territorial, acreditar_generacion, puerta_02, puerta_03, detectar_recuperacion_electoral, incorporar, recuperar_electoral, clasificar_electoral]
+    if: ${{ always() && needs.planificar.outputs.publication_mode_effective == 'electoral' && needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'EXECUTE' && needs.planificar.result == 'success' && needs.puerta_02.result == 'success' && needs.puerta_03.result == 'success' && ((needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover == 'true' && needs.recuperar_electoral.result == 'success') || ((needs.detectar_recuperacion_electoral.result == 'skipped' || (needs.detectar_recuperacion_electoral.result == 'success' && needs.detectar_recuperacion_electoral.outputs.recover != 'true')) && (needs.incorporar.result == 'success' || needs.planificar.outputs.run_incorporate == 'false'))) }}
     uses: ./.github/workflows/_reutilizable-puerta-validacion.yml
     secrets: inherit
     with:
@@ -1003,8 +1058,8 @@ jobs:
 
   actualizar_estado:
     name: Actualizar estado operativo único
-    needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || needs.planificar.outputs.electoral_execution == 'SKIP'))) }}
+    needs: [planificar, puerta_01, puerta_02, puerta_03, puerta_04, clasificar_electoral]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.puerta_01.result == 'success' && needs.puerta_02.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || (needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'SKIP')))) }}
     runs-on: ubuntu-24.04
     outputs:
       source_ref: ${{ steps.state.outputs.source_ref }}
@@ -1045,8 +1100,8 @@ jobs:
 
   publicar:
     name: 05 Publicar visor
-    needs: [planificar, puerta_02, puerta_04, actualizar_estado]
-    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || needs.planificar.outputs.electoral_execution == 'SKIP'))) }}
+    needs: [planificar, puerta_02, puerta_04, actualizar_estado, clasificar_electoral]
+    if: ${{ always() && needs.planificar.result == 'success' && needs.planificar.outputs.publish_result == 'true' && needs.puerta_02.result == 'success' && needs.actualizar_estado.result == 'success' && ((needs.planificar.outputs.publication_mode_effective == 'territorial_only') || (needs.planificar.outputs.publication_mode_effective == 'electoral' && (needs.puerta_04.result == 'success' || (needs.clasificar_electoral.result == 'success' && needs.clasificar_electoral.outputs.execution == 'SKIP')))) }}
     uses: ./.github/workflows/desplegar-visor-publico.yml
     secrets: inherit
     with:
@@ -1055,7 +1110,7 @@ jobs:
 
   campaign_status:
     name: Evidencia aislada de campaña
-    needs: [planificar, generar, puerta_02, preparar_electoral, puerta_03, incorporar, puerta_04]
+    needs: [planificar, generar, puerta_02, preparar_electoral, puerta_03, incorporar, puerta_04, clasificar_electoral]
     if: ${{ always() && inputs.campaign_instance != '' && needs.planificar.result == 'success' }}
     runs-on: ubuntu-24.04
     env:
@@ -1074,6 +1129,8 @@ jobs:
       SOURCE_SHA: ${{ needs.planificar.outputs.source_sha }}
       TERRITORIAL_GATE_RESULT: ${{ needs.puerta_02.result }}
       ELECTORAL_GATE_RESULT: ${{ needs.puerta_04.result }}
+      ELECTORAL_EXECUTION: ${{ needs.clasificar_electoral.outputs.execution }}
+      ELECTORAL_COMPLETION_STATUS: ${{ needs.clasificar_electoral.outputs.completion_status }}
       TERRITORIAL_RUN_ID: ${{ needs.puerta_02.outputs.run_id }}
       TERRITORIAL_ARTIFACT: ${{ needs.puerta_02.outputs.artifact_name }}
       EXPECTED_DISTRICT_COUNT: ${{ inputs.expected_district_count }}
@@ -1150,7 +1207,7 @@ jobs:
             status=FAIL
             reason="${reason:+$reason; }portfolio inválido valid=$candidate_count_valid unique=$unique_candidate_hash_count missing_hashes=$missing_candidate_hash_count duplicate_hashes=$duplicate_candidate_hash_count"
           fi
-          if [[ "$PUBLICATION_MODE" == electoral && "$ELECTORAL_GATE_RESULT" != success ]]; then
+          if [[ "$PUBLICATION_MODE" == electoral && "$ELECTORAL_EXECUTION" == EXECUTE && "$ELECTORAL_GATE_RESULT" != success ]]; then
             status=FAIL
             reason="${reason:+$reason; }producto electoral no validado"
           fi
@@ -1183,7 +1240,7 @@ jobs:
 
   manifestar:
     name: Registrar manifiesto de ejecución completa
-    needs: [planificar, detectar_recuperacion_electoral, preparar_territorial, puerta_01, generar, puerta_02, preparar_electoral, puerta_03, incorporar, recuperar_electoral, puerta_04, actualizar_estado, publicar]
+    needs: [planificar, detectar_recuperacion_electoral, preparar_territorial, puerta_01, generar, puerta_02, preparar_electoral, clasificar_electoral, puerta_03, incorporar, recuperar_electoral, puerta_04, actualizar_estado, publicar]
     if: ${{ always() && needs.planificar.result == 'success' }}
     runs-on: ubuntu-24.04
     concurrency:
@@ -1217,9 +1274,9 @@ jobs:
       PUBLISH_REQUESTED: ${{ needs.planificar.outputs.publish_result }}
       PUBLICATION_MODE_REQUESTED: ${{ needs.planificar.outputs.publication_mode_requested }}
       PUBLICATION_MODE_EFFECTIVE: ${{ needs.planificar.outputs.publication_mode_effective }}
-      ELECTORAL_ACTIVATION_STATUS: ${{ needs.planificar.outputs.electoral_activation_status }}
-      ELECTORAL_COMPLETION_STATUS: ${{ needs.planificar.outputs.electoral_completion_status }}
-      ELECTORAL_SKIP_REASON: ${{ needs.planificar.outputs.electoral_skip_reason }}
+      ELECTORAL_ACTIVATION_STATUS: ${{ needs.clasificar_electoral.outputs.activation_status }}
+      ELECTORAL_COMPLETION_STATUS: ${{ needs.clasificar_electoral.outputs.completion_status }}
+      ELECTORAL_SKIP_REASON: ${{ needs.clasificar_electoral.outputs.skip_reason }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
