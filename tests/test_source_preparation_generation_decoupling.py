@@ -372,11 +372,21 @@ class WorkflowDecouplingTests(unittest.TestCase):
                     ):
                         self.assertEqual(preflight_source[key], prepared[key])
                     gate = preflight.get("effective_gate") or {}
-                    self.assertFalse(gate.get("allowed", False))
-                    self.assertNotEqual(
-                        preflight.get("decision"),
-                        "READY_FOR_FIRST_GENERATION",
-                    )
+                    self.assertEqual(expected_enabled, bool(gate.get("allowed", False)))
+                    if expected_enabled:
+                        self.assertEqual(
+                            "READY_FOR_FIRST_GENERATION",
+                            preflight.get("decision"),
+                        )
+                        self.assertEqual(
+                            "validated_pre_m04_topology",
+                            gate.get("route"),
+                        )
+                    else:
+                        self.assertNotEqual(
+                            preflight.get("decision"),
+                            "READY_FOR_FIRST_GENERATION",
+                        )
 
     def test_provisional_electoral_source_does_not_form_productive_pair(self):
         text = (WF / "preparacion-legislatura-vigente.yml").read_text(
