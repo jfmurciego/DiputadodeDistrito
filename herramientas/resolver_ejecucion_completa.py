@@ -343,6 +343,172 @@ def _catalog_territorial_source(*, row: dict, state: dict, edition: str, root_di
     }
 
 
+
+ELECTORAL_SKIP_STATUSES = {
+    "SKIPPED_SOURCE_UNAVAILABLE",
+    "SKIPPED_ELECTORAL_SOURCE_INVALID",
+    "SKIPPED_INCOMPATIBLE_PAIR",
+    "SKIPPED_NO_ACCREDITED_PAIR",
+}
+
+
+def _skip_electoral(plan: dict, *, activation_status: str, completion_status: str, reason: str) -> None:
+    """Degrada sólo la rama electoral; nunca altera el contrato territorial."""
+    if completion_status not in ELECTORAL_SKIP_STATUSES:
+        raise ValueError(f"Estado de skip electoral no reconocido: {completion_status}")
+    plan["electoral_activation"] = {
+        "status": activation_status,
+        "execution": "SKIP",
+        "completion_status": completion_status,
+        "reason": reason,
+    }
+    plan["run_prepare_electoral"] = False
+    plan["run_incorporate"] = False
+
+
+def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path) -> str:
+    """Resuelve alcance sin convertir una carencia electoral en bloqueo territorial."""
+    if requested_mode not in {"electoral", "territorial_only"}:
+        raise ValueError(f"publication_mode inválido: {requested_mode}")
+    if requested_mode == "territorial_only":
+        plan["electoral_activation"] = {
+            "status": "TERRITORIAL_ONLY",
+            "execution": "SKIP",
+            "completion_status": "NOT_REQUESTED",
+            "reason": "alcance territorial solicitado",
+        }
+        plan["run_prepare_electoral"] = False
+        plan["run_incorporate"] = False
+        return "territorial_only"
+
+    gap = plan.get("electoral_source_gap")
+    if gap:
+        _skip_electoral(
+            plan,
+            activation_status="TERRITORIAL_READY_ELECTORAL_INVALID",
+            completion_status="SKIPPED_ELECTORAL_SOURCE_INVALID",
+            reason=str(gap.get("reason") or gap.get("error") or "fuente electoral durable inválida"),
+        )
+        return "electoral"
+
+    territory = str(plan.get("territory_name") or plan.get("territory_id") or "")
+    edition = str(plan.get("edition") or "")
+    try:
+        current = resolve_current_legislature(root_dir, territory)
+    except Exception as exc:
+        raise ValueError(f"ELECTORAL_ACTIVATION_TECHNICAL_BLOCK: {exc}") from exc
+    rows = current.get("plans") or []
+    if len(rows) != 1:
+        raise ValueError("ELECTORAL_ACTIVATION_TECHNICAL_BLOCK: la activación debe resolver exactamente un territorio")
+    activation = rows[0]
+
+    if (
+        activation.get("electoral_action") == "BLOCKED_PROVISIONAL"
+        or activation.get("electoral_admissibility") == "BLOCKED"
+    ):
+        _skip_electoral(
+            plan,
+            activation_status="TERRITORIAL_READY_ELECTORAL_INVALID",
+            completion_status="SKIPPED_ELECTORAL_SOURCE_INVALID",
+            reason=str(activation.get("electoral_reason") or "fuente electoral provisional/no elegible"),
+        )
+        return "electoral"
+
+    if plan.get("run_prepare_electoral"):
+        from herramientas.resolver_eleccion_vigente import resolve as resolve_election_source
+        try:
+            resolve_election_source(territory, root_dir=root_dir, edition=edition)
+        except SystemExit as exc:
+            reason = str(exc)
+            unavailable = (
+                reason.startswith("No existe elección resoluble")
+                or reason.startswith("Territorio o edición no declarados")
+            )
+            _skip_electoral(
+                plan,
+                activation_status=(
+                    "TERRITORIAL_READY_ELECTORAL_PENDING"
+                    if unavailable
+                    else "TERRITORIAL_READY_ELECTORAL_INVALID"
+                ),
+                completion_status=(
+                    "SKIPPED_SOURCE_UNAVAILABLE"
+                    if unavailable
+                    else "SKIPPED_ELECTORAL_SOURCE_INVALID"
+                ),
+                reason=reason,
+            )
+            return "electoral"
+
+    plan["electoral_activation"] = {
+        "status": "ELECTORAL_SOURCE_READY",
+        "execution": "EXECUTE",
+        "completion_status": "PENDING",
+        "reason": None,
+    }
+    return "electoral"
+
+
+def select_territorial_for_prepared_pair(
+    plan: dict,
+    *,
+    preferred_territorial: dict,
+    pair: dict,
+    root_dir: Path,
+) -> dict:
+    """Selecciona explícitamente A o B sin rebajar vigencia territorial."""
+    preferred = dict(preferred_territorial)
+    paired = dict(pair.get("territorial_source") or {})
+    preferred_identity = str(preferred.get("territorial_identity_sha256") or "")
+    paired_identity = str(paired.get("territorial_identity_sha256") or "")
+    if not preferred_identity or not paired_identity:
+        raise ValueError("PAIR_SELECTION_BLOCK: identidad territorial ausente")
+    if preferred_identity == paired_identity:
+        return {
+            "status": "FULL_PAIR_READY",
+            "selected": paired,
+            "preferred_identity_sha256": preferred_identity,
+            "selected_identity_sha256": paired_identity,
+            "selection_reason": "PREFERRED_TERRITORIAL_MATCHES_ACCREDITED_PAIR",
+        }
+
+    current = resolve_current_legislature(
+        root_dir,
+        str(plan.get("territory_name") or plan.get("territory_id") or ""),
+    )
+    rows = current.get("plans") or []
+    if len(rows) != 1:
+        raise ValueError("PAIR_SELECTION_BLOCK: no se pudo resolver una única política temporal")
+    temporal = rows[0]
+    pair_population_year = int(paired.get("population_year") or 0)
+    pair_section_year = int(paired.get("section_year") or 0)
+    expected_population_year = int(temporal["population_year_selected"])
+    expected_section_year = int(temporal["section_year_selected"])
+    if (
+        pair_population_year == expected_population_year
+        and pair_section_year == expected_section_year
+    ):
+        return {
+            "status": "FULL_PAIR_READY_WITH_ALTERNATIVE_TERRITORIAL",
+            "selected": paired,
+            "preferred_identity_sha256": preferred_identity,
+            "selected_identity_sha256": paired_identity,
+            "selection_reason": "ACCREDITED_PAIR_ALTERNATIVE_TERRITORIAL_TEMPORALLY_ADMISSIBLE",
+            "population_year_selected": expected_population_year,
+            "section_year_selected": expected_section_year,
+        }
+    return {
+        "status": "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
+        "selected": preferred,
+        "preferred_identity_sha256": preferred_identity,
+        "selected_identity_sha256": preferred_identity,
+        "rejected_pair_territorial_identity_sha256": paired_identity,
+        "selection_reason": "PAIR_ALTERNATIVE_REJECTED_BY_TERRITORIAL_TEMPORAL_POLICY",
+        "population_year_selected": expected_population_year,
+        "section_year_selected": expected_section_year,
+    }
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
@@ -395,7 +561,25 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
     if optimization_algorithm not in {"Canónico", "GerryChain", "GerryChain 25", "GerryChain 50"}:
         raise ValueError(f"Estrategia de optimización inválida: {optimization_algorithm}")
     expected_election_id = _core._registered_election_id(root_dir, row["territory_id"])
+    electoral_source_gap = None
     if automatic_continue:
+        territorial_state = dict(state)
+        territorial_state["electoral_source_prepared"] = False
+        territorial_state["electoral_product_available"] = False
+        try:
+            territorial_durable = validate_durable_assets(
+                root_dir=root_dir,
+                state=territorial_state,
+                territory_id=row["territory_id"],
+                edition=edition,
+                territorial_source=prep if state.get("territorial_sources_prepared") else None,
+                expected_election_id=None,
+            )
+        except DurableAssetBlock as exc:
+            raise ValueError(f"CONTINUE_TERRITORIAL_DURABLE_BLOCK: {row['name']}: {exc}") from exc
+        prep = territorial_durable["territorial_source"] or {}
+        territorial_evidence = territorial_durable["territorial_product"] or {}
+
         try:
             durable = validate_durable_assets(
                 root_dir=root_dir,
@@ -406,11 +590,15 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 expected_election_id=expected_election_id,
             )
         except DurableAssetBlock as exc:
-            raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
-        prep = durable["territorial_source"] or {}
-        territorial_evidence = durable["territorial_product"] or {}
-        electoral_source_evidence = durable["electoral_source"] or {}
-        electoral_product_evidence = durable["electoral_product"] or {}
+            electoral_source_gap = {
+                "kind": "SOURCE_GAP",
+                "reason": str(exc),
+            }
+            electoral_source_evidence = {}
+            electoral_product_evidence = {}
+        else:
+            electoral_source_evidence = durable["electoral_source"] or {}
+            electoral_product_evidence = durable["electoral_product"] or {}
 
     source_run_id = _core._run_from_artifact(prep.get("artifact_name"), prep.get("run_id"))
     territorial_product_run_id = _core._run_from_artifact(
@@ -532,13 +720,19 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
     run_generate = proposed_generate
     run_prepare_electoral = bool(
-        from_start
-        or (
-            not electoral_source_ready
-            and (run_generate or not electoral_product_ready)
+        not electoral_source_gap
+        and (
+            from_start
+            or (
+                not electoral_source_ready
+                and (run_generate or not electoral_product_ready)
+            )
         )
     )
-    run_incorporate = from_start or run_generate or run_prepare_electoral or not electoral_product_ready
+    run_incorporate = bool(
+        not electoral_source_gap
+        and (from_start or run_generate or run_prepare_electoral or not electoral_product_ready)
+    )
     population_year = None
     section_year = None
     if run_prepare_territorial:
@@ -567,6 +761,7 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
             "electoral_product": {"run_id": electoral_product_run_id, "artifact_name": electoral_product_artifact, "artifact_sha256": electoral_product_evidence.get("artifact_sha256"), "decision": "VALIDADO" if electoral_product_ready else None},
         },
         "generation_gate": generation_gate,
+        "electoral_source_gap": electoral_source_gap,
         "catalog_state": {
             "territorial_sources_prepared": territorial_sources_ready,
             "territorial_product_available": territorial_product_ready,
@@ -583,9 +778,19 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
         raise ValueError(f"El territorio {row['name']} no tiene contrato productivo materializado y la preparación territorial no está programada")
     if not run_generate and not plan["existing"]["territorial_product"]["run_id"]:
         raise ValueError("El catálogo marca producto territorial disponible pero no existe evidencia durable con run_id")
-    if not run_prepare_electoral and not plan["existing"]["electoral_source"]["run_id"]:
+    if (
+        not electoral_source_gap
+        and state.get("electoral_source_prepared")
+        and not run_prepare_electoral
+        and not plan["existing"]["electoral_source"]["run_id"]
+    ):
         raise ValueError("El catálogo marca fuente electoral preparada pero no existe evidencia durable con run_id")
-    if not run_incorporate and not plan["existing"]["electoral_product"]["run_id"]:
+    if (
+        not electoral_source_gap
+        and state.get("electoral_product_available")
+        and not run_incorporate
+        and not plan["existing"]["electoral_product"]["run_id"]
+    ):
         raise ValueError("El catálogo marca producto electoral disponible pero no existe evidencia durable con run_id")
     return plan
 
