@@ -4,15 +4,15 @@
   "territory_id": "canarias",
   "territory_name": "Canarias",
   "edition": "2025",
-  "run_id": 37449876557,
-  "source_commit": "343acd2635e28f2d4bcce09dfb7c5d05223b60a4",
-  "decision": "BLOCKED",
-  "evaluation_status": "BLOCKED",
-  "stage": "DISTRICT_FORMATION_INPUT",
+  "run_id": 37596900111,
+  "source_commit": "3bcfe170899a8d507ee18e47a260f0139719d01e",
+  "decision": "PENDING",
+  "evaluation_status": "PENDING",
+  "stage": "SOURCE_PREPARED",
   "source": {
-    "run_id": 37449876557,
-    "artifact_name": "ddd-source-package-canarias-2025-37449876557",
-    "artifact_sha256": "57dd38b223c60c177e847880abdee9413608e92f282e1cee2c9726d1d0c21a70",
+    "run_id": 37596900111,
+    "artifact_name": "ddd-source-package-canarias-2025-37596900111",
+    "artifact_sha256": "057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
     "package_sha256": "81f3b9981994072f6882c6451acda17c64c650f1773cb8da28952b114518906b",
     "compatibility_identity_sha256": "58649ba6af163393f567747d673269b7c6a52e9c0cd6c286b3c0c5a592c7fca8",
     "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
@@ -21,8 +21,8 @@
   },
   "effective_gate": {
     "allowed": false,
-    "status": "BLOCKED",
-    "capability": "CAP_M04_INPUT",
-    "reason": "ValueError: inventario de secciones por componente no coincide: esperado={'35-C01': 589, '35-C02': 56, '35-C03': 77, '35-C04': 1, '38-C01': 602, '38-C02': 15, '38-C03': 61, '38-C04': 6} actual={'38-C01': 599, '35-C01': 585, '35-C03': 74, '38-C03': 61, '35-C02': 55, '38-C02': 15, '38-C04': 6, '35-C04': 1}"
+    "status": "PENDING",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
   }
 }
