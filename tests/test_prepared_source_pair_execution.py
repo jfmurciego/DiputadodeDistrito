@@ -456,10 +456,11 @@ class OrchestrationModeTests(unittest.TestCase):
         )
         mode_pos = workflow.index("publication_mode.json")
         territorial_pos = workflow.index("resolve-territorial")
-        pair_pos = workflow.index("--root-dir . resolve \\")
+        pair_pos = workflow.index("pair_doc=resolve_pair(")
         self.assertLess(mode_pos, territorial_pos)
         self.assertLess(mode_pos, pair_pos)
         self.assertIn("Verificar bytes de la fuente territorial acreditada", workflow)
+        self.assertNotIn("--root-dir . resolve \\", workflow)
 
 
 if __name__ == "__main__":
