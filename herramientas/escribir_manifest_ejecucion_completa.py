@@ -93,6 +93,9 @@ def main() -> None:
     ap.add_argument("--source-sha", required=True)
     ap.add_argument("--publication-mode-requested", choices=["electoral", "territorial_only"], required=True)
     ap.add_argument("--publication-mode-effective", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--electoral-activation-status", default="")
+    ap.add_argument("--electoral-completion-status", default="PENDING")
+    ap.add_argument("--electoral-skip-reason")
     ap.add_argument("--publish-requested", choices=["true", "false"], required=True)
     ap.add_argument("--prepare-territorial-result", required=True)
     ap.add_argument("--generate-result", required=True)
@@ -141,7 +144,13 @@ def main() -> None:
         return v == "true"
 
     territorial_only = ns.publication_mode_effective == "territorial_only"
-    electoral_scope = "OUT_OF_SCOPE" if territorial_only else "IN_SCOPE"
+    source_gap_skip = str(ns.electoral_completion_status or "").startswith("SKIPPED_")
+    skip_contract_valid = source_gap_skip and not b(ns.prepare_electoral_executed) and not b(ns.incorporate_executed)
+    electoral_scope = (
+        "OUT_OF_SCOPE" if territorial_only
+        else "SOURCE_GAP_SKIP" if skip_contract_valid
+        else "IN_SCOPE"
+    )
     phases = [
         phase("01 · Preparación de Datos Territoriales", ns.prepare_territorial_result, b(ns.prepare_territorial_executed), ns.territorial_source_run_id, ns.territorial_source_artifact, ns.territorial_source_digest, ns.territorial_source_validation, ns.territorial_source_phase_decision),
         phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.territorial_product_run_id, ns.territorial_product_artifact, ns.territorial_product_digest, ns.territorial_product_validation, ns.territorial_product_phase_decision),
@@ -152,8 +161,8 @@ def main() -> None:
             ns.electoral_source_run_id,
             ns.electoral_source_artifact,
             ns.electoral_source_digest,
-            None if territorial_only else ns.electoral_source_validation,
-            None if territorial_only else ns.electoral_source_phase_decision,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_source_validation,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_source_phase_decision,
             scope=electoral_scope,
         ),
         phase(
@@ -163,8 +172,8 @@ def main() -> None:
             ns.electoral_product_run_id,
             ns.electoral_product_artifact,
             ns.electoral_product_digest,
-            None if territorial_only else ns.electoral_product_validation,
-            None if territorial_only else ns.electoral_product_phase_decision,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_product_validation,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_product_phase_decision,
             scope=electoral_scope,
         ),
         phase(
@@ -184,6 +193,7 @@ def main() -> None:
         if p["scope"] == "IN_SCOPE" and p.get("validation_decision") not in {None, "VALIDADO"}
     ]
     out_of_scope = [p["name"] for p in phases if p["scope"] == "OUT_OF_SCOPE"]
+    skipped_source_gap = [p["name"] for p in phases if p["scope"] == "SOURCE_GAP_SKIP"]
     optimization = optimization_lineage(
         ns.optimization_algorithm,
         generate_executed=b(ns.generate_executed),
@@ -212,8 +222,28 @@ def main() -> None:
     )
     if recovery_active and not recovery_ok:
         failed.append("Reanudación de producto electoral durable")
+    if source_gap_skip and not skip_contract_valid:
+        failed.append("Clasificación de degradación electoral")
 
     successful = not failed and not blocked and not scope_mismatch and recovery_ok
+    territorial_status = (
+        "CERTIFIED" if ns.territorial_product_validation == "VALIDADO"
+        else "NOT_CERTIFIED"
+    )
+    if territorial_only:
+        electoral_status = "NOT_REQUESTED"
+    elif skip_contract_valid:
+        electoral_status = ns.electoral_completion_status
+    elif successful:
+        electoral_status = "COMPLETE"
+    else:
+        electoral_status = "INCOMPLETE"
+    completion_status = (
+        "TERRITORIAL_COMPLETE"
+        if successful and skip_contract_valid
+        else "COMPLETE" if successful
+        else "INCOMPLETE"
+    )
     resumption = None
     if recovery_active:
         resumption = {
@@ -249,11 +279,16 @@ def main() -> None:
         "publication_mode_scope_mismatch": scope_mismatch,
         "publish_requested": ns.publish_requested == "true",
         "status": "SUCCESS" if successful else "FAILED",
-        "completion_status": "COMPLETE" if successful else "INCOMPLETE",
+        "completion_status": completion_status,
+        "territorial_status": territorial_status,
+        "electoral_status": electoral_status,
+        "electoral_activation_status": ns.electoral_activation_status or None,
+        "electoral_skip_reason": ns.electoral_skip_reason or None,
         "resumption": resumption,
         "failed_phases": failed,
         "blocked_phases": blocked,
         "out_of_scope_phases": out_of_scope,
+        "skipped_source_gap_phases": skipped_source_gap,
         "phases": phases,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
