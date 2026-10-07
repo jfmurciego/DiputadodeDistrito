@@ -364,6 +364,14 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "electoral:{run_id:$electoral_run_id,artifact:$electoral_artifact,execution:$electoral_execution,completion_status:$electoral_completion_status}",
             workflow,
         )
+        self.assertIn(
+            "RUN_PREP_E: ${{ needs.preparar_electoral.result != 'skipped' }}",
+            workflow,
+        )
+        self.assertIn(
+            "RUN_INC: ${{ needs.incorporar.result != 'skipped' }}",
+            workflow,
+        )
 
     def test_legislature_resolution_corruption_is_not_downgraded_to_source_gap(self):
         plan = {
