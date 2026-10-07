@@ -5,10 +5,12 @@
   "territory_name": "Islas Baleares",
   "edition": "2025",
   "run_id": 37589792776,
-  "source_commit": "8f475e4c1f425aa05bed1ccfa9305e6366747374",
-  "decision": "PENDING",
-  "evaluation_status": "PENDING",
-  "stage": "SOURCE_PREPARED",
+  "source_commit": "4cf7bc00c3896c5c702ab08a0bd48fb984752b94",
+  "artifact_name": "ddd-state-37589792776-M03U",
+  "artifact_sha256": "480ecf822fb28b1a96b7a9958a79a81dfa5629e33c66d663b7da4ad3e03cc80d",
+  "decision": "READY_FOR_FIRST_GENERATION",
+  "evaluation_status": "ENABLED",
+  "stage": "M03U",
   "source": {
     "run_id": 37589792776,
     "artifact_name": "ddd-source-package-illes_balears-2025-37589792776",
@@ -19,10 +21,190 @@
     "population_year": 2023,
     "section_year": 2023
   },
+  "implementation": {
+    "m01_git_blob_sha1": "b5d8e5885c1603230321dc5815b030de9196f5a6",
+    "m02_git_blob_sha1": "254ab944f8e76dd51d76917d69deb7fe7e035ba6",
+    "m03_git_blob_sha1": "b3f2cf6725e9ec2ee15d71435a0b53321334fde2",
+    "partition_preparer_git_blob_sha1": "c96c9b922c11aa4b3879979297aec3cb7d0b4e4f",
+    "partition_builder_git_blob_sha1": "7375713c412c633b7489b691c93b8a3c09885ecb",
+    "physical_partition_preparer_git_blob_sha1": "1e1d197ddc8e41e0bf05505e6c22bbb70fa557ef",
+    "m04_entrypoint_git_blob_sha1": "3047b166e11448924152c043e72259ae83dfddd2"
+  },
+  "adjacency": {
+    "predicate": "contact",
+    "working_crs": "EPSG:3035",
+    "min_shared_border_m": 1.0,
+    "max_precision_overlap_area_m2": 1.0,
+    "buffer_m": 0.0,
+    "simplify_m": 0.0,
+    "topology_bridges": []
+  },
+  "graph": {
+    "artifact_name": "ddd-state-37589792776-M03",
+    "artifact_sha256": "7ca6ed294316461226900d8e97428fd7f77e750f99d203f7db7f93035399d4cc",
+    "module_version": "7.5.0",
+    "nodes": 670,
+    "edges": 1716,
+    "population": 1209906,
+    "isolated": 0,
+    "global_components": 4,
+    "province_disconnected": 1,
+    "municipality_disconnected": 0
+  },
+  "partitioning": {
+    "job_artifact_name": "ddd-internal-units-37589792776",
+    "job_artifact_sha256": "fc30b2d3592eab8969cce97735663a48dc23918cf19f420fab20bd3b75848b90",
+    "status": "PREPARED",
+    "strategy": "physical_components",
+    "contract_output_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_particiones.geojson.zip",
+    "resolved_output_geojson": "/app/territorios/illes_balears/.cache/ddd/preparacion/illes_balears_2025/illes_balears_2025_m03_particiones.geojson.zip",
+    "hard_partition_lookup": "configuracion/particiones_insulares_2025.json",
+    "hard_partition_lookup_sha256": "ab26a3c1e930b436a8eb18f15ba93458cc5e877fa26dd5fbabea7001fa1023c1",
+    "inventory_id": "secciones_2023",
+    "source_identity": {
+      "territory_id": "illes_balears",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a",
+      "compatibility_identity_sha256": "9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c",
+      "sectioning_sha256": "d548b2ed2cb180ab16e520f56751bb9b36f1bba5a77283ef70be15037d9eda1e",
+      "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61"
+    },
+    "partition_field": "DDD_PARTITION",
+    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "input_section_count": 670,
+    "output_section_count": 670,
+    "input_output_cusec_equal": true,
+    "universe_cusec_set_sha256": "9360343a8c2a5d7b1e6fa167155d001a652bbab42df66c70be405052f52bbd2a",
+    "component_sections": {
+      "07-C01": 532,
+      "07-C02": 56,
+      "07-C03": 6,
+      "07-C04": 76
+    },
+    "component_cusec_set_sha256": {
+      "07-C01": "c0398f331f91e66336cb3da29088e6d93a5f3e160d78f46b1a04fac4d9865558",
+      "07-C02": "7d0f1842fc102e74aa795ef8e0e6d7235bc3c2a218402988422706da088374a8",
+      "07-C03": "c390167612a821cb9112cfe5c5ef0a93627ed5821b1fae9d19411c711050c497",
+      "07-C04": "ede71e3a5eaafa5d19911b67fb76c1feab6199ec2b9dfff035092e4436b33a91"
+    },
+    "component_districts": {
+      "07-C01": 45,
+      "07-C02": 5,
+      "07-C03": 1,
+      "07-C04": 8
+    }
+  },
+  "contract_binding": {
+    "contract_level": "production_m01_m06",
+    "edition": 2025,
+    "population_year": 2023,
+    "section_year": 2023,
+    "source_baseline": {
+      "schema": "ddd.source-baseline/1.0",
+      "edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "population_total": 1209906,
+      "target_section_count": 670,
+      "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a",
+      "compatibility_report_sha256": "6b9e30559d4bbd1a94554aec5815d123533ebde32c4a8e0f2a6f8fbf75b499e5",
+      "compatibility_identity_sha256": "9cef825582b7883baf353d6bc810a336bd2d2340ea999df43b0917efe43efd3c"
+    },
+    "topology_accreditation": null,
+    "k_districts": 59,
+    "population_floor_ratio": 0.8,
+    "population_cap_ratio": 1.75,
+    "target_tolerance_ratio": 0.12,
+    "oversized_municipality_rule": "split_only_above_hard_cap",
+    "municipality_atomicity_limit_ratio": 1.75,
+    "m01_output_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip",
+    "m03_output_graph_json": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json",
+    "m04_input_graph_json": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json",
+    "m04_input_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_particiones.geojson.zip",
+    "m04_output_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip",
+    "m05_input_graph_json": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_grafo.json",
+    "m05_input_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m04_semillas.geojson.zip",
+    "m05_output_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_distritos_optimizados.geojson.zip",
+    "m06_input_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m05_distritos_optimizados.geojson.zip",
+    "m04_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m05_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "m06_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "validation_municipality_field": "DDD_MUNICIPALITY_PARTITION",
+    "expected_districts": 59,
+    "require_graph_contiguity": true,
+    "require_municipality_discipline": true,
+    "hard_partition_input": {
+      "mode": "physical_components",
+      "lookup": "configuracion/particiones_insulares_2025.json",
+      "partition_populations": {
+        "07-C01": 940332,
+        "07-C02": 99005,
+        "07-C03": 11389,
+        "07-C04": 159180
+      },
+      "component_districts": {
+        "07-C01": 45,
+        "07-C02": 5,
+        "07-C03": 1,
+        "07-C04": 8
+      },
+      "partition_apportionment_audit": {
+        "07-C01": {
+          "population": 940332,
+          "districts": 45,
+          "target_population": 20506.881356,
+          "average_population_per_district": 20896.266667,
+          "relative_deviation_from_target": 0.018988032,
+          "population_floor": 16405.505085,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        },
+        "07-C02": {
+          "population": 99005,
+          "districts": 5,
+          "target_population": 20506.881356,
+          "average_population_per_district": 19801.0,
+          "relative_deviation_from_target": -0.034421682,
+          "population_floor": 16405.505085,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        },
+        "07-C03": {
+          "population": 11389,
+          "districts": 1,
+          "target_population": 20506.881356,
+          "average_population_per_district": 11389.0,
+          "relative_deviation_from_target": -0.44462545,
+          "population_floor": 16405.505085,
+          "floor_exception_required": true,
+          "floor_exception_governed": true
+        },
+        "07-C04": {
+          "population": 159180,
+          "districts": 8,
+          "target_population": 20506.881356,
+          "average_population_per_district": 19897.5,
+          "relative_deviation_from_target": -0.029715945,
+          "population_floor": 16405.505085,
+          "floor_exception_required": false,
+          "floor_exception_governed": true
+        }
+      },
+      "population_floor_exempt_partitions": [
+        "07-C03"
+      ],
+      "source_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m01_secciones_poblacion.geojson.zip",
+      "input_geojson": "territorios/illes_balears/.cache/ddd/preparacion/{run_name}/illes_balears_2025_m03_particiones.geojson.zip",
+      "partition_field": "DDD_PARTITION",
+      "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+      "district_apportionment": "hamilton_components",
+      "hard_partition_territory_id": "illes_balears"
+    }
+  },
   "effective_gate": {
-    "allowed": false,
-    "status": "PENDING",
-    "capability": "CAP_PRE_M04_EVIDENCE",
-    "reason": "Fuente territorial acreditada; habilitación de generación todavía no evaluada."
+    "allowed": true,
+    "route": "validated_pre_m04_topology"
   }
 }
