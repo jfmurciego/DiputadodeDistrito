@@ -359,7 +359,7 @@ jobs:
           source_status="${{ steps.policy.outputs.source_status }}"
           ready=false
           if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
-            if [[ -z "$validation_decision" || "$validation_decision" == "READY_PACKAGE" ]]; then
+            if [[ "$validation_decision" == "READY_PACKAGE" ]]; then
               [[ "$production_eligible" == "true" ]] && ready=true
             fi
           fi
