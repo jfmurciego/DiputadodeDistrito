@@ -145,7 +145,17 @@ def main() -> None:
 
     territorial_only = ns.publication_mode_effective == "territorial_only"
     source_gap_skip = str(ns.electoral_completion_status or "").startswith("SKIPPED_")
-    skip_contract_valid = source_gap_skip and not b(ns.prepare_electoral_executed) and not b(ns.incorporate_executed)
+    prepare_electoral_executed = b(ns.prepare_electoral_executed)
+    incorporate_executed = b(ns.incorporate_executed)
+    prepare_source_gap_ok = (
+        not prepare_electoral_executed
+        or ns.prepare_electoral_result == "success"
+    )
+    skip_contract_valid = (
+        source_gap_skip
+        and prepare_source_gap_ok
+        and not incorporate_executed
+    )
     electoral_scope = (
         "OUT_OF_SCOPE" if territorial_only
         else "SOURCE_GAP_SKIP" if skip_contract_valid
