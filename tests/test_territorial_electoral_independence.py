@@ -14,6 +14,7 @@ import yaml
 from herramientas.resolver_activos_durables import DurableAssetBlock
 from herramientas.resolver_ejecucion_completa import (
     build_plan,
+    classify_prepared_pair_failure,
     resolve_publication_mode,
     select_territorial_for_prepared_pair,
 )
@@ -229,6 +230,16 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             "03 · Preparación de Resultados Electorales",
             manifest["failed_phases"],
         )
+
+    def test_r5b_corrupt_prepared_pair_is_technical_failure(self):
+        with self.assertRaisesRegex(ValueError, "ELECTORAL_PAIR_TECHNICAL_BLOCK"):
+            classify_prepared_pair_failure(
+                "PREPARED_PAIR_BLOCK: receipt durable del par no disponible: evidence/pair.json"
+            )
+        gap = classify_prepared_pair_failure(
+            "PREPARED_PAIR_BLOCK: falta evidence.prepared_source_pair para Demo edición 2025"
+        )
+        self.assertEqual(gap["completion_status"], "SKIPPED_NO_ACCREDITED_PAIR")
 
     def test_r6_electoral_scope_does_not_mutate_territorial_generation_contract(self):
         base = {
