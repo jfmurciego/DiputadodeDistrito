@@ -322,7 +322,11 @@ jobs:
           test -s .ddd-electoral-package/manifest.json
           manifest=.ddd-electoral-package/manifest.json
           decision="$(jq -r '.decision // empty' "$manifest")"
-          package_election_id="$(jq -r '.election_id // empty' "$manifest")"
+          [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" || "$decision" == "BLOCK" ]] || {
+            echo "::error::Decisión electoral no reconocida: $decision"
+            exit 46
+          }
+          package_election_id="$(jq -r '.election_id // empty' "$manifest")
           package_election_date="$(jq -r '.election_date // empty' "$manifest")"
           [[ "$(jq -r '.territory_id // empty' "$manifest")" == "$TERRITORY_ID" ]] || { echo "::error::Paquete electoral de otro territorio"; exit 46; }
           [[ "$(jq -r '.edition // empty' "$manifest")" == "$EDITION" ]] || { echo "::error::Paquete electoral de otra edición"; exit 46; }
