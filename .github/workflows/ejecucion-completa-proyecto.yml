@@ -953,6 +953,7 @@ jobs:
           PLAN_ACTIVATION: ${{ needs.planificar.outputs.electoral_activation_status }}
           PLAN_COMPLETION: ${{ needs.planificar.outputs.electoral_completion_status }}
           PLAN_REASON: ${{ needs.planificar.outputs.electoral_skip_reason }}
+          PREPARED_PAIR_SHA: ${{ needs.planificar.outputs.prepared_source_pair_sha256 }}
           RUN_PREPARE: ${{ needs.planificar.outputs.run_prepare_electoral }}
           PREP_RESULT: ${{ needs.preparar_electoral.result }}
           PREP_OUTCOME: ${{ needs.preparar_electoral.outputs.electoral_outcome }}
@@ -976,16 +977,28 @@ jobs:
           elif [[ "$PLAN_EXECUTION" == "SKIP" ]]; then
             emit SKIP "$PLAN_ACTIVATION" "$PLAN_COMPLETION" "$PLAN_REASON"
           elif [[ "$RUN_PREPARE" != "true" ]]; then
-            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            if [[ -z "$PREPARED_PAIR_SHA" ]]; then
+              emit SKIP TERRITORIAL_READY_ELECTORAL_PENDING SKIPPED_NO_ACCREDITED_PAIR "no existe prepared_source_pair acreditado para la entrada electoral"
+            else
+              emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            fi
           elif [[ "$EVENT_NAME" == "pull_request" && "$PREP_RESULT" == "skipped" ]]; then
-            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            if [[ -z "$PREPARED_PAIR_SHA" ]]; then
+              emit SKIP TERRITORIAL_READY_ELECTORAL_PENDING SKIPPED_NO_ACCREDITED_PAIR "no existe prepared_source_pair acreditado para la entrada electoral"
+            else
+              emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            fi
           elif [[ "$PREP_RESULT" != "success" ]]; then
             echo "::error::03 falló técnicamente; no puede reclasificarse como source gap electoral."
             exit 61
           elif [[ "$PREP_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID" ]]; then
             emit SKIP TERRITORIAL_READY_ELECTORAL_INVALID SKIPPED_ELECTORAL_SOURCE_INVALID "$PREP_REASON"
           elif [[ "$PREP_OUTCOME" == "READY" ]]; then
-            emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            if [[ -z "$PREPARED_PAIR_SHA" ]]; then
+              emit SKIP TERRITORIAL_READY_ELECTORAL_PENDING SKIPPED_NO_ACCREDITED_PAIR "03 produjo una fuente válida, pero no existe prepared_source_pair acreditado para M07/M08"
+            else
+              emit EXECUTE "$PLAN_ACTIVATION" PENDING ""
+            fi
           else
             echo "::error::03 terminó sin resultado electoral semántico reconocible: $PREP_OUTCOME"
             exit 62
