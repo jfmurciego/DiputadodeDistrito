@@ -341,9 +341,13 @@ jobs:
           validation_decision=""
           validation=.ddd-electoral-package/evidence/validacion_preparacion.json
           [[ -f "$validation" ]] && validation_decision="$(jq -r '.decision // empty' "$validation")"
+          production_eligible="${{ steps.policy.outputs.production_eligible }}"
+          source_status="${{ steps.policy.outputs.source_status }}"
           ready=false
           if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
-            [[ -z "$validation_decision" || "$validation_decision" == "READY_PACKAGE" ]] && ready=true
+            if [[ -z "$validation_decision" || "$validation_decision" == "READY_PACKAGE" ]]; then
+              [[ "$production_eligible" == "true" ]] && ready=true
+            fi
           fi
           if [[ "$ready" == "true" ]]; then
             {
@@ -359,6 +363,9 @@ jobs:
           fi
 
           reason="$(jq -r '.reason // .block_reason // empty' "$manifest")"
+          if [[ "$production_eligible" != "true" ]]; then
+            reason="${reason:+$reason; }fuente electoral no elegible para producción (source_status=$source_status)"
+          fi
           if [[ -z "$reason" && -f "$validation" ]]; then
             reason="$(jq -r '.reason // ((.reasons // []) | join("; ")) // empty' "$validation")"
           fi
