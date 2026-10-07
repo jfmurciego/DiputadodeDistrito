@@ -104,6 +104,75 @@ def _pre_m04_implementation_matches(observed: object, expected: dict, *, hard_pa
     return set(observed) == set(expected)
 
 
+
+def _effective_physical_source_identity(contract: dict) -> dict:
+    """Resolve the material territorial identity that selects a physical inventory."""
+    meta = contract.get("meta") or {}
+    validation = contract.get("validation") or {}
+    baseline = validation.get("source_baseline") or {}
+    state = contract.get("generation_state") or {}
+    territory_id = str(meta.get("territory_id") or "")
+    edition = str(meta.get("year") or baseline.get("edition") or "")
+    try:
+        population_year = int(baseline.get("population_year") or meta.get("source_population_year"))
+        section_year = int(baseline.get("section_year") or meta.get("source_section_year"))
+    except (TypeError, ValueError):
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: physical_components sin años materiales de fuente")
+
+    package_sha256 = str(baseline.get("package_sha256") or state.get("package_sha256") or "").lower()
+    compatibility_identity_sha256 = str(
+        baseline.get("compatibility_identity_sha256")
+        or state.get("compatibility_identity_sha256")
+        or ""
+    ).lower()
+    if not territory_id or not edition or not _sha256_value(package_sha256):
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: physical_components sin identidad de paquete durable")
+    if compatibility_identity_sha256 and not _sha256_value(compatibility_identity_sha256):
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: identidad de compatibilidad territorial inválida")
+
+    section_rows = [
+        row for row in (state.get("source_inputs") or [])
+        if isinstance(row, dict)
+        and (
+            str(row.get("source_id") or "") == "secciones_censales"
+            or str(row.get("role") or "") == "target_sectioning"
+            or str(row.get("path") or "").endswith(f"seccionado_{section_year}.zip")
+        )
+    ]
+    section_hashes = {
+        str(row.get("sha256") or "").lower()
+        for row in section_rows
+        if _sha256_value(str(row.get("sha256") or "").lower())
+    }
+    if len(section_hashes) != 1:
+        raise ValueError(
+            "SOURCE_IDENTITY_MISMATCH: physical_components requiere un único SHA-256 del seccionado efectivo"
+        )
+    sectioning_sha256 = next(iter(section_hashes))
+
+    payload = {
+        "territory_id": territory_id,
+        "edition": edition,
+        "population_year": population_year,
+        "section_year": section_year,
+        "package_sha256": package_sha256,
+    }
+    if compatibility_identity_sha256:
+        payload["compatibility_identity_sha256"] = compatibility_identity_sha256
+    territorial_identity_sha256 = hashlib.sha256(
+        json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    declared_identity = str(state.get("territorial_identity_sha256") or "").lower()
+    if declared_identity and declared_identity != territorial_identity_sha256:
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: identidad territorial declarada contradice la fuente efectiva")
+
+    return {
+        **payload,
+        "sectioning_sha256": sectioning_sha256,
+        "territorial_identity_sha256": territorial_identity_sha256,
+    }
+
+
 def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
     """Resolve and validate the durable physical-component input declared for M04."""
     modules = contract.get("modulos") or {}
@@ -152,19 +221,67 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
     components = territory.get("components") or {}
     if not isinstance(components, dict) or not components:
         raise ValueError("lookup físico sin componentes")
-    section_counts = {}
     provinces_by_component = {}
     for key, row in components.items():
         if not isinstance(row, dict):
             raise ValueError(f"componente física inválida: {key}")
-        count = row.get("section_count")
         province = str(row.get("province_code") or "")
-        if not isinstance(count, int) or isinstance(count, bool) or count <= 0 or not province:
-            raise ValueError(f"componente física sin inventario durable válido: {key}")
-        section_counts[str(key)] = count
+        name = str(row.get("name") or "").strip()
+        if not province or not name:
+            raise ValueError(f"componente física sin identidad estable válida: {key}")
         provinces_by_component[str(key)] = province
+    component_ids = set(provinces_by_component)
+    declared_component_count = territory.get("physical_component_count")
+    if declared_component_count != len(component_ids):
+        raise ValueError("número físico de componentes no coincide con su definición estable")
 
-    component_ids = set(section_counts)
+    source_identity = _effective_physical_source_identity(contract)
+    inventories = territory.get("inventories") or []
+    if not isinstance(inventories, list) or not inventories:
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: lookup físico sin inventarios acreditados")
+    matches = [
+        row for row in inventories
+        if isinstance(row, dict)
+        and int(row.get("section_year") or 0) == source_identity["section_year"]
+        and str(row.get("sectioning_sha256") or "").lower() == source_identity["sectioning_sha256"]
+        and str(row.get("territorial_identity_sha256") or "").lower()
+            == source_identity["territorial_identity_sha256"]
+    ]
+    if len(matches) != 1:
+        raise ValueError(
+            "SOURCE_IDENTITY_MISMATCH: no existe inventario físico acreditado para "
+            f"section_year={source_identity['section_year']} "
+            f"sectioning_sha256={source_identity['sectioning_sha256']} "
+            f"territorial_identity_sha256={source_identity['territorial_identity_sha256']}"
+        )
+    inventory = matches[0]
+    if (
+        inventory.get("source_package_sha256")
+        and str(inventory.get("source_package_sha256") or "").lower() != source_identity["package_sha256"]
+    ):
+        raise ValueError("SOURCE_IDENTITY_MISMATCH: inventario físico ligado a otro paquete territorial")
+
+    section_counts = {
+        str(k): int(v) for k, v in (inventory.get("component_sections") or {}).items()
+        if isinstance(v, int) and not isinstance(v, bool)
+    }
+    component_hashes = {
+        str(k): str(v).lower()
+        for k, v in (inventory.get("component_cusec_set_sha256") or {}).items()
+    }
+    universe_count = inventory.get("universe_section_count")
+    universe_hash = str(inventory.get("universe_cusec_set_sha256") or "").lower()
+    if (
+        set(section_counts) != component_ids
+        or any(v <= 0 for v in section_counts.values())
+        or set(component_hashes) != component_ids
+        or any(not _sha256_value(v) for v in component_hashes.values())
+        or not isinstance(universe_count, int)
+        or isinstance(universe_count, bool)
+        or universe_count != sum(section_counts.values())
+        or not _sha256_value(universe_hash)
+    ):
+        raise ValueError("inventario físico acreditado incompleto o inconsistente")
     municipality_map = {str(k): str(v) for k, v in (territory.get("municipality_to_partition") or {}).items()}
     overrides = {str(k): str(v) for k, v in (territory.get("section_overrides") or {}).items()}
     if not municipality_map or any(v not in component_ids for v in municipality_map.values()):
@@ -214,10 +331,14 @@ def _hard_partition_spec(contract: dict, root_dir: Path) -> dict | None:
         "input_geojson": input_geojson,
         "partition_field": m04.get("province_field"),
         "municipality_field": m04.get("municipality_field"),
+        "inventory_id": str(inventory.get("inventory_id") or ""),
+        "source_identity": source_identity,
         "component_sections": section_counts,
+        "component_cusec_set_sha256": component_hashes,
+        "universe_cusec_set_sha256": universe_hash,
         "component_populations": {str(k): int(v) for k, v in populations.items()},
         "component_districts": {str(k): int(v) for k, v in quotas.items()},
-        "expected_graph_nodes": sum(section_counts.values()),
+        "expected_graph_nodes": universe_count,
         "expected_graph_population": sum(int(v) for v in populations.values()),
         "expected_global_components": len(component_ids),
         "expected_isolated": sum(1 for v in section_counts.values() if v == 1),
@@ -473,9 +594,16 @@ def _validated_first_generation_preflight(*, contract: dict, evidence: dict, pre
                 or partitioning.get("resolved_output_geojson") is None
                 or partitioning.get("hard_partition_lookup") != hard_partition["lookup"]
                 or partitioning.get("hard_partition_lookup_sha256") != hard_partition["lookup_sha256"]
+                or partitioning.get("inventory_id") != hard_partition["inventory_id"]
+                or partitioning.get("source_identity") != hard_partition["source_identity"]
                 or partitioning.get("partition_field") != hard_partition["partition_field"]
                 or partitioning.get("municipality_field") != hard_partition["municipality_field"]
+                or partitioning.get("input_section_count") != hard_partition["expected_graph_nodes"]
+                or partitioning.get("output_section_count") != hard_partition["expected_graph_nodes"]
+                or partitioning.get("input_output_cusec_equal") is not True
+                or partitioning.get("universe_cusec_set_sha256") != hard_partition["universe_cusec_set_sha256"]
                 or partitioning.get("component_sections") != hard_partition["component_sections"]
+                or partitioning.get("component_cusec_set_sha256") != hard_partition["component_cusec_set_sha256"]
                 or partitioning.get("component_districts") != hard_partition["component_districts"]):
             return blocked("particionado físico materializado no coincide con contrato, lookup y reparto DDD")
     elif partitioning.get("status") == "NOOP":

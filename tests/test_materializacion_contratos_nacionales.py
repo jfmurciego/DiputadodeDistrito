@@ -43,6 +43,160 @@ MASTER = ROOT / "configuracion/catalogo_territorios_espana_2025.yaml"
 PARTITIONS = ROOT / "configuracion/particiones_insulares_2025.json"
 
 
+def _cusec_fingerprint(values: list[str]) -> str:
+    return hashlib.sha256(
+        ("\n".join(sorted(str(value) for value in values)) + "\n").encode("utf-8")
+    ).hexdigest()
+
+
+def _synthetic_physical_fixture(
+    *,
+    root: Path,
+    territory_id: str,
+    source: Path,
+    target: Path,
+    lookup: Path,
+    sections_by_component: dict[str, list[str]],
+    municipality_map: dict[str, str],
+) -> dict:
+    package_sha = "a" * 64
+    compatibility_sha = "b" * 64
+    sectioning_sha = "c" * 64
+    identity_payload = {
+        "territory_id": territory_id,
+        "edition": "2025",
+        "population_year": 2023,
+        "section_year": 2023,
+        "package_sha256": package_sha,
+        "compatibility_identity_sha256": compatibility_sha,
+    }
+    territorial_identity = hashlib.sha256(
+        json.dumps(
+            identity_payload,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    all_sections = [
+        section
+        for component in sorted(sections_by_component)
+        for section in sections_by_component[component]
+    ]
+    component_ids = sorted(sections_by_component)
+    lookup.write_text(
+        json.dumps(
+            {
+                "schema": "ddd-archipelago-partitions/1.2",
+                "territories": {
+                    territory_id: {
+                        "partition_mode": "physical_components",
+                        "physical_component_count": len(component_ids),
+                        "components": {
+                            component: {"province_code": "07", "name": component}
+                            for component in component_ids
+                        },
+                        "municipality_to_partition": municipality_map,
+                        "section_overrides": {},
+                        "inventories": [
+                            {
+                                "inventory_id": "secciones_2023",
+                                "section_year": 2023,
+                                "population_year": 2023,
+                                "sectioning_sha256": sectioning_sha,
+                                "territorial_identity_sha256": territorial_identity,
+                                "compatibility_identity_sha256": compatibility_sha,
+                                "source_package_sha256": package_sha,
+                                "universe_section_count": len(all_sections),
+                                "universe_cusec_set_sha256": _cusec_fingerprint(all_sections),
+                                "component_sections": {
+                                    component: len(sections)
+                                    for component, sections in sections_by_component.items()
+                                },
+                                "component_cusec_set_sha256": {
+                                    component: _cusec_fingerprint(sections)
+                                    for component, sections in sections_by_component.items()
+                                },
+                            }
+                        ],
+                    }
+                },
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    return {
+        "meta": {
+            "territory_id": territory_id,
+            "run_name": f"{territory_id}_2025",
+            "year": 2025,
+            "source_population_year": 2023,
+            "source_section_year": 2023,
+        },
+        "territory_contract": {"k_districts": len(component_ids)},
+        "modulos": {
+            "modulo_01_preparar_base_territorial": {"out_geojson": str(source)},
+            "modulo_02_construir_adyacencias": {"topology_bridges": []},
+            "modulo_04_generar_semillas": {
+                "source_geojson": str(source),
+                "in_geojson": str(target),
+                "id_field": "CUSEC_KEY",
+                "source_municipality_field": "CUMUN",
+                "province_field": "DDD_PARTITION",
+                "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+                "district_apportionment": "hamilton_components",
+                "hard_partition_lookup": str(lookup),
+                "hard_partition_territory_id": territory_id,
+            },
+        },
+        "validation": {
+            "hard_partition_mode": "physical_components",
+            "hard_partition_lookup": str(lookup),
+            "province_apportionment": "hamilton_components",
+            "province_field": "DDD_PARTITION",
+            "municipality_field": "DDD_MUNICIPALITY_PARTITION",
+            "province_districts": {component: 1 for component in component_ids},
+            "partition_populations": {
+                component: 100 * (index + 1)
+                for index, component in enumerate(component_ids)
+            },
+            "partition_apportionment_audit": {
+                component: {
+                    "population": 100 * (index + 1),
+                    "districts": 1,
+                    "floor_exception_required": False,
+                    "floor_exception_governed": True,
+                }
+                for index, component in enumerate(component_ids)
+            },
+            "population_floor_exempt_partitions": [],
+            "source_baseline": {
+                "schema": "ddd.source-baseline/1.0",
+                "edition": "2025",
+                "population_year": 2023,
+                "section_year": 2023,
+                "target_section_count": len(all_sections),
+                "package_sha256": package_sha,
+                "compatibility_identity_sha256": compatibility_sha,
+            },
+        },
+        "generation_state": {
+            "package_sha256": package_sha,
+            "compatibility_identity_sha256": compatibility_sha,
+            "source_inputs": [
+                {
+                    "path": "inputs/seccionado_2023.zip",
+                    "sha256": sectioning_sha,
+                    "role": "target_sectioning",
+                    "source_id": "secciones_censales",
+                }
+            ],
+        },
+    }
+
+
 def population_package(
     root: Path,
     rows: list[tuple[str, int]],
@@ -691,8 +845,8 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         )
         rows = {row["territory_id"]: row for row in catalog["territories"]}
         expected = {
-            "illes_balears": {"k": 59, "sections": 674, "components": 4},
-            "canarias": {"k": 70, "sections": 1407, "components": 8},
+            "illes_balears": {"k": 59, "sections": 670, "components": 4},
+            "canarias": {"k": 70, "sections": 1396, "components": 8},
         }
         for territory_id, target in expected.items():
             state = rows[territory_id]["editions"]["2025"]
@@ -877,55 +1031,24 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 zf.writestr("source.geojson", json.dumps(geojson))
 
             lookup = root/"configuracion/particiones.json"
-            lookup.write_text(json.dumps({
-                "schema": "ddd-archipelago-partitions/1.1",
-                "edition": 2025,
-                "territories": {
-                    "demo": {
-                        "partition_mode": "physical_components",
-                        "components": {
-                            "A": {"province_code": "07", "section_count": 1},
-                            "B": {"province_code": "07", "section_count": 2},
-                        },
-                        "municipality_to_partition": {"07001": "A", "07002": "B"},
-                        "section_overrides": {},
-                    }
-                },
-            }), encoding="utf-8")
             target = root/"m03_particiones.geojson.zip"
             params = root/"demo.yaml"
-            params.write_text(yaml.safe_dump({
-                "meta": {"territory_id": "demo", "run_name": "demo_2025", "year": 2025},
-                "territory_contract": {"k_districts": 2},
-                "modulos": {
-                    "modulo_01_preparar_base_territorial": {"out_geojson": str(source)},
-                    "modulo_02_construir_adyacencias": {"topology_bridges": []},
-                    "modulo_04_generar_semillas": {
-                        "source_geojson": str(source),
-                        "in_geojson": str(target),
-                        "id_field": "CUSEC_KEY",
-                        "province_field": "DDD_PARTITION",
-                        "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-                        "district_apportionment": "hamilton_components",
-                        "hard_partition_lookup": str(lookup),
-                        "hard_partition_territory_id": "demo",
-                    },
+            contract = _synthetic_physical_fixture(
+                root=root,
+                territory_id="demo",
+                source=source,
+                target=target,
+                lookup=lookup,
+                sections_by_component={
+                    "A": ["0700101001"],
+                    "B": ["0700201001", "0700201002"],
                 },
-                "validation": {
-                    "hard_partition_mode": "physical_components",
-                    "hard_partition_lookup": str(lookup),
-                    "province_apportionment": "hamilton_components",
-                    "province_field": "DDD_PARTITION",
-                    "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-                    "province_districts": {"A": 1, "B": 1},
-                    "partition_populations": {"A": 100, "B": 200},
-                    "partition_apportionment_audit": {
-                        "A": {"population": 100, "districts": 1, "floor_exception_required": False, "floor_exception_governed": True},
-                        "B": {"population": 200, "districts": 1, "floor_exception_required": False, "floor_exception_governed": True},
-                    },
-                    "population_floor_exempt_partitions": [],
-                },
-            }, sort_keys=False), encoding="utf-8")
+                municipality_map={"07001": "A", "07002": "B"},
+            )
+            params.write_text(
+                yaml.safe_dump(contract, sort_keys=False),
+                encoding="utf-8",
+            )
 
             source_properties = [feature["properties"] for feature in geojson["features"]]
             self.assertTrue(all("DDD_PARTITION" not in props for props in source_properties))
@@ -935,9 +1058,14 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
             self.assertTrue(target.is_file())
             self.assertEqual("PREPARED", job["status"])
             self.assertEqual("physical_components", job["strategy"])
+            self.assertTrue(job["input_output_cusec_equal"])
+            self.assertEqual(3, job["input_section_count"])
+            self.assertEqual(3, job["output_section_count"])
             self.assertEqual({"A": 1, "B": 2}, job["component_sections"])
-            self.assertEqual({"A": 1, "B": 1}, job["component_districts"])
-            self.assertEqual(hashlib.sha256(lookup.read_bytes()).hexdigest(), job["hard_partition_lookup_sha256"])
+            self.assertEqual(
+                hashlib.sha256(lookup.read_bytes()).hexdigest(),
+                job["hard_partition_lookup_sha256"],
+            )
 
             with zipfile.ZipFile(target, "r") as zf:
                 member = next(name for name in zf.namelist() if name.lower().endswith(".geojson"))
@@ -971,98 +1099,28 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 geojson = {
                     "type": "FeatureCollection",
                     "features": [
-                        {
-                            "type": "Feature",
-                            "properties": {"CUSEC_KEY": "0700101001", "CUMUN": "07001"},
-                            "geometry": {"type": "Point", "coordinates": [1, 1]},
-                        },
-                        {
-                            "type": "Feature",
-                            "properties": {"CUSEC_KEY": "0700201001", "CUMUN": "07002"},
-                            "geometry": {"type": "Point", "coordinates": [2, 2]},
-                        },
-                        {
-                            "type": "Feature",
-                            "properties": {"CUSEC_KEY": "0700201002", "CUMUN": "07002"},
-                            "geometry": {"type": "Point", "coordinates": [2.1, 2.1]},
-                        },
+                        {"type": "Feature", "properties": {"CUSEC_KEY": "0700101001", "CUMUN": "07001"}, "geometry": {"type": "Point", "coordinates": [1, 1]}},
+                        {"type": "Feature", "properties": {"CUSEC_KEY": "0700201001", "CUMUN": "07002"}, "geometry": {"type": "Point", "coordinates": [2, 2]}},
+                        {"type": "Feature", "properties": {"CUSEC_KEY": "0700201002", "CUMUN": "07002"}, "geometry": {"type": "Point", "coordinates": [2.1, 2.1]}},
                     ],
                 }
                 with zipfile.ZipFile(source, "w", zipfile.ZIP_DEFLATED) as zf:
                     zf.writestr("source.geojson", json.dumps(geojson))
 
-                lookup.write_text(
-                    json.dumps({
-                        "schema": "ddd-archipelago-partitions/1.1",
-                        "edition": 2025,
-                        "territories": {
-                            territory_id: {
-                                "partition_mode": "physical_components",
-                                "components": {
-                                    "A": {"province_code": "07", "section_count": 1},
-                                    "B": {"province_code": "07", "section_count": 2},
-                                },
-                                "municipality_to_partition": {
-                                    "07001": "A",
-                                    "07002": "B",
-                                },
-                                "section_overrides": {},
-                            }
-                        },
-                    }),
-                    encoding="utf-8",
+                contract = _synthetic_physical_fixture(
+                    root=root,
+                    territory_id=territory_id,
+                    source=source,
+                    target=target,
+                    lookup=lookup,
+                    sections_by_component={
+                        "A": ["0700101001"],
+                        "B": ["0700201001", "0700201002"],
+                    },
+                    municipality_map={"07001": "A", "07002": "B"},
                 )
                 params.write_text(
-                    yaml.safe_dump({
-                        "meta": {
-                            "territory_id": territory_id,
-                            "run_name": f"{territory_id}_2025",
-                            "year": 2025,
-                        },
-                        "territory_contract": {"k_districts": 2},
-                        "modulos": {
-                            "modulo_01_preparar_base_territorial": {
-                                "out_geojson": str(source),
-                            },
-                            "modulo_02_construir_adyacencias": {
-                                "topology_bridges": [],
-                            },
-                            "modulo_04_generar_semillas": {
-                                "source_geojson": str(source),
-                                "in_geojson": str(target),
-                                "id_field": "CUSEC_KEY",
-                                "province_field": "DDD_PARTITION",
-                                "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-                                "district_apportionment": "hamilton_components",
-                                "hard_partition_lookup": str(lookup),
-                                "hard_partition_territory_id": territory_id,
-                            },
-                        },
-                        "validation": {
-                            "hard_partition_mode": "physical_components",
-                            "hard_partition_lookup": str(lookup),
-                            "province_apportionment": "hamilton_components",
-                            "province_field": "DDD_PARTITION",
-                            "municipality_field": "DDD_MUNICIPALITY_PARTITION",
-                            "province_districts": {"A": 1, "B": 1},
-                            "partition_populations": {"A": 100, "B": 200},
-                            "partition_apportionment_audit": {
-                                "A": {
-                                    "population": 100,
-                                    "districts": 1,
-                                    "floor_exception_required": False,
-                                    "floor_exception_governed": True,
-                                },
-                                "B": {
-                                    "population": 200,
-                                    "districts": 1,
-                                    "floor_exception_required": False,
-                                    "floor_exception_governed": True,
-                                },
-                            },
-                            "population_floor_exempt_partitions": [],
-                        },
-                    }, sort_keys=False),
+                    yaml.safe_dump(contract, sort_keys=False),
                     encoding="utf-8",
                 )
 
@@ -1086,11 +1144,12 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 self.assertEqual(
                     0,
                     result.returncode,
-                    f"{territory_id}: stdout={result.stdout}\nstderr={result.stderr}",
+                    f"{territory_id}: stdout={result.stdout}\\nstderr={result.stderr}",
                 )
                 payload = json.loads(report.read_text(encoding="utf-8"))
                 self.assertEqual("PREPARED", payload["status"], territory_id)
                 self.assertEqual("physical_components", payload["strategy"], territory_id)
+                self.assertTrue(payload["input_output_cusec_equal"], territory_id)
                 self.assertTrue(target.is_file(), territory_id)
 
     def test_real_archipelago_contracts_separate_m02_source_fields_from_m04_partition_fields(self):
@@ -1209,8 +1268,15 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
         policy = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
         for territory_id, case in cases.items():
             r026 = json.loads(case["r026"].read_text(encoding="utf-8"))
-            registry = partitions["territories"][territory_id]["components"]
-            self.assertEqual(r026["sections"], sum(x["section_count"] for x in registry.values()))
+            inventory_2025 = next(
+                row
+                for row in partitions["territories"][territory_id]["inventories"]
+                if int(row["section_year"]) == 2025
+            )
+            self.assertEqual(
+                r026["sections"],
+                sum(inventory_2025["component_sections"].values()),
+            )
             self.assertEqual(r026["population"], sum(case["population_by_partition"].values()))
             quota, exempt = component_hamilton(case["population_by_partition"], case["k"], 0.80)
             self.assertEqual(case["quota"], quota)
