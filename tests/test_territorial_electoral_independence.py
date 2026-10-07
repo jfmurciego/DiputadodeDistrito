@@ -325,6 +325,8 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
             prep,
         )
         self.assertIn("electoral_outcome=SKIPPED_ELECTORAL_SOURCE_INVALID", prep)
+        self.assertIn("needs.electorales.outputs.electoral_outcome == 'READY'", prep)
+        self.assertIn("Fuente electoral no apta: terminal válido sin promoción ni registro.", prep)
         self.assertIn("allow_source_gap_success: true", workflow)
         self.assertIn("Clasificar resultado de la rama electoral", workflow)
         self.assertIn(
