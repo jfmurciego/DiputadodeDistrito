@@ -6,6 +6,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
+ELECTORAL_SKIP_ACTIVATIONS = {
+    "SKIPPED_SOURCE_UNAVAILABLE": "TERRITORIAL_READY_ELECTORAL_PENDING",
+    "SKIPPED_ELECTORAL_SOURCE_INVALID": "TERRITORIAL_READY_ELECTORAL_INVALID",
+    "SKIPPED_INCOMPATIBLE_PAIR": "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
+    "SKIPPED_NO_ACCREDITED_PAIR": "TERRITORIAL_READY_ELECTORAL_PENDING",
+}
+
+
 def phase(
     name: str,
     result: str,
@@ -93,6 +101,7 @@ def main() -> None:
     ap.add_argument("--source-sha", required=True)
     ap.add_argument("--publication-mode-requested", choices=["electoral", "territorial_only"], required=True)
     ap.add_argument("--publication-mode-effective", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--electoral-classification-result", default="success")
     ap.add_argument("--electoral-activation-status", default="")
     ap.add_argument("--electoral-completion-status", default="PENDING")
     ap.add_argument("--electoral-skip-reason")
@@ -144,17 +153,27 @@ def main() -> None:
         return v == "true"
 
     territorial_only = ns.publication_mode_effective == "territorial_only"
-    source_gap_skip = str(ns.electoral_completion_status or "").startswith("SKIPPED_")
+    completion = str(ns.electoral_completion_status or "")
+    skip_requested = completion.startswith("SKIPPED_")
+    expected_skip_activation = ELECTORAL_SKIP_ACTIVATIONS.get(completion)
     prepare_electoral_executed = b(ns.prepare_electoral_executed)
     incorporate_executed = b(ns.incorporate_executed)
     prepare_source_gap_ok = (
-        not prepare_electoral_executed
-        or ns.prepare_electoral_result == "success"
+        (prepare_electoral_executed and ns.prepare_electoral_result == "success")
+        or (not prepare_electoral_executed and ns.prepare_electoral_result == "skipped")
+    )
+    incorporate_source_gap_ok = (
+        not incorporate_executed
+        and ns.incorporate_result == "skipped"
     )
     skip_contract_valid = (
-        source_gap_skip
+        skip_requested
+        and expected_skip_activation is not None
+        and ns.electoral_activation_status == expected_skip_activation
+        and bool(str(ns.electoral_skip_reason or "").strip())
         and prepare_source_gap_ok
-        and not incorporate_executed
+        and incorporate_source_gap_ok
+        and ns.territorial_product_validation == "VALIDADO"
     )
     electoral_scope = (
         "OUT_OF_SCOPE" if territorial_only
@@ -232,7 +251,9 @@ def main() -> None:
     )
     if recovery_active and not recovery_ok:
         failed.append("Reanudación de producto electoral durable")
-    if source_gap_skip and not skip_contract_valid:
+    if ns.electoral_classification_result != "success":
+        failed.append("Clasificación de rama electoral")
+    if skip_requested and not skip_contract_valid:
         failed.append("Clasificación de degradación electoral")
 
     successful = not failed and not blocked and not scope_mismatch and recovery_ok
