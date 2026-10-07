@@ -321,10 +321,20 @@ jobs:
           set -euo pipefail
           test -s .ddd-electoral-package/manifest.json
           manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          package_election_id="$(jq -r '.election_id // empty' "$manifest")"
+          package_election_date="$(jq -r '.election_date // empty' "$manifest")"
           [[ "$(jq -r '.territory_id // empty' "$manifest")" == "$TERRITORY_ID" ]] || { echo "::error::Paquete electoral de otro territorio"; exit 46; }
           [[ "$(jq -r '.edition // empty' "$manifest")" == "$EDITION" ]] || { echo "::error::Paquete electoral de otra edición"; exit 46; }
-          [[ "$(jq -r '.election_id // empty' "$manifest")" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
-          [[ "$(jq -r '.election_date // empty' "$manifest")" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
+            [[ "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
+          else
+            # Un BLOCK por ausencia de fuente puede no materializar identidad electoral.
+            # Si la aporta, no se tolera que contradiga el registro vigente.
+            [[ -z "$package_election_id" || "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Bloqueo electoral con identidad contradictoria"; exit 46; }
+            [[ -z "$package_election_date" || "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Bloqueo electoral con fecha contradictoria"; exit 46; }
+          fi
       - id: meta
         run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
