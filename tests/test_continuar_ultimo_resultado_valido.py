@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from herramientas.resolver_ejecucion_completa import build_plan, resolve_publication_mode
+from herramientas.resolver_ejecucion_completa import build_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 DIGESTS = {
@@ -335,20 +335,9 @@ class ContinueFromLastValidTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*DIGEST"):
             self.case(m06=True, invalid=True)
 
-    def test_incompatible_electoral_lineage_degrades_to_territorial_product(self):
-        p = self.case(source=True, m06=True, electoral_source=True, m08=True, incompatible=True)
-        self.assertFalse(p["run_prepare_territorial"])
-        self.assertFalse(p["run_generate"])
-        self.assertFalse(p["run_prepare_electoral"])
-        self.assertFalse(p["run_incorporate"])
-        self.assertIn("LINEAGE_INCOMPATIBLE", p["electoral_source_gap"]["reason"])
-        mode = resolve_publication_mode(p, "electoral", root_dir=Path("."))
-        self.assertEqual("electoral", mode)
-        self.assertEqual("SKIP", p["electoral_activation"]["execution"])
-        self.assertEqual(
-            "SKIPPED_ELECTORAL_SOURCE_INVALID",
-            p["electoral_activation"]["completion_status"],
-        )
+    def test_incompatible_lineage_blocks(self):
+        with self.assertRaisesRegex(ValueError, "CONTINUE_DURABLE_BLOCK.*LINEAGE_INCOMPATIBLE"):
+            self.case(source=True, m06=True, electoral_source=True, m08=True, incompatible=True)
 
     def test_failed_m06_producer_phase_blocks_reuse(self):
         with tempfile.TemporaryDirectory() as td:
