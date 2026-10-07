@@ -144,11 +144,11 @@ class TerritorialElectoralIndependenceTests(unittest.TestCase):
 
         workflow = yaml.load(ORCH.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
         self.assertIn(
-            "electoral_execution == 'EXECUTE'",
+            "needs.clasificar_electoral.outputs.execution == 'EXECUTE'",
             workflow["jobs"]["incorporar"]["if"],
         )
         self.assertIn(
-            "electoral_execution == 'SKIP'",
+            "needs.clasificar_electoral.outputs.execution == 'SKIP'",
             workflow["jobs"]["actualizar_estado"]["if"],
         )
 
