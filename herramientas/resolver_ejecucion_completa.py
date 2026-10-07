@@ -420,25 +420,17 @@ def resolve_publication_mode(plan: dict, requested_mode: str, *, root_dir: Path)
             resolve_election_source(territory, root_dir=root_dir, edition=edition)
         except SystemExit as exc:
             reason = str(exc)
-            unavailable = (
-                reason.startswith("No existe elección resoluble")
-                or reason.startswith("Territorio o edición no declarados")
-            )
-            _skip_electoral(
-                plan,
-                activation_status=(
-                    "TERRITORIAL_READY_ELECTORAL_PENDING"
-                    if unavailable
-                    else "TERRITORIAL_READY_ELECTORAL_INVALID"
-                ),
-                completion_status=(
-                    "SKIPPED_SOURCE_UNAVAILABLE"
-                    if unavailable
-                    else "SKIPPED_ELECTORAL_SOURCE_INVALID"
-                ),
-                reason=reason,
-            )
-            return "electoral"
+            if reason.startswith("No existe elección resoluble"):
+                _skip_electoral(
+                    plan,
+                    activation_status="TERRITORIAL_READY_ELECTORAL_PENDING",
+                    completion_status="SKIPPED_SOURCE_UNAVAILABLE",
+                    reason=reason,
+                )
+                return "electoral"
+            raise ValueError(
+                f"ELECTORAL_ACTIVATION_TECHNICAL_BLOCK: {reason}"
+            ) from exc
 
     plan["electoral_activation"] = {
         "status": "ELECTORAL_SOURCE_READY",
@@ -466,10 +458,11 @@ def select_territorial_for_prepared_pair(
     if preferred_identity == paired_identity:
         return {
             "status": "FULL_PAIR_READY",
-            "selected": paired,
+            "selected": preferred,
             "preferred_identity_sha256": preferred_identity,
-            "selected_identity_sha256": paired_identity,
+            "selected_identity_sha256": preferred_identity,
             "selection_reason": "PREFERRED_TERRITORIAL_MATCHES_ACCREDITED_PAIR",
+            "alternative_temporally_admissible": False,
         }
 
     current = resolve_current_legislature(
@@ -484,26 +477,22 @@ def select_territorial_for_prepared_pair(
     pair_section_year = int(paired.get("section_year") or 0)
     expected_population_year = int(temporal["population_year_selected"])
     expected_section_year = int(temporal["section_year_selected"])
-    if (
+    alternative_temporally_admissible = (
         pair_population_year == expected_population_year
         and pair_section_year == expected_section_year
-    ):
-        return {
-            "status": "FULL_PAIR_READY_WITH_ALTERNATIVE_TERRITORIAL",
-            "selected": paired,
-            "preferred_identity_sha256": preferred_identity,
-            "selected_identity_sha256": paired_identity,
-            "selection_reason": "ACCREDITED_PAIR_ALTERNATIVE_TERRITORIAL_TEMPORALLY_ADMISSIBLE",
-            "population_year_selected": expected_population_year,
-            "section_year_selected": expected_section_year,
-        }
+    )
     return {
         "status": "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
         "selected": preferred,
         "preferred_identity_sha256": preferred_identity,
         "selected_identity_sha256": preferred_identity,
         "rejected_pair_territorial_identity_sha256": paired_identity,
-        "selection_reason": "PAIR_ALTERNATIVE_REJECTED_BY_TERRITORIAL_TEMPORAL_POLICY",
+        "alternative_temporally_admissible": alternative_temporally_admissible,
+        "selection_reason": (
+            "PAIR_ALTERNATIVE_NOT_AUTO_SELECTED_TO_PRESERVE_TERRITORIAL_INDEPENDENCE"
+            if alternative_temporally_admissible
+            else "PAIR_ALTERNATIVE_REJECTED_BY_TERRITORIAL_TEMPORAL_POLICY"
+        ),
         "population_year_selected": expected_population_year,
         "section_year_selected": expected_section_year,
     }
