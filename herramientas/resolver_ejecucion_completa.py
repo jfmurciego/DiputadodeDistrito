@@ -509,6 +509,20 @@ def select_territorial_for_prepared_pair(
     }
 
 
+def _electoral_source_gap_from_durable_block(exc: DurableAssetBlock) -> dict | None:
+    reason = str(exc)
+    if (
+        reason.startswith("DURABLE_ASSET_IDENTITY_INVALID: electoral_source:")
+        and "election_id no coincide con el registro vigente" in reason
+    ):
+        return {
+            "kind": "SOURCE_GAP",
+            "classification": "ELECTORAL_SOURCE_INVALID",
+            "reason": reason,
+        }
+    return None
+
+
 def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Path, root_dir: Path,
                optimization_algorithm: str = "Canónico", force_selected_algorithm: bool = False,
                explicit_territorial_source: dict | None = None) -> dict:
@@ -590,10 +604,9 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 expected_election_id=expected_election_id,
             )
         except DurableAssetBlock as exc:
-            electoral_source_gap = {
-                "kind": "SOURCE_GAP",
-                "reason": str(exc),
-            }
+            electoral_source_gap = _electoral_source_gap_from_durable_block(exc)
+            if electoral_source_gap is None:
+                raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
             electoral_source_evidence = {}
             electoral_product_evidence = {}
         else:
