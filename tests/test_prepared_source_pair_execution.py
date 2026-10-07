@@ -459,7 +459,7 @@ class OrchestrationModeTests(unittest.TestCase):
         pair_pos = workflow.index("--root-dir . resolve \\")
         self.assertLess(mode_pos, territorial_pos)
         self.assertLess(mode_pos, pair_pos)
-        self.assertIn("Verificar bytes de fuentes acreditadas", workflow)
+        self.assertIn("Verificar bytes de la fuente territorial acreditada", workflow)
 
 
 if __name__ == "__main__":
