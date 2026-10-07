@@ -293,9 +293,10 @@ class MultiterritoryPublicationTests(unittest.TestCase):
 
     def test_full_orchestrator_can_publish_certified_m06_without_electoral_gate(self):
         workflow = FULL.read_text(encoding="utf-8")
-        self.assertIn("needs: [planificar, puerta_02, puerta_04, actualizar_estado]", workflow)
+        self.assertIn("needs: [planificar, puerta_02, puerta_04, actualizar_estado, clasificar_electoral]", workflow)
         self.assertIn("needs.puerta_02.result == 'success'", workflow)
         self.assertIn("needs.actualizar_estado.result == 'success'", workflow)
+        self.assertIn("needs.clasificar_electoral.outputs.execution == 'SKIP'", workflow)
         self.assertIn("needs.puerta_04.result == 'success' && needs.puerta_04.outputs.run_id || needs.puerta_02.outputs.run_id", workflow)
 
     def test_valid_geojson_with_wrong_district_count_blocks_candidate_and_preserves_registry_bytes(self):
