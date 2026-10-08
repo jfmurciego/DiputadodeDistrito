@@ -38,6 +38,23 @@ FROM_START_PRE_M04_TARGETS = {
 }
 
 
+def catalog_without_pre_m04_evidence(directory: Path, territories: tuple[str, ...]) -> Path:
+    """Modela fuentes preparadas sin acreditación, aunque avance el catálogo vivo."""
+    data = yaml.safe_load((ROOT / "configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8"))
+    for row in data["territories"]:
+        if row["territory_id"] in territories:
+            state = row["editions"]["2025"]
+            state["generation_enabled"] = False
+            state["territorial_product_available"] = False
+            state["territorial_certification"] = "NOT_CERTIFIED"
+            state["last_valid_checkpoint"] = None
+            for key in ("generation_preflight", "territorial_product"):
+                (state.get("evidence") or {}).pop(key, None)
+    path = directory / "catalog.yaml"
+    path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    return path
+
+
 def contract(*, partitioned: bool) -> dict:
     base = "territorios/demo/.cache/ddd/preparacion/{run_name}"
     m01_out = f"{base}/demo_2025_m01.geojson.zip"
@@ -1061,7 +1078,9 @@ class RealTerritoryPreM04ContractTests(unittest.TestCase):
                 )
 
     def test_historical_source_and_flags_do_not_bypass_reaccreditation(self):
-        catalog = ROOT / "configuracion/catalogo_preparacion.yaml"
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        catalog = catalog_without_pre_m04_evidence(Path(temporary.name), ("illes_balears",))
 
         reuse = build_plan(
             territory="illes_balears",

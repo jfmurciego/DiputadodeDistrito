@@ -14,6 +14,7 @@ from herramientas.materializar_evidencia_pre_m04 import (
     register_evidence_path,
 )
 from herramientas.promover_catalogo_tras_preparacion import promote
+from herramientas.resolver_ejecucion_completa import generation_ready_contract
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -322,7 +323,7 @@ class WorkflowDecouplingTests(unittest.TestCase):
                 module.name,
             )
 
-    def test_current_canarias_and_cataluna_evidence_is_prepared_but_not_generation_enabled(self):
+    def test_current_canarias_and_cataluna_source_pairs_and_generation_gates_are_consistent(self):
         catalog = yaml.safe_load(
             (ROOT / "configuracion/catalogo_preparacion.yaml").read_text(
                 encoding="utf-8"
@@ -334,7 +335,8 @@ class WorkflowDecouplingTests(unittest.TestCase):
                 state = rows[territory_id]["editions"]["2025"]
                 self.assertTrue(state["territorial_sources_prepared"])
                 self.assertTrue(state["electoral_source_prepared"])
-                self.assertFalse(state["generation_enabled"])
+                ready = generation_ready_contract(root_dir=ROOT, state=state, territory_id=territory_id)
+                self.assertEqual(bool(state["generation_enabled"]), ready["allowed"])
                 evidence = state.get("evidence") or {}
                 pair_rel = evidence.get("prepared_source_pair")
                 self.assertTrue(pair_rel)
@@ -368,11 +370,11 @@ class WorkflowDecouplingTests(unittest.TestCase):
                     ):
                         self.assertEqual(preflight_source[key], prepared[key])
                     gate = preflight.get("effective_gate") or {}
-                    self.assertFalse(gate.get("allowed", False))
-                    self.assertNotEqual(
-                        preflight.get("decision"),
-                        "READY_FOR_FIRST_GENERATION",
-                    )
+                    self.assertEqual(ready["allowed"], gate.get("allowed", False))
+                    if ready["allowed"]:
+                        self.assertEqual(preflight.get("decision"), "READY_FOR_FIRST_GENERATION")
+                    else:
+                        self.assertNotEqual(preflight.get("decision"), "READY_FOR_FIRST_GENERATION")
 
     def test_provisional_electoral_source_does_not_form_productive_pair(self):
         text = (WF / "preparacion-legislatura-vigente.yml").read_text(

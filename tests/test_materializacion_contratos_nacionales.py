@@ -15,8 +15,6 @@ import zipfile
 from pathlib import Path
 
 import yaml
-import geopandas as gpd
-from shapely.geometry import box
 
 from ddd_core.territory_contract import validate_production_contract
 from herramientas.compatibilidad_poblacion_seccionado import build_materialized_report
@@ -29,7 +27,7 @@ from herramientas.materializar_contrato_generacion import (
 )
 from herramientas.resolver_ejecucion_completa import build_plan, generation_enablement
 from herramientas.preparar_particiones_fisicas_m04 import prepare as prepare_physical_m04_input
-from tests.test_pre_m04_evidence_pipeline import write_fixture
+from tests.test_pre_m04_evidence_pipeline import catalog_without_pre_m04_evidence, write_fixture
 from herramientas._resolver_ejecucion_completa_core import (
     _bridge_signature,
     _contract_generation_binding,
@@ -206,6 +204,9 @@ def population_package(
     section_year: int = 2025,
 ) -> Path:
     """Paquete sintético acreditado: población + seccionado + inventario + compatibilidad."""
+    import geopandas as gpd
+    from shapely.geometry import box
+
     package = root / "package"
     package.mkdir(parents=True, exist_ok=True)
 
@@ -840,6 +841,11 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 td.cleanup()
 
     def test_archipelagos_plan_physical_input_then_require_durable_pre_m04_evidence(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        pending_catalog = catalog_without_pre_m04_evidence(
+            Path(temporary.name), ("illes_balears", "canarias"),
+        )
         catalog = yaml.safe_load(
             (ROOT/"configuracion/catalogo_preparacion.yaml").read_text(encoding="utf-8")
         )
@@ -884,7 +890,7 @@ class NationalGenerationMaterializationTests(unittest.TestCase):
                 territory=territory_id,
                 edition="2025",
                 execution_mode="reuse",
-                catalog=ROOT/"configuracion/catalogo_preparacion.yaml",
+                catalog=pending_catalog,
                 root_dir=ROOT,
             )
             # Haya o no una evidencia histórica conservada tras Activación,
