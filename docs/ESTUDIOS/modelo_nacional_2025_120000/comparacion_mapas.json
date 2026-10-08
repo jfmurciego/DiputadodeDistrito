@@ -1,0 +1,139 @@
+{
+  "available_compositions": [
+    {
+      "columns": [
+        "district_id",
+        "CUSEC_KEY",
+        "CUSEC",
+        "CUMUN",
+        "NMUN",
+        "CPRO",
+        "NPRO",
+        "CUDIS",
+        "POP_2025"
+      ],
+      "district_count": 67,
+      "explicit_population_year": 2025,
+      "path": "territorios/aragon/resultados/ejecuciones/gh-34584775443-1/M06/composicion_distritos.csv",
+      "sha256": "1152b2e37215668f21c20763d1984b43c3bb8fbaed71511cc504ed8bf7e37b65",
+      "territorial_scope": "autonómico",
+      "unit_count": 1463
+    },
+    {
+      "columns": [
+        "district_id",
+        "CUSEC_KEY",
+        "CUSEC",
+        "CUMUN",
+        "NMUN",
+        "CPRO",
+        "NPRO",
+        "CUDIS",
+        "POP_2025"
+      ],
+      "district_count": 67,
+      "explicit_population_year": 2025,
+      "path": "territorios/aragon/resultados/ejecuciones/gh-34588834266-1/M06/composicion_distritos.csv",
+      "sha256": "444a62866cb777d409adb253296db1679437d6fac5a6d0d852ca959b5e57484c",
+      "territorial_scope": "autonómico",
+      "unit_count": 1463
+    },
+    {
+      "columns": [
+        "district_id",
+        "CUSEC_KEY",
+        "CUSEC",
+        "CUMUN",
+        "NMUN",
+        "CPRO",
+        "NPRO",
+        "CUDIS",
+        "POP_2025"
+      ],
+      "district_count": 67,
+      "explicit_population_year": 2025,
+      "path": "territorios/aragon/resultados/ejecuciones/gh-34592470470-1/M06/composicion_distritos.csv",
+      "sha256": "c1cbac336d9c92be7ad710e98a98eca975ad820c3b039d11e22e97caa2bfc37a",
+      "territorial_scope": "autonómico",
+      "unit_count": 1463
+    },
+    {
+      "columns": [
+        "district_id",
+        "CUSEC_KEY",
+        "CUSEC",
+        "CUMUN",
+        "NMUN",
+        "CPRO",
+        "NPRO",
+        "CUDIS",
+        "POP_2025"
+      ],
+      "district_count": 67,
+      "explicit_population_year": 2025,
+      "path": "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv",
+      "sha256": "973f7c533e7b664a500959d9d80bd02f60c7aa03d68d6ad932ecc9dde658d818",
+      "territorial_scope": "autonómico",
+      "unit_count": 1463
+    },
+    {
+      "columns": [
+        "CUSEC_KEY",
+        "district_id",
+        "section_pop",
+        "CPRO",
+        "NPRO",
+        "CUMUN",
+        "NMUN",
+        "CUDIS",
+        "ddd_unit_id",
+        "ddd_closed_urban"
+      ],
+      "district_count": 82,
+      "explicit_population_year": null,
+      "path": "territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/composicion_distritos.csv",
+      "sha256": "2de8bcef9cbf8da696fe53f5f5b3d59c3c3cf75a966110681b902193d883fa92",
+      "territorial_scope": "autonómico",
+      "unit_count": 3506
+    },
+    {
+      "columns": [
+        "CUSEC_KEY",
+        "district_id",
+        "section_pop",
+        "CPRO",
+        "NPRO",
+        "CUMUN",
+        "NMUN",
+        "CUDIS",
+        "ddd_unit_id",
+        "ddd_closed_urban"
+      ],
+      "district_count": 65,
+      "explicit_population_year": null,
+      "path": "territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/M06/composicion_distritos.csv",
+      "sha256": "1b2a30d6f2af3323eb9b75158d2e8ff8b96546c9898b42444d12ce7ea0c6eea8",
+      "territorial_scope": "autonómico",
+      "unit_count": 964
+    }
+  ],
+  "common_unit_universe_accredited": false,
+  "differences": null,
+  "exact_matches": null,
+  "metadata": {
+    "changes": "cuotas exactas y K calculado a partir de población",
+    "date": "2026-10-08",
+    "name": "Modelo cuantitativo nacional exploratorio",
+    "origin": "artefacto nuevo, sin predecesor",
+    "reason": "perfil de cálculo del Director de 120000 habitantes; no contrato electoral",
+    "scope": "análisis local; sin generación territorial",
+    "status": "CANDIDATE_NOT_INSTITUTIONALLY_APPROVED",
+    "version": "1.0.0"
+  },
+  "pairs": null,
+  "paths_containing_2022": [],
+  "reason": "No se ha identificado un par de mapas distritales 2022/2025 ni un universo temporal común acreditado; pendientes rutas del Director.",
+  "schema": "ddd.map-comparison-inventory/1.0",
+  "search_scope": "composiciones M06 conservadas en Git; no búsqueda exhaustiva en disco personal ni consulta remota",
+  "status": "NOT_COMPARABLE"
+}
