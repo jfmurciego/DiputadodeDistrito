@@ -1,0 +1,27 @@
+test_contradictory_identity_and_receipt (tests.test_almacen_fuentes_local.PersistedSourceTests.test_contradictory_identity_and_receipt) ... ok
+test_identity_and_edition_exact (tests.test_almacen_fuentes_local.PersistedSourceTests.test_identity_and_edition_exact) ... ok
+test_import_promotion_and_conflicting_object (tests.test_almacen_fuentes_local.PersistedSourceTests.test_import_promotion_and_conflicting_object) ... melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_INVALID objeto existente contradictorio
+la_rioja RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+ok
+test_incompatible_edition_in_artifact (tests.test_almacen_fuentes_local.PersistedSourceTests.test_incompatible_edition_in_artifact) ... ok
+test_missing_ambiguous_and_unverified (tests.test_almacen_fuentes_local.PersistedSourceTests.test_missing_ambiguous_and_unverified) ... ok
+test_receipt_corruption (tests.test_almacen_fuentes_local.PersistedSourceTests.test_receipt_corruption) ... ok
+test_recomputed_identity_rejects_forged_receipt (tests.test_almacen_fuentes_local.PersistedSourceTests.test_recomputed_identity_rejects_forged_receipt) ... ok
+test_same_size_wrong_sha (tests.test_almacen_fuentes_local.PersistedSourceTests.test_same_size_wrong_sha) ... ok
+test_two_territories_offline_and_originals_unchanged (tests.test_almacen_fuentes_local.PersistedSourceTests.test_two_territories_offline_and_originals_unchanged) ... ok
+test_wrong_digest (tests.test_almacen_fuentes_local.PersistedSourceTests.test_wrong_digest) ... ok
+test_traversal_links_and_duplicates (tests.test_almacen_fuentes_local.ZipSafetyTests.test_traversal_links_and_duplicates) ... /usr/local/Caskroom/miniforge/base/lib/python3.13/zipfile/__init__.py:1655: UserWarning: Duplicate name: 'same'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.635s
+
+OK
