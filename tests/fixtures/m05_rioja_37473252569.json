@@ -1,0 +1,4221 @@
+{
+  "kwargs": {
+    "assignments": {
+      "26:26001:M": 27,
+      "26:26002:M": 32,
+      "26:26003:M": 31,
+      "26:26004:M": 31,
+      "26:26005:M": 24,
+      "26:26006:M": 32,
+      "26:26007:M": 32,
+      "26:26008:M": 28,
+      "26:26009:M": 20,
+      "26:26010:M": 30,
+      "26:26011:M": 22,
+      "26:26012:M": 30,
+      "26:26013:M": 21,
+      "26:26014:M": 30,
+      "26:26015:M": 30,
+      "26:26016:M": 30,
+      "26:26017:M": 23,
+      "26:26018:R": 23,
+      "26:26018:U1": 0,
+      "26:26019:M": 32,
+      "26:26020:M": 23,
+      "26:26021:M": 29,
+      "26:26022:M": 21,
+      "26:26023:M": 30,
+      "26:26024:M": 20,
+      "26:26025:M": 20,
+      "26:26026:M": 30,
+      "26:26027:M": 21,
+      "26:26028:M": 23,
+      "26:26029:M": 23,
+      "26:26030:M": 30,
+      "26:26031:M": 30,
+      "26:26032:M": 30,
+      "26:26033:M": 21,
+      "26:26034:M": 27,
+      "26:26035:M": 31,
+      "26:26036:R": 28,
+      "26:26036:U1": 1,
+      "26:26036:U2": 2,
+      "26:26037:M": 30,
+      "26:26038:M": 30,
+      "26:26039:M": 20,
+      "26:26040:M": 20,
+      "26:26041:M": 30,
+      "26:26042:M": 21,
+      "26:26043:M": 20,
+      "26:26044:M": 30,
+      "26:26045:M": 21,
+      "26:26046:M": 27,
+      "26:26047:M": 31,
+      "26:26048:M": 20,
+      "26:26049:M": 21,
+      "26:26050:M": 20,
+      "26:26051:M": 32,
+      "26:26052:M": 19,
+      "26:26053:M": 32,
+      "26:26054:M": 31,
+      "26:26055:M": 20,
+      "26:26056:M": 20,
+      "26:26057:M": 31,
+      "26:26058:M": 31,
+      "26:26059:M": 24,
+      "26:26060:M": 30,
+      "26:26061:M": 30,
+      "26:26062:M": 21,
+      "26:26063:M": 21,
+      "26:26064:M": 27,
+      "26:26065:M": 21,
+      "26:26066:M": 32,
+      "26:26067:M": 30,
+      "26:26068:M": 21,
+      "26:26069:M": 21,
+      "26:26070:M": 31,
+      "26:26071:R": 21,
+      "26:26071:U1": 3,
+      "26:26072:M": 23,
+      "26:26073:M": 21,
+      "26:26074:M": 20,
+      "26:26075:M": 21,
+      "26:26076:M": 19,
+      "26:26077:M": 31,
+      "26:26078:M": 31,
+      "26:26079:M": 19,
+      "26:26080:M": 31,
+      "26:26081:M": 31,
+      "26:26082:M": 30,
+      "26:26083:M": 32,
+      "26:26084:R": 24,
+      "26:26084:U1": 4,
+      "26:26086:M": 30,
+      "26:26087:M": 21,
+      "26:26088:M": 32,
+      "26:26089:R": 25,
+      "26:26089:U1": 5,
+      "26:26089:U10": 14,
+      "26:26089:U11": 15,
+      "26:26089:U12": 16,
+      "26:26089:U13": 17,
+      "26:26089:U14": 18,
+      "26:26089:U2": 6,
+      "26:26089:U3": 7,
+      "26:26089:U4": 8,
+      "26:26089:U5": 9,
+      "26:26089:U6": 10,
+      "26:26089:U7": 11,
+      "26:26089:U8": 12,
+      "26:26089:U9": 13,
+      "26:26091:M": 30,
+      "26:26092:M": 30,
+      "26:26093:M": 30,
+      "26:26094:M": 21,
+      "26:26095:M": 30,
+      "26:26096:M": 24,
+      "26:26098:M": 31,
+      "26:26099:M": 32,
+      "26:26100:M": 31,
+      "26:26101:M": 31,
+      "26:26102:M": 19,
+      "26:26103:M": 24,
+      "26:26104:M": 31,
+      "26:26105:M": 31,
+      "26:26106:M": 30,
+      "26:26107:M": 30,
+      "26:26108:M": 23,
+      "26:26109:M": 21,
+      "26:26110:M": 21,
+      "26:26111:M": 21,
+      "26:26112:M": 30,
+      "26:26113:M": 21,
+      "26:26114:M": 30,
+      "26:26115:M": 30,
+      "26:26117:M": 29,
+      "26:26118:M": 30,
+      "26:26119:M": 31,
+      "26:26120:M": 29,
+      "26:26121:M": 31,
+      "26:26122:M": 30,
+      "26:26123:M": 23,
+      "26:26124:M": 32,
+      "26:26125:M": 22,
+      "26:26126:M": 23,
+      "26:26127:M": 21,
+      "26:26128:M": 21,
+      "26:26129:M": 27,
+      "26:26130:M": 21,
+      "26:26131:M": 21,
+      "26:26132:M": 31,
+      "26:26134:M": 30,
+      "26:26135:M": 23,
+      "26:26136:M": 23,
+      "26:26138:M": 20,
+      "26:26139:M": 20,
+      "26:26140:M": 20,
+      "26:26141:M": 21,
+      "26:26142:M": 27,
+      "26:26143:M": 31,
+      "26:26144:M": 31,
+      "26:26145:M": 30,
+      "26:26146:M": 31,
+      "26:26147:M": 31,
+      "26:26148:M": 20,
+      "26:26149:M": 30,
+      "26:26150:M": 21,
+      "26:26151:M": 30,
+      "26:26152:M": 20,
+      "26:26153:M": 31,
+      "26:26154:M": 19,
+      "26:26155:M": 21,
+      "26:26157:M": 30,
+      "26:26158:M": 23,
+      "26:26160:M": 27,
+      "26:26161:M": 31,
+      "26:26162:M": 21,
+      "26:26163:M": 30,
+      "26:26164:M": 30,
+      "26:26165:M": 31,
+      "26:26166:M": 21,
+      "26:26167:M": 21,
+      "26:26168:M": 26,
+      "26:26169:M": 30,
+      "26:26170:M": 23,
+      "26:26171:M": 20,
+      "26:26172:M": 20,
+      "26:26173:M": 31,
+      "26:26174:M": 21,
+      "26:26175:M": 30,
+      "26:26176:M": 30,
+      "26:26177:M": 30,
+      "26:26178:M": 30,
+      "26:26179:M": 30,
+      "26:26180:M": 21,
+      "26:26181:M": 31,
+      "26:26183:M": 21
+    },
+    "units": {
+      "26:26001:M": {
+        "population": 260,
+        "province": "26",
+        "municipality_group": "26:26001:M"
+      },
+      "26:26002:M": {
+        "population": 1231,
+        "province": "26",
+        "municipality_group": "26:26002:M"
+      },
+      "26:26003:M": {
+        "population": 433,
+        "province": "26",
+        "municipality_group": "26:26003:M"
+      },
+      "26:26004:M": {
+        "population": 91,
+        "province": "26",
+        "municipality_group": "26:26004:M"
+      },
+      "26:26005:M": {
+        "population": 3739,
+        "province": "26",
+        "municipality_group": "26:26005:M"
+      },
+      "26:26006:M": {
+        "population": 2627,
+        "province": "26",
+        "municipality_group": "26:26006:M"
+      },
+      "26:26007:M": {
+        "population": 668,
+        "province": "26",
+        "municipality_group": "26:26007:M"
+      },
+      "26:26008:M": {
+        "population": 2744,
+        "province": "26",
+        "municipality_group": "26:26008:M"
+      },
+      "26:26009:M": {
+        "population": 474,
+        "province": "26",
+        "municipality_group": "26:26009:M"
+      },
+      "26:26010:M": {
+        "population": 98,
+        "province": "26",
+        "municipality_group": "26:26010:M"
+      },
+      "26:26011:M": {
+        "population": 9821,
+        "province": "26",
+        "municipality_group": "26:26011:M"
+      },
+      "26:26012:M": {
+        "population": 39,
+        "province": "26",
+        "municipality_group": "26:26012:M"
+      },
+      "26:26013:M": {
+        "population": 434,
+        "province": "26",
+        "municipality_group": "26:26013:M"
+      },
+      "26:26014:M": {
+        "population": 497,
+        "province": "26",
+        "municipality_group": "26:26014:M"
+      },
+      "26:26015:M": {
+        "population": 252,
+        "province": "26",
+        "municipality_group": "26:26015:M"
+      },
+      "26:26016:M": {
+        "population": 33,
+        "province": "26",
+        "municipality_group": "26:26016:M"
+      },
+      "26:26017:M": {
+        "population": 436,
+        "province": "26",
+        "municipality_group": "26:26017:M"
+      },
+      "26:26018:R": {
+        "population": 5393,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26018:U1": {
+        "population": 9764,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26019:M": {
+        "population": 592,
+        "province": "26",
+        "municipality_group": "26:26019:M"
+      },
+      "26:26020:M": {
+        "population": 798,
+        "province": "26",
+        "municipality_group": "26:26020:M"
+      },
+      "26:26021:M": {
+        "population": 4811,
+        "province": "26",
+        "municipality_group": "26:26021:M"
+      },
+      "26:26022:M": {
+        "population": 208,
+        "province": "26",
+        "municipality_group": "26:26022:M"
+      },
+      "26:26023:M": {
+        "population": 493,
+        "province": "26",
+        "municipality_group": "26:26023:M"
+      },
+      "26:26024:M": {
+        "population": 201,
+        "province": "26",
+        "municipality_group": "26:26024:M"
+      },
+      "26:26025:M": {
+        "population": 84,
+        "province": "26",
+        "municipality_group": "26:26025:M"
+      },
+      "26:26026:M": {
+        "population": 1609,
+        "province": "26",
+        "municipality_group": "26:26026:M"
+      },
+      "26:26027:M": {
+        "population": 139,
+        "province": "26",
+        "municipality_group": "26:26027:M"
+      },
+      "26:26028:M": {
+        "population": 167,
+        "province": "26",
+        "municipality_group": "26:26028:M"
+      },
+      "26:26029:M": {
+        "population": 41,
+        "province": "26",
+        "municipality_group": "26:26029:M"
+      },
+      "26:26030:M": {
+        "population": 26,
+        "province": "26",
+        "municipality_group": "26:26030:M"
+      },
+      "26:26031:M": {
+        "population": 97,
+        "province": "26",
+        "municipality_group": "26:26031:M"
+      },
+      "26:26032:M": {
+        "population": 43,
+        "province": "26",
+        "municipality_group": "26:26032:M"
+      },
+      "26:26033:M": {
+        "population": 182,
+        "province": "26",
+        "municipality_group": "26:26033:M"
+      },
+      "26:26034:M": {
+        "population": 738,
+        "province": "26",
+        "municipality_group": "26:26034:M"
+      },
+      "26:26035:M": {
+        "population": 23,
+        "province": "26",
+        "municipality_group": "26:26035:M"
+      },
+      "26:26036:R": {
+        "population": 7210,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26036:U1": {
+        "population": 9018,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26036:U2": {
+        "population": 8797,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26037:M": {
+        "population": 174,
+        "province": "26",
+        "municipality_group": "26:26037:M"
+      },
+      "26:26038:M": {
+        "population": 85,
+        "province": "26",
+        "municipality_group": "26:26038:M"
+      },
+      "26:26039:M": {
+        "population": 50,
+        "province": "26",
+        "municipality_group": "26:26039:M"
+      },
+      "26:26040:M": {
+        "population": 91,
+        "province": "26",
+        "municipality_group": "26:26040:M"
+      },
+      "26:26041:M": {
+        "population": 130,
+        "province": "26",
+        "municipality_group": "26:26041:M"
+      },
+      "26:26042:M": {
+        "population": 1061,
+        "province": "26",
+        "municipality_group": "26:26042:M"
+      },
+      "26:26043:M": {
+        "population": 385,
+        "province": "26",
+        "municipality_group": "26:26043:M"
+      },
+      "26:26044:M": {
+        "population": 65,
+        "province": "26",
+        "municipality_group": "26:26044:M"
+      },
+      "26:26045:M": {
+        "population": 10,
+        "province": "26",
+        "municipality_group": "26:26045:M"
+      },
+      "26:26046:M": {
+        "population": 2076,
+        "province": "26",
+        "municipality_group": "26:26046:M"
+      },
+      "26:26047:M": {
+        "population": 2279,
+        "province": "26",
+        "municipality_group": "26:26047:M"
+      },
+      "26:26048:M": {
+        "population": 22,
+        "province": "26",
+        "municipality_group": "26:26048:M"
+      },
+      "26:26049:M": {
+        "population": 209,
+        "province": "26",
+        "municipality_group": "26:26049:M"
+      },
+      "26:26050:M": {
+        "population": 197,
+        "province": "26",
+        "municipality_group": "26:26050:M"
+      },
+      "26:26051:M": {
+        "population": 297,
+        "province": "26",
+        "municipality_group": "26:26051:M"
+      },
+      "26:26052:M": {
+        "population": 154,
+        "province": "26",
+        "municipality_group": "26:26052:M"
+      },
+      "26:26053:M": {
+        "population": 281,
+        "province": "26",
+        "municipality_group": "26:26053:M"
+      },
+      "26:26054:M": {
+        "population": 305,
+        "province": "26",
+        "municipality_group": "26:26054:M"
+      },
+      "26:26055:M": {
+        "population": 38,
+        "province": "26",
+        "municipality_group": "26:26055:M"
+      },
+      "26:26056:M": {
+        "population": 559,
+        "province": "26",
+        "municipality_group": "26:26056:M"
+      },
+      "26:26057:M": {
+        "population": 66,
+        "province": "26",
+        "municipality_group": "26:26057:M"
+      },
+      "26:26058:M": {
+        "population": 174,
+        "province": "26",
+        "municipality_group": "26:26058:M"
+      },
+      "26:26059:M": {
+        "population": 1634,
+        "province": "26",
+        "municipality_group": "26:26059:M"
+      },
+      "26:26060:M": {
+        "population": 93,
+        "province": "26",
+        "municipality_group": "26:26060:M"
+      },
+      "26:26061:M": {
+        "population": 2074,
+        "province": "26",
+        "municipality_group": "26:26061:M"
+      },
+      "26:26062:M": {
+        "population": 94,
+        "province": "26",
+        "municipality_group": "26:26062:M"
+      },
+      "26:26063:M": {
+        "population": 129,
+        "province": "26",
+        "municipality_group": "26:26063:M"
+      },
+      "26:26064:M": {
+        "population": 3255,
+        "province": "26",
+        "municipality_group": "26:26064:M"
+      },
+      "26:26065:M": {
+        "population": 88,
+        "province": "26",
+        "municipality_group": "26:26065:M"
+      },
+      "26:26066:M": {
+        "population": 395,
+        "province": "26",
+        "municipality_group": "26:26066:M"
+      },
+      "26:26067:M": {
+        "population": 17,
+        "province": "26",
+        "municipality_group": "26:26067:M"
+      },
+      "26:26068:M": {
+        "population": 114,
+        "province": "26",
+        "municipality_group": "26:26068:M"
+      },
+      "26:26069:M": {
+        "population": 235,
+        "province": "26",
+        "municipality_group": "26:26069:M"
+      },
+      "26:26070:M": {
+        "population": 169,
+        "province": "26",
+        "municipality_group": "26:26070:M"
+      },
+      "26:26071:R": {
+        "population": 2894,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26071:U1": {
+        "population": 8856,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26072:M": {
+        "population": 326,
+        "province": "26",
+        "municipality_group": "26:26072:M"
+      },
+      "26:26073:M": {
+        "population": 108,
+        "province": "26",
+        "municipality_group": "26:26073:M"
+      },
+      "26:26074:M": {
+        "population": 133,
+        "province": "26",
+        "municipality_group": "26:26074:M"
+      },
+      "26:26075:M": {
+        "population": 443,
+        "province": "26",
+        "municipality_group": "26:26075:M"
+      },
+      "26:26076:M": {
+        "population": 133,
+        "province": "26",
+        "municipality_group": "26:26076:M"
+      },
+      "26:26077:M": {
+        "population": 15,
+        "province": "26",
+        "municipality_group": "26:26077:M"
+      },
+      "26:26078:M": {
+        "population": 94,
+        "province": "26",
+        "municipality_group": "26:26078:M"
+      },
+      "26:26079:M": {
+        "population": 864,
+        "province": "26",
+        "municipality_group": "26:26079:M"
+      },
+      "26:26080:M": {
+        "population": 652,
+        "province": "26",
+        "municipality_group": "26:26080:M"
+      },
+      "26:26081:M": {
+        "population": 28,
+        "province": "26",
+        "municipality_group": "26:26081:M"
+      },
+      "26:26082:M": {
+        "population": 115,
+        "province": "26",
+        "municipality_group": "26:26082:M"
+      },
+      "26:26083:M": {
+        "population": 399,
+        "province": "26",
+        "municipality_group": "26:26083:M"
+      },
+      "26:26084:R": {
+        "population": 2145,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26084:U1": {
+        "population": 9226,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26086:M": {
+        "population": 16,
+        "province": "26",
+        "municipality_group": "26:26086:M"
+      },
+      "26:26087:M": {
+        "population": 249,
+        "province": "26",
+        "municipality_group": "26:26087:M"
+      },
+      "26:26088:M": {
+        "population": 40,
+        "province": "26",
+        "municipality_group": "26:26088:M"
+      },
+      "26:26089:R": {
+        "population": 10509,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U1": {
+        "population": 10010,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U10": {
+        "population": 10780,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U11": {
+        "population": 9405,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U12": {
+        "population": 10714,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U13": {
+        "population": 9714,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U14": {
+        "population": 10905,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U2": {
+        "population": 10018,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U3": {
+        "population": 9730,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U4": {
+        "population": 9956,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U5": {
+        "population": 10592,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U6": {
+        "population": 9638,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U7": {
+        "population": 8750,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U8": {
+        "population": 9907,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26089:U9": {
+        "population": 9578,
+        "province": "26",
+        "municipality_group": null
+      },
+      "26:26091:M": {
+        "population": 145,
+        "province": "26",
+        "municipality_group": "26:26091:M"
+      },
+      "26:26092:M": {
+        "population": 109,
+        "province": "26",
+        "municipality_group": "26:26092:M"
+      },
+      "26:26093:M": {
+        "population": 62,
+        "province": "26",
+        "municipality_group": "26:26093:M"
+      },
+      "26:26094:M": {
+        "population": 58,
+        "province": "26",
+        "municipality_group": "26:26094:M"
+      },
+      "26:26095:M": {
+        "population": 91,
+        "province": "26",
+        "municipality_group": "26:26095:M"
+      },
+      "26:26096:M": {
+        "population": 351,
+        "province": "26",
+        "municipality_group": "26:26096:M"
+      },
+      "26:26098:M": {
+        "population": 100,
+        "province": "26",
+        "municipality_group": "26:26098:M"
+      },
+      "26:26099:M": {
+        "population": 1672,
+        "province": "26",
+        "municipality_group": "26:26099:M"
+      },
+      "26:26100:M": {
+        "population": 57,
+        "province": "26",
+        "municipality_group": "26:26100:M"
+      },
+      "26:26101:M": {
+        "population": 40,
+        "province": "26",
+        "municipality_group": "26:26101:M"
+      },
+      "26:26102:M": {
+        "population": 8050,
+        "province": "26",
+        "municipality_group": "26:26102:M"
+      },
+      "26:26103:M": {
+        "population": 1338,
+        "province": "26",
+        "municipality_group": "26:26103:M"
+      },
+      "26:26104:M": {
+        "population": 8,
+        "province": "26",
+        "municipality_group": "26:26104:M"
+      },
+      "26:26105:M": {
+        "population": 3021,
+        "province": "26",
+        "municipality_group": "26:26105:M"
+      },
+      "26:26106:M": {
+        "population": 83,
+        "province": "26",
+        "municipality_group": "26:26106:M"
+      },
+      "26:26107:M": {
+        "population": 87,
+        "province": "26",
+        "municipality_group": "26:26107:M"
+      },
+      "26:26108:M": {
+        "population": 322,
+        "province": "26",
+        "municipality_group": "26:26108:M"
+      },
+      "26:26109:M": {
+        "population": 87,
+        "province": "26",
+        "municipality_group": "26:26109:M"
+      },
+      "26:26110:M": {
+        "population": 172,
+        "province": "26",
+        "municipality_group": "26:26110:M"
+      },
+      "26:26111:M": {
+        "population": 315,
+        "province": "26",
+        "municipality_group": "26:26111:M"
+      },
+      "26:26112:M": {
+        "population": 222,
+        "province": "26",
+        "municipality_group": "26:26112:M"
+      },
+      "26:26113:M": {
+        "population": 27,
+        "province": "26",
+        "municipality_group": "26:26113:M"
+      },
+      "26:26114:M": {
+        "population": 88,
+        "province": "26",
+        "municipality_group": "26:26114:M"
+      },
+      "26:26115:M": {
+        "population": 25,
+        "province": "26",
+        "municipality_group": "26:26115:M"
+      },
+      "26:26117:M": {
+        "population": 3793,
+        "province": "26",
+        "municipality_group": "26:26117:M"
+      },
+      "26:26118:M": {
+        "population": 67,
+        "province": "26",
+        "municipality_group": "26:26118:M"
+      },
+      "26:26119:M": {
+        "population": 213,
+        "province": "26",
+        "municipality_group": "26:26119:M"
+      },
+      "26:26120:M": {
+        "population": 2149,
+        "province": "26",
+        "municipality_group": "26:26120:M"
+      },
+      "26:26121:M": {
+        "population": 33,
+        "province": "26",
+        "municipality_group": "26:26121:M"
+      },
+      "26:26122:M": {
+        "population": 154,
+        "province": "26",
+        "municipality_group": "26:26122:M"
+      },
+      "26:26123:M": {
+        "population": 152,
+        "province": "26",
+        "municipality_group": "26:26123:M"
+      },
+      "26:26124:M": {
+        "population": 1039,
+        "province": "26",
+        "municipality_group": "26:26124:M"
+      },
+      "26:26125:M": {
+        "population": 4025,
+        "province": "26",
+        "municipality_group": "26:26125:M"
+      },
+      "26:26126:M": {
+        "population": 27,
+        "province": "26",
+        "municipality_group": "26:26126:M"
+      },
+      "26:26127:M": {
+        "population": 209,
+        "province": "26",
+        "municipality_group": "26:26127:M"
+      },
+      "26:26128:M": {
+        "population": 131,
+        "province": "26",
+        "municipality_group": "26:26128:M"
+      },
+      "26:26129:M": {
+        "population": 1108,
+        "province": "26",
+        "municipality_group": "26:26129:M"
+      },
+      "26:26130:M": {
+        "population": 214,
+        "province": "26",
+        "municipality_group": "26:26130:M"
+      },
+      "26:26131:M": {
+        "population": 35,
+        "province": "26",
+        "municipality_group": "26:26131:M"
+      },
+      "26:26132:M": {
+        "population": 129,
+        "province": "26",
+        "municipality_group": "26:26132:M"
+      },
+      "26:26134:M": {
+        "population": 99,
+        "province": "26",
+        "municipality_group": "26:26134:M"
+      },
+      "26:26135:M": {
+        "population": 199,
+        "province": "26",
+        "municipality_group": "26:26135:M"
+      },
+      "26:26136:M": {
+        "population": 119,
+        "province": "26",
+        "municipality_group": "26:26136:M"
+      },
+      "26:26138:M": {
+        "population": 6280,
+        "province": "26",
+        "municipality_group": "26:26138:M"
+      },
+      "26:26139:M": {
+        "population": 62,
+        "province": "26",
+        "municipality_group": "26:26139:M"
+      },
+      "26:26140:M": {
+        "population": 286,
+        "province": "26",
+        "municipality_group": "26:26140:M"
+      },
+      "26:26141:M": {
+        "population": 104,
+        "province": "26",
+        "municipality_group": "26:26141:M"
+      },
+      "26:26142:M": {
+        "population": 1009,
+        "province": "26",
+        "municipality_group": "26:26142:M"
+      },
+      "26:26143:M": {
+        "population": 608,
+        "province": "26",
+        "municipality_group": "26:26143:M"
+      },
+      "26:26144:M": {
+        "population": 222,
+        "province": "26",
+        "municipality_group": "26:26144:M"
+      },
+      "26:26145:M": {
+        "population": 262,
+        "province": "26",
+        "municipality_group": "26:26145:M"
+      },
+      "26:26146:M": {
+        "population": 88,
+        "province": "26",
+        "municipality_group": "26:26146:M"
+      },
+      "26:26147:M": {
+        "population": 41,
+        "province": "26",
+        "municipality_group": "26:26147:M"
+      },
+      "26:26148:M": {
+        "population": 171,
+        "province": "26",
+        "municipality_group": "26:26148:M"
+      },
+      "26:26149:M": {
+        "population": 47,
+        "province": "26",
+        "municipality_group": "26:26149:M"
+      },
+      "26:26150:M": {
+        "population": 121,
+        "province": "26",
+        "municipality_group": "26:26150:M"
+      },
+      "26:26151:M": {
+        "population": 435,
+        "province": "26",
+        "municipality_group": "26:26151:M"
+      },
+      "26:26152:M": {
+        "population": 54,
+        "province": "26",
+        "municipality_group": "26:26152:M"
+      },
+      "26:26153:M": {
+        "population": 9,
+        "province": "26",
+        "municipality_group": "26:26153:M"
+      },
+      "26:26154:M": {
+        "population": 8,
+        "province": "26",
+        "municipality_group": "26:26154:M"
+      },
+      "26:26155:M": {
+        "population": 141,
+        "province": "26",
+        "municipality_group": "26:26155:M"
+      },
+      "26:26157:M": {
+        "population": 361,
+        "province": "26",
+        "municipality_group": "26:26157:M"
+      },
+      "26:26158:M": {
+        "population": 347,
+        "province": "26",
+        "municipality_group": "26:26158:M"
+      },
+      "26:26160:M": {
+        "population": 978,
+        "province": "26",
+        "municipality_group": "26:26160:M"
+      },
+      "26:26161:M": {
+        "population": 13,
+        "province": "26",
+        "municipality_group": "26:26161:M"
+      },
+      "26:26162:M": {
+        "population": 137,
+        "province": "26",
+        "municipality_group": "26:26162:M"
+      },
+      "26:26163:M": {
+        "population": 195,
+        "province": "26",
+        "municipality_group": "26:26163:M"
+      },
+      "26:26164:M": {
+        "population": 53,
+        "province": "26",
+        "municipality_group": "26:26164:M"
+      },
+      "26:26165:M": {
+        "population": 379,
+        "province": "26",
+        "municipality_group": "26:26165:M"
+      },
+      "26:26166:M": {
+        "population": 170,
+        "province": "26",
+        "municipality_group": "26:26166:M"
+      },
+      "26:26167:M": {
+        "population": 72,
+        "province": "26",
+        "municipality_group": "26:26167:M"
+      },
+      "26:26168:M": {
+        "population": 8998,
+        "province": "26",
+        "municipality_group": "26:26168:M"
+      },
+      "26:26169:M": {
+        "population": 74,
+        "province": "26",
+        "municipality_group": "26:26169:M"
+      },
+      "26:26170:M": {
+        "population": 615,
+        "province": "26",
+        "municipality_group": "26:26170:M"
+      },
+      "26:26171:M": {
+        "population": 155,
+        "province": "26",
+        "municipality_group": "26:26171:M"
+      },
+      "26:26172:M": {
+        "population": 27,
+        "province": "26",
+        "municipality_group": "26:26172:M"
+      },
+      "26:26173:M": {
+        "population": 4,
+        "province": "26",
+        "municipality_group": "26:26173:M"
+      },
+      "26:26174:M": {
+        "population": 136,
+        "province": "26",
+        "municipality_group": "26:26174:M"
+      },
+      "26:26175:M": {
+        "population": 42,
+        "province": "26",
+        "municipality_group": "26:26175:M"
+      },
+      "26:26176:M": {
+        "population": 76,
+        "province": "26",
+        "municipality_group": "26:26176:M"
+      },
+      "26:26177:M": {
+        "population": 347,
+        "province": "26",
+        "municipality_group": "26:26177:M"
+      },
+      "26:26178:M": {
+        "population": 74,
+        "province": "26",
+        "municipality_group": "26:26178:M"
+      },
+      "26:26179:M": {
+        "population": 41,
+        "province": "26",
+        "municipality_group": "26:26179:M"
+      },
+      "26:26180:M": {
+        "population": 258,
+        "province": "26",
+        "municipality_group": "26:26180:M"
+      },
+      "26:26181:M": {
+        "population": 13,
+        "province": "26",
+        "municipality_group": "26:26181:M"
+      },
+      "26:26183:M": {
+        "population": 86,
+        "province": "26",
+        "municipality_group": "26:26183:M"
+      }
+    },
+    "adjacency": {
+      "26:26001:M": [
+        "26:26142:M"
+      ],
+      "26:26002:M": [
+        "26:26007:M",
+        "26:26019:M",
+        "26:26066:M",
+        "26:26089:R",
+        "26:26099:M"
+      ],
+      "26:26003:M": [
+        "26:26047:M",
+        "26:26104:M",
+        "26:26161:M"
+      ],
+      "26:26004:M": [
+        "26:26035:M",
+        "26:26077:M",
+        "26:26082:M",
+        "26:26098:M",
+        "26:26121:M",
+        "26:26132:M",
+        "26:26181:M"
+      ],
+      "26:26005:M": [
+        "26:26006:M",
+        "26:26051:M",
+        "26:26059:M",
+        "26:26084:R",
+        "26:26103:M"
+      ],
+      "26:26006:M": [
+        "26:26005:M",
+        "26:26051:M",
+        "26:26084:R",
+        "26:26099:M",
+        "26:26124:M",
+        "26:26168:M"
+      ],
+      "26:26007:M": [
+        "26:26002:M",
+        "26:26020:M",
+        "26:26053:M",
+        "26:26066:M"
+      ],
+      "26:26008:M": [
+        "26:26011:M",
+        "26:26021:M",
+        "26:26036:R",
+        "26:26125:M"
+      ],
+      "26:26009:M": [
+        "26:26022:M",
+        "26:26039:M",
+        "26:26050:M",
+        "26:26052:M",
+        "26:26074:M",
+        "26:26102:M",
+        "26:26152:M"
+      ],
+      "26:26010:M": [
+        "26:26079:M",
+        "26:26092:M",
+        "26:26102:M",
+        "26:26157:M",
+        "26:26163:M"
+      ],
+      "26:26011:M": [
+        "26:26008:M",
+        "26:26021:M",
+        "26:26047:M",
+        "26:26070:M",
+        "26:26125:M"
+      ],
+      "26:26012:M": [
+        "26:26082:M",
+        "26:26101:M",
+        "26:26107:M",
+        "26:26115:M",
+        "26:26151:M",
+        "26:26153:M",
+        "26:26165:M"
+      ],
+      "26:26013:M": [
+        "26:26042:M",
+        "26:26049:M",
+        "26:26071:R"
+      ],
+      "26:26014:M": [
+        "26:26031:M",
+        "26:26032:M",
+        "26:26093:M",
+        "26:26095:M",
+        "26:26107:M",
+        "26:26114:M",
+        "26:26122:M",
+        "26:26130:M",
+        "26:26149:M",
+        "26:26151:M",
+        "26:26164:M",
+        "26:26178:M"
+      ],
+      "26:26015:M": [
+        "26:26016:M",
+        "26:26037:M",
+        "26:26102:M",
+        "26:26157:M"
+      ],
+      "26:26016:M": [
+        "26:26015:M",
+        "26:26030:M",
+        "26:26037:M",
+        "26:26044:M",
+        "26:26092:M",
+        "26:26157:M"
+      ],
+      "26:26017:M": [
+        "26:26028:M",
+        "26:26058:M",
+        "26:26072:M",
+        "26:26098:M",
+        "26:26108:M",
+        "26:26119:M",
+        "26:26126:M",
+        "26:26136:M"
+      ],
+      "26:26018:R": [
+        "26:26028:M",
+        "26:26117:M",
+        "26:26120:M",
+        "26:26158:M",
+        "26:26170:M",
+        "26:26173:M"
+      ],
+      "26:26018:U1": [],
+      "26:26019:M": [
+        "26:26002:M",
+        "26:26099:M"
+      ],
+      "26:26020:M": [
+        "26:26007:M",
+        "26:26108:M",
+        "26:26117:M",
+        "26:26123:M",
+        "26:26170:M"
+      ],
+      "26:26021:M": [
+        "26:26008:M",
+        "26:26011:M",
+        "26:26036:R",
+        "26:26070:M",
+        "26:26120:M"
+      ],
+      "26:26022:M": [
+        "26:26009:M",
+        "26:26024:M",
+        "26:26074:M",
+        "26:26075:M",
+        "26:26102:M"
+      ],
+      "26:26023:M": [
+        "26:26026:M",
+        "26:26027:M",
+        "26:26040:M",
+        "26:26041:M",
+        "26:26052:M",
+        "26:26060:M",
+        "26:26102:M",
+        "26:26171:M",
+        "26:26176:M"
+      ],
+      "26:26024:M": [
+        "26:26022:M",
+        "26:26025:M",
+        "26:26043:M",
+        "26:26048:M",
+        "26:26050:M",
+        "26:26074:M",
+        "26:26075:M",
+        "26:26127:M",
+        "26:26138:M",
+        "26:26139:M",
+        "26:26167:M"
+      ],
+      "26:26025:M": [
+        "26:26024:M",
+        "26:26043:M",
+        "26:26056:M",
+        "26:26109:M",
+        "26:26148:M",
+        "26:26167:M"
+      ],
+      "26:26026:M": [
+        "26:26023:M",
+        "26:26031:M",
+        "26:26037:M",
+        "26:26086:M",
+        "26:26095:M",
+        "26:26176:M"
+      ],
+      "26:26027:M": [
+        "26:26023:M",
+        "26:26060:M",
+        "26:26113:M",
+        "26:26130:M",
+        "26:26149:M",
+        "26:26171:M"
+      ],
+      "26:26028:M": [
+        "26:26017:M",
+        "26:26018:R",
+        "26:26029:M",
+        "26:26072:M",
+        "26:26108:M",
+        "26:26158:M"
+      ],
+      "26:26029:M": [
+        "26:26028:M",
+        "26:26072:M"
+      ],
+      "26:26030:M": [
+        "26:26016:M",
+        "26:26044:M",
+        "26:26092:M",
+        "26:26134:M"
+      ],
+      "26:26031:M": [
+        "26:26014:M",
+        "26:26026:M",
+        "26:26086:M",
+        "26:26095:M",
+        "26:26114:M"
+      ],
+      "26:26032:M": [
+        "26:26014:M",
+        "26:26112:M",
+        "26:26122:M",
+        "26:26164:M",
+        "26:26177:M"
+      ],
+      "26:26033:M": [
+        "26:26071:R"
+      ],
+      "26:26034:M": [
+        "26:26068:M",
+        "26:26075:M",
+        "26:26111:M",
+        "26:26127:M",
+        "26:26129:M",
+        "26:26142:M"
+      ],
+      "26:26035:M": [
+        "26:26004:M",
+        "26:26081:M",
+        "26:26082:M",
+        "26:26101:M",
+        "26:26121:M"
+      ],
+      "26:26036:R": [
+        "26:26008:M",
+        "26:26021:M"
+      ],
+      "26:26036:U1": [
+        "26:26036:U2"
+      ],
+      "26:26036:U2": [
+        "26:26036:U1"
+      ],
+      "26:26037:M": [
+        "26:26015:M",
+        "26:26016:M",
+        "26:26026:M",
+        "26:26041:M",
+        "26:26044:M",
+        "26:26086:M",
+        "26:26102:M"
+      ],
+      "26:26038:M": [
+        "26:26061:M",
+        "26:26175:M"
+      ],
+      "26:26039:M": [
+        "26:26009:M",
+        "26:26040:M",
+        "26:26052:M",
+        "26:26152:M"
+      ],
+      "26:26040:M": [
+        "26:26023:M",
+        "26:26039:M",
+        "26:26050:M",
+        "26:26052:M",
+        "26:26094:M",
+        "26:26152:M",
+        "26:26171:M",
+        "26:26172:M"
+      ],
+      "26:26041:M": [
+        "26:26023:M",
+        "26:26037:M",
+        "26:26102:M"
+      ],
+      "26:26042:M": [
+        "26:26013:M",
+        "26:26049:M",
+        "26:26056:M",
+        "26:26071:R",
+        "26:26148:M",
+        "26:26180:M"
+      ],
+      "26:26043:M": [
+        "26:26024:M",
+        "26:26025:M",
+        "26:26048:M",
+        "26:26139:M",
+        "26:26148:M",
+        "26:26180:M"
+      ],
+      "26:26044:M": [
+        "26:26016:M",
+        "26:26030:M",
+        "26:26037:M",
+        "26:26086:M",
+        "26:26106:M",
+        "26:26114:M",
+        "26:26134:M"
+      ],
+      "26:26045:M": [
+        "26:26062:M",
+        "26:26063:M",
+        "26:26065:M"
+      ],
+      "26:26046:M": [
+        "26:26064:M",
+        "26:26079:M",
+        "26:26105:M",
+        "26:26129:M",
+        "26:26154:M",
+        "26:26160:M"
+      ],
+      "26:26047:M": [
+        "26:26003:M",
+        "26:26011:M",
+        "26:26070:M",
+        "26:26080:M",
+        "26:26161:M"
+      ],
+      "26:26048:M": [
+        "26:26024:M",
+        "26:26043:M",
+        "26:26074:M",
+        "26:26127:M",
+        "26:26139:M",
+        "26:26180:M"
+      ],
+      "26:26049:M": [
+        "26:26013:M",
+        "26:26042:M",
+        "26:26056:M",
+        "26:26071:R",
+        "26:26128:M",
+        "26:26166:M"
+      ],
+      "26:26050:M": [
+        "26:26009:M",
+        "26:26024:M",
+        "26:26040:M",
+        "26:26074:M",
+        "26:26094:M",
+        "26:26138:M",
+        "26:26152:M"
+      ],
+      "26:26051:M": [
+        "26:26005:M",
+        "26:26006:M",
+        "26:26088:M",
+        "26:26103:M",
+        "26:26124:M",
+        "26:26146:M"
+      ],
+      "26:26052:M": [
+        "26:26009:M",
+        "26:26023:M",
+        "26:26039:M",
+        "26:26040:M",
+        "26:26102:M"
+      ],
+      "26:26053:M": [
+        "26:26007:M",
+        "26:26066:M",
+        "26:26108:M",
+        "26:26123:M"
+      ],
+      "26:26054:M": [
+        "26:26080:M",
+        "26:26100:M",
+        "26:26161:M",
+        "26:26173:M"
+      ],
+      "26:26055:M": [
+        "26:26069:M",
+        "26:26138:M",
+        "26:26140:M"
+      ],
+      "26:26056:M": [
+        "26:26025:M",
+        "26:26042:M",
+        "26:26049:M",
+        "26:26063:M",
+        "26:26109:M",
+        "26:26128:M",
+        "26:26148:M",
+        "26:26155:M"
+      ],
+      "26:26057:M": [
+        "26:26078:M",
+        "26:26096:M",
+        "26:26134:M",
+        "26:26143:M",
+        "26:26145:M"
+      ],
+      "26:26058:M": [
+        "26:26017:M",
+        "26:26098:M",
+        "26:26100:M",
+        "26:26119:M"
+      ],
+      "26:26059:M": [
+        "26:26005:M",
+        "26:26096:M",
+        "26:26105:M",
+        "26:26143:M",
+        "26:26144:M"
+      ],
+      "26:26060:M": [
+        "26:26023:M",
+        "26:26027:M",
+        "26:26130:M",
+        "26:26149:M",
+        "26:26176:M"
+      ],
+      "26:26061:M": [
+        "26:26038:M",
+        "26:26110:M",
+        "26:26113:M",
+        "26:26162:M",
+        "26:26175:M",
+        "26:26183:M"
+      ],
+      "26:26062:M": [
+        "26:26045:M",
+        "26:26063:M",
+        "26:26155:M"
+      ],
+      "26:26063:M": [
+        "26:26045:M",
+        "26:26056:M",
+        "26:26062:M",
+        "26:26065:M",
+        "26:26128:M",
+        "26:26155:M"
+      ],
+      "26:26064:M": [
+        "26:26046:M",
+        "26:26105:M"
+      ],
+      "26:26065:M": [
+        "26:26045:M",
+        "26:26063:M",
+        "26:26128:M"
+      ],
+      "26:26066:M": [
+        "26:26002:M",
+        "26:26007:M",
+        "26:26053:M",
+        "26:26099:M",
+        "26:26108:M",
+        "26:26135:M"
+      ],
+      "26:26067:M": [
+        "26:26082:M",
+        "26:26091:M",
+        "26:26115:M",
+        "26:26118:M",
+        "26:26169:M"
+      ],
+      "26:26068:M": [
+        "26:26034:M",
+        "26:26111:M"
+      ],
+      "26:26069:M": [
+        "26:26055:M",
+        "26:26073:M",
+        "26:26087:M",
+        "26:26138:M",
+        "26:26140:M",
+        "26:26150:M",
+        "26:26167:M",
+        "26:26174:M"
+      ],
+      "26:26070:M": [
+        "26:26011:M",
+        "26:26021:M",
+        "26:26047:M",
+        "26:26080:M",
+        "26:26120:M",
+        "26:26173:M"
+      ],
+      "26:26071:R": [
+        "26:26013:M",
+        "26:26033:M",
+        "26:26042:M",
+        "26:26049:M",
+        "26:26127:M",
+        "26:26166:M",
+        "26:26180:M"
+      ],
+      "26:26071:U1": [],
+      "26:26072:M": [
+        "26:26017:M",
+        "26:26028:M",
+        "26:26029:M",
+        "26:26119:M",
+        "26:26136:M"
+      ],
+      "26:26073:M": [
+        "26:26069:M",
+        "26:26087:M",
+        "26:26109:M",
+        "26:26167:M"
+      ],
+      "26:26074:M": [
+        "26:26009:M",
+        "26:26022:M",
+        "26:26024:M",
+        "26:26048:M",
+        "26:26050:M"
+      ],
+      "26:26075:M": [
+        "26:26022:M",
+        "26:26024:M",
+        "26:26034:M",
+        "26:26102:M",
+        "26:26127:M",
+        "26:26129:M"
+      ],
+      "26:26076:M": [
+        "26:26102:M",
+        "26:26129:M",
+        "26:26154:M",
+        "26:26160:M"
+      ],
+      "26:26077:M": [
+        "26:26004:M",
+        "26:26098:M",
+        "26:26132:M",
+        "26:26146:M",
+        "26:26181:M"
+      ],
+      "26:26078:M": [
+        "26:26057:M",
+        "26:26096:M",
+        "26:26105:M",
+        "26:26145:M"
+      ],
+      "26:26079:M": [
+        "26:26010:M",
+        "26:26046:M",
+        "26:26102:M",
+        "26:26105:M",
+        "26:26145:M",
+        "26:26160:M",
+        "26:26163:M"
+      ],
+      "26:26080:M": [
+        "26:26047:M",
+        "26:26054:M",
+        "26:26070:M",
+        "26:26161:M"
+      ],
+      "26:26081:M": [
+        "26:26035:M",
+        "26:26101:M",
+        "26:26121:M",
+        "26:26132:M",
+        "26:26153:M"
+      ],
+      "26:26082:M": [
+        "26:26004:M",
+        "26:26012:M",
+        "26:26035:M",
+        "26:26067:M",
+        "26:26091:M",
+        "26:26101:M",
+        "26:26115:M"
+      ],
+      "26:26083:M": [
+        "26:26088:M",
+        "26:26099:M",
+        "26:26124:M",
+        "26:26135:M",
+        "26:26146:M"
+      ],
+      "26:26084:R": [
+        "26:26005:M",
+        "26:26006:M"
+      ],
+      "26:26084:U1": [
+        "26:26089:U10",
+        "26:26089:U2"
+      ],
+      "26:26086:M": [
+        "26:26026:M",
+        "26:26031:M",
+        "26:26037:M",
+        "26:26044:M",
+        "26:26114:M"
+      ],
+      "26:26087:M": [
+        "26:26069:M",
+        "26:26073:M",
+        "26:26109:M",
+        "26:26150:M",
+        "26:26155:M"
+      ],
+      "26:26088:M": [
+        "26:26051:M",
+        "26:26083:M",
+        "26:26124:M",
+        "26:26146:M"
+      ],
+      "26:26089:R": [
+        "26:26002:M",
+        "26:26099:M",
+        "26:26168:M"
+      ],
+      "26:26089:U1": [
+        "26:26089:U14",
+        "26:26089:U2",
+        "26:26089:U4",
+        "26:26089:U8"
+      ],
+      "26:26089:U10": [
+        "26:26084:U1",
+        "26:26089:U2",
+        "26:26089:U3",
+        "26:26089:U6",
+        "26:26089:U7",
+        "26:26089:U9"
+      ],
+      "26:26089:U11": [
+        "26:26089:U13",
+        "26:26089:U2",
+        "26:26089:U3",
+        "26:26089:U7"
+      ],
+      "26:26089:U12": [
+        "26:26089:U13",
+        "26:26089:U5",
+        "26:26089:U6",
+        "26:26089:U7"
+      ],
+      "26:26089:U13": [
+        "26:26089:U11",
+        "26:26089:U12",
+        "26:26089:U2",
+        "26:26089:U4",
+        "26:26089:U5",
+        "26:26089:U7",
+        "26:26089:U8"
+      ],
+      "26:26089:U14": [
+        "26:26089:U1",
+        "26:26089:U5",
+        "26:26089:U8"
+      ],
+      "26:26089:U2": [
+        "26:26084:U1",
+        "26:26089:U1",
+        "26:26089:U10",
+        "26:26089:U11",
+        "26:26089:U13",
+        "26:26089:U3",
+        "26:26089:U4",
+        "26:26089:U9"
+      ],
+      "26:26089:U3": [
+        "26:26089:U10",
+        "26:26089:U11",
+        "26:26089:U2",
+        "26:26089:U7"
+      ],
+      "26:26089:U4": [
+        "26:26089:U1",
+        "26:26089:U13",
+        "26:26089:U2",
+        "26:26089:U8"
+      ],
+      "26:26089:U5": [
+        "26:26089:U12",
+        "26:26089:U13",
+        "26:26089:U14",
+        "26:26089:U6",
+        "26:26089:U8"
+      ],
+      "26:26089:U6": [
+        "26:26089:U10",
+        "26:26089:U12",
+        "26:26089:U5",
+        "26:26089:U7"
+      ],
+      "26:26089:U7": [
+        "26:26089:U10",
+        "26:26089:U11",
+        "26:26089:U12",
+        "26:26089:U13",
+        "26:26089:U3",
+        "26:26089:U6"
+      ],
+      "26:26089:U8": [
+        "26:26089:U1",
+        "26:26089:U13",
+        "26:26089:U14",
+        "26:26089:U4",
+        "26:26089:U5"
+      ],
+      "26:26089:U9": [
+        "26:26089:U10",
+        "26:26089:U2"
+      ],
+      "26:26091:M": [
+        "26:26067:M",
+        "26:26082:M",
+        "26:26169:M",
+        "26:26177:M"
+      ],
+      "26:26092:M": [
+        "26:26010:M",
+        "26:26016:M",
+        "26:26030:M",
+        "26:26134:M",
+        "26:26157:M",
+        "26:26163:M"
+      ],
+      "26:26093:M": [
+        "26:26014:M",
+        "26:26130:M",
+        "26:26175:M",
+        "26:26178:M"
+      ],
+      "26:26094:M": [
+        "26:26040:M",
+        "26:26050:M",
+        "26:26113:M",
+        "26:26138:M",
+        "26:26141:M",
+        "26:26172:M"
+      ],
+      "26:26095:M": [
+        "26:26014:M",
+        "26:26026:M",
+        "26:26031:M",
+        "26:26149:M",
+        "26:26176:M"
+      ],
+      "26:26096:M": [
+        "26:26057:M",
+        "26:26059:M",
+        "26:26078:M",
+        "26:26105:M",
+        "26:26143:M"
+      ],
+      "26:26098:M": [
+        "26:26004:M",
+        "26:26017:M",
+        "26:26058:M",
+        "26:26077:M",
+        "26:26126:M",
+        "26:26135:M",
+        "26:26146:M",
+        "26:26181:M"
+      ],
+      "26:26099:M": [
+        "26:26002:M",
+        "26:26006:M",
+        "26:26019:M",
+        "26:26066:M",
+        "26:26083:M",
+        "26:26089:R",
+        "26:26124:M",
+        "26:26135:M",
+        "26:26168:M"
+      ],
+      "26:26100:M": [
+        "26:26054:M",
+        "26:26058:M",
+        "26:26119:M",
+        "26:26173:M"
+      ],
+      "26:26101:M": [
+        "26:26012:M",
+        "26:26035:M",
+        "26:26081:M",
+        "26:26082:M",
+        "26:26153:M"
+      ],
+      "26:26102:M": [
+        "26:26009:M",
+        "26:26010:M",
+        "26:26015:M",
+        "26:26022:M",
+        "26:26023:M",
+        "26:26037:M",
+        "26:26041:M",
+        "26:26052:M",
+        "26:26075:M",
+        "26:26076:M",
+        "26:26079:M",
+        "26:26129:M",
+        "26:26154:M",
+        "26:26157:M",
+        "26:26160:M"
+      ],
+      "26:26103:M": [
+        "26:26005:M",
+        "26:26051:M",
+        "26:26144:M",
+        "26:26146:M",
+        "26:26165:M"
+      ],
+      "26:26104:M": [
+        "26:26003:M",
+        "26:26161:M"
+      ],
+      "26:26105:M": [
+        "26:26046:M",
+        "26:26059:M",
+        "26:26064:M",
+        "26:26078:M",
+        "26:26079:M",
+        "26:26096:M",
+        "26:26145:M"
+      ],
+      "26:26106:M": [
+        "26:26044:M",
+        "26:26151:M",
+        "26:26165:M"
+      ],
+      "26:26107:M": [
+        "26:26012:M",
+        "26:26014:M",
+        "26:26115:M",
+        "26:26118:M",
+        "26:26122:M",
+        "26:26151:M"
+      ],
+      "26:26108:M": [
+        "26:26017:M",
+        "26:26020:M",
+        "26:26028:M",
+        "26:26053:M",
+        "26:26066:M",
+        "26:26123:M",
+        "26:26126:M",
+        "26:26135:M",
+        "26:26158:M",
+        "26:26170:M"
+      ],
+      "26:26109:M": [
+        "26:26025:M",
+        "26:26056:M",
+        "26:26073:M",
+        "26:26087:M",
+        "26:26155:M",
+        "26:26167:M"
+      ],
+      "26:26110:M": [
+        "26:26061:M",
+        "26:26113:M",
+        "26:26140:M",
+        "26:26141:M",
+        "26:26162:M",
+        "26:26174:M",
+        "26:26183:M"
+      ],
+      "26:26111:M": [
+        "26:26034:M",
+        "26:26068:M",
+        "26:26127:M"
+      ],
+      "26:26112:M": [
+        "26:26032:M",
+        "26:26122:M",
+        "26:26169:M",
+        "26:26177:M"
+      ],
+      "26:26113:M": [
+        "26:26027:M",
+        "26:26061:M",
+        "26:26094:M",
+        "26:26110:M",
+        "26:26130:M",
+        "26:26141:M",
+        "26:26171:M",
+        "26:26172:M"
+      ],
+      "26:26114:M": [
+        "26:26014:M",
+        "26:26031:M",
+        "26:26044:M",
+        "26:26086:M",
+        "26:26151:M"
+      ],
+      "26:26115:M": [
+        "26:26012:M",
+        "26:26067:M",
+        "26:26082:M",
+        "26:26107:M",
+        "26:26118:M"
+      ],
+      "26:26117:M": [
+        "26:26018:R",
+        "26:26020:M",
+        "26:26120:M",
+        "26:26170:M"
+      ],
+      "26:26118:M": [
+        "26:26067:M",
+        "26:26107:M",
+        "26:26115:M",
+        "26:26122:M",
+        "26:26169:M"
+      ],
+      "26:26119:M": [
+        "26:26017:M",
+        "26:26058:M",
+        "26:26072:M",
+        "26:26100:M",
+        "26:26136:M"
+      ],
+      "26:26120:M": [
+        "26:26018:R",
+        "26:26021:M",
+        "26:26070:M",
+        "26:26117:M",
+        "26:26173:M"
+      ],
+      "26:26121:M": [
+        "26:26004:M",
+        "26:26035:M",
+        "26:26081:M",
+        "26:26132:M"
+      ],
+      "26:26122:M": [
+        "26:26014:M",
+        "26:26032:M",
+        "26:26107:M",
+        "26:26112:M",
+        "26:26118:M"
+      ],
+      "26:26123:M": [
+        "26:26020:M",
+        "26:26053:M",
+        "26:26108:M"
+      ],
+      "26:26124:M": [
+        "26:26006:M",
+        "26:26051:M",
+        "26:26083:M",
+        "26:26088:M",
+        "26:26099:M"
+      ],
+      "26:26125:M": [
+        "26:26008:M",
+        "26:26011:M"
+      ],
+      "26:26126:M": [
+        "26:26017:M",
+        "26:26098:M",
+        "26:26108:M",
+        "26:26135:M"
+      ],
+      "26:26127:M": [
+        "26:26024:M",
+        "26:26034:M",
+        "26:26048:M",
+        "26:26071:R",
+        "26:26075:M",
+        "26:26111:M",
+        "26:26180:M"
+      ],
+      "26:26128:M": [
+        "26:26049:M",
+        "26:26056:M",
+        "26:26063:M",
+        "26:26065:M",
+        "26:26166:M"
+      ],
+      "26:26129:M": [
+        "26:26034:M",
+        "26:26046:M",
+        "26:26075:M",
+        "26:26076:M",
+        "26:26102:M",
+        "26:26142:M",
+        "26:26154:M",
+        "26:26160:M"
+      ],
+      "26:26130:M": [
+        "26:26014:M",
+        "26:26027:M",
+        "26:26060:M",
+        "26:26093:M",
+        "26:26113:M",
+        "26:26149:M",
+        "26:26171:M",
+        "26:26175:M"
+      ],
+      "26:26131:M": [
+        "26:26155:M"
+      ],
+      "26:26132:M": [
+        "26:26004:M",
+        "26:26077:M",
+        "26:26081:M",
+        "26:26121:M",
+        "26:26146:M",
+        "26:26147:M",
+        "26:26153:M",
+        "26:26165:M"
+      ],
+      "26:26134:M": [
+        "26:26030:M",
+        "26:26044:M",
+        "26:26057:M",
+        "26:26092:M",
+        "26:26145:M",
+        "26:26163:M"
+      ],
+      "26:26135:M": [
+        "26:26066:M",
+        "26:26083:M",
+        "26:26098:M",
+        "26:26099:M",
+        "26:26108:M",
+        "26:26126:M",
+        "26:26146:M"
+      ],
+      "26:26136:M": [
+        "26:26017:M",
+        "26:26072:M",
+        "26:26119:M"
+      ],
+      "26:26138:M": [
+        "26:26024:M",
+        "26:26050:M",
+        "26:26055:M",
+        "26:26069:M",
+        "26:26094:M",
+        "26:26140:M",
+        "26:26141:M",
+        "26:26167:M"
+      ],
+      "26:26139:M": [
+        "26:26024:M",
+        "26:26043:M",
+        "26:26048:M"
+      ],
+      "26:26140:M": [
+        "26:26055:M",
+        "26:26069:M",
+        "26:26110:M",
+        "26:26138:M",
+        "26:26141:M",
+        "26:26174:M"
+      ],
+      "26:26141:M": [
+        "26:26094:M",
+        "26:26110:M",
+        "26:26113:M",
+        "26:26138:M",
+        "26:26140:M"
+      ],
+      "26:26142:M": [
+        "26:26001:M",
+        "26:26034:M",
+        "26:26129:M"
+      ],
+      "26:26143:M": [
+        "26:26057:M",
+        "26:26059:M",
+        "26:26096:M",
+        "26:26144:M"
+      ],
+      "26:26144:M": [
+        "26:26059:M",
+        "26:26103:M",
+        "26:26143:M",
+        "26:26165:M"
+      ],
+      "26:26145:M": [
+        "26:26057:M",
+        "26:26078:M",
+        "26:26079:M",
+        "26:26105:M",
+        "26:26134:M",
+        "26:26163:M"
+      ],
+      "26:26146:M": [
+        "26:26051:M",
+        "26:26077:M",
+        "26:26083:M",
+        "26:26088:M",
+        "26:26098:M",
+        "26:26103:M",
+        "26:26132:M",
+        "26:26135:M",
+        "26:26147:M",
+        "26:26165:M"
+      ],
+      "26:26147:M": [
+        "26:26132:M",
+        "26:26146:M"
+      ],
+      "26:26148:M": [
+        "26:26025:M",
+        "26:26042:M",
+        "26:26043:M",
+        "26:26056:M",
+        "26:26180:M"
+      ],
+      "26:26149:M": [
+        "26:26014:M",
+        "26:26027:M",
+        "26:26060:M",
+        "26:26095:M",
+        "26:26130:M",
+        "26:26176:M"
+      ],
+      "26:26150:M": [
+        "26:26069:M",
+        "26:26087:M",
+        "26:26155:M"
+      ],
+      "26:26151:M": [
+        "26:26012:M",
+        "26:26014:M",
+        "26:26106:M",
+        "26:26107:M",
+        "26:26114:M",
+        "26:26165:M"
+      ],
+      "26:26152:M": [
+        "26:26009:M",
+        "26:26039:M",
+        "26:26040:M",
+        "26:26050:M"
+      ],
+      "26:26153:M": [
+        "26:26012:M",
+        "26:26081:M",
+        "26:26101:M",
+        "26:26132:M",
+        "26:26165:M"
+      ],
+      "26:26154:M": [
+        "26:26046:M",
+        "26:26076:M",
+        "26:26102:M",
+        "26:26129:M",
+        "26:26160:M"
+      ],
+      "26:26155:M": [
+        "26:26056:M",
+        "26:26062:M",
+        "26:26063:M",
+        "26:26087:M",
+        "26:26109:M",
+        "26:26131:M",
+        "26:26150:M"
+      ],
+      "26:26157:M": [
+        "26:26010:M",
+        "26:26015:M",
+        "26:26016:M",
+        "26:26092:M",
+        "26:26102:M"
+      ],
+      "26:26158:M": [
+        "26:26018:R",
+        "26:26028:M",
+        "26:26108:M",
+        "26:26170:M"
+      ],
+      "26:26160:M": [
+        "26:26046:M",
+        "26:26076:M",
+        "26:26079:M",
+        "26:26102:M",
+        "26:26129:M",
+        "26:26154:M"
+      ],
+      "26:26161:M": [
+        "26:26003:M",
+        "26:26047:M",
+        "26:26054:M",
+        "26:26080:M",
+        "26:26104:M"
+      ],
+      "26:26162:M": [
+        "26:26061:M",
+        "26:26110:M",
+        "26:26174:M",
+        "26:26183:M"
+      ],
+      "26:26163:M": [
+        "26:26010:M",
+        "26:26079:M",
+        "26:26092:M",
+        "26:26134:M",
+        "26:26145:M"
+      ],
+      "26:26164:M": [
+        "26:26014:M",
+        "26:26032:M",
+        "26:26178:M",
+        "26:26179:M"
+      ],
+      "26:26165:M": [
+        "26:26012:M",
+        "26:26103:M",
+        "26:26106:M",
+        "26:26132:M",
+        "26:26144:M",
+        "26:26146:M",
+        "26:26151:M",
+        "26:26153:M"
+      ],
+      "26:26166:M": [
+        "26:26049:M",
+        "26:26071:R",
+        "26:26128:M"
+      ],
+      "26:26167:M": [
+        "26:26024:M",
+        "26:26025:M",
+        "26:26069:M",
+        "26:26073:M",
+        "26:26109:M",
+        "26:26138:M"
+      ],
+      "26:26168:M": [
+        "26:26006:M",
+        "26:26089:R",
+        "26:26099:M"
+      ],
+      "26:26169:M": [
+        "26:26067:M",
+        "26:26091:M",
+        "26:26112:M",
+        "26:26118:M",
+        "26:26177:M"
+      ],
+      "26:26170:M": [
+        "26:26018:R",
+        "26:26020:M",
+        "26:26108:M",
+        "26:26117:M",
+        "26:26158:M"
+      ],
+      "26:26171:M": [
+        "26:26023:M",
+        "26:26027:M",
+        "26:26040:M",
+        "26:26113:M",
+        "26:26130:M",
+        "26:26172:M"
+      ],
+      "26:26172:M": [
+        "26:26040:M",
+        "26:26094:M",
+        "26:26113:M",
+        "26:26171:M"
+      ],
+      "26:26173:M": [
+        "26:26018:R",
+        "26:26054:M",
+        "26:26070:M",
+        "26:26100:M",
+        "26:26120:M"
+      ],
+      "26:26174:M": [
+        "26:26069:M",
+        "26:26110:M",
+        "26:26140:M",
+        "26:26162:M"
+      ],
+      "26:26175:M": [
+        "26:26038:M",
+        "26:26061:M",
+        "26:26093:M",
+        "26:26130:M"
+      ],
+      "26:26176:M": [
+        "26:26023:M",
+        "26:26026:M",
+        "26:26060:M",
+        "26:26095:M",
+        "26:26149:M"
+      ],
+      "26:26177:M": [
+        "26:26032:M",
+        "26:26091:M",
+        "26:26112:M",
+        "26:26169:M"
+      ],
+      "26:26178:M": [
+        "26:26014:M",
+        "26:26093:M",
+        "26:26164:M",
+        "26:26179:M"
+      ],
+      "26:26179:M": [
+        "26:26164:M",
+        "26:26178:M"
+      ],
+      "26:26180:M": [
+        "26:26042:M",
+        "26:26043:M",
+        "26:26048:M",
+        "26:26071:R",
+        "26:26127:M",
+        "26:26148:M"
+      ],
+      "26:26181:M": [
+        "26:26004:M",
+        "26:26077:M",
+        "26:26098:M"
+      ],
+      "26:26183:M": [
+        "26:26061:M",
+        "26:26110:M",
+        "26:26162:M"
+      ]
+    },
+    "target": 9766.121212121212,
+    "tolerance": 1171.9345454545453,
+    "floor": 7812.89696969697,
+    "cap": 17090.71212121212,
+    "district_floors": {
+      "0": 7812.89696969697,
+      "1": 7812.89696969697,
+      "2": 7812.89696969697,
+      "3": 7812.89696969697,
+      "4": 7812.89696969697,
+      "5": 7812.89696969697,
+      "6": 7812.89696969697,
+      "7": 7812.89696969697,
+      "8": 7812.89696969697,
+      "9": 7812.89696969697,
+      "10": 7812.89696969697,
+      "11": 7812.89696969697,
+      "12": 7812.89696969697,
+      "13": 7812.89696969697,
+      "14": 7812.89696969697,
+      "15": 7812.89696969697,
+      "16": 7812.89696969697,
+      "17": 7812.89696969697,
+      "18": 7812.89696969697,
+      "19": 7812.89696969697,
+      "20": 7812.89696969697,
+      "21": 7812.89696969697,
+      "22": 7812.89696969697,
+      "23": 7812.89696969697,
+      "24": 7812.89696969697,
+      "25": 7812.89696969697,
+      "26": 7812.89696969697,
+      "27": 7812.89696969697,
+      "28": 7812.89696969697,
+      "29": 7812.89696969697,
+      "30": 7812.89696969697,
+      "31": 7812.89696969697,
+      "32": 7812.89696969697
+    }
+  },
+  "frozen": {
+    "26:26018:U1": 0,
+    "26:26036:U1": 1,
+    "26:26036:U2": 2,
+    "26:26071:U1": 3,
+    "26:26084:U1": 4,
+    "26:26089:U1": 5,
+    "26:26089:U10": 14,
+    "26:26089:U11": 15,
+    "26:26089:U12": 16,
+    "26:26089:U13": 17,
+    "26:26089:U14": 18,
+    "26:26089:U2": 6,
+    "26:26089:U3": 7,
+    "26:26089:U4": 8,
+    "26:26089:U5": 9,
+    "26:26089:U6": 10,
+    "26:26089:U7": 11,
+    "26:26089:U8": 12,
+    "26:26089:U9": 13
+  },
+  "raw_adjacency": {
+    "26:26001:M": [
+      "26:26142:M"
+    ],
+    "26:26002:M": [
+      "26:26007:M",
+      "26:26019:M",
+      "26:26066:M",
+      "26:26089:R",
+      "26:26099:M"
+    ],
+    "26:26003:M": [
+      "26:26047:M",
+      "26:26104:M",
+      "26:26161:M"
+    ],
+    "26:26004:M": [
+      "26:26035:M",
+      "26:26077:M",
+      "26:26082:M",
+      "26:26098:M",
+      "26:26121:M",
+      "26:26132:M",
+      "26:26181:M"
+    ],
+    "26:26005:M": [
+      "26:26006:M",
+      "26:26051:M",
+      "26:26059:M",
+      "26:26084:R",
+      "26:26084:U1",
+      "26:26103:M"
+    ],
+    "26:26006:M": [
+      "26:26005:M",
+      "26:26051:M",
+      "26:26084:R",
+      "26:26084:U1",
+      "26:26099:M",
+      "26:26124:M",
+      "26:26168:M"
+    ],
+    "26:26007:M": [
+      "26:26002:M",
+      "26:26020:M",
+      "26:26053:M",
+      "26:26066:M"
+    ],
+    "26:26008:M": [
+      "26:26011:M",
+      "26:26021:M",
+      "26:26036:R",
+      "26:26125:M"
+    ],
+    "26:26009:M": [
+      "26:26022:M",
+      "26:26039:M",
+      "26:26050:M",
+      "26:26052:M",
+      "26:26074:M",
+      "26:26102:M",
+      "26:26152:M"
+    ],
+    "26:26010:M": [
+      "26:26079:M",
+      "26:26092:M",
+      "26:26102:M",
+      "26:26157:M",
+      "26:26163:M"
+    ],
+    "26:26011:M": [
+      "26:26008:M",
+      "26:26021:M",
+      "26:26047:M",
+      "26:26070:M",
+      "26:26125:M"
+    ],
+    "26:26012:M": [
+      "26:26082:M",
+      "26:26101:M",
+      "26:26107:M",
+      "26:26115:M",
+      "26:26151:M",
+      "26:26153:M",
+      "26:26165:M"
+    ],
+    "26:26013:M": [
+      "26:26042:M",
+      "26:26049:M",
+      "26:26071:R"
+    ],
+    "26:26014:M": [
+      "26:26031:M",
+      "26:26032:M",
+      "26:26093:M",
+      "26:26095:M",
+      "26:26107:M",
+      "26:26114:M",
+      "26:26122:M",
+      "26:26130:M",
+      "26:26149:M",
+      "26:26151:M",
+      "26:26164:M",
+      "26:26178:M"
+    ],
+    "26:26015:M": [
+      "26:26016:M",
+      "26:26037:M",
+      "26:26102:M",
+      "26:26157:M"
+    ],
+    "26:26016:M": [
+      "26:26015:M",
+      "26:26030:M",
+      "26:26037:M",
+      "26:26044:M",
+      "26:26092:M",
+      "26:26157:M"
+    ],
+    "26:26017:M": [
+      "26:26028:M",
+      "26:26058:M",
+      "26:26072:M",
+      "26:26098:M",
+      "26:26108:M",
+      "26:26119:M",
+      "26:26126:M",
+      "26:26136:M"
+    ],
+    "26:26018:R": [
+      "26:26018:U1",
+      "26:26028:M",
+      "26:26117:M",
+      "26:26120:M",
+      "26:26158:M",
+      "26:26170:M",
+      "26:26173:M"
+    ],
+    "26:26018:U1": [
+      "26:26018:R",
+      "26:26028:M",
+      "26:26072:M",
+      "26:26100:M",
+      "26:26119:M",
+      "26:26173:M"
+    ],
+    "26:26019:M": [
+      "26:26002:M",
+      "26:26099:M"
+    ],
+    "26:26020:M": [
+      "26:26007:M",
+      "26:26108:M",
+      "26:26117:M",
+      "26:26123:M",
+      "26:26170:M"
+    ],
+    "26:26021:M": [
+      "26:26008:M",
+      "26:26011:M",
+      "26:26036:R",
+      "26:26036:U1",
+      "26:26070:M",
+      "26:26120:M"
+    ],
+    "26:26022:M": [
+      "26:26009:M",
+      "26:26024:M",
+      "26:26074:M",
+      "26:26075:M",
+      "26:26102:M"
+    ],
+    "26:26023:M": [
+      "26:26026:M",
+      "26:26027:M",
+      "26:26040:M",
+      "26:26041:M",
+      "26:26052:M",
+      "26:26060:M",
+      "26:26102:M",
+      "26:26171:M",
+      "26:26176:M"
+    ],
+    "26:26024:M": [
+      "26:26022:M",
+      "26:26025:M",
+      "26:26043:M",
+      "26:26048:M",
+      "26:26050:M",
+      "26:26074:M",
+      "26:26075:M",
+      "26:26127:M",
+      "26:26138:M",
+      "26:26139:M",
+      "26:26167:M"
+    ],
+    "26:26025:M": [
+      "26:26024:M",
+      "26:26043:M",
+      "26:26056:M",
+      "26:26109:M",
+      "26:26148:M",
+      "26:26167:M"
+    ],
+    "26:26026:M": [
+      "26:26023:M",
+      "26:26031:M",
+      "26:26037:M",
+      "26:26086:M",
+      "26:26095:M",
+      "26:26176:M"
+    ],
+    "26:26027:M": [
+      "26:26023:M",
+      "26:26060:M",
+      "26:26113:M",
+      "26:26130:M",
+      "26:26149:M",
+      "26:26171:M"
+    ],
+    "26:26028:M": [
+      "26:26017:M",
+      "26:26018:R",
+      "26:26018:U1",
+      "26:26029:M",
+      "26:26072:M",
+      "26:26108:M",
+      "26:26158:M"
+    ],
+    "26:26029:M": [
+      "26:26028:M",
+      "26:26072:M"
+    ],
+    "26:26030:M": [
+      "26:26016:M",
+      "26:26044:M",
+      "26:26092:M",
+      "26:26134:M"
+    ],
+    "26:26031:M": [
+      "26:26014:M",
+      "26:26026:M",
+      "26:26086:M",
+      "26:26095:M",
+      "26:26114:M"
+    ],
+    "26:26032:M": [
+      "26:26014:M",
+      "26:26112:M",
+      "26:26122:M",
+      "26:26164:M",
+      "26:26177:M"
+    ],
+    "26:26033:M": [
+      "26:26071:R"
+    ],
+    "26:26034:M": [
+      "26:26068:M",
+      "26:26075:M",
+      "26:26111:M",
+      "26:26127:M",
+      "26:26129:M",
+      "26:26142:M"
+    ],
+    "26:26035:M": [
+      "26:26004:M",
+      "26:26081:M",
+      "26:26082:M",
+      "26:26101:M",
+      "26:26121:M"
+    ],
+    "26:26036:R": [
+      "26:26008:M",
+      "26:26021:M",
+      "26:26036:U1",
+      "26:26036:U2"
+    ],
+    "26:26036:U1": [
+      "26:26021:M",
+      "26:26036:R",
+      "26:26036:U2",
+      "26:26117:M"
+    ],
+    "26:26036:U2": [
+      "26:26036:R",
+      "26:26036:U1",
+      "26:26117:M"
+    ],
+    "26:26037:M": [
+      "26:26015:M",
+      "26:26016:M",
+      "26:26026:M",
+      "26:26041:M",
+      "26:26044:M",
+      "26:26086:M",
+      "26:26102:M"
+    ],
+    "26:26038:M": [
+      "26:26061:M",
+      "26:26175:M"
+    ],
+    "26:26039:M": [
+      "26:26009:M",
+      "26:26040:M",
+      "26:26052:M",
+      "26:26152:M"
+    ],
+    "26:26040:M": [
+      "26:26023:M",
+      "26:26039:M",
+      "26:26050:M",
+      "26:26052:M",
+      "26:26094:M",
+      "26:26152:M",
+      "26:26171:M",
+      "26:26172:M"
+    ],
+    "26:26041:M": [
+      "26:26023:M",
+      "26:26037:M",
+      "26:26102:M"
+    ],
+    "26:26042:M": [
+      "26:26013:M",
+      "26:26049:M",
+      "26:26056:M",
+      "26:26071:R",
+      "26:26148:M",
+      "26:26180:M"
+    ],
+    "26:26043:M": [
+      "26:26024:M",
+      "26:26025:M",
+      "26:26048:M",
+      "26:26139:M",
+      "26:26148:M",
+      "26:26180:M"
+    ],
+    "26:26044:M": [
+      "26:26016:M",
+      "26:26030:M",
+      "26:26037:M",
+      "26:26086:M",
+      "26:26106:M",
+      "26:26114:M",
+      "26:26134:M"
+    ],
+    "26:26045:M": [
+      "26:26062:M",
+      "26:26063:M",
+      "26:26065:M"
+    ],
+    "26:26046:M": [
+      "26:26064:M",
+      "26:26079:M",
+      "26:26105:M",
+      "26:26129:M",
+      "26:26154:M",
+      "26:26160:M"
+    ],
+    "26:26047:M": [
+      "26:26003:M",
+      "26:26011:M",
+      "26:26070:M",
+      "26:26080:M",
+      "26:26161:M"
+    ],
+    "26:26048:M": [
+      "26:26024:M",
+      "26:26043:M",
+      "26:26074:M",
+      "26:26127:M",
+      "26:26139:M",
+      "26:26180:M"
+    ],
+    "26:26049:M": [
+      "26:26013:M",
+      "26:26042:M",
+      "26:26056:M",
+      "26:26071:R",
+      "26:26128:M",
+      "26:26166:M"
+    ],
+    "26:26050:M": [
+      "26:26009:M",
+      "26:26024:M",
+      "26:26040:M",
+      "26:26074:M",
+      "26:26094:M",
+      "26:26138:M",
+      "26:26152:M"
+    ],
+    "26:26051:M": [
+      "26:26005:M",
+      "26:26006:M",
+      "26:26088:M",
+      "26:26103:M",
+      "26:26124:M",
+      "26:26146:M"
+    ],
+    "26:26052:M": [
+      "26:26009:M",
+      "26:26023:M",
+      "26:26039:M",
+      "26:26040:M",
+      "26:26102:M"
+    ],
+    "26:26053:M": [
+      "26:26007:M",
+      "26:26066:M",
+      "26:26108:M",
+      "26:26123:M"
+    ],
+    "26:26054:M": [
+      "26:26080:M",
+      "26:26100:M",
+      "26:26161:M",
+      "26:26173:M"
+    ],
+    "26:26055:M": [
+      "26:26069:M",
+      "26:26138:M",
+      "26:26140:M"
+    ],
+    "26:26056:M": [
+      "26:26025:M",
+      "26:26042:M",
+      "26:26049:M",
+      "26:26063:M",
+      "26:26109:M",
+      "26:26128:M",
+      "26:26148:M",
+      "26:26155:M"
+    ],
+    "26:26057:M": [
+      "26:26078:M",
+      "26:26096:M",
+      "26:26134:M",
+      "26:26143:M",
+      "26:26145:M"
+    ],
+    "26:26058:M": [
+      "26:26017:M",
+      "26:26098:M",
+      "26:26100:M",
+      "26:26119:M"
+    ],
+    "26:26059:M": [
+      "26:26005:M",
+      "26:26084:U1",
+      "26:26096:M",
+      "26:26105:M",
+      "26:26143:M",
+      "26:26144:M"
+    ],
+    "26:26060:M": [
+      "26:26023:M",
+      "26:26027:M",
+      "26:26130:M",
+      "26:26149:M",
+      "26:26176:M"
+    ],
+    "26:26061:M": [
+      "26:26038:M",
+      "26:26110:M",
+      "26:26113:M",
+      "26:26162:M",
+      "26:26175:M",
+      "26:26183:M"
+    ],
+    "26:26062:M": [
+      "26:26045:M",
+      "26:26063:M",
+      "26:26155:M"
+    ],
+    "26:26063:M": [
+      "26:26045:M",
+      "26:26056:M",
+      "26:26062:M",
+      "26:26065:M",
+      "26:26128:M",
+      "26:26155:M"
+    ],
+    "26:26064:M": [
+      "26:26046:M",
+      "26:26089:U2",
+      "26:26105:M"
+    ],
+    "26:26065:M": [
+      "26:26045:M",
+      "26:26063:M",
+      "26:26128:M"
+    ],
+    "26:26066:M": [
+      "26:26002:M",
+      "26:26007:M",
+      "26:26053:M",
+      "26:26099:M",
+      "26:26108:M",
+      "26:26135:M"
+    ],
+    "26:26067:M": [
+      "26:26082:M",
+      "26:26091:M",
+      "26:26115:M",
+      "26:26118:M",
+      "26:26169:M"
+    ],
+    "26:26068:M": [
+      "26:26034:M",
+      "26:26071:U1",
+      "26:26111:M"
+    ],
+    "26:26069:M": [
+      "26:26055:M",
+      "26:26073:M",
+      "26:26087:M",
+      "26:26138:M",
+      "26:26140:M",
+      "26:26150:M",
+      "26:26167:M",
+      "26:26174:M"
+    ],
+    "26:26070:M": [
+      "26:26011:M",
+      "26:26021:M",
+      "26:26047:M",
+      "26:26080:M",
+      "26:26120:M",
+      "26:26173:M"
+    ],
+    "26:26071:R": [
+      "26:26013:M",
+      "26:26033:M",
+      "26:26042:M",
+      "26:26049:M",
+      "26:26071:U1",
+      "26:26127:M",
+      "26:26166:M",
+      "26:26180:M"
+    ],
+    "26:26071:U1": [
+      "26:26068:M",
+      "26:26071:R",
+      "26:26127:M"
+    ],
+    "26:26072:M": [
+      "26:26017:M",
+      "26:26018:U1",
+      "26:26028:M",
+      "26:26029:M",
+      "26:26119:M",
+      "26:26136:M"
+    ],
+    "26:26073:M": [
+      "26:26069:M",
+      "26:26087:M",
+      "26:26109:M",
+      "26:26167:M"
+    ],
+    "26:26074:M": [
+      "26:26009:M",
+      "26:26022:M",
+      "26:26024:M",
+      "26:26048:M",
+      "26:26050:M"
+    ],
+    "26:26075:M": [
+      "26:26022:M",
+      "26:26024:M",
+      "26:26034:M",
+      "26:26102:M",
+      "26:26127:M",
+      "26:26129:M"
+    ],
+    "26:26076:M": [
+      "26:26102:M",
+      "26:26129:M",
+      "26:26154:M",
+      "26:26160:M"
+    ],
+    "26:26077:M": [
+      "26:26004:M",
+      "26:26098:M",
+      "26:26132:M",
+      "26:26146:M",
+      "26:26181:M"
+    ],
+    "26:26078:M": [
+      "26:26057:M",
+      "26:26096:M",
+      "26:26105:M",
+      "26:26145:M"
+    ],
+    "26:26079:M": [
+      "26:26010:M",
+      "26:26046:M",
+      "26:26102:M",
+      "26:26105:M",
+      "26:26145:M",
+      "26:26160:M",
+      "26:26163:M"
+    ],
+    "26:26080:M": [
+      "26:26047:M",
+      "26:26054:M",
+      "26:26070:M",
+      "26:26161:M"
+    ],
+    "26:26081:M": [
+      "26:26035:M",
+      "26:26101:M",
+      "26:26121:M",
+      "26:26132:M",
+      "26:26153:M"
+    ],
+    "26:26082:M": [
+      "26:26004:M",
+      "26:26012:M",
+      "26:26035:M",
+      "26:26067:M",
+      "26:26091:M",
+      "26:26101:M",
+      "26:26115:M"
+    ],
+    "26:26083:M": [
+      "26:26088:M",
+      "26:26099:M",
+      "26:26124:M",
+      "26:26135:M",
+      "26:26146:M"
+    ],
+    "26:26084:R": [
+      "26:26005:M",
+      "26:26006:M",
+      "26:26084:U1"
+    ],
+    "26:26084:U1": [
+      "26:26005:M",
+      "26:26006:M",
+      "26:26059:M",
+      "26:26084:R",
+      "26:26089:R",
+      "26:26089:U10",
+      "26:26089:U2",
+      "26:26105:M",
+      "26:26168:M"
+    ],
+    "26:26086:M": [
+      "26:26026:M",
+      "26:26031:M",
+      "26:26037:M",
+      "26:26044:M",
+      "26:26114:M"
+    ],
+    "26:26087:M": [
+      "26:26069:M",
+      "26:26073:M",
+      "26:26109:M",
+      "26:26150:M",
+      "26:26155:M"
+    ],
+    "26:26088:M": [
+      "26:26051:M",
+      "26:26083:M",
+      "26:26124:M",
+      "26:26146:M"
+    ],
+    "26:26089:R": [
+      "26:26002:M",
+      "26:26084:U1",
+      "26:26089:U1",
+      "26:26089:U10",
+      "26:26089:U14",
+      "26:26089:U2",
+      "26:26089:U5",
+      "26:26089:U6",
+      "26:26099:M",
+      "26:26168:M"
+    ],
+    "26:26089:U1": [
+      "26:26089:R",
+      "26:26089:U14",
+      "26:26089:U2",
+      "26:26089:U4",
+      "26:26089:U8"
+    ],
+    "26:26089:U10": [
+      "26:26084:U1",
+      "26:26089:R",
+      "26:26089:U2",
+      "26:26089:U3",
+      "26:26089:U6",
+      "26:26089:U7",
+      "26:26089:U9"
+    ],
+    "26:26089:U11": [
+      "26:26089:U13",
+      "26:26089:U2",
+      "26:26089:U3",
+      "26:26089:U7"
+    ],
+    "26:26089:U12": [
+      "26:26089:U13",
+      "26:26089:U5",
+      "26:26089:U6",
+      "26:26089:U7"
+    ],
+    "26:26089:U13": [
+      "26:26089:U11",
+      "26:26089:U12",
+      "26:26089:U2",
+      "26:26089:U4",
+      "26:26089:U5",
+      "26:26089:U7",
+      "26:26089:U8"
+    ],
+    "26:26089:U14": [
+      "26:26089:R",
+      "26:26089:U1",
+      "26:26089:U5",
+      "26:26089:U8"
+    ],
+    "26:26089:U2": [
+      "26:26064:M",
+      "26:26084:U1",
+      "26:26089:R",
+      "26:26089:U1",
+      "26:26089:U10",
+      "26:26089:U11",
+      "26:26089:U13",
+      "26:26089:U3",
+      "26:26089:U4",
+      "26:26089:U9",
+      "26:26105:M"
+    ],
+    "26:26089:U3": [
+      "26:26089:U10",
+      "26:26089:U11",
+      "26:26089:U2",
+      "26:26089:U7"
+    ],
+    "26:26089:U4": [
+      "26:26089:U1",
+      "26:26089:U13",
+      "26:26089:U2",
+      "26:26089:U8"
+    ],
+    "26:26089:U5": [
+      "26:26089:R",
+      "26:26089:U12",
+      "26:26089:U13",
+      "26:26089:U14",
+      "26:26089:U6",
+      "26:26089:U8"
+    ],
+    "26:26089:U6": [
+      "26:26089:R",
+      "26:26089:U10",
+      "26:26089:U12",
+      "26:26089:U5",
+      "26:26089:U7"
+    ],
+    "26:26089:U7": [
+      "26:26089:U10",
+      "26:26089:U11",
+      "26:26089:U12",
+      "26:26089:U13",
+      "26:26089:U3",
+      "26:26089:U6"
+    ],
+    "26:26089:U8": [
+      "26:26089:U1",
+      "26:26089:U13",
+      "26:26089:U14",
+      "26:26089:U4",
+      "26:26089:U5"
+    ],
+    "26:26089:U9": [
+      "26:26089:U10",
+      "26:26089:U2"
+    ],
+    "26:26091:M": [
+      "26:26067:M",
+      "26:26082:M",
+      "26:26169:M",
+      "26:26177:M"
+    ],
+    "26:26092:M": [
+      "26:26010:M",
+      "26:26016:M",
+      "26:26030:M",
+      "26:26134:M",
+      "26:26157:M",
+      "26:26163:M"
+    ],
+    "26:26093:M": [
+      "26:26014:M",
+      "26:26130:M",
+      "26:26175:M",
+      "26:26178:M"
+    ],
+    "26:26094:M": [
+      "26:26040:M",
+      "26:26050:M",
+      "26:26113:M",
+      "26:26138:M",
+      "26:26141:M",
+      "26:26172:M"
+    ],
+    "26:26095:M": [
+      "26:26014:M",
+      "26:26026:M",
+      "26:26031:M",
+      "26:26149:M",
+      "26:26176:M"
+    ],
+    "26:26096:M": [
+      "26:26057:M",
+      "26:26059:M",
+      "26:26078:M",
+      "26:26105:M",
+      "26:26143:M"
+    ],
+    "26:26098:M": [
+      "26:26004:M",
+      "26:26017:M",
+      "26:26058:M",
+      "26:26077:M",
+      "26:26126:M",
+      "26:26135:M",
+      "26:26146:M",
+      "26:26181:M"
+    ],
+    "26:26099:M": [
+      "26:26002:M",
+      "26:26006:M",
+      "26:26019:M",
+      "26:26066:M",
+      "26:26083:M",
+      "26:26089:R",
+      "26:26124:M",
+      "26:26135:M",
+      "26:26168:M"
+    ],
+    "26:26100:M": [
+      "26:26018:U1",
+      "26:26054:M",
+      "26:26058:M",
+      "26:26119:M",
+      "26:26173:M"
+    ],
+    "26:26101:M": [
+      "26:26012:M",
+      "26:26035:M",
+      "26:26081:M",
+      "26:26082:M",
+      "26:26153:M"
+    ],
+    "26:26102:M": [
+      "26:26009:M",
+      "26:26010:M",
+      "26:26015:M",
+      "26:26022:M",
+      "26:26023:M",
+      "26:26037:M",
+      "26:26041:M",
+      "26:26052:M",
+      "26:26075:M",
+      "26:26076:M",
+      "26:26079:M",
+      "26:26129:M",
+      "26:26154:M",
+      "26:26157:M",
+      "26:26160:M"
+    ],
+    "26:26103:M": [
+      "26:26005:M",
+      "26:26051:M",
+      "26:26144:M",
+      "26:26146:M",
+      "26:26165:M"
+    ],
+    "26:26104:M": [
+      "26:26003:M",
+      "26:26161:M"
+    ],
+    "26:26105:M": [
+      "26:26046:M",
+      "26:26059:M",
+      "26:26064:M",
+      "26:26078:M",
+      "26:26079:M",
+      "26:26084:U1",
+      "26:26089:U2",
+      "26:26096:M",
+      "26:26145:M"
+    ],
+    "26:26106:M": [
+      "26:26044:M",
+      "26:26151:M",
+      "26:26165:M"
+    ],
+    "26:26107:M": [
+      "26:26012:M",
+      "26:26014:M",
+      "26:26115:M",
+      "26:26118:M",
+      "26:26122:M",
+      "26:26151:M"
+    ],
+    "26:26108:M": [
+      "26:26017:M",
+      "26:26020:M",
+      "26:26028:M",
+      "26:26053:M",
+      "26:26066:M",
+      "26:26123:M",
+      "26:26126:M",
+      "26:26135:M",
+      "26:26158:M",
+      "26:26170:M"
+    ],
+    "26:26109:M": [
+      "26:26025:M",
+      "26:26056:M",
+      "26:26073:M",
+      "26:26087:M",
+      "26:26155:M",
+      "26:26167:M"
+    ],
+    "26:26110:M": [
+      "26:26061:M",
+      "26:26113:M",
+      "26:26140:M",
+      "26:26141:M",
+      "26:26162:M",
+      "26:26174:M",
+      "26:26183:M"
+    ],
+    "26:26111:M": [
+      "26:26034:M",
+      "26:26068:M",
+      "26:26127:M"
+    ],
+    "26:26112:M": [
+      "26:26032:M",
+      "26:26122:M",
+      "26:26169:M",
+      "26:26177:M"
+    ],
+    "26:26113:M": [
+      "26:26027:M",
+      "26:26061:M",
+      "26:26094:M",
+      "26:26110:M",
+      "26:26130:M",
+      "26:26141:M",
+      "26:26171:M",
+      "26:26172:M"
+    ],
+    "26:26114:M": [
+      "26:26014:M",
+      "26:26031:M",
+      "26:26044:M",
+      "26:26086:M",
+      "26:26151:M"
+    ],
+    "26:26115:M": [
+      "26:26012:M",
+      "26:26067:M",
+      "26:26082:M",
+      "26:26107:M",
+      "26:26118:M"
+    ],
+    "26:26117:M": [
+      "26:26018:R",
+      "26:26020:M",
+      "26:26036:U1",
+      "26:26036:U2",
+      "26:26120:M",
+      "26:26170:M"
+    ],
+    "26:26118:M": [
+      "26:26067:M",
+      "26:26107:M",
+      "26:26115:M",
+      "26:26122:M",
+      "26:26169:M"
+    ],
+    "26:26119:M": [
+      "26:26017:M",
+      "26:26018:U1",
+      "26:26058:M",
+      "26:26072:M",
+      "26:26100:M",
+      "26:26136:M"
+    ],
+    "26:26120:M": [
+      "26:26018:R",
+      "26:26021:M",
+      "26:26070:M",
+      "26:26117:M",
+      "26:26173:M"
+    ],
+    "26:26121:M": [
+      "26:26004:M",
+      "26:26035:M",
+      "26:26081:M",
+      "26:26132:M"
+    ],
+    "26:26122:M": [
+      "26:26014:M",
+      "26:26032:M",
+      "26:26107:M",
+      "26:26112:M",
+      "26:26118:M"
+    ],
+    "26:26123:M": [
+      "26:26020:M",
+      "26:26053:M",
+      "26:26108:M"
+    ],
+    "26:26124:M": [
+      "26:26006:M",
+      "26:26051:M",
+      "26:26083:M",
+      "26:26088:M",
+      "26:26099:M"
+    ],
+    "26:26125:M": [
+      "26:26008:M",
+      "26:26011:M"
+    ],
+    "26:26126:M": [
+      "26:26017:M",
+      "26:26098:M",
+      "26:26108:M",
+      "26:26135:M"
+    ],
+    "26:26127:M": [
+      "26:26024:M",
+      "26:26034:M",
+      "26:26048:M",
+      "26:26071:R",
+      "26:26071:U1",
+      "26:26075:M",
+      "26:26111:M",
+      "26:26180:M"
+    ],
+    "26:26128:M": [
+      "26:26049:M",
+      "26:26056:M",
+      "26:26063:M",
+      "26:26065:M",
+      "26:26166:M"
+    ],
+    "26:26129:M": [
+      "26:26034:M",
+      "26:26046:M",
+      "26:26075:M",
+      "26:26076:M",
+      "26:26102:M",
+      "26:26142:M",
+      "26:26154:M",
+      "26:26160:M"
+    ],
+    "26:26130:M": [
+      "26:26014:M",
+      "26:26027:M",
+      "26:26060:M",
+      "26:26093:M",
+      "26:26113:M",
+      "26:26149:M",
+      "26:26171:M",
+      "26:26175:M"
+    ],
+    "26:26131:M": [
+      "26:26155:M"
+    ],
+    "26:26132:M": [
+      "26:26004:M",
+      "26:26077:M",
+      "26:26081:M",
+      "26:26121:M",
+      "26:26146:M",
+      "26:26147:M",
+      "26:26153:M",
+      "26:26165:M"
+    ],
+    "26:26134:M": [
+      "26:26030:M",
+      "26:26044:M",
+      "26:26057:M",
+      "26:26092:M",
+      "26:26145:M",
+      "26:26163:M"
+    ],
+    "26:26135:M": [
+      "26:26066:M",
+      "26:26083:M",
+      "26:26098:M",
+      "26:26099:M",
+      "26:26108:M",
+      "26:26126:M",
+      "26:26146:M"
+    ],
+    "26:26136:M": [
+      "26:26017:M",
+      "26:26072:M",
+      "26:26119:M"
+    ],
+    "26:26138:M": [
+      "26:26024:M",
+      "26:26050:M",
+      "26:26055:M",
+      "26:26069:M",
+      "26:26094:M",
+      "26:26140:M",
+      "26:26141:M",
+      "26:26167:M"
+    ],
+    "26:26139:M": [
+      "26:26024:M",
+      "26:26043:M",
+      "26:26048:M"
+    ],
+    "26:26140:M": [
+      "26:26055:M",
+      "26:26069:M",
+      "26:26110:M",
+      "26:26138:M",
+      "26:26141:M",
+      "26:26174:M"
+    ],
+    "26:26141:M": [
+      "26:26094:M",
+      "26:26110:M",
+      "26:26113:M",
+      "26:26138:M",
+      "26:26140:M"
+    ],
+    "26:26142:M": [
+      "26:26001:M",
+      "26:26034:M",
+      "26:26129:M"
+    ],
+    "26:26143:M": [
+      "26:26057:M",
+      "26:26059:M",
+      "26:26096:M",
+      "26:26144:M"
+    ],
+    "26:26144:M": [
+      "26:26059:M",
+      "26:26103:M",
+      "26:26143:M",
+      "26:26165:M"
+    ],
+    "26:26145:M": [
+      "26:26057:M",
+      "26:26078:M",
+      "26:26079:M",
+      "26:26105:M",
+      "26:26134:M",
+      "26:26163:M"
+    ],
+    "26:26146:M": [
+      "26:26051:M",
+      "26:26077:M",
+      "26:26083:M",
+      "26:26088:M",
+      "26:26098:M",
+      "26:26103:M",
+      "26:26132:M",
+      "26:26135:M",
+      "26:26147:M",
+      "26:26165:M"
+    ],
+    "26:26147:M": [
+      "26:26132:M",
+      "26:26146:M"
+    ],
+    "26:26148:M": [
+      "26:26025:M",
+      "26:26042:M",
+      "26:26043:M",
+      "26:26056:M",
+      "26:26180:M"
+    ],
+    "26:26149:M": [
+      "26:26014:M",
+      "26:26027:M",
+      "26:26060:M",
+      "26:26095:M",
+      "26:26130:M",
+      "26:26176:M"
+    ],
+    "26:26150:M": [
+      "26:26069:M",
+      "26:26087:M",
+      "26:26155:M"
+    ],
+    "26:26151:M": [
+      "26:26012:M",
+      "26:26014:M",
+      "26:26106:M",
+      "26:26107:M",
+      "26:26114:M",
+      "26:26165:M"
+    ],
+    "26:26152:M": [
+      "26:26009:M",
+      "26:26039:M",
+      "26:26040:M",
+      "26:26050:M"
+    ],
+    "26:26153:M": [
+      "26:26012:M",
+      "26:26081:M",
+      "26:26101:M",
+      "26:26132:M",
+      "26:26165:M"
+    ],
+    "26:26154:M": [
+      "26:26046:M",
+      "26:26076:M",
+      "26:26102:M",
+      "26:26129:M",
+      "26:26160:M"
+    ],
+    "26:26155:M": [
+      "26:26056:M",
+      "26:26062:M",
+      "26:26063:M",
+      "26:26087:M",
+      "26:26109:M",
+      "26:26131:M",
+      "26:26150:M"
+    ],
+    "26:26157:M": [
+      "26:26010:M",
+      "26:26015:M",
+      "26:26016:M",
+      "26:26092:M",
+      "26:26102:M"
+    ],
+    "26:26158:M": [
+      "26:26018:R",
+      "26:26028:M",
+      "26:26108:M",
+      "26:26170:M"
+    ],
+    "26:26160:M": [
+      "26:26046:M",
+      "26:26076:M",
+      "26:26079:M",
+      "26:26102:M",
+      "26:26129:M",
+      "26:26154:M"
+    ],
+    "26:26161:M": [
+      "26:26003:M",
+      "26:26047:M",
+      "26:26054:M",
+      "26:26080:M",
+      "26:26104:M"
+    ],
+    "26:26162:M": [
+      "26:26061:M",
+      "26:26110:M",
+      "26:26174:M",
+      "26:26183:M"
+    ],
+    "26:26163:M": [
+      "26:26010:M",
+      "26:26079:M",
+      "26:26092:M",
+      "26:26134:M",
+      "26:26145:M"
+    ],
+    "26:26164:M": [
+      "26:26014:M",
+      "26:26032:M",
+      "26:26178:M",
+      "26:26179:M"
+    ],
+    "26:26165:M": [
+      "26:26012:M",
+      "26:26103:M",
+      "26:26106:M",
+      "26:26132:M",
+      "26:26144:M",
+      "26:26146:M",
+      "26:26151:M",
+      "26:26153:M"
+    ],
+    "26:26166:M": [
+      "26:26049:M",
+      "26:26071:R",
+      "26:26128:M"
+    ],
+    "26:26167:M": [
+      "26:26024:M",
+      "26:26025:M",
+      "26:26069:M",
+      "26:26073:M",
+      "26:26109:M",
+      "26:26138:M"
+    ],
+    "26:26168:M": [
+      "26:26006:M",
+      "26:26084:U1",
+      "26:26089:R",
+      "26:26099:M"
+    ],
+    "26:26169:M": [
+      "26:26067:M",
+      "26:26091:M",
+      "26:26112:M",
+      "26:26118:M",
+      "26:26177:M"
+    ],
+    "26:26170:M": [
+      "26:26018:R",
+      "26:26020:M",
+      "26:26108:M",
+      "26:26117:M",
+      "26:26158:M"
+    ],
+    "26:26171:M": [
+      "26:26023:M",
+      "26:26027:M",
+      "26:26040:M",
+      "26:26113:M",
+      "26:26130:M",
+      "26:26172:M"
+    ],
+    "26:26172:M": [
+      "26:26040:M",
+      "26:26094:M",
+      "26:26113:M",
+      "26:26171:M"
+    ],
+    "26:26173:M": [
+      "26:26018:R",
+      "26:26018:U1",
+      "26:26054:M",
+      "26:26070:M",
+      "26:26100:M",
+      "26:26120:M"
+    ],
+    "26:26174:M": [
+      "26:26069:M",
+      "26:26110:M",
+      "26:26140:M",
+      "26:26162:M"
+    ],
+    "26:26175:M": [
+      "26:26038:M",
+      "26:26061:M",
+      "26:26093:M",
+      "26:26130:M"
+    ],
+    "26:26176:M": [
+      "26:26023:M",
+      "26:26026:M",
+      "26:26060:M",
+      "26:26095:M",
+      "26:26149:M"
+    ],
+    "26:26177:M": [
+      "26:26032:M",
+      "26:26091:M",
+      "26:26112:M",
+      "26:26169:M"
+    ],
+    "26:26178:M": [
+      "26:26014:M",
+      "26:26093:M",
+      "26:26164:M",
+      "26:26179:M"
+    ],
+    "26:26179:M": [
+      "26:26164:M",
+      "26:26178:M"
+    ],
+    "26:26180:M": [
+      "26:26042:M",
+      "26:26043:M",
+      "26:26048:M",
+      "26:26071:R",
+      "26:26127:M",
+      "26:26148:M"
+    ],
+    "26:26181:M": [
+      "26:26004:M",
+      "26:26077:M",
+      "26:26098:M"
+    ],
+    "26:26183:M": [
+      "26:26061:M",
+      "26:26110:M",
+      "26:26162:M"
+    ]
+  },
+  "report": {
+    "population_repair": {
+      "enabled": false,
+      "activation": "NOT_NEEDED",
+      "result": "DISABLED",
+      "hard_population_violations_before": 0,
+      "population_floor_exempt_partitions": [],
+      "district_floor_overrides": {}
+    },
+    "K": 33,
+    "total_pop": 322282,
+    "target": 9766.121212121212,
+    "population_floor": 7812.89696969697,
+    "population_cap": 17090.71212121212,
+    "tolerance_absolute": 1171.9345454545453
+  },
+  "compatibility": {
+    "schema": "ddd.m05-checkpoint-compatibility/1.0",
+    "engine_files": {
+      "modulos/05_optimizar_distritos.py": "09a0f8470e1acacbd005e161a2879fcf15819eb46263441a2c29151059ef5ffd",
+      "ddd_core/m05_opt_engine_v740.py": "b631b7d178d53162c43291e386bf2ad39967a8d7a6e483cf1bb6c60dbc9be9f0",
+      "ddd_core/m05_swap_polish.py": "00abcce1deca948b4dac4dfca6f9f204a57282d465f97854d1977ab2a137facc",
+      "ddd_core/m05_population_repair.py": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8"
+    },
+    "m05_config_sha256": "061d80c713120fea20561e28d69ce47125ff9ddbfd995829ca9902e9b6bf932b",
+    "fingerprint": "a81c9dec75d178a803afb46548711f2fb7c017df7cc4d03851cb64c618f7f451"
+  },
+  "section_count": 343,
+  "member_hashes": {
+    "graph": "24d58f7a853fc8ed99a0f7b4b482cb6cb2726747f34b35e07899a6c42ffbf90f",
+    "geojson_zip": "34a67bd202a8415300a10d930ae670439bcd7824131a77069e553b0d2f292ce9",
+    "report": "6e671aa99fecc6bde14f95882b75e39e84a6b0547ad8a5b311aee9d686b3b4a5",
+    "m04_geojson_zip": "576b36dc5066fdfefbc64b7bc42d58dfba4b5145709867ddf55bd3bc4cd174ae"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "name": "Exact pre-repair La Rioja run 37473252569",
+    "date": "2026-10-08",
+    "status": "CI_PENDIENTE",
+    "origin": {
+      "run_id": 37473252569,
+      "source_commit": "b9244a523d54016e4364fc0eab19200571aeb336",
+      "sha256": "a949dd2a2ac6e187ccf30f4952073f9490dfa76cca09180c8cb46cf1c3c30fd4",
+      "stage": "M05"
+    },
+    "scope": "Arguments reconstructed from SHA-verified checkpoint; no synthetic population or assignments",
+    "changes": "New fixture, no predecessor"
+  },
+  "m05_base_input_assignments": {
+    "26:26001:M": 27,
+    "26:26002:M": 32,
+    "26:26003:M": 31,
+    "26:26004:M": 31,
+    "26:26005:M": 24,
+    "26:26006:M": 32,
+    "26:26007:M": 32,
+    "26:26008:M": 28,
+    "26:26009:M": 30,
+    "26:26010:M": 19,
+    "26:26011:M": 22,
+    "26:26012:M": 30,
+    "26:26013:M": 21,
+    "26:26014:M": 30,
+    "26:26015:M": 30,
+    "26:26016:M": 30,
+    "26:26017:M": 23,
+    "26:26018:R": 23,
+    "26:26018:U1": 0,
+    "26:26019:M": 32,
+    "26:26020:M": 32,
+    "26:26021:M": 29,
+    "26:26022:M": 21,
+    "26:26023:M": 30,
+    "26:26024:M": 20,
+    "26:26025:M": 21,
+    "26:26026:M": 30,
+    "26:26027:M": 30,
+    "26:26028:M": 23,
+    "26:26029:M": 23,
+    "26:26030:M": 30,
+    "26:26031:M": 30,
+    "26:26032:M": 30,
+    "26:26033:M": 21,
+    "26:26034:M": 21,
+    "26:26035:M": 30,
+    "26:26036:U1": 1,
+    "26:26036:R": 28,
+    "26:26036:U2": 2,
+    "26:26037:M": 30,
+    "26:26038:M": 30,
+    "26:26039:M": 30,
+    "26:26040:M": 20,
+    "26:26041:M": 30,
+    "26:26042:M": 21,
+    "26:26043:M": 20,
+    "26:26044:M": 31,
+    "26:26045:M": 21,
+    "26:26046:M": 27,
+    "26:26047:M": 31,
+    "26:26048:M": 21,
+    "26:26049:M": 21,
+    "26:26050:M": 20,
+    "26:26051:M": 32,
+    "26:26052:M": 30,
+    "26:26053:M": 23,
+    "26:26054:M": 31,
+    "26:26055:M": 20,
+    "26:26056:M": 21,
+    "26:26057:M": 31,
+    "26:26058:M": 31,
+    "26:26059:M": 24,
+    "26:26060:M": 30,
+    "26:26061:M": 30,
+    "26:26062:M": 21,
+    "26:26063:M": 21,
+    "26:26064:M": 27,
+    "26:26065:M": 21,
+    "26:26066:M": 23,
+    "26:26067:M": 30,
+    "26:26068:M": 21,
+    "26:26069:M": 20,
+    "26:26070:M": 31,
+    "26:26071:U1": 3,
+    "26:26071:R": 21,
+    "26:26072:M": 23,
+    "26:26073:M": 21,
+    "26:26074:M": 20,
+    "26:26075:M": 21,
+    "26:26076:M": 19,
+    "26:26077:M": 23,
+    "26:26078:M": 31,
+    "26:26079:M": 27,
+    "26:26080:M": 31,
+    "26:26081:M": 30,
+    "26:26082:M": 31,
+    "26:26083:M": 32,
+    "26:26084:U1": 4,
+    "26:26084:R": 24,
+    "26:26086:M": 30,
+    "26:26087:M": 20,
+    "26:26088:M": 23,
+    "26:26089:U13": 17,
+    "26:26089:U8": 12,
+    "26:26089:U4": 8,
+    "26:26089:U1": 5,
+    "26:26089:R": 25,
+    "26:26089:U14": 18,
+    "26:26089:U6": 10,
+    "26:26089:U5": 9,
+    "26:26089:U10": 14,
+    "26:26089:U11": 15,
+    "26:26089:U7": 11,
+    "26:26089:U12": 16,
+    "26:26089:U9": 13,
+    "26:26089:U3": 7,
+    "26:26089:U2": 6,
+    "26:26091:M": 30,
+    "26:26092:M": 30,
+    "26:26093:M": 30,
+    "26:26094:M": 30,
+    "26:26095:M": 30,
+    "26:26096:M": 24,
+    "26:26098:M": 31,
+    "26:26100:M": 31,
+    "26:26101:M": 30,
+    "26:26102:M": 19,
+    "26:26103:M": 24,
+    "26:26104:M": 31,
+    "26:26105:M": 31,
+    "26:26106:M": 31,
+    "26:26107:M": 30,
+    "26:26108:M": 23,
+    "26:26109:M": 21,
+    "26:26110:M": 20,
+    "26:26111:M": 21,
+    "26:26112:M": 30,
+    "26:26113:M": 20,
+    "26:26114:M": 30,
+    "26:26115:M": 30,
+    "26:26117:M": 29,
+    "26:26118:M": 30,
+    "26:26119:M": 23,
+    "26:26121:M": 30,
+    "26:26122:M": 30,
+    "26:26123:M": 23,
+    "26:26124:M": 32,
+    "26:26125:M": 22,
+    "26:26126:M": 31,
+    "26:26127:M": 21,
+    "26:26128:M": 21,
+    "26:26129:M": 27,
+    "26:26130:M": 20,
+    "26:26131:M": 21,
+    "26:26132:M": 31,
+    "26:26134:M": 19,
+    "26:26135:M": 23,
+    "26:26136:M": 23,
+    "26:26138:M": 20,
+    "26:26139:M": 21,
+    "26:26140:M": 20,
+    "26:26141:M": 20,
+    "26:26142:M": 27,
+    "26:26143:M": 31,
+    "26:26144:M": 31,
+    "26:26145:M": 19,
+    "26:26146:M": 23,
+    "26:26147:M": 31,
+    "26:26148:M": 21,
+    "26:26149:M": 20,
+    "26:26150:M": 20,
+    "26:26151:M": 30,
+    "26:26152:M": 30,
+    "26:26153:M": 30,
+    "26:26154:M": 19,
+    "26:26155:M": 21,
+    "26:26157:M": 19,
+    "26:26158:M": 23,
+    "26:26160:M": 27,
+    "26:26161:M": 31,
+    "26:26162:M": 20,
+    "26:26163:M": 19,
+    "26:26164:M": 30,
+    "26:26165:M": 31,
+    "26:26166:M": 21,
+    "26:26167:M": 21,
+    "26:26168:M": 26,
+    "26:26169:M": 30,
+    "26:26170:M": 23,
+    "26:26171:M": 30,
+    "26:26172:M": 30,
+    "26:26173:M": 31,
+    "26:26174:M": 20,
+    "26:26175:M": 30,
+    "26:26176:M": 30,
+    "26:26177:M": 30,
+    "26:26178:M": 30,
+    "26:26179:M": 30,
+    "26:26180:M": 21,
+    "26:26181:M": 31,
+    "26:26183:M": 20,
+    "26:26120:M": 29,
+    "26:26099:M": 32
+  }
+}

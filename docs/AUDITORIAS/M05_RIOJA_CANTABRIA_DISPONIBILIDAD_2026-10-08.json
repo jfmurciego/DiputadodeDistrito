@@ -1,0 +1,153 @@
+{
+  "version": "1.0.0",
+  "name": "Remote checkpoint availability",
+  "date": "2026-10-08",
+  "status": "CI_PENDIENTE",
+  "scope": "Metadata only; no workflows",
+  "origin": "GitHub connector; no predecessor",
+  "runs": [
+    {
+      "run_id": 37473252569,
+      "artifacts": [
+        {
+          "id": 11418426085,
+          "name": "ddd-state-37473252569-M03",
+          "size_in_bytes": 1144993,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11418426085",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11418426085/zip",
+          "expired": false,
+          "created_at": "2026-10-06T13:52:51Z",
+          "expires_at": "2026-10-20T13:52:50Z",
+          "updated_at": "2026-10-06T13:52:51Z",
+          "digest": "sha256:81c99b469f3140d192da534687da34a579f96a52935a7b0c467d97c176739940",
+          "workflow_run": {
+            "id": 37473252569,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "b9244a523d54016e4364fc0eab19200571aeb336"
+          }
+        },
+        {
+          "id": 11418047793,
+          "name": "ddd-state-37473252569-M04",
+          "size_in_bytes": 1628113,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11418047793",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11418047793/zip",
+          "expired": false,
+          "created_at": "2026-10-06T13:55:09Z",
+          "expires_at": "2026-10-20T13:55:08Z",
+          "updated_at": "2026-10-06T13:55:09Z",
+          "digest": "sha256:5100b39d53fc6006fb92779dd9fb0fbf98a6f4badf7e27143d4aa21bb50cd8ed",
+          "workflow_run": {
+            "id": 37473252569,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "b9244a523d54016e4364fc0eab19200571aeb336"
+          }
+        },
+        {
+          "id": 11417904355,
+          "name": "ddd-state-37473252569-M06",
+          "size_in_bytes": 2829868,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11417904355",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11417904355/zip",
+          "expired": false,
+          "created_at": "2026-10-06T13:57:20Z",
+          "expires_at": "2026-10-20T13:57:19Z",
+          "updated_at": "2026-10-06T13:57:20Z",
+          "digest": "sha256:8b7e49116025ae68f7d6210137a755d59b9d4536dd6312b34d51babdb96b3b9e",
+          "workflow_run": {
+            "id": 37473252569,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "b9244a523d54016e4364fc0eab19200571aeb336"
+          }
+        },
+        {
+          "id": 11417754354,
+          "name": "ddd-state-37473252569-M05",
+          "size_in_bytes": 2110240,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11417754354",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11417754354/zip",
+          "expired": false,
+          "created_at": "2026-10-06T13:56:04Z",
+          "expires_at": "2026-10-20T13:56:03Z",
+          "updated_at": "2026-10-06T13:56:04Z",
+          "digest": "sha256:a949dd2a2ac6e187ccf30f4952073f9490dfa76cca09180c8cb46cf1c3c30fd4",
+          "workflow_run": {
+            "id": 37473252569,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "b9244a523d54016e4364fc0eab19200571aeb336"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": 37318299003,
+      "artifacts": [
+        {
+          "id": 11349373865,
+          "name": "ddd-state-37318299003-M05",
+          "size_in_bytes": 2252769,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349373865",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349373865/zip",
+          "expired": false,
+          "created_at": "2026-10-05T13:51:25Z",
+          "expires_at": "2026-10-19T13:51:24Z",
+          "updated_at": "2026-10-05T13:51:25Z",
+          "digest": "sha256:f684febad5eae8f4ee40f70021eab3e778eab97267ec41e8914875444b6cb167",
+          "workflow_run": {
+            "id": 37318299003,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "3938c97a8b46590a54016173416acf34c165d5a1"
+          }
+        },
+        {
+          "id": 11349284001,
+          "name": "ddd-state-37318299003-M06",
+          "size_in_bytes": 3053384,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349284001",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349284001/zip",
+          "expired": false,
+          "created_at": "2026-10-05T13:52:25Z",
+          "expires_at": "2026-10-19T13:52:24Z",
+          "updated_at": "2026-10-05T13:52:25Z",
+          "digest": "sha256:ad72c3856b45a639fd9eb4223d6f3af8fef4e7450568311e1c213b1990e55121",
+          "workflow_run": {
+            "id": 37318299003,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "3938c97a8b46590a54016173416acf34c165d5a1"
+          }
+        },
+        {
+          "id": 11349103127,
+          "name": "ddd-state-37318299003-M03",
+          "size_in_bytes": 1221961,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349103127",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349103127/zip",
+          "expired": false,
+          "created_at": "2026-10-05T13:46:55Z",
+          "expires_at": "2026-10-19T13:46:53Z",
+          "updated_at": "2026-10-05T13:46:55Z",
+          "digest": "sha256:45678b97e44c5f87e77aeaf202257c65f0c8fdebe2e7856f40f19a885a93d1a0",
+          "workflow_run": {
+            "id": 37318299003,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "3938c97a8b46590a54016173416acf34c165d5a1"
+          }
+        }
+      ]
+    }
+  ]
+}
