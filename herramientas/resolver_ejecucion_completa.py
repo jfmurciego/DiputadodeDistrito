@@ -1,3 +1,13 @@
+# Nombre: Resolución de ejecución completa
+# Versión: 1.0.1 (PATCH; predecesor sin versión declarada)
+# Fecha: 2026-10-08
+# Alcance: corrección local de integridad electoral en orquestación compartida
+# Estado: candidato; pendiente de CI y revisión contractual
+# Cambios: Bloquear receipts electorales con identidad ausente, vacía o contradictoria
+# Motivo: defecto fail-closed electoral detectado tras PR #230
+# Anterior: legacy/herramientas/resolver_ejecucion_completa_pre_fail_closed_2d8508a0.py
+# Origen: HEAD 2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce; contenido histórico conservado sin reescritura
+
 from __future__ import annotations
 
 import argparse
@@ -490,20 +500,6 @@ def select_territorial_for_prepared_pair(
     }
 
 
-def _electoral_source_gap_from_durable_block(exc: DurableAssetBlock) -> dict | None:
-    reason = str(exc)
-    if (
-        reason.startswith("DURABLE_ASSET_IDENTITY_INVALID: electoral_source:")
-        and "election_id no coincide con el registro vigente" in reason
-    ):
-        return {
-            "kind": "SOURCE_GAP",
-            "classification": "ELECTORAL_SOURCE_INVALID",
-            "reason": reason,
-        }
-    return None
-
-
 def classify_prepared_pair_failure(reason: str) -> dict:
     """Sólo la ausencia declarativa de pareja es source gap; un receipt roto es fallo DDD."""
     text = str(reason or "")
@@ -597,11 +593,9 @@ def build_plan(*, territory: str, edition: str, execution_mode: str, catalog: Pa
                 expected_election_id=expected_election_id,
             )
         except DurableAssetBlock as exc:
-            electoral_source_gap = _electoral_source_gap_from_durable_block(exc)
-            if electoral_source_gap is None:
-                raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
-            electoral_source_evidence = {}
-            electoral_product_evidence = {}
+            # Un receipt existente sin identidad electoral válida es un fallo
+            # de integridad, no una ausencia contractual de fuente electoral.
+            raise ValueError(f"CONTINUE_DURABLE_BLOCK: {row['name']}: {exc}") from exc
         else:
             electoral_source_evidence = durable["electoral_source"] or {}
             electoral_product_evidence = durable["electoral_product"] or {}

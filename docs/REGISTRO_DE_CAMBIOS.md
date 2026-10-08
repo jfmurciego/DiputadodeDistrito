@@ -1,3 +1,41 @@
+Nombre: Registro de cambios DDD
+Versión: 1.0.1 (PATCH; predecesor sin versión declarada)
+Fecha: 2026-10-08
+Alcance: corrección local de integridad electoral en orquestación compartida
+Estado: candidato; pendiente de CI y revisión contractual
+Cambios: Registrar la corrección electoral fail-closed y sus obligaciones de cierre
+Motivo: defecto fail-closed electoral detectado tras PR #230
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_fail_closed_2d8508a0.md
+Origen: HEAD 2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce; contenido histórico conservado sin reescritura
+
+## 2026-10-08 — Corrección electoral fail-closed (PATCH 1.0.1)
+
+Un receipt electoral existente con `election_id` ausente, vacío o contradictorio
+bloquea la reutilización con `CONTINUE_DURABLE_BLOCK`; no se reclasifica como
+`SOURCE_GAP`. Se conserva el comportamiento de los gaps contractuales reconocidos
+y la identidad territorial preferida. Dependencia: resolución de activos de fuentes
+oficiales y orquestación compartida; sin cambios en contratos geométricos, K o tolerancias.
+
+Se conservan los tres predecesores exactos de HEAD en `legacy/`. Los predecesores
+carecían de versión declarada; la versión candidata se identifica como 1.0.1 PATCH.
+Decisión expresa del Director (2026-10-08): se autoriza aplazar la CI hasta la
+integración productiva únicamente para conservar el desarrollo mediante un commit
+Git local. Esta decisión no modifica la política ni acredita su cumplimiento.
+Estado: `CI_PENDIENTE`; `NO_GO` de integración y certificación hasta completar
+todos los requisitos aplicables. La comprobación de regresiones de todos los
+territorios validados (procedimiento de cambio, punto 7) permanece pendiente y no
+se declara satisfecha por fixtures sintéticos. No se altera el cálculo territorial
+ni se ejecutan territorios; no se certifican productos.
+
+Evidencia local: 12 pruebas dirigidas satisfactorias, incluyendo identidad electoral
+ausente, vacía y contradictoria, fallos de fases electorales y consumidores durables.
+Ampliación previa: 44 pruebas, 42 satisfactorias; fallo de reutilización con algoritmo
+no canónico y error por contrato M01-M06 incompleto reproducidos también con el
+resolver original de HEAD. Incidencias ambientales: Python predeterminado sin
+PyYAML y subprocess con Python incompatible; resueltas usando Miniforge y su PATH,
+sin instalar dependencias. Las pruebas locales no sustituyen CI ni regresiones
+completas de territorios validados.
+
 ## 2026-09-21 — GerryChain — disciplina municipal contractual
 
 El canary real de Asturias `35656993014` mostró que el preflight GerryChain

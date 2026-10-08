@@ -1,3 +1,13 @@
+# Nombre: Regresiones de ejecución completa
+# Versión: 1.0.1 (PATCH; predecesor sin versión declarada)
+# Fecha: 2026-10-08
+# Alcance: corrección local de integridad electoral en orquestación compartida
+# Estado: candidato; pendiente de CI y revisión contractual
+# Cambios: Exigir bloqueo para election_id ausente, vacío o contradictorio
+# Motivo: defecto fail-closed electoral detectado tras PR #230
+# Anterior: legacy/tests/test_ejecucion_completa_pre_fail_closed_2d8508a0.py
+# Origen: HEAD 2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce; contenido histórico conservado sin reescritura
+
 from __future__ import annotations
 
 import json
@@ -575,7 +585,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
-    def test_reuse_degrades_electoral_when_registered_election_changed(self):
+    def test_reuse_blocks_missing_or_contradictory_election_identity(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             catalog = root / "catalog.yaml"
@@ -631,21 +641,30 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 },
             }, sort_keys=False), encoding="utf-8")
 
-            with mock.patch(
-                "herramientas.resolver_ejecucion_completa.generation_enablement",
-                return_value={"allowed": True},
-            ):
-                plan = build_plan(
-                    territory="Demo",
-                    edition="2025",
-                    execution_mode="reuse",
-                    catalog=catalog,
-                    root_dir=root,
-                )
-            self.assertEqual(plan["electoral_source_gap"]["kind"], "SOURCE_GAP")
-            self.assertIn("electoral_source", plan["electoral_source_gap"]["reason"])
-            self.assertFalse(plan["run_prepare_electoral"])
-            self.assertFalse(plan["run_incorporate"])
+            receipt_path = evidence / "source.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            for election_id in (None, "", "demo_2024"):
+                with self.subTest(election_id=election_id):
+                    if election_id is None:
+                        receipt.pop("election_id", None)
+                    else:
+                        receipt["election_id"] = election_id
+                    receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
+                    with mock.patch(
+                        "herramientas.resolver_ejecucion_completa.generation_enablement",
+                        return_value={"allowed": True},
+                    ):
+                        with self.assertRaisesRegex(
+                            ValueError,
+                            "CONTINUE_DURABLE_BLOCK: Demo: DURABLE_ASSET_IDENTITY_INVALID: electoral_source:",
+                        ):
+                            build_plan(
+                                territory="Demo",
+                                edition="2025",
+                                execution_mode="reuse",
+                                catalog=catalog,
+                                root_dir=root,
+                            )
 
     def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
         with tempfile.TemporaryDirectory() as td:
