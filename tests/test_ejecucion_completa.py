@@ -4,6 +4,7 @@ import json
 import tempfile
 from pathlib import Path
 import unittest
+from unittest import mock
 import yaml
 
 from herramientas.resolver_ejecucion_completa import _run_from_artifact, build_plan
@@ -166,6 +167,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 "generar",
                 "puerta_02",
                 "preparar_electoral",
+                "clasificar_electoral",
                 "puerta_03",
                 "incorporar",
                 "recuperar_electoral",
@@ -573,7 +575,7 @@ class FullProjectOrchestratorTests(unittest.TestCase):
             self.assertEqual(plan["optimization_algorithm"], "GerryChain 50")
             self.assertEqual(plan["existing"]["electoral_product"]["run_id"], 103)
 
-    def test_reuse_reschedules_electoral_when_registered_election_changed(self):
+    def test_reuse_degrades_electoral_when_registered_election_changed(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
             catalog = root / "catalog.yaml"
@@ -629,17 +631,21 @@ class FullProjectOrchestratorTests(unittest.TestCase):
                 },
             }, sort_keys=False), encoding="utf-8")
 
-            with self.assertRaisesRegex(
-                ValueError,
-                "CONTINUE_DURABLE_BLOCK.*electoral_source.*election_id",
+            with mock.patch(
+                "herramientas.resolver_ejecucion_completa.generation_enablement",
+                return_value={"allowed": True},
             ):
-                build_plan(
+                plan = build_plan(
                     territory="Demo",
                     edition="2025",
                     execution_mode="reuse",
                     catalog=catalog,
                     root_dir=root,
                 )
+            self.assertEqual(plan["electoral_source_gap"]["kind"], "SOURCE_GAP")
+            self.assertIn("electoral_source", plan["electoral_source_gap"]["reason"])
+            self.assertFalse(plan["run_prepare_electoral"])
+            self.assertFalse(plan["run_incorporate"])
 
     def test_reuse_reschedules_phase_when_catalog_flag_lacks_durable_provenance(self):
         with tempfile.TemporaryDirectory() as td:
@@ -892,7 +898,8 @@ class FullProjectOrchestratorTests(unittest.TestCase):
 
         text = ORCH.read_text(encoding="utf-8")
         self.assertIn('if [[ "$mode" != "from_start"', text)
-        self.assertIn('p.get("execution_mode")!="from_start" and effective_mode=="electoral"', text)
+        self.assertIn('if p.get("execution_mode")!="from_start" and territorial_path.is_file():', text)
+        self.assertIn('effective_mode=="electoral"', text)
         self.assertIn("FROM_START_CONTRACT_BLOCK", text)
         self.assertIn("TEMPORAL_CONTRACT_BLOCK: 00 no puede lanzar 01 sin contrato temporal", text)
 

@@ -409,7 +409,10 @@ class PreparedSourceReuseTests(unittest.TestCase):
         self.assertFalse(territorial_call["reutilizar_si_ya_preparada"])
         self.assertEqual(
             list(electoral_trigger["workflow_call"]["inputs"]),
-            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state"],
+            ["territory_id", "data_edition", "reutilizar_si_ya_preparada", "source_ref", "persist_state", "allow_source_gap_success"],
+        )
+        self.assertFalse(
+            electoral_trigger["workflow_call"]["inputs"]["allow_source_gap_success"]["default"]
         )
 
         territorial_steps = territorial["jobs"]["territoriales"]["steps"]

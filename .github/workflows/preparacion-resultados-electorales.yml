@@ -8,12 +8,15 @@ on:
       reutilizar_si_ya_preparada: {required: false, type: boolean, default: true}
       source_ref: {required: false, type: string, default: ''}
       persist_state: {required: false, type: boolean, default: true}
+      allow_source_gap_success: {required: false, type: boolean, default: false}
     outputs:
       territory_id: {value: '${{ jobs.resolver.outputs.territory_id }}'}
       codauto: {value: '${{ jobs.resolver.outputs.codauto }}'}
       edition: {value: '${{ jobs.resolver.outputs.edition }}'}
       artifact_name: {value: '${{ jobs.electorales.outputs.artifact_name }}'}
       artifact_digest: {value: '${{ jobs.electorales.outputs.artifact_digest }}'}
+      electoral_outcome: {value: '${{ jobs.electorales.outputs.electoral_outcome }}'}
+      electoral_skip_reason: {value: '${{ jobs.electorales.outputs.electoral_skip_reason }}'}
   workflow_dispatch:
     inputs:
       territory_id:
@@ -73,7 +76,7 @@ jobs:
     name: Preparar resultados electorales
     needs: resolver
     runs-on: ubuntu-24.04
-    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}'}
+    outputs: {artifact_digest: '${{ steps.upload.outputs.artifact-digest }}', artifact_name: '${{ steps.meta.outputs.artifact_name }}', adapter: '${{ steps.mode.outputs.adapter }}', source_status: '${{ steps.policy.outputs.source_status }}', production_eligible: '${{ steps.policy.outputs.production_eligible }}', electoral_outcome: '${{ steps.outcome.outputs.electoral_outcome }}', electoral_skip_reason: '${{ steps.outcome.outputs.electoral_skip_reason }}'}
     env: {GH_TOKEN: '${{ github.token }}', TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', PARAMS: '${{ needs.resolver.outputs.contract_path }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ELECTION_DATE: '${{ needs.resolver.outputs.election_date }}'}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -295,10 +298,15 @@ jobs:
               --edition "$EDITION" \
               --root-dir . \
               --output "$validation"
-            [[ "$(jq -r '.decision // empty' "$validation")" == "READY_PACKAGE" ]] || {
-              echo "::error::Paquete electoral no supera READY_PACKAGE"
-              exit 56
-            }
+            validation_decision="$(jq -r '.decision // empty' "$validation")"
+            if [[ "$validation_decision" != "READY_PACKAGE" ]]; then
+              if [[ "${{ inputs.allow_source_gap_success }}" == "true" ]]; then
+                echo "::notice::Paquete electoral no supera READY_PACKAGE; el caller ha autorizado degradación territorial."
+              else
+                echo "::error::Paquete electoral no supera READY_PACKAGE"
+                exit 56
+              fi
+            fi
           else
             echo "Paquete electoral no consumible ($decision): se conserva para evidencia y bloqueo durable."
           fi
@@ -313,24 +321,81 @@ jobs:
           set -euo pipefail
           test -s .ddd-electoral-package/manifest.json
           manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" || "$decision" == "BLOCK" ]] || {
+            echo "::error::Decisión electoral no reconocida: $decision"
+            exit 46
+          }
+          package_election_id="$(jq -r '.election_id // empty' "$manifest")"
+          package_election_date="$(jq -r '.election_date // empty' "$manifest")"
           [[ "$(jq -r '.territory_id // empty' "$manifest")" == "$TERRITORY_ID" ]] || { echo "::error::Paquete electoral de otro territorio"; exit 46; }
           [[ "$(jq -r '.edition // empty' "$manifest")" == "$EDITION" ]] || { echo "::error::Paquete electoral de otra edición"; exit 46; }
-          [[ "$(jq -r '.election_id // empty' "$manifest")" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
-          [[ "$(jq -r '.election_date // empty' "$manifest")" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            [[ "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Paquete electoral de otra elección"; exit 46; }
+            [[ "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Paquete electoral con fecha de elección obsoleta"; exit 46; }
+          else
+            # Un BLOCK por ausencia de fuente puede no materializar identidad electoral.
+            # Si la aporta, no se tolera que contradiga el registro vigente.
+            [[ -z "$package_election_id" || "$package_election_id" == "$ELECTION_ID" ]] || { echo "::error::Bloqueo electoral con identidad contradictoria"; exit 46; }
+            [[ -z "$package_election_date" || "$package_election_date" == "$ELECTION_DATE" ]] || { echo "::error::Bloqueo electoral con fecha contradictoria"; exit 46; }
+          fi
       - id: meta
         run: echo "artifact_name=ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}" >> "$GITHUB_OUTPUT"
       - id: upload
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with: {name: 'ddd-electoral-package-${{ needs.resolver.outputs.territory_id }}-${{ needs.resolver.outputs.edition }}-${{ github.run_id }}', path: .ddd-electoral-package, include-hidden-files: true, if-no-files-found: error, retention-days: 30}
-      - name: Aplicar decisión electoral
+      - id: outcome
+        name: Aplicar decisión electoral
+        shell: bash
         run: |
+          set -euo pipefail
           test -f .ddd-electoral-package/manifest.json
-          decision="$(jq -r .decision .ddd-electoral-package/manifest.json)"; case "$decision" in REUSE|ACQUIRE) ;; *) echo "::error::Preparación electoral BLOQUEADA"; exit 42;; esac
+          manifest=.ddd-electoral-package/manifest.json
+          decision="$(jq -r '.decision // empty' "$manifest")"
+          validation_decision=""
+          validation=.ddd-electoral-package/evidence/validacion_preparacion.json
+          [[ -f "$validation" ]] && validation_decision="$(jq -r '.decision // empty' "$validation")"
+          production_eligible="${{ steps.policy.outputs.production_eligible }}"
+          source_status="${{ steps.policy.outputs.source_status }}"
+          ready=false
+          if [[ "$decision" == "REUSE" || "$decision" == "ACQUIRE" ]]; then
+            if [[ "$validation_decision" == "READY_PACKAGE" ]]; then
+              [[ "$production_eligible" == "true" ]] && ready=true
+            fi
+          fi
+          if [[ "$ready" == "true" ]]; then
+            {
+              echo "electoral_outcome=READY"
+              echo "electoral_skip_reason="
+            } >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${{ inputs.allow_source_gap_success }}" != "true" ]]; then
+            echo "::error::Preparación electoral BLOQUEADA"
+            exit 42
+          fi
+
+          reason="$(jq -r '.reason // .block_reason // empty' "$manifest")"
+          if [[ "$production_eligible" != "true" ]]; then
+            reason="${reason:+$reason; }fuente electoral no elegible para producción (source_status=$source_status)"
+          fi
+          if [[ -z "$reason" && -f "$validation" ]]; then
+            reason="$(jq -r '.reason // ((.reasons // []) | join("; ")) // empty' "$validation")"
+          fi
+          [[ -n "$reason" ]] || reason="fuente electoral no apta por contrato"
+          {
+            echo "electoral_outcome=SKIPPED_ELECTORAL_SOURCE_INVALID"
+            echo "electoral_skip_reason<<DDD_EOF"
+            echo "$reason"
+            echo "DDD_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "::notice::La fuente electoral queda en SKIP contractual; no se oculta ningún fallo técnico."
 
   registrar:
     name: Registrar resultados electorales preparados
     needs: [resolver, electorales]
-    if: ${{ needs.electorales.result == 'success' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
+    if: ${{ needs.electorales.result == 'success' && needs.electorales.outputs.electoral_outcome == 'READY' && needs.resolver.outputs.persist_state == 'true' && needs.electorales.outputs.production_eligible == 'true' }}
     runs-on: ubuntu-24.04
     concurrency: {group: ddd-catalog-promotion, cancel-in-progress: false}
     env: {TERRITORY_ID: '${{ needs.resolver.outputs.territory_id }}', EDITION: '${{ needs.resolver.outputs.edition }}', DECLARATION: '${{ needs.resolver.outputs.electoral_declaration }}', ELECTION_ID: '${{ needs.resolver.outputs.election_id }}', ADAPTER: '${{ needs.electorales.outputs.adapter }}', ARTIFACT_DIGEST: '${{ needs.electorales.outputs.artifact_digest }}', TARGET_BRANCH: '${{ github.ref_name }}'}
@@ -368,4 +433,13 @@ jobs:
           PREPARATION_RESULT: ${{ needs.electorales.result }}
           REGISTRATION_RESULT: ${{ needs.registrar.result }}
           PERSIST_STATE: ${{ needs.resolver.outputs.persist_state }}
-        run: python herramientas/evaluar_persistencia_preparacion.py terminal --preparation-result "$PREPARATION_RESULT" --registration-result "$REGISTRATION_RESULT" --persist-state "$PERSIST_STATE"
+          ELECTORAL_OUTCOME: ${{ needs.electorales.outputs.electoral_outcome }}
+          ALLOW_SOURCE_GAP_SUCCESS: ${{ inputs.allow_source_gap_success }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$ALLOW_SOURCE_GAP_SUCCESS" == "true" && "$ELECTORAL_OUTCOME" == "SKIPPED_ELECTORAL_SOURCE_INVALID" ]]; then
+            echo "Fuente electoral no apta: terminal válido sin promoción ni registro."
+            exit 0
+          fi
+          python herramientas/evaluar_persistencia_preparacion.py terminal             --preparation-result "$PREPARATION_RESULT"             --registration-result "$REGISTRATION_RESULT"             --persist-state "$PERSIST_STATE"
