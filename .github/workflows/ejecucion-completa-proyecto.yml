@@ -290,12 +290,12 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" != "pull_request" ]]; then
             plan_prepare_territorial="$(jq -r '.run_prepare_territorial // false' .ddd-full-run/plan.json)"
             if [[ "$mode" != "from_start" && "$plan_prepare_territorial" != "true" ]]; then
-              python -m herramientas.consumir_par_fuentes_legislatura \\
-                --root-dir . resolve-territorial \\
-                --territory "$TERRITORY" \\
-                --edition "$EDITION" \\
+              python -m herramientas.consumir_par_fuentes_legislatura \
+                --root-dir . resolve-territorial \
+                --territory "$TERRITORY" \
+                --edition "$EDITION" \
                 --output .ddd-full-run/prepared_territorial.json
-              jq -e '.decision == "READY" and .territorial_source.schema == "ddd.territorial-source-receipt/1.0"' \\
+              jq -e '.decision == "READY" and .territorial_source.schema == "ddd.territorial-source-receipt/1.0"' \
                 .ddd-full-run/prepared_territorial.json >/dev/null
             fi
           fi

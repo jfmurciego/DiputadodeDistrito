@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -409,6 +411,57 @@ class GeometricReuseTests(unittest.TestCase):
 
 
 class OrchestrationModeTests(unittest.TestCase):
+    def test_00_executes_real_territorial_reuse_route_without_preparing_source(self):
+        workflow_path = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
+        workflow = yaml.load(workflow_path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        run = next(
+            step["run"]
+            for step in workflow["jobs"]["planificar"]["steps"]
+            if "resolve-territorial" in step.get("run", "")
+        )
+        marker = 'if [[ "$GITHUB_EVENT_NAME" != "pull_request" ]]; then'
+        fragment = marker + run.split(marker, 1)[1].split(
+            'python - "$PUBLICATION_MODE"', 1
+        )[0]
+
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            _, _, receipt = build_source_fixture(
+                root,
+                include_pair=False,
+                include_electoral=False,
+            )
+            state = root / ".ddd-full-run"
+            state.mkdir()
+            plan_path = state / "plan.json"
+            plan = {"run_prepare_territorial": False}
+            plan_path.write_text(json.dumps(plan) + "\n", encoding="utf-8")
+            receipt_path = root / "evidence/territorial.json"
+            receipt_before = receipt_path.read_bytes()
+
+            completed = subprocess.run(
+                ["bash", "-euo", "pipefail", "-c", fragment],
+                cwd=root,
+                env={
+                    **os.environ,
+                    "PYTHONPATH": str(ROOT),
+                    "GITHUB_EVENT_NAME": "workflow_dispatch",
+                    "mode": "reuse",
+                    "TERRITORY": "Demo",
+                    "EDITION": "2025",
+                },
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            resolved = json.loads(
+                (state / "prepared_territorial.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(resolved["decision"], "READY")
+            self.assertEqual(resolved["territorial_source"]["run_id"], receipt["run_id"])
+            self.assertEqual(json.loads(plan_path.read_text(encoding="utf-8")), plan)
+            self.assertEqual(receipt_path.read_bytes(), receipt_before)
+
     def test_manual_and_campaign_paths_share_mode_sensitive_source_gate(self):
         workflow_path = ROOT / ".github/workflows/ejecucion-completa-proyecto.yml"
         workflow = workflow_path.read_text(encoding="utf-8")
