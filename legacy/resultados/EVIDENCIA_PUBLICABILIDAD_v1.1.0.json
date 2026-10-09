@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1.0",
+  "generated_at": "2026-09-13",
+  "method": "descriptive_analysis_of_existing_m06_catalogues",
+  "recalculated_modules": [],
+  "audit_findings": ["C-02", "C-03", "C-13", "C-14"],
+  "policy": "docs/POLITICA_PUBLICABILIDAD.md",
+  "shape_gate": {
+    "metric": "polsby_popper",
+    "minimum": 0.05,
+    "reference_threshold": 0.15,
+    "maximum_share_below_reference": 0.30,
+    "nature": "provisional_internal_publication_gate_not_legal_standard"
+  },
+  "communities_of_interest": {
+    "criterion": "P07",
+    "contract": "configuracion/comunidades_interes.json",
+    "decision": "FORMAL_SCOPE_DECLARED_NO_TERRITORY_EVALUABLE"
+  },
+  "criteria": [
+    "P01_population_balance",
+    "P02_contiguity",
+    "P03_province_confinement",
+    "P04_municipality_discipline",
+    "P05_shape",
+    "P06_partisan_neutrality",
+    "P07_communities_of_interest",
+    "P08_intelligibility",
+    "P09_legal_basis"
+  ],
+  "territories": {
+    "aragon": {
+      "source": "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/catalogo_distritos.csv",
+      "districts": 67,
+      "polsby_popper": {"min": 0.052728804944, "p10": 0.084911826213, "p25": 0.149375054378, "median": 0.211614994952, "p75": 0.327771812940, "p90": 0.407871698990, "max": 0.544739246924, "below_0_10": 9, "below_0_15": 17, "share_below_0_15": 0.253731343284, "below_0_20": 31},
+      "pearson_abs_population_deviation_vs_shape": -0.175147047397,
+      "shape_gate": "PASS_PROVISIONAL",
+      "communities_of_interest_gate": "NOT_EVALUABLE",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED"
+    },
+    "castilla_y_leon": {
+      "source": "territorios/castilla_y_leon/resultados/ejecuciones/gh-34701897922-1/M06/catalogo_distritos.csv",
+      "districts": 82,
+      "polsby_popper": {"min": 0.028089664051, "p10": 0.050276213272, "p25": 0.088241090541, "median": 0.157153271917, "p75": 0.240223697114, "p90": 0.351002627856, "max": 0.563462107589, "below_0_10": 24, "below_0_15": 40, "share_below_0_15": 0.487804878049, "below_0_20": 54},
+      "pearson_abs_population_deviation_vs_shape": -0.329313388780,
+      "spearman_abs_population_deviation_vs_shape": -0.332324771461,
+      "population_deviation_quartiles": [
+        {"quartile": "Q1_best_balance", "districts": 21, "mean_abs_deviation": 0.010942, "mean_polsby_popper": 0.197995},
+        {"quartile": "Q2", "districts": 20, "mean_abs_deviation": 0.029587, "mean_polsby_popper": 0.211503},
+        {"quartile": "Q3", "districts": 20, "mean_abs_deviation": 0.050643, "mean_polsby_popper": 0.193095},
+        {"quartile": "Q4_worst_balance", "districts": 21, "mean_abs_deviation": 0.104032, "mean_polsby_popper": 0.116495}
+      ],
+      "c03_causal_claim": "NOT_SUPPORTED_BY_OBSERVED_CORRELATION",
+      "shape_gate": "FAIL",
+      "communities_of_interest_gate": "NOT_EVALUABLE",
+      "technical_status": "PASS",
+      "publication_status": "BLOCKED"
+    },
+    "extremadura": {
+      "source": "territorios/extremadura/resultados/ejecuciones/gh-34703213474-1/M06/catalogo_distritos.csv",
+      "districts": 65,
+      "polsby_popper": {"min": 0.115150736575, "p10": 0.152438628660, "p25": 0.190978972711, "median": 0.223624261140, "p75": 0.312597448556, "p90": 0.391810432467, "max": 0.489386237018, "below_0_10": 0, "below_0_15": 7, "share_below_0_15": 0.107692307692, "below_0_20": 23},
+      "pearson_abs_population_deviation_vs_shape": -0.067646476148,
+      "shape_gate": "PASS_PROVISIONAL",
+      "communities_of_interest_gate": "NOT_EVALUABLE",
+      "technical_status": "EXPERIMENTAL_BLOCKED",
+      "publication_status": "BLOCKED"
+    }
+  },
+  "decision": {
+    "aragon": "TECHNICAL_PREVIEW_PUBLICATION_BLOCKED",
+    "castilla_y_leon": "TECHNICAL_PREVIEW_PUBLICATION_BLOCKED_SHAPE",
+    "extremadura": "NOT_PROMOTED_PUBLICATION_BLOCKED",
+    "publicable_maps": 0
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema": "ddd.full-run-manifest/2.1",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "execution_mode": "from_start",
+  "optimization_algorithm": "Canónico",
+  "optimization_algorithm_requested": "Canónico",
+  "optimization_algorithm_effective": "Canónico",
+  "optimization_fallback": false,
+  "optimization_fallback_reason": null,
+  "optimization_evidence_status": "VALID",
+  "workflow_run_id": 35728626894,
+  "source_sha": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+  "publish_requested": true,
+  "status": "SUCCESS",
+  "failed_phases": [],
+  "blocked_phases": [],
+  "phases": [
+    {
+      "name": "01 · Preparación de Datos Territoriales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728626894,
+      "artifact": "ddd-source-package-principado_de_asturias-2025-35728626894",
+      "artifact_digest": "sha256:fed2fff7aafc543b4810a10b03dbe023df91ebe3768e819fd1b19660d0a59ee5",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "READY"
+    },
+    {
+      "name": "02 · Generación de Distritos Autonómicos",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728626894,
+      "artifact": "ddd-state-35728626894-M06",
+      "artifact_digest": "sha256:9b3bd94abdcefa452b85e30d217cedc8985175b103beec058cffc5c315fe57a2",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "03 · Preparación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728626894,
+      "artifact": "ddd-electoral-package-principado_de_asturias-2025-35728626894",
+      "artifact_digest": "sha256:3dff251f7c22013af1c8d54b808aee6f1739b66b12809f7bbb39be4fda4216db",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "ACQUIRE"
+    },
+    {
+      "name": "04 · Incorporación de Resultados Electorales",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728626894,
+      "artifact": "ddd-state-35728626894-M08",
+      "artifact_digest": "sha256:19e5bac205f67fb49f985e4dbe5b56f5314dc37926382555d3e5b6a2617a206a",
+      "validation_decision": "VALIDADO",
+      "phase_decision": "PASS_WITH_EXCEPTIONS"
+    },
+    {
+      "name": "05 · Publicación del Visor",
+      "executed": true,
+      "result": "success",
+      "run_id": 35728626894,
+      "artifact": null,
+      "artifact_digest": null,
+      "validation_decision": null,
+      "phase_decision": null
+    }
+  ],
+  "generated_at": "2026-09-22T13:31:06.651935+00:00"
+}

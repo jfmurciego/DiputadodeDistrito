@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "territory_id": "canarias",
+  "run_id": 34688874092,
+  "components": 8,
+  "sections": 1407,
+  "population": 2258866,
+  "component_inventory": [
+    {
+      "component_id": 1,
+      "province": "38",
+      "sections": 602,
+      "population": 966469,
+      "municipalities": 31
+    },
+    {
+      "component_id": 2,
+      "province": "35",
+      "sections": 589,
+      "population": 875589,
+      "municipalities": 21
+    },
+    {
+      "component_id": 3,
+      "province": "35",
+      "sections": 77,
+      "population": 166146,
+      "municipalities": 7
+    },
+    {
+      "component_id": 4,
+      "province": "38",
+      "sections": 61,
+      "population": 86297,
+      "municipalities": 14
+    },
+    {
+      "component_id": 5,
+      "province": "35",
+      "sections": 56,
+      "population": 129080,
+      "municipalities": 6
+    },
+    {
+      "component_id": 6,
+      "province": "38",
+      "sections": 15,
+      "population": 22560,
+      "municipalities": 6
+    },
+    {
+      "component_id": 7,
+      "province": "38",
+      "sections": 6,
+      "population": 11993,
+      "municipalities": 3
+    },
+    {
+      "component_id": 8,
+      "province": "35",
+      "sections": 1,
+      "population": 732,
+      "municipalities": 1,
+      "sample_section": "3502401010"
+    }
+  ]
+}

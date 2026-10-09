@@ -1,0 +1,732 @@
+﻿Comarca código,Comarca nombre,Municipio código,Municipio nombre,Provincia código,Provincia nombre
+01,La Jacetania,22006,Aísa,22,Huesca
+01,La Jacetania,22028,Ansó,22,Huesca
+01,La Jacetania,22032,Aragüés del Puerto,22,Huesca
+01,La Jacetania,22044,Bailo,22,Huesca
+01,La Jacetania,22068,Borau,22,Huesca
+01,La Jacetania,22076,Canal de Berdún,22,Huesca
+01,La Jacetania,22078,Canfranc,22,Huesca
+01,La Jacetania,22086,Castiello de Jaca,22,Huesca
+01,La Jacetania,22106,Fago,22,Huesca
+01,La Jacetania,22130,Jaca,22,Huesca
+01,La Jacetania,22131,Jasa,22,Huesca
+01,La Jacetania,22208,Santa Cilia,22,Huesca
+01,La Jacetania,22209,Santa Cruz de la Serós,22,Huesca
+01,La Jacetania,22250,Villanúa,22,Huesca
+01,La Jacetania,22901,Valle de Hecho,22,Huesca
+01,La Jacetania,22902,Puente la Reina de Jaca,22,Huesca
+01,La Jacetania,50035,Artieda,50,Zaragoza
+01,La Jacetania,50168,Mianos,50,Zaragoza
+01,La Jacetania,50232,Salvatierra de Esca,50,Zaragoza
+01,La Jacetania,50245,Sigüés,50,Zaragoza
+02,Alto Gállego,22059,Biescas,22,Huesca
+02,Alto Gállego,22072,Caldearenas,22,Huesca
+02,Alto Gállego,22122,Hoz de Jaca,22,Huesca
+02,Alto Gállego,22170,Panticosa,22,Huesca
+02,Alto Gállego,22199,Sabiñánigo,22,Huesca
+02,Alto Gállego,22204,Sallent de Gállego,22,Huesca
+02,Alto Gállego,22252,Yebra de Basa,22,Huesca
+02,Alto Gállego,22253,Yésero,22,Huesca
+03,Sobrarbe,22002,Abizanda,22,Huesca
+03,Sobrarbe,22051,Bárcabo,22,Huesca
+03,Sobrarbe,22057,Bielsa,22,Huesca
+03,Sobrarbe,22066,Boltaña,22,Huesca
+03,Sobrarbe,22069,Broto,22,Huesca
+03,Sobrarbe,22107,Fanlo,22,Huesca
+03,Sobrarbe,22109,Fiscal,22,Huesca
+03,Sobrarbe,22113,Fueva (La),22,Huesca
+03,Sobrarbe,22114,Gistaín,22,Huesca
+03,Sobrarbe,22133,Labuerda,22,Huesca
+03,Sobrarbe,22144,Laspuña,22,Huesca
+03,Sobrarbe,22168,Palo,22,Huesca
+03,Sobrarbe,22182,Plan,22,Huesca
+03,Sobrarbe,22189,Puértolas,22,Huesca
+03,Sobrarbe,22190,Pueyo de Araguás (El),22,Huesca
+03,Sobrarbe,22207,San Juan de Plan,22,Huesca
+03,Sobrarbe,22227,Tella-Sin,22,Huesca
+03,Sobrarbe,22230,Torla-Ordesa,22,Huesca
+03,Sobrarbe,22907,Aínsa-Sobrarbe,22,Huesca
+04,Ribagorza,22035,Arén,22,Huesca
+04,Ribagorza,22053,Benabarre,22,Huesca
+04,Ribagorza,22054,Benasque,22,Huesca
+04,Ribagorza,22062,Bisaurri,22,Huesca
+04,Ribagorza,22067,Bonansa,22,Huesca
+04,Ribagorza,22074,Campo,22,Huesca
+04,Ribagorza,22080,Capella,22,Huesca
+04,Ribagorza,22084,Castejón de Sos,22,Huesca
+04,Ribagorza,22087,Castigaleu,22,Huesca
+04,Ribagorza,22095,Chía,22,Huesca
+04,Ribagorza,22105,Estopiñán del Castillo,22,Huesca
+04,Ribagorza,22111,Foradada del Toscar,22,Huesca
+04,Ribagorza,22117,Graus,22,Huesca
+04,Ribagorza,22129,Isábena,22,Huesca
+04,Ribagorza,22142,Lascuarre,22,Huesca
+04,Ribagorza,22143,Laspaúles,22,Huesca
+04,Ribagorza,22155,Monesma y Cajigar,22,Huesca
+04,Ribagorza,22157,Montanuy,22,Huesca
+04,Ribagorza,22177,Perarrúa,22,Huesca
+04,Ribagorza,22187,Puebla de Castro (La),22,Huesca
+04,Ribagorza,22188,Puente de Montañana,22,Huesca
+04,Ribagorza,22200,Sahún,22,Huesca
+04,Ribagorza,22212,Santaliestra y San Quílez,22,Huesca
+04,Ribagorza,22214,Secastilla,22,Huesca
+04,Ribagorza,22215,Seira,22,Huesca
+04,Ribagorza,22221,Sesué,22,Huesca
+04,Ribagorza,22223,Sopeira,22,Huesca
+04,Ribagorza,22229,Tolva,22,Huesca
+04,Ribagorza,22233,Torre la Ribera,22,Huesca
+04,Ribagorza,22243,Valle de Bardají,22,Huesca
+04,Ribagorza,22244,Valle de Lierp,22,Huesca
+04,Ribagorza,22246,Beranuy,22,Huesca
+04,Ribagorza,22247,Viacamp y Litera,22,Huesca
+04,Ribagorza,22249,Villanova,22,Huesca
+05,Cinco Villas,50033,Ardisa,50,Zaragoza
+05,Cinco Villas,50036,Asín,50,Zaragoza
+05,Cinco Villas,50041,Bagüés,50,Zaragoza
+05,Cinco Villas,50051,Biota,50,Zaragoza
+05,Cinco Villas,50077,Castejón de Valdejasa,50,Zaragoza
+05,Cinco Villas,50078,Castiliscar,50,Zaragoza
+05,Cinco Villas,50095,Ejea de los Caballeros,50,Zaragoza
+05,Cinco Villas,50100,Erla,50,Zaragoza
+05,Cinco Villas,50109,Frago (El),50,Zaragoza
+05,Cinco Villas,50128,Isuerre,50,Zaragoza
+05,Cinco Villas,50135,Layana,50,Zaragoza
+05,Cinco Villas,50142,Lobera de Onsella,50,Zaragoza
+05,Cinco Villas,50144,Longás,50,Zaragoza
+05,Cinco Villas,50148,Luesia,50,Zaragoza
+05,Cinco Villas,50151,Luna,50,Zaragoza
+05,Cinco Villas,50186,Navardún,50,Zaragoza
+05,Cinco Villas,50197,Orés,50,Zaragoza
+05,Cinco Villas,50205,Pedrosas (Las),50,Zaragoza
+05,Cinco Villas,50207,Piedratajada,50,Zaragoza
+05,Cinco Villas,50210,Pintanos (Los),50,Zaragoza
+05,Cinco Villas,50220,Puendeluna,50,Zaragoza
+05,Cinco Villas,50230,Sádaba,50,Zaragoza
+05,Cinco Villas,50244,Sierra de Luna,50,Zaragoza
+05,Cinco Villas,50248,Sos del Rey Católico,50,Zaragoza
+05,Cinco Villas,50252,Tauste,50,Zaragoza
+05,Cinco Villas,50267,Uncastillo,50,Zaragoza
+05,Cinco Villas,50268,Undués de Lerda,50,Zaragoza
+05,Cinco Villas,50270,Urriés,50,Zaragoza
+05,Cinco Villas,50276,Valpalmas,50,Zaragoza
+05,Cinco Villas,50901,Biel,50,Zaragoza
+05,Cinco Villas,50902,Marracos,50,Zaragoza
+06,Hoya de Huesca / Plana de Uesca,22004,Agüero,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22011,Albero Alto,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22014,Alcalá de Gurrea,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22015,Alcalá del Obispo,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22019,Alerre,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22021,Almudévar,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22027,Angüés,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22029,Antillón,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22036,Argavieso,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22037,Arguis,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22039,Ayerbe,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22047,Banastás,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22063,Biscarrués,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22064,Blecua y Torres,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22081,Casbas de Huesca,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22096,Chimillas,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22119,Gurrea de Gállego,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22125,Huesca,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22126,Ibieca,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22127,Igriés,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22149,Loarre,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22150,Loporzano,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22151,Loscorrales,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22156,Monflorite-Lascasas,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22162,Novales,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22163,Nueno,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22173,Peñas de Riglos (Las),22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22178,Pertusa,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22181,Piracés,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22195,Quicena,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22203,Salillas,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22220,Sesa,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22222,Siétamo,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22228,Tierz,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22239,Tramaced,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22248,Vicién,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22904,Sotonera (La),22,Huesca
+06,Hoya de Huesca / Plana de Uesca,22905,Lupiñén-Ortilla,22,Huesca
+06,Hoya de Huesca / Plana de Uesca,50185,Murillo de Gállego,50,Zaragoza
+06,Hoya de Huesca / Plana de Uesca,50238,Santa Eulalia de Gállego,50,Zaragoza
+07,Somontano de Barbastro,22001,Abiego,22,Huesca
+07,Somontano de Barbastro,22003,Adahuesca,22,Huesca
+07,Somontano de Barbastro,22024,Alquézar,22,Huesca
+07,Somontano de Barbastro,22041,Azara,22,Huesca
+07,Somontano de Barbastro,22042,Azlor,22,Huesca
+07,Somontano de Barbastro,22048,Barbastro,22,Huesca
+07,Somontano de Barbastro,22050,Barbuñales,22,Huesca
+07,Somontano de Barbastro,22055,Berbegal,22,Huesca
+07,Somontano de Barbastro,22058,Bierge,22,Huesca
+07,Somontano de Barbastro,22082,Castejón del Puente,22,Huesca
+07,Somontano de Barbastro,22088,Castillazuelo,22,Huesca
+07,Somontano de Barbastro,22090,Colungo,22,Huesca
+07,Somontano de Barbastro,22102,Estada,22,Huesca
+07,Somontano de Barbastro,22103,Estadilla,22,Huesca
+07,Somontano de Barbastro,22115,Grado (El),22,Huesca
+07,Somontano de Barbastro,22128,Ilche,22,Huesca
+07,Somontano de Barbastro,22135,Laluenga,22,Huesca
+07,Somontano de Barbastro,22139,Laperdiguera,22,Huesca
+07,Somontano de Barbastro,22141,Lascellas-Ponzano,22,Huesca
+07,Somontano de Barbastro,22160,Naval,22,Huesca
+07,Somontano de Barbastro,22164,Olvena,22,Huesca
+07,Somontano de Barbastro,22174,Peralta de Alcofea,22,Huesca
+07,Somontano de Barbastro,22176,Peraltilla,22,Huesca
+07,Somontano de Barbastro,22186,Pozán de Vero,22,Huesca
+07,Somontano de Barbastro,22201,Salas Altas,22,Huesca
+07,Somontano de Barbastro,22202,Salas Bajas,22,Huesca
+07,Somontano de Barbastro,22235,Torres de Alcanadre,22,Huesca
+07,Somontano de Barbastro,22906,Santa María de Dulcis,22,Huesca
+07,Somontano de Barbastro,22908,Hoz y Costeán,22,Huesca
+08,Cinca Medio,22007,Albalate de Cinca,22,Huesca
+08,Cinca Medio,22017,Alcolea de Cinca,22,Huesca
+08,Cinca Medio,22020,Alfántega,22,Huesca
+08,Cinca Medio,22022,Almunia de San Juan,22,Huesca
+08,Cinca Medio,22060,Binaced,22,Huesca
+08,Cinca Medio,22110,Fonz,22,Huesca
+08,Cinca Medio,22158,Monzón,22,Huesca
+08,Cinca Medio,22193,Pueyo de Santa Cruz,22,Huesca
+08,Cinca Medio,22903,San Miguel del Cinca,22,Huesca
+09,La Litera / La Llitera,22009,Albelda,22,Huesca
+09,La Litera / La Llitera,22016,Alcampell,22,Huesca
+09,La Litera / La Llitera,22025,Altorricón,22,Huesca
+09,La Litera / La Llitera,22040,Azanuy-Alins,22,Huesca
+09,La Litera / La Llitera,22043,Baells,22,Huesca
+09,La Litera / La Llitera,22045,Baldellou,22,Huesca
+09,La Litera / La Llitera,22061,Binéfar,22,Huesca
+09,La Litera / La Llitera,22075,Camporrells,22,Huesca
+09,La Litera / La Llitera,22089,Castillonroy,22,Huesca
+09,La Litera / La Llitera,22099,Esplús,22,Huesca
+09,La Litera / La Llitera,22175,Peralta de Calasanz,22,Huesca
+09,La Litera / La Llitera,22205,San Esteban de Litera,22,Huesca
+09,La Litera / La Llitera,22225,Tamarite de Litera,22,Huesca
+09,La Litera / La Llitera,22909,Vencillón,22,Huesca
+10,Los Monegros,22008,Albalatillo,22,Huesca
+10,Los Monegros,22012,Albero Bajo,22,Huesca
+10,Los Monegros,22013,Alberuela de Tubo,22,Huesca
+10,Los Monegros,22018,Alcubierre,22,Huesca
+10,Los Monegros,22023,Almuniente,22,Huesca
+10,Los Monegros,22049,Barbués,22,Huesca
+10,Los Monegros,22079,Capdesaso,22,Huesca
+10,Los Monegros,22083,Castejón de Monegros,22,Huesca
+10,Los Monegros,22085,Castelflorite,22,Huesca
+10,Los Monegros,22116,Grañén,22,Huesca
+10,Los Monegros,22124,Huerto,22,Huesca
+10,Los Monegros,22136,Lalueza,22,Huesca
+10,Los Monegros,22137,Lanaja,22,Huesca
+10,Los Monegros,22172,Peñalba,22,Huesca
+10,Los Monegros,22184,Poleñino,22,Huesca
+10,Los Monegros,22197,Robres,22,Huesca
+10,Los Monegros,22206,Sangarrén,22,Huesca
+10,Los Monegros,22213,Sariñena,22,Huesca
+10,Los Monegros,22217,Sena,22,Huesca
+10,Los Monegros,22218,Senés de Alcubierre,22,Huesca
+10,Los Monegros,22226,Tardienta,22,Huesca
+10,Los Monegros,22232,Torralba de Aragón,22,Huesca
+10,Los Monegros,22236,Torres de Barbués,22,Huesca
+10,Los Monegros,22242,Valfarta,22,Huesca
+10,Los Monegros,22251,Villanueva de Sigena,22,Huesca
+10,Los Monegros,50022,Almolda (La),50,Zaragoza
+10,Los Monegros,50059,Bujaraloz,50,Zaragoza
+10,Los Monegros,50104,Farlete,50,Zaragoza
+10,Los Monegros,50137,Leciñena,50,Zaragoza
+10,Los Monegros,50170,Monegrillo,50,Zaragoza
+10,Los Monegros,50206,Perdiguera,50,Zaragoza
+11,Bajo Cinca / Baix Cinca,22046,Ballobar,22,Huesca
+11,Bajo Cinca / Baix Cinca,22052,Belver de Cinca,22,Huesca
+11,Bajo Cinca / Baix Cinca,22077,Candasnos,22,Huesca
+11,Bajo Cinca / Baix Cinca,22094,Chalamera,22,Huesca
+11,Bajo Cinca / Baix Cinca,22112,Fraga,22,Huesca
+11,Bajo Cinca / Baix Cinca,22165,Ontiñena,22,Huesca
+11,Bajo Cinca / Baix Cinca,22167,Osso de Cinca,22,Huesca
+11,Bajo Cinca / Baix Cinca,22234,Torrente de Cinca,22,Huesca
+11,Bajo Cinca / Baix Cinca,22245,Velilla de Cinca,22,Huesca
+11,Bajo Cinca / Baix Cinca,22254,Zaidín,22,Huesca
+11,Bajo Cinca / Baix Cinca,50165,Mequinenza,50,Zaragoza
+12,Tarazona y el Moncayo,50014,Alcalá de Moncayo,50,Zaragoza
+12,Tarazona y el Moncayo,50030,Añón de Moncayo,50,Zaragoza
+12,Tarazona y el Moncayo,50063,Buste (El),50,Zaragoza
+12,Tarazona y el Moncayo,50106,Fayos (Los),50,Zaragoza
+12,Tarazona y el Moncayo,50122,Grisel,50,Zaragoza
+12,Tarazona y el Moncayo,50140,Litago,50,Zaragoza
+12,Tarazona y el Moncayo,50141,Lituénigo,50,Zaragoza
+12,Tarazona y el Moncayo,50157,Malón,50,Zaragoza
+12,Tarazona y el Moncayo,50190,Novallas,50,Zaragoza
+12,Tarazona y el Moncayo,50234,San Martín de la Virgen de Moncayo,50,Zaragoza
+12,Tarazona y el Moncayo,50237,Santa Cruz de Moncayo,50,Zaragoza
+12,Tarazona y el Moncayo,50251,Tarazona,50,Zaragoza
+12,Tarazona y el Moncayo,50261,Torrellas,50,Zaragoza
+12,Tarazona y el Moncayo,50265,Trasmoz,50,Zaragoza
+12,Tarazona y el Moncayo,50280,Vera de Moncayo,50,Zaragoza
+12,Tarazona y el Moncayo,50281,Vierlas,50,Zaragoza
+13,Campo de Borja,50003,Agón,50,Zaragoza
+13,Campo de Borja,50006,Ainzón,50,Zaragoza
+13,Campo de Borja,50010,Alberite de San Juan,50,Zaragoza
+13,Campo de Borja,50011,Albeta,50,Zaragoza
+13,Campo de Borja,50027,Ambel,50,Zaragoza
+13,Campo de Borja,50052,Bisimbre,50,Zaragoza
+13,Campo de Borja,50055,Borja,50,Zaragoza
+13,Campo de Borja,50060,Bulbuente,50,Zaragoza
+13,Campo de Borja,50061,Bureta,50,Zaragoza
+13,Campo de Borja,50111,Fréscano,50,Zaragoza
+13,Campo de Borja,50113,Fuendejalón,50,Zaragoza
+13,Campo de Borja,50153,Magallón,50,Zaragoza
+13,Campo de Borja,50156,Maleján,50,Zaragoza
+13,Campo de Borja,50160,Mallén,50,Zaragoza
+13,Campo de Borja,50191,Novillas,50,Zaragoza
+13,Campo de Borja,50216,Pozuelo de Aragón,50,Zaragoza
+13,Campo de Borja,50249,Tabuenca,50,Zaragoza
+13,Campo de Borja,50250,Talamantes,50,Zaragoza
+14,Aranda,50031,Aranda de Moncayo,50,Zaragoza
+14,Aranda,50057,Brea de Aragón,50,Zaragoza
+14,Aranda,50069,Calcena,50,Zaragoza
+14,Aranda,50121,Gotor,50,Zaragoza
+14,Aranda,50126,Illueca,50,Zaragoza
+14,Aranda,50130,Jarque de Moncayo,50,Zaragoza
+14,Aranda,50166,Mesones de Isuela,50,Zaragoza
+14,Aranda,50198,Oseja,50,Zaragoza
+14,Aranda,50214,Pomer,50,Zaragoza
+14,Aranda,50221,Purujosa,50,Zaragoza
+14,Aranda,50243,Sestrica,50,Zaragoza
+14,Aranda,50254,Tierga,50,Zaragoza
+14,Aranda,50266,Trasobares,50,Zaragoza
+15,Ribera Alta del Ebro,50008,Alagón,50,Zaragoza
+15,Ribera Alta del Ebro,50013,Alcalá de Ebro,50,Zaragoza
+15,Ribera Alta del Ebro,50043,Bárboles,50,Zaragoza
+15,Ribera Alta del Ebro,50053,Boquiñeni,50,Zaragoza
+15,Ribera Alta del Ebro,50064,Cabañas de Ebro,50,Zaragoza
+15,Ribera Alta del Ebro,50107,Figueruelas,50,Zaragoza
+15,Ribera Alta del Ebro,50118,Gallur,50,Zaragoza
+15,Ribera Alta del Ebro,50123,Grisén,50,Zaragoza
+15,Ribera Alta del Ebro,50132,Joyosa (La),50,Zaragoza
+15,Ribera Alta del Ebro,50147,Luceni,50,Zaragoza
+15,Ribera Alta del Ebro,50204,Pedrola,50,Zaragoza
+15,Ribera Alta del Ebro,50209,Pinseque,50,Zaragoza
+15,Ribera Alta del Ebro,50212,Pleitas,50,Zaragoza
+15,Ribera Alta del Ebro,50217,Pradilla de Ebro,50,Zaragoza
+15,Ribera Alta del Ebro,50223,Remolinos,50,Zaragoza
+15,Ribera Alta del Ebro,50247,Sobradiel,50,Zaragoza
+15,Ribera Alta del Ebro,50262,Torres de Berrellén,50,Zaragoza
+16,Valdejalón,50024,Almonacid de la Sierra,50,Zaragoza
+16,Valdejalón,50025,Almunia de Doña Godina (La),50,Zaragoza
+16,Valdejalón,50026,Alpartir,50,Zaragoza
+16,Valdejalón,50044,Bardallur,50,Zaragoza
+16,Valdejalón,50068,Calatorao,50,Zaragoza
+16,Valdejalón,50093,Chodes,50,Zaragoza
+16,Valdejalón,50099,Épila,50,Zaragoza
+16,Valdejalón,50146,Lucena de Jalón,50,Zaragoza
+16,Valdejalón,50150,Lumpiaque,50,Zaragoza
+16,Valdejalón,50175,Morata de Jalón,50,Zaragoza
+16,Valdejalón,50182,Muela (La),50,Zaragoza
+16,Valdejalón,50211,Plasencia de Jalón,50,Zaragoza
+16,Valdejalón,50225,Ricla,50,Zaragoza
+16,Valdejalón,50228,Rueda de Jalón,50,Zaragoza
+16,Valdejalón,50231,Salillas de Jalón,50,Zaragoza
+16,Valdejalón,50236,Santa Cruz de Grío,50,Zaragoza
+16,Valdejalón,50269,Urrea de Jalón,50,Zaragoza
+17,Central,50017,Alfajarín,50,Zaragoza
+17,Central,50056,Botorrita,50,Zaragoza
+17,Central,50062,Burgo de Ebro (El),50,Zaragoza
+17,Central,50066,Cadrete,50,Zaragoza
+17,Central,50089,Cuarte de Huerva,50,Zaragoza
+17,Central,50115,Fuentes de Ebro,50,Zaragoza
+17,Central,50131,Jaulín,50,Zaragoza
+17,Central,50163,María de Huerva,50,Zaragoza
+17,Central,50164,Mediana de Aragón,50,Zaragoza
+17,Central,50180,Mozota,50,Zaragoza
+17,Central,50193,Nuez de Ebro,50,Zaragoza
+17,Central,50199,Osera de Ebro,50,Zaragoza
+17,Central,50203,Pastriz,50,Zaragoza
+17,Central,50219,Puebla de Alfindén (La),50,Zaragoza
+17,Central,50235,San Mateo de Gállego,50,Zaragoza
+17,Central,50272,Utebo,50,Zaragoza
+17,Central,50285,Villafranca de Ebro,50,Zaragoza
+17,Central,50288,Villanueva de Gállego,50,Zaragoza
+17,Central,50297,Zaragoza,50,Zaragoza
+17,Central,50298,Zuera,50,Zaragoza
+17,Central,50903,Villamayor de Gállego,50,Zaragoza
+18,Ribera Baja del Ebro,50012,Alborge,50,Zaragoza
+18,Ribera Baja del Ebro,50019,Alforque,50,Zaragoza
+18,Ribera Baja del Ebro,50083,Cinco Olivas,50,Zaragoza
+18,Ribera Baja del Ebro,50101,Escatrón,50,Zaragoza
+18,Ribera Baja del Ebro,50119,Gelsa,50,Zaragoza
+18,Ribera Baja del Ebro,50208,Pina de Ebro,50,Zaragoza
+18,Ribera Baja del Ebro,50222,Quinto,50,Zaragoza
+18,Ribera Baja del Ebro,50240,Sástago,50,Zaragoza
+18,Ribera Baja del Ebro,50278,Velilla de Ebro,50,Zaragoza
+18,Ribera Baja del Ebro,50296,Zaida (La),50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50074,Caspe,50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50092,Chiprana,50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50102,Fabara,50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50105,Fayón,50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50152,Maella,50,Zaragoza
+19,Bajo Aragón-Caspe / Baix Aragó-Casp,50189,Nonaspe,50,Zaragoza
+20,Comunidad de Calatayud,50001,Abanto,50,Zaragoza
+20,Comunidad de Calatayud,50009,Alarba,50,Zaragoza
+20,Comunidad de Calatayud,50015,Alconchel de Ariza,50,Zaragoza
+20,Comunidad de Calatayud,50020,Alhama de Aragón,50,Zaragoza
+20,Comunidad de Calatayud,50029,Aniñón,50,Zaragoza
+20,Comunidad de Calatayud,50032,Arándiga,50,Zaragoza
+20,Comunidad de Calatayud,50034,Ariza,50,Zaragoza
+20,Comunidad de Calatayud,50038,Ateca,50,Zaragoza
+20,Comunidad de Calatayud,50046,Belmonte de Gracián,50,Zaragoza
+20,Comunidad de Calatayud,50047,Berdejo,50,Zaragoza
+20,Comunidad de Calatayud,50050,Bijuesca,50,Zaragoza
+20,Comunidad de Calatayud,50054,Bordalba,50,Zaragoza
+20,Comunidad de Calatayud,50058,Bubierca,50,Zaragoza
+20,Comunidad de Calatayud,50065,Cabolafuente,50,Zaragoza
+20,Comunidad de Calatayud,50067,Calatayud,50,Zaragoza
+20,Comunidad de Calatayud,50070,Calmarza,50,Zaragoza
+20,Comunidad de Calatayud,50071,Campillo de Aragón,50,Zaragoza
+20,Comunidad de Calatayud,50072,Carenas,50,Zaragoza
+20,Comunidad de Calatayud,50075,Castejón de Alarba,50,Zaragoza
+20,Comunidad de Calatayud,50076,Castejón de las Armas,50,Zaragoza
+20,Comunidad de Calatayud,50079,Cervera de la Cañada,50,Zaragoza
+20,Comunidad de Calatayud,50081,Cetina,50,Zaragoza
+20,Comunidad de Calatayud,50082,Cimballa,50,Zaragoza
+20,Comunidad de Calatayud,50084,Clarés de Ribota,50,Zaragoza
+20,Comunidad de Calatayud,50086,Codos,50,Zaragoza
+20,Comunidad de Calatayud,50087,Contamina,50,Zaragoza
+20,Comunidad de Calatayud,50096,Embid de Ariza,50,Zaragoza
+20,Comunidad de Calatayud,50110,Frasno (El),50,Zaragoza
+20,Comunidad de Calatayud,50116,Fuentes de Jiloca,50,Zaragoza
+20,Comunidad de Calatayud,50120,Godojos,50,Zaragoza
+20,Comunidad de Calatayud,50125,Ibdes,50,Zaragoza
+20,Comunidad de Calatayud,50129,Jaraba,50,Zaragoza
+20,Comunidad de Calatayud,50155,Malanquilla,50,Zaragoza
+20,Comunidad de Calatayud,50159,Maluenda,50,Zaragoza
+20,Comunidad de Calatayud,50162,Mara,50,Zaragoza
+20,Comunidad de Calatayud,50169,Miedes de Aragón,50,Zaragoza
+20,Comunidad de Calatayud,50172,Monreal de Ariza,50,Zaragoza
+20,Comunidad de Calatayud,50173,Monterde,50,Zaragoza
+20,Comunidad de Calatayud,50174,Montón,50,Zaragoza
+20,Comunidad de Calatayud,50176,Morata de Jiloca,50,Zaragoza
+20,Comunidad de Calatayud,50177,Morés,50,Zaragoza
+20,Comunidad de Calatayud,50178,Moros,50,Zaragoza
+20,Comunidad de Calatayud,50183,Munébrega,50,Zaragoza
+20,Comunidad de Calatayud,50187,Nigüella,50,Zaragoza
+20,Comunidad de Calatayud,50192,Nuévalos,50,Zaragoza
+20,Comunidad de Calatayud,50194,Olvés,50,Zaragoza
+20,Comunidad de Calatayud,50196,Orera,50,Zaragoza
+20,Comunidad de Calatayud,50201,Paracuellos de Jiloca,50,Zaragoza
+20,Comunidad de Calatayud,50202,Paracuellos de la Ribera,50,Zaragoza
+20,Comunidad de Calatayud,50215,Pozuel de Ariza,50,Zaragoza
+20,Comunidad de Calatayud,50229,Ruesca,50,Zaragoza
+20,Comunidad de Calatayud,50241,Saviñán,50,Zaragoza
+20,Comunidad de Calatayud,50242,Sediles,50,Zaragoza
+20,Comunidad de Calatayud,50246,Sisamón,50,Zaragoza
+20,Comunidad de Calatayud,50253,Terrer,50,Zaragoza
+20,Comunidad de Calatayud,50255,Tobed,50,Zaragoza
+20,Comunidad de Calatayud,50257,Torralba de Ribota,50,Zaragoza
+20,Comunidad de Calatayud,50259,Torrehermosa,50,Zaragoza
+20,Comunidad de Calatayud,50260,Torrelapaja,50,Zaragoza
+20,Comunidad de Calatayud,50263,Torrijo de la Cañada,50,Zaragoza
+20,Comunidad de Calatayud,50277,Valtorres,50,Zaragoza
+20,Comunidad de Calatayud,50279,Velilla de Jiloca,50,Zaragoza
+20,Comunidad de Calatayud,50282,Vilueña (La),50,Zaragoza
+20,Comunidad de Calatayud,50284,Villafeliche,50,Zaragoza
+20,Comunidad de Calatayud,50286,Villalba de Perejil,50,Zaragoza
+20,Comunidad de Calatayud,50287,Villalengua,50,Zaragoza
+20,Comunidad de Calatayud,50293,Villarroya de la Sierra,50,Zaragoza
+21,Campo de Cariñena,50004,Aguarón,50,Zaragoza
+21,Campo de Cariñena,50005,Aguilón,50,Zaragoza
+21,Campo de Cariñena,50007,Aladrén,50,Zaragoza
+21,Campo de Cariñena,50018,Alfamén,50,Zaragoza
+21,Campo de Cariñena,50073,Cariñena,50,Zaragoza
+21,Campo de Cariñena,50088,Cosuenda,50,Zaragoza
+21,Campo de Cariñena,50098,Encinacorba,50,Zaragoza
+21,Campo de Cariñena,50143,Longares,50,Zaragoza
+21,Campo de Cariñena,50167,Mezalocha,50,Zaragoza
+21,Campo de Cariñena,50181,Muel,50,Zaragoza
+21,Campo de Cariñena,50200,Paniza,50,Zaragoza
+21,Campo de Cariñena,50264,Tosos,50,Zaragoza
+21,Campo de Cariñena,50290,Villanueva de Huerva,50,Zaragoza
+21,Campo de Cariñena,50295,Vistabella,50,Zaragoza
+22,Campo de Belchite,50021,Almochuel,50,Zaragoza
+22,Campo de Belchite,50023,Almonacid de la Cuba,50,Zaragoza
+22,Campo de Belchite,50039,Azuara,50,Zaragoza
+22,Campo de Belchite,50045,Belchite,50,Zaragoza
+22,Campo de Belchite,50085,Codo,50,Zaragoza
+22,Campo de Belchite,50114,Fuendetodos,50,Zaragoza
+22,Campo de Belchite,50133,Lagata,50,Zaragoza
+22,Campo de Belchite,50136,Lécera,50,Zaragoza
+22,Campo de Belchite,50139,Letux,50,Zaragoza
+22,Campo de Belchite,50171,Moneva,50,Zaragoza
+22,Campo de Belchite,50179,Moyuela,50,Zaragoza
+22,Campo de Belchite,50213,Plenas,50,Zaragoza
+22,Campo de Belchite,50218,Puebla de Albortón,50,Zaragoza
+22,Campo de Belchite,50233,Samper del Salz,50,Zaragoza
+22,Campo de Belchite,50275,Valmadrid,50,Zaragoza
+23,Bajo Martín,44008,Albalate del Arzobispo,44,Teruel
+23,Bajo Martín,44031,Azaila,44,Teruel
+23,Bajo Martín,44067,Castelnou,44,Teruel
+23,Bajo Martín,44122,Híjar,44,Teruel
+23,Bajo Martín,44129,Jatiel,44,Teruel
+23,Bajo Martín,44191,Puebla de Híjar (La),44,Teruel
+23,Bajo Martín,44205,Samper de Calanda,44,Teruel
+23,Bajo Martín,44237,Urrea de Gaén,44,Teruel
+23,Bajo Martín,44265,Vinaceite,44,Teruel
+24,Campo de Daroca,50002,Acered,50,Zaragoza
+24,Campo de Daroca,50016,Aldehuela de Liestos,50,Zaragoza
+24,Campo de Daroca,50028,Anento,50,Zaragoza
+24,Campo de Daroca,50037,Atea,50,Zaragoza
+24,Campo de Daroca,50040,Badules,50,Zaragoza
+24,Campo de Daroca,50042,Balconchán,50,Zaragoza
+24,Campo de Daroca,50048,Berrueco,50,Zaragoza
+24,Campo de Daroca,50080,Cerveruela,50,Zaragoza
+24,Campo de Daroca,50090,Cubel,50,Zaragoza
+24,Campo de Daroca,50091,Cuerlas (Las),50,Zaragoza
+24,Campo de Daroca,50094,Daroca,50,Zaragoza
+24,Campo de Daroca,50108,Fombuena,50,Zaragoza
+24,Campo de Daroca,50117,Gallocanta,50,Zaragoza
+24,Campo de Daroca,50124,Herrera de los Navarros,50,Zaragoza
+24,Campo de Daroca,50134,Langa del Castillo,50,Zaragoza
+24,Campo de Daroca,50138,Lechón,50,Zaragoza
+24,Campo de Daroca,50149,Luesma,50,Zaragoza
+24,Campo de Daroca,50154,Mainar,50,Zaragoza
+24,Campo de Daroca,50161,Manchones,50,Zaragoza
+24,Campo de Daroca,50184,Murero,50,Zaragoza
+24,Campo de Daroca,50188,Nombrevilla,50,Zaragoza
+24,Campo de Daroca,50195,Orcajo,50,Zaragoza
+24,Campo de Daroca,50224,Retascón,50,Zaragoza
+24,Campo de Daroca,50227,Romanos,50,Zaragoza
+24,Campo de Daroca,50239,Santed,50,Zaragoza
+24,Campo de Daroca,50256,Torralba de los Frailes,50,Zaragoza
+24,Campo de Daroca,50258,Torralbilla,50,Zaragoza
+24,Campo de Daroca,50271,Used,50,Zaragoza
+24,Campo de Daroca,50273,Valdehorna,50,Zaragoza
+24,Campo de Daroca,50274,Val de San Martín,50,Zaragoza
+24,Campo de Daroca,50283,Villadoz,50,Zaragoza
+24,Campo de Daroca,50289,Villanueva de Jiloca,50,Zaragoza
+24,Campo de Daroca,50291,Villar de los Navarros,50,Zaragoza
+24,Campo de Daroca,50292,Villarreal de Huerva,50,Zaragoza
+24,Campo de Daroca,50294,Villarroya del Campo,50,Zaragoza
+25,Jiloca,44023,Allueva,44,Teruel
+25,Jiloca,44032,Bádenas,44,Teruel
+25,Jiloca,44033,Báguena,44,Teruel
+25,Jiloca,44034,Bañón,44,Teruel
+25,Jiloca,44035,Barrachina,44,Teruel
+25,Jiloca,44036,Bea,44,Teruel
+25,Jiloca,44039,Bello,44,Teruel
+25,Jiloca,44042,Blancas,44,Teruel
+25,Jiloca,44046,Bueña,44,Teruel
+25,Jiloca,44047,Burbáguena,44,Teruel
+25,Jiloca,44050,Calamocha,44,Teruel
+25,Jiloca,44056,Caminreal,44,Teruel
+25,Jiloca,44065,Castejón de Tornos,44,Teruel
+25,Jiloca,44085,Cosa,44,Teruel
+25,Jiloca,44090,Cucalón,44,Teruel
+25,Jiloca,44101,Ferreruela de Huerva,44,Teruel
+25,Jiloca,44102,Fonfría,44,Teruel
+25,Jiloca,44112,Fuentes Claras,44,Teruel
+25,Jiloca,44132,Lagueruela,44,Teruel
+25,Jiloca,44133,Lanzuela,44,Teruel
+25,Jiloca,44138,Loscos,44,Teruel
+25,Jiloca,44152,Monforte de Moyuela,44,Teruel
+25,Jiloca,44153,Monreal del Campo,44,Teruel
+25,Jiloca,44164,Nogueras,44,Teruel
+25,Jiloca,44168,Odón,44,Teruel
+25,Jiloca,44169,Ojos Negros,44,Teruel
+25,Jiloca,44180,Peracense,44,Teruel
+25,Jiloca,44190,Pozuel del Campo,44,Teruel
+25,Jiloca,44200,Rubielos de la Cérida,44,Teruel
+25,Jiloca,44207,San Martín del Río,44,Teruel
+25,Jiloca,44208,Santa Cruz de Nogueras,44,Teruel
+25,Jiloca,44213,Singra,44,Teruel
+25,Jiloca,44219,Tornos,44,Teruel
+25,Jiloca,44220,Torralba de los Sisones,44,Teruel
+25,Jiloca,44222,Torrecilla del Rebollar,44,Teruel
+25,Jiloca,44227,Torre los Negros,44,Teruel
+25,Jiloca,44232,Torrijo del Campo,44,Teruel
+25,Jiloca,44251,Villafranca del Campo,44,Teruel
+25,Jiloca,44252,Villahermosa del Campo,44,Teruel
+25,Jiloca,44258,Villar del Salz,44,Teruel
+26,Cuencas Mineras,44011,Alcaine,44,Teruel
+26,Cuencas Mineras,44017,Aliaga,44,Teruel
+26,Cuencas Mineras,44024,Anadón,44,Teruel
+26,Cuencas Mineras,44043,Blesa,44,Teruel
+26,Cuencas Mineras,44063,Cañizar del Olivar,44,Teruel
+26,Cuencas Mineras,44066,Castel de Cabra,44,Teruel
+26,Cuencas Mineras,44084,Cortes de Aragón,44,Teruel
+26,Cuencas Mineras,44093,Cuevas de Almudén,44,Teruel
+26,Cuencas Mineras,44099,Escucha,44,Teruel
+26,Cuencas Mineras,44110,Fuenferrada,44,Teruel
+26,Cuencas Mineras,44123,Hinojosa de Jarque,44,Teruel
+26,Cuencas Mineras,44124,Hoz de la Vieja (La),44,Teruel
+26,Cuencas Mineras,44125,Huesa del Común,44,Teruel
+26,Cuencas Mineras,44128,Jarque de la Val,44,Teruel
+26,Cuencas Mineras,44131,Josa,44,Teruel
+26,Cuencas Mineras,44142,Maicas,44,Teruel
+26,Cuencas Mineras,44144,Martín del Río,44,Teruel
+26,Cuencas Mineras,44148,Mezquita de Jarque,44,Teruel
+26,Cuencas Mineras,44155,Montalbán,44,Teruel
+26,Cuencas Mineras,44161,Muniesa,44,Teruel
+26,Cuencas Mineras,44167,Obón,44,Teruel
+26,Cuencas Mineras,44176,Palomar de Arroyos,44,Teruel
+26,Cuencas Mineras,44184,Plou,44,Teruel
+26,Cuencas Mineras,44203,Salcedillo,44,Teruel
+26,Cuencas Mineras,44211,Segura de los Baños,44,Teruel
+26,Cuencas Mineras,44224,Torre de las Arcas,44,Teruel
+26,Cuencas Mineras,44238,Utrillas,44,Teruel
+26,Cuencas Mineras,44256,Villanueva del Rebollar de la Sierra,44,Teruel
+26,Cuencas Mineras,44267,Vivel del Río Martín,44,Teruel
+26,Cuencas Mineras,44268,Zoma (La),44,Teruel
+27,Andorra-Sierra de Arcos,44006,Alacón,44,Teruel
+27,Andorra-Sierra de Arcos,44022,Alloza,44,Teruel
+27,Andorra-Sierra de Arcos,44025,Andorra,44,Teruel
+27,Andorra-Sierra de Arcos,44029,Ariño,44,Teruel
+27,Andorra-Sierra de Arcos,44087,Crivillén,44,Teruel
+27,Andorra-Sierra de Arcos,44096,Ejulve,44,Teruel
+27,Andorra-Sierra de Arcos,44100,Estercuel,44,Teruel
+27,Andorra-Sierra de Arcos,44116,Gargallo,44,Teruel
+27,Andorra-Sierra de Arcos,44172,Oliete,44,Teruel
+28,Bajo Aragón,44004,Aguaviva,44,Teruel
+28,Bajo Aragón,44013,Alcañiz,44,Teruel
+28,Bajo Aragón,44014,Alcorisa,44,Teruel
+28,Bajo Aragón,44038,Belmonte de San José,44,Teruel
+28,Bajo Aragón,44040,Berge,44,Teruel
+28,Bajo Aragón,44051,Calanda,44,Teruel
+28,Bajo Aragón,44061,Cañada de Verich (La),44,Teruel
+28,Bajo Aragón,44068,Castelserás,44,Teruel
+28,Bajo Aragón,44077,Cerollera (La),44,Teruel
+28,Bajo Aragón,44080,Codoñera (La),44,Teruel
+28,Bajo Aragón,44107,Foz-Calanda,44,Teruel
+28,Bajo Aragón,44118,Ginebrosa (La),44,Teruel
+28,Bajo Aragón,44145,Mas de las Matas,44,Teruel
+28,Bajo Aragón,44146,Mata de los Olmos (La),44,Teruel
+28,Bajo Aragón,44173,Olmos (Los),44,Teruel
+28,Bajo Aragón,44178,Parras de Castellote (Las),44,Teruel
+28,Bajo Aragón,44212,Seno,44,Teruel
+28,Bajo Aragón,44221,Torrecilla de Alcañiz,44,Teruel
+28,Bajo Aragón,44230,Torrevelilla,44,Teruel
+28,Bajo Aragón,44241,Valdealgorfa,44,Teruel
+29,Comunidad de Teruel,44001,Ababuj,44,Teruel
+29,Comunidad de Teruel,44003,Aguatón,44,Teruel
+29,Comunidad de Teruel,44005,Aguilar del Alfambra,44,Teruel
+29,Comunidad de Teruel,44007,Alba,44,Teruel
+29,Comunidad de Teruel,44016,Alfambra,44,Teruel
+29,Comunidad de Teruel,44018,Almohaja,44,Teruel
+29,Comunidad de Teruel,44019,Alobras,44,Teruel
+29,Comunidad de Teruel,44020,Alpeñés,44,Teruel
+29,Comunidad de Teruel,44028,Argente,44,Teruel
+29,Comunidad de Teruel,44053,Camañas,44,Teruel
+29,Comunidad de Teruel,44055,Camarillas,44,Teruel
+29,Comunidad de Teruel,44062,Cañada Vellida,44,Teruel
+29,Comunidad de Teruel,44064,Cascante del Río,44,Teruel
+29,Comunidad de Teruel,44074,Cedrillas,44,Teruel
+29,Comunidad de Teruel,44075,Celadas,44,Teruel
+29,Comunidad de Teruel,44076,Cella,44,Teruel
+29,Comunidad de Teruel,44082,Corbalán,44,Teruel
+29,Comunidad de Teruel,44089,Cubla,44,Teruel
+29,Comunidad de Teruel,44092,Cuervo (El),44,Teruel
+29,Comunidad de Teruel,44094,Cuevas Labradas,44,Teruel
+29,Comunidad de Teruel,44097,Escorihuela,44,Teruel
+29,Comunidad de Teruel,44111,Fuentes Calientes,44,Teruel
+29,Comunidad de Teruel,44115,Galve,44,Teruel
+29,Comunidad de Teruel,44130,Jorcas,44,Teruel
+29,Comunidad de Teruel,44135,Libros,44,Teruel
+29,Comunidad de Teruel,44136,Lidón,44,Teruel
+29,Comunidad de Teruel,44156,Monteagudo del Castillo,44,Teruel
+29,Comunidad de Teruel,44175,Orrios,44,Teruel
+29,Comunidad de Teruel,44177,Pancrudo,44,Teruel
+29,Comunidad de Teruel,44181,Peralejos,44,Teruel
+29,Comunidad de Teruel,44182,Perales del Alfambra,44,Teruel
+29,Comunidad de Teruel,44185,Pobo (El),44,Teruel
+29,Comunidad de Teruel,44195,Rillo,44,Teruel
+29,Comunidad de Teruel,44196,Riodeva,44,Teruel
+29,Comunidad de Teruel,44209,Santa Eulalia,44,Teruel
+29,Comunidad de Teruel,44216,Teruel,44,Teruel
+29,Comunidad de Teruel,44218,Tormón,44,Teruel
+29,Comunidad de Teruel,44226,Torrelacárcel,44,Teruel
+29,Comunidad de Teruel,44228,Torremocha de Jiloca,44,Teruel
+29,Comunidad de Teruel,44234,Tramacastiel,44,Teruel
+29,Comunidad de Teruel,44239,Valacloche,44,Teruel
+29,Comunidad de Teruel,44250,Veguillas de la Sierra,44,Teruel
+29,Comunidad de Teruel,44261,Villarquemado,44,Teruel
+29,Comunidad de Teruel,44263,Villastar,44,Teruel
+29,Comunidad de Teruel,44264,Villel,44,Teruel
+29,Comunidad de Teruel,44266,Visiedo,44,Teruel
+30,Maestrazgo,44021,Allepuz,44,Teruel
+30,Maestrazgo,44044,Bordón,44,Teruel
+30,Maestrazgo,44059,Cantavieja,44,Teruel
+30,Maestrazgo,44060,Cañada de Benatanduz,44,Teruel
+30,Maestrazgo,44071,Castellote,44,Teruel
+30,Maestrazgo,44088,Cuba (La),44,Teruel
+30,Maestrazgo,44106,Fortanete,44,Teruel
+30,Maestrazgo,44126,Iglesuela del Cid (La),44,Teruel
+30,Maestrazgo,44149,Mirambel,44,Teruel
+30,Maestrazgo,44150,Miravete de la Sierra,44,Teruel
+30,Maestrazgo,44151,Molinos,44,Teruel
+30,Maestrazgo,44183,Pitarque,44,Teruel
+30,Maestrazgo,44236,Tronchón,44,Teruel
+30,Maestrazgo,44260,Villarluengo,44,Teruel
+30,Maestrazgo,44262,Villarroya de los Pinares,44,Teruel
+31,Sierra de Albarracín,44009,Albarracín,44,Teruel
+31,Sierra de Albarracín,44041,Bezas,44,Teruel
+31,Sierra de Albarracín,44045,Bronchales,44,Teruel
+31,Sierra de Albarracín,44052,Calomarde,44,Teruel
+31,Sierra de Albarracín,44109,Frías de Albarracín,44,Teruel
+31,Sierra de Albarracín,44117,Gea de Albarracín,44,Teruel
+31,Sierra de Albarracín,44119,Griegos,44,Teruel
+31,Sierra de Albarracín,44120,Guadalaviar,44,Teruel
+31,Sierra de Albarracín,44127,Jabaloyas,44,Teruel
+31,Sierra de Albarracín,44157,Monterde de Albarracín,44,Teruel
+31,Sierra de Albarracín,44159,Moscardón,44,Teruel
+31,Sierra de Albarracín,44163,Noguera de Albarracín,44,Teruel
+31,Sierra de Albarracín,44174,Orihuela del Tremedal,44,Teruel
+31,Sierra de Albarracín,44189,Pozondón,44,Teruel
+31,Sierra de Albarracín,44197,Ródenas,44,Teruel
+31,Sierra de Albarracín,44198,Royuela,44,Teruel
+31,Sierra de Albarracín,44199,Rubiales,44,Teruel
+31,Sierra de Albarracín,44204,Saldón,44,Teruel
+31,Sierra de Albarracín,44215,Terriente,44,Teruel
+31,Sierra de Albarracín,44217,Toril y Masegoso,44,Teruel
+31,Sierra de Albarracín,44229,Torres de Albarracín,44,Teruel
+31,Sierra de Albarracín,44235,Tramacastilla,44,Teruel
+31,Sierra de Albarracín,44243,Valdecuenca,44,Teruel
+31,Sierra de Albarracín,44249,Vallecillo (El),44,Teruel
+31,Sierra de Albarracín,44257,Villar del Cobo,44,Teruel
+32,Gúdar-Javalambre,44002,Abejuela,44,Teruel
+32,Gúdar-Javalambre,44010,Albentosa,44,Teruel
+32,Gúdar-Javalambre,44012,Alcalá de la Selva,44,Teruel
+32,Gúdar-Javalambre,44026,Arcos de las Salinas,44,Teruel
+32,Gúdar-Javalambre,44048,Cabra de Mora,44,Teruel
+32,Gúdar-Javalambre,44054,Camarena de la Sierra,44,Teruel
+32,Gúdar-Javalambre,44070,Castellar (El),44,Teruel
+32,Gúdar-Javalambre,44103,Formiche Alto,44,Teruel
+32,Gúdar-Javalambre,44113,Fuentes de Rubielos,44,Teruel
+32,Gúdar-Javalambre,44121,Gúdar,44,Teruel
+32,Gúdar-Javalambre,44137,Linares de Mora,44,Teruel
+32,Gúdar-Javalambre,44143,Manzanera,44,Teruel
+32,Gúdar-Javalambre,44158,Mora de Rubielos,44,Teruel
+32,Gúdar-Javalambre,44160,Mosqueruela,44,Teruel
+32,Gúdar-Javalambre,44165,Nogueruelas,44,Teruel
+32,Gúdar-Javalambre,44171,Olba,44,Teruel
+32,Gúdar-Javalambre,44192,Puebla de Valverde (La),44,Teruel
+32,Gúdar-Javalambre,44193,Puertomingalvo,44,Teruel
+32,Gúdar-Javalambre,44201,Rubielos de Mora,44,Teruel
+32,Gúdar-Javalambre,44206,San Agustín,44,Teruel
+32,Gúdar-Javalambre,44210,Sarrión,44,Teruel
+32,Gúdar-Javalambre,44231,Torrijas,44,Teruel
+32,Gúdar-Javalambre,44240,Valbona,44,Teruel
+32,Gúdar-Javalambre,44244,Valdelinares,44,Teruel
+33,Matarraña / Matarranya,44027,Arens de Lledó,44,Teruel
+33,Matarraña / Matarranya,44037,Beceite,44,Teruel
+33,Matarraña / Matarranya,44049,Calaceite,44,Teruel
+33,Matarraña / Matarranya,44086,Cretas,44,Teruel
+33,Matarraña / Matarranya,44105,Fórnoles,44,Teruel
+33,Matarraña / Matarranya,44108,Fresneda (La),44,Teruel
+33,Matarraña / Matarranya,44114,Fuentespalda,44,Teruel
+33,Matarraña / Matarranya,44141,Lledó,44,Teruel
+33,Matarraña / Matarranya,44147,Mazaleón,44,Teruel
+33,Matarraña / Matarranya,44154,Monroyo,44,Teruel
+33,Matarraña / Matarranya,44179,Peñarroya de Tastavins,44,Teruel
+33,Matarraña / Matarranya,44187,Portellada (La),44,Teruel
+33,Matarraña / Matarranya,44194,Ráfales,44,Teruel
+33,Matarraña / Matarranya,44223,Torre de Arcas,44,Teruel
+33,Matarraña / Matarranya,44225,Torre del Compte,44,Teruel
+33,Matarraña / Matarranya,44245,Valdeltormo,44,Teruel
+33,Matarraña / Matarranya,44246,Valderrobres,44,Teruel
+33,Matarraña / Matarranya,44247,Valjunquera,44,Teruel

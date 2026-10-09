@@ -1,0 +1,82 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Inventario M01 — Extremadura
+# FECHA: 2026-09-11
+# ESTADO: EXT-01
+# QUÉ HACE: reconstruye las fuentes nacionales y ejecuta exclusivamente M01 para Badajoz y Cáceres, publicando recuentos y población sin iniciar distritación.
+# CAMBIOS: primer workflow del tercer territorio.
+# MOTIVO: comprobar portabilidad de datos y M01 antes de definir contrato electoral/territorial.
+# ANTERIOR: ninguno — workflow nuevo.
+name: Inventario M01 — Extremadura
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventario:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-ext-inventory:${GITHUB_SHA} .
+
+      - name: Ejecutar M01 Extremadura
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/extremadura/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
+            --entrypoint python ddd-ext-inventory:${GITHUB_SHA} \
+            modulos/01_preparar_base_territorial.py --params "$PARAMS"
+
+      - name: Auditar EXT-01
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
+            --entrypoint python ddd-ext-inventory:${GITHUB_SHA} -c '
+          import io,json,pathlib,zipfile
+          import geopandas as gpd
+          base=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025")
+          rep=json.loads((base/"extremadura_2025_m01_informe.json").read_text())
+          with zipfile.ZipFile(base/"extremadura_2025_m01_secciones_poblacion.geojson.zip") as z:
+              n=next(n for n in z.namelist() if n.endswith(".geojson"))
+              g=gpd.read_file(io.BytesIO(z.read(n)))
+          g["CPRO"]=g["CPRO"].astype(str).str.zfill(2)
+          assert set(g["CPRO"])=={"06","10"}, sorted(set(g["CPRO"]))
+          assert not g["CUSEC_KEY"].astype(str).duplicated().any()
+          assert rep["missing_population_rows"]==0, rep
+          byp=g.groupby("CPRO")["POP_2025"].agg(["count","sum"]).to_dict("index")
+          print(f"EXT-01 PASS rows={len(g)} pop={int(g.POP_2025.sum())} provinces={byp}")
+          '
+
+      - name: Publicar inventario EXT-01
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-EXT01-${{ github.run_id }}
+          path: |
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m01_informe.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m01_secciones_poblacion.geojson.zip

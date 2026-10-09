@@ -1,0 +1,6 @@
+rule,k_total,unrepresented_population,district_weighted_mae,population_per_assigned_seat,minimum_province_mean,maximum_province_mean
+floor_independiente,383,260817,2907480/383,48867480/383,"{""population"": ""2763996/23"", ""province_code"": ""46""}","{""population"": ""230087"", ""province_code"": ""22""}"
+nearest_half_up_independiente,407,0,1654107/407,49128297/407,"{""population"": ""83567"", ""province_code"": ""51""}","{""population"": ""165564"", ""province_code"": ""49""}"
+ceil_independiente,435,0,1023901/145,16376099/145,"{""population"": ""136091/2"", ""province_code"": ""44""}","{""population"": ""2033566/17"", ""province_code"": ""03""}"
+hamilton_k_derivado,409,0,1661201/409,49128297/409,"{""population"": ""83567"", ""province_code"": ""51""}","{""population"": ""165564"", ""province_code"": ""49""}"
+minimos_referencia_k_derivado,409,0,9139267/409,49128297/409,"{""population"": ""30061"", ""province_code"": ""42""}","{""population"": ""152819"", ""province_code"": ""08""}"

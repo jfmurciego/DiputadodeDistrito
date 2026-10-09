@@ -1,0 +1,30 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: congelado
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: R023 diagnóstico continental paralelo
+# FECHA: 2026-09-12
+# ESTADO: vigente — diagnóstico.
+# QUÉ HACE: ejecuta en paralelo diagnósticos geométricos de los siete territorios continentales con discontinuidades observadas en R022.
+# CAMBIOS: primera versión.
+# MOTIVO: explicar cada componente antes de declarar cualquier pasarela administrativa.
+# ANTERIOR: ninguno — workflow nuevo.
+name: R023 — Diagnóstico topológico continental
+on:
+  workflow_dispatch:
+jobs:
+  diagnosticos:
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        territory:
+          - comunidad_valenciana
+          - galicia
+          - castilla_la_mancha
+          - pais_vasco
+          - region_de_murcia
+          - comunidad_foral_de_navarra
+          - cantabria
+    uses: ./.github/workflows/_reutilizable-auditoria-topologica.yml
+    with:
+      territory_id: ${{ matrix.territory }}

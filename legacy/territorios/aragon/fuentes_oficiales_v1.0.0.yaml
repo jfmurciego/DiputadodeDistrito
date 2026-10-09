@@ -1,0 +1,29 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Aragón
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Declaración oficial de fuentes Aragón
+# FECHA: 2026-09-17
+# ESTADO: regresión declarativa; no altera certificación
+# FUNCIÓN: declarar códigos territoriales, edición, fuentes, cobertura y política por entorno.
+# CAMBIOS: extrae de la antigua herramienta INE los códigos 22/44/50 y las 1463 secciones esperadas.
+# MOTIVO: conservar Aragón como regresión sin lógica territorial incrustada en la adquisición.
+# ANTERIOR: territorios/aragon/config/aragon_2025.yaml
+schema: ddd-territory-sources/1.0
+territory:
+  id: aragon
+  business_name: Aragón
+  edition: 2025
+  territorial_codes:
+    - {code: "22", business_name: Huesca}
+    - {code: "44", business_name: Teruel}
+    - {code: "50", business_name: Zaragoza}
+required_sources:
+  - poblacion_por_sexo_y_edad
+  - secciones_censales
+coverage_checks:
+  expected_sections: 1463
+  required_territorial_codes: ["22", "44", "50"]
+environment_policy:
+  development: [verified_snapshot, official_live]
+  test: [simulated]
+  production: [official_live, verified_snapshot]

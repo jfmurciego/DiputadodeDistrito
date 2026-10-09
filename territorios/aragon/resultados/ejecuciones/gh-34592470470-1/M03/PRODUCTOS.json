@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "role": "grafo",
+      "path": ".cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json",
+      "bytes": 348623,
+      "sha256": "9cd82e3d4cc0a813b37f84f5340e5126d12f8bd8f915cd440e862f6eb6e9476a"
+    },
+    {
+      "role": "informe",
+      "path": ".cache/ddd/preparacion/aragon_2025/aragon_2025_m03_informe.json",
+      "bytes": 239,
+      "sha256": "403c766e29a34d57552eee01edd1767afb28f34f3cb43fb50a75ce9ab03ae779"
+    }
+  ]
+}

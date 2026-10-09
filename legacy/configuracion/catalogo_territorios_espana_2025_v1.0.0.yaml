@@ -1,0 +1,29 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: Catálogo nacional de implantaciones 2025
+# FECHA: 2026-09-12
+# ESTADO: vigente — R022
+# QUÉ HACE: registra las 17 comunidades autónomas y Ceuta/Melilla para planificar bootstraps M01-M03 sin fijar K ni tolerancias.
+# CAMBIOS: primera versión.
+# MOTIVO: ampliar el motor con una única matriz declarativa y evitar workflows territoriales duplicados.
+# ANTERIOR: ninguno — catálogo nuevo.
+territories:
+  - {territory_id: andalucia, name: Andalucía, province_codes: ['04','11','14','18','21','23','29','41'], batch: validated_or_active, status: m03_validated}
+  - {territory_id: aragon, name: Aragón, province_codes: ['22','44','50'], batch: validated_or_active, status: validated}
+  - {territory_id: castilla_y_leon, name: Castilla y León, province_codes: ['05','09','24','34','37','40','42','47','49'], batch: validated_or_active, status: m06_validated}
+  - {territory_id: cataluna, name: Cataluña, province_codes: ['08','17','25','43'], batch: active, status: cat02}
+  - {territory_id: extremadura, name: Extremadura, province_codes: ['06','10'], batch: active, status: m04_m05_experimental}
+  - {territory_id: madrid, name: Comunidad de Madrid, province_codes: ['28'], batch: madrid, status: bootstrap}
+  - {territory_id: comunidad_valenciana, name: Comunidad Valenciana, province_codes: ['03','12','46'], batch: continental, status: bootstrap}
+  - {territory_id: galicia, name: Galicia, province_codes: ['15','27','32','36'], batch: continental, status: bootstrap}
+  - {territory_id: castilla_la_mancha, name: Castilla-La Mancha, province_codes: ['02','13','16','19','45'], batch: continental, status: bootstrap}
+  - {territory_id: pais_vasco, name: País Vasco, province_codes: ['01','20','48'], batch: continental, status: bootstrap}
+  - {territory_id: region_de_murcia, name: Región de Murcia, province_codes: ['30'], batch: continental, status: bootstrap}
+  - {territory_id: principado_de_asturias, name: Principado de Asturias, province_codes: ['33'], batch: continental, status: bootstrap}
+  - {territory_id: comunidad_foral_de_navarra, name: Comunidad Foral de Navarra, province_codes: ['31'], batch: continental, status: bootstrap}
+  - {territory_id: cantabria, name: Cantabria, province_codes: ['39'], batch: continental, status: bootstrap}
+  - {territory_id: la_rioja, name: La Rioja, province_codes: ['26'], batch: continental, status: bootstrap}
+  - {territory_id: illes_balears, name: Illes Balears, province_codes: ['07'], batch: insular, status: bootstrap_archipelago}
+  - {territory_id: canarias, name: Canarias, province_codes: ['35','38'], batch: insular, status: bootstrap_archipelago}
+  - {territory_id: ceuta, name: Ceuta, province_codes: ['51'], batch: ciudades_autonomas, status: bootstrap}
+  - {territory_id: melilla, name: Melilla, province_codes: ['52'], batch: ciudades_autonomas, status: bootstrap}

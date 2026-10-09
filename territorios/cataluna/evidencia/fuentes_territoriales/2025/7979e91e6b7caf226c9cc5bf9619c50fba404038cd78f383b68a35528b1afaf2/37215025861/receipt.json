@@ -1,0 +1,18 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "cataluna",
+  "edition": "2025",
+  "population_year": 2024,
+  "section_year": 2024,
+  "run_id": 37215025861,
+  "artifact_name": "ddd-source-package-cataluna-2025-37215025861",
+  "artifact_sha256": "0f2de10f82267e6be8d38409fb7b7a0c790fced42360570e79766ba0dce94aa0",
+  "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0",
+  "source_commit": "d4f8b84769290aa252498399b66ba90c37b44612",
+  "source_declaration": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37215025861/fuentes_oficiales.yaml",
+  "territorial_identity_sha256": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "b035b6aa54bdd037554628094b168432eb2beee89e98c14a6897c3500ffd1090",
+  "compatibility_identity_sha256": "58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a"
+}

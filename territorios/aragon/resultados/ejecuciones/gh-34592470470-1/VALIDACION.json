@@ -1,0 +1,22 @@
+{
+  "run_id": "gh-34592470470-1",
+  "estado": "PASS",
+  "expected_districts": 67,
+  "districts_found": 67,
+  "sections": 1463,
+  "total_population": 1364621.0,
+  "target_population": 20367.4776119403,
+  "population_floor": 16293.98208955224,
+  "population_cap": 35643.085820895525,
+  "below_floor": [],
+  "above_cap": [],
+  "graph_disconnected": [],
+  "province_crossings": [],
+  "province_district_counts": {
+    "22": 11,
+    "44": 7,
+    "50": 49
+  },
+  "municipality_violations": [],
+  "failures": []
+}

@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "role": "out_district_party_csv",
+      "path": "ejecuciones/gh-34588834266-1/aragon_2025_m07_resultados_partido.csv",
+      "bytes": 20011,
+      "sha256": "27919fd63b1716c7fc745a3591e3b5446d55c646a045d6a9565444ac6bfe28ed"
+    },
+    {
+      "role": "out_district_summary_csv",
+      "path": "ejecuciones/gh-34588834266-1/aragon_2025_m07_resumen_electoral.csv",
+      "bytes": 2994,
+      "sha256": "65dcd4f413f3cb70079a99a801851a2263c578354a39574abd903e278d4a11c8"
+    },
+    {
+      "role": "secciones_resultados",
+      "path": "ejecuciones/gh-34588834266-1/aragon_2025_m07_secciones_resultados.geojson.zip",
+      "bytes": 4173417,
+      "sha256": "f6f61cea99c60c6fe6661d50f6c341a95625170ea26d7c63bc066b54f34fb244"
+    }
+  ]
+}

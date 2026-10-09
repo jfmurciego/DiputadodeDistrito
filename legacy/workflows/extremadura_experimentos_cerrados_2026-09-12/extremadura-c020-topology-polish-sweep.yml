@@ -1,0 +1,99 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: experimental
+# VERSIÓN: 1.0.0
+# NOMBRE: EXT-14 — Barrido de profundidad del pulido topológico M04
+# FECHA: 2026-09-11
+# ESTADO: experimento; no modifica motores activos.
+# QUÉ HACE: compara 5/10/20/30/40/50 movimientos protegidos de pulido topológico sobre el mismo c020/M04,
+# y ejecuta M05 v7.5.2 sobre cada variante para medir población y fragilidad final.
+# MOTIVO: EXT-13 iterativo mejoró simultáneamente sq_error y fragilidad final con 50 movimientos, pero alcanzó
+# exactamente max_moves=50. Antes de promover nada necesitamos la curva de respuesta y el punto de Pareto.
+# ANTERIOR: ninguno — workflow nuevo.
+name: EXT-14 — C020 topology polish sweep
+
+on:
+  workflow_dispatch:
+
+permissions: {contents: read}
+
+jobs:
+  sweep:
+    strategy:
+      fail-fast: false
+      matrix:
+        moves: [5, 10, 20, 30, 40, 50]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+      ROOTBASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025
+      MOVES: ${{ matrix.moves }}
+      BASE: territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/ext14/m${{ matrix.moves }}
+      CFG: territorios/extremadura/config/.generated_ext14_m${{ matrix.moves }}.yaml
+    steps:
+      - uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Fuentes y entorno
+        run: |
+          bash inputs/partes/reconstruir_fuentes.sh
+          docker build --pull -t ddd-ext14:${GITHUB_SHA} .
+
+      - name: M01-M03
+        run: |
+          set -euo pipefail
+          mkdir -p "$BASE"
+          docker run --rm -e PARAMS="$PARAMS" -v "$PWD/inputs:/app/inputs:ro" -v "$PWD/territorios/extremadura:/app/territorios/extremadura" --entrypoint bash ddd-ext14:${GITHUB_SHA} -lc '
+            python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+            python modulos/02_construir_adyacencias.py --params "$PARAMS"
+            python modulos/03_construir_grafo.py --params "$PARAMS"'
+
+      - name: Construir c020
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} herramientas/construir_unidades_internas_m04.py \
+            --geojson "$ROOTBASE/extremadura_2025_m01_secciones_poblacion.geojson.zip" \
+            --graph "$ROOTBASE/extremadura_2025_m03_grafo.json" \
+            --out-geojson "$BASE/m04_input.geojson" --out-report "$BASE/units_report.json" \
+            --k 65 --id-field CUSEC_KEY --municipality-field CUMUN --population-field POP_2025 \
+            --partition-unit-field M04_PARTITION_UNIT --atomicity-ratio 1.10 --chunk-ratio 0.20
+          sudo chown -R "$(id -u):$(id -g)" territorios/extremadura/.cache/ddd
+
+      - name: Generar configuración
+        run: |
+          docker run --rm -e BASE="$BASE" -e CFG="$CFG" -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} -c '
+          import copy,os,pathlib,yaml
+          root=pathlib.Path("/app");cfg=yaml.safe_load((root/"territorios/extremadura/config/extremadura_2025.yaml").read_text());c=copy.deepcopy(cfg);base=os.environ["BASE"].replace("extremadura_2025","{run_name}")
+          c["modulos"]["modulo_04_generar_semillas"]={"in_graph_json":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04_input.geojson","id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO","municipality_field":"M04_PARTITION_UNIT","municipality_name_field":"NMUN","k_districts":65,"municipality_atomicity_limit_ratio":1.10,"seed":12345,"out_geojson":base+"/m04.geojson.zip","out_report":base+"/m04_report.json"}
+          c["modulos"]["modulo_05_optimizar_distritos"]={"in_graph_json":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json","in_geojson":base+"/m04_polished.geojson.zip","id_field":"CUSEC_KEY","pop_field":"POP_{year}","district_field":"district_id","province_field":"CPRO","municipality_field":"CUMUN","greedy_moves_limit":1000,"anneal_iters":30000,"swap_polish_max":200,"seed":12345,"out_geojson":base+"/m05.geojson.zip","out_report":base+"/m05_report.json"}
+          c["validation"].update({"expected_districts":65,"population_floor_ratio":.85,"population_cap_ratio":1.50,"target_tolerance_ratio":.10,"province_districts":{"06":41,"10":24}})
+          (root/os.environ["CFG"]).write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True))'
+
+      - name: M04 y pulido
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} ddd_core/m04_seed_engine_v745.py --params "$CFG"
+          python herramientas/reparar_propiedad_geojson_zip.py --zip "$BASE/m04.geojson.zip" --property ddd_unit_id --province-field CPRO --unit-field M04_PARTITION_UNIT --suffix P
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} herramientas/pulir_topologia_m04.py \
+            --params "$CFG" --geojson "$BASE/m04.geojson.zip" --out-geojson "$BASE/m04_polished.geojson.zip" \
+            --out-report "$BASE/topology_polish_report.json" --max-moves "$MOVES"
+
+      - name: M05 y resumen
+        run: |
+          set -euo pipefail
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} modulos/05_optimizar_distritos.py --params "$CFG"
+          docker run --rm -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} herramientas/auditar_fragilidad_topologica.py --params "$CFG" --geojson "$BASE/m05.geojson.zip" --out "$BASE/fragility_m05.json"
+          docker run --rm -e MOVES="$MOVES" -e BASE="$BASE" -v "$PWD:/app" --entrypoint python ddd-ext14:${GITHUB_SHA} -c '
+          import io,json,os,pathlib,zipfile,geopandas as gpd
+          b=pathlib.Path("/app")/os.environ["BASE"]
+          with zipfile.ZipFile(b/"m05.geojson.zip") as z:n=next(n for n in z.namelist() if n.endswith(".geojson"));g=gpd.read_file(io.BytesIO(z.read(n)))
+          target=g.POP_2025.sum()/65;p=g.groupby("district_id").POP_2025.sum();pol=json.loads((b/"topology_polish_report.json").read_text());frag=json.loads((b/"fragility_m05.json").read_text())
+          out={"max_moves":int(os.environ["MOVES"]),"accepted_moves":pol["accepted_moves"],"m04_after_population_objective":pol["after_population_objective"],"m04_after_fragility":pol["after_fragility_signature"],"outside_10":int(((p-target).abs()>target*.10).sum()),"max_abs_deviation":float(((p-target).abs()/target).max()),"sq_error":float((((p-target)/target)**2).sum()),"min_pop":int(p.min()),"max_pop":int(p.max()),"m05_fragility":frag["fragility_signature"]};(b/"summary.json").write_text(json.dumps(out,ensure_ascii=False,indent=2));print(json.dumps(out,ensure_ascii=False))'
+
+      - name: Publicar
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-EXT14-m${{ matrix.moves }}-${{ github.run_id }}
+          path: ${{ env.BASE }}/
+          if-no-files-found: warn

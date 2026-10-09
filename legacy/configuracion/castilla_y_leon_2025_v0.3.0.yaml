@@ -1,0 +1,78 @@
+# PROYECTO: Diputado de Distrito
+# TERRITORIO: Castilla y León
+# VERSIÓN: 0.3.0
+# NOMBRE DE VERSIÓN: M01 reproducible con fuentes nacionales compartidas
+# FECHA: 2026-09-11
+# ESTADO: preparación M01 validada en diagnóstico; pendiente de aceptación GitHub
+# QUÉ HACE: ejecuta M01 sobre las nueve provincias usando las fuentes nacionales compartidas y escribe productos dentro del paquete territorial.
+# CAMBIOS: fija el repositorio raíz como project_root, elimina la falsa discrepancia 3.555/3.506 y añade población total esperada de control.
+# MOTIVO: convertir el diagnóstico local en una ejecución reproducible multi-territorio sin duplicar fuentes.
+# ANTERIOR: legacy/configuracion/castilla_y_leon_2025_v0.2.0.yaml
+
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: castilla_y_leon
+  territory: Castilla y León
+  run_name: castilla_y_leon_2025
+  year: 2025
+  scope: provincial
+  schema_version: 0.3.0
+  status: preparation_m01
+
+io:
+  project_root: {path: ../../..}
+  input:
+    seccionado:
+      path: inputs/seccionado_2025.zip
+      layer: ''
+      section_key_col: CUSEC
+    population_cip:
+      paths: [inputs/65034.csv.zip]
+      sep: auto
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values: [Total]
+        edad_total_values: [Todas las edades]
+    comarcas:
+      enabled: false
+      path: territorios/castilla_y_leon/inputs/COMARCAS_OPCIONAL.csv
+      join: {comarcas_key_col: MUN_KEY}
+  cache: {dir: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}"}
+  runs: {dir: "territorios/castilla_y_leon/resultados/ejecuciones/{run_id}"}
+
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes: ['05','09','24','34','37','40','42','47','49']
+  k_districts: null
+  district_apportionment: null
+  population_floor_ratio: null
+  population_cap_ratio: null
+  target_tolerance_ratio: null
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: TODO
+  notes:
+    - No copiar K, Hamilton, 0.80/1.75/0.12 ni reglas municipales de Aragón sin decisión explícita.
+    - M01 se valida antes de definir reglas de M04-M06.
+    - Diagnóstico M01: 3.506 CUSEC geométricos = 3.506 CUSEC de población; 0 faltantes y 0 extras.
+
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes: ['05','09','24','34','37','40','42','47','49']
+    drop_missing_population: false
+    out_geojson: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip"
+    out_report: "territorios/castilla_y_leon/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json"
+
+validation:
+  expected_province_codes: ['05','09','24','34','37','40','42','47','49']
+  expected_sections_geometry: 3506
+  expected_population_total_2025: 2401221
+  require_unique_section_id: true
+  require_non_null_population: true

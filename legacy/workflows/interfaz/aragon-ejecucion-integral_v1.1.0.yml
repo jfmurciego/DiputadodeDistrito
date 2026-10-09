@@ -1,0 +1,69 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: interfaz operativa específica de extremo a extremo
+# VERSIÓN: 1.0.2
+# FECHA: 2026-09-15
+# QUÉ HACE: ejecuta Aragón M01–M08 y despliega automáticamente un visor con todos los productos disponibles del run.
+# PRINCIPIO: un solo clic humano sobre workflow_dispatch constituye la autorización explícita de esta ejecución integral; no se piden parámetros técnicos al operador.
+name: Aragón — M01 a M08 y visor
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ddd-aragon-integral
+  cancel-in-progress: false
+
+jobs:
+  production:
+    uses: ./.github/workflows/producir-territorio-por-contrato.yml
+    with:
+      params: territorios/aragon/config/aragon_2025.yaml
+      mode: execute
+      from_stage: TERRITORY_PREPARATION
+      to_stage: PUBLIC_PRODUCT_PUBLICATION
+      execution_authorization: EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+
+  viewer:
+    name: Ensamblar y desplegar visor de la ejecución
+    needs: production
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Recuperar productos M01–M08
+        uses: actions/download-artifact@v6
+        continue-on-error: true
+        with:
+          pattern: ddd-production-*
+          path: /tmp/production
+          merge-multiple: true
+      - name: Construir visor del run
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check visor/app.js
+          rm -rf site
+          mkdir -p site
+          cp visor/index.html visor/app.js visor/styles.css site/
+          args=(--site site --static-registry orchestracion/productos_publicos.json)
+          if find /tmp/production -type f -name '*_m06_distritos.geojson.zip' -print -quit 2>/dev/null | grep -q .; then
+            args+=(--production-root /tmp/production --production-run-id '${{ github.run_id }}')
+          fi
+          python herramientas/preparar_visor_ejecucion.py "${args[@]}"
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

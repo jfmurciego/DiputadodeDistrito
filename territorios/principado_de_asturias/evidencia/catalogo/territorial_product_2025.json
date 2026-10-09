@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "principado_de_asturias",
+  "territory_name": "Principado de Asturias",
+  "edition": "2025",
+  "run_id": 37438440043,
+  "artifact_name": "ddd-state-37438440043-M06",
+  "artifact_sha256": "7f32a5d6414f30855d9bc5e5226914433c8686b8f4e660f4315903142ecbde7c",
+  "source_commit": "e10d3e9fbffa6be85a600856c0b066d5754551bb",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06"
+}

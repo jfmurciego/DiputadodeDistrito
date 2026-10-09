@@ -1,0 +1,36 @@
+{
+  "schema": "ddd.technical-certification/1.0",
+  "decision": "CERTIFIED_WITH_GOVERNED_EXCEPTIONS",
+  "territory_id": "aragon",
+  "production_run_id": "production-35029919726-1",
+  "workflow_run_id": "35029919726",
+  "source_commit": "d33c0f02517bcd407d22555fb1602c5275947307",
+  "contract_sha256": "119a4d037ff6bba83a2f88e085716e5aefe0c2aa6eb01e369ce9a6ff15353446",
+  "stage_range": {
+    "from": "M01",
+    "to": "M08"
+  },
+  "districts": {
+    "expected": 67,
+    "observed": 67,
+    "connected": 60,
+    "governed_exceptions": 7,
+    "blocked": 0
+  },
+  "electoral_reconciliation": {
+    "status": "PASS_WITH_DECLARED_EXCEPTIONS",
+    "input_votes": 648799,
+    "assigned_votes": 648191,
+    "unassigned_votes": 608
+  },
+  "output_sha256": {
+    "aragon_2025_m06_distritos.geojson.zip": "4ceeeccfbf2aaefac74b147f6d0377abc142af764ea73e42d5a505fa30e147a2",
+    "aragon_2025_m07_reconciliacion.json": "75318d072b01e6db30fcb65ec6aaa5565dbbdcbe958a30cd27eb77ec954af9eb",
+    "aragon_2025_m08_distritos_resultados.geojson.zip": "e7d38ec3691513bb3e99d9a05b58c9328d565ecf236cf2105b73b7d5ba47aae6"
+  },
+  "errors": [],
+  "publication": {
+    "status": "BLOCKED",
+    "reason": "La certificación técnica no sustituye la política P01-P09/G01-G04."
+  }
+}

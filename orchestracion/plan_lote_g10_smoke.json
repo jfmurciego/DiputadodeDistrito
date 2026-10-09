@@ -1,0 +1,35 @@
+{
+  "$schema": "../schemas/g10-plan-lote.schema.json",
+  "schema_version": "1.0",
+  "lot_id": "g10-smoke-v1",
+  "budget": {"runner_minutes": 30, "max_parallel": 4, "max_agent_cycles_per_fingerprint": 1},
+  "tasks": [
+    {
+      "task_id": "g10-selftest",
+      "territory": "sintetico",
+      "stage": "CONTROL",
+      "depends_on": [],
+      "priority": "blocking",
+      "max_attempts": 2,
+      "timeout_minutes": 10,
+      "estimated_runner_minutes": 2,
+      "requires_agent_on_failure": true,
+      "success_contract": "tests/test_g10_orquestacion.py",
+      "action": "g10_selftest"
+    },
+    {
+      "task_id": "validar-config-aragon",
+      "territory": "aragon",
+      "stage": "CONTRACT",
+      "depends_on": [],
+      "priority": "blocking",
+      "max_attempts": 1,
+      "timeout_minutes": 10,
+      "estimated_runner_minutes": 1,
+      "requires_agent_on_failure": true,
+      "success_contract": "CONTRATO_TERRITORIO.md",
+      "action": "validate_config",
+      "config": "territorios/aragon/config/aragon_2025.yaml"
+    }
+  ]
+}

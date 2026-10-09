@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "role": "secciones_con_distrito",
+      "path": "ejecuciones/gh-34599224954-1/aragon_2025_m06_secciones.geojson.zip",
+      "bytes": 4148403,
+      "sha256": "a47201956f587df6b5f4178b834e3c24eac4aafbefc142bc3974153dd9887ca2"
+    },
+    {
+      "role": "geometria_distritos",
+      "path": "ejecuciones/gh-34599224954-1/aragon_2025_m06_distritos.geojson.zip",
+      "bytes": 1596446,
+      "sha256": "480c0dc54a64b91a6e000219021a31c0cc72b9b2dc15790d8fb4b60ceebaf45d"
+    },
+    {
+      "role": "resumen_poblacional",
+      "path": "ejecuciones/gh-34599224954-1/aragon_2025_m06_resumen_distritos.csv",
+      "bytes": 618,
+      "sha256": "b4c8fbbf9f28ab36a5fef61f4b630a3b6fd7584a03e9fa155e0381ffdfa74d6f"
+    }
+  ]
+}

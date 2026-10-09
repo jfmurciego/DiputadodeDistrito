@@ -1,0 +1,129 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.1
+# NOMBRE: Operar lote G10 con admisión durable
+# QUÉ HACE: admite por huella, verifica evidencia existente, agrega y conserva estado.
+# CAMBIO: transmite listas de artefactos como argumentos separados; corrige el primer lote sin recalcular territorio.
+# ANTERIOR: legacy/workflows/g10-operar-lote_v1.0.0.yml
+# MOTIVO: evitar recalcular productos territoriales ya validados.
+name: G10 — Operar lote durable
+on:
+  workflow_dispatch:
+    inputs:
+      plan_path:
+        description: Plan G10 versionado
+        required: true
+        default: orchestracion/plan_lote_g10_fase1_cierre.json
+        type: string
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: g10-durable
+  cancel-in-progress: false
+env:
+  PLAN_PATH: ${{ inputs.plan_path }}
+  STATE_PATH: orchestracion/estado_tareas.json
+jobs:
+  admitir:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          python herramientas/g10_orquestar.py validate-plan --plan "$PLAN_PATH"
+          python herramientas/g10_orquestar.py admit --plan "$PLAN_PATH" --state "$STATE_PATH" --root . > admission.json
+          echo "matrix=$(jq -c '{include:.include}' admission.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: g10-admision-${{ github.run_id }}
+          path: admission.json
+  ejecutar:
+    needs: admitir
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.admitir.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Ejecutar o reutilizar tarea
+        shell: bash
+        env:
+          TASK_ID: ${{ matrix.task_id }}
+          ACTION: ${{ matrix.action }}
+          ADMISSION: ${{ matrix.admission }}
+          FINGERPRINT: ${{ matrix.fingerprint }}
+          TERRITORY: ${{ matrix.territory }}
+          STAGE_ID: ${{ matrix.stage_id }}
+          STAGE_NAME: ${{ matrix.stage_name }}
+          LEGACY_MODULE: ${{ matrix.legacy_module }}
+          ARTIFACT_PATHS: ${{ join(matrix.artifact_paths, ' ') }}
+          out: g10-out/${{ matrix.task_id }}
+        run: |
+          set +e
+          out="g10-out/$TASK_ID"; mkdir -p "$out"
+          if [ "$ADMISSION" = "REUSED" ]; then
+            echo "REUSED: no se ejecuta cálculo." > "$out/task.log"; code=0
+          elif [ "$ADMISSION" = "ADMITTED" ] && [ "$ACTION" = "g10_selftest" ]; then
+            python -m unittest tests.test_g10_orquestacion -v > "$out/task.log" 2>&1; code=$?
+          elif [ "$ADMISSION" = "ADMITTED" ] && [ "$ACTION" = "verify_existing_evidence" ]; then
+            printf '%s\n' "$ARTIFACT_PATHS" | sed '/^$/d' > "$out/artifacts.list"
+            python herramientas/g10_orquestar.py verify-evidence $(cat "$out/artifacts.list") > "$out/evidence.json" 2> "$out/task.log"; code=$?
+          else
+            echo "$ADMISSION / $ACTION no ejecutable." > "$out/task.log"; code=20
+          fi
+          echo "$code" > "$out/exit_code"
+          python -c 'import json,os; o=os.environ["out"]; c=int(open(o+"/exit_code").read()); a=os.environ["ADMISSION"]; json.dump({"schema_version":"1.1","task_id":os.environ["TASK_ID"],"territory":os.environ["TERRITORY"],"stage_id":os.environ["STAGE_ID"],"stage_name":os.environ["STAGE_NAME"],"legacy_module":os.environ["LEGACY_MODULE"] or None,"fingerprint":os.environ["FINGERPRINT"],"attempt":1,"status":"REUSED" if a=="REUSED" else ("SUCCESS" if c==0 else "REQUIRES_AGENT"),"artifacts":["task.log","evidence.json"]},open(o+"/resumen.json","w"),ensure_ascii=False)' 
+          exit "$code"
+      - if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: g10-tarea-${{ matrix.task_id }}
+          path: g10-out/${{ matrix.task_id }}/
+  cerrar:
+    if: always()
+    needs: [admitir, ejecutar]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: g10-tarea-*
+          path: g10-results
+      - name: Agregar y preparar estado
+        shell: bash
+        run: |
+          set -euo pipefail
+          find g10-results -name resumen.json -type f | sort > summaries.list
+          test -s summaries.list
+          python herramientas/g10_orquestar.py aggregate --output RESUMEN_LOTE_G10.json $(cat summaries.list)
+          python herramientas/g10_orquestar.py merge-state --state "$STATE_PATH" --output ESTADO_TAREAS_ACTUALIZADO.json --run-id "$GITHUB_RUN_ID" $(cat summaries.list)
+      - name: Persistir estado durable
+        shell: bash
+        run: |
+          set -euo pipefail
+          if cmp -s "$STATE_PATH" ESTADO_TAREAS_ACTUALIZADO.json; then exit 0; fi
+          cp ESTADO_TAREAS_ACTUALIZADO.json "$STATE_PATH"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$STATE_PATH"
+          git commit -m "g10: registrar estado $GITHUB_RUN_ID"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v6
+        with:
+          name: g10-lote-${{ github.run_id }}
+          path: |
+            RESUMEN_LOTE_G10.json
+            ESTADO_TAREAS_ACTUALIZADO.json
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const counts = require("fs").readFileSync("RESUMEN_LOTE_G10.json","utf8");
+            const body = "✅ @jfmurciego: lote G10 terminado.\\n\\n- Run: " + context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId + "\\n- Resumen: \`" + counts.replace(/\\s+/g," ").slice(0,700) + "\`\\n- Reenganche: descarga \`g10-lote-" + context.runId + "\` y envía «revisa G10».";
+            await github.rest.issues.createComment({owner:context.repo.owner,repo:context.repo.repo,issue_number:5,body});

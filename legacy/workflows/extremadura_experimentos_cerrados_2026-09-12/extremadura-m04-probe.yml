@@ -1,0 +1,164 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: experimental
+# VERSIÓN: 1.2.0
+# NOMBRE DE VERSIÓN: Barrido diagnóstico M04 — puerta mínima por componente
+# FECHA: 2026-09-11
+# ESTADO: EXT-03 experimental
+# QUÉ HACE: reconstruye M01-M03 con el contrato topológico cerrado y ejecuta M04 v7.5.1 en tres escenarios activando `preserve_component_gateways`.
+# CAMBIOS: sustituye la protección de todas las puertas externas por una puerta determinista por cada componente provincial que depende del municipio sobredimensionado.
+# MOTIVO: v1.1.0 evitaba aislamientos pero sobreprotegía Badajoz e impedía formar cualquier núcleo urbano. La condición mínima correcta se formula por componentes del grafo provincial.
+# ANTERIOR: workflow v1.1.0 — `preserve_all_external_gateways`.
+name: EXT-03 — Barrido M04 Extremadura
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  barrido-m04:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PARAMS: territorios/extremadura/config/extremadura_2025.yaml
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-ext-m04:${GITHUB_SHA} .
+
+      - name: Ejecutar M01-M03 estable
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/extremadura/.cache/ddd/preparacion/extremadura_2025
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/extremadura:/app/territorios/extremadura" \
+            --entrypoint bash ddd-ext-m04:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+            '
+
+      - name: Generar configuraciones experimentales EXT-03
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD:/app" \
+            --entrypoint python ddd-ext-m04:${GITHUB_SHA} -c '
+          import copy, pathlib, yaml
+          src=pathlib.Path("/app/territorios/extremadura/config/extremadura_2025.yaml")
+          base=yaml.safe_load(src.read_text())
+          scenarios={
+            "tight":  {"floor":0.85,"cap":1.50,"tol":0.10,"atomic":1.10},
+            "reference":{"floor":0.80,"cap":1.75,"tol":0.12,"atomic":1.12},
+            "wide":   {"floor":0.75,"cap":2.00,"tol":0.15,"atomic":1.15},
+          }
+          for name,s in scenarios.items():
+              c=copy.deepcopy(base)
+              c["meta"]["schema_version"]="0.4.0-probe-component-gateway-"+name
+              c["meta"]["status"]="m04_probe_component_gateway_"+name
+              c.setdefault("territory_contract",{})["k_districts"]=65
+              c["territory_contract"]["district_apportionment"]="hamilton"
+              c["modulos"]["modulo_04_generar_semillas"]={
+                  "in_graph_json":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json",
+                  "in_geojson":"territorios/extremadura/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip",
+                  "id_field":"CUSEC_KEY","pop_field":"POP_{year}","province_field":"CPRO",
+                  "municipality_field":"CUMUN","municipality_name_field":"NMUN",
+                  "district_apportionment":"hamilton","k_districts":65,
+                  "municipality_atomicity_limit_ratio":s["atomic"],
+                  "gateway_policy":"preserve_component_gateways",
+                  "preserve_province_residual_feasibility":True,"seed":12345,
+                  "out_geojson":f"territorios/extremadura/.cache/ddd/preparacion/{{run_name}}/{{run_name}}_m04_{name}.geojson.zip",
+                  "out_report":f"territorios/extremadura/.cache/ddd/preparacion/{{run_name}}/{{run_name}}_m04_{name}_informe.json",
+              }
+              v=c.setdefault("validation",{})
+              v.update({
+                  "expected_districts":65,"population_floor_ratio":s["floor"],
+                  "population_cap_ratio":s["cap"],"target_tolerance_ratio":s["tol"],
+                  "province_apportionment":"hamilton","province_districts":{"06":41,"10":24},
+                  "require_graph_contiguity":True,"require_single_province_per_district":True,
+                  "require_municipality_discipline":True,"municipality_atomicity_limit_ratio":s["atomic"],
+              })
+              out=pathlib.Path(f"/app/territorios/extremadura/config/.generated_m04_{name}.yaml")
+              out.write_text(yaml.safe_dump(c,sort_keys=False,allow_unicode=True))
+              print(name, s, out)
+          '
+
+      - name: Ejecutar escenarios M04
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/extremadura/.cache/ddd/probes
+          : > territorios/extremadura/.cache/ddd/probes/ext03_exit_codes.tsv
+          for s in tight reference wide; do
+            set +e
+            docker run --rm \
+              -v "$PWD:/app" \
+              --entrypoint python ddd-ext-m04:${GITHUB_SHA} \
+              modulos/04_generar_semillas.py --params "territorios/extremadura/config/.generated_m04_${s}.yaml"
+            rc=$?
+            set -e
+            printf '%s\t%s\n' "$s" "$rc" | tee -a territorios/extremadura/.cache/ddd/probes/ext03_exit_codes.tsv
+          done
+
+      - name: Consolidar diagnóstico EXT-03
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD:/app" \
+            --entrypoint python ddd-ext-m04:${GITHUB_SHA} -c '
+          import json,pathlib
+          base=pathlib.Path("/app/territorios/extremadura/.cache/ddd/preparacion/extremadura_2025")
+          codes={}
+          for line in pathlib.Path("/app/territorios/extremadura/.cache/ddd/probes/ext03_exit_codes.tsv").read_text().splitlines():
+              n,rc=line.split("\t"); codes[n]=int(rc)
+          out={"K":65,"province_districts":{"06":41,"10":24},"gateway_policy":"preserve_component_gateways","scenarios":{}}
+          for s in ("tight","reference","wide"):
+              p=base/f"extremadura_2025_m04_{s}_informe.json"
+              rec={"exit_code":codes.get(s)}
+              if p.exists():
+                  r=json.loads(p.read_text())
+                  rec.update({
+                    "version":r.get("version"),"gateway_policy":r.get("gateway_policy"),
+                    "target":r.get("target"),"floor":r.get("floor"),"cap":r.get("cap"),"tolerance":r.get("tolerance"),
+                    "atomicity_ratio":r.get("municipality_atomicity_limit_ratio"),"min_pop":r.get("min_pop"),"max_pop":r.get("max_pop"),
+                    "outside_target_tolerance":r.get("outside_target_tolerance"),"hard_population_violations":r.get("hard_population_violations"),
+                    "flexible_residual_units":r.get("flexible_residual_units",[]),
+                    "oversized_municipalities":{
+                      prov:[{"municipality":x.get("municipality"),"name":x.get("municipality_name"),"population":x.get("population"),"mode":x.get("partition_mode"),"closed_cores":x.get("closed_cores"),"residual_population":x.get("residual_population")} for x in pr.get("oversized_municipalities",[])]
+                      for prov,pr in (r.get("province_districts") or {}).items()
+                    },
+                  })
+              out["scenarios"][s]=rec
+          dst=pathlib.Path("/app/territorios/extremadura/.cache/ddd/probes/ext03_m04_comparison.json")
+          dst.write_text(json.dumps(out,ensure_ascii=False,indent=2))
+          print(json.dumps(out,ensure_ascii=False))
+          '
+
+      - name: Publicar EXT-03
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: extremadura-EXT03-${{ github.run_id }}
+          path: |
+            territorios/extremadura/.cache/ddd/probes/ext03_exit_codes.tsv
+            territorios/extremadura/.cache/ddd/probes/ext03_m04_comparison.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_*_informe.json
+            territorios/extremadura/.cache/ddd/preparacion/extremadura_2025/extremadura_2025_m04_*.geojson.zip

@@ -1,0 +1,16 @@
+{
+  "file_sha256": "a2c8f630bd84c8d7b31724496cb86db676b9765e5ad986a5b485dc60f813b756",
+  "geometry_edition": null,
+  "id_field": "district",
+  "population_edition": null,
+  "population_field": "pob_t_total",
+  "provenance": {
+    "accredited": false,
+    "evidence": []
+  },
+  "province_field": "province_id",
+  "require_connected": false,
+  "scope": "historical_national_candidate_not_certified",
+  "stable_identity_accredited": false,
+  "unit_kind": "districts"
+}

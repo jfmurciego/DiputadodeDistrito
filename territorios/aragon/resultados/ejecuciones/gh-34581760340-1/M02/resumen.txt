@@ -1,0 +1,3 @@
+Módulo 02 — Adyacencias
+edges=4293
+source=cache reutilizada desde Run #3

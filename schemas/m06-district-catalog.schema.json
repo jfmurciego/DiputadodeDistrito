@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://diputadodedistrito.example/schemas/m06-district-catalog.schema.json",
+  "title": "DDD M06 district catalog row",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "district_id",
+    "population",
+    "target_population",
+    "relative_deviation",
+    "population_ratio",
+    "population_floor",
+    "population_cap",
+    "within_hard_limits",
+    "section_count",
+    "municipality_count",
+    "province_count",
+    "area_km2",
+    "perimeter_km",
+    "polsby_popper"
+  ],
+  "properties": {
+    "district_id": {"type": "integer"},
+    "population": {"type": "integer", "minimum": 0},
+    "target_population": {"type": "number", "exclusiveMinimum": 0},
+    "population_difference": {"type": "number"},
+    "abs_population_difference": {"type": "number", "minimum": 0},
+    "relative_deviation": {"type": "number"},
+    "population_ratio": {"type": "number", "minimum": 0},
+    "population_floor": {"type": "number", "minimum": 0},
+    "population_cap": {"type": "number", "minimum": 0},
+    "within_hard_limits": {"type": "boolean"},
+    "within_target_tolerance": {"type": "boolean"},
+    "section_count": {"type": "integer", "minimum": 1},
+    "municipality_count": {"type": "integer", "minimum": 1},
+    "province_count": {"type": "integer", "minimum": 1},
+    "area_km2": {"type": "number", "minimum": 0},
+    "perimeter_km": {"type": "number", "minimum": 0},
+    "polsby_popper": {"type": "number", "minimum": 0, "maximum": 1}
+  },
+  "additionalProperties": true
+}

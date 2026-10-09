@@ -1,0 +1,278 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: workflow reutilizable
+# VERSIÓN: 1.2.1
+# FECHA: 2026-09-15
+# QUÉ HACE: valida topología de secciones y componentes poligonales, produce ensembles reanudables y expone su galería como artefacto reutilizable por el visor unificado.
+# ANTERIOR: legacy/workflows/generar-alternativas-territoriales_v1.1.1.yml
+name: Ensemble territorial GerryChain
+
+on:
+  workflow_call:
+    inputs:
+      territory_id: {required: true, type: string}
+      stage: {required: true, type: string}
+      execution_authorization: {required: false, type: string, default: ''}
+      promotion_authorization: {required: false, type: string, default: ''}
+      deploy_pages: {required: false, type: boolean, default: true}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ddd-ensemble-${{ inputs.territory_id }}
+  cancel-in-progress: false
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Probar contratos, toolkit y ReCom real
+        run: |
+          python -m unittest discover -s tests -p 'test_auditar_topologia_geometrica.py' -v
+          python -m unittest discover -s tests -p 'test_m05_gerrychain_engine.py' -v
+          python -m unittest discover -s tests -p 'test_ensemble_toolkit.py' -v
+          python -m unittest discover -s tests -p 'test_ensemble_integration.py' -v
+
+  base:
+    if: ${{ inputs.stage != 'synthetic' }}
+    needs: synthetic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+      run_key: ${{ steps.key.outputs.value }}
+      candidate_count: ${{ steps.gate.outputs.candidate_count }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: gate
+        name: Autorizar piloto o lote promovido
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ inputs.territory_id }}" = aragon
+          test "${{ inputs.execution_authorization }}" = EXECUTE_WITH_EXPLICIT_USER_AUTHORIZATION
+          case "${{ inputs.stage }}" in
+            aragon_10) count=10 ;;
+            aragon_50)
+              test "${{ inputs.promotion_authorization }}" = PROMOVER_ARAGON_50 || {
+                echo 'El lote de 50 exige piloto completo y revisión de coste/publicación.' >&2
+                exit 21
+              }
+              count=50
+              ;;
+            *) echo 'Fase no admitida.' >&2; exit 20 ;;
+          esac
+          echo "candidate_count=$count" >> "$GITHUB_OUTPUT"
+      - name: Reconstruir fuentes canónicas
+        run: bash inputs/partes/reconstruir_fuentes.sh
+      - name: Preparar M01–M05 una sola vez con topología métrica
+        run: |
+          set -euo pipefail
+          docker build --pull -t ddd-ensemble-base:${GITHUB_SHA} .
+          docker run --rm -v "$PWD:/app" -w /app \
+            -e DDD_PARAMS=territorios/aragon/config/aragon_2025.yaml \
+            -e DDD_RUN_ID=ensemble-aragon-base \
+            -e DDD_FROM_STAGE=M01 -e DDD_TO_STAGE=M05 \
+            --entrypoint /bin/bash ddd-ensemble-base:${GITHUB_SHA} /app/procedimiento.sh
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - name: Bloquear topología o partición inicial no defendibles
+        run: |
+          set -euo pipefail
+          python herramientas/auditar_topologia_geometrica.py \
+            --sections .cache/ddd/preparacion/aragon_2025/aragon_2025_m01_secciones_poblacion.geojson.zip \
+            --graph .cache/ddd/preparacion/aragon_2025/aragon_2025_m03_grafo.json \
+            --assignment ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --output work/ensemble/base-topology-preflight.json \
+            --min-shared-border-m 1 --working-crs EPSG:25830
+          python herramientas/auditar_componentes_geometricos.py \
+            --sections ejecuciones/ensemble-aragon-base/aragon_2025_m05_distritos_optimizados.geojson.zip \
+            --section-field CUSEC_KEY \
+            --district-field district_id \
+            --working-crs EPSG:3035 \
+            --expected-districts 67 \
+            --policy territorios/aragon/config/continuidad_geometrica_2025.json \
+            --output work/ensemble/base-geometric-components-preflight.json
+      - name: Crear plan determinista
+        run: |
+          python -m ddd_ensemble.runner \
+            --config configuracion/ensemble/aragon.json --mode plan \
+            --count '${{ steps.gate.outputs.candidate_count }}' --output work/ensemble
+      - id: matrix
+        run: python herramientas/exportar_matriz_ensemble.py work/ensemble/plan.json >> "$GITHUB_OUTPUT"
+      - id: key
+        run: python herramientas/calcular_clave_ensemble.py work/ensemble/plan.json >> "$GITHUB_OUTPUT"
+      - name: Recuperar candidatos válidos de un intento anterior
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="ensemble-${{ steps.key.outputs.value }}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            mkdir -p work/prior
+            gh release download "$tag" --pattern "$tag.zip" --dir work/prior
+            unzip -qo "work/prior/$tag.zip" -d work/ensemble
+          fi
+      - uses: actions/upload-artifact@v6
+        with:
+          name: ensemble-base-${{ steps.key.outputs.value }}
+          retention-days: 7
+          path: |
+            .cache/ddd/preparacion/aragon_2025
+            ejecuciones/ensemble-aragon-base
+            inputs/COMARCAS.csv
+            work/ensemble
+
+  generate:
+    needs: base
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.base.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - uses: actions/download-artifact@v6
+        with:
+          name: ensemble-base-${{ needs.base.outputs.run_key }}
+          path: .
+      - name: Ejecutar o reanudar perfil
+        shell: bash
+        run: |
+          mkdir -p work/ensemble/telemetry
+          /usr/bin/time -v -o "work/ensemble/telemetry/${{ matrix.profile }}.txt" \
+            python -m ddd_ensemble.runner \
+              --config configuracion/ensemble/aragon.json --mode run \
+              --profile '${{ matrix.profile }}' \
+              --count '${{ needs.base.outputs.candidate_count }}' --output work/ensemble
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: ensemble-${{ needs.base.outputs.run_key }}-${{ matrix.profile }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            work/ensemble/results
+            work/ensemble/telemetry
+
+  publish:
+    if: ${{ always() && needs.base.result == 'success' }}
+    needs: [base, generate]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      complete: ${{ steps.status.outputs.complete }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-ensemble.lock
+      - run: python -m pip install --requirement requirements-ensemble.lock
+      - uses: actions/download-artifact@v6
+        with:
+          name: ensemble-base-${{ needs.base.outputs.run_key }}
+          path: .
+      - uses: actions/download-artifact@v6
+        with:
+          pattern: ensemble-${{ needs.base.outputs.run_key }}-*
+          path: work/ensemble
+          merge-multiple: true
+      - name: Ensamblar evidencia y matriz de reintento
+        run: |
+          python -m ddd_ensemble.runner \
+            --config configuracion/ensemble/aragon.json --mode assemble \
+            --count '${{ needs.base.outputs.candidate_count }}' \
+            --output work/ensemble --allow-partial
+      - id: status
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          print('complete=' + str(json.load(open('work/ensemble/analysis/summary.json'))['complete']).lower())
+          PY
+      - name: Empaquetar evidencia sin commit
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path('work/ensemble')
+          files = {}
+          for path in sorted(root.rglob('*')):
+              if path.is_file() and path.name != 'artifact-manifest.json':
+                  files[str(path.relative_to(root))] = hashlib.sha256(path.read_bytes()).hexdigest()
+          summary = json.load(open(root / 'analysis/summary.json', encoding='utf-8'))
+          manifest = {
+              'schema': 'ddd.ensemble-artifact/1.0',
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'commit': os.environ['GITHUB_SHA'],
+              'plan_sha256': summary['plan_sha256'],
+              'complete': summary['complete'],
+              'candidate_count_expected': summary['candidate_count_expected'],
+              'candidate_count_valid': summary['candidate_count_valid'],
+              'files': files,
+          }
+          (root / 'artifact-manifest.json').write_text(
+              json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          PY
+          cd work/ensemble
+          zip -qr "../../ensemble-${{ needs.base.outputs.run_key }}.zip" \
+            artifact-manifest.json plan.json analysis results site telemetry
+      - name: Crear o actualizar release borrador
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="ensemble-${{ needs.base.outputs.run_key }}"
+          asset="$tag.zip"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "$asset" --clobber
+          else
+            gh release create "$tag" "$asset" --draft --title "$tag" \
+              --notes 'Ensemble DDD: evidencia, métricas, galería y matriz de reintento.'
+          fi
+      - uses: actions/upload-artifact@v6
+        if: ${{ steps.status.outputs.complete == 'true' }}
+        with:
+          name: ensemble-site-${{ needs.base.outputs.run_key }}
+          retention-days: 14
+          path: work/ensemble/site
+      - uses: actions/configure-pages@v5
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v4
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        with:
+          path: work/ensemble/site
+      - id: deployment
+        if: ${{ steps.status.outputs.complete == 'true' && inputs.deploy_pages }}
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,333 @@
+from __future__ import annotations
+
+import argparse
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+ELECTORAL_SKIP_ACTIVATIONS = {
+    "SKIPPED_SOURCE_UNAVAILABLE": "TERRITORIAL_READY_ELECTORAL_PENDING",
+    "SKIPPED_ELECTORAL_SOURCE_INVALID": "TERRITORIAL_READY_ELECTORAL_INVALID",
+    "SKIPPED_INCOMPATIBLE_PAIR": "TERRITORIAL_READY_PAIR_INCOMPATIBLE",
+    "SKIPPED_NO_ACCREDITED_PAIR": "TERRITORIAL_READY_ELECTORAL_PENDING",
+}
+
+
+def phase(
+    name: str,
+    result: str,
+    executed: bool,
+    run_id: str | None = None,
+    artifact: str | None = None,
+    digest: str | None = None,
+    validation_decision: str | None = None,
+    phase_decision: str | None = None,
+    scope: str = "IN_SCOPE",
+) -> dict:
+    return {
+        "name": name,
+        "scope": scope,
+        "executed": executed,
+        "result": result,
+        "run_id": int(run_id) if run_id and str(run_id).isdigit() else None,
+        "artifact": artifact or None,
+        "artifact_digest": digest or None,
+        "validation_decision": validation_decision or None,
+        "phase_decision": phase_decision or None,
+    }
+
+
+def optimization_lineage(
+    requested: str,
+    *,
+    generate_executed: bool,
+    generate_result: str,
+    evidence_path: str | None,
+) -> dict:
+    if not generate_executed:
+        return {
+            "optimization_algorithm": requested,
+            "optimization_algorithm_requested": requested,
+            "optimization_algorithm_effective": None,
+            "optimization_fallback": False,
+            "optimization_fallback_reason": None,
+            "optimization_evidence_status": "REUSED_EXISTING_PRODUCT",
+        }
+    if generate_result != "success":
+        return {
+            "optimization_algorithm": requested,
+            "optimization_algorithm_requested": requested,
+            "optimization_algorithm_effective": None,
+            "optimization_fallback": False,
+            "optimization_fallback_reason": None,
+            "optimization_evidence_status": "NOT_AVAILABLE_DUE_TO_GENERATION_FAILURE",
+        }
+    if not evidence_path:
+        raise ValueError("La generación completada correctamente debe aportar evidencia de optimización efectiva")
+    path = Path(evidence_path)
+    if not path.is_file():
+        raise FileNotFoundError(f"No existe evidencia de optimización: {path}")
+    evidence = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(evidence, dict):
+        raise ValueError("La evidencia de optimización debe ser un objeto JSON")
+    if evidence.get("requested_algorithm") not in (None, requested):
+        raise ValueError(
+            "La evidencia de optimización no coincide con la estrategia solicitada: "
+            f"{evidence.get('requested_algorithm')} != {requested}"
+        )
+    effective = evidence.get("effective_algorithm")
+    if not effective:
+        raise ValueError("La evidencia de optimización no declara effective_algorithm")
+    return {
+        "optimization_algorithm": requested,
+        "optimization_algorithm_requested": requested,
+        "optimization_algorithm_effective": effective,
+        "optimization_fallback": bool(evidence.get("fallback", False)),
+        "optimization_fallback_reason": evidence.get("fallback_reason"),
+        "optimization_evidence_status": "VALID",
+    }
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--territory-id", required=True)
+    ap.add_argument("--territory-name", required=True)
+    ap.add_argument("--edition", required=True)
+    ap.add_argument("--execution-mode", required=True)
+    ap.add_argument("--optimization-algorithm", required=True)
+    ap.add_argument("--optimization-evidence")
+    ap.add_argument("--workflow-run-id", required=True)
+    ap.add_argument("--source-sha", required=True)
+    ap.add_argument("--publication-mode-requested", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--publication-mode-effective", choices=["electoral", "territorial_only"], required=True)
+    ap.add_argument("--electoral-classification-result", default="success")
+    ap.add_argument("--electoral-activation-status", default="")
+    ap.add_argument("--electoral-completion-status", default="PENDING")
+    ap.add_argument("--electoral-skip-reason")
+    ap.add_argument("--publish-requested", choices=["true", "false"], required=True)
+    ap.add_argument("--prepare-territorial-result", required=True)
+    ap.add_argument("--generate-result", required=True)
+    ap.add_argument("--prepare-electoral-result", required=True)
+    ap.add_argument("--incorporate-result", required=True)
+    ap.add_argument("--publish-result", required=True)
+    ap.add_argument("--prepare-territorial-executed", choices=["true", "false"], required=True)
+    ap.add_argument("--generate-executed", choices=["true", "false"], required=True)
+    ap.add_argument("--prepare-electoral-executed", choices=["true", "false"], required=True)
+    ap.add_argument("--incorporate-executed", choices=["true", "false"], required=True)
+    ap.add_argument("--territorial-source-run-id")
+    ap.add_argument("--territorial-product-run-id")
+    ap.add_argument("--electoral-source-run-id")
+    ap.add_argument("--electoral-product-run-id")
+    ap.add_argument("--territorial-source-artifact")
+    ap.add_argument("--territorial-product-artifact")
+    ap.add_argument("--electoral-source-artifact")
+    ap.add_argument("--electoral-product-artifact")
+    ap.add_argument("--territorial-source-digest")
+    ap.add_argument("--territorial-product-digest")
+    ap.add_argument("--electoral-source-digest")
+    ap.add_argument("--electoral-product-digest")
+    ap.add_argument("--territorial-source-validation")
+    ap.add_argument("--territorial-product-validation")
+    ap.add_argument("--electoral-source-validation")
+    ap.add_argument("--electoral-product-validation")
+    ap.add_argument("--territorial-source-phase-decision")
+    ap.add_argument("--territorial-product-phase-decision")
+    ap.add_argument("--electoral-source-phase-decision")
+    ap.add_argument("--electoral-product-phase-decision")
+    ap.add_argument("--electoral-recovery-status", default="NONE")
+    ap.add_argument("--electoral-recovery-result", default="skipped")
+    ap.add_argument("--electoral-recovery-reason")
+    ap.add_argument("--electoral-recovery-source-run-id")
+    ap.add_argument("--electoral-recovery-artifact")
+    ap.add_argument("--electoral-recovery-digest")
+    ap.add_argument("--electoral-recovery-source-commit")
+    ap.add_argument("--electoral-recovery-origin-manifest")
+    ap.add_argument("--electoral-recovery-registration-status")
+    ap.add_argument("--electoral-recovery-receipt-accredited", choices=["true", "false"], default="false")
+    ap.add_argument("--electoral-recovery-catalog-accredited", choices=["true", "false"], default="false")
+    ap.add_argument("--output", required=True)
+    ns = ap.parse_args()
+
+    def b(v: str) -> bool:
+        return v == "true"
+
+    territorial_only = ns.publication_mode_effective == "territorial_only"
+    completion = str(ns.electoral_completion_status or "")
+    skip_requested = completion.startswith("SKIPPED_")
+    expected_skip_activation = ELECTORAL_SKIP_ACTIVATIONS.get(completion)
+    prepare_electoral_executed = b(ns.prepare_electoral_executed)
+    incorporate_executed = b(ns.incorporate_executed)
+    prepare_source_gap_ok = (
+        (prepare_electoral_executed and ns.prepare_electoral_result == "success")
+        or (not prepare_electoral_executed and ns.prepare_electoral_result == "skipped")
+    )
+    incorporate_source_gap_ok = (
+        not incorporate_executed
+        and ns.incorporate_result == "skipped"
+    )
+    skip_contract_valid = (
+        skip_requested
+        and expected_skip_activation is not None
+        and ns.electoral_activation_status == expected_skip_activation
+        and bool(str(ns.electoral_skip_reason or "").strip())
+        and prepare_source_gap_ok
+        and incorporate_source_gap_ok
+        and ns.territorial_product_validation == "VALIDADO"
+    )
+    electoral_scope = (
+        "OUT_OF_SCOPE" if territorial_only
+        else "SOURCE_GAP_SKIP" if skip_contract_valid
+        else "IN_SCOPE"
+    )
+    phases = [
+        phase("01 · Preparación de Datos Territoriales", ns.prepare_territorial_result, b(ns.prepare_territorial_executed), ns.territorial_source_run_id, ns.territorial_source_artifact, ns.territorial_source_digest, ns.territorial_source_validation, ns.territorial_source_phase_decision),
+        phase("02 · Generación de Distritos Autonómicos", ns.generate_result, b(ns.generate_executed), ns.territorial_product_run_id, ns.territorial_product_artifact, ns.territorial_product_digest, ns.territorial_product_validation, ns.territorial_product_phase_decision),
+        phase(
+            "03 · Preparación de Resultados Electorales",
+            ns.prepare_electoral_result,
+            b(ns.prepare_electoral_executed),
+            ns.electoral_source_run_id,
+            ns.electoral_source_artifact,
+            ns.electoral_source_digest,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_source_validation,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_source_phase_decision,
+            scope=electoral_scope,
+        ),
+        phase(
+            "04 · Incorporación de Resultados Electorales",
+            ns.incorporate_result,
+            b(ns.incorporate_executed),
+            ns.electoral_product_run_id,
+            ns.electoral_product_artifact,
+            ns.electoral_product_digest,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_product_validation,
+            None if electoral_scope != "IN_SCOPE" else ns.electoral_product_phase_decision,
+            scope=electoral_scope,
+        ),
+        phase(
+            "05 · Publicación del Visor",
+            ns.publish_result,
+            ns.publish_requested == "true",
+            ns.workflow_run_id if ns.publish_requested == "true" else None,
+            None,
+        ),
+    ]
+    failed = [
+        p["name"] for p in phases
+        if p["scope"] == "IN_SCOPE" and p["executed"] and p["result"] != "success"
+    ]
+    blocked = [
+        p["name"] for p in phases[:4]
+        if p["scope"] == "IN_SCOPE" and p.get("validation_decision") not in {None, "VALIDADO"}
+    ]
+    out_of_scope = [p["name"] for p in phases if p["scope"] == "OUT_OF_SCOPE"]
+    skipped_source_gap = [p["name"] for p in phases if p["scope"] == "SOURCE_GAP_SKIP"]
+    optimization = optimization_lineage(
+        ns.optimization_algorithm,
+        generate_executed=b(ns.generate_executed),
+        generate_result=ns.generate_result,
+        evidence_path=ns.optimization_evidence,
+    )
+    scope_mismatch = ns.publication_mode_requested != ns.publication_mode_effective
+
+    recovery_status = str(ns.electoral_recovery_status or "NONE")
+    recovery_active = recovery_status not in {"", "NONE"}
+    recovery_receipt_ok = b(ns.electoral_recovery_receipt_accredited)
+    recovery_catalog_ok = b(ns.electoral_recovery_catalog_accredited)
+    recovery_ok = (
+        not recovery_active
+        or (
+            recovery_status == "VALID"
+            and ns.electoral_recovery_result == "success"
+            and ns.electoral_recovery_registration_status in {"REGISTERED", "NO_OP"}
+            and recovery_receipt_ok
+            and recovery_catalog_ok
+            and str(ns.electoral_recovery_source_run_id or "").isdigit()
+            and bool(ns.electoral_recovery_artifact)
+            and bool(ns.electoral_recovery_digest)
+            and bool(ns.electoral_recovery_source_commit)
+        )
+    )
+    if recovery_active and not recovery_ok:
+        failed.append("Reanudación de producto electoral durable")
+    if ns.electoral_classification_result != "success":
+        failed.append("Clasificación de rama electoral")
+    if skip_requested and not skip_contract_valid:
+        failed.append("Clasificación de degradación electoral")
+
+    successful = not failed and not blocked and not scope_mismatch and recovery_ok
+    territorial_status = (
+        "CERTIFIED" if ns.territorial_product_validation == "VALIDADO"
+        else "NOT_CERTIFIED"
+    )
+    if territorial_only:
+        electoral_status = "NOT_REQUESTED"
+    elif skip_contract_valid:
+        electoral_status = ns.electoral_completion_status
+    elif successful:
+        electoral_status = "COMPLETE"
+    else:
+        electoral_status = "INCOMPLETE"
+    completion_status = (
+        "TERRITORIAL_COMPLETE"
+        if successful and skip_contract_valid
+        else "COMPLETE" if successful
+        else "INCOMPLETE"
+    )
+    resumption = None
+    if recovery_active:
+        resumption = {
+            "kind": "durable_electoral_product",
+            "status": recovery_status,
+            "result": ns.electoral_recovery_result,
+            "reason": ns.electoral_recovery_reason or None,
+            "origin_run_id": (
+                int(ns.electoral_recovery_source_run_id)
+                if str(ns.electoral_recovery_source_run_id or "").isdigit()
+                else None
+            ),
+            "origin_manifest": ns.electoral_recovery_origin_manifest or None,
+            "artifact": ns.electoral_recovery_artifact or None,
+            "artifact_digest": ns.electoral_recovery_digest or None,
+            "source_commit": ns.electoral_recovery_source_commit or None,
+            "registration_status": ns.electoral_recovery_registration_status or None,
+            "receipt_accredited": recovery_receipt_ok,
+            "catalog_accredited": recovery_catalog_ok,
+        }
+
+    payload = {
+        "schema": "ddd.full-run-manifest/2.1",
+        "territory_id": ns.territory_id,
+        "territory_name": ns.territory_name,
+        "edition": ns.edition,
+        "execution_mode": ns.execution_mode,
+        **optimization,
+        "workflow_run_id": int(ns.workflow_run_id),
+        "source_sha": ns.source_sha,
+        "publication_mode_requested": ns.publication_mode_requested,
+        "publication_mode_effective": ns.publication_mode_effective,
+        "publication_mode_scope_mismatch": scope_mismatch,
+        "publish_requested": ns.publish_requested == "true",
+        "status": "SUCCESS" if successful else "FAILED",
+        "completion_status": completion_status,
+        "territorial_status": territorial_status,
+        "electoral_status": electoral_status,
+        "electoral_activation_status": ns.electoral_activation_status or None,
+        "electoral_skip_reason": ns.electoral_skip_reason or None,
+        "resumption": resumption,
+        "failed_phases": failed,
+        "blocked_phases": blocked,
+        "out_of_scope_phases": out_of_scope,
+        "skipped_source_gap_phases": skipped_source_gap,
+        "phases": phases,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    out = Path(ns.output)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(payload, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

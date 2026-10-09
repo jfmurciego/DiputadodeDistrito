@@ -1,0 +1,10 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.0
+# Evita duplicar datos y resultados dentro de cada imagen Docker.
+.git
+inputs
+.cache
+ejecuciones
+legacy
+__pycache__
+*.pyc

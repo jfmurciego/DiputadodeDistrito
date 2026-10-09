@@ -1,0 +1,25 @@
+{
+  "schema": "ddd-electoral-gap-fill/1.0",
+  "status": "BLOCK",
+  "added_keys": 0,
+  "blocked_units": [
+    "1004201001",
+    "1012501001"
+  ],
+  "geographic_candidate_votes": 197113,
+  "special_candidate_votes": 994,
+  "candidate_votes_with_special": 198107,
+  "reconciliation_errors": [
+    {
+      "code": "GEOGRAPHIC_TOTAL_MISMATCH",
+      "actual": 197113,
+      "expected": 197647
+    },
+    {
+      "code": "TOTAL_WITH_SPECIAL_MISMATCH",
+      "actual": 198107,
+      "expected": 198641
+    }
+  ],
+  "production_eligible": false
+}

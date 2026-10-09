@@ -1,0 +1,468 @@
+{
+  "base": "184f11ca026c115551ef846fadb504cbb1ef4491",
+  "branch": "fix/m05-focal-chain-repair",
+  "certification": {
+    "block_cause": null,
+    "geometric_decision": "PASS_WITH_EXCEPTIONS",
+    "geometric_exceptions_causally_governed": true,
+    "geometric_gate_statement": "82 distritos evaluados / 64 PASS / 18 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+    "population_decision": "TARGET_MET",
+    "population_evidence_source": "POPULATION_REPAIR",
+    "population_max_deviation_after": 0.1199727138818126,
+    "population_outliers_after": 0,
+    "population_outliers_before": 4,
+    "production_certification_gate": "PASS_WITH_EXCEPTIONS"
+  },
+  "command": {
+    "argv": [
+      "python3",
+      "modulos/05_optimizar_distritos.py",
+      "--params",
+      "territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml"
+    ],
+    "entrypoint": "modulos/05_optimizar_distritos.py",
+    "environment": {
+      "DDD_RUN_ID": [
+        "pr47-local-validation-1",
+        "pr47-local-validation-2"
+      ],
+      "PYTHONHASHSEED": "0"
+    }
+  },
+  "determinism": {
+    "canonical_assignment_equal": true,
+    "full_report_differences": [
+      "population_repair.elapsed_seconds",
+      "population_repair.focal_search.elapsed_seconds"
+    ],
+    "full_zip_diff_reason": "ZIP member timestamp only; uncompressed GeoJSON bytes identical",
+    "full_zip_difference": "ZIP member date_time only; CRC, compressed size, uncompressed size and uncompressed GeoJSON SHA-256 are identical",
+    "functional_report_equal": true,
+    "inner_geojson_equal": true,
+    "only_report_differences_expected": [
+      "population_repair.elapsed_seconds",
+      "population_repair.focal_search.elapsed_seconds"
+    ],
+    "populations_equal": true,
+    "repairs_equal": true,
+    "states_equal": true,
+    "termination_equal": true
+  },
+  "effective_parameters": {
+    "anneal_seed_offset": 0,
+    "base_seed": 12345,
+    "electoral_inputs_used": false,
+    "expected_districts": 82,
+    "graph_contiguity": true,
+    "municipality_discipline": true,
+    "population_cap_ratio": 1.75,
+    "population_floor_ratio": 0.8,
+    "population_repair_max_candidates": 20000,
+    "population_repair_max_depth": 4,
+    "population_repair_max_seconds": 120,
+    "population_repair_max_transfer_set": 2,
+    "population_repair_seed": 0,
+    "province_policy": "single province per district; Hamilton quota 05:6,09:12,24:15,34:6,37:11,40:5,42:3,47:18,49:6",
+    "resume_from": "Generación de semillas (M04)",
+    "target_tolerance_ratio": 0.12,
+    "territory": "Castilla y León"
+  },
+  "environment": {
+    "dependencies": {
+      "GDAL_fiona": "3.9.2",
+      "GDAL_pyogrio": "3.11.4",
+      "GEOS": "3.13.1",
+      "PROJ": "9.5.1",
+      "PyYAML": "6.0.3",
+      "fiona": "1.10.1",
+      "geopandas": "1.1.2",
+      "numpy": "2.3.5",
+      "pandas": "2.2.3",
+      "pyogrio": "0.12.1",
+      "pyproj": "3.7.2",
+      "shapely": "2.1.2"
+    },
+    "kernel": "Linux 6.18.44 x86_64",
+    "os": "Debian GNU/Linux 13 (trixie)",
+    "python": "3.13.5"
+  },
+  "executed_at_utc": "2026-09-18T20:10:00Z",
+  "input": {
+    "artifact_created_at": "2026-09-18T07:25:46Z",
+    "artifact_id": 10536855208,
+    "artifact_name": "ddd-state-35319351944-M06",
+    "artifact_sha256": "ce0f198fc09a34877853bc0df8a3728be15d842fe2b0ba128ed869f8d5b20944",
+    "artifact_size_bytes": 171455799,
+    "districts": 82,
+    "downloaded_at_utc": "2026-09-18T19:55:09Z",
+    "hashes": {
+      "graph_sha256": "d3f688ec18131b92fa8945b957819031f501e58921ac05fa164738832504db26",
+      "old_optimization_report_sha256": "3c62802bb72cb1b1952af83c242f66f8e98e1ee749f2fe02134a452d5b9b8f1a",
+      "seed_assignment_sha256": "3791a1c5aee011b1972cfb13f0193929b3421a13b3d354bad67f7d638e777da4",
+      "seed_report_sha256": "20a12783c1da217e4b7fa581576821569dcec4e525ccee154d51a947832a45f6"
+    },
+    "old_population_repair_outliers_after": 3,
+    "old_population_repair_result": "IMPROVED_NOT_REPAIRED",
+    "old_three_outliers": {
+      "1": {
+        "population": 25761,
+        "relative_deviation": -0.12028005752073631
+      },
+      "46": {
+        "population": 36763,
+        "relative_deviation": 0.2554304664168771
+      },
+      "51": {
+        "population": 33074,
+        "relative_deviation": 0.12945372375137484
+      }
+    },
+    "origin_run_id": 35319351944,
+    "paths": {
+      "graph": "cache/castilla_y_leon_2025_m03_grafo.json",
+      "old_optimization_report": "cache/castilla_y_leon_2025_m05_informe.json",
+      "seed_assignment": "cache/castilla_y_leon_2025_m04_semillas.geojson.zip",
+      "seed_report": "cache/castilla_y_leon_2025_m04_informe.json"
+    },
+    "population_total": 2401221,
+    "resume_phase": "Generación de semillas (M04) -> Optimización poblacional (M05)",
+    "sections": 3506,
+    "source_head": "6db18ae4f23de87359b13a95a302dc55616478be"
+  },
+  "observed_state_progression": {
+    "base_optimizer_outliers": 4,
+    "focal_repair_outliers": 0,
+    "primary_repair_outliers": 3,
+    "primary_three_outliers": {
+      "1": 25761,
+      "46": 36763,
+      "51": 33074
+    },
+    "seed_generation_outliers": 6
+  },
+  "pr": 47,
+  "pr_url": "https://github.com/jfmurciego/DiputadodeDistrito/pull/47",
+  "project": "Diputado de Distrito",
+  "repository": "jfmurciego/DiputadodeDistrito",
+  "runs": {
+    "run1": {
+      "candidate_budget": 20000,
+      "candidates_examined": 14740,
+      "canonical_assignment_sha256": "de6525e732c5c3b805a531aaabc335998efb3b42e6c5540bc0b76f5f53f86172",
+      "final_max_relative_deviation": 0.1199727138818126,
+      "focal_candidate_attempts": 4740,
+      "focal_elapsed_seconds": 0.845084,
+      "focal_states_explored": 131,
+      "full_report_sha256": "5a0daaa8cc108ad9183383c14c2c06533e8aa61498baeda3c3e819fd4d722513",
+      "full_zip_sha256": "053dc6b7285545f870f03616d8f973446de50f00609530d4bcd05a2f5996e28d",
+      "functional_report_sha256": "30d2f446420029c00bd878ebbed355c18b075c79fd7790111410290862481317",
+      "geometric_audit_decision": "PASS_WITH_EXCEPTIONS",
+      "geometric_blocked_districts": 0,
+      "geometric_gate_statement": "82 distritos evaluados / 64 PASS / 18 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "geometric_governed_exceptions": 18,
+      "inner_geojson_sha256": "520eec2e811e725a13951ee628c2568af96d7a30d22bd52602e5e967dcf3de48",
+      "max_rss_kb": 1546812,
+      "moves": [
+        [
+          [
+            "47:47043:M",
+            "47:47185:M"
+          ],
+          72,
+          68
+        ],
+        [
+          [
+            "47:47197:M",
+            "47:47205:M"
+          ],
+          75,
+          68
+        ],
+        [
+          [
+            "05:05140:M"
+          ],
+          5,
+          1
+        ],
+        [
+          [
+            "05:05185:M"
+          ],
+          1,
+          5
+        ],
+        [
+          [
+            "37:37085:M"
+          ],
+          46,
+          44
+        ],
+        [
+          [
+            "37:37008:M"
+          ],
+          44,
+          48
+        ],
+        [
+          [
+            "37:37117:M"
+          ],
+          48,
+          46
+        ],
+        [
+          [
+            "40:40101:M"
+          ],
+          51,
+          54
+        ],
+        [
+          [
+            "40:40152:M"
+          ],
+          54,
+          51
+        ],
+        [
+          [
+            "40:40901:M"
+          ],
+          54,
+          51
+        ],
+        [
+          [
+            "40:40214:M"
+          ],
+          51,
+          52
+        ],
+        [
+          [
+            "40:40115:M"
+          ],
+          52,
+          53
+        ]
+      ],
+      "repair_elapsed_seconds": 94.880777,
+      "repair_result": "REPAIRED",
+      "system_seconds": 12.76,
+      "termination_reason": "PRIMARY_BUDGET_RESERVED_FOR_FOCAL",
+      "user_seconds": 106.62,
+      "wall_seconds": 119.00999999999999,
+      "zip_timestamp": [
+        2026,
+        9,
+        18,
+        20,
+        10,
+        18
+      ]
+    },
+    "run2": {
+      "candidate_budget": 20000,
+      "candidates_examined": 14740,
+      "canonical_assignment_sha256": "de6525e732c5c3b805a531aaabc335998efb3b42e6c5540bc0b76f5f53f86172",
+      "final_max_relative_deviation": 0.1199727138818126,
+      "focal_candidate_attempts": 4740,
+      "focal_elapsed_seconds": 0.846773,
+      "focal_states_explored": 131,
+      "full_report_sha256": "434d4e2b9a915c1415d2dfc1fa8706b3bf50d0eeed6855593841a4579e0575db",
+      "full_zip_sha256": "48c503b7e62de51f3b9b7267f3a6f945d84c0225f56dc9da37895a82747f33a4",
+      "functional_report_sha256": "30d2f446420029c00bd878ebbed355c18b075c79fd7790111410290862481317",
+      "geometric_audit_decision": "PASS_WITH_EXCEPTIONS",
+      "geometric_blocked_districts": 0,
+      "geometric_gate_statement": "82 distritos evaluados / 64 PASS / 18 PASS_WITH_EXCEPTIONS / 0 BLOCK",
+      "geometric_governed_exceptions": 18,
+      "inner_geojson_sha256": "520eec2e811e725a13951ee628c2568af96d7a30d22bd52602e5e967dcf3de48",
+      "max_rss_kb": 1546800,
+      "moves": [
+        [
+          [
+            "47:47043:M",
+            "47:47185:M"
+          ],
+          72,
+          68
+        ],
+        [
+          [
+            "47:47197:M",
+            "47:47205:M"
+          ],
+          75,
+          68
+        ],
+        [
+          [
+            "05:05140:M"
+          ],
+          5,
+          1
+        ],
+        [
+          [
+            "05:05185:M"
+          ],
+          1,
+          5
+        ],
+        [
+          [
+            "37:37085:M"
+          ],
+          46,
+          44
+        ],
+        [
+          [
+            "37:37008:M"
+          ],
+          44,
+          48
+        ],
+        [
+          [
+            "37:37117:M"
+          ],
+          48,
+          46
+        ],
+        [
+          [
+            "40:40101:M"
+          ],
+          51,
+          54
+        ],
+        [
+          [
+            "40:40152:M"
+          ],
+          54,
+          51
+        ],
+        [
+          [
+            "40:40901:M"
+          ],
+          54,
+          51
+        ],
+        [
+          [
+            "40:40214:M"
+          ],
+          51,
+          52
+        ],
+        [
+          [
+            "40:40115:M"
+          ],
+          52,
+          53
+        ]
+      ],
+      "repair_elapsed_seconds": 94.761824,
+      "repair_result": "REPAIRED",
+      "system_seconds": 12.16,
+      "termination_reason": "PRIMARY_BUDGET_RESERVED_FOR_FOCAL",
+      "user_seconds": 107.37,
+      "wall_seconds": 119.18,
+      "zip_timestamp": [
+        2026,
+        9,
+        18,
+        20,
+        13,
+        28
+      ]
+    }
+  },
+  "schema": "ddd.m05-real-reproducibility/1.0",
+  "source_integrity": {
+    "complete_git_checkout": false,
+    "operational_code_fingerprint_sha256": "452a7335cc32d388da8466a1c3354a6918120558ba3d51b9ba49ad289dbb6ea8",
+    "operational_files": [
+      {
+        "git_blob_sha1": "649b1dad6cbab1fbb553d87322754fca1d102842",
+        "path": "modulos/05_optimizar_distritos.py",
+        "sha256": "d3d50c8804694f2aa8ec057532e938b9239259222986842cc00990dc0f71aa3d"
+      },
+      {
+        "git_blob_sha1": "de5879c879d5a8c1c9be130f49e8be3f917d4196",
+        "path": "ddd_core/m05_opt_engine_v740.py",
+        "sha256": "c8090ce17aa57ca91480cf00e1337722b6b0bf0a164c70a7bea6bcea3e146df0"
+      },
+      {
+        "git_blob_sha1": "09d64a38d95a012f30d46d00cbcae966e827ebf8",
+        "path": "ddd_core/m05_swap_polish.py",
+        "sha256": "00abcce1deca948b4dac4dfca6f9f204a57282d465f97854d1977ab2a137facc"
+      },
+      {
+        "git_blob_sha1": "235260463214673c5ef84ca59017d55a102799a2",
+        "path": "ddd_core/m05_population_repair.py",
+        "sha256": "657fb1a2cdbe6c395d0b801286c56cf652d396a1f6ab33a514af9786479b1434"
+      },
+      {
+        "git_blob_sha1": "b56edde1b8ed4aae2a8b90ea8a13471c8ae22ee5",
+        "path": "ddd_core/config.py",
+        "sha256": "3a958d727ea7e49a077dcbce8e4f124c41e63befeff086e963999f779d1fc52f"
+      }
+    ],
+    "reason": "runtime shell has no outbound network; executable source set was materialized from GitHub connector and each Git blob SHA was verified against validated_source_head",
+    "territory_config_git_blob_sha1": "471f37b3116a770826dd42705d0fe681dc8d67ea",
+    "territory_config_sha256": "7334880ff25a38f17380a9d79258e479981218dd819c0864455556d00759cbf0"
+  },
+  "validated_source_head": "d05741ab239b0a5f05455ba642ae702830fec775",
+  "validation": {
+    "expected_districts": 82,
+    "expected_population_total": 2401221,
+    "expected_sections": 3506,
+    "run1": {
+      "closed_units_moved": 0,
+      "disconnected_districts": 0,
+      "district_ids_match_input": true,
+      "districts": 82,
+      "duplicated_sections": 0,
+      "empty_districts": 0,
+      "extra_sections": 0,
+      "lost_sections": 0,
+      "max_relative_deviation": 0.1199727138818126,
+      "multi_province_districts": 0,
+      "municipality_contract_violations": 0,
+      "outliers_after": 0,
+      "population_total": 2401221,
+      "section_province_changes": 0,
+      "sections": 3506,
+      "split_atomic_units": 0,
+      "unique_sections": 3506
+    },
+    "run2": {
+      "closed_units_moved": 0,
+      "disconnected_districts": 0,
+      "district_ids_match_input": true,
+      "districts": 82,
+      "duplicated_sections": 0,
+      "empty_districts": 0,
+      "extra_sections": 0,
+      "lost_sections": 0,
+      "max_relative_deviation": 0.1199727138818126,
+      "multi_province_districts": 0,
+      "municipality_contract_violations": 0,
+      "outliers_after": 0,
+      "population_total": 2401221,
+      "section_province_changes": 0,
+      "sections": 3506,
+      "split_atomic_units": 0,
+      "unique_sections": 3506
+    }
+  }
+}

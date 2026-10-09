@@ -1,0 +1,22 @@
+{
+  "identifier_intersection_count": 391,
+  "interpretation": "same_historical_material; creation timestamps do not establish dataset editions",
+  "metadata": {
+    "changes": "diagnóstico y correspondencia acreditada",
+    "date": "2026-10-08",
+    "name": "Comparación cartográfica nacional",
+    "origin": "nuevo, sin predecesor",
+    "reason": "no inferir ediciones ni causas por nombres",
+    "scope": "análisis local sin generación",
+    "status": "CI_PENDIENTE",
+    "version": "1.0.0"
+  },
+  "normalized_attribute_identical_pairs": 391,
+  "raw_coordinate_identical_pairs": 391,
+  "scope": "file_variant_diagnostic_not_2022_2025_comparison",
+  "temporal_change_metrics": null,
+  "workbook_members_with_different_hashes": [
+    "docProps/core.xml"
+  ],
+  "workbook_sheet_xml_identical": true
+}

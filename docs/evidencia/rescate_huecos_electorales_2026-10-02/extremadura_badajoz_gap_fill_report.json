@@ -1,0 +1,11 @@
+{
+  "schema": "ddd-electoral-gap-fill/1.0",
+  "status": "BLOCK_ADMISSIBILITY",
+  "added_keys": 0,
+  "blocked_units": [],
+  "geographic_candidate_votes": 325305,
+  "special_candidate_votes": 891,
+  "candidate_votes_with_special": 326196,
+  "reconciliation_errors": [],
+  "production_eligible": false
+}

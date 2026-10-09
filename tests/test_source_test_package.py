@@ -1,0 +1,260 @@
+from __future__ import annotations
+
+import hashlib
+import io
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+import yaml
+
+from herramientas.probar_fuentes_oficiales import (
+    _with_limit,
+    full_test,
+    probe_ogc,
+    probe_static_csv,
+)
+from herramientas.adquirir_fuentes_oficiales import (
+    _collect_live_sections,
+    _ogc_endpoint,
+    _section_publication_identity,
+    _source_urls,
+)
+from herramientas.resolver_fuentes_territorio import build_declaration, matrix, territories
+
+ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW = ROOT / ".github/workflows/prueba-fuentes-oficiales.yml"
+
+
+class FakeResponse:
+    def __init__(self, payload: bytes, status: int = 200):
+        self._bio = io.BytesIO(payload)
+        self.status = status
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return False
+
+    def readline(self):
+        return self._bio.readline()
+
+    def read(self):
+        return self._bio.read()
+
+
+class SourceTestPackageTests(unittest.TestCase):
+    def test_registry_covers_all_spanish_territories(self):
+        rows = territories()
+        self.assertEqual(len(rows), 19)
+        self.assertEqual(matrix("Todos"), [r["name"] for r in rows])
+        self.assertIn("La Rioja", matrix("Todos"))
+        self.assertIn("Ceuta", matrix("Todos"))
+        self.assertIn("Melilla", matrix("Todos"))
+
+    def test_declaration_is_generated_without_prepared_snapshot(self):
+        d = build_declaration("La Rioja", 2025, source_year=2025)
+        self.assertEqual(d["territory"]["id"], "la_rioja")
+        self.assertEqual([x["code"] for x in d["territory"]["territorial_codes"]], ["26"])
+        self.assertEqual(d["required_sources"], ["poblacion_por_sexo_y_edad", "secciones_censales"])
+        self.assertNotIn("snapshot", d["source_bindings"]["poblacion_por_sexo_y_edad"])
+        self.assertNotIn("snapshot", d["source_bindings"]["secciones_censales"])
+        self.assertEqual(d["default_mode"]["production"], "official_live")
+
+    def test_population_probe_reads_only_header_and_sample(self):
+        source = {
+            "id": "poblacion_por_sexo_y_edad",
+            "kind": "static_csv",
+            "url": "https://example.test/pop.csv",
+        }
+        payload = b"Periodo;Sexo;Edad;Secciones;Total\n" + b"2025;Total;Todas;2600101001;1\n" * 50
+        with patch("herramientas.probar_fuentes_oficiales._request", return_value=FakeResponse(payload)):
+            result = probe_static_csv(source, timeout=10, sample_size=10)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["sample_records"], 10)
+        self.assertLess(result["sample_bytes"], len(payload))
+
+    def test_current_ine_sectioning_uses_accredited_identity_not_runner_clock(self):
+        source = yaml.safe_load(
+            (ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8")
+        )["sources"]["secciones_censales"]
+        declaration = build_declaration(
+            "Andalucía",
+            2025,
+            population_year=2025,
+            section_year=2026,
+        )
+
+        with patch("herramientas.adquirir_fuentes_oficiales.datetime") as runner_clock:
+            runner_clock.now.return_value.year = 2027
+            identity = _section_publication_identity(policy_root=ROOT)
+            self.assertEqual(identity["latest_available_year"], 2026)
+            self.assertEqual(
+                identity["current_collection"],
+                "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+            )
+            self.assertIn(
+                "SU.VectorStatisticalUnit",
+                _ogc_endpoint(source, 2026, policy_root=ROOT),
+            )
+            urls = _source_urls(
+                source,
+                2026,
+                declaration["territory"]["territorial_codes"],
+                policy_root=ROOT,
+            )
+            runner_clock.now.assert_not_called()
+
+        self.assertTrue(urls)
+        self.assertTrue(all("SU.VectorStatisticalUnit" in url for url in urls))
+        self.assertTrue(all("Secciones_2026" not in url for url in urls))
+        self.assertIn(
+            "Secciones_2025",
+            _ogc_endpoint(source, 2025, policy_root=ROOT),
+        )
+        self.assertIn(
+            "Secciones_2024",
+            _ogc_endpoint(source, 2024, policy_root=ROOT),
+        )
+        with self.assertRaisesRegex(ValueError, "SECTION_YEAR_NOT_ACCREDITED"):
+            _ogc_endpoint(source, 2027, policy_root=ROOT)
+
+    def test_current_ine_sectioning_fails_closed_when_evidence_does_not_bind_collection_to_year(self):
+        source = yaml.safe_load(
+            (ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8")
+        )["sources"]["secciones_censales"]
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            config = root / "configuracion"
+            config.mkdir()
+            matrix = yaml.safe_load(
+                (ROOT / "configuracion/preparacion_legislatura_vigente.yaml").read_text(
+                    encoding="utf-8"
+                )
+            )
+            evidence = json.loads(
+                (
+                    ROOT
+                    / "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json"
+                ).read_text(encoding="utf-8")
+            )
+            check = evidence["checks"]["census_sections"]
+            check["preserved_response"] = (
+                "Servicio API Features para cartografía digitalizada de secciones censales\n"
+                "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit\n"
+                "Título: Secciones_2025"
+            )
+            check["response_sha256"] = hashlib.sha256(
+                check["preserved_response"].encode("utf-8")
+            ).hexdigest()
+            (config / "preparacion_legislatura_vigente.yaml").write_text(
+                yaml.safe_dump(matrix, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            (config / "evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json").write_text(
+                json.dumps(evidence, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                "SECTION_PUBLICATION_IDENTITY_UNPROVEN",
+            ):
+                _ogc_endpoint(source, 2026, policy_root=root)
+
+    def test_ogc_remote_filter_is_only_province_and_sections_are_filtered_locally(self):
+        d = build_declaration("La Rioja", 2025, source_year=2025)
+        source = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))["sources"]["secciones_censales"]
+        urls = _source_urls(source, 2025, d["territory"]["territorial_codes"])
+        self.assertEqual(len(urls), 1)
+        self.assertIn("CPRO%3D%2726%27", urls[0])
+        self.assertNotIn("TIPO", urls[0])
+
+        payload = json.dumps({"features": [
+            {"properties": {"CPRO": "26", "CUSEC": "2600101000", "CSEC": "000", "TIPO": "DISTRITO"}},
+            {"properties": {"CPRO": "26", "CUSEC": "2600101001", "CSEC": "001", "TIPO": "SECCIÓN"}},
+            {"properties": {"CPRO": "26", "CUSEC": "2600101002", "CSEC": "002"}},
+        ]}).encode()
+        features, _, checks, crs = _collect_live_sections(
+            source, 2025, d["territory"]["territorial_codes"], lambda _url: payload
+        )
+        self.assertEqual([f["properties"]["CUSEC"] for f in features], ["2600101001", "2600101002"])
+        self.assertEqual(checks["sections"], 2)
+        self.assertEqual(crs, "EPSG:4326")
+
+    def test_ogc_probe_limits_each_province(self):
+        d = build_declaration("Canarias", 2025, source_year=2025)
+        source = yaml.safe_load((ROOT / "fuentes/catalogo_oficial.yaml").read_text(encoding="utf-8"))["sources"]["secciones_censales"]
+        payload35 = json.dumps({"features": [{"properties": {"CPRO": "35", "CUSEC": "3500101001"}}]}).encode()
+        payload38 = json.dumps({"features": [{"properties": {"CPRO": "38", "CUSEC": "3800101001"}}]}).encode()
+        responses = [FakeResponse(payload35), FakeResponse(payload38)]
+        with patch("herramientas.probar_fuentes_oficiales._request", side_effect=responses):
+            result = probe_ogc(source, d, timeout=10, sample_size=10)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["sample_records"], 2)
+        self.assertTrue(all("limit=10" in x["url"] for x in result["provinces"]))
+
+    def test_limit_replaces_existing_ogc_limit(self):
+        url = _with_limit("https://example.test/items?f=json&limit=10000", 10)
+        self.assertIn("limit=10", url)
+        self.assertNotIn("limit=10000", url)
+
+    def test_full_mode_requires_acquire_then_reuse_then_block(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            declaration = build_declaration("La Rioja", 2025, source_year=2025)
+            declaration_path = root / "fuentes.yaml"
+            declaration_path.write_text(yaml.safe_dump(declaration, allow_unicode=True), encoding="utf-8")
+            out = root / "out"
+
+            calls = {"n": 0}
+
+            def fake_run(args, expect_success=True):
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    cp = out / "checkpoint-acquire"
+                    (cp / "sources").mkdir(parents=True)
+                    bundle = cp / "sources/prepared_sources.zip"
+                    bundle.write_bytes(b"package")
+                    digest = __import__("hashlib").sha256(bundle.read_bytes()).hexdigest()
+                    (cp / "source_execution.json").write_text(json.dumps({
+                        "decision": "ACQUIRE", "sha256": digest, "bytes": 7, "records": 343
+                    }), encoding="utf-8")
+                    return type("R", (), {"returncode": 0, "stdout": "ACQUIRE", "stderr": ""})()
+                if calls["n"] == 2:
+                    cp = out / "checkpoint-reuse"
+                    cp.mkdir(parents=True)
+                    first = json.loads((out / "checkpoint-acquire/source_execution.json").read_text())
+                    (cp / "source_execution.json").write_text(json.dumps({
+                        **first, "decision": "REUSE"
+                    }), encoding="utf-8")
+                    return type("R", (), {"returncode": 0, "stdout": "REUSE", "stderr": ""})()
+                return type("R", (), {"returncode": 1, "stdout": "", "stderr": "BLOCK checksum incorrecto"})()
+
+            with patch("herramientas.probar_fuentes_oficiales.unit_test", return_value={"decision": "PASS"}), \
+                 patch("herramientas.probar_fuentes_oficiales.run_cmd", side_effect=fake_run):
+                result = full_test(declaration_path, out, timeout=10)
+            self.assertEqual(result["acquire"]["decision"], "ACQUIRE")
+            self.assertEqual(result["reuse"]["decision"], "REUSE")
+            self.assertEqual(result["corruption"]["decision"], "BLOCK")
+
+    def test_workflow_exposes_only_functional_test_controls(self):
+        d = yaml.safe_load(WORKFLOW.read_text(encoding="utf-8"))
+        trigger = d.get("on") or d.get(True)
+        inputs = trigger["workflow_dispatch"]["inputs"]
+        self.assertEqual(set(inputs), {"territory", "data_edition", "mode"})
+        self.assertEqual(inputs["mode"]["options"], ["Unit test", "Todo"])
+        self.assertEqual(inputs["territory"]["options"][0], "Todos")
+        self.assertIn("17 La Rioja", inputs["territory"]["options"])
+        self.assertIn("19 Melilla", inputs["territory"]["options"])
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("max-parallel: 4", text)
+        self.assertIn("--timeout-seconds 10", text)
+        self.assertIn("budget=10m", text)
+        self.assertIn("budget=120m", text)
+
+
+if __name__ == "__main__":
+    unittest.main()

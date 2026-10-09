@@ -1,0 +1,33 @@
+{
+  "module": "05",
+  "version": "7.2.0",
+  "K": 67,
+  "total_pop": 1364621,
+  "target": 20367.4776119403,
+  "population_floor": 16293.98208955224,
+  "population_cap": 35643.085820895525,
+  "tolerance_absolute": 2444.097313432836,
+  "objective_start": [
+    0,
+    0.0,
+    1,
+    0.549676430306,
+    0.425520891068
+  ],
+  "objective_final": [
+    0,
+    0.0,
+    1,
+    0.549676430306,
+    0.425520891068
+  ],
+  "districts_below_floor": 0,
+  "districts_above_cap": 0,
+  "districts_outside_tolerance": 1,
+  "best_max_rel_dev": 0.549676430306,
+  "accepted_unit_moves": 0,
+  "atomic_units": 768,
+  "province_violations": [],
+  "seed": 12345,
+  "iters": 20000
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "package": "A",
+  "audit_findings": ["C-05", "C-09-M07"],
+  "date": "2026-09-13",
+  "sources": {
+    "mapping": "territorios/aragon/resultados/ejecuciones/gh-34599224954-1/M06/composicion_distritos.csv",
+    "results": "territorios/aragon/inputs/rtve_aragon_2026_secciones.json"
+  },
+  "status": "PASS_WITH_DECLARED_EXCEPTIONS",
+  "input_votes": 648799,
+  "assigned_votes": 648191,
+  "unassigned_votes": 608,
+  "map_sections": 1463,
+  "result_sections": 1463,
+  "result_only_sections": [
+    {
+      "section_id": "5002501003",
+      "votes": 608,
+      "reason": "Presente en resultados RTVE 2026 y ausente del universo censal 2025."
+    }
+  ],
+  "map_only_sections": [
+    {
+      "section_id": "2221301003",
+      "reason": "Presente en el universo censal 2025 y ausente de resultados RTVE 2026."
+    }
+  ],
+  "errors": []
+}

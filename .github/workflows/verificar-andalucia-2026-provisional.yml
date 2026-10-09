@@ -1,0 +1,122 @@
+name: Verificar Minsait provisional · copia gobernada
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/verificar-andalucia-2026-provisional.yml'
+      - '.github/workflows/preparacion-resultados-electorales.yml'
+      - 'configuracion/contratos_minsait_provisionales.yaml'
+      - 'herramientas/adaptador_minsait_csv.py'
+      - 'herramientas/resolver_contrato_minsait_provisional.py'
+      - 'herramientas/promover_catalogo_operacional.py'
+      - 'herramientas/preflight_preparacion_fuente.py'
+      - 'herramientas/validar_paquete_electoral.py'
+      - 'territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml'
+      - 'tests/test_adaptador_minsait_csv.py'
+      - 'tests/test_preparacion_andalucia_provisional_2026.py'
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: ${{ matrix.territory_id }} · paquete provisional en copia
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - territory_id: andalucia
+            territory_name: Andalucía
+            election_id: andalucia_parlamento_2026
+            election_date: '2026-05-17'
+          - territory_id: extremadura
+            territory_name: Extremadura
+            election_id: extremadura_asamblea_2025-12-21
+            election_date: '2025-12-21'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: python -m pip install --disable-pip-version-check PyYAML==6.0.2
+
+      - name: Resolver contrato provisional común
+        env:
+          TERRITORY_ID: ${{ matrix.territory_id }}
+          ELECTION_ID: ${{ matrix.election_id }}
+          ELECTION_DATE: ${{ matrix.election_date }}
+        run: |
+          set -euo pipefail
+          python herramientas/resolver_contrato_minsait_provisional.py             --root-dir . --territory-id "$TERRITORY_ID"             --election-id "$ELECTION_ID" --election-date "$ELECTION_DATE"             --output .ddd-minsait-contract.json >/dev/null
+          test "$(jq -r .production_eligible .ddd-minsait-contract.json)" = false
+          test "$(jq -r .promotion_allowed .ddd-minsait-contract.json)" = false
+
+      - name: Descargar fuente gobernada y construir paquete provisional
+        env:
+          TERRITORY_ID: ${{ matrix.territory_id }}
+          ELECTION_ID: ${{ matrix.election_id }}
+          ELECTION_DATE: ${{ matrix.election_date }}
+        run: |
+          set -euo pipefail
+          url="$(jq -r .source_url .ddd-minsait-contract.json)"
+          source_sha="$(jq -r .source_sha256 .ddd-minsait-contract.json)"
+          curl --fail --location --retry 2 --connect-timeout 10 --max-time 120             -o minsait-provisional.csv "$url"
+          test "$(sha256sum minsait-provisional.csv | awk '{print $1}')" = "$source_sha"
+
+          python herramientas/adaptador_minsait_csv.py             --source minsait-provisional.csv             --out .ddd-minsait-provisional-package             --territory-id "$TERRITORY_ID"             --election-id "$ELECTION_ID"             --election-date "$ELECTION_DATE"             --edition 2025             --expected-sha256 "$source_sha"             --expected-ccaa "$(jq -r .expected.ccaa .ddd-minsait-contract.json)"             --expected-provinces "$(jq -r .expected.provinces .ddd-minsait-contract.json)"             --expected-sections "$(jq -r .expected.sections .ddd-minsait-contract.json)"             --expected-polling-stations "$(jq -r .expected.polling_stations .ddd-minsait-contract.json)"             --expected-candidate-votes "$(jq -r .expected.candidate_votes .ddd-minsait-contract.json)"             --source-url "$url"             --publisher "$(jq -r .publisher .ddd-minsait-contract.json)"             --source-status "$(jq -r .source_status .ddd-minsait-contract.json)"             --definitive-reference-publisher "$(jq -r .reconciliation.definitive.publisher .ddd-minsait-contract.json)"             --definitive-reference-url "$(jq -r .reconciliation.definitive.url .ddd-minsait-contract.json)"             --definitive-candidate-votes "$(jq -r .reconciliation.definitive.candidate_votes .ddd-minsait-contract.json)"             --expected-delta-definitive-minus-provisional "$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+
+          manifest=.ddd-minsait-provisional-package/manifest.json
+          test "$(jq -r .decision "$manifest")" = ACQUIRE
+          test "$(jq -r .source_status "$manifest")" = PROVISIONAL
+          test "$(jq -r '.production_eligible|tostring' "$manifest")" = false
+          for key in provinces sections polling_stations candidate_votes; do
+            test "$(jq -r ".$key" "$manifest")" = "$(jq -r ".expected.$key" .ddd-minsait-contract.json)"
+          done
+          test "$(jq -r .reconciliation.status "$manifest")" = KNOWN_PROVISIONAL_DELTA
+          test "$(jq -r .reconciliation.delta_definitive_minus_provisional "$manifest")" =                "$(jq -r .reconciliation.delta_definitive_minus_provisional .ddd-minsait-contract.json)"
+
+          params="territorios/$TERRITORY_ID/config/${TERRITORY_ID}_2025.yaml"
+          python herramientas/validar_paquete_electoral.py             --package .ddd-minsait-provisional-package             --params "$params" --territory-id "$TERRITORY_ID"             --edition 2025 --root-dir .             --output .ddd-minsait-provisional-validacion.json
+          test "$(jq -r .decision .ddd-minsait-provisional-validacion.json)" = READY_PACKAGE
+
+      - name: Emitir evidencia de copia
+        env:
+          TERRITORY_ID: ${{ matrix.territory_id }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path('.ddd-minsait-provisional-package')
+          m=json.loads((root/'manifest.json').read_text(encoding='utf-8'))
+          report={
+            'territorio':os.environ['TERRITORY_ID'],
+            'election_id':m['election_id'],
+            'election_date':m['election_date'],
+            'adapter':m['adapter'],
+            'source_status':m['source_status'],
+            'production_eligible':m['production_eligible'],
+            'source_sha256':m['source_sha256'],
+            'provinces':m['provinces'],
+            'sections':m['sections'],
+            'polling_stations':m['polling_stations'],
+            'candidate_votes':m['candidate_votes'],
+            'reconciliation':m['reconciliation'],
+            'package_manifest_sha256':hashlib.sha256((root/'manifest.json').read_bytes()).hexdigest(),
+            'paquete_copia':'PASS',
+          }
+          Path('minsait-provisional-evidencia.json').write_text(
+            json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'
+          )
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: paquete-minsait-provisional-${{ matrix.territory_id }}
+          path: |
+            .ddd-minsait-provisional-package
+            .ddd-minsait-provisional-validacion.json
+            minsait-provisional-evidencia.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7

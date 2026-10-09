@@ -1,0 +1,63 @@
+{
+  "findings": [
+    {
+      "id": "duplicate_root_aragon_evidence",
+      "files": 135,
+      "equal": 135
+    }
+  ],
+  "contracts": {
+    "aragon": {
+      "population_floor_ratio": "0.8",
+      "population_cap_ratio": "1.75",
+      "target_tolerance_ratio": "0.12",
+      "municipality_atomicity_limit_ratio": "1.75"
+    },
+    "castilla_y_leon": {
+      "population_floor_ratio": "0.80",
+      "population_cap_ratio": "1.75",
+      "target_tolerance_ratio": "0.12",
+      "municipality_atomicity_limit_ratio": "1.12"
+    },
+    "extremadura": {
+      "population_floor_ratio": "0.85",
+      "population_cap_ratio": "1.50",
+      "target_tolerance_ratio": "0.10",
+      "municipality_atomicity_limit_ratio": "1.10"
+    }
+  },
+  "compactness": {
+    "aragon": {
+      "median": 0.21161499495180439,
+      "minimum": 0.052728804944153794,
+      "below_0_15": 17
+    },
+    "castilla_y_leon": {
+      "median": 0.1571532719165821,
+      "minimum": 0.02808966405121242,
+      "below_0_15": 40
+    },
+    "extremadura": {
+      "median": 0.22362426113963266,
+      "minimum": 0.11515073657509262,
+      "below_0_15": 7
+    }
+  },
+  "margins": {
+    "aragon": {
+      "hard_cap": 35643.085820895525,
+      "max_district_pop": 22229.0,
+      "margin_to_cap": 13414.085820895525
+    },
+    "castilla_y_leon": {
+      "hard_cap": 51245.57012195122,
+      "max_district_pop": 32792.0,
+      "margin_to_cap": 18453.57012195122
+    },
+    "extremadura": {
+      "hard_cap": 24307.96153846154,
+      "max_district_pop": 17699.0,
+      "margin_to_cap": 6608.961538461539
+    }
+  }
+}

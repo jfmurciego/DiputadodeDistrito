@@ -1,0 +1,293 @@
+{
+  "schema": "ddd.invalid-official-geometry-incident/1.0",
+  "observed_at": "2026-10-03",
+  "scope": "Activación de Legislatura Vigente; preparación territorial; sin relanzamientos",
+  "total_invalid_geometries": 13,
+  "evidence_limit": "Los runs preservaron el conteo de geometrías inválidas, pero no el raw OGC ni diagnóstico por feature; por tanto section_id, tipo, motivo GEOS y hash raw de las 13 geometrías históricas no son recuperables sin una nueva adquisición, que este frente no ejecuta.",
+  "incidents": [
+    {
+      "territory_id": "andalucia",
+      "territory": "Andalucía",
+      "run_id": 37150399030,
+      "job_id": 111283026420,
+      "source_commit": "0d3da30a0bf804e6bbec22f13c1b3fff1b966a33",
+      "diagnostic_artifact_id": 11284615143,
+      "diagnostic_artifact_download_sha256": "111efeebfbb77a4bd1bf3cdca33bc668a0d8726b461854dd9ecce60f715c096d",
+      "project_edition": 2025,
+      "population_year": 2025,
+      "section_year": 2026,
+      "source_collection": "SU.VectorStatisticalUnit",
+      "source_id": "secciones_censales",
+      "sections_observed": 6045,
+      "invalid_geometry_count": 1,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=1",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "territory": "Castilla y León",
+      "run_id": 37150791785,
+      "job_id": 111284185105,
+      "source_commit": "0d3da30a0bf804e6bbec22f13c1b3fff1b966a33",
+      "diagnostic_artifact_id": 11285255107,
+      "diagnostic_artifact_download_sha256": "51dd336a2d448a0247cf3294e9f93675f07f769a191c6a137d545ef0ce34ccf9",
+      "project_edition": 2025,
+      "population_year": 2025,
+      "section_year": 2026,
+      "source_collection": "SU.VectorStatisticalUnit",
+      "source_id": "secciones_censales",
+      "sections_observed": 3509,
+      "invalid_geometry_count": 2,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=2",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 2,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "territory": "Castilla-La Mancha",
+      "run_id": 37155873741,
+      "job_id": 111299097433,
+      "source_commit": "9243ff329d11d0e66d03047caa83865474aa5453",
+      "diagnostic_artifact_id": 11285384682,
+      "diagnostic_artifact_download_sha256": "8477af74d43f93af21431c8a9dd93360d80046450f7e13a1fea52196b1561bce",
+      "project_edition": 2025,
+      "population_year": 2023,
+      "section_year": 2023,
+      "source_collection": "WMS_INE_SECCIONES_G01:Secciones_2023",
+      "source_id": "secciones_censales",
+      "sections_observed": 1954,
+      "invalid_geometry_count": 1,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=1",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "cataluna",
+      "territory": "Cataluña",
+      "run_id": 37155881823,
+      "job_id": 111299118869,
+      "source_commit": "9243ff329d11d0e66d03047caa83865474aa5453",
+      "diagnostic_artifact_id": 11286478044,
+      "diagnostic_artifact_download_sha256": "fc76b69629d0319be25e4fd99624b6e6a637026f294fa5daa3b208f97f386b74",
+      "project_edition": 2025,
+      "population_year": 2024,
+      "section_year": 2024,
+      "source_collection": "WMS_INE_SECCIONES_G01:Secciones_2024",
+      "source_id": "secciones_censales",
+      "sections_observed": 5117,
+      "invalid_geometry_count": 3,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=3",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 2,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 3,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "territory": "Comunidad Valenciana",
+      "run_id": 37155892338,
+      "job_id": 111299167120,
+      "source_commit": "9243ff329d11d0e66d03047caa83865474aa5453",
+      "diagnostic_artifact_id": 11285349260,
+      "diagnostic_artifact_download_sha256": "e34a18fcf6b13e2e2e2fb689565a8e30ee775cd42b7730243982449a2ca93b29",
+      "project_edition": 2025,
+      "population_year": 2023,
+      "section_year": 2023,
+      "source_collection": "WMS_INE_SECCIONES_G01:Secciones_2023",
+      "source_id": "secciones_censales",
+      "sections_observed": 3503,
+      "invalid_geometry_count": 4,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=4",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 2,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 3,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        },
+        {
+          "ordinal": 4,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "illes_balears",
+      "territory": "Islas Baleares",
+      "run_id": 37157853562,
+      "job_id": 111305027894,
+      "source_commit": "9243ff329d11d0e66d03047caa83865474aa5453",
+      "diagnostic_artifact_id": 11287496022,
+      "diagnostic_artifact_download_sha256": "f604881da3865c30936c75d901cd90f9ecb5aa05beb6fe9fb4b5afd35406eb4d",
+      "project_edition": 2025,
+      "population_year": 2023,
+      "section_year": 2023,
+      "source_collection": "WMS_INE_SECCIONES_G01:Secciones_2023",
+      "source_id": "secciones_censales",
+      "sections_observed": 670,
+      "invalid_geometry_count": 1,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=1",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    },
+    {
+      "territory_id": "pais_vasco",
+      "territory": "País Vasco",
+      "run_id": 37157960180,
+      "job_id": 111305321198,
+      "source_commit": "33f5ddba45994131b0a622e49842f09a32c3f51b",
+      "diagnostic_artifact_id": 11286766801,
+      "diagnostic_artifact_download_sha256": "5d91629e62f7d9f10b42fe5c1624bcb70cead10da0c19acf754791378c86233e",
+      "project_edition": 2025,
+      "population_year": 2024,
+      "section_year": 2024,
+      "source_collection": "WMS_INE_SECCIONES_G01:Secciones_2024",
+      "source_id": "secciones_censales",
+      "sections_observed": 1713,
+      "invalid_geometry_count": 1,
+      "materialized_geometry_sha256": null,
+      "materialized_geometry_bytes": null,
+      "raw_geometry_preserved": false,
+      "failure": "GEOMETRY_INVALID: seccionado a materializar: count=1",
+      "geometry_slots": [
+        {
+          "ordinal": 1,
+          "section_id": null,
+          "geometry_type": null,
+          "raw_geometry_sha256": null,
+          "validity_reason": null,
+          "observed_failure": "GEOMETRY_INVALID",
+          "treatment": "BLOCKED_PENDING_IDENTIFIABLE_RAW_EVIDENCE",
+          "evidence_gap": "El run conservó sólo el count de inválidas; no preservó raw OGC ni diagnóstico por feature."
+        }
+      ]
+    }
+  ]
+}

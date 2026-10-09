@@ -1,0 +1,379 @@
+meta:
+  procedure_name: Diputado de Distrito
+  territory_id: galicia
+  territory: Galicia
+  run_name: galicia_2025
+  year: 2025
+  scope: provincial
+  schema_version: 2.0.0
+  schema_family: ddd-territory
+  contract_level: production_m01_m06
+  contract_schema_version: 1.0.0
+  production_authorization: AUTHORIZED
+  status: generation_ready
+  source_population_year: 2024
+  source_section_year: 2024
+io:
+  project_root:
+    path: ../../..
+  input:
+    seccionado:
+      path: inputs/seccionado_2024.zip
+      layer: ''
+      section_key_col: CUSEC
+      container: zip
+      materialized_format: shapefile
+      archive_member: ''
+    population_cip:
+      paths:
+      - inputs/65034.csv.zip
+      sep: ;
+      section_key_col: Secciones
+      pop_col: Total
+      filters:
+        year_col: Periodo
+        sexo_col: Sexo
+        edad_col: Edad
+        sexo_total_values:
+        - Total
+        edad_total_values:
+        - Todas las edades
+        year_value: 2024
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+  cache:
+    dir: territorios/galicia/.cache/ddd/preparacion/{run_name}
+  runs:
+    dir: territorios/galicia/resultados/ejecuciones/{run_id}
+territory_contract:
+  unit_id_role: census_section
+  admin_level_1_role: province
+  admin_level_2_role: municipality
+  province_codes:
+  - '15'
+  - '27'
+  - '32'
+  - '36'
+  status: generation_ready
+  topology_mode: land
+  k_districts: 75
+  k_source: norma
+  k_rationale: K=75 conserva el número legal de diputados del Parlamento de Galicia;
+    el procedimiento DDD usa ese tamaño institucional y distribuye los distritos entre
+    provincias mediante Hamilton.
+  district_apportionment: hamilton
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  limits_profile: standard-1.0.0
+  require_graph_contiguity: true
+  require_single_admin_level_1_per_district: true
+  require_municipality_discipline: true
+  oversized_municipality_rule: closed_target_cores_plus_open_residual
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  require_auditable_district_catalogue: true
+  notes:
+  - R022 congeló 2134 secciones y 2714741 habitantes sin faltantes.
+  - R023 justificó 2 pasarelas; no se añade ninguna excepción no auditada.
+modulos:
+  modulo_01_preparar_base_territorial:
+    province_codes:
+    - '15'
+    - '27'
+    - '32'
+    - '36'
+    drop_missing_population: false
+    out_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    out_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_informe.json
+  modulo_02_construir_adyacencias:
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    out_edges_jsonl: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    predicate: contact
+    working_crs: EPSG:3035
+    min_shared_border_m: 1.0
+    max_precision_overlap_area_m2: 1.0
+    buffer_m: 0.0
+    simplify_m: 0.0
+    max_candidates: 0
+    log_every: 10000
+    topology_bridges:
+    - u: '3690101003'
+      v: '3606103002'
+      admin_scope: province:36
+      edge_type: island_administrative_bridge
+      reason: 'A Illa de Arousa: componente insular; enlace mínimo auditado a Vilanova
+        de Arousa (~1149 m).'
+      source: R023 run 34688393979
+    - u: '3600601002'
+      v: '3600601001'
+      admin_scope: municipality:36006
+      edge_type: municipal_discontinuity
+      reason: 'Cambados: componentes municipales separadas; enlace intramunicipal
+        mínimo auditado (~259 m).'
+      source: R023 run 34688393979
+  modulo_03_construir_grafo:
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    in_edges_jsonl: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m02_adyacencias.jsonl
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    out_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    out_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_informe.json
+  modulo_04_generar_semillas:
+    in_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m01_secciones_poblacion.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    district_apportionment: hamilton
+    k_districts: 75
+    municipality_atomicity_limit_ratio: 1.12
+    preserve_province_residual_feasibility: true
+    seed: 12345
+    out_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
+    out_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_informe.json
+  modulo_05_optimizar_distritos:
+    gerrychain:
+      population_band: 0.005
+      comarca_surcharge: 0.0
+      comarca_surcharge_note: 'Neutral: Galicia no tiene datos comarcales cargados
+        en M01.'
+      metric_crs: EPSG:3035
+      min_shared_border_m: 1.0
+    in_graph_json: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m03_grafo.json
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m04_semillas.geojson.zip
+    id_field: CUSEC_KEY
+    pop_field: POP_2024
+    district_field: district_id
+    province_field: CPRO
+    municipality_field: CUMUN
+    unit_id_field: ddd_unit_id
+    greedy_moves_limit: 1000
+    anneal_iters: 20000
+    seed: 12345
+    anneal_seed_offset: 0
+    anneal_outside_penalty: 0.01
+    anneal_maxdev_weight: 0.05
+    anneal_churn_weight: 0.0016
+    anneal_temp_start: 0.02
+    anneal_temp_end: 0.0005
+    population_repair:
+      enabled: true
+      max_depth: 4
+      max_transfer_set: 2
+      max_candidates: 20000
+      max_seconds: 120
+      seed: 0
+    out_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
+    out_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_informe.json
+  modulo_06_consolidar_distritos:
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m05_distritos_optimizados.geojson.zip
+    id_field: CUSEC_KEY
+    district_field: district_id
+    pop_field: POP_2024
+    province_field: CPRO
+    province_name_field: NPRO
+    municipality_field: CUMUN
+    municipality_name_field: NMUN
+    cudis_field: CUDIS
+    metric_crs: EPSG:3035
+    expected_districts: 75
+    strict_expected_k: true
+    out_summary_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_resumen_distritos.csv
+    out_catalog_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_catalogo_distritos.csv
+    out_composition_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_composicion_distritos.csv
+    out_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip
+    out_district_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip
+  modulo_07_agregar_resultados_electorales:
+    in_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_secciones.geojson.zip
+    section_id_field: CUSEC_KEY
+    district_field: district_id
+    election_contract: territorios/galicia/config/elecciones/galicia_parlamento_2024.json
+    out_district_party_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resultados_partido.csv
+    out_district_summary_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resumen_electoral.csv
+    out_reconciliation_report: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m07_reconciliacion.json
+    out_sections_enriched_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m07_secciones_resultados.geojson.zip
+  modulo_08_integrar_resultados:
+    in_district_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m06_distritos.geojson.zip
+    in_district_summary_csv: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m07_resumen_electoral.csv
+    out_districts_with_results_geojson: territorios/galicia/.cache/ddd/preparacion/{run_name}/{run_name}_m08_distritos_resultados.geojson.zip
+validation:
+  expected_province_codes:
+  - '15'
+  - '27'
+  - '32'
+  - '36'
+  expected_sections_geometry: 2134
+  expected_population_total_2025: 2714741
+  expected_topology_bridges: 2
+  expected_districts: 75
+  population_floor_ratio: 0.8
+  population_cap_ratio: 1.75
+  target_tolerance_ratio: 0.12
+  province_apportionment: hamilton
+  province_districts:
+    '15': 31
+    '27': 9
+    '32': 9
+    '36': 26
+  require_unique_section_id: true
+  require_non_null_population: true
+  province_field: CPRO
+  municipality_field: CUMUN
+  municipality_name_field: NMUN
+  audit_graph_components: true
+  audit_admin_level_1_components: true
+  audit_admin_level_2_components: true
+  require_one_graph_component_per_province: true
+  require_connected_municipalities: true
+  require_graph_contiguity: true
+  require_single_province_per_district: true
+  require_municipality_discipline: true
+  municipality_atomicity_limit_ratio: 1.12
+  require_closed_core_province_residual_feasibility: true
+  max_mixed_districts_per_split_municipality: 1
+  require_m06_population_conservation: true
+  require_m06_assignment_identity_with_m05: true
+  source_baseline:
+    schema: ddd.source-baseline/1.0
+    edition: '2025'
+    population_year: 2024
+    section_year: 2024
+    population_total: 2705833
+    target_section_count: 2141
+    package_sha256: 3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c
+    compatibility_report_sha256: 09ed4e25da01e58e3ace5a726045bf9f9a3c34655ebc1a38bd01920c717dda78
+    compatibility_identity_sha256: d264f53e27628fc41ceacc3a725a1eea1f48785a45ef1de17384a98695e930c5
+resolved_source_contract:
+  schema: ddd.resolved-source-contract/1.0
+  territory:
+    territory_id: galicia
+    territory_name: Galicia
+    project_edition: '2025'
+  temporal:
+    population_year: 2024
+    section_year: 2024
+  sources:
+    population:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+      artifact:
+        path: inputs/65034.csv.zip
+        sha256: c75dec6fe668f058545daac835a4edb676c1b17d29a6084ff7a66c5f4729abb4
+        bytes: 24386
+    sectioning:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+      artifact:
+        path: inputs/seccionado_2024.zip
+        sha256: dada1f2c0d99ab383cd33d57877505c39288b592188c55ab986b4cdb67b4a606
+        bytes: 3730567
+  runtime:
+    section_id_field: CUSEC_KEY
+    population_field: POP_2024
+    province_field: CPRO
+    municipality_field: CUMUN
+  transformations:
+  - kind: normalize_section_identifier
+    from: sources.sectioning.fields.section_id
+    to: runtime.section_id_field
+  - kind: attach_population
+    source_field: sources.population.fields.population
+    to: runtime.population_field
+  contract_sha256: e2dff7ff6ed8581bba1cc0a69af4ee59e3c043495007bb36915e6e9c72ae23ca
+generation_state:
+  source_prepared: true
+  generation_enabled: true
+  package_sha256: 3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c
+  compatibility_identity_sha256: d264f53e27628fc41ceacc3a725a1eea1f48785a45ef1de17384a98695e930c5
+  source_inputs:
+  - path: inputs/65034.csv.zip
+    sha256: c75dec6fe668f058545daac835a4edb676c1b17d29a6084ff7a66c5f4729abb4
+    role: population
+    source_id: poblacion_por_sexo_y_edad
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: poblacion_por_sexo_y_edad
+      role: population
+      path: inputs/65034.csv.zip
+      effective_year: 2024
+      source_kind: static_csv
+      source_format: csv
+      container: zip
+      materialized_format: csv
+      archive_member: 65034.csv
+      encoding: utf-8-sig
+      delimiter: ;
+      fields:
+        section_id: Secciones
+        population: Total
+        year: Periodo
+        sex: Sexo
+        age: Edad
+      filters:
+        year_value: 2024
+        sex_total_values:
+        - Total
+        age_total_values:
+        - Todas las edades
+  - path: inputs/seccionado_2024.zip
+    sha256: dada1f2c0d99ab383cd33d57877505c39288b592188c55ab986b4cdb67b4a606
+    role: target_sectioning
+    source_id: secciones_censales
+    consumer_contract:
+      schema: ddd.resolved-source-binding/1.0
+      source_id: secciones_censales
+      role: target_sectioning
+      path: inputs/seccionado_2024.zip
+      effective_year: 2024
+      source_kind: ogc_features
+      source_format: geojson
+      container: zip
+      materialized_format: shapefile
+      layer: ''
+      crs: EPSG:4326
+      fields:
+        section_id: CUSEC
+        territorial_filter: CPRO
+  pre_m04_run_id: 37155903096
+  pre_m04_source_commit: cba2ddb1255fd59a50b871b01fc42c17e3422d5e
+  pre_m04_artifact_sha256: b44d0db6bb7209bd7170a454332361e0a96e6eeac95212151dd11c7af718c881

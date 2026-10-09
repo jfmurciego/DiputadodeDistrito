@@ -1,0 +1,11 @@
+# Cualquier cambio en estas rutas exige revisión explícita del propietario.
+# Activar en Settings → Branches → main → "Require review from Code Owners".
+
+/ddd_core/                                 @jfmurciego
+/modulos/                                  @jfmurciego
+/configuracion/controles_obligatorios.yaml @jfmurciego
+/territorios/*/config/                     @jfmurciego
+/.github/workflows/                        @jfmurciego
+/tests/test_controles_obligatorios.py      @jfmurciego
+/CITATION.cff                              @jfmurciego
+/.zenodo.json                              @jfmurciego

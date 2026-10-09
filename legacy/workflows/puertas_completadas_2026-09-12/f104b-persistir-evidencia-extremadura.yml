@@ -1,0 +1,112 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.0.0
+# NOMBRE DE VERSIÓN: F1.4b — Persistencia del run canónico Extremadura
+# FECHA: 2026-09-12
+# ESTADO: cierre de evidencia
+# QUÉ HACE: descarga el artefacto ya calculado del run 34703213474, recompone invariantes con stdlib y persiste evidencia ligera.
+# CAMBIOS: primera versión.
+# MOTIVO: evitar repetir M01-M06 cuando el único fallo del run fue la canalización stdin del paso de persistencia.
+# ANTERIOR: ninguno — workflow nuevo.
+name: F1.4b — Persistir evidencia Extremadura
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/f104b-persistir-evidencia-extremadura.yml'
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  persistir:
+    runs-on: ubuntu-24.04
+    env:
+      SOURCE_RUN: '34703213474'
+      ARTIFACT: extremadura-f104-34703213474
+      GH_TOKEN: ${{ github.token }}
+      DDD_RUN_ID: gh-34703213474-1
+    steps:
+      - uses: actions/checkout@v6
+        with: {fetch-depth: 1}
+      - name: Descargar cálculo existente
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN}" --jq .conclusion)" = failure
+          mkdir -p .tmp/ext
+          gh run download "${SOURCE_RUN}" -n "${ARTIFACT}" -D .tmp/ext
+          test -n "$(find .tmp/ext -name 'm06_composicion_distritos.csv' -print -quit)"
+      - name: Recomponer y materializar
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="territorios/extremadura/resultados/ejecuciones/${DDD_RUN_ID}"
+          mkdir -p "${OUT}/M03" "${OUT}/M04" "${OUT}/M05" "${OUT}/M06"
+          GRAPH=$(find .tmp/ext -name 'extremadura_2025_m03_grafo.json' -print -quit)
+          SUMMARY=$(find .tmp/ext -name 'm06_resumen_distritos.csv' -print -quit)
+          CATALOG=$(find .tmp/ext -name 'm06_catalogo_distritos.csv' -print -quit)
+          COMP=$(find .tmp/ext -name 'm06_composicion_distritos.csv' -print -quit)
+          cp "${GRAPH}" "${OUT}/M03/grafo.json"
+          for f in units_report.json m04_report.json topology_polish_report.json; do p=$(find .tmp/ext -name "$f" -print -quit); test -n "$p" && cp "$p" "${OUT}/M04/"; done
+          p=$(find .tmp/ext -name m05_report.json -print -quit); cp "$p" "${OUT}/M05/"
+          cp "${SUMMARY}" "${OUT}/M06/resumen_distritos.csv"
+          cp "${CATALOG}" "${OUT}/M06/catalogo_distritos.csv"
+          cp "${COMP}" "${OUT}/M06/composicion_distritos.csv"
+          export OUT
+          python - <<'PY'
+          import csv,hashlib,json,os,pathlib
+          from collections import defaultdict,deque
+          out=pathlib.Path(os.environ["OUT"])
+          def rows(p):
+              with p.open(encoding="utf-8-sig",newline="") as f:return list(csv.DictReader(f))
+          summary=rows(out/"M06/resumen_distritos.csv");comp=rows(out/"M06/composicion_distritos.csv")
+          assert len(summary)==65 and len(comp)==964
+          pop=sum(int(round(float(r["section_pop"]))) for r in comp);assert pop==1053345
+          hard=sum(str(r["within_hard_bounds"]).lower() not in ("true","1") for r in summary)
+          outside=sum(str(r["within_target_tolerance"]).lower() not in ("true","1") for r in summary)
+          maxdev=max(abs(float(r["relative_deviation"])) for r in summary)
+          by_d=defaultdict(set);provs=defaultdict(set)
+          for r in comp:
+              d=str(r["district_id"]);by_d[d].add(str(r["CUSEC_KEY"]).zfill(10));provs[d].add(str(r["CPRO"]).zfill(2))
+          assert len(by_d)==65 and all(len(x)==1 for x in provs.values())
+          quotas=defaultdict(int)
+          for ps in provs.values():quotas[next(iter(ps))]+=1
+          assert dict(sorted(quotas.items()))=={"06":41,"10":24}
+          graph=json.loads((out/"M03/grafo.json").read_text());adj=defaultdict(set)
+          for n in graph["nodes"]:adj[str(n["id"]).zfill(10)]
+          for e in graph["edges"]:
+              u,v=str(e["u"]).zfill(10),str(e["v"]).zfill(10);adj[u].add(v);adj[v].add(u)
+          contiguous=0
+          for nodes in by_d.values():
+              seen={next(iter(nodes))};q=deque(seen)
+              while q:
+                  u=q.popleft()
+                  for v in adj[u]:
+                      if v in nodes and v not in seen:seen.add(v);q.append(v)
+              contiguous+=seen==nodes
+          assert contiguous==65 and hard==0
+          status="PROMOTABLE" if outside==0 else "EXPERIMENTAL_BLOCKED"
+          validation={"status":status,"promotion":outside==0,"source_run":34703213474,"source_commit":"ab525ce6ed7dab518de74d2da3509c330873e691","contract_version":"0.5.0","candidate":"c020","sections":964,"population":pop,"districts":65,"province_districts":{"06":41,"10":24},"hard_outliers":hard,"outside_target_tolerance":outside,"target_tolerance_ratio":0.10,"max_relative_deviation":maxdev,"contiguous_districts":contiguous,"m06_completed":True,"ext19_applied":False,"reconstructed_after_run":True}
+          (out/"VALIDACION.json").write_text(json.dumps(validation,ensure_ascii=False,indent=2)+"\n")
+          products=[]
+          for p in sorted(out.rglob("*")):
+              if p.is_file() and p.name!="MANIFIESTO_EJECUCION.json":products.append({"path":str(p.relative_to(out)),"bytes":p.stat().st_size,"sha256":hashlib.sha256(p.read_bytes()).hexdigest()})
+          manifest={"territory_id":"extremadura","run_id":"gh-34703213474-1","source_workflow_run":34703213474,"source_commit":"ab525ce6ed7dab518de74d2da3509c330873e691","artifact_id":10300528893,"artifact_digest":"sha256:dbfe7b789872a3e0332ec4f9d618027305a3e0493c4f60591b83290ff8bb1541","reconstructed_after_run":True,"products":products}
+          (out/"MANIFIESTO_EJECUCION.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
+          (out/"README.md").write_text("# Extremadura — evidencia canónica experimental c020\n\nM01-M06 completados en el run 34703213474. La ejecución conserva K, población, reparto, contigüidad y límites duros, pero queda bloqueada por tolerancia objetivo. Las geometrías pesadas permanecen en el artefacto identificado en el manifiesto.\n")
+          PY
+      - name: Persistir
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="territorios/extremadura/resultados/ejecuciones/${DDD_RUN_ID}"
+          git config user.name github-actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add "${OUT}"
+          git commit -m "F1.4b: persistir evidencia canónica Extremadura"
+          for intento in 1 2 3; do git pull --rebase origin main; if git push; then exit 0; fi; sleep $((intento*2)); done
+          exit 41

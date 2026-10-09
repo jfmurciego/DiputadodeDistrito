@@ -1,0 +1,13 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "territorial_product",
+  "territory_id": "galicia",
+  "territory_name": "Galicia",
+  "edition": "2025",
+  "run_id": 37159898924,
+  "artifact_name": "ddd-state-37159898924-M06",
+  "artifact_sha256": "aeb0f5f58fd017bff3f23877dad381a94ef65d21f05a8f025d89b854923f0caa",
+  "source_commit": "8f0f517d4e8750f13c511ffa9b7b8bf2ff40ce51",
+  "decision": "PASS_WITH_EXCEPTIONS",
+  "stage": "M06"
+}

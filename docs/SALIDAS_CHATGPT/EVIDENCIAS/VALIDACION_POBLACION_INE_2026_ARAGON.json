@@ -1,0 +1,111 @@
+{
+  "schema": "ddd.ine-2026-population-validation-summary/1.1",
+  "provider": "Instituto Nacional de Estadística",
+  "scope": "Aragón",
+  "observed_at": "2026-10-05",
+  "validation_run": {
+    "workflow_run_id": 37285595784,
+    "workflow_head_sha": "f00c5ca36e4fdaff123b096564b5d6a38b6b06fd",
+    "raw_artifact": {
+      "artifact_id": 11333099503,
+      "name": "aragon-poblacion-ine-2026",
+      "digest": "sha256:1d3e237055080661e24a1e0f21aec38b150f1fa8b13b28579d057527c95b48ba",
+      "expires_at": "2026-10-12T08:45:54Z"
+    }
+  },
+  "population_gis_2026": {
+    "service": "https://www.ine.es/servergis2/rest/services/ws/censo_numero_de_personas/MapServer",
+    "layer": "https://www.ine.es/servergis2/rest/services/ws/censo_numero_de_personas/MapServer/2",
+    "service_description": "Número de personas en 2026",
+    "document_title": "Censo 2026 _ Número de personas",
+    "layer_name": "Nivel: secciones",
+    "geometry_type": "esriGeometryPolygon",
+    "wkid": 25830,
+    "max_record_count": 2000,
+    "fields": {
+      "geometry_cusec": "CUSEC",
+      "joined_cusec": "cusec_1 (alias cusec)",
+      "province": "CPRO",
+      "population": "n_personas"
+    },
+    "extraction": {
+      "query_method": "GET equality by CPRO",
+      "geometry_cusec": {
+        "section_count": 1463,
+        "province_counts": {
+          "22": 287,
+          "44": 284,
+          "50": 892
+        },
+        "total_population": 1364621,
+        "attributes_sha256": "2b09f61112de7c9793077ef048c27d88de13acefb170c665860d53482c1c328a"
+      },
+      "source_cusec_1": {
+        "section_count": 1463,
+        "total_population": 1364621,
+        "attributes_sha256": "2b09f61112de7c9793077ef048c27d88de13acefb170c665860d53482c1c328a"
+      }
+    }
+  },
+  "sectioning_2026": {
+    "collection": "WMS_INE_SECCIONES_G01:SU.VectorStatisticalUnit",
+    "accredited_title": "Secciones_2026",
+    "section_count": 1463,
+    "province_counts": {
+      "22": 286,
+      "44": 284,
+      "50": 893
+    },
+    "cusec_sha256": "256e83acdb168133056056c39bf448e7507f57d2872f18727454ec99f47c5df5"
+  },
+  "comparison": {
+    "geometry_cusec_equal": false,
+    "geometry_population_only": [
+      "2221301003"
+    ],
+    "geometry_sectioning_only": [
+      "5002501003"
+    ],
+    "source_cusec_1_equal": false,
+    "source_population_only": [
+      "2221301003"
+    ],
+    "source_sectioning_only": [
+      "5002501003"
+    ]
+  },
+  "target_section": {
+    "cusec": "5002501003",
+    "present_in_geometry_cusec": false,
+    "geometry_n_personas": null,
+    "present_in_source_cusec_1": false,
+    "source_n_personas": null,
+    "present_in_sectioning_2026": true
+  },
+  "baseline_2025_diagnostic": {
+    "section_count": 1463,
+    "added_in_2026": [
+      "5002501003"
+    ],
+    "removed_in_2026": [
+      "2221301003"
+    ],
+    "expected_cross_year_swap": true
+  },
+  "checks": {
+    "metadata_layer": true,
+    "aragon_population_extraction": true,
+    "exact_1463_cusec_match": false,
+    "target_5002501003_has_population": false
+  },
+  "technical_decision": "BLOCK_TECHNICAL",
+  "interpretation": [
+    "El servicio GIS se identifica oficialmente como Censo 2026 / Número de personas en 2026 y la capa de secciones expone CUSEC, cusec_1 y n_personas.",
+    "La extracción de Aragón devuelve 1.463 filas, pero tanto CUSEC como cusec_1 conservan el universo seccional anterior: 2221301003 está presente y 5002501003 ausente.",
+    "Secciones_2026 contiene exactamente el patrón inverso: incorpora 5002501003 y ya no contiene 2221301003.",
+    "5002501003 no tiene n_personas recuperable ni por CUSEC ni por cusec_1 en el GIS observado.",
+    "No existe una unión 1:1 defendible entre población GIS rotulada 2026 y Secciones_2026 para Aragón.",
+    "No procede promover esta capa, estimar, repartir población ni construir un crosswalk artificial."
+  ],
+  "governance_note": "El bloqueo actual es técnico antes incluso de resolver el estatus estadístico definitivo del Censo Anual 2026. Si el INE corrige o republica la capa para que su universo CUSEC coincida con Secciones_2026, deberá repetirse esta validación y después resolver el gobierno estadístico."
+}

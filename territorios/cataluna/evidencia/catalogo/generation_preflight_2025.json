@@ -1,0 +1,28 @@
+{
+  "schema": "ddd.catalog-evidence/1.0",
+  "kind": "generation_preflight",
+  "territory_id": "cataluna",
+  "territory_name": "Cataluña",
+  "edition": "2025",
+  "run_id": 37453376100,
+  "source_commit": "1927926110915d8f8ded6695427e564554b5dd31",
+  "decision": "ERROR_TECHNICAL",
+  "evaluation_status": "ERROR_TECHNICAL",
+  "stage": "PRE_GENERATION_PERSISTENCE",
+  "source": {
+    "run_id": 37453376100,
+    "artifact_name": "ddd-source-package-cataluna-2025-37453376100",
+    "artifact_sha256": "555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
+    "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0",
+    "compatibility_identity_sha256": "58c715a51035474378a2b8986da25d2b54fa5c714d736c1d3bf2e4e51c85ab6a",
+    "territorial_identity_sha256": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
+    "population_year": 2024,
+    "section_year": 2024
+  },
+  "effective_gate": {
+    "allowed": false,
+    "status": "ERROR_TECHNICAL",
+    "capability": "CAP_PRE_M04_EVIDENCE",
+    "reason": "La evidencia habilitante se calculó, pero su validación o persistencia no terminó correctamente."
+  }
+}

@@ -1,0 +1,20 @@
+schema: ddd-campaign/1.0
+campaign_id: c1-example-no-execution
+environment: test
+edition: '2025'
+execution_mode: reuse
+publish_result: false
+max_parallel: 2
+territories:
+  - territory_id: principado_de_asturias
+    phases:
+      prepare_territorial: true
+      generate_districts: true
+      prepare_electoral: false
+      incorporate_electoral: false
+  - territory_id: cantabria
+    phases:
+      prepare_territorial: true
+      generate_districts: true
+      prepare_electoral: false
+      incorporate_electoral: false

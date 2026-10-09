@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://diputadodedistrito.invalid/schemas/ddd-community-interest-policy.schema.json",
+  "title":"DDD Community of Interest Candidate Policy",
+  "type":"object","additionalProperties":false,
+  "required":["schema","territory_id","edition","semantics","integration_status","metrics","structural_normalization"],
+  "properties":{
+    "schema":{"const":"ddd-community-interest-policy/1.0"},
+    "territory_id":{"type":"string"},"edition":{"type":"string"},
+    "semantics":{"const":"SOFT_OBJECTIVE"},
+    "integration_status":{"enum":["DESIGN_ONLY","READY_FOR_INTEGRATION"]},
+    "metrics":{"type":"array","minItems":6,"uniqueItems":true,"items":{"enum":[
+      "split_communities","avoidable_split_communities","communities_per_district",
+      "dominant_population_share","population_retention","retention_over_structural_max"
+    ]}},
+    "structural_normalization":{"type":"object","additionalProperties":false,
+      "required":["oversized_communities","total_communities","retention_max"],
+      "properties":{
+        "oversized_communities":{"type":"integer","minimum":0},
+        "total_communities":{"type":"integer","minimum":1},
+        "retention_max":{"type":"number","minimum":0,"maximum":1}
+      }}
+  }
+}

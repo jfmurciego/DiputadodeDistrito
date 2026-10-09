@@ -1,0 +1,134 @@
+# PROYECTO: Diputado de Distrito
+# CLASE: activo
+# VERSIÓN: 1.3.0
+# NOMBRE DE VERSIÓN: Regresión territorial bajo autorización manual
+# FECHA: 2026-09-11
+# ESTADO: regresión pesada F1.5
+# QUÉ HACE: reejecuta M01-M06 de Castilla y León ante cualquier cambio común y certifica sus invariantes territoriales.
+# CAMBIOS: elimina el disparador push; una regresión pesada solo se ejecuta por orden manual expresa.
+# MOTIVO: impedir que cambios de código o documentación recalculen M01-M06 de forma incidental.
+# ANTERIOR: legacy/workflows/regresion-m06-castilla-y-leon_v1.2.0.yml
+name: Regresión M06 — Castilla y León
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regresion-m06-castilla-y-leon:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      PARAMS: territorios/castilla_y_leon/config/castilla_y_leon_2025.yaml
+    steps:
+      - name: Obtener código
+        uses: actions/checkout@v6
+        with: {lfs: false, fetch-depth: 1}
+
+      - name: Reconstruir y verificar fuentes nacionales
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash inputs/partes/reconstruir_fuentes.sh
+          test -s inputs/seccionado_2025.zip
+          test -s inputs/65034.csv.zip
+
+      - name: Construir entorno reproducible
+        run: docker build --pull -t ddd-reg-cyl:${GITHUB_SHA} .
+
+      - name: Ejecutar M01-M06
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p territorios/castilla_y_leon/.cache/ddd/preparacion
+          docker run --rm \
+            -e PARAMS="$PARAMS" \
+            -v "$PWD/inputs:/app/inputs:ro" \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint bash \
+            ddd-reg-cyl:${GITHUB_SHA} -lc '
+              set -euo pipefail
+              python modulos/01_preparar_base_territorial.py --params "$PARAMS"
+              python modulos/02_construir_adyacencias.py --params "$PARAMS"
+              python modulos/03_construir_grafo.py --params "$PARAMS"
+              python modulos/04_generar_semillas.py --params "$PARAMS"
+              python modulos/05_optimizar_distritos.py --params "$PARAMS"
+              python modulos/06_consolidar_distritos.py --params "$PARAMS"
+            '
+
+      - name: Validar regresión Castilla y León
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD/territorios/castilla_y_leon:/app/territorios/castilla_y_leon" \
+            --entrypoint python \
+            ddd-reg-cyl:${GITHUB_SHA} -c '
+          import io, json, pathlib, zipfile
+          import geopandas as gpd
+          import pandas as pd
+          base=pathlib.Path("/app/territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025")
+          def load_zip(path):
+              with zipfile.ZipFile(path) as z:
+                  n=next(n for n in z.namelist() if n.endswith(".geojson"))
+                  return gpd.read_file(io.BytesIO(z.read(n)))
+          g5=load_zip(base/"castilla_y_leon_2025_m05_distritos_optimizados.geojson.zip")
+          g6=load_zip(base/"castilla_y_leon_2025_m06_secciones.geojson.zip")
+          d6=load_zip(base/"castilla_y_leon_2025_m06_distritos.geojson.zip")
+          summary=pd.read_csv(base/"castilla_y_leon_2025_m06_resumen_distritos.csv")
+          catalog=pd.read_csv(base/"castilla_y_leon_2025_m06_catalogo_distritos.csv")
+          comp=pd.read_csv(base/"castilla_y_leon_2025_m06_composicion_distritos.csv", dtype={"CUSEC_KEY":str})
+          assert len(g5)==len(g6)==len(comp)==3506
+          assert g6["district_id"].nunique()==len(d6)==len(summary)==len(catalog)==82
+          m5=dict(zip(g5["CUSEC_KEY"].astype(str),g5["district_id"].astype(int)))
+          m6=dict(zip(g6["CUSEC_KEY"].astype(str),g6["district_id"].astype(int)))
+          assert m5==m6, "M06 alteró asignaciones M05"
+          assert int(summary["district_pop"].sum())==2401221
+          assert int(catalog["district_pop"].sum())==2401221
+          assert int(comp["section_pop"].sum())==2401221
+          assert bool(summary["within_hard_bounds"].all())
+          assert bool(summary["within_target_tolerance"].all())
+          assert int(catalog["province_count"].max())==1
+          assert catalog["section_count"].sum()==3506
+          assert catalog["area_km2"].gt(0).all()
+          assert catalog["perimeter_km"].gt(0).all()
+          assert catalog["polsby_popper"].between(0,1, inclusive="both").all()
+          assert catalog["centroid_x"].notna().all() and catalog["centroid_y"].notna().all()
+          graph=json.loads((base/"castilla_y_leon_2025_m03_grafo.json").read_text())
+          adj={str(n["id"]):set() for n in graph["nodes"]}
+          for e in graph["edges"]:
+              u,v=str(e["u"]),str(e["v"]); adj[u].add(v); adj[v].add(u)
+          expected={"05":6,"09":12,"24":15,"34":6,"37":11,"40":5,"42":3,"47":18,"49":6}
+          counts={}
+          for d,x in g6.groupby("district_id"):
+              ps=set(x["CPRO"].astype(str).str.zfill(2)); assert len(ps)==1,(d,ps)
+              p=next(iter(ps)); counts[p]=counts.get(p,0)+1
+              ns=set(x["CUSEC_KEY"].astype(str)); seen={next(iter(ns))}; stack=list(seen)
+              while stack:
+                  u=stack.pop()
+                  for v in adj[u]:
+                      if v in ns and v not in seen: seen.add(v); stack.append(v)
+              assert seen==ns,(d,len(ns),len(seen))
+          assert counts==expected, counts
+          maxdev=float(summary["relative_deviation"].abs().max())
+          assert maxdev <= 0.12 + 1e-12, maxdev
+          # Trinquete fijado por el primer run SUCCESS de la regresion CyL.
+          assert maxdev <= 0.119836116709 + 1e-9, f"regresion vs baseline CyL: {maxdev}"
+          print(f"CYL M06 PASS: K=82 rows=3506 pop=2401221 maxdev={maxdev:.12f} cuotas={counts}")
+          '
+
+      - name: Publicar regresión Castilla y León
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: castilla-y-leon-regresion-M06-${{ github.run_id }}
+          path: |
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m03_grafo.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m05_informe.json
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_resumen_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_catalogo_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_composicion_distritos.csv
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_secciones.geojson.zip
+            territorios/castilla_y_leon/.cache/ddd/preparacion/castilla_y_leon_2025/castilla_y_leon_2025_m06_distritos.geojson.zip

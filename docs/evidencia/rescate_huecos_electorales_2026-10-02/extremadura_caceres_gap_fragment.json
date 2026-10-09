@@ -1,0 +1,226 @@
+{
+  "schema": "ddd-electoral-gap-fragment/1.0",
+  "source_id": "opte_caceres_jep_definitive_copy",
+  "retrieved_at": "2026-10-02",
+  "source_url": "https://drive.google.com/file/d/14-0dgCpt9FEVPBAz5DtZEnbU5ilWBNXg/view",
+  "source_artifact_sha256": "ed4e8060bbe1661e7c52aae8ec2d39ca4bef26fbe18db3cca1bc5a6f972a6414",
+  "table": "Informe de mesas",
+  "records": [
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "Cs",
+      "votes": 4,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "EXTREMADURA UNIDA",
+      "votes": 25,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "JUNTOS-LEVANTA",
+      "votes": 7,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "MUNDO+JUSTO",
+      "votes": 14,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "NEX",
+      "votes": 11,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "PACMA",
+      "votes": 14,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "PODEMOS-IU-AV",
+      "votes": 144,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "PP",
+      "votes": 279,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "PSOE",
+      "votes": 317,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "UED-SyT",
+      "votes": 9,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "CERA-CACERES",
+      "unit_kind": "external",
+      "party": "VOX",
+      "votes": 170,
+      "source_row": 229,
+      "source_table": "Informe de mesas",
+      "source_locator": "99-001-U"
+    },
+    {
+      "unit_id": "1004201001",
+      "unit_kind": "geographic",
+      "party": "PACMA",
+      "votes": 1,
+      "source_row": 46,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1004201001",
+      "unit_kind": "geographic",
+      "party": "PODEMOS-IU-AV",
+      "votes": 5,
+      "source_row": 46,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1004201001",
+      "unit_kind": "geographic",
+      "party": "PP",
+      "votes": 28,
+      "source_row": 46,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1004201001",
+      "unit_kind": "geographic",
+      "party": "PSOE",
+      "votes": 19,
+      "source_row": 46,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1004201001",
+      "unit_kind": "geographic",
+      "party": "VOX",
+      "votes": 2,
+      "source_row": 46,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "Cs",
+      "votes": 1,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "EXTREMADURA UNIDA",
+      "votes": 2,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "JUNTOS-LEVANTA",
+      "votes": 3,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "PODEMOS-IU-AV",
+      "votes": 46,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "PP",
+      "votes": 181,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "PSOE",
+      "votes": 173,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "UED-SyT",
+      "votes": 3,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    },
+    {
+      "unit_id": "1012501001",
+      "unit_kind": "geographic",
+      "party": "VOX",
+      "votes": 70,
+      "source_row": 131,
+      "source_table": "Informe de mesas",
+      "source_locator": "1-001-U"
+    }
+  ]
+}

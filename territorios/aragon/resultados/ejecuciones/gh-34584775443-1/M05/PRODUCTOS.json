@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "role": "geometria_asignacion",
+      "path": "ejecuciones/gh-34584775443-1/aragon_2025_m05_distritos_optimizados.geojson.zip",
+      "bytes": 4137653,
+      "sha256": "8f84bea7b3dc9306eae6008e78c16fc1a1ad2b9886530eab89c32eed3e0703fc"
+    },
+    {
+      "role": "informe",
+      "path": "ejecuciones/gh-34584775443-1/aragon_2025_m05_informe.json",
+      "bytes": 682,
+      "sha256": "76712fc7034e684c7bcd76fb8827b528d37988d065d16c49a7266a99881cdbfc"
+    }
+  ]
+}
