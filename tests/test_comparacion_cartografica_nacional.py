@@ -1,6 +1,6 @@
-"""VERSIÓN: 1.0.0; NOMBRE: comparación cartográfica fail-closed; FECHA: 2026-10-08.
+"""VERSIÓN: 1.0.1; NOMBRE: comparación cartográfica fail-closed; FECHA: 2026-10-10.
 ALCANCE: fixtures geométricos; ESTADO: CI_PENDIENTE; CAMBIOS: regresiones de admisión y métricas.
-MOTIVO: no producir correspondencias sobre entradas no acreditadas; ORIGEN: nuevo, sin predecesor.
+MOTIVO: no producir correspondencias sobre entradas no acreditadas; ANTERIOR: legacy/tests/test_comparacion_cartografica_nacional_v1.0.0.py; CAMBIOS: fixture sin inversa LAEA aproximada.
 """
 import copy
 import hashlib
@@ -132,14 +132,29 @@ class CartographicComparison(unittest.TestCase):
         from pyproj import Transformer
         from shapely.geometry import shape,mapping
         from shapely.ops import transform
-        old=self.fixture([feature('a')],2022,'old.json')
-        geom=mapping(transform(Transformer.from_crs('EPSG:3035','EPSG:4326',always_xy=True).transform,shape(rectangle(0,10))))
-        new=self.fixture([feature('a',geom)],2025,'new.json')
+        # Start in geographic coordinates and project forward. Constructing a
+        # geographic fixture by inverse LAEA assumes a sub-millimetric roundtrip
+        # which PROJ 9.3 does not provide. This is an input-fixture defect, not
+        # permission to increase comparison or assertion tolerances.
+        geographic=shape({"type":"Polygon","coordinates":[[
+            [-3.7,40.4],[-3.6999,40.4],[-3.6999,40.4001],
+            [-3.7,40.4001],[-3.7,40.4]]]})
+        projected=transform(Transformer.from_crs(
+            'EPSG:4326','EPSG:3035',always_xy=True,allow_ballpark=False).transform,geographic)
+        old=self.fixture([feature('a',mapping(projected))],2022,'old.json')
+        new=self.fixture([feature('a',mapping(geographic))],2025,'new.json')
         payload=json.loads(new[0].read_text());payload['crs']['properties']['name']='EPSG:4326'
         new[0].write_text(json.dumps(payload));new[1]['file_sha256']=hashlib.sha256(new[0].read_bytes()).hexdigest()
         result=self.compare(old,new)
         self.assertEqual(result['status'],'COMPARABLE')
-        self.assertAlmostEqual(result['pairs'][0]['intersection_m2'],100,places=3)
+        # Independent numeric control for this fixed geographic polygon, checked
+        # with PROJ 9.3.0 and 9.7.1; tolerance remains places=3.
+        self.assertAlmostEqual(result['pairs'][0]['intersection_m2'],94.2676535457,places=3)
+        self.assertEqual(result['metric_crs'],'EPSG:3035')
+        self.assertEqual(result['area_epsilon_m2'],0.01)
+        self.assertAlmostEqual(result['pairs'][0]['old_coverage'],1,places=7)
+        self.assertAlmostEqual(result['pairs'][0]['new_coverage'],1,places=7)
+        self.assertTrue(result['pairs'][0]['equivalent_geometry_within_epsilon'])
 
     def test_provenance_must_be_explicitly_accredited(self):
         for evidence in [[],[''],[1]]:
