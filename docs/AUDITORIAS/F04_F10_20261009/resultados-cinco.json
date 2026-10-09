@@ -1,0 +1,133 @@
+{
+  "schema": "ddd.f04-material-results/1.0",
+  "version": "1.0.0",
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "catalog_edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "artifact_id": 10819721995,
+      "run_id": 36020646219,
+      "original_package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+      "original_artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+      "identity": {
+        "territory_id": "andalucia",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+        "territorial_identity_sha256": "ada99bb4da39b71ed117dd6194b3b941f10160773fdaedd4e7c1ed2794023cb8"
+      },
+      "material_recovery": "PASS",
+      "compatibility": "BLOCKED",
+      "eligible": false,
+      "causes": [
+        "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0401302003"
+      ],
+      "binding_validation": "NOT_REACHED"
+    },
+    {
+      "territory_id": "aragon",
+      "catalog_edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "artifact_id": 10695433906,
+      "run_id": 35728613828,
+      "original_package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+      "original_artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+      "identity": {
+        "territory_id": "aragon",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+        "territorial_identity_sha256": "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0"
+      },
+      "material_recovery": "PASS",
+      "compatibility": "BLOCKED",
+      "eligible": false,
+      "causes": [
+        "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 4400801003"
+      ],
+      "binding_validation": "NOT_REACHED"
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "catalog_edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "artifact_id": 10645871597,
+      "run_id": 35610439734,
+      "original_package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+      "original_artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+      "identity": {
+        "territory_id": "castilla_y_leon",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+        "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c"
+      },
+      "material_recovery": "PASS",
+      "compatibility": "BLOCKED",
+      "eligible": false,
+      "causes": [
+        "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0501401002"
+      ],
+      "binding_validation": "NOT_REACHED"
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "catalog_edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "artifact_id": 10917135113,
+      "run_id": 36273981926,
+      "original_package_sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97",
+      "original_artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+      "identity": {
+        "territory_id": "comunidad_valenciana",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97",
+        "territorial_identity_sha256": "47ab72d4c266d6a4b713562a5917e5f622d2535547e691cddccb55a17dba8c78"
+      },
+      "material_recovery": "PASS",
+      "compatibility": "BLOCKED",
+      "eligible": false,
+      "causes": [
+        "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0301401017"
+      ],
+      "binding_validation": "NOT_REACHED"
+    },
+    {
+      "territory_id": "extremadura",
+      "catalog_edition": "2025",
+      "population_year": 2025,
+      "section_year": 2025,
+      "artifact_id": 10710105975,
+      "run_id": 35755043806,
+      "original_package_sha256": "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07",
+      "original_artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+      "identity": {
+        "territory_id": "extremadura",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07",
+        "territorial_identity_sha256": "5f0f3f974d282d4d120eaa0defffbe4d0108a20b9511f599b50fefbcccc87fff"
+      },
+      "material_recovery": "PASS",
+      "compatibility": "BLOCKED",
+      "eligible": false,
+      "causes": [
+        "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0601505014"
+      ],
+      "binding_validation": "NOT_REACHED"
+    }
+  ],
+  "originals_preserved": true,
+  "production_changes": false
+}

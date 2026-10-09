@@ -1,0 +1,25 @@
+{
+  "territory_id": "aragon",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "artifact_id": 10695433906,
+  "run_id": 35728613828,
+  "original_package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+  "original_artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+  "identity": {
+    "territory_id": "aragon",
+    "edition": "2025",
+    "population_year": 2025,
+    "section_year": 2025,
+    "package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+    "territorial_identity_sha256": "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0"
+  },
+  "material_recovery": "PASS",
+  "compatibility": "BLOCKED",
+  "eligible": false,
+  "causes": [
+    "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 4400801003"
+  ],
+  "binding_validation": "NOT_REACHED"
+}

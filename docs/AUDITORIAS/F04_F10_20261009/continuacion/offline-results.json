@@ -1,0 +1,556 @@
+{
+  "schema": "ddd.f07-offline-results/1.0",
+  "version": "1.0.0",
+  "network": "FORBIDDEN",
+  "new_inputs": 5,
+  "previous_exact_results_reused": 14,
+  "new_negative_checks": 20,
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "package_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39",
+      "territorial_identity_sha256": "a82e22d1ddf4665c69df3ec78f0f4d227a55a577a71b458b7ad492047dd25b6b",
+      "offline_candidate_selection": "PASS",
+      "diagnostics": [
+        {
+          "package": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3",
+          "valid": true,
+          "reasons": []
+        }
+      ],
+      "negative_checks": [
+        {
+          "case": "wrong_territory",
+          "result": "PASS",
+          "reasons": [
+            "territorio de manifiesto distinto: andalucia != wrong_territory",
+            "territorio en inventario distinto: andalucia != wrong_territory",
+            "territorio en procedencia distinto: andalucia != wrong_territory",
+            "territorio en decisión distinto: andalucia != wrong_territory",
+            "informe de compatibilidad pertenece a otro territorio"
+          ]
+        },
+        {
+          "case": "wrong_population_year",
+          "result": "PASS",
+          "reasons": [
+            "año de población distinto: 2025 != 2024",
+            "año de población en inventario distinto: 2025 != 2024",
+            "año de población en procedencia distinto: 2025 != 2024",
+            "año de población en decisión distinto: 2025 != 2024",
+            "poblacion_por_sexo_y_edad: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de población",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "wrong_section_year",
+          "result": "PASS",
+          "reasons": [
+            "año de seccionado distinto: 2025 != 2024",
+            "año de seccionado en inventario distinto: 2025 != 2024",
+            "año de seccionado en procedencia distinto: 2025 != 2024",
+            "año de seccionado en decisión distinto: 2025 != 2024",
+            "secciones_censales: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de seccionado",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "contradictory_manifest_digest",
+          "result": "PASS",
+          "reasons": [
+            "checksum incorrecto"
+          ]
+        }
+      ],
+      "canonical_territorial_consumer": {
+        "result": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179",
+        "accreditation": "Actual current canonical receipt validator rejection"
+      },
+      "production_promotion": "NONE"
+    },
+    {
+      "territory_id": "aragon",
+      "package_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e",
+      "territorial_identity_sha256": "829e61e577705fd6bcc4c08dbffc6fba89f899e517cd4195cce7d985b49186b5",
+      "offline_candidate_selection": "PASS",
+      "diagnostics": [
+        {
+          "package": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3",
+          "valid": true,
+          "reasons": []
+        }
+      ],
+      "negative_checks": [
+        {
+          "case": "wrong_territory",
+          "result": "PASS",
+          "reasons": [
+            "territorio de manifiesto distinto: aragon != wrong_territory",
+            "territorio en inventario distinto: aragon != wrong_territory",
+            "territorio en procedencia distinto: aragon != wrong_territory",
+            "territorio en decisión distinto: aragon != wrong_territory",
+            "informe de compatibilidad pertenece a otro territorio"
+          ]
+        },
+        {
+          "case": "wrong_population_year",
+          "result": "PASS",
+          "reasons": [
+            "año de población distinto: 2025 != 2024",
+            "año de población en inventario distinto: 2025 != 2024",
+            "año de población en procedencia distinto: 2025 != 2024",
+            "año de población en decisión distinto: 2025 != 2024",
+            "poblacion_por_sexo_y_edad: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de población",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "wrong_section_year",
+          "result": "PASS",
+          "reasons": [
+            "año de seccionado distinto: 2025 != 2024",
+            "año de seccionado en inventario distinto: 2025 != 2024",
+            "año de seccionado en procedencia distinto: 2025 != 2024",
+            "año de seccionado en decisión distinto: 2025 != 2024",
+            "secciones_censales: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de seccionado",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "contradictory_manifest_digest",
+          "result": "PASS",
+          "reasons": [
+            "checksum incorrecto"
+          ]
+        }
+      ],
+      "canonical_territorial_consumer": {
+        "result": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: receipt territorial incompleto para #179: compatibility_report_member, compatibility_report_sha256, compatibility_identity_sha256",
+        "accreditation": "Actual current canonical receipt validator rejection"
+      },
+      "production_promotion": "NONE"
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "package_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba",
+      "territorial_identity_sha256": "9d493e4f5d915d9d6288abfcf45e7499124ed1f3eb34a9ff227b066cb86a6112",
+      "offline_candidate_selection": "PASS",
+      "diagnostics": [
+        {
+          "package": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3",
+          "valid": true,
+          "reasons": []
+        }
+      ],
+      "negative_checks": [
+        {
+          "case": "wrong_territory",
+          "result": "PASS",
+          "reasons": [
+            "territorio de manifiesto distinto: castilla_y_leon != wrong_territory",
+            "territorio en inventario distinto: castilla_y_leon != wrong_territory",
+            "territorio en procedencia distinto: castilla_y_leon != wrong_territory",
+            "territorio en decisión distinto: castilla_y_leon != wrong_territory",
+            "informe de compatibilidad pertenece a otro territorio"
+          ]
+        },
+        {
+          "case": "wrong_population_year",
+          "result": "PASS",
+          "reasons": [
+            "año de población distinto: 2025 != 2024",
+            "año de población en inventario distinto: 2025 != 2024",
+            "año de población en procedencia distinto: 2025 != 2024",
+            "año de población en decisión distinto: 2025 != 2024",
+            "poblacion_por_sexo_y_edad: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de población",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "wrong_section_year",
+          "result": "PASS",
+          "reasons": [
+            "año de seccionado distinto: 2025 != 2024",
+            "año de seccionado en inventario distinto: 2025 != 2024",
+            "año de seccionado en procedencia distinto: 2025 != 2024",
+            "año de seccionado en decisión distinto: 2025 != 2024",
+            "secciones_censales: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de seccionado",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "contradictory_manifest_digest",
+          "result": "PASS",
+          "reasons": [
+            "checksum incorrecto"
+          ]
+        }
+      ],
+      "canonical_territorial_consumer": {
+        "result": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: receipt territorial incompleto para #179: compatibility_report_member, compatibility_report_sha256, compatibility_identity_sha256",
+        "accreditation": "Actual current canonical receipt validator rejection"
+      },
+      "production_promotion": "NONE"
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "package_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d",
+      "territorial_identity_sha256": "1edf14fc2d203fe095fade153ef59482db7e67434f2170499b1e9d14bd08d4d8",
+      "offline_candidate_selection": "PASS",
+      "diagnostics": [
+        {
+          "package": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3",
+          "valid": true,
+          "reasons": []
+        }
+      ],
+      "negative_checks": [
+        {
+          "case": "wrong_territory",
+          "result": "PASS",
+          "reasons": [
+            "territorio de manifiesto distinto: comunidad_valenciana != wrong_territory",
+            "territorio en inventario distinto: comunidad_valenciana != wrong_territory",
+            "territorio en procedencia distinto: comunidad_valenciana != wrong_territory",
+            "territorio en decisión distinto: comunidad_valenciana != wrong_territory",
+            "informe de compatibilidad pertenece a otro territorio"
+          ]
+        },
+        {
+          "case": "wrong_population_year",
+          "result": "PASS",
+          "reasons": [
+            "año de población distinto: 2025 != 2024",
+            "año de población en inventario distinto: 2025 != 2024",
+            "año de población en procedencia distinto: 2025 != 2024",
+            "año de población en decisión distinto: 2025 != 2024",
+            "poblacion_por_sexo_y_edad: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de población",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "wrong_section_year",
+          "result": "PASS",
+          "reasons": [
+            "año de seccionado distinto: 2025 != 2024",
+            "año de seccionado en inventario distinto: 2025 != 2024",
+            "año de seccionado en procedencia distinto: 2025 != 2024",
+            "año de seccionado en decisión distinto: 2025 != 2024",
+            "secciones_censales: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de seccionado",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "contradictory_manifest_digest",
+          "result": "PASS",
+          "reasons": [
+            "checksum incorrecto"
+          ]
+        }
+      ],
+      "canonical_territorial_consumer": {
+        "result": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179",
+        "accreditation": "Actual current canonical receipt validator rejection"
+      },
+      "production_promotion": "NONE"
+    },
+    {
+      "territory_id": "extremadura",
+      "package_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+      "territorial_identity_sha256": "8d9f05adac082a7c16455f9d98482205b6ed8220a2474ff7cc5c4a2c66057729",
+      "offline_candidate_selection": "PASS",
+      "diagnostics": [
+        {
+          "package": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3",
+          "valid": true,
+          "reasons": []
+        }
+      ],
+      "negative_checks": [
+        {
+          "case": "wrong_territory",
+          "result": "PASS",
+          "reasons": [
+            "territorio de manifiesto distinto: extremadura != wrong_territory",
+            "territorio en inventario distinto: extremadura != wrong_territory",
+            "territorio en procedencia distinto: extremadura != wrong_territory",
+            "territorio en decisión distinto: extremadura != wrong_territory",
+            "informe de compatibilidad pertenece a otro territorio"
+          ]
+        },
+        {
+          "case": "wrong_population_year",
+          "result": "PASS",
+          "reasons": [
+            "año de población distinto: 2025 != 2024",
+            "año de población en inventario distinto: 2025 != 2024",
+            "año de población en procedencia distinto: 2025 != 2024",
+            "año de población en decisión distinto: 2025 != 2024",
+            "poblacion_por_sexo_y_edad: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de población",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "wrong_section_year",
+          "result": "PASS",
+          "reasons": [
+            "año de seccionado distinto: 2025 != 2024",
+            "año de seccionado en inventario distinto: 2025 != 2024",
+            "año de seccionado en procedencia distinto: 2025 != 2024",
+            "año de seccionado en decisión distinto: 2025 != 2024",
+            "secciones_censales: año de fuente distinto: 2025 != 2024",
+            "informe de compatibilidad usa otro año de seccionado",
+            "CRS_MISSING: informe sin CRS de seccionado origen",
+            "INPUT_ROLE_MISSING: population_sectioning_origin"
+          ]
+        },
+        {
+          "case": "contradictory_manifest_digest",
+          "result": "PASS",
+          "reasons": [
+            "checksum incorrecto"
+          ]
+        }
+      ],
+      "canonical_territorial_consumer": {
+        "result": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179",
+        "accreditation": "Actual current canonical receipt validator rejection"
+      },
+      "production_promotion": "NONE"
+    },
+    {
+      "territory_id": "melilla",
+      "package_sha256": "cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b",
+      "territorial_identity_sha256": "a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "la_rioja",
+      "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d",
+      "territorial_identity_sha256": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "galicia",
+      "package_sha256": "3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c",
+      "territorial_identity_sha256": "0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "package_sha256": "8418a0d5232b0dae7c643cda869d9c08a1a11b1ce9e1c84a00578109fa41e615",
+      "territorial_identity_sha256": "b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "illes_balears",
+      "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a",
+      "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "canarias",
+      "package_sha256": "81f3b9981994072f6882c6451acda17c64c650f1773cb8da28952b114518906b",
+      "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "cantabria",
+      "package_sha256": "df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb",
+      "territorial_identity_sha256": "1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "package_sha256": "9a1c83de524ba975e393454e40bf4d4e723f04c4ceb70e1aa361c5f18836ebe8",
+      "territorial_identity_sha256": "aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "cataluna",
+      "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0",
+      "territorial_identity_sha256": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "madrid",
+      "package_sha256": "1cbe39913e9ed022b0150c1e47332ae28badc4bea86462d157579f73b2eab70a",
+      "territorial_identity_sha256": "8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534",
+      "territorial_identity_sha256": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "package_sha256": "85e406bccf7e33de8a7133540f0ae33532a234e16f66d02979c8aeae30330a03",
+      "territorial_identity_sha256": "b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "pais_vasco",
+      "package_sha256": "b920a3f0d0ed07cfe3b7b43698fff61346d07f8cbffadbaf16084b9282f88335",
+      "territorial_identity_sha256": "1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    },
+    {
+      "territory_id": "ceuta",
+      "package_sha256": "9535a68d47fbf806043f8269c3ba9c5456553be57710397c6a321e032e4c9cf6",
+      "territorial_identity_sha256": "29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853",
+      "canonical_territorial_consumer": {
+        "result": "PASS_REUSED",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+        "controls": [
+          "F03_consumer_receipt",
+          "F03_effective_consumer"
+        ],
+        "condition": "Same unchanged canonical files and contract at base HEAD; no rerun"
+      },
+      "production_promotion": "UNCHANGED"
+    }
+  ],
+  "scope": "Canonical BLOCKED is accredited, not converted into candidate PASS"
+}

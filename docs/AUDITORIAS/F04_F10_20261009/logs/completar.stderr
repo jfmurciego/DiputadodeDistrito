@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py", line 66, in <module>
+    report=build_materialized_report(evidence_dir=derived,territory_id=t,edition='2025',inventory=inventory,**years)
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 1376, in build_materialized_report
+    population_rows=_population_rows_from_zip(population_path),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 934, in _population_rows_from_zip
+    parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/ddd_core/territorial_validation.py", line 33, in parse_population_value
+    raise TerritorialDataError(f"POPULATION_MISSING: {label}{where}")
+ddd_core.territorial_validation.TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0401302003
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py", line 66, in <module>
+    report=build_materialized_report(evidence_dir=derived,territory_id=t,edition='2025',inventory=inventory,**years)
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 1376, in build_materialized_report
+    population_rows=_population_rows_from_zip(population_path),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 934, in _population_rows_from_zip
+    parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/ddd_core/territorial_validation.py", line 33, in parse_population_value
+    raise TerritorialDataError(f"POPULATION_MISSING: {label}{where}")
+ddd_core.territorial_validation.TerritorialDataError: POPULATION_MISSING: población del paquete para sección 4400801003
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py", line 66, in <module>
+    report=build_materialized_report(evidence_dir=derived,territory_id=t,edition='2025',inventory=inventory,**years)
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 1376, in build_materialized_report
+    population_rows=_population_rows_from_zip(population_path),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 934, in _population_rows_from_zip
+    parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/ddd_core/territorial_validation.py", line 33, in parse_population_value
+    raise TerritorialDataError(f"POPULATION_MISSING: {label}{where}")
+ddd_core.territorial_validation.TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0501401002
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py", line 66, in <module>
+    report=build_materialized_report(evidence_dir=derived,territory_id=t,edition='2025',inventory=inventory,**years)
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 1376, in build_materialized_report
+    population_rows=_population_rows_from_zip(population_path),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 934, in _population_rows_from_zip
+    parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/ddd_core/territorial_validation.py", line 33, in parse_population_value
+    raise TerritorialDataError(f"POPULATION_MISSING: {label}{where}")
+ddd_core.territorial_validation.TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0301401017
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py", line 66, in <module>
+    report=build_materialized_report(evidence_dir=derived,territory_id=t,edition='2025',inventory=inventory,**years)
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 1376, in build_materialized_report
+    population_rows=_population_rows_from_zip(population_path),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/herramientas/compatibilidad_poblacion_seccionado.py", line 934, in _population_rows_from_zip
+    parse_population_value(row.get("Total"), section_id=key, label="población del paquete"),
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/ddd_core/territorial_validation.py", line 33, in parse_population_value
+    raise TerritorialDataError(f"POPULATION_MISSING: {label}{where}")
+ddd_core.territorial_validation.TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0601505014

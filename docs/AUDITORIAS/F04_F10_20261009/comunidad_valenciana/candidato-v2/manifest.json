@@ -1,0 +1,21 @@
+{
+  "source_id": "local-derived-territorial:comunidad_valenciana",
+  "territory_id": "comunidad_valenciana",
+  "edition": 2025,
+  "population_year": 2025,
+  "section_year": 2025,
+  "path": "prepared_sources.zip",
+  "bytes": 4343056,
+  "sha256": "0bda25e80983279a0d166912a7bef723feb8fa6719d5a7536d7d8d18669c4166",
+  "records": 2,
+  "acquired_at": "2026-10-09T23:01:51.773435+00:00",
+  "acquired_at_kind": "local_derivation_operation_not_official_acquisition",
+  "original_acquisition_dates": [
+    "2026-09-22T17:04:36.275529+00:00",
+    "2026-09-22T17:05:06.777078+00:00"
+  ],
+  "origin": "Recovered historical INE package https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10917135113; exact local derivation.json",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "status": "CANDIDATE_UNPROMOTED",
+  "predecessor_artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80"
+}

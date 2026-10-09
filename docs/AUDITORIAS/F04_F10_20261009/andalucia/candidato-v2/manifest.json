@@ -1,0 +1,21 @@
+{
+  "source_id": "local-derived-territorial:andalucia",
+  "territory_id": "andalucia",
+  "edition": 2025,
+  "population_year": 2025,
+  "section_year": 2025,
+  "path": "prepared_sources.zip",
+  "bytes": 11084046,
+  "sha256": "bdf07f1e7e4390b2c56839f975600e76fd9481492e29d367bfa73268508be47a",
+  "records": 2,
+  "acquired_at": "2026-10-09T23:01:44.766966+00:00",
+  "acquired_at_kind": "local_derivation_operation_not_official_acquisition",
+  "original_acquisition_dates": [
+    "2026-09-24T16:05:57.578258+00:00",
+    "2026-09-24T16:07:23.024985+00:00"
+  ],
+  "origin": "Recovered historical INE package https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10819721995; exact local derivation.json",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "status": "CANDIDATE_UNPROMOTED",
+  "predecessor_artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316"
+}

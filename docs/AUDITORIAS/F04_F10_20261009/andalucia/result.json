@@ -1,0 +1,25 @@
+{
+  "territory_id": "andalucia",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "artifact_id": 10819721995,
+  "run_id": 36020646219,
+  "original_package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+  "original_artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+  "identity": {
+    "territory_id": "andalucia",
+    "edition": "2025",
+    "population_year": 2025,
+    "section_year": 2025,
+    "package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+    "territorial_identity_sha256": "ada99bb4da39b71ed117dd6194b3b941f10160773fdaedd4e7c1ed2794023cb8"
+  },
+  "material_recovery": "PASS",
+  "compatibility": "BLOCKED",
+  "eligible": false,
+  "causes": [
+    "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0401302003"
+  ],
+  "binding_validation": "NOT_REACHED"
+}

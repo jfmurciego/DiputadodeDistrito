@@ -1,0 +1,23 @@
+{
+  "schema": "ddd.local-derived-source-receipt/1.0",
+  "version": "1.0.0",
+  "kind": "local_derivation",
+  "created_at_utc": "2026-10-09T23:01:45.795296+00:00",
+  "territory_id": "andalucia",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "package_sha256": "bdf07f1e7e4390b2c56839f975600e76fd9481492e29d367bfa73268508be47a",
+  "compatibility_identity_sha256": "7b3ccc7409b2d7037972e1404b9b41573f599f82b2d945d1b090dd5ec542674a",
+  "territorial_identity_sha256": "8cbd25518cbfade96162ca3d658a41690704841faf23344c9d5fc28f6ef2fc6f",
+  "original_artifact_id": 10819721995,
+  "original_run_id": 36020646219,
+  "original_artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+  "original_source_commit": "45d005a7c4d40c23d17c477e0a10772f4054d60c",
+  "operation": "exact_same_year_universe_selection",
+  "derivation_path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/derivation.json",
+  "compatibility_report_sha256": "27a8ba570b6dd22f92fb3bc6cd555ed9eceb84a731941d3718aa3f820e2a15f3",
+  "local_validation": "READY",
+  "production_promotion": "NONE",
+  "note": "New local package identity; original GitHub artifact identity is never attributed to derived bytes"
+}

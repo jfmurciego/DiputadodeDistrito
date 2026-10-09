@@ -1,0 +1,10 @@
+{
+  "schema": "ddd-source-acquisition-decision/1.1",
+  "territory_id": "extremadura",
+  "territory": "Extremadura",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "decision": "READY",
+  "reasons": []
+}

@@ -1,0 +1,25 @@
+{
+  "territory_id": "castilla_y_leon",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "artifact_id": 10645871597,
+  "run_id": 35610439734,
+  "original_package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+  "original_artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+  "identity": {
+    "territory_id": "castilla_y_leon",
+    "edition": "2025",
+    "population_year": 2025,
+    "section_year": 2025,
+    "package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+    "territorial_identity_sha256": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c"
+  },
+  "material_recovery": "PASS",
+  "compatibility": "BLOCKED",
+  "eligible": false,
+  "causes": [
+    "TerritorialDataError: POPULATION_MISSING: población del paquete para sección 0501401002"
+  ],
+  "binding_validation": "NOT_REACHED"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "ddd.f06-identity-alignment/1.0",
+  "version": "1.0.0",
+  "rows": [
+    {
+      "territory_id": "cataluna",
+      "result": "PASS_METADATA_ALIGNED_EXISTING_IDENTITY",
+      "catalog_edition": "2025",
+      "population_year": 2024,
+      "section_year": 2024,
+      "identity": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
+      "receipt": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37453376100/receipt.json",
+      "declaration": "territorios/cataluna/config/fuentes_oficiales.yaml",
+      "declaration_sha256": "b6fcbb569b9e4b80139590228080faab82f91870dfcf32eef90d299ed2cb645b",
+      "receipt_sha256": "dce100cbfbd40567132149dc90200fcc17a4e5cf050b881910410952bc57edd1",
+      "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+      "generation_gate": "UNCHANGED; no admissibility re-evaluation or production promotion",
+      "minimal_correction": "None required: current declaration and receipt already aligned"
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "result": "PASS_METADATA_ALIGNED_EXISTING_IDENTITY",
+      "catalog_edition": "2025",
+      "population_year": 2023,
+      "section_year": 2023,
+      "identity": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
+      "receipt": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/37344628042/receipt.json",
+      "declaration": "territorios/region_de_murcia/config/fuentes_oficiales.yaml",
+      "declaration_sha256": "da269f30980794993cf3299111c3666da7a5f0e183f4bd3f5218d2b8da159c1a",
+      "receipt_sha256": "0b27717e62cfe0edc661f6cedcddcf8cfb54bcd8775ef4e0fa6779b3a512512f",
+      "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+      "generation_gate": "UNCHANGED; no admissibility re-evaluation or production promotion",
+      "minimal_correction": "None required: current declaration and receipt already aligned"
+    }
+  ],
+  "dependency": {
+    "current": [
+      "F04"
+    ],
+    "material_link": "No source bytes or identities depend on the five F04 inputs",
+    "proposal_for_Work": {
+      "depends_on": [
+        "F02"
+      ],
+      "reason": "Identity recovery evidence exists independently in F02"
+    },
+    "applied": false,
+    "execution_order": "F04 material acceptance obtained before this check; formal dependency preserved"
+  }
+}

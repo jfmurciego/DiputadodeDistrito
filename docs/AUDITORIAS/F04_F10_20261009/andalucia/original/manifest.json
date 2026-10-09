@@ -1,0 +1,12 @@
+{
+  "source_id": "prepared-territorial-sources:poblacion_por_sexo_y_edad,secciones_censales",
+  "territory_id": "andalucia",
+  "edition": 2025,
+  "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "path": "prepared_sources.zip",
+  "bytes": 11041225,
+  "sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+  "records": 2,
+  "acquired_at": "unknown-acquisition-date",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.0"
+}

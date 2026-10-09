@@ -1,0 +1,39 @@
+{
+  "candidates": 60,
+  "hits": [
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-state-35199668216-M06-with-sources.zip",
+      "member": "manifest.json",
+      "territory": "castilla_y_leon",
+      "metadata": {
+        "schema": "ddd-checkpoint-composite/1.0",
+        "territory_id": "castilla_y_leon",
+        "edition": 2025,
+        "completed_stage": "M06",
+        "base_checkpoint": {
+          "run_id": 35199668216,
+          "artifact_id": 10487940177,
+          "artifact_name": "ddd-state-35199668216-M06",
+          "artifact_digest": "sha256:5d79d467fd582827d658f34665836badd9748aed1278808b26657f76bf59e976"
+        },
+        "sources": {
+          "source_id": "castilla_y_leon_2025_verified_national_snapshots",
+          "edition": 2025,
+          "origin": "repository canonical inputs/MANIFEST.sha256; assembled from matching local verified snapshots; no network",
+          "path": "frozen/castilla_y_leon_2025_verified_sources.zip",
+          "bytes": 135788148,
+          "sha256": "3b094eff2c339054883964e19d47c10230ba91d79e942813841a869bec67b023",
+          "records": 3506,
+          "acquired_at": "2026-09-17T20:12:01Z"
+        },
+        "source_inventory": "sources/inventory.json",
+        "reuse_evidence": "sources/source_execution.json",
+        "network_accesses_during_assembly": 0,
+        "created_at": "2026-09-17T20:12:01Z",
+        "note": "M01-M06 state copied unchanged from artifact 10487940177; only sources/ and checkpoint metadata added."
+      }
+    }
+  ],
+  "errors": 1,
+  "governance_paths": []
+}
