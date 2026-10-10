@@ -1,11 +1,11 @@
 # Cartografía histórica y consecuencias de las cinco alternativas nacionales
 
-**Versión:** 1.0.0
+**Versión:** 1.0.1
 **Nombre:** Incorporación histórica, comparación acreditada y evaluación provincial
 **Fecha:** 2026-10-08
 **Alcance:** incremento analítico local del frente Distritos nacionales
 **Estado:** candidato para conservación local; CI_PENDIENTE; sin alternativa institucional aprobada
-**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad
+**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad; localizadores personales redactados
 **Motivo:** concretar la decisión del Director sin atribuir ediciones ni causas por inferencia
 **Origen:** incremento nuevo sobre `effa34f80d9c5c8cb7ac5c39216524aa95eba66d`; complementa el expediente previo, no sustituye el modelo
 
@@ -17,7 +17,7 @@ Las métricas siguientes proceden de [evaluación exacta](cartografia_nacional_2
 
 ## Inventario físico y acreditación
 
-La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió `/Users/macbookpro`, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, rutas, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
+La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió la raíz de usuario del equipo de búsqueda original, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, IDs relativos, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
 
 | Material físicamente inspeccionado | Identidad y contenido | Edición y compatibilidad |
 | --- | --- | --- |

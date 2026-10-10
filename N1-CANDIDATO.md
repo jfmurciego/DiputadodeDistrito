@@ -1,4 +1,6 @@
-# N1 candidato adicional — 2026-10-10
+# N1 candidato adicional — versión 1.0.1 — 2026-10-10
+
+Anterior: legacy/N1-CANDIDATO_v1.0.0.md. Cambios: portabilidad de procedencia C3 y redacción de localizadores privados.
 
 Base exacta: commit 35101a13afc20417606971db569caee9b7be8dd9; árbol
 8e04187c618eb6dceda1069ae791b2dc9774b35c; ZIP recibido SHA-256
@@ -23,3 +25,5 @@ local ni destino remoto autorizado identificado. Prueba de stat sin st_flags es
 regresión funcional, no prueba Linux. Procedimiento offline acompaña el paquete.
 392/391, geometría inválida 44 de Baleares y decisión institucional K abiertas.
 Histórico 27/27 separado: atribución pendiente. Sin integración ni producción.
+
+C3 sin datos de ubicación privada: las rutas de restauración y el `busqueda.json` son relativas al expediente; los localizadores históricos personales se reducen a identificadores/nombres de archivo y quedan rotulados como redactados. Los hashes y rutas dentro del paquete mantienen la procedencia verificable. La receta limpia además inspecciona sus JSON y falla si reaparecen rutas personales absolutas o directorios temporales privados.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Version 1.0.2; 2026-10-10; C3 reproducción local; revisión pendiente; nuevo.
+"""Version 1.0.3; 2026-10-10; C3 reproducción local; revisión pendiente; nuevo.
 Uso: python receta_cierre.py DIRECTORIO_NUEVO [--proj-data DIRECTORIO].
-ANTERIOR: legacy/receta_cierre_v1.0.1.py. CAMBIOS: PROJ explícito, red desactivada, recibo de software.
+ANTERIOR: legacy/receta_cierre_v1.0.2.py. CAMBIOS: rutas relativas y redacción de localizadores privados.
 No red, generación ni macros.
 """
 import argparse,gzip,hashlib,json,sys,platform
@@ -43,8 +43,11 @@ inventory=json.loads((folder/'inventario.json').read_text()); found=[]
 for index,record in enumerate(inventory['files']):
  raw=gzip.decompress((folder/record['archived_path']).read_bytes())
  if hashlib.sha256(raw).hexdigest()!=record['file_sha256']:raise ValueError('INPUT_HASH_MISMATCH')
- path=out/'restored'/str(index)/record['name'];path.parent.mkdir(parents=True);path.write_bytes(raw);found.append(str(path))
-search={'found':found,'origin':'inventario.json and hash-verified archived bytes; reconstructed routes, not a new discovery','historical_search':inventory['search']}
+ path=out/'restored'/str(index)/record['name'];path.parent.mkdir(parents=True);path.write_bytes(raw);found.append(path.relative_to(out).as_posix())
+historical_search=dict(inventory['search'])
+historical_search['root']='PRIVATE_ROOT_REDACTED'
+historical_search['found']=[{'source_id':item['source_id'] if isinstance(item,dict) else f'historical-source-{i+1:02d}','name':item['name'] if isinstance(item,dict) else Path(item).name,'original_location':'PRIVATE_PATH_REDACTED'} for i,item in enumerate(historical_search['found'])]
+search={'found':found,'origin':'hash-verified archived inputs; portable restored-relative routes, not a new discovery','historical_search':historical_search}
 report=out/'busqueda.json';report.write_text(json.dumps(search,indent=2))
 section=out/'seccionado_2025.zip'
 with section.open('wb') as sink:

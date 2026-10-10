@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""VERSIÓN: 1.0.3; NOMBRE: incorporación reproducible de cartografía histórica.
+"""VERSIÓN: 1.0.4; NOMBRE: incorporación reproducible de cartografía histórica.
 FECHA: 2026-10-10; ALCANCE: sólo archivos locales nombrados, sin red ni macros.
 ESTADO: CI_PENDIENTE; CAMBIOS: conserva bytes, inventario y diagnósticos comparables.
 MOTIVO: no confundir descubrimiento de archivos con acreditación de edición.
-ANTERIOR: legacy/herramientas/inventariar_cartografia_historica_v1.0.2.py; CAMBIOS: C3, stat portable; C1/C2 conservados.
+ANTERIOR: legacy/herramientas/inventariar_cartografia_historica_v1.0.3.py; CAMBIOS: C3, rutas relativas sin datos privados; C1/C2 conservados.
 """
 from __future__ import annotations
 import argparse
@@ -69,7 +69,7 @@ def sectioning_reference(path, expected_hash):
             if key in keys:raise ValueError("SECTION_ID_DUPLICATE")
             keys.add(key);provinces[code]+=1
         crs=CRS.from_wkt(archive.read(prj).decode())
-    return {"metadata":metadata(),"path":str(path),"file_sha256":digest,
+    return {"metadata":metadata(),"path":path.name,"file_sha256":digest,
             "edition":2025,"edition_evidence":"exact bytes match protected inputs/MANIFEST.sha256 baseline INE 2025; not inferred solely from filename",
             "unit_kind":"census_sections","unit_id_field":"CUSEC","unit_count":count,
             "unique_ids":len(keys),"province_counts":dict(sorted(provinces.items())),"fields":[f[0] for f in fields],
@@ -79,7 +79,12 @@ def sectioning_reference(path, expected_hash):
 
 def incorporate(search_report, output, section_zip=None, section_hash=None):
     output=Path(output); search=json.loads(Path(search_report).read_text())
-    paths=[Path(p) for p in search["found"] if Path(p).name in NAMES]
+    search_root=Path(search_report).resolve().parent
+    paths=[]
+    for item in search["found"]:
+        path=Path(item)
+        if not path.is_absolute():path=search_root/path
+        if path.name in NAMES:paths.append(path)
     if not paths:
         raise ValueError("NO_PHYSICAL_CARTOGRAPHIC_INPUTS")
     # BSD/macOS exposes st_flags; Linux does not. Preserve the placeholder
@@ -94,7 +99,9 @@ def incorporate(search_report, output, section_zip=None, section_hash=None):
         if digest not in stored:
             relative=f"inputs/{digest[:12]}_{path.name}.gz"
             (output/relative).write_bytes(gzip.compress(raw,mtime=0));stored[digest]=relative
-        record={"original_path":str(path),"name":path.name,"file_sha256":digest,"byte_size":len(raw),
+        try:relative_origin=path.resolve().relative_to(search_root)
+        except ValueError:relative_origin=Path("external-source")/(digest[:12]+"_"+path.name)
+        record={"original_path":relative_origin.as_posix(),"name":path.name,"file_sha256":digest,"byte_size":len(raw),
                 "archived_path":stored[digest],"geometry_edition":None,"population_edition":None,
                 "provenance_status":"LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"}
         if path.suffix in {".json",".geojson"}:
