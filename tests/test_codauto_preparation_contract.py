@@ -153,6 +153,7 @@ class CodautoPreparationContractTests(unittest.TestCase):
             [
                 "desplegar-visor-publico.yml",
                 "ejecucion-completa-proyecto.yml",
+                "f10-preparacion-territorial-aislada.yml",
                 "gestor-campanas.yml",
                 "incorporacion-resultados-electorales.yml",
                 "preparacion-fuentes.yml",
