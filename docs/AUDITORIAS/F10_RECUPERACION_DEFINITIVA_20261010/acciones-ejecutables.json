@@ -1,0 +1,85 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "acciones ejecutables, pendientes de autorización",
+  "state": "NOT_EXECUTED",
+  "origin": "caller f10-preparacion-territorial-aislada.yml y productor01 vigente",
+  "predecessor": null,
+  "changes": "parámetros de cinco ejecuciones aisladas",
+  "reason": "acreditar run propio cuando recuperación no permite reutilizar",
+  "caller": ".github/workflows/f10-preparacion-territorial-aislada.yml",
+  "producer": ".github/workflows/preparacion-fuentes.yml",
+  "dispatch_parameters": [
+    "territory_id (nombre completo CODAUTO)",
+    "reviewed_sha (40 hex, igual a github.sha)"
+  ],
+  "territories": {
+    "andalucia": {
+      "data_edition": "2025",
+      "population_year": "2025",
+      "section_year": "2025",
+      "reutilizar_si_ya_preparada": false,
+      "persist_state": false,
+      "recover_run_id": "",
+      "recover_artifact_sha256": "",
+      "source_ref": "github.sha (exacto al SHA del caller)",
+      "expected_v3_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39",
+      "expect_exact_v3_reproduction": false
+    },
+    "aragon": {
+      "data_edition": "2025",
+      "population_year": "2025",
+      "section_year": "2025",
+      "reutilizar_si_ya_preparada": false,
+      "persist_state": false,
+      "recover_run_id": "",
+      "recover_artifact_sha256": "",
+      "source_ref": "github.sha (exacto al SHA del caller)",
+      "expected_v3_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e",
+      "expect_exact_v3_reproduction": false
+    },
+    "castilla_y_leon": {
+      "data_edition": "2025",
+      "population_year": "2025",
+      "section_year": "2025",
+      "reutilizar_si_ya_preparada": false,
+      "persist_state": false,
+      "recover_run_id": "",
+      "recover_artifact_sha256": "",
+      "source_ref": "github.sha (exacto al SHA del caller)",
+      "expected_v3_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba",
+      "expect_exact_v3_reproduction": false
+    },
+    "comunidad_valenciana": {
+      "data_edition": "2025",
+      "population_year": "2025",
+      "section_year": "2025",
+      "reutilizar_si_ya_preparada": false,
+      "persist_state": false,
+      "recover_run_id": "",
+      "recover_artifact_sha256": "",
+      "source_ref": "github.sha (exacto al SHA del caller)",
+      "expected_v3_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d",
+      "expect_exact_v3_reproduction": false
+    },
+    "extremadura": {
+      "data_edition": "2025",
+      "population_year": "2025",
+      "section_year": "2025",
+      "reutilizar_si_ya_preparada": false,
+      "persist_state": false,
+      "recover_run_id": "",
+      "recover_artifact_sha256": "",
+      "source_ref": "github.sha (exacto al SHA del caller)",
+      "expected_v3_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+      "expect_exact_v3_reproduction": false
+    }
+  },
+  "postconditions": [
+    "artefacto auténtico del nuevo run y SHA exterior calculado desde bytes",
+    "manifest/SHA interior/territorio/edición/años exactos",
+    "informe #179 READY congelado y bindings/CRS/conservación íntegros",
+    "identidad calculada desde ese paquete; comparar con v3 sin suponer igualdad",
+    "receipt candidato ligado al nuevo run; sin registro ni promoción en esta orden"
+  ]
+}
