@@ -48,6 +48,6 @@ La comparación se calcula sobre los mismos bytes de contratos, catálogos y rec
 - `/private/tmp/madrid-gerrychain-venv/bin/python -m unittest tests.test_gestor_campana_nacional tests.test_continuar_ultimo_resultado_valido tests.test_temporal_source_preflight_contract -q`: **48 pruebas PASS**, `tests-targeted.log`.
 - Añadiendo `tests.test_ejecucion_completa`: **83 pruebas, 1 FAIL y 1 ERROR preexistentes**, `tests-expanded.log`. Aislados sin importar gestor en `tests-preexisting.log`; el resolver, su core y estos tests son idénticos a la base.
 - Error preexistente: `test_gerrychain_50_is_preserved_in_plan`, fixture Demo sin contrato M01–M06 completo (`CAP_CONTRACT`). Fallo preexistente: `test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm`, espera no preparar aunque el resolver exige preparación/acreditación. No se modifican estos tests ni se relajan sus puertas.
-- `git diff --check`: PASS. CI, suite completa y ejecución territorial: NO EJECUTADAS por alcance/prohibición expresa.
+- `git diff --check` completo: **NO PASS documental**; detecta un espacio final en `baseline-regressions.log:2`. La comprobación con ese log de auditoría excluido no detectó incidencias en los restantes archivos. Se conserva el log original intacto. CI, suite completa y ejecución territorial: NO EJECUTADAS durante la entrega local por alcance/prohibición expresa.
 
 El diff se entrega con commit local y revisión separada de ese SHA. Push, PR, merge, workflows, ejecución de 00/M01–M08 y publicación: NO.
