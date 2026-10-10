@@ -1,0 +1,23 @@
+======================================================================
+ERROR: test_gerrychain_50_is_preserved_in_plan (tests.test_ejecucion_completa.FullProjectOrchestratorTests.test_gerrychain_50_is_preserved_in_plan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_ejecucion_completa.py", line 729, in test_gerrychain_50_is_preserved_in_plan
+    plan = build_plan(
+           ^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/herramientas/resolver_ejecucion_completa.py", line 726, in build_plan
+    raise ValueError(f"GENERATION_CONTRACT_BLOCK: {row['name']}: {generation_gate['reason']}")
+ValueError: GENERATION_CONTRACT_BLOCK: Demo: CAP_CONTRACT: contrato M01-M06 ausente o incompleto
+
+======================================================================
+FAIL: test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm (tests.test_ejecucion_completa.FullProjectOrchestratorTests.test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_ejecucion_completa.py", line 571, in test_reuse_plan_reruns_generation_for_noncanonical_selected_algorithm
+    self.assertFalse(plan["run_prepare_territorial"])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 83 tests in 55.425s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,1543 @@
+{
+  "schema": "ddd.preflight-comparison/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "pure planning, no territorial execution",
+  "status": "candidate",
+  "origin": "d3a2238188d3f9acccfb8daf081157cf32be4c31",
+  "change": "common resolver authority",
+  "rows": [
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "01",
+      "territory_id": "andalucia",
+      "territory_name": "Andalucía",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "02",
+      "territory_id": "aragon",
+      "territory_name": "Aragón",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Aragón: DURABLE_LINEAGE_INCOMPATIBLE: territorial_product→electoral_product: el manifiesto no enlaza el activo durable vigente"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "03",
+      "territory_id": "principado_de_asturias",
+      "territory_name": "Principado de Asturias",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "04",
+      "territory_id": "illes_balears",
+      "territory_name": "Islas Baleares",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "05",
+      "territory_id": "canarias",
+      "territory_name": "Canarias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "06",
+      "territory_id": "cantabria",
+      "territory_name": "Cantabria",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "07",
+      "territory_id": "castilla_y_leon",
+      "territory_name": "Castilla y León",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Castilla y León: DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "08",
+      "territory_id": "castilla_la_mancha",
+      "territory_name": "Castilla-La Mancha",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "09",
+      "territory_id": "cataluna",
+      "territory_name": "Cataluña",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "10",
+      "territory_id": "comunidad_valenciana",
+      "territory_name": "Comunidad Valenciana",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "11",
+      "territory_id": "extremadura",
+      "territory_name": "Extremadura",
+      "before": "BLOCKED",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": true,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "12",
+      "territory_id": "galicia",
+      "territory_name": "Galicia",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Galicia: DURABLE_LINEAGE_INCOMPATIBLE: territorial_product→electoral_product: el manifiesto no enlaza el activo durable vigente"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "13",
+      "territory_id": "madrid",
+      "territory_name": "Comunidad de Madrid",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "14",
+      "territory_id": "region_de_murcia",
+      "territory_name": "Región de Murcia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "15",
+      "territory_id": "comunidad_foral_de_navarra",
+      "territory_name": "Comunidad Foral de Navarra",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "16",
+      "territory_id": "pais_vasco",
+      "territory_name": "País Vasco",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "17",
+      "territory_id": "la_rioja",
+      "territory_name": "La Rioja",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "18",
+      "territory_id": "ceuta",
+      "territory_name": "Ceuta",
+      "before": "GENERATION_READY",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Ceuta: DURABLE_LINEAGE_INCOMPATIBLE: territorial_source→territorial_product: artefacto o SHA contradice el manifiesto productor"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "territorial_only/Canónico",
+      "codauto": "19",
+      "territory_id": "melilla",
+      "territory_name": "Melilla",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "01",
+      "territory_id": "andalucia",
+      "territory_name": "Andalucía",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "02",
+      "territory_id": "aragon",
+      "territory_name": "Aragón",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "03",
+      "territory_id": "principado_de_asturias",
+      "territory_name": "Principado de Asturias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "04",
+      "territory_id": "illes_balears",
+      "territory_name": "Islas Baleares",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "05",
+      "territory_id": "canarias",
+      "territory_name": "Canarias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "06",
+      "territory_id": "cantabria",
+      "territory_name": "Cantabria",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "07",
+      "territory_id": "castilla_y_leon",
+      "territory_name": "Castilla y León",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "08",
+      "territory_id": "castilla_la_mancha",
+      "territory_name": "Castilla-La Mancha",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "09",
+      "territory_id": "cataluna",
+      "territory_name": "Cataluña",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "10",
+      "territory_id": "comunidad_valenciana",
+      "territory_name": "Comunidad Valenciana",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "11",
+      "territory_id": "extremadura",
+      "territory_name": "Extremadura",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": true,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "12",
+      "territory_id": "galicia",
+      "territory_name": "Galicia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "13",
+      "territory_id": "madrid",
+      "territory_name": "Comunidad de Madrid",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "14",
+      "territory_id": "region_de_murcia",
+      "territory_name": "Región de Murcia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "15",
+      "territory_id": "comunidad_foral_de_navarra",
+      "territory_name": "Comunidad Foral de Navarra",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "16",
+      "territory_id": "pais_vasco",
+      "territory_name": "País Vasco",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "17",
+      "territory_id": "la_rioja",
+      "territory_name": "La Rioja",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "18",
+      "territory_id": "ceuta",
+      "territory_name": "Ceuta",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "territorial_only/GerryChain 50",
+      "codauto": "19",
+      "territory_id": "melilla",
+      "territory_name": "Melilla",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "01",
+      "territory_id": "andalucia",
+      "territory_name": "Andalucía",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "02",
+      "territory_id": "aragon",
+      "territory_name": "Aragón",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Aragón: DURABLE_LINEAGE_INCOMPATIBLE: territorial_product→electoral_product: el manifiesto no enlaza el activo durable vigente"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "03",
+      "territory_id": "principado_de_asturias",
+      "territory_name": "Principado de Asturias",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "04",
+      "territory_id": "illes_balears",
+      "territory_name": "Islas Baleares",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "05",
+      "territory_id": "canarias",
+      "territory_name": "Canarias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "06",
+      "territory_id": "cantabria",
+      "territory_name": "Cantabria",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "07",
+      "territory_id": "castilla_y_leon",
+      "territory_name": "Castilla y León",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Castilla y León: DURABLE_ASSET_INVALID: electoral_product: receipt durable ilegible"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "08",
+      "territory_id": "castilla_la_mancha",
+      "territory_name": "Castilla-La Mancha",
+      "before": "GENERATION_READY",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": false,
+        "run_incorporate": false,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "09",
+      "territory_id": "cataluna",
+      "territory_name": "Cataluña",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "10",
+      "territory_id": "comunidad_valenciana",
+      "territory_name": "Comunidad Valenciana",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "11",
+      "territory_id": "extremadura",
+      "territory_name": "Extremadura",
+      "before": "BLOCKED",
+      "after": "PRODUCT_REUSE_READY",
+      "execution_route": "PRODUCT_REUSE_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": false,
+        "run_prepare_electoral": true,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "certified_product_lineage"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "12",
+      "territory_id": "galicia",
+      "territory_name": "Galicia",
+      "before": "BLOCKED",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Galicia: DURABLE_LINEAGE_INCOMPATIBLE: territorial_product→electoral_product: el manifiesto no enlaza el activo durable vigente"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "13",
+      "territory_id": "madrid",
+      "territory_name": "Comunidad de Madrid",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "14",
+      "territory_id": "region_de_murcia",
+      "territory_name": "Región de Murcia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "15",
+      "territory_id": "comunidad_foral_de_navarra",
+      "territory_name": "Comunidad Foral de Navarra",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "16",
+      "territory_id": "pais_vasco",
+      "territory_name": "País Vasco",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "17",
+      "territory_id": "la_rioja",
+      "territory_name": "La Rioja",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "18",
+      "territory_id": "ceuta",
+      "territory_name": "Ceuta",
+      "before": "GENERATION_READY",
+      "after": "BLOCKED",
+      "execution_route": "BLOCKED",
+      "blockers": [
+        "COMMON_RESOLVER_BLOCK:CONTINUE_DURABLE_BLOCK: Ceuta: DURABLE_LINEAGE_INCOMPATIBLE: territorial_source→territorial_product: artefacto o SHA contradice el manifiesto productor"
+      ],
+      "execution_plan": {}
+    },
+    {
+      "configuration": "electoral/Canónico",
+      "codauto": "19",
+      "territory_id": "melilla",
+      "territory_name": "Melilla",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "01",
+      "territory_id": "andalucia",
+      "territory_name": "Andalucía",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "02",
+      "territory_id": "aragon",
+      "territory_name": "Aragón",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "03",
+      "territory_id": "principado_de_asturias",
+      "territory_name": "Principado de Asturias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "04",
+      "territory_id": "illes_balears",
+      "territory_name": "Islas Baleares",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "05",
+      "territory_id": "canarias",
+      "territory_name": "Canarias",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "06",
+      "territory_id": "cantabria",
+      "territory_name": "Cantabria",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "07",
+      "territory_id": "castilla_y_leon",
+      "territory_name": "Castilla y León",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "08",
+      "territory_id": "castilla_la_mancha",
+      "territory_name": "Castilla-La Mancha",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "09",
+      "territory_id": "cataluna",
+      "territory_name": "Cataluña",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "10",
+      "territory_id": "comunidad_valenciana",
+      "territory_name": "Comunidad Valenciana",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "11",
+      "territory_id": "extremadura",
+      "territory_name": "Extremadura",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": true,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "12",
+      "territory_id": "galicia",
+      "territory_name": "Galicia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "13",
+      "territory_id": "madrid",
+      "territory_name": "Comunidad de Madrid",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "14",
+      "territory_id": "region_de_murcia",
+      "territory_name": "Región de Murcia",
+      "before": "BLOCKED",
+      "after": "SOURCE_PREPARATION_REQUIRED",
+      "execution_route": "SOURCE_PREPARATION_REQUIRED",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": true,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": true,
+        "generation_gate": {
+          "allowed": true,
+          "route": "planned_pre_m04_accreditation"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "15",
+      "territory_id": "comunidad_foral_de_navarra",
+      "territory_name": "Comunidad Foral de Navarra",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "16",
+      "territory_id": "pais_vasco",
+      "territory_name": "País Vasco",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "17",
+      "territory_id": "la_rioja",
+      "territory_name": "La Rioja",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "18",
+      "territory_id": "ceuta",
+      "territory_name": "Ceuta",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    },
+    {
+      "configuration": "electoral/GerryChain 50",
+      "codauto": "19",
+      "territory_id": "melilla",
+      "territory_name": "Melilla",
+      "before": "GENERATION_READY",
+      "after": "GENERATION_READY",
+      "execution_route": "GENERATION_READY",
+      "blockers": [],
+      "execution_plan": {
+        "run_prepare_territorial": false,
+        "run_generate": true,
+        "run_prepare_electoral": false,
+        "run_incorporate": true,
+        "pre_m04_accreditation_planned": false,
+        "generation_gate": {
+          "allowed": true,
+          "route": "validated_pre_m04_topology"
+        }
+      }
+    }
+  ]
+}
