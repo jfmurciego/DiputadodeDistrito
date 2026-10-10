@@ -1,0 +1,85 @@
+
+======================================================================
+FAIL: test_local_derived_receipts_never_accredit_effective_bytes (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='andalucia')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 38, in test_local_derived_receipts_never_accredit_effective_bytes
+    with self.subTest(territory=territory), self.assertRaisesRegex(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_local_derived_receipts_never_accredit_effective_bytes (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='comunidad_valenciana')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 38, in test_local_derived_receipts_never_accredit_effective_bytes
+    with self.subTest(territory=territory), self.assertRaisesRegex(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_local_derived_receipts_never_accredit_effective_bytes (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='extremadura')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 38, in test_local_derived_receipts_never_accredit_effective_bytes
+    with self.subTest(territory=territory), self.assertRaisesRegex(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_local_derived_receipts_never_accredit_effective_bytes (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='aragon')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 38, in test_local_derived_receipts_never_accredit_effective_bytes
+    with self.subTest(territory=territory), self.assertRaisesRegex(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_local_derived_receipts_never_accredit_effective_bytes (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='castilla_y_leon')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 38, in test_local_derived_receipts_never_accredit_effective_bytes
+    with self.subTest(territory=territory), self.assertRaisesRegex(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_retagging_and_borrowing_historical_run_cannot_accredit_candidate (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='andalucia')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 57, in test_retagging_and_borrowing_historical_run_cannot_accredit_candidate
+    with self.subTest(territory=territory), self.assertRaises(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_retagging_and_borrowing_historical_run_cannot_accredit_candidate (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='comunidad_valenciana')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 57, in test_retagging_and_borrowing_historical_run_cannot_accredit_candidate
+    with self.subTest(territory=territory), self.assertRaises(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_retagging_and_borrowing_historical_run_cannot_accredit_candidate (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='extremadura')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 57, in test_retagging_and_borrowing_historical_run_cannot_accredit_candidate
+    with self.subTest(territory=territory), self.assertRaises(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_retagging_and_borrowing_historical_run_cannot_accredit_candidate (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='aragon')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 57, in test_retagging_and_borrowing_historical_run_cannot_accredit_candidate
+    with self.subTest(territory=territory), self.assertRaises(
+AssertionError: PreparedPairExecutionBlock not raised
+
+======================================================================
+FAIL: test_retagging_and_borrowing_historical_run_cannot_accredit_candidate (tests.test_f10_receipt_contract.F10ReceiptContractTests) (territory='castilla_y_leon')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-f10-receipts/tests/test_f10_receipt_contract.py", line 57, in test_retagging_and_borrowing_historical_run_cannot_accredit_candidate
+    with self.subTest(territory=territory), self.assertRaises(
+AssertionError: PreparedPairExecutionBlock not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 11.830s
+
+FAILED (failures=10)

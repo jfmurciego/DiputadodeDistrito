@@ -1,0 +1,304 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "F10 únicamente",
+  "origin": "c83f6e3f5b9d25ec12c0124e42b372e7d838031e",
+  "predecessor": null,
+  "changes": "inventario comprobado y bloqueos F10",
+  "reason": "contrato #179",
+  "decision": "BLOCKED",
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "decision": "BLOCKED",
+      "run_id": 36020646219,
+      "source_commit": "45d005a7c4d40c23d17c477e0a10772f4054d60c",
+      "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/36020646219",
+      "remote_snapshot": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "remote_inventory_count": 11,
+      "remote_inventory_complete": true,
+      "artifact_id": 10819721995,
+      "artifact_name": "ddd-source-package-andalucia-2025-36020646219",
+      "artifact_path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10819721995.zip",
+      "artifact_sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+      "artifact_bytes": 11045048,
+      "package_sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07",
+      "original_members": [
+        "decision_adquisicion.json",
+        "declaracion_materializacion.json",
+        "inventario_fuentes.json",
+        "manifiesto_procedencia.json",
+        "materialized/inputs/65034.csv.zip",
+        "materialized/inputs/seccionado_2025.zip"
+      ],
+      "compatibility_report_present": false,
+      "original_compatibility_rejection": [
+        "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
+      ],
+      "historical_identity_sha256_without_compatibility": "ada99bb4da39b71ed117dd6194b3b941f10160773fdaedd4e7c1ed2794023cb8",
+      "canonical_receipt_path": null,
+      "durable_consumer": {
+        "decision": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179"
+      },
+      "local_candidate_receipt": "docs/AUDITORIAS/F04_F10_20261009/andalucia/derived-receipt-v3.json",
+      "local_candidate_package_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39",
+      "local_candidate_report_sha256": "27a8ba570b6dd22f92fb3bc6cd555ed9eceb84a731941d3718aa3f820e2a15f3",
+      "local_candidate_compatibility_identity_sha256": "7b3ccc7409b2d7037972e1404b9b41573f599f82b2d945d1b090dd5ec542674a",
+      "local_candidate_territorial_identity_sha256": "a82e22d1ddf4665c69df3ec78f0f4d227a55a577a71b458b7ad492047dd25b6b",
+      "candidate_run_accreditation": "ABSENT: no receipt/run/artifact binding for these derived bytes",
+      "other_source_named_artifacts_not_accredited": [],
+      "required_producer_action": {
+        "operation": "01 · Preparación de Datos Territoriales",
+        "territory_id": "andalucia",
+        "data_edition": "2025",
+        "population_year": "2025",
+        "section_year": "2025",
+        "reuse_historical_artifact": false,
+        "requirements": [
+          "Reproducir la materialización/derivación territorial en una ejecución autorizada del productor, con linaje de inputs y commit verificable.",
+          "Congelar informe #179 READY en el nuevo paquete y verificar bindings, CRS, roles, conservación y digests.",
+          "Emitir artefacto del nuevo run; calcular SHA exterior, interior, informe e identidad desde sus bytes.",
+          "Acreditar receipt nuevo ligado al run productor real y declaración versionada; registro durable y promoción son actuaciones posteriores separadas."
+        ]
+      }
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "decision": "BLOCKED",
+      "run_id": 36273981926,
+      "source_commit": "a16112f1d2bc7dcc23075efa9e9fbcb2a08e601d",
+      "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/36273981926",
+      "remote_snapshot": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "remote_inventory_count": 41,
+      "remote_inventory_complete": true,
+      "artifact_id": 10917135113,
+      "artifact_name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
+      "artifact_path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10917135113.zip",
+      "artifact_sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+      "artifact_bytes": 4318590,
+      "package_sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97",
+      "original_members": [
+        "decision_adquisicion.json",
+        "declaracion_materializacion.json",
+        "inventario_fuentes.json",
+        "manifiesto_procedencia.json",
+        "materialized/inputs/65034.csv.zip",
+        "materialized/inputs/seccionado_2025.zip"
+      ],
+      "compatibility_report_present": false,
+      "original_compatibility_rejection": [
+        "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
+      ],
+      "historical_identity_sha256_without_compatibility": "47ab72d4c266d6a4b713562a5917e5f622d2535547e691cddccb55a17dba8c78",
+      "canonical_receipt_path": null,
+      "durable_consumer": {
+        "decision": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179"
+      },
+      "local_candidate_receipt": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/derived-receipt-v3.json",
+      "local_candidate_package_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d",
+      "local_candidate_report_sha256": "e3f912e9923d00c2ff1a4850c30ddb0eee8a3cb88f8d9d7ee7030f7f21306214",
+      "local_candidate_compatibility_identity_sha256": "4a95cb48052be9c68f4bb0dff7e2c6fd825b74b4a253c70a2db9be0962622b5f",
+      "local_candidate_territorial_identity_sha256": "1edf14fc2d203fe095fade153ef59482db7e67434f2170499b1e9d14bd08d4d8",
+      "candidate_run_accreditation": "ABSENT: no receipt/run/artifact binding for these derived bytes",
+      "other_source_named_artifacts_not_accredited": [
+        {
+          "id": 10917250160,
+          "name": "ddd-source-package-36273981926",
+          "digest": "sha256:3024c38155b14d419fb01dd27aec751ea9f9ca6c94358610d9afc7418efd2e5f"
+        },
+        {
+          "id": 10917245848,
+          "name": "ddd-source-package-36273981926",
+          "digest": "sha256:25cbe26f1d51b5a1d9b5f75d120df4096d3f05b5bc9f2224ee66104f7734a850"
+        }
+      ],
+      "required_producer_action": {
+        "operation": "01 · Preparación de Datos Territoriales",
+        "territory_id": "comunidad_valenciana",
+        "data_edition": "2025",
+        "population_year": "2025",
+        "section_year": "2025",
+        "reuse_historical_artifact": false,
+        "requirements": [
+          "Reproducir la materialización/derivación territorial en una ejecución autorizada del productor, con linaje de inputs y commit verificable.",
+          "Congelar informe #179 READY en el nuevo paquete y verificar bindings, CRS, roles, conservación y digests.",
+          "Emitir artefacto del nuevo run; calcular SHA exterior, interior, informe e identidad desde sus bytes.",
+          "Acreditar receipt nuevo ligado al run productor real y declaración versionada; registro durable y promoción son actuaciones posteriores separadas."
+        ]
+      }
+    },
+    {
+      "territory_id": "extremadura",
+      "decision": "BLOCKED",
+      "run_id": 35755043806,
+      "source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+      "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/35755043806",
+      "remote_snapshot": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "remote_inventory_count": 16,
+      "remote_inventory_complete": true,
+      "artifact_id": 10710105975,
+      "artifact_name": "ddd-source-package-extremadura-2025-35755043806",
+      "artifact_path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10710105975.zip",
+      "artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+      "artifact_bytes": 2860459,
+      "package_sha256": "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07",
+      "original_members": [
+        "decision_adquisicion.json",
+        "declaracion_materializacion.json",
+        "inventario_fuentes.json",
+        "manifiesto_procedencia.json",
+        "materialized/inputs/65034.csv.zip",
+        "materialized/inputs/seccionado_2025.zip"
+      ],
+      "compatibility_report_present": false,
+      "original_compatibility_rejection": [
+        "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
+      ],
+      "historical_identity_sha256_without_compatibility": "5f0f3f974d282d4d120eaa0defffbe4d0108a20b9511f599b50fefbcccc87fff",
+      "canonical_receipt_path": null,
+      "durable_consumer": {
+        "decision": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179"
+      },
+      "local_candidate_receipt": "docs/AUDITORIAS/F04_F10_20261009/extremadura/derived-receipt-v3.json",
+      "local_candidate_package_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+      "local_candidate_report_sha256": "1a0f63f9739d7654bfeecb1b334e289dd7e8f5feb370adbad9c2d95e4341fc53",
+      "local_candidate_compatibility_identity_sha256": "b48d256d65dd17fab9d0cd27feab16cb4d325452ec57a1e6d3a4e6c8342a126d",
+      "local_candidate_territorial_identity_sha256": "8d9f05adac082a7c16455f9d98482205b6ed8220a2474ff7cc5c4a2c66057729",
+      "candidate_run_accreditation": "ABSENT: no receipt/run/artifact binding for these derived bytes",
+      "other_source_named_artifacts_not_accredited": [],
+      "required_producer_action": {
+        "operation": "01 · Preparación de Datos Territoriales",
+        "territory_id": "extremadura",
+        "data_edition": "2025",
+        "population_year": "2025",
+        "section_year": "2025",
+        "reuse_historical_artifact": false,
+        "requirements": [
+          "Reproducir la materialización/derivación territorial en una ejecución autorizada del productor, con linaje de inputs y commit verificable.",
+          "Congelar informe #179 READY en el nuevo paquete y verificar bindings, CRS, roles, conservación y digests.",
+          "Emitir artefacto del nuevo run; calcular SHA exterior, interior, informe e identidad desde sus bytes.",
+          "Acreditar receipt nuevo ligado al run productor real y declaración versionada; registro durable y promoción son actuaciones posteriores separadas."
+        ]
+      }
+    },
+    {
+      "territory_id": "aragon",
+      "decision": "BLOCKED",
+      "run_id": 35728613828,
+      "source_commit": "7a37a00834d7614a21f02bb6d0f181d475aad5e2",
+      "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/35728613828",
+      "remote_snapshot": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "remote_inventory_count": 18,
+      "remote_inventory_complete": true,
+      "artifact_id": 10695433906,
+      "artifact_name": "ddd-source-package-aragon-2025-35728613828",
+      "artifact_path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10695433906.zip",
+      "artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+      "artifact_bytes": 3350302,
+      "package_sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+      "original_members": [
+        "decision_adquisicion.json",
+        "declaracion_materializacion.json",
+        "inventario_fuentes.json",
+        "manifiesto_procedencia.json",
+        "materialized/inputs/65034.csv.zip",
+        "materialized/inputs/seccionado_2025.zip"
+      ],
+      "compatibility_report_present": false,
+      "original_compatibility_rejection": [
+        "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
+      ],
+      "historical_identity_sha256_without_compatibility": "4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0",
+      "canonical_receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/4ec21d6470c2dd934d4785e1a6e906d49a230a82dc7078218f224c91159afce0/35728613828/receipt.json",
+      "durable_consumer": {
+        "decision": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: receipt territorial incompleto para #179: compatibility_report_member, compatibility_report_sha256, compatibility_identity_sha256"
+      },
+      "local_candidate_receipt": "docs/AUDITORIAS/F04_F10_20261009/aragon/derived-receipt-v3.json",
+      "local_candidate_package_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e",
+      "local_candidate_report_sha256": "95c4a0105265f0079eeed078b38290b19b10826cd6429967bc4f9a61340b5316",
+      "local_candidate_compatibility_identity_sha256": "9321b84166111cf9acd2d6b190cb87fff1a5b0606a7379decdd6fc4f22721c45",
+      "local_candidate_territorial_identity_sha256": "829e61e577705fd6bcc4c08dbffc6fba89f899e517cd4195cce7d985b49186b5",
+      "candidate_run_accreditation": "ABSENT: no receipt/run/artifact binding for these derived bytes",
+      "other_source_named_artifacts_not_accredited": [],
+      "required_producer_action": {
+        "operation": "01 · Preparación de Datos Territoriales",
+        "territory_id": "aragon",
+        "data_edition": "2025",
+        "population_year": "2025",
+        "section_year": "2025",
+        "reuse_historical_artifact": false,
+        "requirements": [
+          "Reproducir la materialización/derivación territorial en una ejecución autorizada del productor, con linaje de inputs y commit verificable.",
+          "Congelar informe #179 READY en el nuevo paquete y verificar bindings, CRS, roles, conservación y digests.",
+          "Emitir artefacto del nuevo run; calcular SHA exterior, interior, informe e identidad desde sus bytes.",
+          "Acreditar receipt nuevo ligado al run productor real y declaración versionada; registro durable y promoción son actuaciones posteriores separadas."
+        ]
+      }
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "decision": "BLOCKED",
+      "run_id": 35610439734,
+      "source_commit": "0c516d79e2eaa36966deb016bcf57aafff9c4409",
+      "run_url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/35610439734",
+      "remote_snapshot": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "remote_inventory_count": 9,
+      "remote_inventory_complete": true,
+      "artifact_id": 10645871597,
+      "artifact_name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+      "artifact_path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10645871597.zip",
+      "artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+      "artifact_bytes": 6815794,
+      "package_sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752",
+      "original_members": [
+        "decision_adquisicion.json",
+        "declaracion_materializacion.json",
+        "inventario_fuentes.json",
+        "manifiesto_procedencia.json",
+        "materialized/inputs/65034.csv.zip",
+        "materialized/inputs/seccionado_2025.zip"
+      ],
+      "compatibility_report_present": false,
+      "original_compatibility_rejection": [
+        "informe de compatibilidad población↔seccionado ausente; paquete histórico no reutilizable"
+      ],
+      "historical_identity_sha256_without_compatibility": "380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c",
+      "canonical_receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/380dc48849ae078bf6c51144eb98e295be3306d9e66098f82a6b4e61cffa825c/35610439734/receipt.json",
+      "durable_consumer": {
+        "decision": "BLOCKED",
+        "reason": "PREPARED_TERRITORIAL_BLOCK: receipt territorial incompleto para #179: compatibility_report_member, compatibility_report_sha256, compatibility_identity_sha256"
+      },
+      "local_candidate_receipt": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/derived-receipt-v3.json",
+      "local_candidate_package_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba",
+      "local_candidate_report_sha256": "5bcc0d88ff37daeeeea45454e18f69d4c56e01c18a9298628b31803d3a19da68",
+      "local_candidate_compatibility_identity_sha256": "f83efc8d6cd5e767dc638a61a8656f6bd5fc8b45637633e2eb599faec76e9f59",
+      "local_candidate_territorial_identity_sha256": "9d493e4f5d915d9d6288abfcf45e7499124ed1f3eb34a9ff227b066cb86a6112",
+      "candidate_run_accreditation": "ABSENT: no receipt/run/artifact binding for these derived bytes",
+      "other_source_named_artifacts_not_accredited": [],
+      "required_producer_action": {
+        "operation": "01 · Preparación de Datos Territoriales",
+        "territory_id": "castilla_y_leon",
+        "data_edition": "2025",
+        "population_year": "2025",
+        "section_year": "2025",
+        "reuse_historical_artifact": false,
+        "requirements": [
+          "Reproducir la materialización/derivación territorial en una ejecución autorizada del productor, con linaje de inputs y commit verificable.",
+          "Congelar informe #179 READY en el nuevo paquete y verificar bindings, CRS, roles, conservación y digests.",
+          "Emitir artefacto del nuevo run; calcular SHA exterior, interior, informe e identidad desde sus bytes.",
+          "Acreditar receipt nuevo ligado al run productor real y declaración versionada; registro durable y promoción son actuaciones posteriores separadas."
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Sólo los cinco runs registrados y los bytes conservados se verifican exhaustivamente.",
+    "No se afirma inexistencia global de otros runs/artefactos.",
+    "Los dos artifacts de nombre genérico de Comunidad Valenciana sólo tienen metadata; bytes no examinados y nombre ambiguo.",
+    "Las identidades v3 se recalculan para distinguir bytes; no se repite F05–F09 ni se certifica su preparación productiva."
+  ]
+}
