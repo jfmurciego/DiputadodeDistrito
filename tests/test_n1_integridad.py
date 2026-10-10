@@ -1,7 +1,10 @@
-"""Version 1.0.0; 2026-10-10; N1 C1/C2/C3 functional negatives; review pending.
+"""Version 1.0.1; 2026-10-10; N1 C1/C2/C3 functional negatives; review pending.
+Predecessor: legacy/tests/test_n1_integridad_v1.0.0.py; includes stat_result without st_flags regression.
 Scope: frozen local material only; origin: new; reason: separate-review findings.
 """
 import copy,gzip,hashlib,json,tempfile,unittest
+from types import SimpleNamespace
+from unittest.mock import patch
 from pathlib import Path
 from herramientas.evaluar_alternativas_nacionales import validate_model
 from herramientas.inventariar_cartografia_historica import incorporate,read_json_verified
@@ -34,4 +37,17 @@ class N1Integrity(unittest.TestCase):
    self.assertEqual(read_json_verified(f,digest),{'value':42})
    f.write_bytes(b'not valid JSON and altered bytes')
    with self.assertRaisesRegex(ValueError,'ANALYTICAL_INPUT_HASH_MISMATCH'):read_json_verified(f,digest)
+ def test_inventory_accepts_stat_result_without_st_flags(self):
+  with tempfile.TemporaryDirectory() as temporary:
+   root=Path(temporary);found=[]
+   for record in json.loads((FOLDER/'inventario.json').read_text())['files']:
+    if record['name'] not in {'map.geojson','spain-districts-selected.json'}:continue
+    path=root/record['name'];path.write_bytes(gzip.decompress((FOLDER/record['archived_path']).read_bytes()));found.append(path)
+   search=root/'busqueda.json';search.write_text(json.dumps({'found':[path.name for path in found]}))
+   original_stat=Path.stat
+   def stat_without_flags(path,*args,**kwargs):
+    if path in found:return SimpleNamespace()
+    return original_stat(path,*args,**kwargs)
+   with patch.object(Path,'stat',stat_without_flags):incorporate(search,root/'output')
+   self.assertTrue((root/'output/equivalencia_archivos.json').is_file())
 if __name__=='__main__':unittest.main()
