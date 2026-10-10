@@ -1,6 +1,6 @@
 {
   "schema": "ddd.f07-offline-results/1.0",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "network": "FORBIDDEN",
   "new_inputs": 5,
   "previous_exact_results_reused": 14,
@@ -347,7 +347,7 @@
       "territorial_identity_sha256": "a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -362,7 +362,7 @@
       "territorial_identity_sha256": "e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -377,7 +377,7 @@
       "territorial_identity_sha256": "0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -392,7 +392,7 @@
       "territorial_identity_sha256": "b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -407,7 +407,7 @@
       "territorial_identity_sha256": "dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -422,7 +422,7 @@
       "territorial_identity_sha256": "77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -437,7 +437,7 @@
       "territorial_identity_sha256": "1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -452,7 +452,7 @@
       "territorial_identity_sha256": "aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -467,7 +467,7 @@
       "territorial_identity_sha256": "7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -482,7 +482,7 @@
       "territorial_identity_sha256": "8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -497,7 +497,7 @@
       "territorial_identity_sha256": "14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -512,7 +512,7 @@
       "territorial_identity_sha256": "b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -527,7 +527,7 @@
       "territorial_identity_sha256": "1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -542,7 +542,7 @@
       "territorial_identity_sha256": "29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853",
       "canonical_territorial_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"

@@ -1,11 +1,10 @@
-"""DDD F06 metadata alignment, version 1.0.1, 2026-10-10.
+"""DDD F06 metadata alignment, version 1.0.0, 2026-10-10.
 Reuse existing byte/consumer evidence; no package hashes or closed tests rerun.
-Patch: tracked evidence path; criteria/results unchanged; predecessor legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/acreditar_identidades.py; state candidate.
 """
 from pathlib import Path
 import sys,json,hashlib,yaml
 OUT=Path(__file__).resolve().parent;ROOT=OUT.parents[3]
-prior_path=ROOT/'docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json'
+prior_path=ROOT/'docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json'
 prior=json.loads(prior_path.read_text());rows=[]
 for territory in ['cataluna','region_de_murcia']:
     previous=next(row for row in prior['rows'] if row['territory_id']==territory)
@@ -30,7 +29,7 @@ for territory in ['cataluna','region_de_murcia']:
       'reuse_evidence':str(prior_path.relative_to(ROOT)),
       'generation_gate':'UNCHANGED; no admissibility re-evaluation or production promotion',
       'minimal_correction':'None required: current declaration and receipt already aligned'})
-value={'schema':'ddd.f06-identity-alignment/1.0','version':'1.0.1','rows':rows,
+value={'schema':'ddd.f06-identity-alignment/1.0','version':'1.0.0','rows':rows,
  'dependency':{'current':['F04'],'material_link':'No source bytes or identities depend on the five F04 inputs',
   'proposal_for_Work':{'depends_on':['F02'],'reason':'Identity recovery evidence exists independently in F02'},
   'applied':False,'execution_order':'F04 material acceptance obtained before this check; formal dependency preserved'}}

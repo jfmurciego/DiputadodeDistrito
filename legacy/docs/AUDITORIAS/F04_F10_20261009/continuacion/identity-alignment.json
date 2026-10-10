@@ -1,6 +1,6 @@
 {
   "schema": "ddd.f06-identity-alignment/1.0",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "rows": [
     {
       "territory_id": "cataluna",
@@ -13,7 +13,7 @@
       "declaration": "territorios/cataluna/config/fuentes_oficiales.yaml",
       "declaration_sha256": "b6fcbb569b9e4b80139590228080faab82f91870dfcf32eef90d299ed2cb645b",
       "receipt_sha256": "dce100cbfbd40567132149dc90200fcc17a4e5cf050b881910410952bc57edd1",
-      "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+      "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
       "generation_gate": "UNCHANGED; no admissibility re-evaluation or production promotion",
       "minimal_correction": "None required: current declaration and receipt already aligned"
     },
@@ -28,7 +28,7 @@
       "declaration": "territorios/region_de_murcia/config/fuentes_oficiales.yaml",
       "declaration_sha256": "da269f30980794993cf3299111c3666da7a5f0e183f4bd3f5218d2b8da159c1a",
       "receipt_sha256": "0b27717e62cfe0edc661f6cedcddcf8cfb54bcd8775ef4e0fa6779b3a512512f",
-      "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+      "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
       "generation_gate": "UNCHANGED; no admissibility re-evaluation or production promotion",
       "minimal_correction": "None required: current declaration and receipt already aligned"
     }

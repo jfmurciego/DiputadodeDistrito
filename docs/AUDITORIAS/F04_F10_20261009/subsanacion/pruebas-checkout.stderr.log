@@ -1,0 +1,9 @@
+test_checkout_has_only_tracked_evidence (__main__.CleanCheckoutReferences) ... ok
+test_metadata_script_reproduces_exact_result (__main__.CleanCheckoutReferences) ... ok
+test_real_historical_aggregation_without_consumption (__main__.CleanCheckoutReferences) ... ok
+test_results_and_criteria_unchanged (__main__.CleanCheckoutReferences) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.379s
+
+OK

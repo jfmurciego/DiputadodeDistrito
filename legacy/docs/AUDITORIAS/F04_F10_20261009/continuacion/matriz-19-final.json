@@ -1,6 +1,6 @@
 {
   "schema": "ddd.f04-f08-sources-matrix/1.0",
-  "version": "1.2.1",
+  "version": "1.2.0",
   "date": "2026-10-10",
   "rows": [
     {
@@ -138,7 +138,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -151,7 +151,7 @@
         "source_commit": "e10d3e9fbffa6be85a600856c0b066d5754551bb",
         "run_id": 37438440043,
         "receipt": "territorios/principado_de_asturias/evidencia/fuentes_territoriales/2025/b7ca312620bb80af7e55f7f172d0fbbbba0f756ae845b55549b454470c9591fe/37438440043/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -177,7 +177,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -190,7 +190,7 @@
         "source_commit": "3e0508f70a09aa86249f229ac8ab209c23061f77",
         "run_id": 37589792776,
         "receipt": "territorios/illes_balears/evidencia/fuentes_territoriales/2025/dc2fa1ab23ced23fee4e52ed7069ed8ab8662e112db455e9ddac74adbbddaa61/37589792776/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -216,7 +216,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -229,7 +229,7 @@
         "source_commit": "17666df88125bf0a104d876b7a8293f9b88931f2",
         "run_id": 37596900111,
         "receipt": "territorios/canarias/evidencia/fuentes_territoriales/2025/77f8f22c63638601550e705b739260dfdd293afd109fdf20939c302f84f2918f/37596900111/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -255,7 +255,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -268,7 +268,7 @@
         "source_commit": "3938c97a8b46590a54016173416acf34c165d5a1",
         "run_id": 37318299003,
         "receipt": "territorios/cantabria/evidencia/fuentes_territoriales/2025/1eacb9533dc5f491a01d26cdb22a4cc93d2cac23218731d7a506cedf4812ebc2/37318299003/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -356,7 +356,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -369,7 +369,7 @@
         "source_commit": "d9396ab63333dadcde01d5ad1262997b694fcd9d",
         "run_id": 37444564173,
         "receipt": "territorios/castilla_la_mancha/evidencia/fuentes_territoriales/2025/aa8b623c4040edff3b9f876c5200824b9628e279edbe64ea687eb61e025b8b03/37444564173/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -395,7 +395,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -408,7 +408,7 @@
         "source_commit": "e3281f941641c0ee6047724b9bc933d8d1826f7e",
         "run_id": 37453376100,
         "receipt": "territorios/cataluna/evidencia/fuentes_territoriales/2025/7979e91e6b7caf226c9cc5bf9619c50fba404038cd78f383b68a35528b1afaf2/37453376100/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -545,7 +545,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -558,7 +558,7 @@
         "source_commit": "9243ff329d11d0e66d03047caa83865474aa5453",
         "run_id": 37155903096,
         "receipt": "territorios/galicia/evidencia/fuentes_territoriales/2025/0038fdcf4151e229621b529cfb98df60c9dce9d15502dd5024c8b61c79f8a2d3/37155903096/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -584,7 +584,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -597,7 +597,7 @@
         "source_commit": "ebe49a735091363944cb5ded0f272e6c0f37b707",
         "run_id": 37325328346,
         "receipt": "territorios/madrid/evidencia/fuentes_territoriales/2025/8e0e0087b6ace4c21c8239a829093303bcc86963fe3c037e2c9ff17832609520/37325328346/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -623,7 +623,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -636,7 +636,7 @@
         "source_commit": "d84685942043cc11cf9956e2047ae6bbcce7d0d5",
         "run_id": 37344628042,
         "receipt": "territorios/region_de_murcia/evidencia/fuentes_territoriales/2025/14b454b4a49dd6db1d826da9cf8ab520ef0e77fb54f9a16e21d1dda106581443/37344628042/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -662,7 +662,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -675,7 +675,7 @@
         "source_commit": "d1f86218f730a1ef686c1b0e8c9eb58874617a41",
         "run_id": 37293310755,
         "receipt": "territorios/comunidad_foral_de_navarra/evidencia/fuentes_territoriales/2025/b9f143ba0aa8d59c080281f64c5ad0840462a3ada2e1d084809b9da7cb7419d2/37293310755/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -701,7 +701,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -714,7 +714,7 @@
         "source_commit": "8af5cd0556c46f06f307a09f1ba6b52891c043ca",
         "run_id": 37458584767,
         "receipt": "territorios/pais_vasco/evidencia/fuentes_territoriales/2025/1f4f9b2b4db6330de83703040c3f2176a2c8e940d6901dd51a0561a8a9c4460a/37458584767/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -740,7 +740,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -753,7 +753,7 @@
         "source_commit": "58bfbaf433fea7fbb36139f87cd5818a2eda80e5",
         "run_id": 37298033194,
         "receipt": "territorios/la_rioja/evidencia/fuentes_territoriales/2025/e23f2100b534f17a4024018d7f40dafb056884ec0988bce0d148a3bdb567626d/37298033194/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -779,7 +779,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -792,7 +792,7 @@
         "source_commit": "1265006297787d5b85dc5ec986192ef2e88233e7",
         "run_id": 37442375016,
         "receipt": "territorios/ceuta/evidencia/fuentes_territoriales/2025/29f1d09ace06dc3fa633fdaba39b2e7878db33e7c2f410a7756537190983c853/37442375016/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",
@@ -818,7 +818,7 @@
       "reuse_condition": "Existing evidence reused without rerunning F01-F03; canonical files not modified",
       "canonical_offline_consumer": {
         "result": "PASS_REUSED",
-        "evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+        "evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
         "controls": [
           "F03_consumer_receipt",
           "F03_effective_consumer"
@@ -831,7 +831,7 @@
         "source_commit": "613838c0024a9fd644035444346ed968f9ca1c55",
         "run_id": 37315646335,
         "receipt": "territorios/melilla/evidencia/fuentes_territoriales/2025/a081d54716398cb02e74a62857279d8057a333320470e89e9a2dbf77c573911d/37315646335/receipt.json",
-        "reuse_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json"
+        "reuse_evidence": "docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json"
       },
       "eligibility": {
         "local_offline": "PASS_REUSED",

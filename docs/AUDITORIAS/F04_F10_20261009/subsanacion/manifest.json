@@ -1,0 +1,112 @@
+{
+  "schema": "ddd.reference-correction-manifest/1.0",
+  "version": "1.0.0",
+  "base_commit": "0e09de5f8db6e739f7bd3e00e26fffd865440a59",
+  "base_tree": "835f5b09c077c638b991da714faece6f83304310",
+  "scope": "47 active references in five files; PATCH metadata; predecessors and targeted proofs",
+  "baseline_manifest": "docs/AUDITORIAS/F04_F10_20261009/MANIFEST-final.json at base_commit",
+  "overlay_semantics": "Original manifest preserved for original Git tree; these five active path hashes supersede only those entries in corrected candidate",
+  "tracked_evidence_sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6",
+  "clean_checkout": "/private/tmp/ddd-f05-f08-subsanacion-clean",
+  "tested_commit": "87d4e38fb4e61673816d36f83a03a208aaba47fe",
+  "tests": {
+    "count": 4,
+    "result": "PASS",
+    "outputs_byte_identical": true,
+    "working_tree_clean_after_tests": true,
+    "untracked_historical_file_present": false,
+    "historical_package_consumptions": 0,
+    "new_candidate_validations_repeated": 0
+  },
+  "prior_reviews": {
+    "F05": "REVIEW_PASS",
+    "F06": "REVIEW_PASS",
+    "F07": "REVIEW_PASS",
+    "F08": "REVIEW_PASS",
+    "anchor": "base_commit; no automatic review inheritance"
+  },
+  "files": [
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/acreditar_identidades.py",
+      "bytes": 2896,
+      "sha256": "bbb8fdadac3103859c39fe41c5e422c3444de42d8738f36787c81a3151525aec"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/verificar_offline.py",
+      "bytes": 4718,
+      "sha256": "bc882f43336fb766a69704035253ffaf2b4ae150f056e996ca0875ba0eb40261"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/identity-alignment.json",
+      "bytes": 2551,
+      "sha256": "2374982929c9c18cf4a53cae616c01e9af8fedcbb5bf5ba3c5ac491962967289"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/offline-results.json",
+      "bytes": 24205,
+      "sha256": "85b4f25d21741de6b5bf1bb94e25a606b56e45b7806adab07eadd5d6e0f45171"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/matriz-19-final.json",
+      "bytes": 47505,
+      "sha256": "ccf432b3502f07b678943a28c23ffeeb081c52e8f5a611a4974a67ba4ca2b016"
+    },
+    {
+      "path": "legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/acreditar_identidades.py",
+      "bytes": 2703,
+      "sha256": "01167c5735a3e8d1693afe7d46f39fd16322d443276aec42ed915f2f36ff2d07"
+    },
+    {
+      "path": "legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/identity-alignment.json",
+      "bytes": 2497,
+      "sha256": "e9ac13ba63638db26cb27d1fdf530bc529b3eea5a1fdcadc9da5a6e8b1ce6a77"
+    },
+    {
+      "path": "legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/matriz-19-final.json",
+      "bytes": 46749,
+      "sha256": "84c24336a091a849727c7cd1eec40554f5054189adbce01ff0efaeae8e11ac05"
+    },
+    {
+      "path": "legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/offline-results.json",
+      "bytes": 23827,
+      "sha256": "3172d315ba96806c16018bb0790839217d2775807183ba7d3807d2d1734fc9be"
+    },
+    {
+      "path": "legacy/docs/AUDITORIAS/F04_F10_20261009/continuacion/verificar_offline.py",
+      "bytes": 4502,
+      "sha256": "56c7d742f7f4eb78d45f928777ad43aa5a974b934130e7aaf5993f71d19716ad"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/REVIEW_PASS_PREVIOS.md",
+      "bytes": 1182,
+      "sha256": "6ebcd8f0bffd45c0b888180674a2b4d21f2ded5f4a0c65d0eded78e091a36ae4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/SUBSANACION.md",
+      "bytes": 2155,
+      "sha256": "a47cd64709cd6a6c9e4eeb01754fa4c47fcbf55284ba66cf3e26c53ba6ad7dfe"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/diff-funcional.patch",
+      "bytes": 28930,
+      "sha256": "dc458ce94d6de24dbdabac6fc003a07b2ed2b819172afde0ce0132e7daef6d5d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/pruebas-checkout.stderr.log",
+      "bytes": 440,
+      "sha256": "9b31f79fcead6a98368b0c18d2ea1a1adbd96884223f554f8f22c05bbd2dd447"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/pruebas-checkout.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/subsanacion/test_referencias.py",
+      "bytes": 4055,
+      "sha256": "d9512d8b805a8b0734042f8f96f6d82a82f1d5ed9b78cf7acc9547e444ca7dd6"
+    }
+  ],
+  "final_commit_note": "Final commit adds only this manifest and proof documents/logs to tested code; executable blob identities must equal tested_commit",
+  "integration": "NOT_COMPLETED; CI and independent new HEAD review pending"
+}
