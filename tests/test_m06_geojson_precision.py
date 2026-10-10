@@ -1,6 +1,7 @@
 """Regresión M06: un anillo casi degenerado conserva vértices al exportarse en GeoJSON."""
 from __future__ import annotations
 
+import ast
 import importlib.util
 import io
 import tempfile
@@ -16,6 +17,33 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class M06GeoJSONPrecisionTests(unittest.TestCase):
+    def test_diagnostic_version_matches_module_header(self) -> None:
+        """Evita atribuir productos nuevos a un predecesor archivado."""
+        module_path = ROOT / "modulos" / "06_consolidar_distritos.py"
+        syntax = ast.parse(module_path.read_text(encoding="utf-8"))
+        header = ast.get_docstring(syntax) or ""
+        versions = [
+            line.removeprefix("VERSIÓN: ").strip()
+            for line in header.splitlines()
+            if line.startswith("VERSIÓN: ")
+        ]
+        self.assertEqual(len(versions), 1)
+        diagnostic_dicts = [
+            node.value for node in ast.walk(syntax)
+            if isinstance(node, ast.Assign)
+            and any(isinstance(target, ast.Name) and target.id == "diagnostic" for target in node.targets)
+            and isinstance(node.value, ast.Dict)
+        ]
+        self.assertEqual(len(diagnostic_dicts), 1)
+        diagnostic = diagnostic_dicts[0]
+        emitted_versions = [
+            value.value
+            for key, value in zip(diagnostic.keys, diagnostic.values)
+            if isinstance(key, ast.Constant) and key.value == "version"
+            and isinstance(value, ast.Constant)
+        ]
+        self.assertEqual(emitted_versions, versions)
+
     def test_near_coincident_multipart_ring_survives_geojson_roundtrip(self) -> None:
         # Coordenadas del anillo fino representativo del distrito 116 (Madrid).
         shell = [(-4.0, 40.0), (-3.0, 40.0), (-3.0, 41.0), (-4.0, 41.0), (-4.0, 40.0)]
