@@ -428,6 +428,9 @@ La versión sustituida M06 v7.2.1 se conserva íntegra en
 `993763be2942715af325766139dfbe6607c55b20`, idéntico al archivo
 original del `main@776006e62ebd80ab20a55b186c3778bce76e9f19`.
 El módulo actual se identifica como v7.2.2 y enlaza ese predecesor.
+El diagnóstico estructural `ddd.m06-population-diagnostic/1.0` emite también
+`version=7.2.2`, en coherencia con la cabecera, el predecesor archivado y
+el mensaje de ejecución. Una regresión exige esa correspondencia de versión.
 Se añade `tests/test_m06_geojson_precision.py` como regresión del roundtrip
 GeoJSON y conservación exacta WKB.
 
