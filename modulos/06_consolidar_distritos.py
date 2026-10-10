@@ -270,7 +270,7 @@ def main():
     diagnostic = {
         "schema": "ddd.m06-population-diagnostic/1.0",
         "module": "06",
-        "version": "7.2.1",
+        "version": "7.2.2",
         "structural_status": "PASS",
         "population_conformance": "PASS" if hard_count == 0 else "NON_CONFORMING",
         "hard_population_violations": hard_count,
