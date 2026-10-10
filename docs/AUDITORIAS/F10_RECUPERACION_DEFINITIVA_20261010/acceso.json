@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "conectividad y autenticación; sin credenciales privadas",
+  "origin": "comandos locales y herramientas oficiales",
+  "predecessor": null,
+  "changes": "nuevo registro de vías probadas",
+  "reason": "agotar recuperación accesible sin repetir vías fallidas",
+  "checks": [
+    {"route": "curl HTTPS github.com", "exit": 6, "cause": "DNS"},
+    {"route": "curl HTTPS api.github.com", "exit": 6, "cause": "DNS"},
+    {"route": "curl HTTPS raw.githubusercontent.com", "exit": 6, "cause": "DNS"},
+    {"route": "git ls-remote HTTPS origin refs/heads/main", "exit": 0, "sha": "579ab82e84aadba778b0fe7d138ea96b66457e1e"},
+    {"route": "git fetch HTTPS origin main in isolated repository", "exit": 128, "cause": "DNS"},
+    {"route": "gh CLI authenticated", "available": false, "cause": "gh no instalado; no se instala ni se solicitan credenciales"},
+    {"route": "GitHub connector authenticated GET main/commit/run-artifacts", "status": "SUCCESS"},
+    {"route": "GitHub connector GET actions/artifacts/10917250160/zip", "status": "UNSUPPORTED_ENDPOINT", "http_error": 400},
+    {"route": "GitHub official download_workflow_artifact", "status": "FILE_REFERENCE_RETURNED", "artifacts": 60},
+    {"route": "curl fresh file reference artifact 10917250160", "exit": 6, "cause": "DNS oaiusercontent"},
+    {"route": "curl REST run artifacts after official downloads", "exit": 6, "cause": "DNS api.github.com"},
+    {"route": "persisted Git ZIP scan", "zip_files": 67, "matched_authentic_artifacts": 5}
+  ],
+  "classification": {
+    "network": "local HTTPS/DNS remains unavailable; one Git ref query succeeded",
+    "authentication": "connector authenticated and 60 downloads accepted",
+    "expired": 0,
+    "selected_artifacts_absent": 0,
+    "backend_file_references_are_not_local_bytes": true,
+    "signed_download_urls_preserved": false,
+    "remaining_local_bytes": 55,
+    "other_connected_apps": "No writable external services used to transport ZIPs"
+  },
+  "git_base_recovery": {
+    "method": "GitHub authenticated git/commits JSON, unsigned payload plus original signature; exact Git commit object hash checked before writing",
+    "sha": "579ab82e84aadba778b0fe7d138ea96b66457e1e",
+    "tree": "e81075a25b212f465543048f638ba7b0fe78448a",
+    "remote_tracking_ref_updated_only_in_isolated_repository": true,
+    "old_worktree_and_common_git_untouched": true
+  }
+}

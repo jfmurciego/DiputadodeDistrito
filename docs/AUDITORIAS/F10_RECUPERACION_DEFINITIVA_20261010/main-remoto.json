@@ -1,0 +1,40 @@
+{
+  "sha": "579ab82e84aadba778b0fe7d138ea96b66457e1e",
+  "node_id": "C_kwDOUVtMQ9oAKDU3OWFiODJlODRhYWRiYTc3OGIwZmU3ZDEzOGVhOTZiNjY0NTdlMWU",
+  "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/commits/579ab82e84aadba778b0fe7d138ea96b66457e1e",
+  "html_url": "https://github.com/jfmurciego/DiputadodeDistrito/commit/579ab82e84aadba778b0fe7d138ea96b66457e1e",
+  "author": {
+    "name": "Jesus Murciego",
+    "email": "821888+jfmurciego@users.noreply.github.com",
+    "date": "2026-10-10T14:37:13Z"
+  },
+  "committer": {
+    "name": "GitHub",
+    "email": "noreply@github.com",
+    "date": "2026-10-10T14:37:13Z"
+  },
+  "tree": {
+    "sha": "e81075a25b212f465543048f638ba7b0fe78448a",
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/trees/e81075a25b212f465543048f638ba7b0fe78448a"
+  },
+  "message": "Merge pull request #232 from jfmurciego/codex/f10-receipt-validator\n\nF10: rechazar receipts derivados locales como acreditación territorial canónica",
+  "parents": [
+    {
+      "sha": "c83f6e3f5b9d25ec12c0124e42b372e7d838031e",
+      "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/commits/c83f6e3f5b9d25ec12c0124e42b372e7d838031e",
+      "html_url": "https://github.com/jfmurciego/DiputadodeDistrito/commit/c83f6e3f5b9d25ec12c0124e42b372e7d838031e"
+    },
+    {
+      "sha": "efac4469d677ec88532c06ab981a314d15047ad7",
+      "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/git/commits/efac4469d677ec88532c06ab981a314d15047ad7",
+      "html_url": "https://github.com/jfmurciego/DiputadodeDistrito/commit/efac4469d677ec88532c06ab981a314d15047ad7"
+    }
+  ],
+  "verification": {
+    "verified": true,
+    "reason": "valid",
+    "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqyk2ZCRC1aQ7uu5UhlAAAhuYQADknA7M9/GE6cQgasWk+mzta\nQ59nR+ALGHykDrfYxNXsYynd45XU/2EFV+N5I7hPuo1SnxWJG+zzMe9EyR00zdqx\nxSOnb2aoNcFDYPVTCUe23wz4WzpaQMq1MMAoFIgiLIGUTCZzXGf7S67Hqvjr2zad\nKi4Ca1Au1Nkh3NsS84sEHu46R7EciP1R67QtjzbtR53mA5nM8OZ8MqiTvHHkCKQs\nuXFXC8qGzJEXmKqfv0U/GwxxKJc1DU9d89Pvc8JXLwz8B4yWtlhwPNZnZMfI5p46\nXaXQvzF9m3ZqUbiMW3FHSjXDpHwbaRFbbHr3kT0tVzA411orJ/23OuHuurEH8n8D\nz8QcD6SeVsenCb8oj3Dg+EmnlNgsYDSMhDXLiZjvu2QPlwdOUAUIXuz+sRUgyefJ\n+hk/DiZlKZMZ7tkwyZIjkDrBY6OmpCX65T7ZfBlnNfFhSVx0/9HksiGU6OK/R0qw\noRYIxGEdpYQfvhKnCJOZRvndXW3ElOkjvHbN5lTgTMDlpnJOj4IHKKjqtzbOzshV\nPchGW1xPOK/UW3BGD4E2XVcAjJtSDtC2nwav/yoZyUelNCXNwm5oW/+egJ/xo3sP\nuuNv86F4uBo9aP6fpcGhvGpzzwamSwHhMQznocXoUFGGtHnpkePXPnfNAVAiAxh/\nMAhAbSQnAY5lGy8POsju\n=Z+Cn\n-----END PGP SIGNATURE-----\n",
+    "payload": "tree e81075a25b212f465543048f638ba7b0fe78448a\nparent c83f6e3f5b9d25ec12c0124e42b372e7d838031e\nparent efac4469d677ec88532c06ab981a314d15047ad7\nauthor Jesus Murciego <821888+jfmurciego@users.noreply.github.com> 1791643033 +0200\ncommitter GitHub <noreply@github.com> 1791643033 +0200\n\nMerge pull request #232 from jfmurciego/codex/f10-receipt-validator\n\nF10: rechazar receipts derivados locales como acreditación territorial canónica",
+    "verified_at": "2026-10-10T14:37:14Z"
+  }
+}

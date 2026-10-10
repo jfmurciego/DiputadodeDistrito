@@ -1,0 +1,107 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "caller y evidencia de recuperación F10; candidato local",
+  "origin": "579ab82e84aadba778b0fe7d138ea96b66457e1e",
+  "state": "BLOCKED_CON_ACCION_EJECUTABLE",
+  "predecessor": null,
+  "changes": "nuevo manifiesto",
+  "reason": "revisión de bytes exactos",
+  "files": [
+    {
+      "path": ".github/workflows/f10-preparacion-territorial-aislada.yml",
+      "bytes": 2683,
+      "sha256": "adf70cc4a1fc23a655d45126a9423de206f676bd15c1ee344fae58f7f4d06d51"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/ENTREGA.md",
+      "bytes": 11491,
+      "sha256": "f0507418035d660c981fabc67d76d7c43c38b7ef2227475e2b187c47f0aefb02"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/acceso.json",
+      "bytes": 2428,
+      "sha256": "777e7a335ee0d9a51682df916d3e24d322d7bf1ec7bac7d2bde14d01971ee3e9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/acciones-ejecutables.json",
+      "bytes": 3384,
+      "sha256": "61db77c0198fe33d4c66152b50efd309fcf9fe1f98054308241ab097393a23d7"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/artefactos-seleccionados.json",
+      "bytes": 53529,
+      "sha256": "695540b860f5f14e119719aecb83e1e2ef2e1c3fe9488858b5a937525ba8a951"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/copias-locales.json",
+      "bytes": 1557,
+      "sha256": "eced5f4483817704dc63004468ac2e927e6ca656c5e72ba16d31cedc65d1a732"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/descargas-conector.json",
+      "bytes": 16449,
+      "sha256": "2157bbdf49a1ea5ab40809131d786a1faa8ac87aef9728f5e34b6a8e61e317d4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/inventarios-remotos.json",
+      "bytes": 1303548,
+      "sha256": "fbb6940aaf945c048ba6c6abe8fa4e218f8f769dfa48c48a2a932ab72bd02bf3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/main-remoto.json",
+      "bytes": 3059,
+      "sha256": "dcba524787712c3481df1c79e14ec1a268baede8c63c8f7b3b06375412ecc3c9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/pruebas-caller-final.log",
+      "bytes": 105,
+      "sha256": "ac3f6a8c4f4f3fabf682b3ef3da7ac51dfcd773e23df22f1b41b2848bd5d92c9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/pruebas.log",
+      "bytes": 142,
+      "sha256": "5a4f2f20d5af17ac235bb4cbd636175bca328600859df01a92e9640f257c7262"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/resultados.json",
+      "bytes": 7276,
+      "sha256": "6e47d3c7c8c3a434cc698f9fdd419d62303dbba5cdb591bedae3a2ce4795363a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/runs-buscados.json",
+      "bytes": 3335108,
+      "sha256": "fc79f55aafaa87cc4f460db56e9a1384cd1ddbbf37f600802b88aac8f1fcc31c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/verificacion-f10-integrado.log",
+      "bytes": 58,
+      "sha256": "585c0d9c79b3990e5aee73307d05a2888ff3244542369eb5206288dd9f1f139e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/verificacion.log",
+      "bytes": 99,
+      "sha256": "c376f2be5392fda5e371e0b0a1f08b1d4c62246e28efd6427e54871682927b19"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_RECUPERACION_DEFINITIVA_20261010/verificar_recuperacion.py",
+      "bytes": 7387,
+      "sha256": "13805dcd9be0ee703197651786405032a22117511b7dd8142bdc41f583ceb50b"
+    },
+    {
+      "path": "legacy/.github/workflows/f10-preparacion-territorial-aislada_v1.0.0.yml",
+      "bytes": 2614,
+      "sha256": "5a2fdc313ec117c4c3c88e63146d84c6a9362fe86c8728a34dc0b74a304050da"
+    },
+    {
+      "path": "legacy/tests/test_f10_preparacion_aislada_v1.0.0.py",
+      "bytes": 5688,
+      "sha256": "24210e158295c912fe8dd3d9767dc3947bf8e74c0cc421db6e6fe99376261410"
+    },
+    {
+      "path": "tests/test_f10_preparacion_aislada.py",
+      "bytes": 5854,
+      "sha256": "217f1ec147e36c019dc78cf01bbfcd70ef5c63cbcaff2fbb5d0759c7e7f45265"
+    }
+  ]
+}
