@@ -17,7 +17,7 @@ Las métricas siguientes proceden de [evaluación exacta](cartografia_nacional_2
 
 ## Inventario físico y acreditación
 
-La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió la raíz de usuario del equipo de búsqueda original, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, IDs relativos, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
+La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió `/Users/macbookpro`, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, rutas, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
 
 | Material físicamente inspeccionado | Identidad y contenido | Edición y compatibilidad |
 | --- | --- | --- |
