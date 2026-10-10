@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""Consumo de fuentes acreditadas de la legislatura.
-
-Versión: 1.0.1; nombre: Acreditación antes de validar bytes; fecha: 2026-10-10.
-Alcance: consumidor territorial compartido; estado: candidato local F10.
-Cambios: validar el receipt durable también en la entrada de paquete efectivo.
-Motivo: un receipt local derivado obtenía READY sin acreditación de #179.
-Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_pre_F10.py
-Origen: c83f6e3f5b9d25ec12c0124e42b372e7d838031e.
-"""
 from __future__ import annotations
 
 import argparse
@@ -15,7 +6,7 @@ import json
 from pathlib import Path
 
 from herramientas import catalogo_preparacion
-from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, validate_compatibility_package
+from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
 from herramientas.identidad_fuentes_legislatura import (
     geometric_reuse_compatible,
     territorial_identity,
@@ -83,10 +74,6 @@ def validate_territorial_receipt(
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: schema de receipt territorial no reconocido"
         )
-    if receipt.get("kind") != "territorial_source":
-        raise PreparedPairExecutionBlock(
-            "PREPARED_TERRITORIAL_BLOCK: kind de receipt territorial no reconocido"
-        )
     if (
         str(receipt.get("territory_id") or "") != str(row["territory_id"])
         or str(receipt.get("edition") or "") != str(edition)
@@ -112,10 +99,6 @@ def validate_territorial_receipt(
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: receipt territorial incompleto para #179: "
             + ", ".join(missing)
-        )
-    if receipt["compatibility_report_member"] != REPORT_NAME:
-        raise PreparedPairExecutionBlock(
-            "PREPARED_TERRITORIAL_BLOCK: miembro de compatibilidad no reconocido"
         )
     for key in required:
         expected = evidence.get(key)
@@ -290,19 +273,8 @@ def validate_effective_territorial_package(
         else root / territorial_receipt_path
     )
     receipt = _json(receipt_path, label="receipt territorial")
-    if receipt.get("schema") != "ddd.territorial-source-receipt/1.0":
-        raise PreparedPairExecutionBlock(
-            "PREPARED_TERRITORIAL_BLOCK: schema de receipt territorial no reconocido"
-        )
     territory_id = str(receipt.get("territory_id") or "")
     edition = str(receipt.get("edition") or "")
-    _, durable_receipt = validate_territorial_receipt(
-        root_dir=root, territory=territory_id, edition=edition,
-    )
-    if receipt != durable_receipt:
-        raise PreparedPairExecutionBlock(
-            "PREPARED_TERRITORIAL_BLOCK: receipt efectivo no coincide con la acreditación durable"
-        )
     population_year = int(receipt.get("population_year"))
     section_year = int(receipt.get("section_year"))
 
