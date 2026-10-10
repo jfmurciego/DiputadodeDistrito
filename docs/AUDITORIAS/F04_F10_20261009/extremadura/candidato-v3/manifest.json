@@ -1,0 +1,22 @@
+{
+  "source_id": "local-derived-territorial:extremadura",
+  "territory_id": "extremadura",
+  "edition": 2025,
+  "population_year": 2025,
+  "section_year": 2025,
+  "path": "prepared_sources.zip",
+  "bytes": 2870297,
+  "sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+  "records": 2,
+  "acquired_at": "2026-10-09T23:07:59.834611+00:00",
+  "acquired_at_kind": "local_derivation_operation_not_official_acquisition",
+  "original_acquisition_dates": [
+    "2026-09-22T17:13:56.099276+00:00",
+    "2026-09-22T17:14:20.006930+00:00"
+  ],
+  "origin": "Recovered historical INE package https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10710105975; exact local derivation.json",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "status": "CANDIDATE_UNPROMOTED",
+  "predecessor_artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+  "predecessor_package_sha256": "7dc162a08369ebd68e8ae0f9f237e529f842997db1d518d6f480fe472c01f124"
+}

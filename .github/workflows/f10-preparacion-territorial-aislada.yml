@@ -1,0 +1,76 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.0.1
+# NOMBRE: Preparación territorial aislada F10
+# FECHA: 2026-10-10
+# ALCANCE: cinco fuentes territoriales 2025; llamada exclusiva a 01
+# ESTADO: candidato; ejecución pendiente de autorización de Work
+# CAMBIOS: caller manual sin persistencia; nombres completos y orden CODAUTO
+# MOTIVO: obtener run/artefacto propios sin registrar ni generar distritos
+# ORIGEN: contrato #179; main@579ab82e84aadba778b0fe7d138ea96b66457e1e
+# PREDECESOR: legacy/.github/workflows/f10-preparacion-territorial-aislada_v1.0.0.yml
+name: F10 Preparación territorial aislada
+
+on:
+  workflow_dispatch:
+    inputs:
+      territory_id:
+        description: Territorio pendiente de acreditación
+        required: true
+        type: choice
+        options:
+          - 01 Andalucía
+          - 02 Aragón
+          - 07 Castilla y León
+          - 10 Comunidad Valenciana
+          - 11 Extremadura
+      reviewed_sha:
+        description: SHA completo del caller y productor revisados y autorizados
+        required: true
+        type: string
+
+# El reusable 01 declara contents:write; GitHub no permite elevar permisos desde
+# un caller read-only. persist_state:false omite sus jobs de escritura durable.
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  comprobar:
+    name: Comprobar territorio y SHA autorizado
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Exigir identidad exacta antes de llamar al productor
+        shell: bash
+        env:
+          TERRITORY_ID: ${{ inputs.territory_id }}
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+          ACTUAL_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          case "$TERRITORY_ID" in
+            '01 Andalucía'|'02 Aragón'|'07 Castilla y León'|'10 Comunidad Valenciana'|'11 Extremadura') ;;
+            *) echo "::error::Territorio fuera del encargo F10."; exit 40 ;;
+          esac
+          [[ "$REVIEWED_SHA" =~ ^[0-9a-f]{40}$ ]] || {
+            echo "::error::Se requiere el SHA completo revisado."; exit 41;
+          }
+          [[ "$REVIEWED_SHA" == "$ACTUAL_SHA" ]] || {
+            echo "::error::El caller no coincide con el SHA autorizado."; exit 42;
+          }
+
+  preparar:
+    name: 01 Preparar sólo evidencia territorial 2025
+    needs: comprobar
+    uses: ./.github/workflows/preparacion-fuentes.yml
+    with:
+      territory_id: ${{ inputs.territory_id }}
+      data_edition: '2025'
+      population_year: '2025'
+      section_year: '2025'
+      reutilizar_si_ya_preparada: false
+      persist_state: false
+      source_ref: ${{ github.sha }}
+      recover_run_id: ''
+      recover_artifact_sha256: ''

@@ -1,0 +1,80 @@
+{
+  "schema": "ddd-source-provenance/1.2",
+  "territory_id": "extremadura",
+  "territory": "Extremadura",
+  "edition": 2025,
+  "environment": "local_review",
+  "acquisition_mode": "local_derived_candidate",
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "1bc10278e6ff5e03924a29dc55960933885839e1b6272f0f2c2773b576098c44",
+      "bytes": 13819,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-10-09T23:07:59.834611+00:00",
+      "mode": "local_derived_candidate",
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/65034.csv.zip",
+      "original_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+      "local_derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+        "universe_source_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+        "excluded_records": 11,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      },
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/manifiesto_procedencia.json",
+        "urls": [
+          "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+        ],
+        "historical_acquired_at_utc": "2026-09-22T17:13:56.099276+00:00",
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "acquired_at_kind": "local_derivation_operation"
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+      "bytes": 2852005,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-09-22T17:14:20.006930+00:00",
+      "mode": "reused_original_bytes",
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/manifiesto_procedencia.json",
+        "urls": [
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000"
+        ],
+        "historical_acquired_at_utc": "2026-09-22T17:14:20.006930+00:00",
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      }
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved",
+  "predecessor_document": {
+    "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/manifiesto_procedencia.json",
+    "sha256": "f098272a56d8a631ee335dd7004adbcec2d7c3fd921a87e46543844d446b17d1"
+  },
+  "original_environment": "production",
+  "original_acquisition_mode": "official_live",
+  "local_operation_at_utc": "2026-10-09T23:07:59.834611+00:00"
+}

@@ -1,0 +1,21 @@
+{
+  "source_id": "local-derived-territorial:aragon",
+  "territory_id": "aragon",
+  "edition": 2025,
+  "population_year": 2025,
+  "section_year": 2025,
+  "path": "prepared_sources.zip",
+  "bytes": 3361597,
+  "sha256": "87aa3d3c5bf095aebe70b1d2bfded5725fe66b361b3bb733ad65387429452df0",
+  "records": 2,
+  "acquired_at": "2026-10-09T23:01:46.740842+00:00",
+  "acquired_at_kind": "local_derivation_operation_not_official_acquisition",
+  "original_acquisition_dates": [
+    "2026-09-22T13:08:36.653186+00:00",
+    "2026-09-22T13:08:59.192017+00:00"
+  ],
+  "origin": "Recovered historical INE package https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10695433906; exact local derivation.json",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "status": "CANDIDATE_UNPROMOTED",
+  "predecessor_artifact_sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2"
+}

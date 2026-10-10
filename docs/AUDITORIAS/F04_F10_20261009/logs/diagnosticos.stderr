@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/informes_diagnosticos.py", line 31, in <module>
+    reasons=validate_report_bindings(report=report,inventory=inventory,read_member_bytes=lambda n:(p/n).read_bytes(),territory_id=t,edition='2025',population_year=inventory['population_year'],section_year=inventory['section_year'],require_ready=False);assert not reasons,reasons
+AssertionError: ['GEOMETRY_ADMISSIBILITY_BINDING_MISMATCH: el informe no está ligado a la evidencia geométrica del inventario']

@@ -1,0 +1,14 @@
+{
+  "schema": "ddd-source-acquisition-decision/1.1",
+  "territory_id": "andalucia",
+  "territory": "Andalucía",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "decision": "READY",
+  "reasons": [],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved"
+}

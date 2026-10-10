@@ -1,0 +1,530 @@
+{
+  "schema": "ddd.exact-universe-derivation/1.0",
+  "version": "1.0.0",
+  "territory_id": "comunidad_valenciana",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "original_population_zip_sha256": "353ff7a2143585185a41162a7dcdaaea9e528352a3c9e563397bf170da4cae42",
+  "derived_population_zip_sha256": "d0f3c0d92a187af553de40ff747d70ea8845b90d08aac0cd9b482587b61c396f",
+  "unchanged_sectioning_sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf",
+  "input_records": 3549,
+  "output_records": 3515,
+  "excluded_records": [
+    {
+      "csv_line": 92,
+      "section": "0301401017",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03014 Alacant/Alicante",
+        "Secciones": "0301401017 Alacant/Alicante sección 01017",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 121,
+      "section": "0301402025",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03014 Alacant/Alicante",
+        "Secciones": "0301402025 Alacant/Alicante sección 02025",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 357,
+      "section": "0301901005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03019 Aspe",
+        "Secciones": "0301901005 Aspe sección 01005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 365,
+      "section": "0301903004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03019 Aspe",
+        "Secciones": "0301903004 Aspe sección 03004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 406,
+      "section": "0303101015",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03031 Benidorm",
+        "Secciones": "0303101015 Benidorm sección 01015",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 614,
+      "section": "0306502006",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03065 Elx/Elche",
+        "Secciones": "0306502006 Elx/Elche sección 02006",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 675,
+      "section": "0306504011",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03065 Elx/Elche",
+        "Secciones": "0306504011 Elx/Elche sección 04011",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 692,
+      "section": "0306505007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "03 Alicante/Alacant",
+        "Municipios": "03065 Elx/Elche",
+        "Secciones": "0306505007 Elx/Elche sección 05007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1725,
+      "section": "4600601006",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46006 Albaida",
+        "Secciones": "4600601006 Albaida sección 01006",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1870,
+      "section": "4602902002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46029 Algemesí",
+        "Secciones": "4602902002 Algemesí sección 02002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1884,
+      "section": "4602904002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46029 Algemesí",
+        "Secciones": "4602904002 Algemesí sección 04002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1992,
+      "section": "4607002001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002001 Bétera sección 02001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1993,
+      "section": "4607002002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002002 Bétera sección 02002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1994,
+      "section": "4607002003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002003 Bétera sección 02003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1995,
+      "section": "4607002004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002004 Bétera sección 02004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1996,
+      "section": "4607002005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002005 Bétera sección 02005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1997,
+      "section": "4607002006",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002006 Bétera sección 02006",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1998,
+      "section": "4607002007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002007 Bétera sección 02007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1999,
+      "section": "4607002008",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002008 Bétera sección 02008",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2000,
+      "section": "4607002009",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46070 Bétera",
+        "Secciones": "4607002009 Bétera sección 02009",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2064,
+      "section": "4608303001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46083 Carcaixent",
+        "Secciones": "4608303001 Carcaixent sección 03001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2149,
+      "section": "4610501003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46105 Cullera",
+        "Secciones": "4610501003 Cullera sección 01003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2359,
+      "section": "4615001002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46150 Llutxent",
+        "Secciones": "4615001002 Llutxent sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2521,
+      "section": "4618401002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46184 Ontinyent",
+        "Secciones": "4618401002 Ontinyent sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2829,
+      "section": "4623701009",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46237 Tavernes Blanques",
+        "Secciones": "4623701009 Tavernes Blanques sección 01009",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2960,
+      "section": "4625002022",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625002022 València sección 02022",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2973,
+      "section": "4625002040",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625002040 València sección 02040",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3073,
+      "section": "4625005026",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625005026 València sección 05026",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3138,
+      "section": "4625007029",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625007029 València sección 07029",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3152,
+      "section": "4625008005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625008005 València sección 08005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3288,
+      "section": "4625011013",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625011013 València sección 11013",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3291,
+      "section": "4625011018",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625011018 València sección 11018",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3298,
+      "section": "4625011029",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625011029 València sección 11029",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3396,
+      "section": "4625014003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "46 Valencia/València",
+        "Municipios": "46250 València",
+        "Secciones": "4625014003 València sección 14003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    }
+  ],
+  "numeric_population_removed": 0,
+  "population_total": 5425182,
+  "target_universe_cardinality": 3515,
+  "excluded_keys_intersection_target": [],
+  "scope": "Local candidate only; not a new official acquisition or historical receipt; no production promotion"
+}

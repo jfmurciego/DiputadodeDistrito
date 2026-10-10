@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""Gestor de campaña nacional — versión 0.0.1, 2026-10-10.
+Alcance: preflight local; estado: candidato.
+Cambio/motivo: consumir el plan común y distinguir reuso, generación y preparación.
+Anterior: legacy/herramientas/gestor_campana_nacional_v0.0.0.py (sin versión declarada).
+"""
 from __future__ import annotations
 import argparse, hashlib, json
 from pathlib import Path
@@ -9,9 +14,9 @@ try:
 except ModuleNotFoundError:
     from catalogo_territorios import load_master
 try:
-    from herramientas.resolver_ejecucion_completa import generation_ready_contract
+    from herramientas.resolver_ejecucion_completa import generation_ready_contract, build_plan
 except ModuleNotFoundError:
-    from resolver_ejecucion_completa import generation_ready_contract
+    from resolver_ejecucion_completa import generation_ready_contract, build_plan
 
 MASTER=Path("configuracion/catalogo_territorios_espana_2025.yaml")
 CATALOG=Path("configuracion/catalogo_preparacion.yaml")
@@ -75,6 +80,13 @@ def validate_campaign_child(*,manifest:dict[str,Any],plan:dict[str,Any],root:Pat
             if str(frozen_inputs.get(key) or "")!=str(value or ""):
                 raise ValueError(f"CAMPAIGN_MANIFEST_MISMATCH: caller.{key}")
     state=(_catalog_index(root).get(row["territory_id"],{}).get("editions") or {}).get(manifest["data_edition"]) or {}
+    try:
+        effective=campaign_execution_plan(root=root,territory_id=row["territory_id"],
+                                          edition=manifest["data_edition"],strategy=manifest["optimization_algorithm"])
+    except (ValueError,OSError,yaml.YAMLError) as exc:
+        raise ValueError(f"CAMPAIGN_GENERATION_CONTRACT_BLOCK: {exc}") from exc
+    if execution_route(effective)!="GENERATION_READY":
+        raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: el resolver común exige otra ruta")
     actual=generation_ready_contract(root_dir=root,state=state,territory_id=row["territory_id"])
     if not actual.get("allowed") or actual.get("status")!="GENERATION_READY":
         raise ValueError("CAMPAIGN_GENERATION_CONTRACT_BLOCK: validación efectiva ausente")
@@ -149,6 +161,23 @@ def _evidence_identity(root:Path,state:dict[str,Any],mode:str)->dict[str,Any]:
         result["territorial_identity_sha256"]=data.get("territorial_identity_sha256")
     return result
 
+def campaign_execution_plan(*,root:Path,territory_id:str,edition:str,strategy:str)->dict[str,Any]:
+    """Planificación pura: misma continuidad y estrategia que el caller común."""
+    return build_plan(
+        territory=territory_id,edition=edition,execution_mode="reuse",
+        catalog=root/CATALOG,root_dir=root,optimization_algorithm=strategy,
+        force_selected_algorithm=False,explicit_territorial_source={},
+    )
+
+
+def execution_route(plan:dict[str,Any])->str:
+    if plan["run_prepare_territorial"]:
+        return "SOURCE_PREPARATION_REQUIRED"
+    if plan["run_generate"]:
+        return "GENERATION_READY"
+    return "PRODUCT_REUSE_READY"
+
+
 def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,strategy:str,
                    campaign_instance:str,root:Path=Path("."),edition:str="2025")->dict[str,Any]:
     if publication_mode not in MODES: raise ValueError("Modo de publicación no permitido")
@@ -164,20 +193,32 @@ def build_manifest(*,selected:list[str],publication_mode:str,source_sha:str,stra
         contract=str(state.get("contract_path") or "")
         evidence=_evidence_identity(root,state,publication_mode)
         blockers=[]
-        if not contract: blockers.append("CONTRACT_MISSING")
-        if not evidence.get("receipt_path"): blockers.append("ACCREDITED_EVIDENCE_MISSING")
-        elif not (root/str(evidence["receipt_path"])).is_file(): blockers.append("ACCREDITED_EVIDENCE_NOT_MATERIALIZED")
+        plan={}
+        status="BLOCKED"
         generation={"allowed":False}
-        if contract:
+        try:
+            plan=campaign_execution_plan(root=root,territory_id=tid,edition=edition,strategy=strategy)
+            status=execution_route(plan)
+        except (ValueError,OSError,yaml.YAMLError) as exc:
+            blockers.append("COMMON_RESOLVER_BLOCK:"+str(exc))
+        if status=="GENERATION_READY":
+            if not evidence.get("receipt_path"): blockers.append("ACCREDITED_EVIDENCE_MISSING")
+            elif not (root/str(evidence["receipt_path"])).is_file(): blockers.append("ACCREDITED_EVIDENCE_NOT_MATERIALIZED")
             generation=generation_ready_contract(root_dir=root,state=state,territory_id=tid)
             if not generation.get("allowed"):
                 blockers.append("GENERATION_NOT_READY:"+str(generation.get("capability") or "UNKNOWN"))
+        if blockers:
+            status="BLOCKED"
         territories.append({
           "slot":code,"codauto":code,"territory_id":tid,"territory_name":str(master["name"]),
           "publication_mode":publication_mode,"contract_path":contract,
           "evidence":evidence,
           "generation_contract":generation,
-          "preflight_status":"BLOCKED" if blockers else "GENERATION_READY",
+          "preflight_status":status,
+          "execution_route":execution_route(plan) if plan else "BLOCKED",
+          "execution_plan":{key:plan[key] for key in (
+              "run_prepare_territorial","run_generate","run_prepare_electoral","run_incorporate",
+              "pre_m04_accreditation_planned","generation_gate") if key in plan},
           "preflight_blockers":blockers,
           "expected_district_count":_expected_k(root,contract) if contract else 0,
         })
@@ -225,8 +266,8 @@ def aggregate(manifest:dict[str,Any],reports:list[dict[str,Any]])->dict[str,Any]
     rows=[]; failed=list(dict.fromkeys(unexpected+duplicates))
     for expected in manifest["territories"]:
         tid=expected["territory_id"]
-        if expected["preflight_status"]=="BLOCKED":
-            item={**expected,"status":"BLOCKED","reason":", ".join(expected["preflight_blockers"])}
+        if expected["preflight_status"]!="GENERATION_READY":
+            item={**expected,"status":"BLOCKED","reason":", ".join(expected["preflight_blockers"]) or expected["preflight_status"]}
         else:
             observed=by_id.get(tid)
             if observed is None:

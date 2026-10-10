@@ -1,0 +1,185 @@
+{
+  "schema": "ddd.exact-universe-derivation/1.0",
+  "version": "1.0.0",
+  "territory_id": "extremadura",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "original_population_zip_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+  "derived_population_zip_sha256": "1bc10278e6ff5e03924a29dc55960933885839e1b6272f0f2c2773b576098c44",
+  "unchanged_sectioning_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+  "input_records": 975,
+  "output_records": 964,
+  "excluded_records": [
+    {
+      "csv_line": 103,
+      "section": "0601505014",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06015 Badajoz",
+        "Secciones": "0601505014 Badajoz sección 05014",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 107,
+      "section": "0601506003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06015 Badajoz",
+        "Secciones": "0601506003 Badajoz sección 06003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 176,
+      "section": "0602301002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06023 Cabeza del Buey",
+        "Secciones": "0602301002 Cabeza del Buey sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 271,
+      "section": "0605901002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06059 Granja de Torrehermosa",
+        "Secciones": "0605901002 Granja de Torrehermosa sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 289,
+      "section": "0606701003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06067 Higuera la Real",
+        "Secciones": "0606701003 Higuera la Real sección 01003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 368,
+      "section": "0608601002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "06 Badajoz",
+        "Municipios": "06086 Montemolín",
+        "Secciones": "0608601002 Montemolín sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 585,
+      "section": "1002101002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "10 Cáceres",
+        "Municipios": "10021 Arroyo de la Luz",
+        "Secciones": "1002101002 Arroyo de la Luz sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 823,
+      "section": "1013101005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "10 Cáceres",
+        "Municipios": "10131 Navalmoral de la Mata",
+        "Secciones": "1013101005 Navalmoral de la Mata sección 01005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 852,
+      "section": "1014801006",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "10 Cáceres",
+        "Municipios": "10148 Plasencia",
+        "Secciones": "1014801006 Plasencia sección 01006",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 969,
+      "section": "1021802001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "10 Cáceres",
+        "Municipios": "10218 Zarza la Mayor",
+        "Secciones": "1021802001 Zarza la Mayor sección 02001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 971,
+      "section": "1021902001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "10 Cáceres",
+        "Municipios": "10219 Zorita",
+        "Secciones": "1021902001 Zorita sección 02001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    }
+  ],
+  "numeric_population_removed": 0,
+  "population_total": 1053345,
+  "target_universe_cardinality": 964,
+  "excluded_keys_intersection_target": [],
+  "scope": "Local candidate only; not a new official acquisition or historical receipt; no production promotion"
+}

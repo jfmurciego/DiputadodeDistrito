@@ -1,0 +1,351 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "name": "Acceso previo a la recuperación",
+    "date": "2026-10-08",
+    "scope": "14 referencias exactas del inventario; solo lectura",
+    "status": "LOCAL_EVIDENCE",
+    "changes": "nueva evidencia de acceso previo",
+    "reason": "preflight de transferencias autorizadas",
+    "origin": "4e5e3be53364874d0e056ade64d64ab6471b28b7",
+    "predecessor": null
+  },
+  "rows": [
+    {
+      "territory_id": "principado_de_asturias",
+      "artifacts": [
+        {
+          "id": 11400346349,
+          "name": "ddd-source-package-principado_de_asturias-2025-37438440043",
+          "size_in_bytes": 1663660,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11400346349",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11400346349/zip",
+          "expired": false,
+          "created_at": "2026-10-06T08:48:32Z",
+          "expires_at": "2026-11-05T08:48:31Z",
+          "updated_at": "2026-10-06T08:48:32Z",
+          "digest": "sha256:8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d",
+          "workflow_run": {
+            "id": 37438440043,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "e10d3e9fbffa6be85a600856c0b066d5754551bb"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "illes_balears",
+      "artifacts": [
+        {
+          "id": 11468266327,
+          "name": "ddd-source-package-illes_balears-2025-37589792776",
+          "size_in_bytes": 7865466,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11468266327",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11468266327/zip",
+          "expired": false,
+          "created_at": "2026-10-07T07:51:13Z",
+          "expires_at": "2026-11-06T07:51:12Z",
+          "updated_at": "2026-10-07T07:51:13Z",
+          "digest": "sha256:61b95a9f10ddc685d6b451d515e14636519d121413d2a910dfbf04e2944bd940",
+          "workflow_run": {
+            "id": 37589792776,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "3e0508f70a09aa86249f229ac8ab209c23061f77"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "canarias",
+      "artifacts": [
+        {
+          "id": 11471001626,
+          "name": "ddd-source-package-canarias-2025-37596900111",
+          "size_in_bytes": 8669104,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11471001626",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11471001626/zip",
+          "expired": false,
+          "created_at": "2026-10-07T08:55:37Z",
+          "expires_at": "2026-11-06T08:55:35Z",
+          "updated_at": "2026-10-07T08:55:37Z",
+          "digest": "sha256:057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
+          "workflow_run": {
+            "id": 37596900111,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "17666df88125bf0a104d876b7a8293f9b88931f2"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "cantabria",
+      "artifacts": [
+        {
+          "id": 11349491600,
+          "name": "ddd-source-package-cantabria-2025-37318299003",
+          "size_in_bytes": 699409,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349491600",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11349491600/zip",
+          "expired": false,
+          "created_at": "2026-10-05T13:39:06Z",
+          "expires_at": "2026-11-04T13:39:05Z",
+          "updated_at": "2026-10-05T13:39:06Z",
+          "digest": "sha256:c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
+          "workflow_run": {
+            "id": 37318299003,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "3938c97a8b46590a54016173416acf34c165d5a1"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "artifacts": [
+        {
+          "id": 11402817303,
+          "name": "ddd-source-package-castilla_la_mancha-2025-37444564173",
+          "size_in_bytes": 12413530,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11402817303",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11402817303/zip",
+          "expired": false,
+          "created_at": "2026-10-06T09:41:35Z",
+          "expires_at": "2026-11-05T09:41:33Z",
+          "updated_at": "2026-10-06T09:41:35Z",
+          "digest": "sha256:d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666",
+          "workflow_run": {
+            "id": 37444564173,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "d9396ab63333dadcde01d5ad1262997b694fcd9d"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "cataluna",
+      "artifacts": [
+        {
+          "id": 11408176177,
+          "name": "ddd-source-package-cataluna-2025-37453376100",
+          "size_in_bytes": 14493802,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11408176177",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11408176177/zip",
+          "expired": false,
+          "created_at": "2026-10-06T11:00:17Z",
+          "expires_at": "2026-11-05T11:00:16Z",
+          "updated_at": "2026-10-06T11:00:17Z",
+          "digest": "sha256:555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
+          "workflow_run": {
+            "id": 37453376100,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "e3281f941641c0ee6047724b9bc933d8d1826f7e"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "galicia",
+      "artifacts": [
+        {
+          "id": 11286084988,
+          "name": "ddd-source-package-galicia-2025-37155903096",
+          "size_in_bytes": 3745544,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11286084988",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11286084988/zip",
+          "expired": false,
+          "created_at": "2026-10-03T22:19:47Z",
+          "expires_at": "2026-11-02T22:19:45Z",
+          "updated_at": "2026-10-03T22:19:47Z",
+          "digest": "sha256:fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a",
+          "workflow_run": {
+            "id": 37155903096,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "9243ff329d11d0e66d03047caa83865474aa5453"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "madrid",
+      "artifacts": [
+        {
+          "id": 11352550551,
+          "name": "ddd-source-package-madrid-2025-37325328346",
+          "size_in_bytes": 4060247,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11352550551",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11352550551/zip",
+          "expired": false,
+          "created_at": "2026-10-05T14:32:19Z",
+          "expires_at": "2026-11-04T14:32:18Z",
+          "updated_at": "2026-10-05T14:32:19Z",
+          "digest": "sha256:da3832695b3e3b18c668d27b64bcf8831c860a0f62bc3c7ee883f23ac78e6849",
+          "workflow_run": {
+            "id": 37325328346,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "ebe49a735091363944cb5ded0f272e6c0f37b707"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "artifacts": [
+        {
+          "id": 11359767395,
+          "name": "ddd-source-package-region_de_murcia-2025-37344628042",
+          "size_in_bytes": 1725771,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11359767395",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11359767395/zip",
+          "expired": false,
+          "created_at": "2026-10-05T16:57:28Z",
+          "expires_at": "2026-11-04T16:57:27Z",
+          "updated_at": "2026-10-05T16:57:28Z",
+          "digest": "sha256:e117e965b04547b1b5dea5ce4cf7d9ea826eaa076bfc0e691ac4e204624ed336",
+          "workflow_run": {
+            "id": 37344628042,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "d84685942043cc11cf9956e2047ae6bbcce7d0d5"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "artifacts": [
+        {
+          "id": 11337631456,
+          "name": "ddd-source-package-comunidad_foral_de_navarra-2025-37293310755",
+          "size_in_bytes": 6257751,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11337631456",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11337631456/zip",
+          "expired": false,
+          "created_at": "2026-10-05T09:57:32Z",
+          "expires_at": "2026-11-04T09:57:31Z",
+          "updated_at": "2026-10-05T09:57:32Z",
+          "digest": "sha256:703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db",
+          "workflow_run": {
+            "id": 37293310755,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "d1f86218f730a1ef686c1b0e8c9eb58874617a41"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "pais_vasco",
+      "artifacts": [
+        {
+          "id": 11410062497,
+          "name": "ddd-source-package-pais_vasco-2025-37458584767",
+          "size_in_bytes": 14138865,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11410062497",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11410062497/zip",
+          "expired": false,
+          "created_at": "2026-10-06T11:47:20Z",
+          "expires_at": "2026-11-05T11:47:19Z",
+          "updated_at": "2026-10-06T11:47:20Z",
+          "digest": "sha256:ba7ed7d7e09040e2892dabc63162f3b7f6f30a401c898bcf03c789f74f7e7041",
+          "workflow_run": {
+            "id": 37458584767,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "8af5cd0556c46f06f307a09f1ba6b52891c043ca"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "la_rioja",
+      "artifacts": [
+        {
+          "id": 11340727361,
+          "name": "ddd-source-package-la_rioja-2025-37298033194",
+          "size_in_bytes": 653639,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11340727361",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11340727361/zip",
+          "expired": false,
+          "created_at": "2026-10-05T10:41:21Z",
+          "expires_at": "2026-11-04T10:41:20Z",
+          "updated_at": "2026-10-05T10:41:21Z",
+          "digest": "sha256:653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615",
+          "workflow_run": {
+            "id": 37298033194,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "58bfbaf433fea7fbb36139f87cd5818a2eda80e5"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "ceuta",
+      "artifacts": [
+        {
+          "id": 11401374000,
+          "name": "ddd-source-package-ceuta-2025-37442375016",
+          "size_in_bytes": 90652,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11401374000",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11401374000/zip",
+          "expired": false,
+          "created_at": "2026-10-06T09:22:32Z",
+          "expires_at": "2026-11-05T09:22:31Z",
+          "updated_at": "2026-10-06T09:22:32Z",
+          "digest": "sha256:37ae8cb20b84a1ce99bcefa4a4e69b7872bc01014541c62516914159653ee5af",
+          "workflow_run": {
+            "id": 37442375016,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "1265006297787d5b85dc5ec986192ef2e88233e7"
+          }
+        }
+      ]
+    },
+    {
+      "territory_id": "melilla",
+      "artifacts": [
+        {
+          "id": 11347967683,
+          "name": "ddd-source-package-melilla-2025-37315646335",
+          "size_in_bytes": 239562,
+          "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11347967683",
+          "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/11347967683/zip",
+          "expired": false,
+          "created_at": "2026-10-05T13:18:36Z",
+          "expires_at": "2026-11-04T13:18:36Z",
+          "updated_at": "2026-10-05T13:18:36Z",
+          "digest": "sha256:6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa",
+          "workflow_run": {
+            "id": 37315646335,
+            "repository_id": 1364937795,
+            "head_repository_id": 1364937795,
+            "head_branch": "main",
+            "head_sha": "613838c0024a9fd644035444346ed968f9ca1c55"
+          }
+        }
+      ]
+    }
+  ]
+}

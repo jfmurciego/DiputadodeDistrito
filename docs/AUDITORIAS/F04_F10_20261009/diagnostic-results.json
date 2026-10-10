@@ -1,0 +1,72 @@
+[
+  {
+    "territory_id": "andalucia",
+    "report": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/compatibilidad_diagnostica.json",
+    "decision": "BLOCKED",
+    "causes": [
+      "POPULATION_VALUE_MISSING"
+    ],
+    "missing_population_rows": 70,
+    "target_sections": 6029,
+    "population_rows": 6099,
+    "compatibility_identity_sha256": "0f7de820ec1a6c3d94aba66a8aa604648d2250a9d17a8754de9d8e4ecd5757db",
+    "report_sha256": "9c320f46a394e6c37dfcd07640601d4cbdfc9a6806c29c7d0b4f508d32e6e647",
+    "ready_gate": "REJECTED"
+  },
+  {
+    "territory_id": "aragon",
+    "report": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/compatibilidad_diagnostica.json",
+    "decision": "BLOCKED",
+    "causes": [
+      "POPULATION_VALUE_MISSING"
+    ],
+    "missing_population_rows": 5,
+    "target_sections": 1463,
+    "population_rows": 1468,
+    "compatibility_identity_sha256": "c51a959f74d0bf066d2a799260bc9d2ddcd6686354e4f9fb87bfdcbe5bd9b46d",
+    "report_sha256": "340e2c504dd607f8e5759de929475cfc802e2b4db341dd1dd1a748c998f22a5f",
+    "ready_gate": "REJECTED"
+  },
+  {
+    "territory_id": "castilla_y_leon",
+    "report": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/compatibilidad_diagnostica.json",
+    "decision": "BLOCKED",
+    "causes": [
+      "POPULATION_VALUE_MISSING"
+    ],
+    "missing_population_rows": 49,
+    "target_sections": 3506,
+    "population_rows": 3555,
+    "compatibility_identity_sha256": "9d5696888315408dc8d22940afa2f5488cd49a8cf395b0bfda24615189668f29",
+    "report_sha256": "ddbffd2dff25fc6e18747d57d9b3882fb388a5d80ac4434ce9ae01ab2dbf0cfb",
+    "ready_gate": "REJECTED"
+  },
+  {
+    "territory_id": "comunidad_valenciana",
+    "report": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/compatibilidad_diagnostica.json",
+    "decision": "BLOCKED",
+    "causes": [
+      "POPULATION_VALUE_MISSING"
+    ],
+    "missing_population_rows": 34,
+    "target_sections": 3515,
+    "population_rows": 3549,
+    "compatibility_identity_sha256": "124ead37f8e9f9d98dd0ba4a2b711851754e70cd87c7f43b0ec4543b01598bb8",
+    "report_sha256": "ba936002edf389a9bd9861df87494145cdb5780d1758472ad0207714ef8cf8b4",
+    "ready_gate": "REJECTED"
+  },
+  {
+    "territory_id": "extremadura",
+    "report": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/compatibilidad_diagnostica.json",
+    "decision": "BLOCKED",
+    "causes": [
+      "POPULATION_VALUE_MISSING"
+    ],
+    "missing_population_rows": 11,
+    "target_sections": 964,
+    "population_rows": 975,
+    "compatibility_identity_sha256": "d0ce63560f9651343fe0c7cba3f6eaac3fa8c0a843defce31612667ad2498864",
+    "report_sha256": "a191e357213a802e03517de261881da571ea231c520c5d8adc7c52204c2fc446",
+    "ready_gate": "REJECTED"
+  }
+]

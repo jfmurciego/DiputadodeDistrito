@@ -1,0 +1,755 @@
+{
+  "schema": "ddd.exact-universe-derivation/1.0",
+  "version": "1.0.0",
+  "territory_id": "castilla_y_leon",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "original_population_zip_sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef",
+  "derived_population_zip_sha256": "7028e5be9afaa478528532dc6b3c56960c4783407992917d605648c414b4271f",
+  "unchanged_sectioning_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+  "input_records": 3555,
+  "output_records": 3506,
+  "excluded_records": [
+    {
+      "csv_line": 12,
+      "section": "0501401002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "05 Ávila",
+        "Municipios": "05014 Arenas de San Pedro",
+        "Secciones": "0501401002 Arenas de San Pedro sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 56,
+      "section": "0501906007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "05 Ávila",
+        "Municipios": "05019 Ávila",
+        "Secciones": "0501906007 Ávila sección 06007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 92,
+      "section": "0504703003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "05 Ávila",
+        "Municipios": "05047 Candeleda",
+        "Secciones": "0504703003 Candeleda sección 03003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 102,
+      "section": "0505702001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "05 Ávila",
+        "Municipios": "05057 Cebreros",
+        "Secciones": "0505702001 Cebreros sección 02001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 374,
+      "section": "0904801002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09048 Belorado",
+        "Secciones": "0904801002 Belorado sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 387,
+      "section": "0905901002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905901002 Burgos sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 407,
+      "section": "0905904004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905904004 Burgos sección 04004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 441,
+      "section": "0905905034",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905905034 Burgos sección 05034",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 443,
+      "section": "0905905036",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905905036 Burgos sección 05036",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 469,
+      "section": "0905906010",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905906010 Burgos sección 06010",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 498,
+      "section": "0905909005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905909005 Burgos sección 09005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 511,
+      "section": "0905909018",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905909018 Burgos sección 09018",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 523,
+      "section": "0905909030",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905909030 Burgos sección 09030",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 525,
+      "section": "0905909032",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09059 Burgos",
+        "Secciones": "0905909032 Burgos sección 09032",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 666,
+      "section": "0921901002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09219 Miranda de Ebro",
+        "Secciones": "0921901002 Miranda de Ebro sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 670,
+      "section": "0921902004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09219 Miranda de Ebro",
+        "Secciones": "0921902004 Miranda de Ebro sección 02004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 693,
+      "section": "0921904002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09219 Miranda de Ebro",
+        "Secciones": "0921904002 Miranda de Ebro sección 04002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 748,
+      "section": "0928901002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "09 Burgos",
+        "Municipios": "09289 Quintanar de la Sierra",
+        "Secciones": "0928901002 Quintanar de la Sierra sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1021,
+      "section": "2408901006",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24089 León",
+        "Secciones": "2408901006 León sección 01006",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1052,
+      "section": "2408903021",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24089 León",
+        "Secciones": "2408903021 León sección 03021",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1066,
+      "section": "2408904014",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24089 León",
+        "Secciones": "2408904014 León sección 04014",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1095,
+      "section": "2408906017",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24089 León",
+        "Secciones": "2408906017 León sección 06017",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1109,
+      "section": "2408907014",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24089 León",
+        "Secciones": "2408907014 León sección 07014",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1314,
+      "section": "2420202002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24202 Villablino",
+        "Secciones": "2420202002 Villablino sección 02002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1316,
+      "section": "2420203002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "24 León",
+        "Municipios": "24202 Villablino",
+        "Secciones": "2420203002 Villablino sección 03002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1409,
+      "section": "3405601002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34056 Cervera de Pisuerga",
+        "Secciones": "3405601002 Cervera de Pisuerga sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1434,
+      "section": "3408001003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34080 Guardo",
+        "Secciones": "3408001003 Guardo sección 01003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1489,
+      "section": "3412005002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34120 Palencia",
+        "Secciones": "3412005002 Palencia sección 05002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1522,
+      "section": "3412007013",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34120 Palencia",
+        "Secciones": "3412007013 Palencia sección 07013",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1523,
+      "section": "3412007014",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34120 Palencia",
+        "Secciones": "3412007014 Palencia sección 07014",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1590,
+      "section": "3419901002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "34 Palencia",
+        "Municipios": "34199 Velilla del Río Carrión",
+        "Secciones": "3419901002 Velilla del Río Carrión sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1682,
+      "section": "3704601002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "37 Salamanca",
+        "Municipios": "37046 Béjar",
+        "Secciones": "3704601002 Béjar sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1937,
+      "section": "3727401012",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "37 Salamanca",
+        "Municipios": "37274 Salamanca",
+        "Secciones": "3727401012 Salamanca sección 01012",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2016,
+      "section": "3727405016",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "37 Salamanca",
+        "Municipios": "37274 Salamanca",
+        "Secciones": "3727405016 Salamanca sección 05016",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2020,
+      "section": "3727405020",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "37 Salamanca",
+        "Municipios": "37274 Salamanca",
+        "Secciones": "3727405020 Salamanca sección 05020",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2021,
+      "section": "3727405021",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "37 Salamanca",
+        "Municipios": "37274 Salamanca",
+        "Secciones": "3727405021 Salamanca sección 05021",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2367,
+      "section": "4019401004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "40 Segovia",
+        "Municipios": "40194 Segovia",
+        "Secciones": "4019401004 Segovia sección 01004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2368,
+      "section": "4019401005",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "40 Segovia",
+        "Municipios": "40194 Segovia",
+        "Secciones": "4019401005 Segovia sección 01005",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2670,
+      "section": "4700401002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47004 Alaejos",
+        "Secciones": "4700401002 Alaejos sección 01002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2935,
+      "section": "4718601007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718601007 Valladolid sección 01007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2943,
+      "section": "4718602009",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718602009 Valladolid sección 02009",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 2979,
+      "section": "4718604023",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718604023 Valladolid sección 04023",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3000,
+      "section": "4718605007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718605007 Valladolid sección 05007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3063,
+      "section": "4718608016",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718608016 Valladolid sección 08016",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3158,
+      "section": "4718611013",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "47 Valladolid",
+        "Municipios": "47186 Valladolid",
+        "Secciones": "4718611013 Valladolid sección 11013",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3263,
+      "section": "4902101007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "49 Zamora",
+        "Municipios": "49021 Benavente",
+        "Secciones": "4902101007 Benavente sección 01007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3267,
+      "section": "4902102004",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "49 Zamora",
+        "Municipios": "49021 Benavente",
+        "Secciones": "4902102004 Benavente sección 02004",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3544,
+      "section": "4927504001",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "49 Zamora",
+        "Municipios": "49275 Zamora",
+        "Secciones": "4927504001 Zamora sección 04001",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 3554,
+      "section": "4927505007",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "49 Zamora",
+        "Municipios": "49275 Zamora",
+        "Secciones": "4927505007 Zamora sección 05007",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    }
+  ],
+  "numeric_population_removed": 0,
+  "population_total": 2401221,
+  "target_universe_cardinality": 3506,
+  "excluded_keys_intersection_target": [],
+  "scope": "Local candidate only; not a new official acquisition or historical receipt; no production promotion"
+}

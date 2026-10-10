@@ -1,0 +1,8 @@
+.ssssssssss                                                         [100%]
+=============================== warnings summary ===============================
+tests/test_almacen_fuentes_local.py::ZipSafetyTests::test_traversal_links_and_duplicates
+  /usr/local/Caskroom/miniforge/base/envs/ddd/lib/python3.10/zipfile.py:1541: UserWarning: Duplicate name: 'same'
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+1 passed, 10 skipped, 1 warning, 5 subtests passed in 0.18s

@@ -1,0 +1,66 @@
+test_ceuta_common_lineage_block_overrides_generation_evidence (tests.test_gestor_campana_nacional.NationalCampaignTests.test_ceuta_common_lineage_block_overrides_generation_evidence) ... FAIL
+test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) ... 
+  test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='territorial_only', strategy='Canónico') ... FAIL
+  test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='territorial_only', strategy='GerryChain 50') ... FAIL
+  test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='electoral', strategy='Canónico') ... FAIL
+  test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='electoral', strategy='GerryChain 50') ... FAIL
+
+======================================================================
+FAIL: test_ceuta_common_lineage_block_overrides_generation_evidence (tests.test_gestor_campana_nacional.NationalCampaignTests.test_ceuta_common_lineage_block_overrides_generation_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_gestor_campana_nacional.py", line 148, in test_ceuta_common_lineage_block_overrides_generation_evidence
+    self.assertEqual(r["preflight_status"],"BLOCKED")
+AssertionError: 'GENERATION_READY' != 'BLOCKED'
+- GENERATION_READY
++ BLOCKED
+
+
+======================================================================
+FAIL: test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='territorial_only', strategy='Canónico')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_gestor_campana_nacional.py", line 160, in test_extremadura_reuse_does_not_authorize_generation
+    self.assertEqual(r["preflight_status"],status)
+AssertionError: 'BLOCKED' != 'PRODUCT_REUSE_READY'
+- BLOCKED
++ PRODUCT_REUSE_READY
+
+
+======================================================================
+FAIL: test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='territorial_only', strategy='GerryChain 50')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_gestor_campana_nacional.py", line 160, in test_extremadura_reuse_does_not_authorize_generation
+    self.assertEqual(r["preflight_status"],status)
+AssertionError: 'BLOCKED' != 'SOURCE_PREPARATION_REQUIRED'
+- BLOCKED
++ SOURCE_PREPARATION_REQUIRED
+
+
+======================================================================
+FAIL: test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='electoral', strategy='Canónico')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_gestor_campana_nacional.py", line 160, in test_extremadura_reuse_does_not_authorize_generation
+    self.assertEqual(r["preflight_status"],status)
+AssertionError: 'BLOCKED' != 'PRODUCT_REUSE_READY'
+- BLOCKED
++ PRODUCT_REUSE_READY
+
+
+======================================================================
+FAIL: test_extremadura_reuse_does_not_authorize_generation (tests.test_gestor_campana_nacional.NationalCampaignTests.test_extremadura_reuse_does_not_authorize_generation) (mode='electoral', strategy='GerryChain 50')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-gestor-nacional/tests/test_gestor_campana_nacional.py", line 160, in test_extremadura_reuse_does_not_authorize_generation
+    self.assertEqual(r["preflight_status"],status)
+AssertionError: 'BLOCKED' != 'SOURCE_PREPARATION_REQUIRED'
+- BLOCKED
++ SOURCE_PREPARATION_REQUIRED
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.597s
+
+FAILED (failures=5)

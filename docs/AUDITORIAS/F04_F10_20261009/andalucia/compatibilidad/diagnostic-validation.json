@@ -1,0 +1,363 @@
+{
+  "method": "Existing reconcile_population_sectioning and validate_report_bindings on real rows and geometry",
+  "strict_builder_result": "BLOCKED as recorded in original result.json; no replacement or bypass",
+  "report_role": "Diagnostic BLOCKED only; not a READY materialized report",
+  "null_handling": "Only exact empty source Total kept as None; no imputation, dropping or substitution",
+  "missing_population_rows": [
+    {
+      "section": "0401302003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0401302003"
+    },
+    {
+      "section": "0401306023",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0401306023"
+    },
+    {
+      "section": "0403001002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0403001002"
+    },
+    {
+      "section": "0404502001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0404502001"
+    },
+    {
+      "section": "0405902001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0405902001"
+    },
+    {
+      "section": "0407002001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0407002001"
+    },
+    {
+      "section": "0408602001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0408602001"
+    },
+    {
+      "section": "0409902001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0409902001"
+    },
+    {
+      "section": "0410302001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0410302001"
+    },
+    {
+      "section": "1100401010",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1100401010"
+    },
+    {
+      "section": "1100404007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1100404007"
+    },
+    {
+      "section": "1102001005",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1102001005"
+    },
+    {
+      "section": "1102005009",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1102005009"
+    },
+    {
+      "section": "1103001002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1103001002"
+    },
+    {
+      "section": "1103101013",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1103101013"
+    },
+    {
+      "section": "1103103003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1103103003"
+    },
+    {
+      "section": "1103901002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1103901002"
+    },
+    {
+      "section": "1401902002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1401902002"
+    },
+    {
+      "section": "1402110029",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1402110029"
+    },
+    {
+      "section": "1403701002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1403701002"
+    },
+    {
+      "section": "1406902003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1406902003"
+    },
+    {
+      "section": "1801201002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1801201002"
+    },
+    {
+      "section": "1801301003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1801301003"
+    },
+    {
+      "section": "1805101002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1805101002"
+    },
+    {
+      "section": "1808701014",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808701014"
+    },
+    {
+      "section": "1808701022",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808701022"
+    },
+    {
+      "section": "1808702021",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808702021"
+    },
+    {
+      "section": "1808702034",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808702034"
+    },
+    {
+      "section": "1808703017",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808703017"
+    },
+    {
+      "section": "1808704001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1808704001"
+    },
+    {
+      "section": "1815802001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 1815802001"
+    },
+    {
+      "section": "2300301006",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2300301006"
+    },
+    {
+      "section": "2301801002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2301801002"
+    },
+    {
+      "section": "2303301002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2303301002"
+    },
+    {
+      "section": "2305004005",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2305004005"
+    },
+    {
+      "section": "2305201002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2305201002"
+    },
+    {
+      "section": "2305601002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2305601002"
+    },
+    {
+      "section": "2306902002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2306902002"
+    },
+    {
+      "section": "2306903002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2306903002"
+    },
+    {
+      "section": "2309301002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2309301002"
+    },
+    {
+      "section": "2309303002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2309303002"
+    },
+    {
+      "section": "2309401002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2309401002"
+    },
+    {
+      "section": "2390102001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2390102001"
+    },
+    {
+      "section": "2390402002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2390402002"
+    },
+    {
+      "section": "2901702001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2901702001"
+    },
+    {
+      "section": "2904801002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2904801002"
+    },
+    {
+      "section": "2905102006",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2905102006"
+    },
+    {
+      "section": "2906702001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906702001"
+    },
+    {
+      "section": "2906705003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906705003"
+    },
+    {
+      "section": "2906706042",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906706042"
+    },
+    {
+      "section": "2906708027",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906708027"
+    },
+    {
+      "section": "2906709030",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906709030"
+    },
+    {
+      "section": "2906709044",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906709044"
+    },
+    {
+      "section": "2906710024",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2906710024"
+    },
+    {
+      "section": "2908404002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2908404002"
+    },
+    {
+      "section": "2908405001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2908405001"
+    },
+    {
+      "section": "2990201003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2990201003"
+    },
+    {
+      "section": "4105503002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4105503002"
+    },
+    {
+      "section": "4109102051",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109102051"
+    },
+    {
+      "section": "4109102055",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109102055"
+    },
+    {
+      "section": "4109104028",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109104028"
+    },
+    {
+      "section": "4109104029",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109104029"
+    },
+    {
+      "section": "4109104038",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109104038"
+    },
+    {
+      "section": "4109105036",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109105036"
+    },
+    {
+      "section": "4109105050",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109105050"
+    },
+    {
+      "section": "4109106030",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109106030"
+    },
+    {
+      "section": "4109106032",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109106032"
+    },
+    {
+      "section": "4109108013",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109108013"
+    },
+    {
+      "section": "4109108051",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109108051"
+    },
+    {
+      "section": "4109110014",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4109110014"
+    }
+  ],
+  "binding_validation": "PASS",
+  "require_ready_rejections": [
+    "informe de compatibilidad población↔seccionado bloqueado: POPULATION_VALUE_MISSING"
+  ],
+  "report_sha256": "9c320f46a394e6c37dfcd07640601d4cbdfc9a6806c29c7d0b4f508d32e6e647"
+}

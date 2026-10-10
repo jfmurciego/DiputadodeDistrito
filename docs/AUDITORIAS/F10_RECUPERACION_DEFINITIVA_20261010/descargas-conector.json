@@ -1,0 +1,492 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "60 descargas oficiales; referencias de archivo y límites",
+  "origin": "GitHub.download_workflow_artifact",
+  "state": "LOCAL_BYTES_PENDING",
+  "predecessor": null,
+  "changes": "recuperación de todas las referencias",
+  "reason": "distinguir descarga backend de verificación local",
+  "downloads": [
+    {
+      "artifact_id": 11424192007,
+      "run_id": 37486749795,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000cc788210b608bd930eead3dc",
+      "file_name": "artifact-11424192007.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11422899675,
+      "run_id": 37482695029,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000cf048210ac3255e3edb376b2",
+      "file_name": "artifact-11422899675.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11471967238,
+      "run_id": 37596900111,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000051008246b3c8a54c789dc4b7",
+      "file_name": "artifact-11471967238.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11471975365,
+      "run_id": 37596900111,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000000e0082108d8d5705ca998127",
+      "file_name": "artifact-11471975365.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11417523399,
+      "run_id": 37473252569,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000df64821083b66696c8c70da1",
+      "file_name": "artifact-11417523399.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11468263880,
+      "run_id": 37589792776,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000cf8c82108b2fccbf395285d0",
+      "file_name": "artifact-11468263880.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11468242369,
+      "run_id": 37589792776,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000047a081f4b5278b853f2a88ad",
+      "file_name": "artifact-11468242369.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11411626755,
+      "run_id": 37458584767,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000fc5c81f49157a34f3e32f14c",
+      "file_name": "artifact-11411626755.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11411265631,
+      "run_id": 37458584767,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000007b9881f4b7763bc3834714c2",
+      "file_name": "artifact-11411265631.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11406846571,
+      "run_id": 37449876557,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000043881f48703ec5f8387cf08",
+      "file_name": "artifact-11406846571.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11408760783,
+      "run_id": 37453376100,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000003a008210b01c3f9b42071e7b",
+      "file_name": "artifact-11408760783.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11402853098,
+      "run_id": 37444564173,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000097148210a1219b77fbaf5317",
+      "file_name": "artifact-11402853098.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11402725711,
+      "run_id": 37442375016,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000b96081f4ba530683b3bbad6b",
+      "file_name": "artifact-11402725711.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11402006520,
+      "run_id": 37442375016,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000f71881f4a5b773c3becd5ad7",
+      "file_name": "artifact-11402006520.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11402804681,
+      "run_id": 37444564173,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000dfe081f48b316575d5631518",
+      "file_name": "artifact-11402804681.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11401046363,
+      "run_id": 37438440043,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000ce8081f4b46ca921f85019b0",
+      "file_name": "artifact-11401046363.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11400642411,
+      "run_id": 37438440043,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000e85c821085f216b249cbe072",
+      "file_name": "artifact-11400642411.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11360322018,
+      "run_id": 37344628042,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000eba08246b8d701492eb3d3aa",
+      "file_name": "artifact-11360322018.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11357190715,
+      "run_id": 37336114775,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000003fb48210be65eebb7ad2b010",
+      "file_name": "artifact-11357190715.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11348622947,
+      "run_id": 37318299003,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000fdcc81f49287fd7154331e7b",
+      "file_name": "artifact-11348622947.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11347923635,
+      "run_id": 37315646335,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000a3e881f4bc12bf38d6d04365",
+      "file_name": "artifact-11347923635.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11352151928,
+      "run_id": 37325328346,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000c51482468b1e07aa5cc4ba80",
+      "file_name": "artifact-11352151928.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11340153409,
+      "run_id": 37298033194,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000d6048210843d0a6711806cce",
+      "file_name": "artifact-11340153409.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11337159429,
+      "run_id": 37293310755,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000098ac81f498fded76739ea918",
+      "file_name": "artifact-11337159429.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11308093553,
+      "run_id": 37215049347,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000014e081f48b40cdebc869f33a",
+      "file_name": "artifact-11308093553.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11319537731,
+      "run_id": 37245339256,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000e9f88210b8e5ca9a6e6234d3",
+      "file_name": "artifact-11319537731.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11308523880,
+      "run_id": 37215032201,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000003c7c81f4958da14f6240c5a3",
+      "file_name": "artifact-11308523880.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11308961900,
+      "run_id": 37215013261,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000b33c8243839fc0bc848b6a4a",
+      "file_name": "artifact-11308961900.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287488909,
+      "run_id": 37161732807,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000052648243af1205ee55bd9848",
+      "file_name": "artifact-11287488909.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11308802929,
+      "run_id": 37215025861,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000ddc481f4a0154db2fe6b8c6f",
+      "file_name": "artifact-11308802929.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287961511,
+      "run_id": 37159991566,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000050cc82469ec563c1b3ed7d88",
+      "file_name": "artifact-11287961511.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11286882413,
+      "run_id": 37159942482,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000d15c824696930aceea9c4611",
+      "file_name": "artifact-11286882413.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287187052,
+      "run_id": 37159918099,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000a7148243a32b248c6a5aeb30",
+      "file_name": "artifact-11287187052.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11309097462,
+      "run_id": 37214999583,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000c53081f4a495ce592694bae0",
+      "file_name": "artifact-11309097462.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287053520,
+      "run_id": 37157977205,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000b42c8210818629673ec382b1",
+      "file_name": "artifact-11287053520.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287399095,
+      "run_id": 37161772942,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000005f348246b82ae97d6d53aa89",
+      "file_name": "artifact-11287399095.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11287256479,
+      "run_id": 37157930076,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000002c8881f4bc7236af49e1d61c",
+      "file_name": "artifact-11287256479.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11288260689,
+      "run_id": 37159829427,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000a0308246b4f52d2d8f2c5aef",
+      "file_name": "artifact-11288260689.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11286848694,
+      "run_id": 37159898924,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000fb3c81f4a7bfffdceeef7d15",
+      "file_name": "artifact-11286848694.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11285349260,
+      "run_id": 37155892338,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000f6688246b4dcd81445cdd38b",
+      "file_name": "artifact-11285349260.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11285255107,
+      "run_id": 37150791785,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000451882109ddfc44ba2c5c3e4",
+      "file_name": "artifact-11285255107.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11285818950,
+      "run_id": 37155903096,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000494c8210af9db33bae063575",
+      "file_name": "artifact-11285818950.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11286967991,
+      "run_id": 37157866581,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000ed0c821093576135e8509f19",
+      "file_name": "artifact-11286967991.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11284615143,
+      "run_id": 37150399030,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000004fc48246aa70b85db20858f4",
+      "file_name": "artifact-11284615143.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11282664961,
+      "run_id": 37148646551,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000d1d88210b2de0081492c2bbe",
+      "file_name": "artifact-11282664961.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11284695449,
+      "run_id": 37150130330,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000001538821080ed5a49806769be",
+      "file_name": "artifact-11284695449.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11286603714,
+      "run_id": 37157948240,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000038d082439d229134b38ef821",
+      "file_name": "artifact-11286603714.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11258645730,
+      "run_id": 37077673031,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000048b082108f2d69029b3c6363",
+      "file_name": "artifact-11258645730.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11284886582,
+      "run_id": 37150715361,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000651881f4a776aa47f1723598",
+      "file_name": "artifact-11284886582.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11258955712,
+      "run_id": 37077796759,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000badc82468803d5a45e2191f5",
+      "file_name": "artifact-11258955712.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11254594257,
+      "run_id": 37069393655,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000006eb081f4aa50eb4bead41a89",
+      "file_name": "artifact-11254594257.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11254608873,
+      "run_id": 37068301578,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000048048210af97d793020908a0",
+      "file_name": "artifact-11254608873.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 11251268498,
+      "run_id": 37063207747,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000a2488210afa45b2ddec43e52",
+      "file_name": "artifact-11251268498.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10819721995,
+      "run_id": 36020646219,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000005db48210b0443729ddbaa2c9",
+      "file_name": "artifact-10819721995.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10917250160,
+      "run_id": 36273981926,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000062e081f4857f9a9f1ec2e9ac",
+      "file_name": "artifact-10917250160.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10917135113,
+      "run_id": 36273981926,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000322481f480f39ea3102be0d8",
+      "file_name": "artifact-10917135113.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10710105975,
+      "run_id": 35755043806,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_00000000ebe08243ab8e1bd1ab408f0f",
+      "file_name": "artifact-10710105975.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10917245848,
+      "run_id": 36273981926,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_0000000076c08210b37ae1f6d1c81ac1",
+      "file_name": "artifact-10917245848.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10695433906,
+      "run_id": 35728613828,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000000b6081f4b779c680075cccbc",
+      "file_name": "artifact-10695433906.zip",
+      "local_bytes_verified": false
+    },
+    {
+      "artifact_id": 10645871597,
+      "run_id": 35610439734,
+      "backend_status": "FILE_REFERENCE_RETURNED",
+      "file_id": "file_000000000ec081f4bfb05cb3d744c1d7",
+      "file_name": "artifact-10645871597.zip",
+      "local_bytes_verified": false
+    }
+  ]
+}

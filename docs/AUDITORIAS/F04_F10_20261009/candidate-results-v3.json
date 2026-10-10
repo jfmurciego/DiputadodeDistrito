@@ -1,0 +1,144 @@
+{
+  "schema": "ddd.f04-local-candidates/1.0",
+  "version": "1.0.0",
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "population_year": 2025,
+      "section_year": 2025,
+      "original_recovery": "PASS",
+      "original_compatibility": "BLOCKED",
+      "local_candidate_validation": "PASS",
+      "decision": "READY",
+      "production_eligibility": "NOT_PROMOTED",
+      "package": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/prepared_sources.zip",
+      "package_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39",
+      "receipt": "docs/AUDITORIAS/F04_F10_20261009/andalucia/derived-receipt-v3.json",
+      "excluded_empty_nontarget_records": 70,
+      "baseline": {
+        "target_section_count": 6029,
+        "population_total": 8676713
+      },
+      "identity": {
+        "territory_id": "andalucia",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39",
+        "compatibility_identity_sha256": "7b3ccc7409b2d7037972e1404b9b41573f599f82b2d945d1b090dd5ec542674a",
+        "territorial_identity_sha256": "a82e22d1ddf4665c69df3ec78f0f4d227a55a577a71b458b7ad492047dd25b6b"
+      }
+    },
+    {
+      "territory_id": "aragon",
+      "population_year": 2025,
+      "section_year": 2025,
+      "original_recovery": "PASS",
+      "original_compatibility": "BLOCKED",
+      "local_candidate_validation": "PASS",
+      "decision": "READY",
+      "production_eligibility": "NOT_PROMOTED",
+      "package": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/prepared_sources.zip",
+      "package_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e",
+      "receipt": "docs/AUDITORIAS/F04_F10_20261009/aragon/derived-receipt-v3.json",
+      "excluded_empty_nontarget_records": 5,
+      "baseline": {
+        "target_section_count": 1463,
+        "population_total": 1364621
+      },
+      "identity": {
+        "territory_id": "aragon",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e",
+        "compatibility_identity_sha256": "9321b84166111cf9acd2d6b190cb87fff1a5b0606a7379decdd6fc4f22721c45",
+        "territorial_identity_sha256": "829e61e577705fd6bcc4c08dbffc6fba89f899e517cd4195cce7d985b49186b5"
+      }
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "population_year": 2025,
+      "section_year": 2025,
+      "original_recovery": "PASS",
+      "original_compatibility": "BLOCKED",
+      "local_candidate_validation": "PASS",
+      "decision": "READY",
+      "production_eligibility": "NOT_PROMOTED",
+      "package": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/prepared_sources.zip",
+      "package_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba",
+      "receipt": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/derived-receipt-v3.json",
+      "excluded_empty_nontarget_records": 49,
+      "baseline": {
+        "target_section_count": 3506,
+        "population_total": 2401221
+      },
+      "identity": {
+        "territory_id": "castilla_y_leon",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba",
+        "compatibility_identity_sha256": "f83efc8d6cd5e767dc638a61a8656f6bd5fc8b45637633e2eb599faec76e9f59",
+        "territorial_identity_sha256": "9d493e4f5d915d9d6288abfcf45e7499124ed1f3eb34a9ff227b066cb86a6112"
+      }
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "population_year": 2025,
+      "section_year": 2025,
+      "original_recovery": "PASS",
+      "original_compatibility": "BLOCKED",
+      "local_candidate_validation": "PASS",
+      "decision": "READY",
+      "production_eligibility": "NOT_PROMOTED",
+      "package": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/prepared_sources.zip",
+      "package_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d",
+      "receipt": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/derived-receipt-v3.json",
+      "excluded_empty_nontarget_records": 34,
+      "baseline": {
+        "target_section_count": 3515,
+        "population_total": 5425182
+      },
+      "identity": {
+        "territory_id": "comunidad_valenciana",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d",
+        "compatibility_identity_sha256": "4a95cb48052be9c68f4bb0dff7e2c6fd825b74b4a253c70a2db9be0962622b5f",
+        "territorial_identity_sha256": "1edf14fc2d203fe095fade153ef59482db7e67434f2170499b1e9d14bd08d4d8"
+      }
+    },
+    {
+      "territory_id": "extremadura",
+      "population_year": 2025,
+      "section_year": 2025,
+      "original_recovery": "PASS",
+      "original_compatibility": "BLOCKED",
+      "local_candidate_validation": "PASS",
+      "decision": "READY",
+      "production_eligibility": "NOT_PROMOTED",
+      "package": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/prepared_sources.zip",
+      "package_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+      "receipt": "docs/AUDITORIAS/F04_F10_20261009/extremadura/derived-receipt-v3.json",
+      "excluded_empty_nontarget_records": 11,
+      "baseline": {
+        "target_section_count": 964,
+        "population_total": 1053345
+      },
+      "identity": {
+        "territory_id": "extremadura",
+        "edition": "2025",
+        "population_year": 2025,
+        "section_year": 2025,
+        "package_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2",
+        "compatibility_identity_sha256": "b48d256d65dd17fab9d0cd27feab16cb4d325452ec57a1e6d3a4e6c8342a126d",
+        "territorial_identity_sha256": "8d9f05adac082a7c16455f9d98482205b6ed8220a2474ff7cc5c4a2c66057729"
+      }
+    }
+  ],
+  "production_promotion": false,
+  "predecessor": "candidate-results.json",
+  "corrective_scope": "Declaration consistency and local operation labels; numerical bytes/report unchanged"
+}

@@ -1,0 +1,57 @@
+{
+  "catalog_edition": "2025",
+  "dataset_years": {
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "actual_facts": [
+    {
+      "role": "population",
+      "year": 2025,
+      "basis": "Distinct actual CSV Periodo; exact historical inventory/provenance edition agrees",
+      "rows": 975,
+      "provinces": [
+        "06",
+        "10"
+      ],
+      "source_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f"
+    },
+    {
+      "role": "target_sectioning",
+      "year": 2025,
+      "basis": "Historical annual INE collection URLs plus signed archive inventory/provenance; not catalog edition or acquisition date",
+      "rows": 964,
+      "provinces": [
+        "06",
+        "10"
+      ],
+      "crs": "EPSG:4326",
+      "invalid_geometry_count": 0,
+      "source_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58"
+    }
+  ],
+  "source_acquisition_dates": [
+    "2026-09-22T17:13:56.099276+00:00",
+    "2026-09-22T17:14:20.006930+00:00"
+  ],
+  "limitations": [
+    "Archive manifest acquired_at=unknown-acquisition-date preserved; use per-source provenance acquisition dates",
+    "No population/section years inferred from catalog edition"
+  ],
+  "transformations": [
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/65034.csv.zip",
+      "source_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+      "output_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+      "role": "population"
+    },
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/seccionado_2025.zip",
+      "source_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+      "output_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+      "role": "target_sectioning"
+    }
+  ]
+}

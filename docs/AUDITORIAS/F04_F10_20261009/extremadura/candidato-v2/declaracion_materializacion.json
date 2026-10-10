@@ -1,0 +1,38 @@
+{
+  "schema": "ddd-source-materialization-declaration/1.1",
+  "territory_id": "extremadura",
+  "territory": "Extremadura",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "materialization_root": "/app/.ddd-sources/materialized",
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+      "bytes": 13914,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "staged_path": "/app/.ddd-sources/materialized/inputs/65034.csv.zip"
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+      "bytes": 2852005,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "staged_path": "/app/.ddd-sources/materialized/inputs/seccionado_2025.zip"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved"
+}

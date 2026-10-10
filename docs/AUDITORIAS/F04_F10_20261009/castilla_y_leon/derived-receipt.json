@@ -1,0 +1,23 @@
+{
+  "schema": "ddd.local-derived-source-receipt/1.0",
+  "version": "1.0.0",
+  "kind": "local_derivation",
+  "created_at_utc": "2026-10-09T23:01:49.616355+00:00",
+  "territory_id": "castilla_y_leon",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "package_sha256": "e688da41da6bcd0255ae4cecf5b3448e8eec974169060fa3477f485d3b21ad7e",
+  "compatibility_identity_sha256": "f83efc8d6cd5e767dc638a61a8656f6bd5fc8b45637633e2eb599faec76e9f59",
+  "territorial_identity_sha256": "3fee2fe62940480c41fcba4faeb07145680d217ac5a01f7899e0c2eede79b26a",
+  "original_artifact_id": 10645871597,
+  "original_run_id": 35610439734,
+  "original_artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+  "original_source_commit": "0c516d79e2eaa36966deb016bcf57aafff9c4409",
+  "operation": "exact_same_year_universe_selection",
+  "derivation_path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/derivation.json",
+  "compatibility_report_sha256": "5bcc0d88ff37daeeeea45454e18f69d4c56e01c18a9298628b31803d3a19da68",
+  "local_validation": "READY",
+  "production_promotion": "NONE",
+  "note": "New local package identity; original GitHub artifact identity is never attributed to derived bytes"
+}

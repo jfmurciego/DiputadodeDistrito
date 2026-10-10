@@ -1,0 +1,12 @@
+{
+  "source_id": "prepared-territorial-sources:poblacion_por_sexo_y_edad,secciones_censales",
+  "territory_id": "aragon",
+  "edition": 2025,
+  "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "path": "prepared_sources.zip",
+  "bytes": 3348791,
+  "sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2",
+  "records": 2,
+  "acquired_at": "unknown-acquisition-date",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.0"
+}

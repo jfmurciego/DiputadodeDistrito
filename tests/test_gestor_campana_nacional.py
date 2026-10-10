@@ -1,3 +1,8 @@
+"""Regresiones del gestor nacional, versión 0.0.1, 2026-10-10.
+Alcance: planificación pura y cierre de acreditación; estado: candidato.
+Cambio/motivo: coherencia con el resolver común, Ceuta y Extremadura.
+Anterior: legacy/tests/test_gestor_campana_nacional_v0.0.0.py (sin versión declarada).
+"""
 import copy, json, os, re, shutil, subprocess, sys, tempfile, unittest
 import yaml
 from pathlib import Path
@@ -60,7 +65,7 @@ def generation_fixture(root, mode="territorial_only", with_receipt=True):
      "territorial_source":{"territorial_identity_sha256":"1"*64},
      "electoral_source":{"electoral_identity_sha256":"3"*64}}}
   (root/("pair.json" if mode=="electoral" else "receipt.json")).write_text(json.dumps(receipt))
- (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({"territories":[row]}))
+ (root/"configuracion/catalogo_preparacion.yaml").write_text(yaml.safe_dump({"schema":"ddd-preparation-catalog/1.1","default_edition":"2025","territories":[row]}))
  m=build_manifest(selected=["cantabria"],publication_mode=mode,source_sha="a"*40,
                   strategy="GerryChain 50",campaign_instance="fixture",root=root)
  r=m["territories"][0]
@@ -127,9 +132,66 @@ class NationalCampaignTests(unittest.TestCase):
     self.assertEqual(len(manifest["territories"]),n)
     self.assertEqual([r["codauto"] for r in manifest["territories"]],[f"{i:02d}" for i in range(1,n+1)])
     self.assertEqual({r["publication_mode"] for r in manifest["territories"]},{mode})
-    self.assertNotIn("reuse",json.dumps(manifest))
+    self.assertNotIn("reuse_run_id",json.dumps(manifest))
     expected_kind="prepared_source_pair" if mode=="electoral" else "territorial_source_receipt"
     self.assertEqual({r["evidence"]["kind"] for r in manifest["territories"]},{expected_kind})
+
+ def test_ceuta_common_lineage_block_overrides_generation_evidence(self):
+  from herramientas.resolver_ejecucion_completa import build_plan
+  with self.assertRaisesRegex(ValueError,"CONTINUE_DURABLE_BLOCK.*DURABLE_LINEAGE_INCOMPATIBLE"):
+   build_plan(territory="ceuta",edition="2025",execution_mode="reuse",
+              catalog=ROOT/"configuracion/catalogo_preparacion.yaml",root_dir=ROOT,
+              explicit_territorial_source={})
+  m=build_manifest(selected=["ceuta"],publication_mode="territorial_only",source_sha="a"*40,
+                   strategy="Canónico",campaign_instance="regression",root=ROOT)
+  r=m["territories"][0]
+  self.assertEqual(r["preflight_status"],"BLOCKED")
+  self.assertIn("DURABLE_LINEAGE_INCOMPATIBLE"," ".join(r["preflight_blockers"]))
+  self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+
+ def test_extremadura_reuse_does_not_authorize_generation(self):
+  for mode in ("territorial_only","electoral"):
+   for strategy,status in (("Canónico","PRODUCT_REUSE_READY"),
+                           ("GerryChain 50","SOURCE_PREPARATION_REQUIRED")):
+    with self.subTest(mode=mode,strategy=strategy):
+     m=build_manifest(selected=["extremadura"],publication_mode=mode,source_sha="a"*40,
+                      strategy=strategy,campaign_instance="regression",root=ROOT)
+     r=m["territories"][0]
+     self.assertEqual(r["preflight_status"],status)
+     self.assertFalse(r["generation_contract"]["allowed"])
+     self.assertEqual(r["execution_plan"]["run_generate"],strategy!="Canónico")
+     self.assertEqual(r["execution_plan"]["run_prepare_territorial"],strategy!="Canónico")
+     self.assertEqual(build_matrix(m,"EXECUTE_CAMPAIGN_CONFIRMED")["include"],[])
+     self.assertEqual(aggregate(m,[])["status"],"FAIL")
+
+ def test_common_resolver_decision_is_authoritative_for_every_territory(self):
+  from herramientas.catalogo_territorios import load_master
+  from herramientas.gestor_campana_nacional import campaign_execution_plan, execution_route
+  ids=[r["territory_id"] for r in load_master(ROOT/"configuracion/catalogo_territorios_espana_2025.yaml")]
+  for strategy in ("Canónico","GerryChain 50"):
+   m=build_manifest(selected=ids,publication_mode="territorial_only",source_sha="a"*40,
+                    strategy=strategy,campaign_instance="regression",root=ROOT)
+   for r in m["territories"]:
+    with self.subTest(strategy=strategy,territory=r["territory_id"]):
+     try:
+      p=campaign_execution_plan(root=ROOT,territory_id=r["territory_id"],edition="2025",strategy=strategy)
+     except ValueError as exc:
+      self.assertEqual(r["preflight_status"],"BLOCKED")
+      self.assertIn(str(exc)," ".join(r["preflight_blockers"]))
+     else:
+      self.assertEqual(r["execution_route"],execution_route(p))
+      if execution_route(p)!="GENERATION_READY":
+       self.assertEqual(r["preflight_status"],execution_route(p))
+
+ def test_child_rechecks_common_plan_after_manifest_freeze(self):
+  from unittest.mock import patch
+  with tempfile.TemporaryDirectory() as td:
+   root=Path(td); m,p=generation_fixture(root)
+   with patch("herramientas.gestor_campana_nacional.build_plan",
+              side_effect=ValueError("CONTINUE_DURABLE_BLOCK: identity drift")):
+    with self.assertRaisesRegex(ValueError,"CAMPAIGN_GENERATION_CONTRACT_BLOCK.*identity drift"):
+     validate_campaign_child(manifest=m,plan=p,root=root,expected_sha=m["manifest_sha256"],
+                             source_sha=m["source_sha"],slot="06",campaign_instance="fixture")
 
  def test_zero_rejected(self):
   with self.assertRaisesRegex(ValueError,"entre 1 y 19"): canonical_selection([])

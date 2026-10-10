@@ -1,0 +1,258 @@
+{
+  "method": "Existing reconcile_population_sectioning and validate_report_bindings on real rows and geometry",
+  "strict_builder_result": "BLOCKED as recorded in original result.json; no replacement or bypass",
+  "report_role": "Diagnostic BLOCKED only; not a READY materialized report",
+  "null_handling": "Only exact empty source Total kept as None; no imputation, dropping or substitution",
+  "missing_population_rows": [
+    {
+      "section": "0501401002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0501401002"
+    },
+    {
+      "section": "0501906007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0501906007"
+    },
+    {
+      "section": "0504703003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0504703003"
+    },
+    {
+      "section": "0505702001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0505702001"
+    },
+    {
+      "section": "0904801002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0904801002"
+    },
+    {
+      "section": "0905901002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905901002"
+    },
+    {
+      "section": "0905904004",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905904004"
+    },
+    {
+      "section": "0905905034",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905905034"
+    },
+    {
+      "section": "0905905036",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905905036"
+    },
+    {
+      "section": "0905906010",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905906010"
+    },
+    {
+      "section": "0905909005",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905909005"
+    },
+    {
+      "section": "0905909018",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905909018"
+    },
+    {
+      "section": "0905909030",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905909030"
+    },
+    {
+      "section": "0905909032",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0905909032"
+    },
+    {
+      "section": "0921901002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0921901002"
+    },
+    {
+      "section": "0921902004",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0921902004"
+    },
+    {
+      "section": "0921904002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0921904002"
+    },
+    {
+      "section": "0928901002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 0928901002"
+    },
+    {
+      "section": "2408901006",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2408901006"
+    },
+    {
+      "section": "2408903021",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2408903021"
+    },
+    {
+      "section": "2408904014",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2408904014"
+    },
+    {
+      "section": "2408906017",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2408906017"
+    },
+    {
+      "section": "2408907014",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2408907014"
+    },
+    {
+      "section": "2420202002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2420202002"
+    },
+    {
+      "section": "2420203002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 2420203002"
+    },
+    {
+      "section": "3405601002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3405601002"
+    },
+    {
+      "section": "3408001003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3408001003"
+    },
+    {
+      "section": "3412005002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3412005002"
+    },
+    {
+      "section": "3412007013",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3412007013"
+    },
+    {
+      "section": "3412007014",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3412007014"
+    },
+    {
+      "section": "3419901002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3419901002"
+    },
+    {
+      "section": "3704601002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3704601002"
+    },
+    {
+      "section": "3727401012",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3727401012"
+    },
+    {
+      "section": "3727405016",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3727405016"
+    },
+    {
+      "section": "3727405020",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3727405020"
+    },
+    {
+      "section": "3727405021",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 3727405021"
+    },
+    {
+      "section": "4019401004",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4019401004"
+    },
+    {
+      "section": "4019401005",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4019401005"
+    },
+    {
+      "section": "4700401002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4700401002"
+    },
+    {
+      "section": "4718601007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718601007"
+    },
+    {
+      "section": "4718602009",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718602009"
+    },
+    {
+      "section": "4718604023",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718604023"
+    },
+    {
+      "section": "4718605007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718605007"
+    },
+    {
+      "section": "4718608016",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718608016"
+    },
+    {
+      "section": "4718611013",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4718611013"
+    },
+    {
+      "section": "4902101007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4902101007"
+    },
+    {
+      "section": "4902102004",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4902102004"
+    },
+    {
+      "section": "4927504001",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4927504001"
+    },
+    {
+      "section": "4927505007",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4927505007"
+    }
+  ],
+  "binding_validation": "PASS",
+  "require_ready_rejections": [
+    "informe de compatibilidad población↔seccionado bloqueado: POPULATION_VALUE_MISSING"
+  ],
+  "report_sha256": "ddbffd2dff25fc6e18747d57d9b3882fb388a5d80ac4434ce9ae01ab2dbf0cfb"
+}

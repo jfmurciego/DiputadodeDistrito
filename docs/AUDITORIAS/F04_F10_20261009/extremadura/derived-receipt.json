@@ -1,0 +1,23 @@
+{
+  "schema": "ddd.local-derived-source-receipt/1.0",
+  "version": "1.0.0",
+  "kind": "local_derivation",
+  "created_at_utc": "2026-10-09T23:01:53.429953+00:00",
+  "territory_id": "extremadura",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "package_sha256": "7dc162a08369ebd68e8ae0f9f237e529f842997db1d518d6f480fe472c01f124",
+  "compatibility_identity_sha256": "b48d256d65dd17fab9d0cd27feab16cb4d325452ec57a1e6d3a4e6c8342a126d",
+  "territorial_identity_sha256": "d7d105d461caa7f6561e75cd514221b5456b5e447bc65bda644609d4c7a942df",
+  "original_artifact_id": 10710105975,
+  "original_run_id": 35755043806,
+  "original_artifact_sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+  "original_source_commit": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466",
+  "operation": "exact_same_year_universe_selection",
+  "derivation_path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/derivation.json",
+  "compatibility_report_sha256": "1a0f63f9739d7654bfeecb1b334e289dd7e8f5feb370adbad9c2d95e4341fc53",
+  "local_validation": "READY",
+  "production_promotion": "NONE",
+  "note": "New local package identity; original GitHub artifact identity is never attributed to derived bytes"
+}

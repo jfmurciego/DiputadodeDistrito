@@ -1,0 +1,77 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "scope": "expediente F10; candidato local",
+  "origin": "c83f6e3f5b9d25ec12c0124e42b372e7d838031e",
+  "predecessor": null,
+  "changes": "nuevo manifiesto",
+  "reason": "conservación revisable",
+  "decision": "BLOCKED",
+  "files": [
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/ENTREGA.md",
+      "bytes": 8670,
+      "sha256": "d3c6b52f848d0da6e1c28441bfcf585be6ef6a8f8f228f706655434ecebba12b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/contrato-179.json",
+      "bytes": 9261,
+      "sha256": "29789ab356fcdcc9098681b41f5c821872f607672eb058517bbe072419fcc5f1"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/descarga-adicional.log",
+      "bytes": 572,
+      "sha256": "65a76c8fef1fbda7626daa75bb3a6ebdff2c98fde9b1fe26ae27ec5a1aa7a611"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/pruebas-consumidores.log",
+      "bytes": 119,
+      "sha256": "3e183df868b33296f3514d723d228f1a27fe6edcdb8e0ea9edcf6f52645c54d4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/pruebas-dirigidas.log",
+      "bytes": 113,
+      "sha256": "e1d49d37135f991de8fbdfb52a4b9f8ebd879b51ff486affd3e2dcc23bbb141e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/pruebas-entorno-inicial.log",
+      "bytes": 857,
+      "sha256": "806a2aad22a71533c80f78c79ba619c4aa938bb5dc04d433a27529a95bb94764"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/regresion-base.log",
+      "bytes": 6324,
+      "sha256": "1810b6261a77ccd4124d960a60ca807ff354d258f9ce56aad7c65dd4d9d80dd5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/remote-artifacts.json",
+      "bytes": 97794,
+      "sha256": "0403b3735f09e744f32203d61be68ece874996deaa618860ca379e936679ac1a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/resultados.json",
+      "bytes": 17926,
+      "sha256": "d626de5e08882faa34fd2c491058129bd4eba5f9b9390f4ed2d7465d8da55dc8"
+    },
+    {
+      "path": "docs/AUDITORIAS/F10_20261010/verificar_f10.py",
+      "bytes": 11976,
+      "sha256": "05ea16a2d2517719aa48b4e9717d5a81942d63d16c15f928caf121fed3ead050"
+    },
+    {
+      "path": "herramientas/consumir_par_fuentes_legislatura.py",
+      "bytes": 19874,
+      "sha256": "f11d21d6aef668310b2fb7853e0dd626be4f9e739b3ed4b8ad5fb2aa4b924c86"
+    },
+    {
+      "path": "legacy/herramientas/consumir_par_fuentes_legislatura_pre_F10.py",
+      "bytes": 18462,
+      "sha256": "e547a4b81175c355a0408e2c66bcf7005f832be780cf18a284a9ed6da89db57d"
+    },
+    {
+      "path": "tests/test_f10_receipt_contract.py",
+      "bytes": 6869,
+      "sha256": "a3d16f566e4d3534eb7935c4020b46988141bd6e60fd7521d798cbc70c04b6dc"
+    }
+  ]
+}

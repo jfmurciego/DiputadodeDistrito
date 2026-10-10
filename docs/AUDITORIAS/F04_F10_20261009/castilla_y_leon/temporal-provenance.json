@@ -1,0 +1,71 @@
+{
+  "catalog_edition": "2025",
+  "dataset_years": {
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "actual_facts": [
+    {
+      "role": "population",
+      "year": 2025,
+      "basis": "Distinct actual CSV Periodo; exact historical inventory/provenance edition agrees",
+      "rows": 3555,
+      "provinces": [
+        "05",
+        "09",
+        "24",
+        "34",
+        "37",
+        "40",
+        "42",
+        "47",
+        "49"
+      ],
+      "source_sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef"
+    },
+    {
+      "role": "target_sectioning",
+      "year": 2025,
+      "basis": "Historical annual INE collection URLs plus signed archive inventory/provenance; not catalog edition or acquisition date",
+      "rows": 3506,
+      "provinces": [
+        "05",
+        "09",
+        "24",
+        "34",
+        "37",
+        "40",
+        "42",
+        "47",
+        "49"
+      ],
+      "crs": "EPSG:4326",
+      "invalid_geometry_count": 0,
+      "source_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
+    }
+  ],
+  "source_acquisition_dates": [
+    "2026-09-21T14:49:14.276945+00:00",
+    "2026-09-21T14:50:37.561909+00:00"
+  ],
+  "limitations": [
+    "Archive manifest acquired_at=unknown-acquisition-date preserved; use per-source provenance acquisition dates",
+    "No population/section years inferred from catalog edition"
+  ],
+  "transformations": [
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/65034.csv.zip",
+      "source_sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef",
+      "output_sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef",
+      "role": "population"
+    },
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/seccionado_2025.zip",
+      "source_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+      "output_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+      "role": "target_sectioning"
+    }
+  ]
+}

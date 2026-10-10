@@ -1,0 +1,1337 @@
+{
+  "schema": "ddd.delivery-manifest/1.0",
+  "base_head": "7ce06043fe74102196152ad07ad17f47b1779a6b",
+  "previous_material_accepted_tree": "da95dbc7d416e14125322ecf3698d1f2b9ad54b9",
+  "files": [
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/ENTREGA_F04.md",
+      "bytes": 4253,
+      "sha256": "e97dd3d03a904723ced230ecb74b6c9ac08a46b17d58d45816171c66325e1fab"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/ENTREGA_F04_INCREMENTO.md",
+      "bytes": 767,
+      "sha256": "24dfa28df21bced4b4482e57c058142a0c2264ffe3591a7d2ccb7d7d38e36d84"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/MANIFEST-v3.json",
+      "bytes": 52242,
+      "sha256": "18923feb82694444c0eede934e64d2ccf481eb844878603573c85052f2814322"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/MANIFEST.json",
+      "bytes": 38661,
+      "sha256": "19d9e9b2e05bef4688d8614145375339384305ea0770bd25387ef5abe488fc87"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/REVISION_F04_CICLO1.md",
+      "bytes": 1071,
+      "sha256": "18746f1e92e16df0ff5392bfed6b011778713b457cf30e81197ed3eb0ac528ec"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/compatibilidad_poblacion_seccionado.json",
+      "bytes": 1252022,
+      "sha256": "27a8ba570b6dd22f92fb3bc6cd555ed9eceb84a731941d3718aa3f820e2a15f3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/decision_adquisicion.json",
+      "bytes": 471,
+      "sha256": "28a502e334d47fbb9aa7380960ebba2aa2e2337cff5289e7a603b4398f311bd7"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/declaracion_materializacion.json",
+      "bytes": 2819,
+      "sha256": "2ddd2c5fe2fff9cdc2e5926899d5167ec2029f5994de045d0d870a4e06d66cfc"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/derivation.json",
+      "bytes": 36282,
+      "sha256": "f2320778926f689458b7741fbcc5830c69f83d3289e5ae5b2a20a3c21d2d38f9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/inventario_fuentes.json",
+      "bytes": 4601,
+      "sha256": "0224b9ffa395b5e88638be29518d6f0bf612e9e00a3fb64862274d6d106bf695"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/manifest.json",
+      "bytes": 914,
+      "sha256": "fb1035b670eeda694e1697eef34fbcdc4eb085589a72e13460be95b3a817e773"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/manifiesto_procedencia.json",
+      "bytes": 3662,
+      "sha256": "15b37987a0cccd82ebe9d9b62b0fbfd964421682773f36e396d2789481889551"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/materialized/inputs/65034.csv.zip",
+      "bytes": 68174,
+      "sha256": "1f412dad04b428624a6f32fce88d02059f5157f2b94122af174533cb7423ceed"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/materialized/inputs/seccionado_2025.zip",
+      "bytes": 11050248,
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/prepared_sources.zip",
+      "bytes": 11084046,
+      "sha256": "bdf07f1e7e4390b2c56839f975600e76fd9481492e29d367bfa73268508be47a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/compatibilidad_poblacion_seccionado.json",
+      "bytes": 1252022,
+      "sha256": "27a8ba570b6dd22f92fb3bc6cd555ed9eceb84a731941d3718aa3f820e2a15f3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/decision_adquisicion.json",
+      "bytes": 846,
+      "sha256": "d3d9fe93527178ff89513b2377e1c5ceaded095289383a0774cd8e548704368b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/declaracion_materializacion.json",
+      "bytes": 6419,
+      "sha256": "e4e0e3b709508bf982b81b28d239e49c244198adba28094f58e8413f5398421b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/derivation.json",
+      "bytes": 36282,
+      "sha256": "f2320778926f689458b7741fbcc5830c69f83d3289e5ae5b2a20a3c21d2d38f9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/inventario_fuentes.json",
+      "bytes": 8085,
+      "sha256": "546cfb958b44ce8722728015dc49902aebe0cd9576df9bcf830059d62f39b6cd"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/manifest.json",
+      "bytes": 1014,
+      "sha256": "46234e1fa8c30a755ae8a0ae5182edb977108f8935f3d86070f90ce5345009c5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/manifiesto_procedencia.json",
+      "bytes": 6681,
+      "sha256": "b880930ef1ed2526624ca5abe8919c15d7088227c5e36ec8b219229ca638cfef"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/materialized/inputs/65034.csv.zip",
+      "bytes": 68174,
+      "sha256": "1f412dad04b428624a6f32fce88d02059f5157f2b94122af174533cb7423ceed"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "bytes": 11050248,
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/prepared_sources.zip",
+      "bytes": 11085494,
+      "sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/compatibilidad_poblacion_seccionado.json",
+      "bytes": 1252022,
+      "sha256": "27a8ba570b6dd22f92fb3bc6cd555ed9eceb84a731941d3718aa3f820e2a15f3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/decision_adquisicion.json",
+      "bytes": 471,
+      "sha256": "28a502e334d47fbb9aa7380960ebba2aa2e2337cff5289e7a603b4398f311bd7"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/declaracion_materializacion.json",
+      "bytes": 2819,
+      "sha256": "2ddd2c5fe2fff9cdc2e5926899d5167ec2029f5994de045d0d870a4e06d66cfc"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/derivation.json",
+      "bytes": 36282,
+      "sha256": "f2320778926f689458b7741fbcc5830c69f83d3289e5ae5b2a20a3c21d2d38f9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/inventario_fuentes.json",
+      "bytes": 4601,
+      "sha256": "0224b9ffa395b5e88638be29518d6f0bf612e9e00a3fb64862274d6d106bf695"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/manifest.json",
+      "bytes": 758,
+      "sha256": "cb312ceed47610519d289f6e9567a93f275df1ebeb4c552dc0dc61b456027b08"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/manifiesto_procedencia.json",
+      "bytes": 3662,
+      "sha256": "15b37987a0cccd82ebe9d9b62b0fbfd964421682773f36e396d2789481889551"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/materialized/inputs/65034.csv.zip",
+      "bytes": 68174,
+      "sha256": "1f412dad04b428624a6f32fce88d02059f5157f2b94122af174533cb7423ceed"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/materialized/inputs/seccionado_2025.zip",
+      "bytes": 11050248,
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato/prepared_sources.zip",
+      "bytes": 11084046,
+      "sha256": "bdf07f1e7e4390b2c56839f975600e76fd9481492e29d367bfa73268508be47a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/compatibilidad_diagnostica.json",
+      "bytes": 1253462,
+      "sha256": "9c320f46a394e6c37dfcd07640601d4cbdfc9a6806c29c7d0b4f508d32e6e647"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/diagnostic-validation.json",
+      "bytes": 11320,
+      "sha256": "d8b6a6540c5ec09081f6754ff94489e1e747795a5d2f7799dc4ea706917c26f0"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/inventario_fuentes.json",
+      "bytes": 3899,
+      "sha256": "6c2486d177c998c8f43cfb466b297c7eedb1e7cfdc1af4dbb02c28aa221dd909"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/materialized/inputs/65034.csv.zip",
+      "bytes": 68691,
+      "sha256": "b5fdf5e16f90073851393f326ee1b9e03680811a4511a064ed0180830e5b469e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/compatibilidad/materialized/inputs/seccionado_2025.zip",
+      "bytes": 11050248,
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/derived-receipt-v3.json",
+      "bytes": 1442,
+      "sha256": "e6c55c2221428ce41aa95764e5520e6a72c168fbb98837c0cf2165c7cd63b9f5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/derived-receipt.json",
+      "bytes": 1228,
+      "sha256": "5af2319f2b388c4a7fdd6e6ee5dc61fafef7e26cfb9a2fecde145e7353299f0c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/decision_adquisicion.json",
+      "bytes": 243,
+      "sha256": "fa8e43fdebf5831f45d2e55b2f1edd3cebdde9323fc0fda2f9e0661359d4b9da"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/declaracion_materializacion.json",
+      "bytes": 2591,
+      "sha256": "8de40b8b46df0a38fcdf326a79a44a20a1a759f395ba3058a6927acf62b2525a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/inventario_fuentes.json",
+      "bytes": 3785,
+      "sha256": "deb866b1884a5d536b9a350d707371fbb6e255e85d85a77c051096f460a98265"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/manifiesto_procedencia.json",
+      "bytes": 2810,
+      "sha256": "b283c6744954686cea5d31b9cf03343cf02d36300373825cfb9c656ee132c23b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/materialized/inputs/65034.csv.zip",
+      "bytes": 68691,
+      "sha256": "b5fdf5e16f90073851393f326ee1b9e03680811a4511a064ed0180830e5b469e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/materialized/inputs/seccionado_2025.zip",
+      "bytes": 11050248,
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/manifest.json",
+      "bytes": 1967,
+      "sha256": "d9fd64c7c7dc4a6513d3fc9d399bbed63d869fd1741d6b20ab5d1314b7dd6443"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/prepared_sources.zip",
+      "bytes": 11041225,
+      "sha256": "16d6151a57398c01c11556e2fafe75a83dce0378c58bcdc439de823b37b80d07"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/recovery-receipt.json",
+      "bytes": 1286,
+      "sha256": "f23b8e22533987f7b10f82368f14eaa97a7a242adec873ecb6a1dff778593857"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/result.json",
+      "bytes": 924,
+      "sha256": "943147b1226d04d88c5757d16f3f6cd1d466cc2ac83b3d363b39dca6b3a702e1"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/temporal-provenance.json",
+      "bytes": 2150,
+      "sha256": "b656637e99dad38ff21a1f962f7ac25b352fe16857b322c3d18e8597964650fa"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/transformations.json",
+      "bytes": 712,
+      "sha256": "1ccfbedca5966c81dd5e78d0499ec0de2020488be081d69ecd78102d0fcb7257"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/compatibilidad_poblacion_seccionado.json",
+      "bytes": 306856,
+      "sha256": "95c4a0105265f0079eeed078b38290b19b10826cd6429967bc4f9a61340b5316"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/decision_adquisicion.json",
+      "bytes": 465,
+      "sha256": "eea0bf93cdcbc0b58b502744104d2c0d582c9f6c2d59f7ed3a2df9ba639dc813"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/declaracion_materializacion.json",
+      "bytes": 1827,
+      "sha256": "b2605116bc3a4d583ab63154e59bfa98f26cd4e1adf482ee53ecb3a4e100ee53"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/derivation.json",
+      "bytes": 3408,
+      "sha256": "72b3c253aa85194f28b2027e9e88e4be6b229bcc3924f423ade11fccbbca9b23"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/inventario_fuentes.json",
+      "bytes": 3288,
+      "sha256": "26efb5b221bd49be5ff053930cc8a9ddebc049468f1ea6029cb3f880d0e951ac"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/manifest.json",
+      "bytes": 907,
+      "sha256": "9d1e58c667551b15ee94ffca441464f0c8bd289a7d8cd8e2664d5ea57743434c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/manifiesto_procedencia.json",
+      "bytes": 2666,
+      "sha256": "b0ba58f42d5bc0e790be71e801af4163407b2b32fc6656ae855b837efab4c573"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/materialized/inputs/65034.csv.zip",
+      "bytes": 21261,
+      "sha256": "c25e4fe5f2d16d873e5b55b144c3797e287847b87f567d7b3299b26dc81d67b4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/materialized/inputs/seccionado_2025.zip",
+      "bytes": 3341562,
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/prepared_sources.zip",
+      "bytes": 3361597,
+      "sha256": "87aa3d3c5bf095aebe70b1d2bfded5725fe66b361b3bb733ad65387429452df0"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/compatibilidad_poblacion_seccionado.json",
+      "bytes": 306856,
+      "sha256": "95c4a0105265f0079eeed078b38290b19b10826cd6429967bc4f9a61340b5316"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/decision_adquisicion.json",
+      "bytes": 837,
+      "sha256": "981c9bd0aa58565405da405a7dd144ec5b3f06df9cbf6e584ea5435808fb380e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/declaracion_materializacion.json",
+      "bytes": 4410,
+      "sha256": "0d9c2a30a9a81c4abfc77f46611048c48a316a39d519b6172a3e915dc646ff61"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/derivation.json",
+      "bytes": 3408,
+      "sha256": "72b3c253aa85194f28b2027e9e88e4be6b229bcc3924f423ade11fccbbca9b23"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/inventario_fuentes.json",
+      "bytes": 5758,
+      "sha256": "3bac9cb7a2fdeed68e69b8251c1f0b4b9540abac3f07542938786e54e07d555d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/manifest.json",
+      "bytes": 1007,
+      "sha256": "26dc68a482d9216c404fa1d40f4b62c73504996ed1e94bcc688769803048edc9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/manifiesto_procedencia.json",
+      "bytes": 4675,
+      "sha256": "d2373d238a9fa2ad149ddc0283b1412f52dafa85a837ee78ba8d76a0bb47cce6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/materialized/inputs/65034.csv.zip",
+      "bytes": 21261,
+      "sha256": "c25e4fe5f2d16d873e5b55b144c3797e287847b87f567d7b3299b26dc81d67b4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "bytes": 3341562,
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/prepared_sources.zip",
+      "bytes": 3362942,
+      "sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/compatibilidad_diagnostica.json",
+      "bytes": 306996,
+      "sha256": "340e2c504dd607f8e5759de929475cfc802e2b4db341dd1dd1a748c998f22a5f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/diagnostic-validation.json",
+      "bytes": 1440,
+      "sha256": "bf74fca79e4fb58224e9abb8e37e564f40487812ba260171e2a02b2a458a867b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/inventario_fuentes.json",
+      "bytes": 2590,
+      "sha256": "4d1360f4389925f17d21b15c00a8ca3c7e948c323f4536ba46cb4ef6fff4cd79"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/materialized/inputs/65034.csv.zip",
+      "bytes": 21303,
+      "sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/compatibilidad/materialized/inputs/seccionado_2025.zip",
+      "bytes": 3341562,
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/derived-receipt-v3.json",
+      "bytes": 1433,
+      "sha256": "a87051b21fd8d558a0b8c130650ba72731674c7d76bf5155e376c28f0f270c4a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/derived-receipt.json",
+      "bytes": 1222,
+      "sha256": "0c2db9a55c2afb7fa385915396053298cbf9f93b22d3928c7cab8ecefae99416"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/decision_adquisicion.json",
+      "bytes": 237,
+      "sha256": "42cacf779b5c4c6f03b675db70e990fdbc0a74aa5c74a5a7999b7046df54bdf2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/declaracion_materializacion.json",
+      "bytes": 1599,
+      "sha256": "f376e66c91966fece3d1ff1cc1ea10b296cee3667ff709b53da2674fa189fb40"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/inventario_fuentes.json",
+      "bytes": 2476,
+      "sha256": "e4908e9660a20de225330e47b265edd06f0b50c57703c96a92fe607ec86cccd8"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/manifiesto_procedencia.json",
+      "bytes": 1818,
+      "sha256": "443bd346800f6daf92cb0b6b12b8cbcff329806207346d9e4d428adcdbb28d82"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/materialized/inputs/65034.csv.zip",
+      "bytes": 21303,
+      "sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/materialized/inputs/seccionado_2025.zip",
+      "bytes": 3341562,
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/manifest.json",
+      "bytes": 1023,
+      "sha256": "00658bd87be0e5a081b6c8db5c99c784171447a1df8a8af0162f2d3041720e54"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/prepared_sources.zip",
+      "bytes": 3348791,
+      "sha256": "f13310ea23ab914d35ca2f08e05eb2d96820a702ca9d50e772a1e16ec99a7be2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/recovery-receipt.json",
+      "bytes": 1420,
+      "sha256": "e448add7c9fb2b8c778c5d0eafc8bca39ad6fcdb9825104873495153a7ac1201"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/result.json",
+      "bytes": 918,
+      "sha256": "36debdfcf055927972ac4da2819993eda65e6653ac65c00049ff06c4e2c3efd3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/temporal-provenance.json",
+      "bytes": 2010,
+      "sha256": "d130a9153209a0f6522d1d1ad687fae5c892fec42e8dbe3549f6fea504c3d2a1"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/transformations.json",
+      "bytes": 712,
+      "sha256": "d11c6a6d2002d29f9b4d4f685a66be8076061d6214d507fc062f7eca8254be03"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/artifact-metadata.json",
+      "bytes": 4211,
+      "sha256": "a0923818514d1b2614b51780fc2b38c7cb007b9161262dd47ddfa0a5af1514b3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/candidate-results-v3.json",
+      "bytes": 6298,
+      "sha256": "b02a747353fb665d2fcbb5352e66f799a7c8ef7ea12ee09629ce79c4b7d4081a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/candidate-results.json",
+      "bytes": 6130,
+      "sha256": "73acbebe0add130cf71ef543df899ade826996a17a52d6b5bf6cf9066f3eeca5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/compatibilidad_poblacion_seccionado.json",
+      "bytes": 729766,
+      "sha256": "5bcc0d88ff37daeeeea45454e18f69d4c56e01c18a9298628b31803d3a19da68"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/decision_adquisicion.json",
+      "bytes": 483,
+      "sha256": "a5f1217a55c4605441dc57e5de0f4dc71c093255a0ee9c31553951b5556f22e2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/declaracion_materializacion.json",
+      "bytes": 3027,
+      "sha256": "9306ecfefe7c3e37b0f3384eaf6d8b1589ac82bbf7d1c1def963ccf04d699a97"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/derivation.json",
+      "bytes": 25618,
+      "sha256": "9f432bcb620a004ce40df426115e5094ad2f967250c1750bca6817380232734e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/inventario_fuentes.json",
+      "bytes": 4876,
+      "sha256": "ac58ea386a667db7d5d2beb2caad0ccac27b7a83121f5cd4696b6afbac9c8fbf"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/manifest.json",
+      "bytes": 925,
+      "sha256": "fc664000181d03ea75b0e30a889e3d50c2dc32f2d204b4aaf1becd4abc3202e6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/manifiesto_procedencia.json",
+      "bytes": 3876,
+      "sha256": "f003832b18eb8ec0279eb5cdef77e2e5c30886b9d07b8d362033be55a01a82ee"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/materialized/inputs/65034.csv.zip",
+      "bytes": 57125,
+      "sha256": "7028e5be9afaa478528532dc6b3c56960c4783407992917d605648c414b4271f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/materialized/inputs/seccionado_2025.zip",
+      "bytes": 6794083,
+      "sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v2/prepared_sources.zip",
+      "bytes": 6839710,
+      "sha256": "e688da41da6bcd0255ae4cecf5b3448e8eec974169060fa3477f485d3b21ad7e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/compatibilidad_poblacion_seccionado.json",
+      "bytes": 729766,
+      "sha256": "5bcc0d88ff37daeeeea45454e18f69d4c56e01c18a9298628b31803d3a19da68"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/decision_adquisicion.json",
+      "bytes": 864,
+      "sha256": "fb4a0a27d1da21dccaa5172ca1aaa91eda0e6c5a398962359db0b8f8e8e835fb"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/declaracion_materializacion.json",
+      "bytes": 6868,
+      "sha256": "7d6ab843a940b659f3412c68351728e4ef90d0fd876aba31e14270bc0a03cde6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/derivation.json",
+      "bytes": 25618,
+      "sha256": "9f432bcb620a004ce40df426115e5094ad2f967250c1750bca6817380232734e"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/inventario_fuentes.json",
+      "bytes": 8595,
+      "sha256": "a89b1d7647573b879c708bc5b0f569dfb58b4ab9891492c8385208129b6a0d44"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/manifest.json",
+      "bytes": 1025,
+      "sha256": "2fc1cc4d307875aec9c3fbecba562234a36876729defe586e82015fc430baff6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/manifiesto_procedencia.json",
+      "bytes": 7124,
+      "sha256": "79532b72dc9b5be623cc25fd69b8087418c2f7186da524198276895abbfe4da5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/materialized/inputs/65034.csv.zip",
+      "bytes": 57125,
+      "sha256": "7028e5be9afaa478528532dc6b3c56960c4783407992917d605648c414b4271f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "bytes": 6794083,
+      "sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/candidato-v3/prepared_sources.zip",
+      "bytes": 6841183,
+      "sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/compatibilidad_diagnostica.json",
+      "bytes": 730786,
+      "sha256": "ddbffd2dff25fc6e18747d57d9b3882fb388a5d80ac4434ce9ae01ab2dbf0cfb"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/diagnostic-validation.json",
+      "bytes": 8128,
+      "sha256": "3f0182b35486322b3ded27b8a492479b5f05be80f47db17745a5810e6752784a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/inventario_fuentes.json",
+      "bytes": 4168,
+      "sha256": "dffed3fabeeee11d4f3535a3ed5ea4d577d36f22cddc0b03c339a78ffda9684f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/materialized/inputs/65034.csv.zip",
+      "bytes": 57560,
+      "sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/compatibilidad/materialized/inputs/seccionado_2025.zip",
+      "bytes": 6794083,
+      "sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/derived-receipt-v3.json",
+      "bytes": 1460,
+      "sha256": "00142c25e789a9574fcc92566a01e08924c14dc9c62e56c36eb5ce3d021d36e1"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/derived-receipt.json",
+      "bytes": 1240,
+      "sha256": "09c9c7117c8fef0b6bf4ca87617903d270402d7498942f13d460713a58ba2b91"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/decision_adquisicion.json",
+      "bytes": 255,
+      "sha256": "1732026b6f5543bcd785972fb74c4491a5ae4cf80bb09b162bf45a25adcc3d65"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/declaracion_materializacion.json",
+      "bytes": 2799,
+      "sha256": "64c7b90ab09d91d6066751cfc4eec03e497db6325f829750005a0bfdee564632"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/inventario_fuentes.json",
+      "bytes": 4054,
+      "sha256": "476f4100f9e049497d888e0073aa7ccc428f30d44bf56c239e01eb95d09935ca"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/manifiesto_procedencia.json",
+      "bytes": 3018,
+      "sha256": "0af7018f6a011ab6d4356e3397612a25b57b0db4ab5314cb928a4530be4cc7ab"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/materialized/inputs/65034.csv.zip",
+      "bytes": 57560,
+      "sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/materialized/inputs/seccionado_2025.zip",
+      "bytes": 6794083,
+      "sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/manifest.json",
+      "bytes": 2160,
+      "sha256": "e4e9caa0a171e498dafff7d6b71c0b643e8c0dafbd5da8ae7d4268cd602c54a6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/prepared_sources.zip",
+      "bytes": 6813294,
+      "sha256": "37eecb1a37e7bde56246a04866b09056e73088c91064043604d9ba22bf015752"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/recovery-receipt.json",
+      "bytes": 1456,
+      "sha256": "d097f8da7b232bcf50482bcc7c16c83ed339072441415100672a26c6332554ce"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/result.json",
+      "bytes": 936,
+      "sha256": "15144a2af99c0febcf19cdfc604e9b2d253f57f834a1aed92ba11f16773a08ba"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/temporal-provenance.json",
+      "bytes": 2178,
+      "sha256": "e6058318b964110e7b388897e4ad5e4dea770d36794832becb0b943792236f5f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/transformations.json",
+      "bytes": 712,
+      "sha256": "3611a7172ef5fa8d1cee5f2f9a5e50dd2da66820bf856d89ca878e74d8e93216"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/checkpoint.json",
+      "bytes": 2830,
+      "sha256": "537a89981ad327ebca7fbc9a721b96f25c039d60ff08a486cd26276564d7ff14"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/completar_entradas.py",
+      "bytes": 8285,
+      "sha256": "e8cf561f59426bbaab88126238fd02b08f8e19cdd1a6b129b5cdb63e6ae19dd5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/compatibilidad_poblacion_seccionado.json",
+      "bytes": 731634,
+      "sha256": "e3f912e9923d00c2ff1a4850c30ddb0eee8a3cb88f8d9d7ee7030f7f21306214"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/decision_adquisicion.json",
+      "bytes": 492,
+      "sha256": "98d79730dfda3d719c41523a68864fe9098834eb57c39c0f340164b97cab2d30"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/declaracion_materializacion.json",
+      "bytes": 1854,
+      "sha256": "1dbe1501b14cacdc1d4e3aeeb4a164a25b0aa6f176f2407619e8078e1ee69b3b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/derivation.json",
+      "bytes": 18376,
+      "sha256": "f2960efe87d7adc11f07feeb8ddf7b8a1ba7728f421d60785d864f3caf99cc2c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/inventario_fuentes.json",
+      "bytes": 3332,
+      "sha256": "5622a945c75cb1f745a5b847889cd0356414671043162ee7b87b739cb8186ade"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/manifest.json",
+      "bytes": 935,
+      "sha256": "3778e87baf21252ebbcb9e2357c4fc5bf08e5e87ddd942af3fe66a3375964606"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/manifiesto_procedencia.json",
+      "bytes": 2708,
+      "sha256": "8d14fb431fda4f693939f6bc4ce5f8e46b3a08ac08346e44faf0a3323bfa6cc5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/materialized/inputs/65034.csv.zip",
+      "bytes": 41781,
+      "sha256": "d0f3c0d92a187af553de40ff747d70ea8845b90d08aac0cd9b482587b61c396f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/materialized/inputs/seccionado_2025.zip",
+      "bytes": 4311520,
+      "sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v2/prepared_sources.zip",
+      "bytes": 4343056,
+      "sha256": "0bda25e80983279a0d166912a7bef723feb8fa6719d5a7536d7d8d18669c4166"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/compatibilidad_poblacion_seccionado.json",
+      "bytes": 731634,
+      "sha256": "e3f912e9923d00c2ff1a4850c30ddb0eee8a3cb88f8d9d7ee7030f7f21306214"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/decision_adquisicion.json",
+      "bytes": 878,
+      "sha256": "5915eaa69e4fbfc663169d9327cd2e31173a4eca0f8227bda02e526238f93aa6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/declaracion_materializacion.json",
+      "bytes": 4536,
+      "sha256": "94db08e7d681cef1aa8fa9d065408ea91474ccdac3725d65f90b9e97cad997df"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/derivation.json",
+      "bytes": 18376,
+      "sha256": "f2960efe87d7adc11f07feeb8ddf7b8a1ba7728f421d60785d864f3caf99cc2c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/inventario_fuentes.json",
+      "bytes": 5887,
+      "sha256": "109f865c399102c12501ffa74d146884a0b0198cd1a3a274e7568134cb8b276c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/manifest.json",
+      "bytes": 1035,
+      "sha256": "c0e3a422e27b68f4db76c58c57b582e41ba99e77b2d66e74bf9bebf7a4f93dea"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/manifiesto_procedencia.json",
+      "bytes": 4787,
+      "sha256": "a8cd196e26559764c09dad065694f3a4f94f6531ca9c6e549692612b9d4a644d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/materialized/inputs/65034.csv.zip",
+      "bytes": 41781,
+      "sha256": "d0f3c0d92a187af553de40ff747d70ea8845b90d08aac0cd9b482587b61c396f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "bytes": 4311520,
+      "sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/candidato-v3/prepared_sources.zip",
+      "bytes": 4344420,
+      "sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/compatibilidad_diagnostica.json",
+      "bytes": 732354,
+      "sha256": "ba936002edf389a9bd9861df87494145cdb5780d1758472ad0207714ef8cf8b4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/diagnostic-validation.json",
+      "bytes": 5848,
+      "sha256": "3dbe560ace9849971d582832b5840d042287fae16c3ede23fee9092a91850b43"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/inventario_fuentes.json",
+      "bytes": 2619,
+      "sha256": "af6a56cc7f3965a2fdbda777f7658f75fb3eacbbdc43392c5611babb86052cbd"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/materialized/inputs/65034.csv.zip",
+      "bytes": 42050,
+      "sha256": "353ff7a2143585185a41162a7dcdaaea9e528352a3c9e563397bf170da4cae42"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/compatibilidad/materialized/inputs/seccionado_2025.zip",
+      "bytes": 4311520,
+      "sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/derived-receipt-v3.json",
+      "bytes": 1475,
+      "sha256": "381c1ea13c0eb99e25bc00840e9f1bb46d1eb40c4375525ecf927ab2eaf4a46b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/derived-receipt.json",
+      "bytes": 1250,
+      "sha256": "823ef2b568ab7476c421caec19d939e8f229e91411bf8725486bc8967ca50624"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/decision_adquisicion.json",
+      "bytes": 264,
+      "sha256": "bef64fa70393485795ebc9e31e36b0014fe4c1e07b7a662ee31974705f1ade18"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/declaracion_materializacion.json",
+      "bytes": 1626,
+      "sha256": "d42d8660a80a9d0476ad6719a9dc98f40e5bd4165c52a6a1b3828d6683d16046"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/inventario_fuentes.json",
+      "bytes": 2505,
+      "sha256": "192a419787d6a7a4eaa6659b8cd9bb46a621b2c7b05be20caf884e98a9d6d9b3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/manifiesto_procedencia.json",
+      "bytes": 1845,
+      "sha256": "83501415a1de98c0d505b8b3a3318dec1396963e1d789e4ecf42968e6b197619"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/materialized/inputs/65034.csv.zip",
+      "bytes": 42050,
+      "sha256": "353ff7a2143585185a41162a7dcdaaea9e528352a3c9e563397bf170da4cae42"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/bundle/materialized/inputs/seccionado_2025.zip",
+      "bytes": 4311520,
+      "sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/manifest.json",
+      "bytes": 1037,
+      "sha256": "0aadc3963ebf5b494214e7f01049fbd97e622beb45b8a2f6b51709ea5d77d0f5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/original/prepared_sources.zip",
+      "bytes": 4316825,
+      "sha256": "201897c1374500079223f6870c767d4c4825b2e18072c16c0c6d170104c6df97"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/recovery-receipt.json",
+      "bytes": 1319,
+      "sha256": "4761921473eba78102c837096184bb5c16e139e7e438eae2d2c4ee99db272ca0"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/result.json",
+      "bytes": 946,
+      "sha256": "4c23dcc3082284d207c1265b95fb0ce98f31ad42e606b6818c1958e0d6ed33c8"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/temporal-provenance.json",
+      "bytes": 2010,
+      "sha256": "86a09e35f5f01047fb2e2ad233c32ee338df06595ace335b17f6ea8d07612543"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/comunidad_valenciana/transformations.json",
+      "bytes": 712,
+      "sha256": "8a843633973bab2cd5e9ab0838cb9f41fb2a6ad32eb1b6d870aac181e0e7ce67"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/ALCANCE_Y_ERRATAS.md",
+      "bytes": 1235,
+      "sha256": "d157420140bf739a7abec75e5fcdc1be7326d1599fefe333a81dd4d5be04b2df"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/CONTRATO_F05.md",
+      "bytes": 1410,
+      "sha256": "7e5f6ae14164c912b953aa958d73fb32751a5dc16705f9d41572a6d71809338b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/PREPARACION_F09_F10.md",
+      "bytes": 1640,
+      "sha256": "db5a14557583159b72ad0ceac69b12795b9a1063515d7f0aaf41c45bbbd3fcba"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/REVISION_F04_ACEPTADA.md",
+      "bytes": 840,
+      "sha256": "7aa532f079e8fa126f9e8aa8315871bae42f65c4ece952e929d9a8e2f5ba5609"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/acreditar_identidades.py",
+      "bytes": 2703,
+      "sha256": "01167c5735a3e8d1693afe7d46f39fd16322d443276aec42ed915f2f36ff2d07"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/checkpoint-final.json",
+      "bytes": 4749,
+      "sha256": "cddbd6671b520f3f229cf8f15cb63b0ea2b6b388f7f196781821dab7a0ae34d0"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/diff-F04-inicial-texto.diff.gz",
+      "bytes": 319711,
+      "sha256": "90e9e8b6640f5bdd95fc346b5ea796a8c302cf005b97baff9d6c5ed62353980f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/diff-F05-F10.diff.gz",
+      "bytes": 23610,
+      "sha256": "6d4c52b72feb7f05d002e895aa1cd0e31ae43d9df263385fd450a823d43f1be4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/diff-total-numstat.tsv",
+      "bytes": 22026,
+      "sha256": "d4491809e8c1ef0185c4354113d0d075ecea1cd2dc4577c703e2b86c18b674fd"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json",
+      "bytes": 59704,
+      "sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/identity-alignment.json",
+      "bytes": 2497,
+      "sha256": "e9ac13ba63638db26cb27d1fdf530bc529b3eea5a1fdcadc9da5a6e8b1ce6a77"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/matriz-19-final.json",
+      "bytes": 46749,
+      "sha256": "84c24336a091a849727c7cd1eec40554f5054189adbce01ff0efaeae8e11ac05"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/offline-results.json",
+      "bytes": 23827,
+      "sha256": "3172d315ba96806c16018bb0790839217d2775807183ba7d3807d2d1734fc9be"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/continuacion/verificar_offline.py",
+      "bytes": 4502,
+      "sha256": "56c7d742f7f4eb78d45f928777ad43aa5a974b934130e7aaf5993f71d19716ad"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/corregir_declaraciones.py",
+      "bytes": 5828,
+      "sha256": "81c48de0b83fdd287077fcdd0a5c0781ea636eefe1e97d104331440a92888e1c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/derivar_universo.py",
+      "bytes": 8158,
+      "sha256": "0ce5dc85ddcb0cddaae8ea317924f422f22e59a791af1ff5ce9bb44998d69a61"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/diagnostic-results.json",
+      "bytes": 2772,
+      "sha256": "5ea04e667ba5549c97e769a924b76766bae5ae6be3e26601400853fdd848fb68"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/compatibilidad_poblacion_seccionado.json",
+      "bytes": 203567,
+      "sha256": "1a0f63f9739d7654bfeecb1b334e289dd7e8f5feb370adbad9c2d95e4341fc53"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/decision_adquisicion.json",
+      "bytes": 474,
+      "sha256": "106b9c8a173375023f06ce16b36cf70de3dca49c532a2e77eab62fb676a30c91"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/declaracion_materializacion.json",
+      "bytes": 1639,
+      "sha256": "39f683b8a027379286268f2f22ecd42265a7724c7c109c7a73502c4c5c1f78cc"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/derivation.json",
+      "bytes": 6481,
+      "sha256": "28c81079eae71fc13d88b0874427833318fb5f9bb27bbd2c647e350660f35935"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/inventario_fuentes.json",
+      "bytes": 3041,
+      "sha256": "994cd2612e7057c97856d37eba2309ef991eeace28d58d3998b9967de23c078a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/manifest.json",
+      "bytes": 917,
+      "sha256": "83ce9c272e7f065a84ee31d2ed39ce518615563f4a48474e245478bfcab44e98"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/manifiesto_procedencia.json",
+      "bytes": 2484,
+      "sha256": "f098272a56d8a631ee335dd7004adbcec2d7c3fd921a87e46543844d446b17d1"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/materialized/inputs/65034.csv.zip",
+      "bytes": 13819,
+      "sha256": "1bc10278e6ff5e03924a29dc55960933885839e1b6272f0f2c2773b576098c44"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/materialized/inputs/seccionado_2025.zip",
+      "bytes": 2852005,
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/prepared_sources.zip",
+      "bytes": 2868950,
+      "sha256": "7dc162a08369ebd68e8ae0f9f237e529f842997db1d518d6f480fe472c01f124"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/compatibilidad_poblacion_seccionado.json",
+      "bytes": 203567,
+      "sha256": "1a0f63f9739d7654bfeecb1b334e289dd7e8f5feb370adbad9c2d95e4341fc53"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/decision_adquisicion.json",
+      "bytes": 851,
+      "sha256": "a08b2f168db7736903e0710a58dfeabff487186d6d4e36fde2ec3fe6a785dd46"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/declaracion_materializacion.json",
+      "bytes": 4059,
+      "sha256": "6e67d240c8f91a5ef215285ad10c5f620027f9a2a67034eb2f95dcffaf2b0862"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/derivation.json",
+      "bytes": 6481,
+      "sha256": "28c81079eae71fc13d88b0874427833318fb5f9bb27bbd2c647e350660f35935"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/inventario_fuentes.json",
+      "bytes": 5343,
+      "sha256": "caa9cbad09ffdafd784ba814debf2429de5f042a0c328e937c5374c0bbbb5a58"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/manifest.json",
+      "bytes": 1017,
+      "sha256": "d7450f0c8f02dc93ce9d108a7d36c8f15fc1d4675f6c9487e7a47eb3cc464eda"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/manifiesto_procedencia.json",
+      "bytes": 4319,
+      "sha256": "75188a1da49416188ef04b661d0251f258284b28a97ebffbd151250c71278f40"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/65034.csv.zip",
+      "bytes": 13819,
+      "sha256": "1bc10278e6ff5e03924a29dc55960933885839e1b6272f0f2c2773b576098c44"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "bytes": 2852005,
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/prepared_sources.zip",
+      "bytes": 2870297,
+      "sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/compatibilidad_diagnostica.json",
+      "bytes": 203827,
+      "sha256": "a191e357213a802e03517de261881da571ea231c520c5d8adc7c52204c2fc446"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/diagnostic-validation.json",
+      "bytes": 2352,
+      "sha256": "63c336c2cb28f04de7a411c5d9d66f87058a149e45cd3bde8b04fe9bcba5dfc8"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/inventario_fuentes.json",
+      "bytes": 2337,
+      "sha256": "b460b6245364015a6ac9dc28a309188f4a0c92216c59e8e96e41fc95f44710a6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/materialized/inputs/65034.csv.zip",
+      "bytes": 13914,
+      "sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/compatibilidad/materialized/inputs/seccionado_2025.zip",
+      "bytes": 2852005,
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/derived-receipt-v3.json",
+      "bytes": 1448,
+      "sha256": "0acfcd5ba3c873338d7231f9b12325c0e278ffb91f8ca91d59ac78d59437c918"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/derived-receipt.json",
+      "bytes": 1232,
+      "sha256": "239c7884a1bdff7bdfa97b030e09628e2cf7d8f2fd00c0b4531c68dfe69015ff"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/decision_adquisicion.json",
+      "bytes": 246,
+      "sha256": "951ee31cce3be6f228c7c89f7e6adb507d638e6444f004a62f49400f5edc46d9"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/declaracion_materializacion.json",
+      "bytes": 1411,
+      "sha256": "599f4e8cdace7c94375887cae38aae046fc6992e856f7b28208587826329ece5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/inventario_fuentes.json",
+      "bytes": 2223,
+      "sha256": "b2ac9e2749cb4b9b7beb2d19a7ab721ff8dbfa4943358afb607aa009af2e1363"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/manifiesto_procedencia.json",
+      "bytes": 1630,
+      "sha256": "6f32205e0ab06081dea8d84218d2ecec1acdbdb32e25d2eb58db467d0728563f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/materialized/inputs/65034.csv.zip",
+      "bytes": 13914,
+      "sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/materialized/inputs/seccionado_2025.zip",
+      "bytes": 2852005,
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/manifest.json",
+      "bytes": 840,
+      "sha256": "4e1c883e9536ebc9492c4046d3c53becbe9ccaff6e86d1d25faae2c70cb97873"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/prepared_sources.zip",
+      "bytes": 2859150,
+      "sha256": "edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/recovery-receipt.json",
+      "bytes": 1292,
+      "sha256": "45f0dfc9b37ad47acbdc5f6abd4fb937d4df25449fc451a1e3b38df76885cb3a"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/result.json",
+      "bytes": 928,
+      "sha256": "ecbbb74a0edf351aa027313ea7e33e3d4ae14e72e834c002e9942e7e9efd794c"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/temporal-provenance.json",
+      "bytes": 1980,
+      "sha256": "fe7929627aa1741b26fc5d2b720280c7d7683180f99058c54e8ea7dc1061cac3"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/transformations.json",
+      "bytes": 712,
+      "sha256": "5ea3af5b850e43a21641ede6bc873783dad29dacd71409028b401ec378a38a8d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/informes_diagnosticos.py",
+      "bytes": 4435,
+      "sha256": "f98dbecedf1a3c3ae196404c1f24f136c8dbc5644312e7dba0b2781d82511fa4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/inventario-local.json",
+      "bytes": 19112,
+      "sha256": "d93ac1ade7041c017c566af7eb344457f3714ccab8649fd21fa0af2bf78b3b62"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/localizar_material.py",
+      "bytes": 2818,
+      "sha256": "7a301ddcde40e69442214cd583fd3c45a38a562b6c70caff35f74f4cc4fc3233"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/candidatos-v2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/candidatos-v2.stdout",
+      "bytes": 5097,
+      "sha256": "36223d7f62481d135154993f31908f2d55074160f88ab67adbf4eadb32f450c2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/candidatos.stderr",
+      "bytes": 410,
+      "sha256": "048d4b3083606a1ec123be71f386a1c49905caa61fc7e2ca58635977aeed2291"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/candidatos.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/completar.stderr",
+      "bytes": 5375,
+      "sha256": "763ea9a77347818a2518e7ecf73d6f7551eb0a1b8fc312d00ce0e6956067b271"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/completar.stdout",
+      "bytes": 4322,
+      "sha256": "d4455acd5a412c7894da28db0201a86d3b6a8e647717c360f389808039dbe608"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/contrato-almacen.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/contrato-almacen.stdout.log",
+      "bytes": 555,
+      "sha256": "86365be4345c31b172d89b1fb49cc253841b8dac778fc6816de395fba29bf4c5"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/correccion-v3.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/correccion-v3.stdout.log",
+      "bytes": 836,
+      "sha256": "22153021106e6e89732a9dafe63a340d0b78d2090c5b29914b7aee7d1b87e003"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diagnosticos-v2.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diagnosticos-v2.stdout",
+      "bytes": 2474,
+      "sha256": "45c68fb7ebdb6af8b2f87e79f0477c1a356086be53136e6e19dd7953a6a3fd99"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diagnosticos.stderr",
+      "bytes": 584,
+      "sha256": "ba51a18642e9239303e4eda6092ef1f8e6ad11e54e7df61803fbf96586cb3607"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diagnosticos.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diff-check.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diff-check.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/diff-final-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/identidades.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/identidades.stdout.log",
+      "bytes": 2237,
+      "sha256": "2a11d3dd5c1c68f69af64fc4605fb23fe14b71138fda663ddc3021bd2a1de63d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/inventario.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/inventario.stdout",
+      "bytes": 1555,
+      "sha256": "9fd3ed82916dab55940b959d891b7a9b006bc490156a97b7435a8f3baced99d4"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/offline-nuevas.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/logs/offline-nuevas.stdout.log",
+      "bytes": 11271,
+      "sha256": "5315b354e56d80b26cea29a248c98eb0e534556b91754d2dbd3d4f81f12f29f6"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/matriz-19-v3.json",
+      "bytes": 17783,
+      "sha256": "8ead5ba01f59f336cbad1c6614ddc135fdc667cbc9b6f123cd6573a44f42b3f2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/matriz-19.json",
+      "bytes": 17160,
+      "sha256": "89b1528b6cfad19f4db76bbd386f9cd4abd7e2791b1b15bba62f5db42256197b"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10645871597.zip",
+      "bytes": 6815794,
+      "sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10695433906.zip",
+      "bytes": 3350302,
+      "sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10710105975.zip",
+      "bytes": 2860459,
+      "sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10819721995.zip",
+      "bytes": 11045048,
+      "sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10917135113.zip",
+      "bytes": 4318590,
+      "sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80"
+    },
+    {
+      "path": "docs/AUDITORIAS/F04_F10_20261009/resultados-cinco.json",
+      "bytes": 5304,
+      "sha256": "bab9a8e45dcb35e6a88d881483ee993094e504d1d57b73e7d0c4ba8a1590e9d1"
+    }
+  ]
+}

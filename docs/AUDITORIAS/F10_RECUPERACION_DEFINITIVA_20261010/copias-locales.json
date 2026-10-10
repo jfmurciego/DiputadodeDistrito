@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-10",
+  "origin": "bytes persistidos en checkout main",
+  "scope": "copias locales exactas de artefactos seleccionados",
+  "state": "EVIDENCE",
+  "predecessor": null,
+  "changes": "escaneo completo de ZIP existentes",
+  "reason": "recuperación alternativa sin red",
+  "zip_files_scanned": 67,
+  "matches": [
+    {
+      "artifact_id": 10917135113,
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10917135113.zip",
+      "sha256": "1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+      "bytes": 4318590
+    },
+    {
+      "artifact_id": 10819721995,
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10819721995.zip",
+      "sha256": "cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+      "bytes": 11045048
+    },
+    {
+      "artifact_id": 10710105975,
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10710105975.zip",
+      "sha256": "fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+      "bytes": 2860459
+    },
+    {
+      "artifact_id": 10645871597,
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10645871597.zip",
+      "sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+      "bytes": 6815794
+    },
+    {
+      "artifact_id": 10695433906,
+      "path": "docs/AUDITORIAS/F04_F10_20261009/originales/artifact-10695433906.zip",
+      "sha256": "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+      "bytes": 3350302
+    }
+  ]
+}

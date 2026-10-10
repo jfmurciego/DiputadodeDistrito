@@ -1,0 +1,7 @@
+2026-10-10: inventario completo del run 36273981926 devuelve además
+10917250160 y 10917245848, ambos ddd-source-package-36273981926.
+github_download_workflow_artifact devolvió referencias ZIP para ambos.
+curl --fail --silent --show-error --location --max-time 30 <referencia temporal> -o /private/tmp/f10-artifact-<id>.zip
+Ambas transferencias: exit 6, Could not resolve host: sdmntprnortheu.oaiusercontent.com.
+No bytes recuperados; no equivalencia, integridad ni elegibilidad atribuida.
+URLs firmadas omitidas. No reintentos, permisos adicionales ni descarga oficial.

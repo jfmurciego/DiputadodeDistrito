@@ -1,0 +1,102 @@
+[
+  {
+    "territory": "andalucia",
+    "id": 10819721995,
+    "name": "ddd-source-package-andalucia-2025-36020646219",
+    "size_in_bytes": 11045048,
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10819721995",
+    "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10819721995/zip",
+    "expired": false,
+    "created_at": "2026-09-24T16:07:25Z",
+    "expires_at": "2026-10-24T16:07:23Z",
+    "updated_at": "2026-09-24T16:07:25Z",
+    "digest": "sha256:cd93e9272e1b01421b03775167d17f1a52af4f56ba06d4d9d93b9e18737d6316",
+    "workflow_run": {
+      "id": 36020646219,
+      "repository_id": 1364937795,
+      "head_repository_id": 1364937795,
+      "head_branch": "main",
+      "head_sha": "45d005a7c4d40c23d17c477e0a10772f4054d60c"
+    }
+  },
+  {
+    "territory": "aragon",
+    "id": 10695433906,
+    "name": "ddd-source-package-aragon-2025-35728613828",
+    "size_in_bytes": 3350302,
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10695433906",
+    "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10695433906/zip",
+    "expired": false,
+    "created_at": "2026-09-22T13:09:00Z",
+    "expires_at": "2026-10-22T13:08:59Z",
+    "updated_at": "2026-09-22T13:09:00Z",
+    "digest": "sha256:df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+    "workflow_run": {
+      "id": 35728613828,
+      "repository_id": 1364937795,
+      "head_repository_id": 1364937795,
+      "head_branch": "main",
+      "head_sha": "7a37a00834d7614a21f02bb6d0f181d475aad5e2"
+    }
+  },
+  {
+    "territory": "castilla_y_leon",
+    "id": 10645871597,
+    "name": "ddd-source-package-castilla_y_leon-2025-35610439734",
+    "size_in_bytes": 6815794,
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10645871597",
+    "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10645871597/zip",
+    "expired": false,
+    "created_at": "2026-09-21T14:50:39Z",
+    "expires_at": "2026-10-21T14:50:38Z",
+    "updated_at": "2026-09-21T14:50:39Z",
+    "digest": "sha256:c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d",
+    "workflow_run": {
+      "id": 35610439734,
+      "repository_id": 1364937795,
+      "head_repository_id": 1364937795,
+      "head_branch": "main",
+      "head_sha": "0c516d79e2eaa36966deb016bcf57aafff9c4409"
+    }
+  },
+  {
+    "territory": "comunidad_valenciana",
+    "id": 10917135113,
+    "name": "ddd-source-package-comunidad_valenciana-2025-36273981926",
+    "size_in_bytes": 4318590,
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10917135113",
+    "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10917135113/zip",
+    "expired": false,
+    "created_at": "2026-09-26T21:45:40Z",
+    "expires_at": "2026-10-26T21:45:40Z",
+    "updated_at": "2026-09-26T21:45:40Z",
+    "digest": "sha256:1715db77c57252df764c1a89577ae95887c7d9a1e6ef5ead32e54a0138f18f80",
+    "workflow_run": {
+      "id": 36273981926,
+      "repository_id": 1364937795,
+      "head_repository_id": 1364937795,
+      "head_branch": "main",
+      "head_sha": "a16112f1d2bc7dcc23075efa9e9fbcb2a08e601d"
+    }
+  },
+  {
+    "territory": "extremadura",
+    "id": 10710105975,
+    "name": "ddd-source-package-extremadura-2025-35755043806",
+    "size_in_bytes": 2860459,
+    "url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10710105975",
+    "archive_download_url": "https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10710105975/zip",
+    "expired": false,
+    "created_at": "2026-09-22T17:14:22Z",
+    "expires_at": "2026-10-22T17:14:20Z",
+    "updated_at": "2026-09-22T17:14:22Z",
+    "digest": "sha256:fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347",
+    "workflow_run": {
+      "id": 35755043806,
+      "repository_id": 1364937795,
+      "head_repository_id": 1364937795,
+      "head_branch": "main",
+      "head_sha": "c9a22794414c0b4c2ccc33ff891cc6bccfa94466"
+    }
+  }
+]

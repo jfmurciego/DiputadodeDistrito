@@ -1,0 +1,54 @@
+{
+  "schema": "ddd.sources-work-checkpoint/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-09",
+  "front": "fuentes-oficiales",
+  "base_head": "7ce06043fe74102196152ad07ad17f47b1779a6b",
+  "F04": {
+    "formal_status": "PENDING_REVIEW",
+    "A": {
+      "territories": [
+        "andalucia",
+        "comunidad_valenciana",
+        "extremadura"
+      ],
+      "acceptance": "Entradas reales recuperadas; procedencia y años reales acreditados; SHA exterior/interior y cobertura territorial; compatibilidad contractual; receipts basados en operaciones reales",
+      "delivered": "3 recovered originals, 3 real recovery receipts, temporal-provenance and traceable candidate derivations"
+    },
+    "B": {
+      "territories": [
+        "aragon",
+        "castilla_y_leon"
+      ],
+      "acceptance": "Informes nuevos calculados por validador vigente sobre bytes reales; originales preservados; inventario vinculado; decisión y causas explícitas",
+      "delivered": "New actual-byte compatibility reports on Aragón/Castilla y León originals and local candidates"
+    },
+    "closure": "Sólo entregables materiales y revisión aceptada; auditoría por sí sola no cierra F04",
+    "material_status": "Five historical artifacts recovered; 5 new diagnostic BLOCKED reports; 5 local derived READY reports/packages awaiting separate review"
+  },
+  "F05": "Después de aceptación F04, separar adquisición y consumo sólo si hay cambio necesario",
+  "F06": "Identidades Cataluña/Murcia; respetar dependencia o proponer corrección a Work",
+  "F07": "Verificaciones entradas nuevas/rutas modificadas; reutilizar evidencia exacta previa",
+  "F08": "Consolidar procedencia, ediciones y elegibilidad sin promoción",
+  "F09": "Preparación local; CI/integración requiere autorización separada",
+  "F10": "No PASS sin integración/acreditación requerida",
+  "limits": [
+    "No repetir F01-F03",
+    "No otros frentes",
+    "No generación",
+    "No workflows",
+    "No push/PR/merge/publicación",
+    "No planificador nocturno",
+    "Descargas oficiales nuevas AUTHORIZATION_REQUIRED"
+  ],
+  "governance_missing": "DDD_GOBIERNO.md no localizado; ruta solicitada al propietario",
+  "review": "Sesión Codex separada en solo lectura sobre entrega congelada; máximo dos ciclos por causa",
+  "last_updated_date": "2026-10-10",
+  "derivation_criteria": [
+    "Only blank Total rows with keys outside exact frozen same-year section universe may be excluded",
+    "Never exclude numeric population or a target section; stop if encountered",
+    "Known numeric population conserved exactly; no cross-year mapping, imputation or geometry changes",
+    "New local identities and operation receipts; original artifact identities never assigned to derivative bytes",
+    "No candidate promotion into canonical catalogs or production"
+  ]
+}

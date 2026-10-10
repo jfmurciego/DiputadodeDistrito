@@ -1,0 +1,59 @@
+{
+  "catalog_edition": "2025",
+  "dataset_years": {
+    "population_year": 2025,
+    "section_year": 2025
+  },
+  "actual_facts": [
+    {
+      "role": "population",
+      "year": 2025,
+      "basis": "Distinct actual CSV Periodo; exact historical inventory/provenance edition agrees",
+      "rows": 1468,
+      "provinces": [
+        "22",
+        "44",
+        "50"
+      ],
+      "source_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907"
+    },
+    {
+      "role": "target_sectioning",
+      "year": 2025,
+      "basis": "Historical annual INE collection URLs plus signed archive inventory/provenance; not catalog edition or acquisition date",
+      "rows": 1463,
+      "provinces": [
+        "22",
+        "44",
+        "50"
+      ],
+      "crs": "EPSG:4326",
+      "invalid_geometry_count": 0,
+      "source_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52"
+    }
+  ],
+  "source_acquisition_dates": [
+    "2026-09-22T13:08:36.653186+00:00",
+    "2026-09-22T13:08:59.192017+00:00"
+  ],
+  "limitations": [
+    "Archive manifest acquired_at=unknown-acquisition-date preserved; use per-source provenance acquisition dates",
+    "No population/section years inferred from catalog edition"
+  ],
+  "transformations": [
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/65034.csv.zip",
+      "source_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+      "output_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+      "role": "population"
+    },
+    {
+      "operation": "Exact byte copy and role annotation for current validator",
+      "source_member": "materialized/inputs/seccionado_2025.zip",
+      "source_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+      "output_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+      "role": "target_sectioning"
+    }
+  ]
+}

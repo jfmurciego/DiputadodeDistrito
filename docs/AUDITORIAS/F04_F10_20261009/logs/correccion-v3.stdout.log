@@ -1,0 +1,5 @@
+{"territory": "andalucia", "validation": "PASS", "report_reused_exact": true, "package_sha256": "3f6d3104c6f22785053ae4c629f5c746f79b03dbc231d3ae24c720be76790e39"}
+{"territory": "aragon", "validation": "PASS", "report_reused_exact": true, "package_sha256": "0cf09615611fe7fa72b5945ebeb3a167baf4417d1e6163621564d03111647e4e"}
+{"territory": "castilla_y_leon", "validation": "PASS", "report_reused_exact": true, "package_sha256": "cab158102b5041353be90f029902152a2562d2bcdbf30bf48f414f96d876c2ba"}
+{"territory": "comunidad_valenciana", "validation": "PASS", "report_reused_exact": true, "package_sha256": "60a14d4a0eb3b2c7046e9ddc0660fb8d101b54242332bdfa7c88f0d5e076ed4d"}
+{"territory": "extremadura", "validation": "PASS", "report_reused_exact": true, "package_sha256": "2877aba40881a72f235e05ff5f9ea4dd873c38b0edd3524637eb045b95e916a2"}

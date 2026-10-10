@@ -1,0 +1,87 @@
+{
+  "schema": "ddd-source-materialization-declaration/1.1",
+  "territory_id": "andalucia",
+  "territory": "Andalucía",
+  "edition": 2025,
+  "environment": "local_review",
+  "acquisition_mode": "local_derived_candidate",
+  "materialization_root": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/materialized",
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "1f412dad04b428624a6f32fce88d02059f5157f2b94122af174533cb7423ceed",
+      "bytes": 68174,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/materialized/inputs/65034.csv.zip",
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/declaracion_materializacion.json",
+        "urls": [
+          "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "local_derived_candidate",
+      "local_derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "b5fdf5e16f90073851393f326ee1b9e03680811a4511a064ed0180830e5b469e",
+        "universe_source_sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029",
+        "excluded_records": 70,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      }
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029",
+      "bytes": 11050248,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/andalucia/original/bundle/declaracion_materializacion.json",
+        "urls": [
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "reused_original_bytes"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved",
+  "predecessor_document": {
+    "path": "docs/AUDITORIAS/F04_F10_20261009/andalucia/candidato-v2/declaracion_materializacion.json",
+    "sha256": "2ddd2c5fe2fff9cdc2e5926899d5167ec2029f5994de045d0d870a4e06d66cfc"
+  },
+  "original_environment": "production",
+  "original_acquisition_mode": "official_live",
+  "local_operation_at_utc": "2026-10-09T23:07:59.834611+00:00"
+}
