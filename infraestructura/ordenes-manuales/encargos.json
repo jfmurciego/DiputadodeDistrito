@@ -1,0 +1,29 @@
+{
+  "MADRID-M05": {
+    "front": "distritos-autonomicos",
+    "title": "Madrid: recuperar M05 exacto e identificar el hard=1",
+    "prompt_file": "prompts/MADRID-M05.md",
+    "role": "ejecutor",
+    "effort": "medium",
+    "depends_on": [],
+    "note": "Continuación del informe Madrid 2026-10-09. NO es la tarea A04 ni certifica A06."
+  },
+  "FUENTES-VERIFICAR": {
+    "front": "fuentes-oficiales",
+    "title": "Reproducir F02/F03 y conservar evidencia técnica",
+    "prompt_file": "prompts/FUENTES-VERIFICAR.md",
+    "role": "ejecutor",
+    "effort": "low",
+    "depends_on": [],
+    "note": "F02/F03 PASS técnicos locales, sin declarar F01 ni cierre formal."
+  },
+  "NACIONALES-DICTAMEN": {
+    "front": "distritos-nacionales",
+    "title": "Recuperar revisión nacional sin repetir análisis",
+    "prompt_file": "prompts/NACIONALES-DICTAMEN.md",
+    "role": "revisor",
+    "effort": "low",
+    "depends_on": [],
+    "note": "N02 revisión limitada, no constituye aprobación de N06 ni del producto nacional."
+  }
+}

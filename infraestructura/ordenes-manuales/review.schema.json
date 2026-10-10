@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DDD local independent review 1.1.0 (2026-10-10)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "task": {
+      "type": "string",
+      "minLength": 1
+    },
+    "delivery_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "head": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "NO_GO",
+        "WAIT_OWNER"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "const": "LOCAL_TECHNICAL_ONLY"
+    },
+    "criteria_passed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "task",
+    "delivery_sha256",
+    "head",
+    "verdict",
+    "scope",
+    "criteria_passed",
+    "findings",
+    "evidence"
+  ]
+}

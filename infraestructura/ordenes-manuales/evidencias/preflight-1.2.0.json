@@ -1,0 +1,24 @@
+{
+  "version": "1.2.0",
+  "name": "Preflight DDD auto",
+  "date": "2026-10-10",
+  "scope": "local transversal",
+  "state": "CHECKED_WITH_REMOTE_LIMIT",
+  "branch": "codex/ddd-auto-control",
+  "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "origin_main_cached": "d3a2238188d3f9acccfb8daf081157cf32be4c31",
+  "remote_check": "FAILED_DNS: git ls-remote origin refs/heads/main",
+  "plan_revision": "v2.1-plus-A-OPT-01-A-OPT-02",
+  "dag": "32 IDs; catalogue matches plan; acyclic",
+  "formal_inconsistency": "F05/F06 accepted while dependency F04 PENDING; preserved, formal acceptance gated",
+  "previous_work": "untracked infraestructura/ and tests/test_ddd_auto.py archived in legacy/1.1.0",
+  "policy": "Preserve predecessors; MINOR compatible; CI forbidden; no territorial behavior changed",
+  "plan_hashes": {
+    "plan.md": "195f5e4da9b93570bf9f087390ae894b94a8157c0e039247675879ae75ec5cbf",
+    "estado.json": "eb510fc24843270c351362fa760af7426a10c07cc52866ee073f329d47f85a85",
+    "eventos.jsonl": "5cc88207811bb596ec12dcc6ed9103bae9b7467dcdfe8b7049111e2085855361"
+  },
+  "git_staging": "ordinary git add successful; no override",
+  "preserved_patch": "ddd-1.1.0.patch staged exact; global diff --check detects3 historic whitespace lines; code-only check PASS",
+  "git_restore_staged": "DENIED Operation not permitted; no workaround attempted"
+}

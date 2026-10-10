@@ -1,0 +1,92 @@
+{
+  "version": "1.1.0",
+  "name": "DDD local auto pilot",
+  "date": "2026-10-10",
+  "scope": "F03 F04 offline; otros IDs esperan criterios y encargo de Work",
+  "status": "READY_FOR_REVIEW",
+  "changes": "nueva política técnica sin mutación formal",
+  "reason": "orden explícita de Work",
+  "origin": "32 tareas del catálogo manual",
+  "predecessor": null,
+  "authorized_local_tasks": [
+    "F03",
+    "F04"
+  ],
+  "formal_pending": [
+    "F01"
+  ],
+  "revalidate": [
+    "F02",
+    "F03",
+    "F04"
+  ],
+  "technical_seeds": {
+    "F02": {
+      "kind": "F02_14_OFFLINE",
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+      "sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6",
+      "repo": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales"
+    }
+  },
+  "tasks": {
+    "F03": {
+      "validate_existing": true,
+      "allowed_change_prefixes": [
+        "docs/AUDITORIAS/",
+        "herramientas/",
+        "tests/"
+      ],
+      "validators": [
+        {
+          "covers": [
+            0
+          ],
+          "local_only": true,
+          "argv": [
+            "{python}",
+            "{base}/validar_piloto.py",
+            "F03",
+            "--repo",
+            "{repo}",
+            "--output",
+            "{output}",
+            "--packet",
+            "{inputs}/F03.zip"
+          ]
+        }
+      ],
+      "inputs": {
+        "F03.zip": {
+          "path": "/Users/macbookpro/Downloads/DDD-F03-REVISION.zip",
+          "sha256": "f5153a19c5ebaf9aa149d2dc4f763ff13905ec41b3db9878e8fdbe24a3bcaee8"
+        }
+      }
+    },
+    "F04": {
+      "validate_existing": true,
+      "allowed_change_prefixes": [
+        "docs/AUDITORIAS/",
+        "herramientas/",
+        "tests/"
+      ],
+      "validators": [
+        {
+          "covers": [
+            0
+          ],
+          "local_only": true,
+          "argv": [
+            "{python}",
+            "{base}/validar_piloto.py",
+            "F04",
+            "--repo",
+            "{repo}",
+            "--output",
+            "{output}"
+          ]
+        }
+      ],
+      "inputs": {}
+    }
+  }
+}

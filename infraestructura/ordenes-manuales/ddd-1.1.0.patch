@@ -1,0 +1,1270 @@
+--- a/ordenes-manuales/ddd.py
++++ b/ordenes-manuales/ddd.py
+@@ -1,5 +1,8 @@
+ #!/usr/bin/env python3
+-"""Lanzador manual DDD; nunca encadena tareas ni sustituye el gobierno del proyecto."""
++"""DDD 1.1.0 — 2026-10-10, controlador local candidato.
++Cambio: auto con pruebas, revisión separada y diario; motivo: campaña local autónoma.
++Origen/predecesor: legacy/1.0.0/ddd.py. No concede autoridad productiva.
++"""
+ import argparse
+ import datetime
+ import fcntl
+@@ -140,6 +143,15 @@
+ 
+ 
+ def run(name, rerun=False):
++    from ddd_auto import worktree_lock
++    t = EXTRA.get(name) or TASKS.get(name)
++    if t is None:
++        raise RuntimeError('Tarea desconocida')
++    with worktree_lock(real_repo(t['front'])):
++        return run_manual(name, rerun)
++
++
++def run_manual(name, rerun=False):
+     if name not in EXTRA and name not in TASKS:raise RuntimeError('Tarea desconocida. Usa ddd list')
+     is_extra=name in EXTRA
+     t=EXTRA[name] if is_extra else TASKS[name]
+@@ -191,7 +203,8 @@
+         except BlockingIOError:raise RuntimeError('OTRA TAREA DDD MANUAL ACTIVA: espera a que termine.')
+         print('INICIO; log:',out)
+         started=time.monotonic(); q=queue.Queue(); usage={'input_tokens':0,'cached_input_tokens':0,'output_tokens':0,'total_tokens':0,'turns_reported':0}
+-        pr=subprocess.Popen(cmd,cwd=p,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=1,text=True,start_new_session=True)
++        from ddd_auto import ACTIVE_LOCKS
++        pr=subprocess.Popen(cmd,cwd=p,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=1,text=True,start_new_session=True,pass_fds=tuple(ACTIVE_LOCKS))
+         pr.stdin.write(pre+scope);pr.stdin.close()
+         def read():
+             for ln in pr.stdout:q.put(ln)
+@@ -244,8 +257,16 @@
+     sub.add_parser('list');sub.add_parser('history')
+     show=sub.add_parser('show');show.add_argument('name')
+     go=sub.add_parser('run');go.add_argument('name');go.add_argument('--rerun',action='store_true',help='Repetir explícitamente una tarea que ya se ejecutó con este lanzador')
++    auto=sub.add_parser('auto',help='Campaña local con dependencias técnicas y revisión por entrega')
++    auto.add_argument('tasks',nargs='*',help='IDs; por defecto los 32 del catálogo')
++    auto.add_argument('--dry-run',action='store_true',help='Solo lectura, cero Codex')
++    auto.add_argument('--policy',type=Path,default=BASE/'auto-policy.json')
++    auto.add_argument('--resume',help='Identidad de campaña; nunca repite intentos')
+     a=parser.parse_args()
+     try:
++        if a.cmd=='auto':
++            from ddd_auto import campaign
++            return campaign(sys.modules[__name__],a)
+         if a.cmd=='list':print_catalog()
+         elif a.cmd=='show':print_info(a.name)
+         elif a.cmd=='history':
+@@ -254,7 +275,7 @@
+             for x in h:print(f'{x["date_utc"]} {x["task"]} {x["result"]} {x["seconds"]}s {x["usage"]["total_tokens"]} tokens')
+         else:return run(a.name,a.rerun)
+         return 0
+-    except (RuntimeError,EOFError,KeyboardInterrupt) as ex:
++    except (RuntimeError,OSError,ValueError,EOFError,KeyboardInterrupt) as ex:
+         print('\nNO EJECUTADO / DETENIDO:',ex,file=sys.stderr)
+         return 2
+ 
+--- /dev/null
++++ b/ordenes-manuales/ddd_auto.py
+@@ -0,0 +1,551 @@
++"""DDD auto 1.1.0; 2026-10-10; local candidate, no production authority.
++New module of ddd, origin: manual launcher 1.0.0. Append-only attempts,
++technical dependencies, deterministic gates and separate read-only review.
++"""
++import contextlib
++import datetime
++import fcntl
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import shutil
++import signal
++import subprocess
++import tempfile
++import time
++import uuid
++
++TERMINAL = {'TECH_PASS', 'BLOCKED', 'REVIEW_NO_GO', 'WAIT_OWNER'}
++RESERVED = {'F01', 'N01'}
++ACTIVE_LOCKS = []
++
++
++def digest(path):
++    h = hashlib.sha256()
++    with Path(path).open('rb') as f:
++        for block in iter(lambda: f.read(1024 * 1024), b''):
++            h.update(block)
++    return h.hexdigest()
++
++
++def load(path):
++    return json.loads(Path(path).read_text())
++
++
++def write_new(path, value):
++    with Path(path).open('x', encoding='utf-8') as f:
++        json.dump(value, f, ensure_ascii=False, indent=2)
++        f.write('\n'); f.flush(); os.fsync(f.fileno())
++
++
++def read_events(path):
++    if not path.exists():
++        return []
++    # Corrupt journals fail closed: never silently forget a STARTED attempt.
++    events = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
++    if any(not isinstance(e, dict) or 'task' not in e for e in events):
++        raise ValueError('Registro de historial/diario inválido')
++    return events
++
++
++def append(path, value):
++    value = dict(value, date_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
++    with path.open('a', encoding='utf-8') as f:
++        f.write(json.dumps(value, ensure_ascii=False) + '\n')
++        f.flush(); os.fsync(f.fileno())
++
++
++@contextlib.contextmanager
++def lock(path):
++    path.parent.mkdir(parents=True, exist_ok=True)
++    with path.open('a+') as f:
++        try:
++            fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
++        except BlockingIOError:
++            raise RuntimeError(f'Concurrencia bloqueada: {path}')
++        ACTIVE_LOCKS.append(f.fileno())
++        try:
++            yield
++        finally:
++            ACTIVE_LOCKS.remove(f.fileno())
++
++
++def worktree_lock(repo):
++    # Independent of launcher DATA and identical for manual and auto.
++    key = hashlib.sha256(str(Path(repo).resolve()).encode()).hexdigest()
++    return lock(Path(tempfile.gettempdir()) / 'ddd-worktree-locks' / (key + '.lock'))
++
++
++def graph(tasks):
++    visited, active = set(), set()
++    def visit(tid):
++        if tid in active:
++            raise ValueError('Ciclo de dependencias: ' + tid)
++        if tid not in tasks:
++            raise ValueError('Dependencia desconocida: ' + tid)
++        if tid in visited:
++            return
++        active.add(tid)
++        for dep in tasks[tid]['depends_on']:
++            visit(dep)
++        active.remove(tid); visited.add(tid)
++    for tid in tasks:
++        visit(tid)
++
++
++def seed_status(policy):
++    out = {}
++    for tid, seed in policy.get('technical_seeds', {}).items():
++        try:
++            p = Path(seed['path']).expanduser()
++            if digest(p) != seed['sha256'] or seed['kind'] != 'F02_14_OFFLINE' or tid != 'F02':
++                raise ValueError('Credencial F02 inválida')
++            x = load(p)
++            rows = x['rows']
++            if len(rows) != 14 or len({r['territory_id'] for r in rows}) != 14:
++                raise ValueError('F02 exige 14 identidades únicas')
++            if x['originals_unchanged'] is not True or x['network'] != 'FORBIDDEN':
++                raise ValueError('F02 sin integridad/sin red')
++            for r in rows:
++                for c in ('F02_inventory_receipt_origin', 'F02_bytes_hashes_editions'):
++                    if r['controls'][c] != 'PASS':
++                        raise ValueError('F02 no acreditado')
++                if digest(r['artifact_path']) != r['artifact_sha256']:
++                    raise ValueError('Bytes F02 cambiaron: ' + r['territory_id'])
++                receipt = Path(seed['repo']).expanduser() / r['receipt_path']
++                if digest(receipt) != r['details']['F02_inventory_receipt_origin']['receipt_sha256']:
++                    raise ValueError('Receipt F02 cambió')
++            out[tid] = {'state': 'TECH_PASS', 'evidence': str(p), 'sha256': seed['sha256'],
++                        'scope': '14 paquetes offline; no cierre formal ni generación'}
++        except (OSError, ValueError, KeyError, TypeError) as e:
++            out[tid] = {'state': 'BLOCKED', 'reason': str(e)}
++    return out
++
++
++def criteria(task, policy):
++    spec = policy.get('tasks', {}).get(task['id'], {})
++    checks = spec.get('validators', [])
++    covered = {c for v in checks for c in v.get('covers', [])}
++    expected = set(range(len(task['acceptance'])))
++    sufficient = bool(checks) and covered == expected and all(
++        v.get('argv') and v.get('local_only') is True for v in checks)
++    return spec, sufficient
++
++
++def assess(app, selected, policy, events):
++    formal = app.local_plan_status()
++    seeds = seed_status(policy)
++    latest = {e['task']: e for e in events if 'task' in e}
++    historic = {h['task']: h for h in read_events(app.DATA/'historial.jsonl') if 'task' in h}
++    states = {}
++    for tid, task in app.TASKS.items():
++        previous = latest.get(tid)
++        if previous:
++            states[tid] = previous.get('state', 'BLOCKED')
++        elif tid in policy.get('formal_pending', []):
++            states[tid] = 'WAIT_OWNER'
++        elif formal.get(tid) == 'PASS' and tid not in policy.get('revalidate', []):
++            states[tid] = 'FORMAL_PASS'
++        elif seeds.get(tid, {}).get('state') == 'TECH_PASS':
++            states[tid] = 'TECH_PASS'
++        else:
++            states[tid] = 'PENDING'
++    rows = []
++    for tid in selected:
++        t = app.TASKS[tid]
++        spec, sufficient = criteria(t, policy)
++        deps = [{'task': d, 'state': states[d], 'external_to_batch': d not in selected,
++                 'satisfied': states[d] in ('TECH_PASS', 'FORMAL_PASS')}
++                for d in t['depends_on']]
++        ancestors = set()
++        def collect(node):
++            for dep in app.TASKS[node]['depends_on']:
++                if dep not in ancestors:
++                    ancestors.add(dep); collect(dep)
++        collect(tid)
++        formal_pending = sorted(d for d in ancestors if formal.get(d) != 'PASS' or d in policy.get('formal_pending', []))
++        pending = [d['task'] for d in deps if not d['satisfied']]
++        reasons = []
++        state = states[tid]
++        if tid in latest:
++            reasons.append('Intento anterior conservado; sin repetición automática')
++            if state == 'STARTED':
++                state = 'BLOCKED'; reasons.append('Intento interrumpido; requiere decisión humana')
++        elif state in ('TECH_PASS', 'FORMAL_PASS'):
++            reasons.append('Ya acreditada; se conserva evidencia')
++        elif t['execution'] == 'approval' or tid in RESERVED or tid in policy.get('formal_pending', []):
++            state = 'WAIT_OWNER'; reasons.append('Autoridad humana reservada')
++        elif tid not in policy.get('authorized_local_tasks', []):
++            state = 'WAIT_OWNER'; reasons.append('Sin encargo local autorizado en la política de campaña')
++        elif pending:
++            state = 'BLOCKED'; reasons.append('Dependencias técnicas ausentes: ' + ', '.join(pending))
++        elif not sufficient:
++            state = 'BLOCKED'; reasons.append('Criterios ejecutables insuficientes')
++        elif tid in historic and historic[tid].get('result') != 'DONE_REVIEW':
++            state = 'WAIT_OWNER'; reasons.append('Intento manual fallido; no retry automático')
++        else:
++            state = 'ENABLED'
++        rows.append({'task': tid, 'state': state, 'reasons': reasons, 'dependencies': deps,
++                     'formal_dependencies_pending': formal_pending,
++                     'mode': 'validate_existing' if tid in historic or spec.get('validate_existing') else 'execute'})
++    return rows, seeds
++
++
++def run_process(argv, cwd, prompt, logfile, timeout, stop_process):
++    started = time.monotonic()
++    env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
++    with logfile.open('x') as log:
++        p = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.PIPE if prompt is not None else subprocess.DEVNULL,
++                             stdout=log, stderr=subprocess.STDOUT, text=True, start_new_session=True,
++                             pass_fds=tuple(ACTIVE_LOCKS))
++        write_new(logfile.with_suffix('.process.json'), {'pid': p.pid, 'argv': argv, 'cwd': str(cwd)})
++        try:
++            p.communicate(input=prompt, timeout=timeout)
++        except subprocess.TimeoutExpired:
++            stop_process(p)
++            return {'argv': argv, 'exit_code': p.returncode, 'timeout': True, 'seconds': time.monotonic()-started}
++        except BaseException:
++            stop_process(p)
++            raise
++    return {'argv': argv, 'exit_code': p.returncode, 'timeout': False, 'seconds': time.monotonic()-started}
++
++
++def codex_cmd(app, role, schema=None, output=None):
++    sandbox = 'workspace-write' if role == 'executor' else 'read-only'
++    effort = app.CFG['esfuerzo_ejecutor' if role == 'executor' else 'esfuerzo_revisor']
++    cmd = [app.CFG['codex_bin'], '--sandbox', sandbox, '--ask-for-approval', 'never',
++           '-c', f'model_reasoning_effort={effort}', '-c', 'sandbox_workspace_write.network_access=false',
++           'exec', '--json', '--ephemeral']
++    if schema:
++        cmd += ['--skip-git-repo-check', '--output-schema', str(schema), '--output-last-message', str(output)]
++    return cmd + ['-']
++
++
++def session_id(logfile):
++    ids = []
++    completed = False
++    for line in logfile.read_text().splitlines():
++        try:
++            v = json.loads(line)
++        except ValueError:
++            continue
++        if v.get('type') == 'thread.started':
++            ids.append(v.get('thread_id'))
++        if v.get('type') in ('turn.failed', 'error'):
++            raise ValueError('Codex emitió error aunque el proceso terminara')
++        if v.get('type') == 'turn.completed':
++            completed = True
++    if len(ids) != 1 or not ids[0] or not completed:
++        raise ValueError('No existe identidad inequívoca de sesión Codex')
++    return ids[0]
++
++
++def repo_files(app, repo):
++    raw = subprocess.check_output(['git', '-C', str(repo), 'ls-files', '-z', '--cached', '--others', '--exclude-standard'])
++    out = {}
++    for name in set(raw.decode().split('\0')) - {''}:
++        path = repo / name
++        if path.is_symlink():
++            raise ValueError('Entrega con enlaces no admitida: ' + name)
++        if path.is_file():
++            out[name] = digest(path)
++    return out
++
++
++def copy_tree(repo, target, files):
++    target.mkdir()
++    for name, expected in files.items():
++        source = repo / name
++        dest = target / name
++        dest.parent.mkdir(parents=True, exist_ok=True)
++        shutil.copy2(source, dest)
++        if digest(dest) != expected:
++            raise ValueError('Archivo cambió durante captura: ' + name)
++
++
++def manifest_files(root):
++    return {str(p.relative_to(root)): digest(p) for p in sorted(root.rglob('*')) if p.is_file()}
++
++
++def seal(root):
++    for p in root.rglob('*'):
++        p.chmod(0o555 if p.is_dir() else (0o555 if os.access(p, os.X_OK) else 0o444))
++    root.chmod(0o555)
++
++
++def validate_schema(value, schema, location='$'):
++    """Closed JSON Schema subset used by review.schema.json; unsupported keywords fail."""
++    supported = {'$schema', 'title', 'type', 'properties', 'required', 'additionalProperties',
++                 'enum', 'const', 'items', 'minItems', 'minLength', 'pattern'}
++    if set(schema) - supported:
++        raise ValueError('Keyword de esquema no soportado')
++    types = {'object': dict, 'array': list, 'string': str, 'boolean': bool}
++    if 'type' in schema and not isinstance(value, types[schema['type']]):
++        raise ValueError('Tipo inválido en ' + location)
++    if 'enum' in schema and value not in schema['enum']:
++        raise ValueError('Enum inválido en ' + location)
++    if 'const' in schema and value != schema['const']:
++        raise ValueError('Const inválido en ' + location)
++    if isinstance(value, dict):
++        props = schema.get('properties', {})
++        if set(schema.get('required', [])) - set(value):
++            raise ValueError('Campos requeridos ausentes en ' + location)
++        if schema.get('additionalProperties') is False and set(value) - set(props):
++            raise ValueError('Campos desconocidos en ' + location)
++        for k, v in value.items():
++            if k in props:
++                validate_schema(v, props[k], location + '.' + k)
++    if isinstance(value, list):
++        if len(value) < schema.get('minItems', 0):
++            raise ValueError('Array vacío en ' + location)
++        for v in value:
++            validate_schema(v, schema.get('items', {}), location + '[]')
++    if isinstance(value, str):
++        if len(value) < schema.get('minLength', 0) or ('pattern' in schema and not re.search(schema['pattern'], value)):
++            raise ValueError('Cadena inválida en ' + location)
++
++
++def check_review(verdict, schema, task, bundle_hash, head, files):
++    validate_schema(verdict, schema)
++    if verdict['task'] != task['id'] or verdict['delivery_sha256'] != bundle_hash or verdict['head'] != head:
++        raise ValueError('Dictamen de otra entrega')
++    if any(p not in files for p in verdict['evidence']):
++        raise ValueError('Referencia de evidencia fuera de entrega')
++    if verdict['verdict'] == 'PASS':
++        if verdict['findings'] or set(verdict['criteria_passed']) != set(task['acceptance']):
++            raise ValueError('PASS sin todos los criterios o con hallazgos')
++    if verdict['verdict'] == 'NO_GO' and not verdict['findings']:
++        raise ValueError('NO_GO sin hallazgo')
++
++
++def capture_failure(app, task, folder, record):
++    """Collect actual partial bytes/HEAD even if Codex's event stream is broken."""
++    try:
++        repo = app.real_repo(task['front'])
++        files = repo_files(app, repo)
++        baseline = load(folder/'before.json')['files'] if (folder/'before.json').exists() else {}
++        record.update(head_end=app.git(repo, 'rev-parse', 'HEAD'),
++                      changes=sorted(n for n in set(baseline) | set(files) if baseline.get(n) != files.get(n)))
++        partial = folder/'failure-delivery'; partial.mkdir()
++        copy_tree(repo, partial/'tree', files)
++        write_new(partial/'capture.json', {'head': record['head_end'], 'files': files,
++                  'status': app.git(repo, 'status', '--porcelain'), 'diff': app.git(repo, 'diff', 'HEAD', '--binary')})
++        seal(partial)
++        record['partial_delivery'] = str(partial)
++    except (OSError, ValueError, RuntimeError, KeyError) as e:
++        record['capture_error'] = str(e)
++
++
++def attempt(app, row, policy, folder, journal):
++    tid = row['task']; task = app.TASKS[tid]; spec, _ = criteria(task, policy)
++    folder.mkdir()
++    append(journal, {'task': tid, 'state': 'STARTED', 'attempt': str(folder), 'dependencies': row['dependencies']})
++    record = {'task': tid, 'front': task['front'], 'dependencies': row['dependencies'], 'attempt': str(folder), 'mode': row['mode']}
++    try:
++        repo, head, dirty = app.verify_repo(task['front'])
++        before = repo_files(app, repo)
++        record.update(head_start=head, dirty_start=dirty)
++        write_new(folder/'before.json', {'head': head, 'status': dirty, 'files': before,
++                                        'diff': app.git(repo, 'diff', 'HEAD', '--binary')})
++        executor_id = None
++        if row['mode'] == 'execute':
++            # Existing modifications cannot be attributed safely to this attempt.
++            if dirty:
++                previous = [e for e in read_events(journal) if e.get('front') == task['front'] and e.get('worktree_files')]
++                checkpoint = previous[-1] if previous else {}
++                if checkpoint.get('worktree_files') != before or checkpoint.get('head_end') != head:
++                    raise ValueError('Worktree sucio sin checkpoint propio: conservar y someter a decisión humana')
++            prompt = app.prompt_master(task) + '\nModo AUTO: no preguntes al propietario entre tareas. No encadenes. No cambies Plan, historial ni política del controlador. No hagas commit; el controlador captura la entrega. No ejecutes tareas productivas, red, push, PR, merge o publicación.\n'
++            write_new(folder/'executor-prompt.json', {'prompt': prompt})
++            result = run_process(codex_cmd(app, 'executor'), repo, prompt, folder/'executor.jsonl',
++                                 app.CFG['segundos_maximos'], app.stop_process)
++            record['executor'] = result
++        after = repo_files(app, repo)
++        record['worktree_files'] = after
++        record['head_end'] = app.git(repo, 'rev-parse', 'HEAD')
++        changes = sorted(n for n in set(before) | set(after) if before.get(n) != after.get(n))
++        record['changes'] = changes
++        delivery = folder/'delivery'; delivery.mkdir()
++        copy_tree(repo, delivery/'tree', after)
++        write_new(delivery/'changes.json', dict(record, files=after, diff=app.git(repo, 'diff', head, '--binary')))
++        shutil.copy2(folder/'before.json', delivery/'before.json')
++        verified_seeds = seed_status(policy)
++        for dependency in row['dependencies']:
++            if dependency['task'] in verified_seeds and verified_seeds[dependency['task']]['state'] != 'TECH_PASS':
++                raise ValueError('Credencial de dependencia cambió durante ejecución')
++        write_new(delivery/'dependencies.json', {'technical': row['dependencies'],
++                  'formal_pending': row['formal_dependencies_pending'], 'seeds': verified_seeds})
++        inputs = delivery/'inputs'; inputs.mkdir()
++        for seed_id, seed in verified_seeds.items():
++            if seed['state'] == 'TECH_PASS':
++                shutil.copy2(seed['evidence'], inputs/(seed_id+'-seed.json'))
++                if digest(inputs/(seed_id+'-seed.json')) != seed['sha256']:
++                    raise ValueError('Credencial cambió durante captura')
++        controller = delivery/'controller'; controller.mkdir()
++        for name in ('ddd_auto.py', 'validar_piloto.py', 'review.schema.json'):
++            shutil.copy2(app.BASE/name, controller/name)
++        write_new(controller/'policy.json', policy)
++        for name, item in spec.get('inputs', {}).items():
++            if not re.fullmatch(r'[a-zA-Z0-9_.-]+', name):
++                raise ValueError('Nombre de entrada inválido')
++            source = Path(item['path']).expanduser()
++            if digest(source) != item['sha256']:
++                raise ValueError('Entrada cambió: ' + name)
++            shutil.copy2(source, inputs/name)
++            if digest(inputs/name) != item['sha256']:
++                raise ValueError('Entrada cambió durante captura')
++        if executor_id:
++            shutil.copy2(folder/'executor.jsonl', delivery/'executor.jsonl')
++        elif (folder/'executor.jsonl').exists():
++            shutil.copy2(folder/'executor.jsonl', delivery/'executor.jsonl')
++        if repo_files(app, repo) != after:
++            raise ValueError('Worktree cambió durante captura')
++        if row['mode'] == 'execute' and (result['exit_code'] != 0 or result['timeout']):
++            raise ValueError('Ejecutor falló o agotó tiempo')
++        if row['mode'] == 'execute':
++            executor_id = session_id(folder/'executor.jsonl')
++        if record['head_end'] != head:
++            raise ValueError('Ejecutor cambió HEAD; revisión de alcance requerida')
++        prefixes = spec.get('allowed_change_prefixes', ['docs/AUDITORIAS/', 'tests/', 'herramientas/'])
++        if any(not any(n.startswith(p) for p in prefixes) for n in changes):
++            raise ValueError('Cambios fuera del alcance local')
++        tests = []
++        for i, validator in enumerate(spec['validators']):
++            variables = {'python': app.CFG['python_gis'], 'base': str(controller), 'repo': str(delivery/'tree'), 'inputs': str(inputs),
++                         'output': str(delivery/f'validator-{i}.json')}
++            argv = [s.format(**variables) for s in validator['argv']]
++            r = run_process(argv, delivery/'tree', None, delivery/f'validator-{i}.log',
++                            app.CFG['segundos_maximos'], app.stop_process)
++            r['covers'] = validator['covers']; tests.append(r)
++        write_new(delivery/'tests.json', tests); record['tests'] = tests
++        if repo_files(app, repo) != after:
++            raise ValueError('El worktree cambió durante pruebas')
++        if seed_status(policy) != verified_seeds:
++            raise ValueError('Credencial de dependencia cambió durante pruebas')
++        if manifest_files(delivery/'tree') != after:
++            raise ValueError('Validador alteró la entrega')
++        files = manifest_files(delivery)
++        write_new(folder/'delivery-manifest.json', {'task': tid, 'head': record['head_end'], 'files': files})
++        bundle_hash = digest(folder/'delivery-manifest.json'); record['delivery_sha256'] = bundle_hash
++        seal(delivery)
++        if any(t['exit_code'] != 0 or t['timeout'] for t in tests):
++            raise ValueError('Validadores deterministas fallidos; sin TECH_PASS')
++        record['technical_validation'] = 'TECH_PASS'
++        schema_path = folder/'review.schema.json'
++        shutil.copy2(app.BASE/'review.schema.json', schema_path)
++        review_prompt = (f'Actúa como Revisor DDD en sesión separada, solo lectura. Work dirige. '
++                         f'Tarea {tid}: {task["title"]}. Criterios: {json.dumps(task["acceptance"],ensure_ascii=False)}. '
++                         f'Entrega congelada {delivery}; manifiesto {folder/"delivery-manifest.json"}; '
++                         f'SHA256 del manifiesto {bundle_hash}; HEAD {record["head_end"]}. '
++                         'Lee cambios, contexto, pruebas y evidencias. Revisa cada criterio y casos negativos. '
++                         'No ejecutes tests, código del paquete, red, producción, push, PR, merge ni publicación. '
++                         'No modifiques nada. PASS es solo técnico local, nunca formal. '
++                         'Devuelve exclusivamente JSON conforme al esquema. Referencia evidencia con rutas relativas a delivery. '
++                         'Si falta prueba esencial: NO_GO. Si requiere autoridad humana: WAIT_OWNER.')
++        write_new(folder/'review-prompt.json', {'prompt': review_prompt})
++        result = run_process(codex_cmd(app, 'reviewer', schema_path, folder/'review.json'), delivery,
++                             review_prompt, folder/'reviewer.jsonl', app.CFG['segundos_maximos'], app.stop_process)
++        record['reviewer'] = result
++        reviewer_id = session_id(folder/'reviewer.jsonl')
++        record.update(executor_session=executor_id, reviewer_session=reviewer_id)
++        if reviewer_id == executor_id or result['exit_code'] != 0 or result['timeout']:
++            raise ValueError('Revisión no completada o sin separación')
++        if digest(folder/'delivery-manifest.json') != bundle_hash or manifest_files(delivery) != files:
++            raise ValueError('Entrega alterada durante revisión')
++        verdict = load(folder/'review.json')
++        check_review(verdict, load(schema_path), task, bundle_hash, record['head_end'], files)
++        record['review'] = verdict
++        record['state'] = {'PASS': 'TECH_PASS', 'NO_GO': 'REVIEW_NO_GO', 'WAIT_OWNER': 'WAIT_OWNER'}[verdict['verdict']]
++    except KeyboardInterrupt:
++        record.update(state='BLOCKED', reason='INTERRUPTED; sin repetición automática')
++        capture_failure(app, task, folder, record)
++        write_new(folder/'result.json', record)
++        write_new(folder/'evidence-hashes.json', manifest_files(folder)); append(journal, record)
++        raise
++    except (OSError, ValueError, KeyError, RuntimeError, TypeError) as e:
++        record.update(state='BLOCKED', reason=str(e))
++        capture_failure(app, task, folder, record)
++    write_new(folder/'result.json', record)
++    # Failed attempts retain partial logs as well, with their own final hash list.
++    write_new(folder/'evidence-hashes.json', manifest_files(folder))
++    append(journal, record)
++    return record
++
++
++def campaign(app, args):
++    def interrupted(signum, frame):
++        raise KeyboardInterrupt('Signal ' + str(signum))
++    old = signal.signal(signal.SIGTERM, interrupted)
++    try:
++        return run_campaign(app, args)
++    finally:
++        signal.signal(signal.SIGTERM, old)
++
++
++def run_campaign(app, args):
++    graph(app.TASKS)
++    selected = args.tasks or list(app.TASKS)
++    if len(set(selected)) != len(selected) or any(t not in app.TASKS for t in selected):
++        raise ValueError('IDs desconocidos o repetidos')
++    policy = load(args.policy)
++    root = app.DATA/'auto'; journal = root/'eventos.jsonl'
++    events = read_events(journal)
++    rows, seeds = assess(app, selected, policy, events)
++    if args.dry_run:
++        for row in rows:
++            print(json.dumps(row, ensure_ascii=False))
++        print('F01: pendiente formal en esta campaña; Plan e historial conservados. Cero Codex.')
++        return 0
++    root.mkdir(parents=True, exist_ok=True)
++    with lock(root/'.controller.lock'):
++        events = read_events(journal)
++        if args.resume:
++            if not re.fullmatch(r'[a-zA-Z0-9_-]+', args.resume):
++                raise ValueError('Identidad de campaña inválida')
++            folder = root/args.resume
++            original = load(folder/'campaign.json')
++            if (original['selected'] != selected or original['policy'] != policy or
++                original['catalog'] != app.CAT or original['parameters'] != app.CFG):
++                raise ValueError('Reanudar requiere el mismo lote, política, catálogo y parámetros')
++        else:
++            stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8]
++            folder = root/stamp; folder.mkdir()
++            write_new(folder/'campaign.json', {'selected': selected, 'policy': policy, 'catalog': app.CAT,
++                       'parameters': app.CFG, 'plan_states': app.local_plan_status(), 'technical_seeds': seeds,
++                       'legacy_history_sha256': digest(app.DATA/'historial.jsonl') if (app.DATA/'historial.jsonl').exists() else None})
++        # A persisted STARTED is a spent attempt, even after SIGKILL.
++        latest = {e['task']: e for e in events if 'task' in e}
++        for tid, e in latest.items():
++            if e.get('state') == 'STARTED':
++                append(journal, dict(e, state='BLOCKED', reason='INTERRUPTED_OR_ORPHAN; requiere decisión humana'))
++        print('CAMPAÑA', folder.name, flush=True)
++        deferred = {}
++        while True:
++            rows, seeds = assess(app, selected, policy, read_events(journal))
++            rows = [dict(r, state='BLOCKED', reasons=[deferred[r['task']]]) if r['task'] in deferred else r for r in rows]
++            enabled = next((r for r in rows if r['state'] == 'ENABLED'), None)
++            if enabled is None:
++                break
++            t = app.TASKS[enabled['task']]
++            # Also interlock installed legacy manual/batch controllers.
++            try:
++                with contextlib.ExitStack() as stack:
++                    stack.enter_context(worktree_lock(app.real_repo(t['front'])))
++                    stack.enter_context(lock(app.DATA/f'.manual-{t["front"]}.lock'))
++                    stack.enter_context(lock(app.DATA/f'.batch-{t["front"]}.lock'))
++                    result = attempt(app, enabled, policy, folder/enabled['task'], journal)
++                    print(enabled['task'], result['state'], result.get('reason', ''), flush=True)
++            except RuntimeError as e:
++                # Not attempted: preserve availability for a later campaign.
++                deferred[enabled['task']] = str(e)
++        summary = {'campaign': folder.name, 'tasks': rows, 'technical_seeds': seeds,
++                   'formal_reservations': policy.get('formal_pending', []), 'production_authorized': False}
++        # Each resumption adds a new summary; prior evidence is never rewritten.
++        output = folder/('summary-' + uuid.uuid4().hex + '.json')
++        write_new(output, summary)
++        print('RESUMEN', output)
++        for row in rows:
++            print(row['task'], row['state'], '; '.join(row['reasons']))
++        return 0 if all(r['state'] in ('TECH_PASS', 'FORMAL_PASS') for r in rows) else 1
+--- /dev/null
++++ b/ordenes-manuales/validar_piloto.py
+@@ -0,0 +1,153 @@
++"""DDD validators 1.1.0, 2026-10-10; offline evidence only, candidate.
++Origin: existing handoff/consumer and prepared package validators. No predecessor.
++Never runs territorial stages or scripts supplied by the executor.
++"""
++import argparse
++import copy
++import hashlib
++import importlib
++import json
++from pathlib import Path
++import socket
++import sys
++import tempfile
++from unittest.mock import patch
++import zipfile
++
++sys.dont_write_bytecode = True
++
++
++def require(condition, message):
++    if not condition:
++        raise ValueError(message)
++
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def read(p):
++    return json.loads(Path(p).read_text())
++
++
++def f03(packet):
++    prefix = 'DDD-F03-handoffs-20261009/'
++    results = []
++    with zipfile.ZipFile(packet) as z, tempfile.TemporaryDirectory(prefix='ddd-auto-handoff-') as tmp:
++        require(len(z.namelist()) == len(set(z.namelist())), 'Miembros ZIP duplicados')
++        for line in z.read(prefix+'SHA256SUMS').decode().splitlines():
++            expected, name = line.split('  ', 1)
++            require(sha(z.read(prefix+name)) == expected, 'SHA histórico contradictorio: '+name)
++        for case, territory, run in [('F03-H1-cantabria','cantabria',37318299003),
++                                    ('F03-H2-canarias','canarias',37596900111)]:
++            case_root = Path(tmp)/case
++            for name in z.namelist():
++                relative = name.removeprefix(prefix)
++                if relative.startswith(case+'/') and '/negative/' not in relative and not name.endswith('/'):
++                    dest = Path(tmp)/relative
++                    require(dest.resolve().is_relative_to(Path(tmp).resolve()), 'Traversal ZIP')
++                    dest.parent.mkdir(parents=True,exist_ok=True); dest.write_bytes(z.read(name))
++            root = case_root/'root'
++            sys.path.insert(0, str(root))
++            for name in list(sys.modules):
++                if name == 'herramientas' or name.startswith('herramientas.'):
++                    del sys.modules[name]
++            hand = importlib.import_module('herramientas.handoff_evidencia_pre_m04')
++            consumer = importlib.import_module('herramientas._resolver_ejecucion_completa_core')
++            import yaml
++            persisted = root/f'territorios/{territory}/evidencia/catalogo/generation_preflight_2025.json'
++            evidence = read(persisted)
++            args = dict(persisted_evidence=persisted, handoff=case_root/'handoff.json',
++                        metadata=case_root/'handoff-metadata.json', territory_id=territory,
++                        edition='2025', run_id=run, source_commit=evidence['source_commit'])
++            hand.verify_handoff(**args)
++            prep = next(r for r in yaml.safe_load((root/'configuracion/catalogo_preparacion.yaml').read_text())['territories']
++                        if r['territory_id']==territory)['editions']['2025']['preparation_evidence']
++            consumer_args = dict(root_dir=root, contract_path=f'territorios/{territory}/config/{territory}_2025.yaml',
++                                 territory_id=territory, preparation_evidence=prep, require_source=True,
++                                 certified_product_ready=False, source_acquisition_planned=False,
++                                 pre_m04_accreditation_planned=False, source_recalculation_planned=False)
++            verified = read(case_root/'handoff.json')
++            accepted = consumer.generation_enablement(first_generation_evidence=verified, **consumer_args)
++            require(accepted.get('allowed') is True and accepted.get('route')=='validated_pre_m04_topology', 'Consumidor no acepta')
++            negatives = []
++            bad = case_root/'bad.json'; bad.write_bytes(args['handoff'].read_bytes()+b' ')
++            transport_cases = [('altered_bytes', dict(handoff=bad))]
++            for field, value in [('territory_id','madrid'),('edition','2024'),('run_id',run+1),('source_commit','0'*40)]:
++                transport_cases.append(('wrong_'+field,{field:value}))
++            corrupt = copy.deepcopy(verified); corrupt['graph']['artifact_sha256']='0'*64
++            changed = case_root/'bad-graph.json'; changed.write_text(json.dumps(corrupt))
++            transport_cases.append(('changed_graph_digest',dict(handoff=changed)))
++            for name, changes in transport_cases:
++                try:
++                    hand.verify_handoff(**dict(args, **changes))
++                except hand.PreM04HandoffError:
++                    negatives.append(name)
++                else:
++                    raise ValueError('Transporte aceptó negativo: '+name)
++            for name, field, value in [('wrong_territory','territory_id','madrid'),('wrong_run','run_id',run+1),
++                                       ('wrong_source_commit','source_commit','0'*40),('wrong_graph_nodes',None,None),
++                                       ('wrong_partition_status',None,None)]:
++                bad = copy.deepcopy(verified)
++                if field: bad[field]=value
++                elif name=='wrong_graph_nodes': bad['graph']['nodes']+=1
++                else: bad['partitioning']['status']='UNKNOWN'
++                rejected=consumer.generation_enablement(first_generation_evidence=bad,**consumer_args)
++                require(rejected.get('allowed') is False,'Consumidor aceptó negativo: '+name)
++                negatives.append('consumer_'+name)
++            badprep=copy.deepcopy(prep);badprep['package_sha256']='0'*64
++            rejected=consumer.generation_enablement(first_generation_evidence=verified,**dict(consumer_args,preparation_evidence=badprep))
++            require(rejected.get('allowed') is False,'Consumidor aceptó fuente contradictoria')
++            negatives.append('consumer_wrong_prepared_source')
++            results.append({'territory':territory,'run':run,'acceptance':accepted,'negative_checks':negatives,
++                            'handoff_sha256':sha(args['handoff'].read_bytes()),'status':'PASS'})
++            sys.path.remove(str(root))
++    return {'task':'F03','cases':results,'generation':'NOT_EXECUTED'}
++
++
++def f04(repo):
++    sys.path.insert(0,str(repo))
++    from herramientas.seleccionar_paquete_fuentes import validate_prepared_package
++    from herramientas.compatibilidad_poblacion_seccionado import validate_compatibility_package
++    from herramientas.identidad_fuentes_legislatura import territorial_identity
++    root=repo/'docs/AUDITORIAS/F04_F10_20261009'
++    matrix=read(root/'matriz-19-v3.json')['rows']
++    require(len(matrix)==19 and len({r['territory_id'] for r in matrix})==19, 'Matriz sin 19 territorios únicos')
++    require({r['codauto'] for r in matrix}=={f'{n:02}' for n in range(1,20)}, 'Matriz sin CODAUTO completo')
++    for r in matrix:
++        require(r['generation'] in ('NOT_EVALUATED','UNCHANGED; historical gate evidence retained'),'Matriz promueve generación')
++        require(r.get('production_promotion') in ('NONE','UNCHANGED'),'Promoción indebida')
++        require(r.get('package_sha256') and r.get('territorial_identity_sha256'), 'Identidad ausente')
++    checked=[]
++    for territory in ['andalucia','aragon','castilla_y_leon','comunidad_valenciana','extremadura']:
++        row=next(r for r in matrix if r['territory_id']==territory)
++        package=root/territory/'candidato-v3'
++        valid, reasons=validate_prepared_package(package,territory_id=territory,edition='2025',population_year=2025,section_year=2025)
++        require(valid, '; '.join(reasons))
++        report, report_hash, reasons=validate_compatibility_package(package,territory_id=territory,edition='2025',population_year=2025,section_year=2025,require_ready=True)
++        require(not reasons,'; '.join(reasons))
++        package_hash=sha((package/'prepared_sources.zip').read_bytes())
++        identity=territorial_identity(territory_id=territory,edition='2025',population_year=2025,section_year=2025,
++                                     package_sha256=package_hash,compatibility_identity_sha256=report['compatibility_identity_sha256'])
++        receipt=read(repo/row['receipt'])
++        require(row['package_sha256']==package_hash and row['territorial_identity_sha256']==identity['territorial_identity_sha256'], 'Matriz contradice bytes')
++        require(all(receipt[k]==v for k,v in identity.items()),'Receipt contradice identidad')
++        checked.append({'territory':territory,'package_sha256':package_hash,'report_sha256':report_hash,'status':'PASS'})
++    originals=read(root/'resultados-cinco.json')['rows']
++    require(len(originals)==5 and all(r['compatibility']=='BLOCKED' and not r['eligible'] and r['causes'] for r in originals), 'Gaps originales no conservados')
++    return {'task':'F04','matrix_rows':19,'checked_candidates':checked,'original_gaps_preserved':True,'generation':'NOT_EXECUTED'}
++
++
++def main():
++    p=argparse.ArgumentParser();p.add_argument('task',choices=['F03','F04']);p.add_argument('--repo',type=Path,required=True)
++    p.add_argument('--packet',type=Path);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
++    with patch.object(socket.socket,'connect',side_effect=RuntimeError('Red prohibida')), patch.object(socket,'create_connection',side_effect=RuntimeError('Red prohibida')):
++        try:
++            result=f03(a.packet) if a.task=='F03' else f04(a.repo)
++            result['status']='PASS'; rc=0
++        except Exception as e:
++            result={'task':a.task,'status':'BLOCKED','reason':str(e)};rc=1
++    with a.output.open('x') as out: json.dump(result,out,ensure_ascii=False,indent=2);out.write('\n')
++    print(json.dumps(result,ensure_ascii=False));return rc
++
++if __name__=='__main__':sys.exit(main())
+--- /dev/null
++++ b/ordenes-manuales/review.schema.json
+@@ -0,0 +1,64 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "title": "DDD local independent review 1.1.0 (2026-10-10)",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "task": {
++      "type": "string",
++      "minLength": 1
++    },
++    "delivery_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "head": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{40}$"
++    },
++    "verdict": {
++      "type": "string",
++      "enum": [
++        "PASS",
++        "NO_GO",
++        "WAIT_OWNER"
++      ]
++    },
++    "scope": {
++      "type": "string",
++      "const": "LOCAL_TECHNICAL_ONLY"
++    },
++    "criteria_passed": {
++      "type": "array",
++      "items": {
++        "type": "string",
++        "minLength": 1
++      }
++    },
++    "findings": {
++      "type": "array",
++      "items": {
++        "type": "string",
++        "minLength": 1
++      }
++    },
++    "evidence": {
++      "type": "array",
++      "minItems": 1,
++      "items": {
++        "type": "string",
++        "minLength": 1
++      }
++    }
++  },
++  "required": [
++    "task",
++    "delivery_sha256",
++    "head",
++    "verdict",
++    "scope",
++    "criteria_passed",
++    "findings",
++    "evidence"
++  ]
++}
+--- /dev/null
++++ b/ordenes-manuales/auto-policy.json
+@@ -0,0 +1,92 @@
++{
++  "version": "1.1.0",
++  "name": "DDD local auto pilot",
++  "date": "2026-10-10",
++  "scope": "F03 F04 offline; otros IDs esperan criterios y encargo de Work",
++  "status": "READY_FOR_REVIEW",
++  "changes": "nueva política técnica sin mutación formal",
++  "reason": "orden explícita de Work",
++  "origin": "32 tareas del catálogo manual",
++  "predecessor": null,
++  "authorized_local_tasks": [
++    "F03",
++    "F04"
++  ],
++  "formal_pending": [
++    "F01"
++  ],
++  "revalidate": [
++    "F02",
++    "F03",
++    "F04"
++  ],
++  "technical_seeds": {
++    "F02": {
++      "kind": "F02_14_OFFLINE",
++      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
++      "sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6",
++      "repo": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales"
++    }
++  },
++  "tasks": {
++    "F03": {
++      "validate_existing": true,
++      "allowed_change_prefixes": [
++        "docs/AUDITORIAS/",
++        "herramientas/",
++        "tests/"
++      ],
++      "validators": [
++        {
++          "covers": [
++            0
++          ],
++          "local_only": true,
++          "argv": [
++            "{python}",
++            "{base}/validar_piloto.py",
++            "F03",
++            "--repo",
++            "{repo}",
++            "--output",
++            "{output}",
++            "--packet",
++            "{inputs}/F03.zip"
++          ]
++        }
++      ],
++      "inputs": {
++        "F03.zip": {
++          "path": "/Users/macbookpro/Downloads/DDD-F03-REVISION.zip",
++          "sha256": "f5153a19c5ebaf9aa149d2dc4f763ff13905ec41b3db9878e8fdbe24a3bcaee8"
++        }
++      }
++    },
++    "F04": {
++      "validate_existing": true,
++      "allowed_change_prefixes": [
++        "docs/AUDITORIAS/",
++        "herramientas/",
++        "tests/"
++      ],
++      "validators": [
++        {
++          "covers": [
++            0
++          ],
++          "local_only": true,
++          "argv": [
++            "{python}",
++            "{base}/validar_piloto.py",
++            "F04",
++            "--repo",
++            "{repo}",
++            "--output",
++            "{output}"
++          ]
++        }
++      ],
++      "inputs": {}
++    }
++  }
++}
+--- /dev/null
++++ b/ordenes-manuales/AUTO.md
+@@ -0,0 +1,67 @@
++DDD auto — versión 1.1.0, 2026-10-10. Alcance: infraestructura local de los tres frentes; candidato READY_FOR_REVIEW. Origen: lanzador manual del catálogo `ddd.manual-launcher/1.0`; predecesor conservado en `legacy/1.0.0/ddd.py`. Motivo: ejecutar una campaña local con controles y revisión por entrega. Sin cambios de gobierno, motor territorial, K, fuentes productivas o publicación.
++
++La actualización añade `auto` al mismo `ddd.py`. Conserva las 32 fichas y los tres worktrees; lee los parámetros existentes, el Plan Maestro y el historial manual. El catálogo, los parámetros y los encargos incluidos aquí son copias exactas de referencia para las pruebas; el instalador no los sustituye. Los prompts de continuación existentes tampoco se sustituyen. No usa `ddd_batch.py` para aceptar tareas. La instalación existente y `~/.local/bin/ddd` siguen siendo el punto de entrada.
++
++Este expediente está en `DDD-orquestador-auto` porque la sesión no permite escribir en `DDD-control`. La actualización todavía no está instalada. El instalador comprueba el hash exacto del predecesor, conserva su código y evita reemplazar módulos que ya existan:
++
++```sh
++python3 infraestructura/ordenes-manuales/instalar_actualizacion.py
++# Aplicación local posterior; no ejecuta tareas ni consume Codex:
++python3 infraestructura/ordenes-manuales/instalar_actualizacion.py --apply
++```
++
++Después de instalar, el operador puede inspeccionar sin consumir Codex:
++
++```sh
++ddd auto F03 F04 --dry-run
++ddd auto --dry-run
++```
++
++Desde esta entrega, sin instalar ni escribir en el controlador existente:
++
++```sh
++DDD_LAUNCHER_HOME="$HOME/Desarrollo/DDD-control/ordenes-manuales" \
++  python3 infraestructura/ordenes-manuales/ddd.py auto F03 F04 --dry-run
++```
++
++El piloto real requiere aprobación previa de esta entrega. Tras esa aprobación, la orden es `ddd auto F03 F04`. Con las evidencias actuales, F03/F04 se validan y revisan sin repetir el Ejecutor: F03 ya tiene dos handoffs históricos, y F04 tiene un intento manual terminado. Para un encargo nuevo autorizado por Work, la ficha de política se configura con `validate_existing: false`; cualquier intento manual previo continúa impidiendo repetición del Ejecutor. Los intentos manuales fallidos pasan a WAIT_OWNER. No hay flag de retry automático ni se interpreta DONE_REVIEW como aceptación.
++
++Los estados significan:
++
++| Estado | Efecto |
++|---|---|
++| TECH_PASS | Validadores deterministas y revisor PASS sobre la misma entrega; habilita dependencias técnicas locales. |
++| FORMAL_PASS | PASS ya registrado por autoridad en el Plan; nunca lo escribe auto. |
++| BLOCKED | Dependencia ausente, criterios insuficientes, fallo, dictamen inválido o interrupción. |
++| REVIEW_NO_GO | Pruebas técnicas superadas y dictamen válido NO_GO; no habilita dependientes. |
++| WAIT_OWNER | Respaldo, aprobación, decisión o intento manual fallido reservado. |
++
++El grafo completo se comprueba para ciclos y referencias desconocidas, incluidas dependencias externas al lote. Solo TECH_PASS/FORMAL_PASS satisfacen dependencias técnicas directas. Se registra también la ascendencia formal pendiente. F02 se reutiliza como TECH_PASS tras comprobar el hash del expediente, 14 identidades, controles F02, bytes de los artefactos y hashes de los receipts. Es una acreditación técnica preexistente, no una nueva ejecución de F02. F01 queda como reserva formal de esta campaña por la orden del Director. El Plan vigente registra F01/F02/F03 PASS y F04 PENDING: esos hechos se conservan íntegros; la reserva no cambia retrospectivamente ninguno de ellos.
++
++La política inicial autoriza solo F03/F04. Las otras 30 tareas siguen disponibles en el catálogo, pero requieren encargo local y validadores aprobados que cubran todos sus criterios. Marcar `covers` no crea una prueba: Work debe revisar la suficiencia del programa determinista y su alcance sin red antes de habilitar una ficha. Sin ficha suficiente, auto falla cerrado. Las tareas `approval`, F01 y N01 siguen reservadas aunque se incluyan en la política.
++
++F03 ejecuta `verify_handoff` y el consumidor real congelado dentro del ZIP histórico, verifica SHA256SUMS y reproduce 12 negativos por territorio. No ejecuta scripts del expediente ni etapas territoriales. F04 ejecuta `validate_prepared_package` y `validate_compatibility_package` existentes sobre cinco candidatos, coteja las identidades y receipts con la matriz de 19 y exige los cinco gaps originales. Los validadores bloquean sockets y conservan el informe. El Ejecutor recibe sandbox workspace-write, never, timeout configurado y red deshabilitada. El Revisor inicia otra sesión efímera con read-only y never. Los logs JSONL conservan uso reportado; `presupuesto_tokens_reportados_suave` se conserva como parámetro/telemetría, no es un presupuesto duro. No se impone un límite económico adicional.
++
++Cada campaña escribe únicamente en `DDD_LAUNCHER_HOME/auto/`: identidad única, configuración congelada, resúmenes nuevos y `eventos.jsonl` append-only. El intento STARTED se guarda con fsync antes de Codex. Cada entrega conserva baseline, SHAs, diff binario, hashes y bytes de archivos versionados y no ignorados, entradas externas fijadas por SHA, programas de control, pruebas y dictamen. Se preservan los cambios previos; un Ejecutor nuevo solo arranca con worktree limpio o un checkpoint propio exacto. Los fallos conservan las salidas parciales y un manifiesto de hashes; no se hace reset, clean ni rollback de cambios del Ejecutor.
++
++El Revisor trabaja en una copia sellada con permisos de lectura y un manifiesto por contenido, sin `.git` que apunte al worktree original. El controlador valida el JSON contra el subconjunto cerrado del esquema suministrado (los keywords no soportados fallan), la identidad de entrega y HEAD, las referencias de evidencia y todos los criterios de PASS. Comprueba los hashes después de revisar. Los permisos locales y hashes ofrecen una entrega congelada y comprobación de alteraciones; no son almacenamiento WORM. Una sesión separada no equivale a aprobación externa ni formal. El dictamen del piloto simulado tampoco constituye revisión real de F03/F04.
++
++Un lock por ruta canónica del worktree coordina manual/auto, además de los locks heredados manual y batch. Los hijos heredan esos descriptores: si muere el controlador, el worktree continúa bloqueado mientras el hijo viva. SIGTERM/Ctrl-C detienen el grupo de proceso. Ante SIGKILL queda STARTED; al recuperar se añade BLOCKED, sin borrar ese intento. Un hijo huérfano que siga vivo requiere intervención humana; no se lanza otro proceso encima.
++
++Para recuperar resultados se leen los `summary-*.json` y `result.json`. Para reanudar las tareas aún no intentadas, use la identidad que imprime CAMPAÑA, el mismo lote, catálogo, parámetros y política:
++
++```sh
++ddd auto F03 F04 --resume IDENTIDAD
++```
++
++Reanudar conserva PASS, NO_GO y fallos; no repite el Ejecutor ni el Revisor de un intento gastado. Un diario truncado bloquea todo consumo de Codex. Un resumen puede mostrar dependencias bloqueadas que se habiliten en una invocación posterior; no equivale a un intento consumido. La herramienta no modifica estados formales ni ofrece cierres humanos automáticos.
++
++Simulación reproducible en este Mac, con Codex simulado y validadores reales existentes:
++
++```sh
++python3 -m unittest tests.test_ddd_auto -v
++```
++
++Usa worktrees de prueba en `/private/tmp/ddd-auto-sim-*`, los 32 IDs y parámetros clonados. Los escenarios leen la evidencia histórica real; F04 apunta al frente Fuentes solo en lectura para evitar copiarlo en cada caso. Esa desviación existe solo en la política de simulación. El modo operativo usa la copia capturada de la entrega. Se pueden conservar todos los expedientes en una carpeta creada previamente indicando `DDD_AUTO_SIM_OUTPUT`. Sin los artefactos reales o el Python GIS existente, la simulación falla; no inventa resultados de los validadores.
++
++Política de versiones: predecesor conservado, incremento compatible, metadatos y registro en este expediente. Las pruebas locales no se presentan como CI. CI no ejecutada: workflows expresamente prohibidos por la orden. No afecta comportamiento territorial y no corresponde ejecutar un run de territorio. Commit local no creado en esta sesión: el directorio Git común está fuera de las raíces de escritura. No push, PR, merge, workflow, generación territorial, adquisición en red o publicación. El único siguiente paso de autoridad es revisar la entrega antes de autorizar el piloto real.
+--- /dev/null
++++ b/ordenes-manuales/legacy/1.0.0/ddd.py
+@@ -0,0 +1,261 @@
++#!/usr/bin/env python3
++"""Lanzador manual DDD; nunca encadena tareas ni sustituye el gobierno del proyecto."""
++import argparse
++import datetime
++import fcntl
++import json
++import os
++import queue
++import shutil
++import signal
++import subprocess
++import sys
++import threading
++import time
++from pathlib import Path
++
++BASE = Path(__file__).resolve().parent
++DATA = Path(os.environ.get('DDD_LAUNCHER_HOME', str(BASE)))
++CAT = json.loads((BASE / 'catalogo.json').read_text())
++EXTRA = json.loads((BASE / 'encargos.json').read_text())
++CFG = json.loads((BASE / 'parametros.json').read_text())
++TASKS = {t['id']: t for t in CAT['tasks']}
++FRONTS = {'fuentes-oficiales': 'FUENTES', 'distritos-autonomicos': 'AUTONÓMICOS', 'distritos-nacionales': 'NACIONALES'}
++PLAN_ROOT = Path(os.environ.get('DDD_PLAN_DIR', str(Path.home() / 'Desarrollo/DDD-control/planes/ddd-maestro-20261008')))
++WORK_ROOT = Path(os.environ.get('DDD_WORK_ROOT', str(Path.home() / 'Desarrollo')))
++
++
++def real_repo(front):
++    name = Path(CAT['worktrees'][front]['path'].replace('~/', '')).name
++    return WORK_ROOT / name
++
++
++def local_plan_status():
++    p = PLAN_ROOT / 'estado.json'
++    try:
++        x = json.loads(p.read_text())
++        return {t['id']: t.get('status','?') for t in x['tasks']}
++    except (OSError, ValueError, KeyError) as e:
++        print(f'AVISO: no se puede leer estado formal local: {e}', file=sys.stderr)
++        return {}
++
++
++def history():
++    p = DATA / 'historial.jsonl'
++    out = []
++    if p.is_file():
++        for line in p.read_text().splitlines():
++            try:out.append(json.loads(line))
++            except ValueError: pass
++    return out
++
++
++def shown_status(task_id, hist):
++    x = [v for v in hist if v.get('task') == task_id]
++    return x[-1]['result'] if x else '—'
++
++
++def print_catalog():
++    sts = local_plan_status(); hist=history()
++    print('TABLA MAESTRA DDD — 32 tareas formales (estado tomado de estado.json local)')
++    print(f'{"ID":10} {"FRENTE":12} {"FORMAL":15} {"ULTIMO INTENTO":18} {"DEPENDE":16} TAREA')
++    for t in CAT['tasks']:
++        print(f"{t['id']:10} {FRONTS[t['front']]:12} {sts.get(t['id'], '?'):15} {shown_status(t['id'], hist):18} {','.join(t['depends_on']) or '—':16} {t['title']}")
++    print('\nÓRDENES DE CONTINUACIÓN (independientes del cierre formal de las 32 tareas):')
++    for k,v in EXTRA.items():
++        print(f"{k:21} {FRONTS[v['front']]:12} {v['role']:9} último={shown_status(k,hist)} — {v['title']}")
++    print('\nUsa: ddd run F04 | ddd run A03 | ddd run N03. Nunca se encadenan; no repiten ID ya intentados.')
++    print('FORMAL no se actualiza solo. DONE_REVIEW indica intento completado, NO PASS. Aprobaciones humanas nunca son automáticas.')
++
++
++def print_info(name):
++    if name in EXTRA:
++        t=EXTRA[name]
++        print(f"{name} | {FRONTS[t['front']]} | {t['title']}\nRevisor/Ejecutor: {t['role']} | Esfuerzo: {t['effort']}")
++        print('Ruta:',real_repo(t['front']))
++        print('Encargo:', (BASE/t['prompt_file']).resolve())
++        print((BASE/t['prompt_file']).read_text())
++    elif name in TASKS:
++        t=TASKS[name]
++        print(f"{name} | {FRONTS[t['front']]} | {t['title']}\nTipo: {t['execution']}\nDepende: {', '.join(t['depends_on']) or 'ninguna'}")
++        print('Criterio de cierre:','; '.join(t['acceptance']))
++        print('Estado formal registrado:',local_plan_status().get(name,'DESCONOCIDO'))
++        if t['execution']=='approval':print('DECISIÓN HUMANA: ddd run ofrece instrucciones; no invoca Codex.')
++    else:
++        raise SystemExit(f'Orden desconocida: {name}. Usa "ddd list".')
++    print('\nParámetros comunes:', json.dumps({k:CFG[k] for k in ('approval_policy','sandbox_ejecutor','sandbox_revisor','segundos_maximos','presupuesto_tokens_reportados_suave')},ensure_ascii=False))
++
++
++def git(repo, *args):
++    p=subprocess.run(['git','-C',str(repo),*args],text=True,capture_output=True)
++    if p.returncode: raise RuntimeError((p.stderr or p.stdout or 'Git error').strip())
++    return p.stdout.strip()
++
++
++def verify_repo(front):
++    p=real_repo(front)
++    if not p.is_dir():raise RuntimeError(f'Worktree no encontrado: {p}')
++    expected={'fuentes-oficiales':'codex/fuentes-oficiales', 'distritos-autonomicos':'codex/distritos-autonomicos','distritos-nacionales':'codex/distritos-nacionales'}[front]
++    current=git(p,'branch','--show-current')
++    if current!=expected:raise RuntimeError(f'RAMA INCORRECTA: {current}, se esperaba {expected}')
++    head=git(p,'rev-parse','HEAD')
++    first=CAT['worktrees'][front]['expected_head_prefix']
++    check=subprocess.run(['git','-C',str(p),'merge-base','--is-ancestor',first,'HEAD'], capture_output=True)
++    if check.returncode!=0:raise RuntimeError(f'El HEAD {head[:12]} no contiene el punto de partida esperado {first}; revisar manualmente')
++    dirty=git(p,'status','--porcelain')
++    return p,head,dirty
++
++
++def prompt_master(t, missing=None, formal_status='UNKNOWN'):
++    missing = missing or []
++    deps = ', '.join(t['depends_on']) or 'ninguna'
++    missing_text = ', '.join(missing) or 'ninguna registrada'
++    return (f"Actúa en DDD bajo la dirección de Work. Frente: {FRONTS[t['front']]}.\n"
++        f"ORDEN EXACTA {t['id']}: {t['title']}.\n"
++        f"Criterios de aceptación: {'; '.join(t['acceptance'])}.\n"
++        f"Dependencias declaradas: {deps}.\n"
++        f"Estado formal actual: {formal_status}. Dependencias NO CERRADAS formalmente: {missing_text}.\n"
++        "ALCANCE ÚNICAMENTE LOCAL NO PRODUCTIVO: investiga, verifica, prepara y cuando proceda implementa cambios locales con pruebas dirigidas. "
++        "Si faltan dependencias, puedes preparar/revisar el trabajo independiente, pero NO realizar acciones que necesiten la dependencia, "
++        "ni certificar la tarea, aprobar un contrato o alterar estado de producción. Indica precisamente lo que queda bloqueado.\n"
++        "Antes de trabajar, consulta en el Plan Maestro la ficha de esta tarea y SOLO su evidencia directa, incluidos resultados Codex v3/v4/v4.1/v4.2; "
++        "si el objetivo ya está acreditado, NO lo repitas: verifica que la evidencia existe y reporta lo pendiente.\n"
++        "Compara con el HEAD, worktree y estado Git existentes; no deshagas cambios previos. Usa scripts deterministas y tests focalizados, no suites masivas.\n"
++        "No alteres restricciones duras, topología, población, contratos ni procedencia para obtener un PASS artificial.\n"
++        "PROHIBIDO: nuevas generaciones territoriales, 00, M04/M05 productivos, workflows, adquisición de fuentes por red, "
++        "push, PR, merge, publicación, promoción, operación en otro worktree.\n"
++        "ENTREGA: estado BLOCKED/READY_FOR_REVIEW/ALREADY_EVIDENCED según evidencia; SHAs; archivos; tests; "
++        "criterios acreditados; bloqueos y siguiente paso. NO actualices estado.json formal ni encadenes tareas.\n")
++
++
++def stop_process(p):
++    if p.poll() is not None:return
++    try:os.killpg(p.pid, signal.SIGTERM)
++    except ProcessLookupError:return
++    try:p.wait(timeout=4)
++    except subprocess.TimeoutExpired:
++        try:os.killpg(p.pid,signal.SIGKILL)
++        except ProcessLookupError:pass
++        p.wait(timeout=3)
++
++
++def run(name, rerun=False):
++    if name not in EXTRA and name not in TASKS:raise RuntimeError('Tarea desconocida. Usa ddd list')
++    is_extra=name in EXTRA
++    t=EXTRA[name] if is_extra else TASKS[name]
++    if not is_extra and t['execution']=='approval':
++        print(f"{name}: DECISIÓN O AUTORIZACIÓN RESERVADA. No se invoca Codex ni se cambia el estado.")
++        print('Consulta: ddd show',name)
++        print('Condiciones:', '; '.join(t['acceptance']))
++        return 0
++    if not is_extra and name in ('F01','N01'):
++        print(f'{name}: RESPALDO EXTERNO/LOCAL GOBERNADO; no se ejecuta desde Codex sandbox.')
++        print('Consulta: ddd show',name)
++        print('Condiciones:', '; '.join(t['acceptance']))
++        return 0
++    sts=local_plan_status() if not is_extra else {}
++    missing=[] if is_extra else [f'{d}={sts.get(d,"UNKNOWN")}' for d in t['depends_on'] if sts.get(d) not in ('PASS','DONE','COMPLETED','CERTIFIED')]
++    if not is_extra and sts.get(name) in ('PASS','DONE','COMPLETED','CERTIFIED'):
++        print(f'{name} ya figura como formalmente cerrado ({sts[name]}). No se repite.')
++        return 0
++    if missing:
++        print('AVISO: DEPENDENCIAS AÚN SIN CIERRE FORMAL: '+', '.join(missing))
++        print('Se permite SOLO investigación/preparación local de esta tarea. Sin ejecución productiva ni promoción.')
++    attempts=[a for a in history() if a.get('task')==name]
++    if attempts and not rerun:
++        raise RuntimeError(f'{name} ya se ejecutó con este lanzador ({attempts[-1]["result"]}). Ver ddd history; solo repetición manual explícita con --rerun.')
++    if not shutil.which(CFG['codex_bin']):raise RuntimeError('No encuentro Codex CLI en PATH')
++    p,sha,dirty=verify_repo(t['front'])
++    print(f'ORDEN: {name} — {t["title"]}\nWORKTREE: {p}\nHEAD: {sha[:12]}\n')
++    if dirty:
++        print('ADVERTENCIA: cambios locales ya existentes. Se preservarán; este encargo puede trabajar sobre ellos.\n'+('\n'.join(dirty.splitlines()[:25])))
++    role=t.get('role') or ('revisor' if t['execution'] in ('research','manual') or name=='N02' else 'ejecutor')
++    sandbox=CFG['sandbox_revisor'] if role=='revisor' else CFG['sandbox_ejecutor']
++    effort=t.get('effort') or ('medium' if t['front']=='distritos-autonomicos' else CFG['esfuerzo_ejecutor'])
++    scope=(BASE/t['prompt_file']).read_text() if is_extra else prompt_master(t,missing,sts.get(name,'UNKNOWN'))
++    pre=(f"Contexto operativo: director Work; Mac local, un solo encargo. Worktree {p}, HEAD inicial {sha}. "
++         f"Usa GIS sólo si hace falta y está disponible: {CFG['python_gis']}. "
++         "No actualizar estado.json del Plan Maestro ni declarar PASS formal. Cero ejecuciones productivas.\n\n")
++    cmd=[CFG['codex_bin'],'--sandbox',sandbox,'--ask-for-approval',CFG['approval_policy'], '-c',f'model_reasoning_effort={effort}', 'exec','--json','-']
++    print(f'COMANDO: codex --sandbox {sandbox} --ask-for-approval never -c model_reasoning_effort={effort} exec --json -')
++    print(f'TIEMPO MÁXIMO: {CFG["segundos_maximos"]} s. BUDGET SUAVE: {CFG["presupuesto_tokens_reportados_suave"]} tokens reportados (NO HARD CAP).')
++    answer=input('¿Lanzar exclusivamente esta tarea? [s/N] ').strip().lower()
++    if answer not in ('s','si','sí'):print('Cancelado.');return 0
++    DATA.mkdir(parents=True,exist_ok=True)
++    logfile=DATA / 'logs';logfile.mkdir(exist_ok=True)
++    runid=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
++    out=logfile/f'{runid}-{name}.jsonl'
++    lock=DATA / ('.manual-' + t['front'] + '.lock')
++    with lock.open('a+') as lf:
++        try:fcntl.flock(lf,fcntl.LOCK_EX|fcntl.LOCK_NB)
++        except BlockingIOError:raise RuntimeError('OTRA TAREA DDD MANUAL ACTIVA: espera a que termine.')
++        print('INICIO; log:',out)
++        started=time.monotonic(); q=queue.Queue(); usage={'input_tokens':0,'cached_input_tokens':0,'output_tokens':0,'total_tokens':0,'turns_reported':0}
++        pr=subprocess.Popen(cmd,cwd=p,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=1,text=True,start_new_session=True)
++        pr.stdin.write(pre+scope);pr.stdin.close()
++        def read():
++            for ln in pr.stdout:q.put(ln)
++            q.put(None)
++        reader=threading.Thread(target=read,daemon=True);reader.start()
++        stop=None;ended=False
++        with out.open('w') as f:
++            while True:
++                elapsed=time.monotonic()-started
++                if elapsed>=CFG['segundos_maximos'] and pr.poll() is None:
++                    stop='TIME_LIMIT'; stop_process(pr)
++                try:line=q.get(timeout=0.5)
++                except queue.Empty:
++                    if pr.poll() is not None and not reader.is_alive():break
++                    continue
++                if line is None:ended=True;break
++                f.write(line);f.flush()
++                try:item=json.loads(line)
++                except ValueError:
++                    print(line[:350].rstrip());continue
++                typ=item.get('type')
++                if typ=='turn.completed':
++                    raw=item.get('usage') or {}
++                    for k in ('input_tokens','cached_input_tokens','output_tokens','total_tokens'):
++                        usage[k]+=int(raw.get(k) or 0)
++                    usage['turns_reported']+=1
++                    print(f"TURNO COMPLETADO: tokens {usage['total_tokens']} (cached_input={usage['cached_input_tokens']})")
++                    if usage['total_tokens']>CFG['presupuesto_tokens_reportados_suave'] and pr.poll() is None:
++                        stop='SOFT_BUDGET_EXCEEDED';stop_process(pr)
++                elif typ in ('turn.failed','error'):
++                    print('INCIDENCIA:',str(item.get('error') or item)[:600])
++                elif typ=='item.completed':
++                    it=item.get('item') or {}
++                    if it.get('type')=='agent_message' and it.get('text'):
++                        print('CODEX:',it['text'][:1800])
++            stop_process(pr) if pr.poll() is None else None
++            rc=pr.wait()
++            pr.stdout.close()
++        result=stop or ('DONE_REVIEW' if rc==0 else 'ERROR')
++        record={'task':name,'date_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'front':t['front'],'head_start':sha,'result':result,'exit_code':rc,'seconds':round(time.monotonic()-started,1),'usage':usage,'log':str(out)}
++        with (DATA/'historial.jsonl').open('a') as f:f.write(json.dumps(record,ensure_ascii=False)+'\n')
++        print(f'FIN: {name} => {result}; duracion={record["seconds"]}s, tokens reportados={usage["total_tokens"]}, log={out}')
++        print('NOTA: DONE_REVIEW = terminó la ejecución, NO significa PASS ni GO de integración.')
++        return 0 if rc==0 and not stop else 1
++
++
++def main():
++    parser=argparse.ArgumentParser(description='DDD: una tarea Codex por orden explícita; sin encadenamiento.')
++    sub=parser.add_subparsers(dest='cmd',required=True)
++    sub.add_parser('list');sub.add_parser('history')
++    show=sub.add_parser('show');show.add_argument('name')
++    go=sub.add_parser('run');go.add_argument('name');go.add_argument('--rerun',action='store_true',help='Repetir explícitamente una tarea que ya se ejecutó con este lanzador')
++    a=parser.parse_args()
++    try:
++        if a.cmd=='list':print_catalog()
++        elif a.cmd=='show':print_info(a.name)
++        elif a.cmd=='history':
++            h=history()
++            if not h:print('Sin ejecuciones con este lanzador (no borra ni importa los registros de v3/v4).')
++            for x in h:print(f'{x["date_utc"]} {x["task"]} {x["result"]} {x["seconds"]}s {x["usage"]["total_tokens"]} tokens')
++        else:return run(a.name,a.rerun)
++        return 0
++    except (RuntimeError,EOFError,KeyboardInterrupt) as ex:
++        print('\nNO EJECUTADO / DETENIDO:',ex,file=sys.stderr)
++        return 2
++
++if __name__=='__main__':sys.exit(main())

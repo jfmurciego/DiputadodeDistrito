@@ -1,0 +1,9 @@
+Actualizar el ddd existente: /Users/macbookpro/Desarrollo/DDD-control/ordenes-manuales
+Conservar ddd.py en legacy/1.0.0; catálogo, parámetros e historial permanecen intactos
+ddd.py 112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a
+ddd_auto.py a2c67bd11208ddbb3cfa3b6304de258d4f59753af3dca3d8a3c66fb9c0fd3376
+validar_piloto.py 4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c
+review.schema.json f5f565b7802f01dff60f69b18b0b306e97b77728cbc0131cf0f435c6f2c66e38
+auto-policy.json 7e752cfe420d23c714cd0d5a4a62b9187e713a2f1c11f6f86f9f85e8ed3fb962
+AUTO.md 8141e02985961540c168fe6c4587b5f85e7439bed9a17c325fb5c013d0af3cbe
+DRY_RUN: cero escrituras. --apply instala; no consume Codex ni ejecuta tareas.

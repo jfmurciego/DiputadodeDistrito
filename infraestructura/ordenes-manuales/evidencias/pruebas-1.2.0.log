@@ -1,0 +1,33 @@
+test_authorization_missing_tampered_scope_and_budget_fail_closed (tests.test_ddd_auto.AutoPilot.test_authorization_missing_tampered_scope_and_budget_fail_closed) ... ok
+test_authorized_repair_one_attempt_then_no_automatic_retry (tests.test_ddd_auto.AutoPilot.test_authorized_repair_one_attempt_then_no_automatic_retry) ... ok
+test_broken_executor_events_preserve_partial_bytes_sha_diff (tests.test_ddd_auto.AutoPilot.test_broken_executor_events_preserve_partial_bytes_sha_diff) ... ok
+test_dependency_in_batch_reorders_and_no_go_blocks_consumer (tests.test_ddd_auto.AutoPilot.test_dependency_in_batch_reorders_and_no_go_blocks_consumer) ... ok
+test_dependency_satisfied_pass_and_evidence_resume (tests.test_ddd_auto.AutoPilot.test_dependency_satisfied_pass_and_evidence_resume) ... ok
+test_executor_finished_real_validator_fails_no_retry (tests.test_ddd_auto.AutoPilot.test_executor_finished_real_validator_fails_no_retry) ... ok
+test_external_dependency_absent_and_dry_run_zero_codex (tests.test_ddd_auto.AutoPilot.test_external_dependency_absent_and_dry_run_zero_codex) ... ok
+test_formal_inconsistency_gates_and_catalog_drift (tests.test_ddd_auto.AutoPilot.test_formal_inconsistency_gates_and_catalog_drift) ... ok
+test_ignored_existing_bytes_protected (tests.test_ddd_auto.AutoPilot.test_ignored_existing_bytes_protected) ... ok
+test_interrupted_resume_without_repetition (tests.test_ddd_auto.AutoPilot.test_interrupted_resume_without_repetition) ... ok
+test_invalid_verdict_fails_closed (tests.test_ddd_auto.AutoPilot.test_invalid_verdict_fails_closed) ... ok
+test_legacy_done_review_only_validates_existing (tests.test_ddd_auto.AutoPilot.test_legacy_done_review_only_validates_existing) ... ok
+test_lock_on_one_front_continues_other_free_front (tests.test_ddd_auto.AutoPilot.test_lock_on_one_front_continues_other_free_front) ... ok
+test_orphan_started_and_corrupt_journal (tests.test_ddd_auto.AutoPilot.test_orphan_started_and_corrupt_journal) ... ok
+test_out_of_scope_mode_change_never_passes (tests.test_ddd_auto.AutoPilot.test_out_of_scope_mode_change_never_passes) ... ok
+test_required_interface_status_and_front_no_write (tests.test_ddd_auto.AutoPilot.test_required_interface_status_and_front_no_write) ... ok
+test_reserved_and_insufficient_criteria (tests.test_ddd_auto.AutoPilot.test_reserved_and_insufficient_criteria) ... ok
+test_resume_rejects_changed_authoritative_revision (tests.test_ddd_auto.AutoPilot.test_resume_rejects_changed_authoritative_revision) ... ok
+test_reviewer_no_go_continues_other_enabled_task (tests.test_ddd_auto.AutoPilot.test_reviewer_no_go_continues_other_enabled_task) ... ok
+test_sigkill_child_holds_lock_and_resume_consumes_orphan (tests.test_ddd_auto.AutoPilot.test_sigkill_child_holds_lock_and_resume_consumes_orphan) ... ok
+test_tampered_pass_evidence_blocks_consumer_without_retry (tests.test_ddd_auto.AutoPilot.test_tampered_pass_evidence_blocks_consumer_without_retry) ... ok
+test_worktree_lock_manual_interop_and_separate_data (tests.test_ddd_auto.AutoPilot.test_worktree_lock_manual_interop_and_separate_data) ... ok
+test_atomic_failure_keeps_checkpoint_and_exclusive_file (tests.test_ddd_auto.ControllerContracts.test_atomic_failure_keeps_checkpoint_and_exclusive_file) ... ok
+test_full_graph_unknown_and_cycle (tests.test_ddd_auto.ControllerContracts.test_full_graph_unknown_and_cycle) ... ok
+test_installer_dry_run_backup_and_protected_history (tests.test_ddd_auto.ControllerContracts.test_installer_dry_run_backup_and_protected_history) ... ok
+test_process_checkpoint_failure_stops_real_child (tests.test_ddd_auto.ControllerContracts.test_process_checkpoint_failure_stops_real_child) ... ok
+test_schema_rejects_unknown_or_missing_and_wrong_type (tests.test_ddd_auto.ControllerContracts.test_schema_rejects_unknown_or_missing_and_wrong_type) ... ok
+test_two_session_slots_and_one_gis_across_processes (tests.test_ddd_auto.ControllerContracts.test_two_session_slots_and_one_gis_across_processes) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 102.682s
+
+OK
