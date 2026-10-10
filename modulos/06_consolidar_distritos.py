@@ -61,7 +61,9 @@ def ensure_geojson_zip(gdf, out_zip):
     outp = Path(out_zip)
     outp.parent.mkdir(parents=True, exist_ok=True)
     tmp = outp.parent / (outp.stem.replace(".geojson", "") + ".geojson")
-    gdf.to_file(tmp, driver="GeoJSON")
+    # Conservar 17 dígitos significativos al serializar coordenadas double.
+    # La precisión por defecto puede colapsar vértices de anillos estrechos.
+    gdf.to_file(tmp, driver="GeoJSON", SIGNIFICANT_FIGURES=17)
     with zipfile.ZipFile(outp, "w", compression=zipfile.ZIP_DEFLATED) as z:
         z.write(tmp, arcname=tmp.name)
     tmp.unlink(missing_ok=True)
