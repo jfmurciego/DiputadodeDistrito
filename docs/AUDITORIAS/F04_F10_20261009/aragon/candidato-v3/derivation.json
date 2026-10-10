@@ -1,0 +1,95 @@
+{
+  "schema": "ddd.exact-universe-derivation/1.0",
+  "version": "1.0.0",
+  "territory_id": "aragon",
+  "catalog_edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "original_population_zip_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+  "derived_population_zip_sha256": "c25e4fe5f2d16d873e5b55b144c3797e287847b87f567d7b3299b26dc81d67b4",
+  "unchanged_sectioning_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+  "input_records": 1468,
+  "output_records": 1463,
+  "excluded_records": [
+    {
+      "csv_line": 298,
+      "section": "4400801003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "44 Teruel",
+        "Municipios": "44008 Albalate del Arzobispo",
+        "Secciones": "4400801003 Albalate del Arzobispo sección 01003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 706,
+      "section": "5009501003",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "50 Zaragoza",
+        "Municipios": "50095 Ejea de los Caballeros",
+        "Secciones": "5009501003 Ejea de los Caballeros sección 01003",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1067,
+      "section": "5029703040",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "50 Zaragoza",
+        "Municipios": "50297 Zaragoza",
+        "Secciones": "5029703040 Zaragoza sección 03040",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1103,
+      "section": "5029703080",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "50 Zaragoza",
+        "Municipios": "50297 Zaragoza",
+        "Secciones": "5029703080 Zaragoza sección 03080",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    },
+    {
+      "csv_line": 1436,
+      "section": "5029711002",
+      "raw_row": {
+        "Total Nacional": "Total Nacional",
+        "Provincias": "50 Zaragoza",
+        "Municipios": "50297 Zaragoza",
+        "Secciones": "5029711002 Zaragoza sección 11002",
+        "Sexo": "Total",
+        "Edad": "Todas las edades",
+        "Periodo": "2025",
+        "Total": ""
+      },
+      "reason": "Key absent from exact frozen same-year target sectioning; Total empty; no numeric population discarded"
+    }
+  ],
+  "numeric_population_removed": 0,
+  "population_total": 1364621,
+  "target_universe_cardinality": 1463,
+  "excluded_keys_intersection_target": [],
+  "scope": "Local candidate only; not a new official acquisition or historical receipt; no production promotion"
+}

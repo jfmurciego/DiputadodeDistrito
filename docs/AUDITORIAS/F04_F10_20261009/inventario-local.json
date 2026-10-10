@@ -1,0 +1,517 @@
+{
+  "roots": [
+    "/Users/macbookpro/Downloads",
+    "/Users/macbookpro/Desarrollo/DDD-almacen",
+    "/private/tmp"
+  ],
+  "exact_candidates": [
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-state-35199668216-M06-with-sources.zip",
+      "member": "manifest.json",
+      "territory": "castilla_y_leon",
+      "metadata": {
+        "schema": "ddd-checkpoint-composite/1.0",
+        "territory_id": "castilla_y_leon",
+        "edition": 2025,
+        "completed_stage": "M06",
+        "base_checkpoint": {
+          "run_id": 35199668216,
+          "artifact_id": 10487940177,
+          "artifact_name": "ddd-state-35199668216-M06",
+          "artifact_digest": "sha256:5d79d467fd582827d658f34665836badd9748aed1278808b26657f76bf59e976"
+        },
+        "sources": {
+          "source_id": "castilla_y_leon_2025_verified_national_snapshots",
+          "edition": 2025,
+          "origin": "repository canonical inputs/MANIFEST.sha256; assembled from matching local verified snapshots; no network",
+          "path": "frozen/castilla_y_leon_2025_verified_sources.zip",
+          "bytes": 135788148,
+          "sha256": "3b094eff2c339054883964e19d47c10230ba91d79e942813841a869bec67b023",
+          "records": 3506,
+          "acquired_at": "2026-09-17T20:12:01Z"
+        },
+        "source_inventory": "sources/inventory.json",
+        "reuse_evidence": "sources/source_execution.json",
+        "network_accesses_during_assembly": 0,
+        "created_at": "2026-09-17T20:12:01Z",
+        "note": "M01-M06 state copied unchanged from artifact 10487940177; only sources/ and checkpoint metadata added."
+      }
+    }
+  ],
+  "scanned_candidates": [
+    {
+      "path": "/Users/macbookpro/Downloads/castilla_y_leon_distritos.geojson.zip",
+      "bytes": 2998429,
+      "sha256": "2cd05ec0cd813f0172e7edf99c98b4dbe81884907b566c766483691312cba943",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/mercabien.zip",
+      "bytes": 301537,
+      "sha256": "11865b2950884add47dbd9af389ae21eebe88744d970daec3345163801a6e045",
+      "members": [
+        "manifest.json"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/elecciones-autonmicas-resultados-de-elecciones-a-las-cortes-de-castilla-la-mancha-histrico-All-2026-09-29_1536.zip",
+      "bytes": 2319217,
+      "sha256": "f1246be052ba1412f251f66122a5cd7454486bb34719e0c761dbc4fd198804d8",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/artifact-11353290857.zip",
+      "bytes": 13234888,
+      "sha256": "6a5181ddeca846dae3afde8e560ac51077d30ca82a09c85277d57406fe289d9c",
+      "members": [
+        "sources/manifest.json",
+        "sources/prepared_sources.zip",
+        "sources/source_execution.json"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/artifact-11353126344.zip",
+      "bytes": 17582883,
+      "sha256": "8ac657696a852346e938e692b5c3b0dfe1ed9665043899b33695396e3e56d71a",
+      "members": [
+        "sources/manifest.json",
+        "sources/prepared_sources.zip",
+        "sources/source_execution.json"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/Sourcetree_4.2.12_275.zip",
+      "bytes": 67531092,
+      "sha256": "8e3099ee7f907667d8502835ce27a96856c915c9d78f139277ab42238169c57f",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/aragon_2025_m06_distritos.geojson.zip",
+      "bytes": 1633870,
+      "sha256": "710a78fa6463b025fcda1dd22dbc9d5a3d2155e7ce9c3c6901a1a98ea7c41129",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-state-35199668216-M06-with-sources.zip",
+      "bytes": 170514732,
+      "sha256": "f178824f1e4b8ad6ecbdaf83ad1a841a8f767cfdbef393ca59a4dd77c4b232d5",
+      "members": [
+        "manifest.json",
+        "sources/manifest.json",
+        "sources/source_execution.json"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/Data Warehouse Data Source Inventory-v252-20260610_164357.zip",
+      "bytes": 720234,
+      "sha256": "982c769007adaea3edf1656e1772ed25999b92ee8b6d4d95d6f20828f1dbefaa",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/elecciones-autonmicas-resultados-de-elecciones-a-las-cortes-de-castilla-la-mancha-histrico-All-2026-09-29_1536 (1).zip",
+      "bytes": 2319217,
+      "sha256": "f1246be052ba1412f251f66122a5cd7454486bb34719e0c761dbc4fd198804d8",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/artifact-11352204784.zip",
+      "bytes": 17741,
+      "sha256": "80a720bed13f807e9cf84e1f4ca02bda7637d48909f44e490b295132ae50ab16",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/seccionado_2025.zip",
+      "bytes": 60298555,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/seccionado_2023.zip",
+      "bytes": 64929708,
+      "sha256": "7a15e700a4592d793230441cfcb4b72e40979998aef019ca644389271886bf1f",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-production-34960965537-1/ejecuciones/production-34960965537-1/aragon_2025_m05_distritos_optimizados.geojson.zip",
+      "bytes": 4148594,
+      "sha256": "effa814003fb9fb9f8fd88991cbbdd090928848d5c2b098040d5f9ec47a3195b",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-production-34960965537-1/ejecuciones/production-34960965537-1/aragon_2025_m04_semillas.geojson.zip",
+      "bytes": 4148555,
+      "sha256": "321d6d630851f2f7c0b5033da3c34ed86c1d443c99377b1368c43cca29f6c454",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-production-34960965537-1/ejecuciones/production-34960965537-1/aragon_2025_m06_distritos.geojson.zip",
+      "bytes": 1540078,
+      "sha256": "2e56a6e92cef704dc51bda9ceedd780e92d3ff7f8232a5bc68e56fe2194c6e62",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/ddd-production-34960965537-1/ejecuciones/production-34960965537-1/aragon_2025_m06_secciones.geojson.zip",
+      "bytes": 4148556,
+      "sha256": "822bda83e7a8762f6bf0292074f7ab4775630a2b29bd3ad01d57fdb98d2a45b3",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run9-m06/aragon_2025_m06_distritos.geojson.zip",
+      "bytes": 1596446,
+      "sha256": "480c0dc54a64b91a6e000219021a31c0cc72b9b2dc15790d8fb4b60ceebaf45d",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run9-m06/aragon_2025_m06_secciones.geojson.zip",
+      "bytes": 4148403,
+      "sha256": "a47201956f587df6b5f4178b834e3c24eac4aafbefc142bc3974153dd9887ca2",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m05_distritos_optimizados.geojson.zip",
+      "bytes": 4137653,
+      "sha256": "5ec054dd015acb1a046c9b723d3e1007e53e766d2a183da68755d47175d0f8a3",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m08_distritos_resultados.geojson.zip",
+      "bytes": 2095752,
+      "sha256": "22f8fdafb47e097326393cba323b388de7213171adec552450663d9121d445a8",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m04_semillas.geojson.zip",
+      "bytes": 4137454,
+      "sha256": "f4a6900c796b8540315ff93a4408fa77992e7d45f3a0d59eb4ca8af0f068345c",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m06_distritos.geojson.zip",
+      "bytes": 2091001,
+      "sha256": "a94c0660a09f932f2351ef5d1e675af5e624da013fe627ca99562c5a14acb3df",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m06_secciones.geojson.zip",
+      "bytes": 4137613,
+      "sha256": "e73657c414956f2c1db46e4fa367d3a9ffc15dfc4202062cf32e39742523f3b2",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Downloads/run4_outputs/aragon_2025_m07_secciones_resultados.geojson.zip",
+      "bytes": 4162461,
+      "sha256": "ee630a74d239b8c89567e1b551029d7bb37ee2dd598bd656d54cb9495c3fbab4",
+      "members": []
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c/artifact.zip",
+      "bytes": 8669104,
+      "sha256": "057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/61b95a9f10ddc685d6b451d515e14636519d121413d2a910dfbf04e2944bd940/artifact.zip",
+      "bytes": 7865466,
+      "sha256": "61b95a9f10ddc685d6b451d515e14636519d121413d2a910dfbf04e2944bd940",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/ba7ed7d7e09040e2892dabc63162f3b7f6f30a401c898bcf03c789f74f7e7041/artifact.zip",
+      "bytes": 14138865,
+      "sha256": "ba7ed7d7e09040e2892dabc63162f3b7f6f30a401c898bcf03c789f74f7e7041",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/e117e965b04547b1b5dea5ce4cf7d9ea826eaa076bfc0e691ac4e204624ed336/artifact.zip",
+      "bytes": 1725771,
+      "sha256": "e117e965b04547b1b5dea5ce4cf7d9ea826eaa076bfc0e691ac4e204624ed336",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552/artifact.zip",
+      "bytes": 699409,
+      "sha256": "c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa/artifact.zip",
+      "bytes": 239562,
+      "sha256": "6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/37ae8cb20b84a1ce99bcefa4a4e69b7872bc01014541c62516914159653ee5af/artifact.zip",
+      "bytes": 90652,
+      "sha256": "37ae8cb20b84a1ce99bcefa4a4e69b7872bc01014541c62516914159653ee5af",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/da3832695b3e3b18c668d27b64bcf8831c860a0f62bc3c7ee883f23ac78e6849/artifact.zip",
+      "bytes": 4060247,
+      "sha256": "da3832695b3e3b18c668d27b64bcf8831c860a0f62bc3c7ee883f23ac78e6849",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666/artifact.zip",
+      "bytes": 12413530,
+      "sha256": "d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d/artifact.zip",
+      "bytes": 1663660,
+      "sha256": "8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db/artifact.zip",
+      "bytes": 6257751,
+      "sha256": "703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b/artifact.zip",
+      "bytes": 14493802,
+      "sha256": "555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a/artifact.zip",
+      "bytes": 3745544,
+      "sha256": "fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-preparadas/objects/653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615/artifact.zip",
+      "bytes": 653639,
+      "sha256": "653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-rioja-M05.zip",
+      "bytes": 2110240,
+      "sha256": "a949dd2a2ac6e187ccf30f4952073f9490dfa76cca09180c8cb46cf1c3c30fd4",
+      "members": [
+        "sources/manifest.json",
+        "sources/prepared_sources.zip",
+        "sources/source_execution.json"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-la_rioja-original.zip",
+      "bytes": 653639,
+      "sha256": "653f2eb905982c193d19269c72c0132655a7b54fa7633813ca96611dd89ee615",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-galicia-original.zip",
+      "bytes": 3745544,
+      "sha256": "fc4c4a387ad4f227c4db2ed03e3509a460ad78e8e6fc74e7a052bf1a19da0c7a",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-castilla_la_mancha-original.zip",
+      "bytes": 12413530,
+      "sha256": "d6bb3a4cb4a94532360e6e1019ee079bba6dc34895a77860b44dae94f997f666",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-ceuta-original.zip",
+      "bytes": 90652,
+      "sha256": "37ae8cb20b84a1ce99bcefa4a4e69b7872bc01014541c62516914159653ee5af",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-region_de_murcia-original.zip",
+      "bytes": 1725771,
+      "sha256": "e117e965b04547b1b5dea5ce4cf7d9ea826eaa076bfc0e691ac4e204624ed336",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-principado_de_asturias-original.zip",
+      "bytes": 1663660,
+      "sha256": "8717fab7efed599f57d0ce57cf57a6d71b1bd602e332be909c8d798a0e5fbd3d",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-cantabria-original.zip",
+      "bytes": 699409,
+      "sha256": "c7441921b73a9f36a1e4597f2a9808235cb727ec03cdd755d2ac089ce4247552",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-comunidad_foral_de_navarra-original.zip",
+      "bytes": 6257751,
+      "sha256": "703200daee826174b087ea6a8a2a4d101e70fc050ff9a2b59ec1e27bb593c3db",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-melilla-original.zip",
+      "bytes": 239562,
+      "sha256": "6fde2422b0e1956d4e31cf19763468f95a50653535ef9d1e3dff4ae4b5803baa",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-canarias-original.zip",
+      "bytes": 8669104,
+      "sha256": "057c902d9516493589b161c0c1946bf5fdc309c940881aee56e27ae41c56237c",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-madrid-original.zip",
+      "bytes": 4060247,
+      "sha256": "da3832695b3e3b18c668d27b64bcf8831c860a0f62bc3c7ee883f23ac78e6849",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-pais_vasco-original.zip",
+      "bytes": 14138865,
+      "sha256": "ba7ed7d7e09040e2892dabc63162f3b7f6f30a401c898bcf03c789f74f7e7041",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-cantabria-M06.zip",
+      "bytes": 3053384,
+      "sha256": "ad72c3856b45a639fd9eb4223d6f3af8fef4e7450568311e1c213b1990e55121",
+      "members": [
+        "sources/manifest.json",
+        "sources/prepared_sources.zip",
+        "sources/source_execution.json"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-illes_balears-original.zip",
+      "bytes": 7865466,
+      "sha256": "61b95a9f10ddc685d6b451d515e14636519d121413d2a910dfbf04e2944bd940",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/ddd-nacional-65034.csv.zip",
+      "bytes": 75489355,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+      "members": []
+    },
+    {
+      "path": "/private/tmp/ddd-cataluna-original.zip",
+      "bytes": 14493802,
+      "sha256": "555859d99821ec244d828c6fbebff94c779596bc48ed860be3613e416842780b",
+      "members": [
+        "manifest.json",
+        "prepared_sources.zip"
+      ]
+    },
+    {
+      "path": "/private/tmp/DDD_C1_C2_C3_20261009/clean-final/seccionado_2025.zip",
+      "bytes": 60298555,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "members": []
+    },
+    {
+      "path": "/private/tmp/DDD_C1_C2_C3_20261009/clean-run/seccionado_2025.zip",
+      "bytes": 60298555,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "members": []
+    },
+    {
+      "path": "/private/tmp/DDD_C1_C2_C3_SUBSANACION_20261009/source/legacy/publication/sitio_geometria/castilla_y_leon_distritos.geojson.zip",
+      "bytes": 2998429,
+      "sha256": "2cd05ec0cd813f0172e7edf99c98b4dbe81884907b566c766483691312cba943",
+      "members": []
+    },
+    {
+      "path": "/private/tmp/DDD_C1_C2_C3_SUBSANACION_20261009/source/legacy/publication/sitio_geometria/aragon_distritos.geojson.zip",
+      "bytes": 1633870,
+      "sha256": "710a78fa6463b025fcda1dd22dbc9d5a3d2155e7ce9c3c6901a1a98ea7c41129",
+      "members": []
+    }
+  ],
+  "errors": [
+    {
+      "path": "/Users/macbookpro/Downloads/wetransfer_promo-siroca-wav-y-mp3_2026-05-20_2150.zip",
+      "error": "File is not a zip file"
+    }
+  ],
+  "governance": [],
+  "limits": "Sólo ubicaciones locales indicadas; no ausencia absoluta en disco. F01-F03 excluidos."
+}

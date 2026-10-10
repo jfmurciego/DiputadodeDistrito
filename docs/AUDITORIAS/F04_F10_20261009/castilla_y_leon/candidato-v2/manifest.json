@@ -1,0 +1,21 @@
+{
+  "source_id": "local-derived-territorial:castilla_y_leon",
+  "territory_id": "castilla_y_leon",
+  "edition": 2025,
+  "population_year": 2025,
+  "section_year": 2025,
+  "path": "prepared_sources.zip",
+  "bytes": 6839710,
+  "sha256": "e688da41da6bcd0255ae4cecf5b3448e8eec974169060fa3477f485d3b21ad7e",
+  "records": 2,
+  "acquired_at": "2026-10-09T23:01:49.135682+00:00",
+  "acquired_at_kind": "local_derivation_operation_not_official_acquisition",
+  "original_acquisition_dates": [
+    "2026-09-21T14:49:14.276945+00:00",
+    "2026-09-21T14:50:37.561909+00:00"
+  ],
+  "origin": "Recovered historical INE package https://api.github.com/repos/jfmurciego/DiputadodeDistrito/actions/artifacts/10645871597; exact local derivation.json",
+  "bundle_schema": "ddd-prepared-sources-bundle/1.1",
+  "status": "CANDIDATE_UNPROMOTED",
+  "predecessor_artifact_sha256": "c93bd597eda3f3a7cae82ab07d8633a10a8d9079a39eb474c3bf5018b23efc6d"
+}

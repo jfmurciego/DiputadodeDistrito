@@ -1,0 +1,152 @@
+{
+  "schema": "ddd.sources-work-checkpoint/1.0",
+  "version": "1.1.0",
+  "predecessor": "docs/AUDITORIAS/F04_F10_20261009/checkpoint.json",
+  "base_head": "7ce06043fe74102196152ad07ad17f47b1779a6b",
+  "scope": "Fuentes only; local materials; independent review; no formal auto-certification",
+  "formal_tasks_snapshot": [
+    {
+      "id": "F04",
+      "front": "fuentes-oficiales",
+      "title": "Auditar cinco territorios restantes",
+      "depends_on": [
+        "F02"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Matriz de 19 con gaps y pruebas"
+      ],
+      "execution": "codex",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F05",
+      "front": "fuentes-oficiales",
+      "title": "Separar adquisición de consumo",
+      "depends_on": [
+        "F03",
+        "F04"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Contrato y pruebas sin red"
+      ],
+      "execution": "codex",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F06",
+      "front": "fuentes-oficiales",
+      "title": "Resolver identidades Cataluña y Murcia",
+      "depends_on": [
+        "F04"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Evidencia y corrección mínima sin promoción indebida"
+      ],
+      "execution": "codex",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F07",
+      "front": "fuentes-oficiales",
+      "title": "Probar consumo offline en 19",
+      "depends_on": [
+        "F05",
+        "F06"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "19 resultados PASS o BLOCKED acreditado"
+      ],
+      "execution": "codex",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F08",
+      "front": "fuentes-oficiales",
+      "title": "Acreditar edición y elegibilidad",
+      "depends_on": [
+        "F07"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Matriz de procedencia, edición y elegibilidad"
+      ],
+      "execution": "codex",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F09",
+      "front": "fuentes-oficiales",
+      "title": "Preparar integración transversal",
+      "depends_on": [
+        "F08"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Dictamen SHA final y CI satisfactoria; aprobación requerida"
+      ],
+      "execution": "approval",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F10",
+      "front": "fuentes-oficiales",
+      "title": "Certificar readiness de fuentes",
+      "depends_on": [
+        "F09"
+      ],
+      "status": "PENDING",
+      "acceptance": [
+        "Readiness por territorio sin confundir con producción"
+      ],
+      "execution": "approval",
+      "evidence": [],
+      "attempts": 0,
+      "blocker": null,
+      "authorization": "director-scope-required"
+    }
+  ],
+  "local_deliverables": {
+    "F04": "ACCEPTED_GO_ACOTADO_TREE_da95dbc7d416e14125322ecf3698d1f2b9ad54b9",
+    "F05": "COMPLETE_READY_FOR_FINAL_REVIEW_NO_CODE_CHANGE",
+    "F06": "COMPLETE_READY_FOR_FINAL_REVIEW_EXISTING_IDENTITY_ALIGNED",
+    "F07": "COMPLETE_READY_FOR_FINAL_REVIEW_14_REUSED_PASS_5_ACCREDITED_CANONICAL_BLOCKED_5_CANDIDATE_PASS",
+    "F08": "COMPLETE_READY_FOR_FINAL_REVIEW_19_ROW_PROVENANCE_ELIGIBILITY_MATRIX",
+    "F09": "LOCAL_PREPARATION_COMPLETE_CI_AND_APPROVAL_PENDING",
+    "F10": "BLOCKED_F09_AND_FIVE_CANONICAL_ACCREDITATIONS"
+  },
+  "formal_updates": false,
+  "formal_governance": "ordenes-manuales/ddd.py states DONE_REVIEW is not PASS and formal state is not automatically updated; submit evidence to Work",
+  "review_policy": "Final separate read-only review of exact frozen tree; no planner",
+  "external_operations": "Only recovery of five existing Actions artifacts; no official acquisitions/workflows/generation/push/PR/merge/publication",
+  "prior_tasks": "F01-F03 unchanged; no reruns",
+  "four_generation_blocks": "UNCHANGED",
+  "missing_governance": "DDD_GOBIERNO.md route requested; no response",
+  "authorization_required": {
+    "new_official_downloads": [],
+    "integration": "CI at final SHA and explicit Work approval, separate future action",
+    "canonical_accreditation": "Work decision on five derived candidates before canonical receipt promotion"
+  },
+  "review_cycle_same_cause": 1
+}

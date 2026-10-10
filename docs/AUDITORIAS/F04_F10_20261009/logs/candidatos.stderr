@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/derivar_universo.py", line 60, in <module>
+    valid,reasons=validate_prepared_package(p,territory_id=t,edition='2025',**years);assert valid,reasons
+AssertionError: ["fecha de adquisición no interpretable: 'No new source acquisition; original per-source timestamps in provenance'"]

@@ -1,0 +1,38 @@
+{
+  "method": "Existing reconcile_population_sectioning and validate_report_bindings on real rows and geometry",
+  "strict_builder_result": "BLOCKED as recorded in original result.json; no replacement or bypass",
+  "report_role": "Diagnostic BLOCKED only; not a READY materialized report",
+  "null_handling": "Only exact empty source Total kept as None; no imputation, dropping or substitution",
+  "missing_population_rows": [
+    {
+      "section": "4400801003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 4400801003"
+    },
+    {
+      "section": "5009501003",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 5009501003"
+    },
+    {
+      "section": "5029703040",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 5029703040"
+    },
+    {
+      "section": "5029703080",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 5029703080"
+    },
+    {
+      "section": "5029711002",
+      "raw_value": "",
+      "cause": "POPULATION_MISSING: población del paquete para sección 5029711002"
+    }
+  ],
+  "binding_validation": "PASS",
+  "require_ready_rejections": [
+    "informe de compatibilidad población↔seccionado bloqueado: POPULATION_VALUE_MISSING"
+  ],
+  "report_sha256": "340e2c504dd607f8e5759de929475cfc802e2b4db341dd1dd1a748c998f22a5f"
+}

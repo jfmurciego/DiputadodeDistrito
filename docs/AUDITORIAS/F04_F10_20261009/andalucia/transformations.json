@@ -1,0 +1,16 @@
+[
+  {
+    "operation": "Exact byte copy and role annotation for current validator",
+    "source_member": "materialized/inputs/65034.csv.zip",
+    "source_sha256": "b5fdf5e16f90073851393f326ee1b9e03680811a4511a064ed0180830e5b469e",
+    "output_sha256": "b5fdf5e16f90073851393f326ee1b9e03680811a4511a064ed0180830e5b469e",
+    "role": "population"
+  },
+  {
+    "operation": "Exact byte copy and role annotation for current validator",
+    "source_member": "materialized/inputs/seccionado_2025.zip",
+    "source_sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029",
+    "output_sha256": "778a57f4885ffdb181f9eaf0c76853a957cec8c7845b2cda4d2b1cc2f2920029",
+    "role": "target_sectioning"
+  }
+]

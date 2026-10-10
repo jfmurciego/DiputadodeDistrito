@@ -1,0 +1,130 @@
+{
+  "schema": "ddd-source-inventory/1.2",
+  "territory_id": "extremadura",
+  "territory": "Extremadura",
+  "edition": 2025,
+  "environment": "local_review",
+  "acquisition_mode": "local_derived_candidate",
+  "territorial_coverage": [
+    "06",
+    "10"
+  ],
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "1bc10278e6ff5e03924a29dc55960933885839e1b6272f0f2c2773b576098c44",
+      "bytes": 13819,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "format": "csv",
+        "delimiter": ";",
+        "columns": [
+          "Total Nacional",
+          "Provincias",
+          "Municipios",
+          "Secciones",
+          "Sexo",
+          "Edad",
+          "Periodo",
+          "Total"
+        ],
+        "edition": 2025,
+        "population_filter": {
+          "sex": [
+            "Total"
+          ],
+          "age": [
+            "Todas las edades"
+          ]
+        },
+        "provinces": [
+          "06",
+          "10"
+        ],
+        "rows": 964
+      },
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/65034.csv.zip",
+      "role": "population",
+      "derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+        "universe_source_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+        "excluded_records": 11,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      },
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/inventario_fuentes.json",
+        "urls": [
+          "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "local_derived_candidate",
+      "local_derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "f16c74ccda7763da1d7f3f2e6d9b2735eab0fd6582ad00e8043249d8c8bfc56f",
+        "universe_source_sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+        "excluded_records": 11,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      }
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "bee64652fb33d7847da9c27bb253097ee2e7621f966723eeb2195921fbd56a58",
+      "bytes": 2852005,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "provinces": [
+          "06",
+          "10"
+        ],
+        "sections_by_province": {
+          "06": 553,
+          "10": 411
+        },
+        "sections": 964
+      },
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "role": "target_sectioning",
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/extremadura/original/bundle/inventario_fuentes.json",
+        "urls": [
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "reused_original_bytes"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved",
+  "predecessor_document": {
+    "path": "docs/AUDITORIAS/F04_F10_20261009/extremadura/candidato-v2/inventario_fuentes.json",
+    "sha256": "994cd2612e7057c97856d37eba2309ef991eeace28d58d3998b9967de23c078a"
+  },
+  "original_environment": "production",
+  "original_acquisition_mode": "official_live",
+  "local_operation_at_utc": "2026-10-09T23:07:59.834611+00:00"
+}

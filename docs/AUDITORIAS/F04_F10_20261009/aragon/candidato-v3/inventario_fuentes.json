@@ -1,0 +1,136 @@
+{
+  "schema": "ddd-source-inventory/1.2",
+  "territory_id": "aragon",
+  "territory": "Aragón",
+  "edition": 2025,
+  "environment": "local_review",
+  "acquisition_mode": "local_derived_candidate",
+  "territorial_coverage": [
+    "22",
+    "44",
+    "50"
+  ],
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "c25e4fe5f2d16d873e5b55b144c3797e287847b87f567d7b3299b26dc81d67b4",
+      "bytes": 21261,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "format": "csv",
+        "delimiter": ";",
+        "columns": [
+          "Total Nacional",
+          "Provincias",
+          "Municipios",
+          "Secciones",
+          "Sexo",
+          "Edad",
+          "Periodo",
+          "Total"
+        ],
+        "edition": 2025,
+        "population_filter": {
+          "sex": [
+            "Total"
+          ],
+          "age": [
+            "Todas las edades"
+          ]
+        },
+        "provinces": [
+          "22",
+          "44",
+          "50"
+        ],
+        "rows": 1463
+      },
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/materialized/inputs/65034.csv.zip",
+      "role": "population",
+      "derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+        "universe_source_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+        "excluded_records": 5,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      },
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/inventario_fuentes.json",
+        "urls": [
+          "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "local_derived_candidate",
+      "local_derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+        "universe_source_sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+        "excluded_records": 5,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      }
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+      "bytes": 3341562,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "provinces": [
+          "22",
+          "44",
+          "50"
+        ],
+        "sections_by_province": {
+          "22": 287,
+          "44": 284,
+          "50": 892
+        },
+        "sections": 1463
+      },
+      "staged_path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v3/materialized/inputs/seccionado_2025.zip",
+      "role": "target_sectioning",
+      "original_acquisition": {
+        "document": "docs/AUDITORIAS/F04_F10_20261009/aragon/original/bundle/inventario_fuentes.json",
+        "urls": [
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000",
+          "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000"
+        ],
+        "historical_acquired_at_utc": null,
+        "mode": "official_live",
+        "note": "Historical metadata only; no new official acquisition claimed"
+      },
+      "mode": "reused_original_bytes"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved",
+  "predecessor_document": {
+    "path": "docs/AUDITORIAS/F04_F10_20261009/aragon/candidato-v2/inventario_fuentes.json",
+    "sha256": "26efb5b221bd49be5ff053930cc8a9ddebc049468f1ea6029cb3f880d0e951ac"
+  },
+  "original_environment": "production",
+  "original_acquisition_mode": "official_live",
+  "local_operation_at_utc": "2026-10-09T23:07:59.834611+00:00"
+}

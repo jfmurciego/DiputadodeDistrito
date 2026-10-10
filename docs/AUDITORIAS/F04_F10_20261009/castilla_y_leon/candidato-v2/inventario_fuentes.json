@@ -1,0 +1,128 @@
+{
+  "schema": "ddd-source-inventory/1.2",
+  "territory_id": "castilla_y_leon",
+  "territory": "Castilla y León",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "territorial_coverage": [
+    "05",
+    "09",
+    "24",
+    "34",
+    "37",
+    "40",
+    "42",
+    "47",
+    "49"
+  ],
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "7028e5be9afaa478528532dc6b3c56960c4783407992917d605648c414b4271f",
+      "bytes": 57125,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "format": "csv",
+        "delimiter": ";",
+        "columns": [
+          "Total Nacional",
+          "Provincias",
+          "Municipios",
+          "Secciones",
+          "Sexo",
+          "Edad",
+          "Periodo",
+          "Total"
+        ],
+        "edition": 2025,
+        "population_filter": {
+          "sex": [
+            "Total"
+          ],
+          "age": [
+            "Todas las edades"
+          ]
+        },
+        "provinces": [
+          "05",
+          "09",
+          "24",
+          "34",
+          "37",
+          "40",
+          "42",
+          "47",
+          "49"
+        ],
+        "rows": 3506
+      },
+      "staged_path": "/app/.ddd-sources/materialized/inputs/65034.csv.zip",
+      "role": "population",
+      "derivation": {
+        "operation": "select_exact_same_year_section_universe",
+        "original_path": "docs/AUDITORIAS/F04_F10_20261009/castilla_y_leon/original/bundle/materialized/inputs/65034.csv.zip",
+        "original_sha256": "122180b4ea0bc4071d6e633d0d9215fdbba1f752ea2877f02425eb6ea3034aef",
+        "universe_source_sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+        "excluded_records": 49,
+        "population_imputation": false,
+        "numeric_population_removed": 0
+      }
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "6d1b9254509f535e58f185ef3d93ff933c95a3f33999b5e353b380ca811e8892",
+      "bytes": 6794083,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2705%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2709%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2724%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2734%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2737%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2740%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2742%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2747%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2749%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "provinces": [
+          "05",
+          "09",
+          "24",
+          "34",
+          "37",
+          "40",
+          "42",
+          "47",
+          "49"
+        ],
+        "sections_by_province": {
+          "05": 308,
+          "09": 577,
+          "24": 444,
+          "34": 273,
+          "37": 530,
+          "40": 276,
+          "42": 218,
+          "47": 565,
+          "49": 315
+        },
+        "sections": 3506
+      },
+      "staged_path": "/app/.ddd-sources/materialized/inputs/seccionado_2025.zip",
+      "role": "target_sectioning"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025,
+  "local_status": "CANDIDATE_UNPROMOTED",
+  "local_derivation": "Exact same-year target section universe; only empty records absent from universe excluded; original preserved"
+}

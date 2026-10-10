@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+  "name": "Verificación de recuperación offline",
+  "date": "2026-10-08T13:26:59.644081+00:00",
+  "scope": "local, sin promoción",
+  "status": "PASS",
+  "origin": "herramientas/almacen_fuentes_local.py",
+  "predecessor": null,
+  "changes": "nueva evidencia",
+  "reason": "proceso limpio sin adquisición",
+  "manifest_sha256": "92c6acc0f29a4e1897de6c6f69bc025f0cf11722ebb4aa36e69a534b9ad3130c",
+  "network_connections": "FORBIDDEN",
+  "originals_unchanged": true,
+  "rows": [
+    {
+      "territory_id": "melilla",
+      "status": "PASS",
+      "package_sha256": "cc427ca1d5ce00ecac5c70678773fd2c2592129af1b7203151ed5ebd2a86f95b"
+    },
+    {
+      "territory_id": "la_rioja",
+      "status": "PASS",
+      "package_sha256": "47ef0f7499d49d349db9d76f466a7602740782590791c50ccf13bf13642feb1d"
+    },
+    {
+      "territory_id": "galicia",
+      "status": "PASS",
+      "package_sha256": "3a72fc022067f08fb58fba4129e5aadf2d189675beb16459f95fde38720dc73c"
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "status": "PASS",
+      "package_sha256": "8418a0d5232b0dae7c643cda869d9c08a1a11b1ce9e1c84a00578109fa41e615"
+    },
+    {
+      "territory_id": "illes_balears",
+      "status": "PASS",
+      "package_sha256": "aed7e39b80574c6556e2c554c41b517e4d4bb51e03cc3d13ac2b6de254dd272a"
+    },
+    {
+      "territory_id": "canarias",
+      "status": "PASS",
+      "package_sha256": "81f3b9981994072f6882c6451acda17c64c650f1773cb8da28952b114518906b"
+    },
+    {
+      "territory_id": "cantabria",
+      "status": "PASS",
+      "package_sha256": "df44be0aeaaaf2bf16ff91abf2cbe6b8972be15868472e6a3f3ee56372964acb"
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "status": "PASS",
+      "package_sha256": "9a1c83de524ba975e393454e40bf4d4e723f04c4ceb70e1aa361c5f18836ebe8"
+    },
+    {
+      "territory_id": "cataluna",
+      "status": "PASS",
+      "package_sha256": "e904289f179ee4fe552f0bb7dae11b8822d2deecf918eb036bf52a0614e97ee0"
+    },
+    {
+      "territory_id": "madrid",
+      "status": "PASS",
+      "package_sha256": "1cbe39913e9ed022b0150c1e47332ae28badc4bea86462d157579f73b2eab70a"
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "status": "PASS",
+      "package_sha256": "71883ee809b295739904929a967808468cc650dd33785ae7d87eb6f410880534"
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "status": "PASS",
+      "package_sha256": "85e406bccf7e33de8a7133540f0ae33532a234e16f66d02979c8aeae30330a03"
+    },
+    {
+      "territory_id": "pais_vasco",
+      "status": "PASS",
+      "package_sha256": "b920a3f0d0ed07cfe3b7b43698fff61346d07f8cbffadbaf16084b9282f88335"
+    },
+    {
+      "territory_id": "ceuta",
+      "status": "PASS",
+      "package_sha256": "9535a68d47fbf806043f8269c3ba9c5456553be57710397c6a321e032e4c9cf6"
+    }
+  ]
+}

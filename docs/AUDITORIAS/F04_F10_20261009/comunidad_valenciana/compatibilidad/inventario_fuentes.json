@@ -1,0 +1,87 @@
+{
+  "schema": "ddd-source-inventory/1.2",
+  "territory_id": "comunidad_valenciana",
+  "territory": "Comunidad Valenciana",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "territorial_coverage": [
+    "03",
+    "12",
+    "46"
+  ],
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "353ff7a2143585185a41162a7dcdaaea9e528352a3c9e563397bf170da4cae42",
+      "bytes": 42050,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "format": "csv",
+        "delimiter": ";",
+        "columns": [
+          "Total Nacional",
+          "Provincias",
+          "Municipios",
+          "Secciones",
+          "Sexo",
+          "Edad",
+          "Periodo",
+          "Total"
+        ],
+        "edition": 2025,
+        "population_filter": {
+          "sex": [
+            "Total"
+          ],
+          "age": [
+            "Todas las edades"
+          ]
+        },
+        "provinces": [
+          "03",
+          "12",
+          "46"
+        ],
+        "rows": 3549
+      },
+      "staged_path": "/app/.ddd-sources/materialized/inputs/65034.csv.zip",
+      "role": "population"
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "78f9f407907024ecec1416ea977a8443c484ed63c45bfd6a84a33a9a38d907cf",
+      "bytes": 4311520,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "availability": "AVAILABLE",
+      "content_checks": {
+        "provinces": [
+          "03",
+          "12",
+          "46"
+        ],
+        "sections_by_province": {
+          "03": 1238,
+          "12": 447,
+          "46": 1830
+        },
+        "sections": 3515
+      },
+      "staged_path": "/app/.ddd-sources/materialized/inputs/seccionado_2025.zip",
+      "role": "target_sectioning"
+    }
+  ],
+  "population_year": 2025,
+  "section_year": 2025
+}

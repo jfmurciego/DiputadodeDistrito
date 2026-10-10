@@ -1,0 +1,40 @@
+{
+  "schema": "ddd-source-provenance/1.2",
+  "territory_id": "aragon",
+  "territory": "Aragón",
+  "edition": 2025,
+  "environment": "production",
+  "acquisition_mode": "official_live",
+  "sources": [
+    {
+      "source_id": "poblacion_por_sexo_y_edad",
+      "path": "inputs/65034.csv.zip",
+      "sha256": "e994b298c22a6b292b45ab5ce21cc498d613c9b0f5e80720553f6b2c6aa07907",
+      "bytes": 21303,
+      "urls": [
+        "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv"
+      ],
+      "edition": 2025,
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-09-22T13:08:36.653186+00:00",
+      "mode": "official_live",
+      "staged_path": "/app/.ddd-sources/materialized/inputs/65034.csv.zip"
+    },
+    {
+      "source_id": "secciones_censales",
+      "path": "inputs/seccionado_2025.zip",
+      "sha256": "39b9bbaedf4889c443712a4bddf7dcaa314479ba013cc1e0f3f5c08ed0831b52",
+      "bytes": 3341562,
+      "urls": [
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000",
+        "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000"
+      ],
+      "edition": 2025,
+      "provider": "Instituto Nacional de Estadística",
+      "acquired_at_utc": "2026-09-22T13:08:59.192017+00:00",
+      "mode": "official_live",
+      "staged_path": "/app/.ddd-sources/materialized/inputs/seccionado_2025.zip"
+    }
+  ]
+}
