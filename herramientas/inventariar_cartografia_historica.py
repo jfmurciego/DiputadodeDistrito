@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""VERSIÓN: 1.0.0; NOMBRE: incorporación reproducible de cartografía histórica.
-FECHA: 2026-10-08; ALCANCE: sólo archivos locales nombrados, sin red ni macros.
+"""VERSIÓN: 1.0.4; NOMBRE: incorporación reproducible de cartografía histórica.
+FECHA: 2026-10-10; ALCANCE: sólo archivos locales nombrados, sin red ni macros.
 ESTADO: CI_PENDIENTE; CAMBIOS: conserva bytes, inventario y diagnósticos comparables.
 MOTIVO: no confundir descubrimiento de archivos con acreditación de edición.
-ORIGEN: nuevo componente, sin predecesor.
+ANTERIOR: legacy/herramientas/inventariar_cartografia_historica_v1.0.3.py; CAMBIOS: C3, rutas relativas sin datos privados; C1/C2 conservados.
 """
 from __future__ import annotations
 import argparse
@@ -37,6 +37,13 @@ def write_json(path, payload):
     path.write_text(json.dumps(payload,ensure_ascii=False,sort_keys=True,indent=2)+"\n",encoding="utf-8")
 
 
+def read_json_verified(path, expected_sha256):
+    raw=Path(path).read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=expected_sha256:
+        raise ValueError('ANALYTICAL_INPUT_HASH_MISMATCH')
+    return json.loads(raw)
+
+
 def sectioning_reference(path, expected_hash):
     """Identidad con el baseline INE conservado; sólo atributos DBF y PRJ, no overlay."""
     path=Path(path);digest=hashlib.sha256(path.read_bytes()).hexdigest()
@@ -62,7 +69,7 @@ def sectioning_reference(path, expected_hash):
             if key in keys:raise ValueError("SECTION_ID_DUPLICATE")
             keys.add(key);provinces[code]+=1
         crs=CRS.from_wkt(archive.read(prj).decode())
-    return {"metadata":metadata(),"path":str(path),"file_sha256":digest,
+    return {"metadata":metadata(),"path":path.name,"file_sha256":digest,
             "edition":2025,"edition_evidence":"exact bytes match protected inputs/MANIFEST.sha256 baseline INE 2025; not inferred solely from filename",
             "unit_kind":"census_sections","unit_id_field":"CUSEC","unit_count":count,
             "unique_ids":len(keys),"province_counts":dict(sorted(provinces.items())),"fields":[f[0] for f in fields],
@@ -72,12 +79,18 @@ def sectioning_reference(path, expected_hash):
 
 def incorporate(search_report, output, section_zip=None, section_hash=None):
     output=Path(output); search=json.loads(Path(search_report).read_text())
-    paths=[Path(p) for p in search["found"] if Path(p).name in NAMES]
+    search_root=Path(search_report).resolve().parent
+    paths=[]
+    for item in search["found"]:
+        path=Path(item)
+        if not path.is_absolute():path=search_root/path
+        if path.name in NAMES:paths.append(path)
     if not paths:
         raise ValueError("NO_PHYSICAL_CARTOGRAPHIC_INPUTS")
-    # Valida disponibilidad física antes de crear salida; no fuerza descarga iCloud.
+    # BSD/macOS exposes st_flags; Linux does not. Preserve the placeholder
+    # rejection where flags exist; stat/read errors still propagate on all OSes.
     for path in paths:
-        if path.stat().st_flags & 0x40000000:
+        if getattr(path.stat(), 'st_flags', 0) & 0x40000000:
             raise ValueError("CLOUD_PLACEHOLDER_NOT_PHYSICAL")
     output.mkdir(parents=True,exist_ok=False);(output/"inputs").mkdir()
     records=[];maps={};books=[];stored={}
@@ -86,7 +99,9 @@ def incorporate(search_report, output, section_zip=None, section_hash=None):
         if digest not in stored:
             relative=f"inputs/{digest[:12]}_{path.name}.gz"
             (output/relative).write_bytes(gzip.compress(raw,mtime=0));stored[digest]=relative
-        record={"original_path":str(path),"name":path.name,"file_sha256":digest,"byte_size":len(raw),
+        try:relative_origin=path.resolve().relative_to(search_root)
+        except ValueError:relative_origin=Path("external-source")/(digest[:12]+"_"+path.name)
+        record={"original_path":relative_origin.as_posix(),"name":path.name,"file_sha256":digest,"byte_size":len(raw),
                 "archived_path":stored[digest],"geometry_edition":None,"population_edition":None,
                 "provenance_status":"LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"}
         if path.suffix in {".json",".geojson"}:
@@ -114,9 +129,12 @@ def incorporate(search_report, output, section_zip=None, section_hash=None):
         populations[code]+=population(feature["properties"]["pob_t_total"])
     if set(counts) != {f'{i:02d}' for i in range(1,53)}:
         raise ValueError("HISTORICAL_ATTRIBUTE_COVERAGE_INCOMPLETE")
-    same_properties=0
+    same_properties=0; material_evidence_complete=True
     for key in common:
         a=left[key]["properties"];b=right[key]["properties"]
+        if not historical_feature_evidence_present(left[key]) or not historical_feature_evidence_present(right[key]):
+            material_evidence_complete=False
+            continue
         if province(a["province_id"])==province(b["province_id"]) and population(a["pob_t_total"])==population(b["pob_t_total"]) and population(a["target_pob"])==population(b["target_pob"]) and str(a["map_iteration"])==str(b["map_iteration"]):
             same_properties+=1
     attributes={"metadata":metadata(),"historical_geometry_edition":None,"historical_population_edition":None,
@@ -128,12 +146,16 @@ def incorporate(search_report, output, section_zip=None, section_hash=None):
                 "numeric_warning":"Decimal preserves source values; tiny non-integer residues are not corrected or promoted as official counts",
                 "all_geometries_valid":False if any(r.get("inspection",{}).get("errors") for r in records) else True}
     equivalence={"metadata":metadata(),"scope":"file_variant_diagnostic_not_2022_2025_comparison",
-                 "identifier_intersection_count":len(common),"raw_coordinate_identical_pairs":sum(left[k]["geometry"]==right[k]["geometry"] for k in common),
+                 "identifier_intersection_count":len(common),"raw_coordinate_identical_pairs":sum(raw_historical_geometry_present(left[k]) and raw_historical_geometry_present(right[k]) and left[k]["geometry"]==right[k]["geometry"] for k in common),
                  "normalized_attribute_identical_pairs":same_properties,
                  "workbook_sheet_xml_identical":len({r["inspection"]["sheet_xml_sha256"] for r in books})==1,
                  "workbook_members_with_different_hashes": sorted({key for r in books for key in r["inspection"]["member_sha256"] if len({other["inspection"]["member_sha256"].get(key) for other in books}) > 1}),
-                 "interpretation":"same_historical_material; creation timestamps do not establish dataset editions",
+                 "interpretation":"INSUFFICIENT_EVIDENCE",
                  "temporal_change_metrics":None}
+    equivalence['interpretation'] = historical_material_verdict(
+        set(left), set(right), equivalence['raw_coordinate_identical_pairs'],
+        same_properties, [b['inspection'].get('sheet_xml_sha256') for b in books],
+        material_evidence_complete=material_evidence_complete)
     gate=compare_maps(selected_path,selected_desc,other_path,other_desc)
     gate["attempt_scope"]="admissibility_of_historical_variants; neither input is accredited as 2022 or 2025"
     gate["national_2025_district_map_available"]=False
@@ -147,6 +169,32 @@ def incorporate(search_report, output, section_zip=None, section_hash=None):
     if section_zip is not None:
         write_json(output/"referencia_seccionado_2025.json",sectioning_reference(section_zip,section_hash))
     return {"archived_unique_inputs":len(stored),"files_found":len(paths),"historical_k":len(left),"temporal_status":gate["status"]}
+
+
+def raw_historical_geometry_present(feature):
+    geometry=feature.get('geometry')
+    return isinstance(geometry,dict) and geometry.get('type') in {'Polygon','MultiPolygon'} and bool(geometry.get('coordinates'))
+
+
+def historical_feature_evidence_present(feature):
+    """Presence is required even if the preserved geometry has a known topology defect."""
+    geometry=feature.get('geometry');properties=feature.get('properties')
+    if not raw_historical_geometry_present(feature):
+        return False
+    if not isinstance(properties,dict):return False
+    for field in ('province_id','pob_t_total','target_pob','map_iteration'):
+        value=properties.get(field)
+        if value is None or isinstance(value,bool) or not str(value).strip():return False
+    return True
+
+
+def historical_material_verdict(left_ids, right_ids, geometry_pairs, attribute_pairs, sheet_hashes, *, material_evidence_complete=True):
+    if not material_evidence_complete or not left_ids or not right_ids or len(sheet_hashes) < 2 or any(not h for h in sheet_hashes):
+        return 'INSUFFICIENT_EVIDENCE'
+    if (left_ids != right_ids or geometry_pairs != len(left_ids)
+            or attribute_pairs != len(left_ids) or len(set(sheet_hashes)) != 1):
+        return 'DIFFERENT_HISTORICAL_MATERIAL'
+    return 'same_historical_material; creation timestamps do not establish dataset editions'
 
 
 def main():

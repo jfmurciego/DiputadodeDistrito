@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""VERSIÓN: 1.0.0; NOMBRE: comparador cartográfico nacional acreditado.
-FECHA: 2026-10-08; ALCANCE: diagnóstico local, sin generación ni reparación.
+"""VERSIÓN: 1.0.1; NOMBRE: comparador cartográfico nacional acreditado.
+FECHA: 2026-10-10; ALCANCE: diagnóstico local, sin generación ni reparación.
 ESTADO: candidato, CI_PENDIENTE; CAMBIOS: inventario y comparación fail-closed.
 MOTIVO: separar edición, identidad, geometría y población de materiales históricos.
-ORIGEN: componente nuevo, sin predecesor.
+ANTERIOR: legacy/herramientas/comparar_cartografia_nacional_v1.0.0.py; CAMBIOS: geometría ausente rechazada en inventario.
 """
 from __future__ import annotations
 import argparse
@@ -115,6 +115,8 @@ def inspect_geojson(path, descriptor):
                 raise ValueError("IDENTITY_DUPLICATE")
             code = province(props.get(descriptor["province_field"]))
             pop = population(props.get(descriptor["population_field"]))
+            if not isinstance(feature.get("geometry"),dict):
+                raise ValueError('GEOMETRY_MISSING_OR_INVALID')
             geom = shape(feature.get("geometry"))
             if geom.geom_type not in {"Polygon", "MultiPolygon"} or geom.is_empty or not all(math.isfinite(x) for x in geom.bounds):
                 raise ValueError("GEOMETRY_EMPTY_OR_NON_POLYGONAL")

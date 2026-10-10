@@ -24,16 +24,17 @@
   "file_sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
   "geometry_validity": "NOT_TESTED_ATTRIBUTE_INVENTORY_ONLY",
   "metadata": {
-    "changes": "diagnóstico y correspondencia acreditada",
+    "changes": "rutas portables; localizadores personales redactados; bytes y SHA-256 de entradas conservados",
     "date": "2026-10-08",
     "name": "Comparación cartográfica nacional",
-    "origin": "nuevo, sin predecesor",
+    "origin": "anterior: legacy/docs/ESTUDIOS/cartografia_nacional_20261008/referencia_seccionado_2025.json; ruta personal redactada",
     "reason": "no inferir ediciones ni causas por nombres",
     "scope": "análisis local sin generación",
     "status": "CI_PENDIENTE",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
-  "path": "/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/seccionado_2025.zip",
+  "original_location": "PRIVATE_PATH_REDACTED",
+  "path": "seccionado_2025.zip",
   "province_counts": {
     "01": 240,
     "02": 296,

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""VERSIÓN: 1.0.0; NOMBRE: evaluación común de alternativas nacionales.
-FECHA: 2026-10-08; ALCANCE: medias provinciales y sensibilidad exploratoria.
+"""VERSIÓN: 1.0.2; NOMBRE: evaluación común de alternativas nacionales.
+FECHA: 2026-10-10; ALCANCE: medias provinciales y sensibilidad exploratoria.
 ESTADO: CI_PENDIENTE; CAMBIOS: métricas sobre reparto ya conservado, sin regenerarlo.
 MOTIVO: aportar consecuencias cuantitativas antes de elegir una política institucional.
-ORIGEN: componente nuevo, sin predecesor.
+ANTERIOR: legacy/herramientas/evaluar_alternativas_nacionales_v1.0.1.py; CAMBIOS C1: validar asignación y cuotas provinciales.
 """
 from __future__ import annotations
 import argparse
@@ -21,10 +21,10 @@ from herramientas.modelo_cuantitativo_nacional import calculate, half_up
 
 
 def metadata():
-    return {"version": "1.0.0", "name": "Evaluación de alternativas nacionales",
-            "date": "2026-10-08", "scope": "análisis local; medias, no distritos generados",
-            "status": "CI_PENDIENTE", "changes": "métricas comunes y sensibilidad",
-            "reason": "evaluar alternativas antes de decisión institucional", "origin": "nuevo, sin predecesor"}
+    return {"version": "1.0.2", "name": "Evaluación de alternativas nacionales",
+            "date": "2026-10-10", "scope": "análisis local; medias, no distritos generados",
+            "status": "CI_PENDIENTE", "changes": "C1: valida asignaciones y cuotas por provincia",
+            "reason": "evaluar alternativas antes de decisión institucional", "origin": "legacy/herramientas/evaluar_alternativas_nacionales_v1.0.1.py"}
 
 
 def validate_model(model):
@@ -53,6 +53,23 @@ def validate_model(model):
                 raise ValueError("TARGET_QUOTA_INCONSISTENT")
     if rules != {"floor_independiente", "nearest_half_up_independiente", "ceil_independiente", "hamilton_k_derivado", "minimos_referencia_k_derivado"}:
         raise ValueError("FIVE_EXISTING_ALTERNATIVES_REQUIRED")
+    expected = {a['rule']: a for a in calculate(reference, target)['alternatives']}
+    for alternative in model['alternatives']:
+        expected_alternative = expected[alternative['rule']]
+        for field in ('population_total', 'k_total', 'minimum_reference_violations',
+                      'within_constitutional_size_reference', 'equals_congress_size_reference',
+                      'city_fixed_one_reference_violations', 'zero_district_populated_provinces'):
+            actual = alternative.get(field)
+            correct = expected_alternative[field]
+            if type(actual) is not type(correct) or actual != correct:
+                raise ValueError('ALTERNATIVE_INDICATOR_INCONSISTENT: '+field)
+        wanted = {row['province_code']: row for row in expected_alternative['rows']}
+        for row in alternative['rows']:
+            correct = wanted[row['province_code']]
+            if row['k_assigned'] != correct['k_assigned']:
+                raise ValueError('PROVINCIAL_ALLOCATION_INCONSISTENT')
+            if Fraction(row['allocation_quota']) != Fraction(correct['allocation_quota']):
+                raise ValueError('ALLOCATION_QUOTA_INCONSISTENT')
     return reference
 
 

@@ -1,9 +1,9 @@
-VERSIÓN: 1.0.0
+VERSIÓN: 1.0.1
 NOMBRE: Evidencia local del modelo nacional
 FECHA: 2026-10-08
 ALCANCE: candidato sobre a53214b16050770796504e234aef8a080b00d3c0; sin CI
 ESTADO: pruebas dirigidas, no certificación
-CAMBIOS: registro de reejecución final
+CAMBIOS: registro de reejecución final; localizadores personales redactados
 MOTIVO: evidencia revisable por ddd-revisor
 ORIGEN: archivo nuevo, sin predecesor
 
@@ -25,6 +25,6 @@ OK
 
 WHITESPACE: PASS sobre cada archivo nuevo; git diff --no-index --check /dev/null <archivo>
 
-REPRODUCCIÓN FINAL: python3 herramientas/modelo_cuantitativo_nacional.py --zip /private/tmp/ddd-nacional-65034.csv.zip --expected-sha256 91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3 --year 2025 --target 120000 --output /private/tmp/ddd-modelo-nacional-verificacion-lf-20261008
+REPRODUCCIÓN FINAL: python3 herramientas/modelo_cuantitativo_nacional.py --zip $DDD_VERIFIED_POPULATION_ZIP --expected-sha256 91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3 --year 2025 --target 120000 --output salida-modelo-local
 EXIT_CODE: 0
 PASS: los cinco archivos reproducidos son idénticos byte a byte a los conservados, incluido MANIFEST.json.

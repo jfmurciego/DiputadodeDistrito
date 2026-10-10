@@ -1,11 +1,11 @@
 # Cartografía histórica y consecuencias de las cinco alternativas nacionales
 
-**Versión:** 1.0.0
+**Versión:** 1.0.1
 **Nombre:** Incorporación histórica, comparación acreditada y evaluación provincial
 **Fecha:** 2026-10-08
 **Alcance:** incremento analítico local del frente Distritos nacionales
 **Estado:** candidato para conservación local; CI_PENDIENTE; sin alternativa institucional aprobada
-**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad
+**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad; localizadores personales redactados
 **Motivo:** concretar la decisión del Director sin atribuir ediciones ni causas por inferencia
 **Origen:** incremento nuevo sobre `effa34f80d9c5c8cb7ac5c39216524aa95eba66d`; complementa el expediente previo, no sustituye el modelo
 
@@ -17,7 +17,7 @@ Las métricas siguientes proceden de [evaluación exacta](cartografia_nacional_2
 
 ## Inventario físico y acreditación
 
-La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió `/Users/macbookpro`, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, rutas, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
+La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorrió la raíz de usuario del equipo de búsqueda original, excluyendo directorios técnicos, credenciales, papelera y `Library`; no produjo errores de acceso en ese recorrido. Spotlight no devolvió resultados. No se afirma una búsqueda exhaustiva de volúmenes externos o de los directorios excluidos. [Inventario](cartografia_nacional_20261008/inventario.json) registra alcance, IDs relativos, tamaños, hashes e inspecciones. No se encontraron otros mapas 2022 acreditados en ese alcance.
 
 | Material físicamente inspeccionado | Identidad y contenido | Edición y compatibilidad |
 | --- | --- | --- |
@@ -110,18 +110,12 @@ Pendientes concretos: acreditar la edición y fuente de las 391 geometrías y su
 Dependencias analíticas fijadas en `requirements-cartografia-nacional.lock`, en entorno temporal aislado. No se cambiaron requisitos del motor autonómico. La instalación fue autorizada mediante la aprobación de acceso fuera del sandbox; no se descargó cartografía. Los inputs históricos originales se recuperan descomprimiendo los archivos del inventario y comprobando sus SHA.
 
 ```sh
-python3 -m venv /private/tmp/ddd-cartografia-venv
-/private/tmp/ddd-cartografia-venv/bin/python -m pip install -r requirements-cartografia-nacional.lock
-/private/tmp/ddd-cartografia-venv/bin/python herramientas/inventariar_cartografia_historica.py \
-  --search-report docs/ESTUDIOS/cartografia_nacional_20261008/busqueda.json \
-  --section-zip '/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/seccionado_2025.zip' \
-  --section-sha256 55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4 \
-  --output /private/tmp/ddd-cartografia-reproducida
-python3 herramientas/evaluar_alternativas_nacionales.py \
-  --model docs/ESTUDIOS/modelo_nacional_2025_120000/modelo.json \
-  --historical-counts docs/ESTUDIOS/cartografia_nacional_20261008/recuentos_historicos.json \
-  --output /private/tmp/evaluacion-nacional-reproducida.json
+python3 -m venv .venv-cierre
+.venv-cierre/bin/python -m pip install -r requirements-cartografia-nacional.lock
+.venv-cierre/bin/python receta_cierre.py ../reproduccion-nueva
 ```
+
+Corrección C3 (versión 1.0.1, 2026-10-09; revisión pendiente): receta_cierre.py reconstruye busqueda.json desde inventario.json y los inputs comprimidos verificados. La búsqueda original se conserva en el expediente como busqueda-original.json; sus rutas personales son evidencia histórica. Se reconstruye el seccionado desde inputs/partes y se exige su hash protegido. Predecesor: legacy/docs/ESTUDIOS/CARTOGRAFIA_Y_ALTERNATIVAS_NACIONALES_2026-10-08.md.
 
 Los destinos deben ser nuevos. Si las rutas originales no existen en otra máquina, el inventario y las cuatro copias comprimidas permiten recuperar los mismos bytes; la referencia 2025 también puede reconstruirse desde las partes protegidas de `inputs/`, sin nueva descarga. La diferencia poblacional se reproduce con `population_diagnostic` sobre `atributos_historicos.json` y la fuente poblacional conservada. Para un futuro par 2022/2025 acreditado, el comparador se invoca con `--old`, `--new`, `--old-descriptor`, `--new-descriptor`, `--output`; los descriptores históricos actuales mantienen los años desconocidos y deben fallar la puerta temporal.
 

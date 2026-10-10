@@ -35,7 +35,7 @@
         "sheet_xml_sha256": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
       },
       "name": "assembled_districts_spain.xlsm",
-      "original_path": "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/assembled_districts_spain.xlsm",
+      "original_path": "historical-source-01/assembled_districts_spain.xlsm",
       "population_edition": null,
       "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
     },
@@ -503,7 +503,7 @@
         }
       },
       "name": "map.geojson",
-      "original_path": "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/map.geojson",
+      "original_path": "historical-source-02/map.geojson",
       "population_edition": null,
       "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
     },
@@ -971,7 +971,7 @@
         }
       },
       "name": "spain-districts-selected.json",
-      "original_path": "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/spain-districts-selected.json",
+      "original_path": "historical-source-03/spain-districts-selected.json",
       "population_edition": null,
       "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
     },
@@ -1439,7 +1439,7 @@
         }
       },
       "name": "spain-districts-selected.json",
-      "original_path": "/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/spain-districts-selected.json",
+      "original_path": "historical-source-04/spain-districts-selected.json",
       "population_edition": null,
       "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
     },
@@ -1478,20 +1478,20 @@
         "sheet_xml_sha256": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
       },
       "name": "assembled_districts_spain.xlsm",
-      "original_path": "/Users/macbookpro/Downloads/My Drive/assembled_districts_spain.xlsm",
+      "original_path": "historical-source-05/assembled_districts_spain.xlsm",
       "population_edition": null,
       "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
     }
   ],
   "metadata": {
-    "changes": "diagnóstico y correspondencia acreditada",
+    "changes": "rutas portables; localizadores personales redactados; bytes y SHA-256 de entradas conservados",
     "date": "2026-10-08",
     "name": "Comparación cartográfica nacional",
-    "origin": "nuevo, sin predecesor",
+    "origin": "anterior: legacy/docs/ESTUDIOS/cartografia_nacional_20261008/inventario.json; rutas personales redactadas",
     "reason": "no inferir ediciones ni causas por nombres",
     "scope": "análisis local sin generación",
     "status": "CI_PENDIENTE",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "search": {
     "errors": [],
@@ -1509,12 +1509,32 @@
       "venv"
     ],
     "found": [
-      "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/assembled_districts_spain.xlsm",
-      "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/map.geojson",
-      "/Users/macbookpro/Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/spain-districts-selected.json",
-      "/Users/macbookpro/Downloads/Estudio DDD Aragon 2026/spain-districts-selected.json",
-      "/Users/macbookpro/Downloads/My Drive/assembled_districts_spain.xlsm"
+      {
+        "name": "assembled_districts_spain.xlsm",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-01"
+      },
+      {
+        "name": "map.geojson",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-02"
+      },
+      {
+        "name": "spain-districts-selected.json",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-03"
+      },
+      {
+        "name": "spain-districts-selected.json",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-04"
+      },
+      {
+        "name": "assembled_districts_spain.xlsm",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-05"
+      }
     ],
-    "root": "/Users/macbookpro"
+    "root": "PRIVATE_ROOT_REDACTED"
   }
 }
