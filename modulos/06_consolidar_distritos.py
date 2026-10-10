@@ -3,15 +3,15 @@
 """
 PROYECTO: Diputado de Distrito
 Módulo 06 — Consolidar y describir distritos
-VERSIÓN: 7.2.1
-NOMBRE DE VERSIÓN: Consolidación no fatal con diagnóstico poblacional
-FECHA: 2026-09-14
+VERSIÓN: 7.2.2
+NOMBRE DE VERSIÓN: Exportación GeoJSON con precisión geométrica conservada
+FECHA: 2026-10-10
 QUÉ HACE: transforma la asignación M05 en productos territoriales finales de sección y distrito, catálogo distrital auditable y composición exacta por sección.
 POR QUÉ ES SEPARADO: M05 optimiza la partición; M06 no puede cambiarla. Su responsabilidad es materializar, medir, describir y validar la solución antes de incorporar datos electorales u otros atributos posteriores.
 ESTADO: candidato multi-territorio — CYL-05.
-CAMBIOS: propaga código y nombre de comarca a la composición y resume las comarcas presentes en cada distrito cuando existen.
-MOTIVO: hacer medible P07 sin permitir que M06 modifique la asignación heredada de M05.
-ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.1.0.py
+CAMBIOS: evita la pérdida de vértices al exportar geometrías GeoJSON usando 17 cifras significativas; mantiene la consolidación y composición territorial de v7.2.1.
+MOTIVO: impedir que el redondeo de coordenadas genere anillos inválidos durante la serialización, sin alterar asignaciones, geometrías internas ni población.
+ANTERIOR: legacy/modulo06/06_consolidar_distritos_v7.2.1.py
 """
 from __future__ import annotations
 
@@ -290,7 +290,7 @@ def main():
     diagnostic_path.parent.mkdir(parents=True, exist_ok=True)
     diagnostic_path.write_text(json.dumps(diagnostic, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
-        f"[Módulo 6] OK v7.2.1 K={k} rows={n_rows} pop={total_pop} hard={hard_count} fuera_12={outside} "
+        f"[Módulo 6] OK v7.2.2 K={k} rows={n_rows} pop={total_pop} hard={hard_count} fuera_12={outside} "
         f"catalog={out_catalog or '-'} composition={out_composition or '-'} districts={out_district_geo or '-'}"
     )
 
