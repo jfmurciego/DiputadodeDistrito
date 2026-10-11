@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Ejecuta la puerta #179 territorial de Extremadura en un catálogo scratch."""
+"""Ejecuta la puerta #179 territorial de Extremadura en un catálogo scratch.
+
+Versión: 1.0.1; nombre: Validador aislado F10 Extremadura; fecha: 2026-10-11.
+Alcance: validar receipt territorial sin modificar el catálogo productivo; estado: candidato.
+Cambios: tomar receipt preview del directorio de salida aislado.
+Motivo: mantener separados el ensayo contractual y los receipts versionados.
+Origen: e3cd903e70f9fbf88c044dcf3c8b5b7cc63fb4ac; predecesor: legacy/auditorias/CIERRE_FUENTES_20261011/transferencia-autentica-20261011/validar_extremadura_aislada_v1.0.0.py.
+"""
 from __future__ import annotations
 
 import argparse
-import hashlib
 import hashlib
 import json
 import sys

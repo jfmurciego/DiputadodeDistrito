@@ -1,5 +1,13 @@
 # Continuación de Fuentes Oficiales — transferencia auténtica F10
 
+**Versión:** 1.0.1 — Evidencia de transferencia y receipts F10
+**Fecha:** 2026-10-11
+**Alcance:** verificación local de artefactos y preparación no canónica; **estado:** candidato
+**Cambios:** los verificadores escriben solo en su destino temporal; se preserva la versión anterior.
+**Motivo:** conservar evidencia congelada y reproducir sin tocar catálogo ni expediente.
+**Origen:** `e3cd903e70f9fbf88c044dcf3c8b5b7cc63fb4ac`
+**Predecesor:** `legacy/auditorias/CIERRE_FUENTES_20261011/transferencia-autentica-20261011/INFORME_v1.0.0.md`
+
 Checkpoint técnico del 11-10-2026 sobre el Plan Maestro existente. La transferencia llegó en `DDD_F10_5_ARTEFACTOS_AUTENTICOS_20261011.zip`; los bytes originales se conservan bajo `/private/tmp/ddd-f10-transfer-20261011` y los ZIP exteriores originales permanecen en `Downloads`. No se copiaron los paquetes fuente voluminosos a Git.
 
 El ZIP de transferencia mide 69.747.289 bytes y su SHA-256 es `d44f79be353f6c5df469189d47cce9667d451da21a1b60c0eef28f2b34afd66c`. Pasó CRC. `SHA256SUMS` verifica los cinco artefactos exteriores. Para cada uno se comprobaron el ID de run y artefacto declarados, commit, nombre, tamaño, SHA-256 exterior, manifiesto interior, SHA-256 de `prepared_sources.zip`, CRC, identidad territorial y el informe congelado de compatibilidad. `validate_prepared_package` y `validate_compatibility_package(require_ready=True)` pasan en los cinco paquetes. Los hashes e identidades completas están en `validacion.json`.
