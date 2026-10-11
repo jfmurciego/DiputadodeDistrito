@@ -20,6 +20,15 @@ La extensión permite acreditar nuevas fuentes oficiales sin inferir que los pro
 existentes fueron generados desde ellas. No cambia temporalidad, contratos territoriales,
 autoridad cartográfica, estado canónico ni autorización de producción.
 
+## 2026-10-12 — F10 — receipt independiente de Extremadura
+
+El catálogo registra el receipt auténtico de Extremadura `38091144559` en un campo
+independiente, con estado explícito no promovido. El consumidor #179 puede validarlo
+sin sustituir el source run histórico `35755043806` ni el producto M06 `36472516474`.
+La evidencia conserva los SHA-256 del artefacto y paquete originales. Las pruebas
+comprueban la aceptación del receipt, la separación de linajes y la continuidad de los
+14 consumidores históricos PASS.
+
 ## 2026-09-21 — GerryChain — disciplina municipal contractual
 
 El canary real de Asturias `35656993014` mostró que el preflight GerryChain
