@@ -1,0 +1,8 @@
+test_catalogo_ids_y_codigos_unicos (test_catalogo_territorios_espana.CatalogoTerritoriosEspana) ... ok
+test_madrid_es_siguiente_y_arquipielagos_explicitos (test_catalogo_territorios_espana.CatalogoTerritoriosEspana) ... ok
+test_niveles_y_gobierno_de_k (test_catalogo_territorios_espana.CatalogoTerritoriosEspana) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
