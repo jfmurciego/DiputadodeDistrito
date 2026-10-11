@@ -1,0 +1,140 @@
+{
+  "schema": "ddd.master-plan-closure-proposal/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Fuentes Oficiales únicamente; no plan nuevo",
+  "origin": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-20261008",
+  "predecessor": null,
+  "changes": "propuesta y checkpoint; sin transición formal",
+  "reason": "reconciliación autorizada",
+  "plan_id": "ddd-maestro-20261008",
+  "master_files": [
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-20261008/plan.md",
+      "bytes": 14611,
+      "sha256": "195f5e4da9b93570bf9f087390ae894b94a8157c0e039247675879ae75ec5cbf"
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-20261008/estado.json",
+      "bytes": 57739,
+      "sha256": "eb510fc24843270c351362fa760af7426a10c07cc52866ee073f329d47f85a85"
+    },
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-20261008/eventos.jsonl",
+      "bytes": 91326,
+      "sha256": "5cc88207811bb596ec12dcc6ed9103bae9b7467dcdfe8b7049111e2085855361"
+    }
+  ],
+  "front_tasks": [
+    {
+      "id": "F01",
+      "status": "PASS",
+      "acceptance": [
+        "Copia fuera del Mac y hashes verificados"
+      ],
+      "authorization": "local-readonly"
+    },
+    {
+      "id": "F02",
+      "status": "PASS",
+      "acceptance": [
+        "14/14 resoluciones con identidad y hash"
+      ],
+      "authorization": "local-readonly"
+    },
+    {
+      "id": "F03",
+      "status": "PASS",
+      "acceptance": [
+        "Dos handoffs pre-M04 verificados sin generación"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F04",
+      "status": "PENDING",
+      "acceptance": [
+        "Matriz de 19 con gaps y pruebas"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F05",
+      "status": "PASS",
+      "acceptance": [
+        "Contrato y pruebas sin red"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F06",
+      "status": "PASS",
+      "acceptance": [
+        "Evidencia y corrección mínima sin promoción indebida"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F07",
+      "status": "PASS",
+      "acceptance": [
+        "19 resultados PASS o BLOCKED acreditado"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F08",
+      "status": "PASS",
+      "acceptance": [
+        "Matriz de procedencia, edición y elegibilidad"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F09",
+      "status": "PASS",
+      "acceptance": [
+        "Dictamen SHA final y CI satisfactoria; aprobación requerida"
+      ],
+      "authorization": "director-scope-required"
+    },
+    {
+      "id": "F10",
+      "status": "PENDING",
+      "acceptance": [
+        "Readiness por territorio sin confundir con producción"
+      ],
+      "authorization": "director-scope-required"
+    }
+  ],
+  "formal_transitions_recorded": false,
+  "decisions_proposed": {
+    "F04": "PENDING -> PASS solo tras aprobación expresa de Work y revisión",
+    "F10": "PENDING conservado; no proponer PASS con evidencia material o temporal incompleta"
+  },
+  "git": {
+    "base": "5216a1b25da7726dd73296723f22754dcf7451e1",
+    "reference_worktree_head": "35c0f6ee48aa398307d0810624bf2ebea94c16e3",
+    "branch": "codex/cierre-fuentes-20261011",
+    "isolated_clone": "/private/tmp/ddd-cierre-fuentes-20261011",
+    "reason": "proteger referencia y lanzador; Git común anterior de solo lectura",
+    "changes_since_prior_main": [
+      "5216a1b25da7726dd73296723f22754dcf7451e1 Merge PR #235: preservar precisión geométrica GeoJSON M06",
+      "6c8a6ed79c69968c72ff47baad4cb544933be40e Merge PR #236: precisión geométrica Aragón F10",
+      "776006e62ebd80ab20a55b186c3778bce76e9f19 Merge pull request #234 from jfmurciego/codex/gestor-nacional-preflight",
+      "d3a2238188d3f9acccfb8daf081157cf32be4c31 Merge pull request #233 from jfmurciego/codex/f10-productor-aislado"
+    ]
+  },
+  "protected_worktrees": [
+    {
+      "path": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales",
+      "head": "35c0f6ee48aa398307d0810624bf2ebea94c16e3",
+      "status": "?? docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json\n?? docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.md\n?? docs/AUDITORIAS/verificar_F02_F03_2026-10-09.py\n"
+    },
+    {
+      "path": "/private/tmp/ddd-f10-lanzador-controlado",
+      "head": "a287584e9081d70e179dd4fd3f7c30cbbe2d6e29",
+      "status": ""
+    }
+  ]
+}

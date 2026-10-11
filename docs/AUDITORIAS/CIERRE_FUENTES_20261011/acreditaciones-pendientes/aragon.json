@@ -1,0 +1,53 @@
+{
+  "schema": "ddd.source-accreditation-pending/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "checkpoint de acreditación, NO receipt canónico",
+  "origin": "5216a1b25da7726dd73296723f22754dcf7451e1",
+  "predecessor": null,
+  "changes": "vincular expediente al nuevo run real",
+  "reason": "bytes imprescindibles no materializados",
+  "decision": "BLOCKED",
+  "target_schema": "ddd.territorial-source-receipt/1.0",
+  "canonical_receipt_created": false,
+  "territory_id": "aragon",
+  "run_id": 38093067883,
+  "artifact_id": 11685591675,
+  "artifact_name": "ddd-source-package-aragon-2025-38093067883",
+  "source_commit": "5216a1b25da7726dd73296723f22754dcf7451e1",
+  "remote_artifact_sha256": "35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51",
+  "remote_artifact_bytes": 8193191,
+  "reported_package_sha256": "92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c",
+  "reported_package_bytes": 8206288,
+  "reported_acquired_at": "2026-10-10T23:19:54.268059+00:00",
+  "hash_source": "metadata remota / log auténtico; NO recalculado localmente",
+  "local_artifact_path": null,
+  "durable_location": null,
+  "package_sha256_verified": null,
+  "compatibility_report_member_verified": null,
+  "compatibility_report_sha256_verified": null,
+  "compatibility_identity_sha256_verified": null,
+  "territorial_identity_sha256_verified": null,
+  "temporal_contract": {
+    "producer_years_reported": [
+      2025,
+      2025
+    ],
+    "selected_years_required": [
+      2025,
+      2026
+    ],
+    "decision": "BLOCKED_YEAR_MISMATCH",
+    "source": "caller y log del nuevo productor; no manifiesto local"
+  },
+  "missing": [
+    "manifest y edición/años comprobados desde bytes",
+    "CRC exterior/interior y SHA interior recalculados",
+    "compatibility_report_member",
+    "compatibility_report_sha256",
+    "compatibility_identity_sha256",
+    "territorial_identity_sha256",
+    "conservación durable y receipt #179 del paquete exacto"
+  ],
+  "next_action": "materializar el ZIP del ID exacto en almacenamiento durable, verificar CRC/SHA/manifest/informe, emitir receipt por procedimiento #179 existente y probar en copia aislada sin activación canónica"
+}

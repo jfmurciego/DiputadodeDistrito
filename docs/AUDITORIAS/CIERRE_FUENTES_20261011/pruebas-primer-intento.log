@@ -1,0 +1,16 @@
+...........F........................ssssssssss/usr/local/Caskroom/miniforge/base/envs/ddd/lib/python3.10/zipfile.py:1541: UserWarning: Duplicate name: 'same'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+.................................
+======================================================================
+FAIL: test_00_executes_real_territorial_reuse_route_without_preparing_source (tests.test_prepared_source_pair_execution.OrchestrationModeTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/ddd-cierre-fuentes-20261011/tests/test_prepared_source_pair_execution.py", line 456, in test_00_executes_real_territorial_reuse_route_without_preparing_source
+    self.assertEqual(completed.returncode, 0, completed.stderr)
+AssertionError: 1 != 0 : /System/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python: No module named herramientas
+
+
+----------------------------------------------------------------------
+Ran 79 tests in 15.598s
+
+FAILED (failures=1, skipped=10)

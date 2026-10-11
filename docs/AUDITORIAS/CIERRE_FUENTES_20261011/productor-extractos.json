@@ -1,0 +1,102 @@
+{
+  "schema": "ddd.f10-producer-log-excerpts/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "reported internal package digests; no byte accreditation",
+  "origin": "authentic GitHub job logs",
+  "predecessor": null,
+  "changes": "bounded original excerpts",
+  "reason": "distinguish producer success from canonical consumption",
+  "rows": [
+    {
+      "run_id": 38082966768,
+      "job_id": 114303603610,
+      "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/38082966768",
+      "line": "2026-10-10T20:55:53.4893297Z {\"schema\": \"ddd-source-execution/1.0\", \"decision\": \"ACQUIRE\", \"restored_from_checkpoint\": false, \"edition\": \"2025\", \"sha256\": \"e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228\", \"bytes\": 26674695, \"records\": 2, \"origin\": \"https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv\", \"acquired_at\": \"2026-10-10T20:55:47.539546+00:00\"}",
+      "reported": {
+        "schema": "ddd-source-execution/1.0",
+        "decision": "ACQUIRE",
+        "restored_from_checkpoint": false,
+        "edition": "2025",
+        "sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228",
+        "bytes": 26674695,
+        "records": 2,
+        "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+        "acquired_at": "2026-10-10T20:55:47.539546+00:00"
+      },
+      "verification": "reported_by_authentic_job_log; NOT locally recomputed from archive bytes"
+    },
+    {
+      "run_id": 38093067883,
+      "job_id": 114333365191,
+      "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/38093067883",
+      "line": "2026-10-10T23:19:55.9664826Z {\"schema\": \"ddd-source-execution/1.0\", \"decision\": \"ACQUIRE\", \"restored_from_checkpoint\": false, \"edition\": \"2025\", \"sha256\": \"92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c\", \"bytes\": 8206288, \"records\": 2, \"origin\": \"https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv\", \"acquired_at\": \"2026-10-10T23:19:54.268059+00:00\"}",
+      "reported": {
+        "schema": "ddd-source-execution/1.0",
+        "decision": "ACQUIRE",
+        "restored_from_checkpoint": false,
+        "edition": "2025",
+        "sha256": "92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c",
+        "bytes": 8206288,
+        "records": 2,
+        "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+        "acquired_at": "2026-10-10T23:19:54.268059+00:00"
+      },
+      "verification": "reported_by_authentic_job_log; NOT locally recomputed from archive bytes"
+    },
+    {
+      "run_id": 38091055890,
+      "job_id": 114327476051,
+      "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/38091055890",
+      "line": "2026-10-10T22:52:45.3196488Z {\"schema\": \"ddd-source-execution/1.0\", \"decision\": \"ACQUIRE\", \"restored_from_checkpoint\": false, \"edition\": \"2025\", \"sha256\": \"c63c998459f0122a6dc856ed9cdbe022acc1d48cc05e2194d72e3d5f109bb2ec\", \"bytes\": 17426362, \"records\": 2, \"origin\": \"https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2705%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2709%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2724%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2734%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2737%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2740%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2742%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2747%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2749%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv\", \"acquired_at\": \"2026-10-10T22:52:42.326550+00:00\"}",
+      "reported": {
+        "schema": "ddd-source-execution/1.0",
+        "decision": "ACQUIRE",
+        "restored_from_checkpoint": false,
+        "edition": "2025",
+        "sha256": "c63c998459f0122a6dc856ed9cdbe022acc1d48cc05e2194d72e3d5f109bb2ec",
+        "bytes": 17426362,
+        "records": 2,
+        "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2705%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2709%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2724%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2734%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2737%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2740%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2742%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2747%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2749%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+        "acquired_at": "2026-10-10T22:52:42.326550+00:00"
+      },
+      "verification": "reported_by_authentic_job_log; NOT locally recomputed from archive bytes"
+    },
+    {
+      "run_id": 38091132175,
+      "job_id": 114327687459,
+      "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/38091132175",
+      "line": "2026-10-10T22:58:43.7470803Z {\"schema\": \"ddd-source-execution/1.0\", \"decision\": \"ACQUIRE\", \"restored_from_checkpoint\": false, \"edition\": \"2025\", \"sha256\": \"76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9\", \"bytes\": 10482491, \"records\": 2, \"origin\": \"https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv\", \"acquired_at\": \"2026-10-10T22:58:41.469687+00:00\"}",
+      "reported": {
+        "schema": "ddd-source-execution/1.0",
+        "decision": "ACQUIRE",
+        "restored_from_checkpoint": false,
+        "edition": "2025",
+        "sha256": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9",
+        "bytes": 10482491,
+        "records": 2,
+        "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+        "acquired_at": "2026-10-10T22:58:41.469687+00:00"
+      },
+      "verification": "reported_by_authentic_job_log; NOT locally recomputed from archive bytes"
+    },
+    {
+      "run_id": 38091144559,
+      "job_id": 114327715755,
+      "url": "https://github.com/jfmurciego/DiputadodeDistrito/actions/runs/38091144559",
+      "line": "2026-10-10T23:00:17.5462450Z {\"schema\": \"ddd-source-execution/1.0\", \"decision\": \"ACQUIRE\", \"restored_from_checkpoint\": false, \"edition\": \"2025\", \"sha256\": \"5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a\", \"bytes\": 7120031, \"records\": 2, \"origin\": \"https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv\", \"acquired_at\": \"2026-10-10T23:00:16.676744+00:00\"}",
+      "reported": {
+        "schema": "ddd-source-execution/1.0",
+        "decision": "ACQUIRE",
+        "restored_from_checkpoint": false,
+        "edition": "2025",
+        "sha256": "5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a",
+        "bytes": 7120031,
+        "records": 2,
+        "origin": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2706%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2710%27&filter-lang=cql2-text&limit=10000 | https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+        "acquired_at": "2026-10-10T23:00:16.676744+00:00"
+      },
+      "verification": "reported_by_authentic_job_log; NOT locally recomputed from archive bytes"
+    }
+  ]
+}

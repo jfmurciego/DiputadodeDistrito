@@ -1,0 +1,93 @@
+{
+  "schema": "ddd.delivery-manifest/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "cierre local Fuentes Oficiales, Plan Maestro existente",
+  "origin": "5216a1b25da7726dd73296723f22754dcf7451e1",
+  "predecessor": null,
+  "changes": "nuevos archivos de evidencia sin fuentes voluminosas",
+  "reason": "conservación y revisión exacta",
+  "status": "BLOCKED",
+  "files": [
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/ENTREGA.md",
+      "bytes": 12667,
+      "sha256": "18c363aeb56bfecec4533dd88c2140d2698ef69b6794af2640a0e015a768e606"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acceso.json",
+      "bytes": 2120,
+      "sha256": "457b39ae75522a230eebc24e3802783b18580901c60d96fe42366ac3f8d9d5d7"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acreditaciones-pendientes/andalucia.json",
+      "bytes": 2210,
+      "sha256": "8ff783909ce3d24902857f3c57b2bd85b504c8d1382f29e837811649f3b63b95"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acreditaciones-pendientes/aragon.json",
+      "bytes": 2202,
+      "sha256": "ffe15dae568c4cab8a27a233655bb8a9147313bf9e5aee5baa9eb7a0f7a7bd92"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acreditaciones-pendientes/castilla_y_leon.json",
+      "bytes": 2222,
+      "sha256": "e9da7225c78c1e84e615f527e52742e9d52556bca42f61e2036c439be0b74c96"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acreditaciones-pendientes/comunidad_valenciana.json",
+      "bytes": 2232,
+      "sha256": "0ff6225c6afd18da204dcd4e7b854257461456264ec5a0981fc077faa08e6da3"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/acreditaciones-pendientes/extremadura.json",
+      "bytes": 2223,
+      "sha256": "189635761cc763955b090db10c2a2e8451c3d359b9f7c436762c22808d99db74"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/actions.json",
+      "bytes": 196401,
+      "sha256": "321fa716eaaa049519af93ff6af56b67c71169bca342d46359257008d108d22e"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/productor-extractos.json",
+      "bytes": 15368,
+      "sha256": "bbd811ca422edc4a9cb01503040758daced24a4d1d8e84c2a7f626c3e0d8ae01"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/pruebas-almacen.log",
+      "bytes": 388,
+      "sha256": "2ee289bb557d170e57ffb49fdf122b7de089fbb5e6bba62d0ef81d10ecf74d21"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/pruebas-entorno-ddd.log",
+      "bytes": 365,
+      "sha256": "b77b8ec7ae426620d1dd5fcf18dcbdf1ea451ee004e3ef2c3467e2efadc67ae7"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/pruebas-primer-intento.log",
+      "bytes": 1103,
+      "sha256": "1ce2773dbc5508505c05f35bd8a7aa2af13e7ab977eb943588eef508b5fb02a8"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/reconciliacion.json",
+      "bytes": 4579,
+      "sha256": "b2caf26517134219f0294d97f3102200c63263c5e78d5a9a9f172e011d373a29"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/resultados.json",
+      "bytes": 65980,
+      "sha256": "b61567aa0664e1f9bb55d084adbcad5a516d63eece52605b54d8a4d3591d2c3e"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/verificacion.log",
+      "bytes": 117,
+      "sha256": "c7f5a1f507acecbe9e8f34dd7ff72de061133f4ae63bf14efbd4711281eedb2f"
+    },
+    {
+      "path": "docs/AUDITORIAS/CIERRE_FUENTES_20261011/verificar_cierre.py",
+      "bytes": 14836,
+      "sha256": "58ba9b10b6b163f011a8222af705b141aa6862ac1d96f45bf583c1aaede9a062"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+..melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+melilla RECOVERED_INVALID objeto existente contradictorio
+la_rioja RECOVERED_VERIFIED
+la_rioja RECOVERED_VERIFIED
+........
+----------------------------------------------------------------------
+Ran 10 tests in 2.164s
+
+OK
