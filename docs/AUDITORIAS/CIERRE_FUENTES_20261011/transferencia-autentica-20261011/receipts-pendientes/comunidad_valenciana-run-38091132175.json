@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.territorial-source-receipt/1.0",
+  "kind": "territorial_source",
+  "territory_id": "comunidad_valenciana",
+  "edition": "2025",
+  "population_year": 2025,
+  "section_year": 2025,
+  "run_id": 38091132175,
+  "artifact_name": "ddd-source-package-comunidad_valenciana-2025-38091132175",
+  "artifact_sha256": "528d2bfb2a7096120528fe5407473d13138551380278cfaa2a2928e521f57c5d",
+  "package_sha256": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9",
+  "source_commit": "776006e62ebd80ab20a55b186c3778bce76e9f19",
+  "territorial_identity_sha256": "f50c038b9e79935c6fc0327df0d4f40d0315dbae70bff5215c32ce4b48e2cd28",
+  "compatibility_report_member": "compatibilidad_poblacion_seccionado.json",
+  "compatibility_report_sha256": "222933109d893be4d518c3fd26254f2bbe1dc7230187d91691d58e00bb76172a",
+  "compatibility_identity_sha256": "7e32eb40ed00cb21b5effea580c67901bf1676ace4e99020c4c1f05ed2f78cba"
+}
