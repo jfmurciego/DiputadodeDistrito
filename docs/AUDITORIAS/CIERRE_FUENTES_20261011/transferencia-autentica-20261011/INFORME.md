@@ -31,7 +31,7 @@ El verificador nacional previo confirma **14 consumidores PASS y cinco BLOCKED**
 
 La salida está separada por dominio: receipt territorial Extremadura #179 = `PASS` en scratch; fuente electoral = `BLOCKED_PROVISIONAL`; readiness temporal vigente de cuatro paquetes = `BLOCKED_WRONG_YEAR`; catálogo canónico = sin cambios. Las tres identidades 2025/2026 y la identidad CV 2023/2023 carecen de paquete/receipt reusable local verificado. El inventario reutilizable detallado está en `inventario-reutilizacion.json`.
 
-Pruebas reproducibles, desde checkout limpio con dependencias geoespaciales instaladas:
+Pruebas reproducibles, desde checkout limpio con dependencias geoespaciales instaladas. Ambos scripts escriben únicamente en el directorio nuevo bajo `/private/tmp`; la revisión del checkout debe seguir limpia:
 
 ```sh
 python3 docs/AUDITORIAS/CIERRE_FUENTES_20261011/transferencia-autentica-20261011/verificar_transferencia.py \
@@ -41,5 +41,7 @@ python3 docs/AUDITORIAS/CIERRE_FUENTES_20261011/transferencia-autentica-20261011
   --validated-root /private/tmp/ddd-f10-transfer-verify-20261011 \
   --scratch /private/tmp/ddd-f10-extremadura-scratch-20261011
 ```
+
+Los borradores versionados son evidencia congelada de esta ejecución. Las nuevas reproducciones guardan receipts y resultados exclusivamente bajo `--output`, sin sobrescribir el expediente.
 
 Además, la selección unittest indicada arriba terminó con 58 tests OK, sin skips, excluyendo explícitamente el test que intenta invocar `00`.

@@ -50,6 +50,8 @@ def verify(transfer: Path, output: Path) -> dict:
     if output.exists() or not output.resolve().is_relative_to(Path("/private/tmp")):
         raise ValueError("la salida debe ser nueva y estar en /private/tmp")
     output.mkdir(parents=True)
+    receipt_output = output / "receipt-previews"
+    receipt_output.mkdir()
     with zipfile.ZipFile(transfer) as outer:
         extract_checked(outer, output)
 
@@ -126,13 +128,13 @@ def verify(transfer: Path, output: Path) -> dict:
             "compatibility_report_sha256": report_sha,
             "compatibility_identity_sha256": compatibility["compatibility_identity_sha256"],
         }
-        receipt_path = HERE / "receipts-pendientes" / f"{item['territory_id']}-run-{item['run_id']}.json"
+        receipt_path = receipt_output / f"{item['territory_id']}-run-{item['run_id']}.json"
         receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n")
         receipts.append(receipt)
         rows.append({**receipt, "artifact_id": item["artifact_id"],
                      "artifact_bytes": artifact.stat().st_size,
                      "prepared_validation": "PASS", "compatibility_validation": "PASS",
-                     "receipt_preview_path": receipt_path.relative_to(ROOT).as_posix()})
+                     "receipt_preview_filename": receipt_path.name})
 
     result = {
         "schema": "ddd.f10-authenticated-transfer-validation/1.0",
@@ -142,8 +144,8 @@ def verify(transfer: Path, output: Path) -> dict:
         "status": "VERIFIED_RECEIPTS_PREPARED_NOT_REGISTERED_NOT_PROMOTED",
         "rows": rows,
     }
-    (HERE / "validacion.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
-    (HERE / "receipts-pendientes.json").write_text(json.dumps({
+    (output / "validacion.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    (output / "receipts-pendientes.json").write_text(json.dumps({
         "schema": "ddd.f10-receipt-draft-set/1.0",
         "status": result["status"], "receipts": receipts,
     }, ensure_ascii=False, indent=2) + "\n")

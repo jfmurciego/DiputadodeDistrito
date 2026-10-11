@@ -22,7 +22,7 @@ from herramientas.seleccionar_paquete_fuentes import validate_prepared_package  
 def run(validated_root: Path, scratch: Path) -> dict:
     if scratch.exists() or not scratch.resolve().is_relative_to(Path("/private/tmp")):
         raise ValueError("scratch debe ser una ruta nueva bajo /private/tmp")
-    receipt_path = HERE / "receipts-pendientes/extremadura-run-38091144559.json"
+    receipt_path = validated_root / "receipt-previews/extremadura-run-38091144559.json"
     receipt = json.loads(receipt_path.read_text())
     if (receipt["territory_id"], receipt["edition"], receipt["population_year"],
             receipt["section_year"]) != ("extremadura", "2025", 2025, 2025):
