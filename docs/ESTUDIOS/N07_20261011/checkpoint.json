@@ -1,0 +1,170 @@
+{
+  "base": "7d50f7f5f2695cfac339122b5d7a95953a37d1f7",
+  "ci": "CI_PENDIENTE",
+  "conservation": {
+    "bundle": "incremento-local.bundle",
+    "fallback": "Standalone local preservation repository and prerequisite bundle inside worktree; no original branch mutation",
+    "original_worktree_commit": "BLOCKED_ENVIRONMENT",
+    "reason": "sandbox denied shared git index.lock outside writable roots"
+  },
+  "contract_files": [
+    {
+      "exact_recovery": true,
+      "path": "ddd_core/congreso_contract.py",
+      "present_in_current_main": false,
+      "sha256": "f6585fe6aa73c18f4bb0ba6ff77b8754313ab76f4760145aca5f90aa1b54e930"
+    },
+    {
+      "exact_recovery": true,
+      "path": "tests/test_congreso_contract.py",
+      "present_in_current_main": false,
+      "sha256": "046fa300cc9de0d0f630a3b6f906526fb60ab2c0269c5155fb42200b67d9e411"
+    },
+    {
+      "exact_recovery": true,
+      "path": "territorios/congreso/CONTRATO_CANDIDATO.md",
+      "present_in_current_main": false,
+      "sha256": "36982a1cb6d742bf5c35ccccfcc6f4a2e371ce72022e56d85367980461899fa1"
+    },
+    {
+      "exact_recovery": true,
+      "path": "territorios/congreso/contrato_congreso_2026.json",
+      "present_in_current_main": false,
+      "sha256": "bc420624c4c0197f6f812fc3bd06125d2e5fee6c632c734a68c410600506a041"
+    }
+  ],
+  "contract_recovered_from": "ae4a1cb68c352fcbde84d556e38992cf7e1906d7",
+  "date_utc": "2026-10-11T22:00:53.188014+00:00",
+  "external_plan_hashes": {
+    "estado.json": "9629871cc1d03b631cd39889d2fc4ba1b271f547df2ee2934af8d585d1223481",
+    "plan.md": "f275bc338762152514913d393e0b4f3f2458213a248aee7a46375452b84973b7"
+  },
+  "forbidden_actions_performed": [],
+  "integration": "PREPARED_LOCAL_NOT_MERGED",
+  "known_integrated_base": "4f9fd499f3be7103c3ea2d12f1b5a291da58e01d",
+  "main_observed": "cb3927b93edc9dd67703316d3fa47d769a42dc5e",
+  "origin": "new continuity delta; external plan not modified due filesystem write limits",
+  "plan_id": "ddd-maestro-20261008",
+  "reproduction": {
+    "csv_byte_identical": true,
+    "evidence_identical": true,
+    "log": "reproduction.log",
+    "result": "PASS",
+    "sha256": "e32133f8ce0c5b9bf36b309350c4246d519a19577a8ef9869265202230611f78"
+  },
+  "review": {
+    "blocking_findings": 0,
+    "final_commit_anchor": "See final reviewer response; report included in commit to avoid self-referential SHA",
+    "mode": "Separate Codex reviewer session",
+    "report": "REVISION.md",
+    "result": "GO_ACOTADO"
+  },
+  "schema": "ddd.master-plan-local-checkpoint/1.0",
+  "tasks": [
+    {
+      "evidence": "result/evidence.json",
+      "id": "N07",
+      "review": "GO_ACOTADO independent Codex session; administrative/diagnostic scope only",
+      "scope": "Same-edition administrative census correspondence; not topology/admissibility certification",
+      "status": "PASS"
+    },
+    {
+      "evidence": "continuacion/evidence.json",
+      "id": "N03",
+      "reason": "Historical source and geometry/population editions not accredited",
+      "status": "BLOCKED"
+    },
+    {
+      "evidence": "continuacion/evidence.json",
+      "id": "N04",
+      "repair": "NOT_PERFORMED",
+      "review": "GO_ACOTADO independent Codex session; administrative/diagnostic scope only",
+      "status": "PASS"
+    },
+    {
+      "evidence": "continuacion/evidence.json",
+      "id": "N05",
+      "review": "GO_ACOTADO independent Codex session; administrative/diagnostic scope only",
+      "status": "PASS"
+    },
+    {
+      "decision_adopted": false,
+      "evidence": "continuacion/evidence.json",
+      "id": "N06",
+      "status": "WAIT_OWNER"
+    },
+    {
+      "id": "N08",
+      "reason": "Contract approval, admissible inputs, specific execution authorization required",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "N09",
+      "reason": "Contract approval, admissible inputs, specific execution authorization required",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "N10",
+      "reason": "Contract approval, admissible inputs, specific execution authorization required",
+      "status": "BLOCKED"
+    }
+  ],
+  "tests": [
+    {
+      "log": "alternatives-tests.log",
+      "result": "PASS",
+      "sha256": "49b64614dcba830052f4348c9a595460b437a74d4bf3fa320499b3cfab4c82f4"
+    },
+    {
+      "log": "cartography-tests.log",
+      "result": "PASS",
+      "sha256": "210785711c5775d1ee35f31079228ed6e924ae44531d988908cb31780c57939c"
+    },
+    {
+      "log": "catalog-19-main-tests.log",
+      "result": "PASS",
+      "sha256": "65d69a60b2759830d71ddf51a357ed65c575e08edaa0f38a0096e380d691d902"
+    },
+    {
+      "log": "catalog-19-tests.log",
+      "result": "PASS",
+      "sha256": "65d69a60b2759830d71ddf51a357ed65c575e08edaa0f38a0096e380d691d902"
+    },
+    {
+      "log": "continuity-tests.log",
+      "result": "PASS",
+      "sha256": "56bed9e62bfbbb0d4491372da123ba6d85a698bbbee40760b6249be00593e7bf"
+    },
+    {
+      "log": "contract-main-tests.log",
+      "result": "PASS",
+      "sha256": "a8033cfe3cecefd7b6a540818e146f48b9e3f6acf93481403485766c1d2f2440"
+    },
+    {
+      "log": "contract-tests.log",
+      "result": "PASS",
+      "sha256": "0053394ef9b1de25de58e31988d0b87ebba356384e412e975b5ee2306819e328"
+    },
+    {
+      "log": "isolation-main-tests.log",
+      "result": "PASS",
+      "sha256": "aceff17556a8241911097f86c05dc06e6cf774d0a70b34e381258d28fed646ef"
+    },
+    {
+      "log": "isolation-tests.log",
+      "result": "PASS",
+      "sha256": "5c2cebd24bfe39fd139fe4fe5d97321ff909944958ba216feface46a0ea1b9f4"
+    },
+    {
+      "log": "tests.log",
+      "result": "PASS",
+      "sha256": "d64548fd6514ade7d4b7de0beea6a46056b829e364d6954fa5e14ae82911a3f0"
+    },
+    {
+      "log": "tests.log",
+      "result": "PASS",
+      "sha256": "d64548fd6514ade7d4b7de0beea6a46056b829e364d6954fa5e14ae82911a3f0"
+    }
+  ],
+  "version": "1.0.0"
+}

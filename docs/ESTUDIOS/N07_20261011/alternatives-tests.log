@@ -1,0 +1,13 @@
+test_exact_weighted_deviation_and_extremes (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_historical_distribution_is_not_cartographic_identity (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_invalid_values_reject (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_original_model_is_read_not_rewritten (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_population_difference_does_not_assert_demographic_growth (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_population_universe_version_and_totals_fail_closed (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_sensitivity_count_determinism_and_integer_allocation (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+test_zero_seats_retains_unrepresented_population (test_evaluacion_alternativas_nacionales.AlternativeMetrics) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.019s
+
+OK

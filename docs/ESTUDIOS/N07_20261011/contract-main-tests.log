@@ -1,0 +1,22 @@
+test_alternative_autonomous_contamination_fields_are_rejected_recursively (test_congreso_contract.CongressContractTests) ... ok
+test_autonomous_catalog_and_manager_are_rejected (test_congreso_contract.CongressContractTests) ... ok
+test_autonomous_cities_cannot_be_mislabeled_as_provinces (test_congreso_contract.CongressContractTests) ... ok
+test_bad_quota_types_fail_closed (test_congreso_contract.CongressContractTests) ... ok
+test_candidate_json_is_structural_only_and_fail_closed (test_congreso_contract.CongressContractTests) ... ok
+test_conflicting_universe_representations_are_rejected (test_congreso_contract.CongressContractTests) ... ok
+test_exact_52_scope_admitted_without_authorizing_generation (test_congreso_contract.CongressContractTests) ... ok
+test_invalid_circumscriptions_container_is_rejected (test_congreso_contract.CongressContractTests) ... ok
+test_missing_duplicate_and_unexpected_codes_rejected (test_congreso_contract.CongressContractTests) ... ok
+test_missing_province_barrier_fails_closed (test_congreso_contract.CongressContractTests) ... ok
+test_national_metadata_does_not_replace_execution_identity (test_congreso_contract.CongressContractTests) ... ok
+test_nested_k_and_territory_objects_are_closed (test_congreso_contract.CongressContractTests) ... ok
+test_nested_territory_metadata_is_rejected (test_congreso_contract.CongressContractTests) ... ok
+test_non_json_tuple_container_cannot_bypass_nested_schema (test_congreso_contract.CongressContractTests) ... ok
+test_non_string_code_rejected_without_type_error (test_congreso_contract.CongressContractTests) ... ok
+test_same_universe_in_different_order_is_admitted (test_congreso_contract.CongressContractTests) ... ok
+test_unknown_contract_fields_fail_closed (test_congreso_contract.CongressContractTests) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.036s
+
+OK
