@@ -123,14 +123,17 @@ class MaterializedPackageTests(unittest.TestCase):
                             for row in rows))
 
         contract_path = package.parents[1] / "contrato_congreso_2026.json"
-        legacy_path = package.parents[3] / "legacy/territorios/congreso/contrato_congreso_2026_pre_fuentes_ine_2025.json"
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        legacy = json.loads(legacy_path.read_text(encoding="utf-8"))
         self.assertEqual(contract["metadata"]["status"], "CANDIDATO_WAIT_OWNER")
-        self.assertEqual(contract["population_reference"], legacy["population_reference"])
-        self.assertEqual(contract["decisions"], legacy["decisions"])
-        self.assertEqual(contract["k_decision"], legacy["k_decision"])
-        self.assertEqual(contract["quotas_by_circumscription"], legacy["quotas_by_circumscription"])
+        self.assertEqual(contract["population_reference"]["status"], "WAIT_OWNER")
+        self.assertTrue(all(decision["status"] == "WAIT_OWNER" and decision["value"] is None
+                            for decision in contract["decisions"].values()))
+        self.assertEqual(contract["k_decision"], {
+            "status": "WAIT_OWNER", "total": None, "source_scope": None,
+            "decision_id": None, "quota_method": None,
+        })
+        self.assertIsNone(contract["quotas_by_circumscription"])
+        self.assertFalse(contract["accreditation"]["circumscription_accreditation"])
         self.assertFalse(contract["accreditation"]["generation_authorized"])
         self.assertTrue(all(contract["sources"][role]["accreditation"] == "ACCREDITED"
                             for role in ("geometry", "population")))
