@@ -1,0 +1,34 @@
+test_archipelago_physical_input_rejects_missing_lookup_and_inconsistent_apportionment (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_archipelago_policy_separates_institutional_k_from_ddd_apportionment (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_archipelago_registry_is_explicit_and_has_no_marine_edges (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_archipelagos_plan_physical_input_then_require_durable_pre_m04_evidence (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_component_hamilton_keeps_one_small_component_and_declares_exception (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_cross_year_geometry_derivation_sha_mismatch_blocks (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_cross_year_geometry_derivations_are_materially_bound (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_cross_year_inline_audit_mismatch_with_durable_blocks (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_cross_year_missing_geometry_derivation_blocks (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_dynamic_source_manifest_admits_2023_2024_and_2026_inputs (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_dynamic_source_manifest_rejects_invalid_digest (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_every_non_insular_territory_materializes_without_manual_promotion (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_hamilton_conserves_k (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_historical_archipelago_preflight_does_not_bypass_new_source_identity (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_m03_uses_source_admin_fields_before_physical_partitions_exist (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_materializes_asturias_without_manual_contract_work (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_materializes_balearic_archipelago_with_explicit_partition_exception (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_materializes_canary_archipelago_without_marine_bridge (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_non_insular_preflight_behavior_is_unchanged (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_physical_preparer_materializes_verifiable_m04_input_without_running_seed_engine (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... /usr/local/Caskroom/miniforge/base/envs/ddd/lib/python3.10/site-packages/pyogrio/geopandas.py:710: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+  write(
+ok
+test_physical_preparer_production_module_invocation_works_for_both_archipelagos (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_policy_covers_exactly_the_national_registry (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_population_parser_accepts_semicolon_official_subset (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_r026_component_inventories_match_partition_registry_and_ddd_audit (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_real_archipelago_contracts_separate_m02_source_fields_from_m04_partition_fields (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+test_ungoverned_archipelago_floor_exception_blocks (test_materializacion_contratos_nacionales.NationalGenerationMaterializationTests) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 7.628s
+
+OK
+[Módulo 4] particiones físicas materializadas territorio=demo particiones=2 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpg4hz5aka/m03_particiones.geojson.zip

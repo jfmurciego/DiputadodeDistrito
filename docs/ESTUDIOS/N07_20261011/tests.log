@@ -1,0 +1,17 @@
+test_city_municipality (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_complete (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_duplicate (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_equal_count_substitution (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_expected_counts (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_format (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_loss (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_prefix (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_province (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_real_artifact (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_type (test_crosswalk_nacional.CrosswalkTests) ... ok
+test_wrong_source_hash (test_crosswalk_nacional.CrosswalkTests) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 1.059s
+
+OK

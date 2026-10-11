@@ -1,0 +1,19 @@
+test_different_crs_equivalent_geometry_uses_metric_projection (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_discontinuity_is_diagnostic_or_blocked_by_explicit_contract (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_edition_unknown_incompatible_and_hash_false (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_geographic_unit_scope_and_crs_incompatible (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_identical_geometry_population_delta_and_identity (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_internal_overlapping_districts_block (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_invalid_bowtie_and_hole_outside_shell (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_missing_identity_and_duplicate_identity_fail_closed (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_permutation_determinism (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_point_contact_is_not_positive_area_correspondence (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_provenance_must_be_explicitly_accredited (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_renumbering_is_not_identity_conservation_without_accreditation (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_shift_overlap_and_coverage_known_analytically (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+test_split_does_not_force_one_to_one_mapping (test_comparacion_cartografica_nacional.CartographicComparison) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.740s
+
+OK
