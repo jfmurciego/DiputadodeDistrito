@@ -18,6 +18,7 @@ from unittest import mock
 
 from herramientas import consumir_par_fuentes_legislatura as consumer
 from herramientas.compatibilidad_poblacion_seccionado import REPORT_NAME, validate_compatibility_package
+from herramientas.resolver_ejecucion_completa import build_plan
 from tests.test_prepared_source_pair_execution import build_source_fixture
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +34,55 @@ if os.environ.get('DDD_F10_BASELINE') == '1':
 
 
 class F10ReceiptContractTests(unittest.TestCase):
+    def test_extremadura_f10_receipt_is_authentic_evidence_without_replacing_product_lineage(self):
+        receipt_rel = (
+            'territorios/extremadura/evidencia/fuentes_territoriales/2025/'
+            '70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/'
+            '38091144559/receipt.json'
+        )
+        receipt = json.loads((ROOT / receipt_rel).read_text(encoding='utf-8'))
+        registry = json.loads(
+            (ROOT / 'docs/AUDITORIAS/CIERRE_REAL_FUENTES_20261011/registro-autenticos.json')
+            .read_text(encoding='utf-8')
+        )
+        entry = next(row for row in registry['rows'] if row['territory_id'] == 'extremadura')
+        self.assertEqual(entry['receipt_path'], receipt_rel)
+        self.assertFalse(entry['promoted'])
+        self.assertEqual(entry['promotion_status'],
+                         'AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED')
+        self.assertEqual(
+            {key: receipt[key] for key in (
+                'schema', 'kind', 'territory_id', 'edition', 'run_id', 'artifact_name',
+                'artifact_sha256', 'package_sha256', 'source_commit',
+                'territorial_identity_sha256', 'compatibility_report_sha256',
+                'compatibility_identity_sha256',
+            )},
+            {
+                'schema': 'ddd.territorial-source-receipt/1.0',
+                'kind': 'territorial_source',
+                'territory_id': 'extremadura',
+                'edition': '2025',
+                'run_id': 38091144559,
+                'artifact_name': 'ddd-source-package-extremadura-2025-38091144559',
+                'artifact_sha256': 'b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc',
+                'package_sha256': '5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a',
+                'source_commit': '776006e62ebd80ab20a55b186c3778bce76e9f19',
+                'territorial_identity_sha256': '70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084',
+                'compatibility_report_sha256': 'a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346',
+                'compatibility_identity_sha256': 'cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959',
+            },
+        )
+
+        plan = build_plan(
+            territory='Extremadura', edition='2025', execution_mode='reuse',
+            catalog=ROOT / 'configuracion/catalogo_preparacion.yaml', root_dir=ROOT,
+            optimization_algorithm='Canónico', force_selected_algorithm=True,
+        )
+        self.assertFalse(plan['run_prepare_territorial'])
+        self.assertFalse(plan['run_generate'])
+        self.assertEqual(plan['existing']['territorial_product']['run_id'], 36472516474)
+        self.assertEqual(plan['existing']['territorial_source']['run_id'], 35755043806)
+
     def test_local_derived_receipts_never_accredit_effective_bytes(self):
         for territory in TERRITORIES:
             with self.subTest(territory=territory), self.assertRaisesRegex(

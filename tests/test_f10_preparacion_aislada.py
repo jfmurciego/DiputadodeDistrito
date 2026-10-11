@@ -92,7 +92,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         for key, level in producer['permissions'].items():
             self.assertEqual(level, self.workflow['permissions'][key])
 
-    def test_fourteen_historical_receipts_extremadura_accredited_four_blocks_remain(self):
+    def test_fourteen_historical_receipts_remain_and_extremadura_f10_is_unpromoted(self):
         prior = ROOT / 'docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json'
         rows = json.loads(prior.read_text())['rows']
         self.assertEqual(14, len(rows))
@@ -107,7 +107,22 @@ class F10PreparacionAisladaTests(unittest.TestCase):
             with self.subTest(territory=territory), self.assertRaises(PreparedPairExecutionBlock):
                 validate_territorial_receipt(root_dir=ROOT, territory=territory, edition='2025')
 
-        _, receipt = validate_territorial_receipt(root_dir=ROOT, territory='extremadura', edition='2025')
+        with self.assertRaisesRegex(PreparedPairExecutionBlock, 'falta receipt territorial versionado'):
+            validate_territorial_receipt(root_dir=ROOT, territory='extremadura', edition='2025')
+
+        receipt_rel = (
+            'territorios/extremadura/evidencia/fuentes_territoriales/2025/'
+            '70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/'
+            '38091144559/receipt.json'
+        )
+        receipt = json.loads((ROOT / receipt_rel).read_text(encoding='utf-8'))
+        registry = json.loads(
+            (ROOT / 'docs/AUDITORIAS/CIERRE_REAL_FUENTES_20261011/registro-autenticos.json')
+            .read_text(encoding='utf-8')
+        )
+        row = next(item for item in registry['rows'] if item['territory_id'] == 'extremadura')
+        self.assertEqual(receipt_rel, row['receipt_path'])
+        self.assertFalse(row['promoted'])
         self.assertEqual(38091144559, receipt['run_id'])
         self.assertEqual((2025, 2025), (receipt['population_year'], receipt['section_year']))
         self.assertEqual('5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a', receipt['package_sha256'])

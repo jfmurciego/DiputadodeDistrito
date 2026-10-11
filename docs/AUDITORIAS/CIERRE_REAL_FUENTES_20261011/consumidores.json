@@ -6,8 +6,8 @@
   "predecessor": null,
   "historical_store_manifest_sha256": "92c6acc0f29a4e1897de6c6f69bc025f0cf11722ebb4aa36e69a534b9ad3130c",
   "counts": {
-    "PASS": 15,
-    "BLOCKED": 4
+    "PASS": 14,
+    "BLOCKED": 5
   },
   "rows": [
     {
@@ -261,24 +261,9 @@
       "publication_executed": false,
       "electoral_bytes_validated": false,
       "electoral_admissibility": "BLOCKED",
-      "effective_validation": {
-        "schema": "ddd.prepared-territorial-source-execution-validation/1.0",
-        "decision": "READY",
-        "territory_id": "extremadura",
-        "edition": "2025",
-        "territorial_identity_sha256": "70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084",
-        "compatibility_report_sha256": "a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346",
-        "compatibility_identity_sha256": "cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959"
-      },
-      "consumer": "PASS",
-      "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json",
-      "identity": "70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084",
-      "package_sha256": "5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a",
-      "actual_years": [
-        2025,
-        2025
-      ],
-      "temporal_contract": "PASS"
+      "consumer": "BLOCKED",
+      "reason": "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179",
+      "temporal_contract": "BLOCKED_UNACCREDITED_BYTES"
     },
     {
       "territory_id": "galicia",

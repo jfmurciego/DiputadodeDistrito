@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "date": "2026-10-11",
-  "scope": "Registro autorizado #179, cinco receipts auténticos; activación temporal sólo Extremadura",
+  "scope": "Registro autorizado #179, cinco receipts auténticos; Extremadura queda como evidencia independiente no promovida para preservar el linaje del producto",
   "origin": "2af7d0d6acd15b05ad382f1afc12a75a59ddbf76",
   "predecessor": null,
   "rows": [
@@ -33,6 +33,8 @@
       "territory_id": "extremadura",
       "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json",
       "current_temporal_contract": true,
+      "promoted": false,
+      "promotion_status": "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
       "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/extremadura",
       "effective_validation": {
         "schema": "ddd.prepared-territorial-source-execution-validation/1.0",
