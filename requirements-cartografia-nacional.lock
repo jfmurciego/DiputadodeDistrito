@@ -1,0 +1,7 @@
+# VERSIÓN: 1.0.0; NOMBRE: análisis cartográfico nacional; FECHA: 2026-10-08.
+# ALCANCE: entorno local aislado; ESTADO: CI_PENDIENTE; CAMBIOS: fija dependencias analíticas.
+# MOTIVO: fixtures y diagnósticos reproducibles; ORIGEN: nuevo, sin predecesor.
+shapely==2.1.1
+pyproj==3.7.2
+numpy==2.4.6
+certifi==2026.7.22

@@ -1,0 +1,2195 @@
+{
+  "alternatives": [
+    {
+      "city_fixed_one_reference_violations": [
+        "51",
+        "52"
+      ],
+      "equals_congress_size_reference": false,
+      "k_total": 383,
+      "minimum_reference_violations": [
+        "05",
+        "16",
+        "22",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "population_total": 49128297,
+      "rows": [
+        {
+          "allocation_quota": "113987/40000",
+          "k_assigned": 2,
+          "mean_population": "341961/2",
+          "population": 341961,
+          "province_code": "01",
+          "target_quota": "113987/40000"
+        },
+        {
+          "allocation_quota": "390751/120000",
+          "k_assigned": 3,
+          "mean_population": "390751/3",
+          "population": 390751,
+          "province_code": "02",
+          "target_quota": "390751/120000"
+        },
+        {
+          "allocation_quota": "1016783/60000",
+          "k_assigned": 16,
+          "mean_population": "1016783/8",
+          "population": 2033566,
+          "province_code": "03",
+          "target_quota": "1016783/60000"
+        },
+        {
+          "allocation_quota": "385277/60000",
+          "k_assigned": 6,
+          "mean_population": "385277/3",
+          "population": 770554,
+          "province_code": "04",
+          "target_quota": "385277/60000"
+        },
+        {
+          "allocation_quota": "80369/60000",
+          "k_assigned": 1,
+          "mean_population": "160738",
+          "population": 160738,
+          "province_code": "05",
+          "target_quota": "80369/60000"
+        },
+        {
+          "allocation_quota": "133031/24000",
+          "k_assigned": 5,
+          "mean_population": "133031",
+          "population": 665155,
+          "province_code": "06",
+          "target_quota": "133031/24000"
+        },
+        {
+          "allocation_quota": "312461/30000",
+          "k_assigned": 10,
+          "mean_population": "624922/5",
+          "population": 1249844,
+          "province_code": "07",
+          "target_quota": "312461/30000"
+        },
+        {
+          "allocation_quota": "1986647/40000",
+          "k_assigned": 49,
+          "mean_population": "5959941/49",
+          "population": 5959941,
+          "province_code": "08",
+          "target_quota": "1986647/40000"
+        },
+        {
+          "allocation_quota": "362663/120000",
+          "k_assigned": 3,
+          "mean_population": "362663/3",
+          "population": 362663,
+          "province_code": "09",
+          "target_quota": "362663/120000"
+        },
+        {
+          "allocation_quota": "38819/12000",
+          "k_assigned": 3,
+          "mean_population": "388190/3",
+          "population": 388190,
+          "province_code": "10",
+          "target_quota": "38819/12000"
+        },
+        {
+          "allocation_quota": "63071/6000",
+          "k_assigned": 10,
+          "mean_population": "126142",
+          "population": 1261420,
+          "province_code": "11",
+          "target_quota": "63071/6000"
+        },
+        {
+          "allocation_quota": "31381/6000",
+          "k_assigned": 5,
+          "mean_population": "125524",
+          "population": 627620,
+          "province_code": "12",
+          "target_quota": "31381/6000"
+        },
+        {
+          "allocation_quota": "7732/1875",
+          "k_assigned": 4,
+          "mean_population": "123712",
+          "population": 494848,
+          "province_code": "13",
+          "target_quota": "7732/1875"
+        },
+        {
+          "allocation_quota": "257721/40000",
+          "k_assigned": 6,
+          "mean_population": "257721/2",
+          "population": 773163,
+          "province_code": "14",
+          "target_quota": "257721/40000"
+        },
+        {
+          "allocation_quota": "378541/40000",
+          "k_assigned": 9,
+          "mean_population": "378541/3",
+          "population": 1135623,
+          "province_code": "15",
+          "target_quota": "378541/40000"
+        },
+        {
+          "allocation_quota": "199859/120000",
+          "k_assigned": 1,
+          "mean_population": "199859",
+          "population": 199859,
+          "province_code": "16",
+          "target_quota": "199859/120000"
+        },
+        {
+          "allocation_quota": "830429/120000",
+          "k_assigned": 6,
+          "mean_population": "830429/6",
+          "population": 830429,
+          "province_code": "17",
+          "target_quota": "830429/120000"
+        },
+        {
+          "allocation_quota": "945797/120000",
+          "k_assigned": 7,
+          "mean_population": "945797/7",
+          "population": 945797,
+          "province_code": "18",
+          "target_quota": "945797/120000"
+        },
+        {
+          "allocation_quota": "285839/120000",
+          "k_assigned": 2,
+          "mean_population": "285839/2",
+          "population": 285839,
+          "province_code": "19",
+          "target_quota": "285839/120000"
+        },
+        {
+          "allocation_quota": "244383/40000",
+          "k_assigned": 6,
+          "mean_population": "244383/2",
+          "population": 733149,
+          "province_code": "20",
+          "target_quota": "244383/40000"
+        },
+        {
+          "allocation_quota": "538789/120000",
+          "k_assigned": 4,
+          "mean_population": "538789/4",
+          "population": 538789,
+          "province_code": "21",
+          "target_quota": "538789/120000"
+        },
+        {
+          "allocation_quota": "230087/120000",
+          "k_assigned": 1,
+          "mean_population": "230087",
+          "population": 230087,
+          "province_code": "22",
+          "target_quota": "230087/120000"
+        },
+        {
+          "allocation_quota": "618143/120000",
+          "k_assigned": 5,
+          "mean_population": "618143/5",
+          "population": 618143,
+          "province_code": "23",
+          "target_quota": "618143/120000"
+        },
+        {
+          "allocation_quota": "44803/12000",
+          "k_assigned": 3,
+          "mean_population": "448030/3",
+          "population": 448030,
+          "province_code": "24",
+          "target_quota": "44803/12000"
+        },
+        {
+          "allocation_quota": "76371/20000",
+          "k_assigned": 3,
+          "mean_population": "152742",
+          "population": 458226,
+          "province_code": "25",
+          "target_quota": "76371/20000"
+        },
+        {
+          "allocation_quota": "326803/120000",
+          "k_assigned": 2,
+          "mean_population": "326803/2",
+          "population": 326803,
+          "province_code": "26",
+          "target_quota": "326803/120000"
+        },
+        {
+          "allocation_quota": "54337/20000",
+          "k_assigned": 2,
+          "mean_population": "163011",
+          "population": 326022,
+          "province_code": "27",
+          "target_quota": "54337/20000"
+        },
+        {
+          "allocation_quota": "3556943/60000",
+          "k_assigned": 59,
+          "mean_population": "7113886/59",
+          "population": 7113886,
+          "province_code": "28",
+          "target_quota": "3556943/60000"
+        },
+        {
+          "allocation_quota": "597061/40000",
+          "k_assigned": 14,
+          "mean_population": "1791183/14",
+          "population": 1791183,
+          "province_code": "29",
+          "target_quota": "597061/40000"
+        },
+        {
+          "allocation_quota": "1586989/120000",
+          "k_assigned": 13,
+          "mean_population": "1586989/13",
+          "population": 1586989,
+          "province_code": "30",
+          "target_quota": "1586989/120000"
+        },
+        {
+          "allocation_quota": "341927/60000",
+          "k_assigned": 5,
+          "mean_population": "683854/5",
+          "population": 683854,
+          "province_code": "31",
+          "target_quota": "341927/60000"
+        },
+        {
+          "allocation_quota": "152639/60000",
+          "k_assigned": 2,
+          "mean_population": "152639",
+          "population": 305278,
+          "province_code": "32",
+          "target_quota": "152639/60000"
+        },
+        {
+          "allocation_quota": "42297/5000",
+          "k_assigned": 8,
+          "mean_population": "126891",
+          "population": 1015128,
+          "province_code": "33",
+          "target_quota": "42297/5000"
+        },
+        {
+          "allocation_quota": "79351/60000",
+          "k_assigned": 1,
+          "mean_population": "158702",
+          "population": 158702,
+          "province_code": "34",
+          "target_quota": "79351/60000"
+        },
+        {
+          "allocation_quota": "1171547/120000",
+          "k_assigned": 9,
+          "mean_population": "1171547/9",
+          "population": 1171547,
+          "province_code": "35",
+          "target_quota": "1171547/120000"
+        },
+        {
+          "allocation_quota": "473909/60000",
+          "k_assigned": 7,
+          "mean_population": "947818/7",
+          "population": 947818,
+          "province_code": "36",
+          "target_quota": "473909/60000"
+        },
+        {
+          "allocation_quota": "54741/20000",
+          "k_assigned": 2,
+          "mean_population": "164223",
+          "population": 328446,
+          "province_code": "37",
+          "target_quota": "54741/20000"
+        },
+        {
+          "allocation_quota": "1087319/120000",
+          "k_assigned": 9,
+          "mean_population": "1087319/9",
+          "population": 1087319,
+          "province_code": "38",
+          "target_quota": "1087319/120000"
+        },
+        {
+          "allocation_quota": "593623/120000",
+          "k_assigned": 4,
+          "mean_population": "593623/4",
+          "population": 593623,
+          "province_code": "39",
+          "target_quota": "593623/120000"
+        },
+        {
+          "allocation_quota": "158251/120000",
+          "k_assigned": 1,
+          "mean_population": "158251",
+          "population": 158251,
+          "province_code": "40",
+          "target_quota": "158251/120000"
+        },
+        {
+          "allocation_quota": "30901/1875",
+          "k_assigned": 16,
+          "mean_population": "123604",
+          "population": 1977664,
+          "province_code": "41",
+          "target_quota": "30901/1875"
+        },
+        {
+          "allocation_quota": "30061/40000",
+          "k_assigned": 0,
+          "mean_population": null,
+          "population": 90183,
+          "province_code": "42",
+          "target_quota": "30061/40000"
+        },
+        {
+          "allocation_quota": "87553/12000",
+          "k_assigned": 7,
+          "mean_population": "875530/7",
+          "population": 875530,
+          "province_code": "43",
+          "target_quota": "87553/12000"
+        },
+        {
+          "allocation_quota": "136091/120000",
+          "k_assigned": 1,
+          "mean_population": "136091",
+          "population": 136091,
+          "province_code": "44",
+          "target_quota": "136091/120000"
+        },
+        {
+          "allocation_quota": "755081/120000",
+          "k_assigned": 6,
+          "mean_population": "755081/6",
+          "population": 755081,
+          "province_code": "45",
+          "target_quota": "755081/120000"
+        },
+        {
+          "allocation_quota": "230333/10000",
+          "k_assigned": 23,
+          "mean_population": "2763996/23",
+          "population": 2763996,
+          "province_code": "46",
+          "target_quota": "230333/10000"
+        },
+        {
+          "allocation_quota": "132161/30000",
+          "k_assigned": 4,
+          "mean_population": "132161",
+          "population": 528644,
+          "province_code": "47",
+          "target_quota": "132161/30000"
+        },
+        {
+          "allocation_quota": "1167233/120000",
+          "k_assigned": 9,
+          "mean_population": "1167233/9",
+          "population": 1167233,
+          "province_code": "48",
+          "target_quota": "1167233/120000"
+        },
+        {
+          "allocation_quota": "13797/10000",
+          "k_assigned": 1,
+          "mean_population": "165564",
+          "population": 165564,
+          "province_code": "49",
+          "target_quota": "13797/10000"
+        },
+        {
+          "allocation_quota": "998443/120000",
+          "k_assigned": 8,
+          "mean_population": "998443/8",
+          "population": 998443,
+          "province_code": "50",
+          "target_quota": "998443/120000"
+        },
+        {
+          "allocation_quota": "83567/120000",
+          "k_assigned": 0,
+          "mean_population": null,
+          "population": 83567,
+          "province_code": "51",
+          "target_quota": "83567/120000"
+        },
+        {
+          "allocation_quota": "87067/120000",
+          "k_assigned": 0,
+          "mean_population": null,
+          "population": 87067,
+          "province_code": "52",
+          "target_quota": "87067/120000"
+        }
+      ],
+      "rule": "floor_independiente",
+      "within_constitutional_size_reference": true,
+      "zero_district_populated_provinces": [
+        "42",
+        "51",
+        "52"
+      ]
+    },
+    {
+      "city_fixed_one_reference_violations": [],
+      "equals_congress_size_reference": false,
+      "k_total": 407,
+      "minimum_reference_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "population_total": 49128297,
+      "rows": [
+        {
+          "allocation_quota": "113987/40000",
+          "k_assigned": 3,
+          "mean_population": "113987",
+          "population": 341961,
+          "province_code": "01",
+          "target_quota": "113987/40000"
+        },
+        {
+          "allocation_quota": "390751/120000",
+          "k_assigned": 3,
+          "mean_population": "390751/3",
+          "population": 390751,
+          "province_code": "02",
+          "target_quota": "390751/120000"
+        },
+        {
+          "allocation_quota": "1016783/60000",
+          "k_assigned": 17,
+          "mean_population": "2033566/17",
+          "population": 2033566,
+          "province_code": "03",
+          "target_quota": "1016783/60000"
+        },
+        {
+          "allocation_quota": "385277/60000",
+          "k_assigned": 6,
+          "mean_population": "385277/3",
+          "population": 770554,
+          "province_code": "04",
+          "target_quota": "385277/60000"
+        },
+        {
+          "allocation_quota": "80369/60000",
+          "k_assigned": 1,
+          "mean_population": "160738",
+          "population": 160738,
+          "province_code": "05",
+          "target_quota": "80369/60000"
+        },
+        {
+          "allocation_quota": "133031/24000",
+          "k_assigned": 6,
+          "mean_population": "665155/6",
+          "population": 665155,
+          "province_code": "06",
+          "target_quota": "133031/24000"
+        },
+        {
+          "allocation_quota": "312461/30000",
+          "k_assigned": 10,
+          "mean_population": "624922/5",
+          "population": 1249844,
+          "province_code": "07",
+          "target_quota": "312461/30000"
+        },
+        {
+          "allocation_quota": "1986647/40000",
+          "k_assigned": 50,
+          "mean_population": "5959941/50",
+          "population": 5959941,
+          "province_code": "08",
+          "target_quota": "1986647/40000"
+        },
+        {
+          "allocation_quota": "362663/120000",
+          "k_assigned": 3,
+          "mean_population": "362663/3",
+          "population": 362663,
+          "province_code": "09",
+          "target_quota": "362663/120000"
+        },
+        {
+          "allocation_quota": "38819/12000",
+          "k_assigned": 3,
+          "mean_population": "388190/3",
+          "population": 388190,
+          "province_code": "10",
+          "target_quota": "38819/12000"
+        },
+        {
+          "allocation_quota": "63071/6000",
+          "k_assigned": 11,
+          "mean_population": "1261420/11",
+          "population": 1261420,
+          "province_code": "11",
+          "target_quota": "63071/6000"
+        },
+        {
+          "allocation_quota": "31381/6000",
+          "k_assigned": 5,
+          "mean_population": "125524",
+          "population": 627620,
+          "province_code": "12",
+          "target_quota": "31381/6000"
+        },
+        {
+          "allocation_quota": "7732/1875",
+          "k_assigned": 4,
+          "mean_population": "123712",
+          "population": 494848,
+          "province_code": "13",
+          "target_quota": "7732/1875"
+        },
+        {
+          "allocation_quota": "257721/40000",
+          "k_assigned": 6,
+          "mean_population": "257721/2",
+          "population": 773163,
+          "province_code": "14",
+          "target_quota": "257721/40000"
+        },
+        {
+          "allocation_quota": "378541/40000",
+          "k_assigned": 9,
+          "mean_population": "378541/3",
+          "population": 1135623,
+          "province_code": "15",
+          "target_quota": "378541/40000"
+        },
+        {
+          "allocation_quota": "199859/120000",
+          "k_assigned": 2,
+          "mean_population": "199859/2",
+          "population": 199859,
+          "province_code": "16",
+          "target_quota": "199859/120000"
+        },
+        {
+          "allocation_quota": "830429/120000",
+          "k_assigned": 7,
+          "mean_population": "830429/7",
+          "population": 830429,
+          "province_code": "17",
+          "target_quota": "830429/120000"
+        },
+        {
+          "allocation_quota": "945797/120000",
+          "k_assigned": 8,
+          "mean_population": "945797/8",
+          "population": 945797,
+          "province_code": "18",
+          "target_quota": "945797/120000"
+        },
+        {
+          "allocation_quota": "285839/120000",
+          "k_assigned": 2,
+          "mean_population": "285839/2",
+          "population": 285839,
+          "province_code": "19",
+          "target_quota": "285839/120000"
+        },
+        {
+          "allocation_quota": "244383/40000",
+          "k_assigned": 6,
+          "mean_population": "244383/2",
+          "population": 733149,
+          "province_code": "20",
+          "target_quota": "244383/40000"
+        },
+        {
+          "allocation_quota": "538789/120000",
+          "k_assigned": 4,
+          "mean_population": "538789/4",
+          "population": 538789,
+          "province_code": "21",
+          "target_quota": "538789/120000"
+        },
+        {
+          "allocation_quota": "230087/120000",
+          "k_assigned": 2,
+          "mean_population": "230087/2",
+          "population": 230087,
+          "province_code": "22",
+          "target_quota": "230087/120000"
+        },
+        {
+          "allocation_quota": "618143/120000",
+          "k_assigned": 5,
+          "mean_population": "618143/5",
+          "population": 618143,
+          "province_code": "23",
+          "target_quota": "618143/120000"
+        },
+        {
+          "allocation_quota": "44803/12000",
+          "k_assigned": 4,
+          "mean_population": "224015/2",
+          "population": 448030,
+          "province_code": "24",
+          "target_quota": "44803/12000"
+        },
+        {
+          "allocation_quota": "76371/20000",
+          "k_assigned": 4,
+          "mean_population": "229113/2",
+          "population": 458226,
+          "province_code": "25",
+          "target_quota": "76371/20000"
+        },
+        {
+          "allocation_quota": "326803/120000",
+          "k_assigned": 3,
+          "mean_population": "326803/3",
+          "population": 326803,
+          "province_code": "26",
+          "target_quota": "326803/120000"
+        },
+        {
+          "allocation_quota": "54337/20000",
+          "k_assigned": 3,
+          "mean_population": "108674",
+          "population": 326022,
+          "province_code": "27",
+          "target_quota": "54337/20000"
+        },
+        {
+          "allocation_quota": "3556943/60000",
+          "k_assigned": 59,
+          "mean_population": "7113886/59",
+          "population": 7113886,
+          "province_code": "28",
+          "target_quota": "3556943/60000"
+        },
+        {
+          "allocation_quota": "597061/40000",
+          "k_assigned": 15,
+          "mean_population": "597061/5",
+          "population": 1791183,
+          "province_code": "29",
+          "target_quota": "597061/40000"
+        },
+        {
+          "allocation_quota": "1586989/120000",
+          "k_assigned": 13,
+          "mean_population": "1586989/13",
+          "population": 1586989,
+          "province_code": "30",
+          "target_quota": "1586989/120000"
+        },
+        {
+          "allocation_quota": "341927/60000",
+          "k_assigned": 6,
+          "mean_population": "341927/3",
+          "population": 683854,
+          "province_code": "31",
+          "target_quota": "341927/60000"
+        },
+        {
+          "allocation_quota": "152639/60000",
+          "k_assigned": 3,
+          "mean_population": "305278/3",
+          "population": 305278,
+          "province_code": "32",
+          "target_quota": "152639/60000"
+        },
+        {
+          "allocation_quota": "42297/5000",
+          "k_assigned": 8,
+          "mean_population": "126891",
+          "population": 1015128,
+          "province_code": "33",
+          "target_quota": "42297/5000"
+        },
+        {
+          "allocation_quota": "79351/60000",
+          "k_assigned": 1,
+          "mean_population": "158702",
+          "population": 158702,
+          "province_code": "34",
+          "target_quota": "79351/60000"
+        },
+        {
+          "allocation_quota": "1171547/120000",
+          "k_assigned": 10,
+          "mean_population": "1171547/10",
+          "population": 1171547,
+          "province_code": "35",
+          "target_quota": "1171547/120000"
+        },
+        {
+          "allocation_quota": "473909/60000",
+          "k_assigned": 8,
+          "mean_population": "473909/4",
+          "population": 947818,
+          "province_code": "36",
+          "target_quota": "473909/60000"
+        },
+        {
+          "allocation_quota": "54741/20000",
+          "k_assigned": 3,
+          "mean_population": "109482",
+          "population": 328446,
+          "province_code": "37",
+          "target_quota": "54741/20000"
+        },
+        {
+          "allocation_quota": "1087319/120000",
+          "k_assigned": 9,
+          "mean_population": "1087319/9",
+          "population": 1087319,
+          "province_code": "38",
+          "target_quota": "1087319/120000"
+        },
+        {
+          "allocation_quota": "593623/120000",
+          "k_assigned": 5,
+          "mean_population": "593623/5",
+          "population": 593623,
+          "province_code": "39",
+          "target_quota": "593623/120000"
+        },
+        {
+          "allocation_quota": "158251/120000",
+          "k_assigned": 1,
+          "mean_population": "158251",
+          "population": 158251,
+          "province_code": "40",
+          "target_quota": "158251/120000"
+        },
+        {
+          "allocation_quota": "30901/1875",
+          "k_assigned": 16,
+          "mean_population": "123604",
+          "population": 1977664,
+          "province_code": "41",
+          "target_quota": "30901/1875"
+        },
+        {
+          "allocation_quota": "30061/40000",
+          "k_assigned": 1,
+          "mean_population": "90183",
+          "population": 90183,
+          "province_code": "42",
+          "target_quota": "30061/40000"
+        },
+        {
+          "allocation_quota": "87553/12000",
+          "k_assigned": 7,
+          "mean_population": "875530/7",
+          "population": 875530,
+          "province_code": "43",
+          "target_quota": "87553/12000"
+        },
+        {
+          "allocation_quota": "136091/120000",
+          "k_assigned": 1,
+          "mean_population": "136091",
+          "population": 136091,
+          "province_code": "44",
+          "target_quota": "136091/120000"
+        },
+        {
+          "allocation_quota": "755081/120000",
+          "k_assigned": 6,
+          "mean_population": "755081/6",
+          "population": 755081,
+          "province_code": "45",
+          "target_quota": "755081/120000"
+        },
+        {
+          "allocation_quota": "230333/10000",
+          "k_assigned": 23,
+          "mean_population": "2763996/23",
+          "population": 2763996,
+          "province_code": "46",
+          "target_quota": "230333/10000"
+        },
+        {
+          "allocation_quota": "132161/30000",
+          "k_assigned": 4,
+          "mean_population": "132161",
+          "population": 528644,
+          "province_code": "47",
+          "target_quota": "132161/30000"
+        },
+        {
+          "allocation_quota": "1167233/120000",
+          "k_assigned": 10,
+          "mean_population": "1167233/10",
+          "population": 1167233,
+          "province_code": "48",
+          "target_quota": "1167233/120000"
+        },
+        {
+          "allocation_quota": "13797/10000",
+          "k_assigned": 1,
+          "mean_population": "165564",
+          "population": 165564,
+          "province_code": "49",
+          "target_quota": "13797/10000"
+        },
+        {
+          "allocation_quota": "998443/120000",
+          "k_assigned": 8,
+          "mean_population": "998443/8",
+          "population": 998443,
+          "province_code": "50",
+          "target_quota": "998443/120000"
+        },
+        {
+          "allocation_quota": "83567/120000",
+          "k_assigned": 1,
+          "mean_population": "83567",
+          "population": 83567,
+          "province_code": "51",
+          "target_quota": "83567/120000"
+        },
+        {
+          "allocation_quota": "87067/120000",
+          "k_assigned": 1,
+          "mean_population": "87067",
+          "population": 87067,
+          "province_code": "52",
+          "target_quota": "87067/120000"
+        }
+      ],
+      "rule": "nearest_half_up_independiente",
+      "within_constitutional_size_reference": false,
+      "zero_district_populated_provinces": []
+    },
+    {
+      "city_fixed_one_reference_violations": [],
+      "equals_congress_size_reference": false,
+      "k_total": 435,
+      "minimum_reference_violations": [
+        "42"
+      ],
+      "population_total": 49128297,
+      "rows": [
+        {
+          "allocation_quota": "113987/40000",
+          "k_assigned": 3,
+          "mean_population": "113987",
+          "population": 341961,
+          "province_code": "01",
+          "target_quota": "113987/40000"
+        },
+        {
+          "allocation_quota": "390751/120000",
+          "k_assigned": 4,
+          "mean_population": "390751/4",
+          "population": 390751,
+          "province_code": "02",
+          "target_quota": "390751/120000"
+        },
+        {
+          "allocation_quota": "1016783/60000",
+          "k_assigned": 17,
+          "mean_population": "2033566/17",
+          "population": 2033566,
+          "province_code": "03",
+          "target_quota": "1016783/60000"
+        },
+        {
+          "allocation_quota": "385277/60000",
+          "k_assigned": 7,
+          "mean_population": "770554/7",
+          "population": 770554,
+          "province_code": "04",
+          "target_quota": "385277/60000"
+        },
+        {
+          "allocation_quota": "80369/60000",
+          "k_assigned": 2,
+          "mean_population": "80369",
+          "population": 160738,
+          "province_code": "05",
+          "target_quota": "80369/60000"
+        },
+        {
+          "allocation_quota": "133031/24000",
+          "k_assigned": 6,
+          "mean_population": "665155/6",
+          "population": 665155,
+          "province_code": "06",
+          "target_quota": "133031/24000"
+        },
+        {
+          "allocation_quota": "312461/30000",
+          "k_assigned": 11,
+          "mean_population": "1249844/11",
+          "population": 1249844,
+          "province_code": "07",
+          "target_quota": "312461/30000"
+        },
+        {
+          "allocation_quota": "1986647/40000",
+          "k_assigned": 50,
+          "mean_population": "5959941/50",
+          "population": 5959941,
+          "province_code": "08",
+          "target_quota": "1986647/40000"
+        },
+        {
+          "allocation_quota": "362663/120000",
+          "k_assigned": 4,
+          "mean_population": "362663/4",
+          "population": 362663,
+          "province_code": "09",
+          "target_quota": "362663/120000"
+        },
+        {
+          "allocation_quota": "38819/12000",
+          "k_assigned": 4,
+          "mean_population": "194095/2",
+          "population": 388190,
+          "province_code": "10",
+          "target_quota": "38819/12000"
+        },
+        {
+          "allocation_quota": "63071/6000",
+          "k_assigned": 11,
+          "mean_population": "1261420/11",
+          "population": 1261420,
+          "province_code": "11",
+          "target_quota": "63071/6000"
+        },
+        {
+          "allocation_quota": "31381/6000",
+          "k_assigned": 6,
+          "mean_population": "313810/3",
+          "population": 627620,
+          "province_code": "12",
+          "target_quota": "31381/6000"
+        },
+        {
+          "allocation_quota": "7732/1875",
+          "k_assigned": 5,
+          "mean_population": "494848/5",
+          "population": 494848,
+          "province_code": "13",
+          "target_quota": "7732/1875"
+        },
+        {
+          "allocation_quota": "257721/40000",
+          "k_assigned": 7,
+          "mean_population": "773163/7",
+          "population": 773163,
+          "province_code": "14",
+          "target_quota": "257721/40000"
+        },
+        {
+          "allocation_quota": "378541/40000",
+          "k_assigned": 10,
+          "mean_population": "1135623/10",
+          "population": 1135623,
+          "province_code": "15",
+          "target_quota": "378541/40000"
+        },
+        {
+          "allocation_quota": "199859/120000",
+          "k_assigned": 2,
+          "mean_population": "199859/2",
+          "population": 199859,
+          "province_code": "16",
+          "target_quota": "199859/120000"
+        },
+        {
+          "allocation_quota": "830429/120000",
+          "k_assigned": 7,
+          "mean_population": "830429/7",
+          "population": 830429,
+          "province_code": "17",
+          "target_quota": "830429/120000"
+        },
+        {
+          "allocation_quota": "945797/120000",
+          "k_assigned": 8,
+          "mean_population": "945797/8",
+          "population": 945797,
+          "province_code": "18",
+          "target_quota": "945797/120000"
+        },
+        {
+          "allocation_quota": "285839/120000",
+          "k_assigned": 3,
+          "mean_population": "285839/3",
+          "population": 285839,
+          "province_code": "19",
+          "target_quota": "285839/120000"
+        },
+        {
+          "allocation_quota": "244383/40000",
+          "k_assigned": 7,
+          "mean_population": "733149/7",
+          "population": 733149,
+          "province_code": "20",
+          "target_quota": "244383/40000"
+        },
+        {
+          "allocation_quota": "538789/120000",
+          "k_assigned": 5,
+          "mean_population": "538789/5",
+          "population": 538789,
+          "province_code": "21",
+          "target_quota": "538789/120000"
+        },
+        {
+          "allocation_quota": "230087/120000",
+          "k_assigned": 2,
+          "mean_population": "230087/2",
+          "population": 230087,
+          "province_code": "22",
+          "target_quota": "230087/120000"
+        },
+        {
+          "allocation_quota": "618143/120000",
+          "k_assigned": 6,
+          "mean_population": "618143/6",
+          "population": 618143,
+          "province_code": "23",
+          "target_quota": "618143/120000"
+        },
+        {
+          "allocation_quota": "44803/12000",
+          "k_assigned": 4,
+          "mean_population": "224015/2",
+          "population": 448030,
+          "province_code": "24",
+          "target_quota": "44803/12000"
+        },
+        {
+          "allocation_quota": "76371/20000",
+          "k_assigned": 4,
+          "mean_population": "229113/2",
+          "population": 458226,
+          "province_code": "25",
+          "target_quota": "76371/20000"
+        },
+        {
+          "allocation_quota": "326803/120000",
+          "k_assigned": 3,
+          "mean_population": "326803/3",
+          "population": 326803,
+          "province_code": "26",
+          "target_quota": "326803/120000"
+        },
+        {
+          "allocation_quota": "54337/20000",
+          "k_assigned": 3,
+          "mean_population": "108674",
+          "population": 326022,
+          "province_code": "27",
+          "target_quota": "54337/20000"
+        },
+        {
+          "allocation_quota": "3556943/60000",
+          "k_assigned": 60,
+          "mean_population": "3556943/30",
+          "population": 7113886,
+          "province_code": "28",
+          "target_quota": "3556943/60000"
+        },
+        {
+          "allocation_quota": "597061/40000",
+          "k_assigned": 15,
+          "mean_population": "597061/5",
+          "population": 1791183,
+          "province_code": "29",
+          "target_quota": "597061/40000"
+        },
+        {
+          "allocation_quota": "1586989/120000",
+          "k_assigned": 14,
+          "mean_population": "1586989/14",
+          "population": 1586989,
+          "province_code": "30",
+          "target_quota": "1586989/120000"
+        },
+        {
+          "allocation_quota": "341927/60000",
+          "k_assigned": 6,
+          "mean_population": "341927/3",
+          "population": 683854,
+          "province_code": "31",
+          "target_quota": "341927/60000"
+        },
+        {
+          "allocation_quota": "152639/60000",
+          "k_assigned": 3,
+          "mean_population": "305278/3",
+          "population": 305278,
+          "province_code": "32",
+          "target_quota": "152639/60000"
+        },
+        {
+          "allocation_quota": "42297/5000",
+          "k_assigned": 9,
+          "mean_population": "112792",
+          "population": 1015128,
+          "province_code": "33",
+          "target_quota": "42297/5000"
+        },
+        {
+          "allocation_quota": "79351/60000",
+          "k_assigned": 2,
+          "mean_population": "79351",
+          "population": 158702,
+          "province_code": "34",
+          "target_quota": "79351/60000"
+        },
+        {
+          "allocation_quota": "1171547/120000",
+          "k_assigned": 10,
+          "mean_population": "1171547/10",
+          "population": 1171547,
+          "province_code": "35",
+          "target_quota": "1171547/120000"
+        },
+        {
+          "allocation_quota": "473909/60000",
+          "k_assigned": 8,
+          "mean_population": "473909/4",
+          "population": 947818,
+          "province_code": "36",
+          "target_quota": "473909/60000"
+        },
+        {
+          "allocation_quota": "54741/20000",
+          "k_assigned": 3,
+          "mean_population": "109482",
+          "population": 328446,
+          "province_code": "37",
+          "target_quota": "54741/20000"
+        },
+        {
+          "allocation_quota": "1087319/120000",
+          "k_assigned": 10,
+          "mean_population": "1087319/10",
+          "population": 1087319,
+          "province_code": "38",
+          "target_quota": "1087319/120000"
+        },
+        {
+          "allocation_quota": "593623/120000",
+          "k_assigned": 5,
+          "mean_population": "593623/5",
+          "population": 593623,
+          "province_code": "39",
+          "target_quota": "593623/120000"
+        },
+        {
+          "allocation_quota": "158251/120000",
+          "k_assigned": 2,
+          "mean_population": "158251/2",
+          "population": 158251,
+          "province_code": "40",
+          "target_quota": "158251/120000"
+        },
+        {
+          "allocation_quota": "30901/1875",
+          "k_assigned": 17,
+          "mean_population": "1977664/17",
+          "population": 1977664,
+          "province_code": "41",
+          "target_quota": "30901/1875"
+        },
+        {
+          "allocation_quota": "30061/40000",
+          "k_assigned": 1,
+          "mean_population": "90183",
+          "population": 90183,
+          "province_code": "42",
+          "target_quota": "30061/40000"
+        },
+        {
+          "allocation_quota": "87553/12000",
+          "k_assigned": 8,
+          "mean_population": "437765/4",
+          "population": 875530,
+          "province_code": "43",
+          "target_quota": "87553/12000"
+        },
+        {
+          "allocation_quota": "136091/120000",
+          "k_assigned": 2,
+          "mean_population": "136091/2",
+          "population": 136091,
+          "province_code": "44",
+          "target_quota": "136091/120000"
+        },
+        {
+          "allocation_quota": "755081/120000",
+          "k_assigned": 7,
+          "mean_population": "755081/7",
+          "population": 755081,
+          "province_code": "45",
+          "target_quota": "755081/120000"
+        },
+        {
+          "allocation_quota": "230333/10000",
+          "k_assigned": 24,
+          "mean_population": "230333/2",
+          "population": 2763996,
+          "province_code": "46",
+          "target_quota": "230333/10000"
+        },
+        {
+          "allocation_quota": "132161/30000",
+          "k_assigned": 5,
+          "mean_population": "528644/5",
+          "population": 528644,
+          "province_code": "47",
+          "target_quota": "132161/30000"
+        },
+        {
+          "allocation_quota": "1167233/120000",
+          "k_assigned": 10,
+          "mean_population": "1167233/10",
+          "population": 1167233,
+          "province_code": "48",
+          "target_quota": "1167233/120000"
+        },
+        {
+          "allocation_quota": "13797/10000",
+          "k_assigned": 2,
+          "mean_population": "82782",
+          "population": 165564,
+          "province_code": "49",
+          "target_quota": "13797/10000"
+        },
+        {
+          "allocation_quota": "998443/120000",
+          "k_assigned": 9,
+          "mean_population": "998443/9",
+          "population": 998443,
+          "province_code": "50",
+          "target_quota": "998443/120000"
+        },
+        {
+          "allocation_quota": "83567/120000",
+          "k_assigned": 1,
+          "mean_population": "83567",
+          "population": 83567,
+          "province_code": "51",
+          "target_quota": "83567/120000"
+        },
+        {
+          "allocation_quota": "87067/120000",
+          "k_assigned": 1,
+          "mean_population": "87067",
+          "population": 87067,
+          "province_code": "52",
+          "target_quota": "87067/120000"
+        }
+      ],
+      "rule": "ceil_independiente",
+      "within_constitutional_size_reference": false,
+      "zero_district_populated_provinces": []
+    },
+    {
+      "city_fixed_one_reference_violations": [],
+      "equals_congress_size_reference": false,
+      "k_total": 409,
+      "minimum_reference_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "population_total": 49128297,
+      "rows": [
+        {
+          "allocation_quota": "46620683/16376099",
+          "k_assigned": 3,
+          "mean_population": "113987",
+          "population": 341961,
+          "province_code": "01",
+          "target_quota": "113987/40000"
+        },
+        {
+          "allocation_quota": "159817159/49128297",
+          "k_assigned": 3,
+          "mean_population": "390751/3",
+          "population": 390751,
+          "province_code": "02",
+          "target_quota": "390751/120000"
+        },
+        {
+          "allocation_quota": "831728494/49128297",
+          "k_assigned": 17,
+          "mean_population": "2033566/17",
+          "population": 2033566,
+          "province_code": "03",
+          "target_quota": "1016783/60000"
+        },
+        {
+          "allocation_quota": "315156586/49128297",
+          "k_assigned": 6,
+          "mean_population": "385277/3",
+          "population": 770554,
+          "province_code": "04",
+          "target_quota": "385277/60000"
+        },
+        {
+          "allocation_quota": "65741842/49128297",
+          "k_assigned": 1,
+          "mean_population": "160738",
+          "population": 160738,
+          "province_code": "05",
+          "target_quota": "80369/60000"
+        },
+        {
+          "allocation_quota": "272048395/49128297",
+          "k_assigned": 6,
+          "mean_population": "665155/6",
+          "population": 665155,
+          "province_code": "06",
+          "target_quota": "133031/24000"
+        },
+        {
+          "allocation_quota": "511186196/49128297",
+          "k_assigned": 10,
+          "mean_population": "624922/5",
+          "population": 1249844,
+          "province_code": "07",
+          "target_quota": "312461/30000"
+        },
+        {
+          "allocation_quota": "812538623/16376099",
+          "k_assigned": 50,
+          "mean_population": "5959941/50",
+          "population": 5959941,
+          "province_code": "08",
+          "target_quota": "1986647/40000"
+        },
+        {
+          "allocation_quota": "148329167/49128297",
+          "k_assigned": 3,
+          "mean_population": "362663/3",
+          "population": 362663,
+          "province_code": "09",
+          "target_quota": "362663/120000"
+        },
+        {
+          "allocation_quota": "158769710/49128297",
+          "k_assigned": 3,
+          "mean_population": "388190/3",
+          "population": 388190,
+          "province_code": "10",
+          "target_quota": "38819/12000"
+        },
+        {
+          "allocation_quota": "8744420/832683",
+          "k_assigned": 11,
+          "mean_population": "1261420/11",
+          "population": 1261420,
+          "province_code": "11",
+          "target_quota": "63071/6000"
+        },
+        {
+          "allocation_quota": "256696580/49128297",
+          "k_assigned": 5,
+          "mean_population": "125524",
+          "population": 627620,
+          "province_code": "12",
+          "target_quota": "31381/6000"
+        },
+        {
+          "allocation_quota": "202392832/49128297",
+          "k_assigned": 4,
+          "mean_population": "123712",
+          "population": 494848,
+          "province_code": "13",
+          "target_quota": "7732/1875"
+        },
+        {
+          "allocation_quota": "105407889/16376099",
+          "k_assigned": 6,
+          "mean_population": "257721/2",
+          "population": 773163,
+          "province_code": "14",
+          "target_quota": "257721/40000"
+        },
+        {
+          "allocation_quota": "154823269/16376099",
+          "k_assigned": 9,
+          "mean_population": "378541/3",
+          "population": 1135623,
+          "province_code": "15",
+          "target_quota": "378541/40000"
+        },
+        {
+          "allocation_quota": "81742331/49128297",
+          "k_assigned": 2,
+          "mean_population": "199859/2",
+          "population": 199859,
+          "province_code": "16",
+          "target_quota": "199859/120000"
+        },
+        {
+          "allocation_quota": "339645461/49128297",
+          "k_assigned": 7,
+          "mean_population": "830429/7",
+          "population": 830429,
+          "province_code": "17",
+          "target_quota": "830429/120000"
+        },
+        {
+          "allocation_quota": "386830973/49128297",
+          "k_assigned": 8,
+          "mean_population": "945797/8",
+          "population": 945797,
+          "province_code": "18",
+          "target_quota": "945797/120000"
+        },
+        {
+          "allocation_quota": "116908151/49128297",
+          "k_assigned": 2,
+          "mean_population": "285839/2",
+          "population": 285839,
+          "province_code": "19",
+          "target_quota": "285839/120000"
+        },
+        {
+          "allocation_quota": "1885899/308983",
+          "k_assigned": 6,
+          "mean_population": "244383/2",
+          "population": 733149,
+          "province_code": "20",
+          "target_quota": "244383/40000"
+        },
+        {
+          "allocation_quota": "220364701/49128297",
+          "k_assigned": 5,
+          "mean_population": "538789/5",
+          "population": 538789,
+          "province_code": "21",
+          "target_quota": "538789/120000"
+        },
+        {
+          "allocation_quota": "94105583/49128297",
+          "k_assigned": 2,
+          "mean_population": "230087/2",
+          "population": 230087,
+          "province_code": "22",
+          "target_quota": "230087/120000"
+        },
+        {
+          "allocation_quota": "4285093/832683",
+          "k_assigned": 5,
+          "mean_population": "618143/5",
+          "population": 618143,
+          "province_code": "23",
+          "target_quota": "618143/120000"
+        },
+        {
+          "allocation_quota": "183244270/49128297",
+          "k_assigned": 4,
+          "mean_population": "224015/2",
+          "population": 448030,
+          "province_code": "24",
+          "target_quota": "44803/12000"
+        },
+        {
+          "allocation_quota": "62471478/16376099",
+          "k_assigned": 4,
+          "mean_population": "229113/2",
+          "population": 458226,
+          "province_code": "25",
+          "target_quota": "76371/20000"
+        },
+        {
+          "allocation_quota": "133662427/49128297",
+          "k_assigned": 3,
+          "mean_population": "326803/3",
+          "population": 326803,
+          "province_code": "26",
+          "target_quota": "326803/120000"
+        },
+        {
+          "allocation_quota": "44447666/16376099",
+          "k_assigned": 3,
+          "mean_population": "108674",
+          "population": 326022,
+          "province_code": "27",
+          "target_quota": "54337/20000"
+        },
+        {
+          "allocation_quota": "2909579374/49128297",
+          "k_assigned": 59,
+          "mean_population": "7113886/59",
+          "population": 7113886,
+          "province_code": "28",
+          "target_quota": "3556943/60000"
+        },
+        {
+          "allocation_quota": "244197949/16376099",
+          "k_assigned": 15,
+          "mean_population": "597061/5",
+          "population": 1791183,
+          "province_code": "29",
+          "target_quota": "597061/40000"
+        },
+        {
+          "allocation_quota": "649078501/49128297",
+          "k_assigned": 13,
+          "mean_population": "1586989/13",
+          "population": 1586989,
+          "province_code": "30",
+          "target_quota": "1586989/120000"
+        },
+        {
+          "allocation_quota": "279696286/49128297",
+          "k_assigned": 6,
+          "mean_population": "341927/3",
+          "population": 683854,
+          "province_code": "31",
+          "target_quota": "341927/60000"
+        },
+        {
+          "allocation_quota": "124858702/49128297",
+          "k_assigned": 3,
+          "mean_population": "305278/3",
+          "population": 305278,
+          "province_code": "32",
+          "target_quota": "152639/60000"
+        },
+        {
+          "allocation_quota": "138395784/16376099",
+          "k_assigned": 8,
+          "mean_population": "126891",
+          "population": 1015128,
+          "province_code": "33",
+          "target_quota": "42297/5000"
+        },
+        {
+          "allocation_quota": "64909118/49128297",
+          "k_assigned": 1,
+          "mean_population": "158702",
+          "population": 158702,
+          "province_code": "34",
+          "target_quota": "79351/60000"
+        },
+        {
+          "allocation_quota": "479162723/49128297",
+          "k_assigned": 10,
+          "mean_population": "1171547/10",
+          "population": 1171547,
+          "province_code": "35",
+          "target_quota": "1171547/120000"
+        },
+        {
+          "allocation_quota": "387657562/49128297",
+          "k_assigned": 8,
+          "mean_population": "473909/4",
+          "population": 947818,
+          "province_code": "36",
+          "target_quota": "473909/60000"
+        },
+        {
+          "allocation_quota": "44778138/16376099",
+          "k_assigned": 3,
+          "mean_population": "109482",
+          "population": 328446,
+          "province_code": "37",
+          "target_quota": "54741/20000"
+        },
+        {
+          "allocation_quota": "444713471/49128297",
+          "k_assigned": 9,
+          "mean_population": "1087319/9",
+          "population": 1087319,
+          "province_code": "38",
+          "target_quota": "1087319/120000"
+        },
+        {
+          "allocation_quota": "242791807/49128297",
+          "k_assigned": 5,
+          "mean_population": "593623/5",
+          "population": 593623,
+          "province_code": "39",
+          "target_quota": "593623/120000"
+        },
+        {
+          "allocation_quota": "64724659/49128297",
+          "k_assigned": 1,
+          "mean_population": "158251",
+          "population": 158251,
+          "province_code": "40",
+          "target_quota": "158251/120000"
+        },
+        {
+          "allocation_quota": "808864576/49128297",
+          "k_assigned": 17,
+          "mean_population": "1977664/17",
+          "population": 1977664,
+          "province_code": "41",
+          "target_quota": "30901/1875"
+        },
+        {
+          "allocation_quota": "12294949/16376099",
+          "k_assigned": 1,
+          "mean_population": "90183",
+          "population": 90183,
+          "province_code": "42",
+          "target_quota": "30061/40000"
+        },
+        {
+          "allocation_quota": "358091770/49128297",
+          "k_assigned": 7,
+          "mean_population": "875530/7",
+          "population": 875530,
+          "province_code": "43",
+          "target_quota": "87553/12000"
+        },
+        {
+          "allocation_quota": "55661219/49128297",
+          "k_assigned": 1,
+          "mean_population": "136091",
+          "population": 136091,
+          "province_code": "44",
+          "target_quota": "136091/120000"
+        },
+        {
+          "allocation_quota": "308828129/49128297",
+          "k_assigned": 6,
+          "mean_population": "755081/6",
+          "population": 755081,
+          "province_code": "45",
+          "target_quota": "755081/120000"
+        },
+        {
+          "allocation_quota": "376824788/16376099",
+          "k_assigned": 23,
+          "mean_population": "2763996/23",
+          "population": 2763996,
+          "province_code": "46",
+          "target_quota": "230333/10000"
+        },
+        {
+          "allocation_quota": "216215396/49128297",
+          "k_assigned": 4,
+          "mean_population": "132161",
+          "population": 528644,
+          "province_code": "47",
+          "target_quota": "132161/30000"
+        },
+        {
+          "allocation_quota": "477398297/49128297",
+          "k_assigned": 10,
+          "mean_population": "1167233/10",
+          "population": 1167233,
+          "province_code": "48",
+          "target_quota": "1167233/120000"
+        },
+        {
+          "allocation_quota": "22571892/16376099",
+          "k_assigned": 1,
+          "mean_population": "165564",
+          "population": 165564,
+          "province_code": "49",
+          "target_quota": "13797/10000"
+        },
+        {
+          "allocation_quota": "408363187/49128297",
+          "k_assigned": 8,
+          "mean_population": "998443/8",
+          "population": 998443,
+          "province_code": "50",
+          "target_quota": "998443/120000"
+        },
+        {
+          "allocation_quota": "34178903/49128297",
+          "k_assigned": 1,
+          "mean_population": "83567",
+          "population": 83567,
+          "province_code": "51",
+          "target_quota": "83567/120000"
+        },
+        {
+          "allocation_quota": "35610403/49128297",
+          "k_assigned": 1,
+          "mean_population": "87067",
+          "population": 87067,
+          "province_code": "52",
+          "target_quota": "87067/120000"
+        }
+      ],
+      "rule": "hamilton_k_derivado",
+      "within_constitutional_size_reference": false,
+      "zero_district_populated_provinces": []
+    },
+    {
+      "city_fixed_one_reference_violations": [],
+      "equals_congress_size_reference": false,
+      "k_total": 409,
+      "minimum_reference_violations": [],
+      "population_total": 49128297,
+      "rows": [
+        {
+          "allocation_quota": "67632451/16319221",
+          "k_assigned": 4,
+          "mean_population": "341961/4",
+          "population": 341961,
+          "province_code": "01",
+          "target_quota": "113987/40000"
+        },
+        {
+          "allocation_quota": "217875883/48957663",
+          "k_assigned": 5,
+          "mean_population": "390751/5",
+          "population": 390751,
+          "province_code": "02",
+          "target_quota": "390751/120000"
+        },
+        {
+          "allocation_quota": "722220088/48957663",
+          "k_assigned": 15,
+          "mean_population": "2033566/15",
+          "population": 2033566,
+          "province_code": "03",
+          "target_quota": "1016783/60000"
+        },
+        {
+          "allocation_quota": "334475404/48957663",
+          "k_assigned": 7,
+          "mean_population": "770554/7",
+          "population": 770554,
+          "province_code": "04",
+          "target_quota": "385277/60000"
+        },
+        {
+          "allocation_quota": "147261892/48957663",
+          "k_assigned": 3,
+          "mean_population": "160738/3",
+          "population": 160738,
+          "province_code": "05",
+          "target_quota": "80369/60000"
+        },
+        {
+          "allocation_quota": "302117911/48957663",
+          "k_assigned": 6,
+          "mean_population": "665155/6",
+          "population": 665155,
+          "province_code": "06",
+          "target_quota": "133031/24000"
+        },
+        {
+          "allocation_quota": "481617434/48957663",
+          "k_assigned": 10,
+          "mean_population": "624922/5",
+          "population": 1249844,
+          "province_code": "07",
+          "target_quota": "312461/30000"
+        },
+        {
+          "allocation_quota": "642539071/16319221",
+          "k_assigned": 39,
+          "mean_population": "152819",
+          "population": 5959941,
+          "province_code": "08",
+          "target_quota": "1986647/40000"
+        },
+        {
+          "allocation_quota": "209252867/48957663",
+          "k_assigned": 4,
+          "mean_population": "362663/4",
+          "population": 362663,
+          "province_code": "09",
+          "target_quota": "362663/120000"
+        },
+        {
+          "allocation_quota": "217089656/48957663",
+          "k_assigned": 4,
+          "mean_population": "194095/2",
+          "population": 388190,
+          "province_code": "10",
+          "target_quota": "38819/12000"
+        },
+        {
+          "allocation_quota": "485171266/48957663",
+          "k_assigned": 10,
+          "mean_population": "126142",
+          "population": 1261420,
+          "province_code": "11",
+          "target_quota": "63071/6000"
+        },
+        {
+          "allocation_quota": "290594666/48957663",
+          "k_assigned": 6,
+          "mean_population": "313810/3",
+          "population": 627620,
+          "province_code": "12",
+          "target_quota": "31381/6000"
+        },
+        {
+          "allocation_quota": "249833662/48957663",
+          "k_assigned": 5,
+          "mean_population": "494848/5",
+          "population": 494848,
+          "province_code": "13",
+          "target_quota": "7732/1875"
+        },
+        {
+          "allocation_quota": "111758789/16319221",
+          "k_assigned": 7,
+          "mean_population": "773163/7",
+          "population": 773163,
+          "province_code": "14",
+          "target_quota": "257721/40000"
+        },
+        {
+          "allocation_quota": "148850529/16319221",
+          "k_assigned": 9,
+          "mean_population": "378541/3",
+          "population": 1135623,
+          "province_code": "15",
+          "target_quota": "378541/40000"
+        },
+        {
+          "allocation_quota": "159272039/48957663",
+          "k_assigned": 3,
+          "mean_population": "199859/3",
+          "population": 199859,
+          "province_code": "16",
+          "target_quota": "199859/120000"
+        },
+        {
+          "allocation_quota": "352857029/48957663",
+          "k_assigned": 7,
+          "mean_population": "830429/7",
+          "population": 830429,
+          "province_code": "17",
+          "target_quota": "830429/120000"
+        },
+        {
+          "allocation_quota": "388275005/48957663",
+          "k_assigned": 8,
+          "mean_population": "945797/8",
+          "population": 945797,
+          "province_code": "18",
+          "target_quota": "945797/120000"
+        },
+        {
+          "allocation_quota": "185667899/48957663",
+          "k_assigned": 4,
+          "mean_population": "285839/4",
+          "population": 285839,
+          "province_code": "19",
+          "target_quota": "285839/120000"
+        },
+        {
+          "allocation_quota": "107664023/16319221",
+          "k_assigned": 7,
+          "mean_population": "733149/7",
+          "population": 733149,
+          "province_code": "20",
+          "target_quota": "244383/40000"
+        },
+        {
+          "allocation_quota": "263323549/48957663",
+          "k_assigned": 5,
+          "mean_population": "538789/5",
+          "population": 538789,
+          "province_code": "21",
+          "target_quota": "538789/120000"
+        },
+        {
+          "allocation_quota": "168552035/48957663",
+          "k_assigned": 4,
+          "mean_population": "230087/4",
+          "population": 230087,
+          "province_code": "22",
+          "target_quota": "230087/120000"
+        },
+        {
+          "allocation_quota": "287685227/48957663",
+          "k_assigned": 6,
+          "mean_population": "618143/6",
+          "population": 618143,
+          "province_code": "23",
+          "target_quota": "618143/120000"
+        },
+        {
+          "allocation_quota": "235460536/48957663",
+          "k_assigned": 5,
+          "mean_population": "89606",
+          "population": 448030,
+          "province_code": "24",
+          "target_quota": "44803/12000"
+        },
+        {
+          "allocation_quota": "79530236/16319221",
+          "k_assigned": 5,
+          "mean_population": "458226/5",
+          "population": 458226,
+          "province_code": "25",
+          "target_quota": "76371/20000"
+        },
+        {
+          "allocation_quota": "198243847/48957663",
+          "k_assigned": 4,
+          "mean_population": "326803/4",
+          "population": 326803,
+          "province_code": "26",
+          "target_quota": "326803/120000"
+        },
+        {
+          "allocation_quota": "66001360/16319221",
+          "k_assigned": 4,
+          "mean_population": "163011/2",
+          "population": 326022,
+          "province_code": "27",
+          "target_quota": "54337/20000"
+        },
+        {
+          "allocation_quota": "2281878328/48957663",
+          "k_assigned": 47,
+          "mean_population": "7113886/47",
+          "population": 7113886,
+          "province_code": "28",
+          "target_quota": "3556943/60000"
+        },
+        {
+          "allocation_quota": "215936169/16319221",
+          "k_assigned": 13,
+          "mean_population": "1791183/13",
+          "population": 1791183,
+          "province_code": "29",
+          "target_quota": "597061/40000"
+        },
+        {
+          "allocation_quota": "585120949/48957663",
+          "k_assigned": 12,
+          "mean_population": "1586989/12",
+          "population": 1586989,
+          "province_code": "30",
+          "target_quota": "1586989/120000"
+        },
+        {
+          "allocation_quota": "307858504/48957663",
+          "k_assigned": 6,
+          "mean_population": "341927/3",
+          "population": 683854,
+          "province_code": "31",
+          "target_quota": "341927/60000"
+        },
+        {
+          "allocation_quota": "191635672/48957663",
+          "k_assigned": 4,
+          "mean_population": "152639/2",
+          "population": 305278,
+          "province_code": "32",
+          "target_quota": "152639/60000"
+        },
+        {
+          "allocation_quota": "136519874/16319221",
+          "k_assigned": 8,
+          "mean_population": "126891",
+          "population": 1015128,
+          "province_code": "33",
+          "target_quota": "42297/5000"
+        },
+        {
+          "allocation_quota": "146636840/48957663",
+          "k_assigned": 3,
+          "mean_population": "158702/3",
+          "population": 158702,
+          "province_code": "34",
+          "target_quota": "79351/60000"
+        },
+        {
+          "allocation_quota": "457580255/48957663",
+          "k_assigned": 9,
+          "mean_population": "1171547/9",
+          "population": 1171547,
+          "province_code": "35",
+          "target_quota": "1171547/120000"
+        },
+        {
+          "allocation_quota": "388895452/48957663",
+          "k_assigned": 8,
+          "mean_population": "473909/4",
+          "population": 947818,
+          "province_code": "36",
+          "target_quota": "473909/60000"
+        },
+        {
+          "allocation_quota": "66249416/16319221",
+          "k_assigned": 4,
+          "mean_population": "164223/2",
+          "population": 328446,
+          "province_code": "37",
+          "target_quota": "54741/20000"
+        },
+        {
+          "allocation_quota": "431722259/48957663",
+          "k_assigned": 9,
+          "mean_population": "1087319/9",
+          "population": 1087319,
+          "province_code": "38",
+          "target_quota": "1087319/120000"
+        },
+        {
+          "allocation_quota": "280157587/48957663",
+          "k_assigned": 6,
+          "mean_population": "593623/6",
+          "population": 593623,
+          "province_code": "39",
+          "target_quota": "593623/120000"
+        },
+        {
+          "allocation_quota": "146498383/48957663",
+          "k_assigned": 3,
+          "mean_population": "158251/3",
+          "population": 158251,
+          "province_code": "40",
+          "target_quota": "158251/120000"
+        },
+        {
+          "allocation_quota": "705058174/48957663",
+          "k_assigned": 14,
+          "mean_population": "988832/7",
+          "population": 1977664,
+          "province_code": "41",
+          "target_quota": "30901/1875"
+        },
+        {
+          "allocation_quota": "41867169/16319221",
+          "k_assigned": 3,
+          "mean_population": "30061",
+          "population": 90183,
+          "province_code": "42",
+          "target_quota": "30061/40000"
+        },
+        {
+          "allocation_quota": "366703036/48957663",
+          "k_assigned": 8,
+          "mean_population": "437765/4",
+          "population": 875530,
+          "province_code": "43",
+          "target_quota": "87553/12000"
+        },
+        {
+          "allocation_quota": "139695263/48957663",
+          "k_assigned": 3,
+          "mean_population": "136091/3",
+          "population": 136091,
+          "province_code": "44",
+          "target_quota": "136091/120000"
+        },
+        {
+          "allocation_quota": "329725193/48957663",
+          "k_assigned": 7,
+          "mean_population": "755081/7",
+          "population": 755081,
+          "province_code": "45",
+          "target_quota": "755081/120000"
+        },
+        {
+          "allocation_quota": "315487366/16319221",
+          "k_assigned": 19,
+          "mean_population": "2763996/19",
+          "population": 2763996,
+          "province_code": "46",
+          "target_quota": "230333/10000"
+        },
+        {
+          "allocation_quota": "260209034/48957663",
+          "k_assigned": 5,
+          "mean_population": "528644/5",
+          "population": 528644,
+          "province_code": "47",
+          "target_quota": "132161/30000"
+        },
+        {
+          "allocation_quota": "456255857/48957663",
+          "k_assigned": 9,
+          "mean_population": "1167233/9",
+          "population": 1167233,
+          "province_code": "48",
+          "target_quota": "1167233/120000"
+        },
+        {
+          "allocation_quota": "49581158/16319221",
+          "k_assigned": 3,
+          "mean_population": "55188",
+          "population": 165564,
+          "province_code": "49",
+          "target_quota": "13797/10000"
+        },
+        {
+          "allocation_quota": "404437327/48957663",
+          "k_assigned": 8,
+          "mean_population": "998443/8",
+          "population": 998443,
+          "province_code": "50",
+          "target_quota": "998443/120000"
+        },
+        {
+          "allocation_quota": "1",
+          "k_assigned": 1,
+          "mean_population": "83567",
+          "population": 83567,
+          "province_code": "51",
+          "target_quota": "83567/120000"
+        },
+        {
+          "allocation_quota": "1",
+          "k_assigned": 1,
+          "mean_population": "87067",
+          "population": 87067,
+          "province_code": "52",
+          "target_quota": "87067/120000"
+        }
+      ],
+      "rule": "minimos_referencia_k_derivado",
+      "within_constitutional_size_reference": false,
+      "zero_district_populated_provinces": []
+    }
+  ],
+  "global_derived_k": 409,
+  "metadata": {
+    "changes": "cuotas exactas y K calculado a partir de población",
+    "date": "2026-10-08",
+    "name": "Modelo cuantitativo nacional exploratorio",
+    "origin": "artefacto nuevo, sin predecesor",
+    "reason": "perfil de cálculo del Director de 120000 habitantes; no contrato electoral",
+    "scope": "análisis local; sin generación territorial",
+    "status": "CANDIDATE_NOT_INSTITUTIONALLY_APPROVED",
+    "version": "1.0.0"
+  },
+  "minimum_reference_model_status": "CALCULATED",
+  "population_total": 49128297,
+  "schema": "ddd.national-quantitative-model/1.0",
+  "status": "EXPLORATORY_NOT_INSTITUTIONALLY_APPROVED",
+  "target_population_hypothesis": 120000,
+  "version": "1.0.0"
+}

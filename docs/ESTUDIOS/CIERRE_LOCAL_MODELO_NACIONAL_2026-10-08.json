@@ -1,0 +1,45 @@
+{
+  "approved_k_alternatives": [],
+  "base_commit": "a53214b16050770796504e234aef8a080b00d3c0",
+  "changes": "registra decisión expresa del Director y archivos conservados",
+  "ci_status": "CI_PENDIENTE",
+  "date": "2026-10-08",
+  "director_decision": "GO para conservación local con CI aplazada a integración; no GO productivo",
+  "files_sha256": {
+    "docs/ESTUDIOS/MODELO_NACIONAL_120000_2026-10-08.md": "737417cb92e230887613f6b89f17435a3e68a5ae5ea8b2b9d0ca2522a7cfbd49",
+    "docs/ESTUDIOS/PRUEBAS_MODELO_NACIONAL_2026-10-08.txt": "9cd2b073d9f041b49a44dbc0de7f7fd6bfd061807e32e0a9556da49362b2ce6d",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/MANIFEST.json": "f728109381fe1513c10b1b1027095647c90c0ca0bd4d705bd813a49f1606cf9a",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/comparacion_mapas.json": "82c1438cdabae346041b3abac11525d66ab515c35746c8a35d06b49b49be4a98",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/fuente_poblacion.json": "6a5f16d1bf354bebb1d05ad0f9afc350d8dc1c7ea251aac3ce6002e392b16a7c",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/modelo.json": "c183f71e7a433eaaff77456d82a13f8afbc3f1fd2ec08e73ca3fce371d7d7ee4",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/reparto_provincial.csv": "ee1c571fe62f04df92045e4e1a8d0370f3165d35d5c459c77109a6f063e28e24",
+    "herramientas/modelo_cuantitativo_nacional.py": "61c70aae46d903e7ea3bc29ddfd9c49ffe75318e610801d29c834c1999e88075",
+    "tests/test_modelo_cuantitativo_nacional.py": "c672fb3c16e2322f85d53367cccfd91ffb0317273cdcdf98b7f5a2ca508b5f27"
+  },
+  "historical_cartography_pending": [
+    {
+      "edition": null,
+      "name": "spain-districts-selected.json",
+      "status": "ANNOUNCED_BY_DIRECTOR_NOT_INSPECTED"
+    },
+    {
+      "edition": null,
+      "name": "assembled_districts_spain.xlsm",
+      "status": "ANNOUNCED_BY_DIRECTOR_NOT_INSPECTED"
+    },
+    {
+      "edition": null,
+      "name": "map.geojson",
+      "status": "ANNOUNCED_BY_DIRECTOR_NOT_INSPECTED"
+    }
+  ],
+  "integration_status": "BLOCKED_PENDING_CI_AND_AUTHORIZATION",
+  "name": "Conservación local autorizada del modelo nacional",
+  "origin": "registro nuevo, sin predecesor",
+  "production_authorized": false,
+  "reason": "CI aplazada por el Director a integración; no cambia el modelo exploratorio",
+  "review_requirement": "dictamen final satisfactorio antes de commit local",
+  "scope": "commit local en codex/distritos-nacionales; no integración ni producción",
+  "status": "GO_LOCAL_CI_PENDIENTE",
+  "version": "1.0.0"
+}
