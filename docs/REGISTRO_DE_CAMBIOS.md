@@ -415,3 +415,26 @@ El artefacto `ci-unittest-34830251652-1` demuestra que la única caída es la b�
 ### R038.3 — Certificación CI
 
 El commit `7a02dba` supera la suite general `34830677071`, único workflow activado. No se ejecuta ningún territorio. R038 queda cerrado y el siguiente hito es R039.
+
+## 2026-10-10 — M06 v7.2.2 — precisión GeoJSON y conservación del predecesor
+
+Se corrige la serialización de geometrías de sección y distrito por `ensure_geojson_zip`:
+el escritor GeoJSON recibe `SIGNIFICANT_FIGURES=17` para evitar que el redondeo
+colapse vértices próximos y produzca anillos inválidos. No cambian asignaciones,
+criterios poblacionales, geometría en memoria ni contratos territoriales.
+
+La versión sustituida M06 v7.2.1 se conserva íntegra en
+`legacy/modulo06/06_consolidar_distritos_v7.2.1.py`, con blob Git
+`993763be2942715af325766139dfbe6607c55b20`, idéntico al archivo
+original del `main@776006e62ebd80ab20a55b186c3778bce76e9f19`.
+El módulo actual se identifica como v7.2.2 y enlaza ese predecesor.
+El diagnóstico estructural `ddd.m06-population-diagnostic/1.0` emite también
+`version=7.2.2`, en coherencia con la cabecera, el predecesor archivado y
+el mensaje de ejecución. Una regresión exige esa correspondencia de versión.
+Se añade `tests/test_m06_geojson_precision.py` como regresión del roundtrip
+GeoJSON y conservación exacta WKB.
+
+El aislamiento técnico previo sobre Madrid con GerryChain seed 461102
+acreditó K=135, hard=0, geometrías válidas 135/135 y validación M06 PASS;
+no supone certificación ni prueba generación autónoma desde checkpoint crudo.
+El cambio requiere CI y revisión del HEAD final de la PR #235 antes de integrar.
