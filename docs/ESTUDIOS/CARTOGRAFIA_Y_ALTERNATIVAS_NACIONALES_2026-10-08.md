@@ -1,11 +1,11 @@
 # Cartografía histórica y consecuencias de las cinco alternativas nacionales
 
-**Versión:** 1.0.1
+**Versión:** 1.0.2
 **Nombre:** Incorporación histórica, comparación acreditada y evaluación provincial
 **Fecha:** 2026-10-08
 **Alcance:** incremento analítico local del frente Distritos nacionales
 **Estado:** candidato para conservación local; CI_PENDIENTE; sin alternativa institucional aprobada
-**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad; localizadores personales redactados
+**Cambios:** inventario físico, bytes históricos conservados, instrumento cartográfico, métricas y sensibilidad; se sustituyen rutas locales residuales por identificadores de fuente
 **Motivo:** concretar la decisión del Director sin atribuir ediciones ni causas por inferencia
 **Origen:** incremento nuevo sobre `effa34f80d9c5c8cb7ac5c39216524aa95eba66d`; complementa el expediente previo, no sustituye el modelo
 
@@ -21,13 +21,13 @@ La búsqueda exacta y de otros nombres cartográficos que incluyeran 2022 recorr
 
 | Material físicamente inspeccionado | Identidad y contenido | Edición y compatibilidad |
 | --- | --- | --- |
-| `Documents/Politics/Demos/Estudio del Diputado de Distrito/Final/spain-districts-selected.json` | GeoJSON, SHA `2a0a4cf5…`; 391 IDs de distrito únicos, códigos provinciales 01–52, población `pob_t_total`, objetivo 120000, `map_iteration`. CRS84 declarado. | Ediciones cartográfica y demográfica desconocidas; origen local del proyecto, fuente primaria y método no acreditados. Una geometría inválida. |
-| `Final/map.geojson`, en el mismo directorio | SHA `a2c8f630…`; mismos 391 IDs, geometrías y atributos normalizados. Sin miembro CRS: el instrumento aplica la convención GeoJSON RFC 7946 de longitud/latitud CRS84 y la deja registrada. | No es un mapa 2025 acreditado. La equivalencia con el JSON demuestra una variante del mismo material histórico. |
-| `Final/assembled_districts_spain.xlsm` | SHA `aeae36e7…`; 391 filas de distrito, sin geometrías ni CRS; tabla de población/provincia/iteración. XML interno creado/modificado 2021-05-04; sin miembros VBA. | Fecha de creación del contenedor, no edición del mapa o población. No se ejecutó Excel ni macros. |
-| `Downloads/My Drive/assembled_districts_spain.xlsm` | SHA `125112c4…`; mismos miembros ZIP y tabla XML. Sólo difiere `docProps/core.xml`, con fecha 2022-01-27. | No acredita un mapa distinto de 2022 ni cambios distritales. |
-| `Downloads/Estudio DDD Aragon 2026/spain-districts-selected.json` | SHA idéntico al JSON de `Final`. | Copia binaria, no otra edición. |
+| Fuente histórica 01 (GeoJSON original) | SHA `2a0a4cf5…`; 391 IDs de distrito únicos, códigos provinciales 01–52, población `pob_t_total`, objetivo 120000, `map_iteration`. CRS84 declarado. | Ediciones cartográfica y demográfica desconocidas; origen local del proyecto, fuente primaria y método no acreditados. Una geometría inválida. |
+| Fuente histórica 02 (variante GeoJSON) | SHA `a2c8f630…`; mismos 391 IDs, geometrías y atributos normalizados. Sin miembro CRS: el instrumento aplica la convención GeoJSON RFC 7946 de longitud/latitud CRS84 y la deja registrada. | No es un mapa 2025 acreditado. La equivalencia con el JSON demuestra una variante del mismo material histórico. |
+| Fuente histórica 03 (libro XLSM) | SHA `aeae36e7…`; 391 filas de distrito, sin geometrías ni CRS; tabla de población/provincia/iteración. XML interno creado/modificado 2021-05-04; sin miembros VBA. | Fecha de creación del contenedor, no edición del mapa o población. No se ejecutó Excel ni macros. |
+| Fuente histórica 04 (copia del libro XLSM) | SHA `125112c4…`; mismos miembros ZIP y tabla XML. Sólo difiere `docProps/core.xml`, con fecha 2022-01-27. | No acredita un mapa distinto de 2022 ni cambios distritales. |
+| Fuente histórica 05 (copia binaria del GeoJSON 01) | SHA idéntico al GeoJSON original. | Copia binaria, no otra edición. |
 
-Se conservaron **cuatro inputs únicos**, comprimidos sin modificar sus bytes, bajo `cartografia_nacional_20261008/inputs/`. El inventario relaciona cada una de las cinco ubicaciones con su archivo conservado y el SHA del contenido original. Los nuevos inputs son materiales históricos no acreditados, no fuentes productivas. La unidad geográfica representada es el distrito agregado; su unidad mínima de construcción y correspondencia con municipios/secciones no quedan acreditadas por estos archivos. La presencia de los 52 códigos provinciales prueba cobertura de etiquetas, no integridad geográfica nacional.
+Se conservaron **cuatro inputs únicos**, comprimidos sin modificar sus bytes, bajo `cartografia_nacional_20261008/inputs/`. El inventario relaciona las cinco fuentes históricas identificadas arriba con su archivo conservado y el SHA del contenido original; no publica sus rutas locales. Los nuevos inputs son materiales históricos no acreditados, no fuentes productivas. La unidad geográfica representada es el distrito agregado; su unidad mínima de construcción y correspondencia con municipios/secciones no quedan acreditadas por estos archivos. La presencia de los 52 códigos provinciales prueba cobertura de etiquetas, no integridad geográfica nacional.
 
 El seccionado local de 2025 tiene SHA `55c9da7e…`, idéntico al baseline INE protegido por `inputs/MANIFEST.sha256`. La [inspección de atributos y CRS](cartografia_nacional_20261008/referencia_seccionado_2025.json) acredita 36.554 registros, 36.554 claves CUSEC únicas, 52 códigos provinciales y CRS ETRS89/UTM 30N (`EPSG:25830`). Se han leído DBF y PRJ, **no** validado sus geometrías ni ejecutado un overlay nacional. Es seccionado censal, no un mapa nacional de distritos de 2025; su edición se vincula al baseline conservado, no únicamente al nombre del fichero.
 
