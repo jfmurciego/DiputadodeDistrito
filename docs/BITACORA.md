@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.22.0
-**Fecha:** 2026-09-11
-**Anterior:** `legacy/bitacora/BITACORA_v2.21.0.md`
+**Versión:** 2.22.1
+**Fecha:** 2026-10-11
+**Anterior:** `legacy/bitacora/BITACORA_v2.22.0.md`
 
 ## R001–R013 — recuperación y profesionalización
 Se recuperó el procedimiento Aragón y se formalizaron M01–M08, fuentes congeladas, caché territorial, validación, outputs auditables, manifiestos, versionado, continuidad y reglas de contigüidad/municipio/provincia. Run #7 consiguió estructura R012 PASS pero dejó un distrito fuera de ±12 %.
@@ -190,3 +190,14 @@ M03 v7.2.0 desacopla diagnóstico de bloqueo. CAT-02 Run `34688104014` certific�
 
 ## R023 — diagnóstico topológico continental
 Se abre una matriz de siete territorios para explicar discontinuidades antes de declarar pasarelas. Baleares y Canarias quedan separados como archipiélagos.
+
+
+## 2026-10-11 — Registro autorizado de fuentes territoriales F10
+
+Work autoriza la conservación durable, cierre F04, adquisición de cuatro identidades pendientes y registro canónico condicionado por #179. Se parte del checkpoint revisado `2af7d0d6acd15b05ad382f1afc12a75a59ddbf76`. Esta entrada registra acreditación de fuentes; no modifica la certificación de productos territoriales.
+
+Se conservan en el almacén local los cinco artefactos auténticos y sus paquetes interiores, con hashes comprobados en destino. Los cinco receipts 2025/2025 se versionan bajo su identidad y run auténticos. Sólo Extremadura satisface con estos bytes la identidad temporal vigente: run `38091144559`, artefacto `11684599346`, paquete `5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a`, identidad `70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084`. Su receipt e informe de compatibilidad #179 quedan registrados en `catalogo_preparacion.yaml`; el consumidor valida los bytes conservados. La situación electoral se mantiene separada.
+
+Andalucía, Aragón y Castilla y León requieren 2025/2026; Comunidad Valenciana requiere 2023/2023. Sus receipts originales 2025/2025 no sustituyen estas identidades. Las adquisiciones 2025/2026 quedaron READY para los tres primeros, pero la puerta bloqueó su correspondencia geométrica y conservación de población: quedan sin elegibilidad canónica. En Andalucía no se asignan 319.989 habitantes de los 8.676.713 de entrada; en Aragón, 31.024 de 1.364.621; en Castilla y León, 84.197 de 2.401.221. Comunidad Valenciana quedó bloqueada por ausencia de cobertura poblacional de Alicante (46) y geometría inválida en el seccionado. No se fabricaron receipts para identidades no elegibles. El expediente [CIERRE_REAL_FUENTES_20261011](AUDITORIAS/CIERRE_REAL_FUENTES_20261011/) conserva las respuestas y diagnósticos. Extremadura sí registra la identidad exacta 2025/2025. La validación material y temporal arroja 15 consumidores PASS y cuatro BLOCKED; F10 sigue PENDING. F04 consta formalmente PASS en el Plan Maestro por autorización de Work.
+
+Alcance compartido: estos datos pueden ser consumidos por los frentes autonómico y nacional; no cambia la interfaz del consumidor ni sus contratos. No se ejecuta `00`, generación territorial ni publicación. La integración de esta rama permanece sujeta a revisión, CI y autorización final de fusión.

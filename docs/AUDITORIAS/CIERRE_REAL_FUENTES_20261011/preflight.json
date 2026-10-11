@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Permisos efectivos antes de operaciones materiales",
+  "origin": "user authorization: DDD — Reanudar cierre real de Fuentes Oficiales",
+  "predecessor": null,
+  "checkout_head": "2af7d0d6acd15b05ad382f1afc12a75a59ddbf76",
+  "checkout_clean_at_start": true,
+  "github": {
+    "sandbox_auth_status": "invalid credential view",
+    "escalated_auth_status": "PASS authenticated jfmurciego",
+    "main_sha_read": "5216a1b25da7726dd73296723f22754dcf7451e1"
+  },
+  "ine": {
+    "https_head_status": 200,
+    "official_acquisition_response_bytes_preserved": true
+  },
+  "write_probes": {
+    "DDD-control": "PASS",
+    "DDD-almacen": "PASS"
+  },
+  "authorization": {
+    "durable_conservation": true,
+    "formal_F04": true,
+    "four_exact_acquisitions": true,
+    "canonical_receipts_gated": true,
+    "consumer_validation_19": true,
+    "independent_review_PR_CI": true,
+    "merge": "FINAL_AUTHORIZATION_REQUIRED",
+    "00": false,
+    "territorial_generation": false,
+    "publication": false
+  }
+}

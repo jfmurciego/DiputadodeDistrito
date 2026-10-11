@@ -1,0 +1,138 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Copia durable local cinco artefactos, paquetes y receipts; no respaldo externo",
+  "origin": "transferencia verificada del checkpoint 2af7d0d6",
+  "predecessor": null,
+  "destination": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos",
+  "file_count": 25,
+  "bytes": 139679236,
+  "destination_integrity": "PASS",
+  "files": [
+    {
+      "path": "LEEME.md",
+      "bytes": 1321,
+      "sha256": "590d40fae1f1543e42a675cbb4e9f656768905dd798aa32b81d37226a71c5f1c"
+    },
+    {
+      "path": "SHA256SUMS",
+      "bytes": 651,
+      "sha256": "57ab5397a4c00f01e214449cffc0a12bae0a92d2ea3e8c3018dd16bf1d352b48"
+    },
+    {
+      "path": "artefactos/ddd-source-package-andalucia-2025-38082966768.zip",
+      "bytes": 26601473,
+      "sha256": "cc70f801d5a26a522458da05a5fde15e1876071cf1738d07c90429ca2057a056"
+    },
+    {
+      "path": "artefactos/ddd-source-package-aragon-2025-38093067883.zip",
+      "bytes": 8193191,
+      "sha256": "35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51"
+    },
+    {
+      "path": "artefactos/ddd-source-package-castilla_y_leon-2025-38091055890.zip",
+      "bytes": 17389196,
+      "sha256": "1f9d6a7c0362b157d2bb300a4c1eca037eb7a07fa52fec53ad550d46752351bd"
+    },
+    {
+      "path": "artefactos/ddd-source-package-comunidad_valenciana-2025-38091132175.zip",
+      "bytes": 10441685,
+      "sha256": "528d2bfb2a7096120528fe5407473d13138551380278cfaa2a2928e521f57c5d"
+    },
+    {
+      "path": "artefactos/ddd-source-package-extremadura-2025-38091144559.zip",
+      "bytes": 7113468,
+      "sha256": "b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc"
+    },
+    {
+      "path": "manifest_F10_5.json",
+      "bytes": 4968,
+      "sha256": "e1dfdfd314b0c94c1e23579fa820d9c25a011c5d516b8e917523c2a5821edcb3"
+    },
+    {
+      "path": "receipt-previews/andalucia-run-38082966768.json",
+      "bytes": 903,
+      "sha256": "2abbc7d8b2c622bd152dbac9986f4580e764f8e56429f98343fb7954b3066a4a"
+    },
+    {
+      "path": "receipt-previews/aragon-run-38093067883.json",
+      "bytes": 897,
+      "sha256": "6f976103a619b068f0d8faf161d74d1d304635f39745e2caa9730648d10d759c"
+    },
+    {
+      "path": "receipt-previews/castilla_y_leon-run-38091055890.json",
+      "bytes": 915,
+      "sha256": "032daefa00126a7dcb7b9103dfb8d383de8b43698563d02dc3eb30f47c5d0c62"
+    },
+    {
+      "path": "receipt-previews/comunidad_valenciana-run-38091132175.json",
+      "bytes": 925,
+      "sha256": "d689ea570d3da7c526cd2b03ae19e81ffb9f0e0b07c04186557d76a0e6655b23"
+    },
+    {
+      "path": "receipt-previews/extremadura-run-38091144559.json",
+      "bytes": 907,
+      "sha256": "3de2f0f6ba4bc9cd69ace34d69a5dc51a83d6e1cdc55397fe8d9e475f0f3c593"
+    },
+    {
+      "path": "receipts-pendientes.json",
+      "bytes": 5030,
+      "sha256": "39c9fdc474888a06b33ead11039cff5d2ede356f0e949bd8c4f5f012fc1c26e3"
+    },
+    {
+      "path": "validacion.json",
+      "bytes": 6400,
+      "sha256": "1eb56712bb06a75f8e1b065086a8a2f52954cf4d9c88e45f47c43104fe281042"
+    },
+    {
+      "path": "validated/andalucia/manifest.json",
+      "bytes": 2049,
+      "sha256": "f22bb0252f4c40b6a59ebb4734a8b842bf64483a3277bba57f96f6e0788077ba"
+    },
+    {
+      "path": "validated/andalucia/prepared_sources.zip",
+      "bytes": 26674695,
+      "sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228"
+    },
+    {
+      "path": "validated/aragon/manifest.json",
+      "bytes": 1105,
+      "sha256": "f867d096e208802f6881273e00d11c2e86773f239af5b6fee80ec84a57e361c9"
+    },
+    {
+      "path": "validated/aragon/prepared_sources.zip",
+      "bytes": 8206288,
+      "sha256": "92a53be66ac0aa74cd4d58f8dbe14482fc294503bd87eb11da3045c6a325e16c"
+    },
+    {
+      "path": "validated/castilla_y_leon/manifest.json",
+      "bytes": 2243,
+      "sha256": "faa003a7269f959b76035f215a37d74a759bc4db3a8fd509ce99dc8cd8b9c224"
+    },
+    {
+      "path": "validated/castilla_y_leon/prepared_sources.zip",
+      "bytes": 17426362,
+      "sha256": "c63c998459f0122a6dc856ed9cdbe022acc1d48cc05e2194d72e3d5f109bb2ec"
+    },
+    {
+      "path": "validated/comunidad_valenciana/manifest.json",
+      "bytes": 1120,
+      "sha256": "f175f8ae9f714ace4dd9e46b86479c75959e1fa0341b82ee1699bf7bb1cba347"
+    },
+    {
+      "path": "validated/comunidad_valenciana/prepared_sources.zip",
+      "bytes": 10482491,
+      "sha256": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9"
+    },
+    {
+      "path": "validated/extremadura/manifest.json",
+      "bytes": 922,
+      "sha256": "eddf40bf5742534efd4371a7a41f4befe94fb089fca305270b4d83f963e2388d"
+    },
+    {
+      "path": "validated/extremadura/prepared_sources.zip",
+      "bytes": 7120031,
+      "sha256": "5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a"
+    }
+  ]
+}

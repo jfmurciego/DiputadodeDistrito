@@ -1,3 +1,8 @@
+# VERSIÓN: 1.1.1 — Registro canónico de receipt territorial F10
+# FECHA: 2026-10-11; ESTADO: candidato
+# ALCANCE: acreditación territorial de Extremadura; CAMBIOS: receipt auténtico e informe #179
+# MOTIVO: habilitar consumo de bytes conservados; ORIGEN: Work, cierre real Fuentes Oficiales
+# ANTERIOR: legacy/configuracion/catalogo_preparacion_pre_F10_registro_20261011.yaml
 schema: ddd-preparation-catalog/1.1
 default_edition: '2025'
 territories:
@@ -360,10 +365,18 @@ territories:
         run_id: 36472516474
         stage: M06
       preparation_evidence:
-        run_id: 35755043806
-        artifact_name: ddd-source-package-extremadura-2025-35755043806
-        artifact_sha256: fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347
-        package_sha256: edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07
+        run_id: 38091144559
+        artifact_name: ddd-source-package-extremadura-2025-38091144559
+        artifact_sha256: b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc
+        package_sha256: 5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a
+        source_commit: 776006e62ebd80ab20a55b186c3778bce76e9f19
+        population_year: 2025
+        section_year: 2025
+        territorial_identity_sha256: 70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        compatibility_report_sha256: a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346
+        compatibility_identity_sha256: cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959
+        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
 - territory_id: galicia

@@ -1,0 +1,10 @@
+test_cabeceras_y_predecesores_legacy (tests.test_r015_invariantes.GovernanceHeaders.test_cabeceras_y_predecesores_legacy) ... ok
+test_contrato_m05_distingue_version_activa_y_logica_validada (tests.test_r015_invariantes.GovernanceHeaders.test_contrato_m05_distingue_version_activa_y_logica_validada) ... ok
+test_documentos_canonicos_versionados_tienen_predecesor_real (tests.test_r015_invariantes.GovernanceHeaders.test_documentos_canonicos_versionados_tienen_predecesor_real) ... ok
+test_documentos_r015_presentes (tests.test_r015_invariantes.GovernanceHeaders.test_documentos_r015_presentes) ... ok
+test_recuperaciones_documentales_r015_presentes (tests.test_r015_invariantes.GovernanceHeaders.test_recuperaciones_documentales_r015_presentes) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.013s
+
+OK

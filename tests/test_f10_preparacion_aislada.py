@@ -1,9 +1,10 @@
-"""F10 caller aislado v1.0.1; 2026-10-10; candidato local.
+"""F10 caller aislado v1.0.2; 2026-10-11; candidato local.
 
 Alcance: límites de ejecución y preservación de acreditaciones #179.
-Cambios: nuevas regresiones; motivo: impedir persistencia/generación o SHA prestado.
+Cambios: acreditar el receipt auténtico de Extremadura y conservar los cuatro bloqueos temporales.
+Motivo: validar la transición canónica autorizada sin relajar las puertas restantes.
 Origen: main@579ab82e84aadba778b0fe7d138ea96b66457e1e.
-Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.0.py; nombres CODAUTO.
+Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.1.py.
 """
 import json
 import os
@@ -91,7 +92,7 @@ class F10PreparacionAisladaTests(unittest.TestCase):
         for key, level in producer['permissions'].items():
             self.assertEqual(level, self.workflow['permissions'][key])
 
-    def test_fourteen_historical_receipts_and_five_canonical_blocks_remain(self):
+    def test_fourteen_historical_receipts_extremadura_accredited_four_blocks_remain(self):
         prior = ROOT / 'docs/AUDITORIAS/F04_F10_20261009/continuacion/evidencia-previa-reutilizada.json'
         rows = json.loads(prior.read_text())['rows']
         self.assertEqual(14, len(rows))
@@ -102,9 +103,15 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                 self.assertEqual(row['package_sha256'], receipt['package_sha256'])
                 self.assertEqual(row['territorial_identity_sha256'], receipt['territorial_identity_sha256'])
                 self.assertEqual('PASS', row['controls']['F03_effective_consumer'])
-        for territory in TERRITORIES:
+        for territory in TERRITORIES - {"extremadura"}:
             with self.subTest(territory=territory), self.assertRaises(PreparedPairExecutionBlock):
                 validate_territorial_receipt(root_dir=ROOT, territory=territory, edition='2025')
+
+        _, receipt = validate_territorial_receipt(root_dir=ROOT, territory='extremadura', edition='2025')
+        self.assertEqual(38091144559, receipt['run_id'])
+        self.assertEqual((2025, 2025), (receipt['population_year'], receipt['section_year']))
+        self.assertEqual('5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a', receipt['package_sha256'])
+        self.assertEqual('70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084', receipt['territorial_identity_sha256'])
 
 
 if __name__ == '__main__':

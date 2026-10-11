@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Verificación del registro auténtico y preservación de puertas",
+  "origin": "checkpoint 2af7d0d6",
+  "predecessor": null,
+  "checks": [
+    {
+      "command": "/usr/local/Caskroom/miniforge/base/bin/python3 -m pytest -q tests/test_f10_receipt_contract.py tests/test_f10_preparacion_aislada.py tests/test_prepared_source_pair_execution.py -k 'not test_00_executes_real_territorial_reuse_route_without_preparing_source'",
+      "exit_code": 0,
+      "result": "20 passed, 1 deselected, 55 subtests passed",
+      "exclusion": "El caso test_00_executes_real_territorial_reuse_route_without_preparing_source invoca 00; se excluye por prohibición expresa del usuario.",
+      "log": "pruebas-final.log"
+    },
+    {
+      "command": "/usr/local/Caskroom/miniforge/base/bin/python3 -m unittest tests.test_r015_invariantes.GovernanceHeaders -v",
+      "exit_code": 0,
+      "result": "5 tests OK",
+      "log": "gobierno.log"
+    },
+    {
+      "command": "/usr/local/Caskroom/miniforge/base/bin/python3 -m herramientas.catalogo_preparacion --root-dir . validate",
+      "exit_code": 0,
+      "result": "OK"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "initial_expected_regression": "El test anterior esperaba cinco bloqueos; falló únicamente en Extremadura tras su registro autorizado. Se conserva el predecesor y se exige run, paquete e identidad exactos para Extremadura; los cuatro bloqueos restantes siguen exigidos."
+}
