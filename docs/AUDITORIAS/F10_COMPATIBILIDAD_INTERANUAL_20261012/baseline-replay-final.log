@@ -1,0 +1,76 @@
+test_boundary_and_point_contacts_are_not_contributions (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_boundary_and_point_contacts_are_not_contributions) ... FAIL
+test_exact_code_permutation_does_not_leave_stale_boundary_change (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_exact_code_permutation_does_not_leave_stale_boundary_change) ... FAIL
+test_splits_with_unmapped_touching_neighbours_are_detected_and_blocked (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_splits_with_unmapped_touching_neighbours_are_detected_and_blocked) ... FAIL
+test_unassigned_population_keeps_real_section_values (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_unassigned_population_keeps_real_section_values) ... ERROR
+test_acquisition_keeps_original_bytes_when_valencia_coverage_blocks (tests.test_f10_interannual_correspondence.PopulationInputPreservationTests.test_acquisition_keeps_original_bytes_when_valencia_coverage_blocks) ... ERROR
+
+======================================================================
+ERROR: test_unassigned_population_keeps_real_section_values (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_unassigned_population_keeps_real_section_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/tests/test_f10_interannual_correspondence.py", line 58, in test_unassigned_population_keeps_real_section_values
+    self.assertEqual(report["population"]["unassigned_by_section"],
+                     ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'unassigned_by_section'
+
+======================================================================
+ERROR: test_acquisition_keeps_original_bytes_when_valencia_coverage_blocks (tests.test_f10_interannual_correspondence.PopulationInputPreservationTests.test_acquisition_keeps_original_bytes_when_valencia_coverage_blocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/tests/test_f10_interannual_correspondence.py", line 113, in test_acquisition_keeps_original_bytes_when_valencia_coverage_blocks
+    _, _, _, decision = acquire(catalog=CATALOG, declaration=dec,
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py", line 1493, in acquire
+    official_urls = _source_urls(source, effective_year, provinces)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py", line 274, in _source_urls
+    endpoint = _ogc_endpoint(source, edition, policy_root=policy_root)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py", line 236, in _ogc_endpoint
+    identity = _section_publication_identity(policy_root=policy_root)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py", line 148, in _section_publication_identity
+    raise ValueError(
+ValueError: SECTION_PUBLICATION_IDENTITY_MISSING: no existe configuracion/preparacion_legislatura_vigente.yaml
+
+======================================================================
+FAIL: test_boundary_and_point_contacts_are_not_contributions (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_boundary_and_point_contacts_are_not_contributions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/tests/test_f10_interannual_correspondence.py", line 24, in test_boundary_and_point_contacts_are_not_contributions
+    self.assertFalse(_intersects(box(0, 0, 1, 1), box(1, 0, 2, 1)))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_exact_code_permutation_does_not_leave_stale_boundary_change (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_exact_code_permutation_does_not_leave_stale_boundary_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/tests/test_f10_interannual_correspondence.py", line 48, in test_exact_code_permutation_does_not_leave_stale_boundary_change
+    self.assertEqual(report["geometric_changes"], [])
+AssertionError: Lists differ: [{'source_keys': ['0100101001'], 'target_k[157 chars]ED'}] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+{'source_keys': ['0100101001'], 'target_keys': ['0100101001'], 'kind': 'SAME_CODE_BOUNDARY_CHANGED'}
+
++ []
+- [{'kind': 'SAME_CODE_BOUNDARY_CHANGED',
+-   'source_keys': ['0100101001'],
+-   'target_keys': ['0100101001']},
+-  {'kind': 'SAME_CODE_BOUNDARY_CHANGED',
+-   'source_keys': ['0100101002'],
+-   'target_keys': ['0100101002']}]
+
+======================================================================
+FAIL: test_splits_with_unmapped_touching_neighbours_are_detected_and_blocked (tests.test_f10_interannual_correspondence.InterannualCorrespondenceTests.test_splits_with_unmapped_touching_neighbours_are_detected_and_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-fuentes-f10-compatibilidad/tests/test_f10_interannual_correspondence.py", line 37, in test_splits_with_unmapped_touching_neighbours_are_detected_and_blocked
+    self.assertEqual(sum(r["kind"] == "SPLIT" for r in report["correspondences"]), 2)
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.025s
+
+FAILED (failures=3, errors=2)
+Baseline regressions: 5 failures 3 errors 2
