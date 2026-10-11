@@ -1,3 +1,8 @@
+# VERSIÓN: 1.1.2 — Preservación del linaje activo de Extremadura
+# FECHA: 2026-10-11; ESTADO: candidato
+# ALCANCE: catálogo de preparación; CAMBIOS: receipt F10 queda como evidencia no promovida
+# MOTIVO: no sustituir la fuente del producto territorial M06; ORIGEN: revisión Work de PR #238
+# ANTERIOR: legacy/configuracion/catalogo_preparacion_v1.1.1_F10_extremadura_20261011.yaml
 schema: ddd-preparation-catalog/1.1
 default_edition: '2025'
 territories:

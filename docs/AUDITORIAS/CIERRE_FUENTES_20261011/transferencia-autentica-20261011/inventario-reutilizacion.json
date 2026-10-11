@@ -1,0 +1,97 @@
+{
+  "schema": "ddd.f10-required-territorial-identities/1.0",
+  "as_of": "2026-10-11",
+  "source": "current-legislature resolver report and target territory receipt paths; no ZIP rescan",
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "required_population_year": 2025,
+      "required_section_year": 2026,
+      "existing_canonical_receipt_for_required_identity": false,
+      "pre_transfer_resolver_state": "ACQUIRE_REQUIRED",
+      "pre_transfer_reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+      "pre_transfer_candidate_run_id": 36020646219,
+      "pre_transfer_candidate_years": [
+        null,
+        null
+      ],
+      "new_transfer_identity": [
+        2025,
+        2025
+      ],
+      "new_transfer_satisfies_required_identity": false
+    },
+    {
+      "territory_id": "aragon",
+      "required_population_year": 2025,
+      "required_section_year": 2026,
+      "existing_canonical_receipt_for_required_identity": false,
+      "pre_transfer_resolver_state": "ACQUIRE_REQUIRED",
+      "pre_transfer_reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING",
+      "pre_transfer_candidate_run_id": 35728613828,
+      "pre_transfer_candidate_years": [
+        2025,
+        2025
+      ],
+      "new_transfer_identity": [
+        2025,
+        2025
+      ],
+      "new_transfer_satisfies_required_identity": false
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "required_population_year": 2025,
+      "required_section_year": 2026,
+      "existing_canonical_receipt_for_required_identity": false,
+      "pre_transfer_resolver_state": "ACQUIRE_REQUIRED",
+      "pre_transfer_reason": "TERRITORIAL_COMPATIBILITY_REPORT_MISSING",
+      "pre_transfer_candidate_run_id": 35610439734,
+      "pre_transfer_candidate_years": [
+        2025,
+        2025
+      ],
+      "new_transfer_identity": [
+        2025,
+        2025
+      ],
+      "new_transfer_satisfies_required_identity": false
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "required_population_year": 2023,
+      "required_section_year": 2023,
+      "existing_canonical_receipt_for_required_identity": false,
+      "pre_transfer_resolver_state": "ACQUIRE_REQUIRED",
+      "pre_transfer_reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+      "pre_transfer_candidate_run_id": 36273981926,
+      "pre_transfer_candidate_years": [
+        null,
+        null
+      ],
+      "new_transfer_identity": [
+        2025,
+        2025
+      ],
+      "new_transfer_satisfies_required_identity": false
+    },
+    {
+      "territory_id": "extremadura",
+      "required_population_year": 2025,
+      "required_section_year": 2025,
+      "existing_canonical_receipt_for_required_identity": false,
+      "pre_transfer_resolver_state": "ACQUIRE_REQUIRED",
+      "pre_transfer_reason": "TERRITORIAL_TEMPORAL_IDENTITY_MISSING",
+      "pre_transfer_candidate_run_id": 35755043806,
+      "pre_transfer_candidate_years": [
+        null,
+        null
+      ],
+      "new_transfer_identity": [
+        2025,
+        2025
+      ],
+      "new_transfer_satisfies_required_identity": true
+    }
+  ]
+}

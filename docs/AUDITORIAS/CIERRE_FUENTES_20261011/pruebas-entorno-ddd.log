@@ -1,0 +1,7 @@
+....................................ssssssssss/usr/local/Caskroom/miniforge/base/envs/ddd/lib/python3.10/zipfile.py:1541: UserWarning: Duplicate name: 'same'
+  return self._open_to_write(zinfo, force_zip64=force_zip64)
+.................................
+----------------------------------------------------------------------
+Ran 79 tests in 11.884s
+
+OK (skipped=10)

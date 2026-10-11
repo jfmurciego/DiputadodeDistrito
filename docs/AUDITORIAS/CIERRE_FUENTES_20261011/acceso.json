@@ -1,0 +1,72 @@
+{
+  "schema": "ddd.f10-access-checkpoint/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "origin": "local tool results",
+  "predecessor": null,
+  "scope": "materialización y conservación del run exacto",
+  "changes": "nuevo registro de intentos acotados",
+  "reason": "no detener tareas independientes por bloqueo ambiental",
+  "checks": [
+    {
+      "route": "GitHub HTTPS API local",
+      "result": "DNS_FAILURE",
+      "exit": 6
+    },
+    {
+      "route": "gh api authenticated CLI present",
+      "result": "CONNECTION_FAILURE",
+      "exit": 1
+    },
+    {
+      "route": "GitHub authenticated connector",
+      "result": "PASS",
+      "runs": 5,
+      "complete_artifact_inventories": 5,
+      "job_inventories": 5
+    },
+    {
+      "route": "GitHub official artifact download",
+      "result": "5 authentic file references returned; no archive bytes in local filesystem"
+    },
+    {
+      "route": "curl fresh authentic file reference",
+      "result": "DNS_FAILURE oaiusercontent",
+      "exit": 6
+    },
+    {
+      "route": "local ZIP copies by exact archive size",
+      "result": "NO_MATCH",
+      "scanned": 1367,
+      "roots": [
+        "DDD development directories",
+        "Downloads",
+        "/private/tmp"
+      ]
+    },
+    {
+      "route": "local macOS task temporary ZIP copies by exact archive size",
+      "result": "NO_MATCH",
+      "scanned": 69
+    },
+    {
+      "route": "Drive existing DDD-respaldo discovery",
+      "result": "PASS",
+      "folder_id": "1t938CUPy9liDeD7ZHIrAEsj_WLGKf170",
+      "sources_folder_id": "1D1P6cNNSAsSJUmAIUDxMSb0VbRX7vRX_"
+    },
+    {
+      "route": "Drive create F10 backup folder",
+      "result": "AUTOMATIC_APPROVAL_REJECTED",
+      "message": "MCP tool call requires approval, but approval policy is never",
+      "folder_created": false,
+      "files_uploaded": 0
+    }
+  ],
+  "limits": [
+    "No causa de permisos GitHub, ausencia ni expiración",
+    "No receipts desde hashes declarados en logs",
+    "No puede acreditarse contenido/identidad sin ZIP",
+    "La conservación en /private/tmp no satisface almacenamiento durable"
+  ]
+}

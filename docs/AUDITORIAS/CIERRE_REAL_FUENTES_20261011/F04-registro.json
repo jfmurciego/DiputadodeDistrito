@@ -1,0 +1,12 @@
+{
+  "recorded_at_utc": "2026-10-11T13:46:53.742378+00:00",
+  "authority": "Work",
+  "authorization": "Reanudar cierre real de Fuentes Oficiales: cierre formal F04 conforme a autorización de Work",
+  "checkpoint": "2af7d0d6acd15b05ad382f1afc12a75a59ddbf76",
+  "technical_evidence": "docs/AUDITORIAS/F04_F10_20261009/continuacion/REVISION_F04_ACEPTADA.md",
+  "durable_artifacts": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos",
+  "scope": "Formal F04 closure; no territorial execution or publication",
+  "task": "F04",
+  "from": "PENDING",
+  "to": "PASS"
+}

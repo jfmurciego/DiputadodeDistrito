@@ -1,0 +1,613 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Cuatro adquisiciones INE; estados, hashes y puertas sin promoción",
+  "origin": "2af7d0d6acd15b05ad382f1afc12a75a59ddbf76",
+  "predecessor": null,
+  "evidence_root": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-adquisiciones",
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "population_year": 2025,
+      "section_year": 2026,
+      "acquisition_decision": "READY",
+      "reasons": [],
+      "consumer_compatibility": "BLOCKED",
+      "consumer_block_reason": "COMPATIBILITY_REPORT_INVALID: GEOMETRY_ADMISSIBILITY_NOT_READY: BLOCKED",
+      "canonical_receipt_registered": false,
+      "production_certification": false,
+      "sources": [
+        {
+          "source_id": "poblacion_por_sexo_y_edad",
+          "availability": "AVAILABLE",
+          "bytes": 68174,
+          "sha256": "0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales",
+          "availability": "AVAILABLE",
+          "bytes": 11113938,
+          "sha256": "3bc1e6d801bdf9b60775db182709829bcc6355c8514b84cb0b06c347bd80ec81",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "availability": "AVAILABLE",
+          "bytes": 11050248,
+          "sha256": "c1a9f1263ef20c574c316b5de5db946e661d73e228abebd87199f477c705274f",
+          "error": ""
+        }
+      ],
+      "compatibility_diagnostic": {
+        "decision": "BLOCKED",
+        "causes": [
+          "NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE",
+          "ORIGIN_GEOMETRY_DEFECT_NOT_ADMISSIBLE",
+          "POPULATION_TOTAL_NOT_CONSERVED",
+          "POPULATION_WITHOUT_DESTINATION",
+          "SAME_CODE_BOUNDARY_CHANGED",
+          "TARGET_GEOMETRY_WITHOUT_POPULATION",
+          "UNACCREDITED_SECTIONING_CHANGE"
+        ],
+        "population": {
+          "input_total": 8676713,
+          "assigned_total": 8356724,
+          "exact_conservation": false
+        },
+        "not_conserved": 319989
+      },
+      "raw_official_response_count": 16,
+      "raw_official_responses": [
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "04",
+          "path": "raw/secciones_censales/2026/04.geojson",
+          "bytes": 4103677,
+          "sha256": "f4c71d0c42b4779df66e2511325f8acf7937de947ab9afcba63c39276c4179fd",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "11",
+          "path": "raw/secciones_censales/2026/11.geojson",
+          "bytes": 6601613,
+          "sha256": "23ed2ce25472a6a2fda0368f935b7d67130cdefb58b1d14d7b23991fef7cc96d",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "14",
+          "path": "raw/secciones_censales/2026/14.geojson",
+          "bytes": 5039862,
+          "sha256": "b7e68d11f6a53a211e8598eee14580685fe541c06adb5cb5dd2fd3636e8812a2",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "18",
+          "path": "raw/secciones_censales/2026/18.geojson",
+          "bytes": 7124342,
+          "sha256": "abc24889cafbeb7658d6a4d94f3e32a90c7f0c6e2e19633b41ad5101bd8a513d",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "21",
+          "path": "raw/secciones_censales/2026/21.geojson",
+          "bytes": 4464934,
+          "sha256": "4a3cbff4afb37409906475c78ba453b47b697fb3de50c66595b44cd719b17235",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "23",
+          "path": "raw/secciones_censales/2026/23.geojson",
+          "bytes": 5135951,
+          "sha256": "d41e41ab9d9072ec184e740a8d9b358194024d5385ff332d310de07d31571de7",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "29",
+          "path": "raw/secciones_censales/2026/29.geojson",
+          "bytes": 7530747,
+          "sha256": "5000d96afcb9b49531eb240d164c093bf2100372c84ba47363a5cfdb98fb51f2",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "41",
+          "path": "raw/secciones_censales/2026/41.geojson",
+          "bytes": 5963861,
+          "sha256": "b1c5a63f5432d9bf804c4f014039cd0c6a165648634edc496406aa01b736d005",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "04",
+          "path": "raw/secciones_censales_origen_poblacion/2025/04.geojson",
+          "bytes": 4096115,
+          "sha256": "67cf6a6456ade7dd5da442646ad01f69c01384cc79f5966c52816d1f601f4ea6",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2704%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "11",
+          "path": "raw/secciones_censales_origen_poblacion/2025/11.geojson",
+          "bytes": 6589637,
+          "sha256": "e0f30f267db1d1947a226c3344c7fe10f0f2b239d331469c6c2b4cc04325c2a5",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2711%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "14",
+          "path": "raw/secciones_censales_origen_poblacion/2025/14.geojson",
+          "bytes": 5029363,
+          "sha256": "57967da7084a51b3eb45090ebb6a07b7afc8c3969326cc726114efcac896314d",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2714%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "18",
+          "path": "raw/secciones_censales_origen_poblacion/2025/18.geojson",
+          "bytes": 7112775,
+          "sha256": "109aaf585ef12c055b7129b820b2eb4deb3193b6de601eb29127e2ac073427f8",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2718%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "21",
+          "path": "raw/secciones_censales_origen_poblacion/2025/21.geojson",
+          "bytes": 4458678,
+          "sha256": "755191988b15a4153949bada71848ef2d0611f9223677ff09141f01655fec6d9",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2721%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "23",
+          "path": "raw/secciones_censales_origen_poblacion/2025/23.geojson",
+          "bytes": 5132054,
+          "sha256": "f54ab80da39f503c738ea714bfea4b8734e93482ba29d578d3ff431dfd24a190",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2723%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "29",
+          "path": "raw/secciones_censales_origen_poblacion/2025/29.geojson",
+          "bytes": 7507690,
+          "sha256": "4ee4f7e797b0661b285e1d9d76a83222efb69a0eb6871d260543c5260cba28c2",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2729%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "41",
+          "path": "raw/secciones_censales_origen_poblacion/2025/41.geojson",
+          "bytes": 5935189,
+          "sha256": "a3bf8c0125a54e7e8ded487a6feab847cd51f214a71edc4df731d51f440bc52a",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2741%27&filter-lang=cql2-text&limit=10000"
+        }
+      ]
+    },
+    {
+      "territory_id": "aragon",
+      "population_year": 2025,
+      "section_year": 2026,
+      "acquisition_decision": "READY",
+      "reasons": [],
+      "consumer_compatibility": "BLOCKED",
+      "consumer_block_reason": "COMPATIBILITY_REPORT_INVALID: GEOMETRY_ADMISSIBILITY_NOT_READY: BLOCKED",
+      "canonical_receipt_registered": false,
+      "production_certification": false,
+      "sources": [
+        {
+          "source_id": "poblacion_por_sexo_y_edad",
+          "availability": "AVAILABLE",
+          "bytes": 21261,
+          "sha256": "951ac81e485da6bf0834794ff53d977d68c3fab73e1e42574876d8801a96e5da",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales",
+          "availability": "AVAILABLE",
+          "bytes": 3349023,
+          "sha256": "c83c535b388a6d7bd6d6bb52ddac12a8f286b578158ef18ae0a501f1e50e0a86",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "availability": "AVAILABLE",
+          "bytes": 3341562,
+          "sha256": "7e95d0af05a048c12b7977c5f91af94de1a6d0eeebba37d1c19a3f344c1525ac",
+          "error": ""
+        }
+      ],
+      "compatibility_diagnostic": {
+        "decision": "BLOCKED",
+        "causes": [
+          "NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE",
+          "ORIGIN_GEOMETRY_DEFECT_NOT_ADMISSIBLE",
+          "POPULATION_TOTAL_NOT_CONSERVED",
+          "POPULATION_WITHOUT_DESTINATION",
+          "SAME_CODE_BOUNDARY_CHANGED",
+          "TARGET_GEOMETRY_WITHOUT_POPULATION",
+          "UNACCREDITED_SECTIONING_CHANGE"
+        ],
+        "population": {
+          "input_total": 1364621,
+          "assigned_total": 1333597,
+          "exact_conservation": false
+        },
+        "not_conserved": 31024
+      },
+      "raw_official_response_count": 6,
+      "raw_official_responses": [
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "22",
+          "path": "raw/secciones_censales/2026/22.geojson",
+          "bytes": 3672067,
+          "sha256": "878b4c124dd2194bf2ad6c423eeafa18d2162dfe5b49cfdf2db3dc6e744b0d17",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "44",
+          "path": "raw/secciones_censales/2026/44.geojson",
+          "bytes": 3269483,
+          "sha256": "f42bc9ccb46acee76166ae3df6348d22e110f1311535a6f93682ad8c89c6dda0",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "50",
+          "path": "raw/secciones_censales/2026/50.geojson",
+          "bytes": 6351017,
+          "sha256": "fbee956ff05b8db2ffa9d2be95ccb35249953860fe5e70011cb6012aaa87f300",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "22",
+          "path": "raw/secciones_censales_origen_poblacion/2025/22.geojson",
+          "bytes": 3670279,
+          "sha256": "29bab22e408df471f860fcceb45307664f56be3128423bd96b379ea90c1fa9bb",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2722%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "44",
+          "path": "raw/secciones_censales_origen_poblacion/2025/44.geojson",
+          "bytes": 3264067,
+          "sha256": "1d73be8982b286b41752d7077165c37d0cb57f4137b2b3b681c4e456225c337d",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2744%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "50",
+          "path": "raw/secciones_censales_origen_poblacion/2025/50.geojson",
+          "bytes": 6334825,
+          "sha256": "b6a4a6dff332478fc523203ca252e6532b12e692fb8849f9b39d8230a79fa498",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2750%27&filter-lang=cql2-text&limit=10000"
+        }
+      ]
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "population_year": 2025,
+      "section_year": 2026,
+      "acquisition_decision": "READY",
+      "reasons": [],
+      "consumer_compatibility": "BLOCKED",
+      "consumer_block_reason": "COMPATIBILITY_REPORT_INVALID: GEOMETRY_ADMISSIBILITY_NOT_READY: BLOCKED",
+      "canonical_receipt_registered": false,
+      "production_certification": false,
+      "sources": [
+        {
+          "source_id": "poblacion_por_sexo_y_edad",
+          "availability": "AVAILABLE",
+          "bytes": 57125,
+          "sha256": "18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales",
+          "availability": "AVAILABLE",
+          "bytes": 6809807,
+          "sha256": "e88411c3eb8cbfe4af5c0550e33f5285a35c9255c7f9aa69bd38c0c6db4ef0a5",
+          "error": ""
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "availability": "AVAILABLE",
+          "bytes": 6794083,
+          "sha256": "b793647453e3b3ccf81519070fa4fb0b404a90eac56e0871289483b813a9a791",
+          "error": ""
+        }
+      ],
+      "compatibility_diagnostic": {
+        "decision": "BLOCKED",
+        "causes": [
+          "NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE",
+          "ORIGIN_GEOMETRY_DEFECT_NOT_ADMISSIBLE",
+          "POPULATION_TOTAL_NOT_CONSERVED",
+          "POPULATION_WITHOUT_DESTINATION",
+          "SAME_CODE_BOUNDARY_CHANGED",
+          "TARGET_GEOMETRY_WITHOUT_POPULATION",
+          "UNACCREDITED_SECTIONING_CHANGE"
+        ],
+        "population": {
+          "input_total": 2401221,
+          "assigned_total": 2317024,
+          "exact_conservation": false
+        },
+        "not_conserved": 84197
+      },
+      "raw_official_response_count": 18,
+      "raw_official_responses": [
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "05",
+          "path": "raw/secciones_censales/2026/05.geojson",
+          "bytes": 3587004,
+          "sha256": "f09bc041b28fd80a01ff5dbe6c4be26db685aaf43bc2183ff59c6f9bdb4cdc41",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2705%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "09",
+          "path": "raw/secciones_censales/2026/09.geojson",
+          "bytes": 4765808,
+          "sha256": "bd575782b916f3abe28b59ed5ab3013be8592f87c1a04aeb7a6ff2797680894d",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2709%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "24",
+          "path": "raw/secciones_censales/2026/24.geojson",
+          "bytes": 3983123,
+          "sha256": "9515485dccd0f6050ed5a46d6fc11e4dedc17bece8d212be05f416dde4cc4792",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2724%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "34",
+          "path": "raw/secciones_censales/2026/34.geojson",
+          "bytes": 2276725,
+          "sha256": "d72c45d409bc2dbcc17df60633b392966f2350dae695b65f5609cb0f7170bfdc",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2734%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "37",
+          "path": "raw/secciones_censales/2026/37.geojson",
+          "bytes": 4876583,
+          "sha256": "ecdafd8abc29f9833b90b9e019915d29aa332473ad401591da9c8ecdecab88d6",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2737%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "40",
+          "path": "raw/secciones_censales/2026/40.geojson",
+          "bytes": 2362624,
+          "sha256": "0f84081f8853c9d9781911c4b6e9e15d331505a66655763b9cdb8e07704388f2",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2740%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "42",
+          "path": "raw/secciones_censales/2026/42.geojson",
+          "bytes": 1785152,
+          "sha256": "e547973e5c79d9b760480c6fcf3f26aa3e740148d903ea18a7b4468992141abf",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2742%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "47",
+          "path": "raw/secciones_censales/2026/47.geojson",
+          "bytes": 3063411,
+          "sha256": "95b249dbf3318bfa9af86b4a7123e0f946ef530558f5dcd15f8e46c90fe370c1",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2747%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2026,
+          "province_code": "49",
+          "path": "raw/secciones_censales/2026/49.geojson",
+          "bytes": 2480055,
+          "sha256": "a0a3e04f935d4e2483c7f00e8f1424f3876be5b9ce0ed8deff313a04c3e0e508",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASU.VectorStatisticalUnit/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2749%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "05",
+          "path": "raw/secciones_censales_origen_poblacion/2025/05.geojson",
+          "bytes": 3581204,
+          "sha256": "d825cba1d746171acad69863e1b0ebf3aa63123ee86d20890045079c32360215",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2705%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "09",
+          "path": "raw/secciones_censales_origen_poblacion/2025/09.geojson",
+          "bytes": 4755282,
+          "sha256": "466d41ecb15db1040e7bf832e226cee57cf2d3566812b41f3d63d64f8c697639",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2709%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "24",
+          "path": "raw/secciones_censales_origen_poblacion/2025/24.geojson",
+          "bytes": 3974246,
+          "sha256": "c5efbc3e2be5b3ccc08a0ee51922e6dd7108e376002c37699baae0e9a4e41044",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2724%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "34",
+          "path": "raw/secciones_censales_origen_poblacion/2025/34.geojson",
+          "bytes": 2272389,
+          "sha256": "796c0c00ce4dde1e982f44c4bc1a15ff33eae20418f30248aab7ff9b0c99c9ac",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2734%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "37",
+          "path": "raw/secciones_censales_origen_poblacion/2025/37.geojson",
+          "bytes": 4867644,
+          "sha256": "82e95b12386eed13e46c84929e3c70b87c6eaeadab24772376f22db84c515c8c",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2737%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "40",
+          "path": "raw/secciones_censales_origen_poblacion/2025/40.geojson",
+          "bytes": 2358038,
+          "sha256": "dd176eed485efd760ae18ecc64cb2ebd068e88cbd7cd989a0b85b2b3839788cd",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2740%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "42",
+          "path": "raw/secciones_censales_origen_poblacion/2025/42.geojson",
+          "bytes": 1777996,
+          "sha256": "bd0e50e183ac89efde1a7618902aff9bbbbd438cddaa282e5b1666d4b922108b",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2742%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "47",
+          "path": "raw/secciones_censales_origen_poblacion/2025/47.geojson",
+          "bytes": 3054342,
+          "sha256": "429146bad622dde5a861fd7b970f0101b1c305e3f19200c83426888ae89090d9",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2747%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales_origen_poblacion",
+          "source_year": 2025,
+          "province_code": "49",
+          "path": "raw/secciones_censales_origen_poblacion/2025/49.geojson",
+          "bytes": 2474240,
+          "sha256": "dc48b79ce577eb4d92d85d10353d7678c379ae06346c13747d8530aed3a52f94",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2025/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2749%27&filter-lang=cql2-text&limit=10000"
+        }
+      ]
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "population_year": 2023,
+      "section_year": 2023,
+      "acquisition_decision": "BLOCKED",
+      "reasons": [
+        {
+          "source_id": "poblacion_por_sexo_y_edad",
+          "reason": "Cobertura provincial de población incorrecta: ['03', '12'] != ['03', '12', '46']"
+        },
+        {
+          "source_id": "secciones_censales",
+          "reason": "GEOMETRY_INVALID_AUDITED: {\"decision\":\"BLOCKED\",\"identity_and_attributes\":{\"coverage_after\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_before\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_exact\":true,\"coverage_field\":\"CPRO\",\"population\":{\"note\":\"La compatibilidad población-seccionado sigue validándose por la puerta territorial existente.\",\"status\":\"NOT_P"
+        }
+      ],
+      "consumer_compatibility": "BLOCKED",
+      "consumer_block_reason": "Adquisición BLOCKED: poblacion_por_sexo_y_edad: Cobertura provincial de población incorrecta: ['03', '12'] != ['03', '12', '46']; secciones_censales: GEOMETRY_INVALID_AUDITED: {\"decision\":\"BLOCKED\",\"identity_and_attributes\":{\"coverage_after\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_before\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_exact\":true,\"coverage_field\":\"CPRO\",\"population\":{\"note\":\"La compatibilidad población-seccionado sigue validándose por la puerta territorial existente.\",\"status\":\"NOT_P",
+      "canonical_receipt_registered": false,
+      "production_certification": false,
+      "sources": [
+        {
+          "source_id": "poblacion_por_sexo_y_edad",
+          "availability": "BLOCKED",
+          "bytes": null,
+          "sha256": null,
+          "error": "Cobertura provincial de población incorrecta: ['03', '12'] != ['03', '12', '46']"
+        },
+        {
+          "source_id": "secciones_censales",
+          "availability": "BLOCKED",
+          "bytes": null,
+          "sha256": null,
+          "error": "GEOMETRY_INVALID_AUDITED: {\"decision\":\"BLOCKED\",\"identity_and_attributes\":{\"coverage_after\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_before\":{\"03\":1236,\"12\":444,\"46\":1823},\"coverage_exact\":true,\"coverage_field\":\"CPRO\",\"population\":{\"note\":\"La compatibilidad población-seccionado sigue validándose por"
+        }
+      ],
+      "geometry_diagnostics": [
+        {
+          "path": "secciones_censales_2023.json",
+          "decision": "BLOCKED",
+          "issue_count": 0
+        }
+      ],
+      "raw_official_response_count": 3,
+      "raw_official_responses": [
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2023,
+          "province_code": "03",
+          "path": "raw/secciones_censales/2023/03.geojson",
+          "bytes": 6077332,
+          "sha256": "b1ce66fcab1f7b418e1f56bd4ea23d0ab66f460c52707f87efe54854fcaad7cb",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2703%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2023,
+          "province_code": "12",
+          "path": "raw/secciones_censales/2023/12.geojson",
+          "bytes": 3260506,
+          "sha256": "886bb1ad78ad7f96d36e6c883eed3a38d43c858b4217c728ad851739a2cd2ff3",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2712%27&filter-lang=cql2-text&limit=10000"
+        },
+        {
+          "source_id": "secciones_censales",
+          "source_year": 2023,
+          "province_code": "46",
+          "path": "raw/secciones_censales/2023/46.geojson",
+          "bytes": 8203979,
+          "sha256": "4e0597c12ea2be75cf5e630578388c0825fdde97818abe142d155d7d378da58e",
+          "url": "https://www.ine.es/geoserver/ogc/features/v1/collections/WMS_INE_SECCIONES_G01%3ASecciones_2023/items?f=application%2Fgeo%2Bjson&filter=CPRO%3D%2746%27&filter-lang=cql2-text&limit=10000"
+        }
+      ],
+      "geometry_diagnostic": {
+        "decision": "BLOCKED",
+        "issue_count": 0,
+        "evidence_sha256": "03adeae148fa24599df615670098712132558ec10d1df2cd98002f2c6b792dcb"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "Registro autorizado #179, cinco receipts auténticos; Extremadura queda como evidencia independiente no promovida para preservar el linaje del producto",
+  "origin": "2af7d0d6acd15b05ad382f1afc12a75a59ddbf76",
+  "predecessor": null,
+  "rows": [
+    {
+      "territory_id": "andalucia",
+      "receipt_path": "territorios/andalucia/evidencia/fuentes_territoriales/2025/057a38a77a6e2163a962022d73387fe0588f3efda1b969b30c737538544ef1f2/38082966768/receipt.json",
+      "current_temporal_contract": false,
+      "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/andalucia"
+    },
+    {
+      "territory_id": "aragon",
+      "receipt_path": "territorios/aragon/evidencia/fuentes_territoriales/2025/e93472693aea78e48318bdf65a612c72d5bd1cd559b472b12ce0cfeb251b83ac/38093067883/receipt.json",
+      "current_temporal_contract": false,
+      "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/aragon"
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "receipt_path": "territorios/castilla_y_leon/evidencia/fuentes_territoriales/2025/155b35accd76c2f82cb21c298fda55b2df0fe122a7059df1c6068fbfb3e26b5e/38091055890/receipt.json",
+      "current_temporal_contract": false,
+      "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/castilla_y_leon"
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "receipt_path": "territorios/comunidad_valenciana/evidencia/fuentes_territoriales/2025/f50c038b9e79935c6fc0327df0d4f40d0315dbae70bff5215c32ce4b48e2cd28/38091132175/receipt.json",
+      "current_temporal_contract": false,
+      "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/comunidad_valenciana"
+    },
+    {
+      "territory_id": "extremadura",
+      "receipt_path": "territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json",
+      "current_temporal_contract": true,
+      "promoted": false,
+      "promotion_status": "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED",
+      "package_path": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-autenticos/validated/extremadura",
+      "effective_validation": {
+        "schema": "ddd.prepared-territorial-source-execution-validation/1.0",
+        "decision": "READY",
+        "territory_id": "extremadura",
+        "edition": "2025",
+        "territorial_identity_sha256": "70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084",
+        "compatibility_report_sha256": "a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346",
+        "compatibility_identity_sha256": "cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959"
+      }
+    }
+  ]
+}

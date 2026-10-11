@@ -1,0 +1,53 @@
+{
+  "schema": "ddd.source-accreditation-pending/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-11",
+  "scope": "checkpoint de acreditación, NO receipt canónico",
+  "origin": "d3a2238188d3f9acccfb8daf081157cf32be4c31",
+  "predecessor": null,
+  "changes": "vincular expediente al nuevo run real",
+  "reason": "bytes imprescindibles no materializados",
+  "decision": "BLOCKED",
+  "target_schema": "ddd.territorial-source-receipt/1.0",
+  "canonical_receipt_created": false,
+  "territory_id": "andalucia",
+  "run_id": 38082966768,
+  "artifact_id": 11682006744,
+  "artifact_name": "ddd-source-package-andalucia-2025-38082966768",
+  "source_commit": "d3a2238188d3f9acccfb8daf081157cf32be4c31",
+  "remote_artifact_sha256": "cc70f801d5a26a522458da05a5fde15e1876071cf1738d07c90429ca2057a056",
+  "remote_artifact_bytes": 26601473,
+  "reported_package_sha256": "e02d05cfd87e85150ad160c9062ec0fea1d2b3d0a9411ab6e6ecffed76d76228",
+  "reported_package_bytes": 26674695,
+  "reported_acquired_at": "2026-10-10T20:55:47.539546+00:00",
+  "hash_source": "metadata remota / log auténtico; NO recalculado localmente",
+  "local_artifact_path": null,
+  "durable_location": null,
+  "package_sha256_verified": null,
+  "compatibility_report_member_verified": null,
+  "compatibility_report_sha256_verified": null,
+  "compatibility_identity_sha256_verified": null,
+  "territorial_identity_sha256_verified": null,
+  "temporal_contract": {
+    "producer_years_reported": [
+      2025,
+      2025
+    ],
+    "selected_years_required": [
+      2025,
+      2026
+    ],
+    "decision": "BLOCKED_YEAR_MISMATCH",
+    "source": "caller y log del nuevo productor; no manifiesto local"
+  },
+  "missing": [
+    "manifest y edición/años comprobados desde bytes",
+    "CRC exterior/interior y SHA interior recalculados",
+    "compatibility_report_member",
+    "compatibility_report_sha256",
+    "compatibility_identity_sha256",
+    "territorial_identity_sha256",
+    "conservación durable y receipt #179 del paquete exacto"
+  ],
+  "next_action": "materializar el ZIP del ID exacto en almacenamiento durable, verificar CRC/SHA/manifest/informe, emitir receipt por procedimiento #179 existente y probar en copia aislada sin activación canónica"
+}

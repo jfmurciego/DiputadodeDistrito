@@ -1,0 +1,13 @@
+{
+  "status": "PASS_ISOLATED_TERRITORIAL_RECEIPT_ONLY",
+  "validator": "herramientas.consumir_par_fuentes_legislatura.validate_territorial_receipt",
+  "territory_id": "extremadura",
+  "edition": "2025",
+  "run_id": 38091144559,
+  "territorial_identity_sha256": "70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084",
+  "source_catalog_sha256_before_after": "dc3bf7662d22c7b854df7821defbc6f2d9121607131351d48341fba1056d8693",
+  "scratch_catalog_and_receipt_only": true,
+  "catalogue_registration": false,
+  "promotion": false,
+  "electoral_source_evaluated": false
+}
