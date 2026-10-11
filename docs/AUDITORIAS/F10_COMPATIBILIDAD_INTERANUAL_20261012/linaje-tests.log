@@ -1,0 +1,22 @@
+test_fourteen_historical_receipts_remain_and_extremadura_f10_is_unpromoted (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_fourteen_historical_receipts_remain_and_extremadura_f10_is_unpromoted) ... ok
+test_matrix_unknown_or_injected_territory_blocks_before_production (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_matrix_unknown_or_injected_territory_blocks_before_production) ... ok
+test_missing_partial_uppercase_or_injected_sha_blocks (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_missing_partial_uppercase_or_injected_sha_blocks) ... ok
+test_only_existing_territorial_producer_is_called_after_guard (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_only_existing_territorial_producer_is_called_after_guard) ... ok
+test_only_manual_single_territory_can_start (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_only_manual_single_territory_can_start) ... ok
+test_reuse_recovery_and_persistence_are_not_dispatch_overrides (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_reuse_recovery_and_persistence_are_not_dispatch_overrides) ... ok
+test_sha_from_another_commit_blocks (tests.test_f10_preparacion_aislada.F10PreparacionAisladaTests.test_sha_from_another_commit_blocks) ... ok
+test_electoral_incomplete_remains_failed_and_blocked (tests.test_00_manifest_scope.FullRunManifestScopeTests.test_electoral_incomplete_remains_failed_and_blocked) ... ok
+test_historical_extremadura_36472516474_is_not_rewritten (tests.test_00_manifest_scope.FullRunManifestScopeTests.test_historical_extremadura_36472516474_is_not_rewritten) ... ok
+test_real_territorial_block_still_fails_territorial_only_scope (tests.test_00_manifest_scope.FullRunManifestScopeTests.test_real_territorial_block_still_fails_territorial_only_scope) ... ok
+test_territorial_only_success_marks_electoral_phases_out_of_scope (tests.test_00_manifest_scope.FullRunManifestScopeTests.test_territorial_only_success_marks_electoral_phases_out_of_scope) ... ok
+test_extremadura_36472516474_reuses_certified_m06_despite_historical_global_failure (tests.test_00_reuse_real_regressions.ReuseRealRegressionsTests.test_extremadura_36472516474_reuses_certified_m06_despite_historical_global_failure) ... ok
+test_cabeceras_y_predecesores_legacy (tests.test_r015_invariantes.GovernanceHeaders.test_cabeceras_y_predecesores_legacy) ... ok
+test_contrato_m05_distingue_version_activa_y_logica_validada (tests.test_r015_invariantes.GovernanceHeaders.test_contrato_m05_distingue_version_activa_y_logica_validada) ... ok
+test_documentos_canonicos_versionados_tienen_predecesor_real (tests.test_r015_invariantes.GovernanceHeaders.test_documentos_canonicos_versionados_tienen_predecesor_real) ... ok
+test_documentos_r015_presentes (tests.test_r015_invariantes.GovernanceHeaders.test_documentos_r015_presentes) ... ok
+test_recuperaciones_documentales_r015_presentes (tests.test_r015_invariantes.GovernanceHeaders.test_recuperaciones_documentales_r015_presentes) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 2.020s
+
+OK

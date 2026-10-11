@@ -1,0 +1,7 @@
+...../Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/lib/python3.11/site-packages/pyogrio/__init__.py:5: DeprecationWarning: The 'shapely.geos' module is deprecated, and will be removed in a future version. All attributes of 'shapely.geos' are available directly from the top-level 'shapely' namespace (since shapely 2.0.0).
+  import shapely.geos  # noqa
+...
+----------------------------------------------------------------------
+Ran 8 tests in 3.338s
+
+OK

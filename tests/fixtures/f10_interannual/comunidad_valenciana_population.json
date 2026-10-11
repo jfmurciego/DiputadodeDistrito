@@ -1,0 +1,52 @@
+{
+  "schema": "ddd.f10-real-population-regression/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-12",
+  "status": "independent_not_promoted",
+  "origin": "inputs/partes/65034.csv.zip.part00..part03",
+  "archive_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "csv_member": "65034.csv",
+  "sample_rows": [
+    {
+      "Total Nacional": "Total Nacional",
+      "Provincias": "03 Alicante/Alacant",
+      "Municipios": "03001 Atzúbia, l'",
+      "Secciones": "0300101001 Atzúbia, l' sección 01001",
+      "Sexo": "Total",
+      "Edad": "Todas las edades",
+      "Periodo": "2023",
+      "Total": "625"
+    },
+    {
+      "Total Nacional": "Total Nacional",
+      "Provincias": "12 Castellón/Castelló",
+      "Municipios": "12001 Atzeneta del Maestrat",
+      "Secciones": "1200101001 Atzeneta del Maestrat sección 01001",
+      "Sexo": "Total",
+      "Edad": "Todas las edades",
+      "Periodo": "2023",
+      "Total": "1.319"
+    },
+    {
+      "Total Nacional": "Total Nacional",
+      "Provincias": "46 Valencia/València",
+      "Municipios": "46001 Ademuz",
+      "Secciones": "4600101001 Ademuz sección 01001",
+      "Sexo": "Total",
+      "Edad": "Todas las edades",
+      "Periodo": "2023",
+      "Total": "994"
+    }
+  ],
+  "rows_by_province": {
+    "03": 1246,
+    "12": 447,
+    "46": 1856
+  },
+  "observed_rows_by_province": {
+    "03": 1236,
+    "12": 444,
+    "46": 1823
+  },
+  "original_F10_payload": "NOT_PRESERVED"
+}
