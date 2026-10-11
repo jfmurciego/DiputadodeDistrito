@@ -1,7 +1,7 @@
-"""Contrato F10 v1.0.0 (2026-10-10), candidato local; origen: #179.
+"""Contrato F10 v1.0.1 (2026-10-11), candidato local; origen: #179.
 
-Cambios: regresiones de acreditación efectiva; motivo: evitar READY local.
-Alcance: receipts y artefactos conservados; predecesor: ninguno.
+Cambios: regresión de Extremadura separa receipt auténtico del linaje activo del producto.
+Motivo: prevenir sustitución implícita; predecesor: legacy/tests/test_f10_receipt_contract_v1.0.0.py.
 """
 from __future__ import annotations
 
@@ -50,6 +50,13 @@ class F10ReceiptContractTests(unittest.TestCase):
         self.assertFalse(entry['promoted'])
         self.assertEqual(entry['promotion_status'],
                          'AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED')
+        validation = entry['effective_validation']
+        self.assertEqual(validation['decision'], 'READY')
+        self.assertEqual(validation['territory_id'], receipt['territory_id'])
+        self.assertEqual(validation['edition'], receipt['edition'])
+        self.assertEqual(validation['territorial_identity_sha256'], receipt['territorial_identity_sha256'])
+        self.assertEqual(validation['compatibility_report_sha256'], receipt['compatibility_report_sha256'])
+        self.assertEqual(validation['compatibility_identity_sha256'], receipt['compatibility_identity_sha256'])
         self.assertEqual(
             {key: receipt[key] for key in (
                 'schema', 'kind', 'territory_id', 'edition', 'run_id', 'artifact_name',

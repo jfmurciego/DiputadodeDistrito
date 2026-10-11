@@ -1,10 +1,10 @@
-"""F10 caller aislado v1.0.2; 2026-10-11; candidato local.
+"""F10 caller aislado v1.0.3; 2026-10-11; candidato local.
 
 Alcance: límites de ejecución y preservación de acreditaciones #179.
-Cambios: acreditar el receipt auténtico de Extremadura y conservar los cuatro bloqueos temporales.
-Motivo: validar la transición canónica autorizada sin relajar las puertas restantes.
+Cambios: conservar el receipt auténtico de Extremadura sin promoverlo sobre el linaje M06.
+Motivo: mantener catorce acreditaciones históricas y fail-closed para la evidencia no promovida.
 Origen: main@579ab82e84aadba778b0fe7d138ea96b66457e1e.
-Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.1.py.
+Predecesor: legacy/tests/test_f10_preparacion_aislada_v1.0.2.py.
 """
 import json
 import os

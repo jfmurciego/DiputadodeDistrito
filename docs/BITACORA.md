@@ -1,8 +1,8 @@
 # Bitácora de progreso
 
-**Versión:** 2.22.1
+**Versión:** 2.22.2
 **Fecha:** 2026-10-11
-**Anterior:** `legacy/bitacora/BITACORA_v2.22.0.md`
+**Anterior:** `legacy/bitacora/BITACORA_v2.22.1.md`
 
 ## R001–R013 — recuperación y profesionalización
 Se recuperó el procedimiento Aragón y se formalizaron M01–M08, fuentes congeladas, caché territorial, validación, outputs auditables, manifiestos, versionado, continuidad y reglas de contigüidad/municipio/provincia. Run #7 consiguió estructura R012 PASS pero dejó un distrito fuera de ±12 %.
@@ -201,3 +201,9 @@ Se conservan en el almacén local los cinco artefactos auténticos y sus paquete
 Andalucía, Aragón y Castilla y León requieren 2025/2026; Comunidad Valenciana requiere 2023/2023. Sus receipts originales 2025/2025 no sustituyen estas identidades. Las adquisiciones 2025/2026 quedaron READY para los tres primeros, pero la puerta bloqueó su correspondencia geométrica y conservación de población: quedan sin elegibilidad canónica. En Andalucía no se asignan 319.989 habitantes de los 8.676.713 de entrada; en Aragón, 31.024 de 1.364.621; en Castilla y León, 84.197 de 2.401.221. Comunidad Valenciana quedó bloqueada por ausencia de cobertura poblacional de Valencia (46) y geometría inválida en el seccionado. No se fabricaron receipts para identidades no elegibles. El expediente [CIERRE_REAL_FUENTES_20261011](AUDITORIAS/CIERRE_REAL_FUENTES_20261011/) conserva las respuestas y diagnósticos. Extremadura sí registra la identidad exacta 2025/2025. La validación material y temporal arroja 15 consumidores PASS y cuatro BLOCKED; F10 sigue PENDING. F04 consta formalmente PASS en el Plan Maestro por autorización de Work.
 
 Alcance compartido: estos datos pueden ser consumidos por los frentes autonómico y nacional; no cambia la interfaz del consumidor ni sus contratos. No se ejecuta `00`, generación territorial ni publicación. La integración de esta rama permanece sujeta a revisión, CI y autorización final de fusión.
+
+## 2026-10-11 — Corrección del registro F10 de Extremadura
+
+Esta corrección supersede cualquier afirmación anterior de esta entrada que indicara que el receipt `38091144559` estaba promovido en `catalogo_preparacion.yaml`, que sus bytes eran consumibles desde el catálogo o que la validación de 19 consumidores daba 15 PASS / 4 BLOCKED. La CI detectó que enlazarlo como `preparation_evidence` sustituía la fuente del producto territorial certificado M06 `36472516474` y rompía su linaje.
+
+Se restauró íntegramente la preparación histórica activa de Extremadura: run `35755043806`, artefacto `ddd-source-package-extremadura-2025-35755043806`, SHA de artefacto `fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347` y SHA del paquete `edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07`. El receipt F10 `38091144559` permanece versionado y registrado como evidencia auténtica independiente, no promovida; no se crean equivalencias ni se altera el producto. La validación offline actualizada de los 19 consumidores arroja 14 PASS y 5 BLOCKED. F10 sigue PENDING. F04 permanece PASS y F09 PASS. No se reabrieron adquisiciones ni se ejecutaron `00`, generación ni publicación.
