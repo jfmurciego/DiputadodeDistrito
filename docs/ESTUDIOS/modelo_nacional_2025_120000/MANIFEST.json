@@ -1,0 +1,21 @@
+{
+  "files": {
+    "comparacion_mapas.json": "82c1438cdabae346041b3abac11525d66ab515c35746c8a35d06b49b49be4a98",
+    "fuente_poblacion.json": "6a5f16d1bf354bebb1d05ad0f9afc350d8dc1c7ea251aac3ce6002e392b16a7c",
+    "modelo.json": "c183f71e7a433eaaff77456d82a13f8afbc3f1fd2ec08e73ca3fce371d7d7ee4",
+    "reparto_provincial.csv": "ee1c571fe62f04df92045e4e1a8d0370f3165d35d5c459c77109a6f063e28e24"
+  },
+  "generator_sha256": "61c70aae46d903e7ea3bc29ddfd9c49ffe75318e610801d29c834c1999e88075",
+  "metadata": {
+    "changes": "cuotas exactas y K calculado a partir de población",
+    "date": "2026-10-08",
+    "name": "Modelo cuantitativo nacional exploratorio",
+    "origin": "artefacto nuevo, sin predecesor",
+    "reason": "perfil de cálculo del Director de 120000 habitantes; no contrato electoral",
+    "scope": "análisis local; sin generación territorial",
+    "status": "CANDIDATE_NOT_INSTITUTIONALLY_APPROVED",
+    "version": "1.0.0"
+  },
+  "schema": "ddd.national-analysis-manifest/1.0",
+  "source_zip_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+}

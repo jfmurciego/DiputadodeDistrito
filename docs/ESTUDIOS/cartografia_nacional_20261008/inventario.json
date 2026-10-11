@@ -1,0 +1,1540 @@
+{
+  "files": [
+    {
+      "archived_path": "inputs/aeae36e7af22_assembled_districts_spain.xlsm.gz",
+      "byte_size": 17597,
+      "file_sha256": "aeae36e7af225b6fac16ac0b66ed26708b6ddbbcaa29b8893a79b02a358631e7",
+      "geometry_edition": null,
+      "inspection": {
+        "core_dates_not_data_editions": {
+          "created": "2021-05-04T15:19:50Z",
+          "modified": "2021-05-04T15:19:50Z"
+        },
+        "header": {
+          "A": "district",
+          "B": "pob_t_total",
+          "C": "target_pob",
+          "D": "province_id",
+          "E": "province_name",
+          "F": "map_iteration"
+        },
+        "macro_members": [],
+        "member_sha256": {
+          "[Content_Types].xml": "a6c028b82b47b3617ed40f92a746fb52b1b38fbd84485cae3a293effe7377a65",
+          "_rels/.rels": "c517195fd1f9ac3ea17900055da287969668ac0973fc251e070b93391ec801fd",
+          "docProps/app.xml": "1999306580c67f7a26c55e960da79bbda1836761c24dbddab945e3c7791f11f8",
+          "docProps/core.xml": "c59adc623fa09d7e32268de8907ae25f907cd3159823f32da1ec10596debd988",
+          "xl/_rels/workbook.xml.rels": "8e5b73e32df54ad9455bacdd6de6d79fcc618b9a163896fa2acae59b7aab14d3",
+          "xl/styles.xml": "da8a03cf136ab6b54eb5354a21faa5920111df5a1b5c544920b24604c9f152a4",
+          "xl/theme/theme1.xml": "d15e8ebf78ef7b9720839d7ae8fdc81a7df5bc24706d8e137df61a5683c358d9",
+          "xl/workbook.xml": "545ff6852592ef935dba5fd646db884bf433c54b161a361ddfe16ffa4ab9eb16",
+          "xl/worksheets/sheet1.xml": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
+        },
+        "row_count_excluding_header": 391,
+        "sha256": "aeae36e7af225b6fac16ac0b66ed26708b6ddbbcaa29b8893a79b02a358631e7",
+        "sheet_xml_sha256": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
+      },
+      "name": "assembled_districts_spain.xlsm",
+      "original_path": "historical-source-01/assembled_districts_spain.xlsm",
+      "population_edition": null,
+      "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
+    },
+    {
+      "archived_path": "inputs/a2c8f630bd84_map.geojson.gz",
+      "byte_size": 6518138,
+      "file_sha256": "a2c8f630bd84c8d7b31724496cb86db676b9765e5ad986a5b485dc60f813b756",
+      "geometry_edition": null,
+      "inspection": {
+        "crs": "OGC:CRS84",
+        "crs_origin": "RFC7946_default_CRS84",
+        "disconnected_features": [
+          {
+            "components": 2,
+            "id": "3"
+          },
+          {
+            "components": 3,
+            "id": "7"
+          },
+          {
+            "components": 2,
+            "id": "9"
+          },
+          {
+            "components": 3,
+            "id": "11"
+          },
+          {
+            "components": 2,
+            "id": "13"
+          },
+          {
+            "components": 2,
+            "id": "16"
+          },
+          {
+            "components": 2,
+            "id": "17"
+          },
+          {
+            "components": 6,
+            "id": "22"
+          },
+          {
+            "components": 3,
+            "id": "23"
+          },
+          {
+            "components": 5,
+            "id": "29"
+          },
+          {
+            "components": 2,
+            "id": "41"
+          },
+          {
+            "components": 56,
+            "id": "43"
+          },
+          {
+            "components": 11,
+            "id": "44"
+          },
+          {
+            "components": 2,
+            "id": "46"
+          },
+          {
+            "components": 3,
+            "id": "47"
+          },
+          {
+            "components": 22,
+            "id": "48"
+          },
+          {
+            "components": 2,
+            "id": "49"
+          },
+          {
+            "components": 49,
+            "id": "51"
+          },
+          {
+            "components": 2,
+            "id": "58"
+          },
+          {
+            "components": 2,
+            "id": "64"
+          },
+          {
+            "components": 2,
+            "id": "68"
+          },
+          {
+            "components": 2,
+            "id": "70"
+          },
+          {
+            "components": 3,
+            "id": "71"
+          },
+          {
+            "components": 2,
+            "id": "103"
+          },
+          {
+            "components": 6,
+            "id": "105"
+          },
+          {
+            "components": 6,
+            "id": "109"
+          },
+          {
+            "components": 4,
+            "id": "111"
+          },
+          {
+            "components": 2,
+            "id": "112"
+          },
+          {
+            "components": 2,
+            "id": "113"
+          },
+          {
+            "components": 5,
+            "id": "121"
+          },
+          {
+            "components": 3,
+            "id": "122"
+          },
+          {
+            "components": 2,
+            "id": "124"
+          },
+          {
+            "components": 2,
+            "id": "125"
+          },
+          {
+            "components": 2,
+            "id": "127"
+          },
+          {
+            "components": 2,
+            "id": "129"
+          },
+          {
+            "components": 3,
+            "id": "133"
+          },
+          {
+            "components": 3,
+            "id": "141"
+          },
+          {
+            "components": 4,
+            "id": "148"
+          },
+          {
+            "components": 5,
+            "id": "150"
+          },
+          {
+            "components": 14,
+            "id": "152"
+          },
+          {
+            "components": 4,
+            "id": "155"
+          },
+          {
+            "components": 2,
+            "id": "156"
+          },
+          {
+            "components": 2,
+            "id": "159"
+          },
+          {
+            "components": 3,
+            "id": "160"
+          },
+          {
+            "components": 2,
+            "id": "161"
+          },
+          {
+            "components": 2,
+            "id": "162"
+          },
+          {
+            "components": 28,
+            "id": "165"
+          },
+          {
+            "components": 32,
+            "id": "166"
+          },
+          {
+            "components": 11,
+            "id": "167"
+          },
+          {
+            "components": 2,
+            "id": "168"
+          },
+          {
+            "components": 2,
+            "id": "172"
+          },
+          {
+            "components": 2,
+            "id": "173"
+          },
+          {
+            "components": 2,
+            "id": "177"
+          },
+          {
+            "components": 2,
+            "id": "187"
+          },
+          {
+            "components": 2,
+            "id": "197"
+          },
+          {
+            "components": 9,
+            "id": "199"
+          },
+          {
+            "components": 2,
+            "id": "212"
+          },
+          {
+            "components": 2,
+            "id": "220"
+          },
+          {
+            "components": 2,
+            "id": "267"
+          },
+          {
+            "components": 2,
+            "id": "269"
+          },
+          {
+            "components": 3,
+            "id": "271"
+          },
+          {
+            "components": 24,
+            "id": "275"
+          },
+          {
+            "components": 3,
+            "id": "291"
+          },
+          {
+            "components": 2,
+            "id": "299"
+          },
+          {
+            "components": 2,
+            "id": "300"
+          },
+          {
+            "components": 3,
+            "id": "302"
+          },
+          {
+            "components": 4,
+            "id": "308"
+          },
+          {
+            "components": 2,
+            "id": "333"
+          },
+          {
+            "components": 2,
+            "id": "341"
+          },
+          {
+            "components": 3,
+            "id": "346"
+          },
+          {
+            "components": 2,
+            "id": "347"
+          },
+          {
+            "components": 2,
+            "id": "349"
+          },
+          {
+            "components": 2,
+            "id": "357"
+          },
+          {
+            "components": 2,
+            "id": "359"
+          },
+          {
+            "components": 4,
+            "id": "369"
+          },
+          {
+            "components": 7,
+            "id": "370"
+          },
+          {
+            "components": 2,
+            "id": "376"
+          },
+          {
+            "components": 2,
+            "id": "384"
+          }
+        ],
+        "errors": [
+          {
+            "error": "GEOMETRY_INVALID: Hole lies outside shell[3.23111263179678 39.7349979107275]",
+            "feature_index": 44,
+            "id": "44"
+          }
+        ],
+        "feature_count": 391,
+        "file_sha256": "a2c8f630bd84c8d7b31724496cb86db676b9765e5ad986a5b485dc60f813b756",
+        "geometry_edition": null,
+        "geometry_types": {
+          "MultiPolygon": 78,
+          "Polygon": 313
+        },
+        "metadata": {
+          "changes": "diagnóstico y correspondencia acreditada",
+          "date": "2026-10-08",
+          "name": "Comparación cartográfica nacional",
+          "origin": "nuevo, sin predecesor",
+          "reason": "no inferir ediciones ni causas por nombres",
+          "scope": "análisis local sin generación",
+          "status": "CI_PENDIENTE",
+          "version": "1.0.0"
+        },
+        "population_edition": null,
+        "provenance": {
+          "accredited": false,
+          "evidence": []
+        },
+        "status": "BLOCKED_INVALID_INPUT",
+        "unit_kind": "districts",
+        "valid_record_count": 390,
+        "valid_records_only_province_counts": {
+          "01": 3,
+          "02": 3,
+          "03": 15,
+          "04": 6,
+          "05": 1,
+          "06": 6,
+          "07": 8,
+          "08": 47,
+          "09": 3,
+          "10": 3,
+          "11": 10,
+          "12": 5,
+          "13": 4,
+          "14": 7,
+          "15": 9,
+          "16": 2,
+          "17": 6,
+          "18": 8,
+          "19": 2,
+          "20": 6,
+          "21": 4,
+          "22": 2,
+          "23": 5,
+          "24": 4,
+          "25": 4,
+          "26": 3,
+          "27": 3,
+          "28": 56,
+          "29": 14,
+          "30": 12,
+          "31": 5,
+          "32": 3,
+          "33": 9,
+          "34": 1,
+          "35": 9,
+          "36": 8,
+          "37": 3,
+          "38": 8,
+          "39": 5,
+          "40": 1,
+          "41": 16,
+          "42": 1,
+          "43": 7,
+          "44": 1,
+          "45": 6,
+          "46": 21,
+          "47": 4,
+          "48": 10,
+          "49": 1,
+          "50": 8,
+          "51": 1,
+          "52": 1
+        },
+        "valid_records_only_province_population": {
+          "01": "331548.99999999996",
+          "02": "388167.00000000000",
+          "03": "1858682.99999999907",
+          "04": "716819.99999999993",
+          "05": "157639.99999999997",
+          "06": "673559.00000000004",
+          "07": "1012476.00000000018",
+          "08": "5664579.00000000061",
+          "09": "354923.00000000001",
+          "10": "394151.00000000017",
+          "11": "1240155.00000000031",
+          "12": "579962.00000000019",
+          "13": "495434.00000000006",
+          "14": "782979.00000000013",
+          "15": "1119596.00000000016",
+          "16": "196329.00000000008",
+          "17": "769627.00000000034",
+          "18": "914678.00000000010",
+          "19": "257761.99999999975",
+          "20": "723576.00000000000",
+          "21": "521869.99999999997",
+          "22": "220461.00000000012",
+          "23": "633563.99999999999",
+          "24": "460000.99999999993",
+          "25": "434930.00000000031",
+          "26": "316798.00000000005",
+          "27": "329586.99999999998",
+          "28": "6663393.99999999966",
+          "29": "1661784.99999999957",
+          "30": "1493897.99999999989",
+          "31": "654183.00000000000",
+          "32": "307651.00000000002",
+          "33": "1022800.00000000000",
+          "34": "160826",
+          "35": "1120405.99999999998",
+          "36": "937739.00000000010",
+          "37": "330119.00000000013",
+          "38": "917840.99999999968",
+          "39": "580794.99999999999",
+          "40": "153128.99999999994",
+          "41": "1942388.99999999962",
+          "42": "88636.00000000009",
+          "43": "804663.99999999965",
+          "44": "134137.00000000012",
+          "45": "694844.00000000013",
+          "46": "2562857.99999999991",
+          "47": "519324.00000000000",
+          "48": "1148419.00000000001",
+          "49": "172539.00000000006",
+          "50": "964692.99999999989",
+          "51": "84777",
+          "52": "86487.00000000001"
+        }
+      },
+      "name": "map.geojson",
+      "original_path": "historical-source-02/map.geojson",
+      "population_edition": null,
+      "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
+    },
+    {
+      "archived_path": "inputs/2a0a4cf5f4ba_spain-districts-selected.json.gz",
+      "byte_size": 7304195,
+      "file_sha256": "2a0a4cf5f4ba3ece8961d9f7336e9b9b509ff3f3124a54aaff9b520a33678ba6",
+      "geometry_edition": null,
+      "inspection": {
+        "crs": "OGC:CRS84",
+        "crs_origin": "legacy_declared",
+        "disconnected_features": [
+          {
+            "components": 2,
+            "id": "3"
+          },
+          {
+            "components": 3,
+            "id": "7"
+          },
+          {
+            "components": 2,
+            "id": "9"
+          },
+          {
+            "components": 3,
+            "id": "11"
+          },
+          {
+            "components": 2,
+            "id": "13"
+          },
+          {
+            "components": 2,
+            "id": "16"
+          },
+          {
+            "components": 2,
+            "id": "17"
+          },
+          {
+            "components": 6,
+            "id": "22"
+          },
+          {
+            "components": 3,
+            "id": "23"
+          },
+          {
+            "components": 5,
+            "id": "29"
+          },
+          {
+            "components": 2,
+            "id": "41"
+          },
+          {
+            "components": 56,
+            "id": "43"
+          },
+          {
+            "components": 11,
+            "id": "44"
+          },
+          {
+            "components": 2,
+            "id": "46"
+          },
+          {
+            "components": 3,
+            "id": "47"
+          },
+          {
+            "components": 22,
+            "id": "48"
+          },
+          {
+            "components": 2,
+            "id": "49"
+          },
+          {
+            "components": 49,
+            "id": "51"
+          },
+          {
+            "components": 2,
+            "id": "58"
+          },
+          {
+            "components": 2,
+            "id": "64"
+          },
+          {
+            "components": 2,
+            "id": "68"
+          },
+          {
+            "components": 2,
+            "id": "70"
+          },
+          {
+            "components": 3,
+            "id": "71"
+          },
+          {
+            "components": 2,
+            "id": "103"
+          },
+          {
+            "components": 6,
+            "id": "105"
+          },
+          {
+            "components": 6,
+            "id": "109"
+          },
+          {
+            "components": 4,
+            "id": "111"
+          },
+          {
+            "components": 2,
+            "id": "112"
+          },
+          {
+            "components": 2,
+            "id": "113"
+          },
+          {
+            "components": 5,
+            "id": "121"
+          },
+          {
+            "components": 3,
+            "id": "122"
+          },
+          {
+            "components": 2,
+            "id": "124"
+          },
+          {
+            "components": 2,
+            "id": "125"
+          },
+          {
+            "components": 2,
+            "id": "127"
+          },
+          {
+            "components": 2,
+            "id": "129"
+          },
+          {
+            "components": 3,
+            "id": "133"
+          },
+          {
+            "components": 3,
+            "id": "141"
+          },
+          {
+            "components": 4,
+            "id": "148"
+          },
+          {
+            "components": 5,
+            "id": "150"
+          },
+          {
+            "components": 14,
+            "id": "152"
+          },
+          {
+            "components": 4,
+            "id": "155"
+          },
+          {
+            "components": 2,
+            "id": "156"
+          },
+          {
+            "components": 2,
+            "id": "159"
+          },
+          {
+            "components": 3,
+            "id": "160"
+          },
+          {
+            "components": 2,
+            "id": "161"
+          },
+          {
+            "components": 2,
+            "id": "162"
+          },
+          {
+            "components": 28,
+            "id": "165"
+          },
+          {
+            "components": 32,
+            "id": "166"
+          },
+          {
+            "components": 11,
+            "id": "167"
+          },
+          {
+            "components": 2,
+            "id": "168"
+          },
+          {
+            "components": 2,
+            "id": "172"
+          },
+          {
+            "components": 2,
+            "id": "173"
+          },
+          {
+            "components": 2,
+            "id": "177"
+          },
+          {
+            "components": 2,
+            "id": "187"
+          },
+          {
+            "components": 2,
+            "id": "197"
+          },
+          {
+            "components": 9,
+            "id": "199"
+          },
+          {
+            "components": 2,
+            "id": "212"
+          },
+          {
+            "components": 2,
+            "id": "220"
+          },
+          {
+            "components": 2,
+            "id": "267"
+          },
+          {
+            "components": 2,
+            "id": "269"
+          },
+          {
+            "components": 3,
+            "id": "271"
+          },
+          {
+            "components": 24,
+            "id": "275"
+          },
+          {
+            "components": 3,
+            "id": "291"
+          },
+          {
+            "components": 2,
+            "id": "299"
+          },
+          {
+            "components": 2,
+            "id": "300"
+          },
+          {
+            "components": 3,
+            "id": "302"
+          },
+          {
+            "components": 4,
+            "id": "308"
+          },
+          {
+            "components": 2,
+            "id": "333"
+          },
+          {
+            "components": 2,
+            "id": "341"
+          },
+          {
+            "components": 3,
+            "id": "346"
+          },
+          {
+            "components": 2,
+            "id": "347"
+          },
+          {
+            "components": 2,
+            "id": "349"
+          },
+          {
+            "components": 2,
+            "id": "357"
+          },
+          {
+            "components": 2,
+            "id": "359"
+          },
+          {
+            "components": 4,
+            "id": "369"
+          },
+          {
+            "components": 7,
+            "id": "370"
+          },
+          {
+            "components": 2,
+            "id": "376"
+          },
+          {
+            "components": 2,
+            "id": "384"
+          }
+        ],
+        "errors": [
+          {
+            "error": "GEOMETRY_INVALID: Hole lies outside shell[3.23111263179678 39.7349979107275]",
+            "feature_index": 44,
+            "id": "44"
+          }
+        ],
+        "feature_count": 391,
+        "file_sha256": "2a0a4cf5f4ba3ece8961d9f7336e9b9b509ff3f3124a54aaff9b520a33678ba6",
+        "geometry_edition": null,
+        "geometry_types": {
+          "MultiPolygon": 78,
+          "Polygon": 313
+        },
+        "metadata": {
+          "changes": "diagnóstico y correspondencia acreditada",
+          "date": "2026-10-08",
+          "name": "Comparación cartográfica nacional",
+          "origin": "nuevo, sin predecesor",
+          "reason": "no inferir ediciones ni causas por nombres",
+          "scope": "análisis local sin generación",
+          "status": "CI_PENDIENTE",
+          "version": "1.0.0"
+        },
+        "population_edition": null,
+        "provenance": {
+          "accredited": false,
+          "evidence": []
+        },
+        "status": "BLOCKED_INVALID_INPUT",
+        "unit_kind": "districts",
+        "valid_record_count": 390,
+        "valid_records_only_province_counts": {
+          "01": 3,
+          "02": 3,
+          "03": 15,
+          "04": 6,
+          "05": 1,
+          "06": 6,
+          "07": 8,
+          "08": 47,
+          "09": 3,
+          "10": 3,
+          "11": 10,
+          "12": 5,
+          "13": 4,
+          "14": 7,
+          "15": 9,
+          "16": 2,
+          "17": 6,
+          "18": 8,
+          "19": 2,
+          "20": 6,
+          "21": 4,
+          "22": 2,
+          "23": 5,
+          "24": 4,
+          "25": 4,
+          "26": 3,
+          "27": 3,
+          "28": 56,
+          "29": 14,
+          "30": 12,
+          "31": 5,
+          "32": 3,
+          "33": 9,
+          "34": 1,
+          "35": 9,
+          "36": 8,
+          "37": 3,
+          "38": 8,
+          "39": 5,
+          "40": 1,
+          "41": 16,
+          "42": 1,
+          "43": 7,
+          "44": 1,
+          "45": 6,
+          "46": 21,
+          "47": 4,
+          "48": 10,
+          "49": 1,
+          "50": 8,
+          "51": 1,
+          "52": 1
+        },
+        "valid_records_only_province_population": {
+          "01": "331548.99999999996",
+          "02": "388167.00000000000",
+          "03": "1858682.99999999907",
+          "04": "716819.99999999993",
+          "05": "157639.99999999997",
+          "06": "673559.00000000004",
+          "07": "1012476.00000000018",
+          "08": "5664579.00000000061",
+          "09": "354923.00000000001",
+          "10": "394151.00000000017",
+          "11": "1240155.00000000031",
+          "12": "579962.00000000019",
+          "13": "495434.00000000006",
+          "14": "782979.00000000013",
+          "15": "1119596.00000000016",
+          "16": "196329.00000000008",
+          "17": "769627.00000000034",
+          "18": "914678.00000000010",
+          "19": "257761.99999999975",
+          "20": "723576.00000000000",
+          "21": "521869.99999999997",
+          "22": "220461.00000000012",
+          "23": "633563.99999999999",
+          "24": "460000.99999999993",
+          "25": "434930.00000000031",
+          "26": "316798.00000000005",
+          "27": "329586.99999999998",
+          "28": "6663393.99999999966",
+          "29": "1661784.99999999957",
+          "30": "1493897.99999999989",
+          "31": "654183.00000000000",
+          "32": "307651.00000000002",
+          "33": "1022800.00000000000",
+          "34": "160826.0",
+          "35": "1120405.99999999998",
+          "36": "937739.00000000010",
+          "37": "330119.00000000013",
+          "38": "917840.99999999968",
+          "39": "580794.99999999999",
+          "40": "153128.99999999994",
+          "41": "1942388.99999999962",
+          "42": "88636.00000000009",
+          "43": "804663.99999999965",
+          "44": "134137.00000000012",
+          "45": "694844.00000000013",
+          "46": "2562857.99999999991",
+          "47": "519324.00000000000",
+          "48": "1148419.00000000001",
+          "49": "172539.00000000006",
+          "50": "964692.99999999989",
+          "51": "84777.0",
+          "52": "86487.00000000001"
+        }
+      },
+      "name": "spain-districts-selected.json",
+      "original_path": "historical-source-03/spain-districts-selected.json",
+      "population_edition": null,
+      "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
+    },
+    {
+      "archived_path": "inputs/2a0a4cf5f4ba_spain-districts-selected.json.gz",
+      "byte_size": 7304195,
+      "file_sha256": "2a0a4cf5f4ba3ece8961d9f7336e9b9b509ff3f3124a54aaff9b520a33678ba6",
+      "geometry_edition": null,
+      "inspection": {
+        "crs": "OGC:CRS84",
+        "crs_origin": "legacy_declared",
+        "disconnected_features": [
+          {
+            "components": 2,
+            "id": "3"
+          },
+          {
+            "components": 3,
+            "id": "7"
+          },
+          {
+            "components": 2,
+            "id": "9"
+          },
+          {
+            "components": 3,
+            "id": "11"
+          },
+          {
+            "components": 2,
+            "id": "13"
+          },
+          {
+            "components": 2,
+            "id": "16"
+          },
+          {
+            "components": 2,
+            "id": "17"
+          },
+          {
+            "components": 6,
+            "id": "22"
+          },
+          {
+            "components": 3,
+            "id": "23"
+          },
+          {
+            "components": 5,
+            "id": "29"
+          },
+          {
+            "components": 2,
+            "id": "41"
+          },
+          {
+            "components": 56,
+            "id": "43"
+          },
+          {
+            "components": 11,
+            "id": "44"
+          },
+          {
+            "components": 2,
+            "id": "46"
+          },
+          {
+            "components": 3,
+            "id": "47"
+          },
+          {
+            "components": 22,
+            "id": "48"
+          },
+          {
+            "components": 2,
+            "id": "49"
+          },
+          {
+            "components": 49,
+            "id": "51"
+          },
+          {
+            "components": 2,
+            "id": "58"
+          },
+          {
+            "components": 2,
+            "id": "64"
+          },
+          {
+            "components": 2,
+            "id": "68"
+          },
+          {
+            "components": 2,
+            "id": "70"
+          },
+          {
+            "components": 3,
+            "id": "71"
+          },
+          {
+            "components": 2,
+            "id": "103"
+          },
+          {
+            "components": 6,
+            "id": "105"
+          },
+          {
+            "components": 6,
+            "id": "109"
+          },
+          {
+            "components": 4,
+            "id": "111"
+          },
+          {
+            "components": 2,
+            "id": "112"
+          },
+          {
+            "components": 2,
+            "id": "113"
+          },
+          {
+            "components": 5,
+            "id": "121"
+          },
+          {
+            "components": 3,
+            "id": "122"
+          },
+          {
+            "components": 2,
+            "id": "124"
+          },
+          {
+            "components": 2,
+            "id": "125"
+          },
+          {
+            "components": 2,
+            "id": "127"
+          },
+          {
+            "components": 2,
+            "id": "129"
+          },
+          {
+            "components": 3,
+            "id": "133"
+          },
+          {
+            "components": 3,
+            "id": "141"
+          },
+          {
+            "components": 4,
+            "id": "148"
+          },
+          {
+            "components": 5,
+            "id": "150"
+          },
+          {
+            "components": 14,
+            "id": "152"
+          },
+          {
+            "components": 4,
+            "id": "155"
+          },
+          {
+            "components": 2,
+            "id": "156"
+          },
+          {
+            "components": 2,
+            "id": "159"
+          },
+          {
+            "components": 3,
+            "id": "160"
+          },
+          {
+            "components": 2,
+            "id": "161"
+          },
+          {
+            "components": 2,
+            "id": "162"
+          },
+          {
+            "components": 28,
+            "id": "165"
+          },
+          {
+            "components": 32,
+            "id": "166"
+          },
+          {
+            "components": 11,
+            "id": "167"
+          },
+          {
+            "components": 2,
+            "id": "168"
+          },
+          {
+            "components": 2,
+            "id": "172"
+          },
+          {
+            "components": 2,
+            "id": "173"
+          },
+          {
+            "components": 2,
+            "id": "177"
+          },
+          {
+            "components": 2,
+            "id": "187"
+          },
+          {
+            "components": 2,
+            "id": "197"
+          },
+          {
+            "components": 9,
+            "id": "199"
+          },
+          {
+            "components": 2,
+            "id": "212"
+          },
+          {
+            "components": 2,
+            "id": "220"
+          },
+          {
+            "components": 2,
+            "id": "267"
+          },
+          {
+            "components": 2,
+            "id": "269"
+          },
+          {
+            "components": 3,
+            "id": "271"
+          },
+          {
+            "components": 24,
+            "id": "275"
+          },
+          {
+            "components": 3,
+            "id": "291"
+          },
+          {
+            "components": 2,
+            "id": "299"
+          },
+          {
+            "components": 2,
+            "id": "300"
+          },
+          {
+            "components": 3,
+            "id": "302"
+          },
+          {
+            "components": 4,
+            "id": "308"
+          },
+          {
+            "components": 2,
+            "id": "333"
+          },
+          {
+            "components": 2,
+            "id": "341"
+          },
+          {
+            "components": 3,
+            "id": "346"
+          },
+          {
+            "components": 2,
+            "id": "347"
+          },
+          {
+            "components": 2,
+            "id": "349"
+          },
+          {
+            "components": 2,
+            "id": "357"
+          },
+          {
+            "components": 2,
+            "id": "359"
+          },
+          {
+            "components": 4,
+            "id": "369"
+          },
+          {
+            "components": 7,
+            "id": "370"
+          },
+          {
+            "components": 2,
+            "id": "376"
+          },
+          {
+            "components": 2,
+            "id": "384"
+          }
+        ],
+        "errors": [
+          {
+            "error": "GEOMETRY_INVALID: Hole lies outside shell[3.23111263179678 39.7349979107275]",
+            "feature_index": 44,
+            "id": "44"
+          }
+        ],
+        "feature_count": 391,
+        "file_sha256": "2a0a4cf5f4ba3ece8961d9f7336e9b9b509ff3f3124a54aaff9b520a33678ba6",
+        "geometry_edition": null,
+        "geometry_types": {
+          "MultiPolygon": 78,
+          "Polygon": 313
+        },
+        "metadata": {
+          "changes": "diagnóstico y correspondencia acreditada",
+          "date": "2026-10-08",
+          "name": "Comparación cartográfica nacional",
+          "origin": "nuevo, sin predecesor",
+          "reason": "no inferir ediciones ni causas por nombres",
+          "scope": "análisis local sin generación",
+          "status": "CI_PENDIENTE",
+          "version": "1.0.0"
+        },
+        "population_edition": null,
+        "provenance": {
+          "accredited": false,
+          "evidence": []
+        },
+        "status": "BLOCKED_INVALID_INPUT",
+        "unit_kind": "districts",
+        "valid_record_count": 390,
+        "valid_records_only_province_counts": {
+          "01": 3,
+          "02": 3,
+          "03": 15,
+          "04": 6,
+          "05": 1,
+          "06": 6,
+          "07": 8,
+          "08": 47,
+          "09": 3,
+          "10": 3,
+          "11": 10,
+          "12": 5,
+          "13": 4,
+          "14": 7,
+          "15": 9,
+          "16": 2,
+          "17": 6,
+          "18": 8,
+          "19": 2,
+          "20": 6,
+          "21": 4,
+          "22": 2,
+          "23": 5,
+          "24": 4,
+          "25": 4,
+          "26": 3,
+          "27": 3,
+          "28": 56,
+          "29": 14,
+          "30": 12,
+          "31": 5,
+          "32": 3,
+          "33": 9,
+          "34": 1,
+          "35": 9,
+          "36": 8,
+          "37": 3,
+          "38": 8,
+          "39": 5,
+          "40": 1,
+          "41": 16,
+          "42": 1,
+          "43": 7,
+          "44": 1,
+          "45": 6,
+          "46": 21,
+          "47": 4,
+          "48": 10,
+          "49": 1,
+          "50": 8,
+          "51": 1,
+          "52": 1
+        },
+        "valid_records_only_province_population": {
+          "01": "331548.99999999996",
+          "02": "388167.00000000000",
+          "03": "1858682.99999999907",
+          "04": "716819.99999999993",
+          "05": "157639.99999999997",
+          "06": "673559.00000000004",
+          "07": "1012476.00000000018",
+          "08": "5664579.00000000061",
+          "09": "354923.00000000001",
+          "10": "394151.00000000017",
+          "11": "1240155.00000000031",
+          "12": "579962.00000000019",
+          "13": "495434.00000000006",
+          "14": "782979.00000000013",
+          "15": "1119596.00000000016",
+          "16": "196329.00000000008",
+          "17": "769627.00000000034",
+          "18": "914678.00000000010",
+          "19": "257761.99999999975",
+          "20": "723576.00000000000",
+          "21": "521869.99999999997",
+          "22": "220461.00000000012",
+          "23": "633563.99999999999",
+          "24": "460000.99999999993",
+          "25": "434930.00000000031",
+          "26": "316798.00000000005",
+          "27": "329586.99999999998",
+          "28": "6663393.99999999966",
+          "29": "1661784.99999999957",
+          "30": "1493897.99999999989",
+          "31": "654183.00000000000",
+          "32": "307651.00000000002",
+          "33": "1022800.00000000000",
+          "34": "160826.0",
+          "35": "1120405.99999999998",
+          "36": "937739.00000000010",
+          "37": "330119.00000000013",
+          "38": "917840.99999999968",
+          "39": "580794.99999999999",
+          "40": "153128.99999999994",
+          "41": "1942388.99999999962",
+          "42": "88636.00000000009",
+          "43": "804663.99999999965",
+          "44": "134137.00000000012",
+          "45": "694844.00000000013",
+          "46": "2562857.99999999991",
+          "47": "519324.00000000000",
+          "48": "1148419.00000000001",
+          "49": "172539.00000000006",
+          "50": "964692.99999999989",
+          "51": "84777.0",
+          "52": "86487.00000000001"
+        }
+      },
+      "name": "spain-districts-selected.json",
+      "original_path": "historical-source-04/spain-districts-selected.json",
+      "population_edition": null,
+      "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
+    },
+    {
+      "archived_path": "inputs/125112c45f54_assembled_districts_spain.xlsm.gz",
+      "byte_size": 17597,
+      "file_sha256": "125112c45f54c910d7c66daee1b1417298dfa90da0d58559d70c137b9a2b52fe",
+      "geometry_edition": null,
+      "inspection": {
+        "core_dates_not_data_editions": {
+          "created": "2022-01-27T01:15:33Z",
+          "modified": "2022-01-27T01:15:33Z"
+        },
+        "header": {
+          "A": "district",
+          "B": "pob_t_total",
+          "C": "target_pob",
+          "D": "province_id",
+          "E": "province_name",
+          "F": "map_iteration"
+        },
+        "macro_members": [],
+        "member_sha256": {
+          "[Content_Types].xml": "a6c028b82b47b3617ed40f92a746fb52b1b38fbd84485cae3a293effe7377a65",
+          "_rels/.rels": "c517195fd1f9ac3ea17900055da287969668ac0973fc251e070b93391ec801fd",
+          "docProps/app.xml": "1999306580c67f7a26c55e960da79bbda1836761c24dbddab945e3c7791f11f8",
+          "docProps/core.xml": "9511c977337e8f4db742b054e55bf7ffdf133edbd320f3139c0179a9a928845e",
+          "xl/_rels/workbook.xml.rels": "8e5b73e32df54ad9455bacdd6de6d79fcc618b9a163896fa2acae59b7aab14d3",
+          "xl/styles.xml": "da8a03cf136ab6b54eb5354a21faa5920111df5a1b5c544920b24604c9f152a4",
+          "xl/theme/theme1.xml": "d15e8ebf78ef7b9720839d7ae8fdc81a7df5bc24706d8e137df61a5683c358d9",
+          "xl/workbook.xml": "545ff6852592ef935dba5fd646db884bf433c54b161a361ddfe16ffa4ab9eb16",
+          "xl/worksheets/sheet1.xml": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
+        },
+        "row_count_excluding_header": 391,
+        "sha256": "125112c45f54c910d7c66daee1b1417298dfa90da0d58559d70c137b9a2b52fe",
+        "sheet_xml_sha256": "81d92bb8daea865c2e95ff8be7fcd46f7e7bb92dac1cb59aa8a990ee6514fac4"
+      },
+      "name": "assembled_districts_spain.xlsm",
+      "original_path": "historical-source-05/assembled_districts_spain.xlsm",
+      "population_edition": null,
+      "provenance_status": "LOCAL_PROJECT_MATERIAL_EDITION_NOT_ACCREDITED"
+    }
+  ],
+  "metadata": {
+    "changes": "rutas portables; localizadores personales redactados; bytes y SHA-256 de entradas conservados",
+    "date": "2026-10-08",
+    "name": "Comparación cartográfica nacional",
+    "origin": "anterior: legacy/docs/ESTUDIOS/cartografia_nacional_20261008/inventario.json; rutas personales redactadas",
+    "reason": "no inferir ediciones ni causas por nombres",
+    "scope": "análisis local sin generación",
+    "status": "CI_PENDIENTE",
+    "version": "1.0.1"
+  },
+  "search": {
+    "errors": [],
+    "excluded_directories": [
+      ".Trash",
+      ".aws",
+      ".cache",
+      ".codex",
+      ".git",
+      ".ssh",
+      ".venv",
+      "Library",
+      "__pycache__",
+      "node_modules",
+      "venv"
+    ],
+    "found": [
+      {
+        "name": "assembled_districts_spain.xlsm",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-01"
+      },
+      {
+        "name": "map.geojson",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-02"
+      },
+      {
+        "name": "spain-districts-selected.json",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-03"
+      },
+      {
+        "name": "spain-districts-selected.json",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-04"
+      },
+      {
+        "name": "assembled_districts_spain.xlsm",
+        "original_location": "PRIVATE_PATH_REDACTED",
+        "source_id": "historical-source-05"
+      }
+    ],
+    "root": "PRIVATE_ROOT_REDACTED"
+  }
+}

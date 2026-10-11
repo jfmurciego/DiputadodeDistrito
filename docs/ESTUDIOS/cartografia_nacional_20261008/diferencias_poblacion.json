@@ -1,0 +1,332 @@
+{
+  "historical_population_edition": null,
+  "historical_total_reported": "46883061.99999999992",
+  "metadata": {
+    "changes": "métricas comunes y sensibilidad",
+    "date": "2026-10-08",
+    "name": "Evaluación de alternativas nacionales",
+    "origin": "nuevo, sin predecesor",
+    "reason": "evaluar alternativas antes de decisión institucional",
+    "scope": "análisis local; medias, no distritos generados",
+    "status": "CI_PENDIENTE",
+    "version": "1.0.0"
+  },
+  "numeric_difference_not_temporal_growth": "2245235.00000000008",
+  "province_rows": [
+    {
+      "historical_population_reported": "331548.99999999996",
+      "numeric_difference_not_temporal_growth": "10412.00000000004",
+      "population_2025": 341961,
+      "province_code": "01"
+    },
+    {
+      "historical_population_reported": "388167.00000000000",
+      "numeric_difference_not_temporal_growth": "2584.00000000000",
+      "population_2025": 390751,
+      "province_code": "02"
+    },
+    {
+      "historical_population_reported": "1858682.99999999907",
+      "numeric_difference_not_temporal_growth": "174883.00000000093",
+      "population_2025": 2033566,
+      "province_code": "03"
+    },
+    {
+      "historical_population_reported": "716819.99999999993",
+      "numeric_difference_not_temporal_growth": "53734.00000000007",
+      "population_2025": 770554,
+      "province_code": "04"
+    },
+    {
+      "historical_population_reported": "157639.99999999997",
+      "numeric_difference_not_temporal_growth": "3098.00000000003",
+      "population_2025": 160738,
+      "province_code": "05"
+    },
+    {
+      "historical_population_reported": "673559.00000000004",
+      "numeric_difference_not_temporal_growth": "-8404.00000000004",
+      "population_2025": 665155,
+      "province_code": "06"
+    },
+    {
+      "historical_population_reported": "1137349.00000000024",
+      "numeric_difference_not_temporal_growth": "112494.99999999976",
+      "population_2025": 1249844,
+      "province_code": "07"
+    },
+    {
+      "historical_population_reported": "5664579.00000000061",
+      "numeric_difference_not_temporal_growth": "295361.99999999939",
+      "population_2025": 5959941,
+      "province_code": "08"
+    },
+    {
+      "historical_population_reported": "354923.00000000001",
+      "numeric_difference_not_temporal_growth": "7739.99999999999",
+      "population_2025": 362663,
+      "province_code": "09"
+    },
+    {
+      "historical_population_reported": "394151.00000000017",
+      "numeric_difference_not_temporal_growth": "-5961.00000000017",
+      "population_2025": 388190,
+      "province_code": "10"
+    },
+    {
+      "historical_population_reported": "1240155.00000000031",
+      "numeric_difference_not_temporal_growth": "21264.99999999969",
+      "population_2025": 1261420,
+      "province_code": "11"
+    },
+    {
+      "historical_population_reported": "579962.00000000019",
+      "numeric_difference_not_temporal_growth": "47657.99999999981",
+      "population_2025": 627620,
+      "province_code": "12"
+    },
+    {
+      "historical_population_reported": "495434.00000000006",
+      "numeric_difference_not_temporal_growth": "-586.00000000006",
+      "population_2025": 494848,
+      "province_code": "13"
+    },
+    {
+      "historical_population_reported": "782979.00000000013",
+      "numeric_difference_not_temporal_growth": "-9816.00000000013",
+      "population_2025": 773163,
+      "province_code": "14"
+    },
+    {
+      "historical_population_reported": "1119596.00000000016",
+      "numeric_difference_not_temporal_growth": "16026.99999999984",
+      "population_2025": 1135623,
+      "province_code": "15"
+    },
+    {
+      "historical_population_reported": "196329.00000000008",
+      "numeric_difference_not_temporal_growth": "3529.99999999992",
+      "population_2025": 199859,
+      "province_code": "16"
+    },
+    {
+      "historical_population_reported": "769627.00000000034",
+      "numeric_difference_not_temporal_growth": "60801.99999999966",
+      "population_2025": 830429,
+      "province_code": "17"
+    },
+    {
+      "historical_population_reported": "914678.00000000010",
+      "numeric_difference_not_temporal_growth": "31118.99999999990",
+      "population_2025": 945797,
+      "province_code": "18"
+    },
+    {
+      "historical_population_reported": "257761.99999999975",
+      "numeric_difference_not_temporal_growth": "28077.00000000025",
+      "population_2025": 285839,
+      "province_code": "19"
+    },
+    {
+      "historical_population_reported": "723576.00000000000",
+      "numeric_difference_not_temporal_growth": "9573.00000000000",
+      "population_2025": 733149,
+      "province_code": "20"
+    },
+    {
+      "historical_population_reported": "521869.99999999997",
+      "numeric_difference_not_temporal_growth": "16919.00000000003",
+      "population_2025": 538789,
+      "province_code": "21"
+    },
+    {
+      "historical_population_reported": "220461.00000000012",
+      "numeric_difference_not_temporal_growth": "9625.99999999988",
+      "population_2025": 230087,
+      "province_code": "22"
+    },
+    {
+      "historical_population_reported": "633563.99999999999",
+      "numeric_difference_not_temporal_growth": "-15420.99999999999",
+      "population_2025": 618143,
+      "province_code": "23"
+    },
+    {
+      "historical_population_reported": "460000.99999999993",
+      "numeric_difference_not_temporal_growth": "-11970.99999999993",
+      "population_2025": 448030,
+      "province_code": "24"
+    },
+    {
+      "historical_population_reported": "434930.00000000031",
+      "numeric_difference_not_temporal_growth": "23295.99999999969",
+      "population_2025": 458226,
+      "province_code": "25"
+    },
+    {
+      "historical_population_reported": "316798.00000000005",
+      "numeric_difference_not_temporal_growth": "10004.99999999995",
+      "population_2025": 326803,
+      "province_code": "26"
+    },
+    {
+      "historical_population_reported": "329586.99999999998",
+      "numeric_difference_not_temporal_growth": "-3564.99999999998",
+      "population_2025": 326022,
+      "province_code": "27"
+    },
+    {
+      "historical_population_reported": "6663393.99999999966",
+      "numeric_difference_not_temporal_growth": "450492.00000000034",
+      "population_2025": 7113886,
+      "province_code": "28"
+    },
+    {
+      "historical_population_reported": "1661784.99999999957",
+      "numeric_difference_not_temporal_growth": "129398.00000000043",
+      "population_2025": 1791183,
+      "province_code": "29"
+    },
+    {
+      "historical_population_reported": "1493897.99999999989",
+      "numeric_difference_not_temporal_growth": "93091.00000000011",
+      "population_2025": 1586989,
+      "province_code": "30"
+    },
+    {
+      "historical_population_reported": "654183.00000000000",
+      "numeric_difference_not_temporal_growth": "29671.00000000000",
+      "population_2025": 683854,
+      "province_code": "31"
+    },
+    {
+      "historical_population_reported": "307651.00000000002",
+      "numeric_difference_not_temporal_growth": "-2373.00000000002",
+      "population_2025": 305278,
+      "province_code": "32"
+    },
+    {
+      "historical_population_reported": "1022800.00000000000",
+      "numeric_difference_not_temporal_growth": "-7672.00000000000",
+      "population_2025": 1015128,
+      "province_code": "33"
+    },
+    {
+      "historical_population_reported": "160826.0",
+      "numeric_difference_not_temporal_growth": "-2124.0",
+      "population_2025": 158702,
+      "province_code": "34"
+    },
+    {
+      "historical_population_reported": "1120405.99999999998",
+      "numeric_difference_not_temporal_growth": "51141.00000000002",
+      "population_2025": 1171547,
+      "province_code": "35"
+    },
+    {
+      "historical_population_reported": "937739.00000000010",
+      "numeric_difference_not_temporal_growth": "10078.99999999990",
+      "population_2025": 947818,
+      "province_code": "36"
+    },
+    {
+      "historical_population_reported": "330119.00000000013",
+      "numeric_difference_not_temporal_growth": "-1673.00000000013",
+      "population_2025": 328446,
+      "province_code": "37"
+    },
+    {
+      "historical_population_reported": "917840.99999999968",
+      "numeric_difference_not_temporal_growth": "169478.00000000032",
+      "population_2025": 1087319,
+      "province_code": "38"
+    },
+    {
+      "historical_population_reported": "580794.99999999999",
+      "numeric_difference_not_temporal_growth": "12828.00000000001",
+      "population_2025": 593623,
+      "province_code": "39"
+    },
+    {
+      "historical_population_reported": "153128.99999999994",
+      "numeric_difference_not_temporal_growth": "5122.00000000006",
+      "population_2025": 158251,
+      "province_code": "40"
+    },
+    {
+      "historical_population_reported": "1942388.99999999962",
+      "numeric_difference_not_temporal_growth": "35275.00000000038",
+      "population_2025": 1977664,
+      "province_code": "41"
+    },
+    {
+      "historical_population_reported": "88636.00000000009",
+      "numeric_difference_not_temporal_growth": "1546.99999999991",
+      "population_2025": 90183,
+      "province_code": "42"
+    },
+    {
+      "historical_population_reported": "804663.99999999965",
+      "numeric_difference_not_temporal_growth": "70866.00000000035",
+      "population_2025": 875530,
+      "province_code": "43"
+    },
+    {
+      "historical_population_reported": "134137.00000000012",
+      "numeric_difference_not_temporal_growth": "1953.99999999988",
+      "population_2025": 136091,
+      "province_code": "44"
+    },
+    {
+      "historical_population_reported": "694844.00000000013",
+      "numeric_difference_not_temporal_growth": "60236.99999999987",
+      "population_2025": 755081,
+      "province_code": "45"
+    },
+    {
+      "historical_population_reported": "2562857.99999999991",
+      "numeric_difference_not_temporal_growth": "201138.00000000009",
+      "population_2025": 2763996,
+      "province_code": "46"
+    },
+    {
+      "historical_population_reported": "519324.00000000000",
+      "numeric_difference_not_temporal_growth": "9320.00000000000",
+      "population_2025": 528644,
+      "province_code": "47"
+    },
+    {
+      "historical_population_reported": "1148419.00000000001",
+      "numeric_difference_not_temporal_growth": "18813.99999999999",
+      "population_2025": 1167233,
+      "province_code": "48"
+    },
+    {
+      "historical_population_reported": "172539.00000000006",
+      "numeric_difference_not_temporal_growth": "-6975.00000000006",
+      "population_2025": 165564,
+      "province_code": "49"
+    },
+    {
+      "historical_population_reported": "964692.99999999989",
+      "numeric_difference_not_temporal_growth": "33750.00000000011",
+      "population_2025": 998443,
+      "province_code": "50"
+    },
+    {
+      "historical_population_reported": "84777.0",
+      "numeric_difference_not_temporal_growth": "-1210.0",
+      "population_2025": 83567,
+      "province_code": "51"
+    },
+    {
+      "historical_population_reported": "86487.00000000001",
+      "numeric_difference_not_temporal_growth": "579.99999999999",
+      "population_2025": 87067,
+      "province_code": "52"
+    }
+  ],
+  "reference_population_edition": 2025,
+  "reference_total": 49128297,
+  "status": "NUMERIC_DIAGNOSTIC_NOT_ACCREDITED_TEMPORAL_COMPARISON"
+}

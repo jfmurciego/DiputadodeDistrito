@@ -1,0 +1,282 @@
+{
+  "filter": "Sexo=Total; Edad=Todas las edades; Municipios y Secciones vacíos",
+  "metadata": {
+    "changes": "cuotas exactas y K calculado a partir de población",
+    "date": "2026-10-08",
+    "name": "Modelo cuantitativo nacional exploratorio",
+    "origin": "artefacto nuevo, sin predecesor",
+    "reason": "perfil de cálculo del Director de 120000 habitantes; no contrato electoral",
+    "scope": "análisis local; sin generación territorial",
+    "status": "CANDIDATE_NOT_INSTITUTIONALLY_APPROVED",
+    "version": "1.0.0"
+  },
+  "national_population": 49128297,
+  "population_year": 2025,
+  "provider": "Instituto Nacional de Estadística",
+  "reference_date": "2025-01-01",
+  "rows": [
+    {
+      "name": "Araba/Álava",
+      "population": 341961,
+      "province_code": "01"
+    },
+    {
+      "name": "Albacete",
+      "population": 390751,
+      "province_code": "02"
+    },
+    {
+      "name": "Alicante/Alacant",
+      "population": 2033566,
+      "province_code": "03"
+    },
+    {
+      "name": "Almería",
+      "population": 770554,
+      "province_code": "04"
+    },
+    {
+      "name": "Ávila",
+      "population": 160738,
+      "province_code": "05"
+    },
+    {
+      "name": "Badajoz",
+      "population": 665155,
+      "province_code": "06"
+    },
+    {
+      "name": "Balears, Illes",
+      "population": 1249844,
+      "province_code": "07"
+    },
+    {
+      "name": "Barcelona",
+      "population": 5959941,
+      "province_code": "08"
+    },
+    {
+      "name": "Burgos",
+      "population": 362663,
+      "province_code": "09"
+    },
+    {
+      "name": "Cáceres",
+      "population": 388190,
+      "province_code": "10"
+    },
+    {
+      "name": "Cádiz",
+      "population": 1261420,
+      "province_code": "11"
+    },
+    {
+      "name": "Castellón/Castelló",
+      "population": 627620,
+      "province_code": "12"
+    },
+    {
+      "name": "Ciudad Real",
+      "population": 494848,
+      "province_code": "13"
+    },
+    {
+      "name": "Córdoba",
+      "population": 773163,
+      "province_code": "14"
+    },
+    {
+      "name": "Coruña, A",
+      "population": 1135623,
+      "province_code": "15"
+    },
+    {
+      "name": "Cuenca",
+      "population": 199859,
+      "province_code": "16"
+    },
+    {
+      "name": "Girona",
+      "population": 830429,
+      "province_code": "17"
+    },
+    {
+      "name": "Granada",
+      "population": 945797,
+      "province_code": "18"
+    },
+    {
+      "name": "Guadalajara",
+      "population": 285839,
+      "province_code": "19"
+    },
+    {
+      "name": "Gipuzkoa",
+      "population": 733149,
+      "province_code": "20"
+    },
+    {
+      "name": "Huelva",
+      "population": 538789,
+      "province_code": "21"
+    },
+    {
+      "name": "Huesca",
+      "population": 230087,
+      "province_code": "22"
+    },
+    {
+      "name": "Jaén",
+      "population": 618143,
+      "province_code": "23"
+    },
+    {
+      "name": "León",
+      "population": 448030,
+      "province_code": "24"
+    },
+    {
+      "name": "Lleida",
+      "population": 458226,
+      "province_code": "25"
+    },
+    {
+      "name": "Rioja, La",
+      "population": 326803,
+      "province_code": "26"
+    },
+    {
+      "name": "Lugo",
+      "population": 326022,
+      "province_code": "27"
+    },
+    {
+      "name": "Madrid",
+      "population": 7113886,
+      "province_code": "28"
+    },
+    {
+      "name": "Málaga",
+      "population": 1791183,
+      "province_code": "29"
+    },
+    {
+      "name": "Murcia",
+      "population": 1586989,
+      "province_code": "30"
+    },
+    {
+      "name": "Navarra",
+      "population": 683854,
+      "province_code": "31"
+    },
+    {
+      "name": "Ourense",
+      "population": 305278,
+      "province_code": "32"
+    },
+    {
+      "name": "Asturias",
+      "population": 1015128,
+      "province_code": "33"
+    },
+    {
+      "name": "Palencia",
+      "population": 158702,
+      "province_code": "34"
+    },
+    {
+      "name": "Palmas, Las",
+      "population": 1171547,
+      "province_code": "35"
+    },
+    {
+      "name": "Pontevedra",
+      "population": 947818,
+      "province_code": "36"
+    },
+    {
+      "name": "Salamanca",
+      "population": 328446,
+      "province_code": "37"
+    },
+    {
+      "name": "Santa Cruz de Tenerife",
+      "population": 1087319,
+      "province_code": "38"
+    },
+    {
+      "name": "Cantabria",
+      "population": 593623,
+      "province_code": "39"
+    },
+    {
+      "name": "Segovia",
+      "population": 158251,
+      "province_code": "40"
+    },
+    {
+      "name": "Sevilla",
+      "population": 1977664,
+      "province_code": "41"
+    },
+    {
+      "name": "Soria",
+      "population": 90183,
+      "province_code": "42"
+    },
+    {
+      "name": "Tarragona",
+      "population": 875530,
+      "province_code": "43"
+    },
+    {
+      "name": "Teruel",
+      "population": 136091,
+      "province_code": "44"
+    },
+    {
+      "name": "Toledo",
+      "population": 755081,
+      "province_code": "45"
+    },
+    {
+      "name": "Valencia/València",
+      "population": 2763996,
+      "province_code": "46"
+    },
+    {
+      "name": "Valladolid",
+      "population": 528644,
+      "province_code": "47"
+    },
+    {
+      "name": "Bizkaia",
+      "population": 1167233,
+      "province_code": "48"
+    },
+    {
+      "name": "Zamora",
+      "population": 165564,
+      "province_code": "49"
+    },
+    {
+      "name": "Zaragoza",
+      "population": 998443,
+      "province_code": "50"
+    },
+    {
+      "name": "Ceuta",
+      "population": 83567,
+      "province_code": "51"
+    },
+    {
+      "name": "Melilla",
+      "population": 87067,
+      "province_code": "52"
+    }
+  ],
+  "source_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "source_zip_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "table": "65034"
+}
