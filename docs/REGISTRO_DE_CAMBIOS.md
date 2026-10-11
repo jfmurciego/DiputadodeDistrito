@@ -8,6 +8,18 @@ Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoci�
 Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_F10_interanual_20261012.md
 -->
 
+## 2026-10-12 — F10 — receipts independientes sin promoción de producto
+
+El consumidor territorial #179 acepta ahora un `independent_source_evidence` opcional
+cuando el catálogo lo marca expresamente como evidencia auténtica no promovida. El campo
+lleva su propio receipt y hashes. `preparation_evidence`, `territorial_product` y sus
+linajes históricos permanecen separados. Un estado promovido, no clasificado o malformado
+falla cerrado. Se añaden regresiones positivas y negativas con identidad del receipt.
+
+La extensión permite acreditar nuevas fuentes oficiales sin inferir que los productos
+existentes fueron generados desde ellas. No cambia temporalidad, contratos territoriales,
+autoridad cartográfica, estado canónico ni autorización de producción.
+
 ## 2026-09-21 — GerryChain — disciplina municipal contractual
 
 El canary real de Asturias `35656993014` mostró que el preflight GerryChain
