@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "name": "Contrato DDD del Congreso para 52 circunscripciones",
-    "date": "2026-10-11",
-    "scope": "candidato nacional; admisión estructural y especificación, sin generación",
+    "date": "2026-10-12",
+    "scope": "candidato nacional; pareja oficial de fuentes acreditada, decisiones pendientes, sin generación",
     "status": "CANDIDATO_WAIT_OWNER",
-    "changes": "identidad congreso, universo cerrado y barreras de admisión 52/19",
-    "reason": "establecer contrato nacional autónomo y no reutilizar el gestor de 19 ámbitos",
-    "origin": "incremento local de campaña; sin predecesor"
+    "changes": "pareja INE 2025/2025 materializada y trazable; WAIT_OWNER y barreras de generación preservados",
+    "reason": "integrar población por sección 2025 con geometrías INE/N07 mediante CUSEC exacto",
+    "origin": "contrato 0.1.0; preservado en legacy/territorios/congreso/contrato_congreso_2026_pre_fuentes_ine_2025.json"
   },
   "schema": "ddd.congress-contract/0.1",
   "execution_identity": "congreso",
@@ -231,8 +231,34 @@
     "candidate": "sección censal con clave estable, sujeta a edición/cobertura y decisión previa"
   },
   "sources": {
-    "geometry": null,
-    "population": null
+    "geometry": {
+      "accreditation": "ACCREDITED",
+      "edition": 2025,
+      "year": 2025,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "authority": "Instituto Nacional de Estadística (INE)",
+      "acquisition_record": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+      "uri": "inputs/partes/seccionado_2025.zip.part00..02",
+      "title": "Seccionado censal INE 2025, paquete protegido y vinculado por N07",
+      "unit": "sección censal CUSEC",
+      "coverage": "36.554 secciones; 52 circunscripciones; Ceuta y Melilla separadas",
+      "notes": "Identidad y geometrías por entidad contrastadas con N07. Validez geométrica individual comprobada; limitaciones topológicas expresas en manifest.json.",
+      "territory_id": "espana_congreso"
+    },
+    "population": {
+      "accreditation": "ACCREDITED",
+      "edition": 2025,
+      "year": 2025,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+      "authority": "Instituto Nacional de Estadística (INE)",
+      "acquisition_record": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+      "uri": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+      "title": "Población por sexo, edad y año de nacimiento por unidad poblacional (INE 65034)",
+      "unit": "sección censal CUSEC",
+      "coverage": "36.554 secciones con observación; 52 circunscripciones; total 49.128.297",
+      "notes": "Se selecciona Periodo=2025, Sexo=Total y Edad=Todas las edades. Filas vacías históricas no se interpretan como cero; 338 no observadas quedan fuera de N07. Agregados provinciales y nacional concilian exactamente.",
+      "territory_id": "espana_congreso"
+    }
   },
   "population_reference": {
     "status": "WAIT_OWNER",
