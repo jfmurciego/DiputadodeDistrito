@@ -1,0 +1,98 @@
+{
+  "schema": "ddd.f10-local-validation/1.0",
+  "version": "1.0.1",
+  "date": "2026-10-12",
+  "status": "candidate",
+  "origin": "Local development F10 branch base cb3927b93edc9dd67703316d3fa47d769a42dc5e",
+  "scope": "Read retained sources and controlled local fixtures; no official acquisition or production",
+  "tests": [
+    {
+      "command": "PATH=/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin:$PATH /Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest tests.test_fuentes_oficiales_preparacion tests.test_prepared_source_pair_execution tests.test_resolved_source_contract_consumers tests.test_official_geometry_normalization tests.test_temporal_source_preflight_contract tests.test_f10_receipt_contract tests.test_f10_interannual_correspondence tests.test_population_sectioning_compatibility",
+      "exit_code": 0,
+      "tests": 119,
+      "decision": "PASS",
+      "seconds": 28.687,
+      "log": "compatibilidad-suite-final.log",
+      "scope": "Final implementation including unresolved_components; real fixtures, acquisition/geometry and receipts",
+      "log_sha256": "7d362410ecb377e34f84a5acc1d7067bee0ce97688c9d9271df7562e63a47caf"
+    },
+    {
+      "command": "PATH=/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin:$PATH python -m unittest tests.test_f10_interannual_correspondence",
+      "exit_code": 0,
+      "tests": 8,
+      "decision": "PASS",
+      "seconds": 3.338,
+      "log": "real-regressions-final.log",
+      "scope": "Final assertions of exact component accounting and retained population",
+      "log_sha256": "5be54b39835d79d0f83c92dba0413c54e1725f0bc901c24f85eb0e06b1d7bf77"
+    },
+    {
+      "command": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python docs/AUDITORIAS/F10_COMPATIBILIDAD_INTERANUAL_20261012/verificar_regresiones_baseline.py",
+      "exit_code": 0,
+      "tests": 5,
+      "decision": "EXPECTED_BASELINE_FAILURE",
+      "failures": 3,
+      "errors": 2,
+      "log": "baseline-replay-final.log",
+      "scope": "Baseline fails split detection, stale code change, absent accounting fields and lost raw payload; harness asserts baseline not successful",
+      "log_sha256": "56682c2bff7cbb68adc7b01eeefba72a48d3f4788acb90bf3f11d87b33a8c312"
+    },
+    {
+      "command": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m unittest tests.test_fuentes_oficiales_preparacion tests.test_prepared_source_pair_execution tests.test_resolved_source_contract_consumers tests.test_official_geometry_normalization tests.test_temporal_source_preflight_contract tests.test_f10_receipt_contract",
+      "exit_code": 1,
+      "tests": 95,
+      "decision": "ENVIRONMENTAL_FAILURE_SUPERSEDED",
+      "log_external": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/compatibilidad-suite.log",
+      "cause": "Unqualified shell python resolved to macOS Python2.7; full119suite rerun passed after PATH fixed"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "decision": "PASS"
+    }
+  ],
+  "replays": [
+    {
+      "territory_id": "aragon",
+      "command": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m herramientas.auditar_compatibilidad_interanual_f10 --evidence /Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-adquisiciones/aragon/evidence --output /Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/aragon-reconciliacion-v2.json",
+      "exit_code": 0,
+      "decision": "BLOCKED",
+      "report_sha256": "85655b8941c38176a72f84f6078bfa279bcb6e0a1987c1790e05be36cb82dc85",
+      "compatibility_identity_sha256": "7f9f7813d9be968451ca603346c34f888e90874b224c544777d10637f2e3c5b3",
+      "unassigned_total": 31024,
+      "accounting_exact": true,
+      "exact_conservation": false
+    },
+    {
+      "territory_id": "andalucia",
+      "command": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m herramientas.auditar_compatibilidad_interanual_f10 --evidence /Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-adquisiciones/andalucia/evidence --output /Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/andalucia-reconciliacion-v2.json",
+      "exit_code": 0,
+      "decision": "BLOCKED",
+      "report_sha256": "f9c2a46b8a0f6065837fe1d67b9eef8148d2368d3e74a6a4b1daef268c2ffad9",
+      "compatibility_identity_sha256": "0924836a39d0515370a4376d615edd3a6e62a57243299976db7c2a8a6d3c2809",
+      "unassigned_total": 319989,
+      "accounting_exact": true,
+      "exact_conservation": false
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "command": "/Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/venv/bin/python -m herramientas.auditar_compatibilidad_interanual_f10 --evidence /Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261011-adquisiciones/castilla_y_leon/evidence --output /Users/macbookpro/Desarrollo/DDD-control/planes/f10-compatibilidad-interanual-20261012/castilla_y_leon-reconciliacion-v2.json",
+      "exit_code": 0,
+      "decision": "BLOCKED",
+      "report_sha256": "5e3f585319b83d0a5df2851fd918fa3c5678db85165804db2ce149a4b24f1e08",
+      "compatibility_identity_sha256": "ea57b643f1c9e2759883edd2cb61073c0c47149b0c4775dcf7904e50ca3cbd0f",
+      "unassigned_total": 84197,
+      "accounting_exact": true,
+      "exact_conservation": false
+    }
+  ],
+  "runtime": {
+    "shapely": "2.1.2",
+    "geopandas": "1.1.2",
+    "pyproj": "3.6.1",
+    "pyogrio": "0.8.0"
+  },
+  "runtime_limit": "Intel-compatible wheels differ from original pyproj3.7.2/pyogrio0.12.1; inputs and durable geometry audit bindings checked; no source materialization or promotion.",
+  "predecessor": "legacy/docs/F10_pruebas_v1.0.0_20261012.json",
+  "changes": "Vincular nueva repetición del baseline al harness reproducible; conservar el primer log."
+}

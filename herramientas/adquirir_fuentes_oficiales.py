@@ -3,14 +3,14 @@
 """
 PROYECTO: Diputado de Distrito
 COMPONENTE: adquisición genérica de fuentes oficiales
-VERSIÓN: 1.4.0
-NOMBRE DE VERSIÓN: Seccionado INE vigente acreditado por evidencia durable
-FECHA: 2026-10-03
+VERSIÓN: 1.4.1
+NOMBRE DE VERSIÓN: Evidencia poblacional antes del filtro
+FECHA: 2026-10-12
 ESTADO: candidato
 FUNCIÓN: materializar fuentes territoriales por declaración, preservando inmutables las copias oficiales nacionales.
-CAMBIOS: resuelve SU.VectorStatisticalUnit mediante la última edición acreditada por evidencia INE durable, sin depender del reloj del runner; conserva Secciones_AÑO para históricos.
-MOTIVO: mantener determinista la identidad del locator durante cambios de año y fallar cerrado si la colección vigente no queda acreditada.
-ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_v1.1.0.py
+CAMBIOS: conserva bytes, huella y procedencia poblacional antes de filtrar, incluso si la adquisición queda bloqueada.
+MOTIVO: permitir reproducir los déficits de cobertura sin repetir descargas ni sustituir evidencias.
+ANTERIOR: legacy/herramientas/adquirir_fuentes_oficiales_pre_F10_raw_population_20261012.py
 """
 from __future__ import annotations
 
@@ -360,6 +360,39 @@ def _population_rules(declaration: dict) -> dict:
         "sex_total_values": [str(x) for x in (rules.get("sex_total_values") or ["Total"])],
         "age_total_values": [str(x) for x in (rules.get("age_total_values") or ["Todas las edades"])],
     }
+
+
+def _persist_population_payload(
+    evidence_dir: Path, *, source_id: str, source_year: int,
+    url: str, mode: str, payload: bytes, snapshot_identity: dict | None = None,
+) -> dict:
+    """Preserva el input sin atribuir a un snapshot el carácter de respuesta viva."""
+    digest = hashlib.sha256(payload).hexdigest()
+    rel = Path("raw") / "population" / f"{digest}.bin"
+    destination = evidence_dir / rel
+    record = {
+        "schema": "ddd.raw-population-input/1.0", "source_id": source_id,
+        "source_year": int(source_year),
+        "url": (snapshot_identity or {}).get("snapshot_official_origin_url", url),
+        "configured_locator_url": url, "acquisition_mode": mode,
+        "path": rel.as_posix(), "sha256": digest, "bytes": len(payload),
+        "snapshot_identity": snapshot_identity or None,
+    }
+    manifest = evidence_dir / "raw_population_input.json"
+    if manifest.exists() and json.loads(manifest.read_text(encoding="utf-8")) != record:
+        raise ValueError("RAW_POPULATION_INPUT_IDENTITY_COLLISION")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists():
+        if destination.read_bytes() != payload:
+            raise ValueError("RAW_POPULATION_INPUT_IDENTITY_COLLISION")
+    else:
+        with destination.open("xb") as stream:
+            stream.write(payload)
+    if not manifest.exists():
+        with manifest.open("x", encoding="utf-8") as stream:
+            json.dump(record, stream, ensure_ascii=False, indent=2)
+            stream.write("\n")
+    return record
 
 
 def _filter_population(payload: bytes, declaration: dict, edition: int, province_codes: list[str]) -> tuple[bytes, dict]:
@@ -1505,6 +1538,11 @@ def acquire(*, catalog: dict, declaration: dict, evidence_dir: Path, environment
                 source_payload = b""
 
             if source.get("kind") == "static_csv":
+                _persist_population_payload(
+                    evidence_dir, source_id=source_id, source_year=effective_year,
+                    url=official_urls[0], mode=mode, payload=source_payload,
+                    snapshot_identity=snapshot_meta,
+                )
                 filtered_csv, content_checks = _filter_population(source_payload, declaration, population_year, province_codes)
                 member = str(binding.get("archive_member") or source.get("output_name") or "population.csv")
                 payload_out = _zip_single(member, filtered_csv) if configured_path.lower().endswith(".zip") else filtered_csv

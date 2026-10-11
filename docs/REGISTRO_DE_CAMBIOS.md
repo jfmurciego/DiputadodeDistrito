@@ -1,3 +1,13 @@
+<!--
+Nombre: Registro de cambios DDD
+Versión: 1.0.0 (metadatos explícitos; predecesor sin versión declarada)
+Fecha: 2026-10-12
+Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
+Estado: candidato
+Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_F10_interanual_20261012.md
+-->
+
 ## 2026-09-21 — GerryChain — disciplina municipal contractual
 
 El canary real de Asturias `35656993014` mostró que el preflight GerryChain
@@ -438,3 +448,9 @@ El aislamiento técnico previo sobre Madrid con GerryChain seed 461102
 acreditó K=135, hard=0, geometrías válidas 135/135 y validación M06 PASS;
 no supone certificación ni prueba generación autónoma desde checkpoint crudo.
 El cambio requiere CI y revisión del HEAD final de la PR #235 antes de integrar.
+
+## 2026-10-12 — F10 — compatibilidad interanual y conservación del payload poblacional
+
+La compatibilidad v1.1.0 distingue contribuciones de interiores de contactos por borde o punto, elimina bloqueos obsoletos tras cambios de código resueltos por igualdad exacta y detalla la población sin destino acreditado, sin confundir contabilidad completa con conservación en destino. La adquisición v1.4.1 preserva payload, SHA y procedencia antes del filtro, también si éste bloquea. Ambos predecesores se conservan íntegros en `legacy/herramientas/`.
+
+Las regresiones reales y el replay de adquisiciones existentes mantienen bloqueados Aragón (31.024), Andalucía (319.989) y Castilla y León (84.197 habitantes). Valencia conserva los defectos originales y el bloqueo contractual; el snapshot histórico con cobertura 46 sigue siendo evidencia independiente del payload F10 perdido. El producto M06 de Extremadura y su receipt F10 independiente mantienen su linaje. Suite relevante: 119 PASS; linaje/gobierno: 17 PASS; consumidores: 14 PASS / 5 BLOCKED. Expediente: `docs/AUDITORIAS/F10_COMPATIBILIDAD_INTERANUAL_20261012/`. F10 continúa PENDING; no se ejecutaron adquisiciones nuevas, generación, promoción ni publicación.

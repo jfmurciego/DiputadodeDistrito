@@ -1,3 +1,13 @@
+"""
+Nombre: compatibilidad población-seccionado interanual
+Versión: 1.1.0
+Fecha: 2026-10-12
+Alcance: Fuentes Oficiales; conciliación local sin promoción ni redistribución.
+Estado: candidato
+Cambios: distingue intersección interior de contacto; contabiliza población retenida.
+Motivo: reproducir cambios oficiales F10 sin atribuir población por área o código.
+Anterior: legacy/herramientas/compatibilidad_poblacion_seccionado_pre_F10_interanual_20261012.py
+"""
 from __future__ import annotations
 
 import csv
@@ -101,8 +111,9 @@ def _equals(left: Any, right: Any) -> bool:
 
 
 def _intersects(left: Any, right: Any) -> bool:
+    """Compartir borde o punto no acredita participación en split/fusión."""
     try:
-        return bool(left.intersects(right))
+        return bool(left.relate_pattern(right, "T********"))
     except Exception:
         return False
 
@@ -115,6 +126,66 @@ def _union_equals(parts: list[Any], whole: Any) -> bool:
         return bool(unary_union(parts).equals(whole))
     except Exception:
         return False
+
+
+def _unresolved_components(
+    *, origin: dict[str, Any], target: dict[str, Any], populations: dict[str, int],
+    mapped_source: set[str], mapped_target: set[str],
+) -> list[dict]:
+    """Conecta sólo interiores; un total de componente no asigna habitantes."""
+    sources = sorted(set(origin) - mapped_source)
+    targets = sorted(set(target) - mapped_target)
+    graph: dict[tuple[str, str], set[tuple[str, str]]] = {
+        **{("source", key): set() for key in sources},
+        **{("target", key): set() for key in targets},
+    }
+    for source in sources:
+        for destination in targets:
+            if _intersects(origin[source], target[destination]):
+                graph[("source", source)].add(("target", destination))
+                graph[("target", destination)].add(("source", source))
+    result = []
+    seen: set[tuple[str, str]] = set()
+    for node in sorted(graph):
+        if node in seen:
+            continue
+        pending = [node]
+        component = set()
+        while pending:
+            current = pending.pop()
+            if current in component:
+                continue
+            component.add(current)
+            pending.extend(graph[current] - component)
+        seen.update(component)
+        source_keys = sorted(key for role, key in component if role == "source")
+        target_keys = sorted(key for role, key in component if role == "target")
+        try:
+            from shapely.ops import unary_union
+            union_equal = bool(source_keys and target_keys and
+                unary_union([origin[key] for key in source_keys]).equals(
+                    unary_union([target[key] for key in target_keys])))
+        except Exception:
+            union_equal = False
+        if not source_keys:
+            kind = "TARGET_WITHOUT_SOURCE_INTERIOR"
+        elif not target_keys:
+            kind = "SOURCE_WITHOUT_TARGET_INTERIOR"
+        elif len(source_keys) == 1 and len(target_keys) > 1:
+            kind = "SPLIT" if union_equal else "ONE_TO_MANY_BOUNDARY_CHANGE"
+        elif len(target_keys) == 1 and len(source_keys) > 1:
+            kind = "FUSION" if union_equal else "MANY_TO_ONE_BOUNDARY_CHANGE"
+        elif len(source_keys) > 1 and len(target_keys) > 1:
+            kind = "MANY_TO_MANY_REPARTITION" if union_equal else "MANY_TO_MANY_BOUNDARY_CHANGE"
+        else:
+            kind = "ONE_TO_ONE_BOUNDARY_CHANGE"
+        result.append({
+            "source_keys": source_keys, "target_keys": target_keys, "kind": kind,
+            "geometric_union_exact": union_equal,
+            "source_population_total": sum(populations.get(key, 0) for key in source_keys),
+            "population_assignment": "NOT_ACCREDITED",
+        })
+    return result
 
 
 def _parse_crs(value: object, *, label: str):
@@ -796,6 +867,13 @@ def reconcile_population_sectioning(
                     "evidence": "geometric_union_after_crs_normalization",
                 })
 
+        # Un cambio de código con igualdad exacta puede resolver una aparente
+        # frontera cambiada en el código anterior. Sólo los no resueltos bloquean.
+        geometric_changes = [
+            row for row in geometric_changes
+            if row["source_keys"][0] not in mapped_source
+            or row["target_keys"][0] not in mapped_target
+        ]
         if any(r["kind"] in {"SPLIT", "FUSION"} for r in correspondences):
             causes.append("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE")
         if geometric_changes:
@@ -826,6 +904,11 @@ def reconcile_population_sectioning(
 
     input_total = sum(populations.values())
     assigned_total = sum(assignment.values())
+    unassigned_by_section = [
+        {"section_id": key, "population": populations[key]}
+        for key in population_without_destination
+    ]
+    unassigned_total = sum(row["population"] for row in unassigned_by_section)
     exact_conservation = input_total == assigned_total
     if not exact_conservation:
         causes.append("POPULATION_TOTAL_NOT_CONSERVED")
@@ -878,6 +961,11 @@ def reconcile_population_sectioning(
         "geometry_admissibility": geometry_admissibility,
         "correspondences": correspondences,
         "geometric_changes": geometric_changes,
+        "unresolved_components": (
+            _unresolved_components(origin=origin, target=target, populations=populations,
+                                   mapped_source=mapped_source, mapped_target=mapped_target)
+            if population_year != section_year else []
+        ),
         "duplicates": {
             "population": duplicate_population,
             "target_geometry": duplicate_target,
@@ -896,6 +984,9 @@ def reconcile_population_sectioning(
         "population": {
             "input_total": input_total,
             "assigned_total": assigned_total,
+            "unassigned_total": unassigned_total,
+            "unassigned_by_section": unassigned_by_section,
+            "accounting_exact": input_total == assigned_total + unassigned_total,
             "exact_conservation": exact_conservation,
         },
         "baseline": {
