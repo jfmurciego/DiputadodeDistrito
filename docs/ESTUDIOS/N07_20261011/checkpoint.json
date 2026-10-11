@@ -60,6 +60,11 @@
     "result": "GO_ACOTADO"
   },
   "schema": "ddd.master-plan-local-checkpoint/1.0",
+  "static_checks": {
+    "new_implementation": "PASS diff --check",
+    "recovered_contract": "Four pre-existing Markdown hard-break trailing spaces reported by diff --check; bytes deliberately preserved from ae4a1cb; no functional finding",
+    "remote_ci": "NOT_EXECUTED"
+  },
   "tasks": [
     {
       "evidence": "result/evidence.json",

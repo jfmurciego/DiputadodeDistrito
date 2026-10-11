@@ -46,3 +46,5 @@ El Plan Maestro externo está fuera de las raíces de escritura permitidas de es
 Push / PR / merge / workflows / generación territorial / publicación: NO.
 
 La conservación Git en la rama original está bloqueada ambientalmente: index.lock reside en el Git compartido fuera de las raíces escribibles. Se conserva el mismo árbol en un repositorio temporal independiente, con padre exacto 7d50f7f5 y bundle incremental dentro del expediente; la rama original permanece sin mover y el diff nuevo queda íntegro. El bundle requiere ese padre, ya existente en el almacén original. No se presenta como commit de la rama original.
+
+Comprobación estática del incremento: los archivos nuevos pasan diff --check; el documento contractual recuperado conserva cuatro espacios finales Markdown de ae4a1cb, reportados por Git. Se conservan los bytes exactos; no se declara PASS global de diff --check.
