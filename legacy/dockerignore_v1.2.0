@@ -1,0 +1,25 @@
+# PROYECTO: Diputado de Distrito
+# VERSIÓN: 1.2.0
+# NOMBRE: Imagen sin datos con único contrato histórico de regresión Aragón
+# FECHA: 2026-10-11
+# QUÉ HACE: excluye datasets y resultados, pero incorpora el pequeño manifiesto SHA-256 requerido por la puerta de contratos.
+# ANTERIOR: legacy/dockerignore_v1.1.0
+# Evita duplicar datos y resultados dentro de cada imagen Docker.
+.git
+inputs/*
+!inputs/MANIFEST.sha256
+# Regresión electoral materializada: verifica REUSE real de Castilla y León sin red.
+!inputs/cyl_2026_secciones_partidos.csv
+.cache
+ejecuciones
+# Mantener excluido el archivo histórico excepto una única fixture de regresión.
+legacy/*
+!legacy/configuracion/
+legacy/configuracion/*
+!legacy/configuracion/aragon_2025_v7.14.0.yaml
+__pycache__
+*.pyc
+.ddd-siel-andalucia-2026
+andalucia-section-locator.csv
+siel-andalucia-2026.zip
+.ddd-electoral-package

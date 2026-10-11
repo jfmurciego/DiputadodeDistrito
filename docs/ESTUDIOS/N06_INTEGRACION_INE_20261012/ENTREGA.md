@@ -1,5 +1,5 @@
 # Integración N06 sobre fuentes INE 2025/2025
-Versión 1.0.0; fecha 2026-10-12; alcance Congreso; estado candidato sin generación; origen N06 y PR #241.
+Versión 1.0.1; fecha 2026-10-12; alcance Congreso; estado candidato sin generación; origen N06 y PR #241.
 
 Base f87445f5d75a53cee17cd3bcc711854318b795ff. Rama aislada codex/n06-integracion-ine2025; trabajo ajeno preservado. Dependencias: fuentes oficiales y contrato compartido con 19 ámbitos autonómicos, cuyos parámetros no se modifican.
 
@@ -12,8 +12,11 @@ Delta justificado respecto de originales:
 - Regresión migratoria deja de esperar fuentes ausentes. Regresión #241 conserva controles de integridad y decisiones pendientes salvo K/referencia aprobados. Predecesor literal en legacy/tests/test_materializar_fuentes_nacionales_ine_pre_n06.py.
 - Pruebas de coexistencia: cuotas desde CSV acreditado, K=407, 52 ámbitos, 36.554 CUSEC, 49.128.297 habitantes, hashes de todos los archivos de fuentes de #241, alias/conflictos y rechazo de admisión productiva. Hashes fijados para checkout CI superficial.
 
-Política: predecesores literales, versiones compatibles, sin run territorial porque no se ejecuta ni altera el motor productivo. diff --check activo PASS; global señala cuatro espacios Markdown históricos de legacy, preservados literalmente.
+Política: predecesores literales, versiones compatibles, sin run territorial porque no se ejecuta ni altera el motor productivo. diff --check activo PASS; global señala cuatro espacios Markdown históricos de legacy y CRLF del CSV original N06, preservados literalmente.
 
 Pruebas: 90 regresiones PASS en entorno ddd_aragon Python 3.11; cinco pruebas institucionales PASS. Intentos iniciales con Python sin dependencias o 3.10 fueron ambientales, resueltos con entorno existente. Los dictámenes originales son históricos y no aprueban el nuevo HEAD.
 
 N08 BLOCKED: N08_PREFLIGHT.md. generation_authorized=false. Sin piloto, 00, M01–M08 productivos, promoción, merge ni publicación de distritos.
+
+Anterior: legacy/docs/ESTUDIOS/N06_ENTREGA_integracion_v1.0.0.md.
+Corrección CI: run 38185814624 sobre fb927398 ejecutó 1445 pruebas (39 skipped), con dos errores por JSON legacy excluidos de Docker. Se añaden excepciones mínimas en .dockerignore para ambos predecesores, conservando legacy/dockerignore_v1.2.0. No se debilitan pruebas ni se altera contrato/fuentes/motor. Nueva revisión y CI se anclan al HEAD corregido.
