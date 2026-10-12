@@ -1,6 +1,7 @@
-"""Regresiones F10, versión 1.0.0, fecha 2026-10-12, estado candidato.
+"""Regresiones F10, versión 1.1.0, fecha 2026-10-12, estado candidato.
 Alcance: correspondencias interanuales, sin redistribución ni promoción.
-Cambios/motivo: contactos no son contribuciones; conservar contabilidad completa.
+Cambios/motivo: asignar sumas sólo en fusiones exactas municipales; rechazar
+repartos muchos-a-muchos y fusiones intermunicipales.
 Origen: diagnóstico F10 de adquisiciones oficiales 2026-10-11.
 """
 import unittest
@@ -61,6 +62,52 @@ class InterannualCorrespondenceTests(unittest.TestCase):
         self.assertEqual(report["population"]["assigned_total"], 100)
         self.assertFalse(report["population"]["exact_conservation"])
 
+    def test_exact_geometric_fusion_assigns_the_sum_to_its_single_destination(self):
+        audit = {
+            "normalization_safety": {"decision": "READY"},
+            "source_admissibility": {"decision": "READY", "original_overlap_pairs": []},
+        }
+        origin_audit = {
+            "normalization_safety": {"decision": "READY"},
+            "source_admissibility": {"decision": "DEFERRED_TO_CONSUMER_GATE", "original_overlap_pairs": []},
+        }
+        report = reconcile_population_sectioning(
+            territory_id="fusion", edition="2025", population_year=2025,
+            section_year=2026,
+            population_rows=[("0100101001", 60), ("0100101002", 40)],
+            target_geometry_rows=[("0100101003", box(0, 0, 2, 1))],
+            origin_geometry_rows=[("0100101001", box(0, 0, 1, 1)),
+                                  ("0100101002", box(1, 0, 2, 1))],
+            geometry_audits={
+                "target_sectioning": {"audit": audit, "derivation": {"decision": "READY"}},
+                "population_sectioning_origin": {"audit": origin_audit, "derivation": {"decision": "READY"}},
+            })
+        self.assertEqual(report["population"]["assigned_total"], 100)
+        self.assertEqual(report["population"]["unassigned_total"], 0)
+        self.assertTrue(report["population"]["exact_conservation"])
+        self.assertEqual(report["decision"], "READY")
+        self.assertEqual(report["correspondences"][0]["kind"], "FUSION")
+
+    def test_many_to_many_equal_union_does_not_assign_without_distribution_evidence(self):
+        report = reconcile(
+            [("0100101001", 60), ("0100101002", 40)],
+            [("0100101003", box(0, 0, 2, 1)), ("0100101004", box(0, 1, 2, 2))],
+            [("0100101001", box(0, 0, 1, 2)), ("0100101002", box(1, 0, 2, 2))])
+        self.assertFalse(report["population"]["exact_conservation"])
+        self.assertEqual(report["population"]["unassigned_total"], 100)
+        self.assertIn("UNACCREDITED_SECTIONING_CHANGE", report["causes"])
+
+    def test_exact_union_across_municipalities_does_not_fuse_population(self):
+        report = reconcile(
+            [("0100101001", 60), ("0100201002", 40)],
+            [("0100101003", box(0, 0, 2, 1))],
+            [("0100101001", box(0, 0, 1, 1)),
+             ("0100201002", box(1, 0, 2, 1))])
+        self.assertEqual(report["population"]["unassigned_total"], 100)
+        self.assertFalse(report["population"]["exact_conservation"])
+        self.assertEqual(report["correspondences"][0]["kind"], "FUSION")
+        self.assertEqual(report["correspondences"][0]["population_assignment"], "NOT_ACCREDITED")
+
 
 class F10RealEvidenceTests(unittest.TestCase):
     def test_real_unassigned_population_is_retained_and_blocked_in_three_territories(self):
@@ -77,20 +124,26 @@ class F10RealEvidenceTests(unittest.TestCase):
                 report = reconcile(fixture["population_rows"],
                     [(k, shape(g)) for k, g in fixture["target_geometry_rows"]],
                     [(k, shape(g)) for k, g in fixture["origin_geometry_rows"]])
-                self.assertEqual(report["population"]["unassigned_total"], deficit)
+                fusion_population = sum(
+                    row["source_population_total"] for row in report["correspondences"]
+                    if row["kind"] == "FUSION"
+                    and row.get("evidence") == "geometric_union_after_crs_normalization")
+                self.assertEqual(report["population"]["unassigned_total"], deficit - fusion_population)
                 self.assertTrue(report["population"]["accounting_exact"])
-                self.assertFalse(report["population"]["exact_conservation"])
+                self.assertEqual(report["population"]["exact_conservation"], deficit == fusion_population)
                 self.assertEqual(report["decision"], "BLOCKED")
                 self.assertEqual(sum(c["source_population_total"] for c in
-                    report["unresolved_components"]), deficit)
+                    report["unresolved_components"]), deficit - fusion_population)
                 self.assertTrue(all(c["population_assignment"] == "NOT_ACCREDITED"
                     for c in report["unresolved_components"]))
                 self.assertIn("UNACCREDITED_SECTIONING_CHANGE", report["causes"])
                 if territory == "aragon":
-                    self.assertIn({"source_keys": ["2221301002", "2221301003"],
-                        "target_keys": ["2221301002"], "kind": "FUSION",
-                        "evidence": "geometric_union_after_crs_normalization"},
-                        report["correspondences"])
+                    fusion = next(row for row in report["correspondences"]
+                        if row["kind"] == "FUSION")
+                    self.assertEqual(fusion["source_keys"], ["2221301002", "2221301003"])
+                    self.assertEqual(fusion["target_keys"], ["2221301002"])
+                    self.assertEqual(fusion["source_population_total"], 2211)
+                    self.assertEqual(fusion["population_assignment"], "SUM_OF_EXACT_GEOMETRIC_FUSION")
 
 
 class PopulationInputPreservationTests(unittest.TestCase):
