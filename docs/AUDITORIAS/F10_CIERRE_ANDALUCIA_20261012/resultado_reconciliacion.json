@@ -1,0 +1,2110 @@
+{
+  "schema": "ddd.f10-fusion-replay/1.0",
+  "territory_id": "andalucia",
+  "population_year": 2025,
+  "section_year": 2026,
+  "implementation_commit": "4fe55bab",
+  "fixture": {
+    "path": "tests/fixtures/f10_interannual/andalucia.json.gz",
+    "sha256": "6d5a2e0e00493f0b80208d3db0c46d889c7bfe21aaf3733c03c5d60b008f14ee",
+    "source_input_identities": {
+      "population": {
+        "path": "inputs/65034.csv.zip",
+        "sha256": "0333c1f5d99a3737eaa6c775fc12c2ab32ce3659a2806b9a5e9b2689dad1a996",
+        "bytes": 68174
+      },
+      "target_sectioning": {
+        "path": "inputs/seccionado_2025.zip",
+        "sha256": "3bc1e6d801bdf9b60775db182709829bcc6355c8514b84cb0b06c347bd80ec81",
+        "bytes": 11113938
+      },
+      "population_sectioning_origin": {
+        "path": "inputs/seccionado_origen_poblacion_2025.zip",
+        "sha256": "c1a9f1263ef20c574c316b5de5db946e661d73e228abebd87199f477c705274f",
+        "bytes": 11050248
+      }
+    }
+  },
+  "previous_full_audit": {
+    "path": "docs/AUDITORIAS/F10_COMPATIBILIDAD_INTERANUAL_20261012/reconciliacion.json",
+    "sha256": "f9c2a46b8a0f6065837fe1d67b9eef8148d2368d3e74a6a4b1daef268c2ffad9",
+    "previous_unassigned_population": 319989,
+    "unassigned_section_count": 180
+  },
+  "replay_scope": "Only originally unresolved source rows/components retained in the traceable real-data regression fixture; not a replacement for the full consumer run.",
+  "exact_fusions_assigned": [
+    {
+      "source_keys": [
+        "1101203004",
+        "1101203005"
+      ],
+      "target_keys": [
+        "1101203004"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1749,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "1101204004",
+        "1101204005"
+      ],
+      "target_keys": [
+        "1101204004"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1677,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "2306301003",
+        "2306301004"
+      ],
+      "target_keys": [
+        "2306301003"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1870,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "2906703002",
+        "2906703003"
+      ],
+      "target_keys": [
+        "2906703002"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 2288,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "2906704012",
+        "2906704013"
+      ],
+      "target_keys": [
+        "2906704012"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 2056,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "2906707021",
+        "2906707060"
+      ],
+      "target_keys": [
+        "2906707021"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1686,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "2906709013",
+        "2906709057"
+      ],
+      "target_keys": [
+        "2906709013"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1840,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    }
+  ],
+  "population": {
+    "input_total": 321256,
+    "assigned_total": 14433,
+    "unassigned_total": 306823,
+    "unassigned_by_section": [
+      {
+        "section_id": "0400601002",
+        "population": 2205
+      },
+      {
+        "section_id": "0400602002",
+        "population": 1296
+      },
+      {
+        "section_id": "0401306005",
+        "population": 1539
+      },
+      {
+        "section_id": "0401307017",
+        "population": 1438
+      },
+      {
+        "section_id": "0401307018",
+        "population": 2118
+      },
+      {
+        "section_id": "0401307031",
+        "population": 944
+      },
+      {
+        "section_id": "0401307039",
+        "population": 1528
+      },
+      {
+        "section_id": "0401307047",
+        "population": 1350
+      },
+      {
+        "section_id": "0402901005",
+        "population": 1320
+      },
+      {
+        "section_id": "0405201004",
+        "population": 2415
+      },
+      {
+        "section_id": "0405201007",
+        "population": 1814
+      },
+      {
+        "section_id": "0405301001",
+        "population": 1991
+      },
+      {
+        "section_id": "0405302001",
+        "population": 2461
+      },
+      {
+        "section_id": "0405303003",
+        "population": 2907
+      },
+      {
+        "section_id": "0405305002",
+        "population": 1550
+      },
+      {
+        "section_id": "0406401001",
+        "population": 1845
+      },
+      {
+        "section_id": "0407501002",
+        "population": 2520
+      },
+      {
+        "section_id": "0407502001",
+        "population": 3369
+      },
+      {
+        "section_id": "0407901016",
+        "population": 1638
+      },
+      {
+        "section_id": "0408901001",
+        "population": 953
+      },
+      {
+        "section_id": "0410301001",
+        "population": 3030
+      },
+      {
+        "section_id": "0490201013",
+        "population": 2888
+      },
+      {
+        "section_id": "0490201032",
+        "population": 2929
+      },
+      {
+        "section_id": "0490201047",
+        "population": 1831
+      },
+      {
+        "section_id": "1100404006",
+        "population": 2799
+      },
+      {
+        "section_id": "1100404011",
+        "population": 1490
+      },
+      {
+        "section_id": "1100404014",
+        "population": 1767
+      },
+      {
+        "section_id": "1100501001",
+        "population": 1431
+      },
+      {
+        "section_id": "1100501003",
+        "population": 2383
+      },
+      {
+        "section_id": "1100501004",
+        "population": 633
+      },
+      {
+        "section_id": "1100502001",
+        "population": 975
+      },
+      {
+        "section_id": "1100601006",
+        "population": 2049
+      },
+      {
+        "section_id": "1100602001",
+        "population": 1123
+      },
+      {
+        "section_id": "1100602007",
+        "population": 1197
+      },
+      {
+        "section_id": "1100602008",
+        "population": 2622
+      },
+      {
+        "section_id": "1100604003",
+        "population": 1434
+      },
+      {
+        "section_id": "1100802001",
+        "population": 1996
+      },
+      {
+        "section_id": "1101206003",
+        "population": 921
+      },
+      {
+        "section_id": "1101206005",
+        "population": 725
+      },
+      {
+        "section_id": "1101206006",
+        "population": 673
+      },
+      {
+        "section_id": "1101207001",
+        "population": 842
+      },
+      {
+        "section_id": "1101208011",
+        "population": 827
+      },
+      {
+        "section_id": "1101208018",
+        "population": 886
+      },
+      {
+        "section_id": "1101209017",
+        "population": 872
+      },
+      {
+        "section_id": "1101209020",
+        "population": 597
+      },
+      {
+        "section_id": "1101501003",
+        "population": 2381
+      },
+      {
+        "section_id": "1101504009",
+        "population": 1608
+      },
+      {
+        "section_id": "1101504010",
+        "population": 1506
+      },
+      {
+        "section_id": "1101504015",
+        "population": 2238
+      },
+      {
+        "section_id": "1102402001",
+        "population": 743
+      },
+      {
+        "section_id": "1102404001",
+        "population": 1238
+      },
+      {
+        "section_id": "1102804001",
+        "population": 2407
+      },
+      {
+        "section_id": "1102804002",
+        "population": 1502
+      },
+      {
+        "section_id": "1103304003",
+        "population": 1102
+      },
+      {
+        "section_id": "1103801007",
+        "population": 1303
+      },
+      {
+        "section_id": "1103801014",
+        "population": 1116
+      },
+      {
+        "section_id": "1402101005",
+        "population": 1412
+      },
+      {
+        "section_id": "1402101014",
+        "population": 925
+      },
+      {
+        "section_id": "1402101018",
+        "population": 1226
+      },
+      {
+        "section_id": "1402101031",
+        "population": 2520
+      },
+      {
+        "section_id": "1402106007",
+        "population": 1447
+      },
+      {
+        "section_id": "1402106053",
+        "population": 1446
+      },
+      {
+        "section_id": "1402106054",
+        "population": 1771
+      },
+      {
+        "section_id": "1402106055",
+        "population": 2173
+      },
+      {
+        "section_id": "1402110022",
+        "population": 778
+      },
+      {
+        "section_id": "1402110025",
+        "population": 1525
+      },
+      {
+        "section_id": "1402110047",
+        "population": 2556
+      },
+      {
+        "section_id": "1403801004",
+        "population": 2548
+      },
+      {
+        "section_id": "1802101003",
+        "population": 2078
+      },
+      {
+        "section_id": "1802101009",
+        "population": 1855
+      },
+      {
+        "section_id": "1802101010",
+        "population": 1851
+      },
+      {
+        "section_id": "1802101011",
+        "population": 1461
+      },
+      {
+        "section_id": "1802101012",
+        "population": 2579
+      },
+      {
+        "section_id": "1809401002",
+        "population": 1251
+      },
+      {
+        "section_id": "1814501001",
+        "population": 2514
+      },
+      {
+        "section_id": "1814501002",
+        "population": 1680
+      },
+      {
+        "section_id": "1819301006",
+        "population": 2416
+      },
+      {
+        "section_id": "2101401001",
+        "population": 1911
+      },
+      {
+        "section_id": "2103501003",
+        "population": 2442
+      },
+      {
+        "section_id": "2103502001",
+        "population": 2883
+      },
+      {
+        "section_id": "2103502004",
+        "population": 2383
+      },
+      {
+        "section_id": "2104103004",
+        "population": 576
+      },
+      {
+        "section_id": "2104103005",
+        "population": 1181
+      },
+      {
+        "section_id": "2104105001",
+        "population": 629
+      },
+      {
+        "section_id": "2104105002",
+        "population": 1911
+      },
+      {
+        "section_id": "2104105014",
+        "population": 1076
+      },
+      {
+        "section_id": "2104107003",
+        "population": 1008
+      },
+      {
+        "section_id": "2104403002",
+        "population": 1724
+      },
+      {
+        "section_id": "2301801001",
+        "population": 1221
+      },
+      {
+        "section_id": "2301803001",
+        "population": 587
+      },
+      {
+        "section_id": "2304901001",
+        "population": 964
+      },
+      {
+        "section_id": "2305004007",
+        "population": 2241
+      },
+      {
+        "section_id": "2305004015",
+        "population": 2201
+      },
+      {
+        "section_id": "2306101002",
+        "population": 1645
+      },
+      {
+        "section_id": "2306901003",
+        "population": 1261
+      },
+      {
+        "section_id": "2306903001",
+        "population": 1306
+      },
+      {
+        "section_id": "2308702003",
+        "population": 859
+      },
+      {
+        "section_id": "2308704002",
+        "population": 1098
+      },
+      {
+        "section_id": "2309201007",
+        "population": 1612
+      },
+      {
+        "section_id": "2309203007",
+        "population": 754
+      },
+      {
+        "section_id": "2900701013",
+        "population": 1434
+      },
+      {
+        "section_id": "2900701017",
+        "population": 1893
+      },
+      {
+        "section_id": "2900803003",
+        "population": 2328
+      },
+      {
+        "section_id": "2902301001",
+        "population": 5957
+      },
+      {
+        "section_id": "2903801006",
+        "population": 2393
+      },
+      {
+        "section_id": "2905101008",
+        "population": 1033
+      },
+      {
+        "section_id": "2905101014",
+        "population": 1878
+      },
+      {
+        "section_id": "2905101015",
+        "population": 2745
+      },
+      {
+        "section_id": "2905103001",
+        "population": 2609
+      },
+      {
+        "section_id": "2905403002",
+        "population": 2687
+      },
+      {
+        "section_id": "2906702009",
+        "population": 2087
+      },
+      {
+        "section_id": "2906702027",
+        "population": 2692
+      },
+      {
+        "section_id": "2906702029",
+        "population": 1049
+      },
+      {
+        "section_id": "2906702041",
+        "population": 3002
+      },
+      {
+        "section_id": "2906702044",
+        "population": 1862
+      },
+      {
+        "section_id": "2906702048",
+        "population": 1769
+      },
+      {
+        "section_id": "2906707027",
+        "population": 1708
+      },
+      {
+        "section_id": "2906707094",
+        "population": 2811
+      },
+      {
+        "section_id": "2906708001",
+        "population": 1558
+      },
+      {
+        "section_id": "2906708010",
+        "population": 2480
+      },
+      {
+        "section_id": "2906708011",
+        "population": 2283
+      },
+      {
+        "section_id": "2906708013",
+        "population": 2076
+      },
+      {
+        "section_id": "2906708035",
+        "population": 2683
+      },
+      {
+        "section_id": "2906708043",
+        "population": 2586
+      },
+      {
+        "section_id": "2906708046",
+        "population": 1323
+      },
+      {
+        "section_id": "2906708054",
+        "population": 2368
+      },
+      {
+        "section_id": "2906708057",
+        "population": 2750
+      },
+      {
+        "section_id": "2906708062",
+        "population": 963
+      },
+      {
+        "section_id": "2906708063",
+        "population": 1916
+      },
+      {
+        "section_id": "2906708069",
+        "population": 1654
+      },
+      {
+        "section_id": "2906708070",
+        "population": 1678
+      },
+      {
+        "section_id": "2906711002",
+        "population": 2612
+      },
+      {
+        "section_id": "2906711003",
+        "population": 2537
+      },
+      {
+        "section_id": "2906711005",
+        "population": 1309
+      },
+      {
+        "section_id": "2906711006",
+        "population": 1986
+      },
+      {
+        "section_id": "2906711011",
+        "population": 1134
+      },
+      {
+        "section_id": "2907001003",
+        "population": 1991
+      },
+      {
+        "section_id": "2907001013",
+        "population": 3156
+      },
+      {
+        "section_id": "2907001014",
+        "population": 1344
+      },
+      {
+        "section_id": "2907001015",
+        "population": 2248
+      },
+      {
+        "section_id": "2907001018",
+        "population": 3206
+      },
+      {
+        "section_id": "2907001024",
+        "population": 2957
+      },
+      {
+        "section_id": "2907001028",
+        "population": 2536
+      },
+      {
+        "section_id": "2907001029",
+        "population": 1248
+      },
+      {
+        "section_id": "2907001030",
+        "population": 4268
+      },
+      {
+        "section_id": "4100404005",
+        "population": 2283
+      },
+      {
+        "section_id": "4102406006",
+        "population": 1667
+      },
+      {
+        "section_id": "4103401009",
+        "population": 1597
+      },
+      {
+        "section_id": "4103804002",
+        "population": 2435
+      },
+      {
+        "section_id": "4103804018",
+        "population": 2997
+      },
+      {
+        "section_id": "4103805014",
+        "population": 2654
+      },
+      {
+        "section_id": "4103805026",
+        "population": 2523
+      },
+      {
+        "section_id": "4103805028",
+        "population": 1653
+      },
+      {
+        "section_id": "4103805030",
+        "population": 509
+      },
+      {
+        "section_id": "4104701002",
+        "population": 2535
+      },
+      {
+        "section_id": "4107001001",
+        "population": 1838
+      },
+      {
+        "section_id": "4107601002",
+        "population": 1198
+      },
+      {
+        "section_id": "4108102012",
+        "population": 2904
+      },
+      {
+        "section_id": "4109107022",
+        "population": 1326
+      },
+      {
+        "section_id": "4109109002",
+        "population": 1795
+      },
+      {
+        "section_id": "4109110003",
+        "population": 1307
+      },
+      {
+        "section_id": "4109110009",
+        "population": 2524
+      },
+      {
+        "section_id": "4109110025",
+        "population": 2595
+      },
+      {
+        "section_id": "4109110026",
+        "population": 1836
+      },
+      {
+        "section_id": "4109110027",
+        "population": 1824
+      },
+      {
+        "section_id": "4109601004",
+        "population": 1286
+      }
+    ],
+    "accounting_exact": true,
+    "exact_conservation": false
+  },
+  "remaining_unresolved_components": [
+    {
+      "source_keys": [
+        "0400601002"
+      ],
+      "target_keys": [
+        "0400601002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2205,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0400602002"
+      ],
+      "target_keys": [
+        "0400602002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1296,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401306005"
+      ],
+      "target_keys": [
+        "0401306005"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1539,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401307017"
+      ],
+      "target_keys": [
+        "0401307017"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1438,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401307018"
+      ],
+      "target_keys": [
+        "0401307018"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2118,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401307031"
+      ],
+      "target_keys": [
+        "0401307031"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 944,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401307039"
+      ],
+      "target_keys": [
+        "0401307039"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1528,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0401307047"
+      ],
+      "target_keys": [
+        "0401307047"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1350,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0402901005"
+      ],
+      "target_keys": [
+        "0402901005"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1320,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0405201004"
+      ],
+      "target_keys": [
+        "0405201004"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2415,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0405201007"
+      ],
+      "target_keys": [
+        "0405201007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1814,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0405301001",
+        "0405302001",
+        "0405305002"
+      ],
+      "target_keys": [
+        "0405301001",
+        "0405302001",
+        "0405305002"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 6002,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0405303003"
+      ],
+      "target_keys": [
+        "0405303003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2907,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0406401001"
+      ],
+      "target_keys": [
+        "0406401001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1845,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0407501002",
+        "0407502001"
+      ],
+      "target_keys": [
+        "0407501002",
+        "0407502001"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 5889,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0407901016"
+      ],
+      "target_keys": [
+        "0407901016"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1638,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0408901001"
+      ],
+      "target_keys": [
+        "0408901001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 953,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0410301001"
+      ],
+      "target_keys": [
+        "0410301001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 3030,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0490201013",
+        "0490201032",
+        "0490201047"
+      ],
+      "target_keys": [
+        "0490201013",
+        "0490201032",
+        "0490201047"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 7648,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100404006"
+      ],
+      "target_keys": [
+        "1100404006"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2799,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100404011"
+      ],
+      "target_keys": [
+        "1100404011"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1490,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100404014"
+      ],
+      "target_keys": [
+        "1100404014"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1767,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100501001",
+        "1100501003",
+        "1100501004",
+        "1100502001"
+      ],
+      "target_keys": [
+        "1100501001",
+        "1100501003",
+        "1100501004",
+        "1100502001"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5422,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100601006"
+      ],
+      "target_keys": [
+        "1100601006"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2049,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100602001",
+        "1100602007",
+        "1100602008"
+      ],
+      "target_keys": [
+        "1100602001",
+        "1100602007",
+        "1100602008",
+        "1100602011"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 4942,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100604003"
+      ],
+      "target_keys": [
+        "1100604003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1434,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1100802001"
+      ],
+      "target_keys": [
+        "1100802001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1996,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1101206003",
+        "1101206005",
+        "1101206006",
+        "1101207001"
+      ],
+      "target_keys": [
+        "1101206003",
+        "1101206005",
+        "1101207001"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 3161,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1101208011",
+        "1101208018",
+        "1101209017",
+        "1101209020"
+      ],
+      "target_keys": [
+        "1101208011",
+        "1101208018",
+        "1101209017",
+        "1101209020"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 3182,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1101501003",
+        "1102804001",
+        "1102804002"
+      ],
+      "target_keys": [
+        "1101501003",
+        "1102804001",
+        "1102804002",
+        "1102804011"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6290,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1101504009",
+        "1101504010",
+        "1101504015"
+      ],
+      "target_keys": [
+        "1101504009",
+        "1101504010",
+        "1101504015",
+        "1101504017"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5352,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1102402001"
+      ],
+      "target_keys": [
+        "1102402001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 743,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1102404001"
+      ],
+      "target_keys": [
+        "1102404001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1238,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1103304003"
+      ],
+      "target_keys": [
+        "1103304003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1102,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1103801007"
+      ],
+      "target_keys": [
+        "1103801007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1303,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1103801014"
+      ],
+      "target_keys": [
+        "1103801014"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1116,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1402101005",
+        "1402101018",
+        "1402101031"
+      ],
+      "target_keys": [
+        "1402101005",
+        "1402101018",
+        "1402101031"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 5158,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1402101014"
+      ],
+      "target_keys": [
+        "1402101014"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 925,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1402106007",
+        "1402106053",
+        "1402106054",
+        "1402106055"
+      ],
+      "target_keys": [
+        "1402106007",
+        "1402106053",
+        "1402106054",
+        "1402106055"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6837,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1402110022",
+        "1402110025",
+        "1402110047"
+      ],
+      "target_keys": [
+        "1402110022",
+        "1402110025",
+        "1402110047",
+        "1402110049"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 4859,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1403801004"
+      ],
+      "target_keys": [
+        "1403801004",
+        "1403801007"
+      ],
+      "kind": "ONE_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2548,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1802101003"
+      ],
+      "target_keys": [
+        "1802101003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2078,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1802101009"
+      ],
+      "target_keys": [
+        "1802101009"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1855,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1802101010",
+        "1802101011",
+        "1802101012"
+      ],
+      "target_keys": [
+        "1802101010",
+        "1802101011",
+        "1802101012",
+        "1802101016"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5891,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1809401002"
+      ],
+      "target_keys": [
+        "1809401002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1251,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "1814501001",
+        "1814501002",
+        "1819301006"
+      ],
+      "target_keys": [
+        "1814501001",
+        "1814501002",
+        "1814501010",
+        "1819301006"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6610,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2101401001"
+      ],
+      "target_keys": [
+        "2101401001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1911,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2103501003",
+        "2103502001",
+        "2103502004"
+      ],
+      "target_keys": [
+        "2103501003",
+        "2103502001",
+        "2103502004",
+        "2103502005"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 7708,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2104103004",
+        "2104103005"
+      ],
+      "target_keys": [
+        "2104103004",
+        "2104103005"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 1757,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2104105001",
+        "2104105002",
+        "2104105014",
+        "2104107003"
+      ],
+      "target_keys": [
+        "2104105001",
+        "2104105002",
+        "2104105014",
+        "2104107003"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 4624,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2104403002"
+      ],
+      "target_keys": [
+        "2104403002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1724,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2301801001",
+        "2301803001"
+      ],
+      "target_keys": [
+        "2301801001"
+      ],
+      "kind": "MANY_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1808,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2304901001"
+      ],
+      "target_keys": [
+        "2304901001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 964,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2305004007"
+      ],
+      "target_keys": [
+        "2305004007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2241,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2305004015"
+      ],
+      "target_keys": [
+        "2305004015"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2201,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2306101002"
+      ],
+      "target_keys": [
+        "2306101002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1645,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2306901003"
+      ],
+      "target_keys": [
+        "2306901003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1261,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2306903001"
+      ],
+      "target_keys": [
+        "2306903001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1306,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2308702003"
+      ],
+      "target_keys": [
+        "2308702003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 859,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2308704002"
+      ],
+      "target_keys": [
+        "2308704002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1098,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2309201007"
+      ],
+      "target_keys": [
+        "2309201007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1612,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2309203007"
+      ],
+      "target_keys": [
+        "2309203007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 754,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2900701013"
+      ],
+      "target_keys": [
+        "2900701013"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1434,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2900701017"
+      ],
+      "target_keys": [
+        "2900701017"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1893,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2900803003"
+      ],
+      "target_keys": [
+        "2900803003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2328,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2902301001"
+      ],
+      "target_keys": [
+        "2902301001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 5957,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2903801006"
+      ],
+      "target_keys": [
+        "2903801006"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2393,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2905101008"
+      ],
+      "target_keys": [
+        "2905101008"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1033,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2905101014"
+      ],
+      "target_keys": [
+        "2905101014"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1878,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2905101015"
+      ],
+      "target_keys": [
+        "2905101015"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2745,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2905103001"
+      ],
+      "target_keys": [
+        "2905103001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2609,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2905403002"
+      ],
+      "target_keys": [
+        "2905403002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2687,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906702009",
+        "2906702027",
+        "2906702029"
+      ],
+      "target_keys": [
+        "2906702009",
+        "2906702027",
+        "2906702029",
+        "2906702053"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5828,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906702041",
+        "2906702044",
+        "2906702048"
+      ],
+      "target_keys": [
+        "2906702041",
+        "2906702044",
+        "2906702048",
+        "2906702052"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6633,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906707027",
+        "2906707094",
+        "2906708070"
+      ],
+      "target_keys": [
+        "2906707027",
+        "2906707094",
+        "2906707098",
+        "2906708070"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6197,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906708001",
+        "2906708057",
+        "2906708063"
+      ],
+      "target_keys": [
+        "2906708001",
+        "2906708057",
+        "2906708063",
+        "2906708077"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6224,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906708010",
+        "2906708011",
+        "2906708046"
+      ],
+      "target_keys": [
+        "2906708010",
+        "2906708011",
+        "2906708046",
+        "2906708078"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6086,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906708013",
+        "2906708035",
+        "2906708054"
+      ],
+      "target_keys": [
+        "2906708013",
+        "2906708035",
+        "2906708054",
+        "2906708079",
+        "2906708080"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 7127,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906708043",
+        "2906708062",
+        "2906708069"
+      ],
+      "target_keys": [
+        "2906708043",
+        "2906708062",
+        "2906708069",
+        "2906708081"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5203,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2906711002",
+        "2906711003",
+        "2906711005",
+        "2906711006",
+        "2906711011"
+      ],
+      "target_keys": [
+        "2906711002",
+        "2906711003",
+        "2906711005",
+        "2906711006",
+        "2906711011",
+        "2906711014",
+        "2906711015"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 9578,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2907001003",
+        "2907001014",
+        "2907001018"
+      ],
+      "target_keys": [
+        "2907001003",
+        "2907001014",
+        "2907001018",
+        "2907001040"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6541,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2907001013"
+      ],
+      "target_keys": [
+        "2907001013"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 3156,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2907001015",
+        "2907001024",
+        "2907001029"
+      ],
+      "target_keys": [
+        "2907001015",
+        "2907001024",
+        "2907001029",
+        "2907001041"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 6453,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2907001028",
+        "2907001030"
+      ],
+      "target_keys": [
+        "2907001028",
+        "2907001030"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 6804,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4100404005"
+      ],
+      "target_keys": [
+        "4100404005"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 2283,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4102406006",
+        "4108102012",
+        "4109107022"
+      ],
+      "target_keys": [
+        "4102406006",
+        "4108102012",
+        "4108102019",
+        "4109107022"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5897,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4103401009"
+      ],
+      "target_keys": [
+        "4103401009"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1597,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4103804002",
+        "4103804018",
+        "4103805014",
+        "4103805026",
+        "4103805028",
+        "4103805030"
+      ],
+      "target_keys": [
+        "4103804002",
+        "4103804018",
+        "4103804022",
+        "4103805014",
+        "4103805026",
+        "4103805028",
+        "4103805030",
+        "4103805032"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 12771,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4104701002",
+        "4109601004"
+      ],
+      "target_keys": [
+        "4104701002",
+        "4104701008",
+        "4109601004"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 3821,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4107001001"
+      ],
+      "target_keys": [
+        "4107001001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1838,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4107601002"
+      ],
+      "target_keys": [
+        "4107601002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1198,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4109109002"
+      ],
+      "target_keys": [
+        "4109109002"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1795,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4109110003",
+        "4109110009",
+        "4109110025",
+        "4109110026",
+        "4109110027"
+      ],
+      "target_keys": [
+        "4109110003",
+        "4109110009",
+        "4109110025",
+        "4109110026",
+        "4109110027",
+        "4109110030"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 10086,
+      "population_assignment": "NOT_ACCREDITED"
+    }
+  ],
+  "causes": [
+    "GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING",
+    "POPULATION_TOTAL_NOT_CONSERVED",
+    "POPULATION_WITHOUT_DESTINATION",
+    "SAME_CODE_BOUNDARY_CHANGED",
+    "TARGET_GEOMETRY_WITHOUT_POPULATION",
+    "UNACCREDITED_SECTIONING_CHANGE"
+  ],
+  "decision": "BLOCKED",
+  "municipality_identity_rule": "All source and target CUSEC share their first five digits (province + municipality).",
+  "official_alternative_source_review": {
+    "ine_source": "Censo anual de población 2021-2025, resultados por secciones censales",
+    "url": "https://www.ine.es/dynt3/inebase/index.htm?capsel=10614&padre=10607",
+    "note": "INE indicates that section results under 50 inhabitants are suppressed; this table also does not establish population at 2026 section identities. It cannot accredit the missing sections/crosswalk."
+  }
+}
