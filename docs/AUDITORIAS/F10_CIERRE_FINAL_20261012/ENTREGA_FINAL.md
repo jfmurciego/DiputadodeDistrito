@@ -1,3 +1,13 @@
+<!--
+Nombre: Expediente de cierre técnico F10 y continuidad del piloto
+Versión: 1.1.0
+Fecha: 2026-10-13
+Alcance: estado, evidencias y bloqueos de Fuentes Oficiales F10
+Estado: candidato
+Cambios/motivo: incorporar verificaciones 2026-10-13 y continuidad del controlador
+Anterior: legacy/docs/AUDITORIAS/F10_CIERRE_FINAL_20261012/ENTREGA_FINAL_e042dec6.md
+-->
+
 # F10 — expediente de cierre técnico y decisión final
 
 **Fecha:** 2026-10-12
