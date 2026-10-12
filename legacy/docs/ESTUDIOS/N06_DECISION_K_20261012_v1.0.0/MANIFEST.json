@@ -1,0 +1,26 @@
+{
+  "files_sha256": {
+    "EXPEDIENTE.md": "e221086b69b52d7349397a1b3137981e24fa1694491e0c5ae493dfab08a86c4c",
+    "comparar.py": "113ab1431cc6305c3c9fe775e98b6a15f63eba95bbaf88e6973988120a8544db",
+    "regresiones.log": "cd768d47fc05e865b04dfda72e566c7d204a0e21d452163393624b50c2497f6e",
+    "reproduccion.log": "1d4501c7afa75ff19ba79cbff930c782f863781702fbdbbcea9a2a3bb1f1b10a",
+    "resultados/comparaciones.json": "3d343fec53fb64974ba9618e33bc70e9bdae03be9f4ce62cd7c511f26e886c10",
+    "resultados/repartos_52.csv": "ce01f947ace1c4bd09982450ea99238e1e8d455f7dc67a2c1514164f5fc6b734",
+    "resultados/resumen.csv": "a44fd9ddbb51f8fe057c1a65f41e1aae8a1c9b32f9157571813a90198eefd4dd",
+    "verificacion.log": "57277ad6fa462d1c53faf8b431ed386badfd76fde44a529c529f5d71ab743b3f",
+    "verificar.py": "dcb8379a9a7d4244ee4e8f6f5fd22767114123f7e1c322032cec0d634bfdafb0",
+    "vinculo_plan.json": "55c58d0d0a48911f3d452bb92bdc1293d2d334cdf27943e23dbdb871bcf6b6dc"
+  },
+  "metadata": {
+    "changes": "hashes de documento/scripts/resultados",
+    "date": "2026-10-12",
+    "name": "Manifiesto expediente N06",
+    "origin": "nuevo",
+    "reason": "decisión reproducible sin aprobar K",
+    "scope": "análisis 2025, conservación local",
+    "status": "WAIT_OWNER",
+    "version": "1.0.0"
+  },
+  "plan_id": "ddd-maestro-20261008",
+  "task_id": "N06"
+}

@@ -1,0 +1,617 @@
+{
+  "arithmetic": "fractions exact; code ascending tie-break is modelling convention, not attributed to law",
+  "geometry_generated": false,
+  "hypothetical_bounds": {
+    "approved": false,
+    "cap": 210000,
+    "floor": 96000,
+    "target": 120000
+  },
+  "inputs_sha256": {
+    "docs/ESTUDIOS/N07_20261011/result/evidence.json": "90fa8b451cfc98ec23e4d6f5fc7f88a188c57520b7ed22f72ff3e32d541f277b",
+    "docs/ESTUDIOS/cartografia_nacional_20261008/atributos_historicos.json": "c10802a1bd5087704dfd086c830857cbee3b26536b747752ae9ba27c8b1b06b2",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/MANIFEST.json": "f728109381fe1513c10b1b1027095647c90c0ca0bd4d705bd813a49f1606cf9a",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/fuente_poblacion.json": "6a5f16d1bf354bebb1d05ad0f9afc350d8dc1c7ea251aac3ce6002e392b16a7c",
+    "docs/ESTUDIOS/modelo_nacional_2025_120000/modelo.json": "c183f71e7a433eaaff77456d82a13f8afbc3f1fd2ec08e73ca3fce371d7d7ee4",
+    "herramientas/evaluar_alternativas_nacionales.py": "180cc80b7c1ab21025ce8e0f0ec2206152bf1f78fa901d147859c1e7c11fdf42",
+    "herramientas/modelo_cuantitativo_nacional.py": "61c70aae46d903e7ea3bc29ddfd9c49ffe75318e610801d29c834c1999e88075",
+    "territorios/congreso/contrato_congreso_2026.json": "bc420624c4c0197f6f812fc3bd06125d2e5fee6c632c734a68c410600506a041"
+  },
+  "k_approved": false,
+  "metadata": {
+    "changes": "contraste K fijo y N05",
+    "date": "2026-10-12",
+    "name": "N06 expediente decisorio K",
+    "origin": "nuevo",
+    "reason": "decisión expresa del propietario",
+    "scope": "52 circunscripciones, población 2025, análisis local",
+    "status": "WAIT_OWNER",
+    "version": "1.0.0"
+  },
+  "plan_id": "ddd-maestro-20261008",
+  "population_edition": 2025,
+  "population_total": 49128297,
+  "quota_semantics": "total expected provincial allocation; minimum model is 2 + residual quota; cities = 1",
+  "scenarios": [
+    {
+      "allocation_l1_against_historical": 30,
+      "cities_not_fixed_one": [
+        "51",
+        "52"
+      ],
+      "district_weighted_mae": "2907480/383",
+      "equals_legal_350": false,
+      "k_total": 383,
+      "maximum_province_mean": {
+        "population": "230087",
+        "province_code": "22"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "16",
+        "22",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "minimum_province_mean": {
+        "population": "2763996/23",
+        "province_code": "46"
+      },
+      "national_mean": "49128297/383",
+      "necessary_bounds_failures": [
+        "22",
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "N05_REUSED",
+      "rule": "floor_independiente",
+      "scenario": "n05_floor_independiente",
+      "unrepresented_population": 260817,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 20,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "1654107/407",
+      "equals_legal_350": false,
+      "k_total": 407,
+      "maximum_province_mean": {
+        "population": "165564",
+        "province_code": "49"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/407",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "N05_REUSED",
+      "rule": "nearest_half_up_independiente",
+      "scenario": "n05_nearest_half_up_independiente",
+      "unrepresented_population": 0,
+      "within_300_400": false
+    },
+    {
+      "allocation_l1_against_historical": 44,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "1023901/145",
+      "equals_legal_350": false,
+      "k_total": 435,
+      "maximum_province_mean": {
+        "population": "2033566/17",
+        "province_code": "03"
+      },
+      "minimum_2_province_1_city_violations": [
+        "42"
+      ],
+      "minimum_province_mean": {
+        "population": "136091/2",
+        "province_code": "44"
+      },
+      "national_mean": "16376099/145",
+      "necessary_bounds_failures": [
+        "05",
+        "09",
+        "19",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "N05_REUSED",
+      "rule": "ceil_independiente",
+      "scenario": "n05_ceil_independiente",
+      "unrepresented_population": 0,
+      "within_300_400": false
+    },
+    {
+      "allocation_l1_against_historical": 22,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "1661201/409",
+      "equals_legal_350": false,
+      "k_total": 409,
+      "maximum_province_mean": {
+        "population": "165564",
+        "province_code": "49"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/409",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "N05_REUSED",
+      "rule": "hamilton_k_derivado",
+      "scenario": "n05_hamilton_k_derivado",
+      "unrepresented_population": 0,
+      "within_300_400": false
+    },
+    {
+      "allocation_l1_against_historical": 66,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "9139267/409",
+      "equals_legal_350": false,
+      "k_total": 409,
+      "maximum_province_mean": {
+        "population": "152819",
+        "province_code": "08"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "30061",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/409",
+      "necessary_bounds_failures": [
+        "01",
+        "02",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "N05_REUSED",
+      "rule": "minimos_referencia_k_derivado",
+      "scenario": "n05_minimos_referencia_k_derivado",
+      "unrepresented_population": 0,
+      "within_300_400": false
+    },
+    {
+      "allocation_l1_against_historical": 123,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "5716329/100",
+      "equals_legal_350": false,
+      "k_total": 300,
+      "maximum_province_mean": {
+        "population": "7113886/31",
+        "province_code": "28"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "90183/2",
+        "province_code": "42"
+      },
+      "national_mean": "16376099/100",
+      "necessary_bounds_failures": [
+        "05",
+        "08",
+        "16",
+        "19",
+        "22",
+        "28",
+        "34",
+        "40",
+        "42",
+        "44",
+        "46",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k300_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 89,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "12861549/350",
+      "equals_legal_350": true,
+      "k_total": 350,
+      "maximum_province_mean": {
+        "population": "3556943/19",
+        "province_code": "28"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "90183/2",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/350",
+      "necessary_bounds_failures": [
+        "01",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k350_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 72,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "10421451/383",
+      "equals_legal_350": false,
+      "k_total": 383,
+      "maximum_province_mean": {
+        "population": "1986647/12",
+        "province_code": "08"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "90183/2",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/383",
+      "necessary_bounds_failures": [
+        "01",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k383_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 66,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "9786787/391",
+      "equals_legal_350": false,
+      "k_total": 391,
+      "maximum_province_mean": {
+        "population": "3556943/22",
+        "province_code": "28"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "90183/2",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/391",
+      "necessary_bounds_failures": [
+        "01",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k391_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 67,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "9906787/392",
+      "equals_legal_350": false,
+      "k_total": 392,
+      "maximum_province_mean": {
+        "population": "3556943/22",
+        "province_code": "28"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "30061",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/392",
+      "necessary_bounds_failures": [
+        "01",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k392_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 65,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "364665/16",
+      "equals_legal_350": false,
+      "k_total": 400,
+      "maximum_province_mean": {
+        "population": "7113886/45",
+        "province_code": "28"
+      },
+      "minimum_2_province_1_city_violations": [],
+      "minimum_province_mean": {
+        "population": "90183/2",
+        "province_code": "42"
+      },
+      "national_mean": "49128297/400",
+      "necessary_bounds_failures": [
+        "01",
+        "05",
+        "09",
+        "16",
+        "19",
+        "22",
+        "24",
+        "25",
+        "26",
+        "27",
+        "32",
+        "34",
+        "37",
+        "40",
+        "42",
+        "44",
+        "49",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "minimos_2_ciudades_1_residual_hamilton",
+      "scenario": "k400_minimos",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 41,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "7346489/350",
+      "equals_legal_350": true,
+      "k_total": 350,
+      "maximum_province_mean": {
+        "population": "199859",
+        "province_code": "16"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "16",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/350",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "hamilton_puro_52",
+      "scenario": "k350_hamilton_puro",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 14,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "2879691/391",
+      "equals_legal_350": false,
+      "k_total": 391,
+      "maximum_province_mean": {
+        "population": "165564",
+        "province_code": "49"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/391",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "hamilton_puro_52",
+      "scenario": "k391_hamilton_puro",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 19,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "2012161/400",
+      "equals_legal_350": false,
+      "k_total": 400,
+      "maximum_province_mean": {
+        "population": "165564",
+        "province_code": "49"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/400",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "NEW_FIXED_K",
+      "rule": "hamilton_puro_52",
+      "scenario": "k400_hamilton_puro",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    },
+    {
+      "allocation_l1_against_historical": 0,
+      "cities_not_fixed_one": [],
+      "district_weighted_mae": "3461405/391",
+      "equals_legal_350": false,
+      "k_total": 391,
+      "maximum_province_mean": {
+        "population": "165564",
+        "province_code": "49"
+      },
+      "minimum_2_province_1_city_violations": [
+        "05",
+        "34",
+        "40",
+        "42",
+        "44",
+        "49"
+      ],
+      "minimum_province_mean": {
+        "population": "83567",
+        "province_code": "51"
+      },
+      "national_mean": "49128297/391",
+      "necessary_bounds_failures": [
+        "42",
+        "51",
+        "52"
+      ],
+      "origin": "HISTORICAL_COUNTS_NOT_2025_MAP",
+      "rule": "recuento_historico_no_acreditado",
+      "scenario": "antecedente_391_reponderado_2025",
+      "unrepresented_population": 0,
+      "within_300_400": true
+    }
+  ],
+  "source_zip_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "task_id": "N06"
+}

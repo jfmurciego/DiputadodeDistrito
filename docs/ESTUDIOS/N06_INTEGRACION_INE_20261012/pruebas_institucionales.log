@@ -1,0 +1,10 @@
+test_52_unique_identities_and_reject_bad_inputs (__main__.CorrectionTests.test_52_unique_identities_and_reject_bad_inputs) ... ok
+test_allocation_against_exact_quota_and_n05 (__main__.CorrectionTests.test_allocation_against_exact_quota_and_n05) ... ok
+test_determinism_and_preserved_artifact (__main__.CorrectionTests.test_determinism_and_preserved_artifact) ... ok
+test_explicit_exceptions_and_exact_deviations (__main__.CorrectionTests.test_explicit_exceptions_and_exact_deviations) ... ok
+test_minima_ties_and_no_fixed_legal_total (__main__.CorrectionTests.test_minima_ties_and_no_fixed_legal_total) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.016s
+
+OK

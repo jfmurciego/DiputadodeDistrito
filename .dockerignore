@@ -1,9 +1,9 @@
 # PROYECTO: Diputado de Distrito
-# VERSIÓN: 1.2.0
-# NOMBRE: Imagen sin datos con único contrato histórico de regresión Aragón
-# FECHA: 2026-10-11
+# VERSIÓN: 1.3.0
+# NOMBRE: Imagen sin datos con contratos históricos mínimos de regresión
+# FECHA: 2026-10-12
 # QUÉ HACE: excluye datasets y resultados, pero incorpora el pequeño manifiesto SHA-256 requerido por la puerta de contratos.
-# ANTERIOR: legacy/dockerignore_v1.1.0
+# ANTERIOR: legacy/dockerignore_v1.2.0
 # Evita duplicar datos y resultados dentro de cada imagen Docker.
 .git
 inputs/*
@@ -12,7 +12,7 @@ inputs/*
 !inputs/cyl_2026_secciones_partidos.csv
 .cache
 ejecuciones
-# Mantener excluido el archivo histórico excepto una única fixture de regresión.
+# Mantener excluido el archivo histórico excepto fixtures mínimas de regresión.
 legacy/*
 !legacy/configuracion/
 legacy/configuracion/*
@@ -23,3 +23,13 @@ __pycache__
 andalucia-section-locator.csv
 siel-andalucia-2026.zip
 .ddd-electoral-package
+
+# CAMBIOS/MOTIVO: incluir sólo dos JSON predecesores para regresión N06/INE; no datasets históricos.
+!legacy/n06_contrato_20261012/
+legacy/n06_contrato_20261012/*
+!legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json
+!legacy/territorios/
+legacy/territorios/*
+!legacy/territorios/congreso/
+legacy/territorios/congreso/*
+!legacy/territorios/congreso/contrato_congreso_2026_pre_n06_integracion.json

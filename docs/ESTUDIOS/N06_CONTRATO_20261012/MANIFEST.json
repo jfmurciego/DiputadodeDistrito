@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-12",
+  "origin": "formalización N06 y puerta técnica N08",
+  "files_sha256": {
+    "ddd_core/congreso_contract.py": "de6f79732233e0b23df6479b66cf294c574c8b594ce231579fa66e393794b01a",
+    "territorios/congreso/CONTRATO_CANDIDATO.md": "aa24738050953f2e7d94355b61c906b57ee45cee985f8f9b0009b2c2e348a8ef",
+    "territorios/congreso/contrato_congreso_2026.json": "a66ac9cf53617e9f46e141aa308895f31ad5ee9b74278086beee9245b96d8a00",
+    "tests/test_congreso_contract.py": "33d3a7d5714389e4bc42cdbf2d75258f52082d50fd2b7f9bbfe59a0211d5ad49",
+    "tests/test_congreso_origin_migration.py": "2fb42922c03d0374ed90d19dbb3535dd8828e2d71576358eb7e77ff5a02d70bf",
+    "legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json": "bc420624c4c0197f6f812fc3bd06125d2e5fee6c632c734a68c410600506a041",
+    "legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py": "f6585fe6aa73c18f4bb0ba6ff77b8754313ab76f4760145aca5f90aa1b54e930",
+    "legacy/n06_contrato_20261012/CONTRATO_CANDIDATO_v0.1.md": "36982a1cb6d742bf5c35ccccfcc6f4a2e371ce72022e56d85367980461899fa1",
+    "legacy/n06_contrato_20261012/test_congreso_contract_v1.py": "046fa300cc9de0d0f630a3b6f906526fb60ab2c0269c5155fb42200b67d9e411",
+    "docs/ESTUDIOS/N06_CONTRATO_20261012/pruebas_iniciales_python_sistema.log": "6c6e35078d3a6f7440f2695e971339a11ac1d42c65882f86ad611aaea1976467",
+    "docs/ESTUDIOS/N06_CONTRATO_20261012/pruebas_85.log": "9ee6fe4168a117f0014aa703313141ec65a748510655768925d2876c25bdec09",
+    "docs/ESTUDIOS/N06_CONTRATO_20261012/CHECKPOINT.json": "3bb357f3dcce7d58271168fac87f8d70389cb10eb248c0559e80fd616d4c9c4a",
+    "docs/ESTUDIOS/N06_CONTRATO_20261012/pruebas_73_python311.log": "37d994759b6080e50cb42015b270b3d05f204d70e10e41314a0a677083cc3a0a"
+  }
+}
