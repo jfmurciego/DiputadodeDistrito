@@ -107,8 +107,15 @@ class F10PreparacionAisladaTests(unittest.TestCase):
             with self.subTest(territory=territory), self.assertRaises(PreparedPairExecutionBlock):
                 validate_territorial_receipt(root_dir=ROOT, territory=territory, edition='2025')
 
-        with self.assertRaisesRegex(PreparedPairExecutionBlock, 'falta receipt territorial versionado'):
-            validate_territorial_receipt(root_dir=ROOT, territory='extremadura', edition='2025')
+        _, independent_receipt = validate_territorial_receipt(
+            root_dir=ROOT, territory='extremadura', edition='2025')
+        self.assertEqual(38091144559, independent_receipt['run_id'])
+        extremadura = next(item for item in
+                           yaml.safe_load((ROOT / 'configuracion/catalogo_preparacion.yaml').read_text())['territories']
+                           if item['territory_id'] == 'extremadura')['editions']['2025']
+        self.assertEqual(35755043806, extremadura['preparation_evidence']['run_id'])
+        self.assertEqual(36472516474, extremadura['last_valid_checkpoint']['run_id'])
+        self.assertFalse(extremadura['independent_source_evidence']['promoted'])
 
         receipt_rel = (
             'territorios/extremadura/evidencia/fuentes_territoriales/2025/'
