@@ -2,26 +2,93 @@
   "schema": "ddd.f10-valencia-independent-evidence/1.0",
   "acquired_at": "2026-10-12",
   "territory": "comunidad_valenciana",
-  "target_pair": {"population_year": 2023, "section_year": 2023},
+  "target_pair": {
+    "population_year": 2023,
+    "section_year": 2023
+  },
   "population": {
     "source": "INE 65034",
     "official_url": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
     "protected_original": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/inputs/partes/65034.csv.zip.part00..part03",
     "concatenated_original_bytes": 75489355,
     "concatenated_original_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
-    "selection": {"year": 2023, "sex": "Total", "age": "Todas las edades", "provinces": ["03", "12", "46"]},
+    "selection": {
+      "year": 2023,
+      "sex": "Total",
+      "age": "Todas las edades",
+      "provinces": [
+        "03",
+        "12",
+        "46"
+      ]
+    },
     "filter": "herramientas/adquirir_fuentes_oficiales.py::_filter_population",
     "materialized_evidence": "/Users/macbookpro/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261012-cierre/comunidad_valenciana/population_ine_65034_2023_03_12_46.csv.tsv",
     "materialized_bytes": 440778,
     "materialized_sha256": "e8edd7b1b684e8b3c6ef4d105b5af7b546ff6ed08544d64f5ff29efe53906f21",
     "selected_rows": 3503,
     "selected_population": 5216195,
-    "province_rows": {"03": 1236, "12": 444, "46": 1823},
-    "province_population": {"03": 1955268, "12": 604086, "46": 2656841},
+    "province_rows": {
+      "03": 1236,
+      "12": 444,
+      "46": 1823
+    },
+    "province_population": {
+      "03": 1955268,
+      "12": 604086,
+      "46": 2656841
+    },
     "unobserved_section_count": 46,
-    "unobserved_section_ids": ["0301401017", "0301408031", "0303104006", "0304601002", "0305302006", "0306504011", "0306507027", "0306507028", "0307601008", "0307601009", "1200402003", "1200903006", "1204004023", "4600601006", "4607001005", "4607001006", "4607001007", "4607001008", "4607001009", "4607001010", "4607001011", "4607001012", "4607001013", "4607001014", "4607001015", "4607001016", "4608303001", "4610501003", "4612301002", "4615903010", "4616301002", "4618401002", "4619301008", "4620201014", "4620701005", "4620701006", "4620701007", "4624402008", "4624404011", "4624404012", "4625002040", "4625007029", "4625008005", "4625011013", "4625011029", "4625017008"],
-    "interpretation": "Ausencia de observacion INE, no equivale a poblacion cero. Esta adquisicion es independiente y no se afirma identidad con el payload F10 historico perdido.",
-    "status": "BLOCKED_INCOMPLETE_SECTION_OBSERVATIONS"
+    "unobserved_section_ids": [
+      "0301401017",
+      "0301408031",
+      "0303104006",
+      "0304601002",
+      "0305302006",
+      "0306504011",
+      "0306507027",
+      "0306507028",
+      "0307601008",
+      "0307601009",
+      "1200402003",
+      "1200903006",
+      "1204004023",
+      "4600601006",
+      "4607001005",
+      "4607001006",
+      "4607001007",
+      "4607001008",
+      "4607001009",
+      "4607001010",
+      "4607001011",
+      "4607001012",
+      "4607001013",
+      "4607001014",
+      "4607001015",
+      "4607001016",
+      "4608303001",
+      "4610501003",
+      "4612301002",
+      "4615903010",
+      "4616301002",
+      "4618401002",
+      "4619301008",
+      "4620201014",
+      "4620701005",
+      "4620701006",
+      "4620701007",
+      "4624402008",
+      "4624404011",
+      "4624404012",
+      "4625002040",
+      "4625007029",
+      "4625008005",
+      "4625011013",
+      "4625011029",
+      "4625017008"
+    ],
+    "interpretation": "Las 46 filas en blanco no pertenecen al universo 2023 TIPO=SECCIONADO ni a la capa oficial de población Censo 2023; no son secciones objetivo exigibles. No se infiere población cero ni se atribuye causa estadística individual. La identidad y cobertura de la población seleccionada para el universo objetivo están completas.",
+    "status": "PASS_IDENTITY_AND_POPULATION_COVERAGE_GEOMETRY_BLOCKED"
   },
   "geometry_alternative": {
     "provider": "Instituto Nacional de Estadistica",
@@ -37,11 +104,35 @@
     "unique_cusec": 2183,
     "reference_sectioning_count": 1823,
     "invalid_geometry_count": 6,
-    "invalid_cusec": ["4613201000", "4614503000", "4615101000", "4613201001", "4614503005", "4615101001"],
-    "known_overlap_tests_m2": {"4617201001/4619401008": 0.0, "4617201001/4619401013": 0.0},
+    "invalid_cusec": [
+      "4613201000",
+      "4614503000",
+      "4615101000",
+      "4613201001",
+      "4614503005",
+      "4615101001"
+    ],
+    "known_overlap_tests_m2": {
+      "4617201001/4619401008": 11.622500541998306,
+      "4617201001/4619401013": 11.901114100141314
+    },
     "cusec_set_sha256": "94f6cb4b98b732dddcd061a40ef2604c5025a7c414e5b2f8f657848ed959ae7e",
-    "status": "REJECTED_AS_SUBSTITUTE_COVERAGE_AND_VALIDITY_DIFFER"
+    "status": "REJECTED_AS_GEOMETRY_CORRECTION_SAME_DEFECTS",
+    "feature_types": {
+      "SECCIONADO": 1823,
+      "DISTRITO": 360
+    },
+    "invalid_seccionado_cusec": [
+      "4613201001",
+      "4614503005",
+      "4615101001"
+    ],
+    "interpretation": "Los 360 features adicionales son TIPO=DISTRITO y no secciones. El conjunto CUSEC TIPO=SECCIONADO coincide exactamente con Valencia 2023. La fuente alternativa tampoco resuelve los dos solapamientos >1 m² y contiene tres secciones geométricamente inválidas; no se acepta como sustituto corrector."
   },
-  "overall_consumer_status": "BLOCKED",
-  "reasons": ["46 secciones carecen de observacion poblacional en 65034; no se convierten en cero.", "La representacion WFS tiene 2183 CUSEC, frente a 1823 de la evidencia 2023 preexistente, y 6 geometrías invalidas; no puede reemplazarla."]
+  "overall_consumer_status": "BLOCKED_GEOMETRY",
+  "reasons": [
+    "La población 2023 cubre exactamente las 3.503 secciones oficiales TIPO=SECCIONADO y conserva 5.216.195 habitantes.",
+    "La diferencia 2.183 frente a 1.823 corresponde a 360 features TIPO=DISTRITO, no a secciones ausentes.",
+    "Persisten dos solapamientos geométricos oficiales mayores que el máximo contractual de 1 m²; las fuentes oficiales alternativas consultadas no los corrigen."
+  ]
 }
