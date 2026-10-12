@@ -32,12 +32,18 @@ class CongressInstitutionalPolicyCandidateTests(unittest.TestCase):
         ))
         self.assertEqual(self.proposal["exception_registry"]["approved_cases"], [])
 
-    def test_live_contract_still_waits_for_seven_owner_decisions(self):
+    def test_owner_approval_is_separate_from_historical_proposal_snapshot(self):
         self.assertEqual(self.contract["k_decision"]["total"], 407)
         self.assertEqual(self.contract["k_decision"]["status"], "APPROVED_BY_OWNER")
         self.assertFalse(self.contract["accreditation"]["generation_authorized"])
+        acta = json.loads((DOCS / "ACTA_APROBACION.json").read_text())
+        self.assertEqual(acta["status"], "APPROVED_BY_OWNER")
+        self.assertEqual(set(acta["approved_rules"]), REQUIRED)
+        self.assertEqual(self.proposal["status"], "NOT_APPROVED")  # immutable proposal stage
+        self.assertEqual(acta["proposal_snapshot_status"], "NOT_APPROVED")
         self.assertTrue(all(
-            self.contract["decisions"][name]["status"] == "WAIT_OWNER"
+            self.contract["decisions"][name]["status"] == "APPROVED"
+            and self.contract["decisions"][name]["decision_id"] == acta["decision_id"]
             for name in REQUIRED
         ))
 
