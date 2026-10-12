@@ -1,12 +1,12 @@
 """
 Nombre: compatibilidad población-seccionado interanual
-Versión: 1.1.0
+Versión: 1.2.0
 Fecha: 2026-10-12
 Alcance: Fuentes Oficiales; conciliación local sin promoción ni redistribución.
 Estado: candidato
-Cambios: distingue intersección interior de contacto; contabiliza población retenida.
-Motivo: reproducir cambios oficiales F10 sin atribuir población por área o código.
-Anterior: legacy/herramientas/compatibilidad_poblacion_seccionado_pre_F10_interanual_20261012.py
+Cambios: asigna sumas sólo en fusiones geométricas exactas y trazables.
+Motivo: conservar población al agregarse secciones oficiales en un único destino.
+Anterior: legacy/herramientas/compatibilidad_poblacion_seccionado_v1.1.0_pre_fusion_exacta_20261012.py
 """
 from __future__ import annotations
 
@@ -852,6 +852,7 @@ def reconcile_population_sectioning(
                     "target_keys": sorted(candidates),
                     "kind": "SPLIT",
                     "evidence": "geometric_union_after_crs_normalization",
+                    "geometric_union_exact": True,
                 })
 
         for target_key in unmatched_target:
@@ -865,6 +866,7 @@ def reconcile_population_sectioning(
                     "target_keys": [target_key],
                     "kind": "FUSION",
                     "evidence": "geometric_union_after_crs_normalization",
+                    "geometric_union_exact": True,
                 })
 
         # Un cambio de código con igualdad exacta puede resolver una aparente
@@ -874,8 +876,6 @@ def reconcile_population_sectioning(
             if row["source_keys"][0] not in mapped_source
             or row["target_keys"][0] not in mapped_target
         ]
-        if any(r["kind"] in {"SPLIT", "FUSION"} for r in correspondences):
-            causes.append("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE")
         if geometric_changes:
             causes.append("SAME_CODE_BOUNDARY_CHANGED")
 
@@ -883,17 +883,54 @@ def reconcile_population_sectioning(
         r for r in correspondences
         if len(r["source_keys"]) == 1 and len(r["target_keys"]) == 1
     ]
+    exact_fusions = [
+        r for r in correspondences
+        if r.get("kind") == "FUSION"
+        and r.get("evidence") == "geometric_union_after_crs_normalization"
+        and r.get("geometric_union_exact") is True
+        and len(r["source_keys"]) > 1
+        and len(r["target_keys"]) == 1
+        and all(source in populations for source in r["source_keys"])
+        and len({key[:5] for key in r["source_keys"] + r["target_keys"]}) == 1
+    ]
+    for row in correspondences:
+        if row.get("kind") == "FUSION":
+            row["source_population_total"] = sum(
+                populations.get(source_key, 0) for source_key in row["source_keys"]
+            )
+            row["population_assignment"] = (
+                "SUM_OF_EXACT_GEOMETRIC_FUSION" if row in exact_fusions
+                else "NOT_ACCREDITED"
+            )
     assignment: dict[str, int] = {}
     source_to_target: dict[str, str] = {}
-    for row in one_to_one:
-        source_key = row["source_keys"][0]
+    for row in one_to_one + exact_fusions:
         target_key = row["target_keys"][0]
-        if source_key in populations:
+        source_keys = row["source_keys"]
+        if any(source_key in source_to_target for source_key in source_keys):
+            causes.append("DUPLICATE_SOURCE_ASSIGNMENT")
+            continue
+        if row in exact_fusions:
             if target_key in assignment:
                 causes.append("DUPLICATE_TARGET_ASSIGNMENT")
-            else:
-                assignment[target_key] = populations[source_key]
-                source_to_target[source_key] = target_key
+                continue
+            assignment[target_key] = sum(populations[source_key] for source_key in source_keys)
+        elif target_key in assignment:
+            causes.append("DUPLICATE_TARGET_ASSIGNMENT")
+            continue
+        else:
+            assignment[target_key] = populations[source_keys[0]]
+        for source_key in source_keys:
+            source_to_target[source_key] = target_key
+        if row in exact_fusions:
+            mapped_source.update(source_keys)
+            mapped_target.add(target_key)
+
+    if any(row.get("kind") == "SPLIT" for row in correspondences) or any(
+        row.get("kind") == "FUSION" and row not in exact_fusions
+        for row in correspondences
+    ):
+        causes.append("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE")
 
     population_without_destination = sorted(set(populations) - set(source_to_target))
     geometry_without_population = sorted(set(target) - set(assignment))
@@ -914,9 +951,7 @@ def reconcile_population_sectioning(
         causes.append("POPULATION_TOTAL_NOT_CONSERVED")
 
     if population_year != section_year:
-        mapped_one_source = {r["source_keys"][0] for r in one_to_one}
-        mapped_one_target = {r["target_keys"][0] for r in one_to_one}
-        if sorted(set(origin) - mapped_one_source) or sorted(set(target) - mapped_one_target):
+        if sorted(set(origin) - set(source_to_target)) or sorted(set(target) - set(assignment)):
             causes.append("UNACCREDITED_SECTIONING_CHANGE")
 
     if population_year != section_year and geometry_audits is not None:
