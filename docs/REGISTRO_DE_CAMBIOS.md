@@ -479,3 +479,16 @@ Las regresiones reales y el replay de adquisiciones existentes mantienen bloquea
 ## 2026-10-12 — Fuentes nacionales INE 2025/2025
 
 Se materializa una pareja poblacional y geométrica de sección censal por CUSEC exacto, desde ZIP protegidos y N07. El manifiesto conserva hashes de entradas y salidas, procedencia, filtros y entorno; la reproducción independiente acredita 36.554 secciones, 52 circunscripciones y 49.128.297 habitantes con conciliación provincial/nacional exacta. El contrato de Nacional registra las fuentes con acreditación técnica, pero mantiene `CANDIDATO_WAIT_OWNER`, decisiones/K/cuotas pendientes y generación deshabilitada. No se altera la acreditación institucional ni se generan distritos.
+
+
+## 2026-10-12 — A2 / M05 v7.8.4 — estrategia autónoma privada experimental
+
+Se integra `private_annealing` como opción explícita de M05. El reparador
+monotónico y sus valores predeterminados no cambian; la estrategia privada
+permanece desactivada por defecto. La búsqueda usa staging y solo promueve una
+candidata tras superar la validación final. Se reconstruyen los atributos y el
+informe de población finales y se protegen las salidas previas ante rechazo o
+error. C-01 emite `UNSUPPORTED` para esta estrategia, cuya semilla anidada no
+varía en el auditor. Los runs reproducibles de Madrid constituyen evidencia
+experimental, no certificación territorial. Este cambio no activa Madrid, no
+certifica el Motor Nacional y no habilita A3.

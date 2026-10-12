@@ -45,6 +45,43 @@ class SeedRobustnessAudit(unittest.TestCase):
         self.assertEqual(decision, "FAIL")
         self.assertIn("menos del 95 %", reasons[0])
 
+    def test_private_annealing_audit_is_unsupported_and_overwrites_stale_pass(self):
+        import json
+        import sys
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+        import yaml
+        from herramientas import auditar_robustez_semillas as audit
+
+        with tempfile.TemporaryDirectory() as dirname:
+            directory = Path(dirname)
+            config = directory / "params.yaml"
+            config.write_text(yaml.safe_dump({
+                "modulos": {"modulo_05_optimizar_distritos": {
+                    "id_field": "CUSEC_KEY",
+                    "population_repair": {"enabled": True, "strategy": "private_annealing"},
+                }}
+            }), encoding="utf-8")
+            output = directory / "out"
+            output.mkdir()
+            evidence = output / "EVIDENCIA_C01.json"
+            evidence.write_text('{"decision":"PASS"}', encoding="utf-8")
+            argv = ["auditar_robustez_semillas.py", "--params", str(config),
+                    "--graph", str(directory / "not_needed.json"),
+                    "--initial", str(directory / "not_needed.zip"),
+                    "--output-dir", str(output), "--samples", "50"]
+            with patch.object(sys, "argv", argv), self.assertRaises(SystemExit) as ctx:
+                audit.main()
+            self.assertIn("UNSUPPORTED", str(ctx.exception))
+            data = json.loads(evidence.read_text(encoding="utf-8"))
+            self.assertEqual(data["decision"], "UNSUPPORTED")
+            self.assertFalse(data["supported"])
+
+    def test_disabled_private_annealing_does_not_trip_guard(self):
+        # Existing C-01 behavior remains available when the private strategy is off.
+        self.assertEqual(len(seed_list(50, 4629)), 50)
+
 
 if __name__ == "__main__":
     unittest.main()
