@@ -2,6 +2,8 @@
 
 ## Alcance del cambio
 
+Actualiza el contrato documental M05 a v1.4.3 para identificar el wrapper activo v7.8.4 y preservar como predecesor v1.4.2 en `legacy/`. La estrategia autónoma se describe como experimental y privada; no modifica ni activa el comportamiento predeterminado.
+
 Integra `private_annealing` con aceptación atómica y validación oficial. R1
 reconstruye estados y poblaciones desde las asignaciones finales; R2 dirige al
 staging las salidas configurables de M06, incluido su diagnóstico, y preserva
