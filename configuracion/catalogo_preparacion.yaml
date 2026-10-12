@@ -1,8 +1,8 @@
-# VERSIÓN: 1.1.2 — Preservación del linaje activo de Extremadura
-# FECHA: 2026-10-11; ESTADO: candidato
-# ALCANCE: catálogo de preparación; CAMBIOS: receipt F10 queda como evidencia no promovida
-# MOTIVO: no sustituir la fuente del producto territorial M06; ORIGEN: revisión Work de PR #238
-# ANTERIOR: legacy/configuracion/catalogo_preparacion_v1.1.1_F10_extremadura_20261011.yaml
+# VERSIÓN: 1.1.3 — Registro independiente del receipt F10 de Extremadura
+# FECHA: 2026-10-12; ESTADO: candidato
+# ALCANCE: catálogo de preparación; CAMBIOS: fuente independiente #179, no promovida
+# MOTIVO: consumir receipt auténtico sin reemplazar la evidencia que sustenta M06
+# ANTERIOR: legacy/configuracion/catalogo_preparacion_v1.1.2_pre_independent_extremadura_20261012.yaml
 schema: ddd-preparation-catalog/1.1
 default_edition: '2025'
 territories:
@@ -369,6 +369,21 @@ territories:
         artifact_name: ddd-source-package-extremadura-2025-35755043806
         artifact_sha256: fd7632e9af10d0584c5d5a9b8d1e3c173f5b0002695e95242566710fe61b9347
         package_sha256: edd43c6e3589825100d73dd9ecb5af054cf65b3013987616afe5b901f1affb07
+      independent_source_evidence:
+        status: AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED
+        promoted: false
+        receipt_path: territorios/extremadura/evidencia/fuentes_territoriales/2025/70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084/38091144559/receipt.json
+        run_id: 38091144559
+        artifact_name: ddd-source-package-extremadura-2025-38091144559
+        artifact_sha256: b4241708cbc7eb1fcf3dd7b6298152392731975106bbddaf6d8ae03bc3fcd8dc
+        package_sha256: 5f55db978522cc3fe5c32cbe25e61005a3e30823acab1ff10b3fe2a824f21b0a
+        source_commit: 776006e62ebd80ec5e6f51c89123e56649cc3790
+        population_year: 2025
+        section_year: 2025
+        territorial_identity_sha256: 70d7a964b7b837555ce03d5874c5fa04a74a80d5d724947b89fa9107684fd084
+        compatibility_report_member: compatibilidad_poblacion_seccionado.json
+        compatibility_report_sha256: a45c3ff9833d9898c56f177180731fd07b52e6dadeb3d3e937a510eaa1664346
+        compatibility_identity_sha256: cccf94fe04269dc88a5b187bd99ab90c68010619f9b1e6c25319f4b4820d1959
       evidence:
         territorial_product: territorios/extremadura/evidencia/catalogo/territorial_product_2025.json
 - territory_id: galicia
