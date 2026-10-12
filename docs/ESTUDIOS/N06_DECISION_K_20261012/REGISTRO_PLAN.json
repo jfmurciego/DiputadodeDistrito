@@ -1,0 +1,9 @@
+{
+  "event_id": "83db5b4c8f90774c9beae06a2e6b551624b0afc1c6668e7508141d03ffbfff0f",
+  "plan": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-vivo-20261011",
+  "state_sha256": "7047102821fc321822bdcba0438abd94c7b0622571b189b6304b6dbd4cab50f6",
+  "ledger_prefix_sha256": "532eca4832806790369ecc8024e729ee3e864e836ace0a10bae4e3939d398d97",
+  "ledger_prefix_preserved": true,
+  "formal_status": "PASS",
+  "institutional_status": "APPROVED_BY_OWNER"
+}

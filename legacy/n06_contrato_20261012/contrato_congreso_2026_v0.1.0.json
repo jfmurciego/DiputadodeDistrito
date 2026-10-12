@@ -1,0 +1,340 @@
+{
+  "metadata": {
+    "version": "0.1.0",
+    "name": "Contrato DDD del Congreso para 52 circunscripciones",
+    "date": "2026-10-11",
+    "scope": "candidato nacional; admisión estructural y especificación, sin generación",
+    "status": "CANDIDATO_WAIT_OWNER",
+    "changes": "identidad congreso, universo cerrado y barreras de admisión 52/19",
+    "reason": "establecer contrato nacional autónomo y no reutilizar el gestor de 19 ámbitos",
+    "origin": "incremento local de campaña; sin predecesor"
+  },
+  "schema": "ddd.congress-contract/0.1",
+  "execution_identity": "congreso",
+  "territory_id": "espana_congreso",
+  "scope": "congreso",
+  "metadata_scope": "national",
+  "orchestrator": "congress_contract_validator",
+  "circumscriptions": [
+    {
+      "code": "01",
+      "class": "province"
+    },
+    {
+      "code": "02",
+      "class": "province"
+    },
+    {
+      "code": "03",
+      "class": "province"
+    },
+    {
+      "code": "04",
+      "class": "province"
+    },
+    {
+      "code": "05",
+      "class": "province"
+    },
+    {
+      "code": "06",
+      "class": "province"
+    },
+    {
+      "code": "07",
+      "class": "province"
+    },
+    {
+      "code": "08",
+      "class": "province"
+    },
+    {
+      "code": "09",
+      "class": "province"
+    },
+    {
+      "code": "10",
+      "class": "province"
+    },
+    {
+      "code": "11",
+      "class": "province"
+    },
+    {
+      "code": "12",
+      "class": "province"
+    },
+    {
+      "code": "13",
+      "class": "province"
+    },
+    {
+      "code": "14",
+      "class": "province"
+    },
+    {
+      "code": "15",
+      "class": "province"
+    },
+    {
+      "code": "16",
+      "class": "province"
+    },
+    {
+      "code": "17",
+      "class": "province"
+    },
+    {
+      "code": "18",
+      "class": "province"
+    },
+    {
+      "code": "19",
+      "class": "province"
+    },
+    {
+      "code": "20",
+      "class": "province"
+    },
+    {
+      "code": "21",
+      "class": "province"
+    },
+    {
+      "code": "22",
+      "class": "province"
+    },
+    {
+      "code": "23",
+      "class": "province"
+    },
+    {
+      "code": "24",
+      "class": "province"
+    },
+    {
+      "code": "25",
+      "class": "province"
+    },
+    {
+      "code": "26",
+      "class": "province"
+    },
+    {
+      "code": "27",
+      "class": "province"
+    },
+    {
+      "code": "28",
+      "class": "province"
+    },
+    {
+      "code": "29",
+      "class": "province"
+    },
+    {
+      "code": "30",
+      "class": "province"
+    },
+    {
+      "code": "31",
+      "class": "province"
+    },
+    {
+      "code": "32",
+      "class": "province"
+    },
+    {
+      "code": "33",
+      "class": "province"
+    },
+    {
+      "code": "34",
+      "class": "province"
+    },
+    {
+      "code": "35",
+      "class": "province"
+    },
+    {
+      "code": "36",
+      "class": "province"
+    },
+    {
+      "code": "37",
+      "class": "province"
+    },
+    {
+      "code": "38",
+      "class": "province"
+    },
+    {
+      "code": "39",
+      "class": "province"
+    },
+    {
+      "code": "40",
+      "class": "province"
+    },
+    {
+      "code": "41",
+      "class": "province"
+    },
+    {
+      "code": "42",
+      "class": "province"
+    },
+    {
+      "code": "43",
+      "class": "province"
+    },
+    {
+      "code": "44",
+      "class": "province"
+    },
+    {
+      "code": "45",
+      "class": "province"
+    },
+    {
+      "code": "46",
+      "class": "province"
+    },
+    {
+      "code": "47",
+      "class": "province"
+    },
+    {
+      "code": "48",
+      "class": "province"
+    },
+    {
+      "code": "49",
+      "class": "province"
+    },
+    {
+      "code": "50",
+      "class": "province"
+    },
+    {
+      "code": "51",
+      "class": "autonomous_city"
+    },
+    {
+      "code": "52",
+      "class": "autonomous_city"
+    }
+  ],
+  "minimum_unit": {
+    "status": "WAIT_OWNER",
+    "value": null,
+    "candidate": "sección censal con clave estable, sujeta a edición/cobertura y decisión previa"
+  },
+  "sources": {
+    "geometry": null,
+    "population": null
+  },
+  "population_reference": {
+    "status": "WAIT_OWNER",
+    "edition": null,
+    "year": null,
+    "alignment_rule": "la geometría y población deben compartir unidad compatible y cobertura 52/52"
+  },
+  "barriers": {
+    "province_circumscription": "hard",
+    "ceuta_melilla_separate": true,
+    "cross_circumscription_edges": false,
+    "basis": "invariante del contrato del Congreso"
+  },
+  "decisions": {
+    "minimum_unit": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "population_reference": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "contiguity": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "population_limits": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "municipal_indivisibility": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "islands": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "enclaves": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "physical_discontinuities": {
+      "status": "WAIT_OWNER",
+      "value": null
+    }
+  },
+  "k_decision": {
+    "status": "WAIT_OWNER",
+    "total": null,
+    "source_scope": null,
+    "decision_id": null,
+    "quota_method": null
+  },
+  "quotas_by_circumscription": null,
+  "k_alternatives": {
+    "legal_reference": {
+      "total_seats": 350,
+      "meaning": "escaños parlamentarios legales del Congreso según LOREG; no es K DDD sin decisión expresa",
+      "not_selected": true
+    },
+    "constitutional_range": [
+      300,
+      400
+    ],
+    "project_precedent": {
+      "observed_historical_map_district_count": 391,
+      "discrepancy_392_391": "La documentación de cierre registra incidencia 392/391 sin fuente que permita resolverla; no inferir su causa ni tomarla como regla de K.",
+      "accredited": false
+    },
+    "analytical_scenarios_not_decisions": [
+      {
+        "k": 383,
+        "label": "inferior provincial"
+      },
+      {
+        "k": 407,
+        "label": "más próximo provincial"
+      },
+      {
+        "k": 409,
+        "label": "Hamilton global derivado"
+      },
+      {
+        "k": 435,
+        "label": "superior provincial"
+      },
+      {
+        "k": 409,
+        "label": "mínimos de referencia con K derivado"
+      }
+    ]
+  },
+  "accreditation": {
+    "circumscription_accreditation": false,
+    "generation_authorized": false
+  },
+  "reproducibility": {
+    "required": true,
+    "inputs_sha256_required": true,
+    "manifest_required": true,
+    "fixed_environment_required": true,
+    "synthetic_pilot_only": true
+  }
+}

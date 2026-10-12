@@ -1,0 +1,32 @@
+{
+  "schema": "ddd.owner-decision/1.0",
+  "version": "1.0.0",
+  "decision_id": "N06-OWNER-20261012-K",
+  "date": "2026-10-12",
+  "authority": "propietario",
+  "director": "Work",
+  "status": "APPROVED_BY_OWNER",
+  "source": "Instrucción expresa del propietario en esta sesión: N06 APROBADO INSTITUCIONALMENTE EL 12-10-2026",
+  "foundation": "mónada electoral y representación política directa del elector",
+  "target_population": 120000,
+  "reference_year": 2025,
+  "formula": "K_i = max(1, (P_i + 60000) // 120000)",
+  "rounding": "nearest; ties upward",
+  "k_reference_result": 407,
+  "k_is_constant": false,
+  "origin_units": 52,
+  "origin_definition": "50 provincias, Ceuta y Melilla",
+  "electoral_circumscriptions": "407 distritos uninominales resultantes para 2025",
+  "province_boundaries": "infranqueables",
+  "population_exceptions": {
+    "42": 1,
+    "51": 1,
+    "52": 1
+  },
+  "physical_singularities": "islas, enclaves y discontinuidades necesitan tratamiento específico acreditado",
+  "loreg_350_is_constraint": false,
+  "generation_authorized": false,
+  "table_sha256": "0eb6f228f1ccf53830f630ff12446dd2ecccd55e72f6588b488a846b7dac6f7d",
+  "supersedes_status": "WAIT_OWNER del expediente histórico corregido, sin reescribirlo",
+  "origin": "mandato institucional nuevo; no amplía aprobación a minimax, umbrales, disciplina municipal o excepciones nominales"
+}
