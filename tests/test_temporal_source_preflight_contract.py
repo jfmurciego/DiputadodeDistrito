@@ -137,13 +137,13 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             for row in matrix["territories"]
         ]
         expected = [
-            ("andalucia", 2025, 2026),
-            ("aragon", 2025, 2026),
+            ("andalucia", 2025, 2025),
+            ("aragon", 2025, 2025),
             ("principado_de_asturias", 2023, 2023),
             ("illes_balears", 2023, 2023),
             ("canarias", 2023, 2023),
             ("cantabria", 2023, 2023),
-            ("castilla_y_leon", 2025, 2026),
+            ("castilla_y_leon", 2025, 2025),
             ("castilla_la_mancha", 2023, 2023),
             ("cataluna", 2024, 2024),
             ("comunidad_valenciana", 2023, 2023),
@@ -158,7 +158,7 @@ class TemporalSourcePreflightContractTests(unittest.TestCase):
             ("melilla", 2023, 2023),
         ]
         self.assertEqual(observed, expected)
-        self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 1)
+        self.assertEqual(sum(pair[1:] == (2025, 2025) for pair in observed), 4)
 
     def test_config_separates_edition_population_and_section_years(self):
         with tempfile.TemporaryDirectory() as td:

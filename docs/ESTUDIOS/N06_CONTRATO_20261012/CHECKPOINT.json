@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-12",
+  "scope": "Congreso; candidato local sin integraci\u00f3n",
+  "base": "d0e4624f85e2ac7cee58ce35638cc1f6dc7c1b6f",
+  "decision_id": "N06-OWNER-20261012-K",
+  "generation_authorized": false,
+  "remote_updated": false,
+  "N08": "BLOCKED",
+  "tests": "logs anexos; CI remota pendiente",
+  "predecessors": "legacy/n06_contrato_20261012",
+  "autonomous_contracts_changed": false
+}
