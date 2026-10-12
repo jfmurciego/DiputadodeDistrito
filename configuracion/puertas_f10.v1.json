@@ -15,62 +15,122 @@
     "status": "PENDING",
     "authority_class": "owner_reserved",
     "reserved": true,
-    "depends_on": ["F09"]
+    "depends_on": [
+      "F09"
+    ]
   },
-  "doors": ["territorial_acquisition", "electoral_admissibility", "joint_admissibility", "production"],
+  "doors": [
+    "territorial_acquisition",
+    "electoral_admissibility",
+    "joint_admissibility",
+    "production"
+  ],
   "activities": [
     {
       "id": "F10-AND-CROSSWALK-2025-2026",
       "territory_id": "andalucia",
       "action": "research_official_2025_2026_crosswalk",
-      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "requires": [
+        {
+          "door": "territorial_acquisition",
+          "state": "CLOSED"
+        }
+      ],
       "does_not_require_global_f10_closed": true,
       "authorization_class": "local_read_only",
-      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "required_actions": [
+        "investigation",
+        "diagnostics",
+        "preserve_evidence"
+      ],
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
-      "task_spec_registered": false
+      "task_spec_registered": true,
+      "task_spec_path": "configuracion/f10_auto_tareas.json#F10-AND-CROSSWALK-2025-2026",
+      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
     },
     {
       "id": "F10-ARA-CROSSWALK-2025-2026",
       "territory_id": "aragon",
       "action": "research_official_2025_2026_crosswalk",
-      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "requires": [
+        {
+          "door": "territorial_acquisition",
+          "state": "CLOSED"
+        }
+      ],
       "does_not_require_global_f10_closed": true,
       "authorization_class": "local_read_only",
-      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "required_actions": [
+        "investigation",
+        "diagnostics",
+        "preserve_evidence"
+      ],
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
-      "task_spec_registered": false
+      "task_spec_registered": true,
+      "task_spec_path": "configuracion/f10_auto_tareas.json#F10-ARA-CROSSWALK-2025-2026",
+      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
     },
     {
       "id": "F10-CYL-CROSSWALK-2025-2026",
       "territory_id": "castilla_y_leon",
       "action": "research_official_2025_2026_crosswalk",
-      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "requires": [
+        {
+          "door": "territorial_acquisition",
+          "state": "CLOSED"
+        }
+      ],
       "does_not_require_global_f10_closed": true,
       "authorization_class": "local_read_only",
-      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "required_actions": [
+        "investigation",
+        "diagnostics",
+        "preserve_evidence"
+      ],
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
-      "task_spec_registered": false
+      "task_spec_registered": true,
+      "task_spec_path": "configuracion/f10_auto_tareas.json#F10-CYL-CROSSWALK-2025-2026",
+      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
     },
     {
       "id": "F10-EXT-ELECTORAL-SOURCE",
       "territory_id": "extremadura",
       "action": "research_definitive_granular_election_source",
-      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "requires": [
+        {
+          "door": "territorial_acquisition",
+          "state": "CLOSED"
+        }
+      ],
       "does_not_require_global_f10_closed": true,
       "authorization_class": "local_read_only",
-      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "required_actions": [
+        "investigation",
+        "diagnostics",
+        "preserve_evidence"
+      ],
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
-      "task_spec_registered": false
+      "task_spec_registered": true,
+      "task_spec_path": "configuracion/f10_auto_tareas.json#F10-EXT-ELECTORAL-SOURCE",
+      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
     },
     {
       "id": "F10-CV-2023-SOURCE-RESOLUTION",
       "territory_id": "comunidad_valenciana",
       "action": "resolve_2023_population_geometry_blocker",
-      "requires": [{"door": "territorial_acquisition", "state": "BLOCKED"}],
+      "requires": [
+        {
+          "door": "territorial_acquisition",
+          "state": "BLOCKED"
+        }
+      ],
       "does_not_require_global_f10_closed": true,
       "authorization_class": "local_read_only",
-      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "required_actions": [
+        "investigation",
+        "diagnostics",
+        "preserve_evidence"
+      ],
       "scope": "only materially new official evidence; no equivalent repeated tests, no boundary edits, no zero imputation, no production",
       "task_spec_registered": false,
       "wait_reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
@@ -78,6 +138,12 @@
   ],
   "production": {
     "authorized": false,
-    "blocked_actions": ["00", "M01-M08", "campaigns", "generation", "publication"]
+    "blocked_actions": [
+      "00",
+      "M01-M08",
+      "campaigns",
+      "generation",
+      "publication"
+    ]
   }
 }

@@ -9,6 +9,7 @@ from pathlib import Path
 from unittest import mock
 
 from herramientas.estado_derivado_f10 import (
+    _validate_activity_cards,
     check_territorial_evidence,
     derive_f10,
     replay_snapshots,
@@ -107,7 +108,24 @@ class F10DerivedDoorsTests(unittest.TestCase):
                           "reserved": True, "depends_on": ["F09"]}, PLAN_OVERLAY["formal_task_preserved"])
         self.assertFalse(PLAN_OVERLAY["production"]["authorized"])
         self.assertTrue(all(row["does_not_require_global_f10_closed"] for row in PLAN_OVERLAY["activities"]))
-        self.assertTrue(all(row["task_spec_registered"] is False for row in PLAN_OVERLAY["activities"]))
+        registered = [row for row in PLAN_OVERLAY["activities"] if row["task_spec_registered"]]
+        self.assertEqual(4, len(registered))
+        self.assertTrue(all(row["task_spec_path"].startswith("configuracion/f10_auto_tareas.json#")
+                            for row in registered))
+        self.assertEqual(64, len({row["task_spec_sha256"] for row in registered}.pop()))
+        self.assertFalse(PLAN_OVERLAY["activities"][-1]["task_spec_registered"])
+
+    def test_registered_cards_are_hash_pinned_and_bad_reference_blocks_only_that_activity(self):
+        checked = _validate_activity_cards(ROOT, PLAN_OVERLAY["activities"])
+        self.assertEqual([], [row for row in checked if row.get("task_spec_error")])
+        broken = copy.deepcopy(PLAN_OVERLAY["activities"])
+        broken[0]["task_spec_sha256"] = "0" * 64
+        checked = _validate_activity_cards(ROOT, broken)
+        self.assertIn("hash de ficha distinto", checked[0]["task_spec_error"])
+        rows = copy.deepcopy(self.projection["territories"])
+        work = {row["territory_id"]: row for row in work_items_for(rows, AUTHORIZATIONS, checked)}
+        self.assertEqual("WAIT_OWNER", work["andalucia"]["state"])
+        self.assertEqual("READY_LOCAL", work["aragon"]["state"])
 
     def test_blocked_territory_does_not_block_independent_work_item(self):
         rows = copy.deepcopy(self.projection["territories"])
