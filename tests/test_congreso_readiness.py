@@ -28,7 +28,7 @@ class CongressThreeGatesTests(unittest.TestCase):
             ("10", 411, 388190, 3, 1125),
         )
         self.assertEqual(province["input_status"], "PASS_INPUTS_ONLY")
-        self.assertEqual(province["policy_status"], "BLOCKED")
+        self.assertEqual(province["policy_status"], "POLICY_DECLARED")
         self.assertFalse(province["structural_feasibility_proven"])
         self.assertEqual(gates["national"]["status"], "BLOCKED")
         self.assertIn("CIRCUMSCRIPTION_COVERAGE_NOT_ACCREDITED_52_OF_52",
