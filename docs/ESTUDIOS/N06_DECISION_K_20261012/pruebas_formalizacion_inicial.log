@@ -1,0 +1,51 @@
+test_350_residual_ties_not_at_assignment_cutoff (__main__.EvidenceTests) ... ok
+test_coverage_totals_and_population (__main__.EvidenceTests) ... ok
+test_deterministic_outputs (__main__.EvidenceTests) ... ok
+test_exact_means_deviations_and_necessary_bounds (__main__.EvidenceTests) ... ok
+test_fixed_allocations_with_independent_integer_oracle (__main__.EvidenceTests) ... ok
+test_hamilton_non_monotonic_soria_is_explicit (__main__.EvidenceTests) ... ok
+test_historical_not_relabelled_as_2025_map (__main__.EvidenceTests) ... ok
+test_input_hashes_and_contract_remains_wait_owner (__main__.EvidenceTests) ... ok
+test_minima_and_city_fixed_one (__main__.EvidenceTests) ... ok
+test_reject_invalid_k_and_missing_coverage (__main__.EvidenceTests) ... ok
+test_three_small_circumscriptions_make_floor_impossible (__main__.EvidenceTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.211s
+
+OK
+test_52_unique_identities_and_reject_bad_inputs (__main__.CorrectionTests) ... ok
+test_allocation_against_exact_quota_and_n05 (__main__.CorrectionTests) ... ok
+test_determinism_and_preserved_artifact (__main__.CorrectionTests) ... ok
+test_explicit_exceptions_and_exact_deviations (__main__.CorrectionTests) ... ok
+test_minima_ties_and_no_fixed_legal_total (__main__.CorrectionTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.024s
+
+OK
+...EE...................................
+======================================================================
+ERROR: test_integrity_coverage_duplicates_and_conservation (tests.test_modelo_cuantitativo_nacional.INESource)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-n06-expediente/tests/test_modelo_cuantitativo_nacional.py", line 124, in test_integrity_coverage_duplicates_and_conservation
+    extract_ine(path, '0'*64, 2025)
+  File "/Users/macbookpro/Desarrollo/DDD-n06-expediente/herramientas/modelo_cuantitativo_nacional.py", line 147, in extract_ine
+    digest = hashlib.file_digest(raw_source, "sha256").hexdigest()
+AttributeError: module 'hashlib' has no attribute 'file_digest'
+
+======================================================================
+ERROR: test_selects_unique_official_aggregates (tests.test_modelo_cuantitativo_nacional.INESource)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/macbookpro/Desarrollo/DDD-n06-expediente/tests/test_modelo_cuantitativo_nacional.py", line 116, in test_selects_unique_official_aggregates
+    source = extract_ine(*self.fixture(), 2025)
+  File "/Users/macbookpro/Desarrollo/DDD-n06-expediente/herramientas/modelo_cuantitativo_nacional.py", line 147, in extract_ine
+    digest = hashlib.file_digest(raw_source, "sha256").hexdigest()
+AttributeError: module 'hashlib' has no attribute 'file_digest'
+
+----------------------------------------------------------------------
+Ran 40 tests in 6.108s
+
+FAILED (errors=2)

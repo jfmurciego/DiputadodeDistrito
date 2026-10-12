@@ -1,0 +1,69 @@
+....F................EEEE
+======================================================================
+ERROR: test_crosswalk_nacional (unittest.loader._FailedTest.test_crosswalk_nacional)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_crosswalk_nacional
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-n06-contrato-20261012/tests/test_crosswalk_nacional.py", line 11, in <module>
+    from herramientas.crosswalk_nacional import materialize, ROOT
+  File "/private/tmp/ddd-n06-contrato-20261012/herramientas/crosswalk_nacional.py", line 21, in <module>
+    from herramientas.inventariar_cartografia_historica import (
+  File "/private/tmp/ddd-n06-contrato-20261012/herramientas/inventariar_cartografia_historica.py", line 19, in <module>
+    from pyproj import CRS
+ModuleNotFoundError: No module named 'pyproj'
+
+
+======================================================================
+ERROR: test_gestor_campana_nacional (unittest.loader._FailedTest.test_gestor_campana_nacional)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_gestor_campana_nacional
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-n06-contrato-20261012/tests/test_gestor_campana_nacional.py", line 7, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'
+
+
+======================================================================
+ERROR: test_materializacion_contratos_nacionales (unittest.loader._FailedTest.test_materializacion_contratos_nacionales)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_materializacion_contratos_nacionales
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-n06-contrato-20261012/tests/test_materializacion_contratos_nacionales.py", line 17, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'
+
+
+======================================================================
+ERROR: test_catalogo_territorios_espana (unittest.loader._FailedTest.test_catalogo_territorios_espana)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_catalogo_territorios_espana
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/ddd-n06-contrato-20261012/tests/test_catalogo_territorios_espana.py", line 4, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'
+
+
+======================================================================
+FAIL: test_candidate_json_is_structural_only_and_fail_closed (tests.test_congreso_contract.CongressContractTests.test_candidate_json_is_structural_only_and_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/ddd-n06-contrato-20261012/tests/test_congreso_contract.py", line 36, in test_candidate_json_is_structural_only_and_fail_closed
+    self.assertIn("OWNER_DECISION_PENDING", blockers)
+AssertionError: 'OWNER_DECISION_PENDING' not found in ['CIRCUMSCRIPTION_COVERAGE_NOT_ACCREDITED_52_OF_52', 'DECISION_CONTIGUITY_PENDING', 'DECISION_ENCLAVES_PENDING', 'DECISION_ISLANDS_PENDING', 'DECISION_MINIMUM_UNIT_PENDING', 'DECISION_MUNICIPAL_INDIVISIBILITY_PENDING', 'DECISION_PHYSICAL_DISCONTINUITIES_PENDING', 'DECISION_POPULATION_LIMITS_PENDING', 'SOURCE_GEOMETRY_MISSING', 'SOURCE_POPULATION_MISSING']
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.078s
+
+FAILED (failures=1, errors=4)
