@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Versión: 1.1.0; nombre: Puertas derivadas F10; fecha: 2026-10-13.
+# Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
+# Estado: candidato. Cambios/motivo: impedir selección de tareas con validadores
+# incompletos o informe estructurado que no supere la validación determinista.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.0.0_20261012.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -121,7 +126,8 @@ def work_items_for(rows: list[dict[str, Any]], activity_authorizations: dict[str
         dependencies_met = bool(door_states) and all(actual_states.get(door) == state for door, state in door_states.items())
         permitted = set(activity.get("required_actions") or []) <= authorized
         # Valencia's already-exhausted local research remains parked until genuinely new evidence arrives.
-        owner_wait = bool(activity.get("wait_reason"))
+        spec_error = activity.get("task_spec_error")
+        owner_wait = bool(activity.get("wait_reason")) or bool(spec_error)
         ready = dependencies_met and permitted and not owner_wait
         work_items.append({
             "activity_id": activity["id"],
@@ -136,9 +142,11 @@ def work_items_for(rows: list[dict[str, Any]], activity_authorizations: dict[str
             "task_spec_registered": bool(activity.get("task_spec_registered")),
             "selectable": bool(activity.get("task_spec_registered")) and ready,
             "reason": (
+                str(spec_error) if spec_error else
                 "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
                 if ready else str(activity.get("wait_reason") or "La puerta de entrada no está acreditada o la clase local no cubre la acción")
             ),
+            "task_spec_error": spec_error,
         })
     return work_items
 
@@ -213,7 +221,7 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
             plan_inputs["plan_state_changed_since_overlay"] = sha256(plan_state_path)
         if sha256(plan_catalog_path) != overlay.get("catalog_sha256_at_creation"):
             plan_inputs["plan_catalog_changed_since_overlay"] = sha256(plan_catalog_path)
-        activities = overlay.get("activities") or []
+        activities = _validate_activity_cards(root, overlay.get("activities") or [])
         plan_inputs.update({
             "plan_overlay_sha256": sha256(overlay_path),
             "plan_state_sha256": sha256(plan_state_path),
@@ -372,10 +380,57 @@ def derive_f10(root_dir: Path, *, activity_authorizations: dict[str, list[str]] 
         "f10_global_reason": "Comunidad Valenciana territorial BLOCKED; el cierre de adquisición requiere decisión formal posterior.",
         "production_authorized": False,
         "catalog_validation_errors": catalog_errors,
+        "task_spec_validation_errors": [
+            {"activity_id": row["id"], "error": row["task_spec_error"]}
+            for row in activities or [] if row.get("task_spec_error")
+        ],
         "territories": rows,
         "work_items": work_items,
         "next_action_candidate": next((item for item in work_items if item["state"] == "READY_LOCAL"), None),
     }
+
+
+def _validate_activity_cards(root: Path, activities: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Verify task-card references; a tracking flag alone cannot make work executable."""
+    validated = []
+    for original in activities:
+        activity = dict(original)
+        if not activity.get("task_spec_registered"):
+            validated.append(activity)
+            continue
+        try:
+            reference = str(activity.get("task_spec_path") or "")
+            relative, separator, task_id = reference.partition("#")
+            card_path = Path(relative)
+            if not separator or card_path.is_absolute() or ".." in card_path.parts or not task_id:
+                raise ValueError("referencia de ficha inválida")
+            source = root / card_path
+            if sha256(source) != activity.get("task_spec_sha256"):
+                raise ValueError("hash de ficha distinto")
+            catalog = _json(source)
+            if catalog.get("schema") != "ddd.f10-auto-task-cards/1.0":
+                raise ValueError("schema de fichas desconocido")
+            matches = [card for card in catalog.get("cards", []) if card.get("id") == task_id]
+            if len(matches) != 1 or matches[0].get("territory_id") != activity.get("territory_id"):
+                raise ValueError("identidad de tarea/territorio distinta")
+            spec = matches[0].get("spec") or {}
+            task = matches[0].get("task") or {}
+            acceptance = matches[0].get("acceptance") or []
+            validators = spec.get("validators") or []
+            covered = {index for validator in validators for index in validator.get("covers", [])}
+            if (spec.get("work_class") != "READ_ONLY" or task.get("authority_class") != "local_read_only"
+                    or task.get("reserved") is not False or task.get("front") != "fuentes-oficiales"
+                    or task.get("depends_on") != [] or not acceptance
+                    or covered != set(range(len(acceptance))) or not validators
+                    or any(item.get("local_only") is not True or not item.get("argv") for item in validators)
+                    or not set(activity.get("required_actions", [])) <= set(spec.get("allowed_actions", []))):
+                raise ValueError("ficha excede alcance local READ_ONLY")
+            from herramientas.validar_f10_auto_task import validate as validate_card
+            validate_card(root, task_id, cards_path=card_path)
+        except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+            activity["task_spec_error"] = f"Ficha no verificable: {exc}"
+        validated.append(activity)
+    return validated
 
 
 def _git_head(root: Path) -> str | None:

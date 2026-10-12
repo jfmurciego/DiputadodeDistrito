@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.0 (metadatos explícitos; predecesor sin versión declarada)
-Fecha: 2026-10-12
+Versión: 1.0.2
+Fecha: 2026-10-13
 Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
 Estado: candidato
 Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_F10_interanual_20261012.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.1_20261013.md
 -->
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
@@ -480,6 +480,16 @@ Las regresiones reales y el replay de adquisiciones existentes mantienen bloquea
 
 Se materializa una pareja poblacional y geométrica de sección censal por CUSEC exacto, desde ZIP protegidos y N07. El manifiesto conserva hashes de entradas y salidas, procedencia, filtros y entorno; la reproducción independiente acredita 36.554 secciones, 52 circunscripciones y 49.128.297 habitantes con conciliación provincial/nacional exacta. El contrato de Nacional registra las fuentes con acreditación técnica, pero mantiene `CANDIDATO_WAIT_OWNER`, decisiones/K/cuotas pendientes y generación deshabilitada. No se altera la acreditación institucional ni se generan distritos.
 
+## 2026-10-13 — F10 — fichas locales fail-closed y validación de entregas
+
+Las cuatro fichas de investigación local solo quedan seleccionables cuando sus hashes,
+alcances READ_ONLY, acciones permitidas y cobertura de validadores coinciden con el
+contrato. El adaptador comprueba además que la entrega estructurada del ejecutor cita
+las entradas fijadas, incluye pruebas y nombra el bloqueo electoral contractual exacto. Se archivan
+los predecesores de las puertas y su derivador; las puertas territorial, electoral,
+conjunta y de producción siguen siendo independientes y la producción continúa no
+autorizada. Las pruebas usan evidencias existentes, sin campañas, consultas externas
+ni escrituras productivas.
 
 ## 2026-10-12 — A2 / M05 v7.8.4 — estrategia autónoma privada experimental
 

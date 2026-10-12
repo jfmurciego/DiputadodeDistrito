@@ -1,7 +1,12 @@
-"""Read-only F10 door projection, historical replay and fail-closed regressions."""
+"""Version: 1.1.1; name: F10 derived doors regressions; date: 2026-10-13.
+Scope: deterministic failure-closed validation of executable local task cards.
+Status: candidate. Change/reason: reject cards with incomplete coverage or stale gates.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.0_20261013.py.
+"""
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import tempfile
 import unittest
@@ -9,6 +14,7 @@ from pathlib import Path
 from unittest import mock
 
 from herramientas.estado_derivado_f10 import (
+    _validate_activity_cards,
     check_territorial_evidence,
     derive_f10,
     replay_snapshots,
@@ -107,7 +113,37 @@ class F10DerivedDoorsTests(unittest.TestCase):
                           "reserved": True, "depends_on": ["F09"]}, PLAN_OVERLAY["formal_task_preserved"])
         self.assertFalse(PLAN_OVERLAY["production"]["authorized"])
         self.assertTrue(all(row["does_not_require_global_f10_closed"] for row in PLAN_OVERLAY["activities"]))
-        self.assertTrue(all(row["task_spec_registered"] is False for row in PLAN_OVERLAY["activities"]))
+        registered = [row for row in PLAN_OVERLAY["activities"] if row["task_spec_registered"]]
+        self.assertEqual(4, len(registered))
+        self.assertTrue(all(row["task_spec_path"].startswith("configuracion/f10_auto_tareas.json#")
+                            for row in registered))
+        self.assertEqual(64, len({row["task_spec_sha256"] for row in registered}.pop()))
+        self.assertFalse(PLAN_OVERLAY["activities"][-1]["task_spec_registered"])
+
+    def test_registered_cards_are_hash_pinned_and_bad_reference_blocks_only_that_activity(self):
+        checked = _validate_activity_cards(ROOT, PLAN_OVERLAY["activities"])
+        self.assertEqual([], [row for row in checked if row.get("task_spec_error")])
+        broken = copy.deepcopy(PLAN_OVERLAY["activities"])
+        broken[0]["task_spec_sha256"] = "0" * 64
+        checked = _validate_activity_cards(ROOT, broken)
+        self.assertIn("hash de ficha distinto", checked[0]["task_spec_error"])
+        rows = copy.deepcopy(self.projection["territories"])
+        work = {row["territory_id"]: row for row in work_items_for(rows, AUTHORIZATIONS, checked)}
+        self.assertEqual("WAIT_OWNER", work["andalucia"]["state"])
+        self.assertEqual("READY_LOCAL", work["aragon"]["state"])
+
+    def test_card_without_complete_validator_coverage_is_not_selectable(self):
+        registry = json.loads((ROOT / "configuracion/f10_auto_tareas.json").read_text())
+        registry["cards"][0]["spec"]["validators"][0]["covers"] = [0]
+        with tempfile.TemporaryDirectory(dir=ROOT / "tests") as directory:
+            card_path = Path(directory) / "broken-card.json"
+            content = json.dumps(registry, ensure_ascii=False).encode()
+            card_path.write_bytes(content)
+            activities = copy.deepcopy(PLAN_OVERLAY["activities"])
+            activities[0]["task_spec_path"] = f"{card_path.relative_to(ROOT).as_posix()}#F10-AND-CROSSWALK-2025-2026"
+            activities[0]["task_spec_sha256"] = hashlib.sha256(content).hexdigest()
+            checked = _validate_activity_cards(ROOT, activities)
+            self.assertIn("ficha excede alcance", checked[0]["task_spec_error"])
 
     def test_blocked_territory_does_not_block_independent_work_item(self):
         rows = copy.deepcopy(self.projection["territories"])
