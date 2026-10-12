@@ -89,7 +89,7 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              "PROVINCIAL_IDENTITY")
     _require(summary.get("sections") == len(unit["nodes"])
              and summary.get("population") == population
-             and summary.get("physical_edges") == len(unit["edges"]),
+             and summary.get("edges") == len(unit["edges"]),
              "PROVINCIAL_SUMMARY_MISMATCH")
     _require(type(quota) is int and summary.get("k") == quota
              and quota == max(1, (population + 60000) // 120000),
@@ -107,7 +107,7 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
         blockers.append("PHYSICAL_COMPONENTS_EXCEED_K")
     if summary.get("discontinuous_municipalities"):
         blockers.append("MUNICIPAL_DISCONTINUITIES_REQUIRE_REVIEW")
-    if summary.get("secciones_multicomponente", 0):
+    if summary.get("multipart_sections_spanning_physical_components"):
         blockers.append("MULTIPART_SECTIONS_REQUIRE_REVIEW")
     return {
         "gate": "PROVINCIAL_PREFLIGHT",
