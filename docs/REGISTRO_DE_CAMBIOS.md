@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.1
+Versión: 1.0.2
 Fecha: 2026-10-13
 Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
 Estado: candidato
 Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.0_20261013.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.1_20261013.md
 -->
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
@@ -490,3 +490,15 @@ los predecesores de las puertas y su derivador; las puertas territorial, elector
 conjunta y de producción siguen siendo independientes y la producción continúa no
 autorizada. Las pruebas usan evidencias existentes, sin campañas, consultas externas
 ni escrituras productivas.
+
+## 2026-10-12 — A2 / M05 v7.8.4 — estrategia autónoma privada experimental
+
+Se integra `private_annealing` como opción explícita de M05. El reparador
+monotónico y sus valores predeterminados no cambian; la estrategia privada
+permanece desactivada por defecto. La búsqueda usa staging y solo promueve una
+candidata tras superar la validación final. Se reconstruyen los atributos y el
+informe de población finales y se protegen las salidas previas ante rechazo o
+error. C-01 emite `UNSUPPORTED` para esta estrategia, cuya semilla anidada no
+varía en el auditor. Los runs reproducibles de Madrid constituyen evidencia
+experimental, no certificación territorial. Este cambio no activa Madrid, no
+certifica el Motor Nacional y no habilita A3.
