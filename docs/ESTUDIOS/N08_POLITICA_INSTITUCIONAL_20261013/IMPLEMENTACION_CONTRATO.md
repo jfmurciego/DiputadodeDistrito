@@ -59,6 +59,19 @@ contiene un `contract_sha256` correspondiente al contrato anterior.
 contrato candidato 0.4. El expediente de Cáceres PR #256 permanece veraz para
 la versión de contrato bajo la que se ejecutó.
 
+Para comprobar íntegramente los **26 hashes históricos** se han conservado
+las copias exactas de los tres archivos que evolucionaron:
+
+- `legacy/n08_caceres_20261012/congreso_contract_v1_1.py`
+- `legacy/n08_caceres_20261012/contrato_congreso_2026_v0_3.json`
+- `legacy/n08_caceres_20261012/test_preflight_caceres_n08_v1.py`
+
+La regresión de Cáceres contrasta las rutas históricas contra estas copias,
+sin modificar los registros del manifiesto. Asimismo, las pruebas sobre la
+puerta histórica usan explícitamente el contrato antiguo para justificar
+`WAIT_OWNER` de aquel momento; la aprobación N08 nueva se prueba por
+separado, sin corregir retrospectivamente el pasado.
+
 Actualizar el contrato cambia su identidad, por lo que los validadores que
 requieran coincidencia exacta con el contrato original deben mantenerse
 fail-closed hasta que exista:
