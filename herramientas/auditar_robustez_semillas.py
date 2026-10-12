@@ -3,18 +3,18 @@
 """
 PROYECTO: Diputado de Distrito
 HERRAMIENTA: Auditoría C-01 de robustez frente a semilla
-VERSIÓN: 1.1.0
-NOMBRE DE VERSIÓN: Validez técnica separada de éxito de proceso
-FECHA: 2026-09-13
+VERSIÓN: 1.2.0
+NOMBRE DE VERSIÓN: Rechazo explícito de private_annealing en C-01
+FECHA: 2026-10-12
 ESTADO: vigente — C-01 corregido
 QUÉ HACE: ejecuta M05 con 50-200 semillas sobre un M03/M04 ya certificado,
 resume equilibrio y forma, sitúa la semilla publicada y elimina geometrías
 intermedias.
 REGLAS: no ejecuta M01-M04/M06-M08; no lee resultados electorales; no cambia
 parámetros salvo la semilla efectiva y las rutas de salida M05.
-CAMBIOS: una ejecución sólo cuenta como solución técnica si cumple tolerancia y no deja distritos fuera; el éxito del proceso se informa por separado.
-MOTIVO: el run 34778283915 terminó 50 procesos, pero sólo 15 mapas cumplieron la tolerancia; confundir ambos conceptos produjo un falso PASS.
-ANTERIOR: legacy/herramientas/auditar_robustez_semillas_v1.0.0.py
+CAMBIOS: mantiene la evaluación de estrategias soportadas y emite UNSUPPORTED antes de ejecutar procesos si private_annealing está seleccionado.
+MOTIVO: C-01 sólo varía la semilla M05 superior, no la semilla anidada de private_annealing; impedir una certificación de robustez inválida.
+ANTERIOR: legacy/herramientas/auditar_robustez_semillas_v1.1.0.py
 """
 from __future__ import annotations
 
@@ -138,9 +138,29 @@ def main() -> None:
     parser.add_argument("--canonical-seed", type=int, default=12345)
     args = parser.parse_args()
 
-    seeds = seed_list(args.samples, args.canonical_seed)
     raw_cfg = yaml.safe_load(args.params.read_text(encoding="utf-8"))
     s5 = raw_cfg["modulos"]["modulo_05_optimizar_distritos"]
+    # C-01 sólo varía la semilla M05 base, no la semilla anidada privada.
+    # Fail closed antes de lanzar procesos o permitir reutilizar un PASS previo.
+    private = s5.get("population_repair") or {}
+    if (isinstance(private, dict) and private.get("enabled") is True
+            and private.get("strategy") == "private_annealing"):
+        args.output_dir.mkdir(parents=True, exist_ok=True)
+        evidence = {
+            "schema_version": "1.0.0", "audit_finding": "C-01",
+            "strategy": "private_annealing", "decision": "UNSUPPORTED",
+            "decision_reasons": [
+                "C-01 no varía ni audita la semilla anidada private_annealing; "
+                "no puede emitir una certificación de robustez favorable"
+            ],
+            "supported": False, "requested_samples": args.samples,
+            "process_successful_samples": 0, "technically_valid_samples": 0,
+        }
+        (args.output_dir / "EVIDENCIA_C01.json").write_text(
+            json.dumps(evidence, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        raise SystemExit("C-01 UNSUPPORTED: private_annealing no está cubierta por este auditor")
+    seeds = seed_list(args.samples, args.canonical_seed)
     id_field = str(s5["id_field"])
     district_field = str(s5.get("district_field", "district_id"))
     args.output_dir.mkdir(parents=True, exist_ok=True)
