@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 from herramientas.preparar_f10_auto_cards import materialize
-from herramientas.validar_f10_auto_task import CARDS, EXPECTED, validate
+from herramientas.validar_f10_auto_task import CARDS, EXPECTED, validate, validate_executor_summary
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +23,15 @@ class F10AutoTaskCardsTests(unittest.TestCase):
                 self.assertFalse(report["network"])
                 self.assertFalse(report["production"])
                 self.assertFalse(report["promotion"])
+                if task_id == "F10-AND-CROSSWALK-2025-2026":
+                    self.assertEqual(6044, report["recomputed_checks"][0]["expected_sections"])
+                    self.assertEqual(4157539, report["recomputed_checks"][0]["official_candidate_votes"])
+                if task_id == "F10-ARA-CROSSWALK-2025-2026":
+                    self.assertEqual(608, report["recomputed_checks"][0]["result_only_votes"])
+                if task_id == "F10-CYL-CROSSWALK-2025-2026":
+                    self.assertEqual(15656, report["recomputed_checks"][0]["electoral_only_votes_sum"])
+                if task_id == "F10-EXT-ELECTORAL-SOURCE":
+                    self.assertEqual(2419, report["recomputed_checks"][0]["computed_delta"])
 
     def test_all_four_cards_are_direct_controller_extensions_and_read_only(self):
         catalog = json.loads((ROOT / CARDS).read_text())
@@ -39,6 +48,17 @@ class F10AutoTaskCardsTests(unittest.TestCase):
             self.assertEqual([], spec["prepare_dependencies"])
             self.assertEqual(len(card["acceptance"]), len(spec["validators"][0]["covers"]))
             self.assertTrue(all(v["local_only"] for v in spec["validators"]))
+
+    def test_executor_summary_must_cite_inputs_and_state_remaining_block(self):
+        catalog = json.loads((ROOT / CARDS).read_text())
+        card = next(row for row in catalog["cards"] if row["id"] == "F10-EXT-ELECTORAL-SOURCE")
+        summary = {"task": card["id"], "status": "READY_FOR_REVIEW", "criteria_verified": card["acceptance"],
+                   "evidence": [item["path"] for item in card["evidence"]], "tests": ["validator evidence hash"],
+                   "limitations": ["fuente definitiva granular permanece BLOCKED"]}
+        validate_executor_summary(card, card["id"], summary)
+        summary["evidence"] = summary["evidence"][:-1]
+        with self.assertRaisesRegex(ValueError, "no cubre criterios"):
+            validate_executor_summary(card, card["id"], summary)
 
     def test_corrupt_hash_and_temporal_identity_fail_closed(self):
         original = json.loads((ROOT / CARDS).read_text())
