@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Reconstruye filas vacías INE 65034 desde sus partes originales protegidas.
 
-La herramienta es de solo lectura. Requiere los cuatro fragmentos originales
-del ZIP y contrasta las identidades con la tabla de auditoría ya conservada.
+La herramienta no modifica fuentes de entrada. Requiere los cuatro fragmentos
+originales del ZIP y escribe su informe en la ruta explícita `--out`.
 """
 from __future__ import annotations
 
