@@ -1,0 +1,44 @@
+{
+  "schema": "ddd.f10-auto-task-validation/1.0",
+  "task": "F10-AND-CROSSWALK-2025-2026",
+  "territory_id": "andalucia",
+  "technical_result": "EVIDENCE_VERIFIED",
+  "underlying_electoral_gate": "BLOCKED_CROSSWALK_NOT_PROVEN",
+  "acceptance_count": 3,
+  "acceptance_covered": [
+    0,
+    1,
+    2
+  ],
+  "evidence": [
+    {
+      "path": "territorios/andalucia/evidencia/fuentes_electorales/2025/5f81c1412fe1234967c4702da7cc7c06e35dae61db3e14d794472044982baf7e/37150399030/receipt.json",
+      "sha256": "d768c9e328d1772c0f15915114b83f9751edb629f7abdfe815efbab0451841a8",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "configuracion/adquisiciones_electorales_especiales.yaml",
+      "sha256": "4bb2e7532d43cb688f5b7dfea09e48bc9d64a11d0d18e26fd497d16b48c4e87a",
+      "identity": "HASH_MATCH"
+    },
+    {
+      "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
+      "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    }
+  ],
+  "recomputed_checks": [
+    {
+      "source_status": "VERIFIED_OFFICIAL_FINAL",
+      "expected_sections": 6044,
+      "official_candidate_votes": 4157539,
+      "result_url": "https://www.juntadeandalucia.es/boja/2026/115/1"
+    }
+  ],
+  "executor_summary": "NOT_SUPPLIED",
+  "network": false,
+  "production": false,
+  "promotion": false
+}
