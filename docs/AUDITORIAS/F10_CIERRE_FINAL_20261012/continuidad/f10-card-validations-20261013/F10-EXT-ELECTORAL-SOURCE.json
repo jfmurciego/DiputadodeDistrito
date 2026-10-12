@@ -1,0 +1,43 @@
+{
+  "schema": "ddd.f10-auto-task-validation/1.0",
+  "task": "F10-EXT-ELECTORAL-SOURCE",
+  "territory_id": "extremadura",
+  "technical_result": "EVIDENCE_VERIFIED",
+  "underlying_electoral_gate": "BLOCKED_FINAL_GRANULAR_SOURCE",
+  "acceptance_count": 3,
+  "acceptance_covered": [
+    0,
+    1,
+    2
+  ],
+  "evidence": [
+    {
+      "path": "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json",
+      "sha256": "9de414bb0afaaafd5301f68cd1865b24fddad041a32140b1d2c6083929a667c5",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml",
+      "sha256": "14d8efff9c06de16e9db759cceeedddae2d48c8f971e0491e8bbf7a382053fc9",
+      "identity": "HASH_MATCH"
+    },
+    {
+      "path": "configuracion/contratos_minsait_provisionales.yaml",
+      "sha256": "dadb240f464c5bb5ca1641185a65edc472a730c027d52d1a649a5ceb19a82c07",
+      "identity": "HASH_MATCH"
+    }
+  ],
+  "recomputed_checks": [
+    {
+      "definitive_votes": 524837,
+      "provisional_votes": 522418,
+      "computed_delta": 2419,
+      "declared_delta": 2419
+    }
+  ],
+  "executor_summary": "NOT_SUPPLIED",
+  "network": false,
+  "production": false,
+  "promotion": false
+}
