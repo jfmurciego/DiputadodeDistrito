@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-# Versión: 1.0.0; nombre: Validador determinista de tareas F10; fecha: 2026-10-13.
+# Versión: 1.0.1; nombre: Validador determinista de tareas F10; fecha: 2026-10-13.
 # Alcance: verificar evidencias locales fijadas y entregas estructuradas READ_ONLY.
-# Estado: candidato. Cambios/motivo: validar las cuatro fichas F10 ejecutables.
-# Anterior: no existía validador de fichas F10; predecesor histórico no recuperado.
+# Estado: candidato. Cambios/motivo: exigir que la entrega nombre el bloqueo exacto
+# esperado por contrato y validar las cuatro fichas F10 ejecutables.
+# Anterior: legacy/herramientas/validar_f10_auto_task_v1.0.0_20261013.py.
 """Deterministic, offline evidence validator for executable F10 research cards."""
 from __future__ import annotations
 
@@ -64,8 +65,8 @@ def validate_executor_summary(card: dict, task_id: str, summary: dict) -> None:
             or not summary.get("tests") or not summary.get("limitations")):
         raise ValueError("Salida estructurada no cubre criterios, fuentes y limitaciones de la ficha")
     limitation_text = " ".join(summary["limitations"]).casefold()
-    if not any(word in limitation_text for word in ("bloque", "blocked", "no acredit", "no disponible")):
-        raise ValueError("La salida no declara el límite electoral pendiente")
+    if EXPECTED[task_id].casefold() not in limitation_text:
+        raise ValueError("La salida no declara el bloqueo electoral exacto esperado")
 
 
 def validate(root: Path, task_id: str, cards_path: Path = CARDS,

@@ -1,7 +1,7 @@
-"""Versión: 1.0.0; nombre: Regresiones de fichas autónomas F10; fecha: 2026-10-13.
+"""Versión: 1.0.1; nombre: Regresiones de fichas autónomas F10; fecha: 2026-10-13.
 Alcance: hashes, identidad, READ_ONLY, informes y materialización del controlador.
-Estado: candidato. Motivo: acreditar comportamiento determinista en fixtures reales.
-Anterior: no existían estas regresiones; predecesor histórico no recuperado.
+Estado: candidato. Motivo: rechazar informes que omitan el bloqueo contractual exacto.
+Anterior: legacy/tests/test_f10_auto_task_cards_v1.0.0_20261013.py.
 """
 import json
 from pathlib import Path
@@ -59,7 +59,7 @@ class F10AutoTaskCardsTests(unittest.TestCase):
         card = next(row for row in catalog["cards"] if row["id"] == "F10-EXT-ELECTORAL-SOURCE")
         summary = {"task": card["id"], "status": "READY_FOR_REVIEW", "criteria_verified": card["acceptance"],
                    "evidence": [item["path"] for item in card["evidence"]], "tests": ["validator evidence hash"],
-                   "limitations": ["fuente definitiva granular permanece BLOCKED"]}
+                   "limitations": ["BLOCKED_FINAL_GRANULAR_SOURCE: fuente definitiva granular no disponible"]}
         validate_executor_summary(card, card["id"], summary)
         summary["evidence"] = summary["evidence"][:-1]
         with self.assertRaisesRegex(ValueError, "no cubre criterios"):
@@ -75,6 +75,15 @@ class F10AutoTaskCardsTests(unittest.TestCase):
             target.write_text(json.dumps(original))
             with self.assertRaisesRegex(ValueError, "Hash de evidencia distinto"):
                 validate(ROOT, "F10-AND-CROSSWALK-2025-2026", target)
+
+    def test_executor_summary_must_name_exact_contractual_blocker(self):
+        catalog = json.loads((ROOT / CARDS).read_text())
+        card = next(row for row in catalog["cards"] if row["id"] == "F10-EXT-ELECTORAL-SOURCE")
+        summary = {"task": card["id"], "status": "READY_FOR_REVIEW", "criteria_verified": card["acceptance"],
+                   "evidence": [item["path"] for item in card["evidence"]], "tests": ["validator evidence hash"],
+                   "limitations": ["fuente definitiva granular permanece bloqueada"]}
+        with self.assertRaisesRegex(ValueError, "bloqueo electoral exacto"):
+            validate_executor_summary(card, card["id"], summary)
 
         original = json.loads((ROOT / CARDS).read_text())
         original["cards"][0]["evidence"][0]["json_equals"]["election_date"] = "2025-01-01"

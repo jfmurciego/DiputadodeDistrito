@@ -1,11 +1,11 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.0 (metadatos explícitos; predecesor sin versión declarada)
-Fecha: 2026-10-12
+Versión: 1.0.1
+Fecha: 2026-10-13
 Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
 Estado: candidato
 Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_pre_F10_interanual_20261012.md
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.0_20261013.md
 -->
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
@@ -485,7 +485,7 @@ Se materializa una pareja poblacional y geométrica de sección censal por CUSEC
 Las cuatro fichas de investigación local solo quedan seleccionables cuando sus hashes,
 alcances READ_ONLY, acciones permitidas y cobertura de validadores coinciden con el
 contrato. El adaptador comprueba además que la entrega estructurada del ejecutor cita
-las entradas fijadas, incluye pruebas y mantiene explícitos los bloqueos. Se archivan
+las entradas fijadas, incluye pruebas y nombra el bloqueo electoral contractual exacto. Se archivan
 los predecesores de las puertas y su derivador; las puertas territorial, electoral,
 conjunta y de producción siguen siendo independientes y la producción continúa no
 autorizada. Las pruebas usan evidencias existentes, sin campañas, consultas externas
