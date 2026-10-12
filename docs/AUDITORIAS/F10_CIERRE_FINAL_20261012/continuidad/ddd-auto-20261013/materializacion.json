@@ -1,0 +1,17 @@
+{
+  "schema": "ddd.f10-auto-card-materialization/1.0",
+  "cards_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a",
+  "launcher_catalog_sha256": "f9d70f4bad3617b20950714982ca66b10f6695a42f367b6de5d5c729d5b51b77",
+  "launcher_policy_sha256": "fa16e13c8e76c995e5c6366fcc275ea6e5094673b417b23c69ba95b621f273c0",
+  "plan_state_sha256": "7047102821fc321822bdcba0438abd94c7b0622571b189b6304b6dbd4cab50f6",
+  "task_ids": [
+    "F10-AND-CROSSWALK-2025-2026",
+    "F10-ARA-CROSSWALK-2025-2026",
+    "F10-CYL-CROSSWALK-2025-2026",
+    "F10-EXT-ELECTORAL-SOURCE"
+  ],
+  "controller": "existing ddd auto; invoked separately by operator",
+  "network": false,
+  "production": false,
+  "writes_to_authoritative_plan": false
+}

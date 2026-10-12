@@ -1,0 +1,55 @@
+{
+  "task": "F10-EXT-ELECTORAL-SOURCE",
+  "front": "fuentes-oficiales",
+  "dependencies": [],
+  "attempt": "/private/tmp/ddd-f10-controller-pilot-v2/runtime/auto/617edfee7a9e6e75/20261012T221337Z-2d10e586/F10-EXT-ELECTORAL-SOURCE",
+  "mode": "execute",
+  "authorization": {
+    "authority": "Work",
+    "decision": "Autorización persistente por clase concedida en esta campaña",
+    "task": "F10-EXT-ELECTORAL-SOURCE",
+    "scope": "local_prepare",
+    "plan_sha256": "5a14467c755b6cac63b697d8db9ab631a3829880ce62a05318599c8690cf4fa0",
+    "spec_sha256": "ef6d010618b90a335d48c88600861c6ce507e4acd9e8752cfb16bf3cbd252b7e",
+    "production": false,
+    "network": false,
+    "authorization_class": "local_read_only",
+    "allowed_actions": [
+      "diagnostics",
+      "investigation",
+      "preserve_evidence"
+    ],
+    "budget": {
+      "seconds": 600,
+      "max_attempts": 1
+    }
+  },
+  "repair": false,
+  "execution_repo": "/private/tmp/DDD-fuentes-oficiales",
+  "head_start": "6e94ad348ba42a6d56ccb878de78073ec7598a25",
+  "dirty_start": "",
+  "state": "BLOCKED",
+  "reason": "BUDGET_STOP: BLOCKED_BUDGET preventive admission refused",
+  "head_end": "6e94ad348ba42a6d56ccb878de78073ec7598a25",
+  "worktree_files": {
+    "configuracion/contratos_minsait_provisionales.yaml": "dadb240f464c5bb5ca1641185a65edc472a730c027d52d1a649a5ceb19a82c07",
+    "configuracion/f10_auto_tareas.json": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c",
+    "herramientas/validar_f10_auto_task.py": "20e54a734b1c87854542ebb72b8d6efad7ac715c7367a955bfed90cb34e1d7eb",
+    "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json": "9de414bb0afaaafd5301f68cd1865b24fddad041a32140b1d2c6083929a667c5",
+    "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml": "14d8efff9c06de16e9db759cceeedddae2d48c8f971e0491e8bbf7a382053fc9"
+  },
+  "worktree_metadata": {
+    "modes": {
+      "configuracion/contratos_minsait_provisionales.yaml": 420,
+      "configuracion/f10_auto_tareas.json": 420,
+      "herramientas/validar_f10_auto_task.py": 420,
+      "territorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json": 420,
+      "territorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml": 420
+    },
+    "status": "",
+    "diff": "",
+    "index": "100644 46513c8e876ab534cd45ebd90d6ec826d6683a0a 0\tconfiguracion/contratos_minsait_provisionales.yaml\n100644 4a38ea8efa7a123f196c39f4633b7daf135c348b 0\tconfiguracion/f10_auto_tareas.json\n100644 cfdafefaa8b46ad3d4fb7d901de34cc6f1e7a2c6 0\therramientas/validar_f10_auto_task.py\n100644 b7f6e9adec3d2f875e608c9de8ed497dfebec668 0\tterritorios/extremadura/config/elecciones/bloqueo_fuente_oficial_2025.json\n100644 90d75a55ba1b28d6c8f1563768a02958faf2c9c8 0\tterritorios/extremadura/config/elecciones/fuentes_oficiales_2025.yaml"
+  },
+  "changes": [],
+  "partial_delivery": "/private/tmp/ddd-f10-controller-pilot-v2/runtime/auto/617edfee7a9e6e75/20261012T221337Z-2d10e586/F10-EXT-ELECTORAL-SOURCE/failure-delivery"
+}

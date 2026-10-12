@@ -1,0 +1,197 @@
+{
+  "campaign": "20261012T221337Z-2d10e586",
+  "plan": {
+    "path": "/private/tmp/ddd-f10-controller-pilot-v2/plan",
+    "revision": "1.3.0+20261011.1",
+    "sha256": "5a14467c755b6cac63b697d8db9ab631a3829880ce62a05318599c8690cf4fa0",
+    "inconsistencies": [
+      {
+        "task": "F05",
+        "pending": [
+          "F04"
+        ]
+      },
+      {
+        "task": "F06",
+        "pending": [
+          "F04"
+        ]
+      },
+      {
+        "task": "N06",
+        "pending": [
+          "N05"
+        ]
+      }
+    ],
+    "catalog_sha256": "831ff08d0e9359845873762401466c8059787bcd3d39d9d994dbf0db571442d1",
+    "states": {
+      "F01": "PASS",
+      "F02": "PASS",
+      "F03": "PASS",
+      "F04": "PENDING",
+      "F05": "PASS",
+      "F06": "PASS",
+      "F07": "PASS",
+      "F08": "PASS",
+      "F09": "PASS",
+      "F10": "PENDING",
+      "A01": "PENDING",
+      "A02": "PENDING",
+      "A03": "PENDING",
+      "A04": "PENDING",
+      "A05": "PENDING",
+      "A06": "PENDING",
+      "A07": "PENDING",
+      "A08": "PENDING",
+      "A09": "PENDING",
+      "A10": "PENDING",
+      "N01": "PASS",
+      "N02": "PENDING",
+      "N03": "PENDING",
+      "N04": "PENDING",
+      "N05": "PENDING",
+      "N06": "PASS",
+      "N07": "PENDING",
+      "N08": "PENDING",
+      "N09": "PENDING",
+      "N10": "PENDING",
+      "A-OPT-01": "PENDING",
+      "A-OPT-02": "RUNNING",
+      "H-F-01": "PENDING",
+      "H-F-02": "PENDING",
+      "H-F-03": "PENDING",
+      "H-F-04": "PENDING",
+      "H-A-01": "PENDING",
+      "H-A-02": "PENDING",
+      "H-A-03": "PENDING",
+      "H-A-04": "PENDING",
+      "H-A-05": "PENDING",
+      "H-A-06": "PENDING",
+      "H-A-07": "PENDING",
+      "H-A-08": "PENDING",
+      "H-A-09": "PENDING",
+      "H-A-10": "PENDING",
+      "H-A-11": "PENDING",
+      "H-A-12": "PENDING",
+      "H-N-01": "PENDING",
+      "H-N-02": "PENDING",
+      "H-N-03": "PENDING",
+      "H-N-04": "PENDING",
+      "H-N-05": "PENDING",
+      "H-P-01": "PENDING",
+      "H-P-02": "PENDING",
+      "H-P-03": "PENDING",
+      "H-P-04": "PENDING",
+      "H-P-05": "PENDING",
+      "H-N-06": "PENDING",
+      "H-P-06": "PENDING",
+      "H-N-07": "PENDING",
+      "F10-AND-CROSSWALK-2025-2026": "PENDING",
+      "F10-ARA-CROSSWALK-2025-2026": "PENDING",
+      "F10-CYL-CROSSWALK-2025-2026": "PENDING",
+      "F10-EXT-ELECTORAL-SOURCE": "PENDING"
+    },
+    "unreconciled": []
+  },
+  "tasks": [
+    {
+      "task": "F10-EXT-ELECTORAL-SOURCE",
+      "state": "BLOCKED",
+      "reasons": [
+        "Intento anterior conservado; sin repetición automática"
+      ],
+      "dependencies": [],
+      "repair": false,
+      "front": "fuentes-oficiales",
+      "display_state": "BLOCKED",
+      "authorization": {
+        "authority": "Work",
+        "decision": "Autorización persistente por clase concedida en esta campaña",
+        "task": "F10-EXT-ELECTORAL-SOURCE",
+        "scope": "local_prepare",
+        "plan_sha256": "5a14467c755b6cac63b697d8db9ab631a3829880ce62a05318599c8690cf4fa0",
+        "spec_sha256": "ef6d010618b90a335d48c88600861c6ce507e4acd9e8752cfb16bf3cbd252b7e",
+        "production": false,
+        "network": false,
+        "authorization_class": "local_read_only",
+        "allowed_actions": [
+          "diagnostics",
+          "investigation",
+          "preserve_evidence"
+        ],
+        "budget": {
+          "seconds": 600,
+          "max_attempts": 1
+        }
+      },
+      "prepare_requirements": [],
+      "prepare_pending": [],
+      "gates": {
+        "prepare": false,
+        "accept": false,
+        "integrate": false,
+        "produce": false
+      },
+      "formal_dependencies_pending": [],
+      "mode": "execute"
+    }
+  ],
+  "technical_seeds": {
+    "F02": {
+      "state": "TECH_PASS",
+      "evidence": "/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales/docs/AUDITORIAS/verificacion_F02_F03_2026-10-09.json",
+      "sha256": "08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6",
+      "scope": "14 paquetes offline; no cierre formal ni generación"
+    }
+  },
+  "delivery": "BLOCKED",
+  "integration_requirements": [
+    "Work authorization",
+    "final SHA review",
+    "CI on same SHA"
+  ],
+  "production_requirements": [
+    "separate owner authorization",
+    "readiness",
+    "no automatic retry"
+  ],
+  "formal_reservations": [],
+  "production_authorized": false,
+  "preflight": {
+    "verdict": "READY_FOR_PILOT",
+    "enabled": 1,
+    "by_front": {
+      "fuentes-oficiales": [
+        "F10-EXT-ELECTORAL-SOURCE"
+      ]
+    },
+    "causes": [],
+    "real_pilot_verified": false,
+    "missing_contracts": {}
+  },
+  "morning_inbox": {
+    "counts": {
+      "BLOCKED": 1
+    },
+    "owner_decisions": {
+      "Intento anterior conservado; sin repetición automática": [
+        "F10-EXT-ELECTORAL-SOURCE"
+      ]
+    },
+    "accumulated_deliveries": [
+      {
+        "task": "F10-EXT-ELECTORAL-SOURCE",
+        "state": "BLOCKED",
+        "attempt": "/private/tmp/ddd-f10-controller-pilot-v2/runtime/auto/617edfee7a9e6e75/20261012T221337Z-2d10e586/F10-EXT-ELECTORAL-SOURCE",
+        "reason": "BUDGET_STOP: BLOCKED_BUDGET preventive admission refused"
+      }
+    ],
+    "next_enabled": [],
+    "reserved": [
+      "F10 canonical receipts/promotion",
+      "Madrid A2 official acceptance",
+      "A09/N10 integration"
+    ]
+  }
+}

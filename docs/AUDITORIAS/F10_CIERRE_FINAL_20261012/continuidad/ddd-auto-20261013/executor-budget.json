@@ -1,0 +1,16 @@
+{
+  "task": "F10-EXT-ELECTORAL-SOURCE",
+  "role": "executor",
+  "state": "BLOCKED_BUDGET",
+  "campaign_id": null,
+  "simulation": false,
+  "credit_sha256": null,
+  "available_tokens": 0,
+  "previous_reserved_tokens": 0,
+  "reserved_tokens": null,
+  "limit": 175000,
+  "reservation_id": "f5d4eb34-1494-48b0-bffb-353f8726bd0e",
+  "provider_quota": "UNKNOWN",
+  "enforcement": "local-soft-budget",
+  "reason": "Local invocation/campaign budget missing, exhausted or unresolved"
+}
