@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Consumo de fuentes acreditadas de la legislatura.
 
-Versión: 1.0.1; nombre: Acreditación antes de validar bytes; fecha: 2026-10-10.
+Versión: 1.1.0; nombre: Fuente independiente sin sustituir linaje; fecha: 2026-10-12.
 Alcance: consumidor territorial compartido; estado: candidato local F10.
-Cambios: validar el receipt durable también en la entrada de paquete efectivo.
-Motivo: un receipt local derivado obtenía READY sin acreditación de #179.
-Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_pre_F10.py
-Origen: c83f6e3f5b9d25ec12c0124e42b372e7d838031e.
+Cambios: admitir un receipt independiente marcado como auténtico y no promovido,
+         manteniendo separada la evidencia de preparación que sustenta productos existentes.
+Motivo: acreditar receipts F10 sin reemplazar linajes territoriales históricos.
+Predecesor: legacy/herramientas/consumir_par_fuentes_legislatura_v1.0.1_pre_independent_receipt_20261012.py
+Origen: origin/main@f87445f5d75a53cee17cd3bcc711854318b795ff.
 """
 from __future__ import annotations
 
@@ -50,6 +51,32 @@ def _catalog_row(root: Path, territory: str, edition: str) -> dict:
     )
 
 
+def _territorial_receipt_evidence(row: dict) -> dict | None:
+    """Resolve #179's source receipt without conflating it with product lineage.
+
+    A separately accredited F10 receipt is consumable only while explicitly marked
+    evidence-only and unpromoted. The historical preparation evidence remains intact
+    for products produced from that older source.
+    """
+    independent = row.get("independent_source_evidence")
+    if independent is not None:
+        if not isinstance(independent, dict):
+            raise PreparedPairExecutionBlock(
+                "PREPARED_TERRITORIAL_BLOCK: independent_source_evidence inválido"
+            )
+        if (
+            independent.get("status")
+            != "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED"
+            or independent.get("promoted") is not False
+        ):
+            raise PreparedPairExecutionBlock(
+                "PREPARED_TERRITORIAL_BLOCK: receipt independiente requiere evidencia auténtica no promovida"
+            )
+        return independent
+    evidence = row.get("preparation_evidence")
+    return evidence if isinstance(evidence, dict) else None
+
+
 def validate_territorial_receipt(
     *,
     root_dir: Path,
@@ -63,7 +90,7 @@ def validate_territorial_receipt(
         raise PreparedPairExecutionBlock(
             f"PREPARED_TERRITORIAL_BLOCK: fuente territorial no preparada para {row['name']} {edition}"
         )
-    evidence = row.get("preparation_evidence")
+    evidence = _territorial_receipt_evidence(row)
     if not isinstance(evidence, dict):
         raise PreparedPairExecutionBlock(
             "PREPARED_TERRITORIAL_BLOCK: falta preparation_evidence territorial"
@@ -151,8 +178,9 @@ def resolve_territorial_source(
         territory=territory,
         edition=edition,
     )
+    evidence = _territorial_receipt_evidence(row) or {}
     return {
-        "receipt_path": str((row.get("preparation_evidence") or {})["receipt_path"]),
+        "receipt_path": str(evidence["receipt_path"]),
         "territorial_source": receipt,
         "geometric_reuse": resolve_geometric_reuse(
             root_dir=root,
