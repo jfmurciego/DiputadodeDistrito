@@ -1,0 +1,8 @@
+Fecha: 2026-10-12 (Europe/Madrid)
+Base: c0b28c4b8e2f8c018acabe7064930c3164f4683f
+Entorno: ddd_aragon; Python 3.11.14; geopandas 1.1.2; GEOS 3.14.1; shapely 2.1.2
+Comando:
+/usr/local/Caskroom/miniforge/base/envs/ddd_aragon/bin/python herramientas/preflight_caceres_n08.py --province 10 --parts-dir /Users/macbookpro/Desarrollo/DiputadodeDistrito/inputs/partes --output /Users/macbookpro/Desarrollo/DDD-control/planes/N08_CACERES_20261012/preflight
+Salida:
+{"generation_authorized": false, "modules": {"M01": "PASS", "M02": "PASS", "M03": "PASS", "M04": "BLOCKED", "M05": "BLOCKED", "M06": "SYNTHETIC_CONTRACT_PASS_ONLY"}, "province": "10", "status": "BLOCKED_PENDING_OWNER_DECISIONS"}
+Se cargaron/verificaron las partes INE protegidas y la población acreditada; la puerta no reconstruyó el producto topológico nacional ni creó particiones reales.

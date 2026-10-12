@@ -1,0 +1,5 @@
+Reproducción independiente, 2026-10-12, sobre la herramienta final.
+Comando: TMPDIR=/tmp python herramientas/preflight_caceres_n08.py --province 10 --parts-dir inputs/partes --output /tmp/ddd_caceres_preflight_final3
+Exit code 0; los PREFLIGHT.json y CHECKPOINT.json de /tmp se compararon con cmp y fueron byte a byte idénticos a los del expediente.
+Estado: BLOCKED_CONTRACT_OR_OWNER_DECISIONS; M01/M02/M03 PASS; M04 BLOCKED; M05/M06 sintéticos únicamente; generation_authorized=false.
+HEAD de ejecución anterior al commit: c0b28c4b8e2f8c018acabe7064930c3164f4683f. La identidad del código se vincula por tool_sha256 en ambos artefactos.

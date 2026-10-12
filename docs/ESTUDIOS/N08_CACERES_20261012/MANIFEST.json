@@ -1,0 +1,116 @@
+{
+  "base": "c0b28c4b8e2f8c018acabe7064930c3164f4683f",
+  "date": "2026-10-12",
+  "files": {
+    "ddd_core/config.py": {
+      "bytes": 4458,
+      "sha256": "c8503114cbe5ff3ef72ef2ce4c603fdc4600376ad5466366e64ae0becc6d9a45"
+    },
+    "ddd_core/congreso_contract.py": {
+      "bytes": 15977,
+      "sha256": "de6f79732233e0b23df6479b66cf294c574c8b594ce231579fa66e393794b01a"
+    },
+    "ddd_core/congreso_preflight_adapter.py": {
+      "bytes": 11417,
+      "sha256": "13c2cb5c8e5ebc6482b676fd539f8885cb4bc66d1a478e3b9917d194546415b6"
+    },
+    "ddd_core/m04_seed_engine.py": {
+      "bytes": 21684,
+      "sha256": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627"
+    },
+    "ddd_core/m05_population_repair.py": {
+      "bytes": 35491,
+      "sha256": "1c87809aefaa015307288f1d1491815ba3bbeafd70ddef8800fad9916cc874b8"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/INFORME.md": {
+      "bytes": 4861,
+      "sha256": "b0b56bc5e2763c723d36f7f234022c6cfbd0fad9c7283cd1e9eeb84fd7a77477"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/PROCEDIMIENTO_FUTURO.md": {
+      "bytes": 1477,
+      "sha256": "664a8b0a34b1edc40741f3da8ba65b43512a94aeb7dc038b19c532c07254edae"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/REVISIONES.md": {
+      "bytes": 1526,
+      "sha256": "fd53990a4f9f81b9f8168b41fbffd26f5cb9859b6cef9985162f6293e4fc8037"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion.txt": {
+      "bytes": 850,
+      "sha256": "96186210b53d6894087801f0c76f049233e04193acc0f5065c73ae70a1ce465e"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/logs/ejecucion_final.txt": {
+      "bytes": 644,
+      "sha256": "a97c197869cb003075f8ce47732860f119ffbc2f7c62b67546eb76376b28acb4"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/logs/pruebas_finales.txt": {
+      "bytes": 511,
+      "sha256": "af405c9530c6b2ff9381f45b54b351162944facfff5bbf5d4d2da2a8ea596317"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/logs/reproduccion_final.txt": {
+      "bytes": 644,
+      "sha256": "7d41ea503b991777020cb28f396465559df84aab134c3b94928d280b9745fef0"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/preflight/CHECKPOINT.json": {
+      "bytes": 824,
+      "sha256": "03786eefd9bf4259a726bf896c56b69148d73383ed88c3422a39834ca0114eb9"
+    },
+    "docs/ESTUDIOS/N08_CACERES_20261012/preflight/PREFLIGHT.json": {
+      "bytes": 5958,
+      "sha256": "e4944cc8fa19855d8fe2aa9e40962574ae8fa87133ef63f8e095d408de1b717f"
+    },
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/manifest.json": {
+      "bytes": 53428,
+      "sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f"
+    },
+    "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/unidades/10.json.gz": {
+      "bytes": 102971,
+      "sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5"
+    },
+    "herramientas/preflight_caceres_n08.py": {
+      "bytes": 25992,
+      "sha256": "eeff555f2879f0424b71e86913f0d3725f03b50ec998168600c5a97cbf917cab"
+    },
+    "modulos/01_preparar_base_territorial.py": {
+      "bytes": 18242,
+      "sha256": "194e0946b1dd0036d67d96b4c2bbcc6abe339790a77a6aeaede0b680768e6a22"
+    },
+    "modulos/02_construir_adyacencias.py": {
+      "bytes": 9739,
+      "sha256": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c"
+    },
+    "modulos/03_construir_grafo.py": {
+      "bytes": 13466,
+      "sha256": "798dedb8c3068d16dd43fb77f68821f275da1565403f0f25e1225aebdcaac036"
+    },
+    "modulos/06_consolidar_distritos.py": {
+      "bytes": 14043,
+      "sha256": "16e61eeb6bc455756c91a1a26aa92cdc5ec8bf2a0a5974f51ee215b6fff21864"
+    },
+    "territorios/congreso/contrato_congreso_2026.json": {
+      "bytes": 11427,
+      "sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e"
+    },
+    "territorios/congreso/fuentes/ine_2025_2025/crosswalk_n07_2025.csv": {
+      "bytes": 1133206,
+      "sha256": "0ceb2cab2b7843a9ab042e5130a66762ffa958983ced91220e18d2bb38f14d54"
+    },
+    "territorios/congreso/fuentes/ine_2025_2025/manifest.json": {
+      "bytes": 10029,
+      "sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37"
+    },
+    "territorios/congreso/fuentes/ine_2025_2025/poblacion_por_seccion_2025.csv": {
+      "bytes": 1303881,
+      "sha256": "c4a22fc47f7542da0b3e1cef65ea59dc555442eda23f7f74ba4f4db7d6c4a988"
+    },
+    "tests/test_preflight_caceres_n08.py": {
+      "bytes": 5377,
+      "sha256": "5d71d18b7786057b99db3eff5184ddf2493a524edeb26366d003f20db9fca44d"
+    }
+  },
+  "generation_authorized": false,
+  "real_partition_created": false,
+  "reproduction": "PREFLIGHT y CHECKPOINT byte-identical in separate run",
+  "scope": "N08 Congreso Cáceres diagnostic; no real generation",
+  "tool_sha256": "eeff555f2879f0424b71e86913f0d3725f03b50ec998168600c5a97cbf917cab",
+  "version": "1.0.0"
+}

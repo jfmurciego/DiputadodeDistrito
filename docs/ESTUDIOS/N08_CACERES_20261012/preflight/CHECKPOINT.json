@@ -1,0 +1,21 @@
+{
+  "districts_generated": 0,
+  "generation_authorized": false,
+  "preflight_sha256": "e4944cc8fa19855d8fe2aa9e40962574ae8fa87133ef63f8e095d408de1b717f",
+  "province": "10",
+  "source_binding": {
+    "geometry": {
+      "edition": 2025,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+    },
+    "population": {
+      "edition": 2025,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+    }
+  },
+  "status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+  "tool_sha256": "eeff555f2879f0424b71e86913f0d3725f03b50ec998168600c5a97cbf917cab",
+  "topology_manifest_identity_sha256": "59e4273f49a60d0d6f522389d0cb0c43738d68faed7053381d9bbde212d266f8",
+  "topology_unit_sha256": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+  "version": "1.0.0"
+}
