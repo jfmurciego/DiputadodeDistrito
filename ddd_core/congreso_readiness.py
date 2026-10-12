@@ -62,9 +62,13 @@ def provincial_preflight(contract: dict, product_root: Path, province: str) -> d
              "PROVINCIAL_ARTIFACT_HASH")
     raw = gzip.decompress(binary)
     unit = json.loads(raw)
-    _require(_sha(raw) == artifact.get("canonical_json_sha256")
-             and raw == _canonical(unit) + b"\n"
-             and binary == gzip.compress(raw, mtime=0), "PROVINCIAL_ARTIFACT_CANONICAL")
+    _require(_sha(raw) == artifact.get("canonical_json_sha256"),
+             "PROVINCIAL_ARTIFACT_UNCOMPRESSED_HASH")
+    _require(raw == _canonical(unit) + b"\n",
+             "PROVINCIAL_ARTIFACT_CANONICAL")
+    # Do not recompress: gzip/zlib output headers and deflate streams vary by
+    # runtime. The exact published compressed bytes and decoded canonical
+    # bytes are independently authenticated by the two manifest SHA-256 values.
     _require(unit.get("run_binding") == manifest.get("run_binding"),
              "PROVINCIAL_RUN_BINDING")
 
