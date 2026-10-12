@@ -1,0 +1,22 @@
+{
+  "schema": "ddd.n08-checkpoint/1.0",
+  "version": "1.0.0",
+  "date": "2026-10-12",
+  "scope": "Congreso, diagnóstico no productivo",
+  "origin": "incremento N08 nuevo",
+  "base": "b583c52128daa85c14de9def0c9a3cb7d5f5e92e",
+  "branch": "codex/n08-topologia-nacional",
+  "status": "DIAGNOSTIC_COMPLETE_N08_BLOCKED",
+  "sections": 36554,
+  "population": 49128297,
+  "origin_units": 52,
+  "k": 407,
+  "edges": 99597,
+  "section_graph_components": 77,
+  "polygon_part_components": 397,
+  "generation_authorized": false,
+  "gates": {"A_coverage_and_edge_evidence": "PASS", "A_topological_integrity": "BLOCKED", "A_external_domain": "NOT_EVIDENCED", "B_cantabria_feasibility": "BLOCKED", "C_productive_authorization": "BLOCKED"},
+  "immutable_manifest_identity": "59e4273f49a60d0d6f522389d0cb0c43738d68faed7053381d9bbde212d266f8",
+  "next_safe_action": "Cerrar registro acreditado de Valle de Villaverde y partes de Cantabria, desagregación poblacional y dominio independiente; decisiones explícitas antes de un ensayo",
+  "forbidden": ["merge", "00", "productive_M01_M08", "district_generation", "K_change", "source_change", "autonomous_production_change", "publication"]
+}

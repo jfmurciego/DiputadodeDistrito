@@ -1,0 +1,24 @@
+.......{"CPRO": "01", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+{"CPRO": "02", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+N08_DIAGNOSTIC_COMPLETE {"sections": 2, "population": 200, "k": 2, "edges": 0, "physical_part_components": 2}
+.{"CPRO": "01", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+{"CPRO": "02", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+N08_DIAGNOSTIC_COMPLETE {"sections": 2, "population": 200, "k": 2, "edges": 0, "physical_part_components": 2}
+{"CPRO": "01", "edges": 0, "k": 1, "overlap_pairs": 0, "physical_part_components": 1, "population": 100, "section_graph_components": 1, "sections": 1}
+{"CPRO": "02", "edges": 0, "k": 1, "overlap_pairs": 0, "physical_part_components": 1, "population": 100, "section_graph_components": 1, "sections": 1}
+N08_DIAGNOSTIC_COMPLETE {"sections": 2, "population": 200, "k": 2, "edges": 0, "physical_part_components": 2}
+.{"CPRO": "01", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+{"CPRO": "02", "sections": 1, "population": 100, "k": 1, "edges": 0, "section_graph_components": 1, "physical_part_components": 1, "overlap_pairs": 0}
+N08_DIAGNOSTIC_COMPLETE {"sections": 2, "population": 200, "k": 2, "edges": 0, "physical_part_components": 2}
+{"CPRO": "01", "edges": 0, "k": 1, "overlap_pairs": 0, "physical_part_components": 1, "population": 100, "section_graph_components": 1, "sections": 1}
+....................................................................................../usr/local/Caskroom/miniforge/base/envs/ddd_aragon/lib/python3.11/site-packages/pyogrio/geopandas.py:917: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+  write(
+.........................................................................................
+----------------------------------------------------------------------
+Ran 184 tests in 12.559s
+
+OK
+[Módulo 2] OK v7.3.2 edges=0 geometric=0 bridges=0 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpa7vqp61h/m02.jsonl
+[Módulo 2] OK v7.3.2 edges=0 geometric=0 bridges=0 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpu5liybjm/m02.jsonl
+[Módulo 2] OK v7.3.2 edges=1 geometric=0 bridges=1 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpe9x3rp73/m02.jsonl
+[Módulo 4] particiones físicas materializadas territorio=demo particiones=2 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpyd_lnkq6/m03_particiones.geojson.zip
