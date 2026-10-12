@@ -39,9 +39,27 @@ class F10Receipts2025Tests(unittest.TestCase):
                 self.assertEqual(plan["population_year_selected"], 2025)
                 self.assertEqual(plan["section_year_selected"], 2025)
                 self.assertEqual(plan["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
+                self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
+                self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")
                 self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
                 self.assertEqual(plan["sources_status"], "BLOCKED")
                 self.assertIs(plan["generation_authorized_by_reference_decision"], False)
+
+    def test_corrupted_independent_receipt_fails_closed_in_planner(self):
+        from unittest import mock
+        from herramientas import resolver_preparacion_legislatura as planner
+        for promoted, status in ((True, "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED"), (False, "READY")):
+            state = next(r for r in yaml.safe_load(CATALOG.read_text())["territories"] if r["territory_id"] == "aragon")["editions"]["2025"]
+            import copy
+            mutated = copy.deepcopy(state)
+            mutated["independent_source_evidence"]["promoted"] = promoted
+            mutated["independent_source_evidence"]["status"] = status
+            with self.subTest(promoted=promoted, status=status), mock.patch.object(
+                planner, "_catalog_state", return_value=({"territory_id":"aragon"}, mutated)
+            ):
+                plan = resolve(ROOT, "Aragón")["plans"][0]
+                self.assertEqual(plan["territorial_action"], "ACQUIRE")
+                self.assertEqual(plan["territorial_candidate"]["reason"], "TERRITORIAL_RECEIPT_CONTRADICTORY")
 
     def test_original_product_source_runs_remain_unchanged(self):
         records = yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
