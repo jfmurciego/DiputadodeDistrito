@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""VERSIÓN 1.0.0; NOMBRE preflight nacional N08; FECHA 2026-10-12.
+"""VERSIÓN 1.0.1; NOMBRE preflight nacional N08; FECHA 2026-10-12.
 ALCANCE: 52 unidades, fuentes protegidas, diagnóstico sin M04–M06 reales.
-ESTADO: candidato; CAMBIOS/MOTIVO: construir evidencia física reproducible.
-ORIGEN: nuevo; componentes y semántica del preflight común conservados.
+ESTADO: candidato; CAMBIOS/MOTIVO: hashes persistidos antes de reutilizar checkpoints.
+ANTERIOR: legacy/herramientas/preflight_topologico_nacional_v1.0.0.py.
 """
 from __future__ import annotations
 import argparse
@@ -40,6 +40,51 @@ def atomic(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_bytes(data); os.replace(temporary, path)
+
+
+def read_checkpoint(output, run_binding):
+    """Fail closed on stale, missing or contradictory checkpoint ledgers.
+
+    Old un-hashed checkpoints remain archival evidence, not reusable state.
+    An orphan written before a crash requires explicit fresh recomputation or
+    independent auditing; it is never silently trusted by its own run_binding.
+    """
+    path = output / "checkpoint.json"
+    if not path.exists():
+        if list((output / "unidades").glob("*.json.gz")):
+            raise ValueError("CHECKPOINT_LEDGER_MISSING")
+        return {"schema": "ddd.congress-topology-checkpoint/1.1", "run_binding": run_binding,
+                "completed_codes": [], "artifacts": {}, "generation_authorized": False}
+    ledger = json.loads(path.read_bytes())
+    if ledger.get("schema") != "ddd.congress-topology-checkpoint/1.1":
+        raise ValueError("CHECKPOINT_HASH_LEDGER_REQUIRED")
+    if ledger.get("run_binding") != run_binding: raise ValueError("STALE_CHECKPOINT_LEDGER")
+    codes = ledger.get("completed_codes")
+    records = ledger.get("artifacts")
+    if (not isinstance(codes, list) or len(set(codes)) != len(codes)
+            or any(code not in {f"{i:02d}" for i in range(1, 53)} for code in codes)
+            or not isinstance(records, dict) or set(records) != {f"unidades/{code}.json.gz" for code in codes}
+            or ledger.get("generation_authorized") is not False):
+        raise ValueError("CHECKPOINT_LEDGER_INVALID")
+    for code in codes:
+        artifact = output / "unidades" / f"{code}.json.gz"
+        if not artifact.is_file(): raise ValueError("CHECKPOINT_ARTIFACT_MISSING:" + code)
+        read_unit_checkpoint(artifact, records[f"unidades/{code}.json.gz"], run_binding)
+    return ledger
+
+
+def read_unit_checkpoint(artifact, record, run_binding):
+    data = artifact.read_bytes()
+    if (not isinstance(record, dict) or record.get("sha256") != bytes_hash(data)
+            or record.get("bytes") != len(data)):
+        raise ValueError("CHECKPOINT_ARTIFACT_HASH_MISMATCH:" + artifact.name)
+    raw = gzip.decompress(data)
+    if record.get("canonical_json_sha256") != bytes_hash(raw):
+        raise ValueError("CHECKPOINT_CONTENT_HASH_MISMATCH:" + artifact.name)
+    product = json.loads(raw)
+    if raw != json_bytes(product): raise ValueError("CHECKPOINT_NON_CANONICAL:" + artifact.name)
+    if product.get("run_binding") != run_binding: raise ValueError("STALE_CHECKPOINT:" + artifact.name)
+    return product
 
 
 def load_inputs(parts_dir, root=ROOT):
@@ -143,13 +188,18 @@ def run(parts_dir, output, root=ROOT, *, resume=False):
                    ("ddd_core/congreso_topology.py", "herramientas/preflight_topologico_nacional.py")}
     run_binding = digest({"sources": evidence, "software": versions, "implementation": code_hashes})
     output.mkdir(parents=True, exist_ok=True)
+    ledger = read_checkpoint(output, run_binding) if resume else {
+        "schema": "ddd.congress-topology-checkpoint/1.1", "run_binding": run_binding,
+        "completed_codes": [], "artifacts": {}, "generation_authorized": False}
+    cached_records = dict(ledger["artifacts"])
     summaries, artifact_records = [], {}
     for code in sorted(frame.CPRO.unique()):
         artifact = output / "unidades" / f"{code}.json.gz"
         if artifact.exists():
             if not resume: raise FileExistsError("CHECKPOINT_EXISTS_USE_EXPLICIT_RESUME:" + str(artifact))
-            product = json.loads(gzip.decompress(artifact.read_bytes()))
-            if product.get("run_binding") != run_binding: raise ValueError("STALE_CHECKPOINT:" + code)
+            if f"unidades/{code}.json.gz" not in cached_records:
+                raise ValueError("UNIT_WITHOUT_CHECKPOINT_RECORD:" + code)
+            product = read_unit_checkpoint(artifact, cached_records[f"unidades/{code}.json.gz"], run_binding)
         else:
             k = next(r["k"] for r in contract["quotas_by_origin_unit"] if r["code"] == code)
             product = analyze_unit(frame.loc[frame.CPRO == code].copy(), k, evidence["source_binding"]["geometry"]["sha256"])
@@ -159,8 +209,10 @@ def run(parts_dir, output, root=ROOT, *, resume=False):
         data = artifact.read_bytes()
         artifact_records[f"unidades/{code}.json.gz"] = {"sha256": bytes_hash(data), "bytes": len(data),
                                                        "canonical_json_sha256": bytes_hash(json_bytes(product))}
-        atomic(output / "checkpoint.json", json_bytes({"run_binding": run_binding, "completed_codes": [r["CPRO"] for r in summaries],
-                                                       "generation_authorized": False}))
+        ledger = {"schema": "ddd.congress-topology-checkpoint/1.1", "run_binding": run_binding,
+                  "completed_codes": sorted(set(ledger["completed_codes"]) | {r["CPRO"] for r in summaries}),
+                  "artifacts": {**cached_records, **artifact_records}, "generation_authorized": False}
+        atomic(output / "checkpoint.json", json_bytes(ledger))
         print(json.dumps(product["summary"], ensure_ascii=False), flush=True)
     cross = cross_province_contacts(frame)
     cross_path = output / "contactos_interprovinciales.json.gz"

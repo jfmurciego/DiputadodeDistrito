@@ -1,5 +1,5 @@
 # Método y reproducción
-Versión 1.0.0; fecha 2026-10-12; alcance diagnóstico; estado candidato; origen nuevo.
+Versión 1.0.1; fecha 2026-10-12; alcance diagnóstico; estado candidato; origen nuevo.
 
 El ZIP se reconstruye en RAM desde las tres partes protegidas, contrastando cada SHA y el ZIP 55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4. Se verifica CRC y cada miembro. Por incompatibilidad GDAL con el directorio acentuado, se renombra sólo el contenedor lector efímero; SHP/SHX/DBF/PRJ conservan exactamente sus bytes. Identidad geométrica WKB 6eccbc0c7f4867656c235462ae0b6d381dcdaeb5c912e5295976ca8f120860ff idéntica a #241. CRS EPSG:25830 sin transformación. Join CUSEC exacto y atributos administrativos contrastados contra CSV acreditado. No se repite adquisición ni se recalcula población acreditada.
 
@@ -12,3 +12,7 @@ Comando auditor independiente: `python herramientas/verificar_topologia_nacional
 Informes/alternativas: `python herramientas/resumir_preflight_nacional.py`.
 
 Cada ámbito es checkpoint determinista ligado a hashes de fuente, código y software. --resume es explícito, rechaza checkpoints incompatibles y no es un reintento automático. Gzip mtime=0 y JSON canónico. Entorno productor: {"geopandas": "1.1.2", "geos": "3.14.1", "numpy": "2.4.2", "pyogrio": "0.12.1", "python": "3.11.14", "shapely": "2.1.2"}. La reproducibilidad byte a byte requiere este entorno; CI comprueba integridad y contratos sobre artefactos y fixtures, sin reconstruir fuentes ni simular certificación territorial.
+
+Anterior: legacy/n08/METODO_Y_REPRODUCCION_v1.0.0.md.
+
+Los bytes publicados fueron producidos por la receta1.0.0, preservada en commit eea69661 y legacy/herramientas/preflight_topologico_nacional_v1.0.0.py. Para reproducir exactamente esos55archivos se usa el código/herramientas en sus rutas de ese commit y un directorio de salida nuevo, sin --resume; sus hashes de implementación están en el manifest. La reproducción independiente completa ya registrada utilizó esa misma receta. El constructor activo1.0.1 corrige únicamente la integridad de reanudación: sus nuevos fingerprints/ledger1.1 difieren por trazabilidad, no por contactos o geometrías. Nunca se declara que un artefacto histórico fue producido por un código posterior; no se reescriben los productos auditados. Checkpoints históricos sin ledgerhash no pueden reanudarse mediante1.0.1; requieren nueva ejecución/auditoría explícita.

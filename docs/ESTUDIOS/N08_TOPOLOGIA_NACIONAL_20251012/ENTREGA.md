@@ -1,5 +1,5 @@
 # Incremento N08 — registro de cambios y conservación
-Versión1.0.0; fecha2026-10-12; alcance nacional diagnóstico; estado candidato BLOCKED para piloto; origen nuevo.
+Versión1.0.1; fecha2026-10-12; alcance nacional diagnóstico; estado candidato BLOCKED para piloto; origen nuevo.
 
 Cambios: constructor nacional particionado, contactos raw y partes físicas, checkpoints, grafo con trazabilidad, registro de anomalías y sensibilidad, auditor escalar independiente, evaluación racional de seis opciones poblacionales, validadores aislados de interfaces y salida sintética M01–M06. 52 paquetes gzip y manifiesto canónico, sin repetir coordenadas ni duplicar fuentes protegidas. Política municipal/poblacional recomendada, nunca aprobada.
 
@@ -12,3 +12,7 @@ Almacenamiento: fuente original reconstruida sólo en RAM; el lector renombra co
 Auditoría geométrica independiente inicial completó52/52 pero ENOSPC impidió guardar JSON; log fallido conservado fuera del worktree. Una ejecución correctiva manual tras liberar espacio terminóEXIT0, como consta en AUDITORIA_GEOMETRICA.log y AUDITORIA_INDEPENDIENTE.json. No reintentos automáticos. Reproducción en sesión separada recalcula todos los bytes antes de enlazar físicamente los resultados idénticos, evitando duplicación en disco. No omite cálculo ni toma un checkpoint original como reproducción. Los manifiestos/hashes y comparaciones completadas se consignan en REPRODUCCION_INDEPENDIENTE.json.
 
 No afirmar factibilidad a partir de componentes≤K o tolerancias más amplias. Población no desagregada entre partes figura NOT_EVIDENCED, nunca cero. Vacíos medidos no son todos defectos, pero ausencia de límite independiente impide acreditarlos. El preflight actualizado separa puertas A/B/C. Dictamen final y CI se anclan al SHA exacto, conservados también en DDD-control.
+
+Anterior: legacy/n08/ENTREGA_v1.0.0.md. Base de integración efectiva70e4b4fdad7861b15effb2f21503dff997e5a5c2; los cambios F10 posteriores a la base científica b583c521 se incorporaron sin conflicto ni modificación de fuentes/K/motor topológico.
+
+Revisión P1 y corrección: el constructor1.0.0 aceptaba checkpoints alterados conservando run_binding. Constructor1.0.1 persiste un ledger de hashes comprimidos/canónicos y tamaños, verifica todas las unidades registradas antes de usarlas, rechaza ledger ausente/obsoleto, artefactos corruptos y unidades sin registro. Pruebas negativas y regresión del HEAD final conservadas en DDD-control. La versión productora original1.0.0 permanece literalmente en legacy/herramientas/preflight_topologico_nacional_v1.0.0.py y commit eea69661, con reproducción completa en directorio nuevo (sin --resume). El defecto de reanudación no afecta a los55artefactos ya calculados, auditados y reproducidos independientemente; se mantienen inmutables, sin relabelar ni recalcular geometría. El nuevo constructor rechaza los checkpoints históricos sin hashes; toda nueva ejecución1.0.1 tendrá fingerprint propio y ledger1.1.
