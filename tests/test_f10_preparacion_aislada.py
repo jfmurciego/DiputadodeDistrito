@@ -103,9 +103,17 @@ class F10PreparacionAisladaTests(unittest.TestCase):
                 self.assertEqual(row['package_sha256'], receipt['package_sha256'])
                 self.assertEqual(row['territorial_identity_sha256'], receipt['territorial_identity_sha256'])
                 self.assertEqual('PASS', row['controls']['F03_effective_consumer'])
-        for territory in TERRITORIES - {"extremadura"}:
-            with self.subTest(territory=territory), self.assertRaises(PreparedPairExecutionBlock):
-                validate_territorial_receipt(root_dir=ROOT, territory=territory, edition='2025')
+        # Valencia 2023 permanece bloqueada; las otras cuatro evidencias F10
+        # son auténticas y NO sustituyen preparación/productos históricos.
+        with self.assertRaises(PreparedPairExecutionBlock):
+            validate_territorial_receipt(root_dir=ROOT, territory='comunidad_valenciana', edition='2025')
+        for territory in ('andalucia', 'aragon', 'castilla_y_leon'):
+            with self.subTest(territory=territory):
+                state, receipt = validate_territorial_receipt(
+                    root_dir=ROOT, territory=territory, edition='2025')
+                self.assertEqual((2025, 2025), (receipt['population_year'], receipt['section_year']))
+                self.assertFalse(state['independent_source_evidence']['promoted'])
+                self.assertNotEqual(state['preparation_evidence']['run_id'], receipt['run_id'])
 
         _, independent_receipt = validate_territorial_receipt(
             root_dir=ROOT, territory='extremadura', edition='2025')
