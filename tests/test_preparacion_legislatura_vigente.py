@@ -128,6 +128,9 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(plan["section_year_required"], 2026)
                 self.assertEqual(plan["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
                 self.assertFalse(plan["generation_authorized_by_reference_decision"])
+                self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
+                self.assertEqual(plan["sources_status"], "BLOCKED")
+                self.assertTrue(any(s["domain"] == "electoral_section_crosswalk" for s in plan["source_next_steps"]))
 
     def test_temporal_evidence_preserves_query_response_date_and_digest(self):
         evidence = json.loads(TEMPORAL.read_text(encoding="utf-8"))
@@ -207,7 +210,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
 
-    def test_andalucia_uses_reconciled_siel_and_requires_2026_sectioning(self):
+    def test_andalucia_uses_reconciled_siel_with_2025_territorial_reference(self):
         state = {
             "territorial_source_declaration": "territorios/andalucia/config/fuentes_oficiales.yaml",
             "territorial_sources_prepared": False,
@@ -220,7 +223,8 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         ):
             plan = resolve(ROOT, "Andalucía")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
-        self.assertEqual(plan["section_year_selected"], 2026)
+        self.assertEqual(plan["section_year_selected"], 2025)
+        self.assertEqual(plan["section_year_required"], 2026)
         self.assertEqual(plan["territorial_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_action"], "ACQUIRE")
         self.assertEqual(plan["electoral_reason"], "OFFICIAL_SPECIAL_ACQUISITION_AVAILABLE")

@@ -816,6 +816,13 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
         e_candidate, e_action = _electoral_plan(root, tid, state, row)
         territorial_admissibility = _territorial_admissibility(t_action, t_candidate)
         electoral_admissibility = _electoral_admissibility(e_action, e_candidate)
+        # La pareja territorial 2025/2025 no acredita la identidad electoral 2026.
+        # Impide declarar listas las fuentes conjuntas sin crosswalk independiente.
+        electoral_crosswalk_pending = (
+            terr.get("electoral_2026_crosswalk_status") == "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+        )
+        if electoral_crosswalk_pending:
+            electoral_admissibility = "BLOCKED"
         sources_status = _sources_status(
             territorial_admissibility,
             electoral_admissibility,
@@ -876,7 +883,11 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
                 t_candidate,
                 e_action,
                 e_candidate,
-            ),
+            ) + ([{
+                "domain": "electoral_section_crosswalk",
+                "planner_action": "ACQUIRE_OR_ACCREDIT_2025_TO_2026_CORRESPONDENCE",
+                "reason": "BLOCKED_PENDING_OFFICIAL_EVIDENCE",
+            }] if electoral_crosswalk_pending else []),
             "electoral_package_state": (
                 "BLOCKED_PROVISIONAL" if e_action == "BLOCKED_PROVISIONAL"
                 else "READY_REUSABLE" if e_action == "REUSE"
