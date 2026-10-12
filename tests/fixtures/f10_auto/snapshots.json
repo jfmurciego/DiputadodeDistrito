@@ -1,0 +1,10 @@
+{
+  "A": [
+    "principado_de_asturias", "illes_balears", "canarias", "cantabria",
+    "castilla_la_mancha", "cataluna", "galicia", "madrid", "region_de_murcia",
+    "comunidad_foral_de_navarra", "pais_vasco", "la_rioja", "ceuta", "melilla"
+  ],
+  "B_add": ["extremadura"],
+  "C_add": ["andalucia", "aragon", "castilla_y_leon"],
+  "D_add": []
+}

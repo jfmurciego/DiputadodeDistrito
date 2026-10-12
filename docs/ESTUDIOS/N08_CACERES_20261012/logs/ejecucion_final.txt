@@ -1,0 +1,1 @@
+{"generation_authorized": false, "modules": {"M01": "PASS", "M02": "PASS", "M03": "PASS", "M04": "BLOCKED", "M05": "SYNTHETIC_CONTRACT_PASS_ONLY", "M06": "SYNTHETIC_CONTRACT_PASS_ONLY"}, "province": "10", "status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS"}
