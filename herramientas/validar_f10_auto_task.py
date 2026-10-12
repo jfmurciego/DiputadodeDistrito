@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Versión: 1.0.0; nombre: Validador determinista de tareas F10; fecha: 2026-10-13.
+# Alcance: verificar evidencias locales fijadas y entregas estructuradas READ_ONLY.
+# Estado: candidato. Cambios/motivo: validar las cuatro fichas F10 ejecutables.
+# Anterior: no existía validador de fichas F10; predecesor histórico no recuperado.
 """Deterministic, offline evidence validator for executable F10 research cards."""
 from __future__ import annotations
 

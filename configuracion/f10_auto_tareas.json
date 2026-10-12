@@ -1,6 +1,10 @@
 {
   "schema": "ddd.f10-auto-task-cards/1.0",
   "version": "1.0.0",
+  "date": "2026-10-13",
+  "status": "CANDIDATE",
+  "reason": "Registrar fichas locales READ_ONLY con contratos y validadores deterministas para investigación F10",
+  "predecessor": "No existían fichas ejecutables F10; predecesor histórico no recuperado",
   "scope": "Extensiones locales READ_ONLY para el controlador ddd auto existente; ejecutar investigación electoral sin cerrar F10, asignar votos, adquirir por red ni habilitar producción.",
   "cards": [
     {

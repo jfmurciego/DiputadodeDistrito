@@ -1,12 +1,12 @@
 {
   "schema": "ddd.plan-derived-doors/1.0",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "F10 independent evidence doors and work dependencies",
-  "date": "2026-10-12",
+  "date": "2026-10-13",
   "scope": "Read-only derived territorial, electoral, joint and production doors; does not alter formal Plan task status or authorize production.",
   "status": "CANDIDATE",
-  "reason": "F10 autonomous controller pilot authorized by Work",
-  "predecessor": "Plan Maestro vivo 1.3.0+20261011.1; estado.json preserved byte-for-byte",
+  "reason": "Require complete local validators and accepted executor reports for every selectable F10 task",
+  "predecessor": "legacy/configuracion/puertas_f10_v1.0.0_20261012.json",
   "plan_revision": "1.3.0+20261011.1",
   "plan_state_sha256_at_creation": "7047102821fc321822bdcba0438abd94c7b0622571b189b6304b6dbd4cab50f6",
   "catalog_sha256_at_creation": "6cfb6dcd1a3ad7d617dd6825e6087978504b3450e41b9de7b289482727519a8b",
@@ -46,7 +46,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-AND-CROSSWALK-2025-2026",
-      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
+      "task_spec_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a"
     },
     {
       "id": "F10-ARA-CROSSWALK-2025-2026",
@@ -68,7 +68,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-ARA-CROSSWALK-2025-2026",
-      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
+      "task_spec_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a"
     },
     {
       "id": "F10-CYL-CROSSWALK-2025-2026",
@@ -90,7 +90,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-CYL-CROSSWALK-2025-2026",
-      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
+      "task_spec_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a"
     },
     {
       "id": "F10-EXT-ELECTORAL-SOURCE",
@@ -112,7 +112,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-EXT-ELECTORAL-SOURCE",
-      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
+      "task_spec_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a"
     },
     {
       "id": "F10-CV-2023-SOURCE-RESOLUTION",
@@ -133,7 +133,8 @@
       ],
       "scope": "only materially new official evidence; no equivalent repeated tests, no boundary edits, no zero imputation, no production",
       "task_spec_registered": false,
-      "wait_reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+      "wait_reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work.",
+      "task_spec_sha256": "efec5982f4bc9857d1e99ad6f0ff0a86c55184fef2f506d8c35856b8fbbe074a"
     }
   ],
   "production": {

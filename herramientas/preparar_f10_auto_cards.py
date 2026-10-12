@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# Versión: 1.0.0; nombre: Materializador de fichas F10; fecha: 2026-10-13.
+# Alcance: extender por overlays el controlador ddd auto vigente.
+# Estado: candidato. Cambios/motivo: producir catálogos, política y plan aislados.
+# Anterior: no existía adaptador de fichas F10; predecesor histórico no recuperado.
 """Materialize F10 card overlays for the existing ddd auto controller.
 
 This is a deterministic adapter only: it does not select, execute, or orchestrate tasks.

@@ -1,3 +1,8 @@
+"""Versión: 1.0.0; nombre: Regresiones de fichas autónomas F10; fecha: 2026-10-13.
+Alcance: hashes, identidad, READ_ONLY, informes y materialización del controlador.
+Estado: candidato. Motivo: acreditar comportamiento determinista en fixtures reales.
+Anterior: no existían estas regresiones; predecesor histórico no recuperado.
+"""
 import json
 from pathlib import Path
 import tempfile

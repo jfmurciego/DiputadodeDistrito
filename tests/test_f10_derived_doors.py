@@ -1,7 +1,12 @@
-"""Read-only F10 door projection, historical replay and fail-closed regressions."""
+"""Version: 1.1.0; name: F10 derived doors regressions; date: 2026-10-13.
+Scope: deterministic failure-closed validation of executable local task cards.
+Status: candidate. Change/reason: reject cards with incomplete validator coverage.
+Previous: legacy/tests/test_f10_derived_doors_v1.0.0_20261012.py.
+"""
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import tempfile
 import unittest
@@ -126,6 +131,19 @@ class F10DerivedDoorsTests(unittest.TestCase):
         work = {row["territory_id"]: row for row in work_items_for(rows, AUTHORIZATIONS, checked)}
         self.assertEqual("WAIT_OWNER", work["andalucia"]["state"])
         self.assertEqual("READY_LOCAL", work["aragon"]["state"])
+
+    def test_card_without_complete_validator_coverage_is_not_selectable(self):
+        registry = json.loads((ROOT / "configuracion/f10_auto_tareas.json").read_text())
+        registry["cards"][0]["spec"]["validators"][0]["covers"] = [0]
+        with tempfile.TemporaryDirectory(dir=ROOT / "tests") as directory:
+            card_path = Path(directory) / "broken-card.json"
+            content = json.dumps(registry, ensure_ascii=False).encode()
+            card_path.write_bytes(content)
+            activities = copy.deepcopy(PLAN_OVERLAY["activities"])
+            activities[0]["task_spec_path"] = f"{card_path.relative_to(ROOT).as_posix()}#F10-AND-CROSSWALK-2025-2026"
+            activities[0]["task_spec_sha256"] = hashlib.sha256(content).hexdigest()
+            checked = _validate_activity_cards(ROOT, activities)
+            self.assertIn("ficha excede alcance", checked[0]["task_spec_error"])
 
     def test_blocked_territory_does_not_block_independent_work_item(self):
         rows = copy.deepcopy(self.projection["territories"])

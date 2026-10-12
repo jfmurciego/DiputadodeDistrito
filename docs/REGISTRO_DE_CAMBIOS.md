@@ -479,3 +479,14 @@ Las regresiones reales y el replay de adquisiciones existentes mantienen bloquea
 ## 2026-10-12 — Fuentes nacionales INE 2025/2025
 
 Se materializa una pareja poblacional y geométrica de sección censal por CUSEC exacto, desde ZIP protegidos y N07. El manifiesto conserva hashes de entradas y salidas, procedencia, filtros y entorno; la reproducción independiente acredita 36.554 secciones, 52 circunscripciones y 49.128.297 habitantes con conciliación provincial/nacional exacta. El contrato de Nacional registra las fuentes con acreditación técnica, pero mantiene `CANDIDATO_WAIT_OWNER`, decisiones/K/cuotas pendientes y generación deshabilitada. No se altera la acreditación institucional ni se generan distritos.
+
+## 2026-10-13 — F10 — fichas locales fail-closed y validación de entregas
+
+Las cuatro fichas de investigación local solo quedan seleccionables cuando sus hashes,
+alcances READ_ONLY, acciones permitidas y cobertura de validadores coinciden con el
+contrato. El adaptador comprueba además que la entrega estructurada del ejecutor cita
+las entradas fijadas, incluye pruebas y mantiene explícitos los bloqueos. Se archivan
+los predecesores de las puertas y su derivador; las puertas territorial, electoral,
+conjunta y de producción siguen siendo independientes y la producción continúa no
+autorizada. Las pruebas usan evidencias existentes, sin campañas, consultas externas
+ni escrituras productivas.
