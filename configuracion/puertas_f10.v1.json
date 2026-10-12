@@ -46,7 +46,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-AND-CROSSWALK-2025-2026",
-      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
+      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
     },
     {
       "id": "F10-ARA-CROSSWALK-2025-2026",
@@ -68,7 +68,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-ARA-CROSSWALK-2025-2026",
-      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
+      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
     },
     {
       "id": "F10-CYL-CROSSWALK-2025-2026",
@@ -90,7 +90,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-CYL-CROSSWALK-2025-2026",
-      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
+      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
     },
     {
       "id": "F10-EXT-ELECTORAL-SOURCE",
@@ -112,7 +112,7 @@
       "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
       "task_spec_registered": true,
       "task_spec_path": "configuracion/f10_auto_tareas.json#F10-EXT-ELECTORAL-SOURCE",
-      "task_spec_sha256": "6494881778749ed1aa262f716af33ddc54df8c9f570e5a0d4dd25a8aed4097fe"
+      "task_spec_sha256": "764364fa578fe5849fdaf63b8251cec89030378dc5fcf284a2a789830cb63f2c"
     },
     {
       "id": "F10-CV-2023-SOURCE-RESOLUTION",
