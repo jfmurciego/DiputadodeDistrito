@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-12",
+  "base": "d8fb5ada561d02669b25adfb349f469aa2db4619",
+  "decision_id": "N06-OWNER-20261012-K",
+  "status": "APPROVED_BY_OWNER",
+  "N08": "BLOCKED",
+  "contract_worktree": "/tmp/ddd-n06-contrato-20261012",
+  "contract_base": "d0e4624f85e2ac7cee58ce35638cc1f6dc7c1b6f",
+  "tests": {
+    "N06_original": 11,
+    "N06_correction": 5,
+    "national_regressions": 40,
+    "contract_N07_autonomous": 85
+  },
+  "runtime_note": "Python sistema sin pyproj/yaml; ddd Python3.10 sin hashlib.file_digest. Repetición 40 en ddd_aragon Python3.11 PASS; contrato 85 PASS en ddd y 73 PASS (sin 12 N07 repetidos) en ddd_aragon Python3.11.",
+  "generation_authorized": false,
+  "CI": "PENDING_NO_PUSH"
+}

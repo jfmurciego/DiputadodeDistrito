@@ -1,0 +1,79 @@
+N06 corrección 1.1.0; 2026-10-12; base d8fb5ada561d02669b25adfb349f469aa2db4619
+$ python3 docs/ESTUDIOS/N06_DECISION_K_20261012/verificar.py
+test_350_residual_ties_not_at_assignment_cutoff (__main__.EvidenceTests.test_350_residual_ties_not_at_assignment_cutoff) ... ok
+test_coverage_totals_and_population (__main__.EvidenceTests.test_coverage_totals_and_population) ... ok
+test_deterministic_outputs (__main__.EvidenceTests.test_deterministic_outputs) ... ok
+test_exact_means_deviations_and_necessary_bounds (__main__.EvidenceTests.test_exact_means_deviations_and_necessary_bounds) ... ok
+test_fixed_allocations_with_independent_integer_oracle (__main__.EvidenceTests.test_fixed_allocations_with_independent_integer_oracle) ... ok
+test_hamilton_non_monotonic_soria_is_explicit (__main__.EvidenceTests.test_hamilton_non_monotonic_soria_is_explicit) ... ok
+test_historical_not_relabelled_as_2025_map (__main__.EvidenceTests.test_historical_not_relabelled_as_2025_map) ... ok
+test_input_hashes_and_contract_remains_wait_owner (__main__.EvidenceTests.test_input_hashes_and_contract_remains_wait_owner) ... ok
+test_minima_and_city_fixed_one (__main__.EvidenceTests.test_minima_and_city_fixed_one) ... ok
+test_reject_invalid_k_and_missing_coverage (__main__.EvidenceTests.test_reject_invalid_k_and_missing_coverage) ... ok
+test_three_small_circumscriptions_make_floor_impossible (__main__.EvidenceTests.test_three_small_circumscriptions_make_floor_impossible) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.092s
+
+OK
+
+$ python3 -m unittest tests.test_modelo_cuantitativo_nacional tests.test_evaluacion_alternativas_nacionales tests.test_congreso_contract -v
+test_missing_or_non_accredited_universe_is_not_comparable (tests.test_modelo_cuantitativo_nacional.AssignmentComparison.test_missing_or_non_accredited_universe_is_not_comparable) ... ok
+test_renumbered_map_matches_exactly_by_membership (tests.test_modelo_cuantitativo_nacional.AssignmentComparison.test_renumbered_map_matches_exactly_by_membership) ... ok
+test_splits_merges_and_permutation (tests.test_modelo_cuantitativo_nacional.AssignmentComparison.test_splits_merges_and_permutation) ... ok
+test_integrity_coverage_duplicates_and_conservation (tests.test_modelo_cuantitativo_nacional.INESource.test_integrity_coverage_duplicates_and_conservation) ... ok
+test_selects_unique_official_aggregates (tests.test_modelo_cuantitativo_nacional.INESource.test_selects_unique_official_aggregates) ... ok
+test_deterministic_under_permutation_and_ties (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_deterministic_under_permutation_and_ties) ... ok
+test_every_alternative_preserves_population_and_reports_k_sum (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_every_alternative_preserves_population_and_reports_k_sum) ... ok
+test_hamilton_conservation_and_quota_bounds (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_hamilton_conservation_and_quota_bounds) ... ok
+test_infeasible_minima_do_not_inflate_k (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_infeasible_minima_do_not_inflate_k) ... ok
+test_k_derives_from_population_not_350 (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_k_derives_from_population_not_350) ... ok
+test_minimum_counterfactual_conserves_derived_total_and_cities (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_minimum_counterfactual_conserves_derived_total_and_cities) ... ok
+test_negative_boolean_fractional_and_empty_rejected (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_negative_boolean_fractional_and_empty_rejected) ... ok
+test_thresholds_and_no_float_precision_loss (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_thresholds_and_no_float_precision_loss) ... ok
+test_zero_provincial_population_with_fixed_cities (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_zero_provincial_population_with_fixed_cities) ... ok
+test_zero_seats_do_not_divide_by_zero (tests.test_modelo_cuantitativo_nacional.NationalCalculation.test_zero_seats_do_not_divide_by_zero) ... ok
+test_manifest_hashes_and_comparison_cannot_claim_measured_matches (tests.test_modelo_cuantitativo_nacional.PreservedNationalResults.test_manifest_hashes_and_comparison_cannot_claim_measured_matches) ... ok
+test_official_snapshot_reproduces_model_and_csv (tests.test_modelo_cuantitativo_nacional.PreservedNationalResults.test_official_snapshot_reproduces_model_and_csv) ... ok
+test_exact_weighted_deviation_and_extremes (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_exact_weighted_deviation_and_extremes) ... ok
+test_historical_distribution_is_not_cartographic_identity (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_historical_distribution_is_not_cartographic_identity) ... ok
+test_invalid_values_reject (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_invalid_values_reject) ... ok
+test_original_model_is_read_not_rewritten (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_original_model_is_read_not_rewritten) ... ok
+test_population_difference_does_not_assert_demographic_growth (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_population_difference_does_not_assert_demographic_growth) ... ok
+test_population_universe_version_and_totals_fail_closed (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_population_universe_version_and_totals_fail_closed) ... ok
+test_sensitivity_count_determinism_and_integer_allocation (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_sensitivity_count_determinism_and_integer_allocation) ... ok
+test_zero_seats_retains_unrepresented_population (tests.test_evaluacion_alternativas_nacionales.AlternativeMetrics.test_zero_seats_retains_unrepresented_population) ... ok
+test_alternative_autonomous_contamination_fields_are_rejected_recursively (tests.test_congreso_contract.CongressContractTests.test_alternative_autonomous_contamination_fields_are_rejected_recursively) ... ok
+test_autonomous_catalog_and_manager_are_rejected (tests.test_congreso_contract.CongressContractTests.test_autonomous_catalog_and_manager_are_rejected) ... ok
+test_autonomous_cities_cannot_be_mislabeled_as_provinces (tests.test_congreso_contract.CongressContractTests.test_autonomous_cities_cannot_be_mislabeled_as_provinces) ... ok
+test_bad_quota_types_fail_closed (tests.test_congreso_contract.CongressContractTests.test_bad_quota_types_fail_closed) ... ok
+test_candidate_json_is_structural_only_and_fail_closed (tests.test_congreso_contract.CongressContractTests.test_candidate_json_is_structural_only_and_fail_closed) ... ok
+test_conflicting_universe_representations_are_rejected (tests.test_congreso_contract.CongressContractTests.test_conflicting_universe_representations_are_rejected) ... ok
+test_exact_52_scope_admitted_without_authorizing_generation (tests.test_congreso_contract.CongressContractTests.test_exact_52_scope_admitted_without_authorizing_generation) ... ok
+test_invalid_circumscriptions_container_is_rejected (tests.test_congreso_contract.CongressContractTests.test_invalid_circumscriptions_container_is_rejected) ... ok
+test_missing_duplicate_and_unexpected_codes_rejected (tests.test_congreso_contract.CongressContractTests.test_missing_duplicate_and_unexpected_codes_rejected) ... ok
+test_missing_province_barrier_fails_closed (tests.test_congreso_contract.CongressContractTests.test_missing_province_barrier_fails_closed) ... ok
+test_national_metadata_does_not_replace_execution_identity (tests.test_congreso_contract.CongressContractTests.test_national_metadata_does_not_replace_execution_identity) ... ok
+test_nested_k_and_territory_objects_are_closed (tests.test_congreso_contract.CongressContractTests.test_nested_k_and_territory_objects_are_closed) ... ok
+test_nested_territory_metadata_is_rejected (tests.test_congreso_contract.CongressContractTests.test_nested_territory_metadata_is_rejected) ... ok
+test_non_json_tuple_container_cannot_bypass_nested_schema (tests.test_congreso_contract.CongressContractTests.test_non_json_tuple_container_cannot_bypass_nested_schema) ... ok
+test_non_string_code_rejected_without_type_error (tests.test_congreso_contract.CongressContractTests.test_non_string_code_rejected_without_type_error) ... ok
+test_same_universe_in_different_order_is_admitted (tests.test_congreso_contract.CongressContractTests.test_same_universe_in_different_order_is_admitted) ... ok
+test_unknown_contract_fields_fail_closed (tests.test_congreso_contract.CongressContractTests.test_unknown_contract_fields_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 2.421s
+
+OK
+
+$ python3 docs/ESTUDIOS/N06_DECISION_K_20261012/verificar_correccion.py
+test_52_unique_identities_and_reject_bad_inputs (__main__.CorrectionTests.test_52_unique_identities_and_reject_bad_inputs) ... ok
+test_allocation_against_exact_quota_and_n05 (__main__.CorrectionTests.test_allocation_against_exact_quota_and_n05) ... ok
+test_determinism_and_preserved_artifact (__main__.CorrectionTests.test_determinism_and_preserved_artifact) ... ok
+test_explicit_exceptions_and_exact_deviations (__main__.CorrectionTests.test_explicit_exceptions_and_exact_deviations) ... ok
+test_minima_ties_and_no_fixed_legal_total (__main__.CorrectionTests.test_minima_ties_and_no_fixed_legal_total) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.025s
+
+OK
