@@ -1,0 +1,8 @@
+.........................................................................../usr/local/Caskroom/miniforge/base/envs/ddd/lib/python3.10/site-packages/pyogrio/geopandas.py:710: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+  write(
+..........
+----------------------------------------------------------------------
+Ran 85 tests in 98.886s
+
+OK
+[Módulo 4] particiones físicas materializadas territorio=demo particiones=2 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmphs_8296r/m03_particiones.geojson.zip

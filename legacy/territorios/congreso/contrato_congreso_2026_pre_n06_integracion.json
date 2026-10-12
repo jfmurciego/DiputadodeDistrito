@@ -1,0 +1,366 @@
+{
+  "metadata": {
+    "version": "0.2.0",
+    "name": "Contrato DDD del Congreso para 52 circunscripciones",
+    "date": "2026-10-12",
+    "scope": "candidato nacional; pareja oficial de fuentes acreditada, decisiones pendientes, sin generación",
+    "status": "CANDIDATO_WAIT_OWNER",
+    "changes": "pareja INE 2025/2025 materializada y trazable; WAIT_OWNER y barreras de generación preservados",
+    "reason": "integrar población por sección 2025 con geometrías INE/N07 mediante CUSEC exacto",
+    "origin": "contrato 0.1.0; preservado en legacy/territorios/congreso/contrato_congreso_2026_pre_fuentes_ine_2025.json"
+  },
+  "schema": "ddd.congress-contract/0.1",
+  "execution_identity": "congreso",
+  "territory_id": "espana_congreso",
+  "scope": "congreso",
+  "metadata_scope": "national",
+  "orchestrator": "congress_contract_validator",
+  "circumscriptions": [
+    {
+      "code": "01",
+      "class": "province"
+    },
+    {
+      "code": "02",
+      "class": "province"
+    },
+    {
+      "code": "03",
+      "class": "province"
+    },
+    {
+      "code": "04",
+      "class": "province"
+    },
+    {
+      "code": "05",
+      "class": "province"
+    },
+    {
+      "code": "06",
+      "class": "province"
+    },
+    {
+      "code": "07",
+      "class": "province"
+    },
+    {
+      "code": "08",
+      "class": "province"
+    },
+    {
+      "code": "09",
+      "class": "province"
+    },
+    {
+      "code": "10",
+      "class": "province"
+    },
+    {
+      "code": "11",
+      "class": "province"
+    },
+    {
+      "code": "12",
+      "class": "province"
+    },
+    {
+      "code": "13",
+      "class": "province"
+    },
+    {
+      "code": "14",
+      "class": "province"
+    },
+    {
+      "code": "15",
+      "class": "province"
+    },
+    {
+      "code": "16",
+      "class": "province"
+    },
+    {
+      "code": "17",
+      "class": "province"
+    },
+    {
+      "code": "18",
+      "class": "province"
+    },
+    {
+      "code": "19",
+      "class": "province"
+    },
+    {
+      "code": "20",
+      "class": "province"
+    },
+    {
+      "code": "21",
+      "class": "province"
+    },
+    {
+      "code": "22",
+      "class": "province"
+    },
+    {
+      "code": "23",
+      "class": "province"
+    },
+    {
+      "code": "24",
+      "class": "province"
+    },
+    {
+      "code": "25",
+      "class": "province"
+    },
+    {
+      "code": "26",
+      "class": "province"
+    },
+    {
+      "code": "27",
+      "class": "province"
+    },
+    {
+      "code": "28",
+      "class": "province"
+    },
+    {
+      "code": "29",
+      "class": "province"
+    },
+    {
+      "code": "30",
+      "class": "province"
+    },
+    {
+      "code": "31",
+      "class": "province"
+    },
+    {
+      "code": "32",
+      "class": "province"
+    },
+    {
+      "code": "33",
+      "class": "province"
+    },
+    {
+      "code": "34",
+      "class": "province"
+    },
+    {
+      "code": "35",
+      "class": "province"
+    },
+    {
+      "code": "36",
+      "class": "province"
+    },
+    {
+      "code": "37",
+      "class": "province"
+    },
+    {
+      "code": "38",
+      "class": "province"
+    },
+    {
+      "code": "39",
+      "class": "province"
+    },
+    {
+      "code": "40",
+      "class": "province"
+    },
+    {
+      "code": "41",
+      "class": "province"
+    },
+    {
+      "code": "42",
+      "class": "province"
+    },
+    {
+      "code": "43",
+      "class": "province"
+    },
+    {
+      "code": "44",
+      "class": "province"
+    },
+    {
+      "code": "45",
+      "class": "province"
+    },
+    {
+      "code": "46",
+      "class": "province"
+    },
+    {
+      "code": "47",
+      "class": "province"
+    },
+    {
+      "code": "48",
+      "class": "province"
+    },
+    {
+      "code": "49",
+      "class": "province"
+    },
+    {
+      "code": "50",
+      "class": "province"
+    },
+    {
+      "code": "51",
+      "class": "autonomous_city"
+    },
+    {
+      "code": "52",
+      "class": "autonomous_city"
+    }
+  ],
+  "minimum_unit": {
+    "status": "WAIT_OWNER",
+    "value": null,
+    "candidate": "sección censal con clave estable, sujeta a edición/cobertura y decisión previa"
+  },
+  "sources": {
+    "geometry": {
+      "accreditation": "ACCREDITED",
+      "edition": 2025,
+      "year": 2025,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4",
+      "authority": "Instituto Nacional de Estadística (INE)",
+      "acquisition_record": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+      "uri": "inputs/partes/seccionado_2025.zip.part00..02",
+      "title": "Seccionado censal INE 2025, paquete protegido y vinculado por N07",
+      "unit": "sección censal CUSEC",
+      "coverage": "36.554 secciones; 52 circunscripciones; Ceuta y Melilla separadas",
+      "notes": "Identidad y geometrías por entidad contrastadas con N07. Validez geométrica individual comprobada; limitaciones topológicas expresas en manifest.json.",
+      "territory_id": "espana_congreso"
+    },
+    "population": {
+      "accreditation": "ACCREDITED",
+      "edition": 2025,
+      "year": 2025,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+      "authority": "Instituto Nacional de Estadística (INE)",
+      "acquisition_record": "territorios/congreso/fuentes/ine_2025_2025/manifest.json",
+      "uri": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+      "title": "Población por sexo, edad y año de nacimiento por unidad poblacional (INE 65034)",
+      "unit": "sección censal CUSEC",
+      "coverage": "36.554 secciones con observación; 52 circunscripciones; total 49.128.297",
+      "notes": "Se selecciona Periodo=2025, Sexo=Total y Edad=Todas las edades. Filas vacías históricas no se interpretan como cero; 338 no observadas quedan fuera de N07. Agregados provinciales y nacional concilian exactamente.",
+      "territory_id": "espana_congreso"
+    }
+  },
+  "population_reference": {
+    "status": "WAIT_OWNER",
+    "edition": null,
+    "year": null,
+    "alignment_rule": "la geometría y población deben compartir unidad compatible y cobertura 52/52"
+  },
+  "barriers": {
+    "province_circumscription": "hard",
+    "ceuta_melilla_separate": true,
+    "cross_circumscription_edges": false,
+    "basis": "invariante del contrato del Congreso"
+  },
+  "decisions": {
+    "minimum_unit": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "population_reference": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "contiguity": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "population_limits": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "municipal_indivisibility": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "islands": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "enclaves": {
+      "status": "WAIT_OWNER",
+      "value": null
+    },
+    "physical_discontinuities": {
+      "status": "WAIT_OWNER",
+      "value": null
+    }
+  },
+  "k_decision": {
+    "status": "WAIT_OWNER",
+    "total": null,
+    "source_scope": null,
+    "decision_id": null,
+    "quota_method": null
+  },
+  "quotas_by_circumscription": null,
+  "k_alternatives": {
+    "legal_reference": {
+      "total_seats": 350,
+      "meaning": "escaños parlamentarios legales del Congreso según LOREG; no es K DDD sin decisión expresa",
+      "not_selected": true
+    },
+    "constitutional_range": [
+      300,
+      400
+    ],
+    "project_precedent": {
+      "observed_historical_map_district_count": 391,
+      "discrepancy_392_391": "La documentación de cierre registra incidencia 392/391 sin fuente que permita resolverla; no inferir su causa ni tomarla como regla de K.",
+      "accredited": false
+    },
+    "analytical_scenarios_not_decisions": [
+      {
+        "k": 383,
+        "label": "inferior provincial"
+      },
+      {
+        "k": 407,
+        "label": "más próximo provincial"
+      },
+      {
+        "k": 409,
+        "label": "Hamilton global derivado"
+      },
+      {
+        "k": 435,
+        "label": "superior provincial"
+      },
+      {
+        "k": 409,
+        "label": "mínimos de referencia con K derivado"
+      }
+    ]
+  },
+  "accreditation": {
+    "circumscription_accreditation": false,
+    "generation_authorized": false
+  },
+  "reproducibility": {
+    "required": true,
+    "inputs_sha256_required": true,
+    "manifest_required": true,
+    "fixed_environment_required": true,
+    "synthetic_pilot_only": true
+  }
+}

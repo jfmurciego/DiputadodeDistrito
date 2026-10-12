@@ -1,0 +1,45 @@
+{
+  "authorization": "preparar expediente; no decidir, push, PR, merge, fuentes, generación ni publicación",
+  "base_main": "1fdb75771a92be52813a6bd28894462e58a36fdd",
+  "branch": "codex/n06-expediente-k",
+  "decision_status": "WAIT_OWNER",
+  "formal_task_state_modified": false,
+  "metadata": {
+    "changes": "anclaje sin transición formal",
+    "date": "2026-10-12",
+    "name": "Vinculación N06 al Plan Maestro",
+    "origin": "nuevo",
+    "reason": "decisión reservada",
+    "scope": "expediente técnico local",
+    "status": "WAIT_OWNER",
+    "version": "1.0.0"
+  },
+  "next_consumer": "Work/propietario para decisión expresa N06; no motor territorial",
+  "observed_task": {
+    "acceptance": [
+      "Decisión expresa Director, sin inferir del Congreso"
+    ],
+    "attempts": 0,
+    "authorization": "director-scope-required",
+    "blocker": null,
+    "depends_on": [
+      "N05"
+    ],
+    "evidence": [],
+    "execution": "approval",
+    "front": "distritos-nacionales",
+    "id": "N06",
+    "status": "PENDING",
+    "title": "Decidir contrato institucional K"
+  },
+  "plan_directory": "/Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-vivo-20261011",
+  "plan_files_sha256": {
+    "PROMPTS_TAREAS/N06.md": "7a5d215ab38fa1db33cea81de38ebcab4ec8e410d1e354fb8bd45b3eaa067f1d",
+    "estado.json": "c8eaab53c1c1638d3fac30fc3c48ab8a1131fd43ee8ca770c114510e9d21b32e",
+    "plan.md": "43e36913b46c89e73938050af4e380f10ac73708c589227eac87cf20f825549f"
+  },
+  "plan_id": "ddd-maestro-20261008",
+  "python_runtime": "3.11.4",
+  "task_id": "N06",
+  "worktree": "/Users/macbookpro/Desarrollo/DDD-n06-expediente"
+}

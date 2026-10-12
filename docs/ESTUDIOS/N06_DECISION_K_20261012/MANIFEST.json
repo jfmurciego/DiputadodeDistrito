@@ -1,0 +1,33 @@
+{
+  "files_sha256": {
+    "EXPEDIENTE.md": "75a7b5c04862d9ba029c5ed752936ea574d959faeb645035cccc32b1a84ebe5d",
+    "comparar.py": "113ab1431cc6305c3c9fe775e98b6a15f63eba95bbaf88e6973988120a8544db",
+    "regresiones.log": "cd768d47fc05e865b04dfda72e566c7d204a0e21d452163393624b50c2497f6e",
+    "reproduccion.log": "1d4501c7afa75ff19ba79cbff930c782f863781702fbdbbcea9a2a3bb1f1b10a",
+    "resultados/comparaciones.json": "3d343fec53fb64974ba9618e33bc70e9bdae03be9f4ce62cd7c511f26e886c10",
+    "resultados/repartos_52.csv": "ce01f947ace1c4bd09982450ea99238e1e8d455f7dc67a2c1514164f5fc6b734",
+    "resultados/resumen.csv": "a44fd9ddbb51f8fe057c1a65f41e1aae8a1c9b32f9157571813a90198eefd4dd",
+    "verificacion.log": "57277ad6fa462d1c53faf8b431ed386badfd76fde44a529c529f5d71ab743b3f",
+    "verificar.py": "dcb8379a9a7d4244ee4e8f6f5fd22767114123f7e1c322032cec0d634bfdafb0",
+    "vinculo_plan.json": "55c58d0d0a48911f3d452bb92bdc1293d2d334cdf27943e23dbdb871bcf6b6dc",
+    "corregir.py": "7e7e40a460f6b07654ba915c39058bbd457571e4e019a4063c0265b8fbc9f9cc",
+    "verificar_correccion.py": "0391be932d566592db2e79896a0ec0738bb9fab1fdd5f02138efe833bfe56b34",
+    "resultados/correccion_ddd.json": "4b141be8c96b2e6386b7cd7e2a7956d83678f3393f1dc80b867739b7273ca5b0",
+    "resultados/reparto_ddd_52.csv": "0eb6f228f1ccf53830f630ff12446dd2ecccd55e72f6588b488a846b7dac6f7d",
+    "validacion_correccion.log": "00e26c744ae938ddf47247715f602df52f8f74045ae55cb1a1214c88c8adf440"
+  },
+  "metadata": {
+    "changes": "rectificación de K y artefactos DDD; conservación de original en legacy",
+    "date": "2026-10-12",
+    "name": "Manifiesto expediente N06",
+    "origin": "legacy/docs/ESTUDIOS/N06_DECISION_K_20261012_v1.0.0/MANIFEST.json",
+    "reason": "mandato expreso de primacía de mónada electoral",
+    "scope": "análisis 2025, conservación local",
+    "status": "WAIT_OWNER",
+    "version": "1.1.0"
+  },
+  "plan_id": "ddd-maestro-20261008",
+  "task_id": "N06",
+  "original_commit": "d8fb5ada561d02669b25adfb349f469aa2db4619",
+  "original_verdict_received": "GO_ACOTADO"
+}
