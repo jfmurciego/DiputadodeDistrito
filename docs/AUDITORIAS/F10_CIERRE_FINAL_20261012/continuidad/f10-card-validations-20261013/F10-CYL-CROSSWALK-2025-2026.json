@@ -1,0 +1,47 @@
+{
+  "schema": "ddd.f10-auto-task-validation/1.0",
+  "task": "F10-CYL-CROSSWALK-2025-2026",
+  "territory_id": "castilla_y_leon",
+  "technical_result": "EVIDENCE_VERIFIED",
+  "underlying_electoral_gate": "BLOCKED_CROSSWALK_NOT_PROVEN",
+  "acceptance_count": 3,
+  "acceptance_covered": [
+    0,
+    1,
+    2
+  ],
+  "evidence": [
+    {
+      "path": "territorios/castilla_y_leon/evidencia/fuente_electoral_2026_procedencia.json",
+      "sha256": "c219744c673f91712035c30edd9e8d018c181fc5184bc5dc9158296707f43752",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "territorios/castilla_y_leon/evidencia/reconciliacion_secciones_2025_2026.json",
+      "sha256": "590f3f26f674fe340b714a34c901427cde247738e81bc9649dc82026bfe16fd9",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
+      "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    }
+  ],
+  "recomputed_checks": [
+    {
+      "electoral_only_count": 24,
+      "map_only_count": 2,
+      "electoral_only_votes_sum": 15656,
+      "declared_electoral_only_votes": 15656,
+      "electoral_sections_minus_common": 24,
+      "map_sections_minus_common": 2
+    }
+  ],
+  "executor_summary": "NOT_SUPPLIED",
+  "network": false,
+  "production": false,
+  "promotion": false
+}
