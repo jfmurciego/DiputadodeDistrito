@@ -52,6 +52,8 @@ no demuestra que el producto M06 histórico se generara con ella.
 - `tests.test_f10_preparacion_aislada...test_fourteen_historical_receipts_remain_and_extremadura_f10_is_unpromoted`: PASS.
 - Los 14 recibos históricos siguen aceptados; los receipts derivados sin contrato siguen bloqueados.
 
+El adaptador de almacén `almacen_fuentes_local` también fue ejercitado con el ZIP protegido y metadatos del artefacto GitHub 11684599346 (API: `expired=false`, digest coincidente). La recuperación quedó `RECOVERED_VERIFIED` y `consume(...)` entregó el paquete por la identidad exacta `70d7a964…fd084` y SHA de paquete `5f55db97…f21b0a`. El inventario de replay está fuera de Git en `~/Desarrollo/DDD-almacen/fuentes-oficiales/F10-20261012-cierre/extremadura-consumer-replay/inventory.json` (SHA-256 `4f1bcbab9e79d5e0ce4be39f09557a5efda247840148ba5f1d3bc25c0dc88c59`); la descarga temporal es una copia byte a byte del original protegido, no una nueva adquisición.
+
 El consumidor territorial de fuente #179 acepta ahora la evidencia F10 2025/2025.
 No se ejecutó `00`, M01–M08, una campaña, generación ni publicación. F10 global sigue
 PENDING porque los otros cuatro territorios tienen puertas de población/geometría abiertas.
@@ -64,4 +66,4 @@ los demás productos y elecciones siguen regidos por sus contratos propios.
 
 Base: `f87445f5d75a53cee17cd3bcc711854318b795ff`; rama
 `codex/f10-cierre-extremadura`; la implementación compartida depende de
-`codex/f10-fuente-independiente`. HEAD y PR se anotan al cerrar el incremento.
+`codex/f10-fuente-independiente`. HEAD `da07aba819cdd7ec36881e2ccb54da97633e8874`; PR borrador #244, dependiente de #243.
