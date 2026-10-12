@@ -876,8 +876,6 @@ def reconcile_population_sectioning(
             if row["source_keys"][0] not in mapped_source
             or row["target_keys"][0] not in mapped_target
         ]
-        if geometric_changes:
-            causes.append("SAME_CODE_BOUNDARY_CHANGED")
 
     one_to_one = [
         r for r in correspondences
@@ -932,6 +930,14 @@ def reconcile_population_sectioning(
         for row in correspondences
     ):
         causes.append("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE")
+
+    geometric_changes = [
+        row for row in geometric_changes
+        if row["source_keys"][0] not in mapped_source
+        or row["target_keys"][0] not in mapped_target
+    ]
+    if geometric_changes:
+        causes.append("SAME_CODE_BOUNDARY_CHANGED")
 
     population_without_destination = sorted(set(populations) - set(source_to_target))
     geometry_without_population = sorted(set(target) - set(assignment))

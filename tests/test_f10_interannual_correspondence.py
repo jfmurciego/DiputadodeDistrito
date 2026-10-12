@@ -88,6 +88,31 @@ class InterannualCorrespondenceTests(unittest.TestCase):
         self.assertEqual(report["decision"], "READY")
         self.assertEqual(report["correspondences"][0]["kind"], "FUSION")
 
+    def test_exact_fusion_resolves_same_code_boundary_change_in_its_destination(self):
+        audit = {
+            "normalization_safety": {"decision": "READY"},
+            "source_admissibility": {"decision": "READY", "original_overlap_pairs": []},
+        }
+        origin_audit = {
+            "normalization_safety": {"decision": "READY"},
+            "source_admissibility": {"decision": "DEFERRED_TO_CONSUMER_GATE", "original_overlap_pairs": []},
+        }
+        report = reconcile_population_sectioning(
+            territory_id="fusion_same_code", edition="2025", population_year=2025,
+            section_year=2026,
+            population_rows=[("0100101001", 60), ("0100101002", 40)],
+            target_geometry_rows=[("0100101001", box(0, 0, 2, 1))],
+            origin_geometry_rows=[("0100101001", box(0, 0, 1, 1)),
+                                  ("0100101002", box(1, 0, 2, 1))],
+            geometry_audits={
+                "target_sectioning": {"audit": audit, "derivation": {"decision": "READY"}},
+                "population_sectioning_origin": {"audit": origin_audit, "derivation": {"decision": "READY"}},
+            })
+        self.assertEqual(report["geometric_changes"], [])
+        self.assertNotIn("SAME_CODE_BOUNDARY_CHANGED", report["causes"])
+        self.assertEqual(report["population"]["assigned_total"], 100)
+        self.assertEqual(report["decision"], "READY")
+
     def test_many_to_many_equal_union_does_not_assign_without_distribution_evidence(self):
         report = reconcile(
             [("0100101001", 60), ("0100101002", 40)],
