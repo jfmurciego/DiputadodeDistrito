@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# Versión: 1.1.0; nombre: Puertas derivadas F10; fecha: 2026-10-13.
+# Alcance: validar fichas READ_ONLY y evidencias de actividades F10.
+# Estado: candidato. Cambios/motivo: impedir selección de tareas con validadores
+# incompletos o informe estructurado que no supere la validación determinista.
+# Anterior: legacy/herramientas/estado_derivado_f10_v1.0.0_20261012.py.
 """Read-only F10 door projection from current receipts and canonical consumers.
 
 The closure dossier is cross-checked as a tracking record; it never grants PASS.
@@ -410,9 +415,18 @@ def _validate_activity_cards(root: Path, activities: list[dict[str, Any]]) -> li
                 raise ValueError("identidad de tarea/territorio distinta")
             spec = matches[0].get("spec") or {}
             task = matches[0].get("task") or {}
+            acceptance = matches[0].get("acceptance") or []
+            validators = spec.get("validators") or []
+            covered = {index for validator in validators for index in validator.get("covers", [])}
             if (spec.get("work_class") != "READ_ONLY" or task.get("authority_class") != "local_read_only"
-                    or task.get("reserved") is not False or task.get("front") != "fuentes-oficiales"):
+                    or task.get("reserved") is not False or task.get("front") != "fuentes-oficiales"
+                    or task.get("depends_on") != [] or not acceptance
+                    or covered != set(range(len(acceptance))) or not validators
+                    or any(item.get("local_only") is not True or not item.get("argv") for item in validators)
+                    or not set(activity.get("required_actions", [])) <= set(spec.get("allowed_actions", []))):
                 raise ValueError("ficha excede alcance local READ_ONLY")
+            from herramientas.validar_f10_auto_task import validate as validate_card
+            validate_card(root, task_id, cards_path=card_path)
         except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
             activity["task_spec_error"] = f"Ficha no verificable: {exc}"
         validated.append(activity)
