@@ -1,3 +1,7 @@
+"""Versión 1.1.0; 2026-10-12; regresión fuentes INE coexistentes con N06.
+Anterior: legacy/tests/test_materializar_fuentes_nacionales_ine_pre_n06.py.
+Cambio: aprobación K/referencia; otras decisiones pendientes y generación bloqueada.
+"""
 import unittest
 from unittest.mock import patch
 
@@ -124,24 +128,24 @@ class MaterializedPackageTests(unittest.TestCase):
 
         contract_path = package.parents[1] / "contrato_congreso_2026.json"
         contract = json.loads(contract_path.read_text(encoding="utf-8"))
-        self.assertEqual(contract["metadata"]["status"], "CANDIDATO_WAIT_OWNER")
-        self.assertEqual(contract["population_reference"]["status"], "WAIT_OWNER")
+        self.assertEqual(contract["metadata"]["status"], "CANDIDATO_N06_APPROVED_GENERATION_BLOCKED")
+        self.assertEqual(contract["population_reference"]["status"], "APPROVED_BY_OWNER")
         self.assertTrue(all(decision["status"] == "WAIT_OWNER" and decision["value"] is None
-                            for decision in contract["decisions"].values()))
-        self.assertEqual(contract["k_decision"], {
-            "status": "WAIT_OWNER", "total": None, "source_scope": None,
-            "decision_id": None, "quota_method": None,
-        })
-        self.assertIsNone(contract["quotas_by_circumscription"])
+                            for name, decision in contract["decisions"].items()
+                            if name != "population_reference"))
+        self.assertEqual(contract["decisions"]["population_reference"]["status"], "APPROVED")
+        self.assertEqual(contract["k_decision"]["status"], "APPROVED_BY_OWNER")
+        self.assertEqual(contract["k_decision"]["total"], 407)
+        self.assertEqual(sum(row["k"] for row in contract["quotas_by_origin_unit"]), 407)
         self.assertFalse(contract["accreditation"]["circumscription_accreditation"])
         self.assertFalse(contract["accreditation"]["generation_authorized"])
         self.assertTrue(all(contract["sources"][role]["accreditation"] == "ACCREDITED"
                             for role in ("geometry", "population")))
         from ddd_core.congreso_contract import production_blockers
         blockers = production_blockers(contract)
-        self.assertIn("OWNER_DECISION_PENDING", blockers)
-        self.assertIn("DECISION_POPULATION_REFERENCE_PENDING", blockers)
-        self.assertIn("CONGRESS_K_UNDECIDED_OR_INVALID", blockers)
+        self.assertNotIn("OWNER_DECISION_PENDING", blockers)
+        self.assertNotIn("DECISION_POPULATION_REFERENCE_PENDING", blockers)
+        self.assertNotIn("CONGRESS_K_UNDECIDED_OR_INVALID", blockers)
         self.assertFalse(any(item.startswith("SOURCE_") for item in blockers))
 
 
