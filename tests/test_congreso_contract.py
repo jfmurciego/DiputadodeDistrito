@@ -1,3 +1,5 @@
+# Versión 1.1.0; fecha 2026-10-12; regresión del contrato 0.1 inmutable.
+# Origen: legacy/n06_contrato_20261012/test_congreso_contract_v1.py; assertions intactas.
 import json
 import unittest
 from pathlib import Path
@@ -29,7 +31,7 @@ class CongressContractTests(unittest.TestCase):
         self.assertFalse(result["generation_authorized"])
 
     def test_candidate_json_is_structural_only_and_fail_closed(self):
-        path = Path(__file__).parents[1] / "territorios/congreso/contrato_congreso_2026.json"
+        path = Path(__file__).parents[1] / "legacy/n06_contrato_20261012/contrato_congreso_2026_v0.1.0.json"
         contract = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(validate_congress_identity(contract)["status"], "STRUCTURAL_SCOPE_ADMITTED")
         blockers = production_blockers(contract)

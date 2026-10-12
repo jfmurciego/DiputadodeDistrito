@@ -1,15 +1,15 @@
-"""VERSIÓN: 1.0.0; NOMBRE: guardas de admisión del contrato Congreso.
-FECHA: 2026-10-11; ALCANCE: validación contractual, sin ejecutar M01–M08.
-ESTADO: candidato local; CAMBIOS: identidad congreso y universo cerrado 01–52.
+"""VERSIÓN: 1.1.0; NOMBRE: guardas de admisión del contrato Congreso.
+FECHA: 2026-10-12; ALCANCE: validación contractual, sin ejecutar M01–M08.
+ESTADO: candidato local; CAMBIOS: migración compatible de unidades administrativas de origen 01–52.
 MOTIVO: separar el Congreso del gestor autonómico de 19 ámbitos.
-ORIGEN: componente nuevo; sin predecesor.
+ORIGEN: legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py.
 """
 from __future__ import annotations
 
 import re
 from typing import Any, Mapping
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 CONGRESS_CODES = tuple(f"{number:02d}" for number in range(1, 53))
 PROVINCE_CODES = CONGRESS_CODES[:50]
 AUTONOMOUS_CITY_CODES = CONGRESS_CODES[50:]
@@ -87,6 +87,22 @@ def _validate_closed_objects(value: Any, path: tuple[str, ...] = ()) -> list[str
     return errors
 
 
+def _normalize_origin_units(payload: Mapping[str, Any]) -> dict[str, Any]:
+    """Compatible 0.2 origin names; reject conflicting dual representations."""
+    result = dict(payload)
+    aliases = {"origin_units": "circumscriptions", "origin_unit_codes": "circumscription_codes",
+               "quotas_by_origin_unit": "quotas_by_circumscription"}
+    for canonical, legacy in aliases.items():
+        if canonical in result:
+            if result.get("schema") != "ddd.congress-contract/0.2":
+                raise ValueError("ORIGIN_UNITS_REQUIRE_SCHEMA_0_2")
+            value = result.pop(canonical)
+            if legacy in result and result[legacy] != value:
+                raise ValueError("ORIGIN_UNITS_ALIAS_CONFLICT:" + canonical)
+            result[legacy] = value
+    return result
+
+
 def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
     """Validate routing identity and the fixed 52-code universe only.
 
@@ -95,6 +111,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
     """
     if not isinstance(payload, Mapping):
         raise ValueError("CONGRESS_CONTRACT_INVALID: payload must be an object")
+    payload = _normalize_origin_units(payload)
     errors: list[str] = []
     unknown = set(payload) - ALLOWED_CONTRACT_FIELDS
     if unknown:
@@ -189,7 +206,9 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
         "territory_id": "espana_congreso",
         "province_codes": list(PROVINCE_CODES),
         "autonomous_city_codes": list(AUTONOMOUS_CITY_CODES),
-        "circumscription_count": len(CONGRESS_CODES),
+        "circumscription_count": len(CONGRESS_CODES),  # deprecated administrative count
+        "origin_unit_count": len(CONGRESS_CODES),
+        "electoral_district_count": (payload["k_decision"].get("total") if isinstance(payload.get("k_decision"), Mapping) else None),
         "generation_authorized": False,
     }
 
@@ -198,6 +217,7 @@ def production_blockers(contract: Mapping[str, Any]) -> list[str]:
     """Fail-closed readiness check; this function never launches modules."""
     blockers: list[str] = []
     try:
+        contract = _normalize_origin_units(contract)
         validate_congress_identity(contract)
     except ValueError as exc:
         blockers.append(str(exc))

@@ -1,0 +1,4 @@
+PASS: 15 escenarios, 780 filas, edición 2025; N06 WAIT_OWNER
+PASS SHA256 comparaciones.json 3d343fec53fb64974ba9618e33bc70e9bdae03be9f4ce62cd7c511f26e886c10
+PASS SHA256 repartos_52.csv ce01f947ace1c4bd09982450ea99238e1e8d455f7dc67a2c1514164f5fc6b734
+PASS SHA256 resumen.csv a44fd9ddbb51f8fe057c1a65f41e1aae8a1c9b32f9157571813a90198eefd4dd
