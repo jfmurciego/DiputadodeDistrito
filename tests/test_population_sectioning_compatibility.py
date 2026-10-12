@@ -302,7 +302,7 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
         self.assertTrue(any(x["kind"] == "SPLIT" for x in report["correspondences"]))
         self.assertEqual(report["population"]["assigned_total"], 0)
 
-    def test_fusion_is_detected_geometrically_but_remains_blocked(self):
+    def test_exact_municipal_fusion_assigns_sum_when_target_consumer_geometry_is_admissible(self):
         report = reconcile(
             [("0100101001", 40), ("0100101002", 60)],
             [("0100102001", box(0, 0, 1, 1))],
@@ -313,8 +313,13 @@ class PopulationSectioningCompatibilityTests(unittest.TestCase):
             population_year=2024,
             section_year=2025,
         )
-        self.assertIn("NON_BIJECTIVE_GEOMETRIC_CORRESPONDENCE", report["causes"])
-        self.assertTrue(any(x["kind"] == "FUSION" for x in report["correspondences"]))
+        fusion = next(x for x in report["correspondences"] if x["kind"] == "FUSION")
+        self.assertEqual(fusion["population_assignment"], "SUM_OF_EXACT_GEOMETRIC_FUSION")
+        self.assertEqual(report["population"]["assigned_total"], 100)
+        self.assertEqual(report["population"]["unassigned_total"], 0)
+        self.assertTrue(report["population"]["exact_conservation"])
+        self.assertEqual(report["geometry_admissibility"]["decision"], "READY")
+        self.assertEqual(report["decision"], "READY")
 
     def test_origin_overlap_requires_bound_target_admissibility(self):
         origin_a = box(0, 0, 2, 2)
