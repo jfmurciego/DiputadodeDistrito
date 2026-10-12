@@ -882,6 +882,7 @@ def reconcile_population_sectioning(
     one_to_one = [
         r for r in correspondences
         if len(r["source_keys"]) == 1 and len(r["target_keys"]) == 1
+        and r["source_keys"][0] in populations
     ]
     exact_fusions = [
         r for r in correspondences
