@@ -1,0 +1,50 @@
+{
+  "schema": "ddd.f10-auto-task-validation/1.0",
+  "task": "F10-ARA-CROSSWALK-2025-2026",
+  "territory_id": "aragon",
+  "technical_result": "EVIDENCE_VERIFIED",
+  "underlying_electoral_gate": "BLOCKED_CROSSWALK_NOT_PROVEN",
+  "acceptance_count": 3,
+  "acceptance_covered": [
+    0,
+    1,
+    2
+  ],
+  "evidence": [
+    {
+      "path": "territorios/aragon/evidencia/catalogo/electoral_source_2025.json",
+      "sha256": "6f4d86d59e3a6bd1a928432b05b8e2a9890b90f5a415cd160f8877ec973332ba",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "territorios/aragon/config/elecciones/aragon_cortes_2026.json",
+      "sha256": "2a9c7bfb9005311989f3e5634d62479a4d7b81a0cabad456e4887a85eeaa406a",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    },
+    {
+      "path": "configuracion/decisiones/f10_referencia_territorial_2025_2026.json",
+      "sha256": "f9b8e9c0887318c2caae72234eeb321afd94e7de756a679e68d7566dbb373caa",
+      "identity": "HASH_MATCH",
+      "json_identity": "MATCH"
+    }
+  ],
+  "recomputed_checks": [
+    {
+      "result_only_count": 1,
+      "result_only_votes": 608,
+      "map_only_count": 1,
+      "result_only_cusec": [
+        "5002501003"
+      ],
+      "map_only_cusec": [
+        "2221301003"
+      ]
+    }
+  ],
+  "executor_summary": "NOT_SUPPLIED",
+  "network": false,
+  "production": false,
+  "promotion": false
+}
