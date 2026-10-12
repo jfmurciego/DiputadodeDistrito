@@ -3,7 +3,7 @@
   "territory_id": "andalucia",
   "population_year": 2025,
   "section_year": 2026,
-  "implementation_commit": "6d30c9b2",
+  "implementation_commit": "a4f508ec",
   "fixture": {
     "path": "tests/fixtures/f10_interannual/andalucia.json.gz",
     "sha256": "6d5a2e0e00493f0b80208d3db0c46d889c7bfe21aaf3733c03c5d60b008f14ee",
