@@ -14,6 +14,8 @@ class ValenciaUniverseEvidenceTests(unittest.TestCase):
         self.assertTrue(report["identity_exact"])
         self.assertEqual(3503, report["population_rows"])
         self.assertEqual(3503, report["geometry_sections"])
+        self.assertEqual(0, report["invalid_population_rows_in_selected_table"])
+        self.assertEqual(0, report["blank_population_rows_in_selected_table"])
         self.assertEqual(5216195, report["population_total"])
         self.assertEqual({"03": 1955268, "12": 604086, "46": 2656841}, report["province_totals"])
 

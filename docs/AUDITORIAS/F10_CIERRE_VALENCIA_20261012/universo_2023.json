@@ -3,7 +3,8 @@
   "population_rows": 3503,
   "geometry_sections": 3503,
   "identity_exact": true,
-  "invalid_or_blank_population_rows_in_selected_table": 0,
+  "invalid_population_rows_in_selected_table": 0,
+  "blank_population_rows_in_selected_table": 0,
   "population_total": 5216195,
   "province_totals": {
     "03": 1955268,

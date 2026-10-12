@@ -31,14 +31,21 @@ def main() -> int:
 
     pop: dict[str, int] = {}
     province_sums: Counter[str] = Counter()
+    blank_population_rows = 0
     with args.population.open(encoding="utf-8-sig", newline="") as stream:
         for row in csv.DictReader(stream, delimiter="\t"):
             code = row["Secciones"].split(" ", 1)[0]
             province = row["Provincias"].split(" ", 1)[0]
             raw = row["Total"].strip()
             if not raw:
+                blank_population_rows += 1
                 continue
-            value = int(raw.replace(".", ""))
+            try:
+                value = int(raw.replace(".", ""))
+            except ValueError as exc:
+                raise ValueError(f"Valor poblacional no entero en {code}: {raw!r}") from exc
+            if value < 0:
+                raise ValueError(f"Valor poblacional negativo en {code}: {value}")
             if code in pop:
                 raise ValueError(f"CUSEC duplicado en población: {code}")
             pop[code] = value
@@ -75,7 +82,8 @@ def main() -> int:
         "population_rows": len(pop),
         "geometry_sections": len(geometry),
         "identity_exact": True,
-        "invalid_or_blank_population_rows_in_selected_table": 0,
+        "invalid_population_rows_in_selected_table": 0,
+        "blank_population_rows_in_selected_table": blank_population_rows,
         "population_total": sum(pop.values()),
         "province_totals": dict(sorted(province_sums.items())),
         "province_features_by_type": {p: dict(counts[p]) for p in counts},
