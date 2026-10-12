@@ -1,0 +1,83 @@
+{
+  "schema": "ddd.plan-derived-doors/1.0",
+  "version": "1.0.0",
+  "name": "F10 independent evidence doors and work dependencies",
+  "date": "2026-10-12",
+  "scope": "Read-only derived territorial, electoral, joint and production doors; does not alter formal Plan task status or authorize production.",
+  "status": "CANDIDATE",
+  "reason": "F10 autonomous controller pilot authorized by Work",
+  "predecessor": "Plan Maestro vivo 1.3.0+20261011.1; estado.json preserved byte-for-byte",
+  "plan_revision": "1.3.0+20261011.1",
+  "plan_state_sha256_at_creation": "7047102821fc321822bdcba0438abd94c7b0622571b189b6304b6dbd4cab50f6",
+  "catalog_sha256_at_creation": "6cfb6dcd1a3ad7d617dd6825e6087978504b3450e41b9de7b289482727519a8b",
+  "formal_task_preserved": {
+    "id": "F10",
+    "status": "PENDING",
+    "authority_class": "owner_reserved",
+    "reserved": true,
+    "depends_on": ["F09"]
+  },
+  "doors": ["territorial_acquisition", "electoral_admissibility", "joint_admissibility", "production"],
+  "activities": [
+    {
+      "id": "F10-AND-CROSSWALK-2025-2026",
+      "territory_id": "andalucia",
+      "action": "research_official_2025_2026_crosswalk",
+      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "does_not_require_global_f10_closed": true,
+      "authorization_class": "local_read_only",
+      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
+      "task_spec_registered": false
+    },
+    {
+      "id": "F10-ARA-CROSSWALK-2025-2026",
+      "territory_id": "aragon",
+      "action": "research_official_2025_2026_crosswalk",
+      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "does_not_require_global_f10_closed": true,
+      "authorization_class": "local_read_only",
+      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
+      "task_spec_registered": false
+    },
+    {
+      "id": "F10-CYL-CROSSWALK-2025-2026",
+      "territory_id": "castilla_y_leon",
+      "action": "research_official_2025_2026_crosswalk",
+      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "does_not_require_global_f10_closed": true,
+      "authorization_class": "local_read_only",
+      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
+      "task_spec_registered": false
+    },
+    {
+      "id": "F10-EXT-ELECTORAL-SOURCE",
+      "territory_id": "extremadura",
+      "action": "research_definitive_granular_election_source",
+      "requires": [{"door": "territorial_acquisition", "state": "CLOSED"}],
+      "does_not_require_global_f10_closed": true,
+      "authorization_class": "local_read_only",
+      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "scope": "local evidence review only; no acquisition, no network, no promotion, no production",
+      "task_spec_registered": false
+    },
+    {
+      "id": "F10-CV-2023-SOURCE-RESOLUTION",
+      "territory_id": "comunidad_valenciana",
+      "action": "resolve_2023_population_geometry_blocker",
+      "requires": [{"door": "territorial_acquisition", "state": "BLOCKED"}],
+      "does_not_require_global_f10_closed": true,
+      "authorization_class": "local_read_only",
+      "required_actions": ["investigation", "diagnostics", "preserve_evidence"],
+      "scope": "only materially new official evidence; no equivalent repeated tests, no boundary edits, no zero imputation, no production",
+      "task_spec_registered": false,
+      "wait_reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+    }
+  ],
+  "production": {
+    "authorized": false,
+    "blocked_actions": ["00", "M01-M08", "campaigns", "generation", "publication"]
+  }
+}
