@@ -1,0 +1,626 @@
+{
+  "schema": "ddd.f10-fusion-replay/1.0",
+  "territory_id": "castilla_y_leon",
+  "population_year": 2025,
+  "section_year": 2026,
+  "implementation_commit": "4fe55bab",
+  "fixture": {
+    "path": "tests/fixtures/f10_interannual/castilla_y_leon.json.gz",
+    "sha256": "ffceb5433f1b115f4338bd45e5919b8e13bfaf2471df00de96ea6fb43c81398c",
+    "source_input_identities": {
+      "population": {
+        "path": "inputs/65034.csv.zip",
+        "sha256": "18f8bc18d421e2dc6a95917f216789ee642a798f9e573fa0fed0088827d7816f",
+        "bytes": 57125
+      },
+      "target_sectioning": {
+        "path": "inputs/seccionado_2025.zip",
+        "sha256": "e88411c3eb8cbfe4af5c0550e33f5285a35c9255c7f9aa69bd38c0c6db4ef0a5",
+        "bytes": 6809807
+      },
+      "population_sectioning_origin": {
+        "path": "inputs/seccionado_origen_poblacion_2025.zip",
+        "sha256": "b793647453e3b3ccf81519070fa4fb0b404a90eac56e0871289483b813a9a791",
+        "bytes": 6794083
+      }
+    }
+  },
+  "previous_full_audit": {
+    "path": "docs/AUDITORIAS/F10_COMPATIBILIDAD_INTERANUAL_20261012/reconciliacion.json",
+    "sha256": "5e3f585319b83d0a5df2851fd918fa3c5678db85165804db2ce149a4b24f1e08",
+    "previous_unassigned_population": 84197,
+    "unassigned_section_count": 54
+  },
+  "replay_scope": "Only originally unresolved source rows/components retained in the traceable real-data regression fixture; not a replacement for the full consumer run.",
+  "exact_fusions_assigned": [
+    {
+      "source_keys": [
+        "3412004002",
+        "3412004006"
+      ],
+      "target_keys": [
+        "3412004002"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1568,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    },
+    {
+      "source_keys": [
+        "3710701001",
+        "3710701002"
+      ],
+      "target_keys": [
+        "3710701001"
+      ],
+      "kind": "FUSION",
+      "evidence": "geometric_union_after_crs_normalization",
+      "geometric_union_exact": true,
+      "source_population_total": 1125,
+      "population_assignment": "SUM_OF_EXACT_GEOMETRIC_FUSION"
+    }
+  ],
+  "population": {
+    "input_total": 84411,
+    "assigned_total": 2907,
+    "unassigned_total": 81504,
+    "unassigned_by_section": [
+      {
+        "section_id": "0901802002",
+        "population": 2220
+      },
+      {
+        "section_id": "0901803004",
+        "population": 2134
+      },
+      {
+        "section_id": "0901803005",
+        "population": 1990
+      },
+      {
+        "section_id": "0905902005",
+        "population": 1297
+      },
+      {
+        "section_id": "0905903007",
+        "population": 1325
+      },
+      {
+        "section_id": "0905905047",
+        "population": 1517
+      },
+      {
+        "section_id": "0905905048",
+        "population": 951
+      },
+      {
+        "section_id": "0905905051",
+        "population": 1667
+      },
+      {
+        "section_id": "0905906007",
+        "population": 1276
+      },
+      {
+        "section_id": "0905906009",
+        "population": 1372
+      },
+      {
+        "section_id": "0905908003",
+        "population": 2462
+      },
+      {
+        "section_id": "0905908004",
+        "population": 1428
+      },
+      {
+        "section_id": "0905909016",
+        "population": 2276
+      },
+      {
+        "section_id": "0905909023",
+        "population": 1407
+      },
+      {
+        "section_id": "0905909035",
+        "population": 1477
+      },
+      {
+        "section_id": "0905909041",
+        "population": 920
+      },
+      {
+        "section_id": "2405901001",
+        "population": 797
+      },
+      {
+        "section_id": "2408904002",
+        "population": 1094
+      },
+      {
+        "section_id": "2408904015",
+        "population": 2930
+      },
+      {
+        "section_id": "2408905002",
+        "population": 1206
+      },
+      {
+        "section_id": "2408906006",
+        "population": 972
+      },
+      {
+        "section_id": "2408906007",
+        "population": 2305
+      },
+      {
+        "section_id": "2408906009",
+        "population": 2732
+      },
+      {
+        "section_id": "2408910007",
+        "population": 1804
+      },
+      {
+        "section_id": "2417101001",
+        "population": 323
+      },
+      {
+        "section_id": "2420601001",
+        "population": 1749
+      },
+      {
+        "section_id": "2420901001",
+        "population": 928
+      },
+      {
+        "section_id": "2420901002",
+        "population": 1668
+      },
+      {
+        "section_id": "3412005010",
+        "population": 1224
+      },
+      {
+        "section_id": "3412005013",
+        "population": 1192
+      },
+      {
+        "section_id": "3702301001",
+        "population": 2666
+      },
+      {
+        "section_id": "3708701001",
+        "population": 1454
+      },
+      {
+        "section_id": "3727403020",
+        "population": 1549
+      },
+      {
+        "section_id": "4004001002",
+        "population": 1718
+      },
+      {
+        "section_id": "4004002001",
+        "population": 1097
+      },
+      {
+        "section_id": "4005701001",
+        "population": 639
+      },
+      {
+        "section_id": "4005701002",
+        "population": 1071
+      },
+      {
+        "section_id": "4015501001",
+        "population": 1589
+      },
+      {
+        "section_id": "4015501003",
+        "population": 1195
+      },
+      {
+        "section_id": "4015501004",
+        "population": 1811
+      },
+      {
+        "section_id": "4019404010",
+        "population": 2214
+      },
+      {
+        "section_id": "4209501002",
+        "population": 1782
+      },
+      {
+        "section_id": "4217302012",
+        "population": 847
+      },
+      {
+        "section_id": "4217302014",
+        "population": 2872
+      },
+      {
+        "section_id": "4217302015",
+        "population": 1126
+      },
+      {
+        "section_id": "4700701003",
+        "population": 1833
+      },
+      {
+        "section_id": "4701001007",
+        "population": 2076
+      },
+      {
+        "section_id": "4701001008",
+        "population": 2851
+      },
+      {
+        "section_id": "4701001010",
+        "population": 2802
+      },
+      {
+        "section_id": "4705201001",
+        "population": 1669
+      }
+    ],
+    "accounting_exact": true,
+    "exact_conservation": false
+  },
+  "remaining_unresolved_components": [
+    {
+      "source_keys": [
+        "0901802002",
+        "0901803004",
+        "0901803005"
+      ],
+      "target_keys": [
+        "0901802002",
+        "0901803004",
+        "0901803005"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 6344,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905902005"
+      ],
+      "target_keys": [
+        "0905902005"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1297,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905903007"
+      ],
+      "target_keys": [
+        "0905903007"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1325,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905905047"
+      ],
+      "target_keys": [
+        "0905905047"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1517,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905905048",
+        "0905909016",
+        "0905909023",
+        "0905909035"
+      ],
+      "target_keys": [
+        "0905905048",
+        "0905909016",
+        "0905909023",
+        "0905909035"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 6111,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905905051"
+      ],
+      "target_keys": [
+        "0905905051"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1667,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905906007",
+        "0905906009",
+        "0905908003"
+      ],
+      "target_keys": [
+        "0905906007",
+        "0905906009",
+        "0905908003"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 5110,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905908004"
+      ],
+      "target_keys": [
+        "0905908004"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1428,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "0905909041"
+      ],
+      "target_keys": [
+        "0905909041"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 920,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2405901001",
+        "2417101001",
+        "2420601001",
+        "2420901001",
+        "2420901002"
+      ],
+      "target_keys": [
+        "2405901001",
+        "2417101001",
+        "2420601001",
+        "2420901001",
+        "2420901002"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5465,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2408904002",
+        "2408904015",
+        "2408910007"
+      ],
+      "target_keys": [
+        "2408904002",
+        "2408904015",
+        "2408904017",
+        "2408910007"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5828,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "2408905002",
+        "2408906006",
+        "2408906007",
+        "2408906009"
+      ],
+      "target_keys": [
+        "2408905002",
+        "2408906006",
+        "2408906007",
+        "2408906009",
+        "2408906020"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 7215,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "3412005010"
+      ],
+      "target_keys": [
+        "3412005010"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1224,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "3412005013"
+      ],
+      "target_keys": [
+        "3412005013"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1192,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "3702301001",
+        "3708701001",
+        "3727403020"
+      ],
+      "target_keys": [
+        "3702301001",
+        "3702301002",
+        "3708701001",
+        "3727403020"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 5669,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4004001002",
+        "4004002001"
+      ],
+      "target_keys": [
+        "4004001002",
+        "4004002001"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 2815,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4005701001",
+        "4005701002"
+      ],
+      "target_keys": [
+        "4005701001",
+        "4005701002"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 1710,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4015501001",
+        "4015501003",
+        "4015501004",
+        "4019404010"
+      ],
+      "target_keys": [
+        "4015501001",
+        "4015501003",
+        "4015501004",
+        "4019404010"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 6809,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4209501002",
+        "4217302014",
+        "4217302015"
+      ],
+      "target_keys": [
+        "4209501002",
+        "4217302014",
+        "4217302015",
+        "4217302016"
+      ],
+      "kind": "MANY_TO_MANY_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 5780,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4217302012"
+      ],
+      "target_keys": [
+        "4217302012"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 847,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4700701003"
+      ],
+      "target_keys": [
+        "4700701003"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1833,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4701001007",
+        "4701001008",
+        "4701001010"
+      ],
+      "target_keys": [
+        "4701001007",
+        "4701001008",
+        "4701001010",
+        "4701001012"
+      ],
+      "kind": "MANY_TO_MANY_REPARTITION",
+      "geometric_union_exact": true,
+      "source_population_total": 7729,
+      "population_assignment": "NOT_ACCREDITED"
+    },
+    {
+      "source_keys": [
+        "4705201001"
+      ],
+      "target_keys": [
+        "4705201001"
+      ],
+      "kind": "ONE_TO_ONE_BOUNDARY_CHANGE",
+      "geometric_union_exact": false,
+      "source_population_total": 1669,
+      "population_assignment": "NOT_ACCREDITED"
+    }
+  ],
+  "causes": [
+    "GEOMETRY_ADMISSIBILITY_EVIDENCE_MISSING",
+    "POPULATION_TOTAL_NOT_CONSERVED",
+    "POPULATION_WITHOUT_DESTINATION",
+    "SAME_CODE_BOUNDARY_CHANGED",
+    "TARGET_GEOMETRY_WITHOUT_POPULATION",
+    "UNACCREDITED_SECTIONING_CHANGE"
+  ],
+  "decision": "BLOCKED",
+  "municipality_identity_rule": "All source and target CUSEC share their first five digits (province + municipality).",
+  "official_alternative_source_review": {
+    "ine_source": "Censo anual de población 2021-2025, resultados por secciones censales",
+    "url": "https://www.ine.es/dynt3/inebase/index.htm?capsel=10614&padre=10607",
+    "note": "INE indicates that section results under 50 inhabitants are suppressed; this table also does not establish population at 2026 section identities. It cannot accredit the missing sections/crosswalk."
+  }
+}
