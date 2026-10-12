@@ -3,7 +3,7 @@
   "territory_id": "aragon",
   "population_year": 2025,
   "section_year": 2026,
-  "implementation_commit": "6d30c9b2",
+  "implementation_commit": "a4f508ec",
   "fixture": {
     "path": "tests/fixtures/f10_interannual/aragon.json.gz",
     "sha256": "b48d9e7f78e9ececa1f47f0064d41abdfe69334010cb2bd2957149c68b0282c0",
