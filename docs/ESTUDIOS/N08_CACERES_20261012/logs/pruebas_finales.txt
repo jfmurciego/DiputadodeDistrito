@@ -1,0 +1,3 @@
+Fecha: 2026-10-12. Python 3.11.14, entorno ddd_aragon.
+Comando: python -m unittest tests.test_preflight_caceres_n08 tests.test_congreso_preflight_adapter tests.test_congreso_contract tests.test_congreso_feasibility tests.test_congreso_topology tests.test_congreso_origin_migration tests.test_materializar_fuentes_nacionales_ine tests.test_crosswalk_nacional tests.test_catalogo_territorios_espana tests.test_m05_population_repair
+Resultado: 123 pruebas, OK (6 nuevas de Cáceres y 117 regresiones pertinentes).

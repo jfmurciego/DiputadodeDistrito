@@ -1,0 +1,5 @@
+Reproducción independiente, 2026-10-12, sobre el código confirmado e8cf63eec0eac7f84b6fea75f4de16d228cbdb12.
+Comando: TMPDIR=/tmp python herramientas/preflight_caceres_n08.py --province 10 --parts-dir inputs/partes --output /tmp/ddd_caceres_preflight_postcommit
+Exit code 0; los PREFLIGHT.json y CHECKPOINT.json de /tmp se compararon con cmp y fueron byte a byte idénticos a los del expediente.
+Estado: BLOCKED_CONTRACT_OR_OWNER_DECISIONS; M01/M02/M03 PASS; M04 BLOCKED; M05/M06 sintéticos únicamente; generation_authorized=false.
+El campo base de PREFLIGHT identifica el commit de código e8cf63eec0eac7f84b6fea75f4de16d228cbdb12. Código y artefactos enlazados además por tool_sha256 y hashes del manifiesto.
