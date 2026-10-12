@@ -3,7 +3,7 @@
   "territory_id": "castilla_y_leon",
   "population_year": 2025,
   "section_year": 2026,
-  "implementation_commit": "6d30c9b2",
+  "implementation_commit": "a4f508ec",
   "fixture": {
     "path": "tests/fixtures/f10_interannual/castilla_y_leon.json.gz",
     "sha256": "ffceb5433f1b115f4338bd45e5919b8e13bfaf2471df00de96ea6fb43c81398c",
