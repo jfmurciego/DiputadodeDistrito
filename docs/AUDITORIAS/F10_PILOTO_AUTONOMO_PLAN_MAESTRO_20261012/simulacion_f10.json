@@ -1,0 +1,883 @@
+{
+  "schema": "ddd.f10-pilot-replay/1.0",
+  "source_head": "407d6038de20730641ca19d79f550dc72670d078",
+  "command": "ddd auto --dry-run --f10 --plan /Users/macbookpro/Desarrollo/DDD-control/planes/ddd-maestro-vivo-20261011 --front fuentes-oficiales",
+  "simulation_mode": "read_only_dry_run",
+  "controller_exit_code": 1,
+  "controller_preflight": {
+    "verdict": "NO_READY",
+    "enabled": 0,
+    "by_front": {
+      "fuentes-oficiales": []
+    },
+    "causes": [
+      "enabled==0"
+    ],
+    "real_pilot_verified": false,
+    "missing_contracts": {
+      "F10": [
+        "Autoridad humana reservada",
+        "Falta contrato/validador determinista suficiente"
+      ],
+      "H-F-01": [
+        "Criterios ejecutables insuficientes"
+      ],
+      "H-F-02": [
+        "Criterios ejecutables insuficientes"
+      ],
+      "H-F-03": [
+        "Dependencias técnicas ausentes: H-F-02"
+      ],
+      "H-F-04": [
+        "Criterios ejecutables insuficientes"
+      ]
+    }
+  },
+  "controller_stdout_sha256": "4a5e8708f649b1b3b6fa19f527f7c57955ac8cfc95c2fb9cac399b2e54a020f0",
+  "codex_invocations": 0,
+  "write_operations": 0,
+  "real_evidence_counts": {
+    "territorial_acquisition": {
+      "BLOCKED": 1,
+      "CLOSED": 18
+    },
+    "electoral_admissibility": {
+      "ADMISSIBLE": 15,
+      "BLOCKED": 4
+    },
+    "joint_admissibility": {
+      "BLOCKED": 5,
+      "PASS": 14
+    },
+    "production": {
+      "NOT_AUTHORIZED_BY_F10": 19
+    }
+  },
+  "f10_global": "PENDING",
+  "territories": [
+    {
+      "territory_id": "andalucia",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "BLOCKED",
+      "joint_admissibility": "BLOCKED",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 38082966768,
+      "territorial_reason": [],
+      "electoral_reason": [
+        "falta correspondencia electoral acreditada: seccionado 2025, elección 2026"
+      ],
+      "joint_reason": [
+        "puerta electoral no ADMISSIBLE"
+      ]
+    },
+    {
+      "territory_id": "aragon",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "BLOCKED",
+      "joint_admissibility": "BLOCKED",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 38093067883,
+      "territorial_reason": [],
+      "electoral_reason": [
+        "falta correspondencia electoral acreditada: seccionado 2025, elección 2026"
+      ],
+      "joint_reason": [
+        "puerta electoral no ADMISSIBLE"
+      ]
+    },
+    {
+      "territory_id": "principado_de_asturias",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37438440043,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "illes_balears",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37589792776,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "canarias",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37596900111,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "cantabria",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37318299003,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "castilla_la_mancha",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37444564173,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "BLOCKED",
+      "joint_admissibility": "BLOCKED",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 38091055890,
+      "territorial_reason": [],
+      "electoral_reason": [
+        "falta correspondencia electoral acreditada: seccionado 2025, elección 2026"
+      ],
+      "joint_reason": [
+        "puerta electoral no ADMISSIBLE"
+      ]
+    },
+    {
+      "territory_id": "cataluna",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37453376100,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "comunidad_valenciana",
+      "territorial_acquisition": "BLOCKED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "BLOCKED",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": null,
+      "territorial_reason": [
+        "PREPARED_TERRITORIAL_BLOCK: falta receipt territorial versionado de #179"
+      ],
+      "electoral_reason": [],
+      "joint_reason": [
+        "puerta territorial no CLOSED"
+      ]
+    },
+    {
+      "territory_id": "extremadura",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "BLOCKED",
+      "joint_admissibility": "BLOCKED",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 38091144559,
+      "territorial_reason": [],
+      "electoral_reason": [
+        "fuente electoral definitiva sin receipt preparado"
+      ],
+      "joint_reason": [
+        "puerta electoral no ADMISSIBLE"
+      ]
+    },
+    {
+      "territory_id": "galicia",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37155903096,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "madrid",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37325328346,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "region_de_murcia",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37344628042,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "comunidad_foral_de_navarra",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37293310755,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "pais_vasco",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37458584767,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "la_rioja",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37298033194,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "ceuta",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37442375016,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    },
+    {
+      "territory_id": "melilla",
+      "territorial_acquisition": "CLOSED",
+      "electoral_admissibility": "ADMISSIBLE",
+      "joint_admissibility": "PASS",
+      "production": "NOT_AUTHORIZED_BY_F10",
+      "territorial_run_id": 37315646335,
+      "territorial_reason": [],
+      "electoral_reason": [],
+      "joint_reason": []
+    }
+  ],
+  "transitions_A_to_D": {
+    "A": {
+      "counts": {
+        "territorial_acquisition": {
+          "BLOCKED": 5,
+          "CLOSED": 14
+        },
+        "electoral_admissibility": {
+          "ADMISSIBLE": 15,
+          "BLOCKED": 4
+        },
+        "joint_admissibility": {
+          "BLOCKED": 5,
+          "PASS": 14
+        },
+        "production": {
+          "NOT_AUTHORIZED_BY_F10": 19
+        }
+      },
+      "work_items": [
+        {
+          "activity_id": "F10-AND-CROSSWALK-2025-2026",
+          "territory_id": "andalucia",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-ARA-CROSSWALK-2025-2026",
+          "territory_id": "aragon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-CYL-CROSSWALK-2025-2026",
+          "territory_id": "castilla_y_leon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-EXT-ELECTORAL-SOURCE",
+          "territory_id": "extremadura",
+          "action": "research_definitive_granular_election_source",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-CV-2023-SOURCE-RESOLUTION",
+          "territory_id": "comunidad_valenciana",
+          "action": "resolve_2023_population_geometry_blocker",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+        }
+      ]
+    },
+    "B": {
+      "counts": {
+        "territorial_acquisition": {
+          "BLOCKED": 4,
+          "CLOSED": 15
+        },
+        "electoral_admissibility": {
+          "ADMISSIBLE": 15,
+          "BLOCKED": 4
+        },
+        "joint_admissibility": {
+          "BLOCKED": 5,
+          "PASS": 14
+        },
+        "production": {
+          "NOT_AUTHORIZED_BY_F10": 19
+        }
+      },
+      "work_items": [
+        {
+          "activity_id": "F10-AND-CROSSWALK-2025-2026",
+          "territory_id": "andalucia",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-ARA-CROSSWALK-2025-2026",
+          "territory_id": "aragon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-CYL-CROSSWALK-2025-2026",
+          "territory_id": "castilla_y_leon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La puerta de entrada no está acreditada o la clase local no cubre la acción"
+        },
+        {
+          "activity_id": "F10-EXT-ELECTORAL-SOURCE",
+          "territory_id": "extremadura",
+          "action": "research_definitive_granular_election_source",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-CV-2023-SOURCE-RESOLUTION",
+          "territory_id": "comunidad_valenciana",
+          "action": "resolve_2023_population_geometry_blocker",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+        }
+      ]
+    },
+    "C": {
+      "counts": {
+        "territorial_acquisition": {
+          "BLOCKED": 1,
+          "CLOSED": 18
+        },
+        "electoral_admissibility": {
+          "ADMISSIBLE": 15,
+          "BLOCKED": 4
+        },
+        "joint_admissibility": {
+          "BLOCKED": 5,
+          "PASS": 14
+        },
+        "production": {
+          "NOT_AUTHORIZED_BY_F10": 19
+        }
+      },
+      "work_items": [
+        {
+          "activity_id": "F10-AND-CROSSWALK-2025-2026",
+          "territory_id": "andalucia",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-ARA-CROSSWALK-2025-2026",
+          "territory_id": "aragon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-CYL-CROSSWALK-2025-2026",
+          "territory_id": "castilla_y_leon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-EXT-ELECTORAL-SOURCE",
+          "territory_id": "extremadura",
+          "action": "research_definitive_granular_election_source",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-CV-2023-SOURCE-RESOLUTION",
+          "territory_id": "comunidad_valenciana",
+          "action": "resolve_2023_population_geometry_blocker",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+        }
+      ]
+    },
+    "D": {
+      "counts": {
+        "territorial_acquisition": {
+          "BLOCKED": 1,
+          "CLOSED": 18
+        },
+        "electoral_admissibility": {
+          "ADMISSIBLE": 15,
+          "BLOCKED": 4
+        },
+        "joint_admissibility": {
+          "BLOCKED": 5,
+          "PASS": 14
+        },
+        "production": {
+          "NOT_AUTHORIZED_BY_F10": 19
+        }
+      },
+      "work_items": [
+        {
+          "activity_id": "F10-AND-CROSSWALK-2025-2026",
+          "territory_id": "andalucia",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-ARA-CROSSWALK-2025-2026",
+          "territory_id": "aragon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-CYL-CROSSWALK-2025-2026",
+          "territory_id": "castilla_y_leon",
+          "action": "research_official_2025_2026_crosswalk",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-EXT-ELECTORAL-SOURCE",
+          "territory_id": "extremadura",
+          "action": "research_definitive_granular_election_source",
+          "state": "READY_LOCAL",
+          "requires_doors": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "door_states": {
+            "territorial_acquisition": "CLOSED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "Puertas independientes satisfechas; la actividad puede continuar aunque F10 global siga PENDING"
+        },
+        {
+          "activity_id": "F10-CV-2023-SOURCE-RESOLUTION",
+          "territory_id": "comunidad_valenciana",
+          "action": "resolve_2023_population_geometry_blocker",
+          "state": "WAIT_OWNER",
+          "requires_doors": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "door_states": {
+            "territorial_acquisition": "BLOCKED"
+          },
+          "authorization_class": "local_read_only",
+          "authorized_actions": [
+            "diagnostics",
+            "independent_review",
+            "investigation",
+            "local_tests",
+            "preserve_evidence"
+          ],
+          "execution_engine": "ddd auto",
+          "task_spec_registered": false,
+          "selectable": false,
+          "reason": "La investigación local previa agotó las fuentes protegidas; hace falta nueva evidencia oficial material o decisión de Work."
+        }
+      ]
+    }
+  },
+  "task_specs_registered": {
+    "F10-AND-CROSSWALK-2025-2026": false,
+    "F10-ARA-CROSSWALK-2025-2026": false,
+    "F10-CYL-CROSSWALK-2025-2026": false,
+    "F10-EXT-ELECTORAL-SOURCE": false,
+    "F10-CV-2023-SOURCE-RESOLUTION": false
+  },
+  "independent_evidence": [
+    {
+      "territory_id": "andalucia",
+      "run_id": 38082966768,
+      "promoted": false
+    },
+    {
+      "territory_id": "aragon",
+      "run_id": 38093067883,
+      "promoted": false
+    },
+    {
+      "territory_id": "castilla_y_leon",
+      "run_id": 38091055890,
+      "promoted": false
+    },
+    {
+      "territory_id": "extremadura",
+      "run_id": 38091144559,
+      "promoted": false
+    }
+  ]
+}

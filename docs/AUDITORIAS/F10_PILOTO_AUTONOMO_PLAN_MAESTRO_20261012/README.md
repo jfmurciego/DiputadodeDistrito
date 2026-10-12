@@ -59,6 +59,8 @@ Valencia: el consumidor bloquea el receipt territorial por falta de acreditació
 
 Las regresiones comprueban hash de receipt discordante, identidad territorial errónea, temporalidad inválida, contradicción del expediente, ausencia de autorización local y aislamiento del bloqueo de un territorio.
 
+La salida reproducible del piloto y los conteos de las cuatro etapas están preservados en [simulacion_f10.json](simulacion_f10.json). Se regeneró el 2026-10-12 desde las evidencias vigentes con el comando `ddd auto --dry-run --f10 --plan ~/Desarrollo/DDD-control/planes/ddd-maestro-vivo-20261011 --front fuentes-oficiales`; terminó `NO_READY`, sin invocar Codex ni escribir en el Plan o en receipts. SHA-256: `6a97d762aa4af90f97f2f7140bb434ca98b06005ae100e4776cdb37a12b1ca17`.
+
 ## Límite del piloto automático
 
 El controlador actual puede mostrar las actividades locales habilitadas y sus dependencias, pero las cuatro fichas electorales aún tienen `task_spec_registered: false`. Por eso el selector las ofrece como `READY_LOCAL` y `selectable: false`; no lanza Codex sin prompt y validador específicos. La extensión no relaja dependencias formales ni cambia F10 de su estado reservado `WAIT_OWNER`. `ddd auto --dry-run --f10` es la simulación real disponible; no se realizó una tarea Codex porque el Plan y la política no contienen una ficha ejecutable completa para estas actividades.
