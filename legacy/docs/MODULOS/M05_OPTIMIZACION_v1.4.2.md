@@ -1,32 +1,30 @@
 # M05 — Optimizar distritos
 
-**Versión documental:** 1.4.3
-**Nombre de versión:** Estrategia privada experimental v7.8.4
-**Fecha:** 2026-10-12
-**Código activo:** M05 v7.8.4
+**Versión documental:** 1.4.2
+**Nombre de versión:** Reparación poblacional automática con contrato durable
+**Fecha:** 2026-10-05
+**Código activo:** M05 v7.7.2
 **Lógica optimizadora validada:** M05 v7.4.0 — GitHub Run #9 `34599224954`
 **Baseline anterior:** M05 v7.3.0 — GitHub Run #8 `34592470470`
-**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.2.md`
-**Cambio:** documenta el wrapper v7.8.4 y `private_annealing` como estrategia experimental privada, opt-in y desactivada por defecto. El camino de reparación previo y sus parámetros predeterminados se conservan; los resultados privados solo se promueven tras validación oficial atómica.
-**Motivo:** reflejar la implementación experimental aprobada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
+**Anterior:** `legacy/docs/MODULOS/M05_OPTIMIZACION_v1.4.1.md`
+**Cambio:** mantiene la fase C opt-in y consolida en v7.7.2 la fase D automática ante violaciones duras, con presupuesto focal reservado, evidencia durable compatible y respeto de excepciones de suelo gobernadas; `version` sigue identificando el motor base y `wrapper_version` la interfaz/orquestador activo.
+**Motivo:** incorporar una reparación poblacional reusable y acotada sin modificar el motor base, los contratos territoriales, las tolerancias ni las cuotas.
 
 ## Propósito
-M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural en los productos aceptados. El camino predeterminado conserva el reparador existente. La opción experimental `private_annealing` explora exclusivamente copias privadas, incluso con infracciones poblacionales transitorias, y solo sustituye los productos tras superar la validación final completa.
+M05 modifica fronteras de la solución M04 para mejorar equilibrio poblacional sin violar ninguna regla estructural. M04 construye una solución válida; M05 explora mejores soluciones dentro del espacio duro válido.
 
 ## Separación wrapper / motor
-- `modulos/05_optimizar_distritos.py` v7.8.4 es la interfaz activa.
+- `modulos/05_optimizar_distritos.py` v7.7.2 es la interfaz activa.
 - `ddd_core/m05_opt_engine_v741.py` es el motor activo de cálculo; conserva las guardas estructurales de v7.4.0 y deja de abortar únicamente por incumplimientos poblacionales remanentes.
 - `ddd_core/m05_swap_polish.py` v1.0.1 añade exclusivamente la fase C determinista y está desacoplado del motor base.
-- `ddd_core/m05_population_repair.py` conserva la reparación monotónica genérica posterior al motor base y al pulido. Se activa según el comportamiento previo si el baseline estructural conserva violaciones duras, salvo `population_repair.enabled: false` explícito.
-- `ddd_core/m05_private_annealing.py` implementa una estrategia experimental separada. Solo se selecciona con `population_repair.enabled: true` y `population_repair.strategy: private_annealing`; no está activada por configuraciones territoriales ni por defecto.
-- La búsqueda privada no publica estados intermedios. M05 valida atómicamente la candidata mediante M06, el validador territorial y la auditoría configurada antes de promoverla; rechazo, timeout o error preservan los productos anteriores.
+- `ddd_core/m05_population_repair.py` añade la reparación poblacional genérica posterior al motor base y al pulido. Se activa automáticamente si el baseline estructural conserva violaciones duras, salvo `population_repair.enabled: false` explícito.
 - Si OGR puede leer `ddd_unit_id`, el wrapper delega primero al motor v7.4.1 sin transformar la entrada.
 - Si OGR pierde el campo, lee las propiedades GeoJSON crudas, asigna códigos enteros estables a las unidades y ejecuta el motor v7.4.1.
 - La configuración se resuelve siempre con `ddd_core.config.load_params_yaml`.
 
 ## Semántica del informe
 - `version`: versión del **motor optimizador** que genera el cuerpo del informe. En el wrapper actual es `7.4.1`.
-- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.8.4`.
+- `wrapper_version`: versión de la **interfaz/orquestador** activo. En esta versión es `7.7.2`.
 - `swap_polish.version`: versión del componente de fase C cuando se ejecuta; actualmente `1.0.1`.
 - `population_repair`: evidencia estructurada de la reparación cuando está habilitada, o de su desactivación cuando no lo está.
 - `unit_id_normalization`: se registra cuando el fallback de identidad es necesario.
@@ -54,9 +52,7 @@ No debe interpretarse el número de outliers de manera aislada. Un estado con cu
 
 **Fase C — swap-polish determinista, opt-in:** si `swap_polish_max > 0`, enumera swaps 1×1 entre unidades frontera de distritos vecinos, descarta los que violan provincia, suelo/techo, cierre urbano o contigüidad, elige el mejor que reduzca lexicográficamente el objetivo y repite hasta mínimo local o hasta el límite configurado. No acepta pasos neutrales ni peores.
 
-**Fase D — reparación poblacional monotónica:** si la salida de Optimización es estructuralmente válida y conserva violaciones duras de suelo/techo, se conserva el reparador previo con límites acotados. Un `population_repair.enabled: false` explícito lo desactiva.
-
-**Estrategia experimental `private_annealing`:** constituye un modo distinto, opt-in y desactivado por defecto. Puede atravesar infracciones poblacionales únicamente dentro de estado privado; requiere aceptación final con todas las restricciones oficiales y promoción atómica. C-01 emite `UNSUPPORTED` para esta estrategia porque no varía su semilla anidada. Los ensayos de Madrid no certifican una salida productiva ni activan la estrategia en ningún territorio.
+**Fase D — reparación poblacional genérica:** si la salida de Optimización es estructuralmente válida y conserva violaciones duras de suelo/techo, la reparación se activa automáticamente con límites acotados por defecto. Un `population_repair.enabled: false` explícito la desactiva. Cuando no se ejecuta publica `DISABLED`; `NO_FEASIBLE_REPAIR_FOUND` queda reservado a una búsqueda realmente ejecutada y agotada.
 
 ## Evidencia validada previa — Aragón Run #9
 Primera factibilidad, iteración 9.038: `[0, 0.0, 0, 0.119431695687, 0.182704485064]`.
@@ -74,9 +70,9 @@ EXT-06 Run `34642098588` validó operativamente la fase C sobre c020: acepta 2 s
 
 ## Estado de validación
 - La lógica base v7.4.0 permanece validada/promocionada por Run #9 y el motor activo v7.4.1 conserva esa línea estructural.
-- El wrapper v7.8.4 conserva el comportamiento previo por defecto. `private_annealing` es experimental, opt-in y requiere validación final atómica.
+- El wrapper v7.7.2 mantiene la fase C como opt-in y hace la fase D automática únicamente ante violaciones duras sobre un baseline estructuralmente válido.
 - La fase C está validada operativamente en EXT-06 pero sigue siendo opt-in; esa evidencia histórica no se presenta como validación territorial de la fase D.
-- La reparación monotónica y los caminos canónicos mantienen sus regresiones. Runs 12/13 acreditan una candidata experimental reproducible de Madrid bajo configuración explícita; no constituyen certificación territorial ni cambian el estado de ningún producto.
+- La fase D está cubierta por regresiones sintéticas y por regresiones del camino canónico M04/M05. Las ejecuciones territoriales históricas no se reinterpretan ni se promueven por el mero cambio de código.
 
 ## Productos auditables
 - GeoJSON ZIP de asignación completa optimizada.
