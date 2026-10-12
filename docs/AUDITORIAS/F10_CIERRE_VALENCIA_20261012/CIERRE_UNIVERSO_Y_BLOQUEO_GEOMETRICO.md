@@ -54,3 +54,18 @@ python3 -m unittest tests.test_f10_valencia_2023_universe -v
 ```
 
 Las entradas se pasan explícitamente; el programa no descarga ni altera originales. El conjunto de identidades de secciones tiene SHA-256 `896acc73b089709bd07802c9f301d9f5bcc224ca0f5620210542dfd76ff682c4`.
+
+La tabla de 46 filas vacías también se reconstruye directamente desde el ZIP original 65034, verificando SHA-256 de las cuatro partes y del ZIP concatenado. La auditoría recalcula para cada CUSEC su presencia en el Censo 2023, en la geometría INE `SECCIONADO` 2023 y en el paquete protegido de geometría 2025; comprueba los hashes de esas entradas y exige coincidencia exacta con la tabla preexistente. Para reproducir, indicar las rutas locales al almacén protegido:
+
+```sh
+python3 herramientas/auditar_filas_vacias_ine_65034.py \
+  --parts-dir inputs/partes \
+  --reference docs/AUDITORIAS/F10_CIERRE_VALENCIA_20261012/46_cusec_sin_observacion.csv \
+  --census-dir /ruta/protegida/F10-20261012-valencia-investigacion \
+  --geometry-2023-dir /ruta/protegida/comunidad_valenciana/evidence/raw/secciones_censales/2023 \
+  --prepared-2025-zip /ruta/protegida/validated/comunidad_valenciana/prepared_sources.zip \
+  --out docs/AUDITORIAS/F10_CIERRE_VALENCIA_20261012/filas_vacias_65034_reproducidas.json
+python3 -m unittest tests.test_f10_ine_65034_empty_rows tests.test_f10_valencia_2023_universe -v
+```
+
+La ejecución completa reprodujo 46 vacíos idénticos a la tabla, 46 ausencias en la capa Censo 2023, 35 identidades presentes y 11 ausentes en seccionado 2025. Esto acredita la comparación por identidad con las capas consultadas; no determina el motivo estadístico de cada celda vacía ni atribuye población.

@@ -1,0 +1,549 @@
+{
+  "schema": "ddd.f10-ine-65034-empty-rows-audit/1.0",
+  "source": "https://www.ine.es/jaxiT3/files/t/csv_bdsc/65034.csv",
+  "selection": {
+    "Periodo": "2023",
+    "Sexo": "Total",
+    "Edad": "Todas las edades",
+    "CPRO": [
+      "03",
+      "12",
+      "46"
+    ]
+  },
+  "archive_sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3",
+  "cross_reference_sha256": {
+    "prepared_sources_zip": "76ffdfc3c11291b7578560cd31b9eeab2e9b8aedc06bdfbd6c763590d6f969d9",
+    "census_2023_03": "acbc7a60725e221612c71f9095dd96c0f279919b87b4717b02dadba6eb8eb5d2",
+    "geometry_2023_03": "b1ce66fcab1f7b418e1f56bd4ea23d0ab66f460c52707f87efe54854fcaad7cb",
+    "census_2023_12": "25166f2b184e690379eb011798f62e00d19a774974b10804c8f1fbe1b0c91de0",
+    "geometry_2023_12": "886bb1ad78ad7f96d36e6c883eed3a38d43c858b4217c728ad851739a2cd2ff3",
+    "census_2023_46": "6804ceeecdba53e2c8e2f1bb4fe0bd331cf987ec2c38303c4557a55548120953",
+    "geometry_2023_46": "4e0597c12ea2be75cf5e630578388c0825fdde97818abe142d155d7d378da58e"
+  },
+  "part_sha256": {
+    "part00": "5e675666a42207681d62fc4cc412bf6153a6e206de395020f73ad0f56d227cba",
+    "part01": "bb91e3ba9c02024b845e0448eafb77392006c36a04cf8313200ff091c1a4b7cb",
+    "part02": "f6efa2619751094b31c2e5346fa4f4a60c37648748d72451048bbe570e19371d",
+    "part03": "d345be82122d1a461ed725aed2f20300c205c25b72318a08f565d60a4ee5c8ac"
+  },
+  "numeric_rows": 4048,
+  "empty_rows": 46,
+  "empty_rows_match_reference_exactly": true,
+  "classifications_recomputed_from_official_inputs": {
+    "0301401017": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "0301408031": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0303104006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0304601002": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0305302006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0306504011": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "0306507027": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0306507028": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0307601008": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "0307601009": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "1200402003": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "1200903006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "1204004023": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4600601006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4607001005": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001007": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001008": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001009": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001010": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001011": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001012": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001013": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001014": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001015": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4607001016": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4608303001": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4610501003": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4612301002": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4615903010": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4616301002": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4618401002": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4619301008": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4620201014": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4620701005": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4620701006": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4620701007": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4624402008": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4624404011": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4624404012": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    },
+    "4625002040": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4625007029": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4625008005": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4625011013": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4625011029": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": false
+    },
+    "4625017008": {
+      "censo_2023_personas": false,
+      "geometria_2023_SECCIONADO": false,
+      "geometria_2025_SECCIONADO": true
+    }
+  },
+  "counts": {
+    "absent_from_census_2023": 46,
+    "present_in_geometry_2025": 35,
+    "absent_from_geometry_2025": 11
+  },
+  "rows": [
+    {
+      "CUSEC": "0301401017",
+      "CUMUN": "03014",
+      "provincia": "03",
+      "municipio": "Alacant/Alicante"
+    },
+    {
+      "CUSEC": "0301408031",
+      "CUMUN": "03014",
+      "provincia": "03",
+      "municipio": "Alacant/Alicante"
+    },
+    {
+      "CUSEC": "0303104006",
+      "CUMUN": "03031",
+      "provincia": "03",
+      "municipio": "Benidorm"
+    },
+    {
+      "CUSEC": "0304601002",
+      "CUMUN": "03046",
+      "provincia": "03",
+      "municipio": "Busot"
+    },
+    {
+      "CUSEC": "0305302006",
+      "CUMUN": "03053",
+      "provincia": "03",
+      "municipio": "Castalla"
+    },
+    {
+      "CUSEC": "0306504011",
+      "CUMUN": "03065",
+      "provincia": "03",
+      "municipio": "Elx/Elche"
+    },
+    {
+      "CUSEC": "0306507027",
+      "CUMUN": "03065",
+      "provincia": "03",
+      "municipio": "Elx/Elche"
+    },
+    {
+      "CUSEC": "0306507028",
+      "CUMUN": "03065",
+      "provincia": "03",
+      "municipio": "Elx/Elche"
+    },
+    {
+      "CUSEC": "0307601008",
+      "CUMUN": "03076",
+      "provincia": "03",
+      "municipio": "Guardamar del Segura"
+    },
+    {
+      "CUSEC": "0307601009",
+      "CUMUN": "03076",
+      "provincia": "03",
+      "municipio": "Guardamar del Segura"
+    },
+    {
+      "CUSEC": "1200402003",
+      "CUMUN": "12004",
+      "provincia": "12",
+      "municipio": "Alcalà de Xivert"
+    },
+    {
+      "CUSEC": "1200903006",
+      "CUMUN": "12009",
+      "provincia": "12",
+      "municipio": "Almassora"
+    },
+    {
+      "CUSEC": "1204004023",
+      "CUMUN": "12040",
+      "provincia": "12",
+      "municipio": "Castelló de la Plana"
+    },
+    {
+      "CUSEC": "4600601006",
+      "CUMUN": "46006",
+      "provincia": "46",
+      "municipio": "Albaida"
+    },
+    {
+      "CUSEC": "4607001005",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001006",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001007",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001008",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001009",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001010",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001011",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001012",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001013",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001014",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001015",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4607001016",
+      "CUMUN": "46070",
+      "provincia": "46",
+      "municipio": "Bétera"
+    },
+    {
+      "CUSEC": "4608303001",
+      "CUMUN": "46083",
+      "provincia": "46",
+      "municipio": "Carcaixent"
+    },
+    {
+      "CUSEC": "4610501003",
+      "CUMUN": "46105",
+      "provincia": "46",
+      "municipio": "Cullera"
+    },
+    {
+      "CUSEC": "4612301002",
+      "CUMUN": "46123",
+      "provincia": "46",
+      "municipio": "Favara"
+    },
+    {
+      "CUSEC": "4615903010",
+      "CUMUN": "46159",
+      "provincia": "46",
+      "municipio": "Manises"
+    },
+    {
+      "CUSEC": "4616301002",
+      "CUMUN": "46163",
+      "provincia": "46",
+      "municipio": "Massalfassar"
+    },
+    {
+      "CUSEC": "4618401002",
+      "CUMUN": "46184",
+      "provincia": "46",
+      "municipio": "Ontinyent"
+    },
+    {
+      "CUSEC": "4619301008",
+      "CUMUN": "46193",
+      "provincia": "46",
+      "municipio": "Picanya"
+    },
+    {
+      "CUSEC": "4620201014",
+      "CUMUN": "46202",
+      "provincia": "46",
+      "municipio": "Pobla de Vallbona, la"
+    },
+    {
+      "CUSEC": "4620701005",
+      "CUMUN": "46207",
+      "provincia": "46",
+      "municipio": "Rafelbunyol"
+    },
+    {
+      "CUSEC": "4620701006",
+      "CUMUN": "46207",
+      "provincia": "46",
+      "municipio": "Rafelbunyol"
+    },
+    {
+      "CUSEC": "4620701007",
+      "CUMUN": "46207",
+      "provincia": "46",
+      "municipio": "Rafelbunyol"
+    },
+    {
+      "CUSEC": "4624402008",
+      "CUMUN": "46244",
+      "provincia": "46",
+      "municipio": "Torrent"
+    },
+    {
+      "CUSEC": "4624404011",
+      "CUMUN": "46244",
+      "provincia": "46",
+      "municipio": "Torrent"
+    },
+    {
+      "CUSEC": "4624404012",
+      "CUMUN": "46244",
+      "provincia": "46",
+      "municipio": "Torrent"
+    },
+    {
+      "CUSEC": "4625002040",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    },
+    {
+      "CUSEC": "4625007029",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    },
+    {
+      "CUSEC": "4625008005",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    },
+    {
+      "CUSEC": "4625011013",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    },
+    {
+      "CUSEC": "4625011029",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    },
+    {
+      "CUSEC": "4625017008",
+      "CUMUN": "46250",
+      "provincia": "46",
+      "municipio": "València"
+    }
+  ],
+  "note": "Reconstruye vacíos desde el ZIP oficial original y calcula los cruces por identidad con geometría INE 2023, Censo 2023 y seccionado INE 2025. No asigna cero ni infiere causa estadística."
+}
