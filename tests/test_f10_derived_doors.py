@@ -1,7 +1,7 @@
-"""Version: 1.1.0; name: F10 derived doors regressions; date: 2026-10-13.
+"""Version: 1.1.1; name: F10 derived doors regressions; date: 2026-10-13.
 Scope: deterministic failure-closed validation of executable local task cards.
-Status: candidate. Change/reason: reject cards with incomplete validator coverage.
-Previous: legacy/tests/test_f10_derived_doors_v1.0.0_20261012.py.
+Status: candidate. Change/reason: reject cards with incomplete coverage or stale gates.
+Previous: legacy/tests/test_f10_derived_doors_v1.1.0_20261013.py.
 """
 from __future__ import annotations
 
