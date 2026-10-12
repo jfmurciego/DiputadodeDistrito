@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "version": "0.3.0",
+    "version": "0.4.0",
     "name": "Contrato Congreso: 52 unidades de origen y K electoral derivado",
-    "date": "2026-10-12",
+    "date": "2026-10-13",
     "scope": "candidato nacional; admisión estructural y especificación, sin generación",
-    "status": "CANDIDATO_N06_APPROVED_GENERATION_BLOCKED",
-    "changes": "Reconciliación N06 y PR #241: K=407, alias administrativos compatibles y fuentes INE 2025/2025 intactas",
-    "reason": "establecer contrato nacional autónomo y no reutilizar el gestor de 19 ámbitos",
+    "status": "CANDIDATO_N08_7_REGLAS_APROBADAS_GENERACION_BLOQUEADA",
+    "changes": "N06 K=407 y fuentes INE 2025 intactos; siete políticas generales N08 aprobadas; ninguna excepción individual ni generación autorizada",
+    "reason": "Incorporar decisión institucional N08-OWNER-20261013-7RULES sin modificar topología acreditada ni ámbito electoral",
     "origin": "legacy/territorios/congreso/contrato_congreso_2026_pre_n06_integracion.json"
   },
   "schema": "ddd.congress-contract/0.2",
@@ -16,8 +16,8 @@
   "metadata_scope": "national",
   "orchestrator": "congress_contract_validator",
   "minimum_unit": {
-    "status": "WAIT_OWNER",
-    "value": null,
+    "status": "APPROVED",
+    "value": "official_2025_CUSEC_indivisible",
     "candidate": "sección censal con clave estable, sujeta a edición/cobertura y decisión previa"
   },
   "sources": {
@@ -64,8 +64,11 @@
   },
   "decisions": {
     "minimum_unit": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "official_2025_CUSEC_indivisible",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     },
     "population_reference": {
       "status": "APPROVED",
@@ -74,28 +77,50 @@
       "note": "Referencia N06 aprobada; pareja oficial INE 2025/2025 acreditada en PR #241; no acredita topología ni factibilidad."
     },
     "contiguity": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "positive_line_shared_boundary_on_original_polygon_parts",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     },
     "population_limits": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": {
+        "population_floor_ratio": 0.85,
+        "population_cap_ratio": 1.15,
+        "target_tolerance_ratio": 0.15
+      },
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "±15% over P_i/K_i; exceptions require individual owner approval"
     },
     "municipal_indivisibility": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "preserve_when_feasible_split_by_whole_CUSEC_when_necessary",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     },
     "islands": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "preserve_physical_islands_named_exceptions_only",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     },
     "enclaves": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "accredited_administrative_enclaves_named_exceptions_only",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     },
     "physical_discontinuities": {
-      "status": "WAIT_OWNER",
-      "value": null
+      "status": "APPROVED",
+      "value": "case_registry_bound_to_edition_cusec_parts_and_hashes",
+      "decision_id": "N08-OWNER-20261013-7RULES",
+      "evidence": "docs/ESTUDIOS/N08_POLITICA_INSTITUCIONAL_20261013/ACTA_APROBACION.json",
+      "note": "General rule only; individual physical exceptions not approved"
     }
   },
   "k_decision": {
