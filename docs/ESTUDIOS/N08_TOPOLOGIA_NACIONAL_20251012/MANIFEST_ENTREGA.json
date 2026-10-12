@@ -19,6 +19,7 @@
     "PRUEBAS_184.log": "b4b5ed1b340b1c0c9230c887b721b94081f19cf814dee273424ece26eb8b49b2",
     "REPRODUCCION.log": "cfbbd99ac517166ffd0c43fa7b7a14ff4f4045563777cbbb1b8b2f267d23b390",
     "REPRODUCCION_INDEPENDIENTE.json": "8746a205da27280378098ca8ac067666d222cba958d5d25d5deb06b3dc21990d",
+    "REVISION_INDEPENDIENTE.md": "971a3f1e6ae5421257d6099f7423d68f5f525ccfe2ae5ac1ea40868b2be11d69",
     "producto/checkpoint.json": "73d663d5d086c9e4dc1d54a2dad244ee720f8905d9fb26ca6b7b59eaeeb1acf9",
     "producto/contactos_interprovinciales.json.gz": "820fe12639678250dbf029ef32dbe95c1be8449d54d40ecc5f8922606a0fa315",
     "producto/manifest.json": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
@@ -76,8 +77,8 @@
     "producto/unidades/52.json.gz": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178"
   },
   "name": "manifest entrega diagnóstico N08",
-  "origin": "legacy/n08/MANIFEST_ENTREGA_v1.0.0.json",
+  "origin": "legacy/n08/MANIFEST_ENTREGA_v1.0.1.json",
   "scope": "artefactos no productivos",
   "status": "CANDIDATE_N08_BLOCKED",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
