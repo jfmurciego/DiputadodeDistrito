@@ -673,10 +673,40 @@ def _source_next_steps(
     return steps
 
 
+def _owner_approved_2025_pair(root: Path, matrix: dict) -> tuple[str, set[str]]:
+    """Autoriza sólo la referencia territorial 2025/2025, nunca la equivalencia electoral."""
+    policy = matrix.get("population_section_policy") or {}
+    rel = str(policy.get("territorial_2025_pair_decision") or "")
+    expected_path = "configuracion/decisiones/f10_referencia_territorial_2025_2026.json"
+    if rel != expected_path:
+        raise ValueError("TERRITORIAL_REFERENCE_DECISION_PATH_MISSING_OR_INVALID")
+    path = root / rel
+    if not path.is_file():
+        raise ValueError("TERRITORIAL_REFERENCE_DECISION_MISSING")
+    decision = _json(path)
+    expected_ids = {"andalucia", "aragon", "castilla_y_leon"}
+    if (
+        decision.get("schema") != "ddd.territorial-reference-owner-decision/1.0"
+        or decision.get("decision_id") != "F10-20261012-PAIR-2025"
+        or decision.get("status") != "OWNER_APPROVED_TERRITORIAL_REFERENCE_ONLY"
+        or set(decision.get("territory_ids") or []) != expected_ids
+        or len(decision.get("territory_ids") or []) != len(expected_ids)
+        or decision.get("selected_population_year") != 2025
+        or decision.get("selected_section_year") != 2025
+        or decision.get("election_year") != 2026
+        or decision.get("electoral_crosswalk_2025_to_2026") != "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+        or decision.get("generation_authorized_by_this_decision") is not False
+        or decision.get("source_promotion_authorized_by_this_decision") is not False
+    ):
+        raise ValueError("TERRITORIAL_REFERENCE_DECISION_INVALID")
+    return str(decision["decision_id"]), expected_ids
+
+
 def validate_matrix(root: Path) -> list[dict]:
     matrix = _yaml(root / MATRIX)
     registry = _yaml(root / REGISTRY)
     evidence = _temporal_evidence(root, matrix)
+    fallback_decision_id, fallback_ids = _owner_approved_2025_pair(root, matrix)
     rows = matrix.get("territories") or []
     registered = registry.get("territories") or {}
     if len(rows) != 19 or len(registered) != 19:
@@ -714,8 +744,23 @@ def validate_matrix(root: Path) -> list[dict]:
             if not str(terr.get("reason") or "").strip():
                 raise ValueError(f"{tid}: sustitución poblacional sin razón explícita")
 
+        if tid in fallback_ids:
+            if (
+                election_year != 2026
+                or pop_selected != 2025
+                or section_required != 2026
+                or section_selected != 2025
+                or int(terr.get("section_lag_years", 0)) != 1
+                or terr.get("section_reference_label") != "Secciones_2025"
+                or terr.get("territorial_reference_decision") != fallback_decision_id
+                or terr.get("electoral_2026_crosswalk_status") != "BLOCKED_PENDING_OFFICIAL_EVIDENCE"
+            ):
+                raise ValueError(f"{tid}: excepción territorial 2025/2025 inconsistente o sin aprobación")
+        elif terr.get("territorial_reference_decision") or terr.get("electoral_2026_crosswalk_status"):
+            raise ValueError(f"{tid}: excepción F10 no autorizada para este territorio")
+
         if section_required in section_available:
-            if section_selected != section_required or int(terr.get("section_lag_years", 0)) != 0:
+            if tid not in fallback_ids and (section_selected != section_required or int(terr.get("section_lag_years", 0)) != 0):
                 raise ValueError(f"{tid}: seccionado oficial del año requerido existe y no admite sustitución")
         else:
             if section_selected != latest_section or int(terr.get("section_lag_years", 0)) != section_required - latest_section:
@@ -795,6 +840,9 @@ def resolve(root: Path, territory: str = "Todos") -> dict:
             "section_year_required": int(terr["section_required_year"]),
             "section_year_current": current_section_year,
             "section_year_selected": section_year,
+            "territorial_reference_decision": terr.get("territorial_reference_decision"),
+            "electoral_2026_crosswalk_status": terr.get("electoral_2026_crosswalk_status"),
+            "generation_authorized_by_reference_decision": False if terr.get("territorial_reference_decision") else None,
             "section_reference_label": str(terr["section_reference_label"]),
             "population_temporal_lag_years": int(terr.get("population_lag_years", 0)),
             "section_temporal_lag_years": int(terr.get("section_lag_years", 0)),

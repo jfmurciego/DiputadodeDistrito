@@ -83,7 +83,7 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["population_lag_years"], 0)
                 self.assertEqual(territorial["section_lag_years"], 0)
 
-    def test_2026_uses_population_2025_but_sectioning_2026(self):
+    def test_2026_uses_owner_approved_2025_territorial_pair(self):
         rows = [
             r for r in validate_matrix(ROOT)
             if str(r["election_date"]).startswith("2026-")
@@ -100,13 +100,34 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
                 self.assertEqual(territorial["population_lag_years"], 1)
                 self.assertEqual(territorial["population_reference_date"], "2025-01-01")
                 self.assertEqual(territorial["section_required_year"], 2026)
-                self.assertEqual(territorial["section_selected_year"], 2026)
-                self.assertEqual(territorial["section_lag_years"], 0)
-                self.assertEqual(territorial["section_reference_label"], "Secciones_2026")
+                self.assertEqual(territorial["section_selected_year"], 2025)
+                self.assertEqual(territorial["section_lag_years"], 1)
+                self.assertEqual(territorial["section_reference_label"], "Secciones_2025")
+                self.assertEqual(territorial["territorial_reference_decision"], "F10-20261012-PAIR-2025")
+                self.assertEqual(territorial["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
                 self.assertEqual(
                     territorial["temporal_evidence"],
                     "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json",
                 )
+
+    def test_2026_temporal_decision_fails_closed_without_approval(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "configuracion").mkdir()
+            shutil.copy2(MATRIX, root / "configuracion/preparacion_legislatura_vigente.yaml")
+            shutil.copy2(REGISTRY, root / "configuracion/registro_electoral.yaml")
+            shutil.copy2(TEMPORAL, root / "configuracion/evidencia_disponibilidad_fuentes_territoriales_2026-09-30.json")
+            with self.assertRaisesRegex(ValueError, "TERRITORIAL_REFERENCE_DECISION_MISSING"):
+                validate_matrix(root)
+
+    def test_2026_temporal_decision_does_not_authorize_electoral_crosswalk(self):
+        for territory in ("Aragón", "Castilla y León", "Andalucía"):
+            with self.subTest(territory=territory):
+                plan = resolve(ROOT, territory)["plans"][0]
+                self.assertEqual(plan["section_year_selected"], 2025)
+                self.assertEqual(plan["section_year_required"], 2026)
+                self.assertEqual(plan["electoral_2026_crosswalk_status"], "BLOCKED_PENDING_OFFICIAL_EVIDENCE")
+                self.assertFalse(plan["generation_authorized_by_reference_decision"])
 
     def test_temporal_evidence_preserves_query_response_date_and_digest(self):
         evidence = json.loads(TEMPORAL.read_text(encoding="utf-8"))
