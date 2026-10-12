@@ -1,0 +1,11 @@
+...................................................................................../usr/local/Caskroom/miniforge/base/envs/ddd_aragon/lib/python3.11/site-packages/pyogrio/geopandas.py:917: UserWarning: 'crs' was not provided.  The output dataset will not have projection information defined and may not be usable in other systems.
+  write(
+..........................................................................
+----------------------------------------------------------------------
+Ran 159 tests in 12.396s
+
+OK
+[Módulo 2] OK v7.3.2 edges=0 geometric=0 bridges=0 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmp9c4msh6b/m02.jsonl
+[Módulo 2] OK v7.3.2 edges=0 geometric=0 bridges=0 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmp0p4unemm/m02.jsonl
+[Módulo 2] OK v7.3.2 edges=1 geometric=0 bridges=1 predicate=contact min_shared_border_m=1.0 crs=EPSG:3035 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmp92h53qon/m02.jsonl
+[Módulo 4] particiones físicas materializadas territorio=demo particiones=2 out=/var/folders/b7/g580h6j50753khy8fnfjsv300000gn/T/tmpkbmflzga/m03_particiones.geojson.zip
