@@ -621,6 +621,14 @@
   "official_alternative_source_review": {
     "ine_source": "Censo anual de población 2021-2025, resultados por secciones censales",
     "url": "https://www.ine.es/dynt3/inebase/index.htm?capsel=10614&padre=10607",
-    "note": "INE indicates that section results under 50 inhabitants are suppressed; this table also does not establish population at 2026 section identities. It cannot accredit the missing sections/crosswalk."
+    "note": "INE indicates that section results under 50 inhabitants are suppressed; this table also does not establish population at 2026 section identities. It cannot accredit the missing sections/crosswalk.",
+    "official_2026_sectioning": {
+      "provider": "Instituto Nacional de Estadística",
+      "collection": "Secciones_2026",
+      "official_catalog_url": "https://www.ine.es/geoserver/ogc/features/v1/collections?f=text/html",
+      "availability": "current geometry collection exists; it provides no population values or 2025-to-2026 population correspondence",
+      "population_latest_available": "Censo anual de población 2021-2025; INE indicates sections under 50 residents are suppressed",
+      "population_source_url": "https://www.ine.es/dynt3/inebase/index.htm?capsel=10614&padre=10607"
+    }
   }
 }
