@@ -203,9 +203,12 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
         plan = resolve(ROOT, "Extremadura")["plans"][0]
         self.assertEqual(plan["population_year_selected"], 2025)
         self.assertEqual(plan["section_year_selected"], 2025)
-        self.assertEqual(plan["territorial_action"], "ACQUIRE")
-        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_TEMPORAL_IDENTITY_MISSING")
+        self.assertEqual(plan["territorial_action"], "REUSE")
+        self.assertEqual(plan["territorial_reason"], "TERRITORIAL_DURABLE_CANDIDATE")
+        self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE")
         self.assertEqual(plan["electoral_action"], "BLOCKED_PROVISIONAL")
+        self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
+        self.assertEqual(plan["sources_status"], "BLOCKED")
         self.assertEqual(plan["definitive_gap"]["source_candidate_votes"], 522418)
         self.assertEqual(plan["definitive_gap"]["definitive_candidate_votes"], 524837)
         self.assertEqual(plan["definitive_gap"]["gap_candidate_votes"], 2419)
@@ -235,23 +238,27 @@ class CurrentLegislaturePreparationTests(unittest.TestCase):
     def test_aragon_source_receipt_is_repaired_without_reacquiring_historical_product(self):
         plan = resolve(ROOT, "Aragón")["plans"][0]
         candidate = plan["territorial_candidate"]
-        self.assertEqual(candidate["run_id"], 35728613828)
+        self.assertEqual(candidate["run_id"], 38093067883)
         self.assertEqual(
             candidate["artifact_name"],
-            "ddd-source-package-aragon-2025-35728613828",
+            "ddd-source-package-aragon-2025-38093067883",
         )
         self.assertEqual(
             candidate["artifact_sha256"],
-            "df7222525fc43943859c41bc653e8b4ca320e9c47f602dc5cd6e8f93cfb0bec2",
+            "35adcbfcf41619c3e54219714aefac5b4885fae0ccd08ae5fcf9930e0528db51",
         )
-        self.assertEqual(candidate["reason"], "TERRITORIAL_COMPATIBILITY_REPORT_MISSING")
-        self.assertEqual(plan["territorial_action"], "ACQUIRE")
+        self.assertEqual(candidate["reason"], "TERRITORIAL_DURABLE_CANDIDATE")
+        self.assertEqual(plan["territorial_action"], "REUSE_TEMPORAL_SUBSTITUTION")
+        self.assertEqual(plan["territorial_admissibility"], "ADMISSIBLE_TEMPORAL_SUBSTITUTION")
         self.assertEqual(plan["electoral_action"], "REUSE")
+        self.assertEqual(plan["electoral_admissibility"], "BLOCKED")
+        self.assertEqual(plan["sources_status"], "BLOCKED")
         state = next(
             r for r in yaml.safe_load(CATALOG.read_text(encoding="utf-8"))["territories"]
             if r["territory_id"] == "aragon"
         )["editions"]["2025"]
         self.assertTrue(state["territorial_product_available"])
+        self.assertEqual(state["preparation_evidence"]["run_id"], 35728613828)
         self.assertEqual(state["last_valid_checkpoint"], {"run_id": 36321736287, "stage": "M06"})
         self.assertNotIn("stage", state["preparation_evidence"])
 

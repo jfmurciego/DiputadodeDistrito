@@ -250,7 +250,17 @@ def _territorial_candidate(
     population_year: int,
     section_year: int,
 ) -> dict:
-    prep = state.get("preparation_evidence")
+    independent = state.get("independent_source_evidence")
+    if independent is not None:
+        if (
+            not isinstance(independent, dict)
+            or independent.get("status") != "AUTHENTIC_EVIDENCE_ONLY_HISTORICAL_PRODUCT_LINEAGE_PRESERVED"
+            or independent.get("promoted") is not False
+        ):
+            return {"reusable": False, "reason": "TERRITORIAL_RECEIPT_CONTRADICTORY"}
+    # La fuente F10 independiente acredita la referencia temporal sin suplantar
+    # preparation_evidence, que sigue identificando el producto M06 histórico.
+    prep = independent if independent is not None else state.get("preparation_evidence")
     declaration_rel = state.get("territorial_source_declaration")
     if not state.get("territorial_sources_prepared") or not isinstance(prep, dict) or not declaration_rel:
         return {"reusable": False, "reason": "TERRITORIAL_PACKAGE_MISSING"}
