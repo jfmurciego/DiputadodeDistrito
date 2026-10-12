@@ -2,6 +2,7 @@ import json
 import csv
 import unittest
 from pathlib import Path
+from herramientas.auditar_universo_valencia_2023 import EXPECTED_SHA256, parse_population_value
 
 ROOT = Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs/AUDITORIAS/F10_CIERRE_VALENCIA_20261012/universo_2023.json"
@@ -31,6 +32,14 @@ class ValenciaUniverseEvidenceTests(unittest.TestCase):
         self.assertEqual(64, len(report["section_identity_sha256"]))
         self.assertEqual({"population_tsv", "geometry_03", "geometry_12", "geometry_46"}, set(report["source_sha256"]))
         self.assertTrue(all(len(value) == 64 for value in report["source_sha256"].values()))
+        self.assertEqual(EXPECTED_SHA256, report["source_sha256"])
+
+    def test_population_integer_parser_rejects_decimal_and_bad_grouping(self):
+        self.assertEqual(1234, parse_population_value("1.234"))
+        self.assertEqual(1234, parse_population_value("1,234"))
+        for malformed in ("1.5", "12.34", "1.23.4", "-1"):
+            with self.subTest(value=malformed), self.assertRaises(ValueError):
+                parse_population_value(malformed)
 
     def test_blank_rows_are_outside_2023_target_and_classified_by_municipality(self):
         crosswalk = ROOT / "docs/AUDITORIAS/F10_CIERRE_VALENCIA_20261012/46_cusec_sin_observacion.csv"

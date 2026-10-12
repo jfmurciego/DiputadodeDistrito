@@ -10,8 +10,22 @@ import argparse
 import csv
 import hashlib
 import json
-from collections import Counter, defaultdict
+import sys
+from collections import Counter
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from ddd_core.territorial_validation import parse_population_value
+
+EXPECTED_SHA256 = {
+    "population_tsv": "e8edd7b1b684e8b3c6ef4d105b5af7b546ff6ed08544d64f5ff29efe53906f21",
+    "geometry_03": "b1ce66fcab1f7b418e1f56bd4ea23d0ab66f460c52707f87efe54854fcaad7cb",
+    "geometry_12": "886bb1ad78ad7f96d36e6c883eed3a38d43c858b4217c728ad851739a2cd2ff3",
+    "geometry_46": "4e0597c12ea2be75cf5e630578388c0825fdde97818abe142d155d7d378da58e",
+}
 
 
 def sha256(path: Path) -> str:
@@ -41,11 +55,9 @@ def main() -> int:
                 blank_population_rows += 1
                 continue
             try:
-                value = int(raw.replace(".", ""))
+                value = parse_population_value(raw, section_id=code)
             except ValueError as exc:
                 raise ValueError(f"Valor poblacional no entero en {code}: {raw!r}") from exc
-            if value < 0:
-                raise ValueError(f"Valor poblacional negativo en {code}: {value}")
             if code in pop:
                 raise ValueError(f"CUSEC duplicado en población: {code}")
             pop[code] = value
@@ -54,9 +66,13 @@ def main() -> int:
     geometry: dict[str, dict] = {}
     counts: dict[str, Counter[str]] = {}
     hashes: dict[str, str] = {"population_tsv": sha256(args.population)}
+    if hashes["population_tsv"] != EXPECTED_SHA256["population_tsv"]:
+        raise ValueError("Hash del TSV de población no coincide con el original protegido fijado")
     for province in ("03", "12", "46"):
         path = args.geometry_dir / f"{province}.geojson"
         hashes[f"geometry_{province}"] = sha256(path)
+        if hashes[f"geometry_{province}"] != EXPECTED_SHA256[f"geometry_{province}"]:
+            raise ValueError(f"Hash de geometría INE {province}/2023 no coincide con el original protegido fijado")
         doc = json.loads(path.read_text(encoding="utf-8"))
         counts[province] = Counter()
         for feature in doc["features"]:
