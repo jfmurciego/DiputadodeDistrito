@@ -2,8 +2,10 @@
   "items": [
     {
       "head": "384d214e05e554fb3cddbcd16a3dddcd8cfb749d",
+      "local_head": "ae260f56cdb03be61bbe030c5277203e7b545013",
       "merge_authorized": false,
-      "next_action": "Open draft PR against main once GitHub connector approval/write access or API connectivity is available; then verify exact HEAD and CI.",
+      "next_action": "When GitHub DNS/connectivity returns, push the existing local branch fast-forward, open draft PR against main, then verify exact-SHA CI; do not regenerate the candidate.",
+      "remote_head": "384d214e05e554fb3cddbcd16a3dddcd8cfb749d",
       "status": "BLOCKED_ENVIRONMENT",
       "task_id": "NAT-J-003"
     }

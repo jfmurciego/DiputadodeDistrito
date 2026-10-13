@@ -72,6 +72,15 @@
       "severity": "HIGH",
       "status": "OPEN",
       "task": "NAT-J-003"
+    },
+    {
+      "evidence": "2026-10-13: `git push origin codex/national-campaign-controller` falló: `fatal: unable to access https://github.com/jfmurciego/DiputadodeDistrito.git/: Could not resolve host: github.com`. GitHub read API confirmó remote branch en 384d214e05e554fb3cddbcd16a3dddcd8cfb749d; commits locales ae260f56cdb03be61bbe030c5277203e7b545013 y 5bd16bc5c7d8bfe9cb49ef403ec267b6156afb6f siguen preservados.",
+      "finding": "No fue posible publicar los commits finales por fallo DNS de GitHub.",
+      "handling": "No repetir mientras DNS permanezca sin resolver. Mantener los commits locales; con conectividad, realizar push fast-forward y crear draft PR/esperar CI.",
+      "id": "INC-NAT-009",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "task": "NAT-J-003"
     }
   ],
   "schema": "ddd.national-incidents/1.0"

@@ -12,9 +12,9 @@
       "sha256": "56f6a131c118b62099e63efa322fd21908e49b8e5ee754859e43920b333dec34"
     },
     {
-      "bytes": 3757,
+      "bytes": 3790,
       "path": "CHECKPOINT.json",
-      "sha256": "dbe546643e21b2d62a339d08d4f1e06fc5f7fcf4ccbce781d4898306408c098e"
+      "sha256": "391a563f93d7f1f93bfd00da2db674ee8e3783d0adbf3b5656c54a664f113e8e"
     },
     {
       "bytes": 1656,
@@ -37,9 +37,9 @@
       "sha256": "e591bebef5233aadd7dea1489c306d4b456fdf508af299ddd28a341c19e78936"
     },
     {
-      "bytes": 14779,
+      "bytes": 15125,
       "path": "EVENT_LOG.jsonl",
-      "sha256": "4ddb0a8a0e7e440dfab36c538731cfbe7b4fdc29fcd7e91604000b53c1984357"
+      "sha256": "166376e5adac17bc7735f0882a2cfcad7f5e3c42998eb3769e4928fd52e8ab9f"
     },
     {
       "bytes": 7222,
@@ -982,19 +982,19 @@
       "sha256": "89ff1bbb754b33487089ad8a100e2562ffb0c3e090c83b888ac676707c9b72c6"
     },
     {
-      "bytes": 8488,
+      "bytes": 8697,
       "path": "FINAL_REPORT.md",
-      "sha256": "dd34fb5302a51f2026cc4b94580f5d096cdee09bcafc23ff26e46ed5b4780804"
+      "sha256": "a7f3093f530ba55ae5db28f77ec7a972a87e10c32b925ab26a74f3f2a57c819c"
     },
     {
-      "bytes": 5392,
+      "bytes": 6187,
       "path": "INCIDENTS.json",
-      "sha256": "c0d51eaee65449b9530ae469090683ca03992ab98fd6c4ee8dcb086d85a0821f"
+      "sha256": "1abb4ff85021c1e414dfc5f98ececac628234038df6ce26048ca7879660a12ed"
     },
     {
-      "bytes": 516,
+      "bytes": 679,
       "path": "INTEGRATION_QUEUE.json",
-      "sha256": "fabd6e22ed4fdf5782f854219af388b747babfc113645e0475143b00270e4798"
+      "sha256": "d9840a61960ccfb24eefb07287f223dc6e3f465d46e5d368fc4711236a84775a"
     },
     {
       "bytes": 834,
@@ -1589,7 +1589,7 @@
     {
       "bytes": 296,
       "path": "READY_SELECTION.json",
-      "sha256": "dcb40588fd8d3f2c9ce2b117f50e1f220164a8d8595cf3b4095b5b6bb4baef29"
+      "sha256": "b98754af509cb2b0ff3f94aba897701e4c8548ce30e54b17b20f0e6bda91fb82"
     },
     {
       "bytes": 1466,
@@ -1617,9 +1617,9 @@
       "sha256": "0bed722cb64bb896fd2ab87745acf5fcad749b362d946ec0e1d619b42537ed11"
     },
     {
-      "bytes": 93963,
+      "bytes": 94242,
       "path": "TASK_REGISTRY.json",
-      "sha256": "c070b2169e00898fc8cf589504387f4802ea05b061a852c3e27d8afcc47fe466"
+      "sha256": "01f00632e79f76ac9759ff6e1436158b915cdf498f645da7382d6fd8c74bfbe3"
     }
   ],
   "schema": "ddd.national-campaign-artifact-manifest/1.0"
