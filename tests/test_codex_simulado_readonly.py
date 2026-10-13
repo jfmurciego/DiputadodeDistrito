@@ -16,7 +16,7 @@ class ReadOnlySimulationTests(unittest.TestCase):
         self.trace = self.root / 'trace.jsonl'
         self.env = os.environ | {
             'DDD_FAKE_TRACE': str(self.trace),
-            'DDD_FAKE_CRITERIA': json.dumps({'F10-TEST': ['source identity checked']}),
+            'DDD_FAKE_CRITERIA': json.dumps({'F10-TEST': [['source identity checked'], ['manifest hash preserved']]}),
             'DDD_FAKE_LIMITATIONS': json.dumps({'F10-TEST': 'simulation only'}),
         }
 
@@ -41,14 +41,14 @@ class ReadOnlySimulationTests(unittest.TestCase):
         self.assertEqual(summary['task'], 'F10-TEST')
         self.assertEqual(summary['head'], 'abc123')
         self.assertEqual(summary['limitations'], ['simulation only', 'SIMULATION_ONLY'])
-        self.assertEqual(summary['criteria_verified'], ['source identity checked'])
+        self.assertEqual(summary['criteria_verified'], ['source identity checked', 'manifest hash preserved'])
 
     def test_structured_reviewer_flattens_single_nested_policy_criterion(self):
         task = self.root / 'F10-TEST'
         reviewer = task / 'reviewer'
         (reviewer / 'controller').mkdir(parents=True)
         (task / 'delivery-manifest.json').write_text(json.dumps({'task': 'F10-TEST', 'head': 'abc123'}))
-        (reviewer / 'controller/policy.json').write_text(json.dumps({'simulation_acceptance': {'F10-TEST': [['source identity checked']]}}))
+        (reviewer / 'controller/policy.json').write_text(json.dumps({'simulation_acceptance': {'F10-TEST': [['source identity checked'], ['second criterion'], ['third criterion']]}}))
         schema = self.root / 'reviewer.schema.json'
         schema.write_text('{}')
         output = self.root / 'review.json'
@@ -59,8 +59,25 @@ class ReadOnlySimulationTests(unittest.TestCase):
         )
         verdict = json.loads(output.read_text())
         self.assertEqual(verdict['task'], 'F10-TEST')
-        self.assertEqual(verdict['criteria_passed'], ['source identity checked'])
+        self.assertEqual(verdict['criteria_passed'], ['source identity checked', 'second criterion', 'third criterion'])
         self.assertEqual(verdict['scope'], 'LOCAL_TECHNICAL_ONLY')
+
+    def test_structured_reviewer_rejects_non_string_criteria(self):
+        task = self.root / 'F10-TEST'
+        reviewer = task / 'reviewer'
+        (reviewer / 'controller').mkdir(parents=True)
+        (task / 'delivery-manifest.json').write_text(json.dumps({'task': 'F10-TEST', 'head': 'abc123'}))
+        (reviewer / 'controller/policy.json').write_text(json.dumps({'simulation_acceptance': {'F10-TEST': [['valid criterion'], 7]}}))
+        schema = self.root / 'reviewer.schema.json'
+        schema.write_text('{}')
+        output = self.root / 'review.json'
+        result = subprocess.run(
+            [sys.executable, str(SIMULATOR), '--output-schema', str(schema), '--output-last-message', str(output)],
+            cwd=reviewer, env=self.env, input='structured review', text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(output.exists())
 
 
 if __name__ == '__main__':

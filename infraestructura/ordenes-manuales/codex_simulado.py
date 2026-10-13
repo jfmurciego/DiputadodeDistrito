@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""DDD simulated Codex 1.3.1; 2026-10-13; tests only, no model consumption.
-Predecessor: legacy/1.3.0/codex_simulado.py. Changes: manifest identity and structured singleton normalization.
-Reason: execute READ_ONLY test harness reliably. Does not simulate validators.
+"""DDD simulated Codex 1.3.2; 2026-10-13; tests only, no model consumption.
+Predecessor: legacy/1.3.1/codex_simulado.py. Changes: lossless nested criterion normalization.
+Reason: preserve every criterion in structured READ_ONLY review output. Does not simulate validators.
 """
 import json
 import os
@@ -10,6 +10,18 @@ import re
 import sys
 import time
 import uuid
+
+
+def string_list(value):
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        flattened = []
+        for item in value:
+            flattened.extend(string_list(item))
+        return flattened
+    raise SystemExit('SIMULATION_INPUT_ERROR: expected string or nested list of strings')
+
 
 prompt=sys.stdin.read()
 structured='--output-schema' in sys.argv
@@ -40,10 +52,10 @@ if not review:
         m=json.loads(manifest.read_text())
         criteria=json.loads(os.environ['DDD_FAKE_CRITERIA'])
         if isinstance(criteria,dict):criteria=criteria[task]
+        criteria=string_list(criteria)
         limitations=json.loads(os.environ.get('DDD_FAKE_LIMITATIONS','{}'))
         if isinstance(limitations,dict):limitations=limitations.get(task,[])
-        if isinstance(limitations,str):limitations=[limitations]
-        limitations=list(limitations)+['SIMULATION_ONLY']
+        limitations=string_list(limitations)+['SIMULATION_ONLY']
         summary={'task':task,'head':m['head'],'inputs_manifest_sha256':hashlib.sha256(manifest.read_bytes()).hexdigest(),
                  'status':'READY_FOR_REVIEW','criteria_verified':criteria,'evidence':list(m['files']),
                  'tests':['SIMULATED executor; deterministic validator follows'],'limitations':limitations}
@@ -58,8 +70,7 @@ else:
     import hashlib
     m=json.loads(manifest.read_text())
     passed=json.loads((Path.cwd()/'controller/policy.json').read_text())['simulation_acceptance'][task]
-    if isinstance(passed,str):passed=[passed]
-    elif passed and isinstance(passed[0],list):passed=passed[0]
+    passed=string_list(passed)
     verdict={'task':task,'delivery_sha256':hashlib.sha256(manifest.read_bytes()).hexdigest(),'head':m['head'],
              'verdict':'NO_GO' if (scenario=='NO_GO' or (scenario=='REPAIR_ONCE' and 'repair-' not in str(Path.cwd()))) and task=='F03' else 'PASS',
              'scope':'LOCAL_TECHNICAL_ONLY','criteria_passed':passed,
