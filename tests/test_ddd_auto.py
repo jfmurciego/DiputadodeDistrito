@@ -22,7 +22,7 @@ ROOT=Path(__file__).resolve().parents[1]
 BUNDLE=ROOT/'infraestructura/ordenes-manuales'
 sys.path.insert(0,str(BUNDLE))
 import ddd_auto as auto
-REAL=Path('/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales')
+REAL=Path(os.environ.get('DDD_AUTO_SIM_REAL_REPO', ROOT if (ROOT/'docs/AUDITORIAS/F04_F10_20261009').exists() else ROOT.parent/'DDD-fuentes-oficiales'))
 GIS=Path('/usr/local/Caskroom/miniforge/base/envs/ddd/bin/python3')
 
 
@@ -31,7 +31,7 @@ def jsonwrite(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n')
 
 class AutoPilot(unittest.TestCase):
     def setUp(self):
-        self.root=Path(tempfile.mkdtemp(prefix='ddd-auto-sim-',dir=os.environ.get('DDD_AUTO_SIM_OUTPUT','/private/tmp')))
+        self.root=Path(tempfile.mkdtemp(prefix='ddd-auto-sim-',dir=os.environ.get('DDD_AUTO_SIM_OUTPUT',tempfile.gettempdir())))
         self.data=self.root/'launcher';self.data.mkdir()
         for p in BUNDLE.iterdir():
             if p.is_file():shutil.copy2(p,self.data/p.name)
@@ -59,7 +59,7 @@ class AutoPilot(unittest.TestCase):
         (self.data/'historial.jsonl').write_text('')
         self.trace=self.root/'codex-calls.jsonl'
         self.env=dict(os.environ,DDD_LAUNCHER_HOME=str(self.data),DDD_PLAN_DIR=str(self.plan),DDD_WORK_ROOT=str(self.root),DDD_FAKE_TRACE=str(self.trace),PYTHONDONTWRITEBYTECODE='1')
-        self.auto_root=self.data/'auto'/hashlib.sha256(str(self.plan).encode()).hexdigest()[:16]
+        self.auto_root=self.data/'auto'/hashlib.sha256(str(self.plan.resolve()).encode()).hexdigest()[:16]
         self.journal=self.auto_root/'eventos.jsonl'
         self.originals={str(p):auto.digest(p) for p in (self.plan/'estado.json', self.data/'historial.jsonl')}
 
