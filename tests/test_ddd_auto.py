@@ -437,6 +437,13 @@ class AutoPilot(unittest.TestCase):
         self.assertIn('ID duplicado',p.stderr)
         self.assertEqual(self.calls(),[])
 
+        plan['tasks']=[task for task in plan['tasks'] if task['id'] not in {'F03','N08-EXTERNAL'}]
+        jsonwrite(self.plan/'estado.json',plan)
+        p=subprocess.run(self.command('F03',extra=('--dry-run',)),env=self.env,capture_output=True,text=True)
+        self.assertEqual(p.returncode,2)
+        self.assertIn('faltan IDs canónicos: F03',p.stderr)
+        self.assertEqual(self.calls(),[])
+
 
 class ControllerContracts(unittest.TestCase):
     def test_legacy_plan_snapshot_is_not_accepted_with_out_of_scope_ids(self):
