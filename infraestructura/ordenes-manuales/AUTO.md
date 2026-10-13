@@ -1,5 +1,5 @@
-DDD auto 1.2.0 — 2026-10-10. Alcance: infraestructura local transversal candidata; cierre BLOCKED por permisos de Git compartido.
-Predecesor: legacy/1.1.0/AUTO.md; cambios: interfaz pilot, autorizaciones, puertas, recursos y reparación. Motivo: orden de Work.
+DDD auto 1.2.1 — 2026-10-13. Alcance: infraestructura local transversal candidata; cierre BLOCKED por permisos de Git compartido.
+Predecesor: legacy/1.2.0/AUTO.md; cambios: pin revisado de semilla F02 y rechazo de evidencia sintética; motivo: corrección de revisión independiente.
 
 Se amplía el ddd existente. No se introduce planificador ni catálogo alternativo: las 32 fichas del catálogo manual se contrastan con estado.json del Plan autoritativo antes de operar. IDs, dependencias, frente, ejecución y aceptación deben coincidir; ciclos, estados desconocidos y discrepancias bloquean. La revisión del Plan se fija por SHA-256 de sus bytes. Los PASS administrativos existentes se conservan y las incoherencias de ascendencia formal se muestran. TECH_PASS requiere validadores y revisión; no constituye cierre administrativo.
 
@@ -57,3 +57,6 @@ Pruebas: `python3 -m unittest tests.test_ddd_auto -v`. Los worktrees se crean en
 Política de versiones: predecesores conservados, mejora MINOR compatible, metadatos y registro en este expediente. CI no ejecutada por prohibición expresa de workflows. No afecta comportamiento territorial. Prohibiciones mantenidas: push, PR, merge, workflows, generación, descargas oficiales y publicación. La consulta remota de main no se pudo completar por DNS; se registra la referencia local sin atribuirle actualidad remota. El patch histórico ddd-1.1.0.patch se conserva sin modificar; tiene tres líneas con whitespace histórico que no se normalizan. La comprobación de whitespace de código actual excluye ese artefacto histórico y se distingue del chequeo global.
 
 Cierre de esta sesión: 28 pruebas PASS y Revisor separado GO sobre bytes finales. Git add y git commit rechazados con Operation not permitted en index.lock compartido; HEAD sigue en la base y no hay commit de entrega. Diff exacto exportado en /private/tmp/ddd-auto-1.2.0-review.patch. Cambios staged/unstaged y evidencias nuevas se conservan.
+
+
+La semilla F02 local se acepta solo si su SHA-256 coincide con el pin revisado incluido en el controlador, su estado/origen son los esperados y sus receipts/bytes verifican. El campo `synthetic_test_fixture_only` se rechaza. Los tests de orquestación usan F02 formal PASS en un Plan temporal aislado; no fabrican receipts para acreditar una semilla técnica. La decisión Work sigue ligada por hash pero no autenticada criptográficamente; no ejecutar tareas reales hasta que la institución defina y habilite un anclaje de confianza independiente.

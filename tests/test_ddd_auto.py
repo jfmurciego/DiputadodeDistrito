@@ -1,6 +1,6 @@
-"""DDD auto 1.2.0; 2026-10-10; directed offline simulation regression.
-Predecessor: infraestructura/ordenes-manuales/legacy/1.1.0/test_ddd_auto.py.
-Changes/reason: pilot interface, authorization, atomicity, repair, resource limits.
+"""DDD auto 1.2.1; 2026-10-13; directed offline simulation regression.
+Predecessor: legacy/1.2.0/test_ddd_auto.py.
+Changes/reason: F02 seed integrity and positive F03 validator coverage.
 """
 import copy
 import fcntl
@@ -46,13 +46,8 @@ class AutoPilot(unittest.TestCase):
         cfg=json.loads((self.data/'parametros.json').read_text());cfg.update(codex_bin=str(BUNDLE/'codex_simulado.py'),python_gis=str(GIS),segundos_maximos=30)
         jsonwrite(self.data/'parametros.json',cfg)
         self.policy=json.loads((BUNDLE/'auto-policy.json').read_text())
-        self.policy.update(authorized_local_tasks=['F03','F04'],revalidate=['F02','F03','F04'])
-        self._make_f02_seed()
-        self.git('add','receipts');self.git('commit','-m','Synthetic F02 seed fixtures')
-        catalog['worktrees']['fuentes-oficiales']['expected_head_prefix']=self.git('rev-parse','HEAD').strip()
-        jsonwrite(self.data/'catalogo.json',catalog);self.catalog=catalog
-        self.policy['technical_seeds']['F02']={'kind':'F02_14_OFFLINE','path':str(self.seed_path),
-            'sha256':auto.digest(self.seed_path),'repo':str(self.repo)}
+        self.policy.update(authorized_local_tasks=['F03','F04'],revalidate=['F03','F04'])
+        self.policy['technical_seeds']={}
         packet=self.root/'F03-synthetic.zip'
         import zipfile
         with zipfile.ZipFile(packet,'w') as z:z.writestr('simulation.json','{"task":"F03","result":"PASS"}\n')
@@ -67,7 +62,7 @@ class AutoPilot(unittest.TestCase):
         self.policy['tasks']['F04']['validators'][0]['argv'][4]=str(REAL)
         jsonwrite(self.data/'policy.json',self.policy)
         self.plan=self.root/'plan';self.plan.mkdir()
-        jsonwrite(self.plan/'estado.json',{'plan_revision':'SIMULATION','tasks':[dict(t,status='PASS' if t['id']=='F01' else 'PENDING') for t in catalog['tasks']]})
+        jsonwrite(self.plan/'estado.json',{'plan_revision':'SIMULATION','tasks':[dict(t,status='PASS' if t['id'] in ('F01','F02') else 'PENDING') for t in catalog['tasks']]})
         self.authorize()
         (self.data/'historial.jsonl').write_text('')
         self.trace=self.root/'codex-calls.jsonl'
@@ -75,22 +70,6 @@ class AutoPilot(unittest.TestCase):
         self.auto_root=self.data/'auto'/hashlib.sha256(str(self.plan.resolve()).encode()).hexdigest()[:16]
         self.journal=self.auto_root/'eventos.jsonl'
         self.originals={str(p):auto.digest(p) for p in (self.plan/'estado.json', self.data/'historial.jsonl')}
-
-    def _make_f02_seed(self):
-        """Create disposable seed evidence; never treat it as project F02 evidence."""
-        self.seed_path=self.root/'F02-synthetic-seed.json'
-        rows=[]
-        for index in range(14):
-            territory=f'SIM-{index:02d}'
-            artifact=self.root/f'{territory}.bin';artifact.write_bytes(f'{territory} test bytes\n'.encode())
-            receipt_rel=f'receipts/{territory}.json';receipt=self.repo/receipt_rel
-            receipt.parent.mkdir(parents=True,exist_ok=True)
-            receipt.write_text(json.dumps({'synthetic_test_fixture':True,'territory_id':territory})+'\n')
-            rows.append({'territory_id':territory,'artifact_path':str(artifact),'artifact_sha256':auto.digest(artifact),
-                'receipt_path':receipt_rel,'controls':{'F02_inventory_receipt_origin':'PASS','F02_bytes_hashes_editions':'PASS'},
-                'details':{'F02_inventory_receipt_origin':{'receipt_sha256':auto.digest(receipt)}}})
-        jsonwrite(self.seed_path,{'rows':rows,'originals_unchanged':True,'network':'FORBIDDEN',
-            'synthetic_test_fixture_only':True})
 
     def git(self,*args):
         return subprocess.check_output(['git','-C',str(self.repo),*args],stderr=subprocess.DEVNULL,text=True)
@@ -143,7 +122,7 @@ class AutoPilot(unittest.TestCase):
         folder=self.campaign_path()
         for task in ['F03','F04']:
             result=json.loads((folder/task/'result.json').read_text())
-            self.assertEqual(result['dependencies'][0]['state'],'TECH_PASS')
+            self.assertIn(result['dependencies'][0]['state'],('TECH_PASS','FORMAL_PASS'))
             self.assertTrue(result['dependencies'][0]['external_to_batch'])
             self.assertNotEqual(result['executor_session'],result['reviewer_session'])
             hashes=json.loads((folder/task/'evidence-hashes.json').read_text())
@@ -155,6 +134,11 @@ class AutoPilot(unittest.TestCase):
 
     def test_external_dependency_absent_and_dry_run_zero_codex(self):
         self.policy['technical_seeds']={};jsonwrite(self.data/'policy.json',self.policy)
+        plan=json.loads((self.plan/'estado.json').read_text())
+        next(t for t in plan['tasks'] if t['id']=='F02')['status']='PENDING'
+        jsonwrite(self.plan/'estado.json',plan)
+        self.originals[str(self.plan/'estado.json')]=auto.digest(self.plan/'estado.json')
+        self.authorize()
         p=self.run_auto('F03','F04',extra=('--dry-run',))
         self.assertIn('F02',p.stdout);self.assertIn('BLOCKED',p.stdout)
         self.assertFalse((self.data/'auto').exists());self.assertFalse(self.trace.exists())
@@ -175,6 +159,36 @@ class AutoPilot(unittest.TestCase):
         self.assertNotEqual(result['tests'][0]['exit_code'],0)
         self.assertEqual([c['role'] for c in self.calls()],['executor'])
         self.run_auto('F03');self.assertEqual(len(self.calls()),1)
+
+    def test_real_f03_validator_accepts_published_packet_when_available(self):
+        packet=Path(os.environ.get('DDD_F03_REAL_PACKET','/Users/macbookpro/Downloads/DDD-F03-REVISION.zip'))
+        if not packet.is_file():
+            self.skipTest('El paquete F03 oficial de validación no está disponible en este entorno')
+        self.policy['tasks']['F03']['inputs']['F03.zip']={'path':str(packet),'sha256':auto.digest(packet)}
+        self.policy['tasks']['F03']['validators'][0]['argv']=[sys.executable,str(BUNDLE/'validar_piloto.py'),'F03',
+            '--repo','{repo}','--output','{output}','--packet','{inputs}/F03.zip']
+        self.authorize()
+        p=self.run_auto('F03');self.assertEqual(p.returncode,0,p.stdout+p.stderr)
+        self.assertEqual(self.states()['F03'],'TECH_PASS')
+        self.assertEqual(json.loads((self.campaign_path()/'F03/delivery/validator-0.json').read_text())['status'],'PASS')
+
+    def test_synthetic_f02_seed_cannot_be_credited(self):
+        seed=self.root/'synthetic-f02.json'
+        rows=[]
+        for index in range(14):
+            artifact=self.root/f'seed-{index}.bin';artifact.write_bytes(b'synthetic only')
+            receipt=self.repo/f'receipt-{index}.json';receipt.write_text('{"synthetic_test_fixture":true}\n')
+            rows.append({'territory_id':f'SIM-{index:02d}','artifact_path':str(artifact),
+                'artifact_sha256':auto.digest(artifact),'receipt_path':str(receipt),
+                'controls':{'F02_inventory_receipt_origin':'PASS','F02_bytes_hashes_editions':'PASS'},
+                'details':{'F02_inventory_receipt_origin':{'receipt_sha256':auto.digest(receipt)}}})
+        jsonwrite(seed,{'status':'LOCAL_VERIFIED','origin':'7ce06043fe74102196152ad07ad17f47b1779a6b',
+            'rows':rows,'originals_unchanged':True,'network':'FORBIDDEN','synthetic_test_fixture_only':True})
+        policy={'technical_seeds':{'F02':{'kind':'F02_14_OFFLINE','path':str(seed),
+            'sha256':auto.digest(seed),'repo':str(self.repo)}}}
+        result=auto.seed_status(policy)['F02']
+        self.assertEqual(result['state'],'BLOCKED')
+        self.assertIn('Credencial F02 inválida',result['reason'])
 
     def test_reviewer_no_go_continues_other_enabled_task(self):
         p=self.run_auto(scenario='NO_GO');self.assertEqual(p.returncode,1)
@@ -286,7 +300,7 @@ class AutoPilot(unittest.TestCase):
             if t['id'] in ('F03','F04'):t['status']='PASS'
         jsonwrite(self.plan/'estado.json',plan)
         self.originals[str(self.plan/'estado.json')]=auto.digest(self.plan/'estado.json')
-        self.policy['revalidate']=['F02'];self.policy['tasks']['F05']={'validators':[]};self.authorize()
+        self.policy['revalidate']=[];self.policy['tasks']['F05']={'validators':[]};self.authorize()
         p=self.run_auto('F05',extra=('--dry-run',));self.assertIn('Criterios ejecutables insuficientes',p.stdout)
 
     def test_orphan_started_and_corrupt_journal(self):

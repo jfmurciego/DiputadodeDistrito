@@ -1,5 +1,5 @@
-"""DDD auto 1.2.0; 2026-10-10; local candidate, no production authority.
-Predecessor: legacy/1.1.0/ddd_auto.py. Authorizations, gates, atomic checkpoints,
+"""DDD auto 1.2.1; 2026-10-13; local candidate, no production authority.
+Predecessor: legacy/1.2.0/ddd_auto.py. F02 evidence pin, gates, atomic checkpoints,
 technical dependencies, deterministic gates and separate read-only review.
 """
 import contextlib
@@ -20,6 +20,9 @@ import uuid
 TERMINAL = {'TECH_PASS', 'BLOCKED', 'REVIEW_NO_GO', 'WAIT_OWNER'}
 RESERVED = {'F01', 'N01'}
 ACTIVE_LOCKS = []
+# This pin is the reviewed F02 inventory receipt used by this candidate. A
+# policy file cannot replace it with arbitrary local evidence and claim F02.
+F02_SEED_SHA256 = '08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6'
 
 
 def digest(path):
@@ -194,9 +197,14 @@ def seed_status(policy):
     for tid, seed in policy.get('technical_seeds', {}).items():
         try:
             p = Path(seed['path']).expanduser()
-            if digest(p) != seed['sha256'] or seed['kind'] != 'F02_14_OFFLINE' or tid != 'F02':
+            if (digest(p) != seed['sha256'] or seed['sha256'] != F02_SEED_SHA256
+                    or seed['kind'] != 'F02_14_OFFLINE' or tid != 'F02'):
                 raise ValueError('Credencial F02 inválida')
             x = load(p)
+            if x.get('synthetic_test_fixture_only') is True:
+                raise ValueError('F02 sintético no puede acreditar dependencias')
+            if x.get('status') != 'LOCAL_VERIFIED' or x.get('origin') != '7ce06043fe74102196152ad07ad17f47b1779a6b':
+                raise ValueError('F02 no coincide con la evidencia revisada')
             rows = x['rows']
             if len(rows) != 14 or len({r['territory_id'] for r in rows}) != 14:
                 raise ValueError('F02 exige 14 identidades únicas')

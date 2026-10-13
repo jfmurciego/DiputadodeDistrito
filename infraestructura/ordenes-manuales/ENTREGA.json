@@ -1,41 +1,41 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "name": "DDD auto local delivery",
-  "date": "2026-10-10",
+  "date": "2026-10-13",
   "scope": "Infraestructura local transversal; 32 tareas existentes",
   "status": "BLOCKED",
-  "changes": "Interfaz pilot; autorizaciones fijadas por hash; DAG completo; puertas; recursos; reparaciones; instalador",
+  "changes": "Corrección de integridad F02, fixtures deterministas portables y aceptación positiva F03; revisión detectó dependencia F02 falsificable",
   "reason": "Orden explícita de Work",
-  "predecessor": "legacy/1.1.0/ENTREGA.json",
+  "predecessor": "legacy/1.2.0/ENTREGA.json",
   "origin": "DDD-control/ordenes-manuales",
   "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
   "branch": "codex/ddd-auto-control",
   "commit": null,
   "blockers": [
-    "git add and git commit denied: shared Git index.lock Operation not permitted"
+    "Autorización Work sin autenticación criptográfica; requiere anclaje confiable institucional antes de ejecución real",
+    "CI y revisión final pendientes"
   ],
   "installed": false,
   "real_pilot_executed": false,
   "formal_plan_changed": false,
   "legacy_history_changed": false,
   "tests": {
-    "result": "PASS",
-    "count": 28,
-    "seconds": 102.682,
-    "evidence": "evidencias/validacion-1.2.0.json"
+    "result": "PASS_LOCAL",
+    "count": 33,
+    "seconds": 51.01,
+    "evidence": "evidencias/validacion-1.2.1.json"
   },
   "review": {
-    "result": "GO",
-    "mode": "separate read-only agent session",
-    "evidence": "evidencias/revision-1.2.0.json"
+    "result": "PENDING_NEW_HEAD",
+    "mode": "separate read-only session",
+    "evidence": "evidencias/revision-1.2.1.json"
   },
-  "ci": "NOT_RUN: explicitly prohibited workflows",
+  "ci": "PENDING_NEW_HEAD",
   "prohibited_actions_executed": [],
   "limits": [
-    "No authorized tasks in default policy; Work decision needed per task",
-    "Capture bounded at256MiB; no symlinks",
-    "Codex simulated in tests; F03/F04 validators real offline and fixture-dependent",
-    "Separate review is local technical review, no integration or production authorization"
+    "No hay firma o anclaje independiente para autenticar una decisión Work; se requiere decisión institucional antes de habilitar ejecución real",
+    "CI/revisión del nuevo HEAD pendientes",
+    "No piloto F10 real ni presupuesto de proveedor"
   ],
   "remote_main": "UNVERIFIED_DNS; cached d3a2238188d3f9acccfb8daf081157cf32be4c31",
   "git_staging": "SUCCESS through ordinary git add; no override",
@@ -46,16 +46,25 @@
   },
   "source_hashes": {
     "infraestructura/ordenes-manuales/ddd.py": "112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a",
-    "infraestructura/ordenes-manuales/ddd_auto.py": "a2c67bd11208ddbb3cfa3b6304de258d4f59753af3dca3d8a3c66fb9c0fd3376",
-    "infraestructura/ordenes-manuales/codex_simulado.py": "e03c852df4cd1ed1afcdbab5c6c89eb4cf22a37788b990a6b4e2aa60fb28b95d",
-    "infraestructura/ordenes-manuales/auto-policy.json": "7e752cfe420d23c714cd0d5a4a62b9187e713a2f1c11f6f86f9f85e8ed3fb962",
-    "infraestructura/ordenes-manuales/instalar_actualizacion.py": "9166a168e74d8ed40accc25793f40c8abc3cadb533c68f624840803cb5de795b",
+    "infraestructura/ordenes-manuales/ddd_auto.py": "c586ced96f632c384d891ab9b93cf206d6706ae0b1c99686dd9a8cfeb0404cd1",
+    "infraestructura/ordenes-manuales/auto-policy.json": "13b2b076f9aeea60198efa88cef99ecc84243b6d7ff1ca478f1455629bd89092",
     "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
-    "infraestructura/ordenes-manuales/review.schema.json": "f5f565b7802f01dff60f69b18b0b306e97b77728cbc0131cf0f435c6f2c66e38",
-    "tests/test_ddd_auto.py": "312960ff35e79437c7347a189dc71be7475af5acf0e3c90b10e10e6fbf24e87d",
-    "scripts/instalar-ddd-auto.sh": "d80b5e51ed116542ddfb7def290083cc59cd7fa5ebf523c83c7dead72dc1db59"
+    "infraestructura/ordenes-manuales/AUTO.md": "a5f8d77a1d137f97b1846eb7078159815cabff482dcc0aa847db88d04ed85032",
+    "infraestructura/ordenes-manuales/ENTREGA.json": "5eb94be8fc381b0f909d3c24bdfabe8827beaa4746d809f7520184f1b557d57e",
+    "tests/test_ddd_auto.py": "7a38f76569cf6f6792e6a2b50d0788c63c3b90f34c22bf7e4a67f5e4558ba198",
+    "tests/fixtures/ddd_auto_validator_fixture.py": "08626ef1c62646ec182c1402c4b2a65b19f9a2c7c9306014ecdf9d99af8d28f0",
+    "Dockerfile": "c7b50e49ee94e72fd35034ac4c25a940120df678f67b56b0858d0d402b01f3df"
   },
-  "head": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "head": "PENDING_COMMIT",
   "final_diff": "/private/tmp/ddd-auto-1.2.0-review.patch",
-  "code_status": "READY_FOR_REVIEW; independent technical GO;28testsPASS"
+  "code_status": "READY_FOR_REVIEW; independent technical GO;28testsPASS",
+  "predecessor_files": [
+    "legacy/1.2.0/ddd_auto.py",
+    "legacy/1.2.0/AUTO.md",
+    "legacy/1.2.0/auto-policy.json",
+    "legacy/1.2.0/ENTREGA.json",
+    "legacy/1.2.0/evidencias/validacion-1.2.0.json",
+    "legacy/1.2.0/evidencias/revision-1.2.0.json",
+    "../../tests/legacy/1.2.0/test_ddd_auto.py"
+  ]
 }

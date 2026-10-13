@@ -1,0 +1,61 @@
+{
+  "version": "1.2.0",
+  "name": "DDD auto local delivery",
+  "date": "2026-10-10",
+  "scope": "Infraestructura local transversal; 32 tareas existentes",
+  "status": "BLOCKED",
+  "changes": "Interfaz pilot; autorizaciones fijadas por hash; DAG completo; puertas; recursos; reparaciones; instalador",
+  "reason": "Orden explícita de Work",
+  "predecessor": "legacy/1.1.0/ENTREGA.json",
+  "origin": "DDD-control/ordenes-manuales",
+  "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "branch": "codex/ddd-auto-control",
+  "commit": null,
+  "blockers": [
+    "git add and git commit denied: shared Git index.lock Operation not permitted"
+  ],
+  "installed": false,
+  "real_pilot_executed": false,
+  "formal_plan_changed": false,
+  "legacy_history_changed": false,
+  "tests": {
+    "result": "PASS",
+    "count": 28,
+    "seconds": 102.682,
+    "evidence": "evidencias/validacion-1.2.0.json"
+  },
+  "review": {
+    "result": "GO",
+    "mode": "separate read-only agent session",
+    "evidence": "evidencias/revision-1.2.0.json"
+  },
+  "ci": "NOT_RUN: explicitly prohibited workflows",
+  "prohibited_actions_executed": [],
+  "limits": [
+    "No authorized tasks in default policy; Work decision needed per task",
+    "Capture bounded at256MiB; no symlinks",
+    "Codex simulated in tests; F03/F04 validators real offline and fixture-dependent",
+    "Separate review is local technical review, no integration or production authorization"
+  ],
+  "remote_main": "UNVERIFIED_DNS; cached d3a2238188d3f9acccfb8daf081157cf32be4c31",
+  "git_staging": "SUCCESS through ordinary git add; no override",
+  "head_before_commit": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "patch_check": {
+    "code": "PASS",
+    "historical_patch": "3 preserved whitespace lines"
+  },
+  "source_hashes": {
+    "infraestructura/ordenes-manuales/ddd.py": "112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a",
+    "infraestructura/ordenes-manuales/ddd_auto.py": "a2c67bd11208ddbb3cfa3b6304de258d4f59753af3dca3d8a3c66fb9c0fd3376",
+    "infraestructura/ordenes-manuales/codex_simulado.py": "e03c852df4cd1ed1afcdbab5c6c89eb4cf22a37788b990a6b4e2aa60fb28b95d",
+    "infraestructura/ordenes-manuales/auto-policy.json": "7e752cfe420d23c714cd0d5a4a62b9187e713a2f1c11f6f86f9f85e8ed3fb962",
+    "infraestructura/ordenes-manuales/instalar_actualizacion.py": "9166a168e74d8ed40accc25793f40c8abc3cadb533c68f624840803cb5de795b",
+    "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
+    "infraestructura/ordenes-manuales/review.schema.json": "f5f565b7802f01dff60f69b18b0b306e97b77728cbc0131cf0f435c6f2c66e38",
+    "tests/test_ddd_auto.py": "312960ff35e79437c7347a189dc71be7475af5acf0e3c90b10e10e6fbf24e87d",
+    "scripts/instalar-ddd-auto.sh": "d80b5e51ed116542ddfb7def290083cc59cd7fa5ebf523c83c7dead72dc1db59"
+  },
+  "head": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "final_diff": "/private/tmp/ddd-auto-1.2.0-review.patch",
+  "code_status": "READY_FOR_REVIEW; independent technical GO;28testsPASS"
+}
