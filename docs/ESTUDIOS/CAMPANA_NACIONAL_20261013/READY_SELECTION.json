@@ -3,9 +3,7 @@
   "deferred": [],
   "execution_started": false,
   "generation_authorized": false,
-  "ready_task_ids": [
-    "NAT-J-003"
-  ],
-  "registry_sha256": "f55a567a1f5055f962a3bacf021b54306a0c9a2bafc8b4e70f82b949b69b8efa",
+  "ready_task_ids": [],
+  "registry_sha256": "2760fbfa2cd0f26b101520b7f296d7374e9311484dadb55ba06472c9ffb01247",
   "schema": "ddd.national-ready-proposal/1.0"
 }
