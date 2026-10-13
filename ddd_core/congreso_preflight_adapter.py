@@ -1,14 +1,19 @@
-"""Versión 0.1.0; Adaptador diagnóstico Congreso; fecha 2026-10-12.
+"""Versión 0.3.0; Adaptador diagnóstico Congreso; fecha 2026-10-13.
 Alcance: interfaces M01–M06 sin ejecución. Estado: candidato N08.
-Cambios: validación nacional aislada. Motivo: evitar herencia autonómica.
-Origen: nuevo, sin predecesor. Nunca autoriza generación.
+Cambios: auditor M06 reutiliza el certificado municipal topológico de M05.
+Motivo: conservar la distinción Congreso/autonomías sin autorización productiva.
+Anterior: legacy/n08_caceres_20261012/congreso_preflight_adapter_v0_1.py.
 """
 from __future__ import annotations
 
 import math
 import re
 from collections import defaultdict
-from ddd_core.congreso_contract import validate_congress_identity, production_blockers
+from ddd_core.congreso_contract import (
+    N08_OWNER_DECISION_ID, N08_POLICY_VALUES,
+    validate_congress_identity, production_blockers,
+)
+from ddd_core.m05_population_repair import verify_partition_constraints
 
 SHA = re.compile(r"[0-9a-f]{64}\Z")
 
@@ -138,6 +143,18 @@ def engine_input_contract():
             'M06': {'status': 'BLOCKED', 'required_input_fields': ['CUSEC', 'district_id', 'POB_2025']}}
 
 
+def congreso_m05_municipal_policy(contract):
+    """Return M05 mode only from the validated, approved Congress contract."""
+    validate_congress_identity(contract)
+    decision = contract.get('decisions', {}).get('municipal_indivisibility', {})
+    _require(isinstance(decision, dict)
+             and decision.get('status') == 'APPROVED'
+             and decision.get('decision_id') == N08_OWNER_DECISION_ID
+             and decision.get('value') == N08_POLICY_VALUES['municipal_indivisibility'],
+             'CONGRESS_MUNICIPAL_POLICY_PENDING')
+    return decision['value']
+
+
 def audit_synthetic_partition(contract, nodes, edges, source_binding, output_rows, policy, *, synthetic_fixture=False):
     """Audit only a declared synthetic output against externally approved quotas.
 
@@ -152,7 +169,9 @@ def audit_synthetic_partition(contract, nodes, edges, source_binding, output_row
     _require(isinstance(policy, dict) and set(policy) == {
         'minimum_unit', 'municipal_policy', 'population_floor', 'population_cap'}, 'EXPLICIT_POLICY_REQUIRED')
     _require(policy['minimum_unit'] == 'section', 'MINIMUM_UNIT_UNSUPPORTED')
-    _require(policy['municipal_policy'] in ('indivisible', 'splittable'), 'MUNICIPAL_POLICY_REQUIRED')
+    approved_municipal_policy = congreso_m05_municipal_policy(contract)
+    _require(policy['municipal_policy'] == approved_municipal_policy,
+             'MUNICIPAL_POLICY_CONTRACT_MISMATCH')
     floor, cap = policy['population_floor'], policy['population_cap']
     _require(type(floor) in (float, int) and type(cap) in (float, int) and
              math.isfinite(floor) and math.isfinite(cap) and 0 < floor <= cap, 'POPULATION_LIMITS_INVALID')
@@ -193,13 +212,29 @@ def audit_synthetic_partition(contract, nodes, edges, source_binding, output_row
     quotas = {row['code']: row['k'] for row in contract['quotas_by_origin_unit']}
     for province in {n['CPRO'] for n in nodes}:
         _require(len(province_districts[province]) == quotas[province], 'PARTITION_EXTERNAL_QUOTA_MISMATCH')
-    if policy['municipal_policy'] == 'indivisible':
-        municipalities = defaultdict(set)
-        for ident, row in by_output.items():
-            municipalities[by_id[ident]['CUMUN']].add(row['district_id'])
-        _require(all(len(labels) == 1 for labels in municipalities.values()), 'PARTITION_MUNICIPAL_INTEGRITY')
+    units = {
+        ident: {'population': int(node['pop']), 'province': str(node['CPRO']),
+                'municipality_group': str(node['CUMUN']),
+                'CPRO': str(node['CPRO']), 'CUMUN': str(node['CUMUN'])}
+        for ident, node in by_id.items()
+    }
+    state = {ident: row['district_id'] for ident, row in by_output.items()}
+    adjacency = {ident: set() for ident in by_id}
+    for edge in edges:
+        adjacency[edge['u']].add(edge['v'])
+        adjacency[edge['v']].add(edge['u'])
+    m05_audit = verify_partition_constraints(
+        state, units, adjacency, floor=floor, cap=cap,
+        municipality_policy=approved_municipal_policy,
+    )
+    _require(m05_audit.get('valid') is True, 'PARTITION_M05_INVARIANTS:' +
+             str(m05_audit.get('reason', 'UNKNOWN')))
+    _require(m05_audit.get('hard_limits_met') is True, 'PARTITION_HARD_POPULATION_LIMITS')
+    municipal_splits = m05_audit.get('municipality_splits', [])
     return {'status': 'SYNTHETIC_OUTPUT_AUDIT_PASS', 'diagnostic_only': True,
             'generation_authorized': False, 'institutional_policy_approved': False,
             'production_blockers': production_blockers(contract),
             'nodes': len(nodes), 'population': sum(n['pop'] for n in nodes),
+            'municipality_policy': approved_municipal_policy,
+            'municipality_splits': municipal_splits,
             'district_populations': district_populations}

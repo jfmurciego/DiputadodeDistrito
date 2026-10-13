@@ -5,6 +5,7 @@ Origen: nueva, sin predecesor.
 import hashlib
 import importlib.util
 import json
+import copy
 import unittest
 from pathlib import Path
 
@@ -24,7 +25,7 @@ class CaceresN08PreflightTests(unittest.TestCase):
         self.assertFalse(report['real_partition_created'])
         self.assertEqual(report['districts_generated'], 0)
         self.assertEqual(checkpoint['preflight_sha256'], hashlib.sha256((DOSSIER / 'preflight/PREFLIGHT.json').read_bytes()).hexdigest())
-        tool_hash = hashlib.sha256((ROOT / 'herramientas/preflight_caceres_n08.py').read_bytes()).hexdigest()
+        tool_hash = hashlib.sha256((ROOT / 'legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py').read_bytes()).hexdigest()
         self.assertEqual(report['tool_sha256'], tool_hash)
         self.assertEqual(checkpoint['tool_sha256'], tool_hash)
         self.assertFalse(checkpoint['generation_authorized'])
@@ -39,7 +40,9 @@ class CaceresN08PreflightTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(artifact.read_bytes()).hexdigest(), report['topology_unit_sha256'])
 
     def test_pending_policies_never_open_technical_gate(self):
-        contract = json.loads((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_text())
+        # El expediente 2026-10-12 se ejecutó sobre contrato 0.3; conservarlo
+        # para revisar su bloqueo histórico sin atribuirle reglas N08 posteriores.
+        contract = json.loads((ROOT / 'legacy/n08_caceres_20261012/contrato_congreso_2026_v0_3.json').read_text())
         pending, values = TOOL._approved_policies(contract)
         self.assertTrue(pending)
         self.assertIsNone(values)
@@ -66,17 +69,45 @@ class CaceresN08PreflightTests(unittest.TestCase):
         contract = json.loads((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_text())
         binding = {r: {'edition': 2025, 'sha256': contract['sources'][r]['sha256']} for r in ('geometry', 'population')}
         fixture = TOOL._synthetic_m06_contract(contract, binding, province='10', quota=3, population=388190)
-        result = TOOL._synthetic_m05_contract(fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
+        result = TOOL._synthetic_m05_contract(contract, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
         self.assertEqual(result['status'], 'SYNTHETIC_CONTRACT_PASS_ONLY')
         self.assertFalse(result['optimizer_executed'])
+
+    def test_m05_policy_is_derived_from_approved_contract_and_pending_fails_closed(self):
+        contract = json.loads((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_text())
+        binding = {r: {'edition': 2025, 'sha256': contract['sources'][r]['sha256']} for r in ('geometry', 'population')}
+        fixture = TOOL._synthetic_m06_contract(contract, binding, province='10', quota=3, population=388190)
+        result = TOOL._synthetic_m05_contract(contract, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
+        self.assertEqual(result['municipality_policy'], 'preserve_when_feasible_split_by_whole_CUSEC_when_necessary')
+        pending = copy.deepcopy(contract)
+        pending['decisions']['municipal_indivisibility']['status'] = 'PENDING'
+        with self.assertRaisesRegex(ValueError, 'CONGRESS_MUNICIPAL_POLICY_PENDING'):
+            TOOL._synthetic_m05_contract(pending, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
 
     def test_dossier_manifest(self):
         manifest = json.loads((DOSSIER / 'MANIFEST.json').read_text())
         report = json.loads((DOSSIER / 'preflight/PREFLIGHT.json').read_text())
         self.assertFalse(manifest['generation_authorized'])
         self.assertEqual(manifest['tool_sha256'], report['tool_sha256'])
+        # El manifiesto histórico es inmutable. Las rutas que evolucionan
+        # con N08 0.4 se comprueban contra copias idénticas del HEAD acreditado;
+        # ninguna de las 26 entradas ni un SHA del manifiesto se reescribe.
+        original = {
+            'ddd_core/congreso_contract.py':
+                'legacy/n08_caceres_20261012/congreso_contract_v1_1.py',
+            'territorios/congreso/contrato_congreso_2026.json':
+                'legacy/n08_caceres_20261012/contrato_congreso_2026_v0_3.json',
+            'tests/test_preflight_caceres_n08.py':
+                'legacy/n08_caceres_20261012/test_preflight_caceres_n08_v1.py',
+            'ddd_core/congreso_preflight_adapter.py':
+                'legacy/n08_caceres_20261012/congreso_preflight_adapter_v0_1.py',
+            'ddd_core/m05_population_repair.py':
+                'legacy/n08_caceres_20261012/m05_population_repair_v1_6.py',
+            'herramientas/preflight_caceres_n08.py':
+                'legacy/n08_caceres_20261012/preflight_caceres_n08_v1.py',
+        }
         for rel, record in manifest['files'].items():
-            data = (ROOT / rel).read_bytes()
+            data = (ROOT / original.get(rel, rel)).read_bytes()
             self.assertEqual((len(data), hashlib.sha256(data).hexdigest()), (record['bytes'], record['sha256']))
 
 

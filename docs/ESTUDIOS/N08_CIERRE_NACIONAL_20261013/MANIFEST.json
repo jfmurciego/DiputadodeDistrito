@@ -1,0 +1,14 @@
+{
+  "schema": "ddd.n08-campaign-evidence-manifest/1.0",
+  "status": "DIAGNOSTIC_ONLY",
+  "generation_authorized": false,
+  "files_sha256": {
+    "INFORME.md": "3db6a5eee6895ea004c038d81c65c5990549dd2319f5c10fd82d2065bfc86a22",
+    "TRANSICION.json": "43ad0c85e89940977741749a2231c24c7320d4e4771f391a5a47eff1fc2b6048",
+    "MATRIZ_FACTIBILIDAD_52.csv": "75b6d0467ff5c217b5cedf709b0c6d15a6a75ce9d2337bc6986537c8e666c8a8",
+    "VERIFICACION.json": "d1c9de78bc1c5b68557dd0de712cd1db1cd05d82b642222ac9049f20592602f1",
+    "REVISION_INDEPENDIENTE.md": "17a19af8ff843141e308ee01f2e60bfcf601b504065009f1a744940e8c175217",
+    "INCIDENCIA_PUBLICACION.md": "ed921ad99430f062a23fc51afecee2ca03faffa284776f0220f00b35de461968",
+    "verificar_evidencia.py": "5452c9fffd353f5a7ae9eaa333d685a21263df7f7bd96185d54b80d7a50fc8b6"
+  }
+}

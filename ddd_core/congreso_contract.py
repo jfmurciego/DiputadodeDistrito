@@ -1,4 +1,4 @@
-"""VERSIÓN: 1.1.0; NOMBRE: guardas de admisión del contrato Congreso.
+"""VERSIÓN: 1.2.0; NOMBRE: guardas de admisión del contrato Congreso.
 FECHA: 2026-10-12; ALCANCE: validación contractual, sin ejecutar M01–M08.
 ESTADO: candidato local; CAMBIOS: migración compatible de unidades administrativas de origen 01–52.
 MOTIVO: separar el Congreso del gestor autonómico de 19 ámbitos.
@@ -7,9 +7,10 @@ ORIGEN: legacy/n06_contrato_20261012/congreso_contract_v1.0.0.py.
 from __future__ import annotations
 
 import re
+from decimal import Decimal
 from typing import Any, Mapping
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 CONGRESS_CODES = tuple(f"{number:02d}" for number in range(1, 53))
 PROVINCE_CODES = CONGRESS_CODES[:50]
 AUTONOMOUS_CITY_CODES = CONGRESS_CODES[50:]
@@ -49,6 +50,9 @@ _CLOSED_OBJECT_KEYS = {
     ("barriers",): {"province_circumscription", "ceuta_melilla_separate", "cross_circumscription_edges", "basis"},
     ("decisions",): {"minimum_unit", "population_reference", "contiguity", "population_limits", "municipal_indivisibility", "islands", "enclaves", "physical_discontinuities"},
     ("decisions", "*"): {"status", "value", "evidence", "decision_id", "note"},
+    ("decisions", "population_limits", "value"): {
+        "population_floor_ratio", "population_cap_ratio", "target_tolerance_ratio",
+    },
     ("k_decision",): {"status", "total", "source_scope", "source_territory_id", "decision_id", "quota_method"},
     ("quotas_by_circumscription",): {"code", "k"},
     ("quotas_by_circumscription", "*"): {"code", "k"},
@@ -103,6 +107,68 @@ def _normalize_origin_units(payload: Mapping[str, Any]) -> dict[str, Any]:
     return result
 
 
+
+# Immutable approved values under N08-OWNER-20261013-7RULES.
+# A future policy requires a new, explicit decision and validator version.
+N08_OWNER_DECISION_ID = "N08-OWNER-20261013-7RULES"
+N08_POLICY_VALUES = {
+    "minimum_unit": "official_2025_CUSEC_indivisible",
+    "contiguity": "positive_line_shared_boundary_on_original_polygon_parts",
+    "municipal_indivisibility": "preserve_when_feasible_split_by_whole_CUSEC_when_necessary",
+    "islands": "preserve_physical_islands_named_exceptions_only",
+    "enclaves": "accredited_administrative_enclaves_named_exceptions_only",
+    "physical_discontinuities": "case_registry_bound_to_edition_cusec_parts_and_hashes",
+}
+N08_POPULATION_RATIOS = {
+    "population_floor_ratio": Decimal("0.85"),
+    "population_cap_ratio": Decimal("1.15"),
+    "target_tolerance_ratio": Decimal("0.15"),
+}
+POLICY_RULES = (
+    "minimum_unit", "contiguity", "population_limits",
+    "municipal_indivisibility", "islands", "enclaves",
+    "physical_discontinuities",
+)
+
+
+def _approved_policy_errors(payload: Mapping[str, Any]) -> list[str]:
+    """Admit only explicitly versioned owner-approved national policies."""
+    decisions = payload.get("decisions")
+    if not isinstance(decisions, Mapping):
+        return []
+    errors: list[str] = []
+    for name in POLICY_RULES:
+        decision = decisions.get(name)
+        if not isinstance(decision, Mapping) or decision.get("status") != "APPROVED":
+            continue
+        if decision.get("decision_id") != N08_OWNER_DECISION_ID:
+            errors.append("APPROVED_POLICY_DECISION_ID_INVALID:" + name)
+        value = decision.get("value")
+        if name != "population_limits":
+            if not isinstance(value, str) or value != N08_POLICY_VALUES[name]:
+                errors.append("APPROVED_POLICY_VALUE_INVALID:" + name)
+            continue
+        if not isinstance(value, Mapping) or set(value) != set(N08_POPULATION_RATIOS):
+            errors.append("APPROVED_POPULATION_LIMITS_FIELDS_INVALID")
+            continue
+        if any(type(value[key]) not in (int, float) for key in N08_POPULATION_RATIOS):
+            errors.append("APPROVED_POPULATION_LIMITS_NUMERIC_REQUIRED")
+            continue
+        numbers = {key: Decimal(str(value[key])) for key in N08_POPULATION_RATIOS}
+        if not all(number.is_finite() for number in numbers.values()):
+            errors.append("APPROVED_POPULATION_LIMITS_NONFINITE")
+        elif numbers != N08_POPULATION_RATIOS:
+            errors.append("APPROVED_POPULATION_LIMITS_NOT_OWNER_APPROVED")
+    minimum = payload.get("minimum_unit")
+    named = decisions.get("minimum_unit")
+    if isinstance(named, Mapping) and named.get("status") == "APPROVED":
+        if (not isinstance(minimum, Mapping)
+                or minimum.get("status") != "APPROVED"
+                or minimum.get("value") != named.get("value")):
+            errors.append("APPROVED_MINIMUM_UNIT_REPRESENTATIONS_CONFLICT")
+    return errors
+
+
 def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
     """Validate routing identity and the fixed 52-code universe only.
 
@@ -117,6 +183,7 @@ def validate_congress_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
     if unknown:
         errors.append("CONTRACT_FIELDS_UNKNOWN:" + ",".join(sorted(map(str, unknown))))
     errors.extend(_validate_closed_objects(payload))
+    errors.extend(_approved_policy_errors(payload))
     def find_forbidden(value: Any, path: str = "$") -> list[str]:
         found: list[str] = []
         if isinstance(value, Mapping):

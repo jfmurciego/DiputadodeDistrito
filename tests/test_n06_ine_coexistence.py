@@ -53,6 +53,6 @@ class Coexistence(unittest.TestCase):
         blockers=production_blockers(self.c)
         self.assertNotIn('OWNER_DECISION_PENDING',blockers)
         self.assertNotIn('CONGRESS_K_UNDECIDED_OR_INVALID',blockers)
-        self.assertIn('DECISION_CONTIGUITY_PENDING',blockers)
-        self.assertIn('DECISION_MUNICIPAL_INDIVISIBILITY_PENDING',blockers)
+        self.assertNotIn('DECISION_CONTIGUITY_PENDING',blockers)
+        self.assertIn('CIRCUMSCRIPTION_COVERAGE_NOT_ACCREDITED_52_OF_52',blockers)
         with self.assertRaisesRegex(ValueError,'PRODUCTION_BLOCKED'):validate_production_admission(self.c)

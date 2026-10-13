@@ -1,5 +1,6 @@
-"""Versión 0.1.0; pruebas interfaces Congreso; 2026-10-12; candidato.
-Alcance diagnóstico; cambios: pruebas nuevas; motivo N08; origen nuevo.
+"""Versión 0.2.0; pruebas interfaces Congreso; 2026-10-13; candidato.
+Alcance diagnóstico; cambios: política municipal M05/M06 y corte excesivo.
+Motivo N08; anterior: prueba 0.1.0 de este archivo.
 """
 import copy
 import importlib.util
@@ -9,8 +10,9 @@ import unittest
 from shapely.geometry import box
 from ddd_core.congreso_preflight_adapter import (
     validate_physical_product, physical_components, structural_component_bound,
-    engine_input_contract, audit_synthetic_partition,
+    engine_input_contract, audit_synthetic_partition, congreso_m05_municipal_policy,
 )
+from ddd_core.congreso_contract import N08_POLICY_VALUES
 from ddd_core.config import hard_limits
 from ddd_core.m04_seed_engine import _atomic_population_necessary_conditions
 from ddd_core.m05_population_repair import verify_partition_constraints
@@ -208,7 +210,8 @@ class CongressSyntheticOutputAuditTests(unittest.TestCase):
                        'contact_sha256': 'b' * 64} for i in range(4)]
         self.rows = [{'id': n['id'], 'pop': n['pop'], 'district_id': 'synthetic:' + str(i)}
                      for i, n in enumerate(self.nodes)]
-        self.policy = {'minimum_unit': 'section', 'municipal_policy': 'splittable',
+        self.policy = {'minimum_unit': 'section',
+                       'municipal_policy': N08_POLICY_VALUES['municipal_indivisibility'],
                        'population_floor': 110000, 'population_cap': 130000}
 
     def audit(self):
@@ -223,6 +226,46 @@ class CongressSyntheticOutputAuditTests(unittest.TestCase):
         self.assertTrue(result['production_blockers'])
         self.assertEqual(result['population'], 593623)
         self.assertEqual(len(result['district_populations']), 5)
+
+    def test_m06_audit_certifies_fragments_required_to_preserve_fixed_quota(self):
+        self.policy['population_floor'] = 1
+        self.policy['population_cap'] = 200000
+        result = self.audit()
+        split = result['municipality_splits'][0]
+        self.assertEqual(split['districts_used'], 5)
+        self.assertEqual(split['necessity'],
+                         'MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS')
+        self.assertFalse(result['generation_authorized'])
+
+    def test_m06_accepts_topology_population_forced_split_below_cap(self):
+        ids = ('3900101001', '3900201001', '3900101002', '3900301001',
+               '3900401001', '3900501001', '3900601001')
+        populations = (40, 199960, 40, 98396, 98396, 98396, 98395)
+        self.nodes = [{
+            'id': ident, 'CPRO': ident[:2], 'CUMUN': ident[:5], 'pop': pop,
+            'geometry_sha256': 'a' * 64,
+            'source_geometry_sha256': self.binding['geometry']['sha256'],
+            'physical_component': '39:land0',
+            'physical_part_components': ['39:land0'],
+        } for ident, pop in zip(ids, populations)]
+        self.edges = [{
+            'u': left, 'v': right, 'edge_type': 'geometric', 'shared_border_m': 1.,
+            'overlap_m2': 0, 'contact_sha256': 'b' * 64,
+        } for left, right in zip(ids, ids[1:])]
+        labels = ('D1', 'D1', 'D2', 'D2', 'D3', 'D4', 'D5')
+        self.rows = [{'id': ident, 'pop': pop, 'district_id': district}
+                     for ident, pop, district in zip(ids, populations, labels)]
+        self.policy.update(population_floor=1, population_cap=200000)
+        result = self.audit()
+        split = next(row for row in result['municipality_splits']
+                     if row['municipality_group'] == '39001')
+        self.assertEqual(split['population'], 80)
+        self.assertEqual(split['necessity'],
+                         'MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS')
+        self.policy['population_cap'] = 300000
+        with self.assertRaisesRegex(ValueError,
+                                    'PARTITION_M05_INVARIANTS:MUNICIPAL_SPLIT_NOT_MINIMAL'):
+            self.audit()
 
     def test_empty_universe_rejected(self):
         self.nodes, self.edges, self.rows = [], [], []
@@ -285,12 +328,14 @@ class CongressSyntheticOutputAuditTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.audit()
 
-    def test_municipal_policy_not_implicitly_indivisible(self):
+    def test_municipal_policy_is_read_from_exact_approved_contract(self):
+        self.assertEqual(congreso_m05_municipal_policy(self.contract),
+                         N08_POLICY_VALUES['municipal_indivisibility'])
         self.policy['municipal_policy'] = 'indivisible'
-        with self.assertRaisesRegex(ValueError, 'PARTITION_MUNICIPAL_INTEGRITY'):
+        with self.assertRaisesRegex(ValueError, 'MUNICIPAL_POLICY_CONTRACT_MISMATCH'):
             self.audit()
         self.policy['municipal_policy'] = None
-        with self.assertRaisesRegex(ValueError, 'MUNICIPAL_POLICY_REQUIRED'):
+        with self.assertRaisesRegex(ValueError, 'MUNICIPAL_POLICY_CONTRACT_MISMATCH'):
             self.audit()
 
     def test_missing_or_multipart_physical_evidence(self):
