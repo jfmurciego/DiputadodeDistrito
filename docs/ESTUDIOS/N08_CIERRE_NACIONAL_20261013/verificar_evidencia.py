@@ -113,7 +113,8 @@ def main():
         "generation_authorized": False,
     }
     (OUT / "VERIFICACION.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-    local_files = ["INFORME.md", "TRANSICION.json", "MATRIZ_FACTIBILIDAD_52.csv", "VERIFICACION.json", "verificar_evidencia.py"]
+    local_files = ["INFORME.md", "TRANSICION.json", "MATRIZ_FACTIBILIDAD_52.csv", "VERIFICACION.json",
+                   "REVISION_INDEPENDIENTE.md", "INCIDENCIA_PUBLICACION.md", "verificar_evidencia.py"]
     local_manifest = {
         "schema": "ddd.n08-campaign-evidence-manifest/1.0", "status": "DIAGNOSTIC_ONLY",
         "generation_authorized": False,
