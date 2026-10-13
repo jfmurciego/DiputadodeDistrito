@@ -6,18 +6,18 @@
 
 Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **18 INTEGRATED** en el candidato local, **1 REVIEW_PASS**, **53 BLOCKED_EVIDENCE**, **1 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT** (publicación de PR/CI). `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
 
-| Línea | Tareas | Complete | Integrated | Testing | Ready | Bloqueadas por evidencia | Wait owner | Estado de cierre |
-|---|---:|---:|---:|---:|---:|---:|---:|---|
-| A | 1 | 1 | 0 | 0 | 0 | 0 | 0 | Cerrada para reglas N08 de alcance aprobado; K=407 y generation=false. |
-| B | 3 | 1 | 1 | 1 | 0 | 0 | 0 | Parcial; fuentes/linaje históricos verificados; auditoría de rutas aún en revisión. |
-| C | 54 | 1 | 0 | 0 | 0 | 53 | 0 | Parcial; producto geométrico reproducible, 53 tareas de límites externos sin fuente independiente. |
-| D | 5 | 0 | 5 | 0 | 0 | 0 | 0 | Parcial; anomalías inventariadas y revisadas, excepciones nominales sin aprobación. |
-| E | 3 | 1 | 2 | 0 | 0 | 0 | 0 | Parcial; condiciones necesarias y testigos condicionales; sin factibilidad territorial certificada. |
-| F | 3 | 0 | 2 | 0 | 0 | 0 | 1 | Parcial; preflight y composición listos como diagnóstico; generación bloqueada. |
-| G | 3 | 1 | 2 | 0 | 0 | 0 | 0 | Parcial; correcciones funcionales y perfil sintético listos; no hay benchmark territorial nacional. |
-| H | 2 | 0 | 2 | 0 | 0 | 0 | 0 | Parcial; diagnóstico ejecutado 52/52; 2 M04 estructurales bloqueados, restante sin evidencia suficiente para producto. |
-| I | 2 | 0 | 2 | 0 | 0 | 0 | 0 | Parcial; certificador candidato probado; cero productos reales certificados. |
-| J | 4 | 1 | 0 | 1 | 1 | 0 | 0 | Parcial; DAG, checkpoint y selector READY; queda PR/CI/revisión de campaña. |
+| Línea | Tareas | Complete | Integrated | Testing | Ready | Review pass | Bloqueadas por evidencia | Wait owner | Blocked environment | Estado de cierre |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| A | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Cerrada para reglas N08 de alcance aprobado; K=407 y generation=false. |
+| B | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; linaje histórico y auditoría de dependencias temporales integrados con alcance acotado. |
+| C | 54 | 1 | 0 | 0 | 0 | 0 | 53 | 0 | 0 | Parcial; producto geométrico reproducible, 53 tareas de límites externos sin fuente independiente. |
+| D | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; anomalías inventariadas y revisadas, excepciones nominales sin aprobación. |
+| E | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; condiciones necesarias y testigos condicionales; sin factibilidad territorial certificada. |
+| F | 3 | 0 | 2 | 0 | 0 | 0 | 0 | 1 | 0 | Parcial; preflight y composición listos como diagnóstico; generación bloqueada. |
+| G | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; correcciones funcionales y perfil sintético listos; no hay benchmark territorial nacional. |
+| H | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; diagnóstico ejecutado 52/52; 2 M04 estructurales bloqueados, restante sin evidencia suficiente para producto. |
+| I | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; certificador candidato probado; cero productos reales certificados. |
+| J | 4 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 1 | Parcial; ledger/selector revisados; publicación de rama, PR y CI bloqueadas por conectividad/herramientas. |
 
 ## Resultados comprobados
 
