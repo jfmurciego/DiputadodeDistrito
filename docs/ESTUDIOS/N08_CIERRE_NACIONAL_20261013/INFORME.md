@@ -22,7 +22,7 @@ Este certificado prueba la necesidad aritmética mínima de más de un distrito 
 
 ## Validación local
 
-- Contrato Congreso, políticas, readiness, migración, coexistencia N06/INE, Cáceres, M05 y regresión autonómica pertinente: 169 pruebas pasan, 51 subtests pasan; 1 prueba se omite por el motivo declarado por pytest.
+- Contrato Congreso, políticas, readiness, migración, coexistencia N06/INE, Cáceres, M05 y regresión autonómica pertinente: 170 pruebas pasan, 51 subtests pasan; 1 prueba se omite por el motivo declarado por pytest.
 - Reproducción: `python docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/verificar_evidencia.py`.
 - No se ejecutó `00`, generación, M04–M06 sobre particiones reales, ni se publicaron distritos o mapas.
 

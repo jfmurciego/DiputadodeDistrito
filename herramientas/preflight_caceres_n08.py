@@ -147,24 +147,27 @@ def report_gate_ready(pending, hard_limit_blocker, synthetic_m05, synthetic_m06,
             synthetic_m06.get('status') == 'SYNTHETIC_OUTPUT_AUDIT_PASS')
 
 
-def _synthetic_m05_contract(nodes, edges, *, province, floor=1, cap=None):
+def _synthetic_m05_contract(contract, nodes, edges, *, province, floor=1, cap=None):
     """Exercise M05 final invariants on a synthetic chain, never optimize."""
+    from ddd_core.congreso_preflight_adapter import congreso_m05_municipal_policy
     from ddd_core.m05_population_repair import verify_partition_constraints
+    municipal_policy = congreso_m05_municipal_policy(contract)
     total = sum(n['pop'] for n in nodes)
     units = {n['id']: {'population': n['pop'], 'province': province,
-                       'municipality_group': n['CUMUN']} for n in nodes}
+                       'municipality_group': n['CUMUN'], 'CUMUN': n['CUMUN']} for n in nodes}
     adjacency = {n['id']: set() for n in nodes}
     for edge in edges:
         adjacency[edge['u']].add(edge['v'])
         adjacency[edge['v']].add(edge['u'])
     state = {n['id']: str(i + 1) for i, n in enumerate(nodes)}
     result = verify_partition_constraints(state, units, adjacency, floor=floor,
-                                          cap=total if cap is None else cap)
+                                          cap=total if cap is None else cap,
+                                          municipality_policy=municipal_policy)
     if not result.get('valid') or not result.get('hard_limits_met'):
         raise ValueError('M05_SYNTHETIC_CONTRACT')
     return {'status': 'SYNTHETIC_CONTRACT_PASS_ONLY', 'diagnostic_only': True,
             'optimizer_executed': False, 'units': len(nodes),
-            'districts': len(set(state.values()))}
+            'districts': len(set(state.values())), 'municipality_policy': municipal_policy}
 
 
 def _synthetic_m06_contract(contract, source_binding, *, province, quota, population):
@@ -353,7 +356,7 @@ def run(parts_dir: Path, output: Path, province: str = PROVINCE, product_dir: Pa
     else:
         m05_floor, m05_cap = 1, int(summary['population'])
     try:
-        synthetic_m05 = _synthetic_m05_contract(fixture_nodes, fixture_edges,
+        synthetic_m05 = _synthetic_m05_contract(contract, fixture_nodes, fixture_edges,
                                                 province=code, floor=m05_floor, cap=m05_cap)
     except (Exception, SystemExit) as exc:
         synthetic_m05 = {'status': 'BLOCKED', 'reason': str(exc),

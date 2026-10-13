@@ -5,6 +5,7 @@ Origen: nueva, sin predecesor.
 import hashlib
 import importlib.util
 import json
+import copy
 import unittest
 from pathlib import Path
 
@@ -68,9 +69,20 @@ class CaceresN08PreflightTests(unittest.TestCase):
         contract = json.loads((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_text())
         binding = {r: {'edition': 2025, 'sha256': contract['sources'][r]['sha256']} for r in ('geometry', 'population')}
         fixture = TOOL._synthetic_m06_contract(contract, binding, province='10', quota=3, population=388190)
-        result = TOOL._synthetic_m05_contract(fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
+        result = TOOL._synthetic_m05_contract(contract, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
         self.assertEqual(result['status'], 'SYNTHETIC_CONTRACT_PASS_ONLY')
         self.assertFalse(result['optimizer_executed'])
+
+    def test_m05_policy_is_derived_from_approved_contract_and_pending_fails_closed(self):
+        contract = json.loads((ROOT / 'territorios/congreso/contrato_congreso_2026.json').read_text())
+        binding = {r: {'edition': 2025, 'sha256': contract['sources'][r]['sha256']} for r in ('geometry', 'population')}
+        fixture = TOOL._synthetic_m06_contract(contract, binding, province='10', quota=3, population=388190)
+        result = TOOL._synthetic_m05_contract(contract, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
+        self.assertEqual(result['municipality_policy'], 'preserve_when_feasible_split_by_whole_CUSEC_when_necessary')
+        pending = copy.deepcopy(contract)
+        pending['decisions']['municipal_indivisibility']['status'] = 'PENDING'
+        with self.assertRaisesRegex(ValueError, 'CONGRESS_MUNICIPAL_POLICY_PENDING'):
+            TOOL._synthetic_m05_contract(pending, fixture['_fixture_nodes'], fixture['_fixture_edges'], province='10')
 
     def test_dossier_manifest(self):
         manifest = json.loads((DOSSIER / 'MANIFEST.json').read_text())
