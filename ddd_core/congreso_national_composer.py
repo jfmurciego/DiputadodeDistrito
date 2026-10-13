@@ -1,6 +1,6 @@
 """National composition of already-produced provincial candidate assignments.
 
-Version: 1.1.0; date: 2026-10-13; candidate diagnostic interface.
+Version: 1.2.0; date: 2026-10-13; candidate diagnostic interface.
 Scope: resumable identity/coverage/quota composition only. It does not run
 M01-M06, generate districts, certify topology/population, or authorize output.
 Origin: new; no predecessor.
@@ -13,11 +13,13 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 from typing import Mapping, Sequence
 
 SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 PROVINCES = tuple(f"{i:02d}" for i in range(1, 53))
-SCHEMA = "ddd.congreso-national-composition-checkpoint/1.0"
+SCHEMA = "ddd.congreso-national-composition-checkpoint/1.2"
+PROVINCIAL_PRODUCT_SCHEMA = "ddd.congreso-provincial-candidate-product/1.0"
 # Root identities from the reviewed N08 inputs at the base revision. Changing
 # any of these requires an explicit update/review of the accreditation bridge.
 TRUSTED_CONTRACT_SHA256 = "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223"
@@ -64,6 +66,16 @@ def _atomic_json(path: Path, value: Mapping[str, object]) -> bytes:
         os.fsync(stream.fileno())
     os.replace(temporary, path)
     return data
+
+
+def _atomic_bytes(path: Path, data: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("wb") as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
 
 
 class NationalCandidateComposer:
@@ -370,6 +382,37 @@ class NationalCandidateComposer:
                 or record.get("district_count") != expected["quota"]
                 or record.get("cusecs") != len(expected["cusecs"])):
             raise ValueError("COMPOSITION_ASSIGNMENT_COVERAGE_OR_QUOTA:" + code)
+        input_kind = payload.get("input_kind")
+        if input_kind == "SYNTHETIC_FIXTURE":
+            if (self.identity["synthetic_fixture"] is not True
+                    or payload.get("synthetic_fixture") is not True
+                    or record.get("input_kind") != "SYNTHETIC_FIXTURE"):
+                raise ValueError("SYNTHETIC_STAGING_NOT_ALLOWED:" + code)
+        elif input_kind in {"PROVINCIAL_PRODUCT", "SYNTHETIC_PRODUCT"}:
+            synthetic_product = input_kind == "SYNTHETIC_PRODUCT"
+            if (self.identity["synthetic_fixture"] is not synthetic_product
+                    or payload.get("synthetic_fixture") is not synthetic_product
+                    or record.get("input_kind") != input_kind):
+                raise ValueError("PROVINCIAL_PRODUCT_SCOPE_MISMATCH:" + code)
+            evidence = payload.get("input_evidence")
+            if not isinstance(evidence, Mapping) or evidence != record.get("input_evidence"):
+                raise ValueError("PROVINCIAL_PRODUCT_EVIDENCE_MISMATCH:" + code)
+            manifest_path = self.root / "upstream" / f"{code}.manifest.json"
+            artifact_path = self.root / "upstream" / f"{code}.assignments.json"
+            manifest_bytes, artifact_bytes = manifest_path.read_bytes(), artifact_path.read_bytes()
+            if (_sha(manifest_bytes) != evidence.get("manifest_sha256")
+                    or _sha(artifact_bytes) != evidence.get("artifact_sha256")):
+                raise ValueError("PROVINCIAL_PRODUCT_SNAPSHOT_HASH:" + code)
+            source_assignments = self._validate_product_bundle(
+                code, manifest_bytes, artifact_bytes)
+            if (_sha(manifest_bytes) != evidence.get("manifest_sha256")
+                    or _sha(artifact_bytes) != evidence.get("artifact_sha256")):
+                raise ValueError("PROVINCIAL_PRODUCT_EXPECTED_SHA_MISMATCH:" + code)
+            expected_staged = self._normalize_assignments(code, source_assignments)[0]
+            if expected_staged != rows:
+                raise ValueError("PROVINCIAL_PRODUCT_ASSIGNMENTS_CHANGED:" + code)
+        else:
+            raise ValueError("COMPOSITION_INPUT_KIND_INVALID:" + code)
         return payload
 
     def _save_checkpoint(self) -> None:
@@ -378,7 +421,8 @@ class NationalCandidateComposer:
         body["checkpoint_sha256"] = _sha(_canonical(body))
         _atomic_json(self.root / "CHECKPOINT.json", body)
 
-    def record_province(self, code: str, assignments: Sequence[Mapping[str, str]]) -> dict[str, object]:
+    def _normalize_assignments(self, code: str,
+                               assignments: Sequence[Mapping[str, str]]) -> tuple[list[dict[str, str]], int]:
         if code not in self.identity["units"]:
             raise ValueError("COMPOSITION_PROVINCE_NOT_EXPECTED:" + str(code))
         expected = self.identity["units"][code]
@@ -403,19 +447,29 @@ class NationalCandidateComposer:
                            for index, label in enumerate(labels, start=1)}
         rows = [{"cusec": cusec, "district_id": local_to_global[normalized[cusec]]}
                 for cusec in cusecs]
+        return rows, len(labels)
+
+    def _record_normalized(self, code: str, rows: list[dict[str, str]], district_count: int,
+                           *, input_kind: str, input_evidence: Mapping[str, str] | None = None
+                           ) -> dict[str, object]:
+        expected = self.identity["units"][code]
         payload = {"schema": SCHEMA, "province": code,
                    "input_sha256": expected["input_sha256"],
                    "universe_sha256": expected["universe_sha256"],
                    "identity_sha256": self.identity_sha256,
-                   "assignments": rows, "district_count": len(labels),
+                   "assignments": rows, "district_count": district_count,
+                   "input_kind": input_kind,
+                   "input_evidence": dict(input_evidence or {}),
+                   "synthetic_fixture": input_kind in {"SYNTHETIC_FIXTURE", "SYNTHETIC_PRODUCT"},
                    "generation_authorized": False,
                    "certification_status": "NOT_PERFORMED"}
         artifact_path = self.root / f"{code}.json"
         encoded = (json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2,
                                allow_nan=False) + "\n").encode("utf-8")
         data = encoded
-        record = {"artifact_sha256": _sha(data), "district_count": len(labels),
-                  "cusecs": len(rows)}
+        record = {"artifact_sha256": _sha(data), "district_count": district_count,
+                  "cusecs": len(rows), "input_kind": input_kind,
+                  "input_evidence": dict(input_evidence or {})}
         prior = self.records.get(code)
         if prior is not None and prior != record:
             raise ValueError("PROVINCIAL_CHECKPOINT_RESULT_CHANGED:" + code)
@@ -426,6 +480,136 @@ class NationalCandidateComposer:
         self.records[code] = record
         self._save_checkpoint()
         return record
+
+    def record_province(self, code: str, assignments: Sequence[Mapping[str, str]], *,
+                        synthetic_fixture: bool = False) -> dict[str, object]:
+        """Test-only in-memory staging, requiring explicit synthetic marking."""
+        if (synthetic_fixture is not True or self.identity["synthetic_fixture"] is not True):
+            raise ValueError("SYNTHETIC_FIXTURE_REQUIRED")
+        rows, district_count = self._normalize_assignments(code, assignments)
+        return self._record_normalized(code, rows, district_count,
+                                       input_kind="SYNTHETIC_FIXTURE")
+
+    def _validate_product_bundle(self, code: str, manifest_bytes: bytes,
+                                 artifact_bytes: bytes) -> list[dict[str, str]]:
+        manifest = json.loads(manifest_bytes)
+        if not isinstance(manifest, dict):
+            raise ValueError("PROVINCIAL_PRODUCT_MANIFEST_INVALID")
+        expected_fields = {
+            "schema", "scope", "province", "module", "synthetic_fixture",
+            "generation_authorized", "certification_status", "contract_sha256",
+            "source_manifest_sha256", "topology_manifest_sha256", "topology_unit_sha256",
+            "universe_sha256", "quota", "cusec_count", "district_count",
+            "artifact", "producer", "manifest_sha256",
+        }
+        if set(manifest) != expected_fields:
+            raise ValueError("PROVINCIAL_PRODUCT_MANIFEST_FIELDS")
+        claimed_manifest_sha = manifest.get("manifest_sha256")
+        manifest_body = {key: value for key, value in manifest.items()
+                         if key != "manifest_sha256"}
+        if claimed_manifest_sha != _sha(_canonical(manifest_body)):
+            raise ValueError("PROVINCIAL_PRODUCT_MANIFEST_SHA256")
+        expected = self.identity["units"][code]
+        if (manifest.get("schema") != PROVINCIAL_PRODUCT_SCHEMA
+                or manifest.get("scope") != "congreso"
+                or manifest.get("province") != code
+                or manifest.get("module") != "M06"
+                or type(manifest.get("synthetic_fixture")) is not bool
+                or manifest.get("synthetic_fixture") is not self.identity["synthetic_fixture"]
+                or manifest.get("generation_authorized") is not False
+                or manifest.get("certification_status") != "NOT_PERFORMED"
+                or manifest.get("contract_sha256") != self.identity["contract_sha256"]
+                or manifest.get("source_manifest_sha256") != self.identity["source_manifest_sha256"]
+                or manifest.get("topology_manifest_sha256") != self.identity["topology_manifest_sha256"]
+                or manifest.get("topology_unit_sha256") != expected["input_sha256"]
+                or manifest.get("universe_sha256") != expected["universe_sha256"]
+                or manifest.get("quota") != expected["quota"]
+                or manifest.get("cusec_count") != len(expected["cusecs"])
+                or manifest.get("district_count") != expected["quota"]):
+            raise ValueError("PROVINCIAL_PRODUCT_IDENTITY_OR_POLICY:" + code)
+        artifact = manifest.get("artifact")
+        if (not isinstance(artifact, Mapping) or set(artifact) != {"name", "sha256", "bytes"}
+                or not isinstance(artifact.get("name"), str)
+                or artifact["name"] != "assignments.json"
+                or not _is_sha(artifact.get("sha256"))
+                or type(artifact.get("bytes")) is not int
+                or artifact.get("bytes") != len(artifact_bytes)
+                or artifact.get("sha256") != _sha(artifact_bytes)):
+            raise ValueError("PROVINCIAL_PRODUCT_ARTIFACT_HASH:" + code)
+        producer = manifest.get("producer")
+        if (not isinstance(producer, Mapping)
+                or set(producer) != {"tool_path", "tool_sha256", "commit_sha", "run_id"}
+                or producer.get("tool_path") != "modulos/06_consolidar_distritos.py"
+                or not _is_sha(producer.get("tool_sha256"))
+                or not isinstance(producer.get("commit_sha"), str)
+                or not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", producer["commit_sha"])
+                or not isinstance(producer.get("run_id"), str)
+                or not producer["run_id"].strip()):
+            raise ValueError("PROVINCIAL_PRODUCT_PRODUCER_INVALID:" + code)
+        if manifest["synthetic_fixture"] is False:
+            try:
+                producer_code = subprocess.check_output(
+                    ["git", "show", f"{producer['commit_sha']}:{producer['tool_path']}"],
+                    cwd=Path(__file__).resolve().parents[1], stderr=subprocess.DEVNULL)
+            except (OSError, subprocess.CalledProcessError) as exc:
+                raise ValueError("PROVINCIAL_PRODUCT_PRODUCER_COMMIT_UNVERIFIABLE:" + code) from exc
+            if _sha(producer_code) != producer["tool_sha256"]:
+                raise ValueError("PROVINCIAL_PRODUCT_PRODUCER_TOOL_HASH:" + code)
+        try:
+            rows = json.loads(artifact_bytes)
+        except (TypeError, json.JSONDecodeError) as exc:
+            raise ValueError("PROVINCIAL_PRODUCT_ASSIGNMENTS_JSON:" + code) from exc
+        if not isinstance(rows, list) or artifact_bytes != _canonical(rows) + b"\n":
+            raise ValueError("PROVINCIAL_PRODUCT_ASSIGNMENTS_CANONICAL:" + code)
+        if len(rows) != len(expected["cusecs"]):
+            raise ValueError("PROVINCIAL_PRODUCT_CUSEC_COVERAGE:" + code)
+        for row in rows:
+            if (not isinstance(row, Mapping) or set(row) != {"cusec", "district_id"}
+                    or not isinstance(row.get("cusec"), str)
+                    or not isinstance(row.get("district_id"), str)
+                    or not row["district_id"].strip()):
+                raise ValueError("PROVINCIAL_PRODUCT_ASSIGNMENT_ROW:" + code)
+        if {row["cusec"] for row in rows} != set(expected["cusecs"]):
+            raise ValueError("PROVINCIAL_PRODUCT_CUSEC_COVERAGE:" + code)
+        return rows
+
+    def record_province_from_product(self, code: str, *, manifest_path: Path,
+                                     artifact_path: Path) -> dict[str, object]:
+        """Ingest an existing M06 provincial product from its upstream manifest.
+
+        The manifest supplies the expected artifact SHA and must bind the exact
+        accredited contract, source, topology, CPRO, K and CUSEC universe. The
+        verified source bundle is snapshotted in the checkpoint and revalidated
+        during resume and national composition.
+        """
+        if code not in self.identity["units"]:
+            raise ValueError("COMPOSITION_PROVINCE_NOT_EXPECTED:" + str(code))
+        manifest_path, artifact_path = Path(manifest_path), Path(artifact_path)
+        if manifest_path.resolve().parent != artifact_path.resolve().parent:
+            raise ValueError("PROVINCIAL_PRODUCT_BUNDLE_DIRECTORY")
+        manifest_bytes, artifact_bytes = manifest_path.read_bytes(), artifact_path.read_bytes()
+        rows = self._validate_product_bundle(code, manifest_bytes, artifact_bytes)
+        manifest = json.loads(manifest_bytes)
+        if manifest["artifact"]["name"] != artifact_path.name:
+            raise ValueError("PROVINCIAL_PRODUCT_ARTIFACT_NAME:" + code)
+        normalized, district_count = self._normalize_assignments(code, rows)
+        input_evidence = {"manifest_sha256": _sha(manifest_bytes),
+                          "artifact_sha256": _sha(artifact_bytes)}
+        prior = self.records.get(code)
+        expected_kind = ("SYNTHETIC_PRODUCT" if self.identity["synthetic_fixture"]
+                         else "PROVINCIAL_PRODUCT")
+        if prior is not None:
+            if (prior.get("input_kind") != expected_kind
+                    or prior.get("input_evidence") != input_evidence):
+                raise ValueError("PROVINCIAL_CHECKPOINT_RESULT_CHANGED:" + code)
+            self._read_unit_artifact(code)
+            return prior
+        upstream = self.root / "upstream"
+        _atomic_bytes(upstream / f"{code}.manifest.json", manifest_bytes)
+        _atomic_bytes(upstream / f"{code}.assignments.json", artifact_bytes)
+        return self._record_normalized(code, normalized, district_count,
+                                       input_kind=expected_kind,
+                                       input_evidence=input_evidence)
 
     def compose(self) -> dict[str, object]:
         expected_codes = set(self.identity["units"])
@@ -445,6 +629,7 @@ class NationalCandidateComposer:
             raise ValueError("COMPOSITION_DUPLICATE_CUSEC")
         candidate = {"schema": "ddd.congreso-national-candidate/1.0",
                      "identity_sha256": self.identity_sha256,
+                     "synthetic_fixture": self.identity["synthetic_fixture"],
                      "province_count": len(expected_codes),
                      "cusec_count": len(assignments),
                      "district_count": sum(self.identity["units"][p]["quota"]
