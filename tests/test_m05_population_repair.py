@@ -455,6 +455,33 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
         self.assertEqual(result["municipality_splits"][0]["necessity"],
                          "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP")
 
+    def test_repair_can_build_minimum_three_district_split_through_valid_intermediate_state(self):
+        ids = tuple(f"390010100{i}" for i in range(1, 7))
+        units = {ident: {"population": 80, "province": "39", "municipality_group": "39001",
+                         "CPRO": "39", "CUMUN": "39001"} for ident in ids}
+        units.update({
+            "3900201001": {"population": 20, "province": "39", "municipality_group": "39002",
+                            "CPRO": "39", "CUMUN": "39002"},
+            "3900301001": {"population": 20, "province": "39", "municipality_group": "39003",
+                            "CPRO": "39", "CUMUN": "39003"},
+        })
+        adjacency = {ident: set() for ident in units}
+        for left, right in zip(ids, ids[1:]):
+            adjacency[left].add(right); adjacency[right].add(left)
+        for left, right in ((ids[1], "3900201001"), (ids[4], "3900301001")):
+            adjacency[left].add(right); adjacency[right].add(left)
+        assignments = {ident: "A" for ident in ids}
+        assignments.update({"3900201001": "B", "3900301001": "C"})
+        result = r.repair(assignments=assignments, units=units, adjacency=adjacency,
+                          target=200, tolerance=50, floor=100, cap=200,
+                          municipality_policy=self.policy,
+                          limits=r.SearchLimits(max_depth=4, max_transfer_set=2,
+                                                max_candidates=1000, max_seconds=3, seed=0))
+        self.assertEqual(result["result"], r.RESULT_REPAIRED)
+        self.assertTrue(result["hard_limits_met"])
+        self.assertEqual(result["municipality_splits"][0]["minimum_districts_by_population"], 3)
+        self.assertEqual(result["municipality_splits"][0]["districts_used"], 3)
+
     def test_national_mode_does_not_weaken_autonomous_default_or_population_gate(self):
         units = self.cusec_units()
         ids = tuple(units)

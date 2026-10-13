@@ -50,7 +50,7 @@ def _municipal_groups(state, units):
     return groups
 
 
-def _municipal_split_evidence(state, units, *, cap, municipality_policy):
+def _municipal_split_evidence(state, units, *, cap, municipality_policy, require_minimum=True):
     groups = _municipal_groups(state, units)
     split = []
     for group, item in sorted(groups.items()):
@@ -63,7 +63,7 @@ def _municipal_split_evidence(state, units, *, cap, municipality_policy):
         if item["population"] <= cap:
             return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_NEED_NOT_PROVEN", "groups": [group]}
         minimum_districts = math.ceil(item["population"] / cap)
-        if len(item["districts"]) != minimum_districts:
+        if len(item["districts"]) > minimum_districts or (require_minimum and len(item["districts"]) != minimum_districts):
             return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_EXCEEDS_MINIMUM",
                           "groups": [group], "minimum_districts": minimum_districts,
                           "districts_used": len(item["districts"])}
@@ -180,7 +180,7 @@ def _verify_final_constraints(
             return {"valid": False, "reason": "CROSS_PROVINCE", "district": district}
 
     municipality_splits, municipality_check = _municipal_split_evidence(
-        state, units, cap=cap, municipality_policy=municipality_policy
+        state, units, cap=cap, municipality_policy=municipality_policy, require_minimum=True
     )
     if not municipality_check["valid"]:
         return municipality_check
@@ -271,7 +271,7 @@ def _valid_transfer(
     trial=dict(state)
     for u in moved: trial[u]=receiver
     _, municipal_check = _municipal_split_evidence(
-        trial, units, cap=cap, municipality_policy=municipality_policy
+        trial, units, cap=cap, municipality_policy=municipality_policy, require_minimum=False
     )
     if not municipal_check["valid"]:
         return False, municipal_check["reason"], checks
@@ -351,7 +351,7 @@ def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=
         pops,floor=floor,cap=cap,district_floors=district_floors
     )
     splits, municipal_check = _municipal_split_evidence(
-        state, units, cap=cap, municipality_policy=municipality_policy
+        state, units, cap=cap, municipality_policy=municipality_policy, require_minimum=False
     )
     if not municipal_check["valid"]:
         split_penalty = 10**9
