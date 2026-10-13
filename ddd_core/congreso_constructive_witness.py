@@ -112,15 +112,26 @@ def evaluate_unit(
             errors.append(f"CONTRACT_{source_name.upper()}_SOURCE_NOT_ACCREDITED_2025")
     if product_manifest.get("identity_sha256") != preflight.get("topology_manifest_identity_sha256"):
         errors.append("PREFLIGHT_PRODUCT_IDENTITY_MISMATCH")
-    expected_identity = canonical_sha256({key: value for key, value in product_manifest.items()
-                                          if key != "identity_sha256"})
+    # The official topology-manifest identity convention is canonical JSON
+    # without a trailing newline (artifact payload hashes use other rules).
+    identity_payload = json.dumps(
+        {key: value for key, value in product_manifest.items() if key != "identity_sha256"},
+        ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    ).encode("utf-8")
+    expected_identity = hashlib.sha256(identity_payload).hexdigest()
     if product_manifest.get("schema") != "ddd.congress-topology-diagnostic/1.0" or product_manifest.get("identity_sha256") != expected_identity:
         errors.append("TOPOLOGY_MANIFEST_CANONICAL_IDENTITY_INVALID")
     if product_manifest.get("generation_authorized") is not False:
         errors.append("TOPOLOGY_MANIFEST_GENERATION_GATE_NOT_CLOSED")
     manifest_evidence = product_manifest.get("evidence", {})
-    if manifest_evidence.get("contract_sha256") != contract_hash:
-        errors.append("TOPOLOGY_MANIFEST_CONTRACT_HASH_MISMATCH")
+    transition = preflight.get("artifact_transition", {})
+    if (transition.get("status") != "CANDIDATE_DIAGNOSTIC_ONLY"
+            or transition.get("generation_authorized") is not False
+            or transition.get("product_certification") != "NOT_PERFORMED"
+            or transition.get("product_manifest_sha256") != hashes["product_manifest"]
+            or transition.get("current_contract_sha256") != contract_hash
+            or transition.get("historical_contract_sha256") != manifest_evidence.get("contract_sha256")):
+        errors.append("ARTIFACT_TRANSITION_BINDING_INVALID")
     for source_name in ("geometry", "population"):
         if manifest_evidence.get("source_binding", {}).get(source_name) != source_binding.get(source_name):
             errors.append(f"TOPOLOGY_MANIFEST_{source_name.upper()}_BINDING_MISMATCH")
@@ -356,7 +367,11 @@ def evaluate_national_batch(
     results = []
     for number in range(1, 53):
         cpro = f"{number:02d}"
+        # Support the established single-province layout and the resumable
+        # campaign runner's numeric per-province layout.
         folder = preflight_root / f"PREFLIGHT_CPRO{cpro}"
+        if not folder.exists():
+            folder = preflight_root / cpro
         results.append(evaluate_unit(
             preflight_path=folder / "PREFLIGHT.json",
             checkpoint_path=folder / "CHECKPOINT.json",

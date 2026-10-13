@@ -100,11 +100,12 @@ def _fixture(tmp_path, *, boundary="ACCREDITED", edge_kind="linear", k=1, part_c
             ).encode("utf-8") + b"\n").hexdigest(),
         }},
     }
-    manifest["identity_sha256"] = hashlib.sha256((json.dumps(
+    manifest["identity_sha256"] = hashlib.sha256(json.dumps(
         manifest, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    ) + "\n").encode("utf-8")).hexdigest()
+    ).encode("utf-8")).hexdigest()
     manifest_path = product_root / "manifest.json"
     _write_json(manifest_path, manifest)
+    contract_hash = _sha(contract_path)
     preflight_path = tmp_path / "preflight" / "PREFLIGHT.json"
     checkpoint_path = tmp_path / "preflight" / "CHECKPOINT.json"
     tool_sha = "d" * 64
@@ -119,6 +120,11 @@ def _fixture(tmp_path, *, boundary="ACCREDITED", edge_kind="linear", k=1, part_c
             "population": {"edition": 2025, "sha256": population_sha},
         },
         "topology_manifest_identity_sha256": manifest["identity_sha256"],
+        "artifact_transition": {
+            "status": "CANDIDATE_DIAGNOSTIC_ONLY", "generation_authorized": False,
+            "product_certification": "NOT_PERFORMED", "product_manifest_sha256": _sha(manifest_path),
+            "current_contract_sha256": contract_hash, "historical_contract_sha256": contract_hash,
+        },
         "topology_unit_sha256": _sha(unit_path),
         "modules": {name: {"status": "PASS"} for name in ("M01", "M02", "M03")},
         "generation_authorized": False, "districts_generated": 0,
