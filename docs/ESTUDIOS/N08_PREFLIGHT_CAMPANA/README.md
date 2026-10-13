@@ -11,9 +11,15 @@ runner provincial está fijado por SHA-256 y solo admite sus resultados M01–M0
 diagnósticos, más comprobaciones sintéticas M05/M06. Cualquier cambio del
 runner exige revisión explícita y actualizar el anclaje. La versión del informe
 provincial también pertenece al contrato de cada runner fijado: el SHA
-`d46715e27c5ef418c1a5f2de2ced2b2bf2a666b4ca9a0f5f518dfaf43f72f745` emite
-informes `1.0.0`. Un runner nuevo requiere revisión explícita y una entrada
+`1873a261e1b3a85c2ad34b74db2ab0fb61902663173e91aa262cc648093d1455` emite
+informes `1.2.0`. Un runner nuevo requiere revisión explícita y una entrada
 versionada de contrato; no se acepta una versión de informe arbitraria.
+
+El runner recibe el manifiesto de transición N08 de forma explícita para
+revalidar el contrato actual contra el producto topológico histórico. Su SHA
+forma parte de la identidad del checkpoint. Los checkpoints provinciales
+deben coincidir también en versión y SHA del runner, además de enlazar el hash
+del informe.
 
 La campaña procesa en orden CPRO `01`–`52`. Guarda cada informe provincial y
 checkpoint, más `CHECKPOINT.json` y `CAMPAIGN_PREFLIGHT.json`. Un checkpoint se
@@ -47,5 +53,6 @@ autorización. Los informes provinciales conservan sus estados `BLOCKED` y
 `generation_authorized=false`, `real_partition_created=false`,
 `districts_generated=0` y `published=false`.
 
-No se ejecutó la campaña de 52 provincias como parte de esta implementación;
-las pruebas usan runners y reportes sintéticos.
+La ejecución real de cobertura se conserva en el expediente de campaña cuando
+se completa; el resultado sigue siendo diagnóstico y no certifica una
+partición ni autoriza generación.

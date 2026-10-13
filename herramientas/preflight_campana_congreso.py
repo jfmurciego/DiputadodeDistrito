@@ -22,20 +22,25 @@ import sys
 from typing import Any, Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
+# Keep both documented invocation modes working: `python -m ...` and direct
+# script execution put different directories at sys.path[0].
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 CONTRACT = ROOT / "territorios/congreso/contrato_congreso_2026.json"
 SOURCES = ROOT / "territorios/congreso/fuentes/ine_2025_2025"
 PRODUCT = ROOT / "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto"
+TRANSITION = ROOT / "docs/ESTUDIOS/N08_CIERRE_NACIONAL_20261013/TRANSICION.json"
 PROVINCES = tuple(f"{code:02d}" for code in range(1, 53))
 VERSION = "1.0.0"
 SCHEMA = "ddd.congreso-preflight-campaign/1.0"
 PREFLIGHT_TOOL = ROOT / "herramientas/preflight_caceres_n08.py"
 # Pin the reviewed provincial runner: a behavior change requires deliberate
 # review here rather than silently broadening what the campaign executes.
-PREFLIGHT_TOOL_SHA256 = "d46715e27c5ef418c1a5f2de2ced2b2bf2a666b4ca9a0f5f518dfaf43f72f745"
+PREFLIGHT_TOOL_SHA256 = "1873a261e1b3a85c2ad34b74db2ab0fb61902663173e91aa262cc648093d1455"
 # The report schema emitted by each reviewed runner is part of its pinned
 # contract. Do not accept a report version independently of the runner hash.
 PREFLIGHT_RUNNER_CONTRACTS = {
-    PREFLIGHT_TOOL_SHA256: {"report_version": "1.0.0"},
+    PREFLIGHT_TOOL_SHA256: {"report_version": "1.2.0"},
 }
 CODE_DEPENDENCIES = (
     "modulos/01_preparar_base_territorial.py",
@@ -83,7 +88,8 @@ def _atomic_json(path: Path, value: Mapping[str, Any]) -> None:
 
 def _root_context(*, root: Path = ROOT, contract_path: Path = CONTRACT,
                   source_dir: Path = SOURCES, product_dir: Path = PRODUCT,
-                  runner_path: Path = PREFLIGHT_TOOL) -> dict[str, Any]:
+                  runner_path: Path = PREFLIGHT_TOOL,
+                  transition_path: Path = TRANSITION) -> dict[str, Any]:
     contract_bytes = contract_path.read_bytes()
     contract = json.loads(contract_bytes)
     if contract.get("accreditation", {}).get("generation_authorized") is not False:
@@ -134,6 +140,11 @@ def _root_context(*, root: Path = ROOT, contract_path: Path = CONTRACT,
     if (evidence.get("source_binding") != source_binding
             or evidence.get("source_manifest_sha256") != _sha(source_manifest_bytes)):
         raise ValueError("TOPOLOGY_SOURCE_BINDING")
+    transition_bytes = transition_path.read_bytes()
+    transition = json.loads(transition_bytes)
+    if (transition.get("schema") != "ddd.congress-artifact-transition/1.0"
+            or transition.get("status") != "CANDIDATE_DIAGNOSTIC_ONLY"):
+        raise ValueError("ARTIFACT_TRANSITION_INVALID")
 
     quotas = {row["code"]: row["k"] for row in contract["quotas_by_origin_unit"]}
     if len(quotas) != 52 or set(quotas) != set(PROVINCES) or sum(quotas.values()) != 407:
@@ -180,6 +191,7 @@ def _root_context(*, root: Path = ROOT, contract_path: Path = CONTRACT,
         "source_binding": source_binding,
         "topology_manifest_sha256": _sha(topology_bytes),
         "topology_manifest_identity_sha256": topology_identity,
+        "transition_sha256": _sha(transition_bytes),
         "topology_unit_sha256": unit_hashes,
         "units": units,
         "runner_sha256": runner_hash,
@@ -238,6 +250,23 @@ def validate_province_report(report: Mapping[str, Any], code: str,
         raise ValueError("PROVINCE_REPORT_CAMPAIGN_STATUS:" + code)
 
 
+def validate_province_checkpoint(checkpoint: Mapping[str, Any], code: str,
+                                 context: Mapping[str, Any], report_bytes: bytes) -> None:
+    """Validate the pinned runner identity and report binding on every path."""
+    if (not isinstance(checkpoint, Mapping)
+            or checkpoint.get("province") != code
+            or checkpoint.get("version") != context["runner_report_version"]
+            or checkpoint.get("tool_sha256") != context["runner_sha256"]
+            or checkpoint.get("source_binding") != context["source_binding"]
+            or checkpoint.get("topology_manifest_identity_sha256")
+            != context["topology_manifest_identity_sha256"]
+            or checkpoint.get("topology_unit_sha256") != context["topology_unit_sha256"][code]
+            or checkpoint.get("generation_authorized") is not False
+            or checkpoint.get("districts_generated") != 0
+            or checkpoint.get("preflight_sha256") != _sha(report_bytes)):
+        raise ValueError("PROVINCIAL_CHECKPOINT_INVALID:" + code)
+
+
 def _checkpoint_digest(payload: Mapping[str, Any]) -> str:
     body = dict(payload)
     body.pop("checkpoint_sha256", None)
@@ -264,6 +293,7 @@ def _load_checkpoint(path: Path, identity: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def run_campaign(parts_dir: Path, output: Path, *, product_dir: Path = PRODUCT,
+                 transition_path: Path = TRANSITION,
                  resume: bool = False, retry_failed: bool = False) -> dict[str, Any]:
     """Run provincial diagnostic preflights serially and checkpoint each result.
 
@@ -272,12 +302,12 @@ def run_campaign(parts_dir: Path, output: Path, *, product_dir: Path = PRODUCT,
     """
     from herramientas.preflight_caceres_n08 import run as provincial_run
 
-    context = _root_context(product_dir=product_dir)
+    context = _root_context(product_dir=product_dir, transition_path=transition_path)
     execute = provincial_run
     identity = {key: context[key] for key in (
         "base", "contract_sha256", "source_manifest_sha256", "source_binding",
         "topology_manifest_sha256", "topology_manifest_identity_sha256",
-        "topology_unit_sha256", "runner_sha256", "runner_report_version",
+        "topology_unit_sha256", "transition_sha256", "runner_sha256", "runner_report_version",
         "campaign_tool_sha256",
         "consumer_code_sha256")}
     checkpoint_path = output / "CHECKPOINT.json"
@@ -306,22 +336,20 @@ def run_campaign(parts_dir: Path, output: Path, *, product_dir: Path = PRODUCT,
             if (_sha(report_bytes) != prior.get("report_sha256")
                     or _sha(pc_bytes) != prior.get("province_checkpoint_sha256")):
                 raise ValueError("CHECKPOINTED_PROVINCE_EVIDENCE_CHANGED:" + code)
-            validate_province_report(json.loads(report_bytes), code, context)
+            report = json.loads(report_bytes)
+            validate_province_report(report, code, context)
+            validate_province_checkpoint(json.loads(pc_bytes), code, context, report_bytes)
             continue
         if prior and prior.get("status") == "FAILED" and not retry_failed:
             continue
         try:
-            report = execute(parts_dir, province_dir, code, product_dir)
+            report = execute(parts_dir, province_dir, code, product_dir, transition_path)
             validate_province_report(report, code, context)
             if not report_path.is_file() or not province_checkpoint_path.is_file():
                 raise ValueError("PROVINCIAL_RUNNER_OUTPUT_MISSING:" + code)
             report_bytes, pc_bytes = report_path.read_bytes(), province_checkpoint_path.read_bytes()
             province_checkpoint = json.loads(pc_bytes)
-            if (province_checkpoint.get("province") != code
-                    or province_checkpoint.get("generation_authorized") is not False
-                    or province_checkpoint.get("districts_generated") != 0
-                    or province_checkpoint.get("preflight_sha256") != _sha(report_bytes)):
-                raise ValueError("PROVINCIAL_CHECKPOINT_INVALID:" + code)
+            validate_province_checkpoint(province_checkpoint, code, context, report_bytes)
             records[code] = {"status": "PASS", "preflight_status": report["preflight_status"],
                              "report_sha256": _sha(report_bytes),
                              "province_checkpoint_sha256": _sha(pc_bytes)}
@@ -356,11 +384,13 @@ def main() -> None:
     parser.add_argument("--parts-dir", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--product-dir", type=Path, default=PRODUCT)
+    parser.add_argument("--transition-path", type=Path, default=TRANSITION)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--retry-failed", action="store_true",
                         help="explicitly rerun units recorded FAILED after an environmental change")
     args = parser.parse_args()
     result = run_campaign(args.parts_dir, args.output, product_dir=args.product_dir,
+                          transition_path=args.transition_path,
                           resume=args.resume, retry_failed=args.retry_failed)
     print(json.dumps({"status": result["status"], "coverage": result["coverage"],
                       "generation_authorized": result["generation_authorized"]}, sort_keys=True))
