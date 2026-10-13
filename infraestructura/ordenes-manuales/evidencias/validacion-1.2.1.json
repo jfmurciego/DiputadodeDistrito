@@ -4,10 +4,10 @@
   "date": "2026-10-13",
   "scope": "Integridad de semilla F02, orquestación determinista, validadores reales F03 y F04, y regresión del simulador",
   "state": "PASS_LOCAL",
-  "command": "DDD_AUTO_SIM_REAL_REPO=/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales python3 -m unittest tests.test_ddd_auto tests.test_codex_simulado_readonly",
+  "command": "DDD_AUTO_SIM_REAL_REPO=/Users/macbookpro/Desarrollo/DDD-fuentes-oficiales DDD_AUTO_GIS_PYTHON=/usr/local/Caskroom/miniforge/base/envs/ddd/bin/python3 python3 -m unittest tests.test_ddd_auto tests.test_codex_simulado_readonly",
   "tests": 34,
-  "seconds": 31.385,
-  "ci": "PENDING_FINAL_HEAD",
+  "seconds": 31.62,
+  "ci": "PENDING_PORTABLE_GIS_FIX",
   "real_f03_packet_sha256": "f5153a19c5ebaf9aa149d2dc4f763ff13905ec41b3db9878e8fdbe24a3bcaee8",
   "f02_seed_status": "TECH_PASS only for exact reviewed SHA 08ee87ca4e904075d3b229964b61a184ab64a63d83bae7b879383fb39651dac6; synthetic fixture rejected",
   "f03_positive": "real offline validator passed against the published handoff packet on macOS; test skips when that local packet is absent",
@@ -20,8 +20,9 @@
     "infraestructura/ordenes-manuales/auto-policy.json": "13b2b076f9aeea60198efa88cef99ecc84243b6d7ff1ca478f1455629bd89092",
     "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
     "infraestructura/ordenes-manuales/AUTO.md": "a5f8d77a1d137f97b1846eb7078159815cabff482dcc0aa847db88d04ed85032",
-    "tests/test_ddd_auto.py": "fa53d58e113395c240ae5618a9498c90464c86d2d1fb43007306aad0d4e0c593",
+    "tests/test_ddd_auto.py": "5b9b4c4ecea5fe235bb168a3d4afb05febd23fad5258b1709b198ee998a1c802",
     "tests/fixtures/ddd_auto_validator_fixture.py": "2ef3b4450b05a408aee81eedc843e83a5c1830f391708bf4b16335b95e6a28ec"
   },
-  "f04_positive": "Real validar_piloto.py F04 passed using configured GIS Python on macOS; skipped when repository evidence is unavailable"
+  "f04_positive": "Real F04 validator passed locally with configured GIS Python; test selects that interpreter when present and falls back to sys.executable (geospatial dependencies installed in CI)",
+  "changes": "Selección portable del intérprete GIS y validación F04 real; integridad de semilla F02 y fixtures deterministas F03/F04"
 }

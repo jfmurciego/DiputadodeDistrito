@@ -4,7 +4,7 @@
   "date": "2026-10-13",
   "scope": "Infraestructura local transversal; 32 tareas existentes",
   "status": "READY_FOR_REVIEW",
-  "changes": "Pin de integridad F02, fixtures F03/F04 deterministas, validadores reales con pruebas positivas opcionales por disponibilidad; conservación 1.2.0",
+  "changes": "Pin de integridad F02; fixtures F03/F04 deterministas; intérprete GIS portable; validadores reales positivos opcionales; conservación 1.2.0",
   "reason": "Orden explícita de Work",
   "predecessor": "legacy/1.2.0/ENTREGA.json",
   "origin": "DDD-control/ordenes-manuales",
@@ -12,7 +12,7 @@
   "branch": "codex/ddd-auto-control",
   "commit": "93fca6b0401568123eaeaba9c982636c91049db7",
   "blockers": [
-    "CI y re-revisión del HEAD final pendientes",
+    "CI y revisión final del HEAD actualizado pendientes",
     "Anclaje institucional de confianza requerido antes de habilitar tareas reales"
   ],
   "installed": false,
@@ -26,11 +26,11 @@
     "evidence": "evidencias/validacion-1.2.1.json"
   },
   "review": {
-    "result": "GO_ACOTADO",
-    "mode": "separate read-only Codex session; not external accredited review",
-    "evidence": "revision-1.2.1-review.json in durable DDD-control checkpoint; re-review of HEAD 93fca6b0 pending"
+    "result": "PENDING_NEW_HEAD",
+    "mode": "separate read-only Codex session; prior GO_ACOTADO on 8e175a10, new review pending",
+    "evidence": "DDD-control checkpoint evidencias/ddd-auto/revision-final-8e175a10.json"
   },
-  "ci": "PENDING_HEAD_93fca6b0",
+  "ci": "PENDING_PORTABLE_GIS_FIX",
   "prohibited_actions_executed": [],
   "limits": [
     "El hash de autorización no autentica criptográficamente al emisor; authorized_local_tasks permanece vacío y el piloto real no está habilitado",
@@ -50,12 +50,12 @@
     "infraestructura/ordenes-manuales/auto-policy.json": "13b2b076f9aeea60198efa88cef99ecc84243b6d7ff1ca478f1455629bd89092",
     "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
     "infraestructura/ordenes-manuales/AUTO.md": "a5f8d77a1d137f97b1846eb7078159815cabff482dcc0aa847db88d04ed85032",
-    "tests/test_ddd_auto.py": "fa53d58e113395c240ae5618a9498c90464c86d2d1fb43007306aad0d4e0c593",
+    "tests/test_ddd_auto.py": "5b9b4c4ecea5fe235bb168a3d4afb05febd23fad5258b1709b198ee998a1c802",
     "tests/fixtures/ddd_auto_validator_fixture.py": "2ef3b4450b05a408aee81eedc843e83a5c1830f391708bf4b16335b95e6a28ec",
     "Dockerfile": "c7b50e49ee94e72fd35034ac4c25a940120df678f67b56b0858d0d402b01f3df"
   },
-  "head": "93fca6b0401568123eaeaba9c982636c91049db7",
-  "code_status": "READY_FOR_FINAL_CI_AND_REVIEW; F02 seed integrity fixed; execution trust anchor reserved",
+  "head": "PENDING_COMMIT",
+  "code_status": "LOCAL_TESTS_PASS; CI_AND_REVIEW_PENDING; execution trust anchor reserved",
   "predecessor_files": [
     "legacy/1.2.0/ddd_auto.py",
     "legacy/1.2.0/AUTO.md",
@@ -65,5 +65,5 @@
     "legacy/1.2.0/evidencias/revision-1.2.0.json",
     "../../tests/legacy/1.2.0/test_ddd_auto.py"
   ],
-  "validated_code_head": "93fca6b0401568123eaeaba9c982636c91049db7"
+  "validated_code_head": "8e175a10936d848a8631c8959d2cb91a2267f2b5"
 }

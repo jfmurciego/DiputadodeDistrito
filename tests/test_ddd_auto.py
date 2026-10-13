@@ -23,7 +23,9 @@ BUNDLE=ROOT/'infraestructura/ordenes-manuales'
 sys.path.insert(0,str(BUNDLE))
 import ddd_auto as auto
 REAL=Path(os.environ.get('DDD_AUTO_SIM_REAL_REPO', ROOT if (ROOT/'docs/AUDITORIAS/F04_F10_20261009').exists() else ROOT.parent/'DDD-fuentes-oficiales'))
-GIS=Path('/usr/local/Caskroom/miniforge/base/envs/ddd/bin/python3')
+_GIS_CONFIGURED=os.environ.get('DDD_AUTO_GIS_PYTHON')
+_GIS_MAC=Path('/usr/local/Caskroom/miniforge/base/envs/ddd/bin/python3')
+GIS=Path(_GIS_CONFIGURED) if _GIS_CONFIGURED else (_GIS_MAC if _GIS_MAC.is_file() else Path(sys.executable))
 
 
 def jsonwrite(p,x):p.write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n')
