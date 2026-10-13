@@ -1,0 +1,137 @@
+{
+  "artifact_transition": {
+    "current_contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+    "generation_authorized": false,
+    "historical_contract_sha256": "bc2ebcac4e89a3aadecccc72ce3ff91a9314ae64ae2f5b3dff9086b2251f0b5e",
+    "product_certification": "NOT_PERFORMED",
+    "product_manifest_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+    "reuse": "ARTIFACT_REUSE_WITH_STRUCTURAL_REVALIDATION",
+    "source_binding": {
+      "geometry": {
+        "edition": 2025,
+        "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+      },
+      "population": {
+        "edition": 2025,
+        "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+      }
+    },
+    "status": "CANDIDATE_DIAGNOSTIC_ONLY"
+  },
+  "base": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "contract_production_blockers": [
+    "CIRCUMSCRIPTION_COVERAGE_NOT_ACCREDITED_52_OF_52"
+  ],
+  "crosswalk_sha256": "0ceb2cab2b7843a9ab042e5130a66762ffa958983ced91220e18d2bb38f14d54",
+  "date": "2026-10-12",
+  "districts_generated": 0,
+  "future_command_after_approval": "python herramientas/preflight_caceres_n08.py --province 07 --parts-dir inputs/partes --output docs/ESTUDIOS/N08_07_preflight",
+  "generation_authorized": false,
+  "identity": "congreso_07",
+  "inputs": {
+    "discontinuous_municipalities": [
+      "07003",
+      "07005",
+      "07006",
+      "07011",
+      "07024",
+      "07026",
+      "07032",
+      "07033",
+      "07037",
+      "07040",
+      "07048",
+      "07050",
+      "07052",
+      "07054",
+      "07055",
+      "07059",
+      "07061",
+      "07063"
+    ],
+    "enclosed_voids": 4,
+    "k_approved": 10,
+    "k_rule": "max(1,(P_i+60000)//120000)",
+    "overlaps": 8,
+    "physical_edges": 1734,
+    "physical_part_components": 144,
+    "population": 1249844,
+    "section_graph_components": 4,
+    "sections": 674
+  },
+  "modules": {
+    "M01": {
+      "evidence": "actual INE2025 ZIP and population CSV; consumer loaders; exact join; 674/674",
+      "status": "PASS"
+    },
+    "M02": {
+      "evidence": "actual consumer iter_edges; exact 1734/1734 match; minimum positive shared line=1e-09 m (point filter only); buffer/simplify/bridges=0",
+      "status": "PASS"
+    },
+    "M03": {
+      "evidence": "actual graph builder; 674/674 identities and attributes; component reconstruction agrees",
+      "status": "PASS"
+    },
+    "M04": {
+      "evidence": "component bound={\"feasibility_proven\": false, \"necessary_condition\": true, \"reason\": \"NO_IMPOSSIBILITY_FROM_COMPONENT_COUNT\"}; population atomic necessary check=[true, \"NECESSARY_CONDITIONS_PASS\", {\"hard_valid_singletons\": 0, \"k\": 10, \"nodes\": 674, \"population\": 1249844, \"required_singletons\": 0}]; feasibility is not proven; None",
+      "status": "PASS_NECESSARY_ONLY"
+    },
+    "M05": {
+      "evidence": "actual M05 invariant checker on synthetic fixture; no real M04 partition or optimizer call; {\"diagnostic_only\": true, \"districts\": 10, \"municipality_policy\": \"preserve_when_feasible_split_by_whole_CUSEC_when_necessary\", \"optimizer_executed\": false, \"status\": \"SYNTHETIC_CONTRACT_PASS_ONLY\", \"units\": 10}",
+      "status": "SYNTHETIC_CONTRACT_PASS_ONLY"
+    },
+    "M06": {
+      "evidence": "10-unit synthetic fixture audited through adapter and actual M06 joined_unique; no real partition/output; CUSEC,district_id,POB_2025",
+      "status": "SYNTHETIC_CONTRACT_PASS_ONLY"
+    }
+  },
+  "name": "N08 Congreso provincial M01-M06 diagnostic preflight",
+  "next_action": "Resolve listed owner decisions and national contract blockers; rerun this preflight before separately authorizing a controlled pilot.",
+  "pending_decisions": {},
+  "population_output_sha256": "c4a22fc47f7542da0b3e1cef65ea59dc555442eda23f7f74ba4f4db7d6c4a988",
+  "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+  "province": "07",
+  "published": false,
+  "real_partition_created": false,
+  "scope": "single province read-only gates; no real partition or production",
+  "source_binding": {
+    "geometry": {
+      "edition": 2025,
+      "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+    },
+    "population": {
+      "edition": 2025,
+      "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+    }
+  },
+  "source_evidence": {
+    "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+    "geometry_identity_sha256": "6eccbc0c7f4867656c235462ae0b6d381dcdaeb5c912e5295976ca8f120860ff",
+    "geometry_operations": "none; no CRS transform, buffer, simplify, repair or precision rounding in physical graph",
+    "original_member_sha256": {
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.CPG": "788181d3e6c41241e68b21d3b3826e3d2c4800ba621dff4e8b0f1bae3be798a9",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.dbf": "6e1d4cb364b0a01e129b4ea221758d4ee36cc9e9bcfd4a301e99d9f45827c8bd",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.prj": "03329a8b83248ce6963187291d05a46dfd70b28854fccb01c3fcabd2a28fdcce",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.sbn": "ccb291640d8f9e46dd765a086c2bbbf85916488fd1f8a738e1076ed6a254ede4",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.sbx": "f0d6965342fad8f92009c3b37424c639fa459254f113201aeb242d3a01048cd7",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.shp": "2a8cc44a0a857f7c260699db770aa28177a79cd0a0d7c59368803927ba666a5b",
+      "España_Seccionado2025_ETRS89H30/SECC_CE_20250101.shx": "4b56dc607cbde0c916cb21a97661e9dde151ed5f774c6249157eb02704630918"
+    },
+    "reader_operation": "names_only_flattened_in_memory; bytes_unchanged",
+    "source_binding": {
+      "geometry": {
+        "edition": 2025,
+        "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+      },
+      "population": {
+        "edition": 2025,
+        "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+      }
+    },
+    "source_manifest_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37"
+  },
+  "tool_sha256": "1873a261e1b3a85c2ad34b74db2ab0fb61902663173e91aa262cc648093d1455",
+  "topology_manifest_identity_sha256": "59e4273f49a60d0d6f522389d0cb0c43738d68faed7053381d9bbde212d266f8",
+  "topology_unit_sha256": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+  "version": "1.2.0"
+}
