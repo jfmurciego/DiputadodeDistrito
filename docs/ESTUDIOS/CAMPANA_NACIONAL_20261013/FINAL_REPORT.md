@@ -33,7 +33,7 @@ Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENC
 
 ## Pruebas
 
-- Suite nacional Congreso/N08/M05/preflight/ledger: **259 passed, 7 skipped, 82 subtests passed**.
+- Suite nacional Congreso/N08/M05/preflight/ledger: **263 passed, 7 skipped, 82 subtests passed**. La suite focal final de selector/ledger/dependencias temporales volvió a ejecutarse tras el cierre: **10 passed**.
 - Regresión de territorios autonómicos (Galicia, Aragón, contratos topológicos y utilidades compartidas): **65 passed, 7 subtests passed**.
 - E003: 8 tests + CLI real 52; G003 2 tests; F002 composer/certifier 29 tests + 10 subtests; selector campaña 4 tests.
 - Las omisiones/skips son casos marcados por las suites existentes; no se alteraron tests para obtener PASS. Las advertencias PyProj son de deprecación, sin fallos.
