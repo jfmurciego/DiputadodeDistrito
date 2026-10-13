@@ -148,6 +148,8 @@ class NationalCandidateComposer:
         if source_identity != _sha(_canonical(source_identity_body)):
             raise ValueError("SOURCE_MANIFEST_IDENTITY")
         if (source_manifest.get("edition") != 2025
+                or source_manifest.get("section_year") != 2025
+                or source_manifest.get("population_year") != 2025
                 or source_manifest.get("generation_authorized") is not False):
             raise ValueError("SOURCE_MANIFEST_EDITION_OR_AUTHORIZATION")
         source_binding = {}
