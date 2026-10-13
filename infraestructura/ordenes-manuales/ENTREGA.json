@@ -10,7 +10,7 @@
   "origin": "DDD-control/ordenes-manuales",
   "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
   "branch": "codex/ddd-auto-control",
-  "commit": "93fca6b0401568123eaeaba9c982636c91049db7",
+  "commit": "72f190bff3c52ad10ec66a184ce1281576c33590",
   "blockers": [
     "CI y revisión final del HEAD actualizado pendientes",
     "Anclaje institucional de confianza requerido antes de habilitar tareas reales"
@@ -26,11 +26,11 @@
     "evidence": "evidencias/validacion-1.2.1.json"
   },
   "review": {
-    "result": "PENDING_NEW_HEAD",
-    "mode": "separate read-only Codex session; prior GO_ACOTADO on 8e175a10, new review pending",
-    "evidence": "DDD-control checkpoint evidencias/ddd-auto/revision-final-8e175a10.json"
+    "result": "GO_ACOTADO",
+    "mode": "separate read-only Codex session; not external accredited review",
+    "evidence": "DDD-control checkpoint evidencias/ddd-auto/revision-final-72f190bf.json; CI still pending"
   },
-  "ci": "PENDING_PORTABLE_GIS_FIX",
+  "ci": "PENDING_METADATA_SYNC_HEAD",
   "prohibited_actions_executed": [],
   "limits": [
     "El hash de autorización no autentica criptográficamente al emisor; authorized_local_tasks permanece vacío y el piloto real no está habilitado",
@@ -54,8 +54,8 @@
     "tests/fixtures/ddd_auto_validator_fixture.py": "2ef3b4450b05a408aee81eedc843e83a5c1830f391708bf4b16335b95e6a28ec",
     "Dockerfile": "c7b50e49ee94e72fd35034ac4c25a940120df678f67b56b0858d0d402b01f3df"
   },
-  "head": "PENDING_COMMIT",
-  "code_status": "LOCAL_TESTS_PASS; CI_AND_REVIEW_PENDING; execution trust anchor reserved",
+  "head": "72f190bff3c52ad10ec66a184ce1281576c33590",
+  "code_status": "VALIDATED_CODE_HEAD 72f190bff3c52ad10ec66a184ce1281576c33590; metadata-only pointer synchronized; final CI pending",
   "predecessor_files": [
     "legacy/1.2.0/ddd_auto.py",
     "legacy/1.2.0/AUTO.md",
@@ -65,5 +65,5 @@
     "legacy/1.2.0/evidencias/revision-1.2.0.json",
     "../../tests/legacy/1.2.0/test_ddd_auto.py"
   ],
-  "validated_code_head": "8e175a10936d848a8631c8959d2cb91a2267f2b5"
+  "validated_code_head": "72f190bff3c52ad10ec66a184ce1281576c33590"
 }
