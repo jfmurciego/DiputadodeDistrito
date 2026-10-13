@@ -8,7 +8,7 @@ FROM python:3.11.13-slim-bookworm
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /app
 RUN apt-get update \
- && apt-get install --yes --no-install-recommends jq \
+ && apt-get install --yes --no-install-recommends git jq \
  && rm -rf /var/lib/apt/lists/*
 COPY requirements.lock /app/requirements.lock
 COPY requirements-gerrychain-m05.lock /app/requirements-gerrychain-m05.lock
