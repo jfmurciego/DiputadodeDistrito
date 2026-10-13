@@ -32,6 +32,8 @@ def _context():
                           "edges": index, "k": 1}
                   for index, code in enumerate(codes)},
         "runner_sha256": campaign.PREFLIGHT_TOOL_SHA256,
+        "runner_report_version": campaign.PREFLIGHT_RUNNER_CONTRACTS[
+            campaign.PREFLIGHT_TOOL_SHA256]["report_version"],
         "campaign_tool_sha256": "2" * 64,
         "consumer_code_sha256": {"fixture.py": "3" * 64},
         "generation_authorized": False,
@@ -41,7 +43,7 @@ def _context():
 def _report(code, context):
     unit = context["units"][code]
     return {
-        "version": "1.2.0", "province": code, "base": context["base"],
+        "version": context["runner_report_version"], "province": code, "base": context["base"],
         "tool_sha256": context["runner_sha256"],
         "source_binding": context["source_binding"],
         "source_evidence": {"source_manifest_sha256": context["source_manifest_sha256"],
@@ -67,6 +69,8 @@ class CongressPreflightCampaignTests(unittest.TestCase):
         self.assertEqual(sum(row["sections"] for row in context["units"].values()), 36554)
         self.assertEqual(sum(row["population"] for row in context["units"].values()), 49128297)
         self.assertEqual(len(context["consumer_code_sha256"]), len(campaign.CODE_DEPENDENCIES))
+        self.assertEqual(context["runner_sha256"], campaign.PREFLIGHT_TOOL_SHA256)
+        self.assertEqual(context["runner_report_version"], "1.0.0")
         self.assertFalse(context["generation_authorized"])
 
     def test_serial_52_province_run_and_resume_do_not_reexecute_completed_units(self):
@@ -113,6 +117,7 @@ class CongressPreflightCampaignTests(unittest.TestCase):
             value["topology_unit_sha256"] = "0" * 64
 
         for mutate in (
+            lambda value: value.update(version="1.2.0"),
             lambda value: value.update(generation_authorized=True),
             lambda value: value.update(real_partition_created=True),
             lambda value: value["modules"]["M05"].update(status="PASS"),
@@ -130,7 +135,8 @@ class CongressPreflightCampaignTests(unittest.TestCase):
                       "identity": {key: context[key] for key in (
                           "base", "contract_sha256", "source_manifest_sha256", "source_binding",
                           "topology_manifest_sha256", "topology_manifest_identity_sha256",
-                          "topology_unit_sha256", "runner_sha256", "campaign_tool_sha256",
+                          "topology_unit_sha256", "runner_sha256", "runner_report_version",
+                          "campaign_tool_sha256",
                           "consumer_code_sha256")},
                       "records": {}, "generation_authorized": False}
         with tempfile.TemporaryDirectory() as temporary:

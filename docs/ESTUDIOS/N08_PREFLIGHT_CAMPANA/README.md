@@ -9,7 +9,11 @@
 `herramientas/preflight_caceres_n08.py`; no implementa otro motor M01–M06. El
 runner provincial está fijado por SHA-256 y solo admite sus resultados M01–M04
 diagnósticos, más comprobaciones sintéticas M05/M06. Cualquier cambio del
-runner exige revisión explícita y actualizar el anclaje.
+runner exige revisión explícita y actualizar el anclaje. La versión del informe
+provincial también pertenece al contrato de cada runner fijado: el SHA
+`d46715e27c5ef418c1a5f2de2ced2b2bf2a666b4ca9a0f5f518dfaf43f72f745` emite
+informes `1.0.0`. Un runner nuevo requiere revisión explícita y una entrada
+versionada de contrato; no se acepta una versión de informe arbitraria.
 
 La campaña procesa en orden CPRO `01`–`52`. Guarda cada informe provincial y
 checkpoint, más `CHECKPOINT.json` y `CAMPAIGN_PREFLIGHT.json`. Un checkpoint se

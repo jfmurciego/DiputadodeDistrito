@@ -32,6 +32,11 @@ PREFLIGHT_TOOL = ROOT / "herramientas/preflight_caceres_n08.py"
 # Pin the reviewed provincial runner: a behavior change requires deliberate
 # review here rather than silently broadening what the campaign executes.
 PREFLIGHT_TOOL_SHA256 = "d46715e27c5ef418c1a5f2de2ced2b2bf2a666b4ca9a0f5f518dfaf43f72f745"
+# The report schema emitted by each reviewed runner is part of its pinned
+# contract. Do not accept a report version independently of the runner hash.
+PREFLIGHT_RUNNER_CONTRACTS = {
+    PREFLIGHT_TOOL_SHA256: {"report_version": "1.0.0"},
+}
 CODE_DEPENDENCIES = (
     "modulos/01_preparar_base_territorial.py",
     "modulos/02_construir_adyacencias.py",
@@ -159,7 +164,8 @@ def _root_context(*, root: Path = ROOT, contract_path: Path = CONTRACT,
         raise ValueError("NATIONAL_TOPOLOGY_COVERAGE")
 
     runner_hash = _sha(runner_path.read_bytes())
-    if runner_hash != PREFLIGHT_TOOL_SHA256:
+    runner_contract = PREFLIGHT_RUNNER_CONTRACTS.get(runner_hash)
+    if runner_contract is None:
         raise ValueError("PROVINCIAL_PREFLIGHT_RUNNER_NOT_REVIEWED")
     try:
         base_sha = subprocess.check_output(
@@ -177,6 +183,7 @@ def _root_context(*, root: Path = ROOT, contract_path: Path = CONTRACT,
         "topology_unit_sha256": unit_hashes,
         "units": units,
         "runner_sha256": runner_hash,
+        "runner_report_version": runner_contract["report_version"],
         "campaign_tool_sha256": _sha(Path(__file__).read_bytes()),
         "consumer_code_sha256": {
             relative: _sha((root / relative).read_bytes()) for relative in CODE_DEPENDENCIES
@@ -191,7 +198,8 @@ def validate_province_report(report: Mapping[str, Any], code: str,
     if not isinstance(report, Mapping) or code not in PROVINCES:
         raise ValueError("PROVINCE_REPORT_INVALID")
     unit = context["units"][code]
-    if report.get("version") != "1.2.0" or report.get("province") != code:
+    if (report.get("version") != context["runner_report_version"]
+            or report.get("province") != code):
         raise ValueError("PROVINCE_REPORT_IDENTITY:" + code)
     if report.get("base") != context["base"] or report.get("tool_sha256") != context["runner_sha256"]:
         raise ValueError("PROVINCE_REPORT_CODE_IDENTITY:" + code)
@@ -269,7 +277,8 @@ def run_campaign(parts_dir: Path, output: Path, *, product_dir: Path = PRODUCT,
     identity = {key: context[key] for key in (
         "base", "contract_sha256", "source_manifest_sha256", "source_binding",
         "topology_manifest_sha256", "topology_manifest_identity_sha256",
-        "topology_unit_sha256", "runner_sha256", "campaign_tool_sha256",
+        "topology_unit_sha256", "runner_sha256", "runner_report_version",
+        "campaign_tool_sha256",
         "consumer_code_sha256")}
     checkpoint_path = output / "CHECKPOINT.json"
     if resume:
