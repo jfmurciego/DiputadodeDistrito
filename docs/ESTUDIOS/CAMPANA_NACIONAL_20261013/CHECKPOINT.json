@@ -1,12 +1,13 @@
 {
   "blocked": [
-    "NAT-C-002..NAT-C-054: independent CPRO boundary evidence unavailable under source-download prohibition",
-    "NAT-F-003: generation requires owner authorization",
-    "NAT-D-exceptions: nominal exceptions require owner decisions",
-    "NAT-H: 52 technical preflights complete but structural/factibility gates remain blocked or conditional"
+    "NAT-C-056: official independent boundary source acquisition/receipt needs explicit authorization; 2026 candidate not temporally accredited for 2025-01-01.",
+    "NAT-C-003..NAT-C-054: 52 distinct provincial comparisons await the shared receipt; NAT-C-002 is the downstream 52/52 roll-up.",
+    "NAT-F-003: real generation requires explicit owner authorization.",
+    "NAT-D nominal exceptions: individual owner decisions pending where identified.",
+    "NAT-H: diagnostics complete at available evidence level; no territorial product/factibility certification."
   ],
   "blocked_environment": [
-    "NAT-J-003: remote update failed with DNS; PR creation approval/API access previously blocked. Local candidate commits preserved."
+    "NAT-J-003: branch 889485658166928d89bd5bdc5de39cac599c188f verified in GitHub; no PR exists; PR-create connector requires approval unavailable under policy never, gh token invalid; no PR-triggered CI."
   ],
   "branch": "codex/national-campaign-controller",
   "campaign_id": "ddd-national-campaign-20261013",
@@ -34,15 +35,18 @@
     "NAT-D-004 review PASS with exact counts and caveats",
     "NAT-H-001/002 review PASS on exact current-code batch",
     "NAT-B-002 read-only verifier executed now: 74/74 + 26/26 byte identical; no source/canonical output changes",
-    "NAT-G-002 exact local/global municipality counterexample fixed; final result gating and independent REVIEW_PASS"
+    "NAT-G-002 exact local/global municipality counterexample fixed; final result gating and independent REVIEW_PASS",
+    "Auditoría del DAG C: eliminada dependencia semánticamente circular entre agregación 52/52 y contrastes CPRO; catálogo candidato CNIG separado del recibo y del roll-up.",
+    "Verificación GitHub read-only: branch codex/national-campaign-controller apunta exactamente a 889485658166928d89bd5bdc5de39cac599c188f; no hay PR existente para esa rama.",
+    "NAT-C ledger identity preserved after review: C002 remains downstream 52/52 roll-up; source catalog and receipt assigned to C055/C056."
   ],
   "created_at": "2026-10-13",
   "global_state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
-  "head": "ae260f56cdb03be61bbe030c5277203e7b545013",
+  "head": "889485658166928d89bd5bdc5de39cac599c188f",
   "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
-  "latest_event": "EV-0057",
+  "latest_event": "EV-0061",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
-  "next_action": "Resume only after a material external-state change: authorized GitHub connectivity/write route for the retained candidate, independent boundary evidence becomes available within permissions, or owner supplies required nominal decisions/production authorization. Planner currently returns no READY tasks.",
+  "next_action": "Authorize/receive one official historical administrative-boundary package to unblock 52 independent CPRO comparisons; separately provide an authorized GitHub write route for PR draft. Production remains prohibited.",
   "no_authorized_generation": true,
   "ready_next": [],
   "reviewing_work": [],
@@ -55,7 +59,8 @@
     "Autonomous regression suite: 65 passed, 7 subtests passed.",
     "NAT-E-003: 8 tests and CLI real batch counts 7/9/36; REVIEW_PASS.",
     "NAT-F-002 composer/certifier: 29 tests, 10 subtests passed; REVIEW_PASS_WITH_SCOPE_LIMITS.",
-    "NAT-J-004 planner: 4 tests pass; read-only CLI discovered/corrected omitted dependency."
+    "NAT-J-004 planner: 4 tests pass; read-only CLI discovered/corrected omitted dependency.",
+    "NAT-C-002..056 DAG/acquisition ledger tests + national planner/registry/temp-dependency regressions: 13 passed; one initial assertion bug in the new test was corrected and full focused rerun passed."
   ],
   "worktree": "/private/tmp/ddd-national-campaign-20261013"
 }

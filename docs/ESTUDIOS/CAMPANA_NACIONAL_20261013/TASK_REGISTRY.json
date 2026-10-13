@@ -1,6 +1,6 @@
 {
   "campaign_id": "ddd-national-campaign-20261013",
-  "generated_at": "2026-10-13T23:59:00+02:00",
+  "generated_at": "2026-10-14",
   "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
   "schema": "ddd.national-task-registry/1.0",
   "states": [
@@ -175,1433 +175,1802 @@
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Fuente independiente edición/sha y contraste individual 52/52.",
+      "acceptance_criteria": "52 informes provinciales con recibo común validado, edición/fecha efectiva/SHA y contraste individual; roll-up verifica cobertura y contradicciones. La acreditación del límite administrativo no certifica por sí sola el grafo de partes INE.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [],
-      "evidence": "Los 52 external_gap_accreditation son NOT_EVIDENCED_NO_INDEPENDENT_BOUNDARY; adquisición nueva no autorizada en este mandato.",
+      "data_required": [
+        "52 informes provinciales independientes NAT-C-003…NAT-C-054"
+      ],
+      "dependencies": [
+        "NAT-C-003",
+        "NAT-C-004",
+        "NAT-C-005",
+        "NAT-C-006",
+        "NAT-C-007",
+        "NAT-C-008",
+        "NAT-C-009",
+        "NAT-C-010",
+        "NAT-C-011",
+        "NAT-C-012",
+        "NAT-C-013",
+        "NAT-C-014",
+        "NAT-C-015",
+        "NAT-C-016",
+        "NAT-C-017",
+        "NAT-C-018",
+        "NAT-C-019",
+        "NAT-C-020",
+        "NAT-C-021",
+        "NAT-C-022",
+        "NAT-C-023",
+        "NAT-C-024",
+        "NAT-C-025",
+        "NAT-C-026",
+        "NAT-C-027",
+        "NAT-C-028",
+        "NAT-C-029",
+        "NAT-C-030",
+        "NAT-C-031",
+        "NAT-C-032",
+        "NAT-C-033",
+        "NAT-C-034",
+        "NAT-C-035",
+        "NAT-C-036",
+        "NAT-C-037",
+        "NAT-C-038",
+        "NAT-C-039",
+        "NAT-C-040",
+        "NAT-C-041",
+        "NAT-C-042",
+        "NAT-C-043",
+        "NAT-C-044",
+        "NAT-C-045",
+        "NAT-C-046",
+        "NAT-C-047",
+        "NAT-C-048",
+        "NAT-C-049",
+        "NAT-C-050",
+        "NAT-C-051",
+        "NAT-C-052",
+        "NAT-C-053",
+        "NAT-C-054"
+      ],
+      "evidence": "Pendiente: sin recibo común oficial no existen los informes independientes. Las 52 tareas hijas son contrastes territoriales distintos; la dependencia es agregación posterior, no un prerrequisito para las hijas.",
       "files_affected": [
-        "docs/ESTUDIOS/N08_TOPOLOGIA_NACIONAL_20251012/producto/manifest.json"
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/ROLLUP.json"
       ],
       "id": "NAT-C-002",
       "integration": null,
       "line": "C",
-      "next_action": "",
-      "objective": "Acreditar dominio topológico frente a límites administrativos independientes",
+      "next_action": "Cuando terminen las 52 comparaciones, verificar coverage CPRO 01–52 y hashes y emitir la acreditación agregada.",
+      "objective": "Acreditar el dominio topológico frente a límites administrativos independientes con cobertura 52/52",
       "owner": "controller",
       "permissions_required": [],
       "priority": 1,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
-      "tests": [],
+      "status": "BLOCKED_DEPENDENCY",
+      "tests": [
+        "tests/test_national_campaign_registry.py::test_boundary_acquisition_gate_and_province_dependencies"
+      ],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=01.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=01 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=01; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO01.json"
+      ],
       "id": "NAT-C-003",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=01",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=01 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=02.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=02 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=02; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO02.json"
+      ],
       "id": "NAT-C-004",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=02",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=02 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=03.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=03 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=03; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO03.json"
+      ],
       "id": "NAT-C-005",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=03",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=03 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=04.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=04 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=04; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO04.json"
+      ],
       "id": "NAT-C-006",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=04",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=04 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=05.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=05 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=05; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO05.json"
+      ],
       "id": "NAT-C-007",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=05",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=05 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=06.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=06 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=06; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO06.json"
+      ],
       "id": "NAT-C-008",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=06",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=06 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=07.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=07 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=07; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO07.json"
+      ],
       "id": "NAT-C-009",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=07",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=07 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=08.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=08 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=08; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO08.json"
+      ],
       "id": "NAT-C-010",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=08",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=08 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=09.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=09 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=09; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO09.json"
+      ],
       "id": "NAT-C-011",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=09",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=09 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=10.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=10 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=10; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO10.json"
+      ],
       "id": "NAT-C-012",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=10",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=10 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=11.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=11 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=11; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO11.json"
+      ],
       "id": "NAT-C-013",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=11",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=11 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=12.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=12 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=12; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO12.json"
+      ],
       "id": "NAT-C-014",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=12",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=12 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=13.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=13 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=13; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO13.json"
+      ],
       "id": "NAT-C-015",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=13",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=13 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=14.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=14 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=14; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO14.json"
+      ],
       "id": "NAT-C-016",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=14",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=14 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=15.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=15 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=15; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO15.json"
+      ],
       "id": "NAT-C-017",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=15",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=15 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=16.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=16 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=16; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO16.json"
+      ],
       "id": "NAT-C-018",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=16",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=16 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=17.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=17 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=17; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO17.json"
+      ],
       "id": "NAT-C-019",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=17",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=17 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=18.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=18 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=18; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO18.json"
+      ],
       "id": "NAT-C-020",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=18",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=18 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=19.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=19 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=19; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO19.json"
+      ],
       "id": "NAT-C-021",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=19",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=19 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=20.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=20 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=20; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO20.json"
+      ],
       "id": "NAT-C-022",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=20",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=20 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=21.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=21 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=21; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO21.json"
+      ],
       "id": "NAT-C-023",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=21",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=21 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=22.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=22 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=22; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO22.json"
+      ],
       "id": "NAT-C-024",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=22",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=22 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=23.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=23 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=23; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO23.json"
+      ],
       "id": "NAT-C-025",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=23",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=23 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=24.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=24 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=24; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO24.json"
+      ],
       "id": "NAT-C-026",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=24",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=24 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=25.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=25 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=25; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO25.json"
+      ],
       "id": "NAT-C-027",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=25",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=25 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=26.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=26 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=26; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO26.json"
+      ],
       "id": "NAT-C-028",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=26",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=26 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=27.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=27 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=27; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO27.json"
+      ],
       "id": "NAT-C-029",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=27",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=27 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=28.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=28 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=28; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO28.json"
+      ],
       "id": "NAT-C-030",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=28",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=28 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=29.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=29 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=29; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO29.json"
+      ],
       "id": "NAT-C-031",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=29",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=29 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=30.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=30 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=30; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO30.json"
+      ],
       "id": "NAT-C-032",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=30",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=30 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=31.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=31 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=31; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO31.json"
+      ],
       "id": "NAT-C-033",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=31",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=31 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=32.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=32 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=32; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO32.json"
+      ],
       "id": "NAT-C-034",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=32",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=32 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=33.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=33 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=33; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO33.json"
+      ],
       "id": "NAT-C-035",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=33",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=33 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=34.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=34 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=34; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO34.json"
+      ],
       "id": "NAT-C-036",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=34",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=34 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=35.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=35 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=35; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO35.json"
+      ],
       "id": "NAT-C-037",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=35",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=35 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=36.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=36 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=36; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO36.json"
+      ],
       "id": "NAT-C-038",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=36",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=36 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=37.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=37 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=37; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO37.json"
+      ],
       "id": "NAT-C-039",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=37",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=37 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=38.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=38 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=38; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO38.json"
+      ],
       "id": "NAT-C-040",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=38",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=38 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=39.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=39 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=39; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO39.json"
+      ],
       "id": "NAT-C-041",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=39",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=39 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=40.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=40 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=40; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO40.json"
+      ],
       "id": "NAT-C-042",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=40",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=40 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=41.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=41 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=41; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO41.json"
+      ],
       "id": "NAT-C-043",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=41",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=41 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=42.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=42 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=42; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO42.json"
+      ],
       "id": "NAT-C-044",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=42",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=42 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=43.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=43 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=43; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO43.json"
+      ],
       "id": "NAT-C-045",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=43",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=43 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=44.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=44 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=44; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO44.json"
+      ],
       "id": "NAT-C-046",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=44",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=44 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=45.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=45 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=45; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO45.json"
+      ],
       "id": "NAT-C-047",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=45",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=45 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=46.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=46 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=46; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO46.json"
+      ],
       "id": "NAT-C-048",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=46",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=46 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=47.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=47 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=47; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO47.json"
+      ],
       "id": "NAT-C-049",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=47",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=47 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=48.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=48 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=48; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO48.json"
+      ],
       "id": "NAT-C-050",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=48",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=48 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=49.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=49 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=49; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO49.json"
+      ],
       "id": "NAT-C-051",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=49",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=49 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=50.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=50 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=50; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO50.json"
+      ],
       "id": "NAT-C-052",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=50",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=50 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=51.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=51 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=51; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO51.json"
+      ],
       "id": "NAT-C-053",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=51",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=51 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
     {
-      "acceptance_criteria": "Geometría externa oficial independiente alineada a la edición, hash y prueba de dominio CPRO=52.",
+      "acceptance_criteria": "Recibo común validado; códigos CPRO/CUMUN conciliados; vigencia efectiva 2025-01-01 demostrada; cobertura y diferencias geométricas para CPRO=52 documentadas con CRS, hashes y sensibilidad. Sin reparar INE ni crear aristas.",
       "capabilities": [
         "local_read",
         "local_code",
         "local_tests"
       ],
       "commit": null,
-      "data_required": [],
-      "dependencies": [
-        "NAT-C-002"
+      "data_required": [
+        "NAT-C-056: paquete/receipt oficial independiente íntegro, edición y SHA",
+        "INE CUSEC 2025 acreditado de NAT-C-001"
       ],
-      "evidence": "Falta fuente de límite provincial independiente en el expediente; la geometría INE no se considera segunda fuente independiente.",
-      "files_affected": [],
+      "dependencies": [
+        "NAT-C-001",
+        "NAT-C-056"
+      ],
+      "evidence": "No hay bytes/SHA de fuente CNIG/RCC independiente en el repositorio, cachés DDD-control/DDD-almacén ni expedientes N08 inspeccionados. Falta evidencia territorial propia de CPRO=52; el activo faltante es el recibo común (no 52 fuentes distintas). La comparación sigue siendo única por CPRO.",
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_AUDITS/CPRO52.json"
+      ],
       "id": "NAT-C-054",
       "integration": null,
       "line": "C",
-      "next_action": "Esperar autorización/adquisición de fuente oficial independiente; continuar otras unidades si la fuente llega disponible.",
-      "objective": "Acreditación independiente del límite administrativo CPRO=52",
+      "next_action": "Una vez autorizado y validado NAT-C-056, ejecutar el contraste acotado para este CPRO y conservar informe/hash individual.",
+      "objective": "Contraste administrativo independiente del dominio y vigencia CPRO=52 frente a CUSEC INE 2025",
       "owner": "topology_worker",
       "permissions_required": [],
       "priority": 2,
       "review": null,
-      "status": "BLOCKED_EVIDENCE",
+      "status": "BLOCKED_DEPENDENCY",
       "tests": [],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
     },
@@ -2241,12 +2610,12 @@
         "NAT-B-002",
         "NAT-I-001"
       ],
-      "evidence": "Branch published at 384d214e05e554fb3cddbcd16a3dddcd8cfb749d. Draft PR creation not completed: GitHub MCP create-pull-request returned approval-required under policy never; one gh pr create attempt failed connecting api.github.com. No bypass/retry loop. CI cannot run without PR. Await authorized GitHub write route or owner/platform permission. Subsequent push of corrected local HEAD ae260f56cdb03be61bbe030c5277203e7b545013 failed once with DNS error: Could not resolve host github.com; remote branch remains at 384d214e05e554fb3cddbcd16a3dddcd8cfb749d. Final candidate retained locally.",
+      "evidence": "Read-only GitHub API: remote branch points to 889485658166928d89bd5bdc5de39cac599c188f; pull request collection filtered to this head returned []. Draft creation was denied for approval under policy never; gh auth invalid; shell Git DNS fails. No PR-triggered CI exists.",
       "files_affected": [],
       "id": "NAT-J-003",
       "integration": null,
       "line": "J",
-      "next_action": "When GitHub DNS/connectivity returns, push the existing local branch fast-forward, open draft PR against main, then verify exact-SHA CI; do not regenerate the candidate.",
+      "next_action": "When an authorized GitHub write route is available, open draft PR against current main and verify CI on the exact HEAD; do not retry or bypass current denial.",
       "objective": "Regresión nacional/autonómica y publicación progresiva de incrementos aceptados",
       "owner": "controller",
       "permissions_required": [],
@@ -2370,6 +2739,70 @@
         "tests/test_national_campaign_planner.py (4 passed)"
       ],
       "worktree": "/private/tmp/ddd-national-campaign-20261013"
+    },
+    {
+      "id": "NAT-C-055",
+      "line": "C",
+      "objective": "Catalogar una fuente oficial independiente candidata y especificar criterios reproducibles de adquisición, sin descarga ni acreditación",
+      "status": "IMPLEMENTED",
+      "priority": 1,
+      "dependencies": [],
+      "acceptance_criteria": "Identificar autoridad/producto/ficha/licencia/edición candidata, aptitud temporal no demostrada, búsqueda local acotada y campos exigibles en receipt; no descargar ni declarar acreditación.",
+      "capabilities": [
+        "external_official_source_acquisition",
+        "local_read",
+        "local_tests"
+      ],
+      "permissions_required": [
+        "explicit_authorization_for_official_source_download_or_owner_supplied_package"
+      ],
+      "data_required": [],
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/ADQUISICION_FUENTE_LIMITE_CNIG.md"
+      ],
+      "tests": [
+        "tests/test_national_boundary_acquisition_ledger.py::test_boundary_acquisition_gate_and_province_dependencies"
+      ],
+      "evidence": "Expediente de catálogo CNIG/IGN y especificación del receipt; revisión topológica previa confirmó ausencia local de bytes, sin elevar acreditación. La ficha 2026 no prueba vigencia al 2025-01-01.",
+      "review": null,
+      "integration": null,
+      "commit": null,
+      "owner": "owner",
+      "worktree": null,
+      "next_action": ""
+    },
+    {
+      "id": "NAT-C-056",
+      "line": "C",
+      "objective": "Adquirir/recibir y validar el snapshot oficial independiente de límites administrativos con estado efectivo 2025-01-01",
+      "status": "WAIT_OWNER",
+      "priority": 2,
+      "dependencies": [
+        "NAT-C-055"
+      ],
+      "acceptance_criteria": "Bytes originales y SHA-256; autoridad, ficha/producto/edición, fecha de adquisición, licencia, CRS/capas/campos/códigos; correspondencia oficial CPRO/CUMUN; vigencia efectiva 2025-01-01 acreditada para entidades usadas; recepción reproducible. Si la edición 2026 no soporta esa fecha, obtener snapshot histórico oficial equivalente. No modifica INE.",
+      "capabilities": [
+        "external_official_source_acquisition",
+        "local_read",
+        "local_tests"
+      ],
+      "permissions_required": [
+        "explicit_authorization_for_official_source_download_or_owner_supplied_package"
+      ],
+      "data_required": [
+        "CNIG/IGN BDLJE/RCC candidate described in ADQUISICION_FUENTE_LIMITE_CNIG.md or an official historical equivalent"
+      ],
+      "files_affected": [
+        "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/BOUNDARY_SOURCE_RECEIPT/"
+      ],
+      "tests": [],
+      "evidence": "Adquisición expresamente no autorizada; el candidato CNIG 2026 está identificado pero no descargado y no prueba por sí mismo el estado 2025-01-01.",
+      "review": null,
+      "integration": null,
+      "commit": null,
+      "owner": "owner",
+      "worktree": null,
+      "next_action": "Recibir autorización de descarga puntual o paquete oficial proporcionado por Work/propietario; validar temporalidad antes de desbloquear los contrastes."
     }
   ]
 }

@@ -8,7 +8,7 @@
   "dependency_graph": "DEPENDENCIES.json",
   "event_log": "EVENT_LOG.jsonl",
   "integration_branch": "codex/national-campaign-controller",
-  "integration_head_before_final_commit": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+  "integration_head_before_final_commit": "889485658166928d89bd5bdc5de39cac599c188f",
   "integration_queue": "INTEGRATION_QUEUE.json",
   "owner_decisions_preserved": [
     "N08-OWNER-20261013-7RULES",
@@ -31,5 +31,8 @@
   "schema": "ddd.national-campaign-manifest/1.0",
   "scope": "Lines A-J national Congress; no A-FONTES/19 autonomous production behavior",
   "state": "NATIONAL_EXHAUSTED_AUTHORIZED_WORK",
-  "task_registry": "TASK_REGISTRY.json"
+  "task_registry": "TASK_REGISTRY.json",
+  "source_acquisition_dossier": "ADQUISICION_FUENTE_LIMITE_CNIG.md",
+  "blocker_audit": "AUDITORIA_BLOQUEOS_C_003_056.csv",
+  "candidate_branch_head_before_ledger_commit": "889485658166928d89bd5bdc5de39cac599c188f"
 }

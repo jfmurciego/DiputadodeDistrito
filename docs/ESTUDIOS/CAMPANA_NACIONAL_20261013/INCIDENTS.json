@@ -81,6 +81,14 @@
       "severity": "HIGH",
       "status": "OPEN",
       "task": "NAT-J-003"
+    },
+    {
+      "id": "INC-NAT-003",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "task": "NAT-J-003",
+      "finding": "Remote branch 889485658166928d89bd5bdc5de39cac599c188f exists, but no PR is open. GitHub create-pull-request connector returned approval required under policy never; gh token is invalid. Git DNS in shell currently fails, preventing fetch/push/CI checks.",
+      "handling": "Do not repeat denied PR create or bypass approval. Record environment blocker; continue local DAG/source audit."
     }
   ],
   "schema": "ddd.national-incidents/1.0"

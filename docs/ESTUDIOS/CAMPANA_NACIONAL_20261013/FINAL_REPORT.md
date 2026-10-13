@@ -1,24 +1,34 @@
 # RAMA NACIONAL — BALANCE A–J
 
-**Estado global: `NATIONAL_EXHAUSTED_AUTHORIZED_WORK`.** No queda tarea READY bajo los permisos y el entorno actuales; la Rama Nacional no está técnicamente cerrada ni lista para producción. El candidato local de integración contiene incrementos revisados y pruebas reales de preflight 52/52; no existe acreditación topológica externa 52/52, partición provincial/nacional construida, producto certificado ni autorización de generación. Base de campaña: `main@21a4a150eb14f1abecd5d798b159d84a71df1f4a`. PR #265 estaba fusionada al inicio y no se reabre. Ningún distrito fue generado.
+## Actualización de auditoría y publicación — 2026-10-14
+
+La rama remota `codex/national-campaign-controller` se verificó mediante GitHub API en `889485658166928d89bd5bdc5de39cac599c188f`; no existe una PR para esa rama. La solicitud de crear PR draft fue denegada por la capa de aprobación (`approval required`, policy `never`), y la CLI `gh` no dispone de token válido. Git por shell tampoco pudo resolver `github.com`. No consta CI disparada por PR para el HEAD: la rama no tiene PR. No se repitió la operación denegada ni se eludió autorización.
+
+La auditoría real del ledger encontró una dependencia semánticamente imposible en C: NAT-C-002 pedía acreditación 52/52, y cada uno de sus 52 hijos requería completar NAT-C-002. El grafo no tenía ciclo sintáctico, pero sí circularidad de aceptación. Se separaron catálogo (NAT-C-055), recibo de adquisición común (NAT-C-056), comparaciones independientes por CPRO (NAT-C-003…054) y agregación nacional NAT-C-002. El roll-up ahora depende de los 52 informes; ningún hijo depende del roll-up. La fuente candidata CNIG/IGN está identificada en `ADQUISICION_FUENTE_LIMITE_CNIG.md`, pero no se descargó: la fuente 2026 no prueba sin inspección su vigencia efectiva a 2025-01-01 y la adquisición requiere autorización.
+
+La matriz `MATRIZ_CIERRE_AJ.csv` y `AUDITORIA_BLOQUEOS_C_003_056.csv` se derivan del registro actualizado. Son **82 tareas**: **6 COMPLETE**, **18 INTEGRATED**, **1 IMPLEMENTED** (NAT-C-055, pendiente de commit/revisión), **1 REVIEW_PASS**, **53 BLOCKED_DEPENDENCY**, **2 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT**. Las tareas C003–C054 son 52 dominios provinciales distintos, no 52 fuentes distintas; comparten un único recibo faltante. NAT-C-002 es el roll-up. NAT-C-055 es el catálogo implementado localmente pero aún no integrado/versionado; la acreditación topológica no avanzó.
+
+El estado `NATIONAL_EXHAUSTED_AUTHORIZED_WORK` describe el selector actual tras la corrección: no hay tareas elegibles sin el receipt externo o los permisos requeridos. No significa cierre técnico de las 52 fronteras externas, factibilidad provincial, producto certificado ni disponibilidad para producción. Se mantienen K=407 y `generation_authorized=false`.
+
+**Estado global: `NATIONAL_EXHAUSTED_AUTHORIZED_WORK`.** El DAG corregido no tiene tareas READY/DISCOVERED con los permisos y la evidencia actuales. Esto no cierra técnicamente las 52 fronteras externas ni demuestra factibilidad/producto. La rama remota verificada está en `889485658166928d89bd5bdc5de39cac599c188f`; el HEAD exacto de la base de campaña es `main@21a4a150eb14f1abecd5d798b159d84a71df1f4a`. Ningún distrito fue generado y `generation_authorized=false` permanece.
 
 ## Contabilidad verificable
 
-Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. El registro contiene **80 tareas**: **6 COMPLETE**, **18 INTEGRATED** en el candidato local, **1 REVIEW_PASS**, **53 BLOCKED_EVIDENCE**, **1 WAIT_OWNER** y **1 BLOCKED_ENVIRONMENT** (publicación de PR/CI). `INTEGRATED` significa integrado en la rama candidata, no fusionado a `main`.
+Registro: `TASK_REGISTRY.json`; DAG: `DEPENDENCIES.json`; bitácora acumulativa: `EVENT_LOG.jsonl`; checkpoint: `CHECKPOINT.json`; matriz derivada: `MATRIZ_CIERRE_AJ.csv`. `INTEGRATED` representa integración en la rama candidata, no en `main`.
 
-| Línea | Tareas | Complete | Integrated | Testing | Ready | Review pass | Bloqueadas por evidencia | Wait owner | Blocked environment | Estado de cierre |
+| Línea | Tareas | Complete | Integrated | Implemented | Review pass | Blocked dependency | Blocked evidence | Wait owner | Blocked environment | Estado |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| A | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Cerrada para reglas N08 de alcance aprobado; K=407 y generation=false. |
-| B | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; linaje histórico y auditoría de dependencias temporales integrados con alcance acotado. |
-| C | 54 | 1 | 0 | 0 | 0 | 0 | 53 | 0 | 0 | Parcial; producto geométrico reproducible, 53 tareas de límites externos sin fuente independiente. |
-| D | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; anomalías inventariadas y revisadas, excepciones nominales sin aprobación. |
-| E | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; condiciones necesarias y testigos condicionales; sin factibilidad territorial certificada. |
-| F | 3 | 0 | 2 | 0 | 0 | 0 | 0 | 1 | 0 | Parcial; preflight y composición listos como diagnóstico; generación bloqueada. |
-| G | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; correcciones funcionales y perfil sintético listos; no hay benchmark territorial nacional. |
-| H | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; diagnóstico ejecutado 52/52; 2 M04 estructurales bloqueados, restante sin evidencia suficiente para producto. |
-| I | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; certificador candidato probado; cero productos reales certificados. |
-| J | 4 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 1 | Parcial; ledger/selector revisados; publicación de rama, PR y CI bloqueadas por conectividad/herramientas. |
-| TOTAL | 80 | 6 | 18 | 0 | 0 | 1 | 53 | 1 | 1 | NATIONAL_EXHAUSTED_AUTHORIZED_WORK; ninguna tarea READY. |
+| A | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | Cerrada para siete reglas N08 y K=407; generación falsa. |
+| B | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Linaje N06/N08 verificado dentro del alcance acreditado. |
+| C | 56 | 1 | 0 | 1 | 0 | 53 | 0 | 1 | 0 | Catálogo implementado localmente; fuente común espera autorización; 52 contrastes y roll-up bloqueados por dependencia real. |
+| D | 5 | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 | Anomalías inventariadas; excepciones nominales permanecen pendientes. |
+| E | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Condiciones necesarias/testigos condicionales; sin factibilidad territorial certificada. |
+| F | 3 | 0 | 2 | 0 | 0 | 0 | 0 | 1 | 0 | Preflight y composición diagnósticos; generación espera autorización. |
+| G | 3 | 1 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Correcciones funcionales revisadas; escala territorial nacional no acreditada. |
+| H | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Diagnóstico 52/52 al nivel de evidencia disponible; no equivale a factibilidad/producto. |
+| I | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Certificador candidato probado; cero productos reales certificados. |
+| J | 4 | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 1 | Ledger/selector revisados; PR/CI bloqueados por autorización de escritura. |
+| TOTAL | 82 | 6 | 19 | 0 | 1 | 53 | 0 | 2 | 1 | `NATIONAL_EXHAUSTED_AUTHORIZED_WORK`; ninguna elegible sin dependencia externa/permisos. |
 
 ## Resultados comprobados
 
@@ -34,14 +44,14 @@ Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENC
 
 ## Pruebas
 
-- Suite nacional Congreso/N08/M05/preflight/ledger: **263 passed, 7 skipped, 82 subtests passed**. La suite focal final de selector/ledger/dependencias temporales volvió a ejecutarse tras el cierre: **10 passed**.
+- Suite nacional Congreso/N08/M05/preflight/ledger: **263 passed, 7 skipped, 82 subtests passed**. La suite focal previa de selector/ledger/dependencias temporales registró **10 passed**; tras esta conciliación, los tests de recibo/DAG, ledger, selector y dependencias temporales ejecutaron **13 passed**.
 - Regresión de territorios autonómicos (Galicia, Aragón, contratos topológicos y utilidades compartidas): **65 passed, 7 subtests passed**.
 - E003: 8 tests + CLI real 52; G003 2 tests; F002 composer/certifier 29 tests + 10 subtests; selector campaña 4 tests.
 - Las omisiones/skips son casos marcados por las suites existentes; no se alteraron tests para obtener PASS. Las advertencias PyProj son de deprecación, sin fallos.
 
 ## Bloqueos que quedan
 
-1. **Evidencia geográfica:** falta geometría administrativa independiente de edición/huella compatibles para cerrar los dominios provinciales. El mandato actual prohíbe descargas nuevas; trabajo por unidad C003–C054 se aparca sin inventar coincidencia con el producto INE.
+1. **Evidencia geográfica:** falta el recibo de bytes y SHA de una delimitación administrativa independiente, además de prueba de vigencia efectiva 2025-01-01. Se identificó CNIG/IGN BDLJE/RCC como candidato, pero su ficha 2026 no demuestra por sí sola la vigencia histórica. NAT-C-056 espera autorización/paquete; C003–C054 dependen de ese recibo común; NAT-C-002 resume esos 52 resultados; cada CPRO mantiene una comparación distinta.
 2. **Decisión del propietario:** aprobar o rechazar excepciones nominales de islas, enclaves y discontinuidades, vinculadas a sus CUSEC/partes/hashes; no existe aprobación general automática.
 3. **Factibilidad:** faltan población oficial por parte en 115 CUSEC multipartes; E003 sólo aporta testigos internos condicionales para K=1 y no busca para K>1. Ningún heurístico agotado se reporta como imposibilidad.
 4. **Producto y operación:** no hay partición real; por tanto no se puede demostrar factibilidad constructiva general ni certificar 407 distritos. El propietario conserva la autorización expresa de generación, promoción y publicación; permanecen desactivadas.
@@ -56,4 +66,4 @@ Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENC
 
 ## Integración y siguiente acción
 
-Los incrementos técnicos E002, E003, F001, F002, G002, G003, H e I y el ledger están en la rama publicada `codex/national-campaign-controller` (`384d214e05e554fb3cddbcd16a3dddcd8cfb749d`), sin fusionar a `main`. El selector fue recalculado contra el registro vigente; sus 324 artefactos se verifican mediante `CAMPAIGN_ARTIFACTS_SHA256.json`. La punta remota sigue en `384d214e…`: el push del HEAD corregido falló por DNS (`Could not resolve host github.com`). La creación de una PR draft está bloqueada por la herramienta GitHub (aprobación requerida con política `never`) y un intento `gh pr create` también falló por conectividad. No existe PR ni CI del HEAD corregido. Los commits locales `5bd16bc5…` y `ae260f56…` están conservados. La revisión independiente del candidato final está solicitada. Estado `NATIONAL_EXHAUSTED_AUTHORIZED_WORK`; no declarar `READY_FOR_FINAL_REVIEW`.
+La rama remota `codex/national-campaign-controller` fue verificada por API de solo lectura en `889485658166928d89bd5bdc5de39cac599c188f`; el endpoint de PRs filtrado por esa rama devolvió lista vacía. El commit de esta actualización del ledger aún debe publicarse si GitHub write vuelve a estar disponible. La creación de PR draft fue denegada por la capa de aprobación (`approval required`, política `never`); el token `gh` es inválido y el DNS de Git en shell falló. No se eludieron controles ni se repitió la operación denegada. Sin PR no hay CI de PR. Próxima acción de ingeniería de datos: autorización o entrega de un paquete oficial histórico adecuado, seguido del recibo NAT-C-056; próxima acción de integración: acceso GitHub de escritura autorizado para actualizar la rama y crear draft PR. No declarar `READY_FOR_FINAL_REVIEW` hasta integrar el nuevo ledger, revisar y obtener CI del HEAD exacto.

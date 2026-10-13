@@ -1,12 +1,21 @@
 {
+  "schema": "ddd.national-blockers/1.0",
+  "updated_head": "889485658166928d89bd5bdc5de39cac599c188f",
   "blockers": [
     {
-      "cause": "No hay delimitación administrativa oficial independiente ya disponible/acreditada en el expediente; fuentes nuevas no se descargan en este mandato.",
-      "class": "BLOCKED_EVIDENCE",
-      "id": "NAT-BLK-BOUNDARY-52",
-      "next_action": "proseguir con registro de anomalías, certifier sintético, solver y preflights independientes.",
+      "id": "NAT-BLK-CNIG-RECEIPT",
+      "class": "WAIT_OWNER",
+      "cause": "No source bytes/receipt in the bounded local search; acquisition is not authorized. The 2026 candidate does not establish effective geometry at 2025-01-01.",
       "tasks": [
-        "NAT-C-002",
+        "NAT-C-056"
+      ],
+      "unblocks_when": "Explicit acquisition authorization or owner-provided official package; receipt proves independent authority, SHA, license, schema/codes and effective date."
+    },
+    {
+      "id": "NAT-BLK-CPRO-COMPARISONS",
+      "class": "BLOCKED_DEPENDENCY",
+      "cause": "All 52 comparisons require the same validated receipt plus their own CPRO-specific spatial/code comparison. Their dependency is not the 52/52 aggregate.",
+      "tasks": [
         "NAT-C-003",
         "NAT-C-004",
         "NAT-C-005",
@@ -60,18 +69,34 @@
         "NAT-C-053",
         "NAT-C-054"
       ],
-      "unblocks_when": "fuente oficial independiente con edición/CRS/sha y correspondencia provincial documentados"
+      "unblocks_when": "NAT-C-056 receipt valid; provincial reports then run independently."
     },
     {
-      "cause": "Generación territorial real requiere autorización específica del propietario.",
-      "class": "WAIT_OWNER",
+      "id": "NAT-BLK-CPRO-ROLLUP",
+      "class": "BLOCKED_DEPENDENCY",
+      "cause": "National 52/52 accreditation is downstream of the 52 distinct provincial outputs.",
+      "tasks": [
+        "NAT-C-002"
+      ],
+      "unblocks_when": "All NAT-C-003…NAT-C-054 reports available and individually hash-verified."
+    },
+    {
       "id": "NAT-BLK-PRODUCTION",
+      "class": "WAIT_OWNER",
+      "cause": "Generación territorial real requiere autorización específica del propietario.",
       "tasks": [
         "NAT-F-003"
       ],
-      "unblocks_when": "autorización expresa por ejecución; no se presume en esta campaña."
+      "unblocks_when": "Autorización expresa por ejecución; no se presume en esta campaña."
+    },
+    {
+      "id": "NAT-BLK-PUBLICATION",
+      "class": "BLOCKED_ENVIRONMENT",
+      "cause": "El branch se puede leer en GitHub, pero no hay ruta de escritura habilitada para PR; connector exige aprobación (policy never), token gh inválido.",
+      "tasks": [
+        "NAT-J-003"
+      ],
+      "unblocks_when": "Ruta GitHub autorizada de escritura para PR; sin eludir control."
     }
-  ],
-  "schema": "ddd.national-blockers/1.0",
-  "updated_head": "a2e565fff2da871a83b8d962b6a047fb877d9092"
+  ]
 }
