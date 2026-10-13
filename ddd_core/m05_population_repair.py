@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Versión 1.7.0; nombre M05 population repair; fecha 2026-10-13.
-Alcance: reparación genérica con estrategia municipal explícita para Congreso.
-Estado: candidato; cambios: fragmentación municipal auditada por CUSEC y contrato.
-Motivo: cumplir la política N08 preservando la disciplina autonómica por defecto.
+"""Versión 1.8.0; nombre M05 population repair; fecha 2026-10-13.
+Alcance: reparación genérica y certificado topológico municipal N08 para Congreso.
+Estado: candidato; cambios: fragmentación mínima con prueba de conectividad y cotas.
+Motivo: admitir cortes necesarios preservando la disciplina autonómica por defecto.
 Anterior: legacy/n08_caceres_20261012/m05_population_repair_v1_6.py.
 """
 from __future__ import annotations
@@ -11,6 +11,7 @@ from __future__ import annotations
 from collections import deque
 from dataclasses import asdict, dataclass
 import heapq
+from itertools import combinations
 import math
 import re
 import time
@@ -50,7 +51,89 @@ def _municipal_groups(state, units):
     return groups
 
 
-def _municipal_split_evidence(state, units, *, cap, municipality_policy, require_minimum=True):
+def _topological_municipal_minimum(
+    group, state, units, adjacency, *, floor, cap, district_floors=None, node_budget=100000,
+):
+    """Exhaustively test fewer-district placements with all other CUSECs fixed.
+
+    The certificate is conditional on the surrounding assignment. Search
+    exhaustion is never treated as proof and callers fail closed.
+    """
+    group_units = sorted(u for u, row in units.items()
+                         if str(row.get("municipality_group")) == group)
+    province = str(units[group_units[0]].get("province"))
+    district_province = {}
+    for unit, district in state.items():
+        district_province.setdefault(district, set()).add(str(units[unit].get("province")))
+    district_labels = sorted(
+        (d for d, provinces in district_province.items() if provinces == {province}), key=str
+    )
+    current_count = len({state[u] for u in group_units})
+    group_set = set(group_units)
+    base_state = {u: d for u, d in state.items() if u not in group_set}
+    base_pops = _district_pops(base_state, units)
+    visits = 0
+    found = None
+
+    def candidate_valid(targets):
+        pops = dict(base_pops)
+        for unit, district in targets.items():
+            pops[district] = pops.get(district, 0) + int(units[unit]["population"])
+        if set(pops) != set(state.values()):
+            return False
+        if any(pop < float((district_floors or {}).get(d, floor)) or pop > cap
+               for d, pop in pops.items()):
+            return False
+        trial = dict(base_state)
+        trial.update(targets)
+        return all(connected({u for u, d in trial.items() if d == district}, adjacency)
+                   for district in set(state.values()))
+
+    def search_assignment(units_left, allowed, targets, pops):
+        nonlocal visits, found
+        if found is not None:
+            return
+        visits += 1
+        if visits > node_budget:
+            raise OverflowError
+        if not units_left:
+            if len(set(targets.values())) < current_count and candidate_valid(targets):
+                found = len(set(targets.values()))
+            return
+        unit = units_left[0]
+        population = int(units[unit]["population"])
+        for district in allowed:
+            if pops.get(district, 0) + population > cap:
+                continue
+            next_pops = dict(pops)
+            next_pops[district] = next_pops.get(district, 0) + population
+            targets[unit] = district
+            search_assignment(units_left[1:], allowed, targets, next_pops)
+            targets.pop(unit, None)
+            if found is not None:
+                return
+
+    try:
+        for count in range(1, current_count):
+            for allowed in combinations(district_labels, count):
+                if any(base_pops.get(d, 0) > cap for d in allowed):
+                    continue
+                search_assignment(group_units, allowed, {}, dict(base_pops))
+                if found is not None:
+                    return {"proven": False, "smaller_feasible_count": found,
+                            "assignments_examined": visits}
+    except OverflowError:
+        return {"proven": False, "search_exhausted": True,
+                "assignments_examined": visits, "node_budget": node_budget}
+    return {"proven": True, "minimum_districts_given_other_assignments_fixed": current_count,
+            "assignments_examined": visits,
+            "certificate": "NO_FEASIBLE_LOWER_COUNT_PRESERVING_CONNECTIVITY_AND_POPULATION_BOUNDS"}
+
+
+def _municipal_split_evidence(
+    state, units, *, cap, municipality_policy, require_minimum=True,
+    adjacency=None, floor=0, district_floors=None,
+):
     groups = _municipal_groups(state, units)
     split = []
     for group, item in sorted(groups.items()):
@@ -58,15 +141,31 @@ def _municipal_split_evidence(state, units, *, cap, municipality_policy, require
             continue
         if municipality_policy != MUNICIPAL_POLICY_N08:
             return None, {"valid": False, "reason": "MUNICIPAL_INTEGRITY", "groups": [group]}
-        # A municipality whose total exceeds the hard district ceiling cannot
-        # fit in one district. This is a checkable necessity certificate.
-        if item["population"] <= cap:
-            return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_NEED_NOT_PROVEN", "groups": [group]}
         minimum_districts = math.ceil(item["population"] / cap)
-        if len(item["districts"]) > minimum_districts or (require_minimum and len(item["districts"]) != minimum_districts):
-            return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_EXCEEDS_MINIMUM",
+        if len(item["districts"]) < minimum_districts:
+            return None, {"valid": False, "reason": "MUNICIPAL_DISTRICT_COUNT_BELOW_POPULATION_BOUND",
                           "groups": [group], "minimum_districts": minimum_districts,
                           "districts_used": len(item["districts"])}
+        topology = None
+        if require_minimum and len(item["districts"]) > minimum_districts:
+            if adjacency is None:
+                return None, {"valid": False, "reason": "MUNICIPAL_TOPOLOGY_EVIDENCE_MISSING", "groups": [group]}
+            topology = _topological_municipal_minimum(
+                group, state, units, adjacency, floor=floor, cap=cap,
+                district_floors=district_floors,
+            )
+            if topology.get("search_exhausted"):
+                return None, {"valid": False, "reason": "MUNICIPAL_MINIMALITY_SEARCH_EXHAUSTED",
+                              "groups": [group], "topology_check": topology}
+            if not topology.get("proven"):
+                return None, {"valid": False, "reason": "MUNICIPAL_SPLIT_NOT_MINIMAL",
+                              "groups": [group], "topology_check": topology}
+        if not require_minimum:
+            necessity = "FINAL_MINIMALITY_CHECK_PENDING"
+        elif topology is None:
+            necessity = "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP"
+        else:
+            necessity = "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS"
         split.append({
             "municipality_group": group,
             "cusecs": sorted(map(str, item["units"])),
@@ -74,7 +173,8 @@ def _municipal_split_evidence(state, units, *, cap, municipality_policy, require
             "cap": cap,
             "minimum_districts_by_population": minimum_districts,
             "districts_used": len(item["districts"]),
-            "necessity": "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_HARD_POPULATION_CAP",
+            "necessity": necessity,
+            **({"topology_certificate": topology} if topology is not None else {}),
         })
     return split, {"valid": True}
 
@@ -179,16 +279,17 @@ def _verify_final_constraints(
         if len(provinces) != 1:
             return {"valid": False, "reason": "CROSS_PROVINCE", "district": district}
 
-    municipality_splits, municipality_check = _municipal_split_evidence(
-        state, units, cap=cap, municipality_policy=municipality_policy, require_minimum=True
-    )
-    if not municipality_check["valid"]:
-        return municipality_check
-
     populations = _district_pops(state, units)
     hard_count, hard_magnitude = _hard_population_signature(
         populations, floor=floor, cap=cap, district_floors=district_floors
     )
+    municipality_splits, municipality_check = _municipal_split_evidence(
+        state, units, cap=cap, municipality_policy=municipality_policy,
+        require_minimum=hard_count == 0, adjacency=adjacency, floor=floor,
+        district_floors=district_floors,
+    )
+    if not municipality_check["valid"]:
+        return municipality_check
     return {
         "valid": True,
         "hard_limits_met": hard_count == 0,
@@ -238,6 +339,8 @@ def _primary_improves(obj, baseline_obj): return obj[1] < baseline_obj[1] or obj
 
 def _municipality_complete(moved,donor,state,units,*,cap,municipality_policy):
     moved=set(moved); groups={units[u].get("municipality_group") for u in moved if units[u].get("municipality_group")}
+    if municipality_policy == MUNICIPAL_POLICY_N08:
+        return True  # final validation proves necessity; intermediate moves may construct it.
     for group in groups:
         municipality_population=sum(int(row["population"]) for row in units.values()
                                     if row.get("municipality_group")==group)
@@ -270,11 +373,6 @@ def _valid_transfer(
     checks["receiver_contiguity_verified"]=True
     trial=dict(state)
     for u in moved: trial[u]=receiver
-    _, municipal_check = _municipal_split_evidence(
-        trial, units, cap=cap, municipality_policy=municipality_policy, require_minimum=False
-    )
-    if not municipal_check["valid"]:
-        return False, municipal_check["reason"], checks
     before_pops=_district_pops(state,units); after_pops=_district_pops(trial,units)
     controlled,before_sig,after_sig=_controlled_population_transition(
         before_pops,after_pops,floor=floor,cap=cap,district_floors=district_floors
@@ -350,14 +448,9 @@ def _rank(state,path,units,adjacency,target,tolerance,floor,cap,district_floors=
     hard_count,hard_magnitude=_hard_population_signature(
         pops,floor=floor,cap=cap,district_floors=district_floors
     )
-    splits, municipal_check = _municipal_split_evidence(
-        state, units, cap=cap, municipality_policy=municipality_policy, require_minimum=False
-    )
-    if not municipal_check["valid"]:
-        split_penalty = 10**9
-    else:
-        split_penalty = sum(max(0, row["districts_used"] - row["minimum_districts_by_population"])
-                            for row in splits)
+    groups = _municipal_groups(state, units)
+    split_penalty = sum(max(0, len(row["districts"]) - math.ceil(row["population"] / cap))
+                        for row in groups.values())
     return (hard_count,hard_magnitude,split_penalty,obj[1],obj[2],_outlier_distance(pops,target,tolerance),obj[3],obj[4],*_churn(path),len(path),_state_key(state)),obj
 
 
@@ -401,7 +494,7 @@ def _focal_single_transfer(
         owned={v for v in province_units if state[v]==donor and units[v].get("municipality_group")==group}
         municipality_population=sum(int(units[v]["population"]) for v in province_units
                                      if units[v].get("municipality_group")==group)
-        may_split=(municipality_policy == MUNICIPAL_POLICY_N08 and municipality_population > cap)
+        may_split=(municipality_policy == MUNICIPAL_POLICY_N08)
         if owned and owned != {u} and not may_split: return False,"MUNICIPAL_INTEGRITY",checks
     checks["municipal_integrity_verified"]=True
     donor_nodes={v for v in province_units if state[v]==donor and v!=u}
@@ -755,7 +848,7 @@ def repair(
         for district,value in sorted((district_floors or {}).items(),key=lambda item:str(item[0]))
         if float(value)!=float(floor)
     }
-    return {"schema":"ddd.m05-population-repair/1.7" if municipality_policy == MUNICIPAL_POLICY_N08 else "ddd.m05-population-repair/1.6",
+    return {"schema":"ddd.m05-population-repair/1.8" if municipality_policy == MUNICIPAL_POLICY_N08 else "ddd.m05-population-repair/1.6",
         "result":status,"limits":asdict(limits),
         "municipality_policy":municipality_policy,
         "municipality_splits":final_verification.get("municipality_splits", []),

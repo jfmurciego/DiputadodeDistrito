@@ -402,7 +402,8 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
         split = {ids[0]: "A", ids[1]: "B", ids[2]: "B"}
         checked = r.verify_partition_constraints(split, units, adjacency, floor=50, cap=200,
                                                  municipality_policy=self.policy)
-        self.assertEqual(checked["reason"], "MUNICIPAL_SPLIT_NEED_NOT_PROVEN")
+        self.assertEqual(checked["reason"], "MUNICIPAL_SPLIT_NOT_MINIMAL")
+        self.assertEqual(checked["topology_check"]["smaller_feasible_count"], 1)
 
     def test_necessary_split_is_limited_to_whole_cusec_and_audited(self):
         units = self.cusec_units()
@@ -420,7 +421,8 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
         overfragmented = {ids[0]: "A", ids[1]: "B", ids[2]: "C", ids[3]: "C"}
         rejected = r.verify_partition_constraints(overfragmented, units, adjacency, floor=1, cap=200,
                                                   municipality_policy=self.policy)
-        self.assertEqual(rejected["reason"], "MUNICIPAL_SPLIT_EXCEEDS_MINIMUM")
+        self.assertEqual(rejected["reason"], "MUNICIPAL_SPLIT_NOT_MINIMAL")
+        self.assertEqual(rejected["topology_check"]["smaller_feasible_count"], 2)
         broken = dict(units)
         broken[ids[0]] = {**units[ids[0]], "CUMUN": "39002"}
         with self.assertRaisesRegex(ValueError, "MUNICIPAL_CUT_REQUIRES_WHOLE_CUSEC"):
@@ -437,6 +439,51 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
                                                 municipality_policy=self.policy)
         self.assertEqual(result["reason"], "DISTRICT_CONTIGUITY")
 
+    def test_topology_and_population_bounds_can_require_split_below_municipal_cap(self):
+        ids = ("3900101001", "3900201001", "3900101002", "3900301001")
+        units = {
+            ident: {"population": 40, "province": "39", "municipality_group": ident[:5],
+                    "CPRO": "39", "CUMUN": ident[:5]}
+            for ident in ids
+        }
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        state = {ids[0]: "D1", ids[1]: "D1", ids[2]: "D2", ids[3]: "D2"}
+        checked = r.verify_partition_constraints(state, units, adjacency, floor=80, cap=80,
+                                                 municipality_policy=self.policy)
+        self.assertTrue(checked["valid"])
+        self.assertTrue(checked["hard_limits_met"])
+        split = next(row for row in checked["municipality_splits"]
+                     if row["municipality_group"] == "39001")
+        self.assertEqual(split["population"], 80)  # P_municipio <= cap
+        self.assertEqual(split["districts_used"], 2)
+        self.assertEqual(split["necessity"],
+                         "MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS")
+        self.assertEqual(split["topology_certificate"]["certificate"],
+                         "NO_FEASIBLE_LOWER_COUNT_PRESERVING_CONNECTIVITY_AND_POPULATION_BOUNDS")
+        repaired = r.repair(
+            assignments=state, units=units, adjacency=adjacency,
+            target=80, tolerance=0, floor=80, cap=80,
+            municipality_policy=self.policy,
+            limits=r.SearchLimits(max_depth=1, max_transfer_set=1,
+                                  max_candidates=30, max_seconds=1, seed=0),
+        )
+        self.assertTrue(repaired["constraints_verified"])
+        self.assertTrue(repaired["hard_limits_met"])
+        self.assertEqual(repaired["assignments"], state)
+
+    def test_topology_minimality_search_exhaustion_is_not_proof(self):
+        units = self.cusec_units()
+        ids = tuple(units)
+        adjacency = {ids[0]: {ids[1]}, ids[1]: {ids[0], ids[2]},
+                     ids[2]: {ids[1], ids[3]}, ids[3]: {ids[2]}}
+        state = {ids[0]: "A", ids[1]: "A", ids[2]: "B", ids[3]: "B"}
+        result = r._topological_municipal_minimum(
+            "39001", state, units, adjacency, floor=100, cap=200, node_budget=1,
+        )
+        self.assertTrue(result["search_exhausted"])
+        self.assertFalse(result["proven"])
+
     def test_population_repair_creates_only_needed_municipal_split(self):
         units = self.cusec_units()
         ids = tuple(units)
@@ -449,7 +496,7 @@ class CongressMunicipalPolicyTests(unittest.TestCase):
                           limits=r.SearchLimits(max_depth=2, max_transfer_set=1,
                                                 max_candidates=100, max_seconds=2, seed=0))
         self.assertEqual(result["result"], r.RESULT_REPAIRED)
-        self.assertEqual(result["schema"], "ddd.m05-population-repair/1.7")
+        self.assertEqual(result["schema"], "ddd.m05-population-repair/1.8")
         self.assertTrue(result["hard_limits_met"])
         self.assertEqual(result["municipality_splits"][0]["municipality_group"], "39001")
         self.assertEqual(result["municipality_splits"][0]["necessity"],

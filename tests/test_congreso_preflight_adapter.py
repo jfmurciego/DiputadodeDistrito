@@ -227,10 +227,44 @@ class CongressSyntheticOutputAuditTests(unittest.TestCase):
         self.assertEqual(result['population'], 593623)
         self.assertEqual(len(result['district_populations']), 5)
 
-    def test_m06_audit_rejects_more_municipal_fragments_than_population_requires(self):
+    def test_m06_audit_certifies_fragments_required_to_preserve_fixed_quota(self):
         self.policy['population_floor'] = 1
         self.policy['population_cap'] = 200000
-        with self.assertRaisesRegex(ValueError, 'PARTITION_MUNICIPAL_SPLIT_EXCEEDS_MINIMUM'):
+        result = self.audit()
+        split = result['municipality_splits'][0]
+        self.assertEqual(split['districts_used'], 5)
+        self.assertEqual(split['necessity'],
+                         'MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS')
+        self.assertFalse(result['generation_authorized'])
+
+    def test_m06_accepts_topology_population_forced_split_below_cap(self):
+        ids = ('3900101001', '3900201001', '3900101002', '3900301001',
+               '3900401001', '3900501001', '3900601001')
+        populations = (40, 199960, 40, 98396, 98396, 98396, 98395)
+        self.nodes = [{
+            'id': ident, 'CPRO': ident[:2], 'CUMUN': ident[:5], 'pop': pop,
+            'geometry_sha256': 'a' * 64,
+            'source_geometry_sha256': self.binding['geometry']['sha256'],
+            'physical_component': '39:land0',
+            'physical_part_components': ['39:land0'],
+        } for ident, pop in zip(ids, populations)]
+        self.edges = [{
+            'u': left, 'v': right, 'edge_type': 'geometric', 'shared_border_m': 1.,
+            'overlap_m2': 0, 'contact_sha256': 'b' * 64,
+        } for left, right in zip(ids, ids[1:])]
+        labels = ('D1', 'D1', 'D2', 'D2', 'D3', 'D4', 'D5')
+        self.rows = [{'id': ident, 'pop': pop, 'district_id': district}
+                     for ident, pop, district in zip(ids, populations, labels)]
+        self.policy.update(population_floor=1, population_cap=200000)
+        result = self.audit()
+        split = next(row for row in result['municipality_splits']
+                     if row['municipality_group'] == '39001')
+        self.assertEqual(split['population'], 80)
+        self.assertEqual(split['necessity'],
+                         'MINIMUM_DISTRICT_COUNT_REQUIRED_BY_TOPOLOGY_AND_POPULATION_BOUNDS')
+        self.policy['population_cap'] = 300000
+        with self.assertRaisesRegex(ValueError,
+                                    'PARTITION_M05_INVARIANTS:MUNICIPAL_SPLIT_NOT_MINIMAL'):
             self.audit()
 
     def test_empty_universe_rejected(self):
