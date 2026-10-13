@@ -1,7 +1,9 @@
-DDD auto 1.2.1 — 2026-10-13. Alcance: infraestructura local transversal candidata; cierre BLOCKED por permisos de Git compartido.
-Predecesor: legacy/1.2.0/AUTO.md; cambios: pin revisado de semilla F02 y rechazo de evidencia sintética; motivo: corrección de revisión independiente.
+DDD auto 1.2.2 — 2026-10-13. Alcance: infraestructura local transversal candidata; sin autoridad productiva.
+Predecesor: legacy/1.2.1/AUTO.md; cambios: proyección trazable de IDs canónicos del catálogo desde el registro maestro más amplio; motivo: permitir que el controlador acote su ámbito sin exigir que el Plan carezca de tareas independientes.
 
-Se amplía el ddd existente. No se introduce planificador ni catálogo alternativo: las 32 fichas del catálogo manual se contrastan con estado.json del Plan autoritativo antes de operar. IDs, dependencias, frente, ejecución y aceptación deben coincidir; ciclos, estados desconocidos y discrepancias bloquean. La revisión del Plan se fija por SHA-256 de sus bytes. Los PASS administrativos existentes se conservan y las incoherencias de ascendencia formal se muestran. TECH_PASS requiere validadores y revisión; no constituye cierre administrativo.
+Se amplía el ddd existente. No se introduce planificador ni catálogo alternativo: cada ID de las 32 fichas del catálogo manual debe aparecer exactamente una vez en estado.json del Plan autoritativo. El controlador proyecta esas coincidencias exactas y registra `task_id_mapping` (identidad ID-a-ID), `excluded_plan_task_ids`, los estados seleccionados y el SHA-256 del Plan completo. No renombra IDs ni altera el Plan. IDs canónicos ausentes o duplicados bloquean; para las tareas seleccionadas, dependencias, frente, ejecución, aceptación y estados se contrastan con el catálogo y el grafo se valida. Las tareas ajenas al catálogo quedan fuera del snapshot operativo; duplicados en cualquier parte siguen bloqueando. Los PASS administrativos se conservan y las incoherencias de ascendencia formal se muestran. TECH_PASS requiere validadores y revisión; no constituye cierre administrativo.
+
+Las campañas de 1.2.1 pueden reanudarse si el Plan completo conserva exactamente los mismos bytes y no contiene IDs externos a las fichas canónicas. Un Plan con entradas adicionales o cualquier cambio de contenido no supera esta compatibilidad histórica y requiere una campaña nueva.
 
 ```sh
 ddd auto --plan RUTA --front all --pilot --dry-run

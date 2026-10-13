@@ -1,12 +1,24 @@
 <!--
 Nombre: Registro de cambios DDD
-Versión: 1.0.2
+Versión: 1.0.3
 Fecha: 2026-10-13
-Alcance: registro acumulativo del incremento F10 de Fuentes Oficiales
+Alcance: registro acumulativo de F10 y control local de ejecución
 Estado: candidato
-Cambios/motivo: documentar correcciones interanuales y trazabilidad sin promoción
-Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.1_20261013.md
+Cambios/motivo: documentar proyección trazable de tareas canónicas del Plan Maestro sin modificar identidades ni promoción
+Anterior: legacy/docs/REGISTRO_DE_CAMBIOS_v1.0.2_20261013.md
 -->
+
+## 2026-10-13 — F10 — proyección de IDs del Plan Maestro en `ddd auto`
+
+El controlador ahora valida los IDs canónicos del catálogo por coincidencia exacta y
+proyecta únicamente esas tareas desde el registro maestro. Registra el mapa identidad-a-ID,
+los IDs ajenos excluidos y el hash del Plan completo. IDs canónicos ausentes, duplicados
+globales, discrepancias de contrato, estados seleccionados inválidos y ciclos continúan
+bloqueando. El Plan y sus identificadores no se modifican.
+
+La corrección permite operar `--status` y preparar tareas sobre el Plan vigente, que tiene
+29 registros adicionales fuera del catálogo del controlador. No concede presupuesto,
+autorización, integración ni producción.
 
 ## 2026-10-12 — F10 — receipts independientes sin promoción de producto
 

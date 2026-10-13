@@ -1,6 +1,6 @@
-"""DDD auto 1.2.1; 2026-10-13; local candidate, no production authority.
-Predecessor: legacy/1.2.0/ddd_auto.py. F02 evidence pin, gates, atomic checkpoints,
-technical dependencies, deterministic gates and separate read-only review.
+"""DDD auto 1.2.2; 2026-10-13; local candidate, no production authority.
+Predecessor: legacy/1.2.1/ddd_auto.py. Adds a traceable projection of canonical
+catalog IDs from the larger master registry; preserves fail-closed identity checks.
 """
 import contextlib
 import datetime
@@ -127,9 +127,20 @@ def plan_snapshot(app):
     raw = (app.PLAN_ROOT/'estado.json').read_bytes()
     plan = json.loads(raw)
     tasks = plan['tasks']
-    actual = {t['id']: t for t in tasks}
-    if len(actual) != len(tasks) or set(actual) != set(app.TASKS):
-        raise ValueError('Plan y catálogo: IDs incompletos o duplicados')
+    if not isinstance(tasks, list) or any(not isinstance(t, dict) for t in tasks):
+        raise ValueError('Plan y catálogo: registro de tareas inválido')
+    ids = [t.get('id') for t in tasks]
+    if any(not isinstance(tid, str) or not tid.strip() for tid in ids):
+        raise ValueError('Plan y catálogo: ID vacío o no textual')
+    if len(set(ids)) != len(ids):
+        raise ValueError('Plan y catálogo: ID duplicado en el registro maestro')
+    all_tasks = dict(zip(ids, tasks))
+    missing = sorted(set(app.TASKS) - set(all_tasks))
+    if missing:
+        raise ValueError('Plan y catálogo: faltan IDs canónicos: ' + ', '.join(missing))
+    # The master plan can contain independently governed tasks outside this
+    # controller's catalog. Project by exact identity; never alias or rewrite IDs.
+    actual = {tid: all_tasks[tid] for tid in app.TASKS}
     for tid, task in actual.items():
         if task['status'] not in {'PENDING','RUNNING','PASS','FAIL','BLOCKED','SKIPPED'}:
             raise ValueError('Estado formal desconocido: '+tid)
@@ -141,7 +152,20 @@ def plan_snapshot(app):
                        for tid,t in actual.items() if t['status']=='PASS' and any(actual[d]['status']!='PASS' for d in t['depends_on'])]
     return {'path': str(app.PLAN_ROOT), 'revision': plan.get('plan_revision'),
             'sha256': hashlib.sha256(raw).hexdigest(), 'inconsistencies': inconsistencies,
+            'task_id_mapping': {tid: tid for tid in sorted(app.TASKS)},
+            'excluded_plan_task_ids': sorted(set(all_tasks) - set(app.TASKS)),
             'states':{tid:t['status'] for tid,t in actual.items()}}
+
+
+def same_plan_snapshot(saved, current):
+    if saved == current:
+        return True
+    # 1.2.1 snapshots predate the explicit projection metadata. Accept that
+    # shape only when the current authoritative Plan contains no out-of-scope
+    # IDs; the unchanged full-plan SHA and selected states must still match.
+    projection_keys = {'task_id_mapping', 'excluded_plan_task_ids'}
+    legacy_current = {key: value for key, value in current.items() if key not in projection_keys}
+    return (current.get('excluded_plan_task_ids') == [] and saved == legacy_current)
 
 
 def authorization(task, spec, snapshot, repair=None):
@@ -695,7 +719,7 @@ def run_campaign(app, args):
             if (original['selected'] != selected or original['policy'] != policy or
                 original['catalog'] != app.CAT or original['parameters'] != app.CFG):
                 raise ValueError('Reanudar requiere el mismo lote, política, catálogo y parámetros')
-            if original['plan'] != app.AUTO_PLAN:
+            if not same_plan_snapshot(original['plan'], app.AUTO_PLAN):
                 raise ValueError('Reanudar requiere la misma revisión del Plan')
         else:
             stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8]

@@ -1,6 +1,6 @@
-"""DDD auto 1.2.1; 2026-10-13; directed offline simulation regression.
-Predecessor: legacy/1.2.0/test_ddd_auto.py.
-Changes/reason: F02 seed integrity and positive F03 validator coverage.
+"""DDD auto 1.2.2; 2026-10-13; directed offline simulation regression.
+Predecessor: legacy/1.2.1/test_ddd_auto.py.
+Changes/reason: verify scoped canonical-ID projection over the larger master registry.
 """
 import copy
 import fcntl
@@ -399,8 +399,54 @@ class AutoPilot(unittest.TestCase):
         p=subprocess.run(self.command('F03',extra=('--resume',folder.name)),env=self.env,capture_output=True,text=True)
         self.assertEqual(p.returncode,2);self.assertIn('misma revisión',p.stderr);self.assertEqual(self.calls(),[])
 
+    def test_resume_accepts_legacy_snapshot_for_identical_scoped_plan(self):
+        self.policy['authorized_local_tasks']=[];jsonwrite(self.data/'policy.json',self.policy)
+        p=self.run_auto('F03')
+        self.assertIn('Sin encargo local autorizado',p.stdout)
+        folder=self.campaign_path()
+        saved=json.loads((folder/'campaign.json').read_text())
+        saved['plan'].pop('task_id_mapping')
+        saved['plan'].pop('excluded_plan_task_ids')
+        jsonwrite(folder/'campaign.json',saved)
+        p=self.run_auto('F03',extra=('--resume',folder.name))
+        self.assertIn('Sin encargo local autorizado',p.stdout)
+        self.assertEqual(self.calls(),[])
+
+    def test_master_registry_projects_catalog_ids_without_rewriting_them(self):
+        plan=json.loads((self.plan/'estado.json').read_text())
+        unrelated={'id':'N08-EXTERNAL','status':'EXTERNAL_STATUS','front':'other',
+                   'depends_on':[],'acceptance':['outside controller scope'],'execution':'manual'}
+        plan['tasks'].append(unrelated)
+        jsonwrite(self.plan/'estado.json',plan)
+        self.originals[str(self.plan/'estado.json')]=auto.digest(self.plan/'estado.json')
+        p=self.run_auto('F03',extra=('--dry-run',))
+        self.assertEqual(p.returncode,0,p.stdout+p.stderr)
+        summary=next(json.loads(line) for line in p.stdout.splitlines() if line.startswith('{') and '"plan"' in line)
+        projected=summary['plan']
+        canonical=sorted(t['id'] for t in self.catalog['tasks'])
+        self.assertEqual(projected['task_id_mapping'],{task_id:task_id for task_id in canonical})
+        self.assertEqual(projected['excluded_plan_task_ids'],['N08-EXTERNAL'])
+        self.assertEqual(set(projected['states']),set(canonical))
+        self.assertEqual(len(self.calls()),0)
+
+        # Duplicate IDs in even an out-of-scope record remain a hard failure.
+        plan['tasks'].append(dict(unrelated))
+        jsonwrite(self.plan/'estado.json',plan)
+        p=subprocess.run(self.command('F03',extra=('--dry-run',)),env=self.env,capture_output=True,text=True)
+        self.assertEqual(p.returncode,2)
+        self.assertIn('ID duplicado',p.stderr)
+        self.assertEqual(self.calls(),[])
+
 
 class ControllerContracts(unittest.TestCase):
+    def test_legacy_plan_snapshot_is_not_accepted_with_out_of_scope_ids(self):
+        current={'path':'/plan','revision':'r1','sha256':'same-hash','inconsistencies':[],
+                 'states':{'F01':'PASS'},'task_id_mapping':{'F01':'F01'},
+                 'excluded_plan_task_ids':['N08-EXTERNAL']}
+        saved={key:value for key,value in current.items()
+               if key not in {'task_id_mapping','excluded_plan_task_ids'}}
+        self.assertFalse(auto.same_plan_snapshot(saved,current))
+
     def test_process_checkpoint_failure_stops_real_child(self):
         processes=[];original=subprocess.Popen
         def start(*args,**kwargs):
