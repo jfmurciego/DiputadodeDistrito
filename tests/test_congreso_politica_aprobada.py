@@ -119,6 +119,45 @@ class CongressOwnerPolicyApprovalTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
                 validate_congress_identity(bad)
 
+    def test_approved_policies_reject_semantic_drift_and_fake_provenance(self):
+        substitutions = {
+            "minimum_unit": "municipio",
+            "contiguity": "point_touching_or_buffered_edges",
+            "municipal_indivisibility": "absolute_municipal_integrity",
+            "islands": "automatic_maritime_bridges",
+            "enclaves": "synthetic_transprovincial_connections",
+            "physical_discontinuities": "auto_approve_all_multipart_sections",
+        }
+        for name, value in substitutions.items():
+            with self.subTest(name=name):
+                bad = copy.deepcopy(self.contract)
+                bad["decisions"][name]["value"] = value
+                if name == "minimum_unit":
+                    bad["minimum_unit"]["value"] = value
+                with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
+                    validate_congress_identity(bad)
+        for name in POLICIES:
+            with self.subTest(decision_id=name):
+                bad = copy.deepcopy(self.contract)
+                bad["decisions"][name]["decision_id"] = "UNRELATED-OWNER-DECISION"
+                with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
+                    validate_congress_identity(bad)
+
+    def test_population_tolerance_cannot_change_without_new_owner_decision(self):
+        for floor, cap, tol in ((.80, 1.20, .20), (.90, 1.10, .10)):
+            with self.subTest(tolerance=tol):
+                bad = copy.deepcopy(self.contract)
+                bad["decisions"]["population_limits"]["value"] = {
+                    "population_floor_ratio": floor,
+                    "population_cap_ratio": cap,
+                    "target_tolerance_ratio": tol,
+                }
+                with self.assertRaisesRegex(ValueError, "CONGRESS_CONTRACT_INVALID"):
+                    validate_congress_identity(bad)
+                self.assertTrue(production_blockers(bad))
+        self.assertEqual(validate_congress_identity(self.contract)["status"],
+                         "STRUCTURAL_SCOPE_ADMITTED")
+
     def test_published_n08_provenance_stays_historical(self):
         product = json.loads(SOURCE_MANIFEST.read_text())
         self.assertFalse(product["generation_authorized"])
