@@ -14,7 +14,7 @@ python herramientas/benchmark_m05_escalabilidad_sintetico.py \
 python -m unittest tests.test_m05_scalability_benchmark
 ```
 
-La primera ejecución observada fue Python 3.10.19, macOS 11.7.11 x86_64. Tiempo y contadores en caso de timeout dependen del equipo y carga; el fixture, sus nodos/aristas y parámetros son deterministas.
+La primera ejecución observada fue Python 3.10.19, macOS 11.7.11 x86_64. El límite temporal de M05 es **soft**: el proceso lo comprueba entre operaciones y puede sobrepasarlo. Tiempo y contadores en caso de timeout dependen del equipo y carga; el fixture, sus nodos/aristas y parámetros son deterministas.
 
 | Nodos | Aristas | Distritos | Tiempo (s) | Pico Python en repair (bytes) | Transiciones evaluadas | Terminación |
 |---:|---:|---:|---:|---:|---:|---|

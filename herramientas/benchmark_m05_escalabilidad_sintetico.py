@@ -97,7 +97,8 @@ def main():
         "notes": [
             "synthetic diagnostic only; no official data or districts generated",
             "tracemalloc peak is incremental allocations during repair(), excluding the prebuilt fixture",
-            "elapsed time is bounded by the declared per-call time budget but varies by machine",
+            "the declared per-call time budget is soft: elapsed time may overshoot between internal checks",
+            "elapsed time and explored work vary by machine and load",
         ],
         "results": rows,
     }, indent=2, sort_keys=True))
