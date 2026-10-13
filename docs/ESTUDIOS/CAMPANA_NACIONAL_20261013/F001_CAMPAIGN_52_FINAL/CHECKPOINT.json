@@ -1,0 +1,412 @@
+{
+  "checkpoint_sha256": "a7b3e5398f085a886ec007a7527e72fdea5588dcf2963bdfdd3cd7b0126d7712",
+  "coverage": {
+    "expected": 52,
+    "failed": 0,
+    "passed": 52
+  },
+  "generation_authorized": false,
+  "identity": {
+    "base": "6efea8131af86bfe3cc11c385152ea0906bd036b",
+    "campaign_tool_sha256": "4c398f5c4798ea8c5101e5c208bc79eb911f552dc6e4e2af77ee5b7512e19322",
+    "consumer_code_sha256": {
+      "ddd_core/config.py": "c8503114cbe5ff3ef72ef2ce4c603fdc4600376ad5466366e64ae0becc6d9a45",
+      "ddd_core/congreso_preflight_adapter.py": "23980f47c09816f86467a701a8551d25c829f810f1a340105c189ca360f1e488",
+      "ddd_core/m04_seed_engine.py": "a4835ef8197d4be65a9311a78c882870abd844e8938d4a32b9e3213792a4a627",
+      "ddd_core/m05_population_repair.py": "78b98682ef9eccc029b5ad73f681125edca33830e84d3c55bfb74ec899acfba8",
+      "herramientas/preflight_topologico_nacional.py": "91ca4e6cd7c76dfbbbec68edf2acdc27b2c1a5b8d7261344455d3c53209e6b28",
+      "modulos/01_preparar_base_territorial.py": "194e0946b1dd0036d67d96b4c2bbcc6abe339790a77a6aeaede0b680768e6a22",
+      "modulos/02_construir_adyacencias.py": "61325ac5cd98467c72fca3eeb24379dfae35f50b76c7981586b83056a63eb99c",
+      "modulos/03_construir_grafo.py": "798dedb8c3068d16dd43fb77f68821f275da1565403f0f25e1225aebdcaac036",
+      "modulos/06_consolidar_distritos.py": "16e61eeb6bc455756c91a1a26aa92cdc5ec8bf2a0a5974f51ee215b6fff21864"
+    },
+    "contract_sha256": "3dbdbe42f2a7c77dc95140fcf81fb81cb7e847f496c92de971813b3dc1417223",
+    "runner_report_version": "1.2.0",
+    "runner_sha256": "1873a261e1b3a85c2ad34b74db2ab0fb61902663173e91aa262cc648093d1455",
+    "source_binding": {
+      "geometry": {
+        "edition": 2025,
+        "sha256": "55c9da7e34d3bb3cb725400c35b58e72f4db2ea8321ef91237a89e708d2dbcc4"
+      },
+      "population": {
+        "edition": 2025,
+        "sha256": "91d3ff9a90bac1c06e26df97179daa325b65fa77c9209879d6a40333b17057f3"
+      }
+    },
+    "source_manifest_sha256": "f99e1690071b6383d90094b35fe024865d5bc75ef95983014452d1d25dbadc37",
+    "topology_manifest_identity_sha256": "59e4273f49a60d0d6f522389d0cb0c43738d68faed7053381d9bbde212d266f8",
+    "topology_manifest_sha256": "3d34d38396f8921a0916568d17919324a6409c37c49c514f3db54743150b176f",
+    "topology_unit_sha256": {
+      "01": "44faccf2d180b886e1b2188e795d0c2249b13ff2be5bfee09381c8f277080785",
+      "02": "644f399c0d36c86e7baf374f749f08a868b895bf32198f46f4291333abf8044e",
+      "03": "f38a7e21318335f792cc24064e5ec8f1617c6adc34d44794acb2455cf9899dd0",
+      "04": "e73cb90994ffadfa3ee25decfc94a3fb9022051540174a57a6621ce0d1a48cd0",
+      "05": "51878e880627d1765c99649197e727b56812aba47cc359abbfcf42f2327eb7d3",
+      "06": "10d08378aaf435230c22f36ad52000b53236e0b2bc80bead33b9bd24c43957c4",
+      "07": "93f57e05543df927cf808d438cd216f1fb572119e1da3e2e3b6123a191e2232c",
+      "08": "9c25390c56b809cb290d14a95fcb9ac6177458ac8128bcb67ae159488204f6f6",
+      "09": "b2cf207045f9f785c5e747276d7dbefa961fb6d347d4f6d8577f81b1a5a9a532",
+      "10": "13a3acdb2c604399ba45255a292fd800be58b54d2f751dacbbd267c68eff3ac5",
+      "11": "508025fc93321c392ca8db8424e8ad68c6ba6867d1b855fbe38b841bd2aedd94",
+      "12": "1513eeccfbf1a3f6045a89b8c5568abb6a34d8ebb552d2042552907d55061ca3",
+      "13": "5ccdd59ac5bd4f47aaa6ba7150cc03ea17f9201b29898cf97984b0010a1cd444",
+      "14": "aa0bfd8ca4349407ba42f5eaa2f86d6a89fcc3d330315cf52c56e20ea2dc2f22",
+      "15": "10d7e6faf9167fb7b51124d93a122ed093113dcc7f236600058be14d21e35c56",
+      "16": "5956b5e82051d56153002ae0345f883dca7d7f8342a7a1aabe903debe15d673e",
+      "17": "2596b69c6e6587a7afac8fcdf799ecf6308c3c605dfd680dcc28cb1b655c2d0f",
+      "18": "823da7f0a4ad8fb9d6c45d47300549a9aa1f6f2c52b6807da0d5810e6531b7ab",
+      "19": "64c784ad428f570b426a1a3151d775d0664a6463dcb822d1f89ffa52a25b5225",
+      "20": "4abaa7aa395e45640428d2de6a708384a8b8359e56ef0d914f2008c43d72ffc8",
+      "21": "e0b9e23d9e85393cafb306249c9bebb9398c3b4f6e7d55f4c86c18e228ca7dc9",
+      "22": "eadcbb2ff1a7e9db94bf8658b204881f4625c4d28933b00e552082594ff98aa8",
+      "23": "3841b5e96291e8f769d30d210d8a4b6d17a183b2f695bf8685abdf33729132d0",
+      "24": "a2b5845b49ebac4e24aca8f923983cd9ee717f9cb7b7ee345fdbec70e932d06b",
+      "25": "c1141a4dd8b95953662709ac3ac6bc38d82631ff02ac11dd3e65928f401bc7e1",
+      "26": "55751b64bd875bb67d8a70ce8a8c356bdaa4956ea5ddf5d4211ba0bb1f160ed7",
+      "27": "a6caa593f0188db7c55e87973d8c4d6e8cdf145782fa9cf3dbea8a8825953a16",
+      "28": "025cec058f2803f3be5e69fcd4d5a4420a2907292222ba8938b69d657a37bd0f",
+      "29": "394c137070e96569c7ae38d400dfc43b92ce01d21dbf8080ca305316a29b2a40",
+      "30": "75734db6618056f99406bae2e5ff6a0a519c814c946cc5cc2be7b94f22bdfbb3",
+      "31": "b46aa7ce15b45c3971eda4e4c74e065192b96b8a268457c008162fc426e717f6",
+      "32": "7a595148c7bf6109ee62cff08d1ed4b2ff8252d90893c8737ea6c2ab42456f5a",
+      "33": "61dae685772830aade16a9c3f2691c842bf72797d671b83b1d4a43fe9aed0dfe",
+      "34": "3d3f4f480455644f118227fd7731fb30c2a2bacd7b7978b961bc979fb165b6ad",
+      "35": "54047358f868edfabf1681d61fc54a3e6aff1acbe4dd6ae99a3b4ce93d92fa4d",
+      "36": "1a1693f81904df8fa738d6eb715432ba5980a0357089da33a414da04627f743b",
+      "37": "ddca7c90e6af19a226862d7f3fd137630fa0dc75fb9a075f6de93aa199739175",
+      "38": "48426f77944dc46a753f3344831c1d3b778e0659b30d8a23101b0b1a9f322cbe",
+      "39": "7e46e8ef52e8a0a734ccb2dedf92311a4a29588510fd164b99046764146b68d3",
+      "40": "f27d7e9f0d7062509ea580541f27ea39ea957d4dc303f849b02576c8bfa32ea8",
+      "41": "e50e286aac03f2be0fd3ec7ccaa7261b324b1f7721d3b9719f2fb1cd5ce6843b",
+      "42": "212dfd2f7b0c0b552c923f4b925f8a10aafe78e211c0477b125a6f531e165fca",
+      "43": "459bc2bb8c050534d67c368ce69519c3827ad6af0ac8a623028ef5b275ad6972",
+      "44": "d002c0a4048a5c2d28ca2523d7e24c93f709446f9bfdf933990a70c2e895342c",
+      "45": "d923fdb38134617e06e488092b4bc342c5ce98397b54546df2abaceb53accb23",
+      "46": "5523dbad5736f5326d7b8ffcbebe39314b6f09dd2f0a7215c9835f2cb9974233",
+      "47": "8f1149f2507f7c757f76321c64c90ccafb90e120f3a474a9299a110d3cd6e62f",
+      "48": "91deac2db5c77a26babc4638ba1bdaa4131bc2337771fe5b4762b0bd0234a6f4",
+      "49": "fe91175c1b8c48f02e7f50538bbf32cabac3071206adca707242ab5edc791693",
+      "50": "9e88a9a1ce405898066f29bc054c5b93fbd5b5d6fc149d4e92183a019f6faa66",
+      "51": "16fb951cf5bb3553e2ce38bfda95212006cd4e4daabfcd46e983beb880495120",
+      "52": "00940668086499d50c1ddc716cf9571bdb5dcb1dc0630e65f352bf6ce9e72178"
+    },
+    "transition_sha256": "43ad0c85e89940977741749a2231c24c7320d4e4771f391a5a47eff1fc2b6048"
+  },
+  "records": {
+    "01": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "6671dea86d4a422717a49745062bf09b8f71b29fea8ac202e6ad7672ddda6163",
+      "report_sha256": "718bfdefbc599915d380b3c2de4c73f22f77d44d4ec8e717c97bda8602d1daa7",
+      "status": "PASS"
+    },
+    "02": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "0e3dfb4a4fa2292c5b48eebdc6b23eb61c3e6bcbbaff71919f1a784e2f15b452",
+      "report_sha256": "9ac71b0bb11397081154669a462204b0aeaa7cbb8540417cf1e8a6a2ad05988d",
+      "status": "PASS"
+    },
+    "03": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "986aeb04ddcfc74565a0e9583bf524726d3c3b580b8c190abd4ed5612d0308d9",
+      "report_sha256": "52acca9f1182332fad2119a61adae9bdc27bd816f9403de4cb2854700d9831ac",
+      "status": "PASS"
+    },
+    "04": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "0953975853ddb31e7e3f1001caa7e5bc5bf4f46c33c0344a49fec7ada30a5744",
+      "report_sha256": "1b3cc47df4e70fdca75d47efe2378bbb4eca4dfe6f3e1f0937d0299aeba9aa08",
+      "status": "PASS"
+    },
+    "05": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "62402a5e1ef00f0cc1ef00abc5c9368858052b3f6169b00ee15d0861a0e6573f",
+      "report_sha256": "c8c1c54af29692ce927f5f71dc4224934f7142b6c57f46ac0bc844a06b052d9d",
+      "status": "PASS"
+    },
+    "06": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "6fdabf31ca22c36b4c0ce6ea63cc16371a1dc05890c0741c658f263bd8bfd13f",
+      "report_sha256": "45546ced0be3ce3f14dd74abda095245fe12ce5adcadfae22525a8d5a8a49cb2",
+      "status": "PASS"
+    },
+    "07": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "188626428dca94af15970a9b4c3d13cecf48e7b26e4362838ffe32a0ebfe6438",
+      "report_sha256": "1a8d8773119c7001941f44385aa9ebe8133412c09e78ec3259dc5f4189d42106",
+      "status": "PASS"
+    },
+    "08": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "5a7b2e7be8feee2c759069ca383581655cc714c39a95b61433c435540e52b28c",
+      "report_sha256": "d8d0627b28ac0e7b15c3fb342aaf8681eb92b366882ae12d39b95d7e3b0d7c00",
+      "status": "PASS"
+    },
+    "09": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "e3244989ea1531b9a056af784f378f6b88589c2594056928ff9431d366e2cd4d",
+      "report_sha256": "a98ba52e0cc5a7e1ec7de127ff7faa0cb527ef82a63b322079b50a0bd6aef677",
+      "status": "PASS"
+    },
+    "10": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "ac2fc92a03a7f8675fa398ae6420398ea472f2ed55c4a54be631a353eaf5a43a",
+      "report_sha256": "2e529992d265fe3f19bd887f6ec81e8146a64ae5f4f972480023af111d4104bd",
+      "status": "PASS"
+    },
+    "11": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "b19c0d8717f72c09df7258b0c455aa2dd650b8f22c88f91e5bef69697d0b54ed",
+      "report_sha256": "3e292123eac542b598776518012ddcd9c9bf480d40a20d23bec3c5757a498ac5",
+      "status": "PASS"
+    },
+    "12": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "f3ea0d2f22ac740f0e7c06df89302e507b435a77cad8d781af180e955dc71648",
+      "report_sha256": "36cc90c999f53deeef198d23af3a5896c3124f93528115a0d463dd2cd493c5b4",
+      "status": "PASS"
+    },
+    "13": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "418949bddab2931d80aabb6de0e460d1600696468e61462b735d7c5bdd1223bc",
+      "report_sha256": "ca6e8f638df59c48f10d1d0d313d98a072e903d0483aea8b6872c66a49636449",
+      "status": "PASS"
+    },
+    "14": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "5fcb235b32955e4414581b354092644f9901a1150974d6470fd3612db1170b4b",
+      "report_sha256": "0df053097553f11a91cd0054940c50a9063e830dc936450398b0563f47feba4c",
+      "status": "PASS"
+    },
+    "15": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "fa32852271245a498a82543894cd9b2c6b0e7ea66664146a0e135c1af18dd84c",
+      "report_sha256": "c09aab2c43bd385a075bfeb81393ed7cf50de006680131d27c872a748cbcc0ae",
+      "status": "PASS"
+    },
+    "16": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "2012f3f954b7d2f0a32e45eed47cd63c93d3dd9d5820ece870fce64e5bed814d",
+      "report_sha256": "797a40b0a3b2b9282f5290e3781710bcd685594ed271ed41d96ff84914ac3a3f",
+      "status": "PASS"
+    },
+    "17": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "1e59a32d99a307c10baba58d24770eba46d7953049e0dfb71bcf8e2950bce367",
+      "report_sha256": "0fca00f4ceaac7b0e117b96910fe1da06a37cd45f8c5b654e6568acb5ffcafcb",
+      "status": "PASS"
+    },
+    "18": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "e9cdb3a622e440bd3ad487a6f17dd7b2e91ff2c49620b5d06be3cd262993df4e",
+      "report_sha256": "6f09169e618bf7b8a1c63c0b7fd58f937684c69ab8c6f839cf462f773186b265",
+      "status": "PASS"
+    },
+    "19": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "59116031ec4e30aaf4b0b5ae2be28d9848338d2f70aa495d3ef6cc42517c72c7",
+      "report_sha256": "15b2a45513f5166c5153d0cb27220b04fbd2f7277b31dc18832d484323a936c5",
+      "status": "PASS"
+    },
+    "20": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "909509cc897f3da83e57bf86bc60b0e52bf147e7c15bd477a364e5f6bdf92de0",
+      "report_sha256": "e72c9211038f31c481663a26d3627a67cd13e73bcf901b4c212f84c71384d158",
+      "status": "PASS"
+    },
+    "21": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "72270a89225a4af10496bb833dd66b8d3c74e08af2b377a3f4a4d1745883a051",
+      "report_sha256": "9f2de42fd190bc0039f97fad53226831c0fd7a6edca7beb57c29d51f88c9906f",
+      "status": "PASS"
+    },
+    "22": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "07315f9b6a4f995f5cb5fb910bba81b49c9c2fab21bf893832dbe9430ce596c1",
+      "report_sha256": "4596ff55f5f2007c36c5257d28b8a179b6dfe1582546f689f3eb1e2c243baddb",
+      "status": "PASS"
+    },
+    "23": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "524d80a987d8138ba38b556434be6007658cdfd77994d0e7c9fdeb5406d8b94e",
+      "report_sha256": "d4720dce990a32628ffdd53432a21091afe6e44eecf9872e585dbcce8c269f7a",
+      "status": "PASS"
+    },
+    "24": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "6fc62a1b2d8003b77ef89f02629d01ea7c3b012beea4caec3698d149cebea396",
+      "report_sha256": "fdb8bd24321b99e0685a085324551c13045b082f9ee12f6ecadfeee12d93f4b1",
+      "status": "PASS"
+    },
+    "25": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "0b54235e38a815853b67c99eaf6887b2c39c9ac41228541f70ecc7f556c3fc3e",
+      "report_sha256": "e537cec7772ec698892711b7983d6016bb56ffed302c49caa9bdf4d7e7683bd1",
+      "status": "PASS"
+    },
+    "26": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "7060bcd6ae70338c2ecfdf23a6c322f5da6f5d7374837b03f01c2c77ddc235b1",
+      "report_sha256": "76520af86d2fc48a3792249fe49715d420fe6beb7481070e3526d907a494e377",
+      "status": "PASS"
+    },
+    "27": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "1342094996c565b8a2a8c01887ac680e0b912f93b760c171970aeba8ca4609be",
+      "report_sha256": "589d3716fa12266a525e23cbea959b7bb719843f5ff710dc39fa909ec27b11ca",
+      "status": "PASS"
+    },
+    "28": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "7d7ce2d1692c09313fd949fe808d27a96aa9345eaa637707c5560b6416f13772",
+      "report_sha256": "4c2ba919bfbf6eee6672ef0678d2900d8e82cd4537327d10ca57a1ae7deae960",
+      "status": "PASS"
+    },
+    "29": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "a550d704ff7191b55c9f2a6ac8009a71793ab67d852f252008383abebdc94139",
+      "report_sha256": "bd5545d4543e9290ae8c645efd3489f7fa9e4df5c0a09b9b7aae0892c59a93a9",
+      "status": "PASS"
+    },
+    "30": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "1675975eb9e9b396779e3d06adba750f840156bb13143c45d5e6f4e004c2a39d",
+      "report_sha256": "cd8346d344927509bfb8adbefa4475eaa3b3e6112442dd79b3b1e02cf2b6864f",
+      "status": "PASS"
+    },
+    "31": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "d520a95855ff5d95004763bbb52456727cf1dc30f32c15e80952ee030afaf74e",
+      "report_sha256": "1ced4b9242f3f2878363177c240a59b345816077051dd681abace56253ba6635",
+      "status": "PASS"
+    },
+    "32": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "c475d8b73690739e1c665b2e3ba5e6fd30d0efa5c4810eb4e9ba8ac5f9917f92",
+      "report_sha256": "14ace6c47eb051f9f734a0eae9348dafc0d80e121648accfdfd866a16b4c8d7f",
+      "status": "PASS"
+    },
+    "33": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "d301770f6d09a2d274746393d5b2d23d939137284aab50abb73ffd0d305418d2",
+      "report_sha256": "4b9ee2f48677b68dd6edcfdcc004ed292cc966d19b3ef0abfbf0b751c0e5762a",
+      "status": "PASS"
+    },
+    "34": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "88713619be332e3e3bc4e23c5c4e19ccb85f825c08b218cfa938f6c686b28e06",
+      "report_sha256": "9a89236c2f171c2cb0af6ea6e562304c193e9d56751595e2b10c13c7d03c8a1c",
+      "status": "PASS"
+    },
+    "35": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "fdbc88b3755a7069fcfb260d5ce7b1acd18dc97e88b420b660e171223b284018",
+      "report_sha256": "b7ce8feb4970def57af97a2932434516c32f2bc17ef024c3e310fc1deaaa0324",
+      "status": "PASS"
+    },
+    "36": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "8b0ad45a3734e88f71c02a3e87193e2859d715d65130013f8112e32d84dc5da7",
+      "report_sha256": "0d871888a4a045b72bf4b7bab41e611676a004a7740708495f2cc1ba4b143835",
+      "status": "PASS"
+    },
+    "37": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "f5a476da972575b10591d09ae6398f6001d9a85977866eff6be6d84d8f4ff9a4",
+      "report_sha256": "480d4562cfb664391b7afe571991cc65a8596e7ec0c0aceced13e47a97ce3ee5",
+      "status": "PASS"
+    },
+    "38": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "4d2205cb07be063c0bbb1a6c9a21d307d3a06d5a3237426e0db41ac66c385f35",
+      "report_sha256": "8d7c17bea3c4148fb46dc54ef420853b6a781b6b70042992e192f89ae1756189",
+      "status": "PASS"
+    },
+    "39": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "27d14a7a328441f9de2635adbbce80cb6ad1e5bc9caf446254d12885471386a1",
+      "report_sha256": "ec384f2f82429c556e1d8c2c6397b2811df433b696b43126dfa10972b9a9c8e0",
+      "status": "PASS"
+    },
+    "40": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "531d1a0269c0976ad0cb40a64a1f3e20338547d06224f5c74853a41db32116c0",
+      "report_sha256": "f1cbdab48843a145fc024aa17e07c5ab292f8c049b80e192750e6ebfdf86c3e9",
+      "status": "PASS"
+    },
+    "41": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "d614127186f6bd824177e8519984608d0aeabe902bdd55eeb9af123a9ff2d268",
+      "report_sha256": "430a59c5526de7db58911c13ef2732d1c4d3f644f7000c3e8e187281f5929cbb",
+      "status": "PASS"
+    },
+    "42": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "546cbcd7e259f7fc71089fa0d2ebbb551decd3d97ada75247916fce298bfccd0",
+      "report_sha256": "4d301cbf10d2a8e2d8f862bf42efc8b20e942be4e94af6d36c292f34c85e58c3",
+      "status": "PASS"
+    },
+    "43": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "3c4171588c26c29487960e4b89fa56d1241442f67942312827c63c872a312356",
+      "report_sha256": "5e70ce1b5e114a82f800e12fd2cb0739bb01d0afd368492db62eb8cdd9f0ed56",
+      "status": "PASS"
+    },
+    "44": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "3266446e430c6fda3ab43fc4b3b6b2ed3a3f3c35b8256e91a75a6fbea1fb13b0",
+      "report_sha256": "c5e6894969ee813d4b0b9edbe4454de4193dc5b17db122de3bb43494d30ca875",
+      "status": "PASS"
+    },
+    "45": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "1ced9bda421ddd093575c518a0811612694e5108ddb0fba342de1d71d642b346",
+      "report_sha256": "10fa171b28c817e904227faee7087a9f6b33f6497c42ad6debed5acedbdedb6c",
+      "status": "PASS"
+    },
+    "46": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "d19655a26add1ba79f50e468080817e9f5fddb16dd464029b206569cc7545d83",
+      "report_sha256": "ae860be3e9bf36ee1aa3e62a1366856a2833e0f413761d8a6c47bab799972f8d",
+      "status": "PASS"
+    },
+    "47": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "a3441ef6e7a3c66d30ce7f2e203ddbc5e9b87590b6223c5c1cbd30bb686ed633",
+      "report_sha256": "279998bc3c8a650c7c95c33fb34782040531ea8525b071b2443c675d8572e3a3",
+      "status": "PASS"
+    },
+    "48": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "2f2b2d047049d793badfd315d19c40750aee4784a01332cd001420a50f5839c5",
+      "report_sha256": "f8b44a5ea4e306c74c917b4401dd6721cde9dc068f62e63c0530f164815af55a",
+      "status": "PASS"
+    },
+    "49": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "57781a9a3093ca57c86e3814452fd87f7a4b9b9b06b041d3b900b7d2f7c0bed3",
+      "report_sha256": "45ad5b5c23a36ae030a0d83e9c2b0322aae36861882fcb13b0fc8be7aacdac0b",
+      "status": "PASS"
+    },
+    "50": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "5de0735d52e535da902f594907098542248af39e635cff53df26afdd487bc1f9",
+      "report_sha256": "6087853a6520b3b8af64c1c6e08b43f0de561485e2f331df01b300c9daece46d",
+      "status": "PASS"
+    },
+    "51": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "d30ed651f12634c1d87457130524ebdef8552580a274bd51264bb93ab862e594",
+      "report_sha256": "8bf18c5c8b5949733679e1b4cbce8006a11db048d34ecf4bfa99100deff2f8ad",
+      "status": "PASS"
+    },
+    "52": {
+      "preflight_status": "BLOCKED_CONTRACT_OR_OWNER_DECISIONS",
+      "province_checkpoint_sha256": "37148fa98f41cd9b6d60595824a369568115c9c4255c02f1565fa524d4ecaaf3",
+      "report_sha256": "a82d954955352ad716e5433d19d5f96f5ea69a760a9a32d0f1b4b3cfbc4ae38d",
+      "status": "PASS"
+    }
+  },
+  "schema": "ddd.congreso-preflight-campaign/1.0",
+  "updated_province": "52",
+  "version": "1.0.0"
+}

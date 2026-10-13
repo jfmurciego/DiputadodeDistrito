@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "head": "candidate commit pending",
+      "merge_authorized": false,
+      "next_action": "Publish candidate branch and open draft PR against main; await CI on exact remote SHA and final campaign review.",
+      "status": "READY_TO_PUBLISH",
+      "task_id": "NAT-J-003"
+    }
+  ],
+  "policy": "serial integration; branch/PR only with explicit campaign authorization; never merge automatically",
+  "schema": "ddd.national-integration-queue/1.0"
+}

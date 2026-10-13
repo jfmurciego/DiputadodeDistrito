@@ -1,0 +1,69 @@
+{
+  "incidents": [
+    {
+      "evidence": "Inspección del código: abrir con mode w en verificar_evidencia.py:98,121,127.",
+      "finding": "El script verificador versionado anuncia read_only pero escribe MATRIZ_FACTIBILIDAD_52.csv, VERIFICACION.json y MANIFEST.json al OUT histórico.",
+      "handling": "No ejecutar sobre artefactos canónicos; implementación de verificación bajo OUT temporal.",
+      "id": "INC-NAT-001",
+      "severity": "MEDIUM",
+      "status": "OPEN",
+      "task": "NAT-B-002"
+    },
+    {
+      "evidence": "Excepción ValueError I/O closed y test_national_campaign_registry.py fallido; solo afectó a archivo derivado recién creado, no a evidencias N06/N08.",
+      "finding": "El generador inicial de la matriz de cierre cerró el CSV antes de escribir la fila TOTAL; produjo una matriz truncada del expediente nuevo y el test detectó 10/11 filas.",
+      "id": "INC-NAT-002",
+      "resolution": "Regeneración determinista con writer dentro del contexto; suite registro/verificador posterior 4 passed.",
+      "severity": "LOW",
+      "status": "RESOLVED",
+      "task": "NAT-J-001"
+    },
+    {
+      "evidence": "test_national_campaign_registry.py falló por Extra items: NAT-F-003 en TASK_REGISTRY sin nodo DAG.",
+      "finding": "Tras separar generación real de pruebas sintéticas se añadió NAT-F-003, pero la proyección inicial del grafo no se regeneró; test detectó nodo ausente.",
+      "id": "INC-NAT-003",
+      "resolution": "Recrear nodos y aristas desde TASK_REGISTRY; validar suite focal.",
+      "severity": "LOW",
+      "status": "RESOLVED",
+      "task": "NAT-J-001"
+    },
+    {
+      "evidence": "Ejecución inicial devolvió TOPOLOGY_CONTRACT_HASH; TRANSICION.json declara artefacto histórico candidato diagnóstico y MANIFEST_ENTREGA vincula el manifiesto.",
+      "finding": "El preflight provincial rechazaba el producto topológico histórico porque estaba vinculado a contrato anterior, aunque fuentes y grafo 2025 eran reutilizables para diagnóstico.",
+      "id": "INC-NAT-004",
+      "resolution": "Se añadió --transition-path opcional, hash-bound y explícitamente CANDIDATE_DIAGNOSTIC_ONLY; test específico verifica manifest y autorización false. El modo por defecto sigue rechazando el hash antiguo.",
+      "severity": "MEDIUM",
+      "status": "RESOLVED",
+      "task": "NAT-H-001"
+    },
+    {
+      "evidence": "Traceback exacto: ModuleNotFoundError: No module named geopandas en herramientas/preflight_topologico_nacional.py:22; no se escribió reporte de preflight ni se generó partición.",
+      "finding": "El primer preflight real CPRO=01 con transición validada se detuvo al importar geopandas.",
+      "handling": "No se reintentó sin cambiar entorno. Busca entorno existente del proyecto con dependencias; si no existe, mantener BLOCKED_ENVIRONMENT y ejecutar tests no geoespaciales.",
+      "id": "INC-NAT-005",
+      "resolution": "Used existing project geospatial environment /usr/local/Caskroom/miniforge/base/envs/ddd; current 52/52 batch finished, all reports linked to current tool SHA; no repeated failure.",
+      "severity": "MEDIUM",
+      "status": "RESOLVED",
+      "task": "NAT-H-001"
+    },
+    {
+      "evidence": "Review of commit 69f613caf7db4dccbf768ef2cb20c92f24857848; synthetic reports concealed mismatch.",
+      "finding": "Independent review found wrapper expected report version 1.2.0 while pinned provincial runner emits 1.0.0; real reports fail identity gate.",
+      "handling": "Implementer fixing expected version binding and adding actual-runner regression in isolated branch; no integration until retest/review.",
+      "id": "INC-NAT-006",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "task": "NAT-F-001"
+    },
+    {
+      "evidence": "Minimal 4-node CUSEC path with current state {u0}->A, {u1,u2,u3}->B and target=2,tolerance=0,floor=1,cap=3. Pre-fix `repair()` raised on final municipality check; candidate global assignment {u0,u1,u2}->A,{u3}->B is valid and split-free.",
+      "finding": "M05 could select a primary result with a municipal split that final verification rejected, causing RuntimeError on a valid diagnostic search.",
+      "id": "INC-NAT-007",
+      "resolution": "Final verifier gates primary and focal candidate adoption; search ranking considers strict reduction of leading necessary municipal fragmentation. Regression verifies counterexample and repair returns split-free valid alternative; 41 directed M05/autonomy tests passed.",
+      "severity": "HIGH",
+      "status": "RESOLVED",
+      "task": "NAT-G-002"
+    }
+  ],
+  "schema": "ddd.national-incidents/1.0"
+}

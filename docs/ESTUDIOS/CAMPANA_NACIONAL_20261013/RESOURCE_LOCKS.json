@@ -1,0 +1,78 @@
+{
+  "locks": [
+    {
+      "owner": "root",
+      "resource": "herramientas/verificar_evidencia_n08_readonly.py;tests/test_verificar_evidencia_n08_readonly.py",
+      "status": "REVIEW_PASS",
+      "task": "NAT-B-002"
+    },
+    {
+      "owner": "audit_engine_fi",
+      "resource": "ddd_core/congreso_candidate_certifier.py;tests/test_congreso_candidate_certifier.py",
+      "status": "REVIEW_PASS",
+      "task": "NAT-I-001"
+    },
+    {
+      "owner": "root",
+      "resource": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/*",
+      "status": "RUNNING",
+      "task": "NAT-J-001"
+    },
+    {
+      "owner": "controller",
+      "resource": "schemas/congreso_candidate_product.schema.json;ddd_core/congreso_product_manifest.py;ddd_core/congreso_candidate_certifier.py",
+      "status": "REVIEW_PASS",
+      "task": "NAT-I-002"
+    },
+    {
+      "owner": "controller",
+      "resource": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/PREFLIGHT_CPRO39/*",
+      "status": "REVIEW_PASS",
+      "task": "NAT-H-002"
+    },
+    {
+      "owner": "audit_feasibility_e",
+      "resource": "ddd_core/congreso_exact_feasibility.py;tests/test_congreso_exact_feasibility.py;docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/NAT_E_002_EXACT_SOLVER.md",
+      "status": "REVIEW_PASS",
+      "task": "NAT-E-002"
+    },
+    {
+      "owner": "controller",
+      "resource": "herramientas/preflight_caceres_n08.py;docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/PREFLIGHT_NATIONAL_BATCH.json;PREFLIGHT_CPRO*/",
+      "status": "REVIEW_PASS",
+      "task": "NAT-H-001"
+    },
+    {
+      "owner": "controller",
+      "resource": "docs/ESTUDIOS/CAMPANA_NACIONAL_20261013/D04_COMPONENTES_MAYORES_QUE_K.*",
+      "status": "REVIEW_PASS",
+      "task": "NAT-D-004"
+    },
+    {
+      "owner": "audit_feasibility_e",
+      "resource": "ddd_core/congreso_constructive_witness.py;tests/test_congreso_constructive_witness.py",
+      "status": "REVIEW_PASS",
+      "task": "NAT-E-003"
+    },
+    {
+      "owner": "audit_engine_fi",
+      "resource": "Herramienta campaign adapter: separate worktree; no shared root writes",
+      "status": "REVIEW_PASS",
+      "task": "NAT-F-001"
+    },
+    {
+      "owner": "controller",
+      "resource": "ddd_core/m05_population_repair.py;tests/test_m05_population_repair.py;NAT_G_002_GLOBAL_SPLIT_COUNTEREXAMPLE.md",
+      "status": "REVIEW_PASS",
+      "task": "NAT-G-002"
+    },
+    {
+      "owner": "controller",
+      "resource": "ddd_core/national_campaign_planner.py;tests/test_national_campaign_planner.py",
+      "status": "RUNNING",
+      "task": "NAT-J-004"
+    }
+  ],
+  "note": "No se comparten archivos modificables entre tareas; integración serial.",
+  "schema": "ddd.national-resource-locks/1.0"
+}

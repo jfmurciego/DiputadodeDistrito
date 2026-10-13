@@ -1,0 +1,122 @@
+{
+  "decisions": [
+    {
+      "blockers": 0,
+      "head": "3fac988661bf934ef3c8bf7efef9217f27af7111",
+      "integrated_main": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "session-separated independent agent",
+      "scope": "PR #265 M05 topology-required municipal split",
+      "scope_limit": "minimality holds remaining CUSECs fixed; not global minimality",
+      "verdict": "GO_ACOTADO"
+    },
+    {
+      "evidence": "6,370 rows, 498/5,750/115/7 counts; exact CUSEC part IDs and per-part NOT_EVIDENCED; 4 tests; CSV SHA-256 5f8d86f8da0c9a2584e6c5d7198235155ee66f826f19df070b049b33417e0af6.",
+      "head": "WORKTREE@21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_feasibility_e, independent read-only",
+      "scope": "NAT-D-005 nominal anomaly register + extractor",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "Trusted source/topology checks exact nodes and edges, blocks current topology gate and conditional municipal minimality; generation false.",
+      "head": "WORKTREE@21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_topology_c, independent read-only",
+      "scope": "NAT-I-001 Congress candidate certifier",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "Exact tool/report/checkpoint hashes reviewed; 240 sections, 341961 population, K=3, 628 edges; M01-M03 PASS, M04 necessary only, M05/M06 synthetic; no generation.",
+      "head": "WORKTREE@21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_topology_c, independent read-only",
+      "scope": "NAT-H-001 CPRO=01 real diagnostic after environment recovery",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "Schema/helper agree on exact 9 fields; source_binding closed to geometry/population 2025 and exact contract hashes; 16 focused tests and py_compile pass; generation disabled.",
+      "head": "WORKTREE@21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_engine_fi, independent read-only for this increment",
+      "scope": "NAT-I-002 candidate product manifest schema and strict validator",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "CPRO39 458 sections, P593623, K5, 1208 edges; M01-M03 PASS, M04 necessary only, M05/M06 synthetic; no product or generation.",
+      "head": "WORKTREE@21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_topology_c, independent read-only",
+      "scope": "NAT-H-002 CPRO39 diagnostic and exact population bounds fix",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "evidence": "Six direct tests including singleton group-budget regression; exact exhaustive statuses validated; synthetic only.",
+      "head": "codex/national/e002-bounded-exact-feasibility @ 21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+      "reviewer": "audit_topology_c, independent read-only",
+      "scope": "NAT-E-002 bounded exact connected partition solver on small fixtures",
+      "verdict": "REVIEW_PASS"
+    }
+  ],
+  "items": [
+    {
+      "head": "0b7d148382f13ba21ea0a9585d27f5ecca3bf91e",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_topology_c",
+      "scope": "6 pruebas focales; solver exacto solo fixtures.",
+      "task_id": "NAT-E-002",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "18586bc3e0a20e910cd36fd707cdd36f383b5ff9",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_topology_c",
+      "scope": "8 pruebas; reproducción exacta de expediente histórico y CLI batch 52.",
+      "task_id": "NAT-E-003",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "6efea8131af86bfe3cc11c385152ea0906bd036b",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_engine_fi",
+      "scope": "Runner/report/checkpoint versionados, módulo y CLI; no bypass productivo.",
+      "task_id": "NAT-F-001",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "9418d09ee2bd640e62029e88aeef1741804a3b0b",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "f002_review",
+      "scope": "24 pruebas; factory real 52/52; ingesta de producto no sintético no ejecutada porque generación prohibida.",
+      "task_id": "NAT-F-002",
+      "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+    },
+    {
+      "head": "ae131b37",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_topology_c",
+      "scope": "Prueba cuatro nodos global; selección final valida y regresión autonómica.",
+      "task_id": "NAT-G-002",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "b6e80f2ae6b2b16a2d64851519e8f9bb2e0252d1",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_engine_fi",
+      "scope": "Bench sintético, presupuesto temporal soft; no declara escalabilidad nacional.",
+      "task_id": "NAT-G-003",
+      "verdict": "REVIEW_PASS_WITH_SCOPE_LIMITS"
+    },
+    {
+      "head": "da81adad",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_topology_c",
+      "scope": "Certificador candidato fail-closed; sin partición real.",
+      "task_id": "NAT-I-001",
+      "verdict": "REVIEW_PASS"
+    },
+    {
+      "head": "da81adad",
+      "integrated_in": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+      "reviewer": "audit_engine_fi",
+      "scope": "Schema/manifiesto candidato validado; producción cerrada.",
+      "task_id": "NAT-I-002",
+      "verdict": "REVIEW_PASS"
+    }
+  ],
+  "schema": "ddd.national-review-decisions/1.0"
+}

@@ -1,0 +1,35 @@
+{
+  "authority": "Work",
+  "baseline_main": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "blockers": "BLOCKER_REGISTRY.json",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "checkpoint": "CHECKPOINT.json",
+  "completion_matrix": "MATRIZ_CIERRE_AJ.csv",
+  "dependency_graph": "DEPENDENCIES.json",
+  "event_log": "EVENT_LOG.jsonl",
+  "integration_branch": "codex/national-campaign-controller",
+  "integration_head_before_final_commit": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+  "integration_queue": "INTEGRATION_QUEUE.json",
+  "owner_decisions_preserved": [
+    "N08-OWNER-20261013-7RULES",
+    "K=407",
+    "generation_authorized=false"
+  ],
+  "permissions": {
+    "branch_and_draft_pr": true,
+    "change_institutional_rules": false,
+    "local_code": true,
+    "local_read": true,
+    "local_tests": true,
+    "merge": false,
+    "production_generation": false,
+    "source_download": false
+  },
+  "repository": "jfmurciego/DiputadodeDistrito",
+  "resource_locks": "RESOURCE_LOCKS.json",
+  "review_queue": "REVIEW_QUEUE.json",
+  "schema": "ddd.national-campaign-manifest/1.0",
+  "scope": "Lines A-J national Congress; no A-FONTES/19 autonomous production behavior",
+  "state": "NATIONAL_INCOMPLETE",
+  "task_registry": "TASK_REGISTRY.json"
+}

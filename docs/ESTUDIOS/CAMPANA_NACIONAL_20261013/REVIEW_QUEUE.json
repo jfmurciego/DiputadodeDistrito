@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "head": "campaign candidate after commit",
+      "reviewer": "independent read-only reviewer",
+      "scope": "DAG validation, deterministic READY selection, locks, fail-closed behavior; no task mutation/execution",
+      "status": "IN_PROGRESS",
+      "task_id": "NAT-J-004"
+    }
+  ],
+  "schema": "ddd.national-review-queue/1.0"
+}

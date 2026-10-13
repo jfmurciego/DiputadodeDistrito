@@ -1,0 +1,61 @@
+{
+  "blocked": [
+    "NAT-C-002..NAT-C-054: independent CPRO boundary evidence unavailable under source-download prohibition",
+    "NAT-F-003: generation requires owner authorization",
+    "NAT-D-exceptions: nominal exceptions require owner decisions",
+    "NAT-H: 52 technical preflights complete but structural/factibility gates remain blocked or conditional"
+  ],
+  "branch": "codex/national-campaign-controller",
+  "campaign_id": "ddd-national-campaign-20261013",
+  "completed_local_tasks": [
+    "NAT-B-002; final independent GO; 4 tests pass",
+    "NAT-D-001/002/003 evidence enumerated; NAT-D-005 export implemented",
+    "NAT-B-003 implemented: temporary paths audit, no hardcoded local source dependency",
+    "NAT-D-005 reviewed independently: 6,370 anomaly rows; CSV SHA 5f8d86f8da0c9a2584e6c5d7198235155ee66f826f19df070b049b33417e0af6",
+    "NAT-I-001 candidate certifier reviewed independently; 11 unit tests and 135 campaign regressions pass",
+    "NAT-H-001 reviewed PASS: CPRO=01 diagnostic only; gate still blocks; generation false.",
+    "NAT-I-002 independently reviewed PASS: strict schema/helper binding product manifest to 2025 source contract; product gate still closed.",
+    "NAT-H-002 reviewed PASS: real CPRO39 diagnostic; actual M01-M03, M04 necessary only, M05/M06 synthetic; no partition.",
+    "NAT-E-002 exact bounded connected partition solver reviewed PASS on small fixtures; commit/integration still pending."
+  ],
+  "completed_work": [
+    "verified main and PR #265 merge",
+    "reconciled existing 52-unit graph evidence without regeneration",
+    "confirmed B verifier mutates canonical outputs; not invoked",
+    "reviewed feasibility matrix/missing congress solver",
+    "independent audit M05/F/I",
+    "52/52 current-code preflight completed and every report/checkpoint/tool SHA binding verified independently",
+    "NAT-D-004 review PASS with exact counts and caveats",
+    "NAT-H-001/002 review PASS on exact current-code batch",
+    "NAT-B-002 read-only verifier executed now: 74/74 + 26/26 byte identical; no source/canonical output changes",
+    "NAT-G-002 exact local/global municipality counterexample fixed; final result gating and independent REVIEW_PASS"
+  ],
+  "created_at": "2026-10-13",
+  "global_state": "NATIONAL_INCOMPLETE",
+  "head": "a2e565fff2da871a83b8d962b6a047fb877d9092",
+  "last_error": "Resolved: initial F001 version/module/transition mismatch and E003 manifest/checkpoint mismatches; original failed/interrupted attempts preserved under campaign evidence.",
+  "latest_event": "EV-0048",
+  "main_sha": "21a4a150eb14f1abecd5d798b159d84a71df1f4a",
+  "next_action": "Run final full relevant regression on current HEAD; independent review of planner and aggregate campaign; publish one draft PR and verify CI exact SHA.",
+  "no_authorized_generation": true,
+  "ready_next": [
+    "NAT-J-003"
+  ],
+  "reviewing_work": [
+    "NAT-J-004"
+  ],
+  "running_work": [
+    "NAT-J-001",
+    "NAT-J-004"
+  ],
+  "schema": "ddd.national-campaign-checkpoint/1.0",
+  "tests_passed": [
+    "Final integrated Congress/N08/M05/preflight/ledger/planner suite: 263 passed, 7 skipped, 82 subtests passed.",
+    "Separate autonomous regression suite: 65 passed, 7 subtests passed.",
+    "Autonomous regression suite: 65 passed, 7 subtests passed.",
+    "NAT-E-003: 8 tests and CLI real batch counts 7/9/36; REVIEW_PASS.",
+    "NAT-F-002 composer/certifier: 29 tests, 10 subtests passed; REVIEW_PASS_WITH_SCOPE_LIMITS.",
+    "NAT-J-004 planner: 4 tests pass; read-only CLI discovered/corrected omitted dependency."
+  ],
+  "worktree": "/private/tmp/ddd-national-campaign-20261013"
+}
