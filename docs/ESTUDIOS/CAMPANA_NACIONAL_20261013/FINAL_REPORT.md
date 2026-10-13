@@ -18,6 +18,7 @@ Registro: `TASK_REGISTRY.json` (IDs únicos, estados por tarea); DAG: `DEPENDENC
 | H | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; diagnóstico ejecutado 52/52; 2 M04 estructurales bloqueados, restante sin evidencia suficiente para producto. |
 | I | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 | Parcial; certificador candidato probado; cero productos reales certificados. |
 | J | 4 | 1 | 1 | 0 | 0 | 1 | 0 | 0 | 1 | Parcial; ledger/selector revisados; publicación de rama, PR y CI bloqueadas por conectividad/herramientas. |
+| TOTAL | 80 | 6 | 18 | 0 | 0 | 1 | 53 | 1 | 1 | NATIONAL_EXHAUSTED_AUTHORIZED_WORK; ninguna tarea READY. |
 
 ## Resultados comprobados
 
