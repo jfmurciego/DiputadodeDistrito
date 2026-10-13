@@ -47,6 +47,19 @@ class AutoPilot(unittest.TestCase):
         jsonwrite(self.data/'parametros.json',cfg)
         self.policy=json.loads((BUNDLE/'auto-policy.json').read_text())
         self.policy.update(authorized_local_tasks=['F03','F04'],revalidate=['F02','F03','F04'])
+        self._make_f02_seed()
+        self.git('add','receipts');self.git('commit','-m','Synthetic F02 seed fixtures')
+        catalog['worktrees']['fuentes-oficiales']['expected_head_prefix']=self.git('rev-parse','HEAD').strip()
+        jsonwrite(self.data/'catalogo.json',catalog);self.catalog=catalog
+        self.policy['technical_seeds']['F02']={'kind':'F02_14_OFFLINE','path':str(self.seed_path),
+            'sha256':auto.digest(self.seed_path),'repo':str(self.repo)}
+        packet=self.root/'F03-synthetic.zip'
+        import zipfile
+        with zipfile.ZipFile(packet,'w') as z:z.writestr('simulation.json','{"task":"F03","result":"PASS"}\n')
+        self.policy['tasks']['F03']['inputs']['F03.zip']={'path':str(packet),'sha256':auto.digest(packet)}
+        validator=ROOT/'tests/fixtures/ddd_auto_validator_fixture.py'
+        self.policy['tasks']['F03']['validators'][0]['argv']=[sys.executable,str(validator),'F03','--repo','{repo}',
+            '--output','{output}','--packet','{inputs}/F03.zip']
         self.policy['simulation_acceptance']={t['id']:t['acceptance'][0] for t in catalog['tasks'] if t['id'] in ('F03','F04')}
         for t in self.policy['tasks'].values():t['validate_existing']=False
         # Only the disposable simulation points F04 at pre-existing real evidence.
@@ -62,6 +75,22 @@ class AutoPilot(unittest.TestCase):
         self.auto_root=self.data/'auto'/hashlib.sha256(str(self.plan.resolve()).encode()).hexdigest()[:16]
         self.journal=self.auto_root/'eventos.jsonl'
         self.originals={str(p):auto.digest(p) for p in (self.plan/'estado.json', self.data/'historial.jsonl')}
+
+    def _make_f02_seed(self):
+        """Create disposable seed evidence; never treat it as project F02 evidence."""
+        self.seed_path=self.root/'F02-synthetic-seed.json'
+        rows=[]
+        for index in range(14):
+            territory=f'SIM-{index:02d}'
+            artifact=self.root/f'{territory}.bin';artifact.write_bytes(f'{territory} test bytes\n'.encode())
+            receipt_rel=f'receipts/{territory}.json';receipt=self.repo/receipt_rel
+            receipt.parent.mkdir(parents=True,exist_ok=True)
+            receipt.write_text(json.dumps({'synthetic_test_fixture':True,'territory_id':territory})+'\n')
+            rows.append({'territory_id':territory,'artifact_path':str(artifact),'artifact_sha256':auto.digest(artifact),
+                'receipt_path':receipt_rel,'controls':{'F02_inventory_receipt_origin':'PASS','F02_bytes_hashes_editions':'PASS'},
+                'details':{'F02_inventory_receipt_origin':{'receipt_sha256':auto.digest(receipt)}}})
+        jsonwrite(self.seed_path,{'rows':rows,'originals_unchanged':True,'network':'FORBIDDEN',
+            'synthetic_test_fixture_only':True})
 
     def git(self,*args):
         return subprocess.check_output(['git','-C',str(self.repo),*args],stderr=subprocess.DEVNULL,text=True)
@@ -135,6 +164,9 @@ class AutoPilot(unittest.TestCase):
     def test_executor_finished_real_validator_fails_no_retry(self):
         packet=self.root/'invalid-F03.zip';packet.write_bytes(b'Not a zip: real validator must fail')
         self.policy['tasks']['F03']['inputs']['F03.zip']={'path':str(packet),'sha256':auto.digest(packet)}
+        # This negative case deliberately exercises the real F03 validator.
+        self.policy['tasks']['F03']['validators'][0]['argv']=[sys.executable,str(BUNDLE/'validar_piloto.py'),'F03',
+            '--repo','{repo}','--output','{output}','--packet','{inputs}/F03.zip']
         self.authorize()
         p=self.run_auto('F03');self.assertEqual(p.returncode,1,p.stdout)
         self.assertEqual(self.states()['F03'],'BLOCKED')
