@@ -1,0 +1,15 @@
+{
+  "codex_bin": "codex",
+  "approval_policy": "never",
+  "sandbox_ejecutor": "workspace-write",
+  "sandbox_revisor": "read-only",
+  "esfuerzo_ejecutor": "low",
+  "esfuerzo_complejo": "medium",
+  "esfuerzo_revisor": "low",
+  "segundos_maximos": 600,
+  "presupuesto_tokens_reportados_suave": 25000,
+  "bloquear_si_otro_codex_manual_esta_activo": true,
+  "python_gis": "/usr/local/Caskroom/miniforge/base/envs/ddd/bin/python3",
+  "avisar_si_worktree_sucio": true,
+  "notas": "No es un presupuesto económico ni un límite duro de tokens. Un solo turno puede superarlo antes de emitir telemetría. No hay reintentos ni encadenamiento."
+}

@@ -1,0 +1,51 @@
+{
+  "version": "1.2.0",
+  "name": "Dictamen técnico separado DDD auto",
+  "date": "2026-10-10",
+  "scope": "Código local, controlador y piloto simulado",
+  "origin": "/root/revision_auto_12; new record, no predecessor",
+  "state": "GO",
+  "authority": "technical reviewer; not Work or external approval",
+  "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "head_at_review": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "worktree": "dirty/staged; reviewed bytes, not baseline HEAD as whole delivery",
+  "mode": "separate read-only agent session",
+  "blocking_findings": [],
+  "other_findings": [],
+  "corrected": [
+    "repair scope sentinel",
+    "tracked modes/index and ignored bytes",
+    "single read authorization/plan snapshot",
+    "stop child on checkpoint failure",
+    "exact checkpoint metadata and final dependency/authorization guards"
+  ],
+  "evidence": {
+    "log": "pruebas-1.2.0.log",
+    "log_sha256": "30e910f439f7838db9829bc4828baed2502629ec161894d9d23db6c0d358e879",
+    "tests": 28,
+    "seconds": 102.682,
+    "codex": "SIMULATED",
+    "validators": "REAL_OFFLINE"
+  },
+  "source_hashes": {
+    "infraestructura/ordenes-manuales/ddd.py": "112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a",
+    "infraestructura/ordenes-manuales/ddd_auto.py": "a2c67bd11208ddbb3cfa3b6304de258d4f59753af3dca3d8a3c66fb9c0fd3376",
+    "infraestructura/ordenes-manuales/codex_simulado.py": "e03c852df4cd1ed1afcdbab5c6c89eb4cf22a37788b990a6b4e2aa60fb28b95d",
+    "infraestructura/ordenes-manuales/auto-policy.json": "7e752cfe420d23c714cd0d5a4a62b9187e713a2f1c11f6f86f9f85e8ed3fb962",
+    "infraestructura/ordenes-manuales/instalar_actualizacion.py": "9166a168e74d8ed40accc25793f40c8abc3cadb533c68f624840803cb5de795b",
+    "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
+    "infraestructura/ordenes-manuales/review.schema.json": "f5f565b7802f01dff60f69b18b0b306e97b77728cbc0131cf0f435c6f2c66e38",
+    "tests/test_ddd_auto.py": "312960ff35e79437c7347a189dc71be7475af5acf0e3c90b10e10e6fbf24e87d",
+    "scripts/instalar-ddd-auto.sh": "d80b5e51ed116542ddfb7def290083cc59cd7fa5ebf523c83c7dead72dc1db59"
+  },
+  "not_verified": [
+    "final commit SHA (postcommit review follows)",
+    "live remote main DNS",
+    "operative installation",
+    "real Codex pilot",
+    "validators for30 other tasks",
+    "CI or production"
+  ],
+  "reviewer_tests_run": false,
+  "external_actions": []
+}

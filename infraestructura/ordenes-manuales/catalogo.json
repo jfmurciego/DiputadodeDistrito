@@ -1,0 +1,443 @@
+{
+  "schema": "ddd.manual-launcher/1.0",
+  "source": "DDD-planificador-nocturno-v2-32-tareas-20261008.zip / plan/estado.json",
+  "source_date": "2026-10-08",
+  "explanation": "Los 32 estados originales no se elevan a PASS por informes Codex; leer plan local para estado vigente.",
+  "worktrees": {
+    "fuentes-oficiales": {
+      "path": "~/Desarrollo/DDD-fuentes-oficiales",
+      "expected_head_prefix": "7ce06043"
+    },
+    "distritos-autonomicos": {
+      "path": "~/Desarrollo/DDD-distritos-autonomicos",
+      "expected_head_prefix": "42163cd8"
+    },
+    "distritos-nacionales": {
+      "path": "~/Desarrollo/DDD-distritos-nacionales",
+      "expected_head_prefix": "7307536a"
+    }
+  },
+  "tasks": [
+    {
+      "id": "F01",
+      "front": "fuentes-oficiales",
+      "title": "Respaldo independiente de fuentes",
+      "depends_on": [],
+      "execution": "manual",
+      "acceptance": [
+        "Copia fuera del Mac y hashes verificados"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F02",
+      "front": "fuentes-oficiales",
+      "title": "Revalidar resolución offline de 14 paquetes",
+      "depends_on": [
+        "F01"
+      ],
+      "execution": "manual",
+      "acceptance": [
+        "14/14 resoluciones con identidad y hash"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F03",
+      "front": "fuentes-oficiales",
+      "title": "Ensayar dos consumidores adicionales",
+      "depends_on": [
+        "F02"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Dos handoffs pre-M04 verificados sin generación"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F04",
+      "front": "fuentes-oficiales",
+      "title": "Auditar cinco territorios restantes",
+      "depends_on": [
+        "F02"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Matriz de 19 con gaps y pruebas"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F05",
+      "front": "fuentes-oficiales",
+      "title": "Separar adquisición de consumo",
+      "depends_on": [
+        "F03",
+        "F04"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Contrato y pruebas sin red"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F06",
+      "front": "fuentes-oficiales",
+      "title": "Resolver identidades Cataluña y Murcia",
+      "depends_on": [
+        "F04"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Evidencia y corrección mínima sin promoción indebida"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F07",
+      "front": "fuentes-oficiales",
+      "title": "Probar consumo offline en 19",
+      "depends_on": [
+        "F05",
+        "F06"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "19 resultados PASS o BLOCKED acreditado"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F08",
+      "front": "fuentes-oficiales",
+      "title": "Acreditar edición y elegibilidad",
+      "depends_on": [
+        "F07"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Matriz de procedencia, edición y elegibilidad"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F09",
+      "front": "fuentes-oficiales",
+      "title": "Preparar integración transversal",
+      "depends_on": [
+        "F08"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Dictamen SHA final y CI satisfactoria; aprobación requerida"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "F10",
+      "front": "fuentes-oficiales",
+      "title": "Certificar readiness de fuentes",
+      "depends_on": [
+        "F09"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Readiness por territorio sin confundir con producción"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A01",
+      "front": "distritos-autonomicos",
+      "title": "Verificar fixture exacto Rioja",
+      "depends_on": [],
+      "execution": "manual",
+      "acceptance": [
+        "Fixture existente y commit 42163cd8 preservados"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A02",
+      "front": "distritos-autonomicos",
+      "title": "Reutilizar prueba de inviabilidad Rincón de Soto",
+      "depends_on": [
+        "A01"
+      ],
+      "execution": "manual",
+      "acceptance": [
+        "Conclusión acreditada sin recalcular M05"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A03",
+      "front": "distritos-autonomicos",
+      "title": "Diseñar formación inicial alternativa",
+      "depends_on": [
+        "A02"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Propuestas compatibles con restricciones"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A04",
+      "front": "distritos-autonomicos",
+      "title": "Ensayo local de partición Rioja",
+      "depends_on": [
+        "A03"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Métricas hard/outside y coste documentadas"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A05",
+      "front": "distritos-autonomicos",
+      "title": "Analizar municipios discontinuos",
+      "depends_on": [
+        "A03"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Regresión y acreditación Llívia y Tremp"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A06",
+      "front": "distritos-autonomicos",
+      "title": "Control comparativo Cantabria",
+      "depends_on": [
+        "A04"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Diagnóstico sin reutilizar resultado histórico como cálculo nuevo"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A07",
+      "front": "distritos-autonomicos",
+      "title": "Evaluar búsqueda focal y GerryChain",
+      "depends_on": [
+        "A04",
+        "A06"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Ensayos deterministas y medidos"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A08",
+      "front": "distritos-autonomicos",
+      "title": "Resolver dos fallos preexistentes",
+      "depends_on": [
+        "A06"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Comparación con main y pruebas legítimas"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A09",
+      "front": "distritos-autonomicos",
+      "title": "Preparar integración corrección electoral y motor",
+      "depends_on": [
+        "A05",
+        "A07",
+        "A08"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "GO SHA final + CI y autorización expresa"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A10",
+      "front": "distritos-autonomicos",
+      "title": "Planificar siguiente campaña",
+      "depends_on": [
+        "A09"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Territorios ordenados por readiness; cero ejecuciones"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N01",
+      "front": "distritos-nacionales",
+      "title": "Actualizar Git bundle nacional",
+      "depends_on": [],
+      "execution": "manual",
+      "acceptance": [
+        "Bundle verificado incluye 7307536a"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N02",
+      "front": "distritos-nacionales",
+      "title": "Revisión independiente del incremento nacional",
+      "depends_on": [
+        "N01"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Dictamen comprobable sobre 23 archivos y 27 pruebas"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N03",
+      "front": "distritos-nacionales",
+      "title": "Acreditar material histórico",
+      "depends_on": [
+        "N02"
+      ],
+      "execution": "research",
+      "acceptance": [
+        "Fuente y edición acreditadas o bloqueo explícito"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N04",
+      "front": "distritos-nacionales",
+      "title": "Analizar geometría 44",
+      "depends_on": [
+        "N02"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Causa y tratamiento acreditado conservando original"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N05",
+      "front": "distritos-nacionales",
+      "title": "Revalidar alternativas K",
+      "depends_on": [
+        "N02"
+      ],
+      "execution": "manual",
+      "acceptance": [
+        "Tabla verificable de métricas y restricciones"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N06",
+      "front": "distritos-nacionales",
+      "title": "Decidir contrato institucional K",
+      "depends_on": [
+        "N05"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Decisión expresa Director, sin inferir del Congreso"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N07",
+      "front": "distritos-nacionales",
+      "title": "Diseñar crosswalk sección-provincia 2025",
+      "depends_on": [
+        "N06"
+      ],
+      "execution": "codex",
+      "acceptance": [
+        "Identidades, topología y ediciones verificadas"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N08",
+      "front": "distritos-nacionales",
+      "title": "Piloto local provincial controlado",
+      "depends_on": [
+        "N07"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "K aprobado y topología válida; sin publicación"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N09",
+      "front": "distritos-nacionales",
+      "title": "Extender piloto en provincias contrastantes",
+      "depends_on": [
+        "N08"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Regresión multi provincia y tiempos reproducibles"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "N10",
+      "front": "distritos-nacionales",
+      "title": "Preparar integración motor nacional",
+      "depends_on": [
+        "N03",
+        "N04",
+        "N09"
+      ],
+      "execution": "approval",
+      "acceptance": [
+        "Revisión, CI y decisión específica de publicación"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A-OPT-01",
+      "front": "distritos-autonomicos",
+      "title": "Benchmark y optimización exacta de adyacencias M02",
+      "depends_on": [],
+      "execution": "codex",
+      "acceptance": [
+        "Perfil temporal CPU/memoria del M02 existente usando fixtures reales y sintéticos; desglose índice/candidatos/predicados/serialización",
+        "Oráculo exhaustivo de parejas del índice espacial sin truncamiento; auditoría de posibles aristas omitidas con max_candidates=50",
+        "Comparación de prefijos CUSEC 5/7 sin crear adyacencias por código; nunca eliminar aristas entre municipios/provincias por prefijo",
+        "Prototipo aislado vectorizado/STRtree vs oráculo: conjunto exacto de aristas y pasarelas, determinismo y mismo contrato topológico",
+        "Benchmark repetido con tiempos, pico de memoria y speedup; salida GO/NO_GO de integración, sin integración automática"
+      ],
+      "initial_status": "PENDING"
+    },
+    {
+      "id": "A-OPT-02",
+      "front": "distritos-autonomicos",
+      "title": "Benchmark de correspondencia población-seccionado entre ediciones",
+      "depends_on": [],
+      "execution": "codex",
+      "acceptance": [
+        "Medir coste actual de emparejamiento entre seccionados, con versiones/identidades de inputs y casos reales de split/fusion/cambio de código",
+        "Comparar prefiltrado por CUSEC 5/7 y STRtree con fallback exhaustivo para no perder correspondencias por cambios de clave/municipio",
+        "Preservar equivalencia exacta de correspondencias, categorías de causas, población asignada, conservación y bloqueos geometry_admissibility",
+        "No distribuir habitantes por área ni por prefijo ante SPLIT/FUSION; reportar únicamente emparejamientos acreditados",
+        "Benchmark repetido con memoria y speedup; dictamen GO/NO_GO para propuesta futura, sin cambiar puerta productiva"
+      ],
+      "initial_status": "PENDING"
+    }
+  ]
+}

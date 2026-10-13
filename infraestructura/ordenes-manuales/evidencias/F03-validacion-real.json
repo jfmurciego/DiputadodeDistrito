@@ -1,0 +1,55 @@
+{
+  "task": "F03",
+  "cases": [
+    {
+      "territory": "cantabria",
+      "run": 37318299003,
+      "acceptance": {
+        "allowed": true,
+        "route": "validated_pre_m04_topology"
+      },
+      "negative_checks": [
+        "altered_bytes",
+        "wrong_territory_id",
+        "wrong_edition",
+        "wrong_run_id",
+        "wrong_source_commit",
+        "changed_graph_digest",
+        "consumer_wrong_territory",
+        "consumer_wrong_run",
+        "consumer_wrong_source_commit",
+        "consumer_wrong_graph_nodes",
+        "consumer_wrong_partition_status",
+        "consumer_wrong_prepared_source"
+      ],
+      "handoff_sha256": "d8cd87981b2efae0043aed11dac490bd4f84ca98aeb0a855cf65c59c4ee88615",
+      "status": "PASS"
+    },
+    {
+      "territory": "canarias",
+      "run": 37596900111,
+      "acceptance": {
+        "allowed": true,
+        "route": "validated_pre_m04_topology"
+      },
+      "negative_checks": [
+        "altered_bytes",
+        "wrong_territory_id",
+        "wrong_edition",
+        "wrong_run_id",
+        "wrong_source_commit",
+        "changed_graph_digest",
+        "consumer_wrong_territory",
+        "consumer_wrong_run",
+        "consumer_wrong_source_commit",
+        "consumer_wrong_graph_nodes",
+        "consumer_wrong_partition_status",
+        "consumer_wrong_prepared_source"
+      ],
+      "handoff_sha256": "41fcbed403c7240484a4114d4e2846f75fdcc1457e41d92f29a23c20ef7b0ab1",
+      "status": "PASS"
+    }
+  ],
+  "generation": "NOT_EXECUTED",
+  "status": "PASS"
+}

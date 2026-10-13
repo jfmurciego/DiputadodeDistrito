@@ -1,0 +1,69 @@
+{
+  "version": "1.2.1",
+  "name": "DDD auto local delivery",
+  "date": "2026-10-13",
+  "scope": "Infraestructura local transversal; 32 tareas existentes",
+  "status": "READY_FOR_REVIEW",
+  "changes": "Pin de integridad F02; fixtures F03/F04 deterministas; intérprete GIS portable; validadores reales positivos opcionales; conservación 1.2.0",
+  "reason": "Orden explícita de Work",
+  "predecessor": "legacy/1.2.0/ENTREGA.json",
+  "origin": "DDD-control/ordenes-manuales",
+  "base": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "branch": "codex/ddd-auto-control",
+  "commit": "72f190bff3c52ad10ec66a184ce1281576c33590",
+  "blockers": [
+    "CI y revisión final del HEAD actualizado pendientes",
+    "Anclaje institucional de confianza requerido antes de habilitar tareas reales"
+  ],
+  "installed": false,
+  "real_pilot_executed": false,
+  "formal_plan_changed": false,
+  "legacy_history_changed": false,
+  "tests": {
+    "result": "PASS_LOCAL",
+    "count": 34,
+    "seconds": 31.385,
+    "evidence": "evidencias/validacion-1.2.1.json"
+  },
+  "review": {
+    "result": "GO_ACOTADO",
+    "mode": "separate read-only Codex session; not external accredited review",
+    "evidence": "DDD-control checkpoint evidencias/ddd-auto/revision-final-72f190bf.json; CI still pending"
+  },
+  "ci": "PENDING_METADATA_SYNC_HEAD",
+  "prohibited_actions_executed": [],
+  "limits": [
+    "El hash de autorización no autentica criptográficamente al emisor; authorized_local_tasks permanece vacío y el piloto real no está habilitado",
+    "No piloto F10 real ni presupuesto de proveedor",
+    "Los tests positivos de paquetes F03/F04 se omiten en CI cuando las fuentes locales no están disponibles"
+  ],
+  "remote_main": "PR base ecda53a7cab1726d8a16cb516d524ce36b1ad0b1 verified",
+  "git_staging": "SUCCESS through ordinary git add; no override",
+  "head_before_commit": "2d8508a04f9b54efa05dbb0c2ee7f1d60f81dfce",
+  "patch_check": {
+    "code": "PASS",
+    "historical_patch": "3 preserved whitespace lines"
+  },
+  "source_hashes": {
+    "infraestructura/ordenes-manuales/ddd.py": "112e56d2c2abd66e03d221f83ca31ee79f67b6b1c8ab71d13d07f9861389d55a",
+    "infraestructura/ordenes-manuales/ddd_auto.py": "c586ced96f632c384d891ab9b93cf206d6706ae0b1c99686dd9a8cfeb0404cd1",
+    "infraestructura/ordenes-manuales/auto-policy.json": "13b2b076f9aeea60198efa88cef99ecc84243b6d7ff1ca478f1455629bd89092",
+    "infraestructura/ordenes-manuales/validar_piloto.py": "4442773e9774eaa4554ff2fb2a41f7dbe2085868345b274cdae4f841015cf95c",
+    "infraestructura/ordenes-manuales/AUTO.md": "a5f8d77a1d137f97b1846eb7078159815cabff482dcc0aa847db88d04ed85032",
+    "tests/test_ddd_auto.py": "5b9b4c4ecea5fe235bb168a3d4afb05febd23fad5258b1709b198ee998a1c802",
+    "tests/fixtures/ddd_auto_validator_fixture.py": "2ef3b4450b05a408aee81eedc843e83a5c1830f391708bf4b16335b95e6a28ec",
+    "Dockerfile": "c7b50e49ee94e72fd35034ac4c25a940120df678f67b56b0858d0d402b01f3df"
+  },
+  "head": "72f190bff3c52ad10ec66a184ce1281576c33590",
+  "code_status": "VALIDATED_CODE_HEAD 72f190bff3c52ad10ec66a184ce1281576c33590; metadata-only pointer synchronized; final CI pending",
+  "predecessor_files": [
+    "legacy/1.2.0/ddd_auto.py",
+    "legacy/1.2.0/AUTO.md",
+    "legacy/1.2.0/auto-policy.json",
+    "legacy/1.2.0/ENTREGA.json",
+    "legacy/1.2.0/evidencias/validacion-1.2.0.json",
+    "legacy/1.2.0/evidencias/revision-1.2.0.json",
+    "../../tests/legacy/1.2.0/test_ddd_auto.py"
+  ],
+  "validated_code_head": "72f190bff3c52ad10ec66a184ce1281576c33590"
+}
